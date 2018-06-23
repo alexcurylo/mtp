@@ -1,6 +1,23 @@
-# Xcode
 #
-# gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
+# .gitignore
+#
+# Github:
+# https://github.com/github/gitignore/blob/master/Global/Xcode.gitignore
+# https://github.com/github/gitignore/blob/master/Objective-C.gitignore
+# https://github.com/github/gitignore/blob/master/Swift.gitignore
+#
+# Others:
+# https://gist.github.com/muhasturk/19684c884142a3eb0b63
+# http://stackoverflow.com/questions/49478/git-ignore-file-for-xcode-projects
+#
+
+# OS X
+.DS_Store
+.Trashes
+*.swp
+*.lock
+
+# Xcode
 
 ## Build generated
 build/
@@ -18,7 +35,11 @@ DerivedData/
 xcuserdata/
 
 ## Other
+*~.nib
 *.moved-aside
+*.xcuserstate
+# Do not ignore these if your workspace uses multiple repositories
+# https://github.com/github/gitignore/pull/1686
 *.xccheckout
 *.xcscmblueprint
 
@@ -31,6 +52,14 @@ xcuserdata/
 ## Playgrounds
 timeline.xctimeline
 playground.xcworkspace
+
+# JetBrains AppCode
+.idea/
+
+# other SCC directories
+.hg
+.svn
+CVS
 
 # Swift Package Manager
 #
@@ -45,15 +74,18 @@ playground.xcworkspace
 # We recommend against adding the Pods directory to your .gitignore. However
 # you should judge for yourself, the pros and cons are mentioned at:
 # https://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
-#
 # Pods/
+!Podfile.lock
 
 # Carthage
 #
 # Add this line if you want to avoid checking in source code from Carthage dependencies.
-# Carthage/Checkouts
-
+Carthage/Checkouts
 Carthage/Build
+
+# Ruby
+# http://yehudakatz.com/2010/12/16/clarifying-the-roles-of-the-gemspec-and-gemfile/
+!Gemfile.lock
 
 # fastlane
 #
@@ -66,3 +98,9 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+
+# R.swift -- tool for reource reference generation
+R.generated.swift
+
+# acknowledge.swift -- script for licenses display generation
+LICENSES.generated.html
