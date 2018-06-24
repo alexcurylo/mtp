@@ -62,6 +62,7 @@
 		FA392BDC20DF69F50026C828 /* MTPUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPUITests.swift; sourceTree = "<group>"; };
 		FA392BDE20DF69F50026C828 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA3E366A20DFACCD002AF4EE /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		FA3E366B20DFB484002AF4EE /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		FA4F1C5B20DFA67700B8A1ED /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		FA4F1C5C20DFA67700B8A1ED /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FA4F1C5D20DFA69000B8A1ED /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -210,6 +211,7 @@
 			isa = PBXGroup;
 			children = (
 				FA4F1C5D20DFA69000B8A1ED /* .gitignore */,
+				FA3E366B20DFB484002AF4EE /* .swiftlint.yml */,
 				FA4F1C5E20DFA74500B8A1ED /* Gemfile */,
 				FA4F1C5B20DFA67700B8A1ED /* LICENSE.md */,
 				FA3E366A20DFACCD002AF4EE /* Podfile */,
@@ -228,6 +230,7 @@
 				758B7A9DF0E27C737110216C /* [CP] Check Pods Manifest.lock */,
 				FA392BB320DF69F30026C828 /* Sources */,
 				FA392BB420DF69F30026C828 /* Frameworks */,
+				FA3E366C20DFBC2F002AF4EE /* SwiftLint */,
 				FA392BB520DF69F30026C828 /* Resources */,
 			);
 			buildRules = (
@@ -246,6 +249,7 @@
 				F46FBA4D9FE9733B1B0ACC92 /* [CP] Check Pods Manifest.lock */,
 				FA392BC920DF69F50026C828 /* Sources */,
 				FA392BCA20DF69F50026C828 /* Frameworks */,
+				FA3E366D20DFBC61002AF4EE /* SwiftLint */,
 				FA392BCB20DF69F50026C828 /* Resources */,
 			);
 			buildRules = (
@@ -265,6 +269,7 @@
 				9742874D2D96EE610208747B /* [CP] Check Pods Manifest.lock */,
 				FA392BD420DF69F50026C828 /* Sources */,
 				FA392BD520DF69F50026C828 /* Frameworks */,
+				FA3E366E20DFBC86002AF4EE /* SwiftLint */,
 				FA392BD620DF69F50026C828 /* Resources */,
 			);
 			buildRules = (
@@ -401,6 +406,48 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		FA3E366C20DFBC2F002AF4EE /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+		FA3E366D20DFBC61002AF4EE /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+		FA3E366E20DFBC86002AF4EE /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
