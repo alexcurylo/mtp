@@ -34,7 +34,9 @@ cache:
 
 before_install:
 # - brew update && brew bundle
- - bundle install
+ - travis_wait bundle install --silent
+# Can't find AppCenter 1.7.1 (18.06.24)
+ - travis_wait pod repo update --silent
 
 #install:
 # - carthage bootstrap --no-use-binaries --platform iOS --cache-builds
