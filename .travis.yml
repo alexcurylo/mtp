@@ -26,7 +26,7 @@ branches:
 
 cache:
   - bundler
-  - cocoapods
+#- cocoapods
 
 
 before_install:
