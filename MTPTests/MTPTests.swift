@@ -3,29 +3,51 @@
 @testable import MTP
 import XCTest
 
-class MTPTests: XCTestCase {
+final class MTPTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
     }
 
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
 
-    func testExample() {
-        XCTAssert(true)
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    /// check that setup, target plist and main storyboard are good
+    func testAppDelegateConfiguration() {
+        let app = UIApplication.shared
+        let delegate = app.delegate as? AppDelegate
+        XCTAssertNotNil(delegate, "sharedApplication().delegate does not exist - set host application")
+        XCTAssertNotNil(delegate?.window, "missing main window")
+        let root = delegate?.window?.rootViewController as? UITabBarController
+        XCTAssertNotNil(root, "missing root tab controller")
+        XCTAssert(root?.viewControllers?.count == 2, "wrong number of tabs")
+        XCTAssertNotNil(root?.viewControllers?[0] as? FirstViewController, "wrong first view controller")
+        XCTAssertNotNil(root?.viewControllers?[1] as? SecondViewController, "wrong second view controller")
     }
 
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    /// check for any fatal UIApplicationDelegate side effects
+    func testAppDelegateDelegation() {
+        let app = UIApplication.shared
+        let delegate = app.delegate as? AppDelegate
+
+        delegate?.applicationWillResignActive(app)
+        delegate?.applicationDidEnterBackground(app)
+        delegate?.applicationWillEnterForeground(app)
+        delegate?.applicationDidBecomeActive(app)
+        delegate?.applicationWillTerminate(app)
     }
 
+    // Check low memory handlers are called
+    func testLowMemoryHandling() {
+        let app = UIApplication.shared
+
+        // Note we rely on MemoryWarner.h via the bridging header to expose private selector
+        UIControl().sendAction(#selector(UIApplication._performMemoryWarning), to: app, for: nil)
+
+        // Currently implemented without effect aside from console notes:
+        // INFO: AppDelegate applicationDidReceiveMemoryWarning
+        // INFO: FirstViewController didReceiveMemoryWarning
+        // INFO: SecondViewController didReceiveMemoryWarning
+    }
 }
