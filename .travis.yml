@@ -34,8 +34,8 @@ before_install:
 # Can't find AppCenter 1.7.1 (18.06.24)
  - bundle exec pod repo update --silent
 
-#install:
-# should autodetect CocoaPods
+install:
+ - bundle exec pod install
 
 before_script:
  - bundle exec danger
