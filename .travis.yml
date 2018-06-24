@@ -1,0 +1,64 @@
+# references:
+# http://www.objc.io/issue-6/travis-ci.html
+# http://docs.travis-ci.com/user/build-configuration/
+# http://docs.travis-ci.com/user/languages/objective-c/
+# http://www.mokacoding.com/blog/xcodebuild-destination-options/
+# https://github.com/kattrali/xcpretty-travis-formatter
+# https://github.com/SlatherOrg/slather
+
+language: objective-c
+osx_image: xcode9.4
+xcode_project: MTP.xcodeproj
+xcode_scheme: MTP
+xcode_sdk: iphonesimulator11.4
+gemfile: Gemfile
+
+env:
+  global:
+  - LANG=en_US.UTF-8
+  - PROJECT='MTP.xcodeproj'
+  - IOS_SCHEME='MTP'
+  - IOS_DESTINATION='platform=iOS Simulator,name=iPhone X'
+
+branches:
+  except:
+    - feature/xcode-beta
+
+cache:
+  - bundler
+  - cocoapods
+
+#cache:
+#  directories:
+#    - Carthage
+
+before_install:
+# - brew update && brew bundle
+ - bundle install
+
+#install:
+# - carthage bootstrap --no-use-binaries --platform iOS --cache-builds
+# should autodetect CocoaPods
+
+before_script:
+ - bundle exec danger
+
+script:
+ - >
+    set -o pipefail && travis_retry xcodebuild clean test
+    -project "$PROJECT"
+    -scheme "$IOS_SCHEME"
+    -sdk iphonesimulator
+    -destination "$IOS_DESTINATION"
+    -configuration Debug
+    -derivedDataPath build
+    -enableCodeCoverage YES
+    CODE_SIGN_IDENTITY=""
+    CODE_SIGNING_REQUIRED=NO
+    ONLY_ACTIVE_ARCH=YES
+    GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES
+    GCC_GENERATE_TEST_COVERAGE_FILES=YES
+    | xcpretty -f `xcpretty-travis-formatter`
+
+after_success:
+  - bundle exec slather

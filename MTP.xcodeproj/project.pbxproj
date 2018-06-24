@@ -71,6 +71,9 @@
 		FA4F1C5D20DFA69000B8A1ED /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		FA4F1C5E20DFA74500B8A1ED /* Gemfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile; sourceTree = "<group>"; };
 		FAB53F8320DFCB40007A80A7 /* Dangerfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Dangerfile; sourceTree = "<group>"; };
+		FAB53F8420DFCC03007A80A7 /* .slather.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .slather.yml; sourceTree = "<group>"; };
+		FAB53F8520DFCC03007A80A7 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
+		FAB53F8620DFCC04007A80A7 /* .coveralls.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .coveralls.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -215,8 +218,11 @@
 		FA392BEE20DFA6190026C828 /* metadata */ = {
 			isa = PBXGroup;
 			children = (
+				FAB53F8620DFCC04007A80A7 /* .coveralls.yml */,
 				FA4F1C5D20DFA69000B8A1ED /* .gitignore */,
+				FAB53F8420DFCC03007A80A7 /* .slather.yml */,
 				FA3E366B20DFB484002AF4EE /* .swiftlint.yml */,
+				FAB53F8520DFCC03007A80A7 /* .travis.yml */,
 				FAB53F8320DFCB40007A80A7 /* Dangerfile */,
 				FA4F1C5E20DFA74500B8A1ED /* Gemfile */,
 				FA3E366F20DFC0E3002AF4EE /* IDETemplateMacros.plist */,
