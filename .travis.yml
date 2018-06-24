@@ -28,18 +28,13 @@ cache:
   - bundler
   - cocoapods
 
-#cache:
-#  directories:
-#    - Carthage
 
 before_install:
-# - brew update && brew bundle
- - travis_wait bundle install --silent
+ - bundle install
 # Can't find AppCenter 1.7.1 (18.06.24)
- - travis_wait pod repo update --silent
+ - bundle exec pod repo update --silent
 
 #install:
-# - carthage bootstrap --no-use-binaries --platform iOS --cache-builds
 # should autodetect CocoaPods
 
 before_script:
