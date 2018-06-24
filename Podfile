@@ -1,13 +1,6 @@
-using_bundler = defined? Bundler
-unless using_bundler
-  puts "\nPlease re-run using:".red
-  puts "  bundle exec pod install\n\n"
-  exit(1)
-end
-
 source 'https://github.com/CocoaPods/Specs.git'
 
-platform :ios, '11.4'
+platform :ios, '11.0'
 #use_frameworks!
 #inhibit_all_warnings!
 
