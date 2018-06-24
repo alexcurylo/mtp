@@ -1,10 +1,4 @@
-//
-//  SecondViewController.swift
-//  MTP
-//
-//  Created by Alex Curylo on 6/24/18.
-//  Copyright © 2018 Trollwerks Inc. All rights reserved.
-//
+// @copyright Trollwerks Inc.
 
 import UIKit
 
@@ -19,7 +13,4 @@ class SecondViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
 }
-
