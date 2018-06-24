@@ -70,6 +70,7 @@
 		FA4F1C5C20DFA67700B8A1ED /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FA4F1C5D20DFA69000B8A1ED /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		FA4F1C5E20DFA74500B8A1ED /* Gemfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile; sourceTree = "<group>"; };
+		FAB53F8320DFCB40007A80A7 /* Dangerfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Dangerfile; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +217,7 @@
 			children = (
 				FA4F1C5D20DFA69000B8A1ED /* .gitignore */,
 				FA3E366B20DFB484002AF4EE /* .swiftlint.yml */,
+				FAB53F8320DFCB40007A80A7 /* Dangerfile */,
 				FA4F1C5E20DFA74500B8A1ED /* Gemfile */,
 				FA3E366F20DFC0E3002AF4EE /* IDETemplateMacros.plist */,
 				FA4F1C5B20DFA67700B8A1ED /* LICENSE.md */,
