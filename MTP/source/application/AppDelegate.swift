@@ -20,6 +20,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                                          MSCrashes.self,
                                          MSAnalytics.self])
 
+        configureSettingsDisplay()
+
         return true
     }
 
@@ -40,5 +42,20 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
+    }
+}
+
+private extension AppDelegate {
+
+    func configureSettingsDisplay() {
+        let defaults = UserDefaults.standard
+        ["CFBundleShortVersionString",
+         "CFBundleVersion",
+         "CFBuildDate"].forEach { key in
+            if let info = Bundle.main.object(forInfoDictionaryKey: key) as? String {
+                defaults.set(info, forKey: key)
+            }
+        }
+        defaults.synchronize()
     }
 }
