@@ -49,14 +49,14 @@ before_script:
 script:
  - >
     set -o pipefail && travis_retry xcodebuild clean test
-    -workspace '$IOS_WORKSPACE'
-    -scheme '$IOS_SCHEME'
-    -sdk '$IOS_SDK'
-    -destination '$IOS_DESTINATION'
+    -workspace "$IOS_WORKSPACE"
+    -scheme "$IOS_SCHEME"
+    -sdk "$IOS_SDK"
+    -destination "$IOS_DESTINATION"
     -configuration Debug
     -derivedDataPath build
     -enableCodeCoverage YES
-    CODE_SIGN_IDENTITY=''
+    CODE_SIGN_IDENTITY=""
     CODE_SIGNING_REQUIRED=NO
     ONLY_ACTIVE_ARCH=YES
     GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES
