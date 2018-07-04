@@ -8,16 +8,17 @@
 
 language: objective-c
 osx_image: xcode9.4
-xcode_project: MTP.xcodeproj
-xcode_scheme: MTP
 xcode_sdk: iphonesimulator11.4
+xcode_workspace: MTP.xcworkspace
+xcode_scheme: MTP
 gemfile: Gemfile
 
 env:
   global:
   - LANG=en_US.UTF-8
-  - PROJECT='MTP.xcodeproj'
-  - IOS_SCHEME='MTP'
+  - IOS_WORKSPACE=MTP.xcworkspace
+  - IOS_SCHEME=MTP
+  - IOS_SDK=iphonesimulator11.4
   - IOS_DESTINATION='platform=iOS Simulator,name=iPhone X'
 
 branches:
@@ -48,14 +49,14 @@ before_script:
 script:
  - >
     set -o pipefail && travis_retry xcodebuild clean test
-    -project "$PROJECT"
-    -scheme "$IOS_SCHEME"
-    -sdk iphonesimulator
-    -destination "$IOS_DESTINATION"
+    -workspace '$IOS_WORKSPACE'
+    -scheme '$IOS_SCHEME'
+    -sdk '$IOS_SDK'
+    -destination '$IOS_DESTINATION'
     -configuration Debug
     -derivedDataPath build
     -enableCodeCoverage YES
-    CODE_SIGN_IDENTITY=""
+    CODE_SIGN_IDENTITY=''
     CODE_SIGNING_REQUIRED=NO
     ONLY_ACTIVE_ARCH=YES
     GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES
