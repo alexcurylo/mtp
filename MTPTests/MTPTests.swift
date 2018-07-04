@@ -29,13 +29,15 @@ final class MTPTests: XCTestCase {
     /// check for any fatal UIApplicationDelegate side effects
     func testAppDelegateDelegation() {
         let app = UIApplication.shared
-        let delegate = app.delegate as? AppDelegate
+        guard let delegate = app.delegate as? AppDelegate else {
+            return XCTFail("unexpected app delegate class")
+        }
 
-        delegate?.applicationWillResignActive(app)
-        delegate?.applicationDidEnterBackground(app)
-        delegate?.applicationWillEnterForeground(app)
-        delegate?.applicationDidBecomeActive(app)
-        delegate?.applicationWillTerminate(app)
+        delegate.applicationWillResignActive(app)
+        delegate.applicationDidEnterBackground(app)
+        delegate.applicationWillEnterForeground(app)
+        delegate.applicationDidBecomeActive(app)
+        delegate.applicationWillTerminate(app)
     }
 
     // Check low memory handlers are called
@@ -49,5 +51,15 @@ final class MTPTests: XCTestCase {
         // INFO: AppDelegate applicationDidReceiveMemoryWarning
         // INFO: FirstViewController didReceiveMemoryWarning
         // INFO: SecondViewController didReceiveMemoryWarning
+    }
+
+    func testAppResources() {
+        // items copied to NSUserDefaults from plist for settings
+        let defaults = UserDefaults.standard
+        ["CFBundleShortVersionString",
+         "CFBundleVersion",
+         "CFBuildDate"].forEach { key in
+            XCTAssertNotNil(defaults.object(forKey: key), "missing Settings display key: \(key)")
+        }
     }
 }

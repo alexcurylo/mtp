@@ -8,16 +8,17 @@
 
 language: objective-c
 osx_image: xcode9.4
-xcode_project: MTP.xcodeproj
-xcode_scheme: MTP
 xcode_sdk: iphonesimulator11.4
+xcode_workspace: MTP.xcworkspace
+xcode_scheme: MTP
 gemfile: Gemfile
 
 env:
   global:
   - LANG=en_US.UTF-8
-  - PROJECT='MTP.xcodeproj'
-  - IOS_SCHEME='MTP'
+  - IOS_WORKSPACE=MTP.xcworkspace
+  - IOS_SCHEME=MTP
+  - IOS_SDK=iphonesimulator11.4
   - IOS_DESTINATION='platform=iOS Simulator,name=iPhone X'
 
 branches:
@@ -30,12 +31,17 @@ cache:
 
 
 before_install:
+#- rvm install ruby-2.2.2
  - bundle install
 # Can't find AppCenter 1.7.1 (18.06.24)
- - bundle exec pod repo update --silent
+# - bundle exec pod repo update --silent
+#- brew update
+#- brew install swiftlint || true
 
-install:
- - bundle exec pod install
+#install:
+# - bundle exec pod install
+# suppress automatic pod install:
+install: true
 
 before_script:
  - bundle exec danger
@@ -43,9 +49,9 @@ before_script:
 script:
  - >
     set -o pipefail && travis_retry xcodebuild clean test
-    -project "$PROJECT"
+    -workspace "$IOS_WORKSPACE"
     -scheme "$IOS_SCHEME"
-    -sdk iphonesimulator
+    -sdk "$IOS_SDK"
     -destination "$IOS_DESTINATION"
     -configuration Debug
     -derivedDataPath build

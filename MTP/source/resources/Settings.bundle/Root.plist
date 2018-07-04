@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>StringsTable</key>
+	<string>Root</string>
+	<key>PreferenceSpecifiers</key>
+	<array>
+		<dict>
+			<key>Title</key>
+			<string>About</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Version Number</string>
+			<key>Type</key>
+			<string>PSTitleValueSpecifier</string>
+			<key>DefaultValue</key>
+			<string>&lt;not set&gt;</string>
+			<key>Key</key>
+			<string>CFBundleShortVersionString</string>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Build Number</string>
+			<key>Type</key>
+			<string>PSTitleValueSpecifier</string>
+			<key>DefaultValue</key>
+			<string>&lt;not set&gt;</string>
+			<key>Key</key>
+			<string>CFBundleVersion</string>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Build Date</string>
+			<key>Type</key>
+			<string>PSTitleValueSpecifier</string>
+			<key>DefaultValue</key>
+			<string>&lt;not set&gt;</string>
+			<key>Key</key>
+			<string>CFBuildDate</string>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Acknowledgements</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+			<key>Title</key>
+			<string>Libraries</string>
+			<key>File</key>
+			<string>Pods-MTP-settings-metadata</string>
+		</dict>
+	</array>
+</dict>
+</plist>
