@@ -43,6 +43,10 @@ final class MTPTests: XCTestCase {
         XCTAssertEqual(root?.viewControllers?.count, 2, "wrong number of tabs")
         XCTAssertNotNil(root?.viewControllers?[0] as? FirstViewController, "wrong first view controller")
         XCTAssertNotNil(root?.viewControllers?[1] as? SecondViewController, "wrong second view controller")
+
+        XCTAssertTrue(UIApplication.isUnitTesting)
+        XCTAssertFalse(UIApplication.isUITesting)
+        XCTAssertTrue(UIApplication.isTesting)
     }
 
     func testAppDelegateDelegation() {
