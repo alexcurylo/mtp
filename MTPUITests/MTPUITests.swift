@@ -10,7 +10,7 @@ final class MTPUITests: XCTestCase {
         continueAfterFailure = false
 
         let app = XCUIApplication()
-        app.launchArguments = ["UI_TESTING_MODE"]
+        app.launchArguments += [LaunchArguments.uiTestingMode.rawValue]
         app.launch()
     }
 
