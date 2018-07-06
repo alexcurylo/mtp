@@ -32,6 +32,22 @@ final class MTPTests: XCTestCase {
         XCTAssertEqual(urlScheme, expected, "could not find AppCenter Distribution URL scheme")
     }
 
+    func testResources() throws {
+        try R.validate()
+
+        XCTAssertNotNil(R.file.default568h2xPng)
+        XCTAssertNotNil(R.file.podsMTPMetadataPlist)
+        XCTAssertNotNil(R.file.podsMTPSettingsMetadataPlist)
+        XCTAssertNotNil(R.file.settingsBundle)
+
+        XCTAssertNotNil(R.image.first)
+        XCTAssertNotNil(R.image.second)
+        XCTAssertNotNil(R.image.default568h)
+
+        XCTAssertNotNil(R.storyboard.launchScreen)
+        XCTAssertNotNil(R.storyboard.main)
+    }
+
     func testAppDelegateConfiguration() {
         let app = UIApplication.shared
         let delegate = app.delegate as? AppDelegate

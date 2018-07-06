@@ -1,5 +1,10 @@
 #!/bin/sh
 
+# typed resource identifiers
+
+"$PODS_ROOT/R.swift/rswift" generate "${SRCROOT}/MTP/source/resources"
+echo R.generated.swift generated
+
 # undone work warnings
 
 TAGS="TODO:|FIXME:|\?\?\?:|\!\!\!:"

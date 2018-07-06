@@ -81,10 +81,9 @@ included:
   - MTP
   - MTPTests
   - MTPUITests
-
 excluded:
   - Carthage
-  - MTP/resources
+  - MTP/source/resources
   - Pods
 
 file_header:

@@ -9,22 +9,30 @@ PODS:
     - AppCenter/Core
   - AppCenter/Distribute (1.7.1):
     - AppCenter/Core
+  - R.swift (4.0.0):
+    - R.swift.Library (~> 4.0.0)
+  - R.swift.Library (4.0.0)
   - SwiftLint (0.26.0)
 
 DEPENDENCIES:
   - AppCenter
   - AppCenter/Distribute
+  - R.swift
   - SwiftLint
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AppCenter
+    - R.swift
+    - R.swift.Library
     - SwiftLint
 
 SPEC CHECKSUMS:
   AppCenter: 53349f138e596f2514f7559bb50a7e6e55219f17
+  R.swift: d6a5ec2f55a8441dc0ed9f1f8b37d7d11ae85c66
+  R.swift.Library: c3af34921024333546e23b70e70d0b4e0cffca75
   SwiftLint: f6b83e8d95ee1e91e11932d843af4fdcbf3fc764
 
-PODFILE CHECKSUM: 1fef336389eeb003d11a01599eb70c4c588625ea
+PODFILE CHECKSUM: 5b2757316ee0d38acc0c661c41091f5dcb9068f6
 
 COCOAPODS: 1.5.3

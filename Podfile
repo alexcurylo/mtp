@@ -6,6 +6,7 @@ target 'MTP' do
 
   pod 'AppCenter'
   pod 'AppCenter/Distribute'
+  pod 'R.swift'
   pod 'SwiftLint'
 
   target 'MTPTests' do
