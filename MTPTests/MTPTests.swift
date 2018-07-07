@@ -15,10 +15,8 @@ final class MTPTests: XCTestCase {
 
     func testUserDefaults() {
         let defaults = UserDefaults.standard
-        ["CFBundleShortVersionString",
-         "CFBundleVersion",
-         "CFBuildDate"].forEach { key in
-            XCTAssertNotNil(defaults.object(forKey: key), "missing Settings display key: \(key)")
+        StringKey.infoDictionaryKeys.forEach { key in
+            XCTAssertNotNil(defaults[key], "missing Settings display key: \(key)")
         }
     }
 

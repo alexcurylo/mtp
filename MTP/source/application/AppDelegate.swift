@@ -50,14 +50,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 private extension AppDelegate {
 
     func configureSettingsDisplay() {
-        let defaults = UserDefaults.standard
-        ["CFBundleShortVersionString",
-         "CFBundleVersion",
-         "CFBuildDate"].forEach { key in
-            if let info = Bundle.main.object(forInfoDictionaryKey: key) as? String {
-                defaults.set(info, forKey: key)
-            }
-        }
-        defaults.synchronize()
+        StringKey.infoDictionaryKeys.copyToUserDefaults()
     }
 }
