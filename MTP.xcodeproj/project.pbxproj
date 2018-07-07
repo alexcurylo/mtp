@@ -206,6 +206,7 @@
 			children = (
 				FA392BEB20DFA5570026C828 /* application */,
 				FA392BEC20DFA56B0026C828 /* interface */,
+				FAAE29C320F0570000B43BA9 /* support */,
 			);
 			path = source;
 			sourceTree = "<group>";
@@ -214,7 +215,6 @@
 			isa = PBXGroup;
 			children = (
 				FA392BBA20DF69F30026C828 /* AppDelegate.swift */,
-				FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */,
 			);
 			path = application;
 			sourceTree = "<group>";
@@ -260,6 +260,14 @@
 				FA81361320E8FD4E00313AB9 /* script_build_end.sh */,
 			);
 			name = metadata;
+			sourceTree = "<group>";
+		};
+		FAAE29C320F0570000B43BA9 /* support */ = {
+			isa = PBXGroup;
+			children = (
+				FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */,
+			);
+			path = support;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

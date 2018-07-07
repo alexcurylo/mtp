@@ -10,7 +10,7 @@ extension UIApplication {
     }
 
     static var isUITesting: Bool {
-        let isUITesting = ProcessInfo.processInfo.arguments.contains(LaunchArguments.uiTestingMode.rawValue)
+        let isUITesting = ProcessInfo.arguments(contain: .uiTestingMode)
         return isUITesting
     }
 
@@ -19,6 +19,13 @@ extension UIApplication {
     }
 }
 
-enum LaunchArguments: String {
+enum LaunchArgument: String {
     case uiTestingMode
+}
+
+extension ProcessInfo {
+
+    static func arguments(contain argument: LaunchArgument) -> Bool {
+        return processInfo.arguments.contains(argument.rawValue)
+    }
 }
