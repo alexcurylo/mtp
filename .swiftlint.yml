@@ -83,7 +83,7 @@ included:
   - MTPUITests
 excluded:
   - Carthage
-  - MTP/source/resources
+  - MTP/resources
   - Pods
 
 file_header:

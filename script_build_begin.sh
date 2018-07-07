@@ -2,7 +2,7 @@
 
 # typed resource identifiers
 
-"$PODS_ROOT/R.swift/rswift" generate "${SRCROOT}/MTP/source/resources"
+"$PODS_ROOT/R.swift/rswift" generate "${SRCROOT}/MTP/resources/"
 echo R.generated.swift generated
 
 # undone work warnings
