@@ -4,7 +4,6 @@
 [![Issues](https://img.shields.io/github/issues/alexcurylo/mtp.svg)](https://github.com/alexcurylo/mtp/issues)
 [![Waffle](https://badge.waffle.io/alexcurylo/mtp.svg?columns=all)](https://waffle.io/alexcurylo/mtp)
 [![Swift](https://img.shields.io/badge/Swift-4.1-orange.svg)](https://swift.org)
-[![Xcode](https://img.shields.io/badge/Xcode-9.4.1-blue.svg)](https://developer.apple.com/xcode)
 [![License](http://img.shields.io/badge/license-MIT-lightgrey.svg)][linkMIT]
 
 
@@ -51,12 +50,12 @@ Usage
 
 Build the app with the 'MTP' target.
 
-
 Documentation
 -------------
 
-~Read the [docs](http://alexcurylo.github.io/mtp/). Generated with [jazzy](https://github.com/realm/jazzy). Hosted by [GitHub Pages](https://pages.github.com). More information on the [`gh-pages`](https://github.com/alexcurylo/mtp/tree/gh-pages) branch.~
+Read the [docs](http://alexcurylo.github.io/mtp/). Generated with [jazzy](https://github.com/realm/jazzy). Hosted by [GitHub Pages](https://pages.github.com).
 
+Generate for local branch with  `bundle exec jazzy` and open with `open ./docs/index.html`
 
 Roadmap
 -------
@@ -75,6 +74,6 @@ License
 
 The [MIT License][linkMIT]. See the [LICENSE.md](LICENSE.md) file for details.
 
->**Copyright &copy;2018 Trollwerks Inc.**
+>**Copyright &copy;2018-present Trollwerks Inc.**
 
 [linkMIT]: http://opensource.org/licenses/MIT

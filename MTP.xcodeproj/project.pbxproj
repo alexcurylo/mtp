@@ -88,6 +88,7 @@
 		FA9A71DE20F1D3FA005F6A57 /* AppDelegate+Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Tools.swift"; sourceTree = "<group>"; };
 		FA9A71E020F1DD60005F6A57 /* Gemfile.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile.lock; sourceTree = "<group>"; };
 		FA9A71E120F1DD6C005F6A57 /* Podfile.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile.lock; sourceTree = "<group>"; };
+		FA9A71E220F2308E005F6A57 /* .jazzy.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .jazzy.yaml; sourceTree = "<group>"; };
 		FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Environment.swift"; sourceTree = "<group>"; };
 		FAAE29C120EFADC700B43BA9 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		FAAE29C420F05A9600B43BA9 /* UserDefaults+TypeSafety.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+TypeSafety.swift"; sourceTree = "<group>"; };
@@ -254,6 +255,7 @@
 			children = (
 				FAB53F8620DFCC04007A80A7 /* .coveralls.yml */,
 				FA4F1C5D20DFA69000B8A1ED /* .gitignore */,
+				FA9A71E220F2308E005F6A57 /* .jazzy.yaml */,
 				FAB53F8420DFCC03007A80A7 /* .slather.yml */,
 				FA3E366B20DFB484002AF4EE /* .swiftlint.yml */,
 				FAB53F8520DFCC03007A80A7 /* .travis.yml */,
