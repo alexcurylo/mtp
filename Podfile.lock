@@ -1,0 +1,42 @@
+PODS:
+  - AppCenter (1.7.1):
+    - AppCenter/Analytics (= 1.7.1)
+    - AppCenter/Crashes (= 1.7.1)
+  - AppCenter/Analytics (1.7.1):
+    - AppCenter/Core
+  - AppCenter/Core (1.7.1)
+  - AppCenter/Crashes (1.7.1):
+    - AppCenter/Core
+  - AppCenter/Distribute (1.7.1):
+    - AppCenter/Core
+  - R.swift (4.0.0):
+    - R.swift.Library (~> 4.0.0)
+  - R.swift.Library (4.0.0)
+  - SwiftLint (0.26.0)
+  - SwiftyBeaver (1.6.0)
+
+DEPENDENCIES:
+  - AppCenter
+  - AppCenter/Distribute
+  - R.swift
+  - SwiftLint
+  - SwiftyBeaver
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - AppCenter
+    - R.swift
+    - R.swift.Library
+    - SwiftLint
+    - SwiftyBeaver
+
+SPEC CHECKSUMS:
+  AppCenter: 53349f138e596f2514f7559bb50a7e6e55219f17
+  R.swift: d6a5ec2f55a8441dc0ed9f1f8b37d7d11ae85c66
+  R.swift.Library: c3af34921024333546e23b70e70d0b4e0cffca75
+  SwiftLint: f6b83e8d95ee1e91e11932d843af4fdcbf3fc764
+  SwiftyBeaver: e45759613e50b522b0e6f53b1f0f14389b45ca34
+
+PODFILE CHECKSUM: 6600c947fdeecba4dab0f19584ba8fd5a39f1917
+
+COCOAPODS: 1.5.3

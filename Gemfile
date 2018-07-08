@@ -1,0 +1,13 @@
+source 'https://rubygems.org'
+
+gem 'cocoapods'
+gem 'cocoapods-acknowledgements'
+gem 'cocoapods-check'
+gem 'danger'
+gem 'danger-slather'
+gem 'danger-swiftlint'
+gem 'danger-xcov'
+gem 'jazzy'
+gem 'slather'
+gem 'xcpretty'
+gem 'xcpretty-travis-formatter'
