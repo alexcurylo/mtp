@@ -13,20 +13,61 @@ final class MTPTests: XCTestCase {
         super.tearDown()
     }
 
-    /// check that setup, target plist and main storyboard are good
+    func testUserDefaults() {
+        let defaults = UserDefaults.standard
+        StringKey.infoDictionarySettingsKeys.forEach { key in
+            XCTAssertNotNil(defaults[key], "missing Settings display key: \(key)")
+        }
+    }
+
+    func testInfoPlist() {
+        let infoPlist = Bundle.main.infoDictionary
+
+        // AppCenter
+        let urlType = (infoPlist?["CFBundleURLTypes"] as? [AnyObject])?.first as? [String: AnyObject]
+        let urlScheme = (urlType?["CFBundleURLSchemes"] as? [String])?.first
+        let expected = "appcenter-20cb945f-58b9-4544-a059-424aa3b86820"
+        XCTAssertEqual(urlScheme, expected, "could not find AppCenter Distribution URL scheme")
+    }
+
+    func testResources() throws {
+        try R.validate()
+
+        XCTAssertNotNil(R.file.default568h2xPng)
+        XCTAssertNotNil(R.file.podsMTPMetadataPlist)
+        XCTAssertNotNil(R.file.podsMTPSettingsMetadataPlist)
+        XCTAssertNotNil(R.file.settingsBundle)
+
+        XCTAssertNotNil(R.image.first)
+        XCTAssertNotNil(R.image.second)
+        XCTAssertNotNil(R.image.default568h)
+
+        XCTAssertNotNil(R.storyboard.launchScreen)
+        XCTAssertNotNil(R.storyboard.main)
+    }
+
     func testAppDelegateConfiguration() {
         let app = UIApplication.shared
         let delegate = app.delegate as? AppDelegate
         XCTAssertNotNil(delegate, "sharedApplication().delegate does not exist - set host application")
         XCTAssertNotNil(delegate?.window, "missing main window")
+
         let root = delegate?.window?.rootViewController as? UITabBarController
         XCTAssertNotNil(root, "missing root tab controller")
-        XCTAssert(root?.viewControllers?.count == 2, "wrong number of tabs")
+        XCTAssertEqual(root?.viewControllers?.count, 2, "wrong number of tabs")
         XCTAssertNotNil(root?.viewControllers?[0] as? FirstViewController, "wrong first view controller")
         XCTAssertNotNil(root?.viewControllers?[1] as? SecondViewController, "wrong second view controller")
+
+        XCTAssertTrue(UIApplication.isUnitTesting)
+        XCTAssertFalse(UIApplication.isUITesting)
+        XCTAssertTrue(UIApplication.isTesting)
+        #if targetEnvironment(simulator)
+        XCTAssertTrue(UIApplication.isSimulator)
+        #else
+        XCTAssertFalse(UIApplication.isSimulator)
+        #endif
     }
 
-    /// check for any fatal UIApplicationDelegate side effects
     func testAppDelegateDelegation() {
         let app = UIApplication.shared
         guard let delegate = app.delegate as? AppDelegate else {
@@ -40,7 +81,6 @@ final class MTPTests: XCTestCase {
         delegate.applicationWillTerminate(app)
     }
 
-    // Check low memory handlers are called
     func testLowMemoryHandling() {
         let app = UIApplication.shared
 
@@ -51,15 +91,5 @@ final class MTPTests: XCTestCase {
         // INFO: AppDelegate applicationDidReceiveMemoryWarning
         // INFO: FirstViewController didReceiveMemoryWarning
         // INFO: SecondViewController didReceiveMemoryWarning
-    }
-
-    func testAppResources() {
-        // items copied to NSUserDefaults from plist for settings
-        let defaults = UserDefaults.standard
-        ["CFBundleShortVersionString",
-         "CFBundleVersion",
-         "CFBuildDate"].forEach { key in
-            XCTAssertNotNil(defaults.object(forKey: key), "missing Settings display key: \(key)")
-        }
     }
 }

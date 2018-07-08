@@ -6,7 +6,9 @@ target 'MTP' do
 
   pod 'AppCenter'
   pod 'AppCenter/Distribute'
+  pod 'R.swift'
   pod 'SwiftLint'
+  pod 'SwiftyBeaver'
 
   target 'MTPTests' do
     inherit! :search_paths

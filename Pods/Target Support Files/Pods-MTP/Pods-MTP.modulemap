@@ -1,0 +1,6 @@
+module Pods_MTP {
+  umbrella header "Pods-MTP-umbrella.h"
+
+  export *
+  module * { export * }
+}
