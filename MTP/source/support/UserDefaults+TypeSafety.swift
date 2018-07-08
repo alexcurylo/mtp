@@ -18,8 +18,10 @@ struct StringKey: Hashable, RawRepresentable, ExpressibleByStringLiteral {
         self.rawValue = value
     }
 
-    static var infoDictionaryKeys: [StringKey] {
-        return [.cfBuildDate, .cfBundleShortVersionString, .cfBundleVersion]
+    static var infoDictionarySettingsKeys: [StringKey] {
+        return [.cfBuildDate,
+                .cfBundleShortVersionString,
+                .cfBundleVersion]
     }
 
     var infoDictionaryString: String? {

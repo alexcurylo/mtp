@@ -37,13 +37,14 @@ Requirements
 - [CocoaPods](https://cocoapods.org/) for dependency management
 - [Coveralls](https://coveralls.io/github/alexcurylo/mtp?branch=develop) for test coverage statistics
 - [Danger](http://danger.systems/ruby/) for automated code review
-- [R.swift](https://github.com/mac-cain13/R.swift/) for typed resource identifiers
 - [SwiftLint](https://github.com/realm/SwiftLint) for opinionated coding style enforcement
 - [Stlather](https://github.com/SlatherOrg/slather)) for test coverage reports
+- [SwiftyBeaver](https://github.com/SwiftyBeaver/SwiftyBeaver) for logging
 - [Travis-CI](https://travis-ci.org/alexcurylo/mtp) for test builds
 
 ### Libraries:
 
+- [R.swift](https://github.com/mac-cain13/R.swift/) for typed resource identifiers
 
 Usage
 -----

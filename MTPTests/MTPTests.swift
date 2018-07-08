@@ -15,7 +15,7 @@ final class MTPTests: XCTestCase {
 
     func testUserDefaults() {
         let defaults = UserDefaults.standard
-        StringKey.infoDictionaryKeys.forEach { key in
+        StringKey.infoDictionarySettingsKeys.forEach { key in
             XCTAssertNotNil(defaults[key], "missing Settings display key: \(key)")
         }
     }
@@ -61,6 +61,11 @@ final class MTPTests: XCTestCase {
         XCTAssertTrue(UIApplication.isUnitTesting)
         XCTAssertFalse(UIApplication.isUITesting)
         XCTAssertTrue(UIApplication.isTesting)
+        #if targetEnvironment(simulator)
+        XCTAssertTrue(UIApplication.isSimulator)
+        #else
+        XCTAssertFalse(UIApplication.isSimulator)
+        #endif
     }
 
     func testAppDelegateDelegation() {

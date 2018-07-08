@@ -1,9 +1,5 @@
 // @copyright Trollwerks Inc.
 
-import AppCenter
-import AppCenterAnalytics
-import AppCenterCrashes
-import AppCenterDistribute
 import UIKit
 
 @UIApplicationMain
@@ -15,12 +11,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                      // swiftlint:disable:next discouraged_optional_collection
                      didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-        if !UIApplication.isTesting {
-            MSAppCenter.start("20cb945f-58b9-4544-a059-424aa3b86820",
-                              withServices: [MSDistribute.self,
-                                             MSCrashes.self,
-                                             MSAnalytics.self])
-        }
+        configureAppCenter()
+
+        configureLogging()
 
         configureSettingsDisplay()
 
@@ -50,6 +43,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 private extension AppDelegate {
 
     func configureSettingsDisplay() {
-        StringKey.infoDictionaryKeys.copyToUserDefaults()
+        StringKey.infoDictionarySettingsKeys.copyToUserDefaults()
     }
 }
