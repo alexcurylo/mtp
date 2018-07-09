@@ -33,15 +33,17 @@ final class MTPTests: XCTestCase {
     func testResources() throws {
         try R.validate()
 
-        XCTAssertNotNil(R.file.podsMTPMetadataPlist)
-        XCTAssertNotNil(R.file.podsMTPSettingsMetadataPlist)
-        XCTAssertNotNil(R.file.settingsBundle)
+        XCTAssertNotNil(R.file.podsMTPMetadataPlist())
+        XCTAssertNotNil(R.file.podsMTPSettingsMetadataPlist())
+        XCTAssertNotNil(R.file.settingsBundle())
 
-        XCTAssertNotNil(R.image.first)
-        XCTAssertNotNil(R.image.second)
+        XCTAssertNotNil(R.image.first())
+        XCTAssertNotNil(R.image.launchBackground())
+        XCTAssertNotNil(R.image.logo())
+        XCTAssertNotNil(R.image.second())
 
-        XCTAssertNotNil(R.storyboard.launchScreen)
-        XCTAssertNotNil(R.storyboard.main)
+        XCTAssertNotNil(R.storyboard.launchScreen())
+        XCTAssertNotNil(R.storyboard.main())
     }
 
     func testAppDelegateConfiguration() {
