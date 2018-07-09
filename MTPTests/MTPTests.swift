@@ -33,14 +33,12 @@ final class MTPTests: XCTestCase {
     func testResources() throws {
         try R.validate()
 
-        XCTAssertNotNil(R.file.default568h2xPng)
         XCTAssertNotNil(R.file.podsMTPMetadataPlist)
         XCTAssertNotNil(R.file.podsMTPSettingsMetadataPlist)
         XCTAssertNotNil(R.file.settingsBundle)
 
         XCTAssertNotNil(R.image.first)
         XCTAssertNotNil(R.image.second)
-        XCTAssertNotNil(R.image.default568h)
 
         XCTAssertNotNil(R.storyboard.launchScreen)
         XCTAssertNotNil(R.storyboard.main)

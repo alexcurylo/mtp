@@ -20,7 +20,6 @@
 		FA392BC720DF69F50026C828 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA392BC520DF69F50026C828 /* LaunchScreen.storyboard */; };
 		FA392BD220DF69F50026C828 /* MTPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA392BD120DF69F50026C828 /* MTPTests.swift */; };
 		FA392BDD20DF69F50026C828 /* MTPUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA392BDC20DF69F50026C828 /* MTPUITests.swift */; };
-		FA3E367B20DFC4F9002AF4EE /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA3E367A20DFC4F9002AF4EE /* Default-568h@2x.png */; };
 		FA81361220E8F64500313AB9 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FA81361120E8F64500313AB9 /* Settings.bundle */; };
 		FA9A71DF20F1D3FA005F6A57 /* AppDelegate+Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9A71DE20F1D3FA005F6A57 /* AppDelegate+Tools.swift */; };
 		FAAE29BF20EE51A700B43BA9 /* UIApplication+Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */; };
@@ -77,7 +76,6 @@
 		FA3E366A20DFACCD002AF4EE /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		FA3E366B20DFB484002AF4EE /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		FA3E366F20DFC0E3002AF4EE /* IDETemplateMacros.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = IDETemplateMacros.plist; path = MTP.xcodeproj/xcshareddata/IDETemplateMacros.plist; sourceTree = "<group>"; };
-		FA3E367A20DFC4F9002AF4EE /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		FA4F1C5B20DFA67700B8A1ED /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		FA4F1C5C20DFA67700B8A1ED /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FA4F1C5D20DFA69000B8A1ED /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -240,7 +238,6 @@
 			isa = PBXGroup;
 			children = (
 				FA392BC320DF69F50026C828 /* Assets.xcassets */,
-				FA3E367A20DFC4F9002AF4EE /* Default-568h@2x.png */,
 				FA392BC820DF69F50026C828 /* Info.plist */,
 				FA392BC520DF69F50026C828 /* LaunchScreen.storyboard */,
 				FA392BC020DF69F30026C828 /* Main.storyboard */,
@@ -396,7 +393,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA392BC720DF69F50026C828 /* LaunchScreen.storyboard in Resources */,
-				FA3E367B20DFC4F9002AF4EE /* Default-568h@2x.png in Resources */,
 				FA81361220E8F64500313AB9 /* Settings.bundle in Resources */,
 				FA392BC420DF69F50026C828 /* Assets.xcassets in Resources */,
 				FA392BC220DF69F30026C828 /* Main.storyboard in Resources */,
