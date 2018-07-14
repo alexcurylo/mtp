@@ -6,7 +6,7 @@ final class RootVC: UIViewController {
 
     private var loggedIn: Bool {
         log.warning("TODO: implement loggedIn")
-        return false
+        return true
     }
 
     override func viewDidLoad() {
