@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina4_7" orientation="portrait">
+    <device id="ipad12_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -16,20 +17,24 @@
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" insetsLayoutMarginsFromSafeArea="NO" image="launchBackground" translatesAutoresizingMaskIntoConstraints="NO" id="kjv-Tz-GqI">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="Keh-dG-qxv">
-                                <rect key="frame" x="108.5" y="154.5" width="158" height="158"/>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" insetsLayoutMarginsFromSafeArea="NO" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="Keh-dG-qxv">
+                                <rect key="frame" x="297" y="263.5" width="430" height="429.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Keh-dG-qxv" secondAttribute="height" id="Uvj-32-svJ"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Keh-dG-qxv" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" multiplier="0.7" id="9vC-gP-tYO"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="kjv-Tz-GqI" secondAttribute="bottom" id="GyP-ue-XZe"/>
+                            <constraint firstItem="Keh-dG-qxv" firstAttribute="width" secondItem="kjv-Tz-GqI" secondAttribute="width" multiplier="0.42" id="TJw-SQ-52k"/>
                             <constraint firstItem="kjv-Tz-GqI" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="WN2-VS-v4O"/>
                             <constraint firstItem="kjv-Tz-GqI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="YIL-Sh-vSX"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="kjv-Tz-GqI" secondAttribute="trailing" id="aO7-in-M4p"/>
