@@ -13,7 +13,7 @@ final class SecondViewController: UIViewController {
     }
 
     override func didReceiveMemoryWarning() {
-        print("INFO: \(type(of: self)) didReceiveMemoryWarning")
+        log.warning("didReceiveMemoryWarning: \(type(of: self))")
         super.didReceiveMemoryWarning()
     }
 }

@@ -27,6 +27,8 @@
 		FAAE29C220EFADC800B43BA9 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAE29C120EFADC700B43BA9 /* R.generated.swift */; };
 		FAAE29C520F05A9600B43BA9 /* UserDefaults+TypeSafety.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAE29C420F05A9600B43BA9 /* UserDefaults+TypeSafety.swift */; };
 		FAB53F8B20DFD618007A80A7 /* MemoryWarner.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB53F8A20DFD618007A80A7 /* MemoryWarner.m */; };
+		FAF1853120FA0C8600CC5D83 /* RootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF1853020FA0C8600CC5D83 /* RootVC.swift */; };
+		FAF1853220FA0DEF00CC5D83 /* Root.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAF1853420FA0DEF00CC5D83 /* Root.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +99,9 @@
 		FAB53F8720DFD617007A80A7 /* MTPTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MTPTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		FAB53F8920DFD618007A80A7 /* MemoryWarner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemoryWarner.h; sourceTree = "<group>"; };
 		FAB53F8A20DFD618007A80A7 /* MemoryWarner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemoryWarner.m; sourceTree = "<group>"; };
+		FAF1853020FA0C8600CC5D83 /* RootVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootVC.swift; sourceTree = "<group>"; };
+		FAF1853320FA0DEF00CC5D83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Root.storyboard; sourceTree = "<group>"; };
+		FAF1853520FA16CE00CC5D83 /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -229,6 +234,7 @@
 			isa = PBXGroup;
 			children = (
 				FA392BBC20DF69F30026C828 /* FirstViewController.swift */,
+				FAF1853020FA0C8600CC5D83 /* RootVC.swift */,
 				FA392BBE20DF69F30026C828 /* SecondViewController.swift */,
 			);
 			path = interface;
@@ -241,6 +247,7 @@
 				FA392BC820DF69F50026C828 /* Info.plist */,
 				FA392BC520DF69F50026C828 /* LaunchScreen.storyboard */,
 				FA392BC020DF69F30026C828 /* Main.storyboard */,
+				FAF1853420FA0DEF00CC5D83 /* Root.storyboard */,
 				FAAE29C120EFADC700B43BA9 /* R.generated.swift */,
 				FA81361120E8F64500313AB9 /* Settings.bundle */,
 			);
@@ -266,6 +273,7 @@
 				FA4F1C5C20DFA67700B8A1ED /* README.md */,
 				FA81361420E8FD4E00313AB9 /* script_build_begin.sh */,
 				FA81361320E8FD4E00313AB9 /* script_build_end.sh */,
+				FAF1853520FA16CE00CC5D83 /* TODO.md */,
 			);
 			name = metadata;
 			sourceTree = "<group>";
@@ -396,6 +404,7 @@
 				FA81361220E8F64500313AB9 /* Settings.bundle in Resources */,
 				FA392BC420DF69F50026C828 /* Assets.xcassets in Resources */,
 				FA392BC220DF69F30026C828 /* Main.storyboard in Resources */,
+				FAF1853220FA0DEF00CC5D83 /* Root.storyboard in Resources */,
 				0A2349E36085A3EE89A30019 /* Pods-MTP-metadata.plist in Resources */,
 				F5352AD2AEBF0C3A5C6191CE /* Pods-MTP-settings-metadata.plist in Resources */,
 			);
@@ -554,6 +563,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA9A71DF20F1D3FA005F6A57 /* AppDelegate+Tools.swift in Sources */,
+				FAF1853120FA0C8600CC5D83 /* RootVC.swift in Sources */,
 				FAAE29BF20EE51A700B43BA9 /* UIApplication+Environment.swift in Sources */,
 				FA392BBF20DF69F30026C828 /* SecondViewController.swift in Sources */,
 				FAAE29C220EFADC800B43BA9 /* R.generated.swift in Sources */,
@@ -611,6 +621,14 @@
 				FA392BC620DF69F50026C828 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		FAF1853420FA0DEF00CC5D83 /* Root.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FAF1853320FA0DEF00CC5D83 /* Base */,
+			);
+			name = Root.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
