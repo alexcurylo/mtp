@@ -45,7 +45,7 @@ final class MTPTests: XCTestCase {
         XCTAssertNotNil(R.storyboard.launchScreen())
         XCTAssertNotNil(R.storyboard.main())
 
-        XCTAssertNotNil(R.segue.rootVC.showLaunch)
+        XCTAssertNotNil(R.segue.rootVC.embedLaunchScreen)
         XCTAssertNotNil(R.segue.rootVC.showMain)
     }
 
@@ -57,14 +57,15 @@ final class MTPTests: XCTestCase {
 
         let root = delegate?.window?.rootViewController as? UINavigationController
         XCTAssertNotNil(root, "missing root navigation controller")
-        XCTAssertEqual(root?.viewControllers.count, 2)
+        XCTAssertEqual(root?.viewControllers.count, 1)
         let splash = root?.viewControllers.first as? RootVC
         XCTAssertNotNil(splash, "missing splash screen controller")
-        let main = root?.topViewController as? UITabBarController
-        XCTAssertNotNil(main, "missing main tab controller")
-        XCTAssertEqual(main?.viewControllers?.count, 2, "wrong number of tabs")
-        XCTAssertNotNil(main?.viewControllers?[0] as? FirstViewController, "wrong first view controller")
-        XCTAssertNotNil(main?.viewControllers?[1] as? SecondViewController, "wrong second view controller")
+
+        //let main = root?.topViewController as? UITabBarController
+        //XCTAssertNotNil(main, "missing main tab controller")
+        //XCTAssertEqual(main?.viewControllers?.count, 2, "wrong number of tabs")
+        //XCTAssertNotNil(main?.viewControllers?[0] as? FirstViewController, "wrong first view controller")
+        //XCTAssertNotNil(main?.viewControllers?[1] as? SecondViewController, "wrong second view controller")
 
         XCTAssertTrue(UIApplication.isUnitTesting)
         XCTAssertFalse(UIApplication.isUITesting)

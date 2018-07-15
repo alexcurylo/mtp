@@ -4,26 +4,33 @@ import XCTest
 
 final class MTPUITests: XCTestCase {
 
+    private let app = XCUIApplication()
+
     override func setUp() {
         super.setUp()
 
         continueAfterFailure = false
-
-        let app = XCUIApplication()
-        app.launchArguments += [LaunchArgument.uiTestingMode.rawValue]
-        app.launch()
     }
 
     override func tearDown() {
         super.tearDown()
     }
 
+    func testFirstLaunch() {
+        launch(settings: [.loggedIn(false)])
+
+        let tabBar = app.tabBars.element(boundBy: 0)
+        XCTAssertFalse(tabBar.waitForExistence(timeout: 5))
+    }
+
     func testTabNavigation() {
-        let app = XCUIApplication()
+        launch(settings: [.loggedIn(true)])
+
         let tabBar = app.tabBars.element(boundBy: 0)
         let first = tabBar.buttons.element(boundBy: 0)
         let second = tabBar.buttons.element(boundBy: 1)
 
+        XCTAssertTrue(tabBar.waitForExistence(timeout: 5))
         XCTAssertTrue(first.isSelected, "first tab not selected at startup")
 
         // note foreseeable failure here:
