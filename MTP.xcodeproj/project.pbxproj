@@ -13,6 +13,7 @@
 		C1D9A04EB6208ED844515108 /* libPods-MTP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA7B8EF0C9A37C87525A9855 /* libPods-MTP.a */; };
 		F5352AD2AEBF0C3A5C6191CE /* Pods-MTP-settings-metadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E2C18C122B275F3B40CDCDA /* Pods-MTP-settings-metadata.plist */; };
 		FA32CC7220FAC863004C1329 /* XCTestCase+UITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA32CC7120FAC863004C1329 /* XCTestCase+UITest.swift */; };
+		FA32CC7420FB6E67004C1329 /* UIView+Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA32CC7320FB6E67004C1329 /* UIView+Gradient.swift */; };
 		FA392BBB20DF69F30026C828 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA392BBA20DF69F30026C828 /* AppDelegate.swift */; };
 		FA392BBD20DF69F30026C828 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA392BBC20DF69F30026C828 /* FirstViewController.swift */; };
 		FA392BBF20DF69F30026C828 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA392BBE20DF69F30026C828 /* SecondViewController.swift */; };
@@ -63,6 +64,7 @@
 		E03793369993AA49FE17B339 /* Pods-MTP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MTP.release.xcconfig"; path = "Pods/Target Support Files/Pods-MTP/Pods-MTP.release.xcconfig"; sourceTree = "<group>"; };
 		EA7B8EF0C9A37C87525A9855 /* libPods-MTP.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MTP.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA32CC7120FAC863004C1329 /* XCTestCase+UITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+UITest.swift"; sourceTree = "<group>"; };
+		FA32CC7320FB6E67004C1329 /* UIView+Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Gradient.swift"; sourceTree = "<group>"; };
 		FA392BB720DF69F30026C828 /* MTP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MTP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA392BBA20DF69F30026C828 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA392BBC20DF69F30026C828 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 			children = (
 				FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */,
 				FAAE29C420F05A9600B43BA9 /* UserDefaults+TypeSafety.swift */,
+				FA32CC7320FB6E67004C1329 /* UIView+Gradient.swift */,
 			);
 			path = support;
 			sourceTree = "<group>";
@@ -566,6 +569,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA9A71DF20F1D3FA005F6A57 /* AppDelegate+Tools.swift in Sources */,
+				FA32CC7420FB6E67004C1329 /* UIView+Gradient.swift in Sources */,
 				FAF1853120FA0C8600CC5D83 /* RootVC.swift in Sources */,
 				FAAE29BF20EE51A700B43BA9 /* UIApplication+Environment.swift in Sources */,
 				FA392BBF20DF69F30026C828 /* SecondViewController.swift in Sources */,
