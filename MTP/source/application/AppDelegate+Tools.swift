@@ -18,8 +18,8 @@ extension AppDelegate {
         MSAppCenter.start("20cb945f-58b9-4544-a059-424aa3b86820",
                           withServices: [MSAnalytics.self,
                                          MSCrashes.self,
-                                         MSDistribute.self]
-        )
+                                         MSDistribute.self])
+        log.info("MSAppCenter started")
     }
 
     func configureLogging() {

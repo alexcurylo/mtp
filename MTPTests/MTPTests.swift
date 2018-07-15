@@ -33,17 +33,20 @@ final class MTPTests: XCTestCase {
     func testResources() throws {
         try R.validate()
 
-        XCTAssertNotNil(R.file.default568h2xPng)
-        XCTAssertNotNil(R.file.podsMTPMetadataPlist)
-        XCTAssertNotNil(R.file.podsMTPSettingsMetadataPlist)
-        XCTAssertNotNil(R.file.settingsBundle)
+        XCTAssertNotNil(R.file.podsMTPMetadataPlist())
+        XCTAssertNotNil(R.file.podsMTPSettingsMetadataPlist())
+        XCTAssertNotNil(R.file.settingsBundle())
 
-        XCTAssertNotNil(R.image.first)
-        XCTAssertNotNil(R.image.second)
-        XCTAssertNotNil(R.image.default568h)
+        XCTAssertNotNil(R.image.first())
+        XCTAssertNotNil(R.image.launchBackground())
+        XCTAssertNotNil(R.image.logo())
+        XCTAssertNotNil(R.image.second())
 
-        XCTAssertNotNil(R.storyboard.launchScreen)
-        XCTAssertNotNil(R.storyboard.main)
+        XCTAssertNotNil(R.storyboard.launchScreen())
+        XCTAssertNotNil(R.storyboard.main())
+
+        XCTAssertNotNil(R.segue.rootVC.embedLaunchScreen)
+        XCTAssertNotNil(R.segue.rootVC.showMain)
     }
 
     func testAppDelegateConfiguration() {
@@ -52,11 +55,17 @@ final class MTPTests: XCTestCase {
         XCTAssertNotNil(delegate, "sharedApplication().delegate does not exist - set host application")
         XCTAssertNotNil(delegate?.window, "missing main window")
 
-        let root = delegate?.window?.rootViewController as? UITabBarController
-        XCTAssertNotNil(root, "missing root tab controller")
-        XCTAssertEqual(root?.viewControllers?.count, 2, "wrong number of tabs")
-        XCTAssertNotNil(root?.viewControllers?[0] as? FirstViewController, "wrong first view controller")
-        XCTAssertNotNil(root?.viewControllers?[1] as? SecondViewController, "wrong second view controller")
+        let root = delegate?.window?.rootViewController as? UINavigationController
+        XCTAssertNotNil(root, "missing root navigation controller")
+        XCTAssertEqual(root?.viewControllers.count, 1)
+        let splash = root?.viewControllers.first as? RootVC
+        XCTAssertNotNil(splash, "missing splash screen controller")
+
+        //let main = root?.topViewController as? UITabBarController
+        //XCTAssertNotNil(main, "missing main tab controller")
+        //XCTAssertEqual(main?.viewControllers?.count, 2, "wrong number of tabs")
+        //XCTAssertNotNil(main?.viewControllers?[0] as? FirstViewController, "wrong first view controller")
+        //XCTAssertNotNil(main?.viewControllers?[1] as? SecondViewController, "wrong second view controller")
 
         XCTAssertTrue(UIApplication.isUnitTesting)
         XCTAssertFalse(UIApplication.isUITesting)

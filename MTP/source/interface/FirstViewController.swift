@@ -13,7 +13,7 @@ final class FirstViewController: UIViewController {
     }
 
     override func didReceiveMemoryWarning() {
-        print("INFO: \(type(of: self)) didReceiveMemoryWarning")
+        log.warning("INFO: \(type(of: self)) applicationDidReceiveMemoryWarning")
         super.didReceiveMemoryWarning()
     }
 }

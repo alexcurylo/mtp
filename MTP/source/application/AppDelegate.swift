@@ -11,11 +11,13 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                      // swiftlint:disable:next discouraged_optional_collection
                      didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-        configureAppCenter()
-
         configureLogging()
 
+        configureAppCenter()
+
         configureSettingsDisplay()
+
+        log.verbose("didFinishLaunchingWithOptions")
 
         return true
     }
@@ -33,7 +35,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
-        print("INFO: \(type(of: self)) applicationDidReceiveMemoryWarning")
+        log.warning("INFO: \(type(of: self)) applicationDidReceiveMemoryWarning")
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
