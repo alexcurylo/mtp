@@ -43,10 +43,10 @@ final class MTPTests: XCTestCase {
         XCTAssertNotNil(R.image.second())
 
         XCTAssertNotNil(R.storyboard.launchScreen())
+        XCTAssertNotNil(R.storyboard.login())
         XCTAssertNotNil(R.storyboard.main())
-
-        XCTAssertNotNil(R.segue.rootVC.embedLaunchScreen)
-        XCTAssertNotNil(R.segue.rootVC.showMain)
+        XCTAssertNotNil(R.storyboard.root())
+        XCTAssertNotNil(R.storyboard.signup())
     }
 
     func testAppDelegateConfiguration() {

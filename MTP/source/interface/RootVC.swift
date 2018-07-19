@@ -111,8 +111,18 @@ final class RootVC: UIViewController {
             log.verbose("embedLaunchScreen")
         } else if R.segue.rootVC.showMain(segue: segue) != nil {
             log.verbose("showMain")
+        } else if R.segue.rootVC.showLogin(segue: segue) != nil {
+            log.verbose("showLogin")
+        } else if R.segue.rootVC.showSignup(segue: segue) != nil {
+            log.verbose("showSignup")
+        } else if R.segue.signupVC.unwindFromSignup(segue: segue) != nil {
+            log.verbose("unwindFromSignup")
+        } else if R.segue.loginVC.unwindFromLogin(segue: segue) != nil {
+            log.verbose("showMain")
         } else {
-            log.error("Unexpected segue: \(String(describing: segue.identifier))")
+            log.warning("Unexpected segue: \(String(describing: segue.identifier))")
         }
     }
+
+    @IBAction private func unwindToRoot(segue: UIStoryboardSegue) { }
 }

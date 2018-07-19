@@ -56,6 +56,9 @@
                                                 <state key="normal" title="Log In">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <segue destination="MnN-3G-z7h" kind="show" identifier="showLogin" id="4VC-ob-7Zs"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FZq-zl-rb3">
                                                 <rect key="frame" x="171.5" y="0.0" width="155.5" height="44"/>
@@ -66,6 +69,9 @@
                                                 <state key="normal" title="Sign Up">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <segue destination="f8G-Zt-zJn" kind="show" identifier="showSignup" id="mIe-wZ-GA9"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -121,6 +127,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lAq-Jw-DcY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1235" y="163"/>
+        </scene>
+        <!--Signup-->
+        <scene sceneID="VBg-SU-VHx">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Signup" id="f8G-Zt-zJn" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Oae-r7-GAU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="785" y="596"/>
+        </scene>
+        <!--Login-->
+        <scene sceneID="g0C-Lp-DZ2">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Login" id="MnN-3G-z7h" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zh4-xn-Pdq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="297" y="596"/>
         </scene>
     </scenes>
 </document>
