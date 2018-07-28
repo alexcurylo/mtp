@@ -1,5 +1,6 @@
 // @copyright Trollwerks Inc.
 
+import FacebookCore
 import UIKit
 
 final class RootVC: UIViewController {
@@ -16,12 +17,12 @@ final class RootVC: UIViewController {
         if let loggedIn = ProcessInfo.setting(bool: .loggedIn) {
             return loggedIn
         }
-/*
-        https://developers.facebook.com/docs/swift/login
+
         if let accessToken = AccessToken.current {
-            // User is logged in, use 'accessToken' here.
+            log.info("Logged in with Facebook: \(accessToken.userId ?? "??")")
+            return true
         }
-*/
+
         log.debug("TO DO: implement isloggedIn")
         return false
     }

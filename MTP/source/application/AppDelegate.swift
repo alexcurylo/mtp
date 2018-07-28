@@ -17,7 +17,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         configureSettingsDisplay()
 
-        configureFacebook(app: application, options: launchOptions ?? [])
+        configureFacebook(app: application, options: launchOptions ?? [:])
 
         log.verbose("didFinishLaunchingWithOptions")
 
@@ -34,6 +34,13 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
+        logFacebookActivate()
+    }
+
+    func application(_ app: UIApplication,
+                     open url: URL,
+                     options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
+        return handleFacebookURL(app: app, open: url, options: options)
     }
 
     func applicationDidReceiveMemoryWarning(_ application: UIApplication) {

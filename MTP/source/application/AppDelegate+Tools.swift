@@ -4,16 +4,16 @@ import AppCenter
 import AppCenterAnalytics
 import AppCenterCrashes
 import AppCenterDistribute
-import FacebookLogin
+import FacebookCore
 import SwiftyBeaver
 
-let log = SwiftyBeaver.self
+// MARK: - AppCenter
+
+// https://docs.microsoft.com/en-us/appcenter/
 
 extension AppDelegate {
 
     func configureAppCenter() {
-        // https://docs.microsoft.com/en-us/appcenter/
-
         guard !UIApplication.isTesting else { return }
 
         MSAppCenter.start("20cb945f-58b9-4544-a059-424aa3b86820",
@@ -22,9 +22,17 @@ extension AppDelegate {
                                          MSDistribute.self])
         log.info("MSAppCenter started")
     }
+}
+
+// MARK: - SwiftyBeaver
+
+//https://docs.swiftybeaver.com
+
+let log = SwiftyBeaver.self
+
+extension AppDelegate {
 
     func configureLogging() {
-        //https://docs.swiftybeaver.com
 
         let console = ConsoleDestination()
         log.addDestination(console)
@@ -44,9 +52,32 @@ extension AppDelegate {
             log.addDestination(platform)
         }
     }
+}
+
+// MARK: - Facebook
+
+// https://developers.facebook.com/docs/swift/login
+// https://developers.facebook.com/docs/facebook-login/testing-your-login-flow/
+
+extension AppDelegate {
 
     func configureFacebook(app: UIApplication,
                            options: [UIApplicationLaunchOptionsKey: Any]) {
-        SDKApplicationDelegate.shared.application(app, didFinishLaunchingWithOptions: options)
+        SDKApplicationDelegate.shared.application(
+            app,
+            didFinishLaunchingWithOptions: options)
+    }
+
+    func handleFacebookURL(app: UIApplication,
+                           open url: URL,
+                           options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
+        return SDKApplicationDelegate.shared.application(
+            app,
+            open: url,
+            options: options)
+    }
+
+    func logFacebookActivate() {
+        AppEventsLogger.activate()
     }
 }
