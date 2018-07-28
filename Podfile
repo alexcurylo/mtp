@@ -6,6 +6,7 @@ target 'MTP' do
 
   pod 'AppCenter'
   pod 'AppCenter/Distribute'
+  pod 'FBSDKLoginKit'
   pod 'R.swift'
   pod 'SwiftLint'
   pod 'SwiftyBeaver'
