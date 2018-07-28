@@ -17,6 +17,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         configureSettingsDisplay()
 
+        configureFacebook(app: application, options: launchOptions ?? [])
+
         log.verbose("didFinishLaunchingWithOptions")
 
         return true

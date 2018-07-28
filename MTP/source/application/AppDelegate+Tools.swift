@@ -4,6 +4,7 @@ import AppCenter
 import AppCenterAnalytics
 import AppCenterCrashes
 import AppCenterDistribute
+import FacebookLogin
 import SwiftyBeaver
 
 let log = SwiftyBeaver.self
@@ -42,5 +43,10 @@ extension AppDelegate {
                 encryptionKey: "wdybYid5fohynFuy7pzjgcdmmXedin0m")
             log.addDestination(platform)
         }
+    }
+
+    func configureFacebook(app: UIApplication,
+                           options: [UIApplicationLaunchOptionsKey: Any]) {
+        SDKApplicationDelegate.shared.application(app, didFinishLaunchingWithOptions: options)
     }
 }

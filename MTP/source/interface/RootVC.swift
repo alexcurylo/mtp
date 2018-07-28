@@ -16,7 +16,12 @@ final class RootVC: UIViewController {
         if let loggedIn = ProcessInfo.setting(bool: .loggedIn) {
             return loggedIn
         }
-
+/*
+        https://developers.facebook.com/docs/swift/login
+        if let accessToken = AccessToken.current {
+            // User is logged in, use 'accessToken' here.
+        }
+*/
         log.debug("TO DO: implement isloggedIn")
         return false
     }

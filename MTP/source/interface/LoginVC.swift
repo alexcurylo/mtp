@@ -2,7 +2,22 @@
 
 import UIKit
 
-class LoginVC: UIViewController {
+// https://developers.facebook.com/docs/swift/login
+/*
+import FacebookLogin
+func viewDidLoad() {
+    let loginButton = LoginButton(readPermissions: [ .publicProfile ])
+    loginButton.center = view.center
+    
+    view.addSubview(loginButton)
+}
+ // Extend the code sample "1. Add Facebook Login Button Code"
+ // In your viewDidLoad method:
+ loginButton = LoginButton(readPermissions: [ .publicProfile, .Email, .UserFriends ])
+ 
+*/
+
+final class LoginVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
