@@ -9,16 +9,6 @@ PODS:
     - AppCenter/Core
   - AppCenter/Distribute (1.7.1):
     - AppCenter/Core
-  - Bolts (1.9.0):
-    - Bolts/AppLinks (= 1.9.0)
-    - Bolts/Tasks (= 1.9.0)
-  - Bolts/AppLinks (1.9.0):
-    - Bolts/Tasks
-  - Bolts/Tasks (1.9.0)
-  - FBSDKCoreKit (4.34.0):
-    - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.34.0):
-    - FBSDKCoreKit
   - R.swift (4.0.0):
     - R.swift.Library (~> 4.0.0)
   - R.swift.Library (4.0.0)
@@ -28,7 +18,6 @@ PODS:
 DEPENDENCIES:
   - AppCenter
   - AppCenter/Distribute
-  - FBSDKLoginKit
   - R.swift
   - SwiftLint
   - SwiftyBeaver
@@ -36,9 +25,6 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AppCenter
-    - Bolts
-    - FBSDKCoreKit
-    - FBSDKLoginKit
     - R.swift
     - R.swift.Library
     - SwiftLint
@@ -46,14 +32,11 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AppCenter: 53349f138e596f2514f7559bb50a7e6e55219f17
-  Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
-  FBSDKCoreKit: 0ff57f093b85c8c9d5aba697d3edf68a8960ce78
-  FBSDKLoginKit: 8c78f57a145afb756e4755e69195ebe08a42466e
   R.swift: d6a5ec2f55a8441dc0ed9f1f8b37d7d11ae85c66
   R.swift.Library: c3af34921024333546e23b70e70d0b4e0cffca75
   SwiftLint: f6b83e8d95ee1e91e11932d843af4fdcbf3fc764
   SwiftyBeaver: e45759613e50b522b0e6f53b1f0f14389b45ca34
 
-PODFILE CHECKSUM: dba136fc42e9de212be1e01f7ffe60bcdb0893d2
+PODFILE CHECKSUM: 080a48fc035a365ff9fcc55d20a4282e8f68af7d
 
 COCOAPODS: 1.5.3

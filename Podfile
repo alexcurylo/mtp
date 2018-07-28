@@ -6,7 +6,9 @@ target 'MTP' do
 
   pod 'AppCenter'
   pod 'AppCenter/Distribute'
-  pod 'FBSDKLoginKit'
+#  pod 'FacebookCore', :modular_headers => true
+#  pod 'FacebookLogin', :modular_headers => true
+#  pod 'FacebookShare', :modular_headers => true
   pod 'R.swift'
   pod 'SwiftLint'
   pod 'SwiftyBeaver'
