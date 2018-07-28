@@ -24,8 +24,6 @@ final class RootVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupButtons()
-
         if isloggedIn {
             performSegue(withIdentifier: R.segue.rootVC.showMain, sender: self)
         }
@@ -41,35 +39,6 @@ final class RootVC: UIViewController {
         } else {
             credentials.isHidden = false
             credentialsBottom.constant = -credentials.bounds.height
-        }
-    }
-
-    func setupButtons() {
-        loginButton.round(corners: 4)
-        signupButton.round(corners: 4)
-
-        func fixLogin() {
-            loginButton.apply(gradient: [UIColor(rgb: 0x028CFF),
-                                         UIColor(rgb: 0x19C0FD)],
-                              orientation: .horizontal)
-        }
-
-        func fixSignup() {
-            signupButton.apply(gradient: [UIColor(rgb: 0x3191CB),
-                                          UIColor(rgb: 0x004B78)],
-                               orientation: .horizontal)
-        }
-
-        fixLogin()
-        watchLogin = observe(\.loginButton.bounds,
-                             options: [.new, .old]) { _, _ in
-            fixLogin()
-        }
-
-        fixSignup()
-        watchSignup = observe(\.signupButton.bounds,
-                              options: [.new, .old]) { _, _ in
-            fixSignup()
         }
     }
 
