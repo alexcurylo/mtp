@@ -29,6 +29,7 @@ final class MTPUITests: XCTestCase {
         let tabBar = app.tabBars.element(boundBy: 0)
         let first = tabBar.buttons.element(boundBy: 0)
         let second = tabBar.buttons.element(boundBy: 1)
+        let third = tabBar.buttons.element(boundBy: 2)
 
         XCTAssertTrue(tabBar.waitForExistence(timeout: 5))
         XCTAssertTrue(first.isSelected, "first tab not selected at startup")
@@ -39,6 +40,11 @@ final class MTPUITests: XCTestCase {
 
         let selectedPredicate = NSPredicate(format: "selected == true")
         expectation(for: selectedPredicate, evaluatedWith: second, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
+
+        third.tap()
+
+        expectation(for: selectedPredicate, evaluatedWith: third, handler: nil)
         waitForExpectations(timeout: 5, handler: nil)
 
         first.tap()

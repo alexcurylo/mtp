@@ -2,7 +2,7 @@
 
 import UIKit
 
-final class SecondViewController: UIViewController {
+class MyProfileVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -13,7 +13,7 @@ final class SecondViewController: UIViewController {
     }
 
     override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
+        log.warning("INFO: \(type(of: self)) applicationDidReceiveMemoryWarning")
         super.didReceiveMemoryWarning()
     }
 }

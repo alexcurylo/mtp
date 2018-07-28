@@ -16,6 +16,8 @@ final class RootVC: UIViewController {
     private var isloggedIn: Bool {
         if let loggedIn = ProcessInfo.setting(bool: .loggedIn) {
             return loggedIn
+        } else if UIApplication.isTesting {
+            return false
         }
 
         if let accessToken = AccessToken.current {

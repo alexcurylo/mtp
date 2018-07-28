@@ -37,10 +37,11 @@ final class MTPTests: XCTestCase {
         XCTAssertNotNil(R.file.podsMTPSettingsMetadataPlist())
         XCTAssertNotNil(R.file.settingsBundle())
 
-        XCTAssertNotNil(R.image.first())
         XCTAssertNotNil(R.image.launchBackground())
         XCTAssertNotNil(R.image.logo())
-        XCTAssertNotNil(R.image.second())
+        XCTAssertNotNil(R.image.tabLocations())
+        XCTAssertNotNil(R.image.tabMyProfile())
+        XCTAssertNotNil(R.image.tabRankings())
 
         XCTAssertNotNil(R.storyboard.launchScreen())
         XCTAssertNotNil(R.storyboard.login())

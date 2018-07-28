@@ -2,7 +2,7 @@
 
 import UIKit
 
-final class FirstViewController: UIViewController {
+final class RankingsVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -13,7 +13,7 @@ final class FirstViewController: UIViewController {
     }
 
     override func didReceiveMemoryWarning() {
-        log.warning("INFO: \(type(of: self)) applicationDidReceiveMemoryWarning")
+        log.warning("didReceiveMemoryWarning: \(type(of: self))")
         super.didReceiveMemoryWarning()
     }
 }
