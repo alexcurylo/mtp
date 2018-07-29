@@ -160,45 +160,45 @@ extension UIColor {
 }
 
 @IBDesignable class GradientView: UIView {
-    
+
     @IBInspectable var startColor: UIColor = .white {
         didSet {
             setup()
         }
     }
-    
+
     @IBInspectable var endColor: UIColor = .white {
         didSet {
             setup()
         }
     }
-    
+
     @IBInspectable var orientation: Int = 3 {
         didSet {
             setup()
         }
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
-    
+
     override func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
         setup()
     }
-    
+
     func setup() {
         apply(gradient: [startColor, endColor],
               orientation: GradientOrientation(rawValue: orientation))
     }
-    
+
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)
         gradient?.frame = bounds
