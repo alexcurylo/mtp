@@ -46,7 +46,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
-        log.warning("INFO: \(type(of: self)) applicationDidReceiveMemoryWarning")
+        log.warning("\(type(of: self)) applicationDidReceiveMemoryWarning")
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

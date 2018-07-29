@@ -1,8 +1,9 @@
 // @copyright Trollwerks Inc.
 
+import FacebookLogin
 import UIKit
 
-final class LocationsVC: UIViewController {
+final class EditProfileVC: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -10,7 +11,6 @@ final class LocationsVC: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -24,5 +24,18 @@ final class LocationsVC: UIViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.warning("Unexpected segue: \(String(describing: segue.identifier))")
+    }
+}
+
+// MARK: - Actions
+
+private extension EditProfileVC {
+
+    @IBAction func logOut() {
+        LoginManager().logOut()
+    }
+
+    @IBAction func deleteAccount() {
+        log.debug("TO DO: implement deleteAccountpr")
     }
 }

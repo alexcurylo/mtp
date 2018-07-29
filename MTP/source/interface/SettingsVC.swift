@@ -2,7 +2,7 @@
 
 import UIKit
 
-final class LocationsVC: UIViewController {
+final class SettingsVC: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -10,7 +10,6 @@ final class LocationsVC: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 
     override func viewDidAppear(_ animated: Bool) {

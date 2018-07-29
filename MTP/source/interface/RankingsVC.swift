@@ -21,4 +21,8 @@ final class RankingsVC: UIViewController {
         log.warning("didReceiveMemoryWarning: \(type(of: self))")
         super.didReceiveMemoryWarning()
     }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        log.warning("Unexpected segue: \(String(describing: segue.identifier))")
+    }
 }

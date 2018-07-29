@@ -2,7 +2,7 @@
 
 import UIKit
 
-class MyProfileVC: UIViewController {
+final class MyProfileVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,7 +17,11 @@ class MyProfileVC: UIViewController {
     }
 
     override func didReceiveMemoryWarning() {
-        log.warning("INFO: \(type(of: self)) applicationDidReceiveMemoryWarning")
+        log.warning("didReceiveMemoryWarning: \(type(of: self))")
         super.didReceiveMemoryWarning()
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        log.warning("Unexpected segue: \(String(describing: segue.identifier))")
     }
 }
