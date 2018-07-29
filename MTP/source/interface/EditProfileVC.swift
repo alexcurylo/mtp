@@ -33,6 +33,7 @@ private extension EditProfileVC {
 
     @IBAction func logOut() {
         LoginManager().logOut()
+        performSegue(withIdentifier: R.segue.editProfileVC.unwindFromEditProfile, sender: self)
     }
 
     @IBAction func deleteAccount() {
