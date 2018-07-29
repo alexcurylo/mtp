@@ -21,7 +21,7 @@ final class RootVC: UIViewController {
         }
 
         if let accessToken = AccessToken.current {
-            log.info("Logged in with Facebook: \(accessToken.userId ?? "??")")
+            log.verbose("Logged in with Facebook: \(accessToken.userId ?? "??")")
             return true
         }
 
@@ -75,7 +75,6 @@ final class RootVC: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
 
     override func didReceiveMemoryWarning() {
