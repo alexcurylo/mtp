@@ -19,6 +19,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         configureFacebook(app: application, options: launchOptions ?? [:])
 
+        configureAppearance()
+
         log.verbose("didFinishLaunchingWithOptions")
 
         return true
@@ -55,5 +57,9 @@ private extension AppDelegate {
 
     func configureSettingsDisplay() {
         StringKey.infoDictionarySettingsKeys.copyToUserDefaults()
+    }
+
+    func configureAppearance() {
+        UINavigationBar.set(transparency: .transparent)
     }
 }

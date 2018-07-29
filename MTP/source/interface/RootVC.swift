@@ -94,7 +94,7 @@ final class RootVC: UIViewController {
         } else if R.segue.signupVC.unwindFromSignup(segue: segue) != nil {
             log.verbose("unwindFromSignup")
         } else if R.segue.loginVC.unwindFromLogin(segue: segue) != nil {
-            log.verbose("showMain")
+            log.verbose("unwindFromLogin")
         } else {
             log.warning("Unexpected segue: \(String(describing: segue.identifier))")
         }
