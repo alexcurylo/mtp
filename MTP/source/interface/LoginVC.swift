@@ -29,9 +29,9 @@ final class LoginVC: UIViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if R.segue.loginVC.unwindFromLogin(segue: segue) != nil {
-            log.verbose("showMain")
+            log.verbose(segue.name)
         } else {
-            log.warning("Unexpected segue: \(String(describing: segue.identifier))")
+            log.warning("Unexpected segue: \(segue.name)")
         }
     }
 }

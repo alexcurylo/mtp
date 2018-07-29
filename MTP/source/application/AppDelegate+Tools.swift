@@ -28,28 +28,28 @@ extension AppDelegate {
 
 //https://docs.swiftybeaver.com
 
-let log = SwiftyBeaver.self
+let swiftyBeaver = SwiftyBeaver.self
 
 extension AppDelegate {
 
     func configureLogging() {
 
         let console = ConsoleDestination()
-        log.addDestination(console)
+        swiftyBeaver.addDestination(console)
 
         let file = FileDestination()
         if UIApplication.isSimulator {
             // tail -f /tmp/swiftybeaver.log
             file.logFileURL = URL(fileURLWithPath: "/tmp/swiftybeaver.log")
         }
-        log.addDestination(file)
+        swiftyBeaver.addDestination(file)
 
         if !UIApplication.isTesting {
             let platform = SBPlatformDestination(
                 appID: "YbnQz9 ",
                 appSecret: "qyictm2bUy3Kvqi0dUpgysuUayuuJ1Py ",
                 encryptionKey: "wdybYid5fohynFuy7pzjgcdmmXedin0m")
-            log.addDestination(platform)
+            swiftyBeaver.addDestination(platform)
         }
     }
 }

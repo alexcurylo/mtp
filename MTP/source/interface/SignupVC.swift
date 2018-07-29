@@ -24,9 +24,9 @@ final class SignupVC: UIViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if R.segue.signupVC.unwindFromSignup(segue: segue) != nil {
-            log.verbose("unwindFromSignup")
+            log.verbose(segue.name)
         } else {
-            log.warning("Unexpected segue: \(String(describing: segue.identifier))")
+            log.warning("Unexpected segue: \(segue.name)")
         }
     }
 }

@@ -23,6 +23,6 @@ final class RankingsVC: UIViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.warning("Unexpected segue: \(String(describing: segue.identifier))")
+        log.warning("Unexpected segue: \(segue.name)")
     }
 }

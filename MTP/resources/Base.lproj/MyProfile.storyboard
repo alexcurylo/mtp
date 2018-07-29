@@ -48,7 +48,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="My Profile" id="Nwa-OG-lSh">
                         <rightBarButtonItems>
-                            <barButtonItem image="navSettings" style="plain" id="mEg-20-miC">
+                            <barButtonItem image="navSettings" id="mEg-20-miC">
                                 <connections>
                                     <segue destination="TAt-iI-ucV" kind="show" identifier="showSettings" id="pJX-jO-Z7e"/>
                                 </connections>

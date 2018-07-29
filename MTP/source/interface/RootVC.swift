@@ -91,9 +91,9 @@ final class RootVC: UIViewController {
              R.segue.signupVC.unwindFromSignup(segue: segue) != nil,
              R.segue.loginVC.unwindFromLogin(segue: segue) != nil,
              R.segue.editProfileVC.unwindFromEditProfile(segue: segue) != nil:
-            log.verbose(String(describing: segue.identifier))
+            log.verbose(segue.name)
         default:
-            log.warning("Unexpected segue: \(String(describing: segue.identifier))")
+            log.warning("Unexpected segue: \(segue.name)")
         }
     }
 
