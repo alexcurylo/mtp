@@ -16,7 +16,8 @@ enum Styler {
                                 font: Avenir.black.of(size: 18))
         case .login:
             UINavigationBar.set(transparency: .transparent,
-                                color: .titleLogin,
+                                tint: .azureRadiance,
+                                color: .regalBlue,
                                 font: Avenir.heavy.of(size: 18))
         }
     }
@@ -24,8 +25,18 @@ enum Styler {
 
 extension UIColor {
 
-    class var titleLogin: UIColor {
-        return UIColor(named: R.color.titleLogin.name) ?? .black
+    // http://chir.ag/projects/name-that-color/#D1F1FD
+
+    class var azureRadiance: UIColor { // #028DFF
+        return UIColor(named: R.color.azureRadiance.name) ?? .black
+    }
+
+    class var frenchPass: UIColor { // #D1F1FD
+        return UIColor(named: R.color.frenchPass.name) ?? .black
+    }
+
+    class var regalBlue: UIColor { // #004B78
+        return UIColor(named: R.color.regalBlue.name) ?? .black
     }
 }
 

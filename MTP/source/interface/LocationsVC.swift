@@ -18,7 +18,7 @@ final class LocationsVC: UIViewController {
     }
 
     override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
+        log.info("didReceiveMemoryWarning: \(type(of: self))")
         super.didReceiveMemoryWarning()
     }
 

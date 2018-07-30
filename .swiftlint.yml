@@ -6,6 +6,9 @@
 # Disable an individual warning with [next|previous]:
 # // swiftlint:disable:previous line_length
 
+disabled_rules:
+  - identifier_name
+
 opt_in_rules:
   - array_init
 #- attributes

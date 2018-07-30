@@ -18,43 +18,75 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign Up to Most Traveled People" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8jk-hn-YxU">
-                                <rect key="frame" x="63" y="323" width="249" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uid-p4-bQN">
-                                <rect key="frame" x="20" y="40" width="34" height="30"/>
-                                <state key="normal" title="Back"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z31-kE-lWB">
+                                <rect key="frame" x="77" y="618" width="221" height="33"/>
+                                <state key="normal">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="Already have an account? ">
+                                            <attributes>
+                                                <color key="NSColor" red="0.61177999999999999" green="0.61175000000000002" blue="0.61175999999999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <font key="NSFont" size="15" name="Avenir-Medium"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment content="Log In">
+                                            <attributes>
+                                                <color key="NSColor" red="0.39238000000000001" green="0.55896000000000001" blue="0.87605999999999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <font key="NSFont" size="15" name="Avenir-Medium"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </state>
                                 <connections>
-                                    <segue destination="cNX-8u-egs" kind="unwind" identifier="unwindFromSignup" unwindAction="unwindToRootWithSegue:" id="8p0-VA-OzS"/>
+                                    <segue destination="eWl-wd-VrB" kind="custom" identifier="switchLogin" customClass="ReplaceTopSegue" customModule="MTP" customModuleProvider="target" id="zxJ-Od-NX5"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="uid-p4-bQN" firstAttribute="top" secondItem="f4b-0X-nHL" secondAttribute="top" constant="20" id="22z-7n-IWl"/>
-                            <constraint firstItem="uid-p4-bQN" firstAttribute="leading" secondItem="f4b-0X-nHL" secondAttribute="leading" constant="20" id="M0F-fd-0nj"/>
-                            <constraint firstItem="8jk-hn-YxU" firstAttribute="centerY" secondItem="jbu-cQ-Pp1" secondAttribute="centerY" id="fUn-wr-dqZ"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="uid-p4-bQN" secondAttribute="trailing" constant="20" symbolic="YES" id="kYs-mv-I1a"/>
-                            <constraint firstItem="8jk-hn-YxU" firstAttribute="centerX" secondItem="jbu-cQ-Pp1" secondAttribute="centerX" id="kxO-kY-gaL"/>
+                            <constraint firstItem="z31-kE-lWB" firstAttribute="centerX" secondItem="jbu-cQ-Pp1" secondAttribute="centerX" id="9pM-KG-YkZ"/>
+                            <constraint firstItem="f4b-0X-nHL" firstAttribute="bottom" secondItem="z31-kE-lWB" secondAttribute="bottom" constant="16" id="z9a-eK-Eth"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="f4b-0X-nHL"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="startColor">
-                                <color key="value" red="0.818041939" green="0.94557348399999996" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="value" red="0.81960784310000001" green="0.94509803920000002" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="color" keyPath="endColor">
-                                <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="orientation">
+                                <integer key="value" value="3"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Sign Up to Most Traveled People" id="zGb-ui-jw8">
+                        <barButtonItem key="leftBarButtonItem" image="navBack" id="32n-qm-Og7">
+                            <connections>
+                                <segue destination="cNX-8u-egs" kind="unwind" identifier="unwindFromSignup" unwindAction="unwindToRootWithSegue:" id="cic-eP-sg8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pNL-2n-cnG" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="cNX-8u-egs" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1458" y="797"/>
         </scene>
+        <!--Login-->
+        <scene sceneID="bVb-yn-2Rg">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Login" id="eWl-wd-VrB" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SgP-zy-D7e" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1457" y="1221"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="navBack" width="30" height="30"/>
+    </resources>
 </document>

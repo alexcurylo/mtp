@@ -132,11 +132,19 @@ extension UIView {
             endRadius: endRadius,
             options: .drawsBeforeStartLocation)
     }
+
+    func round(corners: UIRectCorner, by radius: CGFloat) {
+        let path = UIBezierPath(roundedRect: bounds,
+                                byRoundingCorners: corners,
+                                cornerRadii: CGSize(width: radius, height: radius))
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        layer.mask = mask
+    }
 }
 
 extension UIColor {
 
-    // swiftlint:disable:next identifier_name
     convenience init(r: Int, g: Int, b: Int, a: Int = 255) {
         self.init(red: CGFloat(r) / 255.0,
                   green: CGFloat(g) / 255.0,

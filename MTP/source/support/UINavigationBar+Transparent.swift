@@ -11,11 +11,12 @@ enum Transparency {
 extension UINavigationBar {
 
     static func set(transparency: Transparency? = nil,
+                    tint: UIColor? = nil,
                     color: UIColor? = nil,
                     font: UIFont? = nil) {
         let global = appearance()
 
-        global.tintColor = color
+        global.tintColor = tint ?? color
         var attributes = [NSAttributedStringKey: Any]()
         attributes[.foregroundColor] = color
         attributes[.font] = font

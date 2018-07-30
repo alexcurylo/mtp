@@ -20,7 +20,7 @@ extension AppDelegate {
                           withServices: [MSAnalytics.self,
                                          MSCrashes.self,
                                          MSDistribute.self])
-        log.info("MSAppCenter started")
+        log.verbose("MSAppCenter started")
     }
 }
 
