@@ -60,6 +60,6 @@ private extension AppDelegate {
     }
 
     func configureAppearance() {
-        UINavigationBar.set(transparency: .transparent)
+        style.standard.apply()
     }
 }

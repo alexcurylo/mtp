@@ -14,13 +14,13 @@
         <scene sceneID="lHc-sb-0ri">
             <objects>
                 <viewController title="Log In to Most Traveled People" id="W0B-NC-hgt" customClass="LoginVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="qNC-lN-JmG">
+                    <view key="view" contentMode="scaleToFill" id="qNC-lN-JmG" customClass="GradientView" customModule="MTP" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Log In to Most Traveled People" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OC5-cu-CGP">
-                                <rect key="frame" x="69.5" y="323" width="236" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <rect key="frame" x="68.5" y="322" width="238" height="23.5"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -41,6 +41,17 @@
                             <constraint firstItem="VQC-8f-OED" firstAttribute="top" secondItem="oKi-1u-h72" secondAttribute="top" constant="20" id="gSC-mw-vTF"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="oKi-1u-h72"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                <color key="value" red="0.81804193899782141" green="0.94557348402323871" blue="0.99215686274509807" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="orientation">
+                                <integer key="value" value="3"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IYX-4w-2z5" userLabel="First Responder" sceneMemberID="firstResponder"/>

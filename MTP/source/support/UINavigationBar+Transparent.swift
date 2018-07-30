@@ -10,9 +10,9 @@ enum Transparency {
 
 extension UINavigationBar {
 
-    static func set(transparency: Transparency,
-                    color: UIColor? = .white,
-                    font: UIFont? = UIFont(name: "Avenir-Black", size: 18)) {
+    static func set(transparency: Transparency? = nil,
+                    color: UIColor? = nil,
+                    font: UIFont? = nil) {
         let global = appearance()
 
         global.tintColor = color
@@ -22,18 +22,20 @@ extension UINavigationBar {
         global.titleTextAttributes = attributes
 
         switch transparency {
-        case .transparent:
+        case .transparent?:
             global.setBackgroundImage(UIImage(), for: .default)
             global.shadowImage = UIImage()
             global.isTranslucent = true
-        case .translucent:
+        case .translucent?:
             global.setBackgroundImage(nil, for: .default)
             global.shadowImage = nil
             global.isTranslucent = true
-        case .opaque:
+        case .opaque?:
             global.setBackgroundImage(nil, for: .default)
             global.shadowImage = nil
             global.isTranslucent = false
+        case .none:
+            break
         }
     }
 }

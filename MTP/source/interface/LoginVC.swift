@@ -15,6 +15,8 @@ final class LoginVC: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        style.login.apply()
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
 
