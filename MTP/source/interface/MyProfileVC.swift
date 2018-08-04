@@ -25,6 +25,11 @@ final class MyProfileVC: UIViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.warning("Unexpected segue: \(segue.name)")
+        switch true {
+        case R.segue.myProfileVC.showEditProfile(segue: segue) != nil:
+            log.verbose(segue.name)
+        default:
+            log.warning("Unexpected segue: \(segue.name)")
+        }
     }
 }

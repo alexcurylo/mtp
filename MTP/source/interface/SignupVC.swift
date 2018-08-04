@@ -45,6 +45,20 @@ final class SignupVC: UIViewController {
     }
 }
 
+private extension SignupVC {
+
+    @IBAction func facebookTapped(_ sender: FacebookButton) {
+        sender.login { name, email in
+            MTPAPI.register(name: name, email: email) { success in
+                guard success else { return }
+                UserDefaults.standard.email = email
+                UserDefaults.standard.name = name
+                self.performSegue(withIdentifier: R.segue.signupVC.showMain, sender: self)
+            }
+        }
+    }
+}
+
 extension SignupVC: UINavigationControllerDelegate {
 
     func navigationController(

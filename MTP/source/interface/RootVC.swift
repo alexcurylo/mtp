@@ -10,9 +10,6 @@ final class RootVC: UIViewController {
     @IBOutlet private weak var loginButton: UIButton!
     @IBOutlet private weak var signupButton: UIButton!
 
-    private var watchLogin: NSKeyValueObservation?
-    private var watchSignup: NSKeyValueObservation?
-
     private var isloggedIn: Bool {
         if let loggedIn = ProcessInfo.setting(bool: .loggedIn) {
             return loggedIn
@@ -20,13 +17,7 @@ final class RootVC: UIViewController {
             return false
         }
 
-        if let accessToken = AccessToken.current {
-            log.verbose("Logged in with Facebook: \(accessToken.userId ?? "??")")
-            return true
-        }
-
-        log.debug("TO DO: implement isloggedIn")
-        return false
+        return UserDefaults.standard.isLoggedIn
     }
 
     override func viewDidLoad() {
@@ -44,6 +35,7 @@ final class RootVC: UIViewController {
         if isloggedIn {
             credentials.isHidden = true
             credentialsBottom.constant = 0
+            performSegue(withIdentifier: R.segue.rootVC.showMain, sender: self)
         } else {
             credentials.isHidden = false
             credentialsBottom.constant = -credentials.bounds.height

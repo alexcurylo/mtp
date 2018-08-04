@@ -1,16 +1,11 @@
 // @copyright Trollwerks Inc.
 
-import FacebookLogin
 import UIKit
 
 final class LoginVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let loginButton = LoginButton(readPermissions: [ .publicProfile, .email ])
-        loginButton.center = view.center
-        view.addSubview(loginButton)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -46,6 +41,20 @@ final class LoginVC: UIViewController {
             log.verbose(segue.name)
         default:
             log.warning("Unexpected segue: \(segue.name)")
+        }
+    }
+}
+
+private extension LoginVC {
+
+    @IBAction func facebookTapped(_ sender: FacebookButton) {
+        sender.login { name, email in
+            MTPAPI.login(name: name, email: email) { success in
+                guard success else { return }
+                UserDefaults.standard.email = email
+                UserDefaults.standard.name = name
+                self.performSegue(withIdentifier: R.segue.loginVC.showMain, sender: self)
+            }
         }
     }
 }
