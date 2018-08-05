@@ -76,7 +76,7 @@ extension UIView {
             return layer.borderWidth
         }
         set {
-            layer.borderWidth = borderWidth
+            layer.borderWidth = newValue
         }
     }
 
@@ -88,7 +88,7 @@ extension UIView {
             return nil
         }
         set {
-            layer.borderColor = borderColor?.cgColor
+            layer.borderColor = newValue?.cgColor
         }
     }
 

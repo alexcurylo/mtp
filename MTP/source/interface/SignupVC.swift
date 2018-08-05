@@ -43,18 +43,28 @@ final class SignupVC: UIViewController {
             log.warning("Unexpected segue: \(segue.name)")
         }
     }
+
+    @IBAction func signupTapped(_ sender: GradientButton) {
+        //register(email: emailTextField?.text ?? "",
+          //       password: passwordTextField?.text ?? "")
+    }
 }
 
 private extension SignupVC {
 
     @IBAction func facebookTapped(_ sender: FacebookButton) {
-        sender.login { name, email in
-            MTPAPI.register(name: name, email: email) { success in
-                guard success else { return }
-                UserDefaults.standard.email = email
-                UserDefaults.standard.name = name
-                self.performSegue(withIdentifier: R.segue.signupVC.showMain, sender: self)
-            }
+        sender.login { [weak self] name, email, id in
+            self?.register(name: name, email: email, password: id)
+        }
+    }
+
+    func register(name: String, email: String, password: String) {
+        MTPAPI.register(name: name, email: email, password: password) { [weak self] success in
+            guard success else { return }
+            UserDefaults.standard.email = email
+            UserDefaults.standard.name = name
+            UserDefaults.standard.password = password
+            self?.performSegue(withIdentifier: R.segue.signupVC.showMain, sender: self)
         }
     }
 }

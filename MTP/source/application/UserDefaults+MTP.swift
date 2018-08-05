@@ -7,6 +7,7 @@ extension UserDefaults {
     func logOut() {
         email = ""
         name = ""
+        password = ""
     }
 
     var isLoggedIn: Bool {
@@ -19,6 +20,11 @@ extension UserDefaults {
     }
 
     var name: String {
+        get { return string(forKey: #function) ?? "" }
+        set { set(newValue, forKey: #function) }
+    }
+
+    var password: String {
         get { return string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }
     }

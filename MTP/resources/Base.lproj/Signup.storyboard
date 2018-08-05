@@ -44,79 +44,40 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="jkk-q6-yut">
-                                <rect key="frame" x="32" y="276.5" width="311" height="114"/>
+                                <rect key="frame" x="32" y="283.5" width="311" height="100"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5AX-rL-lE9">
-                                        <rect key="frame" x="0.0" y="0.0" width="311" height="57"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="311" height="50"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7xT-9n-mJw" userLabel="Left Line">
-                                                <rect key="frame" x="0.0" y="28" width="83.5" height="1"/>
+                                                <rect key="frame" x="0.0" y="24.5" width="83.5" height="1"/>
                                                 <color key="backgroundColor" name="dustyGray"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="UJq-sk-3bc"/>
                                                 </constraints>
                                             </view>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="cU7-Wx-uF6">
-                                                <rect key="frame" x="99.5" y="0.0" width="112.5" height="57"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="cU7-Wx-uF6">
+                                                <rect key="frame" x="99.5" y="0.0" width="112.5" height="50"/>
                                                 <attributedString key="attributedText">
                                                     <fragment content="or Sign Up using">
                                                         <attributes>
                                                             <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             <font key="NSFont" size="15" name="Avenir-Medium"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="truncatingTail" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
-                                                                <tabStops>
-                                                                    <textTab alignment="left" location="28">
-                                                                        <options/>
-                                                                    </textTab>
-                                                                    <textTab alignment="left" location="56">
-                                                                        <options/>
-                                                                    </textTab>
-                                                                    <textTab alignment="left" location="84">
-                                                                        <options/>
-                                                                    </textTab>
-                                                                    <textTab alignment="left" location="112">
-                                                                        <options/>
-                                                                    </textTab>
-                                                                    <textTab alignment="left" location="140">
-                                                                        <options/>
-                                                                    </textTab>
-                                                                    <textTab alignment="left" location="168">
-                                                                        <options/>
-                                                                    </textTab>
-                                                                    <textTab alignment="left" location="196">
-                                                                        <options/>
-                                                                    </textTab>
-                                                                    <textTab alignment="left" location="224">
-                                                                        <options/>
-                                                                    </textTab>
-                                                                    <textTab alignment="left" location="252">
-                                                                        <options/>
-                                                                    </textTab>
-                                                                    <textTab alignment="left" location="280">
-                                                                        <options/>
-                                                                    </textTab>
-                                                                    <textTab alignment="left" location="308">
-                                                                        <options/>
-                                                                    </textTab>
-                                                                    <textTab alignment="left" location="336">
-                                                                        <options/>
-                                                                    </textTab>
-                                                                </tabStops>
-                                                            </paragraphStyle>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="truncatingTail" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
                                                         </attributes>
                                                     </fragment>
                                                 </attributedString>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i1j-fL-iLC" userLabel="Right Line">
-                                                <rect key="frame" x="228" y="28" width="83.5" height="1"/>
+                                                <rect key="frame" x="228" y="24.5" width="83.5" height="1"/>
                                                 <color key="backgroundColor" name="dustyGray"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="Jez-0E-N9u"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="i1j-fL-iLC" firstAttribute="width" secondItem="7xT-9n-mJw" secondAttribute="width" id="52g-gj-LkF"/>
                                             <constraint firstItem="i1j-fL-iLC" firstAttribute="leading" secondItem="cU7-Wx-uF6" secondAttribute="trailing" constant="16" id="5Ie-HR-YEs"/>
@@ -130,8 +91,11 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aE3-hH-kyE" customClass="FacebookButton" customModule="MTP" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="57" width="311" height="57"/>
+                                        <rect key="frame" x="0.0" y="50" width="311" height="50"/>
                                         <color key="backgroundColor" name="facebookButton"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="gdJ-cS-1jc"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17.5"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="10" maxX="19" maxY="10"/>
                                         <state key="normal" title="Facebook" image="logoFacebook"/>
@@ -148,8 +112,10 @@
                                 <constraints>
                                     <constraint firstItem="aE3-hH-kyE" firstAttribute="leading" secondItem="jkk-q6-yut" secondAttribute="leading" id="KeQ-Hp-AUq"/>
                                     <constraint firstAttribute="trailing" secondItem="aE3-hH-kyE" secondAttribute="trailing" id="Nmz-6B-gXD"/>
+                                    <constraint firstItem="5AX-rL-lE9" firstAttribute="leading" secondItem="jkk-q6-yut" secondAttribute="leading" id="QKB-yn-dbY"/>
                                     <constraint firstAttribute="bottom" secondItem="aE3-hH-kyE" secondAttribute="bottom" id="Ybz-Jh-Nom"/>
                                     <constraint firstItem="aE3-hH-kyE" firstAttribute="top" secondItem="5AX-rL-lE9" secondAttribute="bottom" id="sw6-3F-7L8"/>
+                                    <constraint firstAttribute="trailing" secondItem="5AX-rL-lE9" secondAttribute="trailing" id="xW7-Mt-ddX"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -213,9 +179,6 @@
     <resources>
         <image name="logoFacebook" width="57" height="57"/>
         <image name="navBack" width="30" height="30"/>
-        <namedColor name="dustyGray">
-            <color red="0.61176470589999998" green="0.61176470589999998" blue="0.61176470589999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="dustyGray">
             <color red="0.61176470589999998" green="0.61176470589999998" blue="0.61176470589999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

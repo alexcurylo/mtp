@@ -4,8 +4,15 @@ import UIKit
 
 final class LoginVC: UIViewController {
 
+    @IBOutlet private weak var togglePasswordButton: UIButton?
+    @IBOutlet private weak var emailTextField: UITextField?
+    @IBOutlet private weak var passwordTextField: UITextField?
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        passwordTextField?.rightViewMode = .always
+        passwordTextField?.rightView = togglePasswordButton
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -47,14 +54,45 @@ final class LoginVC: UIViewController {
 
 private extension LoginVC {
 
+    @IBAction func visibilityTapped(_ sender: UIButton) {
+        guard let field = passwordTextField else { return }
+
+        if sender.isSelected {
+            sender.isSelected = false
+            field.isSecureTextEntry = true
+        } else {
+            sender.isSelected = true
+            field.isSecureTextEntry = false
+        }
+
+        if let existingText = field.text,
+           let textRange = field.textRange(from: field.beginningOfDocument,
+                                           to: field.endOfDocument) {
+            field.deleteBackward()
+            field.replace(textRange, withText: existingText)
+        }
+    }
+
+    @IBAction func forgotTapped(_ sender: UIButton) {
+    }
+
+    @IBAction func loginTapped(_ sender: GradientButton) {
+        login(email: emailTextField?.text ?? "",
+              password: passwordTextField?.text ?? "")
+    }
+
     @IBAction func facebookTapped(_ sender: FacebookButton) {
-        sender.login { name, email in
-            MTPAPI.login(name: name, email: email) { success in
-                guard success else { return }
-                UserDefaults.standard.email = email
-                UserDefaults.standard.name = name
-                self.performSegue(withIdentifier: R.segue.loginVC.showMain, sender: self)
-            }
+        sender.login { [weak self] _, email, id in
+            self?.login(email: email, password: id)
+        }
+    }
+
+    func login(email: String, password: String) {
+        MTPAPI.login(email: email, password: password) { [weak self] success in
+            guard success else { return }
+            UserDefaults.standard.email = email
+            UserDefaults.standard.password = password
+            self?.performSegue(withIdentifier: R.segue.loginVC.showMain, sender: self)
         }
     }
 }

@@ -25,10 +25,14 @@ enum Styler {
 
 extension UIColor {
 
-    // http://chir.ag/projects/name-that-color/#9C9C9C
+    // http://chir.ag/projects/name-that-color/#FFFFFF
 
     class var azureRadiance: UIColor { // #028DFF
         return UIColor(named: R.color.azureRadiance.name) ?? .black
+    }
+
+    class var dodgerBlue: UIColor { // #19C0FD
+        return UIColor(named: R.color.dodgerBlue.name) ?? .black
     }
 
     class var dustyGray: UIColor { // #9C9C9C

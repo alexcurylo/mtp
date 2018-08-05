@@ -4,27 +4,28 @@ import Foundation
 
 enum MTPAPI {
 
-    static func login(name: String,
-                      email: String,
+    static func login(email: String,
+                      password: String,
                       then: (Bool) -> Void) {
-        guard !name.isEmpty && !email.isEmpty else {
-            log.verbose("MTPAPI.login attempt invalid: name `\(name)` email `\(email)`")
+        guard !email.isEmpty && !password.isEmpty else {
+            log.verbose("login attempt invalid: email `\(email)` password `\(password)`")
             return
         }
 
-        log.info("TO DO: implement MTPAPI.login: \(name), \(email)")
+        log.info("TO DO: implement MTPAPI.login: \(email), \(password)")
         then(true)
     }
 
     static func register(name: String,
                          email: String,
+                         password: String,
                          then: (Bool) -> Void) {
-        guard !name.isEmpty && !email.isEmpty else {
-            log.verbose("MTPAPI.register attempt invalid: name `\(name)` email `\(email)`")
+        guard !name.isEmpty && !email.isEmpty && !password.isEmpty else {
+            log.verbose("register attempt invalid: name `\(name)` email `\(email)` password `\(password)`")
             return
         }
 
-        log.info("TO DO: implement MTPAPI.register: \(name), \(email)")
+        log.info("TO DO: implement MTPAPI.register: \(name), \(email), \(password)")
         then(true)
     }
 }

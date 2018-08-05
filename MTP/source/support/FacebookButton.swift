@@ -23,7 +23,7 @@ final class FacebookButton: UIButton {
         setup()
     }
 
-    func login(then: @escaping (String, String) -> Void) {
+    func login(then: @escaping (String, String, String) -> Void) {
         let info: [ReadPermission] = [ .publicProfile, .email ]
         LoginManager().logIn(readPermissions: info) { [weak self] result in
             switch result {
@@ -51,21 +51,24 @@ private extension FacebookButton {
         imageView?.contentMode = .scaleAspectFit
     }
 
-    func requestInfo(then: @escaping (String, String) -> Void) {
+    func requestInfo(then: @escaping (String, String, String) -> Void) {
         let connection = GraphRequestConnection()
         connection.add(InfoRequest()) { _, result in
             let name: String
             let email: String
+            let id: String
             switch result {
             case .success(let info):
                 name = info.name
                 email = info.email
+                id = info.id
             case .failed(let error):
                 log.verbose("Facebook login failed: \(error)")
                 name = ""
                 email = ""
+                id = ""
             }
-            then(name, email)
+            then(name, email, id)
         }
         connection.start()
     }
