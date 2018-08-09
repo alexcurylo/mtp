@@ -4,6 +4,17 @@ import Foundation
 
 enum MTPAPI {
 
+    static func forgotPassword(email: String,
+                               then: (Bool) -> Void) {
+        guard !email.isEmpty else {
+            log.verbose("forgotPassword attempt invalid: email `\(email)`")
+            return
+        }
+
+        log.info("TO DO: implement MTPAPI.forgotPassword: \(email)")
+        then(true)
+    }
+
     static func login(email: String,
                       password: String,
                       then: (Bool) -> Void) {

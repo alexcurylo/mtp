@@ -31,6 +31,10 @@ extension UIColor {
         return UIColor(named: R.color.azureRadiance.name) ?? .black
     }
 
+    class var carnation: UIColor { // #F5515F
+        return UIColor(named: R.color.carnation.name) ?? .black
+    }
+
     class var dodgerBlue: UIColor { // #19C0FD
         return UIColor(named: R.color.dodgerBlue.name) ?? .black
     }
@@ -45,6 +49,10 @@ extension UIColor {
 
     class var frenchPass: UIColor { // #D1F1FD
         return UIColor(named: R.color.frenchPass.name) ?? .black
+    }
+
+    class var pohutukawa: UIColor { // #9F041B
+        return UIColor(named: R.color.pohutukawa.name) ?? .black
     }
 
     class var regalBlue: UIColor { // #004B78

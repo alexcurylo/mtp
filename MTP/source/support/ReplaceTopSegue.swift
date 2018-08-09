@@ -17,6 +17,13 @@ final class ReplaceTopSegue: UIStoryboardSegue {
     }
 }
 
+final class DismissSegue: UIStoryboardSegue {
+
+    override func perform() {
+        source.presentingViewController?.dismiss(animated: true, completion: nil)
+    }
+}
+
 final class FadeInAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {

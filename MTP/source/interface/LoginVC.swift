@@ -43,8 +43,12 @@ final class LoginVC: UIViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch true {
-        case R.segue.loginVC.unwindFromLogin(segue: segue) != nil,
-             R.segue.loginVC.switchSignup(segue: segue) != nil:
+        case R.segue.loginVC.presentForgotPassword(segue: segue) != nil:
+            navigationController?.setNavigationBarHidden(true, animated: true)
+            UserDefaults.standard.email = emailTextField?.text ?? ""
+            fallthrough
+        case R.segue.loginVC.switchSignup(segue: segue) != nil,
+             R.segue.loginVC.unwindFromLogin(segue: segue) != nil:
             log.verbose(segue.name)
         default:
             log.warning("Unexpected segue: \(segue.name)")
@@ -74,7 +78,7 @@ private extension LoginVC {
     }
 
     @IBAction func forgotTapped(_ sender: UIButton) {
-    }
+   }
 
     @IBAction func loginTapped(_ sender: GradientButton) {
         login(email: emailTextField?.text ?? "",

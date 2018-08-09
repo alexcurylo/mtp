@@ -129,46 +129,7 @@
                                                     <attributes>
                                                         <color key="NSColor" red="0.35777999999999999" green="0.50836999999999999" blue="0.98643000000000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <font key="NSFont" size="12.5" name="Avenir-Medium"/>
-                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
-                                                            <tabStops>
-                                                                <textTab alignment="left" location="28">
-                                                                    <options/>
-                                                                </textTab>
-                                                                <textTab alignment="left" location="56">
-                                                                    <options/>
-                                                                </textTab>
-                                                                <textTab alignment="left" location="84">
-                                                                    <options/>
-                                                                </textTab>
-                                                                <textTab alignment="left" location="112">
-                                                                    <options/>
-                                                                </textTab>
-                                                                <textTab alignment="left" location="140">
-                                                                    <options/>
-                                                                </textTab>
-                                                                <textTab alignment="left" location="168">
-                                                                    <options/>
-                                                                </textTab>
-                                                                <textTab alignment="left" location="196">
-                                                                    <options/>
-                                                                </textTab>
-                                                                <textTab alignment="left" location="224">
-                                                                    <options/>
-                                                                </textTab>
-                                                                <textTab alignment="left" location="252">
-                                                                    <options/>
-                                                                </textTab>
-                                                                <textTab alignment="left" location="280">
-                                                                    <options/>
-                                                                </textTab>
-                                                                <textTab alignment="left" location="308">
-                                                                    <options/>
-                                                                </textTab>
-                                                                <textTab alignment="left" location="336">
-                                                                    <options/>
-                                                                </textTab>
-                                                            </tabStops>
-                                                        </paragraphStyle>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
                                                     </attributes>
                                                 </fragment>
                                             </attributedString>
@@ -341,12 +302,12 @@
                 <viewControllerPlaceholder storyboardName="Main" id="pSz-or-at9" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3gT-Bx-tC6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="944" y="896"/>
+            <point key="canvasLocation" x="1059" y="916"/>
         </scene>
-        <!--View Controller-->
+        <!--Forgot PasswordVC-->
         <scene sceneID="Nn4-NO-e4Z">
             <objects>
-                <viewController modalPresentationStyle="overCurrentContext" id="RmZ-uu-XWP" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="overCurrentContext" id="RmZ-uu-XWP" customClass="ForgotPasswordVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8dH-qz-9ii">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -358,40 +319,39 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="170-Ec-8vl">
-                                            <rect key="frame" x="-121" y="235" width="617" height="177.5"/>
+                                            <rect key="frame" x="24" y="354" width="327" height="293"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="ogw-RB-dbC">
-                                                    <rect key="frame" x="0.0" y="0.0" width="617" height="177.5"/>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ogw-RB-dbC">
+                                                    <rect key="frame" x="8" y="24" width="311" height="257"/>
                                                     <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UjQ-Sn-hc1" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
-                                                            <rect key="frame" x="280" y="0.0" width="57" height="50"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Forgot Password?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K8x-os-Rgu">
+                                                            <rect key="frame" x="54" y="0.0" width="203" height="33"/>
+                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
+                                                            <color key="textColor" name="regalBlue"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TvX-ZR-awx">
+                                                            <rect key="frame" x="35.5" y="41" width="240" height="1"/>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="height" constant="50" id="gAG-PM-dga"/>
+                                                                <constraint firstAttribute="height" constant="1" id="HtK-3F-oYs"/>
                                                             </constraints>
-                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
-                                                            <state key="normal" title="Cancel">
-                                                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            </state>
-                                                            <userDefinedRuntimeAttributes>
-                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                                    <real key="value" value="4"/>
-                                                                </userDefinedRuntimeAttribute>
-                                                                <userDefinedRuntimeAttribute type="color" keyPath="startColor">
-                                                                    <color key="value" red="0.098039215690000001" green="0.75294117650000003" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                </userDefinedRuntimeAttribute>
-                                                                <userDefinedRuntimeAttribute type="color" keyPath="endColor">
-                                                                    <color key="value" red="0.0078431372550000003" green="0.54901960780000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                </userDefinedRuntimeAttribute>
-                                                                <userDefinedRuntimeAttribute type="number" keyPath="orientation">
-                                                                    <integer key="value" value="2"/>
-                                                                </userDefinedRuntimeAttribute>
-                                                            </userDefinedRuntimeAttributes>
-                                                            <connections>
-                                                                <action selector="loginTapped:" destination="W0B-NC-hgt" eventType="touchUpInside" id="Dtu-pF-coZ"/>
-                                                            </connections>
-                                                        </button>
+                                                        </view>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&quot;SendLink&quot; = &quot;We will send a link to your email %@ enabling you to reset your password.&quot;;" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SoJ-Js-aav">
+                                                            <rect key="frame" x="54" y="50" width="203" height="82"/>
+                                                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                                            <color key="textColor" name="dustyGray"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GC5-WS-quW">
+                                                            <rect key="frame" x="35.5" y="140" width="240" height="1"/>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="1" id="q4k-vl-9HK"/>
+                                                            </constraints>
+                                                        </view>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qYb-kQ-H9H" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
-                                                            <rect key="frame" x="270" y="50" width="77" height="50"/>
+                                                            <rect key="frame" x="0.0" y="149" width="311" height="50"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="50" id="35T-3d-W1e"/>
                                                             </constraints>
@@ -404,141 +364,79 @@
                                                                     <real key="value" value="4"/>
                                                                 </userDefinedRuntimeAttribute>
                                                                 <userDefinedRuntimeAttribute type="color" keyPath="startColor">
-                                                                    <color key="value" red="0.098039215690000001" green="0.75294117650000003" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <color key="value" red="0.098039215686274508" green="0.75294117647058822" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 </userDefinedRuntimeAttribute>
                                                                 <userDefinedRuntimeAttribute type="color" keyPath="endColor">
-                                                                    <color key="value" red="0.0078431372550000003" green="0.54901960780000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <color key="value" red="0.0078431372549019607" green="0.55294117647058827" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 </userDefinedRuntimeAttribute>
                                                                 <userDefinedRuntimeAttribute type="number" keyPath="orientation">
                                                                     <integer key="value" value="2"/>
                                                                 </userDefinedRuntimeAttribute>
                                                             </userDefinedRuntimeAttributes>
                                                             <connections>
+                                                                <action selector="continueTapped:" destination="RmZ-uu-XWP" eventType="touchUpInside" id="iKf-vd-Yei"/>
                                                                 <action selector="loginTapped:" destination="W0B-NC-hgt" eventType="touchUpInside" id="vr5-Ih-Kch"/>
                                                             </connections>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zio-nY-ssc">
-                                                            <rect key="frame" x="204" y="100" width="209" height="45"/>
-                                                            <state key="normal">
-                                                                <attributedString key="attributedTitle">
-                                                                    <fragment content="Forgot Password?">
-                                                                        <attributes>
-                                                                            <color key="NSColor" red="0.0" green="0.29411764705882354" blue="0.47058823529411764" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                            <font key="NSFont" size="24" name="Avenir-Heavy"/>
-                                                                            <real key="NSKern" value="0.34999999999999998"/>
-                                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
-                                                                                <tabStops>
-                                                                                    <textTab alignment="left" location="28">
-                                                                                        <options/>
-                                                                                    </textTab>
-                                                                                    <textTab alignment="left" location="56">
-                                                                                        <options/>
-                                                                                    </textTab>
-                                                                                    <textTab alignment="left" location="84">
-                                                                                        <options/>
-                                                                                    </textTab>
-                                                                                    <textTab alignment="left" location="112">
-                                                                                        <options/>
-                                                                                    </textTab>
-                                                                                    <textTab alignment="left" location="140">
-                                                                                        <options/>
-                                                                                    </textTab>
-                                                                                    <textTab alignment="left" location="168">
-                                                                                        <options/>
-                                                                                    </textTab>
-                                                                                    <textTab alignment="left" location="196">
-                                                                                        <options/>
-                                                                                    </textTab>
-                                                                                    <textTab alignment="left" location="224">
-                                                                                        <options/>
-                                                                                    </textTab>
-                                                                                    <textTab alignment="left" location="252">
-                                                                                        <options/>
-                                                                                    </textTab>
-                                                                                    <textTab alignment="left" location="280">
-                                                                                        <options/>
-                                                                                    </textTab>
-                                                                                    <textTab alignment="left" location="308">
-                                                                                        <options/>
-                                                                                    </textTab>
-                                                                                    <textTab alignment="left" location="336">
-                                                                                        <options/>
-                                                                                    </textTab>
-                                                                                </tabStops>
-                                                                            </paragraphStyle>
-                                                                        </attributes>
-                                                                    </fragment>
-                                                                </attributedString>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UjQ-Sn-hc1" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
+                                                            <rect key="frame" x="0.0" y="207" width="311" height="50"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="50" id="gAG-PM-dga"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
+                                                            <state key="normal" title="Cancel">
+                                                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </state>
-                                                        </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dt8-J6-GxR">
-                                                            <rect key="frame" x="0.0" y="145" width="617" height="32.5"/>
-                                                            <state key="normal">
-                                                                <attributedString key="attributedTitle">
-                                                                    <fragment content="We will send a link to your email c******y@gmail.com enabling you to reset your password.">
-                                                                        <attributes>
-                                                                            <color key="NSColor" red="0.61177999999999999" green="0.61175000000000002" blue="0.61175999999999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                                            <font key="NSFont" size="15" name="Avenir-Medium"/>
-                                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
-                                                                                <tabStops>
-                                                                                    <textTab alignment="left" location="28">
-                                                                                        <options/>
-                                                                                    </textTab>
-                                                                                    <textTab alignment="left" location="56">
-                                                                                        <options/>
-                                                                                    </textTab>
-                                                                                    <textTab alignment="left" location="84">
-                                                                                        <options/>
-                                                                                    </textTab>
-                                                                                    <textTab alignment="left" location="112">
-                                                                                        <options/>
-                                                                                    </textTab>
-                                                                                    <textTab alignment="left" location="140">
-                                                                                        <options/>
-                                                                                    </textTab>
-                                                                                    <textTab alignment="left" location="168">
-                                                                                        <options/>
-                                                                                    </textTab>
-                                                                                    <textTab alignment="left" location="196">
-                                                                                        <options/>
-                                                                                    </textTab>
-                                                                                    <textTab alignment="left" location="224">
-                                                                                        <options/>
-                                                                                    </textTab>
-                                                                                    <textTab alignment="left" location="252">
-                                                                                        <options/>
-                                                                                    </textTab>
-                                                                                    <textTab alignment="left" location="280">
-                                                                                        <options/>
-                                                                                    </textTab>
-                                                                                    <textTab alignment="left" location="308">
-                                                                                        <options/>
-                                                                                    </textTab>
-                                                                                    <textTab alignment="left" location="336">
-                                                                                        <options/>
-                                                                                    </textTab>
-                                                                                </tabStops>
-                                                                            </paragraphStyle>
-                                                                        </attributes>
-                                                                    </fragment>
-                                                                </attributedString>
-                                                            </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                    <real key="value" value="4"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                                                    <color key="value" red="0.96078431372549022" green="0.31764705882352939" blue="0.37254901960784315" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                                                    <color key="value" red="0.62352941176470589" green="0.015686274509803921" blue="0.10588235294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="orientation">
+                                                                    <integer key="value" value="2"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="loginTapped:" destination="W0B-NC-hgt" eventType="touchUpInside" id="Dtu-pF-coZ"/>
+                                                                <segue destination="W0B-NC-hgt" kind="custom" identifier="dismiss" customClass="DismissSegue" customModule="MTP" customModuleProvider="target" id="3cN-rR-Iq9"/>
+                                                            </connections>
                                                         </button>
                                                     </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="qYb-kQ-H9H" firstAttribute="leading" secondItem="ogw-RB-dbC" secondAttribute="leading" id="0fM-iv-g9q"/>
+                                                        <constraint firstAttribute="trailing" secondItem="UjQ-Sn-hc1" secondAttribute="trailing" id="NOO-8I-4Cv"/>
+                                                        <constraint firstAttribute="trailing" secondItem="SoJ-Js-aav" secondAttribute="trailing" constant="54" id="NbP-DA-kGI"/>
+                                                        <constraint firstAttribute="trailing" secondItem="qYb-kQ-H9H" secondAttribute="trailing" id="OVB-De-IdS"/>
+                                                        <constraint firstItem="SoJ-Js-aav" firstAttribute="leading" secondItem="ogw-RB-dbC" secondAttribute="leading" constant="54" id="nqW-I2-lzF"/>
+                                                        <constraint firstItem="UjQ-Sn-hc1" firstAttribute="leading" secondItem="ogw-RB-dbC" secondAttribute="leading" id="xHs-TR-feh"/>
+                                                    </constraints>
                                                 </stackView>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="ogw-RB-dbC" secondAttribute="bottom" id="48T-7L-ENk"/>
-                                                <constraint firstAttribute="trailing" secondItem="ogw-RB-dbC" secondAttribute="trailing" id="Jeu-WE-BCv"/>
-                                                <constraint firstItem="ogw-RB-dbC" firstAttribute="leading" secondItem="170-Ec-8vl" secondAttribute="leading" id="cpe-So-6Z3"/>
-                                                <constraint firstItem="ogw-RB-dbC" firstAttribute="top" secondItem="170-Ec-8vl" secondAttribute="top" id="m3f-uq-Lhk"/>
+                                                <constraint firstAttribute="bottom" secondItem="ogw-RB-dbC" secondAttribute="bottom" constant="12" id="6VN-8q-gDh"/>
+                                                <constraint firstAttribute="trailing" secondItem="ogw-RB-dbC" secondAttribute="trailing" constant="8" id="Cvf-i0-C3M"/>
+                                                <constraint firstItem="ogw-RB-dbC" firstAttribute="leading" secondItem="170-Ec-8vl" secondAttribute="leading" constant="8" id="DhH-BP-XGd"/>
+                                                <constraint firstItem="ogw-RB-dbC" firstAttribute="top" secondItem="170-Ec-8vl" secondAttribute="top" constant="24" id="wni-z0-ft1"/>
                                             </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <real key="value" value="4"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
                                         </view>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="170-Ec-8vl" secondAttribute="bottom" priority="999" id="2xj-hu-Nb3"/>
+                                        <constraint firstItem="170-Ec-8vl" firstAttribute="leading" secondItem="2eO-Q6-FqV" secondAttribute="leading" constant="24" id="3Px-Km-Pus"/>
                                         <constraint firstItem="170-Ec-8vl" firstAttribute="centerX" secondItem="2eO-Q6-FqV" secondAttribute="centerX" id="KVf-nc-7lz"/>
-                                        <constraint firstItem="170-Ec-8vl" firstAttribute="centerY" secondItem="2eO-Q6-FqV" secondAttribute="centerY" id="pyB-4i-rhA"/>
+                                        <constraint firstItem="170-Ec-8vl" firstAttribute="centerY" secondItem="2eO-Q6-FqV" secondAttribute="centerY" priority="1" id="pyB-4i-rhA"/>
+                                        <constraint firstAttribute="trailing" secondItem="170-Ec-8vl" secondAttribute="trailing" constant="24" id="yzG-yZ-K29"/>
                                     </constraints>
                                 </view>
                                 <blurEffect style="dark"/>
@@ -552,11 +450,22 @@
                             <constraint firstItem="DvY-wQ-zN1" firstAttribute="top" secondItem="xyW-YA-ifa" secondAttribute="top" id="hvM-Hh-rNO"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="xyW-YA-ifa"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="4"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </view>
+                    <connections>
+                        <outlet property="alertHolder" destination="170-Ec-8vl" id="zFG-1o-EuQ"/>
+                        <outlet property="bottomY" destination="2xj-hu-Nb3" id="5Ev-Ua-ZkT"/>
+                        <outlet property="centerY" destination="pyB-4i-rhA" id="pL7-rC-rp8"/>
+                        <outlet property="messageLabel" destination="SoJ-Js-aav" id="ica-lb-9qZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TqS-2B-lZu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1214" y="1322"/>
+            <point key="canvasLocation" x="1351" y="131"/>
         </scene>
         <!--Signup-->
         <scene sceneID="rHx-vX-XhU">
@@ -577,6 +486,9 @@
         </namedColor>
         <namedColor name="facebookButton">
             <color red="0.25882352941176473" green="0.40392156862745099" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="regalBlue">
+            <color red="0.0" green="0.29411764705882354" blue="0.47058823529411764" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

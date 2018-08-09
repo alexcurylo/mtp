@@ -37,6 +37,10 @@
 		FA74574D210CA5730010F4F4 /* MyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74574C210CA5730010F4F4 /* MyProfileVC.swift */; };
 		FA745753210DA4C60010F4F4 /* MyProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA745755210DA4C60010F4F4 /* MyProfile.storyboard */; };
 		FA745757210DBD910010F4F4 /* UINavigationBar+Transparent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA745756210DBD910010F4F4 /* UINavigationBar+Transparent.swift */; };
+		FA74C0F02117C60B0013A840 /* ForgotPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74C0EF2117C60B0013A840 /* ForgotPasswordVC.swift */; };
+		FA74C10F211BB8F00013A840 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA74C10D211BB8F00013A840 /* Localizable.strings */; };
+		FA74C111211BBF490013A840 /* String+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74C110211BBF490013A840 /* String+Formatting.swift */; };
+		FA74C113211C61580013A840 /* StringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74C112211C61580013A840 /* StringTests.swift */; };
 		FA81361220E8F64500313AB9 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FA81361120E8F64500313AB9 /* Settings.bundle */; };
 		FA835D34210EAC110098C270 /* Styler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA835D33210EAC110098C270 /* Styler.swift */; };
 		FA835D36210F054F0098C270 /* ReplaceTopSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */; };
@@ -118,6 +122,10 @@
 		FA74574C210CA5730010F4F4 /* MyProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileVC.swift; sourceTree = "<group>"; };
 		FA745754210DA4C60010F4F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyProfile.storyboard; sourceTree = "<group>"; };
 		FA745756210DBD910010F4F4 /* UINavigationBar+Transparent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+Transparent.swift"; sourceTree = "<group>"; };
+		FA74C0EF2117C60B0013A840 /* ForgotPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordVC.swift; sourceTree = "<group>"; };
+		FA74C10E211BB8F00013A840 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		FA74C110211BBF490013A840 /* String+Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Formatting.swift"; sourceTree = "<group>"; };
+		FA74C112211C61580013A840 /* StringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringTests.swift; sourceTree = "<group>"; };
 		FA81361120E8F64500313AB9 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		FA81361320E8FD4E00313AB9 /* script_build_end.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = script_build_end.sh; sourceTree = "<group>"; };
 		FA81361420E8FD4E00313AB9 /* script_build_begin.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = script_build_begin.sh; sourceTree = "<group>"; };
@@ -235,6 +243,7 @@
 				FAB53F8A20DFD618007A80A7 /* MemoryWarner.m */,
 				FA392BD120DF69F50026C828 /* MTPTests.swift */,
 				FA0BE96B210C5F3300797224 /* ViewTests.swift */,
+				FA74C112211C61580013A840 /* StringTests.swift */,
 				FA392BD320DF69F50026C828 /* Info.plist */,
 				FAB53F8720DFD617007A80A7 /* MTPTests-Bridging-Header.h */,
 			);
@@ -276,6 +285,7 @@
 			isa = PBXGroup;
 			children = (
 				FA46377F210DE94C0007382D /* EditProfileVC.swift */,
+				FA74C0EF2117C60B0013A840 /* ForgotPasswordVC.swift */,
 				FA392BBC20DF69F30026C828 /* LocationsVC.swift */,
 				FA32CC752100C34E004C1329 /* LoginVC.swift */,
 				FA74574C210CA5730010F4F4 /* MyProfileVC.swift */,
@@ -295,6 +305,7 @@
 				FA392BC820DF69F50026C828 /* Info.plist */,
 				FA392BC520DF69F50026C828 /* LaunchScreen.storyboard */,
 				FA32CC8B2100CC6B004C1329 /* Login.storyboard */,
+				FA74C10D211BB8F00013A840 /* Localizable.strings */,
 				FA392BC020DF69F30026C828 /* Main.storyboard */,
 				FA745755210DA4C60010F4F4 /* MyProfile.storyboard */,
 				FAF1853420FA0DEF00CC5D83 /* Root.storyboard */,
@@ -338,6 +349,7 @@
 				FA835D33210EAC110098C270 /* Styler.swift */,
 				FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */,
 				FA745756210DBD910010F4F4 /* UINavigationBar+Transparent.swift */,
+				FA74C110211BBF490013A840 /* String+Formatting.swift */,
 				FA32CC7320FB6E67004C1329 /* UIView+Gradient.swift */,
 				FAAE29C420F05A9600B43BA9 /* UserDefaults+TypeSafety.swift */,
 			);
@@ -458,6 +470,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA392BC720DF69F50026C828 /* LaunchScreen.storyboard in Resources */,
+				FA74C10F211BB8F00013A840 /* Localizable.strings in Resources */,
 				FA81361220E8F64500313AB9 /* Settings.bundle in Resources */,
 				FA392BC420DF69F50026C828 /* Assets.xcassets in Resources */,
 				FA463783210E00E60007382D /* EditProfile.storyboard in Resources */,
@@ -629,6 +642,7 @@
 				FA74574D210CA5730010F4F4 /* MyProfileVC.swift in Sources */,
 				FA835D36210F054F0098C270 /* ReplaceTopSegue.swift in Sources */,
 				FA4653342115ADC6005B5A0A /* MTPAPI.swift in Sources */,
+				FA74C111211BBF490013A840 /* String+Formatting.swift in Sources */,
 				FA9A71DF20F1D3FA005F6A57 /* AppDelegate+Tools.swift in Sources */,
 				FA32CC7420FB6E67004C1329 /* UIView+Gradient.swift in Sources */,
 				FAF1853120FA0C8600CC5D83 /* RootVC.swift in Sources */,
@@ -639,6 +653,7 @@
 				FA392BBF20DF69F30026C828 /* RankingsVC.swift in Sources */,
 				FAAE29C220EFADC800B43BA9 /* R.generated.swift in Sources */,
 				FA4653322115A250005B5A0A /* UserDefaults+MTP.swift in Sources */,
+				FA74C0F02117C60B0013A840 /* ForgotPasswordVC.swift in Sources */,
 				FA392BBB20DF69F30026C828 /* AppDelegate.swift in Sources */,
 				FA463780210DE94C0007382D /* EditProfileVC.swift in Sources */,
 				FA835D34210EAC110098C270 /* Styler.swift in Sources */,
@@ -655,6 +670,7 @@
 			files = (
 				FA392BD220DF69F50026C828 /* MTPTests.swift in Sources */,
 				FAB53F8B20DFD618007A80A7 /* MemoryWarner.m in Sources */,
+				FA74C113211C61580013A840 /* StringTests.swift in Sources */,
 				FA0BE96C210C5F3300797224 /* ViewTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -731,6 +747,14 @@
 				FA745754210DA4C60010F4F4 /* Base */,
 			);
 			name = MyProfile.storyboard;
+			sourceTree = "<group>";
+		};
+		FA74C10D211BB8F00013A840 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA74C10E211BB8F00013A840 /* Base */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 		FAF1853420FA0DEF00CC5D83 /* Root.storyboard */ = {

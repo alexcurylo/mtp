@@ -48,23 +48,6 @@ final class RootVC: UIViewController {
         revealCredentials()
     }
 
-    func revealCredentials() {
-        guard credentialsBottom.constant < 0 else { return }
-
-        view.layoutIfNeeded()
-        UIView.animate(
-            withDuration: 1.0,
-            delay: 0.0,
-            usingSpringWithDamping: 0.3,
-            initialSpringVelocity: 0.75,
-            options: [.curveEaseOut],
-            animations: {
-                self.credentialsBottom.constant = 0
-                self.view.layoutIfNeeded()
-            },
-            completion: nil)
-    }
-
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
     }
@@ -88,6 +71,26 @@ final class RootVC: UIViewController {
             log.warning("Unexpected segue: \(segue.name)")
         }
     }
+}
+
+private extension RootVC {
 
     @IBAction private func unwindToRoot(segue: UIStoryboardSegue) { }
+
+    func revealCredentials() {
+        guard credentialsBottom.constant < 0 else { return }
+
+        view.layoutIfNeeded()
+        UIView.animate(
+            withDuration: 1.0,
+            delay: 0.0,
+            usingSpringWithDamping: 0.3,
+            initialSpringVelocity: 0.75,
+            options: [.curveEaseOut],
+            animations: {
+                self.credentialsBottom.constant = 0
+                self.view.layoutIfNeeded()
+            },
+            completion: nil)
+    }
 }

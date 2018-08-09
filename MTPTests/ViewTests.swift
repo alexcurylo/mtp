@@ -1,7 +1,5 @@
 // @copyright Trollwerks Inc.
 
-import Foundation
-
 @testable import MTP
 import XCTest
 
