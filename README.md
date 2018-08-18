@@ -36,14 +36,18 @@ Requirements
 - [CocoaPods](https://cocoapods.org/) for dependency management
 - [Coveralls](https://coveralls.io/github/alexcurylo/mtp?branch=develop) for test coverage statistics
 - [Danger](http://danger.systems/ruby/) for automated code review
+- [Slather](https://github.com/SlatherOrg/slather)) for test coverage reports
 - [SwiftLint](https://github.com/realm/SwiftLint) for opinionated coding style enforcement
-- [Stlather](https://github.com/SlatherOrg/slather)) for test coverage reports
 - [SwiftyBeaver](https://github.com/SwiftyBeaver/SwiftyBeaver) for logging
 - [Travis-CI](https://travis-ci.org/alexcurylo/mtp) for test builds
 
 ### Libraries:
 
+- [Alamofire](https://github.com/Alamofire/Alamofire) for HTTP networking
+- [facebook-sdk-swift](https://github.com/facebook/facebook-sdk-swift) for Facebook support
+- [Moya](https://github.com/Moya/Moya) for network abstraction
 - [R.swift](https://github.com/mac-cain13/R.swift/) for typed resource identifiers
+- [Result](https://github.com/antitypical/Result) for operation result modelling
 
 Usage
 -----

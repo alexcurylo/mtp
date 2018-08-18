@@ -13,6 +13,7 @@ target 'MTP' do
   pod 'FBSDKCoreKit', :modular_headers => true, :inhibit_warnings => true
   pod 'FBSDKLoginKit', :modular_headers => true, :inhibit_warnings => true
   pod 'FBSDKShareKit', :modular_headers => true, :inhibit_warnings => true
+  pod 'Moya'
   pod 'R.swift'
   pod 'SwiftLint'
   pod 'SwiftyBeaver'
