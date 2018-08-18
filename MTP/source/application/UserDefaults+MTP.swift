@@ -8,10 +8,11 @@ extension UserDefaults {
         email = ""
         name = ""
         password = ""
+        token = ""
     }
 
     var isLoggedIn: Bool {
-        return !email.isEmpty && !name.isEmpty
+        return !token.isEmpty
     }
 
     var email: String {
@@ -25,6 +26,11 @@ extension UserDefaults {
     }
 
     var password: String {
+        get { return string(forKey: #function) ?? "" }
+        set { set(newValue, forKey: #function) }
+    }
+
+    var token: String {
         get { return string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }
     }
