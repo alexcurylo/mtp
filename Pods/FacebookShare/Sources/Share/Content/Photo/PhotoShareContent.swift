@@ -16,13 +16,13 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import Foundation
 import FBSDKShareKit
+import Foundation
 
 /**
  A model for photo content to be shared.
  */
-public struct PhotoShareContent: ContentProtocol {
+public struct PhotoShareContent: ContentProtocol, Equatable, SDKBridgedContent {
   public typealias Result = PostSharingResult
 
   /// Photos to be shared.
@@ -38,7 +38,7 @@ public struct PhotoShareContent: ContentProtocol {
   }
 
   //--------------------------------------
-  // MARK - ContentProtocol
+  // MARK: - ContentProtocol
   //--------------------------------------
 
   /**
@@ -55,7 +55,8 @@ public struct PhotoShareContent: ContentProtocol {
   /**
    List of IDs for taggable people to tag with this content.
 
-   See documentation for [Taggable Friends](https://developers.facebook.com/docs/graph-api/reference/user/taggable_friends)
+   See documentation for
+   [Taggable Friends](https://developers.facebook.com/docs/graph-api/reference/user/taggable_friends)
    */
   public var taggedPeopleIds: [String]?
 
@@ -64,9 +65,9 @@ public struct PhotoShareContent: ContentProtocol {
 
   /// A value to be added to the referrer URL when a person follows a link from this shared content on feed.
   public var referer: String?
-}
 
-extension PhotoShareContent: Equatable {
+  // MARK: Equatable
+
   /**
    Compare two `PhotoShareContent`s for equality.
 
@@ -78,9 +79,9 @@ extension PhotoShareContent: Equatable {
   public static func == (lhs: PhotoShareContent, rhs: PhotoShareContent) -> Bool {
     return lhs.sdkSharingContentRepresentation.isEqual(rhs.sdkSharingContentRepresentation)
   }
-}
 
-extension PhotoShareContent: SDKBridgedContent {
+  // MARK: SDKBridgedContent
+
   var sdkSharingContentRepresentation: FBSDKSharingContent {
     let sdkPhotoContent = FBSDKSharePhotoContent()
     sdkPhotoContent.photos = photos.map { $0.sdkPhotoRepresentation }

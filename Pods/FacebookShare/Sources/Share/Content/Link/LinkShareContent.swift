@@ -16,13 +16,13 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import Foundation
 import FBSDKShareKit
+import Foundation
 
 /**
  A model for status and link content to be shared
  */
-public struct LinkShareContent: ContentProtocol {
+public struct LinkShareContent: Equatable, ContentProtocol, SDKBridgedContent {
   public typealias Result = PostSharingResult
 
   /**
@@ -56,11 +56,11 @@ public struct LinkShareContent: ContentProtocol {
   /**
    Create link share content.
 
-   - parameter url:         The URL being shared.
-   - parameter title:       Optional title to display for this link.
+   - parameter url: The URL being shared.
+   - parameter title: Optional title to display for this link.
    - parameter description: Optional description of the link.
-   - parameter quote:       Optional quote text of the link.
-   - parameter imageURL:    OPtional image URL of a picture to attach.
+   - parameter quote: Optional quote text of the link.
+   - parameter imageURL: OPtional image URL of a picture to attach.
    */
   @available(*, deprecated, message: "`title`, `description`, `imageURL` are deprecated from Graph API 2.9")
   public init(url: URL,
@@ -74,12 +74,12 @@ public struct LinkShareContent: ContentProtocol {
     self.quote = quote
     self.imageURL = imageURL
   }
-  
+
   /**
    Create link share content.
-   
-   - parameter url:         The URL being shared.
-   - parameter quote:       Optional quote text of the link.
+
+   - parameter url: The URL being shared.
+   - parameter quote: Optional quote text of the link.
    */
   public init(url: URL,
               quote: String? = nil) {
@@ -88,7 +88,7 @@ public struct LinkShareContent: ContentProtocol {
   }
 
   //--------------------------------------
-  // MARK - Content
+  // MARK: - Content
   //--------------------------------------
 
   /**
@@ -105,7 +105,8 @@ public struct LinkShareContent: ContentProtocol {
   /**
    List of IDs for taggable people to tag with this content.
 
-   See documentation for Taggable Friends (https://developers.facebook.com/docs/graph-api/reference/user/taggable_friends)
+   See documentation for
+   [Taggable Friends](https://developers.facebook.com/docs/graph-api/reference/user/taggable_friends)
    */
   public var taggedPeopleIds: [String]?
 
@@ -114,9 +115,8 @@ public struct LinkShareContent: ContentProtocol {
 
   ///  A value to be added to the referrer URL when a person follows a link from this shared content on feed.
   public var referer: String?
-}
 
-extension LinkShareContent: Equatable {
+  // MARK: Equatable
 
   /**
    Compares two `LinkContent`s for equality.
@@ -129,9 +129,9 @@ extension LinkShareContent: Equatable {
   public static func == (lhs: LinkShareContent, rhs: LinkShareContent) -> Bool {
     return lhs.sdkSharingContentRepresentation.isEqual(rhs.sdkSharingContentRepresentation)
   }
-}
 
-extension LinkShareContent: SDKBridgedContent {
+  // MARK: SDKBridgedContent
+
   internal var sdkSharingContentRepresentation: FBSDKSharingContent {
     let content = FBSDKShareLinkContent()
     content.quote = self.quote

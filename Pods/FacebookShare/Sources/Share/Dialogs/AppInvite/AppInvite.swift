@@ -16,13 +16,13 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import Foundation
 import FBSDKShareKit
+import Foundation
 
 /**
  A model for an app invite.
  */
-public struct AppInvite {
+public struct AppInvite: Equatable {
 
   /// An app link target that will be used as a target when the user accepts the invite.
   public var appLink: URL
@@ -39,10 +39,10 @@ public struct AppInvite {
   /**
    Create an `AppInvite` with a link, delivery method, preview image, and promotion.
 
-   - parameter appLink:         The app link target.
-   - parameter deliveryMethod:  Optonal delivery method to use. Default: `.Facebook`.
+   - parameter appLink: The app link target.
+   - parameter deliveryMethod: Optonal delivery method to use. Default: `.Facebook`.
    - parameter previewImageURL: Optional preview image to use. Default: `nil`.
-   - parameter promotion:       Optional promotion to be displayed. Default: `nil`.
+   - parameter promotion: Optional promotion to be displayed. Default: `nil`.
    */
   public init(appLink: URL,
               deliveryMethod: DeliveryMethod = .facebook,
@@ -53,9 +53,9 @@ public struct AppInvite {
     self.previewImageURL = previewImageURL
     self.promotion = promotion
   }
-}
 
-extension AppInvite: Equatable {
+  // MARK: Equatable
+
   /**
    Compare two `AppInvite`s for equality.
 
@@ -67,9 +67,9 @@ extension AppInvite: Equatable {
   public static func == (lhs: AppInvite, rhs: AppInvite) -> Bool {
     return lhs.sdkInviteRepresentation == rhs.sdkInviteRepresentation
   }
-}
 
-extension AppInvite {
+  // MARK: Internal
+
   internal var sdkInviteRepresentation: FBSDKAppInviteContent {
     let sdkContent = FBSDKAppInviteContent()
     sdkContent.appLinkURL = appLink

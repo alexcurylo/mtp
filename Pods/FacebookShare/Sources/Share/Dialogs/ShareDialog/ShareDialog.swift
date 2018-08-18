@@ -19,9 +19,9 @@
 import FBSDKShareKit
 
 /// A dialog for sharing content on Facebook.
-public final class ShareDialog<Content: ContentProtocol> {
-  fileprivate let sdkSharer: FBSDKShareDialog
-  fileprivate let sdkShareDelegate: SDKSharingDelegateBridge<Content>
+public final class ShareDialog<Content: ContentProtocol>: ContentSharingProtocol, ContentSharingDialogProtocol {
+  private let sdkSharer: FBSDKShareDialog
+  private weak var sdkShareDelegate: SDKSharingDelegateBridge<Content>?
 
   /**
    A `UIViewController` to present the dialog from.
@@ -60,30 +60,27 @@ public final class ShareDialog<Content: ContentProtocol> {
     sdkSharer = FBSDKShareDialog()
     sdkShareDelegate = SDKSharingDelegateBridge<Content>()
 
-    sdkShareDelegate.setupAsDelegateFor(sdkSharer)
+    sdkShareDelegate?.setupAsDelegateFor(sdkSharer)
     sdkSharer.shareContent = ContentBridger.bridgeToObjC(content)
   }
-}
 
-extension ShareDialog: ContentSharingProtocol {
+  // MARK: ContentSharingProtocol
 
   /// The content that is being shared.
   public var content: Content {
-    get {
-      guard let swiftContent: Content = ContentBridger.bridgeToSwift(sdkSharer.shareContent) else {
-        fatalError("Content of our private share dialog has changed type. Something horrible has happened.")
-      }
-      return swiftContent
+    guard let swiftContent: Content = ContentBridger.bridgeToSwift(sdkSharer.shareContent) else {
+      fatalError("Content of our private share dialog has changed type. Something horrible has happened.")
     }
+    return swiftContent
   }
 
   /// The completion handler to be invoked upon the share performing.
   public var completion: ((ContentSharerResult<Content>) -> Void)? {
     get {
-      return sdkShareDelegate.completion
+      return sdkShareDelegate?.completion
     }
     set {
-      sdkShareDelegate.completion = newValue
+      sdkShareDelegate?.completion = newValue
     }
   }
 
@@ -104,10 +101,9 @@ extension ShareDialog: ContentSharingProtocol {
   public func validate() throws {
     try sdkSharer.validate()
   }
-}
 
+  // MARK: ContentSharingDialogProtocol
 
-extension ShareDialog: ContentSharingDialogProtocol {
   /**
    Shows the dialog.
 
@@ -115,29 +111,27 @@ extension ShareDialog: ContentSharingDialogProtocol {
    */
   public func show() throws {
     var error: Error?
-    let completionHandler = sdkShareDelegate.completion
-    sdkShareDelegate.completion = {
+    let completionHandler = sdkShareDelegate?.completion
+    sdkShareDelegate?.completion = {
       if case .failed(let resultError) = $0 {
         error = resultError
       }
     }
 
     sdkSharer.show()
-    sdkShareDelegate.completion = completionHandler
+    sdkShareDelegate?.completion = completionHandler
 
     if let error = error {
       throw error
     }
   }
-}
 
-extension ShareDialog {
   /**
    Convenience method to create and show a `ShareDialog` with a `fromViewController`, `content`, and `completion`.
 
    - parameter viewController: The viewController to present the dialog from.
-   - parameter content:        The content to share.
-   - parameter completion:     The completion handler to invoke.
+   - parameter content: The content to share.
+   - parameter completion: The completion handler to invoke.
 
    - returns: The `ShareDialog` that has been presented.
    - throws: If the dialog fails to validate.

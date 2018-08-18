@@ -21,7 +21,7 @@ import FBSDKShareKit
 /**
  Represents a valid hashtag.
  */
-public struct Hashtag {
+public struct Hashtag: Hashable {
   /// The hashtag string.
   public let stringValue: String
 
@@ -32,12 +32,10 @@ public struct Hashtag {
    If this is not a valid hashtag (matching the regular expression `#\w+`), the initializer returns `nil`.
    */
   public init?(_ string: String) {
-    let sdkHashtag = FBSDKHashtag(string: string)
-    self.init(sdkHashtag: sdkHashtag!)
+    guard let sdkHashtag = FBSDKHashtag(string: string) else { return nil }
+    self.init(sdkHashtag: sdkHashtag)
   }
-}
 
-extension Hashtag {
   internal init?(sdkHashtag: FBSDKHashtag) {
     if !sdkHashtag.isValid {
       return nil
@@ -46,13 +44,11 @@ extension Hashtag {
   }
 
   internal var sdkHashtagRepresentation: FBSDKHashtag {
-    get {
-      return FBSDKHashtag(string: stringValue)
-    }
+    return FBSDKHashtag(string: stringValue)
   }
-}
 
-extension Hashtag: Hashable {
+  // MARK: Hashable
+
   /// Calculates the hash value of this Hashtag (yo dawg).
   public var hashValue: Int {
     return stringValue.hashValue

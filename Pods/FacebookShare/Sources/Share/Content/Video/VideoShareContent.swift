@@ -16,13 +16,13 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import Foundation
 import FBSDKShareKit
+import Foundation
 
 /**
  A model for video content to be shared.
  */
-public struct VideoShareContent: ContentProtocol {
+public struct VideoShareContent: ContentProtocol, Equatable, SDKBridgedContent {
   public typealias Result = PostSharingResult
 
   /// Video to be shared.
@@ -34,7 +34,7 @@ public struct VideoShareContent: ContentProtocol {
   /**
    Create a `VideoShareContent` with a list of of photos to share.
 
-   - parameter video:        The video to share.
+   - parameter video: The video to share.
    - parameter previewPhoto: The photo that represents the video.
    */
   public init(video: Video, previewPhoto: Photo? = nil) {
@@ -43,7 +43,7 @@ public struct VideoShareContent: ContentProtocol {
   }
 
   //--------------------------------------
-  // MARK - ContentProtocol
+  // MARK: - ContentProtocol
   //--------------------------------------
 
   /**
@@ -60,7 +60,8 @@ public struct VideoShareContent: ContentProtocol {
   /**
    List of IDs for taggable people to tag with this content.
 
-   See documentation for [Taggable Friends](https://developers.facebook.com/docs/graph-api/reference/user/taggable_friends)
+   See documentation for
+   [Taggable Friends](https://developers.facebook.com/docs/graph-api/reference/user/taggable_friends)
    */
   public var taggedPeopleIds: [String]?
 
@@ -69,9 +70,9 @@ public struct VideoShareContent: ContentProtocol {
 
   /// A value to be added to the referrer URL when a person follows a link from this shared content on feed.
   public var referer: String?
-}
 
-extension VideoShareContent: Equatable {
+  // MARK: Equatable
+
   /**
    Compare two `VideoShareContent`s for equality.
 
@@ -83,9 +84,9 @@ extension VideoShareContent: Equatable {
   public static func == (lhs: VideoShareContent, rhs: VideoShareContent) -> Bool {
     return lhs.sdkSharingContentRepresentation.isEqual(rhs.sdkSharingContentRepresentation)
   }
-}
 
-extension VideoShareContent: SDKBridgedContent {
+  // MARK: SDKBridgedContent
+
   var sdkSharingContentRepresentation: FBSDKSharingContent {
     let sdkVideoContent = FBSDKShareVideoContent()
     sdkVideoContent.video = video.sdkVideoRepresentation

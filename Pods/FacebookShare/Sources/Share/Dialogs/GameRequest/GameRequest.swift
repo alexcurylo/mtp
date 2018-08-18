@@ -21,7 +21,7 @@ import FBSDKShareKit
 /**
  A model for a game request.
  */
-public struct GameRequest {
+public struct GameRequest: Equatable {
   /**
    Used when defining additional context about the nature of the request.
    */
@@ -67,7 +67,7 @@ public struct GameRequest {
   /**
    Create a new game request content with a title and a message.
 
-   - parameter title:   The title for the dialog.
+   - parameter title: The title for the dialog.
    - parameter message: The message to be sent as part of the request.
    */
   public init(title: String, message: String) {
@@ -75,9 +75,9 @@ public struct GameRequest {
     self.message = message
     self.recipientsFilter = .none
   }
-}
 
-extension GameRequest: Equatable {
+  // MARK: Equatable
+
   /**
    Compare two `GameRequest`s for equality.
 
@@ -89,9 +89,9 @@ extension GameRequest: Equatable {
   public static func == (lhs: GameRequest, rhs: GameRequest) -> Bool {
     return lhs.sdkContentRepresentation == rhs.sdkContentRepresentation
   }
-}
 
-extension GameRequest {
+  // MARK: Internal
+
   internal var sdkContentRepresentation: FBSDKGameRequestContent {
     let sdkContent = FBSDKGameRequestContent()
     let sdkActionRepresentation = actionType?.sdkActionRepresentation ?? (.none, nil)

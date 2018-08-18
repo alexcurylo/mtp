@@ -16,34 +16,32 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import Foundation
 import FBSDKShareKit
+import Foundation
 
-extension AppInvite {
+public extension AppInvite {
   /**
    Specifies the delivery method for an app invite.
    */
-  public enum DeliveryMethod {
+  enum DeliveryMethod {
     /// Deliver via Facebook
     case facebook
 
     /// Deliver via Messenger
     case messenger
-  }
-}
 
-extension AppInvite.DeliveryMethod {
-  internal init(sdkDestinationRepresentation: FBSDKAppInviteDestination) {
-    switch sdkDestinationRepresentation {
-    case .facebook: self = .facebook
-    case .messenger: self = .messenger
+    internal init(sdkDestinationRepresentation: FBSDKAppInviteDestination) {
+      switch sdkDestinationRepresentation {
+      case .facebook: self = .facebook
+      case .messenger: self = .messenger
+      }
     }
-  }
 
-  internal var sdkDestinationRepresentation: FBSDKAppInviteDestination {
-    switch self {
-    case .facebook: return .facebook
-    case .messenger: return .messenger
+    internal var sdkDestinationRepresentation: FBSDKAppInviteDestination {
+      switch self {
+      case .facebook: return .facebook
+      case .messenger: return .messenger
+      }
     }
   }
 }

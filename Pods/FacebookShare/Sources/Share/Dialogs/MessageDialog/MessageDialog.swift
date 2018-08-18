@@ -19,10 +19,10 @@
 import FBSDKShareKit
 
 /// A dialog for sharing content through Messenger.
-public final class MessageDialog<Content: ContentProtocol> {
+public final class MessageDialog<Content: ContentProtocol>: ContentSharingProtocol, ContentSharingDialogProtocol {
 
-  fileprivate let sdkSharer: FBSDKMessageDialog
-  fileprivate let sdkShareDelegate: SDKSharingDelegateBridge<Content>
+  private let sdkSharer: FBSDKMessageDialog
+  private weak var sdkShareDelegate: SDKSharingDelegateBridge<Content>?
 
   /**
    Create a `MessageDialog` with a given content.
@@ -33,30 +33,27 @@ public final class MessageDialog<Content: ContentProtocol> {
     sdkSharer = FBSDKMessageDialog()
     sdkShareDelegate = SDKSharingDelegateBridge<Content>()
 
-    sdkShareDelegate.setupAsDelegateFor(sdkSharer)
+    sdkShareDelegate?.setupAsDelegateFor(sdkSharer)
     sdkSharer.shareContent = ContentBridger.bridgeToObjC(content)
   }
-}
 
-extension MessageDialog: ContentSharingProtocol {
+  // MARK: ContentSharingProtocol
 
   /// The content that is being shared.
   public var content: Content {
-    get {
-      guard let swiftContent: Content = ContentBridger.bridgeToSwift(sdkSharer.shareContent) else {
-        fatalError("Content of our private share dialog has changed type. Something horrible has happened.")
-      }
-      return swiftContent
+    guard let swiftContent: Content = ContentBridger.bridgeToSwift(sdkSharer.shareContent) else {
+      fatalError("Content of our private share dialog has changed type. Something horrible has happened.")
     }
+    return swiftContent
   }
 
   /// The completion handler to be invoked upon the share performing.
   public var completion: ((ContentSharerResult<Content>) -> Void)? {
     get {
-      return sdkShareDelegate.completion
+      return sdkShareDelegate?.completion
     }
     set {
-      sdkShareDelegate.completion = newValue
+      sdkShareDelegate?.completion = newValue
     }
   }
 
@@ -77,9 +74,9 @@ extension MessageDialog: ContentSharingProtocol {
   public func validate() throws {
     try sdkSharer.validate()
   }
-}
 
-extension MessageDialog: ContentSharingDialogProtocol {
+  // MARK: ContentSharingDialogProtocol
+
   /**
    Shows the dialog.
 
@@ -87,34 +84,33 @@ extension MessageDialog: ContentSharingDialogProtocol {
    */
   public func show() throws {
     var error: Error?
-    let completionHandler = sdkShareDelegate.completion
-    sdkShareDelegate.completion = {
+    let completionHandler = sdkShareDelegate?.completion
+    sdkShareDelegate?.completion = {
       if case .failed(let resultError) = $0 {
         error = resultError
       }
     }
 
     sdkSharer.show()
-    sdkShareDelegate.completion = completionHandler
+    sdkShareDelegate?.completion = completionHandler
 
     if let error = error {
       throw error
     }
   }
-}
 
-extension MessageDialog {
   /**
    Convenience method to show a Message Share Dialog with content and a completion handler.
 
-   - parameter content:    The content to share.
+   - parameter content: The content to share.
    - parameter completion: The completion handler to invoke.
 
    - returns: The dialog that has been presented.
    - throws: If the dialog fails to validate.
    */
   @discardableResult
-  public static func show(_ content: Content, completion: ((ContentSharerResult<Content>) -> Void)? = nil) throws -> Self {
+  public static func show(_ content: Content,
+                          completion: ((ContentSharerResult<Content>) -> Void)? = nil) throws -> Self {
     let dialog = self.init(content: content)
     dialog.completion = completion
     try dialog.show()

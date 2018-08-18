@@ -16,8 +16,8 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import FBSDKShareKit
 @testable import FacebookCore
+import FBSDKShareKit
 
 /**
  A utility class for sharing through the graph API. Using this class requires an access token that
@@ -27,10 +27,10 @@ import FBSDKShareKit
  (like NSURLConnection). If you want to use GraphSharer in a background thread, you must manage the run loop
  yourself.
  */
-public final class GraphSharer<Content: ContentProtocol> {
+public final class GraphSharer<Content: ContentProtocol>: ContentSharingProtocol {
 
-  fileprivate let sdkSharer: FBSDKShareAPI
-  fileprivate let sdkShareDelegate: SDKSharingDelegateBridge<Content>
+  private let sdkSharer: FBSDKShareAPI
+  private weak var sdkShareDelegate: SDKSharingDelegateBridge<Content>?
 
   /// The message the person has provided through the custom dialog that will accompany the share content.
   public var message: String? {
@@ -52,7 +52,8 @@ public final class GraphSharer<Content: ContentProtocol> {
     }
   }
 
-  /// The access token used when performing a share. The access token must have the "publish_actions" permission granted.
+  /// The access token used when performing a share.
+  /// The access token must have the "publish_actions" permission granted.
   public var accessToken: AccessToken? {
     get {
       let accessToken: FBSDKAccessToken? = sdkSharer.accessToken
@@ -66,22 +67,20 @@ public final class GraphSharer<Content: ContentProtocol> {
   /**
    Create a new Graph API sharer.
 
-   - parameter content:  The content to share.
+   - parameter content: The content to share.
    */
   public init(content: Content) {
     sdkSharer = FBSDKShareAPI()
     sdkShareDelegate = SDKSharingDelegateBridge()
 
-    sdkShareDelegate.setupAsDelegateFor(sdkSharer)
+    sdkShareDelegate?.setupAsDelegateFor(sdkSharer)
     sdkSharer.shareContent = ContentBridger.bridgeToObjC(content)
   }
-}
 
-//--------------------------------------
-// MARK: - Share
-//--------------------------------------
+  //--------------------------------------
+  // MARK: - Share
+  //--------------------------------------
 
-extension GraphSharer {
   /**
    Attempt to share `content` with the graph API.
 
@@ -89,46 +88,40 @@ extension GraphSharer {
    */
   public func share() throws {
     var error: Error?
-    let completionHandler = sdkShareDelegate.completion
-    sdkShareDelegate.completion = {
+    let completionHandler = sdkShareDelegate?.completion
+    sdkShareDelegate?.completion = {
       if case .failed(let resultError) = $0 {
         error = resultError
       }
     }
 
     sdkSharer.share()
-    sdkShareDelegate.completion = completionHandler
+    sdkShareDelegate?.completion = completionHandler
 
     if let error = error {
       throw error
     }
   }
-}
 
-
-//--------------------------------------
-// MARK: - ContentSharingProtocol
-//--------------------------------------
-
-extension GraphSharer: ContentSharingProtocol {
+  //--------------------------------------
+  // MARK: - ContentSharingProtocol
+  //--------------------------------------
 
   /// The content that is being shared.
   public var content: Content {
-    get {
-      guard let swiftContent: Content = ContentBridger.bridgeToSwift(sdkSharer.shareContent) else {
-        fatalError("Content of our private sharer has changed type. Something horrible has happened.")
-      }
-      return swiftContent
+    guard let swiftContent: Content = ContentBridger.bridgeToSwift(sdkSharer.shareContent) else {
+      fatalError("Content of our private sharer has changed type. Something horrible has happened.")
     }
+    return swiftContent
   }
 
   /// The completion handler to be invoked upon the share performing.
   public var completion: ((ContentSharerResult<Content>) -> Void)? {
     get {
-      return sdkShareDelegate.completion
+      return sdkShareDelegate?.completion
     }
     set {
-      sdkShareDelegate.completion = newValue
+      sdkShareDelegate?.completion = newValue
     }
   }
 
@@ -149,24 +142,23 @@ extension GraphSharer: ContentSharingProtocol {
   public func validate() throws {
     try sdkSharer.validate()
   }
-}
 
-//--------------------------------------
-// MARK: - Convenience
-//--------------------------------------
+  //--------------------------------------
+  // MARK: - Convenience
+  //--------------------------------------
 
-extension GraphSharer {
   /**
    Share a given `content` to the Graph API, with a completion handler.
 
-   - parameter content:    The content to share.
+   - parameter content: The content to share.
    - parameter completion: The completion handler to invoke.
 
    - returns: Whether or not the operation was successfully started.
    - throws: If the share fails.
    */
   @discardableResult
-  public static func share(_ content: Content, completion: ((ContentSharerResult<Content>) -> Void)? = nil) throws -> GraphSharer {
+  public static func share(_ content: Content,
+                           completion: ((ContentSharerResult<Content>) -> Void)? = nil) throws -> GraphSharer {
     let sharer = self.init(content: content)
     sharer.completion = completion
     try sharer.share()

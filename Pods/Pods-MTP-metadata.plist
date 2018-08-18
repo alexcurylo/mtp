@@ -339,7 +339,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			<key>summary</key>
 			<string>Official Facebook SDK in Swift to access Facebook Platform's core features.</string>
 			<key>version</key>
-			<string>0.3.1</string>
+			<string>0.3.2</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -381,7 +381,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			<key>summary</key>
 			<string>Official Facebook SDK in Swift to integrate with Facebook Login.</string>
 			<key>version</key>
-			<string>0.3.1</string>
+			<string>0.3.2</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -427,7 +427,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			<key>summary</key>
 			<string>Official Facebook SDK in Swift to access Facebook Platform's Sharing Features.</string>
 			<key>version</key>
-			<string>0.3.1</string>
+			<string>0.3.2</string>
 		</dict>
 		<dict>
 			<key>authors</key>

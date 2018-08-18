@@ -16,25 +16,26 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import Foundation
 import FBSDKShareKit
+import Foundation
 
 /**
  A model for Open Graph content to be shared.
  */
-public struct OpenGraphShareContent {
+public struct OpenGraphShareContent: Equatable, SDKBridgedContent {
   public typealias Result = PostSharingResult
 
   /// The Open Graph action to be shared.
   public var action: OpenGraphAction?
 
-  /// Property name that points to the primary Open Graph Object in the action. This is used for rendering the preview of the share.
+  /// Property name that points to the primary Open Graph Object in the action.
+  /// This is used for rendering the preview of the share.
   public var previewPropertyName: OpenGraphPropertyName?
 
   /**
    Create a new OpenGraphShareContent.
 
-   - parameter action:              The action to be shared.
+   - parameter action: The action to be shared.
    - parameter previewPropertyName: Property name that points to the primary Open Graph Object in the action.
    */
   public init(action: OpenGraphAction? = nil, previewPropertyName: OpenGraphPropertyName? = nil) {
@@ -60,7 +61,8 @@ public struct OpenGraphShareContent {
   /**
    List of IDs for taggable people to tag with this content.
 
-   See documentation for [Taggable Friends](https://developers.facebook.com/docs/graph-api/reference/user/taggable_friends)
+   See documentation for
+   [Taggable Friends](https://developers.facebook.com/docs/graph-api/reference/user/taggable_friends)
    */
   public var taggedPeopleIds: [String]?
 
@@ -69,9 +71,9 @@ public struct OpenGraphShareContent {
 
   ///  A value to be added to the referrer URL when a person follows a link from this shared content on feed.
   public var referer: String?
-}
 
-extension OpenGraphShareContent: Equatable {
+  // MARK: Equatable
+
   /**
    Compares two `OpenGraphContent`s for equality.
 
@@ -83,9 +85,9 @@ extension OpenGraphShareContent: Equatable {
   public static func == (lhs: OpenGraphShareContent, rhs: OpenGraphShareContent) -> Bool {
     return lhs.sdkSharingContentRepresentation.isEqual(rhs.sdkSharingContentRepresentation)
   }
-}
 
-extension OpenGraphShareContent: SDKBridgedContent {
+  // MARK: SDKBridgedContent
+
   internal var sdkSharingContentRepresentation: FBSDKSharingContent {
     let sdkContent = FBSDKShareOpenGraphContent()
     sdkContent.action = action?.sdkActionRepresentation

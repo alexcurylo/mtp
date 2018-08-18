@@ -22,22 +22,20 @@ import Foundation
  Represents the results of a successful Facebook post share.
  */
 public struct PostSharingResult: ContentSharingResultProtocol {
-  fileprivate let dictionary: [String : String]
+  private let dictionary: [String: String]
 
   /**
    Initialize this result from the contents of a dictionary
 
    - parameter dictionary: The dictionary to initialize from
    */
-  public init(dictionary: [String : String]) {
+  public init(dictionary: [String: String]) {
     self.dictionary = dictionary
   }
 
   /// The post ID of the shared content
   public var postId: String? {
-    get {
-      return dictionary[ShareResultKeys.PostId.rawValue]
-    }
+    return dictionary[ShareResultKeys.postId.rawValue]
   }
 
   /**

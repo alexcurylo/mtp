@@ -18,7 +18,7 @@
 
 import Foundation
 
-extension AppInvite {
+public extension AppInvite {
   /**
    A promo code for an App Invite promotion. This can be between 0 and 10 characters long, and can contain alphanumeric
    and spaces only.
@@ -26,8 +26,17 @@ extension AppInvite {
    If you attempt to create a Promo Code with an invalid string literal, you will receive a runtime warning, and your
    code will be truncated.
    */
-  public struct PromoCode {
+  struct PromoCode: Hashable, ExpressibleByStringLiteral {
     internal let rawValue: String
+
+    static func truncate(string: String) -> String {
+      let validCharacters = CharacterSet.alphanumerics
+      return string
+        .unicodeScalars
+        .filter { validCharacters.contains($0) }
+        .map(String.init)
+        .joined()
+    }
 
     /**
      Attempt to create a promo code from a string.
@@ -42,72 +51,59 @@ extension AppInvite {
 
       rawValue = string
     }
-  }
-}
 
-extension AppInvite.PromoCode: Hashable {
-  /// The hash of this promo code.
-  public var hashValue: Int {
-    return rawValue.hashValue
-  }
+    // MARK: Hashable
 
-  /**
-   Compare two `PromoCode`s for equality.
-
-   - parameter lhs: The first promo code to compare.
-   - parameter rhs: The second promo code to compare.
-
-   - returns: Whether or not the promo codes are equal.
-   */
-  public static func == (lhs: AppInvite.PromoCode, rhs: AppInvite.PromoCode) -> Bool {
-    return lhs.rawValue == rhs.rawValue
-  }
-}
-
-extension AppInvite.PromoCode: ExpressibleByStringLiteral {
-  /**
-   Create a PromoCode from a string literal.
-
-   - parameter value: The string literal to intiialize from.
-   */
-  public init(stringLiteral value: String) {
-    let truncated = AppInvite.PromoCode.truncate(string: value)
-    if truncated != value {
-      print("Warning: Attempted to create a PromoCode from \"\(value)\" which contained invalid characters, or was too long.")
+    /// The hash of this promo code.
+    public var hashValue: Int {
+      return rawValue.hashValue
     }
 
-    rawValue = truncated
-  }
+    /**
+     Compare two `PromoCode`s for equality.
 
-  /**
-   Create a PromoCode from a unicode scalar literal.
+     - parameter lhs: The first promo code to compare.
+     - parameter rhs: The second promo code to compare.
 
-   - parameter value: The string literal to intiialize from.
-   */
-  public init(unicodeScalarLiteral value: String) {
-    self.init(stringLiteral: value)
-  }
+     - returns: Whether or not the promo codes are equal.
+     */
+    public static func == (lhs: AppInvite.PromoCode, rhs: AppInvite.PromoCode) -> Bool {
+      return lhs.rawValue == rhs.rawValue
+    }
 
-  /**
-   Create a PromoCode from an extended grapheme cluster literal.
+    // MARK: ExpressibleByStringLiteral
 
-   - parameter value: The string literal to initialize from.
-   */
-  public init(extendedGraphemeClusterLiteral value: String) {
-    self.init(stringLiteral: value)
-  }
-}
+    /**
+     Create a PromoCode from a string literal.
 
+     - parameter value: The string literal to intiialize from.
+     */
+    public init(stringLiteral value: String) {
+      let truncated = PromoCode.truncate(string: value)
+      if truncated != value {
+        print("Warning: Attempted to create a PromoCode from \"\(value)\" which contained invalid characters,"
+          + "or was too long.")
+      }
 
-extension AppInvite.PromoCode {
-  fileprivate static func truncate(string: String) -> String {
-    let validCharacters = CharacterSet.alphanumerics
-    let cleaned = string
-      .unicodeScalars
-      .filter({
-        validCharacters.contains(UnicodeScalar(UInt16($0.value))!)
-      })
-      .map(Character.init)
-    return String(cleaned)
+      rawValue = truncated
+    }
+
+    /**
+     Create a PromoCode from a unicode scalar literal.
+
+     - parameter value: The string literal to intiialize from.
+     */
+    public init(unicodeScalarLiteral value: String) {
+      self.init(stringLiteral: value)
+    }
+
+    /**
+     Create a PromoCode from an extended grapheme cluster literal.
+
+     - parameter value: The string literal to initialize from.
+     */
+    public init(extendedGraphemeClusterLiteral value: String) {
+      self.init(stringLiteral: value)
+    }
   }
 }

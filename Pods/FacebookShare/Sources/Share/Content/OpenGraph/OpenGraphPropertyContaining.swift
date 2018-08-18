@@ -35,39 +35,29 @@ public protocol OpenGraphPropertyContaining {
   subscript(name: OpenGraphPropertyName) -> OpenGraphPropertyValue? { get set }
 }
 
-extension OpenGraphPropertyContaining {
-  public subscript(key: OpenGraphPropertyName) -> String? {
-    get {
-      let graphValue: OpenGraphPropertyValue? = self[key]
-      return graphValue as? String
-    }
+public extension OpenGraphPropertyContaining {
+  subscript(key: OpenGraphPropertyName) -> String? {
+    let graphValue: OpenGraphPropertyValue? = self[key]
+    return graphValue as? String
   }
 
-  public subscript(key: OpenGraphPropertyName) -> NSNumber? {
-    get {
-      let graphValue: OpenGraphPropertyValue? = self[key]
-      return graphValue as? NSNumber
-    }
+  subscript(key: OpenGraphPropertyName) -> NSNumber? {
+    let graphValue: OpenGraphPropertyValue? = self[key]
+    return graphValue as? NSNumber
   }
 
-  public subscript(key: OpenGraphPropertyName) -> [OpenGraphPropertyValue]? {
-    get {
-      let graphValue: OpenGraphPropertyValue? = self[key]
-      return graphValue as? [OpenGraphPropertyValue]
-    }
+  subscript(key: OpenGraphPropertyName) -> [OpenGraphPropertyValue]? {
+    let graphValue: OpenGraphPropertyValue? = self[key]
+    return graphValue as? [OpenGraphPropertyValue]
   }
 
-  public subscript(key: OpenGraphPropertyName) -> Photo? {
-    get {
-      let graphValue: OpenGraphPropertyValue? = self[key]
-      return graphValue as? Photo
-    }
+  subscript(key: OpenGraphPropertyName) -> Photo? {
+    let graphValue: OpenGraphPropertyValue? = self[key]
+    return graphValue as? Photo
   }
 
-  public subscript(key: OpenGraphPropertyName) -> URL? {
-    get {
-      let graphValue: OpenGraphPropertyValue? = self[key]
-      return graphValue as? URL
-    }
+  subscript(key: OpenGraphPropertyName) -> URL? {
+    let graphValue: OpenGraphPropertyValue? = self[key]
+    return graphValue as? URL
   }
 }

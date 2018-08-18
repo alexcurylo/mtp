@@ -16,8 +16,8 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import FBSDKShareKit
 @testable import FacebookCore
+import FBSDKShareKit
 
 /**
  An Open Graph Object for sharing.
@@ -29,7 +29,7 @@ import FBSDKShareKit
  You can specify nested namespaces inline to define complex properties. For example, the following code will generate a
  fitness.course object with a location:
 
- ```
+ ```swift
  let course: OpenGraphObject = [
  "og:type": "fitness.course",
  "og:title": "Sample course",
@@ -38,8 +38,8 @@ import FBSDKShareKit
  ]
  ```
  */
-public struct OpenGraphObject {
-  fileprivate var properties: [OpenGraphPropertyName : OpenGraphPropertyValue]
+public struct OpenGraphObject: OpenGraphPropertyContaining {
+  private var properties: [OpenGraphPropertyName: OpenGraphPropertyValue]
 
   /**
    Create a new `OpenGraphObject`.
@@ -47,9 +47,9 @@ public struct OpenGraphObject {
   public init() {
     properties = [:]
   }
-}
 
-extension OpenGraphObject: OpenGraphPropertyContaining {
+  // MARK: OpenGraphPropertyContaining
+
   /// Get the property names contained in this container.
   public var propertyNames: Set<OpenGraphPropertyName> {
     return Set(properties.keys)
@@ -62,32 +62,7 @@ extension OpenGraphObject: OpenGraphPropertyContaining {
       properties[key] = newValue
     }
   }
-}
 
-extension OpenGraphObject: ExpressibleByDictionaryLiteral {
-  /**
-   Convenience method to build a new object from a dictinary literal.
-
-   - parameter elements: The elements of the dictionary literal to initialize from.
-
-   - example:
-   ```
-   let object: OpenGraphObject = [
-   "og:type": "foo",
-   "og:title": "bar",
-   ....
-   ]
-   ```
-   */
-  public init(dictionaryLiteral elements: (OpenGraphPropertyName, OpenGraphPropertyValue)...) {
-    properties = [:]
-    for (key, value) in elements {
-      properties[key] = value
-    }
-  }
-}
-
-extension OpenGraphObject {
   internal var sdkGraphObjectRepresentation: FBSDKShareOpenGraphObject {
     let sdkObject = FBSDKShareOpenGraphObject()
     sdkObject.parseProperties(properties.keyValueMap { key, value in
@@ -97,8 +72,8 @@ extension OpenGraphObject {
   }
 
   internal init(sdkGraphObject: FBSDKShareOpenGraphObject) {
-    var properties = [OpenGraphPropertyName : OpenGraphPropertyValue]()
-    sdkGraphObject.enumerateKeysAndObjects { (key: String?, value: Any?, stop) in
+    var properties = [OpenGraphPropertyName: OpenGraphPropertyValue]()
+    sdkGraphObject.enumerateKeysAndObjects { (key: String?, value: Any?, _) in
       guard let key = key.map(OpenGraphPropertyName.init(rawValue:)),
         let value = value.map(OpenGraphPropertyValueConverter.valueFrom) else {
           return
@@ -107,9 +82,28 @@ extension OpenGraphObject {
     }
     self.properties = properties
   }
-}
 
-extension OpenGraphObject: Equatable {
+  // MARK: ExpressibleByDictionaryLiteral
+
+  /**
+   Convenience method to build a new object from a dictinary literal.
+
+   - parameter elements: The elements of the dictionary literal to initialize from.
+
+   example:
+   ```
+   ["og:type": "foo", "og:title": "bar", ...]
+   ```
+   */
+  public init(dictionaryLiteral elements: (OpenGraphPropertyName, OpenGraphPropertyValue)...) {
+    properties = [:]
+    for (key, value) in elements {
+      properties[key] = value
+    }
+  }
+
+  // MARK: Equatable
+
   /**
    Compare two `OpenGraphObject`s for equality.
 

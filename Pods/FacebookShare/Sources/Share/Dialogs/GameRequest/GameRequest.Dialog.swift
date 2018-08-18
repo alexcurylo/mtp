@@ -18,11 +18,11 @@
 
 import FBSDKShareKit
 
-extension GameRequest {
+public extension GameRequest {
   /// A dialog for sending game requests.
-  public final class Dialog {
-    fileprivate let sdkDialog: FBSDKGameRequestDialog
-    fileprivate let sdkDelegate: SDKDelegate
+  final class Dialog {
+    private let sdkDialog: FBSDKGameRequestDialog
+    private weak var sdkDelegate: SDKDelegate?
 
     /// The content for the game request.
     public let request: GameRequest
@@ -30,7 +30,7 @@ extension GameRequest {
     /// The completion handler to be invoked upon completion of the request.
     public var completion: ((Result) -> Void)? {
       didSet {
-        sdkDelegate.completion = completion
+        sdkDelegate?.completion = completion
       }
     }
 
@@ -55,7 +55,7 @@ extension GameRequest {
       sdkDialog = FBSDKGameRequestDialog()
       sdkDelegate = SDKDelegate()
 
-      sdkDelegate.setupAsDelegateFor(sdkDialog)
+      sdkDelegate?.setupAsDelegateFor(sdkDialog)
       sdkDialog.content = request.sdkContentRepresentation
     }
 
@@ -66,15 +66,15 @@ extension GameRequest {
      */
     public func show() throws {
       var error: Error?
-      let completionHandler = sdkDelegate.completion
-      sdkDelegate.completion = {
+      let completionHandler = sdkDelegate?.completion
+      sdkDelegate?.completion = {
         if case .failed(let resultError) = $0 {
           error = resultError
         }
       }
 
       sdkDialog.show()
-      sdkDelegate.completion = completionHandler
+      sdkDelegate?.completion = completionHandler
 
       if let error = error {
         throw error
@@ -89,24 +89,22 @@ extension GameRequest {
     public func validate() throws {
       return try sdkDialog.validate()
     }
-  }
-}
 
-extension GameRequest.Dialog {
-  /**
-   Convenience method to build and show a game request dialog.
+    /**
+     Convenience method to build and show a game request dialog.
 
-   - parameter request:    The request to send.
-   - parameter completion: The completion handler to be invoked upon completion of the request.
+     - parameter request: The request to send.
+     - parameter completion: The completion handler to be invoked upon completion of the request.
 
-   - returns: The dialog instance that has been shown.
-   - throws: If the  dialog fails to be presented.
-   */
-  @discardableResult
-  public static func show(_ request: GameRequest, completion: ((GameRequest.Result) -> Void)?) throws -> Self {
-    let dialog = self.init(request: request)
-    dialog.completion = completion
-    try dialog.show()
-    return dialog
+     - returns: The dialog instance that has been shown.
+     - throws: If the  dialog fails to be presented.
+     */
+    @discardableResult
+    public static func show(_ request: GameRequest, completion: ((GameRequest.Result) -> Void)?) throws -> Self {
+      let dialog = self.init(request: request)
+      dialog.completion = completion
+      try dialog.show()
+      return dialog
+    }
   }
 }

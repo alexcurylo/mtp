@@ -16,15 +16,15 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+import FBSDKShareKit
 import Foundation
 import UIKit
-import FBSDKShareKit
 
-extension AppInvite {
+public extension AppInvite {
   /// A dialog to send app invites.
-  public final class Dialog {
-    fileprivate let sdkDialog: FBSDKAppInviteDialog
-    fileprivate let sdkDelegate: SDKDelegate
+  final class Dialog {
+    private let sdkDialog: FBSDKAppInviteDialog
+    private weak var sdkDelegate: SDKDelegate?
 
     /// The invite to send.
     public let invite: AppInvite
@@ -46,10 +46,10 @@ extension AppInvite {
     /// The completion handler to be invoked upon showing the dialog.
     public var completion: ((Result) -> Void)? {
       get {
-        return sdkDelegate.completion
+        return sdkDelegate?.completion
       }
       set {
-        sdkDelegate.completion = newValue
+        sdkDelegate?.completion = newValue
       }
     }
 
@@ -63,7 +63,7 @@ extension AppInvite {
       sdkDialog.content = invite.sdkInviteRepresentation
 
       sdkDelegate = SDKDelegate()
-      sdkDelegate.setupAsDelegateFor(sdkDialog)
+      sdkDelegate?.setupAsDelegateFor(sdkDialog)
 
       self.invite = invite
     }
@@ -75,15 +75,15 @@ extension AppInvite {
      */
     public func show() throws {
       var error: Error?
-      let completionHandler = sdkDelegate.completion
-      sdkDelegate.completion = {
+      let completionHandler = sdkDelegate?.completion
+      sdkDelegate?.completion = {
         if case .failed(let resultError) = $0 {
           error = resultError
         }
       }
 
       sdkDialog.show()
-      sdkDelegate.completion = completionHandler
+      sdkDelegate?.completion = completionHandler
 
       if let error = error {
         throw error
@@ -98,29 +98,27 @@ extension AppInvite {
     public func validate() throws {
       try sdkDialog.validate()
     }
-  }
-}
 
-extension AppInvite.Dialog {
-  /**
-   Convenience method to show a `Dialog` with a `presentingViewController`, `invite`, and `completion`.
+    /**
+     Convenience method to show a `Dialog` with a `presentingViewController`, `invite`, and `completion`.
 
-   - parameter viewController: The view controller to present from.
-   - parameter invite:         The invite to send.
-   - parameter completion:     The completion handler to invoke upon success.
+     - parameter viewController: The view controller to present from.
+     - parameter invite: The invite to send.
+     - parameter completion: The completion handler to invoke upon success.
 
-   - throws: If the dialog fails to present.
+     - throws: If the dialog fails to present.
 
-   - returns: The dialog that has been presented.
-   */
-  @discardableResult
-  public static func show(from viewController: UIViewController,
-                          invite: AppInvite,
-                          completion: ((AppInvite.Result) -> Void)? = nil) throws -> Self {
-    let dialog = self.init(invite: invite)
-    dialog.presentingViewController = viewController
-    dialog.completion = completion
-    try dialog.show()
-    return dialog
+     - returns: The dialog that has been presented.
+     */
+    @discardableResult
+    public static func show(from viewController: UIViewController,
+                            invite: AppInvite,
+                            completion: ((AppInvite.Result) -> Void)? = nil) throws -> Self {
+      let dialog = self.init(invite: invite)
+      dialog.presentingViewController = viewController
+      dialog.completion = completion
+      try dialog.show()
+      return dialog
+    }
   }
 }

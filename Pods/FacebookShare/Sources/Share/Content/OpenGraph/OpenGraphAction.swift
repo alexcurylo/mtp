@@ -16,19 +16,19 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import Foundation
-import FBSDKShareKit
 @testable import FacebookCore
+import FBSDKShareKit
+import Foundation
 
 /**
  An Open Graph action for sharing.
  */
-public struct OpenGraphAction {
+public struct OpenGraphAction: Equatable, OpenGraphPropertyContaining {
   // TODO (richardross): Make ActionType an enum with common action types.
   /// The action type.
   public var type: String
 
-  fileprivate var properties: [OpenGraphPropertyName : OpenGraphPropertyValue]
+  private var properties: [OpenGraphPropertyName: OpenGraphPropertyValue]
 
   /**
    Create an `OpenGraphAction` with a specific action type.
@@ -39,9 +39,9 @@ public struct OpenGraphAction {
     self.type = type
     self.properties = [:]
   }
-}
 
-extension OpenGraphAction: OpenGraphPropertyContaining {
+  // MARK: OpenGraphPropertyContaining
+
   /// Get the property names contained in this container.
   public var propertyNames: Set<OpenGraphPropertyName> {
     return Set(properties.keys)
@@ -55,9 +55,7 @@ extension OpenGraphAction: OpenGraphPropertyContaining {
       properties[key] = newValue
     }
   }
-}
 
-extension OpenGraphAction {
   internal var sdkActionRepresentation: FBSDKShareOpenGraphAction {
     let sdkAction = FBSDKShareOpenGraphAction()
     sdkAction.actionType = type
@@ -71,8 +69,8 @@ extension OpenGraphAction {
   internal init(sdkAction: FBSDKShareOpenGraphAction) {
     self.type = sdkAction.actionType
 
-    var properties = [OpenGraphPropertyName : OpenGraphPropertyValue]()
-    sdkAction.enumerateKeysAndObjects { (key: String?, value: Any?, stop) in
+    var properties = [OpenGraphPropertyName: OpenGraphPropertyValue]()
+    sdkAction.enumerateKeysAndObjects { (key: String?, value: Any?, _) in
       guard let key = key.map(OpenGraphPropertyName.init(rawValue:)),
         let value = value.map(OpenGraphPropertyValueConverter.valueFrom) else {
           return
@@ -81,9 +79,9 @@ extension OpenGraphAction {
     }
     self.properties = properties
   }
-}
 
-extension OpenGraphAction: Equatable {
+  // MARK: Equatable
+
   /**
    Compare two `OpenGraphAction`s for equality.
 
