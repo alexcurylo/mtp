@@ -43,7 +43,8 @@ final class LoginVC: UIViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch true {
-        case R.segue.loginVC.presentForgotPassword(segue: segue) != nil:
+        case R.segue.loginVC.presentForgotPassword(segue: segue) != nil,
+             R.segue.loginVC.presentLoginFail(segue: segue) != nil:
             navigationController?.setNavigationBarHidden(true, animated: true)
             UserDefaults.standard.email = emailTextField?.text ?? ""
             fallthrough
@@ -93,10 +94,13 @@ private extension LoginVC {
 
     func login(email: String, password: String) {
         MTPAPI.login(email: email, password: password) { [weak self] success in
-            guard success else { return }
-            UserDefaults.standard.email = email
-            UserDefaults.standard.password = password
-            self?.performSegue(withIdentifier: R.segue.loginVC.showMain, sender: self)
+            if success {
+                UserDefaults.standard.email = email
+                UserDefaults.standard.password = password
+                self?.performSegue(withIdentifier: R.segue.loginVC.showMain, sender: self)
+            } else {
+                self?.performSegue(withIdentifier: R.segue.loginVC.presentLoginFail, sender: self)
+            }
         }
     }
 }

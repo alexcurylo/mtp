@@ -2,21 +2,15 @@
 
 import UIKit
 
-final class ForgotPasswordVC: UIViewController {
+final class LoginFailVC: UIViewController {
 
     @IBOutlet private weak var alertHolder: UIView!
     @IBOutlet private weak var bottomY: NSLayoutConstraint!
     @IBOutlet private weak var centerY: NSLayoutConstraint!
     @IBOutlet private weak var messageLabel: UILabel!
 
-    private var email: String = ""
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        email = UserDefaults.standard.email
-        let message = R.string.localizable.sendLink(email.hiddenName)
-        messageLabel.text = message
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -38,8 +32,10 @@ final class ForgotPasswordVC: UIViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch true {
-        case R.segue.forgotPasswordVC.dismissForgotPassword(segue: segue) != nil:
+        case R.segue.loginFailVC.dismissLoginFail(segue: segue) != nil:
             presentingViewController?.navigationController?.setNavigationBarHidden(false, animated: true)
+            fallthrough
+        case R.segue.loginFailVC.switchForgotPassword(segue: segue) != nil:
             log.verbose(segue.name)
         default:
             log.warning("Unexpected segue: \(segue.name)")
@@ -47,13 +43,7 @@ final class ForgotPasswordVC: UIViewController {
     }
 }
 
-private extension ForgotPasswordVC {
-
-    @IBAction func continueTapped(_ sender: GradientButton) {
-        MTPAPI.forgotPassword(email: email) { _ in
-            self.performSegue(withIdentifier: R.segue.forgotPasswordVC.dismissForgotPassword, sender: self)
-        }
-    }
+private extension LoginFailVC {
 
     func hideAlert() {
         centerY.priority = .defaultLow

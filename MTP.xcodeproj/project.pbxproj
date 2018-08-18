@@ -52,6 +52,7 @@
 		FAB53F8B20DFD618007A80A7 /* MemoryWarner.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB53F8A20DFD618007A80A7 /* MemoryWarner.m */; };
 		FAF1853120FA0C8600CC5D83 /* RootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF1853020FA0C8600CC5D83 /* RootVC.swift */; };
 		FAF1853220FA0DEF00CC5D83 /* Root.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAF1853420FA0DEF00CC5D83 /* Root.storyboard */; };
+		FAFEDA50211DB0E800DA3DB8 /* LoginFailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFEDA4F211DB0E800DA3DB8 /* LoginFailVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -148,6 +149,7 @@
 		FAF1853020FA0C8600CC5D83 /* RootVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootVC.swift; sourceTree = "<group>"; };
 		FAF1853320FA0DEF00CC5D83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Root.storyboard; sourceTree = "<group>"; };
 		FAF1853520FA16CE00CC5D83 /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
+		FAFEDA4F211DB0E800DA3DB8 /* LoginFailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFailVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -288,6 +290,7 @@
 				FA74C0EF2117C60B0013A840 /* ForgotPasswordVC.swift */,
 				FA392BBC20DF69F30026C828 /* LocationsVC.swift */,
 				FA32CC752100C34E004C1329 /* LoginVC.swift */,
+				FAFEDA4F211DB0E800DA3DB8 /* LoginFailVC.swift */,
 				FA74574C210CA5730010F4F4 /* MyProfileVC.swift */,
 				FAF1853020FA0C8600CC5D83 /* RootVC.swift */,
 				FA392BBE20DF69F30026C828 /* RankingsVC.swift */,
@@ -640,6 +643,7 @@
 			files = (
 				FA463785210E06230007382D /* Logger.swift in Sources */,
 				FA74574D210CA5730010F4F4 /* MyProfileVC.swift in Sources */,
+				FAFEDA50211DB0E800DA3DB8 /* LoginFailVC.swift in Sources */,
 				FA835D36210F054F0098C270 /* ReplaceTopSegue.swift in Sources */,
 				FA4653342115ADC6005B5A0A /* MTPAPI.swift in Sources */,
 				FA74C111211BBF490013A840 /* String+Formatting.swift in Sources */,

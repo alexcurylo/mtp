@@ -24,6 +24,18 @@ final class DismissSegue: UIStoryboardSegue {
     }
 }
 
+final class SwitchAlertSegue: UIStoryboardSegue {
+
+    override func perform() {
+        if let presenter = source.presentingViewController {
+            presenter.dismiss(animated: false, completion: nil)
+            presenter.present(destination, animated: false, completion: nil)
+        } else {
+            super.perform()
+        }
+    }
+}
+
 final class FadeInAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
