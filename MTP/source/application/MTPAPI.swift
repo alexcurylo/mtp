@@ -1,6 +1,56 @@
 // @copyright Trollwerks Inc.
 
-import Foundation
+import Moya
+
+enum MTP {
+    case login(String, String)
+}
+
+extension MTP: TargetType {
+
+    // swiftlint:disable:next force_unwrapping
+    public var baseURL: URL { return URL(string: "https://mtp.travel")! }
+
+    public var path: String {
+        switch self {
+        case .login:
+            return "/api/user/login"
+        }
+    }
+
+    public var method: Moya.Method {
+        switch self {
+        case .login:
+            return .post
+        }
+    }
+
+    var task: Task {
+        switch self {
+        case let .login(email, password):
+            return .requestParameters(parameters: ["email": email,
+                                                   "password": password],
+                                      encoding: JSONEncoding.default)
+        }
+    }
+
+    var validationType: ValidationType {
+        return .successCodes
+    }
+
+    // swiftlint:disable:next discouraged_optional_collection
+    var headers: [String: String]? {
+        return ["Content-Type": "application/json; charset=utf-8",
+                "Accept": "application/json; charset=utf-8"]
+    }
+
+    public var sampleData: Data {
+        switch self {
+        case .login:
+            return "{}".data(using: String.Encoding.utf8) ?? Data()
+        }
+    }
+}
 
 enum MTPAPI {
 
@@ -24,52 +74,25 @@ enum MTPAPI {
             return then(false)
         }
 
-        let endpoint = "https://mtp.travel/api/user/login"
-        guard let endpointUrl = URL(string: endpoint) else {
-            return then(false)
-        }
-        let config = URLSessionConfiguration.default
-        let session = URLSession(configuration: config, delegate: nil, delegateQueue: nil)
-
-        let json: [String: Any] = [
-            "email": email,
-            "password": password
-        ]
-
-        do {
-            let data = try JSONSerialization.data(withJSONObject: json, options: [])
-
-            var request = URLRequest(url: endpointUrl,
-                                     cachePolicy: .reloadIgnoringLocalAndRemoteCacheData,
-                                     timeoutInterval: 10.0 * 1_000)
-            request.httpMethod = "POST"
-            request.httpBody = data
-            request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-            request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")
-
-            let task = session.dataTask(with: request) { data, _, error in
-                guard error == nil else {
-                    print("error calling POST on /user/login: \(String(describing: error))")
-                    return then(false)
-                }
-                guard let responseData = data,
-                      let userData = try? JSONSerialization.jsonObject(with: responseData, options: []),
-                      let userDict = userData as? [String: Any] else {
-                    print("Could not get JSON from responseData as dictionary")
-                    return then(false)
-                }
-                print("The userData is: " + userDict.description)
-                if let token = userDict["token"] as? String {
-                    print("The token is: \(token)")
-                    UserDefaults.standard.token = token
-                    return then(true)
-                }
-                return then(false)
+        let provider = MoyaProvider<MTP>()
+        provider.request(.login(email, password)) { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let userData = try response.mapJSON()
+                    if let userDict = userData as? [String: Any],
+                       let token = userDict["token"] as? String {
+                        print("The userData is: " + userDict.description)
+                        print("The token is: \(token)")
+                        UserDefaults.standard.token = token
+                        return then(true)
+                    }
+                } catch {
+                    log.error("error decoding /login response")
+               }
+            case .failure(let error):
+                log.error("error calling /login: \(String(describing: error))")
             }
-            task.resume()
-            session.finishTasksAndInvalidate()
-        } catch {
-            log.info("Error on login: \(email), \(password)")
             return then(false)
         }
     }
