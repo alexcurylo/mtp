@@ -1,4 +1,3 @@
 _notes on current branch task:_
 
-Continue on login
-Implement signup
+Make Login result a Decodable

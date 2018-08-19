@@ -62,6 +62,9 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
+                    <connections>
+                        <segue destination="M95-Fc-Urs" kind="show" identifier="directEdit" animates="NO" id="7Wa-VS-F0d"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S7G-2n-4SF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -231,4 +234,7 @@
         <image name="navSettings" width="30" height="30"/>
         <image name="tabMyProfile" width="16" height="16"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="7Wa-VS-F0d"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -46,7 +46,8 @@ final class SignupVC: UIViewController {
         switch true {
         case R.segue.signupVC.unwindFromSignup(segue: segue) != nil,
              R.segue.signupVC.switchLogin(segue: segue) != nil,
-             R.segue.signupVC.pushTermsOfService(segue: segue) != nil:
+             R.segue.signupVC.pushTermsOfService(segue: segue) != nil,
+             R.segue.signupVC.showWelcome(segue: segue) != nil:
             log.verbose(segue.name)
         default:
             log.warning("Unexpected segue: \(segue.name)")
@@ -76,7 +77,6 @@ private extension SignupVC {
     }
 
     @IBAction func signupTapped(_ sender: GradientButton) {
-        log.warning("implement name field")
         register(name: nameTextField?.text ?? "",
                  email: emailTextField?.text ?? "",
                  password: passwordTextField?.text ?? "")
@@ -91,7 +91,7 @@ private extension SignupVC {
     func register(name: String, email: String, password: String) {
         MTPAPI.register(name: name, email: email, password: password) { [weak self] success in
             if success {
-                self?.performSegue(withIdentifier: R.segue.signupVC.showMain, sender: self)
+                self?.performSegue(withIdentifier: R.segue.signupVC.showWelcome, sender: self)
             } else {
                 log.warning("implement register fail notification")
             }
