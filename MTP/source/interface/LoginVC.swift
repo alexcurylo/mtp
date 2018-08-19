@@ -4,9 +4,9 @@ import UIKit
 
 final class LoginVC: UIViewController {
 
-    @IBOutlet private weak var togglePasswordButton: UIButton?
     @IBOutlet private weak var emailTextField: UITextField?
     @IBOutlet private weak var passwordTextField: UITextField?
+    @IBOutlet private weak var togglePasswordButton: UIButton?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,9 +78,6 @@ private extension LoginVC {
         }
     }
 
-    @IBAction func forgotTapped(_ sender: UIButton) {
-   }
-
     @IBAction func loginTapped(_ sender: GradientButton) {
         login(email: emailTextField?.text ?? "",
               password: passwordTextField?.text ?? "")
@@ -95,8 +92,6 @@ private extension LoginVC {
     func login(email: String, password: String) {
         MTPAPI.login(email: email, password: password) { [weak self] success in
             if success {
-                UserDefaults.standard.email = email
-                UserDefaults.standard.password = password
                 self?.performSegue(withIdentifier: R.segue.loginVC.showMain, sender: self)
             } else {
                 self?.performSegue(withIdentifier: R.segue.loginVC.presentLoginFail, sender: self)

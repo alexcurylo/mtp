@@ -24,6 +24,13 @@ final class DismissSegue: UIStoryboardSegue {
     }
 }
 
+final class PopSegue: UIStoryboardSegue {
+
+    override func perform() {
+        source.navigationController?.popViewController(animated: true)
+    }
+}
+
 final class SwitchAlertSegue: UIStoryboardSegue {
 
     override func perform() {
@@ -53,13 +60,16 @@ final class FadeInAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         to.alpha = 0
 
         let duration = transitionDuration(using: transitionContext)
-        UIView.animate(withDuration: duration,
-                       animations: {
-            to.alpha = 1
-        }, completion: { _ in
-            let cancelled = transitionContext.transitionWasCancelled
-            transitionContext.completeTransition(!cancelled)
-        })
+        UIView.animate(
+            withDuration: duration,
+            animations: {
+                to.alpha = 1
+            },
+            completion: { _ in
+                let cancelled = transitionContext.transitionWasCancelled
+                transitionContext.completeTransition(!cancelled)
+            }
+        )
     }
 }
 
@@ -84,12 +94,15 @@ final class ZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         containerView.bringSubview(toFront: to)
 
         let duration = transitionDuration(using: transitionContext)
-        UIView.animate(withDuration: duration,
-                       animations: {
-            to.transform = .identity
-        }, completion: { _ in
-            let cancelled = transitionContext.transitionWasCancelled
-            transitionContext.completeTransition(!cancelled)
-        })
+        UIView.animate(
+            withDuration: duration,
+            animations: {
+                to.transform = .identity
+            },
+            completion: { _ in
+                let cancelled = transitionContext.transitionWasCancelled
+                transitionContext.completeTransition(!cancelled)
+            }
+        )
     }
 }

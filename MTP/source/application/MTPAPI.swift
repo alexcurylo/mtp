@@ -84,6 +84,8 @@ enum MTPAPI {
                        let token = userDict["token"] as? String {
                         print("The userData is: " + userDict.description)
                         print("The token is: \(token)")
+                        UserDefaults.standard.email = email
+                        UserDefaults.standard.password = password
                         UserDefaults.standard.token = token
                         return then(true)
                     }
@@ -103,10 +105,14 @@ enum MTPAPI {
                          then: @escaping (Bool) -> Void) {
         guard !name.isEmpty && !email.isEmpty && !password.isEmpty else {
             log.verbose("register attempt invalid: name `\(name)` email `\(email)` password `\(password)`")
-            return
+            return then(false)
         }
 
         log.info("TO DO: implement MTPAPI.register: \(name), \(email), \(password)")
-        then(true)
+
+        UserDefaults.standard.email = email
+        UserDefaults.standard.name = name
+        UserDefaults.standard.password = password
+        return then(true)
     }
 }
