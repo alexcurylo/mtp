@@ -1,5 +1,6 @@
 // @copyright Trollwerks Inc.
 
+import FacebookCore
 import UIKit
 
 final class RootVC: UIViewController {
@@ -9,22 +10,18 @@ final class RootVC: UIViewController {
     @IBOutlet private weak var loginButton: UIButton!
     @IBOutlet private weak var signupButton: UIButton!
 
-    private var watchLogin: NSKeyValueObservation?
-    private var watchSignup: NSKeyValueObservation?
-
     private var isloggedIn: Bool {
         if let loggedIn = ProcessInfo.setting(bool: .loggedIn) {
             return loggedIn
+        } else if UIApplication.isTesting {
+            return false
         }
 
-        log.debug("TO DO: implement isloggedIn")
-        return false
+        return UserDefaults.standard.isLoggedIn
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        setupButtons()
 
         if isloggedIn {
             performSegue(withIdentifier: R.segue.rootVC.showMain, sender: self)
@@ -38,38 +35,10 @@ final class RootVC: UIViewController {
         if isloggedIn {
             credentials.isHidden = true
             credentialsBottom.constant = 0
+            performSegue(withIdentifier: R.segue.rootVC.showMain, sender: self)
         } else {
             credentials.isHidden = false
             credentialsBottom.constant = -credentials.bounds.height
-        }
-    }
-
-    func setupButtons() {
-        loginButton.round(corners: 4)
-        signupButton.round(corners: 4)
-
-        func fixLogin() {
-            loginButton.apply(gradient: [UIColor(rgb: 0x028CFF),
-                                         UIColor(rgb: 0x19C0FD)],
-                              orientation: .horizontal)
-        }
-
-        func fixSignup() {
-            signupButton.apply(gradient: [UIColor(rgb: 0x3191CB),
-                                          UIColor(rgb: 0x004B78)],
-                               orientation: .horizontal)
-        }
-
-        fixLogin()
-        watchLogin = observe(\.loginButton.bounds,
-                             options: [.new, .old]) { _, _ in
-            fixLogin()
-        }
-
-        fixSignup()
-        watchSignup = observe(\.signupButton.bounds,
-                              options: [.new, .old]) { _, _ in
-            fixSignup()
         }
     }
 
@@ -78,6 +47,35 @@ final class RootVC: UIViewController {
 
         revealCredentials()
     }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+
+    override func didReceiveMemoryWarning() {
+        log.info("didReceiveMemoryWarning: \(type(of: self))")
+        super.didReceiveMemoryWarning()
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch true {
+        case R.segue.rootVC.embedLaunchScreen(segue: segue) != nil,
+             R.segue.rootVC.showMain(segue: segue) != nil,
+             R.segue.rootVC.showLogin(segue: segue) != nil,
+             R.segue.rootVC.showSignup(segue: segue) != nil,
+             R.segue.signupVC.unwindFromSignup(segue: segue) != nil,
+             R.segue.loginVC.unwindFromLogin(segue: segue) != nil,
+             R.segue.editProfileVC.unwindFromEditProfile(segue: segue) != nil:
+            log.verbose(segue.name)
+        default:
+            log.warning("Unexpected segue: \(segue.name)")
+        }
+    }
+}
+
+private extension RootVC {
+
+    @IBAction private func unwindToRoot(segue: UIStoryboardSegue) { }
 
     func revealCredentials() {
         guard credentialsBottom.constant < 0 else { return }
@@ -94,25 +92,5 @@ final class RootVC: UIViewController {
                 self.view.layoutIfNeeded()
             },
             completion: nil)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if R.segue.rootVC.embedLaunchScreen(segue: segue) != nil {
-            log.verbose("embedLaunchScreen")
-        } else if R.segue.rootVC.showMain(segue: segue) != nil {
-            log.verbose("showMain")
-        } else {
-            log.error("Unexpected segue: \(String(describing: segue.identifier))")
-        }
     }
 }

@@ -17,6 +17,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         configureSettingsDisplay()
 
+        configureFacebook(app: application, options: launchOptions ?? [:])
+
+        configureAppearance()
+
         log.verbose("didFinishLaunchingWithOptions")
 
         return true
@@ -32,10 +36,17 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
+        logFacebookActivate()
+    }
+
+    func application(_ app: UIApplication,
+                     open url: URL,
+                     options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
+        return handleFacebookURL(app: app, open: url, options: options)
     }
 
     func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
-        log.warning("INFO: \(type(of: self)) applicationDidReceiveMemoryWarning")
+        log.info("applicationDidReceiveMemoryWarning")
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -46,5 +57,9 @@ private extension AppDelegate {
 
     func configureSettingsDisplay() {
         StringKey.infoDictionarySettingsKeys.copyToUserDefaults()
+    }
+
+    func configureAppearance() {
+        style.standard.apply()
     }
 }
