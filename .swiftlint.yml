@@ -1,14 +1,18 @@
 # references:
 # https://github.com/realm/SwiftLint#configuration
 #
-# swiftlint rules last updated version 0.26.0
+# swiftlint rules last updated version 0.27.0
 #
 # Disable an individual warning with [next|previous]:
 # // swiftlint:disable:previous line_length
 
+disabled_rules:
+  - identifier_name
+
 opt_in_rules:
+  - anyobject_protocol
   - array_init
-  - attributes
+#- attributes
   - closure_end_indentation
   - closure_spacing
 #- conditional_returns_on_newline
@@ -26,7 +30,7 @@ opt_in_rules:
 #- explicit_top_level_acl
 #- explicit_type_interface
   - extension_access_modifier
-  - fallthrough
+#- fallthrough
   - fatal_error_message
   - file_header
   - file_name
@@ -39,6 +43,7 @@ opt_in_rules:
   - let_var_whitespace
   - literal_expression_end_indentation
   - lower_acl_than_parent
+  - missing_docs
   - modifier_order
   - multiline_arguments
   - multiline_function_chains
@@ -60,6 +65,7 @@ opt_in_rules:
   - quick_discouraged_focused_test
   - quick_discouraged_pending_test
   - redundant_nil_coalescing
+  - redundant_type_annotation
   - required_enum_case
   - single_test_class
   - sorted_first_last

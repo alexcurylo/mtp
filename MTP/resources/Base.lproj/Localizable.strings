@@ -1,0 +1,5 @@
+// @copyright Trollwerks Inc.
+
+// ForgotPasswordVC
+
+"SendLink" = "We will send a link to your email %@ enabling you to reset your password.";

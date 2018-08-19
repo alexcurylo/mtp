@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4BE-sy-jd5">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="iOL-oD-Ygn">
+            <objects>
+                <navigationController id="4BE-sy-jd5" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="iRj-gC-1he">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="xVq-HX-Kg4" kind="relationship" relationship="rootViewController" id="gA0-yz-3ZP"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nQG-bM-qOw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-180" y="139"/>
+        </scene>
+        <!--RootVC-->
+        <scene sceneID="W1J-iH-1av">
+            <objects>
+                <viewController id="xVq-HX-Kg4" customClass="RootVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0ye-ra-cJP">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IAe-FN-KqB">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <connections>
+                                    <segue destination="jjq-87-ohd" kind="embed" identifier="EmbedLaunchScreen" id="ROs-WR-bd6"/>
+                                </connections>
+                            </containerView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KYt-nG-IIY">
+                                <rect key="frame" x="0.0" y="575" width="375" height="92"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="0Hc-i5-1Pa">
+                                        <rect key="frame" x="24" y="24" width="327" height="44"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="siP-0O-ZTR" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="155.5" height="44"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="44" id="jfs-Qj-oZV"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
+                                                <state key="normal" title="Log In">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <real key="value" value="4"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                                        <color key="value" red="0.0078431372549019607" green="0.5490196078431373" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                                        <color key="value" red="0.098039215686274508" green="0.75294117647058822" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="orientation">
+                                                        <integer key="value" value="2"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <segue destination="MnN-3G-z7h" kind="show" identifier="showLogin" id="4VC-ob-7Zs"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FZq-zl-rb3" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
+                                                <rect key="frame" x="171.5" y="0.0" width="155.5" height="44"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="44" id="Epj-mf-LCx"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
+                                                <state key="normal" title="Sign Up">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <real key="value" value="4"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                                        <color key="value" red="0.19215686274509802" green="0.56862745098039214" blue="0.79607843137254897" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                                        <color key="value" red="0.0" green="0.29411764705882354" blue="0.47058823529411764" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="orientation">
+                                                        <integer key="value" value="2"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <segue destination="f8G-Zt-zJn" kind="show" identifier="showSignup" id="mIe-wZ-GA9"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailingMargin" secondItem="0Hc-i5-1Pa" secondAttribute="trailing" constant="16" id="9Ya-Sa-1bl"/>
+                                    <constraint firstItem="0Hc-i5-1Pa" firstAttribute="top" secondItem="KYt-nG-IIY" secondAttribute="topMargin" constant="16" id="Oi5-J2-Ila"/>
+                                    <constraint firstItem="0Hc-i5-1Pa" firstAttribute="leading" secondItem="KYt-nG-IIY" secondAttribute="leadingMargin" constant="16" id="vVO-ak-niz"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="0Hc-i5-1Pa" secondAttribute="bottom" constant="16" id="yBp-Fz-hUc"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="KYt-nG-IIY" firstAttribute="leading" secondItem="n7K-Ak-WrW" secondAttribute="leading" id="Ldq-eg-HOP"/>
+                            <constraint firstItem="KYt-nG-IIY" firstAttribute="trailing" secondItem="n7K-Ak-WrW" secondAttribute="trailing" id="Ua9-Qe-VCN"/>
+                            <constraint firstItem="IAe-FN-KqB" firstAttribute="leading" secondItem="0ye-ra-cJP" secondAttribute="leading" id="guF-te-cCZ"/>
+                            <constraint firstAttribute="bottom" secondItem="IAe-FN-KqB" secondAttribute="bottom" id="iNf-Hd-Ytv"/>
+                            <constraint firstAttribute="bottom" secondItem="KYt-nG-IIY" secondAttribute="bottom" priority="750" id="myo-q3-ulv"/>
+                            <constraint firstItem="IAe-FN-KqB" firstAttribute="trailing" secondItem="0ye-ra-cJP" secondAttribute="trailing" id="qp9-2P-0A9"/>
+                            <constraint firstItem="IAe-FN-KqB" firstAttribute="top" secondItem="0ye-ra-cJP" secondAttribute="top" id="tUt-9g-wub"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="n7K-Ak-WrW"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="yfM-cw-tQc"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="credentials" destination="KYt-nG-IIY" id="Mo4-LH-kPM"/>
+                        <outlet property="credentialsBottom" destination="myo-q3-ulv" id="GpJ-lj-P19"/>
+                        <outlet property="loginButton" destination="siP-0O-ZTR" id="sdy-cP-nRU"/>
+                        <outlet property="signupButton" destination="FZq-zl-rb3" id="u5W-1a-tII"/>
+                        <segue destination="obI-oS-bS0" kind="show" identifier="ShowMain" id="LXR-QT-a5b"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4ps-9E-aSI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="544.79999999999995" y="138.98050974512745"/>
+        </scene>
+        <!--LaunchScreen-->
+        <scene sceneID="HO1-Vx-K4B">
+            <objects>
+                <viewControllerPlaceholder storyboardName="LaunchScreen" id="jjq-87-ohd" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JcM-az-AYH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1188" y="-128"/>
+        </scene>
+        <!--Main-->
+        <scene sceneID="qlq-RW-dFY">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" id="obI-oS-bS0" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lAq-Jw-DcY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1235" y="163"/>
+        </scene>
+        <!--Signup-->
+        <scene sceneID="VBg-SU-VHx">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Signup" id="f8G-Zt-zJn" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Oae-r7-GAU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="785" y="596"/>
+        </scene>
+        <!--Login-->
+        <scene sceneID="g0C-Lp-DZ2">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Login" id="MnN-3G-z7h" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zh4-xn-Pdq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="297" y="596"/>
+        </scene>
+    </scenes>
+</document>

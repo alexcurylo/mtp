@@ -4,26 +4,34 @@ import XCTest
 
 final class MTPUITests: XCTestCase {
 
+    private let app = XCUIApplication()
+
     override func setUp() {
         super.setUp()
 
         continueAfterFailure = false
-
-        let app = XCUIApplication()
-        app.launchArguments += [LaunchArgument.uiTestingMode.rawValue]
-        app.launch()
     }
 
     override func tearDown() {
         super.tearDown()
     }
 
+    func testFirstLaunch() {
+        launch(settings: [.loggedIn(false)])
+
+        let tabBar = app.tabBars.element(boundBy: 0)
+        XCTAssertFalse(tabBar.waitForExistence(timeout: 5))
+    }
+
     func testTabNavigation() {
-        let app = XCUIApplication()
+        launch(settings: [.loggedIn(true)])
+
         let tabBar = app.tabBars.element(boundBy: 0)
         let first = tabBar.buttons.element(boundBy: 0)
         let second = tabBar.buttons.element(boundBy: 1)
+        let third = tabBar.buttons.element(boundBy: 2)
 
+        XCTAssertTrue(tabBar.waitForExistence(timeout: 5))
         XCTAssertTrue(first.isSelected, "first tab not selected at startup")
 
         // note foreseeable failure here:
@@ -32,6 +40,11 @@ final class MTPUITests: XCTestCase {
 
         let selectedPredicate = NSPredicate(format: "selected == true")
         expectation(for: selectedPredicate, evaluatedWith: second, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
+
+        third.tap()
+
+        expectation(for: selectedPredicate, evaluatedWith: third, handler: nil)
         waitForExpectations(timeout: 5, handler: nil)
 
         first.tap()
