@@ -16,184 +16,359 @@
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
-      "line": 21,
+      "line": 94,
       "symbol": "R.color.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
-      "line": 59,
+      "line": 124,
       "symbol": "R.file.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
-      "line": 64,
+      "line": 129,
       "symbol": "R.font.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
-      "line": 91,
+      "line": 254,
       "symbol": "R.image.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
-      "line": 96,
+      "line": 259,
       "symbol": "R.nib.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
-      "line": 101,
+      "line": 264,
       "symbol": "R.reuseIdentifier.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
-      "line": 106,
+      "line": 281,
+      "symbol": "R.segue.editProfileVC.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
+      "line": 296,
+      "symbol": "R.segue.forgotPasswordVC.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
+      "line": 320,
+      "symbol": "R.segue.loginFailVC.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
+      "line": 371,
+      "symbol": "R.segue.loginVC.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
+      "line": 404,
+      "symbol": "R.segue.myProfileVC.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
+      "line": 446,
+      "symbol": "R.segue.rootVC.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
+      "line": 488,
+      "symbol": "R.segue.signupVC.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
+      "line": 503,
+      "symbol": "R.segue.uiKitUIViewController.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
+      "line": 527,
+      "symbol": "R.segue.welcomeVC.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
+      "line": 530,
       "symbol": "R.segue.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
-      "line": 126,
+      "line": 585,
       "symbol": "R.storyboard.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
-      "line": 131,
+      "line": 604,
+      "symbol": "R.string.localizable.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
+      "line": 607,
       "symbol": "R.string.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
-      "line": 134,
+      "line": 610,
       "symbol": "R.intern",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
-      "line": 139,
+      "line": 615,
       "symbol": "R.intern.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
-      "line": 142,
+      "line": 618,
       "symbol": "R.Class",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
-      "line": 144,
+      "line": 620,
       "symbol": "R.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
-      "line": 147,
+      "line": 623,
       "symbol": "_R",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
-      "line": 152,
+      "line": 628,
       "symbol": "_R.nib",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
-      "line": 153,
+      "line": 629,
       "symbol": "_R.nib.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
-      "line": 156,
+      "line": 632,
       "symbol": "_R.storyboard",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
-      "line": 161,
+      "line": 641,
+      "symbol": "_R.storyboard.editProfile",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
+      "line": 647,
+      "symbol": "_R.storyboard.editProfile.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
+      "line": 650,
       "symbol": "_R.storyboard.launchScreen",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
-      "line": 167,
+      "line": 661,
       "symbol": "_R.storyboard.launchScreen.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
-      "line": 170,
+      "line": 664,
+      "symbol": "_R.storyboard.login",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
+      "line": 677,
+      "symbol": "_R.storyboard.login.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
+      "line": 680,
       "symbol": "_R.storyboard.main",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
-      "line": 181,
+      "line": 691,
       "symbol": "_R.storyboard.main.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
-      "line": 184,
+      "line": 694,
+      "symbol": "_R.storyboard.myProfile",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
+      "line": 706,
+      "symbol": "_R.storyboard.myProfile.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
+      "line": 709,
+      "symbol": "_R.storyboard.root",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
+      "line": 715,
+      "symbol": "_R.storyboard.root.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
+      "line": 718,
+      "symbol": "_R.storyboard.signup",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
+      "line": 736,
+      "symbol": "_R.storyboard.signup.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
+      "line": 739,
       "symbol": "_R.storyboard.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/resources/R.generated.swift",
-      "line": 187,
+      "line": 742,
       "symbol": "_R.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/AppDelegate+Tools.swift",
-      "line": 9,
-      "symbol": "log",
-      "symbol_kind": "source.lang.swift.decl.var.global",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/AppDelegate+Tools.swift",
-      "line": 13,
+      "line": 16,
       "symbol": "AppDelegate.configureAppCenter()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/AppDelegate+Tools.swift",
-      "line": 25,
+      "line": 31,
+      "symbol": "swiftyBeaver",
+      "symbol_kind": "source.lang.swift.decl.var.global",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/AppDelegate+Tools.swift",
+      "line": 35,
       "symbol": "AppDelegate.configureLogging()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/AppDelegate+Tools.swift",
+      "line": 64,
+      "symbol": "AppDelegate.configureFacebook(app:options:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/AppDelegate+Tools.swift",
+      "line": 71,
+      "symbol": "AppDelegate.handleFacebookURL(app:open:options:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/AppDelegate+Tools.swift",
+      "line": 80,
+      "symbol": "AppDelegate.logFacebookActivate()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/AppDelegate.swift",
+      "line": null,
+      "symbol": "AppDelegate",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/AppDelegate.swift",
+      "line": null,
+      "symbol": "AppDelegate",
+      "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
@@ -233,106 +408,1597 @@
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/AppDelegate.swift",
-      "line": 23,
+      "line": 29,
       "symbol": "AppDelegate.applicationWillResignActive(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/AppDelegate.swift",
-      "line": 26,
+      "line": 32,
       "symbol": "AppDelegate.applicationDidEnterBackground(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/AppDelegate.swift",
-      "line": 29,
+      "line": 35,
       "symbol": "AppDelegate.applicationWillEnterForeground(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/AppDelegate.swift",
-      "line": 32,
+      "line": 38,
       "symbol": "AppDelegate.applicationDidBecomeActive(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/AppDelegate.swift",
-      "line": 35,
+      "line": 42,
+      "symbol": "AppDelegate.application(_:open:options:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/AppDelegate.swift",
+      "line": 48,
       "symbol": "AppDelegate.applicationDidReceiveMemoryWarning(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/AppDelegate.swift",
-      "line": 39,
+      "line": 52,
       "symbol": "AppDelegate.applicationWillTerminate(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/AppDelegate.swift",
-      "line": 45,
+      "line": 58,
       "symbol": "AppDelegate.configureSettingsDisplay()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/FirstViewController.swift",
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/AppDelegate.swift",
+      "line": 62,
+      "symbol": "AppDelegate.configureAppearance()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/MTPAPI.swift",
+      "line": null,
+      "symbol": "MTP",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/MTPAPI.swift",
       "line": 5,
-      "symbol": "FirstViewController",
+      "symbol": "MTP",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/MTPAPI.swift",
+      "line": 6,
+      "symbol": "MTP.login",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/MTPAPI.swift",
+      "line": 55,
+      "symbol": "MTPAPI",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/MTPAPI.swift",
+      "line": 57,
+      "symbol": "MTPAPI.forgotPassword(email:then:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/MTPAPI.swift",
+      "line": 69,
+      "symbol": "MTPAPI.login(email:password:then:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/MTPAPI.swift",
+      "line": 102,
+      "symbol": "MTPAPI.register(name:email:password:then:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/UserDefaults+MTP.swift",
+      "line": 7,
+      "symbol": "UserDefaults.logOut()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/UserDefaults+MTP.swift",
+      "line": 14,
+      "symbol": "UserDefaults.isLoggedIn",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/UserDefaults+MTP.swift",
+      "line": 18,
+      "symbol": "UserDefaults.email",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/UserDefaults+MTP.swift",
+      "line": 23,
+      "symbol": "UserDefaults.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/UserDefaults+MTP.swift",
+      "line": 28,
+      "symbol": "UserDefaults.password",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/application/UserDefaults+MTP.swift",
+      "line": 33,
+      "symbol": "UserDefaults.token",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/EditProfileVC.swift",
+      "line": null,
+      "symbol": "EditProfileVC",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/EditProfileVC.swift",
+      "line": 5,
+      "symbol": "EditProfileVC",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/FirstViewController.swift",
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/EditProfileVC.swift",
       "line": 7,
-      "symbol": "FirstViewController.viewDidLoad()",
+      "symbol": "EditProfileVC.viewDidLoad()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/FirstViewController.swift",
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/EditProfileVC.swift",
       "line": 11,
-      "symbol": "FirstViewController.viewDidAppear(_:)",
+      "symbol": "EditProfileVC.viewWillAppear(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/FirstViewController.swift",
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/EditProfileVC.swift",
       "line": 15,
-      "symbol": "FirstViewController.didReceiveMemoryWarning()",
+      "symbol": "EditProfileVC.viewDidAppear(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SecondViewController.swift",
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/EditProfileVC.swift",
+      "line": 19,
+      "symbol": "EditProfileVC.didReceiveMemoryWarning()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/EditProfileVC.swift",
+      "line": 24,
+      "symbol": "EditProfileVC.prepare(for:sender:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/EditProfileVC.swift",
+      "line": 38,
+      "symbol": "EditProfileVC.logOut()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/EditProfileVC.swift",
+      "line": 44,
+      "symbol": "EditProfileVC.deleteAccount()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/ForgotPasswordVC.swift",
+      "line": null,
+      "symbol": "ForgotPasswordVC",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/ForgotPasswordVC.swift",
       "line": 5,
-      "symbol": "SecondViewController",
+      "symbol": "ForgotPasswordVC",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SecondViewController.swift",
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/ForgotPasswordVC.swift",
       "line": 7,
-      "symbol": "SecondViewController.viewDidLoad()",
+      "symbol": "ForgotPasswordVC.alertHolder",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/ForgotPasswordVC.swift",
+      "line": 8,
+      "symbol": "ForgotPasswordVC.bottomY",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/ForgotPasswordVC.swift",
+      "line": 9,
+      "symbol": "ForgotPasswordVC.centerY",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/ForgotPasswordVC.swift",
+      "line": 10,
+      "symbol": "ForgotPasswordVC.messageLabel",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/ForgotPasswordVC.swift",
+      "line": 12,
+      "symbol": "ForgotPasswordVC.email",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/ForgotPasswordVC.swift",
+      "line": 14,
+      "symbol": "ForgotPasswordVC.viewDidLoad()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SecondViewController.swift",
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/ForgotPasswordVC.swift",
+      "line": 22,
+      "symbol": "ForgotPasswordVC.viewWillAppear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/ForgotPasswordVC.swift",
+      "line": 29,
+      "symbol": "ForgotPasswordVC.viewDidAppear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/ForgotPasswordVC.swift",
+      "line": 34,
+      "symbol": "ForgotPasswordVC.didReceiveMemoryWarning()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/ForgotPasswordVC.swift",
+      "line": 39,
+      "symbol": "ForgotPasswordVC.prepare(for:sender:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/ForgotPasswordVC.swift",
+      "line": 52,
+      "symbol": "ForgotPasswordVC.continueTapped(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/ForgotPasswordVC.swift",
+      "line": 58,
+      "symbol": "ForgotPasswordVC.hideAlert()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/ForgotPasswordVC.swift",
+      "line": 65,
+      "symbol": "ForgotPasswordVC.revealAlert()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LocationsVC.swift",
+      "line": 5,
+      "symbol": "LocationsVC",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LocationsVC.swift",
+      "line": 7,
+      "symbol": "LocationsVC.viewDidLoad()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LocationsVC.swift",
       "line": 11,
-      "symbol": "SecondViewController.viewDidAppear(_:)",
+      "symbol": "LocationsVC.viewWillAppear(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SecondViewController.swift",
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LocationsVC.swift",
+      "line": 16,
+      "symbol": "LocationsVC.viewDidAppear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LocationsVC.swift",
+      "line": 20,
+      "symbol": "LocationsVC.didReceiveMemoryWarning()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LocationsVC.swift",
+      "line": 25,
+      "symbol": "LocationsVC.prepare(for:sender:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginFailVC.swift",
+      "line": null,
+      "symbol": "LoginFailVC",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginFailVC.swift",
+      "line": 5,
+      "symbol": "LoginFailVC",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginFailVC.swift",
+      "line": 7,
+      "symbol": "LoginFailVC.alertHolder",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginFailVC.swift",
+      "line": 8,
+      "symbol": "LoginFailVC.bottomY",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginFailVC.swift",
+      "line": 9,
+      "symbol": "LoginFailVC.centerY",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginFailVC.swift",
+      "line": 10,
+      "symbol": "LoginFailVC.messageLabel",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginFailVC.swift",
+      "line": 12,
+      "symbol": "LoginFailVC.viewDidLoad()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginFailVC.swift",
+      "line": 16,
+      "symbol": "LoginFailVC.viewWillAppear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginFailVC.swift",
+      "line": 23,
+      "symbol": "LoginFailVC.viewDidAppear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginFailVC.swift",
+      "line": 28,
+      "symbol": "LoginFailVC.didReceiveMemoryWarning()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginFailVC.swift",
+      "line": 33,
+      "symbol": "LoginFailVC.prepare(for:sender:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginFailVC.swift",
+      "line": 48,
+      "symbol": "LoginFailVC.hideAlert()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginFailVC.swift",
+      "line": 55,
+      "symbol": "LoginFailVC.revealAlert()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginVC.swift",
+      "line": null,
+      "symbol": "LoginVC",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginVC.swift",
+      "line": null,
+      "symbol": "LoginVC",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginVC.swift",
+      "line": null,
+      "symbol": "LoginVC",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginVC.swift",
+      "line": 5,
+      "symbol": "LoginVC",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginVC.swift",
+      "line": 7,
+      "symbol": "LoginVC.emailTextField",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginVC.swift",
+      "line": 8,
+      "symbol": "LoginVC.passwordTextField",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginVC.swift",
+      "line": 9,
+      "symbol": "LoginVC.togglePasswordButton",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginVC.swift",
+      "line": 11,
+      "symbol": "LoginVC.viewDidLoad()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginVC.swift",
+      "line": 18,
+      "symbol": "LoginVC.viewWillAppear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginVC.swift",
+      "line": 26,
+      "symbol": "LoginVC.viewDidAppear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginVC.swift",
+      "line": 30,
+      "symbol": "LoginVC.viewWillDisappear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginVC.swift",
+      "line": 35,
+      "symbol": "LoginVC.viewDidDisappear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginVC.swift",
+      "line": 39,
+      "symbol": "LoginVC.didReceiveMemoryWarning()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginVC.swift",
+      "line": 44,
+      "symbol": "LoginVC.prepare(for:sender:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginVC.swift",
+      "line": 62,
+      "symbol": "LoginVC.visibilityTapped(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginVC.swift",
+      "line": 81,
+      "symbol": "LoginVC.loginTapped(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginVC.swift",
+      "line": 86,
+      "symbol": "LoginVC.facebookTapped(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginVC.swift",
+      "line": 92,
+      "symbol": "LoginVC.login(email:password:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginVC.swift",
+      "line": 105,
+      "symbol": "LoginVC.navigationController(_:animationControllerFor:from:to:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginVC.swift",
+      "line": 119,
+      "symbol": "LoginVC.animationController(forPresented:presenting:source:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/LoginVC.swift",
+      "line": 125,
+      "symbol": "LoginVC.animationController(forDismissed:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/MainTBC.swift",
+      "line": null,
+      "symbol": "MainTBC",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/MainTBC.swift",
+      "line": 5,
+      "symbol": "MainTBC",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/MainTBC.swift",
+      "line": 7,
+      "symbol": "MainTBC.Route",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/MainTBC.swift",
+      "line": 9,
+      "symbol": "MainTBC.Route.locations",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/MainTBC.swift",
+      "line": 10,
+      "symbol": "MainTBC.Route.rankings",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/MainTBC.swift",
+      "line": 11,
+      "symbol": "MainTBC.Route.myProfile",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/MainTBC.swift",
+      "line": 13,
+      "symbol": "MainTBC.Route.editProfile",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/MainTBC.swift",
+      "line": 16,
+      "symbol": "MainTBC.destination",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/MainTBC.swift",
+      "line": 18,
+      "symbol": "MainTBC.locations",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/MainTBC.swift",
+      "line": 22,
+      "symbol": "MainTBC.rankings",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/MainTBC.swift",
+      "line": 26,
+      "symbol": "MainTBC.myProfileNav",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/MainTBC.swift",
+      "line": 30,
+      "symbol": "MainTBC.myProfile",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/MainTBC.swift",
+      "line": 34,
+      "symbol": "MainTBC.viewDidLoad()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/MainTBC.swift",
+      "line": 39,
+      "symbol": "MainTBC.viewWillAppear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/MainTBC.swift",
+      "line": 44,
+      "symbol": "MainTBC.viewDidAppear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/MainTBC.swift",
+      "line": 49,
+      "symbol": "MainTBC.didReceiveMemoryWarning()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/MainTBC.swift",
+      "line": 54,
+      "symbol": "MainTBC.prepare(for:sender:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/MainTBC.swift",
+      "line": 61,
+      "symbol": "MainTBC.checkDestination()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/MyProfileVC.swift",
+      "line": 5,
+      "symbol": "MyProfileVC",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/MyProfileVC.swift",
+      "line": 7,
+      "symbol": "MyProfileVC.viewDidLoad()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/MyProfileVC.swift",
+      "line": 11,
+      "symbol": "MyProfileVC.viewWillAppear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/MyProfileVC.swift",
+      "line": 18,
+      "symbol": "MyProfileVC.viewDidAppear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/MyProfileVC.swift",
+      "line": 22,
+      "symbol": "MyProfileVC.didReceiveMemoryWarning()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/MyProfileVC.swift",
+      "line": 27,
+      "symbol": "MyProfileVC.prepare(for:sender:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/RankingsVC.swift",
+      "line": 5,
+      "symbol": "RankingsVC",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/RankingsVC.swift",
+      "line": 7,
+      "symbol": "RankingsVC.viewDidLoad()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/RankingsVC.swift",
+      "line": 11,
+      "symbol": "RankingsVC.viewWillAppear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/RankingsVC.swift",
+      "line": 16,
+      "symbol": "RankingsVC.viewDidAppear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/RankingsVC.swift",
+      "line": 20,
+      "symbol": "RankingsVC.didReceiveMemoryWarning()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/RankingsVC.swift",
+      "line": 25,
+      "symbol": "RankingsVC.prepare(for:sender:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/RootVC.swift",
+      "line": null,
+      "symbol": "RootVC",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/RootVC.swift",
+      "line": 6,
+      "symbol": "RootVC",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/RootVC.swift",
+      "line": 8,
+      "symbol": "RootVC.credentials",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/RootVC.swift",
+      "line": 9,
+      "symbol": "RootVC.credentialsBottom",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/RootVC.swift",
+      "line": 10,
+      "symbol": "RootVC.loginButton",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/RootVC.swift",
+      "line": 11,
+      "symbol": "RootVC.signupButton",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/RootVC.swift",
+      "line": 13,
+      "symbol": "RootVC.isloggedIn",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/RootVC.swift",
+      "line": 23,
+      "symbol": "RootVC.viewDidLoad()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/RootVC.swift",
+      "line": 31,
+      "symbol": "RootVC.viewWillAppear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/RootVC.swift",
+      "line": 45,
+      "symbol": "RootVC.viewDidAppear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/RootVC.swift",
+      "line": 51,
+      "symbol": "RootVC.viewWillDisappear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/RootVC.swift",
+      "line": 55,
+      "symbol": "RootVC.didReceiveMemoryWarning()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/RootVC.swift",
+      "line": 60,
+      "symbol": "RootVC.prepare(for:sender:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/RootVC.swift",
+      "line": 78,
+      "symbol": "RootVC.unwindToRoot(segue:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/RootVC.swift",
+      "line": 80,
+      "symbol": "RootVC.revealCredentials()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SettingsVC.swift",
+      "line": 5,
+      "symbol": "SettingsVC",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SettingsVC.swift",
+      "line": 7,
+      "symbol": "SettingsVC.viewDidLoad()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SettingsVC.swift",
+      "line": 11,
+      "symbol": "SettingsVC.viewWillAppear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SettingsVC.swift",
       "line": 15,
-      "symbol": "SecondViewController.didReceiveMemoryWarning()",
+      "symbol": "SettingsVC.viewDidAppear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SettingsVC.swift",
+      "line": 19,
+      "symbol": "SettingsVC.didReceiveMemoryWarning()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SettingsVC.swift",
+      "line": 24,
+      "symbol": "SettingsVC.prepare(for:sender:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SignupVC.swift",
+      "line": null,
+      "symbol": "SignupVC",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SignupVC.swift",
+      "line": null,
+      "symbol": "SignupVC",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SignupVC.swift",
+      "line": 5,
+      "symbol": "SignupVC",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SignupVC.swift",
+      "line": 7,
+      "symbol": "SignupVC.nameTextField",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SignupVC.swift",
+      "line": 8,
+      "symbol": "SignupVC.emailTextField",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SignupVC.swift",
+      "line": 9,
+      "symbol": "SignupVC.passwordTextField",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SignupVC.swift",
+      "line": 10,
+      "symbol": "SignupVC.togglePasswordButton",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SignupVC.swift",
+      "line": 12,
+      "symbol": "SignupVC.viewDidLoad()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SignupVC.swift",
+      "line": 19,
+      "symbol": "SignupVC.viewWillAppear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SignupVC.swift",
+      "line": 27,
+      "symbol": "SignupVC.viewDidAppear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SignupVC.swift",
+      "line": 31,
+      "symbol": "SignupVC.viewWillDisappear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SignupVC.swift",
+      "line": 36,
+      "symbol": "SignupVC.viewDidDisappear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SignupVC.swift",
+      "line": 40,
+      "symbol": "SignupVC.didReceiveMemoryWarning()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SignupVC.swift",
+      "line": 45,
+      "symbol": "SignupVC.prepare(for:sender:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SignupVC.swift",
+      "line": 60,
+      "symbol": "SignupVC.visibilityTapped(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SignupVC.swift",
+      "line": 79,
+      "symbol": "SignupVC.signupTapped(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SignupVC.swift",
+      "line": 85,
+      "symbol": "SignupVC.facebookTapped(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SignupVC.swift",
+      "line": 91,
+      "symbol": "SignupVC.register(name:email:password:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/SignupVC.swift",
+      "line": 104,
+      "symbol": "SignupVC.navigationController(_:animationControllerFor:from:to:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/WelcomeVC.swift",
+      "line": 5,
+      "symbol": "WelcomeVC",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/WelcomeVC.swift",
+      "line": 7,
+      "symbol": "WelcomeVC.viewDidLoad()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/WelcomeVC.swift",
+      "line": 11,
+      "symbol": "WelcomeVC.viewWillAppear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/WelcomeVC.swift",
+      "line": 16,
+      "symbol": "WelcomeVC.viewDidAppear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/WelcomeVC.swift",
+      "line": 20,
+      "symbol": "WelcomeVC.didReceiveMemoryWarning()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/interface/WelcomeVC.swift",
+      "line": 25,
+      "symbol": "WelcomeVC.prepare(for:sender:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/FacebookButton.swift",
+      "line": null,
+      "symbol": "FacebookButton",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/FacebookButton.swift",
+      "line": 9,
+      "symbol": "FacebookButton",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/FacebookButton.swift",
+      "line": 11,
+      "symbol": "FacebookButton.init(frame:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/FacebookButton.swift",
+      "line": 16,
+      "symbol": "FacebookButton.init(coder:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/FacebookButton.swift",
+      "line": 21,
+      "symbol": "FacebookButton.prepareForInterfaceBuilder()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/FacebookButton.swift",
+      "line": 26,
+      "symbol": "FacebookButton.login(then:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/FacebookButton.swift",
+      "line": 42,
+      "symbol": "FacebookButton.logOut()",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/FacebookButton.swift",
+      "line": 49,
+      "symbol": "FacebookButton.setup()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/FacebookButton.swift",
+      "line": 54,
+      "symbol": "FacebookButton.requestInfo(then:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/FacebookButton.swift",
+      "line": 77,
+      "symbol": "InfoRequest",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/FacebookButton.swift",
+      "line": 79,
+      "symbol": "InfoRequest.Response",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/FacebookButton.swift",
+      "line": 81,
+      "symbol": "InfoRequest.Response.email",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/FacebookButton.swift",
+      "line": 82,
+      "symbol": "InfoRequest.Response.gender",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/FacebookButton.swift",
+      "line": 83,
+      "symbol": "InfoRequest.Response.id",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/FacebookButton.swift",
+      "line": 84,
+      "symbol": "InfoRequest.Response.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/FacebookButton.swift",
+      "line": 85,
+      "symbol": "InfoRequest.Response.picture",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Logger.swift",
+      "line": 5,
+      "symbol": "log",
+      "symbol_kind": "source.lang.swift.decl.var.global",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Logger.swift",
+      "line": 7,
+      "symbol": "Logger",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Logger.swift",
+      "line": 9,
+      "symbol": "Logger.verbose(_:_:_:line:context:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Logger.swift",
+      "line": 22,
+      "symbol": "Logger.debug(_:_:_:line:context:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Logger.swift",
+      "line": 35,
+      "symbol": "Logger.info(_:_:_:line:context:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Logger.swift",
+      "line": 48,
+      "symbol": "Logger.warning(_:_:_:line:context:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Logger.swift",
+      "line": 61,
+      "symbol": "Logger.error(_:_:_:line:context:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Logger.swift",
+      "line": 77,
+      "symbol": "UIStoryboardSegue.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/ReplaceTopSegue.swift",
+      "line": 5,
+      "symbol": "ReplaceTopSegue",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/ReplaceTopSegue.swift",
+      "line": 7,
+      "symbol": "ReplaceTopSegue.perform()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/ReplaceTopSegue.swift",
+      "line": 20,
+      "symbol": "DismissSegue",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/ReplaceTopSegue.swift",
+      "line": 22,
+      "symbol": "DismissSegue.perform()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/ReplaceTopSegue.swift",
+      "line": 27,
+      "symbol": "PopSegue",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/ReplaceTopSegue.swift",
+      "line": 29,
+      "symbol": "PopSegue.perform()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/ReplaceTopSegue.swift",
+      "line": 34,
+      "symbol": "SwitchAlertSegue",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/ReplaceTopSegue.swift",
+      "line": 36,
+      "symbol": "SwitchAlertSegue.perform()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/ReplaceTopSegue.swift",
+      "line": 46,
+      "symbol": "FadeInAnimator",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/ReplaceTopSegue.swift",
+      "line": 48,
+      "symbol": "FadeInAnimator.transitionDuration(using:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/ReplaceTopSegue.swift",
+      "line": 52,
+      "symbol": "FadeInAnimator.animateTransition(using:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/ReplaceTopSegue.swift",
+      "line": 76,
+      "symbol": "ZoomAnimator",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/ReplaceTopSegue.swift",
+      "line": 78,
+      "symbol": "ZoomAnimator.transitionDuration(using:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/ReplaceTopSegue.swift",
+      "line": 82,
+      "symbol": "ZoomAnimator.animateTransition(using:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/String+Formatting.swift",
+      "line": 7,
+      "symbol": "String.hiddenName",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 5,
+      "symbol": "style",
+      "symbol_kind": "source.lang.swift.decl.var.global",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 7,
+      "symbol": "Styler",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 8,
+      "symbol": "Styler.standard",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 9,
+      "symbol": "Styler.login",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 11,
+      "symbol": "Styler.apply()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 30,
+      "symbol": "UIColor.azureRadiance",
+      "symbol_kind": "source.lang.swift.decl.var.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 34,
+      "symbol": "UIColor.carnation",
+      "symbol_kind": "source.lang.swift.decl.var.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 38,
+      "symbol": "UIColor.dodgerBlue",
+      "symbol_kind": "source.lang.swift.decl.var.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 42,
+      "symbol": "UIColor.dustyGray",
+      "symbol_kind": "source.lang.swift.decl.var.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 46,
+      "symbol": "UIColor.facebookButton",
+      "symbol_kind": "source.lang.swift.decl.var.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 50,
+      "symbol": "UIColor.frenchPass",
+      "symbol_kind": "source.lang.swift.decl.var.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 54,
+      "symbol": "UIColor.pohutukawa",
+      "symbol_kind": "source.lang.swift.decl.var.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 58,
+      "symbol": "UIColor.regalBlue",
+      "symbol_kind": "source.lang.swift.decl.var.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 63,
+      "symbol": "Avenir",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 64,
+      "symbol": "Avenir.light",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 65,
+      "symbol": "Avenir.lightOblique",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 66,
+      "symbol": "Avenir.book",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 67,
+      "symbol": "Avenir.bookOblique",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 68,
+      "symbol": "Avenir.roman",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 69,
+      "symbol": "Avenir.oblique",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 70,
+      "symbol": "Avenir.medium",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 71,
+      "symbol": "Avenir.mediumOblique",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 72,
+      "symbol": "Avenir.heavy",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 73,
+      "symbol": "Avenir.heavyOblique",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 74,
+      "symbol": "Avenir.black",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 75,
+      "symbol": "Avenir.blackOblique",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/Styler.swift",
+      "line": 77,
+      "symbol": "Avenir.of(size:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
@@ -380,9 +2046,394 @@
     },
     {
       "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIApplication+Environment.swift",
-      "line": 36,
+      "line": 34,
+      "symbol": "LaunchSettingKey",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIApplication+Environment.swift",
+      "line": 35,
+      "symbol": "LaunchSettingKey.loggedIn",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIApplication+Environment.swift",
+      "line": 38,
+      "symbol": "LaunchSetting",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIApplication+Environment.swift",
+      "line": 39,
+      "symbol": "LaunchSetting.loggedIn",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIApplication+Environment.swift",
+      "line": 41,
+      "symbol": "LaunchSetting.key",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIApplication+Environment.swift",
+      "line": 48,
+      "symbol": "LaunchSetting.value",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIApplication+Environment.swift",
+      "line": 55,
+      "symbol": "LaunchSetting.setting",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIApplication+Environment.swift",
+      "line": 65,
       "symbol": "ProcessInfo.arguments(contain:)",
       "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIApplication+Environment.swift",
+      "line": 69,
+      "symbol": "ProcessInfo.settings(contain:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIApplication+Environment.swift",
+      "line": 73,
+      "symbol": "ProcessInfo.setting(string:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIApplication+Environment.swift",
+      "line": 78,
+      "symbol": "ProcessInfo.setting(bool:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UINavigationBar+Transparent.swift",
+      "line": 5,
+      "symbol": "Transparency",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UINavigationBar+Transparent.swift",
+      "line": 6,
+      "symbol": "Transparency.transparent",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UINavigationBar+Transparent.swift",
+      "line": 7,
+      "symbol": "Transparency.translucent",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UINavigationBar+Transparent.swift",
+      "line": 8,
+      "symbol": "Transparency.opaque",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UINavigationBar+Transparent.swift",
+      "line": 13,
+      "symbol": "UINavigationBar.set(transparency:tint:color:font:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 5,
+      "symbol": "GradientPoints",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 7,
+      "symbol": "GradientOrientation",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 8,
+      "symbol": "GradientOrientation.topRightBottomLeft",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 9,
+      "symbol": "GradientOrientation.topLeftBottomRight",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 10,
+      "symbol": "GradientOrientation.horizontal",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 11,
+      "symbol": "GradientOrientation.vertical",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 13,
+      "symbol": "GradientOrientation.start",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 17,
+      "symbol": "GradientOrientation.end",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 21,
+      "symbol": "GradientOrientation.points",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 37,
+      "symbol": "UIView.gradientLayerName",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 39,
+      "symbol": "UIView.gradient",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 45,
+      "symbol": "UIView.apply(gradient:orientation:locations:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 64,
+      "symbol": "UIView.cornerRadius",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 74,
+      "symbol": "UIView.borderWidth",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 83,
+      "symbol": "UIView.borderColor",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 95,
+      "symbol": "UIView.apply(shadow:offset:blur:opacity:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 107,
+      "symbol": "UIView.animate(gradient:duration:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 121,
+      "symbol": "UIView.apply(radialGradient:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 136,
+      "symbol": "UIView.round(corners:by:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 148,
+      "symbol": "UIColor.init(r:g:b:a:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 155,
+      "symbol": "UIColor.init(rgb:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 161,
+      "symbol": "UIColor.init(argb:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 170,
+      "symbol": "GradientView",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 172,
+      "symbol": "GradientView.startColor",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 178,
+      "symbol": "GradientView.endColor",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 184,
+      "symbol": "GradientView.orientation",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 190,
+      "symbol": "GradientView.init(frame:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 195,
+      "symbol": "GradientView.init(coder:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 200,
+      "symbol": "GradientView.prepareForInterfaceBuilder()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 205,
+      "symbol": "GradientView.setup()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 210,
+      "symbol": "GradientView.layoutSublayers(of:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 216,
+      "symbol": "GradientButton",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 218,
+      "symbol": "GradientButton.startColor",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 224,
+      "symbol": "GradientButton.endColor",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 230,
+      "symbol": "GradientButton.orientation",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 236,
+      "symbol": "GradientButton.init(frame:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 241,
+      "symbol": "GradientButton.init(coder:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 246,
+      "symbol": "GradientButton.prepareForInterfaceBuilder()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 251,
+      "symbol": "GradientButton.setup()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Volumes/Coding/Trollwerks/projects-active/MTP/github~mtp/MTP/source/support/UIView+Gradient.swift",
+      "line": 256,
+      "symbol": "GradientButton.layoutSublayers(of:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
