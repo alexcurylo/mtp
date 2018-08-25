@@ -6,7 +6,8 @@ import Result
 enum MTPAPIError: Swift.Error {
     case unknown
     case parameter
-    case operation(String)
+    case network(String)
+    case results
 }
 
 enum MTP {
@@ -74,34 +75,33 @@ enum MTPAPI {
 
     static func login(email: String,
                       password: String,
-                      then: @escaping (_ result: Result<Bool, MTPAPIError>) -> Void) {
+                      then: @escaping (_ result: Result<User, MTPAPIError>) -> Void) {
         guard !email.isEmpty && !password.isEmpty else {
             log.verbose("login attempt invalid: email `\(email)` password `\(password)`")
             return then(.failure(.parameter))
         }
 
         let provider = MoyaProvider<MTP>()
-        provider.request(.login(email, password)) { result in
-            switch result {
-            case .success(let response):
+        provider.request(.login(email, password)) { response in
+            switch response {
+            case .success(let result):
                 do {
-                    let userData = try response.mapJSON()
-                    if let userDict = userData as? [String: Any],
-                       let token = userDict["token"] as? String {
-                        print("The userData is: " + userDict.description)
-                        print("The token is: \(token)")
-                        UserDefaults.standard.email = email
-                        UserDefaults.standard.password = password
-                        UserDefaults.standard.token = token
-                        return then(.success(true))
-                    }
+                    let user = try result.map(User.self,
+                                              using: JSONDecoder.mtp)
+                    log.verbose("Logged in: " + user.debugDescription)
+                    UserDefaults.standard.email = email
+                    UserDefaults.standard.password = password
+                    UserDefaults.standard.token = user.token
+                    return then(.success(user))
                 } catch {
-                    log.error("error decoding /login response")
-               }
+                    log.error("decoding User: \(error)")
+                    return then(.failure(.results))
+                }
             case .failure(let error):
-                log.error("TO DO: handle error calling /login: \(String(describing: error))")
+                let message = error.errorDescription ?? "undefined"
+                log.error("/login: \(message)")
+                return then(.failure(.network(message)))
             }
-            return then(.failure(.operation(result.description)))
         }
     }
 
@@ -121,4 +121,50 @@ enum MTPAPI {
         UserDefaults.standard.password = password
         then(.success(true))
     }
+}
+
+extension JSONDecoder {
+
+    static let mtp: JSONDecoder = {
+        let decoder = JSONDecoder()
+
+        decoder.dateDecodingStrategy = .custom { decoder in
+            let container = try decoder.singleValueContainer()
+            let dateString = try container.decode(String.self)
+
+            if let date = DateFormatter.mtpDay.date(from: dateString) {
+                return date
+            }
+            if let date = DateFormatter.mtpTime.date(from: dateString) {
+                return date
+            }
+            throw DecodingError.dataCorruptedError(
+                in: container,
+                debugDescription: "Cannot decode date: '\(dateString)'")
+        }
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+
+        return decoder
+    }()
+}
+
+extension DateFormatter {
+
+    static let mtpDay: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.calendar = Calendar(identifier: .iso8601)
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        return formatter
+    }()
+
+    static let mtpTime: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        formatter.calendar = Calendar(identifier: .iso8601)
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        return formatter
+    }()
 }

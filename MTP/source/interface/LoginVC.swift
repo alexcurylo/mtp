@@ -94,7 +94,8 @@ private extension LoginVC {
             switch result {
             case .success:
                 self?.performSegue(withIdentifier: R.segue.loginVC.showMain, sender: self)
-            case .failure:
+            case .failure(let error):
+                log.error("TO DO: handle error calling /login: \(String(describing: error))")
                 self?.performSegue(withIdentifier: R.segue.loginVC.presentLoginFail, sender: self)
             }
         }
