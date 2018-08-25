@@ -34,7 +34,7 @@ final class LoginFailVC: UIViewController {
         switch true {
         case R.segue.loginFailVC.dismissLoginFail(segue: segue) != nil:
             presentingViewController?.navigationController?.setNavigationBarHidden(false, animated: true)
-            fallthrough
+            log.verbose(segue.name)
         case R.segue.loginFailVC.switchForgotPassword(segue: segue) != nil:
             log.verbose(segue.name)
         default:

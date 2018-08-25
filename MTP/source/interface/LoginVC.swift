@@ -29,7 +29,7 @@ final class LoginVC: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationController?.delegate = self
+        navigationController?.delegate = nil
    }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -47,7 +47,10 @@ final class LoginVC: UIViewController {
              R.segue.loginVC.presentLoginFail(segue: segue) != nil:
             navigationController?.setNavigationBarHidden(true, animated: true)
             UserDefaults.standard.email = emailTextField?.text ?? ""
-            fallthrough
+            log.verbose(segue.name)
+        case R.segue.loginVC.showMain(segue: segue) != nil:
+            style.standard.apply()
+            log.verbose(segue.name)
         case R.segue.loginVC.switchSignup(segue: segue) != nil,
              R.segue.loginVC.unwindFromLogin(segue: segue) != nil:
             log.verbose(segue.name)
