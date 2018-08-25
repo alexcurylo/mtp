@@ -27,7 +27,7 @@ Requirements
 ------------
 
 - Xcode 9.4.1 or later
-- iOS 11.4 or later
+- iOS 11.0 or later
 
 ### Tools:
 
@@ -36,7 +36,7 @@ Requirements
 - [CocoaPods](https://cocoapods.org/) for dependency management
 - [Coveralls](https://coveralls.io/github/alexcurylo/mtp?branch=develop) for test coverage statistics
 - [Danger](http://danger.systems/ruby/) for automated code review
-- [Slather](https://github.com/SlatherOrg/slather)) for test coverage reports
+- [Slather](https://github.com/SlatherOrg/slather) for test coverage reports
 - [SwiftLint](https://github.com/realm/SwiftLint) for opinionated coding style enforcement
 - [SwiftyBeaver](https://github.com/SwiftyBeaver/SwiftyBeaver) for logging
 - [Travis-CI](https://travis-ci.org/alexcurylo/mtp) for test builds
@@ -78,6 +78,6 @@ License
 
 The [MIT License][linkMIT]. See the [LICENSE.md](LICENSE.md) file for details.
 
->**Copyright &copy;2018-present Trollwerks Inc.**
+_Copyright &copy;2018-present Trollwerks Inc._
 
 [linkMIT]: http://opensource.org/licenses/MIT
