@@ -89,9 +89,9 @@ enum MTPAPI {
                     let user = try result.map(User.self,
                                               using: JSONDecoder.mtp)
                     log.verbose("Logged in: " + user.debugDescription)
+                    UserDefaults.standard.user = user
                     UserDefaults.standard.email = email
                     UserDefaults.standard.password = password
-                    UserDefaults.standard.token = user.token
                     return then(.success(user))
                 } catch {
                     log.error("decoding User: \(error)")
