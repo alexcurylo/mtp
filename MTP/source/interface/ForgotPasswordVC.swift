@@ -50,8 +50,14 @@ final class ForgotPasswordVC: UIViewController {
 private extension ForgotPasswordVC {
 
     @IBAction func continueTapped(_ sender: GradientButton) {
-        MTPAPI.forgotPassword(email: email) { _ in
-            self.performSegue(withIdentifier: R.segue.forgotPasswordVC.dismissForgotPassword, sender: self)
+        MTPAPI.forgotPassword(email: email) { [weak self] result in
+            switch result {
+            case .success:
+                self?.performSegue(withIdentifier: R.segue.forgotPasswordVC.dismissForgotPassword, sender: self)
+            case .failure(let error):
+                log.error("TO DO: handle error calling /forgotPassword: \(String(describing: error))")
+                self?.performSegue(withIdentifier: R.segue.forgotPasswordVC.dismissForgotPassword, sender: self)
+            }
         }
     }
 

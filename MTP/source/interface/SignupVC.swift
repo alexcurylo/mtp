@@ -89,11 +89,12 @@ private extension SignupVC {
     }
 
     func register(name: String, email: String, password: String) {
-        MTPAPI.register(name: name, email: email, password: password) { [weak self] success in
-            if success {
+        MTPAPI.register(name: name, email: email, password: password) { [weak self] result in
+            switch result {
+            case .success:
                 self?.performSegue(withIdentifier: R.segue.signupVC.showWelcome, sender: self)
-            } else {
-                log.warning("implement register fail notification")
+            case .failure(let error):
+                log.error("TO DO: handle error calling /register: \(String(describing: error))")
             }
         }
     }

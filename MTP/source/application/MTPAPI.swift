@@ -1,6 +1,13 @@
 // @copyright Trollwerks Inc.
 
 import Moya
+import Result
+
+enum MTPAPIError: Swift.Error {
+    case unknown
+    case parameter
+    case operation(String)
+}
 
 enum MTP {
     case login(String, String)
@@ -55,23 +62,22 @@ extension MTP: TargetType {
 enum MTPAPI {
 
     static func forgotPassword(email: String,
-                               then: @escaping (Bool) -> Void) {
+                               then: @escaping (_ result: Result<Bool, MTPAPIError>) -> Void) {
         guard !email.isEmpty else {
             log.verbose("forgotPassword attempt invalid: email `\(email)`")
-            then(false)
-            return
+            return then(.failure(.parameter))
         }
 
         log.info("TO DO: implement MTPAPI.forgotPassword: \(email)")
-        then(true)
+        then(.success(true))
     }
 
     static func login(email: String,
                       password: String,
-                      then: @escaping (Bool) -> Void) {
+                      then: @escaping (_ result: Result<Bool, MTPAPIError>) -> Void) {
         guard !email.isEmpty && !password.isEmpty else {
             log.verbose("login attempt invalid: email `\(email)` password `\(password)`")
-            return then(false)
+            return then(.failure(.parameter))
         }
 
         let provider = MoyaProvider<MTP>()
@@ -87,25 +93,25 @@ enum MTPAPI {
                         UserDefaults.standard.email = email
                         UserDefaults.standard.password = password
                         UserDefaults.standard.token = token
-                        return then(true)
+                        return then(.success(true))
                     }
                 } catch {
                     log.error("error decoding /login response")
                }
             case .failure(let error):
-                log.error("error calling /login: \(String(describing: error))")
+                log.error("TO DO: handle error calling /login: \(String(describing: error))")
             }
-            return then(false)
+            return then(.failure(.operation(result.description)))
         }
     }
 
     static func register(name: String,
                          email: String,
                          password: String,
-                         then: @escaping (Bool) -> Void) {
+                         then: @escaping (_ result: Result<Bool, MTPAPIError>) -> Void) {
         guard !name.isEmpty && !email.isEmpty && !password.isEmpty else {
             log.verbose("register attempt invalid: name `\(name)` email `\(email)` password `\(password)`")
-            return then(false)
+            return then(.failure(.parameter))
         }
 
         log.info("TO DO: implement MTPAPI.register: \(name), \(email), \(password)")
@@ -113,6 +119,6 @@ enum MTPAPI {
         UserDefaults.standard.email = email
         UserDefaults.standard.name = name
         UserDefaults.standard.password = password
-        return then(true)
+        then(.success(true))
     }
 }
