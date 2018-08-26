@@ -2,19 +2,7 @@
 
 import Foundation
 
-extension UserDefaults {
-
-    func logOut() {
-        email = ""
-        name = ""
-        password = ""
-        user = nil
-    }
-
-    var isLoggedIn: Bool {
-        guard let token = user?.token else { return false }
-        return !token.isEmpty
-    }
+extension UserDefaults: Gestalt {
 
     var email: String {
         get { return string(forKey: #function) ?? "" }

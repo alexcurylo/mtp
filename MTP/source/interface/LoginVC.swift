@@ -46,7 +46,7 @@ final class LoginVC: UIViewController {
         case R.segue.loginVC.presentForgotPassword(segue: segue) != nil,
              R.segue.loginVC.presentLoginFail(segue: segue) != nil:
             navigationController?.setNavigationBarHidden(true, animated: true)
-            UserDefaults.standard.email = emailTextField?.text ?? ""
+            gestalt.email = emailTextField?.text ?? ""
             log.verbose(segue.name)
         case R.segue.loginVC.showMain(segue: segue) != nil:
             style.standard.apply()

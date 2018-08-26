@@ -1,6 +1,5 @@
 // @copyright Trollwerks Inc.
 
-import FacebookCore
 import UIKit
 
 final class RootVC: UIViewController {
@@ -17,15 +16,11 @@ final class RootVC: UIViewController {
             return false
         }
 
-        return UserDefaults.standard.isLoggedIn
+        return gestalt.isLoggedIn
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        if isloggedIn {
-            performSegue(withIdentifier: R.segue.rootVC.showMain, sender: self)
-        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -62,10 +57,7 @@ final class RootVC: UIViewController {
         case R.segue.rootVC.embedLaunchScreen(segue: segue) != nil,
              R.segue.rootVC.showMain(segue: segue) != nil,
              R.segue.rootVC.showLogin(segue: segue) != nil,
-             R.segue.rootVC.showSignup(segue: segue) != nil,
-             R.segue.signupVC.unwindFromSignup(segue: segue) != nil,
-             R.segue.loginVC.unwindFromLogin(segue: segue) != nil,
-             R.segue.editProfileVC.unwindFromEditProfile(segue: segue) != nil:
+             R.segue.rootVC.showSignup(segue: segue) != nil:
             log.verbose(segue.name)
         default:
             log.warning("Unexpected segue: \(segue.name)")
@@ -75,7 +67,9 @@ final class RootVC: UIViewController {
 
 private extension RootVC {
 
-    @IBAction private func unwindToRoot(segue: UIStoryboardSegue) { }
+    @IBAction func unwindToRoot(segue: UIStoryboardSegue) {
+        log.verbose(segue.name)
+    }
 
     func revealCredentials() {
         guard credentialsBottom.constant < 0 else { return }

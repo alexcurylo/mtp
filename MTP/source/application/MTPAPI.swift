@@ -89,9 +89,9 @@ enum MTPAPI {
                     let user = try result.map(User.self,
                                               using: JSONDecoder.mtp)
                     log.verbose("Logged in: " + user.debugDescription)
-                    UserDefaults.standard.user = user
-                    UserDefaults.standard.email = email
-                    UserDefaults.standard.password = password
+                    gestalt.user = user
+                    gestalt.email = email
+                    gestalt.password = password
                     return then(.success(user))
                 } catch {
                     log.error("decoding User: \(error)")
@@ -116,9 +116,9 @@ enum MTPAPI {
 
         log.info("TO DO: implement MTPAPI.register: \(name), \(email), \(password)")
 
-        UserDefaults.standard.email = email
-        UserDefaults.standard.name = name
-        UserDefaults.standard.password = password
+        gestalt.email = email
+        gestalt.name = name
+        gestalt.password = password
         then(.success(true))
     }
 }
