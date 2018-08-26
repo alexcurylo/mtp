@@ -4,10 +4,10 @@ import UIKit
 
 final class RootVC: UIViewController {
 
-    @IBOutlet private weak var credentials: UIView!
-    @IBOutlet private weak var credentialsBottom: NSLayoutConstraint!
-    @IBOutlet private weak var loginButton: UIButton!
-    @IBOutlet private weak var signupButton: UIButton!
+    @IBOutlet private var credentials: UIView?
+    @IBOutlet private var credentialsBottom: NSLayoutConstraint?
+    @IBOutlet private var loginButton: UIButton?
+    @IBOutlet private var signupButton: UIButton?
 
     private var isloggedIn: Bool {
         if let loggedIn = ProcessInfo.setting(bool: .loggedIn) {
@@ -29,12 +29,12 @@ final class RootVC: UIViewController {
         navigationController?.setNavigationBarHidden(true, animated: animated)
 
         if isloggedIn {
-            credentials.isHidden = true
-            credentialsBottom.constant = 0
+            credentials?.isHidden = true
+            credentialsBottom?.constant = 0
             performSegue(withIdentifier: R.segue.rootVC.showMain, sender: self)
         } else {
-            credentials.isHidden = false
-            credentialsBottom.constant = -credentials.bounds.height
+            credentials?.isHidden = false
+            credentialsBottom?.constant = -(credentials?.bounds.height ?? 0)
         }
     }
 
@@ -74,7 +74,7 @@ private extension RootVC {
     }
 
     func revealCredentials() {
-        guard credentialsBottom.constant < 0 else { return }
+        guard let bottom = credentialsBottom?.constant, bottom < 0 else { return }
 
         view.layoutIfNeeded()
         UIView.animate(
@@ -84,7 +84,7 @@ private extension RootVC {
             initialSpringVelocity: 0.75,
             options: [.curveEaseOut],
             animations: {
-                self.credentialsBottom.constant = 0
+                self.credentialsBottom?.constant = 0
                 self.view.layoutIfNeeded()
             },
             completion: nil)

@@ -4,9 +4,9 @@ import UIKit
 
 final class LoginVC: UIViewController {
 
-    @IBOutlet private weak var emailTextField: UITextField?
-    @IBOutlet private weak var passwordTextField: UITextField?
-    @IBOutlet private weak var togglePasswordButton: UIButton?
+    @IBOutlet private var emailTextField: UITextField?
+    @IBOutlet private var passwordTextField: UITextField?
+    @IBOutlet private var togglePasswordButton: UIButton?
 
     override func viewDidLoad() {
         super.viewDidLoad()

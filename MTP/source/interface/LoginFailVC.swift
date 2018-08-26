@@ -4,10 +4,10 @@ import UIKit
 
 final class LoginFailVC: UIViewController {
 
-    @IBOutlet private weak var alertHolder: UIView!
-    @IBOutlet private weak var bottomY: NSLayoutConstraint!
-    @IBOutlet private weak var centerY: NSLayoutConstraint!
-    @IBOutlet private weak var messageLabel: UILabel!
+    @IBOutlet private var alertHolder: UIView?
+    @IBOutlet private var bottomY: NSLayoutConstraint?
+    @IBOutlet private var centerY: NSLayoutConstraint?
+    @IBOutlet private var messageLabel: UILabel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,9 +46,9 @@ final class LoginFailVC: UIViewController {
 private extension LoginFailVC {
 
     func hideAlert() {
-        centerY.priority = .defaultLow
-        bottomY.priority = .defaultHigh
-        bottomY.constant = -alertHolder.bounds.height
+        centerY?.priority = .defaultLow
+        bottomY?.priority = .defaultHigh
+        bottomY?.constant = -(alertHolder?.bounds.height ?? 0)
         view.layoutIfNeeded()
     }
 
@@ -60,8 +60,8 @@ private extension LoginFailVC {
             initialSpringVelocity: 0.75,
             options: [.curveEaseOut],
             animations: {
-                self.bottomY.priority = .defaultLow
-                self.centerY.priority = .defaultHigh
+                self.bottomY?.priority = .defaultLow
+                self.centerY?.priority = .defaultHigh
                 self.view.layoutIfNeeded()
             },
             completion: nil)

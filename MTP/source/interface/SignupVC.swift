@@ -4,10 +4,10 @@ import UIKit
 
 final class SignupVC: UIViewController {
 
-    @IBOutlet private weak var nameTextField: UITextField?
-    @IBOutlet private weak var emailTextField: UITextField?
-    @IBOutlet private weak var passwordTextField: UITextField?
-    @IBOutlet private weak var togglePasswordButton: UIButton?
+    @IBOutlet private var nameTextField: UITextField?
+    @IBOutlet private var emailTextField: UITextField?
+    @IBOutlet private var passwordTextField: UITextField?
+    @IBOutlet private var togglePasswordButton: UIButton?
 
     override func viewDidLoad() {
         super.viewDidLoad()

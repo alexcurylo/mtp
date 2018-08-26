@@ -4,7 +4,7 @@ import UIKit
 
 final class EditProfileVC: UITableViewController {
 
-    @IBOutlet private weak var backgroundView: UIView?
+    @IBOutlet private var backgroundView: UIView?
 
     override func viewDidLoad() {
         super.viewDidLoad()

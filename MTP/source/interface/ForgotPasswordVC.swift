@@ -4,10 +4,10 @@ import UIKit
 
 final class ForgotPasswordVC: UIViewController {
 
-    @IBOutlet private weak var alertHolder: UIView!
-    @IBOutlet private weak var bottomY: NSLayoutConstraint!
-    @IBOutlet private weak var centerY: NSLayoutConstraint!
-    @IBOutlet private weak var messageLabel: UILabel!
+    @IBOutlet private var alertHolder: UIView?
+    @IBOutlet private var bottomY: NSLayoutConstraint?
+    @IBOutlet private var centerY: NSLayoutConstraint?
+    @IBOutlet private var messageLabel: UILabel?
 
     private var email: String = ""
 
@@ -16,7 +16,7 @@ final class ForgotPasswordVC: UIViewController {
 
         email = gestalt.email
         let message = R.string.localizable.sendLink(email.hiddenName)
-        messageLabel.text = message
+        messageLabel?.text = message
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -62,9 +62,9 @@ private extension ForgotPasswordVC {
     }
 
     func hideAlert() {
-        centerY.priority = .defaultLow
-        bottomY.priority = .defaultHigh
-        bottomY.constant = -alertHolder.bounds.height
+        centerY?.priority = .defaultLow
+        bottomY?.priority = .defaultHigh
+        bottomY?.constant = -(alertHolder?.bounds.height ?? 0)
         view.layoutIfNeeded()
     }
 
@@ -76,8 +76,8 @@ private extension ForgotPasswordVC {
             initialSpringVelocity: 0.75,
             options: [.curveEaseOut],
             animations: {
-                self.bottomY.priority = .defaultLow
-                self.centerY.priority = .defaultHigh
+                self.bottomY?.priority = .defaultLow
+                self.centerY?.priority = .defaultHigh
                 self.view.layoutIfNeeded()
             },
             completion: nil)
