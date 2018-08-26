@@ -3,3 +3,8 @@
 // ForgotPasswordVC
 
 "SendLink" = "We will send a link to your email %@ enabling you to reset your password.";
+
+// MyProfileVC
+
+"Followers" = "%ld Followers";
+"Following" = "%ld Following";

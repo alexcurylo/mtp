@@ -28,35 +28,39 @@ extension UIColor {
     // http://chir.ag/projects/name-that-color/#FFFFFF
 
     class var azureRadiance: UIColor { // #028DFF
-        return UIColor(named: R.color.azureRadiance.name) ?? .black
+        return R.color.azureRadiance() ?? .black
     }
 
     class var carnation: UIColor { // #F5515F
-        return UIColor(named: R.color.carnation.name) ?? .black
+        return R.color.carnation() ?? .black
     }
 
     class var dodgerBlue: UIColor { // #19C0FD
-        return UIColor(named: R.color.dodgerBlue.name) ?? .black
+        return R.color.dodgerBlue() ?? .black
     }
 
     class var dustyGray: UIColor { // #9C9C9C
-        return UIColor(named: R.color.dustyGray.name) ?? .black
+        return R.color.dustyGray() ?? .black
     }
 
     class var facebookButton: UIColor { // #4267B2
-        return UIColor(named: R.color.facebookButton.name) ?? .black
+        return R.color.facebookButton() ?? .black
     }
 
     class var frenchPass: UIColor { // #D1F1FD
-        return UIColor(named: R.color.frenchPass.name) ?? .black
+        return R.color.frenchPass() ?? .black
+    }
+
+    class var mercury: UIColor { // #E9E9E9
+        return R.color.mercury() ?? .black
     }
 
     class var pohutukawa: UIColor { // #9F041B
-        return UIColor(named: R.color.pohutukawa.name) ?? .black
+        return R.color.pohutukawa() ?? .black
     }
 
     class var regalBlue: UIColor { // #004B78
-        return UIColor(named: R.color.regalBlue.name) ?? .black
+        return R.color.regalBlue() ?? .black
     }
 }
 

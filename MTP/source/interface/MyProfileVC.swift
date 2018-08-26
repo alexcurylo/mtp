@@ -4,8 +4,17 @@ import UIKit
 
 final class MyProfileVC: UIViewController {
 
+    @IBOutlet private var avatarImageView: UIImageView?
+    @IBOutlet private var fullNameLabel: UILabel?
+    @IBOutlet private var countryLabel: UILabel?
+    @IBOutlet private var birthdayLabel: UILabel?
+    @IBOutlet private var followersLabel: UILabel?
+    @IBOutlet private var followingLabel: UILabel?
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        configureHeaderView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -41,5 +50,27 @@ private extension MyProfileVC {
 
     @IBAction func unwindToMyProfile(segue: UIStoryboardSegue) {
         log.verbose(segue.name)
+    }
+
+    func configureHeaderView() {
+        guard let user = gestalt.user else { return }
+        
+        log.debug("TO DO: avatar")
+        
+        fullNameLabel?.text = user.fullName
+        countryLabel?.text = user.country.countryName
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        birthdayLabel?.text = dateFormatter.string(from: user.birthday)
+        
+        log.debug("TO DO: follow counts")
+        let followersCount = 0
+        let followers = Localized.followers(followersCount)
+        followersLabel?.text = followers
+        let followingCount = 0
+        let following = Localized.following(followingCount)
+        followingLabel?.text = following
     }
 }
