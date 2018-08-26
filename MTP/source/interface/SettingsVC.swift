@@ -31,6 +31,8 @@ final class SettingsVC: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
+        case R.segue.settingsVC.unwindFromSettings.identifier:
+            break
         default:
             log.debug("unexpected segue: \(segue.name)")
         }

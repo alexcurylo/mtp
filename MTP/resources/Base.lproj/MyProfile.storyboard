@@ -194,7 +194,13 @@
                             <outlet property="delegate" destination="TAt-iI-ucV" id="Ptf-JD-OdI"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Settings" id="LOg-sh-fyQ"/>
+                    <navigationItem key="navigationItem" title="Settings" id="LWN-JA-AdY">
+                        <barButtonItem key="leftBarButtonItem" image="navBackWhiteArrow" id="RbF-p8-9lX">
+                            <connections>
+                                <segue destination="t7Q-h3-tON" kind="unwind" identifier="unwindFromSettings" unwindAction="unwindToMyProfileWithSegue:" id="OTh-by-VvA"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="backgroundView" destination="HMU-eM-cW1" id="m8A-FL-Awv"/>
                     </connections>
@@ -216,6 +222,7 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>
+                <exit id="t7Q-h3-tON" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3135.1999999999998" y="995.35232383808102"/>
         </scene>
@@ -249,6 +256,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="navBackWhiteArrow" width="16" height="16"/>
         <image name="navEditProfile" width="30" height="30"/>
         <image name="navSettings" width="30" height="30"/>
         <image name="tabMyProfile" width="16" height="16"/>

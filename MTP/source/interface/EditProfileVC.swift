@@ -31,9 +31,12 @@ final class EditProfileVC: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
+        case R.segue.editProfileVC.saveEdits.identifier:
+            saveEdits()
         case R.segue.editProfileVC.unwindFromEditProfile.identifier:
             gestalt.logOut()
-        case R.segue.editProfileVC.showConfirmDelete.identifier:
+        case R.segue.editProfileVC.cancelEdits.identifier,
+             R.segue.editProfileVC.showConfirmDelete.identifier:
             break
         default:
             log.debug("unexpected segue: \(segue.name)")
@@ -44,6 +47,10 @@ final class EditProfileVC: UITableViewController {
 // MARK: - Actions
 
 private extension EditProfileVC {
+
+    func saveEdits() {
+        log.info("TO DO: MTPAPI.implement saveEdits")
+    }
 
     @IBAction func deleteAccount(segue: UIStoryboardSegue) {
         MTPAPI.deleteAccount { [weak self] result in

@@ -641,7 +641,6 @@
 			);
 			name = "Run script_build_begin.sh";
 			outputPaths = (
-				"$(SRC_ROOT)MTP/resources/R.generated.swift",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

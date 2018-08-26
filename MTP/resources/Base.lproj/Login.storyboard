@@ -267,7 +267,7 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Log In to Most Traveled People" id="obd-kS-tq8">
-                        <barButtonItem key="leftBarButtonItem" image="navBack" id="qc2-Ye-rNd">
+                        <barButtonItem key="leftBarButtonItem" image="navBackBlueCircle" id="qc2-Ye-rNd">
                             <connections>
                                 <segue destination="ejT-Co-vbU" kind="unwind" identifier="unwindFromLogin" unwindAction="unwindToRootWithSegue:" id="xy5-ji-9R4"/>
                             </connections>
@@ -640,7 +640,7 @@
         <image name="fieldHide" width="22" height="19"/>
         <image name="fieldShow" width="23" height="16"/>
         <image name="logoFacebook" width="57" height="57"/>
-        <image name="navBack" width="30" height="30"/>
+        <image name="navBackBlueCircle" width="30" height="30"/>
         <namedColor name="dustyGray">
             <color red="0.61176470589999998" green="0.61176470589999998" blue="0.61176470589999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

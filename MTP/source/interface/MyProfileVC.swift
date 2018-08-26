@@ -36,3 +36,10 @@ final class MyProfileVC: UIViewController {
         }
     }
 }
+
+private extension MyProfileVC {
+
+    @IBAction func unwindToMyProfile(segue: UIStoryboardSegue) {
+        log.verbose(segue.name)
+    }
+}

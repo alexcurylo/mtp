@@ -173,8 +173,16 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Edit Profile" id="pKw-8e-Fme">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="VDz-7c-CfW"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="R6r-9m-yTa"/>
+                        <barButtonItem key="leftBarButtonItem" image="navClose" id="VDz-7c-CfW">
+                            <connections>
+                                <segue destination="af3-oh-FK2" kind="unwind" identifier="cancelEdits" unwindAction="unwindToMyProfileWithSegue:" id="jfn-K9-jNW"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="R6r-9m-yTa">
+                            <connections>
+                                <segue destination="af3-oh-FK2" kind="unwind" identifier="saveEdits" unwindAction="unwindToMyProfileWithSegue:" id="6nK-df-evD"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
@@ -211,19 +219,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="Cloud1" translatesAutoresizingMaskIntoConstraints="NO" id="dkn-Nb-1TC">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud1" translatesAutoresizingMaskIntoConstraints="NO" id="dkn-Nb-1TC">
                                 <rect key="frame" x="16" y="202" width="97" height="58"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="Cloud1" translatesAutoresizingMaskIntoConstraints="NO" id="wwH-cb-Pnj">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud1" translatesAutoresizingMaskIntoConstraints="NO" id="wwH-cb-Pnj">
                                 <rect key="frame" x="-42" y="39" width="97" height="58"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="Cloud2" translatesAutoresizingMaskIntoConstraints="NO" id="h5P-4b-P6e">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud2" translatesAutoresizingMaskIntoConstraints="NO" id="h5P-4b-P6e">
                                 <rect key="frame" x="288" y="224" width="101" height="55"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="Cloud3" translatesAutoresizingMaskIntoConstraints="NO" id="liG-t7-Xp1">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud3" translatesAutoresizingMaskIntoConstraints="NO" id="liG-t7-Xp1">
                                 <rect key="frame" x="32" y="395" width="112" height="69"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="Cloud4" translatesAutoresizingMaskIntoConstraints="NO" id="aJz-Gi-R1g">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud4" translatesAutoresizingMaskIntoConstraints="NO" id="aJz-Gi-R1g">
                                 <rect key="frame" x="249" y="370" width="104" height="68"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="48" translatesAutoresizingMaskIntoConstraints="NO" id="tT5-jP-ET1" userLabel="Message Stack">
@@ -302,7 +310,7 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="Cloud4" translatesAutoresizingMaskIntoConstraints="NO" id="T2k-QS-12r">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud4" translatesAutoresizingMaskIntoConstraints="NO" id="T2k-QS-12r">
                                 <rect key="frame" x="316" y="29" width="104" height="68"/>
                             </imageView>
                         </subviews>
@@ -351,10 +359,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Cloud1" width="97" height="58"/>
-        <image name="Cloud2" width="101" height="55"/>
-        <image name="Cloud3" width="112" height="69"/>
-        <image name="Cloud4" width="104" height="68"/>
+        <image name="cloud1" width="97" height="58"/>
+        <image name="cloud2" width="101" height="55"/>
+        <image name="cloud3" width="112" height="69"/>
+        <image name="cloud4" width="104" height="68"/>
         <image name="faceDelete" width="146" height="145"/>
+        <image name="navClose" width="16" height="16"/>
     </resources>
 </document>
