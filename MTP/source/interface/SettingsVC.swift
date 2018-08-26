@@ -4,8 +4,12 @@ import UIKit
 
 final class SettingsVC: UITableViewController {
 
+    @IBOutlet private weak var backgroundView: UIView?
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        tableView.backgroundView = backgroundView
     }
 
     override func viewWillAppear(_ animated: Bool) {
