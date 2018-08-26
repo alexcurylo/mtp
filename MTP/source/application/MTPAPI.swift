@@ -62,6 +62,11 @@ extension MTP: TargetType {
 
 enum MTPAPI {
 
+    static func deleteAccount(then: @escaping (_ result: Result<Bool, MTPAPIError>) -> Void) {
+        log.info("TO DO: MTPAPI.implement deleteAccount")
+        then(.success(true))
+    }
+
     static func forgotPassword(email: String,
                                then: @escaping (_ result: Result<Bool, MTPAPIError>) -> Void) {
         guard !email.isEmpty else {

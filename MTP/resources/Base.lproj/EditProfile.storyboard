@@ -7,6 +7,8 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -119,7 +121,7 @@
                                                         <color key="titleColor" red="0.0078431372549019607" green="0.55294117647058827" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="logOut" destination="Aga-YF-c3F" eventType="touchUpInside" id="kGh-iT-pgg"/>
+                                                        <segue destination="af3-oh-FK2" kind="unwind" identifier="unwindFromEditProfile" unwindAction="unwindToRootWithSegue:" id="vS3-g5-fPx"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -150,7 +152,7 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                     <connections>
-                                                        <action selector="deleteAccount" destination="Aga-YF-c3F" eventType="touchUpInside" id="c8n-IY-MT5"/>
+                                                        <segue destination="gti-4z-BGL" kind="presentation" identifier="showConfirmDelete" id="Oed-t0-Itp"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -176,14 +178,203 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
-                    <connections>
-                        <segue destination="af3-oh-FK2" kind="unwind" identifier="unwindFromEditProfile" unwindAction="unwindToRootWithSegue:" id="hAn-B4-YkP"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5ym-7H-jEc" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="af3-oh-FK2" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3323" y="304"/>
         </scene>
+        <!--Confirm Delete-->
+        <scene sceneID="3Cl-rT-7bh">
+            <objects>
+                <viewController title="Confirm Delete" id="gti-4z-BGL" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Irg-x2-klQ" customClass="GradientView" customModule="MTP" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="Cloud1" translatesAutoresizingMaskIntoConstraints="NO" id="dkn-Nb-1TC">
+                                <rect key="frame" x="16" y="202" width="97" height="58"/>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="Cloud1" translatesAutoresizingMaskIntoConstraints="NO" id="wwH-cb-Pnj">
+                                <rect key="frame" x="-42" y="39" width="97" height="58"/>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="Cloud2" translatesAutoresizingMaskIntoConstraints="NO" id="h5P-4b-P6e">
+                                <rect key="frame" x="288" y="224" width="101" height="55"/>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="Cloud3" translatesAutoresizingMaskIntoConstraints="NO" id="liG-t7-Xp1">
+                                <rect key="frame" x="32" y="395" width="112" height="69"/>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="Cloud4" translatesAutoresizingMaskIntoConstraints="NO" id="aJz-Gi-R1g">
+                                <rect key="frame" x="249" y="370" width="104" height="68"/>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="48" translatesAutoresizingMaskIntoConstraints="NO" id="tT5-jP-ET1" userLabel="Message Stack">
+                                <rect key="frame" x="32" y="79.5" width="311" height="308"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WFC-FA-SQn">
+                                        <rect key="frame" x="0.0" y="0.0" width="311" height="115"/>
+                                        <attributedString key="attributedText">
+                                            <fragment content="Are you sure you want to delete your MTP account?">
+                                                <attributes>
+                                                    <color key="NSColor" red="0.14946000000000001" green="0.28997000000000001" blue="0.46486" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <font key="NSFont" size="28" name="Avenir-Black"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="faceDelete" translatesAutoresizingMaskIntoConstraints="NO" id="iMl-4d-3JW">
+                                        <rect key="frame" x="0.0" y="163" width="311" height="145"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="145" id="CuO-8g-QMW"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="NVX-i9-EvW" userLabel="Settings Stack">
+                                <rect key="frame" x="32" y="519" width="311" height="116"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LQJ-Fm-PWs">
+                                        <rect key="frame" x="0.0" y="0.0" width="311" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="d3x-D6-pkE"/>
+                                        </constraints>
+                                        <state key="normal">
+                                            <attributedString key="attributedTitle">
+                                                <fragment content="Yes, delete my account">
+                                                    <attributes>
+                                                        <color key="NSColor" red="0.71428000000000003" green="0.14323" blue="0.12299" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <font key="NSFont" size="18" name="Avenir-Heavy"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                                            <tabStops>
+                                                                <textTab alignment="left" location="28">
+                                                                    <options/>
+                                                                </textTab>
+                                                                <textTab alignment="left" location="56">
+                                                                    <options/>
+                                                                </textTab>
+                                                                <textTab alignment="left" location="84">
+                                                                    <options/>
+                                                                </textTab>
+                                                                <textTab alignment="left" location="112">
+                                                                    <options/>
+                                                                </textTab>
+                                                                <textTab alignment="left" location="140">
+                                                                    <options/>
+                                                                </textTab>
+                                                                <textTab alignment="left" location="168">
+                                                                    <options/>
+                                                                </textTab>
+                                                                <textTab alignment="left" location="196">
+                                                                    <options/>
+                                                                </textTab>
+                                                                <textTab alignment="left" location="224">
+                                                                    <options/>
+                                                                </textTab>
+                                                                <textTab alignment="left" location="252">
+                                                                    <options/>
+                                                                </textTab>
+                                                                <textTab alignment="left" location="280">
+                                                                    <options/>
+                                                                </textTab>
+                                                                <textTab alignment="left" location="308">
+                                                                    <options/>
+                                                                </textTab>
+                                                                <textTab alignment="left" location="336">
+                                                                    <options/>
+                                                                </textTab>
+                                                            </tabStops>
+                                                        </paragraphStyle>
+                                                    </attributes>
+                                                </fragment>
+                                            </attributedString>
+                                        </state>
+                                        <connections>
+                                            <segue destination="WwF-Sl-Go6" kind="unwind" unwindAction="deleteAccountWithSegue:" id="sgR-ZL-4za"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cdL-gV-upo" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="66" width="311" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="w2y-bj-UV7"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
+                                        <state key="normal" title="Cancel">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="4"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                                <color key="value" red="0.098039215690000001" green="0.75294117650000003" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                                <color key="value" red="0.0078431372550000003" green="0.54901960780000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="orientation">
+                                                <integer key="value" value="2"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <segue destination="Aga-YF-c3F" kind="custom" identifier="cancelDelete" customClass="DismissSegue" customModule="MTP" customModuleProvider="target" id="z59-Je-wQW"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="Cloud4" translatesAutoresizingMaskIntoConstraints="NO" id="T2k-QS-12r">
+                                <rect key="frame" x="316" y="29" width="104" height="68"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="tT5-jP-ET1" firstAttribute="centerY" secondItem="Irg-x2-klQ" secondAttribute="centerY" multiplier="0.7" priority="750" id="4Dk-2k-Kd4"/>
+                            <constraint firstItem="tT5-jP-ET1" firstAttribute="leading" secondItem="Pgh-D6-fOg" secondAttribute="leading" constant="32" id="AZK-1U-44P"/>
+                            <constraint firstItem="Pgh-D6-fOg" firstAttribute="trailing" secondItem="NVX-i9-EvW" secondAttribute="trailing" constant="32" id="H7g-ku-QLI"/>
+                            <constraint firstItem="Pgh-D6-fOg" firstAttribute="trailing" secondItem="tT5-jP-ET1" secondAttribute="trailing" constant="32" id="HBF-Jz-FVs"/>
+                            <constraint firstItem="aJz-Gi-R1g" firstAttribute="leading" secondItem="iMl-4d-3JW" secondAttribute="trailing" constant="-94" id="Pcx-OT-Dmf"/>
+                            <constraint firstItem="WFC-FA-SQn" firstAttribute="top" secondItem="T2k-QS-12r" secondAttribute="bottom" constant="-17.5" id="QOc-O7-fQk"/>
+                            <constraint firstItem="WFC-FA-SQn" firstAttribute="top" secondItem="wwH-cb-Pnj" secondAttribute="bottom" constant="-17.5" id="XiJ-xL-oPk"/>
+                            <constraint firstItem="iMl-4d-3JW" firstAttribute="leading" secondItem="dkn-Nb-1TC" secondAttribute="trailing" constant="-81" id="b1z-SR-dDI"/>
+                            <constraint firstItem="iMl-4d-3JW" firstAttribute="leading" secondItem="liG-t7-Xp1" secondAttribute="trailing" constant="-112" id="b4D-ev-FKN"/>
+                            <constraint firstItem="iMl-4d-3JW" firstAttribute="top" secondItem="h5P-4b-P6e" secondAttribute="bottom" constant="-36.5" id="cEH-5x-w4x"/>
+                            <constraint firstItem="h5P-4b-P6e" firstAttribute="leading" secondItem="iMl-4d-3JW" secondAttribute="trailing" constant="-55" id="evC-Ty-HJh"/>
+                            <constraint firstItem="iMl-4d-3JW" firstAttribute="top" secondItem="dkn-Nb-1TC" secondAttribute="bottom" constant="-17.5" id="fYD-BH-isc"/>
+                            <constraint firstItem="liG-t7-Xp1" firstAttribute="top" secondItem="iMl-4d-3JW" secondAttribute="bottom" constant="7.5" id="gM8-na-inG"/>
+                            <constraint firstItem="aJz-Gi-R1g" firstAttribute="top" secondItem="iMl-4d-3JW" secondAttribute="bottom" constant="-17.5" id="i5m-gB-27x"/>
+                            <constraint firstItem="WFC-FA-SQn" firstAttribute="leading" secondItem="wwH-cb-Pnj" secondAttribute="trailing" constant="-23" id="kgY-C0-biK"/>
+                            <constraint firstItem="NVX-i9-EvW" firstAttribute="leading" secondItem="Pgh-D6-fOg" secondAttribute="leading" constant="32" id="sYF-lC-fKz"/>
+                            <constraint firstItem="T2k-QS-12r" firstAttribute="leading" secondItem="WFC-FA-SQn" secondAttribute="trailing" constant="-27" id="xec-gb-D8T"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="NVX-i9-EvW" secondAttribute="bottom" constant="32" id="yWY-fO-kBd"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Pgh-D6-fOg"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                <color key="value" red="0.81960784310000001" green="0.94509803920000002" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="orientation">
+                                <integer key="value" value="3"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <toolbarItems/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lV3-Gr-X46" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="WwF-Sl-Go6" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="4231" y="-359"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="Cloud1" width="97" height="58"/>
+        <image name="Cloud2" width="101" height="55"/>
+        <image name="Cloud3" width="112" height="69"/>
+        <image name="Cloud4" width="104" height="68"/>
+        <image name="faceDelete" width="146" height="145"/>
+    </resources>
 </document>
