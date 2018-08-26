@@ -17,7 +17,7 @@ final class EditProfileVC: UITableViewController {
     }
 
     override func didReceiveMemoryWarning() {
-        log.info("didReceiveMemoryWarning: \(type(of: self))")
+        log.warning("didReceiveMemoryWarning: \(type(of: self))")
         super.didReceiveMemoryWarning()
     }
 
@@ -29,7 +29,7 @@ final class EditProfileVC: UITableViewController {
         case R.segue.editProfileVC.showConfirmDelete(segue: segue) != nil:
             log.verbose(segue.name)
         default:
-            log.warning("Unexpected segue: \(segue.name)")
+            log.debug("Unexpected segue: \(segue.name)")
         }
     }
 }

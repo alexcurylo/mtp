@@ -18,7 +18,7 @@ final class WelcomeVC: UIViewController {
     }
 
     override func didReceiveMemoryWarning() {
-        log.info("didReceiveMemoryWarning: \(type(of: self))")
+        log.warning("didReceiveMemoryWarning: \(type(of: self))")
         super.didReceiveMemoryWarning()
     }
 
@@ -32,7 +32,7 @@ final class WelcomeVC: UIViewController {
         case R.segue.welcomeVC.showMain(segue: segue) != nil:
             log.verbose(segue.name)
         default:
-            log.warning("Unexpected segue: \(segue.name)")
+            log.debug("Unexpected segue: \(segue.name)")
         }
     }
 }
