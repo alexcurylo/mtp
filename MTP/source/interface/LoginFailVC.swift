@@ -31,14 +31,14 @@ final class LoginFailVC: UIViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch true {
-        case R.segue.loginFailVC.dismissLoginFail(segue: segue) != nil:
+        log.verbose("prepare for \(segue.name)")
+        switch segue.identifier {
+        case R.segue.loginFailVC.dismissLoginFail.identifier:
             presentingViewController?.navigationController?.setNavigationBarHidden(false, animated: true)
-            log.verbose(segue.name)
-        case R.segue.loginFailVC.switchForgotPassword(segue: segue) != nil:
-            log.verbose(segue.name)
+        case R.segue.loginFailVC.switchForgotPassword.identifier:
+            break
         default:
-            log.debug("Unexpected segue: \(segue.name)")
+            log.debug("unexpected segue: \(segue.name)")
         }
     }
 }

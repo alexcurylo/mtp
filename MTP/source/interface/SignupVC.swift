@@ -43,14 +43,15 @@ final class SignupVC: UIViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch true {
-        case R.segue.signupVC.unwindFromSignup(segue: segue) != nil,
-             R.segue.signupVC.switchLogin(segue: segue) != nil,
-             R.segue.signupVC.pushTermsOfService(segue: segue) != nil,
-             R.segue.signupVC.showWelcome(segue: segue) != nil:
-            log.verbose(segue.name)
+        log.verbose("prepare for \(segue.name)")
+        switch segue.identifier {
+        case R.segue.signupVC.pushTermsOfService.identifier,
+             R.segue.signupVC.showWelcome.identifier,
+             R.segue.signupVC.switchLogin.identifier,
+             R.segue.signupVC.unwindFromSignup.identifier:
+            break
         default:
-            log.debug("Unexpected segue: \(segue.name)")
+            log.debug("unexpected segue: \(segue.name)")
         }
     }
 }

@@ -53,14 +53,15 @@ final class RootVC: UIViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch true {
-        case R.segue.rootVC.embedLaunchScreen(segue: segue) != nil,
-             R.segue.rootVC.showMain(segue: segue) != nil,
-             R.segue.rootVC.showLogin(segue: segue) != nil,
-             R.segue.rootVC.showSignup(segue: segue) != nil:
-            log.verbose(segue.name)
+        log.verbose("prepare for \(segue.name)")
+        switch segue.identifier {
+        case R.segue.rootVC.embedLaunchScreen.identifier,
+             R.segue.rootVC.showMain.identifier,
+             R.segue.rootVC.showLogin.identifier,
+             R.segue.rootVC.showSignup.identifier:
+            break
         default:
-            log.debug("Unexpected segue: \(segue.name)")
+            log.debug("unexpected segue: \(segue.name)")
         }
     }
 }

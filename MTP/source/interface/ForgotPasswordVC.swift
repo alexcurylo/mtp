@@ -37,12 +37,12 @@ final class ForgotPasswordVC: UIViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch true {
-        case R.segue.forgotPasswordVC.dismissForgotPassword(segue: segue) != nil:
+        log.verbose("prepare for \(segue.name)")
+        switch segue.identifier {
+        case R.segue.forgotPasswordVC.dismissForgotPassword.identifier:
             presentingViewController?.navigationController?.setNavigationBarHidden(false, animated: true)
-            log.verbose(segue.name)
         default:
-            log.debug("Unexpected segue: \(segue.name)")
+            log.debug("unexpected segue: \(segue.name)")
         }
     }
 }

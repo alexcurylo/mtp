@@ -42,20 +42,19 @@ final class LoginVC: UIViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch true {
-        case R.segue.loginVC.presentForgotPassword(segue: segue) != nil,
-             R.segue.loginVC.presentLoginFail(segue: segue) != nil:
+        log.verbose("prepare for \(segue.name)")
+        switch segue.identifier {
+        case R.segue.loginVC.presentForgotPassword.identifier,
+             R.segue.loginVC.presentLoginFail.identifier:
             navigationController?.setNavigationBarHidden(true, animated: true)
             gestalt.email = emailTextField?.text ?? ""
-            log.verbose(segue.name)
-        case R.segue.loginVC.showMain(segue: segue) != nil:
+        case R.segue.loginVC.showMain.identifier:
             style.standard.apply()
-            log.verbose(segue.name)
-        case R.segue.loginVC.switchSignup(segue: segue) != nil,
-             R.segue.loginVC.unwindFromLogin(segue: segue) != nil:
-            log.verbose(segue.name)
+        case R.segue.loginVC.switchSignup.identifier,
+             R.segue.loginVC.unwindFromLogin.identifier:
+            break
         default:
-            log.debug("Unexpected segue: \(segue.name)")
+            log.debug("unexpected segue: \(segue.name)")
         }
     }
 }

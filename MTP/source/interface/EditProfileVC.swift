@@ -22,14 +22,14 @@ final class EditProfileVC: UITableViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch true {
-        case R.segue.editProfileVC.unwindFromEditProfile(segue: segue) != nil:
+        log.verbose("prepare for \(segue.name)")
+        switch segue.identifier {
+        case R.segue.editProfileVC.unwindFromEditProfile.identifier:
             gestalt.logOut()
-            log.verbose(segue.name)
-        case R.segue.editProfileVC.showConfirmDelete(segue: segue) != nil:
-            log.verbose(segue.name)
+        case R.segue.editProfileVC.showConfirmDelete.identifier:
+            break
         default:
-            log.debug("Unexpected segue: \(segue.name)")
+            log.debug("unexpected segue: \(segue.name)")
         }
     }
 }
