@@ -40,6 +40,7 @@ PODS:
   - Moya/Core (11.0.2):
     - Alamofire (~> 4.1)
     - Result (~> 3.0)
+  - Parchment (1.4.1)
   - R.swift (4.0.0):
     - R.swift.Library (~> 4.0.0)
   - R.swift.Library (4.0.0)
@@ -58,6 +59,7 @@ DEPENDENCIES:
   - FBSDKLoginKit
   - FBSDKShareKit
   - Moya
+  - Parchment
   - R.swift
   - SwiftLint
   - SwiftyBeaver
@@ -74,6 +76,7 @@ SPEC REPOS:
     - FBSDKLoginKit
     - FBSDKShareKit
     - Moya
+    - Parchment
     - R.swift
     - R.swift.Library
     - Result
@@ -91,12 +94,13 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: 00a3d65d1226852f9d76dcddff01981e5e6d9c38
   FBSDKShareKit: 2ddbd7e6432023fff957af62e23a3671b84319f7
   Moya: a725035953bc1c0eb1be505ab903984501d82440
+  Parchment: e6c2a3a0063739382dd207e21d48fe5e81f3324a
   R.swift: d6a5ec2f55a8441dc0ed9f1f8b37d7d11ae85c66
   R.swift.Library: c3af34921024333546e23b70e70d0b4e0cffca75
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
   SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
   SwiftyBeaver: e45759613e50b522b0e6f53b1f0f14389b45ca34
 
-PODFILE CHECKSUM: c67d4974b18eda8f08a0b34772dc3b906856e1fe
+PODFILE CHECKSUM: 4332111f0141d9e96b228ccce2db902cb6ddbda0
 
 COCOAPODS: 1.5.3

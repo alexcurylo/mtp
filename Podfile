@@ -14,6 +14,7 @@ target 'MTP' do
   pod 'FBSDKLoginKit', :modular_headers => true, :inhibit_warnings => true
   pod 'FBSDKShareKit', :modular_headers => true, :inhibit_warnings => true
   pod 'Moya'
+  pod 'Parchment'
   pod 'R.swift'
   pod 'SwiftLint'
   pod 'SwiftyBeaver'
