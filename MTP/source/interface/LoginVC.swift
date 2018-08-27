@@ -4,9 +4,9 @@ import UIKit
 
 final class LoginVC: UIViewController {
 
-    @IBOutlet private weak var emailTextField: UITextField?
-    @IBOutlet private weak var passwordTextField: UITextField?
-    @IBOutlet private weak var togglePasswordButton: UIButton?
+    @IBOutlet private var emailTextField: UITextField?
+    @IBOutlet private var passwordTextField: UITextField?
+    @IBOutlet private var togglePasswordButton: UIButton?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,25 +37,24 @@ final class LoginVC: UIViewController {
     }
 
     override func didReceiveMemoryWarning() {
-        log.info("didReceiveMemoryWarning: \(type(of: self))")
+        log.warning("didReceiveMemoryWarning: \(type(of: self))")
         super.didReceiveMemoryWarning()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch true {
-        case R.segue.loginVC.presentForgotPassword(segue: segue) != nil,
-             R.segue.loginVC.presentLoginFail(segue: segue) != nil:
+        log.verbose("prepare for \(segue.name)")
+        switch segue.identifier {
+        case R.segue.loginVC.presentForgotPassword.identifier,
+             R.segue.loginVC.presentLoginFail.identifier:
             navigationController?.setNavigationBarHidden(true, animated: true)
-            UserDefaults.standard.email = emailTextField?.text ?? ""
-            log.verbose(segue.name)
-        case R.segue.loginVC.showMain(segue: segue) != nil:
+            gestalt.email = emailTextField?.text ?? ""
+        case R.segue.loginVC.showMain.identifier:
             style.standard.apply()
-            log.verbose(segue.name)
-        case R.segue.loginVC.switchSignup(segue: segue) != nil,
-             R.segue.loginVC.unwindFromLogin(segue: segue) != nil:
-            log.verbose(segue.name)
+        case R.segue.loginVC.switchSignup.identifier,
+             R.segue.loginVC.unwindFromLogin.identifier:
+            break
         default:
-            log.warning("Unexpected segue: \(segue.name)")
+            log.debug("unexpected segue: \(segue.name)")
         }
     }
 }

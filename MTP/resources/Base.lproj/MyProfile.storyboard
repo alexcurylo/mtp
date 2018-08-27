@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -20,18 +21,89 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="My Profile" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="jGT-f5-0R8">
-                                <rect key="frame" x="111" y="287.5" width="153" height="43"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SqN-8E-JAh" userLabel="Header View">
+                                <rect key="frame" x="8" y="72" width="359" height="138"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="7S9-Dp-DK3" userLabel="Info Stack">
+                                        <rect key="frame" x="24" y="24" width="311" height="90"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ju3-Me-QPA">
+                                                <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
+                                                <color key="backgroundColor" name="mercury"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="90" id="IKq-UC-IQV"/>
+                                                    <constraint firstAttribute="width" constant="90" id="oHj-oq-sEV"/>
+                                                </constraints>
+                                            </imageView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Xgj-63-ZYL" userLabel="Name Stack">
+                                                <rect key="frame" x="98" y="0.0" width="213" height="90"/>
+                                                <subviews>
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="scaleToFill" verticalHuggingPriority="1000" text="Nikola Trstenjak" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="bHu-Dd-wWU">
+                                                        <rect key="frame" x="0.0" y="0.0" width="213" height="25"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="18"/>
+                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="scaleToFill" verticalHuggingPriority="1000" text="Croatia" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="U7j-AG-y4V">
+                                                        <rect key="frame" x="0.0" y="25" width="213" height="22"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
+                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleToFill" verticalHuggingPriority="999" text="30 June 1986" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="ehV-Sa-Bnh">
+                                                        <rect key="frame" x="0.0" y="47" width="213" height="23.5"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="14"/>
+                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Ap0-8Q-R7d" userLabel="Followers Stack">
+                                                        <rect key="frame" x="0.0" y="70.5" width="213" height="19.5"/>
+                                                        <subviews>
+                                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="1000" text="121 Followers" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="jGT-f5-0R8">
+                                                                <rect key="frame" x="0.0" y="0.0" width="88.5" height="19.5"/>
+                                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="14"/>
+                                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lDa-RE-hSG">
+                                                                <rect key="frame" x="96.5" y="0.0" width="1" height="19.5"/>
+                                                                <color key="backgroundColor" name="mercury"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="1" id="0EF-Gd-HuW"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleToFill" verticalHuggingPriority="1000" text="42 Following" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="tcp-1L-0FO">
+                                                                <rect key="frame" x="105.5" y="0.0" width="107.5" height="19.5"/>
+                                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="14"/>
+                                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="7S9-Dp-DK3" firstAttribute="leading" secondItem="SqN-8E-JAh" secondAttribute="leadingMargin" constant="16" id="eJH-nB-yAt"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="7S9-Dp-DK3" secondAttribute="trailing" constant="16" id="hAQ-5Z-1AD"/>
+                                    <constraint firstItem="7S9-Dp-DK3" firstAttribute="top" secondItem="SqN-8E-JAh" secondAttribute="topMargin" constant="16" id="s5R-EQ-Mv1"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="7S9-Dp-DK3" secondAttribute="bottom" constant="16" id="x8a-k3-DCZ"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="jGT-f5-0R8" firstAttribute="centerX" secondItem="vIk-vS-YlX" secondAttribute="centerX" id="bo8-17-wgT"/>
-                            <constraint firstItem="jGT-f5-0R8" firstAttribute="centerY" secondItem="vIk-vS-YlX" secondAttribute="centerY" id="p2g-Dl-qqY"/>
+                            <constraint firstItem="SqN-8E-JAh" firstAttribute="leading" secondItem="jsK-D9-Q7O" secondAttribute="leading" constant="8" id="bzR-Zf-pMb"/>
+                            <constraint firstItem="jsK-D9-Q7O" firstAttribute="trailing" secondItem="SqN-8E-JAh" secondAttribute="trailing" constant="8" id="lWH-XD-x0e"/>
+                            <constraint firstItem="SqN-8E-JAh" firstAttribute="top" secondItem="jsK-D9-Q7O" secondAttribute="top" constant="8" id="sVs-SX-iMM"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="jsK-D9-Q7O"/>
                         <userDefinedRuntimeAttributes>
@@ -63,6 +135,12 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                     <connections>
+                        <outlet property="avatarImageView" destination="Ju3-Me-QPA" id="ep4-hp-2fv"/>
+                        <outlet property="birthdayLabel" destination="ehV-Sa-Bnh" id="n36-GZ-tFM"/>
+                        <outlet property="countryLabel" destination="U7j-AG-y4V" id="2vB-QQ-IKr"/>
+                        <outlet property="followersLabel" destination="jGT-f5-0R8" id="hxk-iv-eot"/>
+                        <outlet property="followingLabel" destination="tcp-1L-0FO" id="dsO-rf-3Vk"/>
+                        <outlet property="fullNameLabel" destination="bHu-Dd-wWU" id="77I-10-Z4s"/>
                         <segue destination="M95-Fc-Urs" kind="show" identifier="directEdit" animates="NO" id="7Wa-VS-F0d"/>
                     </connections>
                 </viewController>
@@ -194,11 +272,37 @@
                             <outlet property="delegate" destination="TAt-iI-ucV" id="Ptf-JD-OdI"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Settings" id="LOg-sh-fyQ"/>
+                    <navigationItem key="navigationItem" title="Settings" id="LWN-JA-AdY">
+                        <barButtonItem key="leftBarButtonItem" image="navBackWhiteArrow" id="RbF-p8-9lX">
+                            <connections>
+                                <segue destination="t7Q-h3-tON" kind="unwind" identifier="unwindFromSettings" unwindAction="unwindToMyProfileWithSegue:" id="OTh-by-VvA"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="backgroundView" destination="HMU-eM-cW1" id="m8A-FL-Awv"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5dq-tD-n56" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="HMU-eM-cW1" customClass="GradientView" customModule="MTP" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <viewLayoutGuide key="safeArea" id="FdO-Av-RbZ"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                            <color key="value" red="0.098039215686274508" green="0.75294117647058822" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                            <color key="value" red="0.0078431372549019607" green="0.55294117647058827" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="orientation">
+                            <integer key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <exit id="t7Q-h3-tON" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3135.1999999999998" y="995.35232383808102"/>
+            <point key="canvasLocation" x="3839" y="602"/>
         </scene>
         <!--My Profile-->
         <scene sceneID="dqx-6U-y7K">
@@ -230,11 +334,15 @@
         </scene>
     </scenes>
     <resources>
+        <image name="navBackWhiteArrow" width="16" height="16"/>
         <image name="navEditProfile" width="30" height="30"/>
         <image name="navSettings" width="30" height="30"/>
         <image name="tabMyProfile" width="16" height="16"/>
+        <namedColor name="mercury">
+            <color red="0.9137254901960784" green="0.9137254901960784" blue="0.9137254901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="7Wa-VS-F0d"/>
+        <segue reference="QaY-py-NhM"/>
     </inferredMetricsTieBreakers>
 </document>

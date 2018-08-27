@@ -4,12 +4,19 @@ import UIKit
 
 final class EditProfileVC: UITableViewController {
 
+    @IBOutlet private var backgroundView: UIView?
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        tableView.backgroundView = backgroundView
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        style.standard.apply()
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -17,16 +24,22 @@ final class EditProfileVC: UITableViewController {
     }
 
     override func didReceiveMemoryWarning() {
-        log.info("didReceiveMemoryWarning: \(type(of: self))")
+        log.warning("didReceiveMemoryWarning: \(type(of: self))")
         super.didReceiveMemoryWarning()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch true {
-        case R.segue.editProfileVC.unwindFromEditProfile(segue: segue) != nil:
-            log.verbose(segue.name)
+        log.verbose("prepare for \(segue.name)")
+        switch segue.identifier {
+        case R.segue.editProfileVC.saveEdits.identifier:
+            saveEdits()
+        case R.segue.editProfileVC.unwindFromEditProfile.identifier:
+            gestalt.logOut()
+        case R.segue.editProfileVC.cancelEdits.identifier,
+             R.segue.editProfileVC.showConfirmDelete.identifier:
+            break
         default:
-            log.warning("Unexpected segue: \(segue.name)")
+            log.debug("unexpected segue: \(segue.name)")
         }
     }
 }
@@ -35,13 +48,18 @@ final class EditProfileVC: UITableViewController {
 
 private extension EditProfileVC {
 
-    @IBAction func logOut() {
-        FacebookButton.logOut()
-        UserDefaults.standard.logOut()
-        performSegue(withIdentifier: R.segue.editProfileVC.unwindFromEditProfile, sender: self)
+    func saveEdits() {
+        log.info("TO DO: MTPAPI.implement saveEdits")
     }
 
-    @IBAction func deleteAccount() {
-        log.debug("TO DO: implement deleteAccount")
+    @IBAction func deleteAccount(segue: UIStoryboardSegue) {
+        MTPAPI.deleteAccount { [weak self] result in
+            switch result {
+            case .success:
+                self?.performSegue(withIdentifier: R.segue.editProfileVC.unwindFromEditProfile, sender: self)
+            case .failure(let error):
+                log.error("TO DO: handle error calling /deleteAccount: \(String(describing: error))")
+            }
+        }
     }
 }

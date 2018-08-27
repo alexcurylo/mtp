@@ -4,10 +4,10 @@ import UIKit
 
 final class LoginFailVC: UIViewController {
 
-    @IBOutlet private weak var alertHolder: UIView!
-    @IBOutlet private weak var bottomY: NSLayoutConstraint!
-    @IBOutlet private weak var centerY: NSLayoutConstraint!
-    @IBOutlet private weak var messageLabel: UILabel!
+    @IBOutlet private var alertHolder: UIView?
+    @IBOutlet private var bottomY: NSLayoutConstraint?
+    @IBOutlet private var centerY: NSLayoutConstraint?
+    @IBOutlet private var messageLabel: UILabel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,19 +26,19 @@ final class LoginFailVC: UIViewController {
     }
 
     override func didReceiveMemoryWarning() {
-        log.info("didReceiveMemoryWarning: \(type(of: self))")
+        log.warning("didReceiveMemoryWarning: \(type(of: self))")
         super.didReceiveMemoryWarning()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch true {
-        case R.segue.loginFailVC.dismissLoginFail(segue: segue) != nil:
+        log.verbose("prepare for \(segue.name)")
+        switch segue.identifier {
+        case R.segue.loginFailVC.dismissLoginFail.identifier:
             presentingViewController?.navigationController?.setNavigationBarHidden(false, animated: true)
-            log.verbose(segue.name)
-        case R.segue.loginFailVC.switchForgotPassword(segue: segue) != nil:
-            log.verbose(segue.name)
+        case R.segue.loginFailVC.switchForgotPassword.identifier:
+            break
         default:
-            log.warning("Unexpected segue: \(segue.name)")
+            log.debug("unexpected segue: \(segue.name)")
         }
     }
 }
@@ -46,9 +46,9 @@ final class LoginFailVC: UIViewController {
 private extension LoginFailVC {
 
     func hideAlert() {
-        centerY.priority = .defaultLow
-        bottomY.priority = .defaultHigh
-        bottomY.constant = -alertHolder.bounds.height
+        centerY?.priority = .defaultLow
+        bottomY?.priority = .defaultHigh
+        bottomY?.constant = -(alertHolder?.bounds.height ?? 0)
         view.layoutIfNeeded()
     }
 
@@ -60,8 +60,8 @@ private extension LoginFailVC {
             initialSpringVelocity: 0.75,
             options: [.curveEaseOut],
             animations: {
-                self.bottomY.priority = .defaultLow
-                self.centerY.priority = .defaultHigh
+                self.bottomY?.priority = .defaultLow
+                self.centerY?.priority = .defaultHigh
                 self.view.layoutIfNeeded()
             },
             completion: nil)

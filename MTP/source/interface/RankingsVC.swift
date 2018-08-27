@@ -10,6 +10,7 @@ final class RankingsVC: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 
@@ -18,11 +19,15 @@ final class RankingsVC: UIViewController {
     }
 
     override func didReceiveMemoryWarning() {
-        log.info("didReceiveMemoryWarning: \(type(of: self))")
+        log.warning("didReceiveMemoryWarning: \(type(of: self))")
         super.didReceiveMemoryWarning()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.warning("Unexpected segue: \(segue.name)")
+        log.verbose("prepare for \(segue.name)")
+        switch segue.identifier {
+        default:
+            log.debug("unexpected segue: \(segue.name)")
+        }
     }
 }

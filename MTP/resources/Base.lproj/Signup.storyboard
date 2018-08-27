@@ -307,7 +307,7 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Sign Up to Most Traveled People" id="zGb-ui-jw8">
-                        <barButtonItem key="leftBarButtonItem" image="navBack" id="32n-qm-Og7">
+                        <barButtonItem key="leftBarButtonItem" image="navBackBlueCircle" id="32n-qm-Og7">
                             <connections>
                                 <segue destination="cNX-8u-egs" kind="unwind" identifier="unwindFromSignup" unwindAction="unwindToRootWithSegue:" id="cic-eP-sg8"/>
                             </connections>
@@ -370,7 +370,7 @@
                         <viewLayoutGuide key="safeArea" id="CY9-Mu-mCg"/>
                     </view>
                     <navigationItem key="navigationItem" title="Terms of Service" id="sjd-qh-ndZ">
-                        <barButtonItem key="leftBarButtonItem" image="navBack" id="BOs-dd-5co">
+                        <barButtonItem key="leftBarButtonItem" image="navBackBlueCircle" id="BOs-dd-5co">
                             <connections>
                                 <segue destination="VZf-fG-PrW" kind="custom" identifier="popTermsOfService" customClass="PopSegue" customModule="MTP" customModuleProvider="target" id="VFq-Qq-FvX"/>
                             </connections>
@@ -397,16 +397,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="Cloud1" translatesAutoresizingMaskIntoConstraints="NO" id="zgx-2g-52R">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud1" translatesAutoresizingMaskIntoConstraints="NO" id="zgx-2g-52R">
                                 <rect key="frame" x="16" y="216" width="97" height="58"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="Cloud2" translatesAutoresizingMaskIntoConstraints="NO" id="4aG-gG-oiE">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud2" translatesAutoresizingMaskIntoConstraints="NO" id="4aG-gG-oiE">
                                 <rect key="frame" x="288" y="238" width="101" height="55"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="Cloud3" translatesAutoresizingMaskIntoConstraints="NO" id="vOe-gG-w9J">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud3" translatesAutoresizingMaskIntoConstraints="NO" id="vOe-gG-w9J">
                                 <rect key="frame" x="-16" y="367" width="112" height="69"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="Cloud4" translatesAutoresizingMaskIntoConstraints="NO" id="C15-xM-60M">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud4" translatesAutoresizingMaskIntoConstraints="NO" id="C15-xM-60M">
                                 <rect key="frame" x="314" y="378" width="104" height="68"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="KW2-wY-ZyV" userLabel="Message Stack">
@@ -560,15 +560,15 @@ to your Profile Settings.</string>
         </scene>
     </scenes>
     <resources>
-        <image name="Cloud1" width="97" height="58"/>
-        <image name="Cloud2" width="101" height="55"/>
-        <image name="Cloud3" width="112" height="69"/>
-        <image name="Cloud4" width="104" height="68"/>
+        <image name="cloud1" width="97" height="58"/>
+        <image name="cloud2" width="101" height="55"/>
+        <image name="cloud3" width="112" height="69"/>
+        <image name="cloud4" width="104" height="68"/>
         <image name="faceRegister" width="145" height="145"/>
         <image name="fieldHide" width="22" height="19"/>
         <image name="fieldShow" width="23" height="16"/>
         <image name="logoFacebook" width="57" height="57"/>
-        <image name="navBack" width="30" height="30"/>
+        <image name="navBackBlueCircle" width="30" height="30"/>
         <namedColor name="dustyGray">
             <color red="0.61176470589999998" green="0.61176470589999998" blue="0.61176470589999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

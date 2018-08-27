@@ -4,12 +4,19 @@ import UIKit
 
 final class SettingsVC: UITableViewController {
 
+    @IBOutlet private var backgroundView: UIView?
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        tableView.backgroundView = backgroundView
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        style.standard.apply()
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -17,11 +24,17 @@ final class SettingsVC: UITableViewController {
     }
 
     override func didReceiveMemoryWarning() {
-        log.info("didReceiveMemoryWarning: \(type(of: self))")
+        log.warning("didReceiveMemoryWarning: \(type(of: self))")
         super.didReceiveMemoryWarning()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.warning("Unexpected segue: \(segue.name)")
+        log.verbose("prepare for \(segue.name)")
+        switch segue.identifier {
+        case R.segue.settingsVC.unwindFromSettings.identifier:
+            break
+        default:
+            log.debug("unexpected segue: \(segue.name)")
+        }
     }
 }

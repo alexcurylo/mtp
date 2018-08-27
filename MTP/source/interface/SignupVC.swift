@@ -4,10 +4,10 @@ import UIKit
 
 final class SignupVC: UIViewController {
 
-    @IBOutlet private weak var nameTextField: UITextField?
-    @IBOutlet private weak var emailTextField: UITextField?
-    @IBOutlet private weak var passwordTextField: UITextField?
-    @IBOutlet private weak var togglePasswordButton: UIButton?
+    @IBOutlet private var nameTextField: UITextField?
+    @IBOutlet private var emailTextField: UITextField?
+    @IBOutlet private var passwordTextField: UITextField?
+    @IBOutlet private var togglePasswordButton: UIButton?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,19 +38,20 @@ final class SignupVC: UIViewController {
     }
 
     override func didReceiveMemoryWarning() {
-        log.info("didReceiveMemoryWarning: \(type(of: self))")
+        log.warning("didReceiveMemoryWarning: \(type(of: self))")
         super.didReceiveMemoryWarning()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch true {
-        case R.segue.signupVC.unwindFromSignup(segue: segue) != nil,
-             R.segue.signupVC.switchLogin(segue: segue) != nil,
-             R.segue.signupVC.pushTermsOfService(segue: segue) != nil,
-             R.segue.signupVC.showWelcome(segue: segue) != nil:
-            log.verbose(segue.name)
+        log.verbose("prepare for \(segue.name)")
+        switch segue.identifier {
+        case R.segue.signupVC.pushTermsOfService.identifier,
+             R.segue.signupVC.showWelcome.identifier,
+             R.segue.signupVC.switchLogin.identifier,
+             R.segue.signupVC.unwindFromSignup.identifier:
+            break
         default:
-            log.warning("Unexpected segue: \(segue.name)")
+            log.debug("unexpected segue: \(segue.name)")
         }
     }
 }

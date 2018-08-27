@@ -1,14 +1,13 @@
 // @copyright Trollwerks Inc.
 
-import FacebookCore
 import UIKit
 
 final class RootVC: UIViewController {
 
-    @IBOutlet private weak var credentials: UIView!
-    @IBOutlet private weak var credentialsBottom: NSLayoutConstraint!
-    @IBOutlet private weak var loginButton: UIButton!
-    @IBOutlet private weak var signupButton: UIButton!
+    @IBOutlet private var credentials: UIView?
+    @IBOutlet private var credentialsBottom: NSLayoutConstraint?
+    @IBOutlet private var loginButton: UIButton?
+    @IBOutlet private var signupButton: UIButton?
 
     private var isloggedIn: Bool {
         if let loggedIn = ProcessInfo.setting(bool: .loggedIn) {
@@ -17,28 +16,25 @@ final class RootVC: UIViewController {
             return false
         }
 
-        return UserDefaults.standard.isLoggedIn
+        return gestalt.isLoggedIn
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        if isloggedIn {
-            performSegue(withIdentifier: R.segue.rootVC.showMain, sender: self)
-        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         navigationController?.setNavigationBarHidden(true, animated: animated)
 
         if isloggedIn {
-            credentials.isHidden = true
-            credentialsBottom.constant = 0
+            credentials?.isHidden = true
+            credentialsBottom?.constant = 0
             performSegue(withIdentifier: R.segue.rootVC.showMain, sender: self)
         } else {
-            credentials.isHidden = false
-            credentialsBottom.constant = -credentials.bounds.height
+            credentials?.isHidden = false
+            credentialsBottom?.constant = -(credentials?.bounds.height ?? 0)
         }
     }
 
@@ -53,32 +49,32 @@ final class RootVC: UIViewController {
     }
 
     override func didReceiveMemoryWarning() {
-        log.info("didReceiveMemoryWarning: \(type(of: self))")
+        log.warning("didReceiveMemoryWarning: \(type(of: self))")
         super.didReceiveMemoryWarning()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch true {
-        case R.segue.rootVC.embedLaunchScreen(segue: segue) != nil,
-             R.segue.rootVC.showMain(segue: segue) != nil,
-             R.segue.rootVC.showLogin(segue: segue) != nil,
-             R.segue.rootVC.showSignup(segue: segue) != nil,
-             R.segue.signupVC.unwindFromSignup(segue: segue) != nil,
-             R.segue.loginVC.unwindFromLogin(segue: segue) != nil,
-             R.segue.editProfileVC.unwindFromEditProfile(segue: segue) != nil:
-            log.verbose(segue.name)
+        log.verbose("prepare for \(segue.name)")
+        switch segue.identifier {
+        case R.segue.rootVC.embedLaunchScreen.identifier,
+             R.segue.rootVC.showMain.identifier,
+             R.segue.rootVC.showLogin.identifier,
+             R.segue.rootVC.showSignup.identifier:
+            break
         default:
-            log.warning("Unexpected segue: \(segue.name)")
+            log.debug("unexpected segue: \(segue.name)")
         }
     }
 }
 
 private extension RootVC {
 
-    @IBAction private func unwindToRoot(segue: UIStoryboardSegue) { }
+    @IBAction func unwindToRoot(segue: UIStoryboardSegue) {
+        log.verbose(segue.name)
+    }
 
     func revealCredentials() {
-        guard credentialsBottom.constant < 0 else { return }
+        guard let bottom = credentialsBottom?.constant, bottom < 0 else { return }
 
         view.layoutIfNeeded()
         UIView.animate(
@@ -88,7 +84,7 @@ private extension RootVC {
             initialSpringVelocity: 0.75,
             options: [.curveEaseOut],
             animations: {
-                self.credentialsBottom.constant = 0
+                self.credentialsBottom?.constant = 0
                 self.view.layoutIfNeeded()
             },
             completion: nil)

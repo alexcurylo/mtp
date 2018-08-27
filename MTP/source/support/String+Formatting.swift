@@ -2,6 +2,8 @@
 
 import Foundation
 
+typealias Localized = R.string.localizable
+
 extension String {
 
     var hiddenName: String {
