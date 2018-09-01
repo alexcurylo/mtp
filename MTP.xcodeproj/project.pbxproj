@@ -46,6 +46,7 @@
 		FA81361220E8F64500313AB9 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FA81361120E8F64500313AB9 /* Settings.bundle */; };
 		FA835D34210EAC110098C270 /* Styler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA835D33210EAC110098C270 /* Styler.swift */; };
 		FA835D36210F054F0098C270 /* ReplaceTopSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */; };
+		FA99615F2136CF3100C85FBC /* MyProfileTabsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA99615E2136CF3100C85FBC /* MyProfileTabsVC.swift */; };
 		FA9A71DF20F1D3FA005F6A57 /* AppDelegate+Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9A71DE20F1D3FA005F6A57 /* AppDelegate+Tools.swift */; };
 		FAAE29BF20EE51A700B43BA9 /* UIApplication+Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */; };
 		FAAE29C020EE581900B43BA9 /* UIApplication+Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */; };
@@ -140,6 +141,7 @@
 		FA81361420E8FD4E00313AB9 /* script_build_begin.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = script_build_begin.sh; sourceTree = "<group>"; };
 		FA835D33210EAC110098C270 /* Styler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styler.swift; sourceTree = "<group>"; };
 		FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplaceTopSegue.swift; sourceTree = "<group>"; };
+		FA99615E2136CF3100C85FBC /* MyProfileTabsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileTabsVC.swift; sourceTree = "<group>"; };
 		FA9A71DE20F1D3FA005F6A57 /* AppDelegate+Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Tools.swift"; sourceTree = "<group>"; };
 		FA9A71E020F1DD60005F6A57 /* Gemfile.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile.lock; sourceTree = "<group>"; };
 		FA9A71E120F1DD6C005F6A57 /* Podfile.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile.lock; sourceTree = "<group>"; };
@@ -307,6 +309,7 @@
 				FAFEDA4F211DB0E800DA3DB8 /* LoginFailVC.swift */,
 				FAFEDA5321296F6D00DA3DB8 /* MainTBC.swift */,
 				FA74574C210CA5730010F4F4 /* MyProfileVC.swift */,
+				FA99615E2136CF3100C85FBC /* MyProfileTabsVC.swift */,
 				FAF1853020FA0C8600CC5D83 /* RootVC.swift */,
 				FA392BBE20DF69F30026C828 /* RankingsVC.swift */,
 				FA46377D210DE1E60007382D /* SettingsVC.swift */,
@@ -683,6 +686,7 @@
 				FA74C0F02117C60B0013A840 /* ForgotPasswordVC.swift in Sources */,
 				FA392BBB20DF69F30026C828 /* AppDelegate.swift in Sources */,
 				FA463780210DE94C0007382D /* EditProfileVC.swift in Sources */,
+				FA99615F2136CF3100C85FBC /* MyProfileTabsVC.swift in Sources */,
 				FA835D34210EAC110098C270 /* Styler.swift in Sources */,
 				FA392BBD20DF69F30026C828 /* LocationsVC.swift in Sources */,
 				FA32CC782100C360004C1329 /* SignupVC.swift in Sources */,
