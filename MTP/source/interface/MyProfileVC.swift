@@ -78,5 +78,10 @@ private extension MyProfileVC {
     }
 
     func configuretabsHolder() {
+        let tabsVC = MyProfileTabsVC()
+        addChildViewController(tabsVC)
+        tabsHolder?.addSubview(tabsVC.view)
+        tabsHolder?.constrainToEdges(tabsVC.view)
+        tabsVC.didMove(toParentViewController: self)
     }
 }
