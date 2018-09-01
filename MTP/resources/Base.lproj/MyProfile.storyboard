@@ -139,12 +139,12 @@
                     </view>
                     <navigationItem key="navigationItem" title="My Profile" id="Nwa-OG-lSh">
                         <rightBarButtonItems>
-                            <barButtonItem image="navSettings" id="mEg-20-miC">
+                            <barButtonItem title="navSettings" image="navSettings" id="mEg-20-miC">
                                 <connections>
                                     <segue destination="TAt-iI-ucV" kind="show" identifier="showSettings" id="pJX-jO-Z7e"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem image="navEditProfile" id="A9A-P9-fvI">
+                            <barButtonItem title="navEditProfile" image="navEditProfile" id="A9A-P9-fvI">
                                 <connections>
                                     <segue destination="M95-Fc-Urs" kind="show" identifier="showEditProfile" id="QaY-py-NhM"/>
                                 </connections>

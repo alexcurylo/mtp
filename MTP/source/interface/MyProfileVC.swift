@@ -18,7 +18,7 @@ final class MyProfileVC: UIViewController {
         super.viewDidLoad()
 
         configureHeaderView()
-        configuretabsHolder()
+        configureTabsHolder()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -80,7 +80,7 @@ private extension MyProfileVC {
         followingLabel?.text = following
     }
 
-    func configuretabsHolder() {
+    func configureTabsHolder() {
         let tabsVC = MyProfileTabsVC()
         addChildViewController(tabsVC)
         tabsHolder?.addSubview(tabsVC.view)
