@@ -6,10 +6,14 @@ import UIKit
 final class MyProfileTabsVC: FixedPagingViewController {
 
     init() {
-        let storyboard = UIStoryboard(name: "About", bundle: nil)
-        let about = storyboard.instantiateViewController(withIdentifier: "About")
+        let controllers = [
+            R.storyboard.about.instantiateInitialViewController(),
+            R.storyboard.myPhotos.instantiateInitialViewController(),
+            R.storyboard.posts.instantiateInitialViewController()
+        ].compactMap { $0 }
+        super.init(viewControllers: controllers)
 
-        super.init(viewControllers: [about])
+        configure()
     }
 
     required init?(coder: NSCoder) {
@@ -35,5 +39,26 @@ final class MyProfileTabsVC: FixedPagingViewController {
         default:
             log.debug("unexpected segue: \(segue.name)")
         }
+    }
+}
+
+private extension MyProfileTabsVC {
+
+    func configure() {
+        menuItemSize = .sizeToFit(minWidth: 50, height: 38)
+        menuBackgroundColor = .clear
+
+        font = Avenir.heavy.of(size: 16)
+        selectedFont = Avenir.heavy.of(size: 16)
+        textColor = .white
+        selectedTextColor = .white
+        indicatorColor = .white
+
+        menuInteraction = .none
+        indicatorOptions = .visible(
+            height: 4,
+            zIndex: .max,
+            spacing: .zero,
+            insets: .zero)
     }
 }

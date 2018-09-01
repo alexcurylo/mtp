@@ -4,6 +4,7 @@ import UIKit
 
 final class MyProfileVC: UIViewController {
 
+    @IBOutlet private var headerView: UIView?
     @IBOutlet private var avatarImageView: UIImageView?
     @IBOutlet private var fullNameLabel: UILabel?
     @IBOutlet private var countryLabel: UILabel?
@@ -57,6 +58,8 @@ private extension MyProfileVC {
 
     func configureHeaderView() {
         guard let user = gestalt.user else { return }
+
+        headerView?.round(corners: [.topLeft, .topRight], by: 5)
 
         log.debug("TO DO: avatar")
 

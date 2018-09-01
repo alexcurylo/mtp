@@ -98,15 +98,26 @@
                                     <constraint firstAttribute="bottomMargin" secondItem="7S9-Dp-DK3" secondAttribute="bottom" constant="16" id="x8a-k3-DCZ"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gXY-Wv-zsT">
-                                <rect key="frame" x="8" y="218" width="359" height="400"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gXY-Wv-zsT" customClass="GradientView" customModule="MTP" customModuleProvider="target">
+                                <rect key="frame" x="8" y="210" width="359" height="408"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                        <color key="value" red="0.098039215686274508" green="0.75294117647058822" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                        <color key="value" red="0.0078431372549019607" green="0.55294117647058827" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="orientation">
+                                        <integer key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="jsK-D9-Q7O" firstAttribute="trailing" secondItem="gXY-Wv-zsT" secondAttribute="trailing" constant="8" id="85M-2s-2oK"/>
-                            <constraint firstItem="gXY-Wv-zsT" firstAttribute="top" secondItem="SqN-8E-JAh" secondAttribute="bottom" constant="8" id="E5f-qs-3l8"/>
+                            <constraint firstItem="gXY-Wv-zsT" firstAttribute="top" secondItem="SqN-8E-JAh" secondAttribute="bottom" id="E5f-qs-3l8"/>
                             <constraint firstItem="gXY-Wv-zsT" firstAttribute="leading" secondItem="jsK-D9-Q7O" secondAttribute="leading" constant="8" id="Vbn-jp-hxC"/>
                             <constraint firstItem="SqN-8E-JAh" firstAttribute="leading" secondItem="jsK-D9-Q7O" secondAttribute="leading" constant="8" id="bzR-Zf-pMb"/>
                             <constraint firstItem="gXY-Wv-zsT" firstAttribute="bottom" secondItem="jsK-D9-Q7O" secondAttribute="bottom" id="i8k-Ce-EEl"/>
@@ -149,6 +160,7 @@
                         <outlet property="followersLabel" destination="jGT-f5-0R8" id="hxk-iv-eot"/>
                         <outlet property="followingLabel" destination="tcp-1L-0FO" id="dsO-rf-3Vk"/>
                         <outlet property="fullNameLabel" destination="bHu-Dd-wWU" id="77I-10-Z4s"/>
+                        <outlet property="headerView" destination="SqN-8E-JAh" id="edI-P8-uXk"/>
                         <outlet property="tabsHolder" destination="gXY-Wv-zsT" id="nr7-wT-k3m"/>
                         <segue destination="M95-Fc-Urs" kind="show" identifier="directEdit" animates="NO" id="7Wa-VS-F0d"/>
                     </connections>
