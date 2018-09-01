@@ -98,10 +98,18 @@
                                     <constraint firstAttribute="bottomMargin" secondItem="7S9-Dp-DK3" secondAttribute="bottom" constant="16" id="x8a-k3-DCZ"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gXY-Wv-zsT">
+                                <rect key="frame" x="8" y="218" width="359" height="400"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="jsK-D9-Q7O" firstAttribute="trailing" secondItem="gXY-Wv-zsT" secondAttribute="trailing" constant="8" id="85M-2s-2oK"/>
+                            <constraint firstItem="gXY-Wv-zsT" firstAttribute="top" secondItem="SqN-8E-JAh" secondAttribute="bottom" constant="8" id="E5f-qs-3l8"/>
+                            <constraint firstItem="gXY-Wv-zsT" firstAttribute="leading" secondItem="jsK-D9-Q7O" secondAttribute="leading" constant="8" id="Vbn-jp-hxC"/>
                             <constraint firstItem="SqN-8E-JAh" firstAttribute="leading" secondItem="jsK-D9-Q7O" secondAttribute="leading" constant="8" id="bzR-Zf-pMb"/>
+                            <constraint firstItem="gXY-Wv-zsT" firstAttribute="bottom" secondItem="jsK-D9-Q7O" secondAttribute="bottom" id="i8k-Ce-EEl"/>
                             <constraint firstItem="jsK-D9-Q7O" firstAttribute="trailing" secondItem="SqN-8E-JAh" secondAttribute="trailing" constant="8" id="lWH-XD-x0e"/>
                             <constraint firstItem="SqN-8E-JAh" firstAttribute="top" secondItem="jsK-D9-Q7O" secondAttribute="top" constant="8" id="sVs-SX-iMM"/>
                         </constraints>
@@ -141,6 +149,7 @@
                         <outlet property="followersLabel" destination="jGT-f5-0R8" id="hxk-iv-eot"/>
                         <outlet property="followingLabel" destination="tcp-1L-0FO" id="dsO-rf-3Vk"/>
                         <outlet property="fullNameLabel" destination="bHu-Dd-wWU" id="77I-10-Z4s"/>
+                        <outlet property="tabsHolder" destination="gXY-Wv-zsT" id="nr7-wT-k3m"/>
                         <segue destination="M95-Fc-Urs" kind="show" identifier="directEdit" animates="NO" id="7Wa-VS-F0d"/>
                     </connections>
                 </viewController>
