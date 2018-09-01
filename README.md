@@ -46,6 +46,7 @@ Requirements
 - [Alamofire](https://github.com/Alamofire/Alamofire) for HTTP networking
 - [facebook-sdk-swift](https://github.com/facebook/facebook-sdk-swift) for Facebook support
 - [Moya](https://github.com/Moya/Moya) for network abstraction
+- [Parchment](https://github.com/rechsteiner/Parchment) for view paging
 - [R.swift](https://github.com/mac-cain13/R.swift/) for typed resource identifiers
 - [Result](https://github.com/antitypical/Result) for operation result modelling
 

@@ -4,6 +4,7 @@ import UIKit
 
 final class MyProfileVC: UIViewController {
 
+    @IBOutlet private var headerView: UIView?
     @IBOutlet private var avatarImageView: UIImageView?
     @IBOutlet private var fullNameLabel: UILabel?
     @IBOutlet private var countryLabel: UILabel?
@@ -11,10 +12,13 @@ final class MyProfileVC: UIViewController {
     @IBOutlet private var followersLabel: UILabel?
     @IBOutlet private var followingLabel: UILabel?
 
+    @IBOutlet private var tabsHolder: UIView?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configureHeaderView()
+        configuretabsHolder()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -54,17 +58,19 @@ private extension MyProfileVC {
 
     func configureHeaderView() {
         guard let user = gestalt.user else { return }
-        
+
+        headerView?.round(corners: [.topLeft, .topRight], by: 5)
+
         log.debug("TO DO: avatar")
-        
+
         fullNameLabel?.text = user.fullName
         countryLabel?.text = user.country.countryName
-        
+
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .none
         birthdayLabel?.text = dateFormatter.string(from: user.birthday)
-        
+
         log.debug("TO DO: follow counts")
         let followersCount = 0
         let followers = Localized.followers(followersCount)
@@ -72,5 +78,13 @@ private extension MyProfileVC {
         let followingCount = 0
         let following = Localized.following(followingCount)
         followingLabel?.text = following
+    }
+
+    func configuretabsHolder() {
+        let tabsVC = MyProfileTabsVC()
+        addChildViewController(tabsVC)
+        tabsHolder?.addSubview(tabsVC.view)
+        tabsHolder?.constrainToEdges(tabsVC.view)
+        tabsVC.didMove(toParentViewController: self)
     }
 }

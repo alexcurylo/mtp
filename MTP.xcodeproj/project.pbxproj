@@ -46,12 +46,17 @@
 		FA81361220E8F64500313AB9 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FA81361120E8F64500313AB9 /* Settings.bundle */; };
 		FA835D34210EAC110098C270 /* Styler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA835D33210EAC110098C270 /* Styler.swift */; };
 		FA835D36210F054F0098C270 /* ReplaceTopSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */; };
+		FA99615F2136CF3100C85FBC /* MyProfileTabsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA99615E2136CF3100C85FBC /* MyProfileTabsVC.swift */; };
 		FA9A71DF20F1D3FA005F6A57 /* AppDelegate+Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9A71DE20F1D3FA005F6A57 /* AppDelegate+Tools.swift */; };
 		FAAE29BF20EE51A700B43BA9 /* UIApplication+Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */; };
 		FAAE29C020EE581900B43BA9 /* UIApplication+Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */; };
 		FAAE29C220EFADC800B43BA9 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAE29C120EFADC700B43BA9 /* R.generated.swift */; };
 		FAAE29C520F05A9600B43BA9 /* UserDefaults+TypeSafety.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAE29C420F05A9600B43BA9 /* UserDefaults+TypeSafety.swift */; };
 		FAB53F8B20DFD618007A80A7 /* MemoryWarner.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB53F8A20DFD618007A80A7 /* MemoryWarner.m */; };
+		FABA740A213A283A0059ACCA /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABA7409213A28390059ACCA /* UIView+Constraints.swift */; };
+		FABA740D213A29CD0059ACCA /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABA740B213A29CD0059ACCA /* About.storyboard */; };
+		FABA7410213A359C0059ACCA /* MyPhotos.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABA740E213A359C0059ACCA /* MyPhotos.storyboard */; };
+		FABA7413213A374F0059ACCA /* Posts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABA7411213A374F0059ACCA /* Posts.storyboard */; };
 		FAF1853120FA0C8600CC5D83 /* RootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF1853020FA0C8600CC5D83 /* RootVC.swift */; };
 		FAF1853220FA0DEF00CC5D83 /* Root.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAF1853420FA0DEF00CC5D83 /* Root.storyboard */; };
 		FAFEDA50211DB0E800DA3DB8 /* LoginFailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFEDA4F211DB0E800DA3DB8 /* LoginFailVC.swift */; };
@@ -138,6 +143,7 @@
 		FA81361420E8FD4E00313AB9 /* script_build_begin.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = script_build_begin.sh; sourceTree = "<group>"; };
 		FA835D33210EAC110098C270 /* Styler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styler.swift; sourceTree = "<group>"; };
 		FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplaceTopSegue.swift; sourceTree = "<group>"; };
+		FA99615E2136CF3100C85FBC /* MyProfileTabsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileTabsVC.swift; sourceTree = "<group>"; };
 		FA9A71DE20F1D3FA005F6A57 /* AppDelegate+Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Tools.swift"; sourceTree = "<group>"; };
 		FA9A71E020F1DD60005F6A57 /* Gemfile.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile.lock; sourceTree = "<group>"; };
 		FA9A71E120F1DD6C005F6A57 /* Podfile.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile.lock; sourceTree = "<group>"; };
@@ -152,6 +158,10 @@
 		FAB53F8720DFD617007A80A7 /* MTPTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MTPTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		FAB53F8920DFD618007A80A7 /* MemoryWarner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemoryWarner.h; sourceTree = "<group>"; };
 		FAB53F8A20DFD618007A80A7 /* MemoryWarner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemoryWarner.m; sourceTree = "<group>"; };
+		FABA7409213A28390059ACCA /* UIView+Constraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Constraints.swift"; sourceTree = "<group>"; };
+		FABA740C213A29CD0059ACCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/About.storyboard; sourceTree = "<group>"; };
+		FABA740F213A359C0059ACCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyPhotos.storyboard; sourceTree = "<group>"; };
+		FABA7412213A374F0059ACCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Posts.storyboard; sourceTree = "<group>"; };
 		FAF1853020FA0C8600CC5D83 /* RootVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootVC.swift; sourceTree = "<group>"; };
 		FAF1853320FA0DEF00CC5D83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Root.storyboard; sourceTree = "<group>"; };
 		FAF1853520FA16CE00CC5D83 /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
@@ -303,6 +313,7 @@
 				FAFEDA4F211DB0E800DA3DB8 /* LoginFailVC.swift */,
 				FAFEDA5321296F6D00DA3DB8 /* MainTBC.swift */,
 				FA74574C210CA5730010F4F4 /* MyProfileVC.swift */,
+				FA99615E2136CF3100C85FBC /* MyProfileTabsVC.swift */,
 				FAF1853020FA0C8600CC5D83 /* RootVC.swift */,
 				FA392BBE20DF69F30026C828 /* RankingsVC.swift */,
 				FA46377D210DE1E60007382D /* SettingsVC.swift */,
@@ -315,6 +326,7 @@
 		FA392BED20DFA5810026C828 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				FABA740B213A29CD0059ACCA /* About.storyboard */,
 				FA392BC320DF69F50026C828 /* Assets.xcassets */,
 				FA463781210E00E60007382D /* EditProfile.storyboard */,
 				FA392BC820DF69F50026C828 /* Info.plist */,
@@ -322,7 +334,9 @@
 				FA32CC8B2100CC6B004C1329 /* Login.storyboard */,
 				FA74C10D211BB8F00013A840 /* Localizable.strings */,
 				FA392BC020DF69F30026C828 /* Main.storyboard */,
+				FABA740E213A359C0059ACCA /* MyPhotos.storyboard */,
 				FA745755210DA4C60010F4F4 /* MyProfile.storyboard */,
+				FABA7411213A374F0059ACCA /* Posts.storyboard */,
 				FAF1853420FA0DEF00CC5D83 /* Root.storyboard */,
 				FAAE29C120EFADC700B43BA9 /* R.generated.swift */,
 				FA81361120E8F64500313AB9 /* Settings.bundle */,
@@ -365,6 +379,7 @@
 				FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */,
 				FA745756210DBD910010F4F4 /* UINavigationBar+Transparent.swift */,
 				FA74C110211BBF490013A840 /* String+Formatting.swift */,
+				FABA7409213A28390059ACCA /* UIView+Constraints.swift */,
 				FA32CC7320FB6E67004C1329 /* UIView+Gradient.swift */,
 				FAAE29C420F05A9600B43BA9 /* UserDefaults+TypeSafety.swift */,
 			);
@@ -489,9 +504,12 @@
 				FA81361220E8F64500313AB9 /* Settings.bundle in Resources */,
 				FA392BC420DF69F50026C828 /* Assets.xcassets in Resources */,
 				FA463783210E00E60007382D /* EditProfile.storyboard in Resources */,
+				FABA740D213A29CD0059ACCA /* About.storyboard in Resources */,
+				FABA7413213A374F0059ACCA /* Posts.storyboard in Resources */,
 				FA392BC220DF69F30026C828 /* Main.storyboard in Resources */,
 				FAF1853220FA0DEF00CC5D83 /* Root.storyboard in Resources */,
 				0A2349E36085A3EE89A30019 /* Pods-MTP-metadata.plist in Resources */,
+				FABA7410213A359C0059ACCA /* MyPhotos.storyboard in Resources */,
 				FA32CC7E2100CB75004C1329 /* Signup.storyboard in Resources */,
 				F5352AD2AEBF0C3A5C6191CE /* Pods-MTP-settings-metadata.plist in Resources */,
 				FA745753210DA4C60010F4F4 /* MyProfile.storyboard in Resources */,
@@ -676,9 +694,11 @@
 				FA74C0F02117C60B0013A840 /* ForgotPasswordVC.swift in Sources */,
 				FA392BBB20DF69F30026C828 /* AppDelegate.swift in Sources */,
 				FA463780210DE94C0007382D /* EditProfileVC.swift in Sources */,
+				FA99615F2136CF3100C85FBC /* MyProfileTabsVC.swift in Sources */,
 				FA835D34210EAC110098C270 /* Styler.swift in Sources */,
 				FA392BBD20DF69F30026C828 /* LocationsVC.swift in Sources */,
 				FA32CC782100C360004C1329 /* SignupVC.swift in Sources */,
+				FABA740A213A283A0059ACCA /* UIView+Constraints.swift in Sources */,
 				FAAE29C520F05A9600B43BA9 /* UserDefaults+TypeSafety.swift in Sources */,
 				FA46377E210DE1E60007382D /* SettingsVC.swift in Sources */,
 			);
@@ -775,6 +795,30 @@
 				FA74C10E211BB8F00013A840 /* Base */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		FABA740B213A29CD0059ACCA /* About.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FABA740C213A29CD0059ACCA /* Base */,
+			);
+			name = About.storyboard;
+			sourceTree = "<group>";
+		};
+		FABA740E213A359C0059ACCA /* MyPhotos.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FABA740F213A359C0059ACCA /* Base */,
+			);
+			name = MyPhotos.storyboard;
+			sourceTree = "<group>";
+		};
+		FABA7411213A374F0059ACCA /* Posts.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FABA7412213A374F0059ACCA /* Base */,
+			);
+			name = Posts.storyboard;
 			sourceTree = "<group>";
 		};
 		FAF1853420FA0DEF00CC5D83 /* Root.storyboard */ = {
