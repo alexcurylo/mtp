@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (4.7.3)
+  - Anchorage (4.2.4)
   - AppCenter (1.9.0):
     - AppCenter/Analytics (= 1.9.0)
     - AppCenter/Crashes (= 1.9.0)
@@ -49,6 +50,7 @@ PODS:
   - SwiftyBeaver (1.6.0)
 
 DEPENDENCIES:
+  - Anchorage
   - AppCenter
   - AppCenter/Distribute
   - Bolts
@@ -67,6 +69,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - Anchorage
     - AppCenter
     - Bolts
     - FacebookCore
@@ -85,6 +88,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+  Anchorage: f855157310859280c706cc0b9c9281c21702f515
   AppCenter: 3cf7b9387549e9703dab068793e404013e8c0cc1
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   FacebookCore: fe93222bb70346730ef33b061d493e9e7a7cb1f5
@@ -101,6 +105,6 @@ SPEC CHECKSUMS:
   SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
   SwiftyBeaver: e45759613e50b522b0e6f53b1f0f14389b45ca34
 
-PODFILE CHECKSUM: 4332111f0141d9e96b228ccce2db902cb6ddbda0
+PODFILE CHECKSUM: eb97459f4b36da3932b42554a14ff49549ace4da
 
 COCOAPODS: 1.5.3

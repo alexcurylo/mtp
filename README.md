@@ -21,7 +21,7 @@ Table of Contents
 Purpose
 -------
 
-The Most Traveled People iOS app.
+The [Most Traveled People](https://mtp.travel) iOS app.
 
 Requirements
 ------------
@@ -43,6 +43,7 @@ Requirements
 
 ### Libraries:
 
+- [Anchorage](https://github.com/Raizlabs/Anchorage) for fluent AutoLayout declarations
 - [Alamofire](https://github.com/Alamofire/Alamofire) for HTTP networking
 - [facebook-sdk-swift](https://github.com/facebook/facebook-sdk-swift) for Facebook support
 - [Moya](https://github.com/Moya/Moya) for network abstraction
@@ -77,8 +78,6 @@ Author
 License
 -------
 
-The [MIT License][linkMIT]. See the [LICENSE.md](LICENSE.md) file for details.
+The [MIT License](http://opensource.org/licenses/MIT). See the [LICENSE.md](LICENSE.md) file for details.
 
 _Copyright &copy;2018-present Trollwerks Inc._
-
-[linkMIT]: http://opensource.org/licenses/MIT

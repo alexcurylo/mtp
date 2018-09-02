@@ -4,6 +4,7 @@ platform :ios, '11.0'
 
 target 'MTP' do
 
+  pod 'Anchorage'
   pod 'AppCenter'
   pod 'AppCenter/Distribute'
   pod 'Bolts', :modular_headers => true, :inhibit_warnings => true
