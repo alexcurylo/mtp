@@ -10,6 +10,11 @@ enum Styler {
     case standard
 
     func apply() {
+        applyNavBar()
+        applySearchBar()
+    }
+
+    func applyNavBar() {
         switch self {
         case .login:
             UINavigationBar.set(transparency: .transparent,
@@ -27,6 +32,11 @@ enum Styler {
                                 font: Avenir.black.of(size: 18))
         }
     }
+
+    func applySearchBar() {
+        let global = UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self])
+        global.font = Avenir.book.of(size: 15)
+     }
 }
 
 extension UIColor {

@@ -6,6 +6,7 @@ import UIKit
 final class LocationsVC: UIViewController {
 
     @IBOutlet private var mapView: MKMapView?
+    @IBOutlet private var searchBar: UISearchBar?
 
     override func viewDidLoad() {
         super.viewDidLoad()

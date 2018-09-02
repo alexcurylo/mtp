@@ -46,13 +46,22 @@
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
+                        <connections>
+                            <outlet property="titleView" destination="oqm-4d-uVj" id="unH-jj-GPu"/>
+                        </connections>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="mapView" destination="Wom-tO-qBj" id="LM2-jg-PCz"/>
+                        <outlet property="searchBar" destination="oqm-4d-uVj" id="C6l-Ot-tRj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
+                <searchBar contentMode="redraw" placeholder="My location" id="oqm-4d-uVj">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <textInputTraits key="textInputTraits"/>
+                </searchBar>
             </objects>
             <point key="canvasLocation" x="1740" y="-549.7536945812808"/>
         </scene>
