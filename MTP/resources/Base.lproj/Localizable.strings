@@ -8,3 +8,13 @@
 
 "Followers" = "%ld Followers";
 "Following" = "%ld Following";
+
+// RankingPage
+
+"AllMTPLocations" = "All MTP Locations";
+"UNCountries" = "UN Countries";
+"WHSites" = "WHS";
+"Beaches" = "Beaches";
+"GolfCourses" = "Golf Courses";
+"DiveSites" = "Dive Sites";
+"Restaurants" = "Restaurants";

@@ -52,7 +52,7 @@ opt_in_rules:
 #- no_extension_access_modifier
 #- no_grouping_extension
   - number_separator
-  - object_literal
+#- object_literal
   - operator_usage_whitespace
   - overridden_super_call
   - override_in_extension

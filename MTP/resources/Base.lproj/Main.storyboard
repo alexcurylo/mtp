@@ -39,35 +39,6 @@
             </objects>
             <point key="canvasLocation" x="801" y="-549"/>
         </scene>
-        <!--Rankings-->
-        <scene sceneID="wg7-f3-ORb">
-            <objects>
-                <viewController id="8rJ-Kc-sve" customClass="RankingsVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="QS5-Rx-YEW">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Rankings" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="zEq-FU-wV5">
-                                <rect key="frame" x="116.5" y="287.5" width="142.5" height="43"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="centerX" secondItem="zEq-FU-wV5" secondAttribute="centerX" id="qqM-NS-xev"/>
-                            <constraint firstAttribute="centerY" secondItem="zEq-FU-wV5" secondAttribute="centerY" id="qzY-Ky-pLD"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="O1u-W8-tvY"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Rankings" image="tabRankings" id="cPa-gy-q4n"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1124" y="-8"/>
-        </scene>
         <!--MainTBC-->
         <scene sceneID="yl2-sM-qoP">
             <objects>
@@ -84,7 +55,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
-                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
+                        <segue destination="KoX-aG-Usi" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
                         <segue destination="Pph-Xg-PPZ" kind="relationship" relationship="viewControllers" id="eh9-ha-utc"/>
                     </connections>
                 </tabBarController>
@@ -100,11 +71,20 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2R9-h4-TCO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="573" y="287"/>
+            <point key="canvasLocation" x="573" y="112"/>
+        </scene>
+        <!--Rankings-->
+        <scene sceneID="PJa-Ma-MfA">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Rankings" id="KoX-aG-Usi" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="3lM-3F-duh"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="46w-fM-d6B" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="571" y="-1"/>
         </scene>
     </scenes>
     <resources>
         <image name="tabLocations" width="16" height="17"/>
-        <image name="tabRankings" width="19" height="16"/>
     </resources>
 </document>
