@@ -1,5 +1,6 @@
 // @copyright Trollwerks Inc.
 
+import Anchorage
 import Parchment
 import UIKit
 
@@ -93,7 +94,7 @@ private class RankingPagingCell: PagingCell {
         label.font = Avenir.heavy.of(size: 10)
         label.textColor = .black
         label.textAlignment = .center
-        label.numberOfLines = 0
+        label.numberOfLines = 2
         return label
     }()
 
@@ -103,11 +104,14 @@ private class RankingPagingCell: PagingCell {
         contentView.clipsToBounds = true
 
         contentView.addSubview(titleLabel)
-        contentView.constrainToEdges(titleLabel,
-                                     edges: [.left, .bottom, .right])
+        titleLabel.horizontalAnchors == contentView.horizontalAnchors + 6
+        titleLabel.bottomAnchor == contentView.bottomAnchor - 6
+        titleLabel.heightAnchor == 28
+
         contentView.addSubview(imageView)
-        contentView.constrainToEdges(imageView,
-                                     edges: [.left, .top, .right])
+        imageView.horizontalAnchors == contentView.horizontalAnchors
+        imageView.topAnchor == contentView.topAnchor + 12 ~ .low
+        imageView.bottomAnchor <= titleLabel.topAnchor - 6
     }
 
     @available(*, unavailable)

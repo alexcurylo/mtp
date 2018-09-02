@@ -1,5 +1,6 @@
 // @copyright Trollwerks Inc.
 
+import Anchorage
 import Parchment
 import UIKit
 
@@ -33,7 +34,7 @@ final class RankingVC: UIViewController {
         super.init(nibName: nil, bundle: nil)
 
         view.addSubview(collectionView)
-        view.constrainToEdges(collectionView)
+        collectionView.edgeAnchors == view.edgeAnchors
 
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -109,7 +110,7 @@ private class RankingCell: UICollectionViewCell {
         contentView.layer.cornerRadius = 4
         contentView.clipsToBounds = true
         contentView.addSubview(titleLabel)
-        contentView.constrainToEdges(titleLabel)
+        titleLabel.edgeAnchors == contentView.edgeAnchors
     }
 
     @available(*, unavailable)

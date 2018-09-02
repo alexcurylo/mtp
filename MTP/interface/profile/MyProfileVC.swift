@@ -1,5 +1,6 @@
 // @copyright Trollwerks Inc.
 
+import Anchorage
 import UIKit
 
 final class MyProfileVC: UIViewController {
@@ -81,10 +82,12 @@ private extension MyProfileVC {
     }
 
     func configureTabsHolder() {
+        guard let holder = tabsHolder else { return }
+
         let tabsVC = MyProfileTabsVC()
         addChildViewController(tabsVC)
-        tabsHolder?.addSubview(tabsVC.view)
-        tabsHolder?.constrainToEdges(tabsVC.view)
+        holder.addSubview(tabsVC.view)
+        tabsVC.view.edgeAnchors == holder.edgeAnchors
         tabsVC.didMove(toParentViewController: self)
     }
 }

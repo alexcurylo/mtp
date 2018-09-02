@@ -1,5 +1,6 @@
 // @copyright Trollwerks Inc.
 
+import Anchorage
 import Parchment
 import UIKit
 
@@ -52,16 +53,17 @@ private extension RankingsVC {
     }
 
     func configurePagesHolder() {
+        guard let holder = pagesHolder else { return }
+
         pagingVC.configure()
 
         addChildViewController(pagingVC)
-        pagesHolder?.addSubview(pagingVC.view)
-        pagesHolder?.constrainToEdges(pagingVC.view)
+        holder.addSubview(pagingVC.view)
+        pagingVC.view.edgeAnchors == holder.edgeAnchors
         pagingVC.didMove(toParentViewController: self)
 
         pagingVC.dataSource = self
         pagingVC.delegate = self
-
         pagingVC.select(pagingItem: RankingPagingItem.pages[0])
     }
 
