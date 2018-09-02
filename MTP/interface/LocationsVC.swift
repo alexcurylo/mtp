@@ -1,8 +1,11 @@
 // @copyright Trollwerks Inc.
 
+import MapKit
 import UIKit
 
 final class LocationsVC: UIViewController {
+
+    @IBOutlet private var mapView: MKMapView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -11,7 +14,8 @@ final class LocationsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        navigationController?.setNavigationBarHidden(true, animated: animated)
+        style.standard.apply()
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -29,5 +33,12 @@ final class LocationsVC: UIViewController {
         default:
             log.debug("unexpected segue: \(segue.name)")
         }
+    }
+}
+
+private extension LocationsVC {
+
+    @IBAction func unwindToLocations(segue: UIStoryboardSegue) {
+        log.verbose(segue.name)
     }
 }

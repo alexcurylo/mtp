@@ -4,8 +4,6 @@ import Anchorage
 import Parchment
 import UIKit
 
-// MARK: - RankingsVC
-
 final class RankingsVC: UIViewController {
 
     @IBOutlet private var pagesHolder: UIView?
