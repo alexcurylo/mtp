@@ -252,8 +252,10 @@
 		FA392BB920DF69F30026C828 /* MTP */ = {
 			isa = PBXGroup;
 			children = (
-				FA392BEA20DFA5490026C828 /* source */,
+				FA392BEB20DFA5570026C828 /* application */,
+				FA392BEC20DFA56B0026C828 /* interface */,
 				FA392BED20DFA5810026C828 /* resources */,
+				FAAE29C320F0570000B43BA9 /* support */,
 			);
 			path = MTP;
 			sourceTree = "<group>";
@@ -280,16 +282,6 @@
 				FA392BDE20DF69F50026C828 /* Info.plist */,
 			);
 			path = MTPUITests;
-			sourceTree = "<group>";
-		};
-		FA392BEA20DFA5490026C828 /* source */ = {
-			isa = PBXGroup;
-			children = (
-				FA392BEB20DFA5570026C828 /* application */,
-				FA392BEC20DFA56B0026C828 /* interface */,
-				FAAE29C320F0570000B43BA9 /* support */,
-			);
-			path = source;
 			sourceTree = "<group>";
 		};
 		FA392BEB20DFA5570026C828 /* application */ = {
