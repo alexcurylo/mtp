@@ -14,7 +14,7 @@ final class LocationsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        style.standard.apply()
+        style.map.apply()
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
 

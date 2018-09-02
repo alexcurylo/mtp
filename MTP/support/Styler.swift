@@ -5,20 +5,26 @@ import UIKit
 let style = Styler.self
 
 enum Styler {
-    case standard
     case login
+    case map
+    case standard
 
     func apply() {
         switch self {
-        case .standard:
-            UINavigationBar.set(transparency: .transparent,
-                                color: .white,
-                                font: Avenir.black.of(size: 18))
         case .login:
             UINavigationBar.set(transparency: .transparent,
                                 tint: .azureRadiance,
                                 color: .regalBlue,
                                 font: Avenir.heavy.of(size: 18))
+        case .map:
+            UINavigationBar.set(transparency: .transparent,
+                                tint: .azureRadiance,
+                                color: .azureRadiance,
+                                font: Avenir.heavy.of(size: 18))
+        case .standard:
+            UINavigationBar.set(transparency: .transparent,
+                                color: .white,
+                                font: Avenir.black.of(size: 18))
         }
     }
 }
