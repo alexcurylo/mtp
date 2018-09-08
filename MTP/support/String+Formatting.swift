@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import Foundation
+import UIKit
 
 typealias Localized = R.string.localizable
 
@@ -18,5 +18,24 @@ extension String {
         let middle = name.dropFirst().dropLast().map { _ in "*" }.joined()
         let rest = dropFirst(name.count)
         return "\(first)\(middle)\(last)\(rest)"
+    }
+}
+
+extension NSAttributedString {
+
+    typealias Attributes = [NSAttributedStringKey: Any]
+
+    static func attributes(color: UIColor? = nil,
+                           font: UIFont? = nil) -> Attributes {
+        var attributes = NSAttributedString.Attributes()
+
+        if let color = color {
+            attributes[.foregroundColor] = color
+        }
+        if let font = font {
+            attributes[.font] = font
+        }
+
+        return attributes
     }
 }

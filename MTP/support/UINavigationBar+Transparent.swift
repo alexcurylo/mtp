@@ -8,7 +8,28 @@ enum Transparency {
     case opaque
 }
 
+extension UIViewController {
+
+    func hide(navBar animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
+    func show(navBar animated: Bool, style: Styler? = nil) {
+        if let style = style {
+            navigationController?.navigationBar.set(style: style)
+        }
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+}
+
 extension UINavigationBar {
+
+    func set(style: Styler) {
+        tintColor = style.barTint
+        let attributes = NSAttributedString.attributes(color: style.barColor,
+                                                       font: style.barFont)
+        titleTextAttributes = attributes
+    }
 
     static func styleAppearance(transparency: Transparency? = nil,
                                 tint: UIColor? = nil,
@@ -17,9 +38,8 @@ extension UINavigationBar {
         let proxy = UINavigationBar.appearance()
 
         proxy.tintColor = tint ?? color
-        var attributes = [NSAttributedStringKey: Any]()
-        attributes[.foregroundColor] = color
-        attributes[.font] = font
+        let attributes = NSAttributedString.attributes(color: color,
+                                                       font: font)
         proxy.titleTextAttributes = attributes
 
         switch transparency {

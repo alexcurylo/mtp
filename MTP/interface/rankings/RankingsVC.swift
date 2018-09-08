@@ -19,8 +19,7 @@ final class RankingsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        style.standard.apply()
-        navigationController?.setNavigationBarHidden(false, animated: animated)
+        show(navBar: animated, style: .standard)
     }
 
     override func viewDidAppear(_ animated: Bool) {

@@ -18,8 +18,7 @@ final class LoginVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        style.login.apply()
-        navigationController?.setNavigationBarHidden(false, animated: animated)
+        show(navBar: animated, style: .login)
         navigationController?.delegate = self
     }
 
@@ -46,11 +45,10 @@ final class LoginVC: UIViewController {
         switch segue.identifier {
         case R.segue.loginVC.presentForgotPassword.identifier,
              R.segue.loginVC.presentLoginFail.identifier:
-            navigationController?.setNavigationBarHidden(true, animated: true)
+            hide(navBar: true)
             gestalt.email = emailTextField?.text ?? ""
-        case R.segue.loginVC.showMain.identifier:
-            style.standard.apply()
-        case R.segue.loginVC.switchSignup.identifier,
+        case R.segue.loginVC.showMain.identifier,
+             R.segue.loginVC.switchSignup.identifier,
              R.segue.loginVC.unwindFromLogin.identifier:
             break
         default:

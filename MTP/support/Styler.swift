@@ -14,33 +14,40 @@ enum Styler {
         styleAppearanceSearchBar()
     }
 
-    func apply() {
-        styleAppearanceNavBar()
-    }
-
     func styleAppearanceNavBar() {
-        switch self {
-        case .login:
-            UINavigationBar.styleAppearance(transparency: .transparent,
-                                            tint: .azureRadiance,
-                                            color: .regalBlue,
-                                            font: Avenir.heavy.of(size: 18))
-        case .map:
-            UINavigationBar.styleAppearance(transparency: .transparent,
-                                            tint: .azureRadiance,
-                                            color: .azureRadiance,
-                                            font: Avenir.heavy.of(size: 18))
-        case .standard:
-            UINavigationBar.styleAppearance(transparency: .transparent,
-                                            tint: .white,
-                                            color: .white,
-                                            font: Avenir.black.of(size: 18))
-        }
+        UINavigationBar.styleAppearance(transparency: .transparent,
+                                        tint: barTint,
+                                        color: barColor,
+                                        font: barFont)
     }
 
     func styleAppearanceSearchBar() {
         UISearchBar.styleAppearance()
      }
+
+    var barTint: UIColor {
+        switch self {
+        case .login: return .azureRadiance
+        case .map: return .azureRadiance
+        case .standard: return .white
+        }
+    }
+
+    var barColor: UIColor {
+        switch self {
+        case .login: return .regalBlue
+        case .map: return .azureRadiance
+        case .standard: return .white
+        }
+    }
+
+    var barFont: UIFont {
+        switch self {
+        case .login: return Avenir.heavy.of(size: 18)
+        case .map: return Avenir.heavy.of(size: 18)
+        case .standard: return Avenir.black.of(size: 18)
+        }
+    }
 }
 
 extension UIColor {
