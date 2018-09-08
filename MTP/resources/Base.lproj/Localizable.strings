@@ -4,6 +4,13 @@
 
 "SendLink" = "We will send a link to your email %@ enabling you to reset your password.";
 
+// LocationTracker
+
+"NeedLocationAccess" = "Need Location Access";
+"LocationAccessRequired" = "Location access is required for displaying nearby places.";
+"Cancel" = "Cancel";
+"AllowLocationAccess" = "Allow Location Access";
+
 // MyProfileVC
 
 "Followers" = "%ld Followers";

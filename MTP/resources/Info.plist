@@ -24,17 +24,17 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>appcenter-20cb945f-58b9-4544-a059-424aa3b86820</string>
-                <string>fb272251119515198</string>
+				<string>fb272251119515198</string>
 			</array>
 		</dict>
 	</array>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>fbapi</string>
-        <string>fb-messenger-share-api</string>
-        <string>fbauth2</string>
-        <string>fbshareextension</string>
-    </array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -70,9 +70,15 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-    <key>FacebookAppID</key>
-    <string>272251119515198</string>
-    <key>FacebookDisplayName</key>
-    <string>Trollwerks</string>
+	<key>FacebookAppID</key>
+	<string>272251119515198</string>
+	<key>FacebookDisplayName</key>
+	<string>Trollwerks</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>MTP needs your location to show you nearby places to visit. With &quot;Always&quot; access, MTP can notify you when you approach places.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>MTP needs your location to show you nearby places to visit.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>With &quot;Always&quot; access, MTP can notify you when you approach places.</string>
 </dict>
 </plist>

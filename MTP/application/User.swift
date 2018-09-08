@@ -25,7 +25,7 @@ struct User: Codable {
     let links: [Link]
     let locationId: String
     let picture: String
-    let role: Bool
+    let role: Int
     let score: String
     let scoreBeaches: String
     let scoreDivesites: String

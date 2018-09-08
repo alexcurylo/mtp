@@ -35,6 +35,12 @@ final class MTPTests: XCTestCase {
         XCTAssertNotNil(infoPlist["FacebookAppID"])
         XCTAssertNotNil(infoPlist["FacebookDisplayName"])
         XCTAssertNotNil(infoPlist["LSApplicationQueriesSchemes"])
+
+        // Location Services, iOS 11+
+        XCTAssertNotNil(infoPlist["NSLocationAlwaysAndWhenInUseUsageDescription"])
+        XCTAssertNotNil(infoPlist["NSLocationWhenInUseUsageDescription"])
+        // Location Services, iOS <= 10
+        XCTAssertNotNil(infoPlist["NSLocationAlwaysUsageDescription"])
     }
 
     func testResources() throws {

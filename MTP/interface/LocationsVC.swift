@@ -5,11 +5,15 @@ import UIKit
 
 final class LocationsVC: UIViewController {
 
+    let locationManager = CLLocationManager()
+    private var centered = false
+
     @IBOutlet private var mapView: MKMapView?
     @IBOutlet private var searchBar: UISearchBar?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        start(tracking: .dontAsk)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -20,6 +24,9 @@ final class LocationsVC: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
+        start(tracking: .ask)
+        zoomAndCenter()
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,6 +39,23 @@ final class LocationsVC: UIViewController {
         switch segue.identifier {
         default:
             log.debug("unexpected segue: \(segue.name)")
+        }
+    }
+}
+
+private extension LocationsVC {
+
+    @IBAction func unwindToLocations(segue: UIStoryboardSegue) {
+        log.verbose(segue.name)
+    }
+
+    func zoomAndCenter() {
+        guard !centered, let here = locationManager.location?.coordinate else { return }
+
+        centered = true
+        DispatchQueue.main.async { [weak self] in
+            let viewRegion = MKCoordinateRegionMakeWithDistance(here, 200, 200)
+            self?.mapView?.setRegion(viewRegion, animated: true)
         }
     }
 }
@@ -70,7 +94,8 @@ extension LocationsVC: MKMapViewDelegate {
     }
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         log.verbose(#function)
-    }
+        zoomAndCenter()
+   }
     func mapView(_ mapView: MKMapView, didFailToLocateUserWithError error: Error) {
         log.verbose(#function)
     }
@@ -119,9 +144,71 @@ extension LocationsVC: MKMapViewDelegate {
     }
 }
 
-private extension LocationsVC {
+extension LocationsVC: LocationTracker {
 
-    @IBAction func unwindToLocations(segue: UIStoryboardSegue) {
-        log.verbose(segue.name)
+    func locationManager(_ manager: CLLocationManager,
+                         didUpdateLocations locations: [CLLocation]) {
+        log.verbose(#function)
+        zoomAndCenter()
+    }
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        log.verbose(#function)
+    }
+    func locationManagerShouldDisplayHeadingCalibration(_ manager: CLLocationManager) -> Bool {
+        log.verbose(#function)
+        return true
+    }
+
+    func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
+        log.verbose(#function)
+    }
+    func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) {
+        log.verbose(#function)
+    }
+
+    func locationManager(_ manager: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {
+        log.verbose(#function)
+    }
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        log.verbose(#function)
+    }
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        log.verbose(#function)
+    }
+    func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
+        log.verbose(#function)
+    }
+    func locationManager(_ manager: CLLocationManager,
+                         rangingBeaconsDidFailFor region: CLBeaconRegion,
+                         withError error: Error) {
+        log.verbose(#function)
+    }
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        log.verbose(#function)
+    }
+
+    func locationManager(_ manager: CLLocationManager, didStartMonitoringFor region: CLRegion) {
+        log.verbose(#function)
+    }
+    func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
+        log.verbose(#function)
+    }
+
+    func locationManager(_ manager: CLLocationManager,
+                         didChangeAuthorization status: CLAuthorizationStatus) {
+        log.verbose(#function)
+        DispatchQueue.main.async { [weak self] in
+            self?.start(tracking: .ask)
+            self?.zoomAndCenter()
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didFinishDeferredUpdatesWithError error: Error?) {
+        log.verbose(#function)
+    }
+
+    func locationManager(_ manager: CLLocationManager, didVisit visit: CLVisit) {
+        log.verbose(#function)
     }
 }
