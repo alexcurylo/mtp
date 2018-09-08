@@ -16,7 +16,7 @@ final class LoginFailVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        navigationController?.setNavigationBarHidden(true, animated: animated)
+        hide(navBar: animated)
         hideAlert()
     }
 
@@ -34,7 +34,7 @@ final class LoginFailVC: UIViewController {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
         case R.segue.loginFailVC.dismissLoginFail.identifier:
-            presentingViewController?.navigationController?.setNavigationBarHidden(false, animated: true)
+            presentingViewController?.show(navBar: true)
         case R.segue.loginFailVC.switchForgotPassword.identifier:
             break
         default:

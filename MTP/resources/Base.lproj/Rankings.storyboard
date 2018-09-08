@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Ych-JX-8p4">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -12,11 +16,11 @@
             <objects>
                 <viewController id="8rJ-Kc-sve" customClass="RankingsVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QS5-Rx-YEW" customClass="GradientView" customModule="MTP" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m9S-7g-1LD">
-                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
@@ -47,7 +51,7 @@
                                     <segue destination="LSI-3B-1qW" kind="show" identifier="showSearch" id="pyl-Ss-0cD"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="navFilter" image="navFilter" id="7ts-AP-fBQ">
+                            <barButtonItem title="navFilterWhite" image="navFilterWhite" id="7ts-AP-fBQ">
                                 <connections>
                                     <segue destination="g0P-ir-Ijc" kind="show" identifier="showFilter" id="o9g-ui-Po5"/>
                                 </connections>
@@ -68,11 +72,11 @@
             <objects>
                 <viewController title="Filter" id="g0P-ir-Ijc" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7OI-EA-5y7" customClass="GradientView" customModule="MTP" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k77-f3-ojJ">
-                                <rect key="frame" x="280.5" y="289.5" width="39" height="21"/>
+                                <rect key="frame" x="168" y="323" width="39" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -107,11 +111,11 @@
             <objects>
                 <viewController title="Search" id="LSI-3B-1qW" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mae-P4-0i5" customClass="GradientView" customModule="MTP" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L6U-xg-7vV">
-                                <rect key="frame" x="273" y="289.5" width="54" height="21"/>
+                                <rect key="frame" x="160.5" y="323" width="54" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -163,7 +167,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="navFilter" width="30" height="31"/>
+        <image name="navFilterWhite" width="30" height="31"/>
         <image name="navSearch" width="30" height="30"/>
         <image name="tabRankings" width="19" height="16"/>
     </resources>

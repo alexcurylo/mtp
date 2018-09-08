@@ -5,20 +5,47 @@ import UIKit
 let style = Styler.self
 
 enum Styler {
-    case standard
     case login
+    case map
+    case standard
 
-    func apply() {
+    func styleAppearance() {
+        styleAppearanceNavBar()
+        styleAppearanceSearchBar()
+    }
+
+    func styleAppearanceNavBar() {
+        UINavigationBar.styleAppearance(transparency: .transparent,
+                                        tint: barTint,
+                                        color: barColor,
+                                        font: barFont)
+    }
+
+    func styleAppearanceSearchBar() {
+        UISearchBar.styleAppearance()
+     }
+
+    var barTint: UIColor {
         switch self {
-        case .standard:
-            UINavigationBar.set(transparency: .transparent,
-                                color: .white,
-                                font: Avenir.black.of(size: 18))
-        case .login:
-            UINavigationBar.set(transparency: .transparent,
-                                tint: .azureRadiance,
-                                color: .regalBlue,
-                                font: Avenir.heavy.of(size: 18))
+        case .login: return .azureRadiance
+        case .map: return .azureRadiance
+        case .standard: return .white
+        }
+    }
+
+    var barColor: UIColor {
+        switch self {
+        case .login: return .regalBlue
+        case .map: return .azureRadiance
+        case .standard: return .white
+        }
+    }
+
+    var barFont: UIFont {
+        switch self {
+        case .login: return Avenir.heavy.of(size: 18)
+        case .map: return Avenir.heavy.of(size: 18)
+        case .standard: return Avenir.black.of(size: 18)
         }
     }
 }
@@ -61,28 +88,5 @@ extension UIColor {
 
     class var regalBlue: UIColor { // #004B78
         return R.color.regalBlue() ?? .black
-    }
-}
-
-enum Avenir: String {
-    case light = "Avenir-Light"
-    case lightOblique = "Avenir-LightOblique"
-    case book = "Avenir-Book"
-    case bookOblique = "Avenir-BookOblique"
-    case roman = "Avenir-Roman"
-    case oblique = "Avenir-Oblique"
-    case medium = "Avenir-Medium"
-    case mediumOblique = "Avenir-MediumOblique"
-    case heavy = "Avenir-Heavy"
-    case heavyOblique = "Avenir-HeavyOblique"
-    case black = "Avenir-Black"
-    case blackOblique = "Avenir-BlackOblique"
-
-    func of(size: CGFloat) -> UIFont {
-        guard let font = UIFont(name: self.rawValue, size: size) else {
-            log.debug("Missing font: \(self.rawValue) \(size)")
-            return UIFont.systemFont(ofSize: size)
-        }
-        return font
     }
 }

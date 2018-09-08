@@ -8,33 +8,53 @@ enum Transparency {
     case opaque
 }
 
+extension UIViewController {
+
+    func hide(navBar animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
+    func show(navBar animated: Bool, style: Styler? = nil) {
+        if let style = style {
+            navigationController?.navigationBar.set(style: style)
+        }
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+}
+
 extension UINavigationBar {
 
-    static func set(transparency: Transparency? = nil,
-                    tint: UIColor? = nil,
-                    color: UIColor? = nil,
-                    font: UIFont? = nil) {
-        let global = appearance()
+    func set(style: Styler) {
+        tintColor = style.barTint
+        let attributes = NSAttributedString.attributes(color: style.barColor,
+                                                       font: style.barFont)
+        titleTextAttributes = attributes
+    }
 
-        global.tintColor = tint ?? color
-        var attributes = [NSAttributedStringKey: Any]()
-        attributes[.foregroundColor] = color
-        attributes[.font] = font
-        global.titleTextAttributes = attributes
+    static func styleAppearance(transparency: Transparency? = nil,
+                                tint: UIColor? = nil,
+                                color: UIColor? = nil,
+                                font: UIFont? = nil) {
+        let proxy = UINavigationBar.appearance()
+
+        proxy.tintColor = tint ?? color
+        let attributes = NSAttributedString.attributes(color: color,
+                                                       font: font)
+        proxy.titleTextAttributes = attributes
 
         switch transparency {
         case .transparent?:
-            global.setBackgroundImage(UIImage(), for: .default)
-            global.shadowImage = UIImage()
-            global.isTranslucent = true
+            proxy.setBackgroundImage(UIImage(), for: .default)
+            proxy.shadowImage = UIImage()
+            proxy.isTranslucent = true
         case .translucent?:
-            global.setBackgroundImage(nil, for: .default)
-            global.shadowImage = nil
-            global.isTranslucent = true
+            proxy.setBackgroundImage(nil, for: .default)
+            proxy.shadowImage = nil
+            proxy.isTranslucent = true
         case .opaque?:
-            global.setBackgroundImage(nil, for: .default)
-            global.shadowImage = nil
-            global.isTranslucent = false
+            proxy.setBackgroundImage(nil, for: .default)
+            proxy.shadowImage = nil
+            proxy.isTranslucent = false
         case .none:
             break
         }

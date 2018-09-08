@@ -22,7 +22,7 @@ final class ForgotPasswordVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        navigationController?.setNavigationBarHidden(true, animated: animated)
+        hide(navBar: animated)
         hideAlert()
     }
 
@@ -40,7 +40,7 @@ final class ForgotPasswordVC: UIViewController {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
         case R.segue.forgotPasswordVC.dismissForgotPassword.identifier:
-            presentingViewController?.navigationController?.setNavigationBarHidden(false, animated: true)
+            presentingViewController?.show(navBar: true)
         default:
             log.debug("unexpected segue: \(segue.name)")
         }
