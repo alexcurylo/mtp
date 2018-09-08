@@ -62,6 +62,7 @@
 		FABA7413213A374F0059ACCA /* Posts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABA7411213A374F0059ACCA /* Posts.storyboard */; };
 		FAE1F117213BFBA80002CAB2 /* Locations.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAE1F115213BFBA80002CAB2 /* Locations.storyboard */; };
 		FAE1F119214354A80002CAB2 /* Avenir.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE1F118214354A80002CAB2 /* Avenir.swift */; };
+		FAE1F11C21437F860002CAB2 /* String+Assert.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE1F11B21437F860002CAB2 /* String+Assert.swift */; };
 		FAF1853120FA0C8600CC5D83 /* RootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF1853020FA0C8600CC5D83 /* RootVC.swift */; };
 		FAF1853220FA0DEF00CC5D83 /* Root.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAF1853420FA0DEF00CC5D83 /* Root.storyboard */; };
 		FAFEDA50211DB0E800DA3DB8 /* LoginFailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFEDA4F211DB0E800DA3DB8 /* LoginFailVC.swift */; };
@@ -172,6 +173,7 @@
 		FABA7412213A374F0059ACCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Posts.storyboard; sourceTree = "<group>"; };
 		FAE1F116213BFBA80002CAB2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Locations.storyboard; sourceTree = "<group>"; };
 		FAE1F118214354A80002CAB2 /* Avenir.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Avenir.swift; sourceTree = "<group>"; };
+		FAE1F11B21437F860002CAB2 /* String+Assert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Assert.swift"; sourceTree = "<group>"; };
 		FAF1853020FA0C8600CC5D83 /* RootVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootVC.swift; sourceTree = "<group>"; };
 		FAF1853320FA0DEF00CC5D83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Root.storyboard; sourceTree = "<group>"; };
 		FAF1853520FA16CE00CC5D83 /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
@@ -306,13 +308,10 @@
 		FA392BD020DF69F50026C828 /* MTPTests */ = {
 			isa = PBXGroup;
 			children = (
-				FAB53F8920DFD618007A80A7 /* MemoryWarner.h */,
-				FAB53F8A20DFD618007A80A7 /* MemoryWarner.m */,
 				FA392BD120DF69F50026C828 /* MTPTests.swift */,
 				FA0BE96B210C5F3300797224 /* ViewTests.swift */,
 				FA74C112211C61580013A840 /* StringTests.swift */,
-				FA392BD320DF69F50026C828 /* Info.plist */,
-				FAB53F8720DFD617007A80A7 /* MTPTests-Bridging-Header.h */,
+				FAE1F11A21437F2E0002CAB2 /* support */,
 			);
 			path = MTPTests;
 			sourceTree = "<group>";
@@ -413,6 +412,18 @@
 				FA74C110211BBF490013A840 /* String+Formatting.swift */,
 				FA32CC7320FB6E67004C1329 /* UIView+Gradient.swift */,
 				FAAE29C420F05A9600B43BA9 /* UserDefaults+TypeSafety.swift */,
+			);
+			path = support;
+			sourceTree = "<group>";
+		};
+		FAE1F11A21437F2E0002CAB2 /* support */ = {
+			isa = PBXGroup;
+			children = (
+				FAB53F8920DFD618007A80A7 /* MemoryWarner.h */,
+				FAB53F8A20DFD618007A80A7 /* MemoryWarner.m */,
+				FA392BD320DF69F50026C828 /* Info.plist */,
+				FAB53F8720DFD617007A80A7 /* MTPTests-Bridging-Header.h */,
+				FAE1F11B21437F860002CAB2 /* String+Assert.swift */,
 			);
 			path = support;
 			sourceTree = "<group>";
@@ -746,6 +757,7 @@
 			files = (
 				FA392BD220DF69F50026C828 /* MTPTests.swift in Sources */,
 				FAB53F8B20DFD618007A80A7 /* MemoryWarner.m in Sources */,
+				FAE1F11C21437F860002CAB2 /* String+Assert.swift in Sources */,
 				FA74C113211C61580013A840 /* StringTests.swift in Sources */,
 				FA0BE96C210C5F3300797224 /* ViewTests.swift in Sources */,
 			);
@@ -1049,7 +1061,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 556343DW3U;
-				INFOPLIST_FILE = MTPTests/Info.plist;
+				INFOPLIST_FILE = MTPTests/support/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1057,7 +1069,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.trollwerks.MTPTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "MTPTests/MTPTests-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "MTPTests/support/MTPTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1074,7 +1086,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 556343DW3U;
-				INFOPLIST_FILE = MTPTests/Info.plist;
+				INFOPLIST_FILE = MTPTests/support/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1082,7 +1094,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.trollwerks.MTPTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "MTPTests/MTPTests-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "MTPTests/support/MTPTests-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MTP.app/MTP";
