@@ -36,6 +36,89 @@ final class LocationsVC: UIViewController {
     }
 }
 
+extension LocationsVC: MKMapViewDelegate {
+
+    func mapView(_ mapView: MKMapView, regionWillChangeAnimated: Bool) {
+        log.verbose(#function)
+    }
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated: Bool) {
+        log.verbose(#function)
+    }
+
+    func mapViewWillStartLoadingMap(_ mapView: MKMapView) {
+        log.verbose(#function)
+    }
+    func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
+        log.verbose(#function)
+    }
+    func mapViewDidFailLoadingMap(_ mapView: MKMapView) {
+        log.verbose(#function)
+    }
+
+    func mapViewWillStartRenderingMap(_ mapView: MKMapView) {
+        log.verbose(#function)
+    }
+    func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
+        log.verbose(#function)
+    }
+
+    func mapViewWillStartLocatingUser(_ mapView: MKMapView) {
+        log.verbose(#function)
+    }
+    func mapViewDidStopLocatingUser(_ mapView: MKMapView) {
+        log.verbose(#function)
+    }
+    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+        log.verbose(#function)
+    }
+    func mapView(_ mapView: MKMapView, didFailToLocateUserWithError error: Error) {
+        log.verbose(#function)
+    }
+    func mapView(_ mapView: MKMapView, didChange mode: MKUserTrackingMode, animated: Bool) {
+        log.verbose(#function)
+    }
+
+    func mapView(_ mapView: MKMapView,
+                 viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        log.verbose(#function)
+        return nil
+    }
+    func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
+        log.verbose(#function)
+    }
+    func mapView(_ mapView: MKMapView,
+                 annotationView view: MKAnnotationView,
+                 calloutAccessoryControlTapped control: UIControl) {
+        log.verbose(#function)
+    }
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        log.verbose(#function)
+    }
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        log.verbose(#function)
+    }
+    func mapView(_ mapView: MKMapView,
+                 annotationView view: MKAnnotationView,
+                 didChange newState: MKAnnotationViewDragState,
+                 fromOldState oldState: MKAnnotationViewDragState) {
+        log.verbose(#function)
+    }
+
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        log.verbose(#function)
+        return MKOverlayRenderer(overlay: overlay)
+    }
+    func mapView(_ mapView: MKMapView, didAdd renderers: [MKOverlayRenderer]) {
+        log.verbose(#function)
+    }
+
+    func mapView(_ mapView: MKMapView,
+                 clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
+        log.verbose(#function)
+        return MKClusterAnnotation(memberAnnotations: memberAnnotations)
+    }
+}
+
 private extension LocationsVC {
 
     @IBAction func unwindToLocations(segue: UIStoryboardSegue) {
