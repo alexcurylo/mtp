@@ -9,33 +9,37 @@ enum Styler {
     case map
     case standard
 
-    func apply() {
-        applyNavBar()
-        applySearchBar()
+    func styleAppearance() {
+        styleAppearanceNavBar()
+        styleAppearanceSearchBar()
     }
 
-    func applyNavBar() {
+    func apply() {
+        styleAppearanceNavBar()
+    }
+
+    func styleAppearanceNavBar() {
         switch self {
         case .login:
-            UINavigationBar.set(transparency: .transparent,
-                                tint: .azureRadiance,
-                                color: .regalBlue,
-                                font: Avenir.heavy.of(size: 18))
+            UINavigationBar.styleAppearance(transparency: .transparent,
+                                            tint: .azureRadiance,
+                                            color: .regalBlue,
+                                            font: Avenir.heavy.of(size: 18))
         case .map:
-            UINavigationBar.set(transparency: .transparent,
-                                tint: .azureRadiance,
-                                color: .azureRadiance,
-                                font: Avenir.heavy.of(size: 18))
+            UINavigationBar.styleAppearance(transparency: .transparent,
+                                            tint: .azureRadiance,
+                                            color: .azureRadiance,
+                                            font: Avenir.heavy.of(size: 18))
         case .standard:
-            UINavigationBar.set(transparency: .transparent,
-                                color: .white,
-                                font: Avenir.black.of(size: 18))
+            UINavigationBar.styleAppearance(transparency: .transparent,
+                                            tint: .white,
+                                            color: .white,
+                                            font: Avenir.black.of(size: 18))
         }
     }
 
-    func applySearchBar() {
-        let global = UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self])
-        global.font = Avenir.book.of(size: 15)
+    func styleAppearanceSearchBar() {
+        UISearchBar.styleAppearance()
      }
 }
 
@@ -77,28 +81,5 @@ extension UIColor {
 
     class var regalBlue: UIColor { // #004B78
         return R.color.regalBlue() ?? .black
-    }
-}
-
-enum Avenir: String {
-    case light = "Avenir-Light"
-    case lightOblique = "Avenir-LightOblique"
-    case book = "Avenir-Book"
-    case bookOblique = "Avenir-BookOblique"
-    case roman = "Avenir-Roman"
-    case oblique = "Avenir-Oblique"
-    case medium = "Avenir-Medium"
-    case mediumOblique = "Avenir-MediumOblique"
-    case heavy = "Avenir-Heavy"
-    case heavyOblique = "Avenir-HeavyOblique"
-    case black = "Avenir-Black"
-    case blackOblique = "Avenir-BlackOblique"
-
-    func of(size: CGFloat) -> UIFont {
-        guard let font = UIFont(name: self.rawValue, size: size) else {
-            log.debug("Missing font: \(self.rawValue) \(size)")
-            return UIFont.systemFont(ofSize: size)
-        }
-        return font
     }
 }

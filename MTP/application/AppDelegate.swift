@@ -60,6 +60,6 @@ private extension AppDelegate {
     }
 
     func configureAppearance() {
-        style.standard.apply()
+        style.standard.styleAppearance()
     }
 }

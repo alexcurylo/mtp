@@ -10,31 +10,31 @@ enum Transparency {
 
 extension UINavigationBar {
 
-    static func set(transparency: Transparency? = nil,
-                    tint: UIColor? = nil,
-                    color: UIColor? = nil,
-                    font: UIFont? = nil) {
-        let global = appearance()
+    static func styleAppearance(transparency: Transparency? = nil,
+                                tint: UIColor? = nil,
+                                color: UIColor? = nil,
+                                font: UIFont? = nil) {
+        let proxy = UINavigationBar.appearance()
 
-        global.tintColor = tint ?? color
+        proxy.tintColor = tint ?? color
         var attributes = [NSAttributedStringKey: Any]()
         attributes[.foregroundColor] = color
         attributes[.font] = font
-        global.titleTextAttributes = attributes
+        proxy.titleTextAttributes = attributes
 
         switch transparency {
         case .transparent?:
-            global.setBackgroundImage(UIImage(), for: .default)
-            global.shadowImage = UIImage()
-            global.isTranslucent = true
+            proxy.setBackgroundImage(UIImage(), for: .default)
+            proxy.shadowImage = UIImage()
+            proxy.isTranslucent = true
         case .translucent?:
-            global.setBackgroundImage(nil, for: .default)
-            global.shadowImage = nil
-            global.isTranslucent = true
+            proxy.setBackgroundImage(nil, for: .default)
+            proxy.shadowImage = nil
+            proxy.isTranslucent = true
         case .opaque?:
-            global.setBackgroundImage(nil, for: .default)
-            global.shadowImage = nil
-            global.isTranslucent = false
+            proxy.setBackgroundImage(nil, for: .default)
+            proxy.shadowImage = nil
+            proxy.isTranslucent = false
         case .none:
             break
         }
