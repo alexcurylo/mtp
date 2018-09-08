@@ -250,7 +250,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			<key>summary</key>
 			<string>Official Facebook SDK for iOS to access Facebook Platform's core features</string>
 			<key>version</key>
-			<string>4.35.0</string>
+			<string>4.36.0</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -294,7 +294,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			<key>summary</key>
 			<string>Official Facebook SDK for iOS to access Facebook Platform with features like Login, Share and Message Dialog, App Links, and Graph API</string>
 			<key>version</key>
-			<string>4.35.0</string>
+			<string>4.36.0</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -338,7 +338,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			<key>summary</key>
 			<string>Official Facebook SDK for iOS to access Facebook Platform's Sharing Features</string>
 			<key>version</key>
-			<string>4.35.0</string>
+			<string>4.36.0</string>
 		</dict>
 		<dict>
 			<key>authors</key>
