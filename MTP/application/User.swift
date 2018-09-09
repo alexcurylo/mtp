@@ -35,7 +35,7 @@ struct User: Codable {
     let scoreUncountries: String
     let scoreWhss: String
     let status: String
-    let token: String
+    let token: String?
     let updatedAt: Date
     let username: String
 }
@@ -83,7 +83,7 @@ extension User: CustomDebugStringConvertible {
             score_uncountries: \(scoreUncountries)
             score_whss: \(scoreWhss)
             status: \(status)
-            token: \(token)
+            token: \(String(describing: token))
             updated_at: \(updatedAt)
             username: \(username)
         /User >

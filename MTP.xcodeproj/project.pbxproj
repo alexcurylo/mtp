@@ -60,6 +60,7 @@
 		FABA740D213A29CD0059ACCA /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABA740B213A29CD0059ACCA /* About.storyboard */; };
 		FABA7410213A359C0059ACCA /* MyPhotos.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABA740E213A359C0059ACCA /* MyPhotos.storyboard */; };
 		FABA7413213A374F0059ACCA /* Posts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABA7411213A374F0059ACCA /* Posts.storyboard */; };
+		FADC1ABA2144FAD70011EE49 /* Date+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */; };
 		FAE1F117213BFBA80002CAB2 /* Locations.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAE1F115213BFBA80002CAB2 /* Locations.storyboard */; };
 		FAE1F119214354A80002CAB2 /* Avenir.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE1F118214354A80002CAB2 /* Avenir.swift */; };
 		FAE1F11C21437F860002CAB2 /* String+Assert.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE1F11B21437F860002CAB2 /* String+Assert.swift */; };
@@ -172,6 +173,7 @@
 		FABA740C213A29CD0059ACCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/About.storyboard; sourceTree = "<group>"; };
 		FABA740F213A359C0059ACCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyPhotos.storyboard; sourceTree = "<group>"; };
 		FABA7412213A374F0059ACCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Posts.storyboard; sourceTree = "<group>"; };
+		FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Formatting.swift"; sourceTree = "<group>"; };
 		FAE1F116213BFBA80002CAB2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Locations.storyboard; sourceTree = "<group>"; };
 		FAE1F118214354A80002CAB2 /* Avenir.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Avenir.swift; sourceTree = "<group>"; };
 		FAE1F11B21437F860002CAB2 /* String+Assert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Assert.swift"; sourceTree = "<group>"; };
@@ -405,6 +407,7 @@
 			isa = PBXGroup;
 			children = (
 				FAE1F118214354A80002CAB2 /* Avenir.swift */,
+				FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */,
 				FA46532F21157784005B5A0A /* FacebookButton.swift */,
 				FAE1F11D2143B29F0002CAB2 /* LocationTracker.swift */,
 				FA463784210E06230007382D /* Logger.swift */,
@@ -726,6 +729,7 @@
 				FA12D680213B8A240053E9BF /* RankingPage.swift in Sources */,
 				FA4653342115ADC6005B5A0A /* MTPAPI.swift in Sources */,
 				FA390139213B84B40016A362 /* RankingPagingVC.swift in Sources */,
+				FADC1ABA2144FAD70011EE49 /* Date+Formatting.swift in Sources */,
 				FAE1F11E2143B29F0002CAB2 /* LocationTracker.swift in Sources */,
 				FA76D9752131278900EF8E25 /* User.swift in Sources */,
 				FA74C111211BBF490013A840 /* String+Formatting.swift in Sources */,

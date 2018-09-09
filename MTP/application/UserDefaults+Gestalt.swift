@@ -9,6 +9,11 @@ extension UserDefaults: Gestalt {
         set { set(newValue, forKey: #function) }
     }
 
+    var lastUserRefresh: Date? {
+        get { return date(forKey: #function) }
+        set { set(newValue, forKey: #function) }
+    }
+
     var name: String {
         get { return string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }
@@ -19,12 +24,17 @@ extension UserDefaults: Gestalt {
         set { set(newValue, forKey: #function) }
     }
 
+    var token: String {
+        get { return string(forKey: #function) ?? "" }
+        set { set(newValue, forKey: #function) }
+    }
+
     var user: User? {
         get {
             do {
                 return try get(objectType: User.self, forKey: #function)
             } catch {
-                log.error("Decoding user value: \(error)")
+                log.error("decoding user value: \(error)")
                 return nil
             }
         }
@@ -36,7 +46,7 @@ extension UserDefaults: Gestalt {
             do {
                 return try set(object: newUser, forKey: #function)
             } catch {
-                log.error("Encoding user newValue: \(error)")
+                log.error("encoding user newValue: \(error)")
             }
         }
     }
