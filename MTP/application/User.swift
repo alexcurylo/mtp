@@ -35,7 +35,7 @@ struct User: Codable {
     let scoreUncountries: String
     let scoreWhss: String
     let status: String
-    let token: String?
+    let token: String? // found only in login response
     let updatedAt: Date
     let username: String
 }
@@ -122,110 +122,5 @@ extension Link: CustomStringConvertible, CustomDebugStringConvertible {
 
     public var debugDescription: String {
         return "< Link: text \(text) url \(url)>"
-    }
-}
-
-struct Country: Codable {
-
-    let Country: String?
-    let CountryId: Int?
-    let GroupCandidateId: Int?
-    let Location: String
-    let MLHowtoget: String?
-    let RegionIDnew: String
-    let RegionName: String?
-    let Regionold: Int?
-    let URL: String?
-    let countryName: String
-    let active: String
-    let adminLevel: Int
-    let airports: String?
-    let candidateDate: Date?
-    let cities: String?
-    let countryId: Int
-    let countVisitors: Int
-    let cv: String?
-    let info: String?
-    let isMtpLocation: Int
-    let lat: String?
-    let latitude: String?
-    let lon: String?
-    let longitude: String?
-    let dateUpdated: Date
-    let distance: String?
-    let distanceold: String?
-    let id: Int
-    let isUn: Int
-    let locationName: String
-    let order: String?
-    let rank: String
-    let regionId: Int
-    let regionName: String
-    let seaports: String?
-    let timename: String?
-    let typelevel: String?
-    let utc: String?
-    let visitors: String
-    let weather: String?
-    let weatherhist: String?
-    let zoom: String?
-}
-
-extension Country: CustomStringConvertible {
-
-    public var description: String {
-        return "\(countryName) (\(countryId)))"
-    }
-}
-
-extension Country: CustomDebugStringConvertible {
-
-    var debugDescription: String {
-        return """
-        < Country: \(description):
-            Country: \(String(describing: Country))
-            CountryId: \(String(describing: CountryId))
-            GroupCandidate_id: \(String(describing: GroupCandidateId))
-            Location: \(Location)
-            ML_howtoget: \(String(describing: MLHowtoget))
-            RegionIDnew: \(RegionIDnew)
-            RegionName: \(String(describing: RegionName))
-            Regionold: \(String(describing: Regionold))
-            URL: \(String(describing: URL))
-            active: \(active)
-            admin_level: \(adminLevel)
-            airports: \(String(describing: airports))
-            candidate_date: \(String(describing: candidateDate))
-            cities: \(String(describing: cities))
-            countryId: \(countryId)
-            countryName: \(countryName)
-            cv: \(String(describing: cv))
-            count_visitors: \(countVisitors)
-            dateUpdated: \(dateUpdated)
-            distance: \(String(describing: distance))
-            distanceold: \(String(describing: distanceold))
-            is_mtp_location: \(isMtpLocation)
-            id: \(id)
-            info: \(String(describing: info))
-            is_un: \(isUn)
-            lat: \(String(describing: lat))
-            latitude: \(String(describing: latitude))
-            lon: \(String(describing: lon))
-            longitude: \(String(describing: longitude))
-            location_name: \(locationName)
-            order: \(String(describing: order))
-            rank: \(rank)
-            region_id: \(regionId)
-            region_name: \(regionName)
-            seaports: \(String(describing: seaports))
-            timename: \(String(describing: timename))
-            typelevel: \(String(describing: typelevel))
-            utc: \(String(describing: utc))
-            visitors: \(visitors)
-            weather: \(String(describing: utc))
-            weatherhist: \(String(describing: utc))
-            zoom: \(String(describing: utc))
-        /Country >
-        """
     }
 }

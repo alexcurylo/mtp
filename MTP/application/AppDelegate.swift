@@ -35,7 +35,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        MTPAPI.refreshUser()
+        MTPAPI.userGetByToken()
 
         logFacebookActivate()
     }

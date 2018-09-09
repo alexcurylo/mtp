@@ -29,7 +29,7 @@ final class RootVC: UIViewController {
         hide(navBar: animated)
 
         if isloggedIn {
-            MTPAPI.refreshUser()
+            MTPAPI.userGetByToken()
             credentials?.isHidden = true
             credentialsBottom?.constant = 0
             performSegue(withIdentifier: R.segue.rootVC.showMain, sender: self)

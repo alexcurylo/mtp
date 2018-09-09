@@ -90,7 +90,8 @@ private extension LoginVC {
     }
 
     func login(email: String, password: String) {
-        MTPAPI.login(email: email, password: password) { [weak self] result in
+        MTPAPI.userLogin(email: email,
+                         password: password) { [weak self] result in
             switch result {
             case .success:
                 self?.performSegue(withIdentifier: R.segue.loginVC.showMain, sender: self)

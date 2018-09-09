@@ -8,45 +8,65 @@ enum MTPAPIError: Swift.Error {
     case parameter
     case network(String)
     case results
+    case throttle
     case token
 }
 
 enum MTP {
-    case getByToken
-    case login(String, String)
+    case countriesSearch(query: String?)
+    case locationsSearch(parentCountry: Int?, query: String?)
+    case userGetByToken
+    case userLogin(email: String, password: String)
 }
 
 extension MTP: TargetType {
 
     // swiftlint:disable:next force_unwrapping
-    public var baseURL: URL { return URL(string: "https://mtp.travel/api/user/")! }
+    public var baseURL: URL { return URL(string: "https://mtp.travel/api/")! }
 
     public var path: String {
         switch self {
-        case .getByToken:
-            return "getByToken"
-        case .login:
-            return "login"
+        case .countriesSearch:
+            return "countries/search"
+        case .locationsSearch:
+            return "locations/search"
+        case .userGetByToken:
+            return "user/getByToken"
+        case .userLogin:
+            return "user/login"
         }
     }
 
     public var method: Moya.Method {
         switch self {
-        case .getByToken:
+        case .countriesSearch, .locationsSearch, .userGetByToken:
             return .get
-        case .login:
+        case .userLogin:
             return .post
         }
     }
 
     var task: Task {
         switch self {
-        case .getByToken:
-            return .requestPlain
-        case let .login(email, password):
+        case let .countriesSearch(query?):
+            return .requestParameters(parameters: ["query": query],
+                                      encoding: URLEncoding.default)
+        case let .locationsSearch(parentCountry?, query?):
+            return .requestParameters(parameters: ["parentCountry": parentCountry,
+                                                   "query": query],
+                                      encoding: URLEncoding.default)
+        case let .locationsSearch(parentCountry?, nil):
+            return .requestParameters(parameters: ["parentCountry": parentCountry],
+                                      encoding: URLEncoding.default)
+        case let .locationsSearch(nil, query?):
+            return .requestParameters(parameters: ["query": query],
+                                      encoding: URLEncoding.default)
+        case let .userLogin(email, password):
             return .requestParameters(parameters: ["email": email,
                                                    "password": password],
                                       encoding: JSONEncoding.default)
+        case .countriesSearch, .locationsSearch, .userGetByToken:
+            return .requestPlain
         }
     }
 
@@ -61,10 +81,7 @@ extension MTP: TargetType {
     }
 
     public var sampleData: Data {
-        switch self {
-        case .getByToken, .login:
-            return "{}".data(using: String.Encoding.utf8) ?? Data()
-        }
+        return "{}".data(using: String.Encoding.utf8) ?? Data()
     }
 }
 
@@ -72,9 +89,9 @@ extension MTP: AccessTokenAuthorizable {
 
     var authorizationType: AuthorizationType {
         switch self {
-        case .getByToken:
+        case .userGetByToken:
             return .bearer
-        case .login:
+        case .countriesSearch, .locationsSearch, .userLogin:
             return .none
         }
     }
@@ -83,15 +100,68 @@ extension MTP: AccessTokenAuthorizable {
 enum MTPAPI {
 
     typealias BoolResult = (_ result: Result<Bool, MTPAPIError>) -> Void
+    typealias CountriesResult = (_ result: Result<[Country], MTPAPIError>) -> Void
     typealias UserResult = (_ result: Result<User, MTPAPIError>) -> Void
 
-    static func deleteAccount(then: @escaping BoolResult) {
+    static func countriesSearch(query: String,
+                                then: @escaping CountriesResult) {
+        let provider = MoyaProvider<MTP>()
+        let queryParam = query.isEmpty ? nil : query
+        provider.request(.countriesSearch(query: queryParam)) { response in
+            switch response {
+            case .success(let result):
+                do {
+                    let countries = try result.map([Country].self,
+                                                   using: JSONDecoder.mtp)
+                    log.verbose("countries[\(query)]: " + countries.debugDescription)
+                    return then(.success(countries))
+                } catch {
+                    log.error("decoding countries: \(error)")
+                    return then(.failure(.results))
+                }
+            case .failure(let error):
+                let message = error.errorDescription ?? "undefined"
+                log.error("countries/search: \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
+    static let parentCountryUSA = 977
+
+    static func locationsSearch(query: String,
+                                parentCountry: Int? = nil,
+                                then: @escaping CountriesResult) {
+        let provider = MoyaProvider<MTP>()
+        let queryParam = query.isEmpty ? nil : query
+        provider.request(.locationsSearch(parentCountry: parentCountry,
+                                          query: queryParam)) { response in
+            switch response {
+            case .success(let result):
+                do {
+                    let locations = try result.map([Country].self,
+                                                   using: JSONDecoder.mtp)
+                    log.verbose("locations[\(query)]: " + locations.debugDescription)
+                    return then(.success(locations))
+                } catch {
+                    log.error("decoding locations: \(error)")
+                    return then(.failure(.results))
+                }
+            case .failure(let error):
+                let message = error.errorDescription ?? "undefined"
+                log.error("locations/search: \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
+    static func userDeleteAccount(then: @escaping BoolResult) {
         log.info("TO DO: MTPAPI.implement deleteAccount")
         then(.success(true))
     }
 
-    static func forgotPassword(email: String,
-                               then: @escaping BoolResult) {
+    static func userForgotPassword(email: String,
+                                   then: @escaping BoolResult) {
         guard !email.isEmpty else {
             log.verbose("forgotPassword attempt invalid: email `\(email)`")
             return then(.failure(.parameter))
@@ -101,24 +171,22 @@ enum MTPAPI {
         then(.success(true))
     }
 
-    static func refreshUser() {
-        guard gestalt.isLoggedIn else { return }
+    static func userGetByToken(then: @escaping UserResult = { _ in }) {
+        guard gestalt.isLoggedIn else {
+            log.verbose("userGetByToken attempt invalid: not logged in")
+            return then(.failure(.parameter))
+        }
         if let last = gestalt.lastUserRefresh {
             let next = last.addingTimeInterval(60 * 5)
-            guard next < Date().toUTC else { return }
-        }
-        getByToken()
-    }
-
-    static func getByToken(then: @escaping UserResult = { _ in }) {
-        guard gestalt.isLoggedIn else {
-            log.verbose("getByToken attempt invalid: not logged in")
-            return then(.failure(.parameter))
+            guard next < Date().toUTC else {
+                log.verbose("userGetByToken attempt invalid: 5 minute throttle")
+                return then(.failure(.throttle))
+            }
         }
 
         let auth = AccessTokenPlugin(tokenClosure: gestalt.token)
         let provider = MoyaProvider<MTP>(plugins: [auth])
-        provider.request(.getByToken) { response in
+        provider.request(.userGetByToken) { response in
             switch response {
             case .success(let result):
                 do {
@@ -134,22 +202,22 @@ enum MTPAPI {
                 }
             case .failure(let error):
                 let message = error.errorDescription ?? "undefined"
-                log.error("/getByToken: \(message)")
+                log.error("user/getByToken: \(message)")
                 return then(.failure(.network(message)))
             }
         }
     }
 
-    static func login(email: String,
-                      password: String,
-                      then: @escaping UserResult) {
+    static func userLogin(email: String,
+                          password: String,
+                          then: @escaping UserResult) {
         guard !email.isEmpty && !password.isEmpty else {
-            log.verbose("login attempt invalid: email `\(email)` password `\(password)`")
+            log.verbose("userLogin attempt invalid: email `\(email)` password `\(password)`")
             return then(.failure(.parameter))
         }
 
         let provider = MoyaProvider<MTP>()
-        provider.request(.login(email, password)) { response in
+        provider.request(.userLogin(email: email, password: password)) { response in
             switch response {
             case .success(let result):
                 do {
@@ -169,16 +237,16 @@ enum MTPAPI {
                 }
             case .failure(let error):
                 let message = error.errorDescription ?? "undefined"
-                log.error("/login: \(message)")
+                log.error("user/login: \(message)")
                 return then(.failure(.network(message)))
             }
         }
     }
 
-    static func register(name: String,
-                         email: String,
-                         password: String,
-                         then: @escaping BoolResult) {
+    static func userRegister(name: String,
+                             email: String,
+                             password: String,
+                             then: @escaping BoolResult) {
         guard !name.isEmpty && !email.isEmpty && !password.isEmpty else {
             log.verbose("register attempt invalid: name `\(name)` email `\(email)` password `\(password)`")
             return then(.failure(.parameter))

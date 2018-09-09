@@ -89,7 +89,7 @@ private extension SignupVC {
     }
 
     func register(name: String, email: String, password: String) {
-        MTPAPI.register(name: name, email: email, password: password) { [weak self] result in
+        MTPAPI.userRegister(name: name, email: email, password: password) { [weak self] result in
             switch result {
             case .success:
                 self?.performSegue(withIdentifier: R.segue.signupVC.showWelcome, sender: self)

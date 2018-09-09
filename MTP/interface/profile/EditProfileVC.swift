@@ -52,7 +52,7 @@ private extension EditProfileVC {
     }
 
     @IBAction func deleteAccount(segue: UIStoryboardSegue) {
-        MTPAPI.deleteAccount { [weak self] result in
+        MTPAPI.userDeleteAccount { [weak self] result in
             switch result {
             case .success:
                 self?.performSegue(withIdentifier: R.segue.editProfileVC.unwindFromEditProfile, sender: self)
