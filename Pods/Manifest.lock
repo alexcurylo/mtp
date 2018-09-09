@@ -36,6 +36,7 @@ PODS:
     - FBSDKCoreKit
   - FBSDKShareKit (4.36.0):
     - FBSDKCoreKit (~> 4.36.0)
+  - JWTDecode (2.1.1)
   - Moya (11.0.2):
     - Moya/Core (= 11.0.2)
   - Moya/Core (11.0.2):
@@ -60,6 +61,7 @@ DEPENDENCIES:
   - FBSDKCoreKit
   - FBSDKLoginKit
   - FBSDKShareKit
+  - JWTDecode
   - Moya
   - Parchment
   - R.swift
@@ -78,6 +80,7 @@ SPEC REPOS:
     - FBSDKCoreKit
     - FBSDKLoginKit
     - FBSDKShareKit
+    - JWTDecode
     - Moya
     - Parchment
     - R.swift
@@ -97,6 +100,7 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: 3b8e6570eedb443f9fc4af196a7bf39f18e3a3d8
   FBSDKLoginKit: 8bccb6064708ab2f4251a7fc4e3b6d8d00ad91ba
   FBSDKShareKit: 7090fdd55c39b03941efddb64c83a64ff6b3949f
+  JWTDecode: 83e8b381aafe27158d9f692cbdca2b12d61d460c
   Moya: a725035953bc1c0eb1be505ab903984501d82440
   Parchment: e6c2a3a0063739382dd207e21d48fe5e81f3324a
   R.swift: d6a5ec2f55a8441dc0ed9f1f8b37d7d11ae85c66
@@ -105,6 +109,6 @@ SPEC CHECKSUMS:
   SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
   SwiftyBeaver: e45759613e50b522b0e6f53b1f0f14389b45ca34
 
-PODFILE CHECKSUM: eb97459f4b36da3932b42554a14ff49549ace4da
+PODFILE CHECKSUM: 860b005d513e73931628001a446dd2b52c9a88c2
 
 COCOAPODS: 1.5.3
