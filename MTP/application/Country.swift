@@ -2,16 +2,16 @@
 
 import Foundation
 
-public struct UncertainValue<T: Codable, U: Codable>: Codable {
+struct UncertainValue<T: Codable, U: Codable>: Codable {
 
-    public var tValue: T?
-    public var uValue: U?
+    var tValue: T?
+    var uValue: U?
 
-    public var value: Any? {
+    var value: Any? {
         return tValue ?? uValue
     }
 
-    public init(from decoder: Decoder) throws {
+    init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         tValue = try? container.decode(T.self)
         guard tValue == nil else { return }
@@ -20,6 +20,17 @@ public struct UncertainValue<T: Codable, U: Codable>: Codable {
         let context = DecodingError.Context(codingPath: decoder.codingPath,
                                             debugDescription: "expected a \(T.self) or \(U.self)")
         throw DecodingError.typeMismatch(type(of: self), context)
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        if let tValue = tValue {
+            try container.encode(tValue)
+        } else if let uValue = uValue {
+            try container.encode(uValue)
+        } else {
+            try container.encodeNil()
+        }
     }
 }
 
