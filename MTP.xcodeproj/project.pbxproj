@@ -60,6 +60,9 @@
 		FABA740D213A29CD0059ACCA /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABA740B213A29CD0059ACCA /* About.storyboard */; };
 		FABA7410213A359C0059ACCA /* MyPhotos.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABA740E213A359C0059ACCA /* MyPhotos.storyboard */; };
 		FABA7413213A374F0059ACCA /* Posts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABA7411213A374F0059ACCA /* Posts.storyboard */; };
+		FADC1ABA2144FAD70011EE49 /* Date+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */; };
+		FADC1ABC2145563F0011EE49 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADC1ABB2145563F0011EE49 /* Country.swift */; };
+		FADC1ABE2145E9760011EE49 /* MyPhotosCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADC1ABD2145E9760011EE49 /* MyPhotosCVC.swift */; };
 		FAE1F117213BFBA80002CAB2 /* Locations.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAE1F115213BFBA80002CAB2 /* Locations.storyboard */; };
 		FAE1F119214354A80002CAB2 /* Avenir.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE1F118214354A80002CAB2 /* Avenir.swift */; };
 		FAE1F11C21437F860002CAB2 /* String+Assert.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE1F11B21437F860002CAB2 /* String+Assert.swift */; };
@@ -172,6 +175,9 @@
 		FABA740C213A29CD0059ACCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/About.storyboard; sourceTree = "<group>"; };
 		FABA740F213A359C0059ACCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyPhotos.storyboard; sourceTree = "<group>"; };
 		FABA7412213A374F0059ACCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Posts.storyboard; sourceTree = "<group>"; };
+		FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Formatting.swift"; sourceTree = "<group>"; };
+		FADC1ABB2145563F0011EE49 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
+		FADC1ABD2145E9760011EE49 /* MyPhotosCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPhotosCVC.swift; sourceTree = "<group>"; };
 		FAE1F116213BFBA80002CAB2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Locations.storyboard; sourceTree = "<group>"; };
 		FAE1F118214354A80002CAB2 /* Avenir.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Avenir.swift; sourceTree = "<group>"; };
 		FAE1F11B21437F860002CAB2 /* String+Assert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Assert.swift"; sourceTree = "<group>"; };
@@ -266,6 +272,7 @@
 			isa = PBXGroup;
 			children = (
 				FA46377F210DE94C0007382D /* EditProfileVC.swift */,
+				FADC1ABD2145E9760011EE49 /* MyPhotosCVC.swift */,
 				FA74574C210CA5730010F4F4 /* MyProfileVC.swift */,
 				FA99615E2136CF3100C85FBC /* MyProfileTabsVC.swift */,
 				FA46377D210DE1E60007382D /* SettingsVC.swift */,
@@ -333,6 +340,7 @@
 			children = (
 				FA392BBA20DF69F30026C828 /* AppDelegate.swift */,
 				FA9A71DE20F1D3FA005F6A57 /* AppDelegate+Tools.swift */,
+				FADC1ABB2145563F0011EE49 /* Country.swift */,
 				FA3CEC552132579300791195 /* Gestalt.swift */,
 				FA4653332115ADC6005B5A0A /* MTPAPI.swift */,
 				FA76D9742131278900EF8E25 /* User.swift */,
@@ -405,6 +413,7 @@
 			isa = PBXGroup;
 			children = (
 				FAE1F118214354A80002CAB2 /* Avenir.swift */,
+				FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */,
 				FA46532F21157784005B5A0A /* FacebookButton.swift */,
 				FAE1F11D2143B29F0002CAB2 /* LocationTracker.swift */,
 				FA463784210E06230007382D /* Logger.swift */,
@@ -726,6 +735,7 @@
 				FA12D680213B8A240053E9BF /* RankingPage.swift in Sources */,
 				FA4653342115ADC6005B5A0A /* MTPAPI.swift in Sources */,
 				FA390139213B84B40016A362 /* RankingPagingVC.swift in Sources */,
+				FADC1ABA2144FAD70011EE49 /* Date+Formatting.swift in Sources */,
 				FAE1F11E2143B29F0002CAB2 /* LocationTracker.swift in Sources */,
 				FA76D9752131278900EF8E25 /* User.swift in Sources */,
 				FA74C111211BBF490013A840 /* String+Formatting.swift in Sources */,
@@ -745,7 +755,9 @@
 				FA74C0F02117C60B0013A840 /* ForgotPasswordVC.swift in Sources */,
 				FA392BBB20DF69F30026C828 /* AppDelegate.swift in Sources */,
 				FA463780210DE94C0007382D /* EditProfileVC.swift in Sources */,
+				FADC1ABC2145563F0011EE49 /* Country.swift in Sources */,
 				FA99615F2136CF3100C85FBC /* MyProfileTabsVC.swift in Sources */,
+				FADC1ABE2145E9760011EE49 /* MyPhotosCVC.swift in Sources */,
 				FA835D34210EAC110098C270 /* Styler.swift in Sources */,
 				FA392BBD20DF69F30026C828 /* LocationsVC.swift in Sources */,
 				FAE1F119214354A80002CAB2 /* Avenir.swift in Sources */,

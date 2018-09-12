@@ -8,37 +8,65 @@ enum MTPAPIError: Swift.Error {
     case parameter
     case network(String)
     case results
+    case throttle
+    case token
 }
 
 enum MTP {
-    case login(String, String)
+    case countriesSearch(query: String?)
+    case locationsSearch(parentCountry: Int?, query: String?)
+    case userGetByToken
+    case userLogin(email: String, password: String)
 }
 
 extension MTP: TargetType {
 
     // swiftlint:disable:next force_unwrapping
-    public var baseURL: URL { return URL(string: "https://mtp.travel")! }
+    public var baseURL: URL { return URL(string: "https://mtp.travel/api/")! }
 
     public var path: String {
         switch self {
-        case .login:
-            return "/api/user/login"
+        case .countriesSearch:
+            return "countries/search"
+        case .locationsSearch:
+            return "locations/search"
+        case .userGetByToken:
+            return "user/getByToken"
+        case .userLogin:
+            return "user/login"
         }
     }
 
     public var method: Moya.Method {
         switch self {
-        case .login:
+        case .countriesSearch, .locationsSearch, .userGetByToken:
+            return .get
+        case .userLogin:
             return .post
         }
     }
 
     var task: Task {
         switch self {
-        case let .login(email, password):
+        case let .countriesSearch(query?):
+            return .requestParameters(parameters: ["query": query],
+                                      encoding: URLEncoding.default)
+        case let .locationsSearch(parentCountry?, query?):
+            return .requestParameters(parameters: ["parentCountry": parentCountry,
+                                                   "query": query],
+                                      encoding: URLEncoding.default)
+        case let .locationsSearch(parentCountry?, nil):
+            return .requestParameters(parameters: ["parentCountry": parentCountry],
+                                      encoding: URLEncoding.default)
+        case let .locationsSearch(nil, query?):
+            return .requestParameters(parameters: ["query": query],
+                                      encoding: URLEncoding.default)
+        case let .userLogin(email, password):
             return .requestParameters(parameters: ["email": email,
                                                    "password": password],
                                       encoding: JSONEncoding.default)
+        case .countriesSearch, .locationsSearch, .userGetByToken:
+            return .requestPlain
         }
     }
 
@@ -53,22 +81,87 @@ extension MTP: TargetType {
     }
 
     public var sampleData: Data {
+        return "{}".data(using: String.Encoding.utf8) ?? Data()
+    }
+}
+
+extension MTP: AccessTokenAuthorizable {
+
+    var authorizationType: AuthorizationType {
         switch self {
-        case .login:
-            return "{}".data(using: String.Encoding.utf8) ?? Data()
+        case .userGetByToken:
+            return .bearer
+        case .countriesSearch, .locationsSearch, .userLogin:
+            return .none
         }
     }
 }
 
 enum MTPAPI {
 
-    static func deleteAccount(then: @escaping (_ result: Result<Bool, MTPAPIError>) -> Void) {
+    typealias BoolResult = (_ result: Result<Bool, MTPAPIError>) -> Void
+    typealias CountriesResult = (_ result: Result<[Country], MTPAPIError>) -> Void
+    typealias UserResult = (_ result: Result<User, MTPAPIError>) -> Void
+
+    static func countriesSearch(query: String,
+                                then: @escaping CountriesResult) {
+        let provider = MoyaProvider<MTP>()
+        let queryParam = query.isEmpty ? nil : query
+        provider.request(.countriesSearch(query: queryParam)) { response in
+            switch response {
+            case .success(let result):
+                do {
+                    let countries = try result.map([Country].self,
+                                                   using: JSONDecoder.mtp)
+                    log.verbose("countries[\(query)]: " + countries.debugDescription)
+                    return then(.success(countries))
+                } catch {
+                    log.error("decoding countries: \(error)")
+                    return then(.failure(.results))
+                }
+            case .failure(let error):
+                let message = error.errorDescription ?? "undefined"
+                log.error("countries/search: \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
+    static let parentCountryUSA = 977
+
+    static func locationsSearch(query: String,
+                                parentCountry: Int? = nil,
+                                then: @escaping CountriesResult) {
+        let provider = MoyaProvider<MTP>()
+        let queryParam = query.isEmpty ? nil : query
+        provider.request(.locationsSearch(parentCountry: parentCountry,
+                                          query: queryParam)) { response in
+            switch response {
+            case .success(let result):
+                do {
+                    let locations = try result.map([Country].self,
+                                                   using: JSONDecoder.mtp)
+                    log.verbose("locations[\(query)]: " + locations.debugDescription)
+                    return then(.success(locations))
+                } catch {
+                    log.error("decoding locations: \(error)")
+                    return then(.failure(.results))
+                }
+            case .failure(let error):
+                let message = error.errorDescription ?? "undefined"
+                log.error("locations/search: \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
+    static func userDeleteAccount(then: @escaping BoolResult) {
         log.info("TO DO: MTPAPI.implement deleteAccount")
         then(.success(true))
     }
 
-    static func forgotPassword(email: String,
-                               then: @escaping (_ result: Result<Bool, MTPAPIError>) -> Void) {
+    static func userForgotPassword(email: String,
+                                   then: @escaping BoolResult) {
         guard !email.isEmpty else {
             log.verbose("forgotPassword attempt invalid: email `\(email)`")
             return then(.failure(.parameter))
@@ -78,42 +171,82 @@ enum MTPAPI {
         then(.success(true))
     }
 
-    static func login(email: String,
-                      password: String,
-                      then: @escaping (_ result: Result<User, MTPAPIError>) -> Void) {
-        guard !email.isEmpty && !password.isEmpty else {
-            log.verbose("login attempt invalid: email `\(email)` password `\(password)`")
+    static func userGetByToken(then: @escaping UserResult = { _ in }) {
+        guard gestalt.isLoggedIn else {
+            log.verbose("userGetByToken attempt invalid: not logged in")
             return then(.failure(.parameter))
         }
+        if let last = gestalt.lastUserRefresh {
+            let next = last.addingTimeInterval(60 * 5)
+            guard next < Date().toUTC else {
+                log.verbose("userGetByToken attempt invalid: 5 minute throttle")
+                return then(.failure(.throttle))
+            }
+        }
 
-        let provider = MoyaProvider<MTP>()
-        provider.request(.login(email, password)) { response in
+        let auth = AccessTokenPlugin(tokenClosure: gestalt.token)
+        let provider = MoyaProvider<MTP>(plugins: [auth])
+        provider.request(.userGetByToken) { response in
             switch response {
             case .success(let result):
                 do {
                     let user = try result.map(User.self,
                                               using: JSONDecoder.mtp)
-                    log.verbose("Logged in: " + user.debugDescription)
                     gestalt.user = user
-                    gestalt.email = email
-                    gestalt.password = password
+                    gestalt.lastUserRefresh = Date().toUTC
+                    log.verbose("refreshed user: " + user.debugDescription)
                     return then(.success(user))
                 } catch {
-                    log.error("decoding User: \(error)")
+                    log.error("decoding user: \(error)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
                 let message = error.errorDescription ?? "undefined"
-                log.error("/login: \(message)")
+                log.error("user/getByToken: \(message)")
                 return then(.failure(.network(message)))
             }
         }
     }
 
-    static func register(name: String,
-                         email: String,
-                         password: String,
-                         then: @escaping (_ result: Result<Bool, MTPAPIError>) -> Void) {
+    static func userLogin(email: String,
+                          password: String,
+                          then: @escaping UserResult) {
+        guard !email.isEmpty && !password.isEmpty else {
+            log.verbose("userLogin attempt invalid: email `\(email)` password `\(password)`")
+            return then(.failure(.parameter))
+        }
+
+        let provider = MoyaProvider<MTP>()
+        provider.request(.userLogin(email: email, password: password)) { response in
+            switch response {
+            case .success(let result):
+                do {
+                    let user = try result.map(User.self,
+                                              using: JSONDecoder.mtp)
+                    guard let token = user.token else { throw MTPAPIError.token }
+                    gestalt.token = token
+                    gestalt.user = user
+                    gestalt.lastUserRefresh = Date().toUTC
+                    gestalt.email = email
+                    gestalt.password = password
+                    log.verbose("logged in user: " + user.debugDescription)
+                    return then(.success(user))
+                } catch {
+                    log.error("decoding user: \(error)")
+                    return then(.failure(.results))
+                }
+            case .failure(let error):
+                let message = error.errorDescription ?? "undefined"
+                log.error("user/login: \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
+    static func userRegister(name: String,
+                             email: String,
+                             password: String,
+                             then: @escaping BoolResult) {
         guard !name.isEmpty && !email.isEmpty && !password.isEmpty else {
             log.verbose("register attempt invalid: name `\(name)` email `\(email)` password `\(password)`")
             return then(.failure(.parameter))
@@ -126,50 +259,4 @@ enum MTPAPI {
         gestalt.password = password
         then(.success(true))
     }
-}
-
-extension JSONDecoder {
-
-    static let mtp: JSONDecoder = {
-        let decoder = JSONDecoder()
-
-        decoder.dateDecodingStrategy = .custom { decoder in
-            let container = try decoder.singleValueContainer()
-            let dateString = try container.decode(String.self)
-
-            if let date = DateFormatter.mtpDay.date(from: dateString) {
-                return date
-            }
-            if let date = DateFormatter.mtpTime.date(from: dateString) {
-                return date
-            }
-            throw DecodingError.dataCorruptedError(
-                in: container,
-                debugDescription: "Cannot decode date: '\(dateString)'")
-        }
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-
-        return decoder
-    }()
-}
-
-extension DateFormatter {
-
-    static let mtpDay: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        formatter.calendar = Calendar(identifier: .iso8601)
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        return formatter
-    }()
-
-    static let mtpTime: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        formatter.calendar = Calendar(identifier: .iso8601)
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        return formatter
-    }()
 }
