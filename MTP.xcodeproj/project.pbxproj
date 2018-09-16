@@ -715,10 +715,11 @@
 			);
 			name = "Run script_build_begin.sh";
 			outputPaths = (
+				"${SRCROOT}/MTP/resources/R.generated.swift",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "script_file=\"script_build_begin.sh\"\n\necho \"Running a custom build phase script: $script_file\"\n. \"${PROJECT_DIR}/${script_file}\"\nscriptExitStatus=$?\n\necho \"DONE with script: ${script_file} (exitStatus=${scriptExitStatus})\"\n\nexit \"${scriptExitStatus}\"";
+			shellScript = "script_file=\"script_build_begin.sh\"\n\necho \"Running a custom build phase script: $script_file\"\n. \"${PROJECT_DIR}/${script_file}\"\nscriptExitStatus=$?\n\necho \"DONE with script: ${script_file} (exitStatus=${scriptExitStatus})\"\n\nexit \"${scriptExitStatus}\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
