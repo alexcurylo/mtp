@@ -3,7 +3,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/alexcurylo/mtp/badge.svg?branch=develop)](https://coveralls.io/github/alexcurylo/mtp?branch=develop)
 [![Issues](https://img.shields.io/github/issues/alexcurylo/mtp.svg)](https://github.com/alexcurylo/mtp/issues)
 [![Waffle](https://badge.waffle.io/alexcurylo/mtp.svg?columns=all)](https://waffle.io/alexcurylo/mtp)
-[![Swift](https://img.shields.io/badge/Swift-4.1-orange.svg)](https://swift.org)
+[![Swift](https://img.shields.io/badge/Swift-4.2-orange.svg)](https://swift.org)
 [![License](http://img.shields.io/badge/license-MIT-lightgrey.svg)][linkMIT]
 
 
@@ -26,7 +26,7 @@ The [Most Traveled People](https://mtp.travel) iOS app.
 Requirements
 ------------
 
-- Xcode 9.4.1 or later
+- Xcode 10.0 or later
 - iOS 11.0 or later
 
 ### Tools:
