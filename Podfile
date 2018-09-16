@@ -15,11 +15,11 @@ target 'MTP' do
   pod 'FBSDKLoginKit', :modular_headers => true, :inhibit_warnings => true
   pod 'FBSDKShareKit', :modular_headers => true, :inhibit_warnings => true
   pod 'JWTDecode'
-  pod 'Moya'
+  pod 'Moya', :inhibit_warnings => true
   pod 'Parchment'
   pod 'R.swift'
   pod 'SwiftLint'
-  pod 'SwiftyBeaver'
+  pod 'SwiftyBeaver', :inhibit_warnings => true
 
   target 'MTPTests' do
     inherit! :search_paths
