@@ -27,11 +27,11 @@ extension AppDelegate {
     func onboardPush() {
         MSAppCenter.startService(MSPush.self)
         MSPush.setEnabled(true)
-        center.requestAuthorization(options: [.alert, .badge, .carPlay, .sound]) { (granted, err) in
+        center.requestAuthorization(options: [.alert, .badge, .carPlay, .sound]) { granted, err in
             if granted {
-                // yay push enabled
+                log.verbose("push authorization granted")
             } else {
-                // the user didn't like us :(
+                log.verbose("push authorization failed: \(err)")
             }
         }
     }
