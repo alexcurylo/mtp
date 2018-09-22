@@ -574,7 +574,7 @@ SOFTWARE.
 			<key>summary</key>
 			<string>Network abstraction layer written in Swift</string>
 			<key>version</key>
-			<string>11.0.2</string>
+			<string>12.0.0-beta.1</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -760,7 +760,7 @@ SOFTWARE.</string>
 			<key>summary</key>
 			<string>Swift type modelling the success/failure of arbitrary operations</string>
 			<key>version</key>
-			<string>3.2.4</string>
+			<string>4.0.0</string>
 		</dict>
 		<dict>
 			<key>authors</key>
