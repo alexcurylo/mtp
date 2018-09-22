@@ -17,7 +17,7 @@ target 'MTP' do
   pod 'JWTDecode'
   pod 'Moya', '~> 12.0.0-beta', :inhibit_warnings => true
   pod 'Parchment'
-  pod 'R.swift'
+  pod 'R.swift', '~> 5.0.0.alpha'
   pod 'SwiftLint'
   pod 'SwiftyBeaver'
 

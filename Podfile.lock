@@ -43,9 +43,9 @@ PODS:
     - Alamofire (~> 4.1)
     - Result (~> 4.0)
   - Parchment (1.4.1)
-  - R.swift (4.0.0):
-    - R.swift.Library (~> 4.0.0)
-  - R.swift.Library (4.0.0)
+  - R.swift (5.0.0.alpha.2):
+    - R.swift.Library (~> 5.0.0.alpha.2)
+  - R.swift.Library (5.0.0.alpha.2)
   - Result (4.0.0)
   - SwiftLint (0.27.0)
   - SwiftyBeaver (1.6.1)
@@ -64,7 +64,7 @@ DEPENDENCIES:
   - JWTDecode
   - Moya (~> 12.0.0-beta)
   - Parchment
-  - R.swift
+  - R.swift (~> 5.0.0.alpha)
   - SwiftLint
   - SwiftyBeaver
 
@@ -103,12 +103,12 @@ SPEC CHECKSUMS:
   JWTDecode: 83e8b381aafe27158d9f692cbdca2b12d61d460c
   Moya: 1b8d16b4dac4302c323ca95077a733836e73484a
   Parchment: e6c2a3a0063739382dd207e21d48fe5e81f3324a
-  R.swift: d6a5ec2f55a8441dc0ed9f1f8b37d7d11ae85c66
-  R.swift.Library: c3af34921024333546e23b70e70d0b4e0cffca75
+  R.swift: 31fa1bd537fa81307815cc622122f33331f32174
+  R.swift.Library: 3c21b823839bf5a6769dc7f96cb44479dab51b1b
   Result: 7645bb3f50c2ce726dd0ff2fa7b6f42bbe6c3713
   SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
   SwiftyBeaver: ccfcdf85a04d429f1633f668650b0ce8020bda3a
 
-PODFILE CHECKSUM: 8adc79a5405612bd19a50f6216e365b270b5295f
+PODFILE CHECKSUM: fac49b006a0e667d57408edc59861e74ec4718df
 
 COCOAPODS: 1.5.3
