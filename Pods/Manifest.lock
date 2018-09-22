@@ -17,19 +17,19 @@ PODS:
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
-  - FacebookCore (0.3.2):
-    - Bolts (~> 1.8)
-    - FBSDKCoreKit (~> 4.35)
-  - FacebookLogin (0.3.2):
-    - Bolts (~> 1.8)
-    - FacebookCore (~> 0.3.2)
-    - FBSDKCoreKit (~> 4.35)
-    - FBSDKLoginKit (~> 4.35)
-  - FacebookShare (0.3.2):
-    - Bolts (~> 1.8)
-    - FacebookCore (~> 0.3.2)
-    - FBSDKCoreKit (~> 4.35)
-    - FBSDKShareKit (~> 4.35)
+  - FacebookCore (0.3.3):
+    - Bolts (~> 1.9)
+    - FBSDKCoreKit (~> 4.36)
+  - FacebookLogin (0.3.3):
+    - Bolts (~> 1.9)
+    - FacebookCore (~> 0.3.3)
+    - FBSDKCoreKit (~> 4.36)
+    - FBSDKLoginKit (~> 4.36)
+  - FacebookShare (0.3.3):
+    - Bolts (~> 1.9)
+    - FacebookCore (~> 0.3.3)
+    - FBSDKCoreKit (~> 4.36)
+    - FBSDKShareKit (~> 4.36)
   - FBSDKCoreKit (4.36.0):
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.36.0):
@@ -94,9 +94,9 @@ SPEC CHECKSUMS:
   Anchorage: f855157310859280c706cc0b9c9281c21702f515
   AppCenter: 3cf7b9387549e9703dab068793e404013e8c0cc1
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
-  FacebookCore: fe93222bb70346730ef33b061d493e9e7a7cb1f5
-  FacebookLogin: a4e225974791c82836765a294582b4778baffc07
-  FacebookShare: 5319f2655d53d20c595745a68dae8476027b8bae
+  FacebookCore: 9ecbe48cfd37c91a93add7f8cec2b4a2c50a1eec
+  FacebookLogin: bdaea5789e9b364fa8a1990ba3bbba4fd2197415
+  FacebookShare: 14e88f2dcc3a03376304d2a1e10254296076ce88
   FBSDKCoreKit: 3b8e6570eedb443f9fc4af196a7bf39f18e3a3d8
   FBSDKLoginKit: 8bccb6064708ab2f4251a7fc4e3b6d8d00ad91ba
   FBSDKShareKit: 7090fdd55c39b03941efddb64c83a64ff6b3949f
@@ -109,6 +109,6 @@ SPEC CHECKSUMS:
   SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
   SwiftyBeaver: ccfcdf85a04d429f1633f668650b0ce8020bda3a
 
-PODFILE CHECKSUM: 277346e09dfdf48b9dbff76388eca38d48f37bee
+PODFILE CHECKSUM: db2a14ef1771fa109425c33240a1354478159024
 
 COCOAPODS: 1.5.3
