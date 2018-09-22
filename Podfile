@@ -19,7 +19,7 @@ target 'MTP' do
   pod 'Parchment'
   pod 'R.swift'
   pod 'SwiftLint'
-  pod 'SwiftyBeaver', :inhibit_warnings => true
+  pod 'SwiftyBeaver'
 
   target 'MTPTests' do
     inherit! :search_paths

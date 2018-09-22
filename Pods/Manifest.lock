@@ -48,7 +48,7 @@ PODS:
   - R.swift.Library (4.0.0)
   - Result (3.2.4)
   - SwiftLint (0.27.0)
-  - SwiftyBeaver (1.6.0)
+  - SwiftyBeaver (1.6.1)
 
 DEPENDENCIES:
   - Anchorage
@@ -107,8 +107,8 @@ SPEC CHECKSUMS:
   R.swift.Library: c3af34921024333546e23b70e70d0b4e0cffca75
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
   SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
-  SwiftyBeaver: e45759613e50b522b0e6f53b1f0f14389b45ca34
+  SwiftyBeaver: ccfcdf85a04d429f1633f668650b0ce8020bda3a
 
-PODFILE CHECKSUM: 6c64bbc108040a834a3d7b2e1c187072feb75c56
+PODFILE CHECKSUM: 277346e09dfdf48b9dbff76388eca38d48f37bee
 
 COCOAPODS: 1.5.3
