@@ -407,14 +407,6 @@ SDKROOT = iphoneos
 
 
 
-// Treat Warnings as Errors
-// 
-// Treat all warnings as errors.
-
-SWIFT_TREAT_WARNINGS_AS_ERRORS = YES
-
-
-
 // Swift Language Version
 // 
 // NOTE: This must also be set as a project level custom setting for `pod install` to work correctly!

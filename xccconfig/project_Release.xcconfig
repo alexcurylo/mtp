@@ -50,3 +50,11 @@ SWIFT_OPTIMIZATION_LEVEL = -O
 // If enabled, perform validation checks on the product as part of the build process.
 
 VALIDATE_PRODUCT = YES
+
+
+
+// Treat Warnings as Errors
+//
+// Treat all warnings as errors.
+
+SWIFT_TREAT_WARNINGS_AS_ERRORS = YES

@@ -154,7 +154,6 @@
 		FA76D9742131278900EF8E25 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		FA81361120E8F64500313AB9 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		FA81361320E8FD4E00313AB9 /* script_build_end.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = script_build_end.sh; sourceTree = "<group>"; };
-		FA81361420E8FD4E00313AB9 /* script_build_begin.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = script_build_begin.sh; sourceTree = "<group>"; };
 		FA835D33210EAC110098C270 /* Styler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styler.swift; sourceTree = "<group>"; };
 		FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplaceTopSegue.swift; sourceTree = "<group>"; };
 		FA99615E2136CF3100C85FBC /* MyProfilePagingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfilePagingVC.swift; sourceTree = "<group>"; };
@@ -414,7 +413,6 @@
 				FA3E366A20DFACCD002AF4EE /* Podfile */,
 				FA9A71E120F1DD6C005F6A57 /* Podfile.lock */,
 				FA4F1C5C20DFA67700B8A1ED /* README.md */,
-				FA81361420E8FD4E00313AB9 /* script_build_begin.sh */,
 				FA81361320E8FD4E00313AB9 /* script_build_end.sh */,
 				FAF1853520FA16CE00CC5D83 /* TODO.md */,
 				FAF122F6215652AE0099B772 /* xccconfig */,
@@ -456,18 +454,18 @@
 		FAF122F6215652AE0099B772 /* xccconfig */ = {
 			isa = PBXGroup;
 			children = (
-				FAF122F7215652AE0099B772 /* project_Release.xcconfig */,
-				FAF122F8215652AE0099B772 /* MTPUITests_base.xcconfig */,
-				FAF122F9215652AE0099B772 /* project_Debug.xcconfig */,
+				FAF12302215652AE0099B772 /* MTP_base.xcconfig */,
+				FAF12300215652AE0099B772 /* MTP_Debug.xcconfig */,
+				FAF122FC215652AE0099B772 /* MTP_Release.xcconfig */,
 				FAF122FA215652AE0099B772 /* MTPTests_base.xcconfig */,
 				FAF122FB215652AE0099B772 /* MTPTests_Debug.xcconfig */,
-				FAF122FC215652AE0099B772 /* MTP_Release.xcconfig */,
-				FAF122FD215652AE0099B772 /* project_base.xcconfig */,
 				FAF122FE215652AE0099B772 /* MTPTests_Release.xcconfig */,
-				FAF122FF215652AE0099B772 /* MTPUITests_Release.xcconfig */,
-				FAF12300215652AE0099B772 /* MTP_Debug.xcconfig */,
+				FAF122F8215652AE0099B772 /* MTPUITests_base.xcconfig */,
 				FAF12301215652AE0099B772 /* MTPUITests_Debug.xcconfig */,
-				FAF12302215652AE0099B772 /* MTP_base.xcconfig */,
+				FAF122FF215652AE0099B772 /* MTPUITests_Release.xcconfig */,
+				FAF122FD215652AE0099B772 /* project_base.xcconfig */,
+				FAF122F9215652AE0099B772 /* project_Debug.xcconfig */,
+				FAF122F7215652AE0099B772 /* project_Release.xcconfig */,
 			);
 			path = xccconfig;
 			sourceTree = "<group>";
@@ -480,7 +478,7 @@
 			buildConfigurationList = FA392BE120DF69F50026C828 /* Build configuration list for PBXNativeTarget "MTP" */;
 			buildPhases = (
 				758B7A9DF0E27C737110216C /* [CP] Check Pods Manifest.lock */,
-				FA81361520E8FE9700313AB9 /* Run script_build_begin.sh */,
+				FA81361520E8FE9700313AB9 /* Generate R.generated.swift */,
 				FA392BB320DF69F30026C828 /* Sources */,
 				FA392BB420DF69F30026C828 /* Frameworks */,
 				FA392BB520DF69F30026C828 /* Resources */,
@@ -738,20 +736,20 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
-		FA81361520E8FE9700313AB9 /* Run script_build_begin.sh */ = {
+		FA81361520E8FE9700313AB9 /* Generate R.generated.swift */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Run script_build_begin.sh";
+			name = "Generate R.generated.swift";
 			outputPaths = (
 				"${SRCROOT}/MTP/resources/R.generated.swift",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "script_file=\"script_build_begin.sh\"\n\necho \"Running a custom build phase script: $script_file\"\n. \"${PROJECT_DIR}/${script_file}\"\nscriptExitStatus=$?\n\necho \"DONE with script: ${script_file} (exitStatus=${scriptExitStatus})\"\n\nexit \"${scriptExitStatus}\"\n";
+			shellScript = "\"$PODS_ROOT/R.swift/rswift\" generate \"${SRCROOT}/MTP/resources/\"\necho R.generated.swift generated\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
