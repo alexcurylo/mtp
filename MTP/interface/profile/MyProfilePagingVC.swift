@@ -7,9 +7,9 @@ final class MyProfilePagingVC: FixedPagingViewController {
 
     init() {
         let controllers = [
-            R.storyboard.about.instantiateInitialViewController(),
-            R.storyboard.myPhotos.instantiateInitialViewController(),
-            R.storyboard.posts.instantiateInitialViewController()
+            R.storyboard.about.about(),
+            R.storyboard.myPhotos.myPhotos(),
+            R.storyboard.posts.posts()
         ].compactMap { $0 }
         super.init(viewControllers: controllers)
 

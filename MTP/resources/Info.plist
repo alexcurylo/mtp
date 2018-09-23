@@ -80,5 +80,9 @@
 	<string>MTP needs your location to show you nearby places to visit.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>With &quot;Always&quot; access, MTP can notify you when you approach places.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>MTP needs to access your photo library to let you save a photo.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>MTP needs to access your photo library to let you select a photo.</string>
 </dict>
 </plist>

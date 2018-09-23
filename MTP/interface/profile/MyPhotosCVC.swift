@@ -1,94 +1,117 @@
 // @copyright Trollwerks Inc.
 
+import Photos
 import UIKit
 
-private let reuseIdentifier = "Cell"
+final class MyPhotosCVC: UICollectionViewController {
 
-class MyPhotosCVC: UICollectionViewController {
+    private enum Layout {
+        static let minItemSize = CGFloat(100)
+    }
+
+    var photos: PHFetchResult<PHAsset>?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
 
-        // Register cell classes
-        self.collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
-        // Do any additional setup after loading the view.
+        refreshPhotos()
+        collectionView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
+        log.warning("didReceiveMemoryWarning: \(type(of: self))")
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+        log.verbose("prepare for \(segue.name)")
+        switch segue.identifier {
+        default:
+            log.debug("unexpected segue: \(segue.name)")
+        }
     }
-    */
+}
 
-    // MARK: UICollectionViewDataSource
+// MARK: UICollectionViewDataSource
 
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
+extension MyPhotosCVC {
 
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
-        return 0
+    override func collectionView(_ collectionView: UICollectionView,
+                                 numberOfItemsInSection section: Int) -> Int {
+        return photos?.count ?? 0
     }
 
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: MyPhotoCell.reuseIdentifier,
+            for: indexPath)
 
-        // Configure the cell
+        if let photoCell = cell as? MyPhotoCell,
+           let photo = photos?[indexPath.item] {
+            let size = self.collectionView(collectionView,
+                                           layout: collectionView.collectionViewLayout,
+                                           sizeForItemAt: indexPath)
+            PHImageManager.default().requestImage(for: photo,
+                                                  targetSize: size,
+                                                  contentMode: .aspectFill,
+                                                  options: nil) { result, _ in
+                photoCell.set(image: result)
+            }
+        }
 
         return cell
     }
+}
 
-    // MARK: UICollectionViewDelegate
+// MARK: UICollectionViewDelegateFlowLayout
 
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView,
-     shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
+extension MyPhotosCVC: UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard let flow = collectionViewLayout as? UICollectionViewFlowLayout else {
+            return CGSize(width: Layout.minItemSize, height: Layout.minItemSize)
+        }
+        let width = collectionView.bounds.width - flow.sectionInset.left - flow.sectionInset.right
+        let itemWidth = Layout.minItemSize + flow.minimumInteritemSpacing
+        let items = ((width + flow.minimumInteritemSpacing) / itemWidth).rounded(.down)
+        let spacing = (items - 1) * flow.minimumInteritemSpacing
+        let edge = ((width - spacing) / items).rounded(.down)
+        return CGSize(width: edge, height: edge)
     }
-    */
+}
 
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView,
-     shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
+// MARK: Data management
+
+private extension MyPhotosCVC {
+
+    func refreshPhotos() {
+        log.debug("My Photos should be using photos from site")
+        let options = PHFetchOptions()
+        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+        photos = PHAsset.fetchAssets(with: options)
     }
-    */
+}
 
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed
-     // for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView,
-     shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
+final class MyPhotoCell: UICollectionViewCell {
+
+    fileprivate static let reuseIdentifier: String = "MyPhotoCell"
+
+    @IBOutlet private var imageView: UIImageView?
+
+    fileprivate func set(image: UIImage?) {
+        imageView?.image = image
     }
 
-    override func collectionView(_ collectionView: UICollectionView,
-     canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
+    override func prepareForReuse() {
+        super.prepareForReuse()
 
-    override func collectionView(_ collectionView: UICollectionView,
-     performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-    
+        imageView?.image = nil
     }
-    */
-
 }
