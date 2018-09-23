@@ -13,13 +13,13 @@ final class MyProfileVC: UIViewController {
     @IBOutlet private var followersLabel: UILabel?
     @IBOutlet private var followingLabel: UILabel?
 
-    @IBOutlet private var tabsHolder: UIView?
+    @IBOutlet private var pagesHolder: UIView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configureHeaderView()
-        configureTabsHolder()
+        configurePagesHolder()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -80,13 +80,13 @@ private extension MyProfileVC {
         followingLabel?.text = following
     }
 
-    func configureTabsHolder() {
-        guard let holder = tabsHolder else { return }
+    func configurePagesHolder() {
+        guard let holder = pagesHolder else { return }
 
-        let tabsVC = MyProfileTabsVC()
-        addChild(tabsVC)
-        holder.addSubview(tabsVC.view)
-        tabsVC.view.edgeAnchors == holder.edgeAnchors
-        tabsVC.didMove(toParent: self)
+        let pagesVC = MyProfilePagingVC()
+        addChild(pagesVC)
+        holder.addSubview(pagesVC.view)
+        pagesVC.view.edgeAnchors == holder.edgeAnchors
+        pagesVC.didMove(toParent: self)
     }
 }
