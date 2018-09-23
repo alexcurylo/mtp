@@ -17,19 +17,19 @@ PODS:
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
-  - FacebookCore (0.3.2):
-    - Bolts (~> 1.8)
-    - FBSDKCoreKit (~> 4.35)
-  - FacebookLogin (0.3.2):
-    - Bolts (~> 1.8)
-    - FacebookCore (~> 0.3.2)
-    - FBSDKCoreKit (~> 4.35)
-    - FBSDKLoginKit (~> 4.35)
-  - FacebookShare (0.3.2):
-    - Bolts (~> 1.8)
-    - FacebookCore (~> 0.3.2)
-    - FBSDKCoreKit (~> 4.35)
-    - FBSDKShareKit (~> 4.35)
+  - FacebookCore (0.3.3):
+    - Bolts (~> 1.9)
+    - FBSDKCoreKit (~> 4.36)
+  - FacebookLogin (0.3.3):
+    - Bolts (~> 1.9)
+    - FacebookCore (~> 0.3.3)
+    - FBSDKCoreKit (~> 4.36)
+    - FBSDKLoginKit (~> 4.36)
+  - FacebookShare (0.3.3):
+    - Bolts (~> 1.9)
+    - FacebookCore (~> 0.3.3)
+    - FBSDKCoreKit (~> 4.36)
+    - FBSDKShareKit (~> 4.36)
   - FBSDKCoreKit (4.36.0):
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.36.0):
@@ -37,18 +37,18 @@ PODS:
   - FBSDKShareKit (4.36.0):
     - FBSDKCoreKit (~> 4.36.0)
   - JWTDecode (2.1.1)
-  - Moya (11.0.2):
-    - Moya/Core (= 11.0.2)
-  - Moya/Core (11.0.2):
+  - Moya (12.0.0-beta.1):
+    - Moya/Core (= 12.0.0-beta.1)
+  - Moya/Core (12.0.0-beta.1):
     - Alamofire (~> 4.1)
-    - Result (~> 3.0)
+    - Result (~> 4.0)
   - Parchment (1.4.1)
-  - R.swift (4.0.0):
-    - R.swift.Library (~> 4.0.0)
-  - R.swift.Library (4.0.0)
-  - Result (3.2.4)
+  - R.swift (5.0.0.alpha.2):
+    - R.swift.Library (~> 5.0.0.alpha.2)
+  - R.swift.Library (5.0.0.alpha.2)
+  - Result (4.0.0)
   - SwiftLint (0.27.0)
-  - SwiftyBeaver (1.6.0)
+  - SwiftyBeaver (1.6.1)
 
 DEPENDENCIES:
   - Anchorage
@@ -62,9 +62,9 @@ DEPENDENCIES:
   - FBSDKLoginKit
   - FBSDKShareKit
   - JWTDecode
-  - Moya
+  - Moya (~> 12.0.0-beta)
   - Parchment
-  - R.swift
+  - R.swift (~> 5.0.0.alpha)
   - SwiftLint
   - SwiftyBeaver
 
@@ -94,21 +94,21 @@ SPEC CHECKSUMS:
   Anchorage: f855157310859280c706cc0b9c9281c21702f515
   AppCenter: 3cf7b9387549e9703dab068793e404013e8c0cc1
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
-  FacebookCore: fe93222bb70346730ef33b061d493e9e7a7cb1f5
-  FacebookLogin: a4e225974791c82836765a294582b4778baffc07
-  FacebookShare: 5319f2655d53d20c595745a68dae8476027b8bae
+  FacebookCore: 9ecbe48cfd37c91a93add7f8cec2b4a2c50a1eec
+  FacebookLogin: bdaea5789e9b364fa8a1990ba3bbba4fd2197415
+  FacebookShare: 14e88f2dcc3a03376304d2a1e10254296076ce88
   FBSDKCoreKit: 3b8e6570eedb443f9fc4af196a7bf39f18e3a3d8
   FBSDKLoginKit: 8bccb6064708ab2f4251a7fc4e3b6d8d00ad91ba
   FBSDKShareKit: 7090fdd55c39b03941efddb64c83a64ff6b3949f
   JWTDecode: 83e8b381aafe27158d9f692cbdca2b12d61d460c
-  Moya: a725035953bc1c0eb1be505ab903984501d82440
+  Moya: 1b8d16b4dac4302c323ca95077a733836e73484a
   Parchment: e6c2a3a0063739382dd207e21d48fe5e81f3324a
-  R.swift: d6a5ec2f55a8441dc0ed9f1f8b37d7d11ae85c66
-  R.swift.Library: c3af34921024333546e23b70e70d0b4e0cffca75
-  Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
+  R.swift: 31fa1bd537fa81307815cc622122f33331f32174
+  R.swift.Library: 3c21b823839bf5a6769dc7f96cb44479dab51b1b
+  Result: 7645bb3f50c2ce726dd0ff2fa7b6f42bbe6c3713
   SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
-  SwiftyBeaver: e45759613e50b522b0e6f53b1f0f14389b45ca34
+  SwiftyBeaver: ccfcdf85a04d429f1633f668650b0ce8020bda3a
 
-PODFILE CHECKSUM: 860b005d513e73931628001a446dd2b52c9a88c2
+PODFILE CHECKSUM: 256094de9e20a75104dde0fe886758815ca29f3f
 
 COCOAPODS: 1.5.3

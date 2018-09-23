@@ -384,7 +384,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			<key>summary</key>
 			<string>Official Facebook SDK in Swift to access Facebook Platform's core features.</string>
 			<key>version</key>
-			<string>0.3.2</string>
+			<string>0.3.3</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -426,7 +426,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			<key>summary</key>
 			<string>Official Facebook SDK in Swift to integrate with Facebook Login.</string>
 			<key>version</key>
-			<string>0.3.2</string>
+			<string>0.3.3</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -472,7 +472,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			<key>summary</key>
 			<string>Official Facebook SDK in Swift to access Facebook Platform's Sharing Features.</string>
 			<key>version</key>
-			<string>0.3.2</string>
+			<string>0.3.3</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -574,7 +574,7 @@ SOFTWARE.
 			<key>summary</key>
 			<string>Network abstraction layer written in Swift</string>
 			<key>version</key>
-			<string>11.0.2</string>
+			<string>12.0.0-beta.1</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -670,7 +670,7 @@ THE SOFTWARE.
 			<key>summary</key>
 			<string>Get strong typed, autocompleted resources like images, fonts and segues in Swift projects</string>
 			<key>version</key>
-			<string>4.0.0</string>
+			<string>5.0.0.alpha.2</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -717,7 +717,7 @@ THE SOFTWARE.
 			<key>summary</key>
 			<string>Companion library for R.swift, featuring types used to type resources</string>
 			<key>version</key>
-			<string>4.0.0</string>
+			<string>5.0.0.alpha.2</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -760,7 +760,7 @@ SOFTWARE.</string>
 			<key>summary</key>
 			<string>Swift type modelling the success/failure of arbitrary operations</string>
 			<key>version</key>
-			<string>3.2.4</string>
+			<string>4.0.0</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -806,7 +806,7 @@ SOFTWARE.
 			<key>summary</key>
 			<string>Convenient logging during development &amp; release in Swift 2, 3 &amp; 4</string>
 			<key>version</key>
-			<string>1.6.0</string>
+			<string>1.6.1</string>
 		</dict>
 	</array>
 </dict>

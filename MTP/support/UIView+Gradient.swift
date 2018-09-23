@@ -113,8 +113,8 @@ extension UIView {
         animation.toValue = colors
         animation.duration = duration
         animation.isRemovedOnCompletion = true
-        animation.fillMode = kCAFillModeForwards
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        animation.fillMode = .forwards
+        animation.timingFunction = CAMediaTimingFunction(name: .linear)
         gradient?.add(animation, forKey: "animateGradient")
     }
 

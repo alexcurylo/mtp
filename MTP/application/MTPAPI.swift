@@ -184,7 +184,7 @@ enum MTPAPI {
             }
         }
 
-        let auth = AccessTokenPlugin(tokenClosure: gestalt.token)
+        let auth = AccessTokenPlugin { gestalt.token }
         let provider = MoyaProvider<MTP>(plugins: [auth])
         provider.request(.userGetByToken) { response in
             switch response {

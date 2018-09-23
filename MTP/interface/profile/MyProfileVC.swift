@@ -84,9 +84,9 @@ private extension MyProfileVC {
         guard let holder = tabsHolder else { return }
 
         let tabsVC = MyProfileTabsVC()
-        addChildViewController(tabsVC)
+        addChild(tabsVC)
         holder.addSubview(tabsVC.view)
         tabsVC.view.edgeAnchors == holder.edgeAnchors
-        tabsVC.didMove(toParentViewController: self)
+        tabsVC.didMove(toParent: self)
     }
 }

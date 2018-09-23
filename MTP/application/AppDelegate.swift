@@ -9,7 +9,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication,
                      // swiftlint:disable:next discouraged_optional_collection
-                     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         configureLogging()
 
         configureAppCenter()
@@ -42,7 +42,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ app: UIApplication,
                      open url: URL,
-                     options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
+                     options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
         return handleFacebookURL(app: app, open: url, options: options)
     }
 
@@ -52,6 +52,27 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
     }
+
+    #if PUSH_NOTIFICATIONS
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        MSPush.didRegisterForRemoteNotifications(withDeviceToken: deviceToken)
+    }
+
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        MSPush.didFailToRegisterForRemoteNotificationsWithError(error)
+    }
+
+    func application(_ application: UIApplication,
+                     didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        let result: Bool = MSPush.didReceiveRemoteNotification(userInfo)
+        if result {
+            completionHandler(.newData)
+        } else {
+            completionHandler(.noData)
+        }
+    }
+    #endif
 }
 
 private extension AppDelegate {

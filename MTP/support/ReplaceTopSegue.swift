@@ -91,7 +91,7 @@ final class ZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
         let containerView = transitionContext.containerView
         containerView.addSubview(to)
-        containerView.bringSubview(toFront: to)
+        containerView.bringSubviewToFront(to)
 
         let duration = transitionDuration(using: transitionContext)
         UIView.animate(

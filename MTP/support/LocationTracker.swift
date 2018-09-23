@@ -50,12 +50,12 @@ extension LocationTracker where Self: UIViewController {
 
     func alertLocationAccessNeeded() {
         //swiftlint:disable:next force_unwrapping
-        let settingsAppURL = URL(string: UIApplicationOpenSettingsURLString)!
+        let settingsAppURL = URL(string: UIApplication.openSettingsURLString)!
 
         let alert = UIAlertController(
             title: Localized.needLocationAccess(),
             message: Localized.locationAccessRequired(),
-            preferredStyle: UIAlertControllerStyle.alert
+            preferredStyle: .alert
         )
 
         alert.addAction(UIAlertAction(title: Localized.cancel(), style: .default, handler: nil))

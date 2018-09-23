@@ -23,7 +23,7 @@ extension String {
 
 extension NSAttributedString {
 
-    typealias Attributes = [NSAttributedStringKey: Any]
+    typealias Attributes = [NSAttributedString.Key: Any]
 
     static func attributes(color: UIColor? = nil,
                            font: UIFont? = nil) -> Attributes {

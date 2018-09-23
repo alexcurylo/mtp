@@ -3,8 +3,8 @@
 [![Coverage Status](https://coveralls.io/repos/github/alexcurylo/mtp/badge.svg?branch=develop)](https://coveralls.io/github/alexcurylo/mtp?branch=develop)
 [![Issues](https://img.shields.io/github/issues/alexcurylo/mtp.svg)](https://github.com/alexcurylo/mtp/issues)
 [![Waffle](https://badge.waffle.io/alexcurylo/mtp.svg?columns=all)](https://waffle.io/alexcurylo/mtp)
-[![Swift](https://img.shields.io/badge/Swift-4.1-orange.svg)](https://swift.org)
-[![License](http://img.shields.io/badge/license-MIT-lightgrey.svg)][linkMIT]
+[![Swift](https://img.shields.io/badge/Swift-4.2-orange.svg)](https://swift.org)
+[![License](http://img.shields.io/badge/license-MIT-lightgrey.svg)](http://opensource.org/licenses/MIT)
 
 
 Table of Contents
@@ -26,7 +26,7 @@ The [Most Traveled People](https://mtp.travel) iOS app.
 Requirements
 ------------
 
-- Xcode 9.4.1 or later
+- Xcode 10.0 or later
 - iOS 11.0 or later
 
 ### Tools:
@@ -43,11 +43,11 @@ Requirements
 
 ### Libraries:
 
-- [Anchorage](https://github.com/Raizlabs/Anchorage) for fluent AutoLayout declarations
+- [Anchorage](https://github.com/Raizlabs/Anchorage) for fluent layout declarations
 - [Alamofire](https://github.com/Alamofire/Alamofire) for HTTP networking
 - [facebook-sdk-swift](https://github.com/facebook/facebook-sdk-swift) for Facebook support
 - [JWTDecode](https://github.com/auth0/JWTDecode.swift) for [JSON Web Token](https://jwt.io) management
-- [Moya](https://github.com/Moya/Moya) for network abstraction
+- [Moya](https://github.com/Moya/Moya) for network endpoint abstraction
 - [Parchment](https://github.com/rechsteiner/Parchment) for view paging
 - [R.swift](https://github.com/mac-cain13/R.swift/) for typed resource identifiers
 - [Result](https://github.com/antitypical/Result) for operation result modelling

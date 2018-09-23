@@ -54,10 +54,10 @@ private extension RankingsVC {
 
         pagingVC.configure()
 
-        addChildViewController(pagingVC)
+        addChild(pagingVC)
         holder.addSubview(pagingVC.view)
         pagingVC.view.edgeAnchors == holder.edgeAnchors
-        pagingVC.didMove(toParentViewController: self)
+        pagingVC.didMove(toParent: self)
 
         pagingVC.dataSource = self
         pagingVC.delegate = self
