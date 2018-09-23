@@ -167,7 +167,7 @@ extension UIColor {
 
 }
 
-@IBDesignable class GradientView: UIView {
+@IBDesignable final class GradientView: UIView {
 
     @IBInspectable var startColor: UIColor = .white {
         didSet {
@@ -213,7 +213,7 @@ extension UIColor {
     }
 }
 
-@IBDesignable class GradientButton: UIButton {
+@IBDesignable final class GradientButton: UIButton {
 
     @IBInspectable var startColor: UIColor = .white {
         didSet {
