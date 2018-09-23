@@ -92,7 +92,7 @@ extension RankingVC: UICollectionViewDataSource {
 
 private class RankingCell: UICollectionViewCell {
 
-    static let reuseIdentifier: String = "RankingCell"
+    fileprivate static let reuseIdentifier: String = "RankingCell"
 
     private let titleLabel: UILabel = {
         let label = UILabel()
