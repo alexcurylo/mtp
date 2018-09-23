@@ -9,7 +9,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication,
                      // swiftlint:disable:next discouraged_optional_collection
-                     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         configureLogging()
 
         configureAppCenter()
@@ -42,7 +42,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ app: UIApplication,
                      open url: URL,
-                     options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
+                     options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
         return handleFacebookURL(app: app, open: url, options: options)
     }
 

@@ -76,7 +76,7 @@ extension AppDelegate {
 extension AppDelegate {
 
     func configureFacebook(app: UIApplication,
-                           options: [UIApplicationLaunchOptionsKey: Any]) {
+                           options: [UIApplication.LaunchOptionsKey: Any]) {
         SDKApplicationDelegate.shared.application(
             app,
             didFinishLaunchingWithOptions: options)
@@ -84,7 +84,7 @@ extension AppDelegate {
 
     func handleFacebookURL(app: UIApplication,
                            open url: URL,
-                           options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
+                           options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {
         return SDKApplicationDelegate.shared.application(
             app,
             open: url,

@@ -419,7 +419,7 @@ SWIFT_TREAT_WARNINGS_AS_ERRORS = YES
 // 
 // NOTE: This must also be set as a project level custom setting for `pod install` to work correctly!
 
-SWIFT_VERSION = 4.0
+SWIFT_VERSION = 4.2
 
 
 

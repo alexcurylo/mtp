@@ -54,7 +54,7 @@ private extension LocationsVC {
 
         centered = true
         DispatchQueue.main.async { [weak self] in
-            let viewRegion = MKCoordinateRegionMakeWithDistance(here, 200, 200)
+            let viewRegion = MKCoordinateRegion(center: here, latitudinalMeters: 200, longitudinalMeters: 200)
             self?.mapView?.setRegion(viewRegion, animated: true)
         }
     }
@@ -124,8 +124,8 @@ extension LocationsVC: MKMapViewDelegate {
     }
     func mapView(_ mapView: MKMapView,
                  annotationView view: MKAnnotationView,
-                 didChange newState: MKAnnotationViewDragState,
-                 fromOldState oldState: MKAnnotationViewDragState) {
+                 didChange newState: MKAnnotationView.DragState,
+                 fromOldState oldState: MKAnnotationView.DragState) {
         log.verbose(#function)
     }
 
