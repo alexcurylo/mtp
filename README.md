@@ -44,7 +44,8 @@ Requirements
 
 - [Anchorage](https://github.com/Raizlabs/Anchorage) for fluent layout declarations
 - [Alamofire](https://github.com/Alamofire/Alamofire) for HTTP networking
-- [facebook-sdk-swift](https://github.com/facebook/facebook-sdk-swift) for Facebook support
+- [Facebook SDK](https://github.com/facebook/facebook-objc-sdk) for Facebook support
+- [Facebook SDK in Swift](https://github.com/facebook/facebook-sdk-swift) wrapping Facebook SDK
 - [JWTDecode](https://github.com/auth0/JWTDecode.swift) for [JSON Web Token](https://jwt.io) management
 - [Moya](https://github.com/Moya/Moya) for network endpoint abstraction
 - [Parchment](https://github.com/rechsteiner/Parchment) for view paging
