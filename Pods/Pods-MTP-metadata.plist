@@ -89,7 +89,7 @@ SOFTWARE.
 			<key>summary</key>
 			<string>A collection of operators and utilities that simplify iOS layout code.</string>
 			<key>version</key>
-			<string>4.2.4</string>
+			<string>4.3</string>
 		</dict>
 		<dict>
 			<key>authors</key>
