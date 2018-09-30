@@ -3,13 +3,13 @@
 import Photos
 import UIKit
 
-final class MyPhotosCVC: UICollectionViewController {
+final class MyPhotosVC: UICollectionViewController {
 
     private enum Layout {
         static let minItemSize = CGFloat(100)
     }
 
-    var photos: PHFetchResult<PHAsset>?
+    private var photos: PHFetchResult<PHAsset>?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +38,7 @@ final class MyPhotosCVC: UICollectionViewController {
 
 // MARK: UICollectionViewDataSource
 
-extension MyPhotosCVC {
+extension MyPhotosVC {
 
     override func collectionView(_ collectionView: UICollectionView,
                                  numberOfItemsInSection section: Int) -> Int {
@@ -70,7 +70,7 @@ extension MyPhotosCVC {
 
 // MARK: UICollectionViewDelegateFlowLayout
 
-extension MyPhotosCVC: UICollectionViewDelegateFlowLayout {
+extension MyPhotosVC: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -89,7 +89,7 @@ extension MyPhotosCVC: UICollectionViewDelegateFlowLayout {
 
 // MARK: Data management
 
-private extension MyPhotosCVC {
+private extension MyPhotosVC {
 
     func refreshPhotos() {
         log.debug("My Photos should be using photos from site")

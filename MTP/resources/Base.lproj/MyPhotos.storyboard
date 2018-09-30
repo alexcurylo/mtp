@@ -13,7 +13,7 @@
         <!--My Photos-->
         <scene sceneID="VbR-45-whb">
             <objects>
-                <collectionViewController storyboardIdentifier="MyPhotos" title="My Photos" useStoryboardIdentifierAsRestorationIdentifier="YES" clearsSelectionOnViewWillAppear="NO" id="I89-Ov-fSa" customClass="MyPhotosCVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="MyPhotos" title="My Photos" useStoryboardIdentifierAsRestorationIdentifier="YES" clearsSelectionOnViewWillAppear="NO" id="I89-Ov-fSa" customClass="MyPhotosVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="p1Y-X9-ETJ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
