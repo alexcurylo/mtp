@@ -45,12 +45,10 @@ extension UIView {
     func apply(gradient colors: [UIColor],
                orientation: GradientOrientation? = .vertical,
                locations: [Float] = []) {
-        let apply = gradient ?? {
-                let new = CAGradientLayer()
-                new.name = UIView.gradientLayerName
-                layer.insertSublayer(new, at: 0)
-                return new
-            }()
+        let apply: CAGradientLayer = gradient ?? create { [weak self] in
+            $0.name = UIView.gradientLayerName
+            self?.layer.insertSublayer($0, at: 0)
+        }
         apply.frame = bounds
         apply.colors = colors.map { $0.cgColor }
         if !locations.isEmpty {

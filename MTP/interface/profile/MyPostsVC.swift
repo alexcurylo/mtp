@@ -11,11 +11,10 @@ final class MyPostsVC: UICollectionViewController {
 
     private var posts: [MyPostCellModel] = []
 
-    private let dateFormatter: DateFormatter = {
+    private let dateFormatter: DateFormatter = create {
         $0.dateStyle = .long
         $0.timeStyle = .none
-        return $0
-    }(DateFormatter())
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

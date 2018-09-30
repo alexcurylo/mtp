@@ -19,23 +19,19 @@ extension Date {
 
 extension DateFormatter {
 
-    static let mtpDay: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        formatter.calendar = Calendar(identifier: .iso8601)
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        return formatter
-    }()
+    static let mtpDay: DateFormatter = create {
+        $0.dateFormat = "yyyy-MM-dd"
+        $0.calendar = Calendar(identifier: .iso8601)
+        $0.timeZone = TimeZone(secondsFromGMT: 0)
+        $0.locale = Locale(identifier: "en_US_POSIX")
+    }
 
-    static let mtpTime: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        formatter.calendar = Calendar(identifier: .iso8601)
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        return formatter
-    }()
+    static let mtpTime: DateFormatter = create {
+        $0.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        $0.calendar = Calendar(identifier: .iso8601)
+        $0.timeZone = TimeZone(secondsFromGMT: 0)
+        $0.locale = Locale(identifier: "en_US_POSIX")
+    }
 }
 
 extension JSONDecoder {

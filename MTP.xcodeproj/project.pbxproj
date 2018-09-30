@@ -32,6 +32,8 @@
 		FA392BD220DF69F50026C828 /* MTPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA392BD120DF69F50026C828 /* MTPTests.swift */; };
 		FA392BDD20DF69F50026C828 /* MTPUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA392BDC20DF69F50026C828 /* MTPUITests.swift */; };
 		FA3BD1D2215F7FCD007EAF75 /* MyPostsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3BD1D1215F7FCD007EAF75 /* MyPostsVC.swift */; };
+		FA3BD2272160D5A3007EAF75 /* NSObject+Create.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3BD2262160D5A2007EAF75 /* NSObject+Create.swift */; };
+		FA3BD2292160D6BC007EAF75 /* CreateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3BD2282160D6BC007EAF75 /* CreateTests.swift */; };
 		FA3CEC562132579300791195 /* Gestalt.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3CEC552132579300791195 /* Gestalt.swift */; };
 		FA46377E210DE1E60007382D /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA46377D210DE1E60007382D /* SettingsVC.swift */; };
 		FA463780210DE94C0007382D /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA46377F210DE94C0007382D /* EditProfileVC.swift */; };
@@ -131,6 +133,8 @@
 		FA392BDC20DF69F50026C828 /* MTPUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPUITests.swift; sourceTree = "<group>"; };
 		FA392BDE20DF69F50026C828 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA3BD1D1215F7FCD007EAF75 /* MyPostsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostsVC.swift; sourceTree = "<group>"; };
+		FA3BD2262160D5A2007EAF75 /* NSObject+Create.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSObject+Create.swift"; path = "../../../../../../Agoda/client-ios-180930/Modules/Core/Utils/Utils/NSObject+Create.swift"; sourceTree = "<group>"; };
+		FA3BD2282160D6BC007EAF75 /* CreateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateTests.swift; sourceTree = "<group>"; };
 		FA3CEC552132579300791195 /* Gestalt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gestalt.swift; sourceTree = "<group>"; };
 		FA3E366A20DFACCD002AF4EE /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		FA3E366B20DFB484002AF4EE /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -332,6 +336,7 @@
 			isa = PBXGroup;
 			children = (
 				FA392BD120DF69F50026C828 /* MTPTests.swift */,
+				FA3BD2282160D6BC007EAF75 /* CreateTests.swift */,
 				FA0BE96B210C5F3300797224 /* ViewTests.swift */,
 				FA74C112211C61580013A840 /* StringTests.swift */,
 				FAE1F11A21437F2E0002CAB2 /* support */,
@@ -431,6 +436,7 @@
 				FA46532F21157784005B5A0A /* FacebookButton.swift */,
 				FAE1F11D2143B29F0002CAB2 /* LocationTracker.swift */,
 				FA463784210E06230007382D /* Logger.swift */,
+				FA3BD2262160D5A2007EAF75 /* NSObject+Create.swift */,
 				FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */,
 				FA835D33210EAC110098C270 /* Styler.swift */,
 				FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */,
@@ -773,6 +779,7 @@
 				FAE1F11E2143B29F0002CAB2 /* LocationTracker.swift in Sources */,
 				FA76D9752131278900EF8E25 /* User.swift in Sources */,
 				FA74C111211BBF490013A840 /* String+Formatting.swift in Sources */,
+				FA3BD2272160D5A3007EAF75 /* NSObject+Create.swift in Sources */,
 				FA3BD1D2215F7FCD007EAF75 /* MyPostsVC.swift in Sources */,
 				FAFEDA522129602800DA3DB8 /* WelcomeVC.swift in Sources */,
 				FA9A71DF20F1D3FA005F6A57 /* AppDelegate+Tools.swift in Sources */,
@@ -809,6 +816,7 @@
 				FA392BD220DF69F50026C828 /* MTPTests.swift in Sources */,
 				FAB53F8B20DFD618007A80A7 /* MemoryWarner.m in Sources */,
 				FAE1F11C21437F860002CAB2 /* String+Assert.swift in Sources */,
+				FA3BD2292160D6BC007EAF75 /* CreateTests.swift in Sources */,
 				FA74C113211C61580013A840 /* StringTests.swift in Sources */,
 				FA0BE96C210C5F3300797224 /* ViewTests.swift in Sources */,
 			);
