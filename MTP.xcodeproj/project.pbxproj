@@ -15,6 +15,7 @@
 		FA0BE96C210C5F3300797224 /* ViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0BE96B210C5F3300797224 /* ViewTests.swift */; };
 		FA12D680213B8A240053E9BF /* RankingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12D67F213B8A240053E9BF /* RankingPage.swift */; };
 		FA12D682213B963C0053E9BF /* RankingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12D681213B963C0053E9BF /* RankingVC.swift */; };
+		FA254DCB21685D6800FC9360 /* NSObject+Create.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA254DCA21685D6800FC9360 /* NSObject+Create.swift */; };
 		FA32CC7220FAC863004C1329 /* XCTestCase+UITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA32CC7120FAC863004C1329 /* XCTestCase+UITest.swift */; };
 		FA32CC7420FB6E67004C1329 /* UIView+Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA32CC7320FB6E67004C1329 /* UIView+Gradient.swift */; };
 		FA32CC762100C34E004C1329 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA32CC752100C34E004C1329 /* LoginVC.swift */; };
@@ -32,7 +33,6 @@
 		FA392BD220DF69F50026C828 /* MTPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA392BD120DF69F50026C828 /* MTPTests.swift */; };
 		FA392BDD20DF69F50026C828 /* MTPUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA392BDC20DF69F50026C828 /* MTPUITests.swift */; };
 		FA3BD1D2215F7FCD007EAF75 /* MyPostsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3BD1D1215F7FCD007EAF75 /* MyPostsVC.swift */; };
-		FA3BD2272160D5A3007EAF75 /* NSObject+Create.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3BD2262160D5A2007EAF75 /* NSObject+Create.swift */; };
 		FA3BD2292160D6BC007EAF75 /* CreateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3BD2282160D6BC007EAF75 /* CreateTests.swift */; };
 		FA3CEC562132579300791195 /* Gestalt.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3CEC552132579300791195 /* Gestalt.swift */; };
 		FA46377E210DE1E60007382D /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA46377D210DE1E60007382D /* SettingsVC.swift */; };
@@ -110,6 +110,7 @@
 		FA0BE96B210C5F3300797224 /* ViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTests.swift; sourceTree = "<group>"; };
 		FA12D67F213B8A240053E9BF /* RankingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingPage.swift; sourceTree = "<group>"; };
 		FA12D681213B963C0053E9BF /* RankingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingVC.swift; sourceTree = "<group>"; };
+		FA254DCA21685D6800FC9360 /* NSObject+Create.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+Create.swift"; sourceTree = "<group>"; };
 		FA32CC7120FAC863004C1329 /* XCTestCase+UITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+UITest.swift"; sourceTree = "<group>"; };
 		FA32CC7320FB6E67004C1329 /* UIView+Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Gradient.swift"; sourceTree = "<group>"; };
 		FA32CC752100C34E004C1329 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -133,7 +134,6 @@
 		FA392BDC20DF69F50026C828 /* MTPUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPUITests.swift; sourceTree = "<group>"; };
 		FA392BDE20DF69F50026C828 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA3BD1D1215F7FCD007EAF75 /* MyPostsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostsVC.swift; sourceTree = "<group>"; };
-		FA3BD2262160D5A2007EAF75 /* NSObject+Create.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSObject+Create.swift"; path = "../../../../../../Agoda/client-ios-180930/Modules/Core/Utils/Utils/NSObject+Create.swift"; sourceTree = "<group>"; };
 		FA3BD2282160D6BC007EAF75 /* CreateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateTests.swift; sourceTree = "<group>"; };
 		FA3CEC552132579300791195 /* Gestalt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gestalt.swift; sourceTree = "<group>"; };
 		FA3E366A20DFACCD002AF4EE /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -436,7 +436,7 @@
 				FA46532F21157784005B5A0A /* FacebookButton.swift */,
 				FAE1F11D2143B29F0002CAB2 /* LocationTracker.swift */,
 				FA463784210E06230007382D /* Logger.swift */,
-				FA3BD2262160D5A2007EAF75 /* NSObject+Create.swift */,
+				FA254DCA21685D6800FC9360 /* NSObject+Create.swift */,
 				FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */,
 				FA835D33210EAC110098C270 /* Styler.swift */,
 				FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */,
@@ -798,7 +798,6 @@
 				FAE1F11E2143B29F0002CAB2 /* LocationTracker.swift in Sources */,
 				FA76D9752131278900EF8E25 /* User.swift in Sources */,
 				FA74C111211BBF490013A840 /* String+Formatting.swift in Sources */,
-				FA3BD2272160D5A3007EAF75 /* NSObject+Create.swift in Sources */,
 				FA3BD1D2215F7FCD007EAF75 /* MyPostsVC.swift in Sources */,
 				FAFEDA522129602800DA3DB8 /* WelcomeVC.swift in Sources */,
 				FA9A71DF20F1D3FA005F6A57 /* AppDelegate+Tools.swift in Sources */,
@@ -816,6 +815,7 @@
 				FA74C0F02117C60B0013A840 /* ForgotPasswordVC.swift in Sources */,
 				FA392BBB20DF69F30026C828 /* AppDelegate.swift in Sources */,
 				FA463780210DE94C0007382D /* EditProfileVC.swift in Sources */,
+				FA254DCB21685D6800FC9360 /* NSObject+Create.swift in Sources */,
 				FADC1ABC2145563F0011EE49 /* Country.swift in Sources */,
 				FA99615F2136CF3100C85FBC /* MyProfilePagingVC.swift in Sources */,
 				FADC1ABE2145E9760011EE49 /* MyPhotosVC.swift in Sources */,
