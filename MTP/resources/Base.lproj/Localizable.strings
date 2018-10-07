@@ -13,8 +13,12 @@
 
 // MyProfileVC
 
-"Followers" = "%ld Followers";
-"Following" = "%ld Following";
+"Followers" = "%@ Followers";
+"Following" = "%@ Following";
+
+"Ranking" = "MTP ranking: %@";
+"Visited" = "Visited: %ld";
+"Remaining" = "Remaining: %ld";
 
 // RankingPage
 
