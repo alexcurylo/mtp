@@ -144,5 +144,5 @@ extension Country: CustomDebugStringConvertible {
 
 extension Country {
 
-    static let count = 875
+    static let count = 873
 }

@@ -10,6 +10,8 @@ final class MyAboutVC: UITableViewController {
     @IBOutlet private var remainingButton: GradientButton?
     @IBOutlet private var bioTextView: UITextView?
 
+    @IBOutlet private var airportLabel: UILabel?
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -83,6 +85,7 @@ private extension MyAboutVC {
     }
 
     func configure(airport user: User) {
+        airportLabel?.text = user.airport
     }
 
     func configure(favorite user: User) {
