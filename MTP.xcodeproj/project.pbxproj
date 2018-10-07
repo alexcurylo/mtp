@@ -16,6 +16,7 @@
 		FA12D680213B8A240053E9BF /* RankingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12D67F213B8A240053E9BF /* RankingPage.swift */; };
 		FA12D682213B963C0053E9BF /* RankingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12D681213B963C0053E9BF /* RankingVC.swift */; };
 		FA254DCB21685D6800FC9360 /* NSObject+Create.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA254DCA21685D6800FC9360 /* NSObject+Create.swift */; };
+		FA254DCD2169A2A400FC9360 /* MyAboutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA254DCC2169A2A400FC9360 /* MyAboutVC.swift */; };
 		FA32CC7220FAC863004C1329 /* XCTestCase+UITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA32CC7120FAC863004C1329 /* XCTestCase+UITest.swift */; };
 		FA32CC7420FB6E67004C1329 /* UIView+Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA32CC7320FB6E67004C1329 /* UIView+Gradient.swift */; };
 		FA32CC762100C34E004C1329 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA32CC752100C34E004C1329 /* LoginVC.swift */; };
@@ -60,7 +61,7 @@
 		FAAE29C220EFADC800B43BA9 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAE29C120EFADC700B43BA9 /* R.generated.swift */; };
 		FAAE29C520F05A9600B43BA9 /* UserDefaults+TypeSafety.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAE29C420F05A9600B43BA9 /* UserDefaults+TypeSafety.swift */; };
 		FAB53F8B20DFD618007A80A7 /* MemoryWarner.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB53F8A20DFD618007A80A7 /* MemoryWarner.m */; };
-		FABA740D213A29CD0059ACCA /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABA740B213A29CD0059ACCA /* About.storyboard */; };
+		FABA740D213A29CD0059ACCA /* MyAbout.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABA740B213A29CD0059ACCA /* MyAbout.storyboard */; };
 		FABA7410213A359C0059ACCA /* MyPhotos.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABA740E213A359C0059ACCA /* MyPhotos.storyboard */; };
 		FABA7413213A374F0059ACCA /* MyPosts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABA7411213A374F0059ACCA /* MyPosts.storyboard */; };
 		FADC1ABA2144FAD70011EE49 /* Date+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */; };
@@ -111,6 +112,7 @@
 		FA12D67F213B8A240053E9BF /* RankingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingPage.swift; sourceTree = "<group>"; };
 		FA12D681213B963C0053E9BF /* RankingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingVC.swift; sourceTree = "<group>"; };
 		FA254DCA21685D6800FC9360 /* NSObject+Create.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+Create.swift"; sourceTree = "<group>"; };
+		FA254DCC2169A2A400FC9360 /* MyAboutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAboutVC.swift; sourceTree = "<group>"; };
 		FA32CC7120FAC863004C1329 /* XCTestCase+UITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+UITest.swift"; sourceTree = "<group>"; };
 		FA32CC7320FB6E67004C1329 /* UIView+Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Gradient.swift"; sourceTree = "<group>"; };
 		FA32CC752100C34E004C1329 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -177,7 +179,7 @@
 		FAB53F8720DFD617007A80A7 /* MTPTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MTPTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		FAB53F8920DFD618007A80A7 /* MemoryWarner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemoryWarner.h; sourceTree = "<group>"; };
 		FAB53F8A20DFD618007A80A7 /* MemoryWarner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemoryWarner.m; sourceTree = "<group>"; };
-		FABA740C213A29CD0059ACCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/About.storyboard; sourceTree = "<group>"; };
+		FABA740C213A29CD0059ACCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyAbout.storyboard; sourceTree = "<group>"; };
 		FABA740F213A359C0059ACCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyPhotos.storyboard; sourceTree = "<group>"; };
 		FABA7412213A374F0059ACCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyPosts.storyboard; sourceTree = "<group>"; };
 		FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Formatting.swift"; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 			isa = PBXGroup;
 			children = (
 				FA46377F210DE94C0007382D /* EditProfileVC.swift */,
+				FA254DCC2169A2A400FC9360 /* MyAboutVC.swift */,
 				FADC1ABD2145E9760011EE49 /* MyPhotosVC.swift */,
 				FA3BD1D1215F7FCD007EAF75 /* MyPostsVC.swift */,
 				FA74574C210CA5730010F4F4 /* MyProfileVC.swift */,
@@ -383,7 +386,6 @@
 		FA392BED20DFA5810026C828 /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				FABA740B213A29CD0059ACCA /* About.storyboard */,
 				FA392BC320DF69F50026C828 /* Assets.xcassets */,
 				FA463781210E00E60007382D /* EditProfile.storyboard */,
 				FA392BC820DF69F50026C828 /* Info.plist */,
@@ -392,6 +394,7 @@
 				FA32CC8B2100CC6B004C1329 /* Login.storyboard */,
 				FA74C10D211BB8F00013A840 /* Localizable.strings */,
 				FA392BC020DF69F30026C828 /* Main.storyboard */,
+				FABA740B213A29CD0059ACCA /* MyAbout.storyboard */,
 				FABA740E213A359C0059ACCA /* MyPhotos.storyboard */,
 				FA745755210DA4C60010F4F4 /* MyProfile.storyboard */,
 				FABA7411213A374F0059ACCA /* MyPosts.storyboard */,
@@ -599,7 +602,7 @@
 				FA81361220E8F64500313AB9 /* Settings.bundle in Resources */,
 				FA392BC420DF69F50026C828 /* Assets.xcassets in Resources */,
 				FA463783210E00E60007382D /* EditProfile.storyboard in Resources */,
-				FABA740D213A29CD0059ACCA /* About.storyboard in Resources */,
+				FABA740D213A29CD0059ACCA /* MyAbout.storyboard in Resources */,
 				FABA7413213A374F0059ACCA /* MyPosts.storyboard in Resources */,
 				FA390132213AB4A90016A362 /* Rankings.storyboard in Resources */,
 				FA392BC220DF69F30026C828 /* Main.storyboard in Resources */,
@@ -822,6 +825,7 @@
 				FA835D34210EAC110098C270 /* Styler.swift in Sources */,
 				FA392BBD20DF69F30026C828 /* LocationsVC.swift in Sources */,
 				FAE1F119214354A80002CAB2 /* Avenir.swift in Sources */,
+				FA254DCD2169A2A400FC9360 /* MyAboutVC.swift in Sources */,
 				FA32CC782100C360004C1329 /* SignupVC.swift in Sources */,
 				FAAE29C520F05A9600B43BA9 /* UserDefaults+TypeSafety.swift in Sources */,
 				FA46377E210DE1E60007382D /* SettingsVC.swift in Sources */,
@@ -931,12 +935,12 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
-		FABA740B213A29CD0059ACCA /* About.storyboard */ = {
+		FABA740B213A29CD0059ACCA /* MyAbout.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				FABA740C213A29CD0059ACCA /* Base */,
 			);
-			name = About.storyboard;
+			name = MyAbout.storyboard;
 			sourceTree = "<group>";
 		};
 		FABA740E213A359C0059ACCA /* MyPhotos.storyboard */ = {
