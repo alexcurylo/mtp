@@ -211,7 +211,7 @@ extension UIColor {
     }
 }
 
-@IBDesignable final class GradientButton: UIButton {
+@IBDesignable class GradientButton: UIButton {
 
     @IBInspectable var startColor: UIColor = .white {
         didSet {
