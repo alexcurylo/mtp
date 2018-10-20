@@ -3,13 +3,13 @@
 import Parchment
 import UIKit
 
-final class MyProfileTabsVC: FixedPagingViewController {
+final class MyProfilePagingVC: FixedPagingViewController {
 
     init() {
         let controllers = [
-            R.storyboard.about.instantiateInitialViewController(),
-            R.storyboard.myPhotos.instantiateInitialViewController(),
-            R.storyboard.posts.instantiateInitialViewController()
+            R.storyboard.myAbout.myAbout(),
+            R.storyboard.myPhotos.myPhotos(),
+            R.storyboard.myPosts.myPosts()
         ].compactMap { $0 }
         super.init(viewControllers: controllers)
 
@@ -42,7 +42,7 @@ final class MyProfileTabsVC: FixedPagingViewController {
     }
 }
 
-private extension MyProfileTabsVC {
+private extension MyProfilePagingVC {
 
     func configure() {
         menuItemSize = .sizeToFit(minWidth: 50, height: 38)

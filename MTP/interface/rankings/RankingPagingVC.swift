@@ -83,20 +83,16 @@ private class RankingPagingView: PagingView {
 
 private class RankingPagingCell: PagingCell {
 
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
+    private let imageView: UIImageView = create {
+        $0.contentMode = .scaleAspectFit
+    }
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = Avenir.heavy.of(size: 10)
-        label.textColor = .black
-        label.textAlignment = .center
-        label.numberOfLines = 2
-        return label
-    }()
+    private let titleLabel: UILabel = create {
+        $0.font = Avenir.heavy.of(size: 10)
+        $0.textColor = .black
+        $0.textAlignment = .center
+        $0.numberOfLines = 2
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -59,3 +59,11 @@ SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG TEST
 // * *Whole Module Optimization:* [-O -whole-module-optimization]
 
 SWIFT_OPTIMIZATION_LEVEL = -Onone
+
+
+
+// Treat Warnings as Errors
+//
+// Treat all warnings as errors.
+
+SWIFT_TREAT_WARNINGS_AS_ERRORS = NO

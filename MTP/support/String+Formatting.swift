@@ -21,6 +21,22 @@ extension String {
     }
 }
 
+extension Formatter {
+
+    static let grouping: NumberFormatter = create {
+        $0.usesGroupingSeparator = true
+        $0.numberStyle = .decimal
+        $0.locale = Locale.current
+    }
+}
+
+extension Int {
+
+    var grouped: String {
+        return Formatter.grouping.string(for: self) ?? ""
+    }
+}
+
 extension NSAttributedString {
 
     typealias Attributes = [NSAttributedString.Key: Any]

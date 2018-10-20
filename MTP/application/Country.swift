@@ -141,3 +141,8 @@ extension Country: CustomDebugStringConvertible {
         """
     }
 }
+
+extension Country {
+
+    static let count = 873
+}

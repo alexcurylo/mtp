@@ -4,8 +4,7 @@
 [![Issues](https://img.shields.io/github/issues/alexcurylo/mtp.svg)](https://github.com/alexcurylo/mtp/issues)
 [![Waffle](https://badge.waffle.io/alexcurylo/mtp.svg?columns=all)](https://waffle.io/alexcurylo/mtp)
 [![Swift](https://img.shields.io/badge/Swift-4.2-orange.svg)](https://swift.org)
-[![License](http://img.shields.io/badge/license-MIT-lightgrey.svg)](http://opensource.org/licenses/MIT)
-
+[![codebeat](https://codebeat.co/badges/321a44b1-ff7b-48fd-b8e2-42a5a8d19568)](https://codebeat.co/projects/github-com-alexcurylo-mtp-develop)
 
 Table of Contents
 -----------------
@@ -45,12 +44,14 @@ Requirements
 
 - [Anchorage](https://github.com/Raizlabs/Anchorage) for fluent layout declarations
 - [Alamofire](https://github.com/Alamofire/Alamofire) for HTTP networking
-- [facebook-sdk-swift](https://github.com/facebook/facebook-sdk-swift) for Facebook support
+- [Facebook SDK](https://github.com/facebook/facebook-objc-sdk) for Facebook support
+- [Facebook SDK in Swift](https://github.com/facebook/facebook-sdk-swift) wrapping Facebook SDK
 - [JWTDecode](https://github.com/auth0/JWTDecode.swift) for [JSON Web Token](https://jwt.io) management
 - [Moya](https://github.com/Moya/Moya) for network endpoint abstraction
 - [Parchment](https://github.com/rechsteiner/Parchment) for view paging
 - [R.swift](https://github.com/mac-cain13/R.swift/) for typed resource identifiers
 - [Result](https://github.com/antitypical/Result) for operation result modelling
+- [Tags](https://github.com/pikachu987/Tags) for tag management
 
 Usage
 -----

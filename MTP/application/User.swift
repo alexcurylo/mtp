@@ -124,3 +124,14 @@ extension Link: CustomStringConvertible, CustomDebugStringConvertible {
         return "< Link: text \(text) url \(url)>"
     }
 }
+
+extension User {
+
+    var visited: Int {
+         return Int(scoreLocations) ?? 0
+    }
+
+    var remaining: Int {
+        return Country.count - visited
+    }
+}

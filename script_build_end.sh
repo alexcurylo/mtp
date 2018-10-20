@@ -25,22 +25,12 @@ CFBuildDate=$(date +"%y.%m.%d %H:%M:%S %Z")
 echo Build date set to current date: $CFBuildDate
 }
 
-check_style()
-{
-if which swiftlint >/dev/null; then
-swiftlint
-else
-echo "warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint"
-fi
-}
-
 # do build post-processing
 
 echo Setting info in plist $plist:
 
 update_bundle_version
 update_build_date
-check_style
 
 # finished
 

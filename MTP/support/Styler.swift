@@ -54,39 +54,39 @@ extension UIColor {
 
     // http://chir.ag/projects/name-that-color/#FFFFFF
 
-    class var azureRadiance: UIColor { // #028DFF
+    static var azureRadiance: UIColor { // #028DFF
         return R.color.azureRadiance() ?? .black
     }
 
-    class var carnation: UIColor { // #F5515F
+    static var carnation: UIColor { // #F5515F
         return R.color.carnation() ?? .black
     }
 
-    class var dodgerBlue: UIColor { // #19C0FD
+    static var dodgerBlue: UIColor { // #19C0FD
         return R.color.dodgerBlue() ?? .black
     }
 
-    class var dustyGray: UIColor { // #9C9C9C
+    static var dustyGray: UIColor { // #9C9C9C
         return R.color.dustyGray() ?? .black
     }
 
-    class var facebookButton: UIColor { // #4267B2
+    static var facebookButton: UIColor { // #4267B2
         return R.color.facebookButton() ?? .black
     }
 
-    class var frenchPass: UIColor { // #D1F1FD
+    static var frenchPass: UIColor { // #D1F1FD
         return R.color.frenchPass() ?? .black
     }
 
-    class var mercury: UIColor { // #E9E9E9
+    static var mercury: UIColor { // #E9E9E9
         return R.color.mercury() ?? .black
     }
 
-    class var pohutukawa: UIColor { // #9F041B
+    static var pohutukawa: UIColor { // #9F041B
         return R.color.pohutukawa() ?? .black
     }
 
-    class var regalBlue: UIColor { // #004B78
+    static var regalBlue: UIColor { // #004B78
         return R.color.regalBlue() ?? .black
     }
 }

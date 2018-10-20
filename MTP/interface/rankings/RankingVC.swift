@@ -14,12 +14,10 @@ final class RankingVC: UIViewController {
 
     private let members: [Int]
 
-    private lazy var collectionViewLayout: UICollectionViewFlowLayout = {
-        let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 18, left: 0, bottom: 18, right: 0)
-        layout.minimumLineSpacing = 15
-        return layout
-    }()
+    private let collectionViewLayout: UICollectionViewFlowLayout = create {
+        $0.sectionInset = UIEdgeInsets(top: 18, left: 0, bottom: 18, right: 0)
+        $0.minimumLineSpacing = 15
+    }
 
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero,
@@ -92,16 +90,14 @@ extension RankingVC: UICollectionViewDataSource {
 
 private class RankingCell: UICollectionViewCell {
 
-    static let reuseIdentifier: String = "RankingCell"
+    fileprivate static let reuseIdentifier: String = "RankingCell"
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = Avenir.heavy.of(size: 16)
-        label.textColor = .black
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        return label
-    }()
+    private let titleLabel: UILabel = create {
+        $0.font = Avenir.heavy.of(size: 16)
+        $0.textColor = .black
+        $0.textAlignment = .center
+        $0.numberOfLines = 0
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
