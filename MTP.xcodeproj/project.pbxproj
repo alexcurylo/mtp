@@ -17,6 +17,7 @@
 		FA12D682213B963C0053E9BF /* RankingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12D681213B963C0053E9BF /* RankingVC.swift */; };
 		FA254DCB21685D6800FC9360 /* NSObject+Create.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA254DCA21685D6800FC9360 /* NSObject+Create.swift */; };
 		FA254DCD2169A2A400FC9360 /* MyAboutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA254DCC2169A2A400FC9360 /* MyAboutVC.swift */; };
+		FA25ACE6217B54A8000AE26D /* RankingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA25ACE5217B54A8000AE26D /* RankingCell.swift */; };
 		FA32CC7220FAC863004C1329 /* XCTestCase+UITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA32CC7120FAC863004C1329 /* XCTestCase+UITest.swift */; };
 		FA32CC7420FB6E67004C1329 /* UIView+Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA32CC7320FB6E67004C1329 /* UIView+Gradient.swift */; };
 		FA32CC762100C34E004C1329 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA32CC752100C34E004C1329 /* LoginVC.swift */; };
@@ -115,6 +116,7 @@
 		FA12D681213B963C0053E9BF /* RankingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingVC.swift; sourceTree = "<group>"; };
 		FA254DCA21685D6800FC9360 /* NSObject+Create.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+Create.swift"; sourceTree = "<group>"; };
 		FA254DCC2169A2A400FC9360 /* MyAboutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAboutVC.swift; sourceTree = "<group>"; };
+		FA25ACE5217B54A8000AE26D /* RankingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingCell.swift; sourceTree = "<group>"; };
 		FA32CC7120FAC863004C1329 /* XCTestCase+UITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+UITest.swift"; sourceTree = "<group>"; };
 		FA32CC7320FB6E67004C1329 /* UIView+Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Gradient.swift"; sourceTree = "<group>"; };
 		FA32CC752100C34E004C1329 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 		FA390135213B7C5E0016A362 /* rankings */ = {
 			isa = PBXGroup;
 			children = (
+				FA25ACE5217B54A8000AE26D /* RankingCell.swift */,
 				FA12D67F213B8A240053E9BF /* RankingPage.swift */,
 				FA390138213B84B40016A362 /* RankingPagingVC.swift */,
 				FA12D681213B963C0053E9BF /* RankingVC.swift */,
@@ -835,6 +838,7 @@
 				FAE1F119214354A80002CAB2 /* Avenir.swift in Sources */,
 				FA254DCD2169A2A400FC9360 /* MyAboutVC.swift in Sources */,
 				FA32CC782100C360004C1329 /* SignupVC.swift in Sources */,
+				FA25ACE6217B54A8000AE26D /* RankingCell.swift in Sources */,
 				FAAE29C520F05A9600B43BA9 /* UserDefaults+TypeSafety.swift in Sources */,
 				FA46377E210DE1E60007382D /* SettingsVC.swift in Sources */,
 			);
