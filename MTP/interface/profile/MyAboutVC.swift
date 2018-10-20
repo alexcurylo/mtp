@@ -12,6 +12,8 @@ final class MyAboutVC: UITableViewController {
 
     @IBOutlet private var airportLabel: UILabel?
 
+    @IBOutlet private var favoriteTags: TagsView?
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -66,8 +68,6 @@ private extension MyAboutVC {
         configure(airport: user)
         configure(favorite: user)
         configure(links: user)
-
-        tableView.setNeedsLayout()
     }
 
     func configure(ranking user: User) {
@@ -89,6 +89,14 @@ private extension MyAboutVC {
     }
 
     func configure(favorite user: User) {
+        let fakeNames = [ "Greater Blue Mountains Area",
+                          "Shark Bay",
+                          "Purnululu National Park",
+                          "Frsaer Island",
+                          "Ningaloo Coast",
+                          "Great Barrier Reef"]
+        favoriteTags?.removeAll()
+        favoriteTags?.append(contentsOf: fakeNames)
     }
 
     func configure(links user: User) {

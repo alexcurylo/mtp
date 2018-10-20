@@ -51,6 +51,7 @@ Requirements
 - [Parchment](https://github.com/rechsteiner/Parchment) for view paging
 - [R.swift](https://github.com/mac-cain13/R.swift/) for typed resource identifiers
 - [Result](https://github.com/antitypical/Result) for operation result modelling
+- [Tags](https://github.com/pikachu987/Tags) for tag management
 
 Usage
 -----
