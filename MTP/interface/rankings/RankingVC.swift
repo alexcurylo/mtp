@@ -10,13 +10,19 @@ protocol RankingVCDelegate: AnyObject {
 
 final class RankingVC: UIViewController {
 
+    private enum Layout {
+        static let cellHeight = CGFloat(90)
+        static let sectionInset = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+        static let lineSpacing = CGFloat(8)
+    }
+
     weak var delegate: RankingVCDelegate?
 
     private let members: [Int]
 
     private let collectionViewLayout: UICollectionViewFlowLayout = create {
-        $0.sectionInset = UIEdgeInsets(top: 18, left: 0, bottom: 18, right: 0)
-        $0.minimumLineSpacing = 15
+        $0.sectionInset = Layout.sectionInset
+        $0.minimumLineSpacing = Layout.lineSpacing
     }
 
     lazy var collectionView: UICollectionView = {
@@ -57,9 +63,9 @@ extension RankingVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(
-            width: collectionView.bounds.width - 36,
-            height: 220)
+        let insets = Layout.sectionInset.left + Layout.sectionInset.right
+        return CGSize(width: collectionView.bounds.width - insets,
+                      height: Layout.cellHeight)
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

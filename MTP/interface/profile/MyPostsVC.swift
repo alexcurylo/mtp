@@ -6,7 +6,7 @@ import UIKit
 final class MyPostsVC: UICollectionViewController {
 
     private enum Layout {
-        static let itemHeight = CGFloat(100)
+        static let cellHeight = CGFloat(100)
     }
 
     private var posts: [MyPostCellModel] = []
@@ -78,7 +78,7 @@ extension MyPostsVC: UICollectionViewDelegateFlowLayout {
             insets = 0
         }
         return CGSize(width: collectionView.bounds.width - insets,
-                      height: Layout.itemHeight)
+                      height: Layout.cellHeight)
     }
 }
 
