@@ -14,6 +14,8 @@ final class MyAboutVC: UITableViewController {
 
     @IBOutlet private var favoriteTags: TagsView?
 
+    @IBOutlet private var linksStack: UIStackView?
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -100,5 +102,47 @@ private extension MyAboutVC {
     }
 
     func configure(links user: User) {
+        guard let views = linksStack?.arrangedSubviews else { return }
+        while views.count > 2 {
+            views.last?.removeFromSuperview()
+        }
+
+        for link in user.links {
+            guard !link.text.isEmpty else { continue }
+
+            let label: UILabel = create {
+                $0.text = link.text.uppercased()
+                $0.font = Avenir.heavy.of(size: 10)
+                $0.alpha = 0.7
+            }
+            let button: GradientButton = create {
+                $0.orientation = GradientOrientation.horizontal.rawValue
+                $0.startColor = .dodgerBlue
+                $0.endColor = .azureRadiance
+                $0.cornerRadius = 4
+                $0.contentEdgeInsets = UIEdgeInsets(
+                    top: 8,
+                    left: 16,
+                    bottom: 8,
+                    right: 16)
+
+                let title = link.url
+                    .replacingOccurrences(of: "http://", with: "")
+                    .replacingOccurrences(of: "https://", with: "")
+                $0.setTitle(title, for: .normal)
+                $0.titleLabel?.font = Avenir.heavy.of(size: 13)
+                $0.accessibilityIdentifier = link.url
+                $0.addTarget(self, action: #selector(tapLink), for: .touchUpInside)
+            }
+            linksStack?.addArrangedSubview(label)
+            linksStack?.addArrangedSubview(button)
+        }
+    }
+
+    @IBAction func tapLink(_ sender: GradientButton) {
+        if let link = sender.accessibilityIdentifier,
+           let url = URL(string: link) {
+            UIApplication.shared.open(url)
+        }
     }
 }

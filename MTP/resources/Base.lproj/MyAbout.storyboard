@@ -200,11 +200,26 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="110.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="profileLink" translatesAutoresizingMaskIntoConstraints="NO" id="uMD-EL-EUj">
-                                                    <rect key="frame" x="0.0" y="0.0" width="30" height="25"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </imageView>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="i2D-8T-25a">
+                                                    <rect key="frame" x="169" y="23" width="37.5" height="65"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" image="profileLink" translatesAutoresizingMaskIntoConstraints="NO" id="EGz-az-sK1">
+                                                            <rect key="frame" x="3.5" y="0.0" width="30" height="31"/>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" text="Links" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xfX-SL-Izd">
+                                                            <rect key="frame" x="0.0" y="43" width="37.5" height="22"/>
+                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="16"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottomMargin" secondItem="i2D-8T-25a" secondAttribute="bottom" constant="12" id="1BD-kz-X7D"/>
+                                                <constraint firstItem="i2D-8T-25a" firstAttribute="top" secondItem="hQy-AK-EoS" secondAttribute="topMargin" constant="12" id="89O-Jd-TCP"/>
+                                                <constraint firstItem="i2D-8T-25a" firstAttribute="centerX" secondItem="hQy-AK-EoS" secondAttribute="centerX" id="rty-L6-L0H"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -223,6 +238,7 @@
                         <outlet property="airportLabel" destination="sig-HK-ZOR" id="dEM-j9-H7X"/>
                         <outlet property="bioTextView" destination="5bw-M2-IHq" id="6TF-oo-tul"/>
                         <outlet property="favoriteTags" destination="0H6-S5-aQz" id="w79-V8-W8H"/>
+                        <outlet property="linksStack" destination="i2D-8T-25a" id="qAK-pl-3iZ"/>
                         <outlet property="mapImageView" destination="2Mh-wJ-aEv" id="IoI-LK-k0X"/>
                         <outlet property="rankingLabel" destination="w2b-1h-YQV" id="Aq4-c6-zF6"/>
                         <outlet property="remainingButton" destination="fmt-4L-dqB" id="eJW-DS-ktp"/>
