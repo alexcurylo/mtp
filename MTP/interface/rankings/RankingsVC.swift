@@ -89,8 +89,10 @@ extension RankingsVC: PagingViewControllerDataSource {
 
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  pagingItemForIndex index: Int) -> T {
-        // swiftlint:disable:next force_cast
-        return RankingPagingItem.pages[index] as! T
+        guard let result = RankingPagingItem.pages[index] as? T else {
+            fatalError("RankingPagingItem type failure")
+        }
+        return result
     }
 
     func numberOfViewControllers<T>(in: PagingViewController<T>) -> Int {

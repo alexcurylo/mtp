@@ -71,10 +71,11 @@ extension RankingVC: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
+        guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: RankingCell.reuseIdentifier,
-            // swiftlint:disable:next force_cast
-            for: indexPath) as! RankingCell
+            for: indexPath) as? RankingCell else {
+                fatalError("RankingCell not registered")
+        }
 
         let rank = indexPath.row
         cell.set(member: members[rank], for: rank)

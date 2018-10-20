@@ -41,8 +41,10 @@ final class RankingPagingVC: PagingViewController<RankingPagingItem> {
     }
 
     func update(menu height: CGFloat) {
-        // swiftlint:disable:next force_cast
-        (view as! RankingPagingView).menuHeightConstraint?.constant = height
+        guard let pagingView = view as? RankingPagingView else {
+            fatalError("RankingPagingView type failure")
+        }
+        pagingView.menuHeightConstraint?.constant = height
 
         menuItemSize = .fixed(
             width: itemSize.width,
@@ -118,8 +120,9 @@ private class RankingPagingCell: PagingCell {
     override func setPagingItem(_ pagingItem: PagingItem,
                                 selected: Bool,
                                 options: PagingOptions) {
-        // swiftlint:disable:next force_cast
-        let item = pagingItem as! RankingPagingItem
+        guard let item = pagingItem as? RankingPagingItem else {
+            fatalError("RankingPagingItem type failure")
+        }
 
         imageView.image = item.page.image
         titleLabel.text = item.page.title
