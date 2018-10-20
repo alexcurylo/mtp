@@ -103,8 +103,8 @@ private extension MyAboutVC {
 
     func configure(links user: User) {
         guard let views = linksStack?.arrangedSubviews else { return }
-        while views.count > 2 {
-            views.last?.removeFromSuperview()
+        (2..<views.count).forEach { index in
+            views[index].removeFromSuperview()
         }
 
         for link in user.links {
