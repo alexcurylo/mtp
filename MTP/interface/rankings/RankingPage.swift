@@ -71,24 +71,24 @@ struct RankingPagingItem: PagingItem, Hashable, Comparable {
     static let pages = [
         RankingPagingItem(
             page: .allMTPLocations,
-            members: [0, 1, 2]),
+            members: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
         RankingPagingItem(
             page: .unCountries,
-            members: [0, 1, 2]),
+            members: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
         RankingPagingItem(
             page: .whs,
-            members: [0, 1, 2]),
+            members: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
         RankingPagingItem(
             page: .beaches,
-            members: [0, 1, 2]),
+            members: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
         RankingPagingItem(
             page: .golfCourses,
-            members: [0, 1, 2]),
+            members: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
         RankingPagingItem(
             page: .diveSites,
-            members: [0, 1, 2]),
+            members: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
         RankingPagingItem(
             page: .restaurants,
-            members: [0, 1, 2])
+            members: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
     ]
 }
