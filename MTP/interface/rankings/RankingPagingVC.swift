@@ -6,14 +6,19 @@ import UIKit
 
 final class RankingPagingVC: PagingViewController<RankingPagingItem> {
 
-    private let insets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-    private let itemSize = CGSize(width: 70, height: 70)
-    lazy var menuHeight: CGFloat = { itemSize.height + insets.top + insets.bottom }()
+    enum Layout {
+        static let insets = UIEdgeInsets(top: 8,
+                                         left: 8,
+                                         bottom: 8,
+                                         right: 8)
+        static let itemSize = CGSize(width: 70, height: 70)
+        static let menuHeight = itemSize.height + insets.horizontal
+    }
 
     func menuHeight(for scrollView: UIScrollView) -> CGFloat {
         let maxChange: CGFloat = 30
-        let offset = min(maxChange, scrollView.contentOffset.y + menuHeight) / maxChange
-        let height = menuHeight - (offset * maxChange)
+        let offset = min(maxChange, scrollView.contentOffset.y + Layout.menuHeight) / maxChange
+        let height = Layout.menuHeight - (offset * maxChange)
         return height
     }
 
@@ -25,8 +30,9 @@ final class RankingPagingVC: PagingViewController<RankingPagingItem> {
 
     func configure() {
         menuItemSource = .class(type: RankingPagingCell.self)
-        menuItemSize = .fixed(width: itemSize.width, height: itemSize.height)
-        menuInsets = insets
+        menuItemSize = .fixed(width: Layout.itemSize.width,
+                              height: Layout.itemSize.height)
+        menuInsets = Layout.insets
         menuItemSpacing = 8
         menuBackgroundColor = .clear
 
@@ -47,8 +53,8 @@ final class RankingPagingVC: PagingViewController<RankingPagingItem> {
         pagingView.menuHeightConstraint?.constant = height
 
         menuItemSize = .fixed(
-            width: itemSize.width,
-            height: height - insets.top - insets.bottom
+            width: Layout.itemSize.width,
+            height: height - Layout.insets.vertical
         )
 
         collectionViewLayout.invalidateLayout()
@@ -62,6 +68,16 @@ final class RankingPagingVC: PagingViewController<RankingPagingItem> {
 private class RankingPagingView: PagingView {
 
     var menuHeightConstraint: NSLayoutConstraint?
+
+    override func configure() {
+        super.configure()
+
+        let menuBackground: GradientView = create {
+            $0.set(gradient: [.dodgerBlue, .azureRadiance],
+                   orientation: .horizontal)
+        }
+        collectionView.backgroundView = menuBackground
+    }
 
     override func setupConstraints() {
         pageView.translatesAutoresizingMaskIntoConstraints = false

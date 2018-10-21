@@ -80,7 +80,10 @@ extension RankingsVC: PagingViewControllerDataSource {
 
         viewController.delegate = self
 
-        let insets = UIEdgeInsets(top: pagingVC.menuHeight, left: 0, bottom: 0, right: 0)
+        let insets = UIEdgeInsets(top: RankingPagingVC.Layout.menuHeight,
+                                  left: 0,
+                                  bottom: 0,
+                                  right: 0)
         viewController.collectionView.contentInset = insets
         viewController.collectionView.scrollIndicatorInsets = insets
 
