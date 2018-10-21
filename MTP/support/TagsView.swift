@@ -38,7 +38,7 @@ extension TagsDelegate {
 }
 
 // swiftlint:disable:next type_body_length
-@IBDesignable class TagsView: UIView {
+@IBDesignable final class TagsView: UIView {
 
     weak var delegate: TagsDelegate?
 

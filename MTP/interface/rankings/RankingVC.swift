@@ -83,8 +83,10 @@ extension RankingVC: UICollectionViewDataSource {
                 fatalError("RankingCell not registered")
         }
 
-        let rank = indexPath.row
-        cell.set(member: members[rank], for: rank)
+        let rank = indexPath.row + 1
+        if let user = gestalt.user {
+            cell.set(user: user, for: rank)
+        }
 
         return cell
     }

@@ -78,6 +78,10 @@ extension UIColor {
         return R.color.frenchPass() ?? .black
     }
 
+    static var gallery: UIColor { // #EEEEEE
+        return R.color.gallery() ?? .black
+    }
+
     static var mercury: UIColor { // #E9E9E9
         return R.color.mercury() ?? .black
     }
