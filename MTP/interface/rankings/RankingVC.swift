@@ -25,9 +25,11 @@ final class RankingVC: UIViewController {
         $0.minimumLineSpacing = Layout.lineSpacing
     }
 
-    lazy var collectionView: UICollectionView = {
+    let collectionView: UICollectionView = {
+        let flow = UICollectionViewFlowLayout()
+        flow.minimumLineSpacing = Layout.lineSpacing
         let collectionView = UICollectionView(frame: .zero,
-                                              collectionViewLayout: collectionViewLayout)
+                                              collectionViewLayout: flow)
         collectionView.backgroundColor = .clear
         return collectionView
     }()

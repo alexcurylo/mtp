@@ -11,10 +11,3 @@ func create<T>(then configure: ((T) -> Void)) -> T where T: NSObject {
     configure(object)
     return object
 }
-
-func create<T>(then configure: ((T) -> Void)) -> T where T: UICollectionView {
-    let object = T(frame: .zero,
-                   collectionViewLayout: UICollectionViewFlowLayout())
-    configure(object)
-    return object
-}
