@@ -5,6 +5,7 @@ import Parchment
 import UIKit
 
 protocol RankingVCDelegate: AnyObject {
+
     func didScroll(rankingVC: RankingVC)
 }
 
@@ -13,6 +14,7 @@ final class RankingVC: UIViewController {
     private enum Layout {
         static let cellHeight = CGFloat(90)
         static let sectionInset = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+        static let headerHeight = CGFloat(98)
         static let lineSpacing = CGFloat(8)
     }
 
@@ -47,6 +49,10 @@ final class RankingVC: UIViewController {
         collectionView.register(
             RankingCell.self,
             forCellWithReuseIdentifier: RankingCell.reuseIdentifier)
+        collectionView.register(
+            RankingHeader.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: RankingHeader.reuseIdentifier)
     }
 
     @available(*, unavailable)
@@ -61,6 +67,13 @@ final class RankingVC: UIViewController {
 }
 
 extension RankingVC: UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width,
+                      height: Layout.headerHeight)
+    }
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
