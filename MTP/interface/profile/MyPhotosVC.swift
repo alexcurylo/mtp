@@ -78,7 +78,7 @@ extension MyPhotosVC: UICollectionViewDelegateFlowLayout {
         guard let flow = collectionViewLayout as? UICollectionViewFlowLayout else {
             return CGSize(width: Layout.minItemSize, height: Layout.minItemSize)
         }
-        let width = collectionView.bounds.width - flow.sectionInset.left - flow.sectionInset.right
+        let width = collectionView.bounds.width - flow.sectionInset.horizontal
         let itemWidth = Layout.minItemSize + flow.minimumInteritemSpacing
         let items = ((width + flow.minimumInteritemSpacing) / itemWidth).rounded(.down)
         let spacing = (items - 1) * flow.minimumInteritemSpacing

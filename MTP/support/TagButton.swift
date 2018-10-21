@@ -103,8 +103,8 @@ final class TagButton: GradientButton {
         var size = titleLabel?.attributedText?.size() ?? .zero
         size.width = ceil(size.width)
         size.height = ceil(size.height)
-        size.width += contentEdgeInsets.left + contentEdgeInsets.right
-        size.height += contentEdgeInsets.top + contentEdgeInsets.bottom
+        size.width += contentEdgeInsets.horizontal
+        size.height += contentEdgeInsets.vertical
         size.width += 4
         size.height += 4
         return size

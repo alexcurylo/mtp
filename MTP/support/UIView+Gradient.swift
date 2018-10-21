@@ -185,6 +185,13 @@ extension UIColor {
         }
     }
 
+    func set(gradient colors: [UIColor],
+             orientation direction: GradientOrientation) {
+        startColor = colors[0]
+        endColor = colors[1]
+        orientation = direction.rawValue
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -200,7 +207,7 @@ extension UIColor {
         setup()
     }
 
-    func setup() {
+    private func setup() {
         apply(gradient: [startColor, endColor],
               orientation: GradientOrientation(rawValue: orientation))
     }
@@ -254,5 +261,16 @@ extension UIColor {
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)
         gradient?.frame = bounds
+    }
+}
+
+extension UIEdgeInsets {
+
+    var horizontal: CGFloat {
+        return left + right
+    }
+
+    var vertical: CGFloat {
+        return top + bottom
     }
 }

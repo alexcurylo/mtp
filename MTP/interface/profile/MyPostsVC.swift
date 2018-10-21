@@ -56,7 +56,7 @@ extension MyPostsVC {
         if let postCell = cell as? MyPostCell,
            let flow = flow {
             postCell.set(model: posts[indexPath.row],
-                         width: collectionView.frame.width - flow.sectionInset.left - flow.sectionInset.right
+                         width: collectionView.frame.width - flow.sectionInset.horizontal
             )
         }
 
@@ -73,7 +73,7 @@ extension MyPostsVC: UICollectionViewDelegateFlowLayout {
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         let insets: CGFloat
         if let flow = collectionViewLayout as? UICollectionViewFlowLayout {
-            insets = flow.sectionInset.left + flow.sectionInset.right
+            insets = flow.sectionInset.horizontal
         } else {
             insets = 0
         }
