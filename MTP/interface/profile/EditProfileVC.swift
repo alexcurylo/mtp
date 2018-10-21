@@ -48,7 +48,7 @@ final class EditProfileVC: UITableViewController {
 private extension EditProfileVC {
 
     func saveEdits() {
-        log.info("TO DO: MTPAPI.implement saveEdits")
+        log.todo("MTPAPI.implement saveEdits")
     }
 
     @IBAction func deleteAccount(segue: UIStoryboardSegue) {
@@ -57,7 +57,7 @@ private extension EditProfileVC {
             case .success:
                 self?.performSegue(withIdentifier: R.segue.editProfileVC.unwindFromEditProfile, sender: self)
             case .failure(let error):
-                log.error("TO DO: handle error calling /deleteAccount: \(String(describing: error))")
+                log.todo("handle error calling /deleteAccount: \(String(describing: error))")
             }
         }
     }

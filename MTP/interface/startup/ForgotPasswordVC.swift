@@ -55,7 +55,7 @@ private extension ForgotPasswordVC {
             case .success:
                 self?.performSegue(withIdentifier: R.segue.forgotPasswordVC.dismissForgotPassword, sender: self)
             case .failure(let error):
-                log.error("TO DO: handle error calling /forgotPassword: \(String(describing: error))")
+                log.todo("handle error calling /forgotPassword: \(String(describing: error))")
                 self?.performSegue(withIdentifier: R.segue.forgotPasswordVC.dismissForgotPassword, sender: self)
             }
         }

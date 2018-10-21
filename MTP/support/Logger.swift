@@ -6,6 +6,17 @@ let log = Logger.self
 
 enum Logger {
 
+    static func todo(_ message: String,
+                     _ file: String = #file,
+                     _ function: String = #function,
+                     line: Int = #line) {
+        swiftyBeaver.custom(level: .verbose,
+                            message: "TODO: " + message,
+                            file: file,
+                            function: function,
+                            line: line)
+    }
+
     static func verbose(_ message: @autoclosure () -> Any,
                         _ file: String = #file,
                         _ function: String = #function,

@@ -156,7 +156,7 @@ enum MTPAPI {
     }
 
     static func userDeleteAccount(then: @escaping BoolResult) {
-        log.info("TO DO: MTPAPI.implement deleteAccount")
+        log.todo("MTPAPI.implement deleteAccount")
         then(.success(true))
     }
 
@@ -167,7 +167,7 @@ enum MTPAPI {
             return then(.failure(.parameter))
         }
 
-        log.info("TO DO: implement MTPAPI.forgotPassword: \(email)")
+        log.todo("implement MTPAPI.forgotPassword: \(email)")
         then(.success(true))
     }
 
@@ -252,7 +252,7 @@ enum MTPAPI {
             return then(.failure(.parameter))
         }
 
-        log.info("TO DO: implement MTPAPI.register: \(name), \(email), \(password)")
+        log.todo("implement MTPAPI.register: \(name), \(email), \(password)")
 
         gestalt.email = email
         gestalt.name = name

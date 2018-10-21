@@ -61,7 +61,7 @@ private extension MyProfileVC {
 
         headerView?.round(corners: [.topLeft, .topRight], by: 5)
 
-        log.debug("TO DO: avatar")
+        log.todo("avatar")
 
         fullNameLabel?.text = user.fullName
         countryLabel?.text = user.country.countryName
@@ -71,7 +71,7 @@ private extension MyProfileVC {
         dateFormatter.timeStyle = .none
         birthdayLabel?.text = dateFormatter.string(from: user.birthday)
 
-        log.debug("TO DO: follow counts")
+        log.todo("follow counts")
         let followersCount = 9_999
         let followers = Localized.followers(followersCount.grouped)
         followersLabel?.text = followers

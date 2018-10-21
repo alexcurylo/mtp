@@ -64,7 +64,7 @@ private extension MyAboutVC {
     func configure() {
         guard let user = gestalt.user else { return }
 
-        log.debug("TO DO: configure about")
+        log.todo("configure about")
 
         configure(ranking: user)
         configure(airport: user)
