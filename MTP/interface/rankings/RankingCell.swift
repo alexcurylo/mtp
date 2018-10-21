@@ -12,6 +12,7 @@ final class RankingCell: UICollectionViewCell {
         static let margin = CGFloat(8)
         static let spacing = CGSize(width: 12, height: 4)
         static let cornerRadius = CGFloat(4)
+        static let overlap = CGFloat(-8)
     }
 
     private let avatarImageView: UIImageView = create {
@@ -23,7 +24,7 @@ final class RankingCell: UICollectionViewCell {
     private let rankLabel: UILabel = create {
         $0.font = Avenir.heavy.of(size: 10)
         $0.heightAnchor == Layout.rankSize
-        $0.widthAnchor >= Layout.avatarSize - Layout.margin * 2
+        $0.widthAnchor == Layout.avatarSize - Layout.margin
         $0.cornerRadius = Layout.rankSize / 2
         $0.backgroundColor = .gallery
         $0.textAlignment = .center
@@ -48,31 +49,7 @@ final class RankingCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        contentView.backgroundColor = .white
-        contentView.layer.cornerRadius = Layout.cornerRadius
-        contentView.clipsToBounds = true
-
-        let labels = UIStackView(arrangedSubviews: [nameLabel, countryLabel])
-        labels.axis = .vertical
-
-        let infos = UIStackView(arrangedSubviews: [avatarImageView, labels])
-        infos.spacing = Layout.spacing.width
-        contentView.addSubview(infos)
-        infos.centerYAnchor == contentView.centerYAnchor
-        infos.leadingAnchor == contentView.leadingAnchor + Layout.margin
-
-        contentView.addSubview(rankLabel)
-        rankLabel.centerXAnchor == avatarImageView.centerXAnchor
-        rankLabel.bottomAnchor == avatarImageView.bottomAnchor + Layout.margin
-
-        let buttons = UIStackView(arrangedSubviews: [visitedButton, remainingButton])
-        buttons.axis = .vertical
-        buttons.distribution = .fillEqually
-        buttons.alignment = .trailing
-        buttons.spacing = Layout.spacing.height
-        contentView.addSubview(buttons)
-        buttons.verticalAnchors == contentView.verticalAnchors + Layout.margin
-        buttons.trailingAnchor == contentView.trailingAnchor - Layout.margin
+        configure()
     }
 
     @available(*, unavailable)
@@ -119,6 +96,36 @@ private extension RankingCell {
             bottom: 0,
             right: Layout.margin)
         button.titleLabel?.font = Avenir.heavy.of(size: 14)
+    }
+
+    func configure() {
+        contentView.backgroundColor = .white
+        contentView.layer.cornerRadius = Layout.cornerRadius
+        contentView.clipsToBounds = true
+
+        let badges = UIStackView(arrangedSubviews: [avatarImageView, rankLabel])
+        badges.axis = .vertical
+        badges.alignment = .center
+        badges.spacing = Layout.overlap
+
+        let labels = UIStackView(arrangedSubviews: [nameLabel, countryLabel])
+        labels.axis = .vertical
+
+        let infos = UIStackView(arrangedSubviews: [badges, labels])
+        infos.spacing = Layout.spacing.width
+        infos.alignment = .center
+        contentView.addSubview(infos)
+        infos.centerYAnchor == contentView.centerYAnchor
+        infos.leadingAnchor == contentView.leadingAnchor + Layout.margin
+
+        let buttons = UIStackView(arrangedSubviews: [visitedButton, remainingButton])
+        buttons.axis = .vertical
+        buttons.distribution = .fillEqually
+        buttons.alignment = .trailing
+        buttons.spacing = Layout.spacing.height
+        contentView.addSubview(buttons)
+        buttons.verticalAnchors == contentView.verticalAnchors + Layout.margin
+        buttons.trailingAnchor == contentView.trailingAnchor - Layout.margin
     }
 
     @IBAction func tapVisited() {
