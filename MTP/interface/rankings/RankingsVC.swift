@@ -13,6 +13,8 @@ final class RankingsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        gestalt.rankingsFilter = nil
+
         configurePagesHolder()
     }
 
@@ -40,6 +42,10 @@ final class RankingsVC: UIViewController {
         default:
             log.debug("unexpected segue: \(segue.name)")
         }
+    }
+
+    func updateFilter() {
+        pagingVC.reloadData()
     }
 }
 
@@ -73,12 +79,11 @@ extension RankingsVC: PagingViewControllerDataSource {
 
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  viewControllerForIndex index: Int) -> UIViewController {
-        let viewController = RankingVC(
-            members: RankingPagingItem.pages[index].members,
-            options: pagingViewController.options
-        )
-
+        let viewController = RankingVC(options: pagingViewController.options)
         viewController.delegate = self
+        viewController.set(
+            members: RankingPagingItem.pages[index].members,
+            filter: gestalt.rankingsFilter)
 
         let insets = UIEdgeInsets(top: RankingPagingVC.Layout.menuHeight,
                                   left: 0,

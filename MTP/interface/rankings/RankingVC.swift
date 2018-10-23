@@ -33,11 +33,11 @@ final class RankingVC: UIViewController {
 
     weak var delegate: RankingVCDelegate?
 
-    private let members: [Int]
+    private var members: [Int] = []
+    private var filterDescription: String = ""
+    private var rank = 0
 
-    init(members: [Int],
-         options: PagingOptions) {
-        self.members = members
+    init(options: PagingOptions) {
         super.init(nibName: nil, bundle: nil)
 
         view.addSubview(collectionView)
@@ -62,6 +62,15 @@ final class RankingVC: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         collectionView.collectionViewLayout.invalidateLayout()
+    }
+
+    func set(members list: [Int], filter: UserFilter?) {
+        members = list
+        filterDescription = filter?.description ?? Localized.allLocations()
+        log.todo("RankingVC header rank)")
+        rank = 9_999
+
+        collectionView.reloadData()
     }
 }
 
@@ -96,10 +105,7 @@ extension RankingVC: UICollectionViewDataSource {
             withReuseIdentifier: RankingHeader.reuseIdentifier,
             for: indexPath)
 
-        log.todo("RankingHeader)")
-        let rank = 9_999
-        let filter = "All locations"
-        (view as? RankingHeader)?.set(rank: rank, for: filter)
+        (view as? RankingHeader)?.set(rank: rank, for: filterDescription)
 
         return view
     }
