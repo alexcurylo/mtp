@@ -24,6 +24,28 @@ extension UserDefaults: Gestalt {
         set { set(newValue, forKey: #function) }
     }
 
+    var rankingsFilter: UserFilter? {
+        get {
+            do {
+                return try get(objectType: UserFilter.self, forKey: #function)
+            } catch {
+                log.error("decoding rankingsFilter value: \(error)")
+                return nil
+            }
+        }
+        set {
+            guard let newRankingsFilter = newValue else {
+                set(nil, forKey: #function)
+                return
+            }
+            do {
+                return try set(object: newRankingsFilter, forKey: #function)
+            } catch {
+                log.error("encoding rankingsFilter newValue: \(error)")
+            }
+        }
+    }
+
     var token: String {
         get { return string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }

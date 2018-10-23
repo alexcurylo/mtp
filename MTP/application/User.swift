@@ -128,10 +128,72 @@ extension Link: CustomStringConvertible, CustomDebugStringConvertible {
 extension User {
 
     var visited: Int {
-         return Int(scoreLocations) ?? 0
+        return Int(scoreLocations) ?? 0
     }
 
     var remaining: Int {
         return Country.count - visited
+    }
+}
+
+enum Gender: Int, Codable {
+    case all
+    case female
+    case male
+}
+
+extension Gender: CustomStringConvertible, CustomDebugStringConvertible {
+
+    public var description: String {
+        switch self {
+        case .all: return ""
+        case .female: return Localized.female()
+        case .male: return Localized.male()
+        }
+    }
+
+    public var debugDescription: String {
+        return String(rawValue)
+    }
+}
+
+struct UserFilter: Codable, Equatable {
+
+    var countryId: Int?
+    var provinceId: Int?
+    var gender: Gender = .all
+    var ageMin: Int?
+    var ageMax: Int?
+    var facebook: Bool = false
+}
+
+extension UserFilter: CustomStringConvertible, CustomDebugStringConvertible {
+
+    public var description: String {
+        return debugDescription
+    }
+
+    public var debugDescription: String {
+        let components: [String] = [
+            locationDescription,
+            gender.description,
+            ageDescription,
+            facebookDescription
+        ].compactMap { $0 }.filter { !$0.isEmpty }
+        return components.joined(separator: Localized.join())
+    }
+
+    private var locationDescription: String {
+        log.todo("UserFilter.location")
+        return Localized.allLocations()
+    }
+
+    private var ageDescription: String? {
+        log.todo("UserFilter.ageDescription")
+        return nil
+    }
+
+    private var facebookDescription: String? {
+        return facebook ? Localized.facebookFriends() : nil
     }
 }

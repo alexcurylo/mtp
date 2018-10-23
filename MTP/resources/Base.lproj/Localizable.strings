@@ -32,3 +32,12 @@
 
 "MyRanking" = "My ranking:";
 "TopTravelers" = "Top Travelers:";
+
+"Join" = ", ";
+"AllLocations" = "All locations";
+"Male" = "Male";
+"Female" = "Female";
+"FacebookFriends" = "Friends";
+"AgeRange" = "%@-%@";
+"Under20" = "Under 20";
+"Over79" = "Over 79";

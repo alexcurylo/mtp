@@ -11,6 +11,7 @@ protocol Gestalt {
     var lastUserRefresh: Date? { get set }
     var name: String { get set }
     var password: String { get set }
+    var rankingsFilter: UserFilter? { get set }
     var token: String { get set }
     var user: User? { get set }
 }
