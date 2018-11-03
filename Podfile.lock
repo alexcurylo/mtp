@@ -30,11 +30,11 @@ PODS:
     - FacebookCore (~> 0.5)
     - FBSDKCoreKit (~> 4.37)
     - FBSDKShareKit (~> 4.37)
-  - FBSDKCoreKit (4.38.0):
+  - FBSDKCoreKit (4.38.1):
     - Bolts (~> 1.9)
-  - FBSDKLoginKit (4.38.0):
+  - FBSDKLoginKit (4.38.1):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.38.0):
+  - FBSDKShareKit (4.38.1):
     - FBSDKCoreKit
   - JWTDecode (2.1.1)
   - Moya (12.0.0-beta.1):
@@ -97,9 +97,9 @@ SPEC CHECKSUMS:
   FacebookCore: 74288d0add931d361b1596beae787ab72c438249
   FacebookLogin: ebcf34714a1cb9f0759d9f071cfb01ed500996cf
   FacebookShare: 963b4bb1124a64a395b1e428163d70b5774116e8
-  FBSDKCoreKit: 2ab7fdbf600dc6b628ba7a49aa29d357a7b4c74e
-  FBSDKLoginKit: 634fa27e72e33620eb6389253337342c03d4a407
-  FBSDKShareKit: 00290e3db446eed603ff80ac629dcc5e80cf8b74
+  FBSDKCoreKit: 8d47857400e2f5bdea697a80daff882e91c84ef6
+  FBSDKLoginKit: 4621c690d9dd8628031a4791497062183ea34b0d
+  FBSDKShareKit: 6ffe22f0a0618eb7424d4104ab0ef3ce9643d42a
   JWTDecode: 83e8b381aafe27158d9f692cbdca2b12d61d460c
   Moya: 1b8d16b4dac4302c323ca95077a733836e73484a
   Parchment: e6c2a3a0063739382dd207e21d48fe5e81f3324a
