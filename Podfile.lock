@@ -36,7 +36,7 @@ PODS:
     - FBSDKCoreKit
   - FBSDKShareKit (4.38.1):
     - FBSDKCoreKit
-  - JWTDecode (2.1.1)
+  - JWTDecode (2.2.0)
   - Moya (12.0.1):
     - Moya/Core (= 12.0.1)
   - Moya/Core (12.0.1):
@@ -100,7 +100,7 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: 8d47857400e2f5bdea697a80daff882e91c84ef6
   FBSDKLoginKit: 4621c690d9dd8628031a4791497062183ea34b0d
   FBSDKShareKit: 6ffe22f0a0618eb7424d4104ab0ef3ce9643d42a
-  JWTDecode: 83e8b381aafe27158d9f692cbdca2b12d61d460c
+  JWTDecode: 85a405ab16d5473e99bd89ded1d535090ebd6a0e
   Moya: cf730b3cd9e005401ef37a85143aa141a12fd38f
   Parchment: e6c2a3a0063739382dd207e21d48fe5e81f3324a
   R.swift: f88c7d7d48a2be4dffa132dde1b3d389620310eb

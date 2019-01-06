@@ -525,7 +525,7 @@ SOFTWARE.
 			<key>summary</key>
 			<string>A JSON Web Token decoder for iOS, macOS, tvOS</string>
 			<key>version</key>
-			<string>2.1.1</string>
+			<string>2.2.0</string>
 		</dict>
 		<dict>
 			<key>authors</key>
