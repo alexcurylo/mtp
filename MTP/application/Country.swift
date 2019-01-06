@@ -69,14 +69,14 @@ struct Country: Codable {
     let isUn: UncertainValue<Int, String> // String in children
     let locationName: String
     let order: String?
-    let rank: String
+    let rank: Int
     let regionId: UncertainValue<Int, String>? // String in children, nil in locationSearch
     let regionName: String?  // nil in locationSearch
     let seaports: String?
     let timename: String?
     let typelevel: String?
     let utc: String?
-    let visitors: String
+    let visitors: Int
     let weather: String?
     let weatherhist: String?
     let zoom: String?
