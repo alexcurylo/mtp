@@ -98,5 +98,4 @@ private extension RankingsFilterVC {
             log.error("expected to return to Rankings tab")
         }
     }
-
 }
