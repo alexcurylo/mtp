@@ -18,7 +18,7 @@ target 'MTP' do
   pod 'JWTDecode'
   pod 'Moya'
   pod 'Parchment'
-  pod 'R.swift', '~> 5.0.0.alpha'
+  pod 'R.swift'
   pod 'SwiftLint'
   pod 'SwiftyBeaver'
 
