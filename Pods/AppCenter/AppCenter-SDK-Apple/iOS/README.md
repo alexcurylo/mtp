@@ -19,13 +19,18 @@ The App Center SDK uses a modular architecture so you can use any or all of the 
 4. **App Center Push**: App Center Push enables you to send push notifications to users of your app from the App Center portal. You can also segment your user base based on a set of properties and send them targeted notifications.
 
 ## 1. Get started
+
 It is super easy to use App Center. Have a look at our [get started documentation](https://docs.microsoft.com/en-us/appcenter/sdk/getting-started/ios) and onboard your app within minutes. Our [detailed documentation](https://docs.microsoft.com/en-us/appcenter/sdk/) is available as well.
 
 ## 2. Contributing
 
 We are looking forward to your contributions via pull requests.
 
-To contribute to the SDK, you need a machine that runs macOS and the latest stable Xcode release. In addition, the SDK workspace requires [Jazzy](https://github.com/realm/jazzy) to generate documentation. 
+To contribute to the SDK, please
+
+* install Xcode 10.1 on your Mac.
+* install [Jazzy](https://github.com/realm/jazzy) to be able to generate documentation.
+* install `clang-format` for code formatting via [Homebrew](https://brew.sh) using the command `brew install clang-format`.
 
 ### 2.1 Code of Conduct
 
@@ -37,7 +42,7 @@ You must sign a [Contributor License Agreement](https://cla.microsoft.com/) befo
 
 ### 2.3 Code Formatting
 
-All Objective-C files follow LLVM coding style (with a few exceptions) and are formatted accordingly. If you use Xcode for your contribution, use our [.clang_format](https://github.com/Microsoft/AppCenter-SDK-Apple/blob/develop/.clang-format) file to make sure files have the correct code format before submitting PRs. You can find a clang formatting tool [here](https://github.com/mapbox/XcodeClangFormat) if you don't have a tool for formatting code.
+All Objective-C files follow LLVM coding style (with a few exceptions) and are formatted accordingly. To format your changes, make sure you have the `clang-format` tool. It can be installed with [Homebrew](https://brew.sh) using the command `brew install clang-format`. Once you have installed `clang-format`, run `./clang-format-changed-files.sh` from the repository root - this will format all files that have changes against the remote `develop` branch (it will also perform a `git fetch`).
 
 ## 3. Contact
 
@@ -46,4 +51,5 @@ All Objective-C files follow LLVM coding style (with a few exceptions) and are f
 If you have further questions, want to provide feedback or you are running into issues, log in to the [App Center portal](https://appcenter.ms) and use the blue Intercom button on the bottom right to start a conversation with us.
 
 ### 3.2 Twitter
+
 We're on Twitter as [@vsappcenter](https://www.twitter.com/vsappcenter).
