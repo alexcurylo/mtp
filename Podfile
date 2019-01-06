@@ -16,7 +16,7 @@ target 'MTP' do
   pod 'FBSDKLoginKit', :modular_headers => true, :inhibit_warnings => true
   pod 'FBSDKShareKit', :modular_headers => true, :inhibit_warnings => true
   pod 'JWTDecode'
-  pod 'Moya', '~> 12.0.0-beta', :inhibit_warnings => true
+  pod 'Moya'
   pod 'Parchment'
   pod 'R.swift', '~> 5.0.0.alpha'
   pod 'SwiftLint'

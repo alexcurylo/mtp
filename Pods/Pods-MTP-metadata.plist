@@ -44,7 +44,7 @@ THE SOFTWARE.
 			<key>summary</key>
 			<string>Elegant HTTP Networking in Swift</string>
 			<key>version</key>
-			<string>4.7.3</string>
+			<string>4.8.0</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -574,7 +574,7 @@ SOFTWARE.
 			<key>summary</key>
 			<string>Network abstraction layer written in Swift</string>
 			<key>version</key>
-			<string>12.0.0-beta.1</string>
+			<string>12.0.1</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -760,7 +760,7 @@ SOFTWARE.</string>
 			<key>summary</key>
 			<string>Swift type modelling the success/failure of arbitrary operations</string>
 			<key>version</key>
-			<string>4.0.0</string>
+			<string>4.1.0</string>
 		</dict>
 		<dict>
 			<key>authors</key>
