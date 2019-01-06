@@ -816,6 +816,7 @@
 			files = (
 			);
 			inputPaths = (
+				"$TEMP_DIR/rswift-lastrun",
 			);
 			name = "Generate R.generated.swift";
 			outputPaths = (
@@ -823,7 +824,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$PODS_ROOT/R.swift/rswift\" generate \"${SRCROOT}/MTP/resources/\"\necho R.generated.swift generated ... must clean to rebuild\necho https://github.com/mac-cain13/R.swift/issues/456\n";
+			shellScript = "\"$PODS_ROOT/R.swift/rswift\" generate \"${SRCROOT}/MTP/resources/R.generated.swift\"\necho R.generated.swift generated\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
