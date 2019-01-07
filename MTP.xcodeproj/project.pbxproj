@@ -157,6 +157,7 @@
 		FA46532F21157784005B5A0A /* FacebookButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookButton.swift; sourceTree = "<group>"; };
 		FA4653312115A250005B5A0A /* UserDefaults+Gestalt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Gestalt.swift"; sourceTree = "<group>"; };
 		FA4653332115ADC6005B5A0A /* MTPAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPAPI.swift; sourceTree = "<group>"; };
+		FA4B7FE021E38970006AF8E2 /* MTP.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MTP.entitlements; sourceTree = "<group>"; };
 		FA4F1C5B20DFA67700B8A1ED /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		FA4F1C5C20DFA67700B8A1ED /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FA4F1C5D20DFA69000B8A1ED /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -429,6 +430,7 @@
 				FA9A71E020F1DD60005F6A57 /* Gemfile.lock */,
 				FA3E366F20DFC0E3002AF4EE /* IDETemplateMacros.plist */,
 				FA4F1C5B20DFA67700B8A1ED /* LICENSE.md */,
+				FA4B7FE021E38970006AF8E2 /* MTP.entitlements */,
 				FA3E366A20DFACCD002AF4EE /* Podfile */,
 				FA9A71E120F1DD6C005F6A57 /* Podfile.lock */,
 				FA4F1C5C20DFA67700B8A1ED /* README.md */,
@@ -601,6 +603,11 @@
 				TargetAttributes = {
 					FA392BB620DF69F30026C828 = {
 						CreatedOnToolsVersion = 9.4.1;
+						SystemCapabilities = {
+							com.apple.SafariKeychain = {
+								enabled = 1;
+							};
+						};
 					};
 					FA392BCC20DF69F50026C828 = {
 						CreatedOnToolsVersion = 9.4.1;
@@ -1055,6 +1062,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAF12300215652AE0099B772 /* MTP_Debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = MTP/MTP.entitlements;
 			};
 			name = Debug;
 		};
@@ -1062,6 +1070,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAF122FC215652AE0099B772 /* MTP_Release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = MTP/MTP.entitlements;
 			};
 			name = Release;
 		};
