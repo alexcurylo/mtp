@@ -5,6 +5,24 @@ open class PagingBorderLayoutAttributes: UICollectionViewLayoutAttributes {
   open var backgroundColor: UIColor?
   open var insets: UIEdgeInsets = UIEdgeInsets()
   
+  override open func copy(with zone: NSZone? = nil) -> Any {
+    let copy = super.copy(with: zone) as! PagingBorderLayoutAttributes
+    copy.backgroundColor = backgroundColor
+    copy.insets = insets
+    return copy
+  }
+  
+  override open func isEqual(_ object: Any?) -> Bool {
+    if let rhs = object as? PagingBorderLayoutAttributes {
+      if backgroundColor != rhs.backgroundColor || insets != rhs.insets {
+        return false
+      }
+      return super.isEqual(object)
+    } else {
+      return false
+    }
+  }
+  
   func configure(_ options: PagingOptions, safeAreaInsets: UIEdgeInsets = .zero) {
     if case let .visible(height, index, borderInsets) = options.borderOptions {
       insets = borderInsets

@@ -140,6 +140,11 @@ open class PagingCollectionViewLayout<T: PagingItem>:
     invalidationState = .nothing
   }
   
+  open override func invalidateLayout() {
+    super.invalidateLayout()
+    invalidationState = .everything
+  }
+  
   override open func invalidateLayout(with context: UICollectionViewLayoutInvalidationContext) {
     super.invalidateLayout(with: context)
     invalidationState = invalidationState + InvalidationState(context)
@@ -313,18 +318,17 @@ open class PagingCollectionViewLayout<T: PagingItem>:
       indicatorLayoutAttributes = PagingIndicatorLayoutAttributes(
         forDecorationViewOfKind: PagingIndicatorKind,
         with: IndexPath(item: 0, section: 0))
-      indicatorLayoutAttributes?.configure(options)
     }
     
     if case .visible = options.borderOptions {
       borderLayoutAttributes = PagingBorderLayoutAttributes(
         forDecorationViewOfKind: PagingBorderKind,
         with: IndexPath(item: 1, section: 0))
-      borderLayoutAttributes?.configure(options)
     }
   }
   
   private func updateBorderLayoutAttributes() {
+    borderLayoutAttributes?.configure(options)
     borderLayoutAttributes?.update(
       contentSize: collectionViewContentSize,
       bounds: collectionView?.bounds ?? .zero,
@@ -333,6 +337,7 @@ open class PagingCollectionViewLayout<T: PagingItem>:
   
   private func updateIndicatorLayoutAttributes() {
     guard let currentPagingItem = state.currentPagingItem else { return }
+    indicatorLayoutAttributes?.configure(options)
     
     let currentIndexPath = visibleItems.indexPath(for: currentPagingItem)
     let upcomingIndexPath = upcomingIndexPathForIndexPath(currentIndexPath)

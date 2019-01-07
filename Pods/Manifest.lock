@@ -42,7 +42,7 @@ PODS:
   - Moya/Core (12.0.1):
     - Alamofire (~> 4.1)
     - Result (~> 4.0)
-  - Parchment (1.4.1)
+  - Parchment (1.5.0)
   - R.swift (5.0.0):
     - R.swift.Library (~> 5.0.0)
   - R.swift.Library (5.0.0)
@@ -102,7 +102,7 @@ SPEC CHECKSUMS:
   FBSDKShareKit: 5a0021c30abb64df9eeba87351dd8a627874543b
   JWTDecode: 85a405ab16d5473e99bd89ded1d535090ebd6a0e
   Moya: cf730b3cd9e005401ef37a85143aa141a12fd38f
-  Parchment: e6c2a3a0063739382dd207e21d48fe5e81f3324a
+  Parchment: 5a8c9c73549a6d73a7c1b606c27246910d2e5720
   R.swift: f88c7d7d48a2be4dffa132dde1b3d389620310eb
   R.swift.Library: 0bf390e729bc10bb2c9e4fb78bd043164a7be4ff
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7

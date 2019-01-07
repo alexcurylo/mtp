@@ -110,7 +110,10 @@ open class PagingViewController<T: PagingItem>:
   /// only apply horizontally. _Default: .visible_
   public var indicatorOptions: PagingIndicatorOptions {
     get { return options.indicatorOptions }
-    set { options.indicatorOptions = newValue }
+    set {
+      options.indicatorOptions = newValue
+      collectionViewLayout.invalidateLayout()
+    }
   }
 
   /// The class type for the indicator view. Override this if you want
@@ -127,7 +130,10 @@ open class PagingViewController<T: PagingItem>:
   /// Determine the color of the indicator view.
   public var indicatorColor: UIColor {
     get { return options.indicatorColor }
-    set { options.indicatorColor = newValue }
+    set {
+      options.indicatorColor = newValue
+      collectionViewLayout.invalidateLayout()
+    }
   }
   
   /// Add a border at the bottom of the menu items. The border will be
@@ -135,7 +141,10 @@ open class PagingViewController<T: PagingItem>:
   /// _Default: .visible_
   public var borderOptions: PagingBorderOptions {
     get { return options.borderOptions }
-    set { options.borderOptions = newValue }
+    set {
+      options.borderOptions = newValue
+      collectionViewLayout.invalidateLayout()
+    }
   }
 
   /// The class type for the border view. Override this if you want
@@ -152,7 +161,10 @@ open class PagingViewController<T: PagingItem>:
   /// Determine the color of the border view.
   public var borderColor: UIColor {
     get { return options.borderColor }
-    set { options.borderColor = newValue }
+    set {
+      options.borderColor = newValue
+      collectionViewLayout.invalidateLayout()
+    }
   }
 
   /// Updates the content inset for the menu items based on the
@@ -777,6 +789,8 @@ open class PagingViewController<T: PagingItem>:
     
     pageViewController.removeAllViewControllers()
     selectViewController(pagingItem, direction: .none, animated: false)
+    
+    configureSizeCache(for: pagingItem)
 
     // Reloading the data triggers the didFinishScrollingFrom delegate
     // to be called which in turn means the wrong item will be selected.
