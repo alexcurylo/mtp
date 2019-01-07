@@ -158,6 +158,7 @@
 		FA4653312115A250005B5A0A /* UserDefaults+Gestalt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Gestalt.swift"; sourceTree = "<group>"; };
 		FA4653332115ADC6005B5A0A /* MTPAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPAPI.swift; sourceTree = "<group>"; };
 		FA4B7FE021E38970006AF8E2 /* MTP.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MTP.entitlements; sourceTree = "<group>"; };
+		FA4B7FE121E38BF3006AF8E2 /* apple-app-site-association */ = {isa = PBXFileReference; lastKnownFileType = text; path = "apple-app-site-association"; sourceTree = "<group>"; };
 		FA4F1C5B20DFA67700B8A1ED /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		FA4F1C5C20DFA67700B8A1ED /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FA4F1C5D20DFA69000B8A1ED /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -425,6 +426,7 @@
 				FAB53F8420DFCC03007A80A7 /* .slather.yml */,
 				FA3E366B20DFB484002AF4EE /* .swiftlint.yml */,
 				FAB53F8520DFCC03007A80A7 /* .travis.yml */,
+				FA4B7FE121E38BF3006AF8E2 /* apple-app-site-association */,
 				FAB53F8320DFCB40007A80A7 /* Dangerfile */,
 				FA4F1C5E20DFA74500B8A1ED /* Gemfile */,
 				FA9A71E020F1DD60005F6A57 /* Gemfile.lock */,
