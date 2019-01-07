@@ -1064,7 +1064,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAF12300215652AE0099B772 /* MTP_Debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = MTP/MTP.entitlements;
 			};
 			name = Debug;
 		};
@@ -1072,7 +1071,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAF122FC215652AE0099B772 /* MTP_Release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = MTP/MTP.entitlements;
 			};
 			name = Release;
 		};
