@@ -34,6 +34,7 @@ static int const FBClientStateChallengeLength = 20;
 static NSString *const FBSDKExpectedChallengeKey = @"expected_login_challenge";
 static NSString *const FBSDKOauthPath = @"/dialog/oauth";
 static NSString *const SFVCCanceledLogin = @"com.apple.SafariServices.Authentication";
+static NSString *const ASCanceledLogin = @"com.apple.AuthenticationServices.WebAuthenticationSession";
 
 typedef NS_ENUM(NSInteger, FBSDKLoginManagerState) {
   FBSDKLoginManagerStateIdle,
@@ -423,7 +424,8 @@ typedef NS_ENUM(NSInteger, FBSDKLoginManagerState) {
     if (didPerformLogIn) {
       [self->_logger startAuthMethod:authMethod];
       self->_state = FBSDKLoginManagerStatePerformingLogin;
-    } else if (error && [error.domain isEqualToString:SFVCCanceledLogin]) {
+    } else if ([error.domain isEqualToString:SFVCCanceledLogin] ||
+               [error.domain isEqualToString:ASCanceledLogin]) {
       [self handleImplicitCancelOfLogIn];
     } else {
       if (!error) {
@@ -489,7 +491,9 @@ typedef NS_ENUM(NSInteger, FBSDKLoginManagerState) {
 }
 
 + (NSString *)stringForChallenge {
-  return [FBSDKCrypto randomString:FBClientStateChallengeLength];
+  NSString *challenge = [FBSDKCrypto randomString:FBClientStateChallengeLength];
+
+  return [challenge stringByReplacingOccurrencesOfString:@"+" withString:@"="];
 }
 
 - (void)validateReauthentication:(FBSDKAccessToken *)currentToken withResult:(FBSDKLoginManagerLoginResult *)loginResult
