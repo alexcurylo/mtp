@@ -670,7 +670,7 @@ THE SOFTWARE.
 			<key>summary</key>
 			<string>Get strong typed, autocompleted resources like images, fonts and segues in Swift projects</string>
 			<key>version</key>
-			<string>5.0.0</string>
+			<string>5.0.1</string>
 		</dict>
 		<dict>
 			<key>authors</key>
