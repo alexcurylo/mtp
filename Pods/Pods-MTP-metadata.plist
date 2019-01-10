@@ -44,7 +44,7 @@ THE SOFTWARE.
 			<key>summary</key>
 			<string>Elegant HTTP Networking in Swift</string>
 			<key>version</key>
-			<string>4.7.3</string>
+			<string>4.8.0</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -151,7 +151,7 @@ THE SOFTWARE.</string>
 			<key>summary</key>
 			<string>Visual Studio App Center is your continuous integration, delivery and learning solution for iOS and macOS apps.</string>
 			<key>version</key>
-			<string>1.10.1</string>
+			<string>1.12.0</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -250,7 +250,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			<key>summary</key>
 			<string>Official Facebook SDK for iOS to access Facebook Platform core features</string>
 			<key>version</key>
-			<string>4.38.1</string>
+			<string>4.39.1</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -294,7 +294,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			<key>summary</key>
 			<string>Official Facebook SDK for iOS to access Facebook Platform with features like Login, Share and Message Dialog, App Links, and Graph API</string>
 			<key>version</key>
-			<string>4.38.1</string>
+			<string>4.39.1</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -338,7 +338,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			<key>summary</key>
 			<string>Official Facebook SDK for iOS to access Facebook Platform Sharing Features</string>
 			<key>version</key>
-			<string>4.38.1</string>
+			<string>4.39.1</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -525,7 +525,7 @@ SOFTWARE.
 			<key>summary</key>
 			<string>A JSON Web Token decoder for iOS, macOS, tvOS</string>
 			<key>version</key>
-			<string>2.1.1</string>
+			<string>2.2.0</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -574,7 +574,7 @@ SOFTWARE.
 			<key>summary</key>
 			<string>Network abstraction layer written in Swift</string>
 			<key>version</key>
-			<string>12.0.0-beta.1</string>
+			<string>12.0.1</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -619,7 +619,7 @@ SOFTWARE.
 			<key>summary</key>
 			<string>A flexible paging menu controller with support for infinite data sources.</string>
 			<key>version</key>
-			<string>1.4.1</string>
+			<string>1.5.0</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -641,7 +641,7 @@ SOFTWARE.
 			<key>licenseText</key>
 			<string>The MIT License (MIT)
 
-Copyright (c) 2014-2017 Mathijs Kadijk
+Copyright (c) 2014-2019 Mathijs Kadijk
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -670,7 +670,7 @@ THE SOFTWARE.
 			<key>summary</key>
 			<string>Get strong typed, autocompleted resources like images, fonts and segues in Swift projects</string>
 			<key>version</key>
-			<string>5.0.0.alpha.2</string>
+			<string>5.0.1</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -717,7 +717,7 @@ THE SOFTWARE.
 			<key>summary</key>
 			<string>Companion library for R.swift, featuring types used to type resources</string>
 			<key>version</key>
-			<string>5.0.0.alpha.2</string>
+			<string>5.0.0</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -760,7 +760,7 @@ SOFTWARE.</string>
 			<key>summary</key>
 			<string>Swift type modelling the success/failure of arbitrary operations</string>
 			<key>version</key>
-			<string>4.0.0</string>
+			<string>4.1.0</string>
 		</dict>
 		<dict>
 			<key>authors</key>

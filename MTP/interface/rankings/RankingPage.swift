@@ -56,8 +56,8 @@ struct RankingPagingItem: PagingItem, Hashable, Comparable {
     let page: RankingPage
     let members: [Int]
 
-    var hashValue: Int {
-        return page.hashValue
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(page)
     }
 
     static func == (lhs: RankingPagingItem, rhs: RankingPagingItem) -> Bool {

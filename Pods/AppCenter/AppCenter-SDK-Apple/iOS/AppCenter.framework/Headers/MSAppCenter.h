@@ -177,8 +177,8 @@
  * Set the maximum size of the internal storage. This method must be called before App Center is started. This method is only intended for
  * applications.
  *
- * @param sizeInBytes Maximum size in bytes. This will be rounded up to the nearest multiple of 4096. Values below 20,480 (20 KiB) will be
- * ignored.
+ * @param sizeInBytes Maximum size of the internal storage in bytes. This will be rounded up to the nearest multiple of a SQLite page size
+ * (default is 4096 bytes). Values below 20,480 bytes (20 KiB) will be ignored.
  *
  * @param completionHandler Callback that is invoked when the database size has been set. The `BOOL` parameter is `YES` if changing the size
  * is successful, and `NO` otherwise. This parameter can be null.
@@ -187,5 +187,22 @@
  * The value passed to this method is not persisted on disk. The default maximum database size is 10485760 bytes (10 MiB).
  */
 + (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler;
+
+/**
+ * Set the user identifier.
+ *
+ * @param userId User identifier.
+ *
+ * @discussion Set the user identifier for logs sent for the default target token when the secret passed in @c
+ * MSAppCenter:start:withServices: contains "target={targetToken}".
+ *
+ * The App Center backend currently do not yet use the user identifier so this API doesn't have a use case yet when the secret passed to @c
+ * MSAppCenter:start:withServices: contains an App Center application secret.
+ *
+ * For App Center backend the user identifier maximum length is 256 characters.
+ *
+ * AppCenter must be configured or started before this API can be used.
+ */
++ (void)setUserId:(NSString *)userId;
 
 @end

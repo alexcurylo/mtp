@@ -162,7 +162,6 @@ extension UIColor {
                   b: argb & 0xFF,
                   a: (argb >> 24) & 0xFF)
     }
-
 }
 
 @IBDesignable final class GradientView: UIView {

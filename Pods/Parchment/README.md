@@ -381,6 +381,12 @@ The font used for title label on the menu items.
 
 _Default: `UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)`_
 
+#### `selectedFont`
+
+The font used for title label on the currently selected menu item.
+
+_Default: `UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)`_
+
 #### `textColor`
 
 The color of the title label on the menu items.
