@@ -1,9 +1,9 @@
 # [mtp](https://github.com/alexcurylo/mtp)
-[![Build Status](https://travis-ci.org/alexcurylo/mtp.svg?branch=develop)](https://travis-ci.org/alexcurylo/mtp)
-[![Coverage Status](https://coveralls.io/repos/github/alexcurylo/mtp/badge.svg?branch=develop)](https://coveralls.io/github/alexcurylo/mtp?branch=develop)
+[![Travis](https://travis-ci.org/alexcurylo/mtp.svg?branch=develop)](https://travis-ci.org/alexcurylo/mtp)
+[![AppCenter](https://build.appcenter.ms/v0.1/apps/ac2fc09b-92be-47cb-b23c-3e523b23bced/branches/develop/badge)](https://appcenter.ms)
+[![Coverage](https://coveralls.io/repos/github/alexcurylo/mtp/badge.svg?branch=develop)](https://coveralls.io/github/alexcurylo/mtp?branch=develop)
 [![Issues](https://img.shields.io/github/issues/alexcurylo/mtp.svg)](https://github.com/alexcurylo/mtp/issues)
 [![Waffle](https://badge.waffle.io/alexcurylo/mtp.svg?columns=all)](https://waffle.io/alexcurylo/mtp)
-[![Swift](https://img.shields.io/badge/Swift-4.2-orange.svg)](https://swift.org)
 [![codebeat](https://codebeat.co/badges/321a44b1-ff7b-48fd-b8e2-42a5a8d19568)](https://codebeat.co/projects/github-com-alexcurylo-mtp-develop)
 
 Table of Contents
