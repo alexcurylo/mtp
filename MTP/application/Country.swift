@@ -57,7 +57,6 @@ struct Country: Codable {
     let RegionName: String?
     let Regionold: Int?
     let URL: String?
-    let countryName: String? // nil in locationSearch
     let active: String
     let adminLevel: UncertainValue<Int, String> // String in children
     let airports: String?
@@ -65,21 +64,22 @@ struct Country: Codable {
     // swiftlint:disable:next discouraged_optional_collection
     let children: [Country]?
     let cities: String?
-    let countryId: UncertainValue<Int, String> // String in children, nil in locationSearch
     let countVisitors: Int?
+    let countryId: UncertainValue<Int, String> // String in children, nil in locationSearch
+    let countryName: String? // nil in locationSearch
     let cv: String?
-    let info: String?
-    let isMtpLocation: UncertainValue<Int, String> // String in children
-    let lat: UncertainValue<Double, String> // Double in new account, nil in old
-    let latitude: String?
-    let lon: UncertainValue<Double, String> // Double in new account, nil in old
-    let longitude: String?
     let dateUpdated: Date
     let distance: UncertainValue<Int, String> // Int in new account, nil in old
     let distanceold: String?
     let id: UncertainValue<Int, String> // String in children
+    let info: String?
+    let isMtpLocation: UncertainValue<Int, String> // String in children
     let isUn: UncertainValue<Int, String> // String in children
+    let lat: UncertainValue<Double, String> // Double in new account, nil in old
+    let latitude: String?
     let locationName: String
+    let lon: UncertainValue<Double, String> // Double in new account, nil in old
+    let longitude: String?
     let order: String?
     let rank: Int
     let regionId: UncertainValue<Int, String> // String in children, nil in locationSearch
@@ -152,9 +152,4 @@ extension Country: CustomDebugStringConvertible {
         /Country >
         """
     }
-}
-
-extension Country {
-
-    static let count = 873
 }

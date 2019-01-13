@@ -136,7 +136,7 @@ extension User {
     }
 
     var remaining: Int {
-        return Country.count - visited
+        return Location.count - visited
     }
 }
 
