@@ -5,7 +5,7 @@ import UIKit
 struct User: Codable {
 
     let airport: String?
-    let bio: String
+    let bio: String?
     let birthday: Date
     let country: Country
     let countryId: String
@@ -24,7 +24,7 @@ struct User: Codable {
     let location: Country
     let links: [Link]
     let locationId: String
-    let picture: String
+    let picture: String?
     let role: Int
     let score: String
     let scoreBeaches: String
@@ -53,7 +53,7 @@ extension User: CustomDebugStringConvertible {
         return """
         < User: \(description):
             airport: \(String(describing: airport))
-            bio: \(bio)
+            bio: \(String(describing: bio))
             birthday: \(birthday)
             country: \(country.debugDescription)
             country_id: \(countryId)
@@ -72,7 +72,7 @@ extension User: CustomDebugStringConvertible {
             location: \(location.debugDescription)
             links: \(links.debugDescription)
             location_id: \(locationId)
-            picture: \(picture)
+            picture: \(String(describing: picture))
             role: \(role)
             score: \(score)
             score_beaches: \(scoreBeaches)
@@ -93,8 +93,8 @@ extension User: CustomDebugStringConvertible {
 
 struct FavoritePlace: Codable {
 
-    let id: String
-    let type: String
+    let id: String?
+    let type: String?
 }
 
 extension FavoritePlace: CustomStringConvertible, CustomDebugStringConvertible {
@@ -104,7 +104,11 @@ extension FavoritePlace: CustomStringConvertible, CustomDebugStringConvertible {
     }
 
     public var debugDescription: String {
-        return "< Favorite Place: id \(id) type \(type)>"
+        return """
+        < Favorite Place:
+            id \(String(describing: id))
+            type \(String(describing: type))>
+        """
     }
 }
 
