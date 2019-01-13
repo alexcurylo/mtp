@@ -11,8 +11,20 @@ struct UncertainValue<T: Codable, U: Codable>: Codable {
         return tValue ?? uValue
     }
 
+    var intValue: Int? {
+        switch value {
+        case let intValue as Int:
+            return intValue
+        case let stringValue as String:
+            return Int(stringValue)
+        default:
+            return nil
+        }
+    }
+
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
+        guard !container.decodeNil() else { return }
         tValue = try? container.decode(T.self)
         guard tValue == nil else { return }
         uValue = try? container.decode(U.self)
