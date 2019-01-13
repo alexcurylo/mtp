@@ -37,6 +37,9 @@ PODS:
   - FBSDKShareKit (4.39.1):
     - FBSDKCoreKit
   - JWTDecode (2.2.0)
+  - KRActivityIndicatorView (3.0.0)
+  - KRProgressHUD (3.4.0):
+    - KRActivityIndicatorView (= 3.0.0)
   - Moya (12.0.1):
     - Moya/Core (= 12.0.1)
   - Moya/Core (12.0.1):
@@ -62,6 +65,7 @@ DEPENDENCIES:
   - FBSDKLoginKit
   - FBSDKShareKit
   - JWTDecode
+  - KRProgressHUD
   - Moya
   - Parchment
   - R.swift
@@ -81,6 +85,8 @@ SPEC REPOS:
     - FBSDKLoginKit
     - FBSDKShareKit
     - JWTDecode
+    - KRActivityIndicatorView
+    - KRProgressHUD
     - Moya
     - Parchment
     - R.swift
@@ -101,6 +107,8 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: c3079d9a4db27c492287b1eed7a4272b28cf8a59
   FBSDKShareKit: 27d7b982e7b1f4638da2f2b1ab6eba5afc6b5888
   JWTDecode: 85a405ab16d5473e99bd89ded1d535090ebd6a0e
+  KRActivityIndicatorView: c414000730a6f4969eeb354bee4f2aebc89c2c2e
+  KRProgressHUD: 79c8703f82179fe34b3602f10b30726f887983fa
   Moya: cf730b3cd9e005401ef37a85143aa141a12fd38f
   Parchment: 5a8c9c73549a6d73a7c1b606c27246910d2e5720
   R.swift: a8e1a7e7f38441282fbcb7a3c266076eb38b77ba
@@ -109,6 +117,6 @@ SPEC CHECKSUMS:
   SwiftLint: bfa7ca7b4d170cfaf0d236ca3ffd969e88a2f002
   SwiftyBeaver: ccfcdf85a04d429f1633f668650b0ce8020bda3a
 
-PODFILE CHECKSUM: 628613e4f0652e5417deff12009d1ff476927a74
+PODFILE CHECKSUM: a3ad7f7f1e49a15524b0742deccdcec07c5da914
 
 COCOAPODS: 1.5.3
