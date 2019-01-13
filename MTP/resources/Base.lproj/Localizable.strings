@@ -1,5 +1,12 @@
 // @copyright Trollwerks Inc.
 
+// error handling
+
+"Unknown" = "unknown";
+"NetworkError" = "A network failure occurred: %@";
+"ResultError" = "Unexpected results were received. Please update to the latest app version.";
+"UnexpectedError" = "An unexpected error occurred. Please update to the latest app version.";
+
 // ForgotPasswordVC
 
 "SendLink" = "We will send a link to your email %@ enabling you to reset your password.";

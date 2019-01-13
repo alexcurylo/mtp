@@ -8,6 +8,8 @@ final class LoginVC: UIViewController {
     @IBOutlet private var passwordTextField: UITextField?
     @IBOutlet private var togglePasswordButton: UIButton?
 
+    private var errorMessage: String = ""
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -43,8 +45,12 @@ final class LoginVC: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
-        case R.segue.loginVC.presentForgotPassword.identifier,
-             R.segue.loginVC.presentLoginFail.identifier:
+        case R.segue.loginVC.presentLoginFail.identifier:
+            let alert = R.segue.loginVC.presentLoginFail(segue: segue)
+            alert?.destination.errorMessage = errorMessage
+            hide(navBar: true)
+            gestalt.email = emailTextField?.text ?? ""
+        case R.segue.loginVC.presentForgotPassword.identifier:
             hide(navBar: true)
             gestalt.email = emailTextField?.text ?? ""
         case R.segue.loginVC.showMain.identifier,
@@ -99,10 +105,17 @@ private extension LoginVC {
             switch result {
             case .success:
                 self?.performSegue(withIdentifier: R.segue.loginVC.showMain, sender: self)
-            case .failure(let error):
-                log.todo("handle error calling /login: \(String(describing: error))")
-                self?.performSegue(withIdentifier: R.segue.loginVC.presentLoginFail, sender: self)
+                return
+            case .failure(.status):
+                self?.errorMessage = ""
+            case .failure(.results):
+                self?.errorMessage = Localized.resultError()
+            case .failure(.network(let message)):
+                self?.errorMessage = Localized.networkError(message)
+            default:
+                self?.errorMessage = Localized.unexpectedError()
             }
+            self?.performSegue(withIdentifier: R.segue.loginVC.presentLoginFail, sender: self)
         }
     }
 }

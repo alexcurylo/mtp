@@ -9,8 +9,14 @@ final class LoginFailVC: UIViewController {
     @IBOutlet private var centerY: NSLayoutConstraint?
     @IBOutlet private var messageLabel: UILabel?
 
+    var errorMessage: String?
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if let message = errorMessage, !message.isEmpty {
+            messageLabel?.text = message
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
