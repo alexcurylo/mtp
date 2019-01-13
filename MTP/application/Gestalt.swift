@@ -9,6 +9,7 @@ protocol Gestalt {
 
     var email: String { get set }
     var lastUserRefresh: Date? { get set }
+    var locations: [Location] { get set }
     var name: String { get set }
     var password: String { get set }
     var rankingsFilter: UserFilter? { get set }

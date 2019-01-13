@@ -123,7 +123,10 @@ enum MTPAPI {
 
     typealias BoolResult = (_ result: Result<Bool, MTPAPIError>) -> Void
     typealias CountriesResult = (_ result: Result<[Country], MTPAPIError>) -> Void
+    typealias LocationsResult = (_ result: Result<[Location], MTPAPIError>) -> Void
     typealias UserResult = (_ result: Result<User, MTPAPIError>) -> Void
+
+    static let parentCountryUSA = 977
 
     static func countriesSearch(query: String,
                                 then: @escaping CountriesResult) {
@@ -149,7 +152,28 @@ enum MTPAPI {
         }
     }
 
-    static let parentCountryUSA = 977
+    static func loadLocations(then: @escaping LocationsResult = { _ in }) {
+        let provider = MoyaProvider<MTP>()
+        provider.request(.location) { response in
+            switch response {
+            case .success(let result):
+                do {
+                    let locations = try result.map([Location].self,
+                                                   using: JSONDecoder.mtp)
+                    log.verbose("locations: " + locations.debugDescription)
+                    gestalt.locations = locations
+                    return then(.success(locations))
+                } catch {
+                    log.error("decoding locations: \(error)")
+                    return then(.failure(.results))
+                }
+            case .failure(let error):
+                let message = error.errorDescription ?? Localized.unknown()
+                log.error("location: \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
 
     static func locationsSearch(query: String,
                                 parentCountry: Int? = nil,
