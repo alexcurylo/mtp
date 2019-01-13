@@ -26,7 +26,7 @@ extension MTP: TargetType {
     private var stagingURL: URL? { return URL(string: "https://aws.mtp.travel/api/") }
     private var productionURL: URL? { return URL(string: "https://mtp.travel/api/") }
     // swiftlint:disable:next force_unwrapping
-    public var baseURL: URL { return productionURL! }
+    public var baseURL: URL { return stagingURL! }
 
     public var path: String {
         switch self {
