@@ -16,9 +16,11 @@ enum MTPAPIError: Swift.Error {
 
 enum MTP {
     case countriesSearch(query: String?)
+    case location
     case locationsSearch(parentCountry: Int?, query: String?)
     case userGetByToken
     case userLogin(email: String, password: String)
+    case whs
 }
 
 extension MTP: TargetType {
@@ -32,18 +34,26 @@ extension MTP: TargetType {
         switch self {
         case .countriesSearch:
             return "countries/search"
+        case .location:
+            return "location"
         case .locationsSearch:
             return "locations/search"
         case .userGetByToken:
             return "user/getByToken"
         case .userLogin:
             return "user/login"
+        case .whs:
+            return "whs"
         }
     }
 
     public var method: Moya.Method {
         switch self {
-        case .countriesSearch, .locationsSearch, .userGetByToken:
+        case .countriesSearch,
+             .location,
+             .locationsSearch,
+             .userGetByToken,
+             .whs:
             return .get
         case .userLogin:
             return .post
@@ -69,7 +79,11 @@ extension MTP: TargetType {
             return .requestParameters(parameters: ["email": email,
                                                    "password": password],
                                       encoding: JSONEncoding.default)
-        case .countriesSearch, .locationsSearch, .userGetByToken:
+        case .countriesSearch,
+             .location,
+             .locationsSearch,
+             .userGetByToken,
+             .whs:
             return .requestPlain
         }
     }
@@ -95,7 +109,11 @@ extension MTP: AccessTokenAuthorizable {
         switch self {
         case .userGetByToken:
             return .bearer
-        case .countriesSearch, .locationsSearch, .userLogin:
+        case .countriesSearch,
+             .location,
+             .locationsSearch,
+             .userLogin,
+             .whs:
             return .none
         }
     }
