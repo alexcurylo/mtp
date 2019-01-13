@@ -79,14 +79,18 @@ private extension LoginVC {
     }
 
     @IBAction func loginTapped(_ sender: GradientButton) {
-        login(email: emailTextField?.text ?? "",
-              password: passwordTextField?.text ?? "")
+        login()
     }
 
     @IBAction func facebookTapped(_ sender: FacebookButton) {
         sender.login { [weak self] _, email, id in
             self?.login(email: email, password: id)
         }
+    }
+
+    func login() {
+        login(email: emailTextField?.text ?? "",
+              password: passwordTextField?.text ?? "")
     }
 
     func login(email: String, password: String) {
@@ -100,6 +104,21 @@ private extension LoginVC {
                 self?.performSegue(withIdentifier: R.segue.loginVC.presentLoginFail, sender: self)
             }
         }
+    }
+}
+
+extension LoginVC: UITextFieldDelegate {
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case emailTextField:
+            passwordTextField?.becomeFirstResponder()
+        case passwordTextField:
+            passwordTextField?.resignFirstResponder()
+        default:
+            break
+        }
+        return false
     }
 }
 

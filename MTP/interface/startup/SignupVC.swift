@@ -77,15 +77,19 @@ private extension SignupVC {
     }
 
     @IBAction func signupTapped(_ sender: GradientButton) {
-        register(name: nameTextField?.text ?? "",
-                 email: emailTextField?.text ?? "",
-                 password: passwordTextField?.text ?? "")
+        register()
     }
 
     @IBAction func facebookTapped(_ sender: FacebookButton) {
         sender.login { [weak self] name, email, id in
             self?.register(name: name, email: email, password: id)
         }
+    }
+
+    func register() {
+        register(name: nameTextField?.text ?? "",
+                 email: emailTextField?.text ?? "",
+                 password: passwordTextField?.text ?? "")
     }
 
     func register(name: String, email: String, password: String) {
@@ -97,6 +101,23 @@ private extension SignupVC {
                 log.todo("handle error calling /register: \(String(describing: error))")
             }
         }
+    }
+}
+
+extension SignupVC: UITextFieldDelegate {
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case nameTextField:
+            emailTextField?.becomeFirstResponder()
+        case emailTextField:
+            passwordTextField?.becomeFirstResponder()
+        case passwordTextField:
+            passwordTextField?.resignFirstResponder()
+        default:
+            break
+        }
+        return false
     }
 }
 
