@@ -1,7 +1,8 @@
 // @copyright Trollwerks Inc.
 
+import Alamofire
 import Moya
-import Result
+import enum Result.Result
 
 enum MTPAPIError: Swift.Error {
     case unknown
@@ -242,8 +243,8 @@ enum MTPAPI {
             switch response {
             case .success(let result):
                 return parse(result: result)
-            case .failure(.statusCode):
-                log.error("user/login API failure")
+            case .failure(.underlying(AFError.responseValidationFailed, _)):
+                log.error("user/login API rejection")
                 return then(.failure(.status))
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
