@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import UIKit
+import KRProgressHUD
 
 let style = Styler.self
 
@@ -12,6 +12,7 @@ enum Styler {
     func styleAppearance() {
         styleAppearanceNavBar()
         styleAppearanceSearchBar()
+        styleAppearanceProgress()
     }
 
     func styleAppearanceNavBar() {
@@ -24,6 +25,12 @@ enum Styler {
     func styleAppearanceSearchBar() {
         UISearchBar.styleAppearance()
      }
+
+    func styleAppearanceProgress() {
+        KRProgressHUD.set(maskType: .custom(color: UIColor(white: 0, alpha: 0.8)))
+        KRProgressHUD.set(style: .black)
+        KRProgressHUD.set(activityIndicatorViewColors: [.white, UIColor(white: 0.7, alpha: 1)])
+    }
 
     var barTint: UIColor {
         switch self {

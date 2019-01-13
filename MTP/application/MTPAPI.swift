@@ -1,13 +1,15 @@
 // @copyright Trollwerks Inc.
 
+import Alamofire
 import Moya
-import Result
+import enum Result.Result
 
 enum MTPAPIError: Swift.Error {
     case unknown
     case parameter
     case network(String)
     case results
+    case status
     case throttle
     case token
 }
@@ -24,7 +26,7 @@ extension MTP: TargetType {
     private var stagingURL: URL? { return URL(string: "https://aws.mtp.travel/api/") }
     private var productionURL: URL? { return URL(string: "https://mtp.travel/api/") }
     // swiftlint:disable:next force_unwrapping
-    public var baseURL: URL { return productionURL! }
+    public var baseURL: URL { return stagingURL! }
 
     public var path: String {
         switch self {
@@ -122,7 +124,7 @@ enum MTPAPI {
                     return then(.failure(.results))
                 }
             case .failure(let error):
-                let message = error.errorDescription ?? "undefined"
+                let message = error.errorDescription ?? Localized.unknown()
                 log.error("countries/search: \(message)")
                 return then(.failure(.network(message)))
             }
@@ -150,7 +152,7 @@ enum MTPAPI {
                     return then(.failure(.results))
                 }
             case .failure(let error):
-                let message = error.errorDescription ?? "undefined"
+                let message = error.errorDescription ?? Localized.unknown()
                 log.error("locations/search: \(message)")
                 return then(.failure(.network(message)))
             }
@@ -203,7 +205,7 @@ enum MTPAPI {
                     return then(.failure(.results))
                 }
             case .failure(let error):
-                let message = error.errorDescription ?? "undefined"
+                let message = error.errorDescription ?? Localized.unknown()
                 log.error("user/getByToken: \(message)")
                 return then(.failure(.network(message)))
             }
@@ -218,28 +220,35 @@ enum MTPAPI {
             return then(.failure(.parameter))
         }
 
+        func parse(result: Response) {
+            do {
+                let user = try result.map(User.self,
+                                          using: JSONDecoder.mtp)
+                guard let token = user.token else { throw MTPAPIError.token }
+                gestalt.token = token
+                gestalt.user = user
+                gestalt.lastUserRefresh = Date().toUTC
+                gestalt.email = email
+                gestalt.password = password
+                log.verbose("logged in user: " + user.debugDescription)
+                return then(.success(user))
+            } catch {
+                log.error("decoding user: \(error)")
+                return then(.failure(.results))
+            }
+        }
+
         let provider = MoyaProvider<MTP>()
         provider.request(.userLogin(email: email, password: password)) { response in
             switch response {
             case .success(let result):
-                do {
-                    let user = try result.map(User.self,
-                                              using: JSONDecoder.mtp)
-                    guard let token = user.token else { throw MTPAPIError.token }
-                    gestalt.token = token
-                    gestalt.user = user
-                    gestalt.lastUserRefresh = Date().toUTC
-                    gestalt.email = email
-                    gestalt.password = password
-                    log.verbose("logged in user: " + user.debugDescription)
-                    return then(.success(user))
-                } catch {
-                    log.error("decoding user: \(error)")
-                    return then(.failure(.results))
-                }
+                return parse(result: result)
+            case .failure(.underlying(AFError.responseValidationFailed, _)):
+                log.error("user/login API rejection")
+                return then(.failure(.status))
             case .failure(let error):
-                let message = error.errorDescription ?? "undefined"
-                log.error("user/login: \(message)")
+                let message = error.errorDescription ?? Localized.unknown()
+                log.error("user/login failure : \(message)")
                 return then(.failure(.network(message)))
             }
         }

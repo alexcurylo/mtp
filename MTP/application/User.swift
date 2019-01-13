@@ -5,14 +5,14 @@ import UIKit
 struct User: Codable {
 
     let airport: String?
-    let bio: String
+    let bio: String?
     let birthday: Date
     let country: Country
-    let countryId: String
+    let countryId: UncertainValue<Int, String> // Int in staging, String in production
     let createdAt: Date
     let email: String
     let facebookEmail: String?
-    let facebookId: String?
+    let facebookId: UncertainValue<Int, String> // Int in staging, String in production
     let facebookUserToken: String?
     let favoritePlaces: [FavoritePlace]
     let firstName: String
@@ -23,17 +23,17 @@ struct User: Codable {
     let lastName: String
     let location: Country
     let links: [Link]
-    let locationId: String
-    let picture: String
+    let locationId: UncertainValue<Int, String> // Int in staging, String in production
+    let picture: String?
     let role: Int
-    let score: String
-    let scoreBeaches: String
-    let scoreDivesites: String
-    let scoreGolfcourses: String
-    let scoreLocations: String
-    let scoreRestaurants: String
-    let scoreUncountries: String
-    let scoreWhss: String
+    let score: UncertainValue<Int, String> // Int in staging, String in production
+    let scoreBeaches: UncertainValue<Int, String> // Int in staging, String in production
+    let scoreDivesites: UncertainValue<Int, String> // Int in staging, String in production
+    let scoreGolfcourses: UncertainValue<Int, String> // Int in staging, String in production
+    let scoreLocations: UncertainValue<Int, String> // Int in staging, String in production
+    let scoreRestaurants: UncertainValue<Int, String> // Int in staging, String in production
+    let scoreUncountries: UncertainValue<Int, String> // Int in staging, String in production
+    let scoreWhss: UncertainValue<Int, String> // Int in staging, String in production
     let status: String
     let token: String? // found only in login response
     let updatedAt: Date
@@ -53,7 +53,7 @@ extension User: CustomDebugStringConvertible {
         return """
         < User: \(description):
             airport: \(String(describing: airport))
-            bio: \(bio)
+            bio: \(String(describing: bio))
             birthday: \(birthday)
             country: \(country.debugDescription)
             country_id: \(countryId)
@@ -72,7 +72,7 @@ extension User: CustomDebugStringConvertible {
             location: \(location.debugDescription)
             links: \(links.debugDescription)
             location_id: \(locationId)
-            picture: \(picture)
+            picture: \(String(describing: picture))
             role: \(role)
             score: \(score)
             score_beaches: \(scoreBeaches)
@@ -93,8 +93,8 @@ extension User: CustomDebugStringConvertible {
 
 struct FavoritePlace: Codable {
 
-    let id: String
-    let type: String
+    let id: String?
+    let type: String?
 }
 
 extension FavoritePlace: CustomStringConvertible, CustomDebugStringConvertible {
@@ -104,7 +104,11 @@ extension FavoritePlace: CustomStringConvertible, CustomDebugStringConvertible {
     }
 
     public var debugDescription: String {
-        return "< Favorite Place: id \(id) type \(type)>"
+        return """
+        < Favorite Place:
+            id \(String(describing: id))
+            type \(String(describing: type))>
+        """
     }
 }
 
@@ -128,7 +132,7 @@ extension Link: CustomStringConvertible, CustomDebugStringConvertible {
 extension User {
 
     var visited: Int {
-        return Int(scoreLocations) ?? 0
+        return scoreLocations.intValue ?? 0
     }
 
     var remaining: Int {
