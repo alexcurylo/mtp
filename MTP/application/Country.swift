@@ -49,11 +49,11 @@ struct UncertainValue<T: Codable, U: Codable>: Codable {
 struct Country: Codable {
 
     let Country: String?
-    let CountryId: UncertainValue<Int, String>? // String in children
+    let CountryId: UncertainValue<Int, String> // String in children
     let GroupCandidateId: Int?
     let Location: String
     let MLHowtoget: String?
-    let RegionIDnew: String
+    let RegionIDnew: UncertainValue<Int, String> // String on mtp.travel, Int on aws.mtp.travel
     let RegionName: String?
     let Regionold: Int?
     let URL: String?
@@ -65,24 +65,24 @@ struct Country: Codable {
     // swiftlint:disable:next discouraged_optional_collection
     let children: [Country]?
     let cities: String?
-    let countryId: UncertainValue<Int, String>? // String in children, nil in locationSearch
+    let countryId: UncertainValue<Int, String> // String in children, nil in locationSearch
     let countVisitors: Int?
     let cv: String?
     let info: String?
     let isMtpLocation: UncertainValue<Int, String> // String in children
-    let lat: String?
+    let lat: UncertainValue<Double, String> // Double in new account, nil in old
     let latitude: String?
-    let lon: String?
+    let lon: UncertainValue<Double, String> // Double in new account, nil in old
     let longitude: String?
     let dateUpdated: Date
-    let distance: String?
+    let distance: UncertainValue<Int, String> // Int in new account, nil in old
     let distanceold: String?
     let id: UncertainValue<Int, String> // String in children
     let isUn: UncertainValue<Int, String> // String in children
     let locationName: String
     let order: String?
     let rank: Int
-    let regionId: UncertainValue<Int, String>? // String in children, nil in locationSearch
+    let regionId: UncertainValue<Int, String> // String in children, nil in locationSearch
     let regionName: String?  // nil in locationSearch
     let seaports: String?
     let timename: String?
@@ -91,7 +91,7 @@ struct Country: Codable {
     let visitors: Int
     let weather: String?
     let weatherhist: String?
-    let zoom: String?
+    let zoom: UncertainValue<Int, String> // Int in new account, nil in old
 }
 
 extension Country: CustomStringConvertible {
@@ -111,7 +111,7 @@ extension Country: CustomDebugStringConvertible {
         GroupCandidate_id: \(String(describing: GroupCandidateId))
         Location: \(Location)
         ML_howtoget: \(String(describing: MLHowtoget))
-        RegionIDnew: \(RegionIDnew)
+        RegionIDnew: \(String(describing: RegionIDnew))
         RegionName: \(String(describing: RegionName))
         Regionold: \(String(describing: Regionold))
         URL: \(String(describing: URL))

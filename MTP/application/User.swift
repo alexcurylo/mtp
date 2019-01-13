@@ -8,11 +8,11 @@ struct User: Codable {
     let bio: String?
     let birthday: Date
     let country: Country
-    let countryId: String
+    let countryId: UncertainValue<Int, String> // Int in staging, String in production
     let createdAt: Date
     let email: String
     let facebookEmail: String?
-    let facebookId: String?
+    let facebookId: UncertainValue<Int, String> // Int in staging, String in production
     let facebookUserToken: String?
     let favoritePlaces: [FavoritePlace]
     let firstName: String
@@ -23,17 +23,17 @@ struct User: Codable {
     let lastName: String
     let location: Country
     let links: [Link]
-    let locationId: String
+    let locationId: UncertainValue<Int, String> // Int in staging, String in production
     let picture: String?
     let role: Int
-    let score: String
-    let scoreBeaches: String
-    let scoreDivesites: String
-    let scoreGolfcourses: String
-    let scoreLocations: String
-    let scoreRestaurants: String
-    let scoreUncountries: String
-    let scoreWhss: String
+    let score: UncertainValue<Int, String> // Int in staging, String in production
+    let scoreBeaches: UncertainValue<Int, String> // Int in staging, String in production
+    let scoreDivesites: UncertainValue<Int, String> // Int in staging, String in production
+    let scoreGolfcourses: UncertainValue<Int, String> // Int in staging, String in production
+    let scoreLocations: UncertainValue<Int, String> // Int in staging, String in production
+    let scoreRestaurants: UncertainValue<Int, String> // Int in staging, String in production
+    let scoreUncountries: UncertainValue<Int, String> // Int in staging, String in production
+    let scoreWhss: UncertainValue<Int, String> // Int in staging, String in production
     let status: String
     let token: String? // found only in login response
     let updatedAt: Date
@@ -132,7 +132,7 @@ extension Link: CustomStringConvertible, CustomDebugStringConvertible {
 extension User {
 
     var visited: Int {
-        return Int(scoreLocations) ?? 0
+        return scoreLocations.intValue ?? 0
     }
 
     var remaining: Int {
