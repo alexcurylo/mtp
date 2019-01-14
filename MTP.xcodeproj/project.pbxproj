@@ -20,6 +20,7 @@
 		FA25ACE6217B54A8000AE26D /* RankingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA25ACE5217B54A8000AE26D /* RankingCell.swift */; };
 		FA25ACE8217C87ED000AE26D /* RankingHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA25ACE7217C87ED000AE26D /* RankingHeader.swift */; };
 		FA291FD5217ECBC8004140BD /* RankingsFilterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA291FD4217ECBC8004140BD /* RankingsFilterVC.swift */; };
+		FA2E718521ED535B00E6AB73 /* WHS.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2E718421ED535B00E6AB73 /* WHS.swift */; };
 		FA32CC7220FAC863004C1329 /* XCTestCase+UITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA32CC7120FAC863004C1329 /* XCTestCase+UITest.swift */; };
 		FA32CC7420FB6E67004C1329 /* UIView+Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA32CC7320FB6E67004C1329 /* UIView+Gradient.swift */; };
 		FA32CC762100C34E004C1329 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA32CC752100C34E004C1329 /* LoginVC.swift */; };
@@ -123,6 +124,7 @@
 		FA25ACE5217B54A8000AE26D /* RankingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingCell.swift; sourceTree = "<group>"; };
 		FA25ACE7217C87ED000AE26D /* RankingHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingHeader.swift; sourceTree = "<group>"; };
 		FA291FD4217ECBC8004140BD /* RankingsFilterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsFilterVC.swift; sourceTree = "<group>"; };
+		FA2E718421ED535B00E6AB73 /* WHS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WHS.swift; sourceTree = "<group>"; };
 		FA32CC7120FAC863004C1329 /* XCTestCase+UITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+UITest.swift"; sourceTree = "<group>"; };
 		FA32CC7320FB6E67004C1329 /* UIView+Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Gradient.swift"; sourceTree = "<group>"; };
 		FA32CC752100C34E004C1329 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -387,6 +389,7 @@
 				FA4653332115ADC6005B5A0A /* MTPAPI.swift */,
 				FA76D9742131278900EF8E25 /* User.swift */,
 				FA4653312115A250005B5A0A /* UserDefaults+Gestalt.swift */,
+				FA2E718421ED535B00E6AB73 /* WHS.swift */,
 			);
 			path = application;
 			sourceTree = "<group>";
@@ -868,6 +871,7 @@
 				FA32CC7420FB6E67004C1329 /* UIView+Gradient.swift in Sources */,
 				FAF1853120FA0C8600CC5D83 /* RootVC.swift in Sources */,
 				FAFEDA5421296F6D00DA3DB8 /* MainTBC.swift in Sources */,
+				FA2E718521ED535B00E6AB73 /* WHS.swift in Sources */,
 				FAAE29BF20EE51A700B43BA9 /* UIApplication+Environment.swift in Sources */,
 				FA32CC762100C34E004C1329 /* LoginVC.swift in Sources */,
 				FA46533021157784005B5A0A /* FacebookButton.swift in Sources */,
