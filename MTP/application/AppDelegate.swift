@@ -37,6 +37,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         MTPAPI.userGetByToken()
         MTPAPI.loadLocations()
+        MTPAPI.loadWHS()
 
         logFacebookActivate()
     }

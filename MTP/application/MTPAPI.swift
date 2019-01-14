@@ -125,6 +125,7 @@ enum MTPAPI {
     typealias CountriesResult = (_ result: Result<[Country], MTPAPIError>) -> Void
     typealias LocationsResult = (_ result: Result<[Location], MTPAPIError>) -> Void
     typealias UserResult = (_ result: Result<User, MTPAPIError>) -> Void
+    typealias WHSResult = (_ result: Result<[WHS], MTPAPIError>) -> Void
 
     static let parentCountryUSA = 977
 
@@ -170,6 +171,29 @@ enum MTPAPI {
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
                 log.error("location: \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
+    static func loadWHS(then: @escaping WHSResult = { _ in }) {
+        let provider = MoyaProvider<MTP>()
+        provider.request(.whs) { response in
+            switch response {
+            case .success(let result):
+                do {
+                    let whs = try result.map([WHS].self,
+                                             using: JSONDecoder.mtp)
+                    log.verbose("whs: " + whs.debugDescription)
+                    gestalt.whs = whs
+                    return then(.success(whs))
+                } catch {
+                    log.error("decoding whs: \(error)")
+                    return then(.failure(.results))
+                }
+            case .failure(let error):
+                let message = error.errorDescription ?? Localized.unknown()
+                log.error("whs: \(message)")
                 return then(.failure(.network(message)))
             }
         }
