@@ -90,4 +90,22 @@ extension UserDefaults: Gestalt {
             }
         }
     }
+
+    var whs: [WHS] {
+        get {
+            do {
+                return try get(objectType: [WHS].self, forKey: #function) ?? []
+            } catch {
+                log.error("decoding WHS value: \(error)")
+                return []
+            }
+        }
+        set {
+            do {
+                return try set(object: newValue, forKey: #function)
+            } catch {
+                log.error("encoding WHS newValue: \(error)")
+            }
+        }
+    }
 }

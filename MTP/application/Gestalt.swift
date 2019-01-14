@@ -15,6 +15,7 @@ protocol Gestalt {
     var rankingsFilter: UserFilter? { get set }
     var token: String { get set }
     var user: User? { get set }
+    var whs: [WHS] { get set }
 }
 
 extension Gestalt {
