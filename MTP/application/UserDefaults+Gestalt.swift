@@ -25,7 +25,8 @@ extension UserDefaults: Gestalt {
         }
         set {
             do {
-                return try set(object: newValue, forKey: #function)
+                try set(object: newValue, forKey: #function)
+                notifyObservers(about: #function)
             } catch {
                 log.error("encoding locations newValue: \(error)")
             }
@@ -57,7 +58,7 @@ extension UserDefaults: Gestalt {
                 return
             }
             do {
-                return try set(object: newRankingsFilter, forKey: #function)
+                try set(object: newRankingsFilter, forKey: #function)
             } catch {
                 log.error("encoding rankingsFilter newValue: \(error)")
             }
@@ -84,7 +85,8 @@ extension UserDefaults: Gestalt {
                 return
             }
             do {
-                return try set(object: newUser, forKey: #function)
+                try set(object: newUser, forKey: #function)
+                notifyObservers(about: #function)
             } catch {
                 log.error("encoding user newValue: \(error)")
             }
@@ -102,7 +104,8 @@ extension UserDefaults: Gestalt {
         }
         set {
             do {
-                return try set(object: newValue, forKey: #function)
+                try set(object: newValue, forKey: #function)
+                notifyObservers(about: #function)
             } catch {
                 log.error("encoding WHS newValue: \(error)")
             }

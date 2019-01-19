@@ -5,7 +5,7 @@ import UIKit
 
 var gestalt = UserDefaults.standard
 
-protocol Gestalt {
+protocol Gestalt: Observable {
 
     var email: String { get set }
     var lastUserRefresh: Date? { get set }
@@ -17,7 +17,6 @@ protocol Gestalt {
     var user: User? { get set }
     var whs: [WHS] { get set }
 }
-
 extension Gestalt {
 
     mutating func logOut() {
@@ -39,5 +38,49 @@ extension Gestalt {
             log.debug("token expired -- should we be refreshing somehow?")
         }
         return expired
+    }
+}
+
+// MARK: - Observable
+
+enum GestaltChange: String {
+    case locations
+    case user
+    case whs
+}
+
+extension Notification.Name {
+    static let gestaltChange = Notification.Name("GestaltChange")
+}
+
+extension Gestalt {
+
+    var statusKey: StatusKey {
+        return .change
+    }
+
+    var notification: Notification.Name {
+        return .gestaltChange
+    }
+
+    func newUserObserver(handler: @escaping NotificationHandler) -> Observer {
+        return ObserverImpl(notification: notification,
+                            key: statusKey,
+                            value: GestaltChange.user.rawValue,
+                            notify: handler)
+    }
+
+    func newLocationsObserver(handler: @escaping NotificationHandler) -> Observer {
+        return ObserverImpl(notification: notification,
+                            key: statusKey,
+                            value: GestaltChange.locations.rawValue,
+                            notify: handler)
+    }
+
+    func newWHSObserver(handler: @escaping NotificationHandler) -> Observer {
+        return ObserverImpl(notification: notification,
+                            key: statusKey,
+                            value: GestaltChange.whs.rawValue,
+                            notify: handler)
     }
 }
