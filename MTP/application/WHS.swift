@@ -3,7 +3,7 @@
 import Foundation
 
 struct WHS: Codable {
-    let active: String
+    let active: String? // not in staging
     let countVisitors: Int? // not in staging
     let id: Int
     let lat: UncertainValue<Double, String> // Double in staging, String in production
@@ -27,7 +27,7 @@ extension WHS: CustomDebugStringConvertible {
     var debugDescription: String {
         return """
         < Location: \(description):
-        active: \(active)
+        active: \(String(describing: active))
         count_visitors: \(String(describing: countVisitors))
         id: \(id)
         lat: \(String(describing: lat))

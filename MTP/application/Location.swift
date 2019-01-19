@@ -8,8 +8,8 @@ struct Location: Codable {
     let Location: String? // not in staging
     let RegionIDnew: String? // not in staging
     let RegionName: String? // not in staging
-    let active: String
-    let adminLevel: Int
+    let active: String? // not in staging
+    let adminLevel: Int? // not in staging
     let airports: String?
     let countryId: Int
     let countryName: String
@@ -53,7 +53,7 @@ extension Location: CustomDebugStringConvertible {
         Location: \(String(describing: Location))
         RegionIDnew: \(String(describing: RegionIDnew))
         RegionName: \(String(describing: RegionName))
-        active: \(active)
+        active: \(String(describing: active))
         admin_level: \(adminLevel)
         airports: \(String(describing: airports))
         countryId: \(String(describing: countryId))
