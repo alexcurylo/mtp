@@ -37,6 +37,9 @@ final class RankingVC: UIViewController {
     private var filterDescription: String = ""
     private var rank = 0
 
+    var userObserver: Observer?
+    var locationsObserver: Observer?
+
     init(options: PagingOptions) {
         super.init(nibName: nil, bundle: nil)
 
@@ -52,6 +55,8 @@ final class RankingVC: UIViewController {
             RankingHeader.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: RankingHeader.reuseIdentifier)
+
+        observe()
     }
 
     @available(*, unavailable)
@@ -127,5 +132,18 @@ extension RankingVC: UICollectionViewDataSource {
         }
 
         return cell
+    }
+
+    func observe() {
+        guard userObserver == nil else { return }
+
+        userObserver = gestalt.newUserObserver { [weak self] in
+            log.todo("RankingVC update")
+            self?.collectionView.reloadData()
+        }
+        locationsObserver = gestalt.newLocationsObserver { [weak self] in
+            log.todo("RankingVC update")
+            self?.collectionView.reloadData()
+        }
     }
 }
