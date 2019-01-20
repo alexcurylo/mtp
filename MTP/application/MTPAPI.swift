@@ -10,6 +10,7 @@ enum MTPAPIError: Swift.Error {
     case unknown
     case parameter
     case network(String)
+    case notModified
     case results
     case status
     case throttle
@@ -270,7 +271,7 @@ extension MTPAPI {
                 do {
                     let locations = try result.map([Location].self,
                                                    using: JSONDecoder.mtp)
-                    log.verbose("locations: " + locations.debugDescription)
+                    //log.verbose("locations: " + locations.debugDescription)
                     gestalt.locations = locations
                     return then(.success(locations))
                 } catch {
@@ -293,10 +294,15 @@ extension MTPAPI {
                 do {
                     let whs = try result.map([WHS].self,
                                              using: JSONDecoder.mtp)
-                    log.verbose("whs: " + whs.debugDescription)
+                    //log.verbose("whs: " + whs.debugDescription)
                     gestalt.whs = whs
                     return then(.success(whs))
                 } catch {
+                    if let resultString = try? result.mapString(),
+                       resultString == "{\"status\":\"Not-Modified\"}" {
+                        // on staging also can check not-modified 1 in result.response.allHeaderFields
+                        return then(.failure(.notModified))
+                    }
                     log.error("decoding whs: \(error)")
                     return then(.failure(.results))
                 }
@@ -320,7 +326,7 @@ extension MTPAPI {
                 do {
                     let locations = try result.map([Country].self,
                                                    using: JSONDecoder.mtp)
-                    log.verbose("locations[\(query)]: " + locations.debugDescription)
+                    //log.verbose("locations[\(query)]: " + locations.debugDescription)
                     return then(.success(locations))
                 } catch {
                     log.error("decoding locations: \(error)")
