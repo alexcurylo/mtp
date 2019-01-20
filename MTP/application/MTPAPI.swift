@@ -17,6 +17,7 @@ enum MTPAPIError: Swift.Error {
 }
 
 enum MTP {
+    case checklistBeaches
     case checklistLocations
     case checklistUNCountries
     case checklistWHSs
@@ -38,6 +39,8 @@ extension MTP: TargetType {
 
     public var path: String {
         switch self {
+        case .checklistBeaches:
+            return "me/checklists/beaches"
         case .checklistLocations:
             return "me/checklists/locations"
         case .checklistUNCountries:
@@ -63,7 +66,8 @@ extension MTP: TargetType {
 
     public var method: Moya.Method {
         switch self {
-        case .checklistLocations,
+        case .checklistBeaches,
+             .checklistLocations,
              .checklistUNCountries,
              .checklistWHSs,
              .countries,
@@ -99,7 +103,8 @@ extension MTP: TargetType {
             return .requestParameters(parameters: ["email": email,
                                                    "password": password],
                                       encoding: JSONEncoding.default)
-        case .checklistLocations,
+        case .checklistBeaches,
+             .checklistLocations,
              .checklistUNCountries,
              .checklistWHSs,
              .countries,
@@ -131,7 +136,8 @@ extension MTP: AccessTokenAuthorizable {
 
     var authorizationType: AuthorizationType {
         switch self {
-        case .checklistLocations,
+        case .checklistBeaches,
+             .checklistLocations,
              .checklistUNCountries,
              .checklistWHSs,
              .userGetByToken:
@@ -431,6 +437,12 @@ extension MTPAPI {
         if gestalt.isLoggedIn {
             MTPAPI.userGetByToken()
 
+            MTPAPI.load(checklist: .checklistBeaches) { result in
+                if case let .success(checklist) = result {
+                    log.verbose("checklistBeaches (\(checklist.count)): " + checklist.debugDescription)
+                    gestalt.checklistBeaches = checklist
+                }
+            }
             MTPAPI.load(checklist: .checklistLocations) { result in
                 if case let .success(checklist) = result {
                     log.verbose("checklistLocations (\(checklist.count)): " + checklist.debugDescription)
