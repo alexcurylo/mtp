@@ -4,6 +4,25 @@ import Foundation
 
 extension UserDefaults: Gestalt {
 
+    var beaches: [Beach] {
+        get {
+            do {
+                return try get(objectType: [Beach].self, forKey: #function) ?? []
+            } catch {
+                log.error("decoding beaches value: \(error)")
+                return []
+            }
+        }
+        set {
+            do {
+                try set(object: newValue, forKey: #function)
+                notifyObservers(about: #function)
+            } catch {
+                log.error("encoding beaches newValue: \(error)")
+            }
+        }
+    }
+
     var checklists: Checklists? {
         get {
             do {

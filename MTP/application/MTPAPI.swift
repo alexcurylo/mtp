@@ -18,6 +18,7 @@ enum MTPAPIError: Swift.Error {
 }
 
 enum MTP {
+    case beach
     case checklists
     case countries // appears same as `location` but returns 891 in production
     case countriesSearch(query: String?)
@@ -41,6 +42,8 @@ extension MTP: TargetType {
 
     public var path: String {
         switch self {
+        case .beach:
+            return "beach"
         case .checklists:
             return "me/checklists"
         case .countries:
@@ -64,7 +67,8 @@ extension MTP: TargetType {
 
     public var method: Moya.Method {
         switch self {
-        case .checklists,
+        case .beach,
+             .checklists,
              .countries,
              .countriesSearch,
              .location,
@@ -97,7 +101,8 @@ extension MTP: TargetType {
             return .requestParameters(parameters: ["email": email,
                                                    "password": password],
                                       encoding: JSONEncoding.default)
-        case .checklists,
+        case .beach,
+             .checklists,
              .countries,
              .countriesSearch,
              .location,
@@ -131,7 +136,8 @@ extension MTP: AccessTokenAuthorizable {
         case .checklists,
              .userGetByToken:
             return .bearer
-        case .countries,
+        case .beach,
+             .countries,
              .countriesSearch,
              .location,
              .locationsSearch,
@@ -145,6 +151,7 @@ extension MTP: AccessTokenAuthorizable {
 
 enum MTPAPI {
 
+    typealias BeachesResult = (_ result: Result<[Beach], MTPAPIError>) -> Void
     typealias BoolResult = (_ result: Result<Bool, MTPAPIError>) -> Void
     typealias ChecklistsResult = (_ result: Result<Checklists, MTPAPIError>) -> Void
     typealias CountriesResult = (_ result: Result<[Country], MTPAPIError>) -> Void
@@ -170,7 +177,7 @@ extension MTPAPI {
                 do {
                     let countries = try result.map([Country].self,
                                                    using: JSONDecoder.mtp)
-                    log.verbose("countries[\(query)]: " + countries.debugDescription)
+                    //log.verbose("countries[\(query)]: " + countries.debugDescription)
                     return then(.success(countries))
                 } catch {
                     log.error("decoding countries: \(error)")
@@ -179,6 +186,29 @@ extension MTPAPI {
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
                 log.error("failure: \(endpoint.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
+    static func loadBeaches(then: @escaping BeachesResult = { _ in }) {
+        let provider = MoyaProvider<MTP>()
+        provider.request(.beach) { response in
+            switch response {
+            case .success(let result):
+                do {
+                    let beaches = try result.map([Beach].self,
+                                                 using: JSONDecoder.mtp)
+                    //log.verbose("beaches: " + beaches.debugDescription)
+                    gestalt.beaches = beaches
+                    return then(.success(beaches))
+                } catch {
+                    log.error("decoding beaches: \(error)")
+                    return then(.failure(.results))
+                }
+            case .failure(let error):
+                let message = error.errorDescription ?? Localized.unknown()
+                log.error("failure: \(MTP.beach.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
@@ -198,7 +228,7 @@ extension MTPAPI {
                 do {
                     let checklists = try result.map(Checklists.self,
                                                     using: JSONDecoder.mtp)
-                    log.verbose("checklists: " + checklists.debugDescription)
+                    //log.verbose("checklists: " + checklists.debugDescription)
                     gestalt.checklists = checklists
                     return then(.success(checklists))
                 } catch {
@@ -221,7 +251,7 @@ extension MTPAPI {
                 do {
                     let countries = try result.map([Country].self,
                                                    using: JSONDecoder.mtp)
-                    log.verbose("countries: " + countries.debugDescription)
+                    //log.verbose("countries: " + countries.debugDescription)
                     return then(.success(countries))
                 } catch {
                     log.error("decoding countries: \(error)")
@@ -266,7 +296,7 @@ extension MTPAPI {
                 do {
                     let unCountries = try result.map([Country].self,
                                                      using: JSONDecoder.mtp)
-                    log.verbose("unCountries: " + unCountries.debugDescription)
+                    //log.verbose("unCountries: " + unCountries.debugDescription)
                     gestalt.unCountries = unCountries
                     return then(.success(unCountries))
                 } catch {
@@ -454,6 +484,7 @@ extension MTPAPI {
 extension MTPAPI {
 
     static func refreshData() {
+        loadBeaches()
         loadLocations()
         loadUNCountries()
         loadWHS()

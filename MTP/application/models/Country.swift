@@ -125,7 +125,7 @@ extension Country: CustomDebugStringConvertible {
         countryName: \(String(describing: countryName))
         cv: \(String(describing: cv))
         count_visitors: \(String(describing: countVisitors))
-        dateUpdated: \(dateUpdated)
+        dateUpdated: \(String(describing: dateUpdated))
         distance: \(String(describing: distance))
         distanceold: \(String(describing: distanceold))
         is_mtp_location: \(isMtpLocation)

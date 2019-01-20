@@ -7,6 +7,7 @@ var gestalt = UserDefaults.standard
 
 protocol Gestalt: Observable {
 
+    var beaches: [Beach] { get set }
     var checklists: Checklists? { get set }
     var email: String { get set }
     var lastUserRefresh: Date? { get set }
