@@ -19,6 +19,7 @@ enum MTPAPIError: Swift.Error {
 enum MTP {
     case checklistLocations
     case checklistUNCountries
+    case checklistWHSs
     case countries // appears same as `location` but returns 891 in production
     case countriesSearch(query: String?)
     case location // appears same as `countries` but returns 915 in production
@@ -33,7 +34,7 @@ extension MTP: TargetType {
     private var stagingURL: URL? { return URL(string: "https://aws.mtp.travel/api/") }
     private var productionURL: URL? { return URL(string: "https://mtp.travel/api/") }
     // swiftlint:disable:next force_unwrapping
-    public var baseURL: URL { return stagingURL! }
+    public var baseURL: URL { return productionURL! }
 
     public var path: String {
         switch self {
@@ -41,6 +42,8 @@ extension MTP: TargetType {
             return "me/checklists/locations"
         case .checklistUNCountries:
             return "me/checklists/uncountries"
+        case .checklistWHSs:
+            return "me/checklists/whss"
         case .countries:
             return "countries"
         case .countriesSearch:
@@ -62,6 +65,7 @@ extension MTP: TargetType {
         switch self {
         case .checklistLocations,
              .checklistUNCountries,
+             .checklistWHSs,
              .countries,
              .countriesSearch,
              .location,
@@ -97,6 +101,7 @@ extension MTP: TargetType {
                                       encoding: JSONEncoding.default)
         case .checklistLocations,
              .checklistUNCountries,
+             .checklistWHSs,
              .countries,
              .countriesSearch,
              .location,
@@ -128,6 +133,7 @@ extension MTP: AccessTokenAuthorizable {
         switch self {
         case .checklistLocations,
              .checklistUNCountries,
+             .checklistWHSs,
              .userGetByToken:
             return .bearer
         case .countries,
@@ -435,6 +441,12 @@ extension MTPAPI {
                 if case let .success(checklist) = result {
                     log.verbose("checklistUNCountries (\(checklist.count)): " + checklist.debugDescription)
                     gestalt.checklistUNCountries = checklist
+                }
+            }
+            MTPAPI.load(checklist: .checklistWHSs) { result in
+                if case let .success(checklist) = result {
+                    log.verbose("checklistWHSs (\(checklist.count)): " + checklist.debugDescription)
+                    gestalt.checklistWHSs = checklist
                 }
             }
         }

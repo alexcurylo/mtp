@@ -9,6 +9,7 @@ protocol Gestalt: Observable {
 
     var checklistLocations: [Int] { get set }
     var checklistUNCountries: [Int] { get set }
+    var checklistWHSs: [Int] { get set }
     var email: String { get set }
     var lastUserRefresh: Date? { get set }
     var locations: [Location] { get set }
