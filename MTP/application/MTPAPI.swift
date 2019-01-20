@@ -22,6 +22,7 @@ enum MTP {
     case checklists
     case countries // appears same as `location` but returns 891 in production
     case countriesSearch(query: String?)
+    case divesite
     case golfcourse
     case location // appears same as `countries` but returns 915 in production
     case locationsSearch(parentCountry: Int?, query: String?)
@@ -51,6 +52,8 @@ extension MTP: TargetType {
             return "countries"
         case .countriesSearch:
             return "countries/search"
+        case .divesite:
+            return "divesite"
         case .golfcourse:
             return "golfcourse"
         case .location:
@@ -74,6 +77,7 @@ extension MTP: TargetType {
              .checklists,
              .countries,
              .countriesSearch,
+             .divesite,
              .golfcourse,
              .location,
              .locationsSearch,
@@ -109,6 +113,7 @@ extension MTP: TargetType {
              .checklists,
              .countries,
              .countriesSearch,
+             .divesite,
              .golfcourse,
              .location,
              .locationsSearch,
@@ -144,6 +149,7 @@ extension MTP: AccessTokenAuthorizable {
         case .beach,
              .countries,
              .countriesSearch,
+             .divesite,
              .golfcourse,
              .location,
              .locationsSearch,
@@ -271,6 +277,29 @@ extension MTPAPI {
         }
     }
 
+    static func loadDiveSites(then: @escaping PlacesResult = { _ in }) {
+        let provider = MoyaProvider<MTP>()
+        provider.request(.divesite) { response in
+            switch response {
+            case .success(let result):
+                do {
+                    let diveSites = try result.map([Place].self,
+                                                   using: JSONDecoder.mtp)
+                    //log.verbose("diveSites: " + diveSites.debugDescription)
+                    gestalt.diveSites = diveSites
+                    return then(.success(diveSites))
+                } catch {
+                    log.error("decoding diveSites: \(error)")
+                    return then(.failure(.results))
+                }
+            case .failure(let error):
+                let message = error.errorDescription ?? Localized.unknown()
+                log.error("failure: \(MTP.divesite.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
     static func loadGolfCourses(then: @escaping PlacesResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
         provider.request(.golfcourse) { response in
@@ -279,7 +308,7 @@ extension MTPAPI {
                 do {
                     let golfCourses = try result.map([Place].self,
                                                      using: JSONDecoder.mtp)
-                    log.verbose("golfCourses: " + golfCourses.debugDescription)
+                    //log.verbose("golfCourses: " + golfCourses.debugDescription)
                     gestalt.golfCourses = golfCourses
                     return then(.success(golfCourses))
                 } catch {
@@ -514,6 +543,7 @@ extension MTPAPI {
 
     static func refreshData() {
         loadBeaches()
+        loadDiveSites()
         loadGolfCourses()
         loadLocations()
         loadUNCountries()

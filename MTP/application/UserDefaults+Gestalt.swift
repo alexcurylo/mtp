@@ -42,6 +42,25 @@ extension UserDefaults: Gestalt {
         }
     }
 
+    var diveSites: [Place] {
+        get {
+            do {
+                return try get(objectType: [Place].self, forKey: #function) ?? []
+            } catch {
+                log.error("decoding diveSites value: \(error)")
+                return []
+            }
+        }
+        set {
+            do {
+                try set(object: newValue, forKey: #function)
+                notifyObservers(about: #function)
+            } catch {
+                log.error("encoding diveSites newValue: \(error)")
+            }
+        }
+    }
+
     var email: String {
         get { return string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }
@@ -52,7 +71,7 @@ extension UserDefaults: Gestalt {
             do {
                 return try get(objectType: [Place].self, forKey: #function) ?? []
             } catch {
-                log.error("decoding golfcourses value: \(error)")
+                log.error("decoding golfCourses value: \(error)")
                 return []
             }
         }
@@ -61,7 +80,7 @@ extension UserDefaults: Gestalt {
                 try set(object: newValue, forKey: #function)
                 notifyObservers(about: #function)
             } catch {
-                log.error("encoding golfcourses newValue: \(error)")
+                log.error("encoding golfCourses newValue: \(error)")
             }
         }
     }

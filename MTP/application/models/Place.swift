@@ -7,12 +7,12 @@ struct Place: Codable {
     let countVisitors: Int? // not in staging
     let country: String
     let id: Int
-    let img: String
+    let img: String? // not in dive sites
     let lat: UncertainValue<Double, String> // Double in staging, String in production
     let location: PlaceLocation
     let locationId: UncertainValue<Int, String> // Int in staging, String in production
     let long: UncertainValue<Double, String> // Double in staging, String in production
-    let notes: String
+    let notes: String? // not in dive sites
     let rank: Int
     let title: String
     let url: String
@@ -35,11 +35,12 @@ extension Place: CustomDebugStringConvertible {
         count_visitors: \(String(describing: countVisitors))
         country: \(country)
         id: \(id)
+        img: \(String(describing: img))
         lat: \(String(describing: lat))
         location: \(String(describing: location))
         locationId: \(String(describing: locationId))
         long: \(String(describing: long))
-        notes: \(notes)
+        notes: \(String(describing: notes))
         rank: \(rank)
         title: \(title)
         url: \(url)
