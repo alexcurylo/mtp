@@ -26,6 +26,7 @@ enum MTP {
     case golfcourse
     case location // appears same as `countries` but returns 915 in production
     case locationsSearch(parentCountry: Int?, query: String?)
+    case restaurant
     case unCountry
     case userGetByToken
     case userLogin(email: String, password: String)
@@ -60,6 +61,8 @@ extension MTP: TargetType {
             return "location"
         case .locationsSearch:
             return "locations/search"
+        case .restaurant:
+            return "restaurant"
         case .unCountry:
             return "un-country"
         case .userGetByToken:
@@ -81,6 +84,7 @@ extension MTP: TargetType {
              .golfcourse,
              .location,
              .locationsSearch,
+             .restaurant,
              .unCountry,
              .userGetByToken,
              .whs:
@@ -117,6 +121,7 @@ extension MTP: TargetType {
              .golfcourse,
              .location,
              .locationsSearch,
+             .restaurant,
              .unCountry,
              .userGetByToken,
              .whs:
@@ -153,6 +158,7 @@ extension MTP: AccessTokenAuthorizable {
              .golfcourse,
              .location,
              .locationsSearch,
+             .restaurant,
              .unCountry,
              .userLogin,
              .whs:
@@ -168,6 +174,7 @@ enum MTPAPI {
     typealias CountriesResult = (_ result: Result<[Country], MTPAPIError>) -> Void
     typealias LocationsResult = (_ result: Result<[Location], MTPAPIError>) -> Void
     typealias PlacesResult = (_ result: Result<[Place], MTPAPIError>) -> Void
+    typealias RestaurantsResult = (_ result: Result<[Restaurant], MTPAPIError>) -> Void
     typealias UserResult = (_ result: Result<User, MTPAPIError>) -> Void
     typealias WHSResult = (_ result: Result<[WHS], MTPAPIError>) -> Void
 
@@ -215,6 +222,11 @@ extension MTPAPI {
                     gestalt.beaches = beaches
                     return then(.success(beaches))
                 } catch {
+                    if let resultString = try? result.mapString(),
+                        resultString == "{\"status\":\"Not-Modified\"}" {
+                        // on staging also can check not-modified 1 in result.response.allHeaderFields
+                        return then(.failure(.notModified))
+                    }
                     log.error("decoding beaches: \(error)")
                     return then(.failure(.results))
                 }
@@ -346,6 +358,34 @@ extension MTPAPI {
         }
     }
 
+    static func loadRestaurants(then: @escaping RestaurantsResult = { _ in }) {
+        let provider = MoyaProvider<MTP>()
+        provider.request(.restaurant) { response in
+            switch response {
+            case .success(let result):
+                do {
+                    let restaurants = try result.map([Restaurant].self,
+                                                     using: JSONDecoder.mtp)
+                    //log.verbose("restaurants: " + restaurants.debugDescription)
+                    gestalt.restaurants = restaurants
+                    return then(.success(restaurants))
+                } catch {
+                    if let resultString = try? result.mapString(),
+                        resultString == "{\"status\":\"Not-Modified\"}" {
+                        // on staging also can check not-modified 1 in result.response.allHeaderFields
+                        return then(.failure(.notModified))
+                    }
+                    log.error("decoding restaurants: \(error)")
+                    return then(.failure(.results))
+                }
+            case .failure(let error):
+                let message = error.errorDescription ?? Localized.unknown()
+                log.error("failure: \(MTP.restaurant.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
     static func loadUNCountries(then: @escaping CountriesResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
         provider.request(.unCountry) { response in
@@ -382,7 +422,7 @@ extension MTPAPI {
                     return then(.success(whs))
                 } catch {
                     if let resultString = try? result.mapString(),
-                       resultString == "{\"status\":\"Not-Modified\"}" {
+                        resultString == "{\"status\":\"Not-Modified\"}" {
                         // on staging also can check not-modified 1 in result.response.allHeaderFields
                         return then(.failure(.notModified))
                     }
@@ -546,6 +586,7 @@ extension MTPAPI {
         loadDiveSites()
         loadGolfCourses()
         loadLocations()
+        loadRestaurants()
         loadUNCountries()
         loadWHS()
     }

@@ -141,6 +141,25 @@ extension UserDefaults: Gestalt {
         }
     }
 
+    var restaurants: [Restaurant] {
+        get {
+            do {
+                return try get(objectType: [Restaurant].self, forKey: #function) ?? []
+            } catch {
+                log.error("decoding restaurants value: \(error)")
+                return []
+            }
+        }
+        set {
+            do {
+                try set(object: newValue, forKey: #function)
+                notifyObservers(about: #function)
+            } catch {
+                log.error("encoding restaurants newValue: \(error)")
+            }
+        }
+    }
+
     var token: String {
         get { return string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }
