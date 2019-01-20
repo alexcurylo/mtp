@@ -15,8 +15,9 @@ enum MTPAPIError: Swift.Error {
 }
 
 enum MTP {
+    case countries // appears same as `location` but returns 891 in production
     case countriesSearch(query: String?)
-    case location
+    case location // appears same as `countries` but returns 915 in production
     case locationsSearch(parentCountry: Int?, query: String?)
     case userGetByToken
     case userLogin(email: String, password: String)
@@ -32,6 +33,8 @@ extension MTP: TargetType {
 
     public var path: String {
         switch self {
+        case .countries:
+            return "countries"
         case .countriesSearch:
             return "countries/search"
         case .location:
@@ -49,7 +52,8 @@ extension MTP: TargetType {
 
     public var method: Moya.Method {
         switch self {
-        case .countriesSearch,
+        case .countries,
+             .countriesSearch,
              .location,
              .locationsSearch,
              .userGetByToken,
@@ -79,7 +83,8 @@ extension MTP: TargetType {
             return .requestParameters(parameters: ["email": email,
                                                    "password": password],
                                       encoding: JSONEncoding.default)
-        case .countriesSearch,
+        case .countries,
+             .countriesSearch,
              .location,
              .locationsSearch,
              .userGetByToken,
@@ -109,7 +114,8 @@ extension MTP: AccessTokenAuthorizable {
         switch self {
         case .userGetByToken:
             return .bearer
-        case .countriesSearch,
+        case .countries,
+             .countriesSearch,
              .location,
              .locationsSearch,
              .userLogin,
@@ -148,6 +154,28 @@ enum MTPAPI {
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
                 log.error("countries/search: \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
+    static func loadCountries(then: @escaping CountriesResult = { _ in }) {
+        let provider = MoyaProvider<MTP>()
+        provider.request(.location) { response in
+            switch response {
+            case .success(let result):
+                do {
+                    let countries = try result.map([Country].self,
+                                                   using: JSONDecoder.mtp)
+                    log.verbose("countries: " + countries.debugDescription)
+                    return then(.success(countries))
+                } catch {
+                    log.error("decoding countries: \(error)")
+                    return then(.failure(.results))
+                }
+            case .failure(let error):
+                let message = error.errorDescription ?? Localized.unknown()
+                log.error("countries: \(message)")
                 return then(.failure(.network(message)))
             }
         }
