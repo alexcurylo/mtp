@@ -54,7 +54,7 @@ extension Location: CustomDebugStringConvertible {
         RegionIDnew: \(String(describing: RegionIDnew))
         RegionName: \(String(describing: RegionName))
         active: \(String(describing: active))
-        admin_level: \(adminLevel)
+        admin_level: \(String(describing: adminLevel))
         airports: \(String(describing: airports))
         countryId: \(String(describing: countryId))
         countryName: \(String(describing: countryName))

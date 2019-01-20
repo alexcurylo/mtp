@@ -410,3 +410,17 @@ extension MTPAPI {
         then(.success(true))
     }
 }
+
+// MARK: - Support
+
+extension MTPAPI {
+
+    static func applicationDidBecomeActive() {
+        if gestalt.isLoggedIn {
+            MTPAPI.userGetByToken()
+            MTPAPI.checklistLocations()
+        }
+        MTPAPI.loadLocations()
+        MTPAPI.loadWHS()
+    }
+}

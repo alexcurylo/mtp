@@ -109,7 +109,7 @@ extension Country: CustomDebugStringConvertible {
         Country: \(String(describing: Country))
         CountryId: \(String(describing: CountryId))
         GroupCandidate_id: \(String(describing: GroupCandidateId))
-        Location: \(Location)
+        Location: \(String(describing: Location))
         ML_howtoget: \(String(describing: MLHowtoget))
         RegionIDnew: \(String(describing: RegionIDnew))
         RegionName: \(String(describing: RegionName))
