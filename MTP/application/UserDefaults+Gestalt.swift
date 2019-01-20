@@ -22,6 +22,24 @@ extension UserDefaults: Gestalt {
         }
     }
 
+    var checklistDiveSites: [Int] {
+        get {
+            do {
+                return try get(objectType: [Int].self, forKey: #function) ?? []
+            } catch {
+                log.error("decoding checklistDiveSites value: \(error)")
+                return []
+            }
+        }
+        set {
+            do {
+                try set(object: newValue, forKey: #function)
+            } catch {
+                log.error("encoding checklistDiveSites newValue: \(error)")
+            }
+        }
+    }
+
     var checklistGolfCourses: [Int] {
         get {
             do {
