@@ -18,13 +18,7 @@ enum MTPAPIError: Swift.Error {
 }
 
 enum MTP {
-    case checklistBeaches
-    case checklistDiveSites
-    case checklistGolfCourses
-    case checklistLocations
-    case checklistRestaurants
-    case checklistUNCountries
-    case checklistWHSs
+    case checklists
     case countries // appears same as `location` but returns 891 in production
     case countriesSearch(query: String?)
     case location // appears same as `countries` but returns 915 in production
@@ -43,20 +37,8 @@ extension MTP: TargetType {
 
     public var path: String {
         switch self {
-        case .checklistBeaches:
-            return "me/checklists/beaches"
-        case .checklistDiveSites:
-            return "me/checklists/divesites"
-        case .checklistGolfCourses:
-            return "me/checklists/golfcourses"
-        case .checklistLocations:
-            return "me/checklists/locations"
-        case .checklistRestaurants:
-            return "me/checklists/restaurants"
-        case .checklistUNCountries:
-            return "me/checklists/uncountries"
-        case .checklistWHSs:
-            return "me/checklists/whss"
+        case .checklists:
+            return "me/checklists"
         case .countries:
             return "countries"
         case .countriesSearch:
@@ -76,13 +58,7 @@ extension MTP: TargetType {
 
     public var method: Moya.Method {
         switch self {
-        case .checklistBeaches,
-             .checklistDiveSites,
-             .checklistGolfCourses,
-             .checklistLocations,
-             .checklistRestaurants,
-             .checklistUNCountries,
-             .checklistWHSs,
+        case .checklists,
              .countries,
              .countriesSearch,
              .location,
@@ -116,13 +92,7 @@ extension MTP: TargetType {
             return .requestParameters(parameters: ["email": email,
                                                    "password": password],
                                       encoding: JSONEncoding.default)
-        case .checklistBeaches,
-             .checklistDiveSites,
-             .checklistGolfCourses,
-             .checklistLocations,
-             .checklistRestaurants,
-             .checklistUNCountries,
-             .checklistWHSs,
+        case .checklists,
              .countries,
              .countriesSearch,
              .location,
@@ -152,13 +122,7 @@ extension MTP: AccessTokenAuthorizable {
 
     var authorizationType: AuthorizationType {
         switch self {
-        case .checklistBeaches,
-             .checklistDiveSites,
-             .checklistGolfCourses,
-             .checklistLocations,
-             .checklistRestaurants,
-             .checklistUNCountries,
-             .checklistWHSs,
+        case .checklists,
              .userGetByToken:
             return .bearer
         case .countries,
@@ -175,8 +139,8 @@ extension MTP: AccessTokenAuthorizable {
 enum MTPAPI {
 
     typealias BoolResult = (_ result: Result<Bool, MTPAPIError>) -> Void
+    typealias ChecklistsResult = (_ result: Result<Checklists, MTPAPIError>) -> Void
     typealias CountriesResult = (_ result: Result<[Country], MTPAPIError>) -> Void
-    typealias IntResult = (_ result: Result<[Int], MTPAPIError>) -> Void
     typealias LocationsResult = (_ result: Result<[Location], MTPAPIError>) -> Void
     typealias UserResult = (_ result: Result<User, MTPAPIError>) -> Void
     typealias WHSResult = (_ result: Result<[WHS], MTPAPIError>) -> Void
@@ -188,40 +152,12 @@ enum MTPAPI {
 
 extension MTPAPI {
 
-    static func load(checklist endpoint: MTP,
-                     then: @escaping IntResult) {
-        guard gestalt.isLoggedIn else {
-            log.verbose("load checklist attempt invalid: not logged in")
-            return then(.failure(.parameter))
-        }
-
-        let auth = AccessTokenPlugin { gestalt.token }
-        let provider = MoyaProvider<MTP>(plugins: [auth])
-        provider.request(endpoint) { response in
-            switch response {
-            case .success(let result):
-                do {
-                    let checklist = try result.map([Int].self,
-                                                   using: JSONDecoder.mtp)
-                    log.verbose("checklist: " + checklist.debugDescription)
-                    return then(.success(checklist))
-                } catch {
-                    log.error("decoding checklist: \(error)")
-                    return then(.failure(.results))
-                }
-            case .failure(let error):
-                let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
-            }
-        }
-    }
-
     static func countriesSearch(query: String,
                                 then: @escaping CountriesResult) {
         let provider = MoyaProvider<MTP>()
         let queryParam = query.isEmpty ? nil : query
-        provider.request(.countriesSearch(query: queryParam)) { response in
+        let endpoint = MTP.countriesSearch(query: queryParam)
+        provider.request(endpoint) { response in
             switch response {
             case .success(let result):
                 do {
@@ -235,7 +171,36 @@ extension MTPAPI {
                 }
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("countries/search: \(message)")
+                log.error("failure: \(endpoint.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
+    static func loadChecklists(then: @escaping ChecklistsResult = { _ in }) {
+        guard gestalt.isLoggedIn else {
+            log.verbose("load checklists attempt invalid: not logged in")
+            return then(.failure(.parameter))
+        }
+
+        let auth = AccessTokenPlugin { gestalt.token }
+        let provider = MoyaProvider<MTP>(plugins: [auth])
+        provider.request(.checklists) { response in
+            switch response {
+            case .success(let result):
+                do {
+                    let checklists = try result.map(Checklists.self,
+                                                    using: JSONDecoder.mtp)
+                    log.verbose("checklists: " + checklists.debugDescription)
+                    gestalt.checklists = checklists
+                    return then(.success(checklists))
+                } catch {
+                    log.error("decoding checklists: \(error)")
+                    return then(.failure(.results))
+                }
+            case .failure(let error):
+                let message = error.errorDescription ?? Localized.unknown()
+                log.error("failure: \(MTP.checklists.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }

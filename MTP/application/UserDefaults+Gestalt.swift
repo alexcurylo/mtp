@@ -4,128 +4,21 @@ import Foundation
 
 extension UserDefaults: Gestalt {
 
-    var checklistBeaches: [Int] {
+    var checklists: Checklists? {
         get {
             do {
-                return try get(objectType: [Int].self, forKey: #function) ?? []
+                return try get(objectType: Checklists.self, forKey: #function)
             } catch {
-                log.error("decoding checklistBeaches value: \(error)")
-                return []
+                log.error("decoding checklists value: \(error)")
+                return nil
             }
         }
         set {
             do {
                 try set(object: newValue, forKey: #function)
+                notifyObservers(about: #function)
             } catch {
-                log.error("encoding checklistBeaches newValue: \(error)")
-            }
-        }
-    }
-
-    var checklistDiveSites: [Int] {
-        get {
-            do {
-                return try get(objectType: [Int].self, forKey: #function) ?? []
-            } catch {
-                log.error("decoding checklistDiveSites value: \(error)")
-                return []
-            }
-        }
-        set {
-            do {
-                try set(object: newValue, forKey: #function)
-            } catch {
-                log.error("encoding checklistDiveSites newValue: \(error)")
-            }
-        }
-    }
-
-    var checklistGolfCourses: [Int] {
-        get {
-            do {
-                return try get(objectType: [Int].self, forKey: #function) ?? []
-            } catch {
-                log.error("decoding checklistGolfCourses value: \(error)")
-                return []
-            }
-        }
-        set {
-            do {
-                try set(object: newValue, forKey: #function)
-            } catch {
-                log.error("encoding checklistGolfCourses newValue: \(error)")
-            }
-        }
-    }
-
-    var checklistLocations: [Int] {
-        get {
-            do {
-                return try get(objectType: [Int].self, forKey: #function) ?? []
-            } catch {
-                log.error("decoding checklistLocations value: \(error)")
-                return []
-            }
-        }
-        set {
-            do {
-                try set(object: newValue, forKey: #function)
-            } catch {
-                log.error("encoding checklistLocations newValue: \(error)")
-            }
-        }
-    }
-
-    var checklistRestaurants: [Int] {
-        get {
-            do {
-                return try get(objectType: [Int].self, forKey: #function) ?? []
-            } catch {
-                log.error("decoding checklistRestaurants value: \(error)")
-                return []
-            }
-        }
-        set {
-            do {
-                try set(object: newValue, forKey: #function)
-            } catch {
-                log.error("encoding checklistRestaurants newValue: \(error)")
-            }
-        }
-    }
-
-    var checklistUNCountries: [Int] {
-        get {
-            do {
-                return try get(objectType: [Int].self, forKey: #function) ?? []
-            } catch {
-                log.error("decoding checklistUNCountries value: \(error)")
-                return []
-            }
-        }
-        set {
-            do {
-                try set(object: newValue, forKey: #function)
-            } catch {
-                log.error("encoding checklistUNCountries newValue: \(error)")
-            }
-        }
-    }
-
-    var checklistWHSs: [Int] {
-        get {
-            do {
-                return try get(objectType: [Int].self, forKey: #function) ?? []
-            } catch {
-                log.error("decoding checklistWHSs value: \(error)")
-                return []
-            }
-        }
-        set {
-            do {
-                try set(object: newValue, forKey: #function)
-            } catch {
-                log.error("encoding checklistWHSs newValue: \(error)")
+                log.error("encoding checklists newValue: \(error)")
             }
         }
     }

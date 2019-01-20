@@ -7,13 +7,7 @@ var gestalt = UserDefaults.standard
 
 protocol Gestalt: Observable {
 
-    var checklistBeaches: [Int] { get set }
-    var checklistDiveSites: [Int] { get set }
-    var checklistGolfCourses: [Int] { get set }
-    var checklistLocations: [Int] { get set }
-    var checklistRestaurants: [Int] { get set }
-    var checklistUNCountries: [Int] { get set }
-    var checklistWHSs: [Int] { get set }
+    var checklists: Checklists? { get set }
     var email: String { get set }
     var lastUserRefresh: Date? { get set }
     var locations: [Location] { get set }
