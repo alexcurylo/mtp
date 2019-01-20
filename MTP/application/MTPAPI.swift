@@ -423,55 +423,20 @@ extension MTPAPI {
 
 extension MTPAPI {
 
+    static func refreshData() {
+        loadLocations()
+        loadWHS()
+    }
+
+    static func refreshUser() {
+        guard gestalt.isLoggedIn else { return }
+
+        userGetByToken()
+        loadChecklists()
+    }
+
     static func applicationDidBecomeActive() {
-        if gestalt.isLoggedIn {
-            MTPAPI.userGetByToken()
-
-            MTPAPI.load(checklist: .checklistBeaches) { result in
-                if case let .success(checklist) = result {
-                    log.verbose("checklistBeaches (\(checklist.count)): " + checklist.debugDescription)
-                    gestalt.checklistBeaches = checklist
-                }
-            }
-            MTPAPI.load(checklist: .checklistDiveSites) { result in
-                if case let .success(checklist) = result {
-                    log.verbose("checklistDiveSites (\(checklist.count)): " + checklist.debugDescription)
-                    gestalt.checklistDiveSites = checklist
-                }
-            }
-            MTPAPI.load(checklist: .checklistGolfCourses) { result in
-                if case let .success(checklist) = result {
-                    log.verbose("checklistGolfCourses (\(checklist.count)): " + checklist.debugDescription)
-                    gestalt.checklistGolfCourses = checklist
-                }
-            }
-            MTPAPI.load(checklist: .checklistLocations) { result in
-                if case let .success(checklist) = result {
-                    log.verbose("checklistLocations (\(checklist.count)): " + checklist.debugDescription)
-                    gestalt.checklistLocations = checklist
-                }
-            }
-            MTPAPI.load(checklist: .checklistRestaurants) { result in
-                if case let .success(checklist) = result {
-                    log.verbose("checklistRestaurants (\(checklist.count)): " + checklist.debugDescription)
-                    gestalt.checklistRestaurants = checklist
-                }
-            }
-            MTPAPI.load(checklist: .checklistUNCountries) { result in
-                if case let .success(checklist) = result {
-                    log.verbose("checklistUNCountries (\(checklist.count)): " + checklist.debugDescription)
-                    gestalt.checklistUNCountries = checklist
-                }
-            }
-            MTPAPI.load(checklist: .checklistWHSs) { result in
-                if case let .success(checklist) = result {
-                    log.verbose("checklistWHSs (\(checklist.count)): " + checklist.debugDescription)
-                    gestalt.checklistWHSs = checklist
-                }
-            }
-        }
-
-        MTPAPI.loadLocations()
-        MTPAPI.loadWHS()
+        refreshData()
+        refreshUser()
     }
 }
