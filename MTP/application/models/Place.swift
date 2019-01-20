@@ -2,7 +2,7 @@
 
 import Foundation
 
-struct Beach: Codable {
+struct Place: Codable {
     let active: String
     let countVisitors: Int? // not in staging
     let country: String
@@ -19,18 +19,18 @@ struct Beach: Codable {
     let visitors: Int
 }
 
-extension Beach: CustomStringConvertible {
+extension Place: CustomStringConvertible {
 
     public var description: String {
         return title
     }
 }
 
-extension Beach: CustomDebugStringConvertible {
+extension Place: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
-        < Beach: \(description):
+        < Place: \(description):
         active: \(String(describing: active))
         count_visitors: \(String(describing: countVisitors))
         country: \(country)
@@ -44,14 +44,7 @@ extension Beach: CustomDebugStringConvertible {
         title: \(title)
         url: \(url)
         visitors: \(visitors)
-        /Beach >
+        /Place >
         """
-    }
-}
-
-extension Beach {
-
-    static var count: Int {
-        return gestalt.beaches.count
     }
 }

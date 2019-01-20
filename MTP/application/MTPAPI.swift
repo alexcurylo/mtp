@@ -151,11 +151,11 @@ extension MTP: AccessTokenAuthorizable {
 
 enum MTPAPI {
 
-    typealias BeachesResult = (_ result: Result<[Beach], MTPAPIError>) -> Void
     typealias BoolResult = (_ result: Result<Bool, MTPAPIError>) -> Void
     typealias ChecklistsResult = (_ result: Result<Checklists, MTPAPIError>) -> Void
     typealias CountriesResult = (_ result: Result<[Country], MTPAPIError>) -> Void
     typealias LocationsResult = (_ result: Result<[Location], MTPAPIError>) -> Void
+    typealias PlacesResult = (_ result: Result<[Place], MTPAPIError>) -> Void
     typealias UserResult = (_ result: Result<User, MTPAPIError>) -> Void
     typealias WHSResult = (_ result: Result<[WHS], MTPAPIError>) -> Void
 
@@ -191,13 +191,13 @@ extension MTPAPI {
         }
     }
 
-    static func loadBeaches(then: @escaping BeachesResult = { _ in }) {
+    static func loadBeaches(then: @escaping PlacesResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
         provider.request(.beach) { response in
             switch response {
             case .success(let result):
                 do {
-                    let beaches = try result.map([Beach].self,
+                    let beaches = try result.map([Place].self,
                                                  using: JSONDecoder.mtp)
                     //log.verbose("beaches: " + beaches.debugDescription)
                     gestalt.beaches = beaches

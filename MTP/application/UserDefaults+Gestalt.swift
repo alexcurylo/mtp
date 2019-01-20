@@ -4,10 +4,10 @@ import Foundation
 
 extension UserDefaults: Gestalt {
 
-    var beaches: [Beach] {
+    var beaches: [Place] {
         get {
             do {
-                return try get(objectType: [Beach].self, forKey: #function) ?? []
+                return try get(objectType: [Place].self, forKey: #function) ?? []
             } catch {
                 log.error("decoding beaches value: \(error)")
                 return []
