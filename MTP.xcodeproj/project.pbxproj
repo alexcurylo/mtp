@@ -77,6 +77,7 @@
 		FAD2B51621F46913009FFDD7 /* Checklists.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51521F46913009FFDD7 /* Checklists.swift */; };
 		FAD2B51821F48AB8009FFDD7 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51721F48AB8009FFDD7 /* Place.swift */; };
 		FAD2B51A21F492B3009FFDD7 /* UncertainValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51921F492B3009FFDD7 /* UncertainValue.swift */; };
+		FAD2B51C21F4A675009FFDD7 /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51B21F4A675009FFDD7 /* Restaurant.swift */; };
 		FADC1ABA2144FAD70011EE49 /* Date+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */; };
 		FADC1ABC2145563F0011EE49 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADC1ABB2145563F0011EE49 /* Country.swift */; };
 		FADC1ABE2145E9760011EE49 /* MyPhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADC1ABD2145E9760011EE49 /* MyPhotosVC.swift */; };
@@ -210,6 +211,7 @@
 		FAD2B51521F46913009FFDD7 /* Checklists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checklists.swift; sourceTree = "<group>"; };
 		FAD2B51721F48AB8009FFDD7 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		FAD2B51921F492B3009FFDD7 /* UncertainValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UncertainValue.swift; sourceTree = "<group>"; };
+		FAD2B51B21F4A675009FFDD7 /* Restaurant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
 		FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Formatting.swift"; sourceTree = "<group>"; };
 		FADC1ABB2145563F0011EE49 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		FADC1ABD2145E9760011EE49 /* MyPhotosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPhotosVC.swift; sourceTree = "<group>"; };
@@ -520,6 +522,7 @@
 				FAC159A121EB68AA00564E2D /* Location.swift */,
 				FAD2B51721F48AB8009FFDD7 /* Place.swift */,
 				FAD2B51221F45796009FFDD7 /* PlaceLocation.swift */,
+				FAD2B51B21F4A675009FFDD7 /* Restaurant.swift */,
 				FA76D9742131278900EF8E25 /* User.swift */,
 				FA2E718421ED535B00E6AB73 /* WHS.swift */,
 			);
@@ -908,6 +911,7 @@
 				FA4653322115A250005B5A0A /* UserDefaults+Gestalt.swift in Sources */,
 				FA74C0F02117C60B0013A840 /* ForgotPasswordVC.swift in Sources */,
 				FA392BBB20DF69F30026C828 /* AppDelegate.swift in Sources */,
+				FAD2B51C21F4A675009FFDD7 /* Restaurant.swift in Sources */,
 				FA463780210DE94C0007382D /* EditProfileVC.swift in Sources */,
 				FA254DCB21685D6800FC9360 /* NSObject+Create.swift in Sources */,
 				FAD2B51321F45796009FFDD7 /* PlaceLocation.swift in Sources */,
