@@ -11,6 +11,7 @@ protocol Gestalt: Observable {
     var checklistDiveSites: [Int] { get set }
     var checklistGolfCourses: [Int] { get set }
     var checklistLocations: [Int] { get set }
+    var checklistRestaurants: [Int] { get set }
     var checklistUNCountries: [Int] { get set }
     var checklistWHSs: [Int] { get set }
     var email: String { get set }

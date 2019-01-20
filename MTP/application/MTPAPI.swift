@@ -21,6 +21,7 @@ enum MTP {
     case checklistDiveSites
     case checklistGolfCourses
     case checklistLocations
+    case checklistRestaurants
     case checklistUNCountries
     case checklistWHSs
     case countries // appears same as `location` but returns 891 in production
@@ -49,6 +50,8 @@ extension MTP: TargetType {
             return "me/checklists/golfcourses"
         case .checklistLocations:
             return "me/checklists/locations"
+        case .checklistRestaurants:
+            return "me/checklists/restaurants"
         case .checklistUNCountries:
             return "me/checklists/uncountries"
         case .checklistWHSs:
@@ -76,6 +79,7 @@ extension MTP: TargetType {
              .checklistDiveSites,
              .checklistGolfCourses,
              .checklistLocations,
+             .checklistRestaurants,
              .checklistUNCountries,
              .checklistWHSs,
              .countries,
@@ -115,6 +119,7 @@ extension MTP: TargetType {
              .checklistDiveSites,
              .checklistGolfCourses,
              .checklistLocations,
+             .checklistRestaurants,
              .checklistUNCountries,
              .checklistWHSs,
              .countries,
@@ -150,6 +155,7 @@ extension MTP: AccessTokenAuthorizable {
              .checklistDiveSites,
              .checklistGolfCourses,
              .checklistLocations,
+             .checklistRestaurants,
              .checklistUNCountries,
              .checklistWHSs,
              .userGetByToken:
@@ -471,6 +477,12 @@ extension MTPAPI {
                 if case let .success(checklist) = result {
                     log.verbose("checklistLocations (\(checklist.count)): " + checklist.debugDescription)
                     gestalt.checklistLocations = checklist
+                }
+            }
+            MTPAPI.load(checklist: .checklistRestaurants) { result in
+                if case let .success(checklist) = result {
+                    log.verbose("checklistRestaurants (\(checklist.count)): " + checklist.debugDescription)
+                    gestalt.checklistRestaurants = checklist
                 }
             }
             MTPAPI.load(checklist: .checklistUNCountries) { result in

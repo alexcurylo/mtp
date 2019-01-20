@@ -76,6 +76,24 @@ extension UserDefaults: Gestalt {
         }
     }
 
+    var checklistRestaurants: [Int] {
+        get {
+            do {
+                return try get(objectType: [Int].self, forKey: #function) ?? []
+            } catch {
+                log.error("decoding checklistRestaurants value: \(error)")
+                return []
+            }
+        }
+        set {
+            do {
+                try set(object: newValue, forKey: #function)
+            } catch {
+                log.error("encoding checklistRestaurants newValue: \(error)")
+            }
+        }
+    }
+
     var checklistUNCountries: [Int] {
         get {
             do {
