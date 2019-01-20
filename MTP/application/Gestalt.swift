@@ -15,9 +15,11 @@ protocol Gestalt: Observable {
     var password: String { get set }
     var rankingsFilter: UserFilter? { get set }
     var token: String { get set }
+    var unCountries: [Country] { get set }
     var user: User? { get set }
     var whs: [WHS] { get set }
 }
+
 extension Gestalt {
 
     mutating func logOut() {

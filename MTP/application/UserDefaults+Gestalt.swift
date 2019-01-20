@@ -89,6 +89,25 @@ extension UserDefaults: Gestalt {
         set { set(newValue, forKey: #function) }
     }
 
+    var unCountries: [Country] {
+        get {
+            do {
+                return try get(objectType: [Country].self, forKey: #function) ?? []
+            } catch {
+                log.error("decoding unCountries value: \(error)")
+                return []
+            }
+        }
+        set {
+            do {
+                try set(object: newValue, forKey: #function)
+                notifyObservers(about: #function)
+            } catch {
+                log.error("encoding unCountries newValue: \(error)")
+            }
+        }
+    }
+
     var user: User? {
         get {
             do {

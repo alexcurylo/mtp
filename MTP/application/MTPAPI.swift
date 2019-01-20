@@ -23,9 +23,13 @@ enum MTP {
     case countriesSearch(query: String?)
     case location // appears same as `countries` but returns 915 in production
     case locationsSearch(parentCountry: Int?, query: String?)
+    case unCountry
     case userGetByToken
     case userLogin(email: String, password: String)
     case whs
+
+    // To get the full, non-cached, re-computed data, use preventCache with a random number
+    // https://mtp.travel/api/location?preventCache=1234
 }
 
 extension MTP: TargetType {
@@ -47,6 +51,8 @@ extension MTP: TargetType {
             return "location"
         case .locationsSearch:
             return "locations/search"
+        case .unCountry:
+            return "un-country"
         case .userGetByToken:
             return "user/getByToken"
         case .userLogin:
@@ -63,6 +69,7 @@ extension MTP: TargetType {
              .countriesSearch,
              .location,
              .locationsSearch,
+             .unCountry,
              .userGetByToken,
              .whs:
             return .get
@@ -72,8 +79,6 @@ extension MTP: TargetType {
     }
 
     var task: Task {
-        // If you would like to always get the full, non-cached, re-computed data use:
-        // https://mtp.travel/api/location?preventCache=1234
         switch self {
         case let .countriesSearch(query?):
             return .requestParameters(parameters: ["query": query],
@@ -97,6 +102,7 @@ extension MTP: TargetType {
              .countriesSearch,
              .location,
              .locationsSearch,
+             .unCountry,
              .userGetByToken,
              .whs:
             return .requestPlain
@@ -129,6 +135,7 @@ extension MTP: AccessTokenAuthorizable {
              .countriesSearch,
              .location,
              .locationsSearch,
+             .unCountry,
              .userLogin,
              .whs:
             return .none
@@ -246,6 +253,29 @@ extension MTPAPI {
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
                 log.error("failure: \(MTP.location.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
+    static func loadUNCountries(then: @escaping CountriesResult = { _ in }) {
+        let provider = MoyaProvider<MTP>()
+        provider.request(.unCountry) { response in
+            switch response {
+            case .success(let result):
+                do {
+                    let unCountries = try result.map([Country].self,
+                                                     using: JSONDecoder.mtp)
+                    log.verbose("unCountries: " + unCountries.debugDescription)
+                    gestalt.unCountries = unCountries
+                    return then(.success(unCountries))
+                } catch {
+                    log.error("decoding unCountries: \(error)")
+                    return then(.failure(.results))
+                }
+            case .failure(let error):
+                let message = error.errorDescription ?? Localized.unknown()
+                log.error("failure: \(MTP.unCountry.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
@@ -425,6 +455,7 @@ extension MTPAPI {
 
     static func refreshData() {
         loadLocations()
+        loadUNCountries()
         loadWHS()
     }
 
