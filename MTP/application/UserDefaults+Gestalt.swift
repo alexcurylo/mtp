@@ -4,6 +4,24 @@ import Foundation
 
 extension UserDefaults: Gestalt {
 
+    var checklistLocations: [Int] {
+        get {
+            do {
+                return try get(objectType: [Int].self, forKey: #function) ?? []
+            } catch {
+                log.error("decoding checklistLocations value: \(error)")
+                return []
+            }
+        }
+        set {
+            do {
+                try set(object: newValue, forKey: #function)
+            } catch {
+                log.error("encoding checklistLocations newValue: \(error)")
+            }
+        }
+    }
+
     var email: String {
         get { return string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }

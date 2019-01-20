@@ -1,5 +1,7 @@
 // @copyright Trollwerks Inc.
 
+// swiftlint:disable file_length
+
 import Alamofire
 import Moya
 import enum Result.Result
@@ -15,6 +17,7 @@ enum MTPAPIError: Swift.Error {
 }
 
 enum MTP {
+    case checklistLocations
     case countries // appears same as `location` but returns 891 in production
     case countriesSearch(query: String?)
     case location // appears same as `countries` but returns 915 in production
@@ -33,6 +36,8 @@ extension MTP: TargetType {
 
     public var path: String {
         switch self {
+        case .checklistLocations:
+            return "me/checklists/locations"
         case .countries:
             return "countries"
         case .countriesSearch:
@@ -52,7 +57,8 @@ extension MTP: TargetType {
 
     public var method: Moya.Method {
         switch self {
-        case .countries,
+        case .checklistLocations,
+             .countries,
              .countriesSearch,
              .location,
              .locationsSearch,
@@ -65,6 +71,8 @@ extension MTP: TargetType {
     }
 
     var task: Task {
+        // If you would like to always get the full, non-cached, re-computed data use:
+        // https://mtp.travel/api/location?preventCache=1234
         switch self {
         case let .countriesSearch(query?):
             return .requestParameters(parameters: ["query": query],
@@ -83,7 +91,8 @@ extension MTP: TargetType {
             return .requestParameters(parameters: ["email": email,
                                                    "password": password],
                                       encoding: JSONEncoding.default)
-        case .countries,
+        case .checklistLocations,
+             .countries,
              .countriesSearch,
              .location,
              .locationsSearch,
@@ -112,7 +121,8 @@ extension MTP: AccessTokenAuthorizable {
 
     var authorizationType: AuthorizationType {
         switch self {
-        case .userGetByToken:
+        case .checklistLocations,
+             .userGetByToken:
             return .bearer
         case .countries,
              .countriesSearch,
@@ -129,11 +139,46 @@ enum MTPAPI {
 
     typealias BoolResult = (_ result: Result<Bool, MTPAPIError>) -> Void
     typealias CountriesResult = (_ result: Result<[Country], MTPAPIError>) -> Void
+    typealias IntResult = (_ result: Result<[Int], MTPAPIError>) -> Void
     typealias LocationsResult = (_ result: Result<[Location], MTPAPIError>) -> Void
     typealias UserResult = (_ result: Result<User, MTPAPIError>) -> Void
     typealias WHSResult = (_ result: Result<[WHS], MTPAPIError>) -> Void
 
     static let parentCountryUSA = 977
+}
+
+// MARK: - Queries
+
+extension MTPAPI {
+
+    static func checklistLocations(then: @escaping IntResult = { _ in }) {
+        guard gestalt.isLoggedIn else {
+            log.verbose("checklistLocations attempt invalid: not logged in")
+            return then(.failure(.parameter))
+        }
+
+        let auth = AccessTokenPlugin { gestalt.token }
+        let provider = MoyaProvider<MTP>(plugins: [auth])
+        provider.request(.checklistLocations) { response in
+            switch response {
+            case .success(let result):
+                do {
+                    let locations = try result.map([Int].self,
+                                                   using: JSONDecoder.mtp)
+                    gestalt.checklistLocations = locations
+                    log.verbose("checklistLocations: " + locations.debugDescription)
+                    return then(.success(locations))
+                } catch {
+                    log.error("decoding checklistLocations: \(error)")
+                    return then(.failure(.results))
+                }
+            case .failure(let error):
+                let message = error.errorDescription ?? Localized.unknown()
+                log.error("me/checklists/locations \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
 
     static func countriesSearch(query: String,
                                 then: @escaping CountriesResult) {
