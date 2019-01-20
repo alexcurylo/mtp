@@ -2,9 +2,9 @@
 
 import Foundation
 
-// version of Location found in WHS on staging
+// version of Location found in place results on staging
 
-struct WHSLocation: Codable {
+struct PlaceLocation: Codable {
     let countryId: Int
     let countryName: String
     let id: Int
@@ -13,25 +13,25 @@ struct WHSLocation: Codable {
     let regionName: String
 }
 
-extension WHSLocation: CustomStringConvertible {
+extension PlaceLocation: CustomStringConvertible {
 
     public var description: String {
         return "\(String(describing: countryName)) (\(String(describing: countryId)))"
     }
 }
 
-extension WHSLocation: CustomDebugStringConvertible {
+extension PlaceLocation: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
-        < WHSLocation: \(description):
+        < PlaceLocation: \(description):
         countryId: \(String(describing: countryId))
         countryName: \(String(describing: countryName))
         id: \(id)
         location_name: \(locationName)
         region_id: \(String(describing: regionId))
         region_name: \(String(describing: regionName))
-        /Location >
+        /PlaceLocation >
         """
     }
 }
