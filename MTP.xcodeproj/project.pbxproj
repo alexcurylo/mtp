@@ -387,14 +387,10 @@
 			children = (
 				FA392BBA20DF69F30026C828 /* AppDelegate.swift */,
 				FA9A71DE20F1D3FA005F6A57 /* AppDelegate+Tools.swift */,
-				FADC1ABB2145563F0011EE49 /* Country.swift */,
+				FAD2B51421F468A3009FFDD7 /* models */,
 				FA3CEC552132579300791195 /* Gestalt.swift */,
-				FAC159A121EB68AA00564E2D /* Location.swift */,
 				FA4653332115ADC6005B5A0A /* MTPAPI.swift */,
-				FA76D9742131278900EF8E25 /* User.swift */,
 				FA4653312115A250005B5A0A /* UserDefaults+Gestalt.swift */,
-				FA2E718421ED535B00E6AB73 /* WHS.swift */,
-				FAD2B51221F45796009FFDD7 /* WHSLocation.swift */,
 			);
 			path = application;
 			sourceTree = "<group>";
@@ -507,6 +503,18 @@
 				FAAE29C420F05A9600B43BA9 /* UserDefaults+TypeSafety.swift */,
 			);
 			path = support;
+			sourceTree = "<group>";
+		};
+		FAD2B51421F468A3009FFDD7 /* models */ = {
+			isa = PBXGroup;
+			children = (
+				FADC1ABB2145563F0011EE49 /* Country.swift */,
+				FAC159A121EB68AA00564E2D /* Location.swift */,
+				FA76D9742131278900EF8E25 /* User.swift */,
+				FA2E718421ED535B00E6AB73 /* WHS.swift */,
+				FAD2B51221F45796009FFDD7 /* WHSLocation.swift */,
+			);
+			path = models;
 			sourceTree = "<group>";
 		};
 		FAE1F11A21437F2E0002CAB2 /* support */ = {
