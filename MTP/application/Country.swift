@@ -49,9 +49,9 @@ struct UncertainValue<T: Codable, U: Codable>: Codable {
 struct Country: Codable {
 
     let Country: String?
-    let CountryId: UncertainValue<Int, String> // String in children
+    let CountryId: UncertainValue<Int, String>? // String in children, not in staging
     let GroupCandidateId: Int?
-    let Location: String
+    let Location: String? // not in staging
     let MLHowtoget: String?
     let RegionIDnew: UncertainValue<Int, String> // String on mtp.travel, Int on aws.mtp.travel
     let RegionName: String?
