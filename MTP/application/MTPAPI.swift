@@ -208,7 +208,7 @@ extension MTPAPI {
 
     static func loadCountries(then: @escaping CountriesResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
-        provider.request(.location) { response in
+        provider.request(.countries) { response in
             switch response {
             case .success(let result):
                 do {
@@ -222,7 +222,7 @@ extension MTPAPI {
                 }
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("countries: \(message)")
+                log.error("failure: \(MTP.countries.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
@@ -245,7 +245,7 @@ extension MTPAPI {
                 }
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("location: \(message)")
+                log.error("failure: \(MTP.location.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
@@ -273,7 +273,7 @@ extension MTPAPI {
                 }
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("whs: \(message)")
+                log.error("failure: \(MTP.whs.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
@@ -299,7 +299,7 @@ extension MTPAPI {
                 }
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("locations/search: \(message)")
+                log.error("failure: \(MTP.checklists.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
@@ -352,7 +352,7 @@ extension MTPAPI {
                 }
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("user/getByToken: \(message)")
+                log.error("failure: \(MTP.userGetByToken.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
@@ -385,7 +385,8 @@ extension MTPAPI {
         }
 
         let provider = MoyaProvider<MTP>()
-        provider.request(.userLogin(email: email, password: password)) { response in
+        let endpoint = MTP.userLogin(email: email, password: password)
+        provider.request(endpoint) { response in
             switch response {
             case .success(let result):
                 return parse(result: result)
@@ -394,7 +395,7 @@ extension MTPAPI {
                 return then(.failure(.status))
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("user/login failure : \(message)")
+                log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
