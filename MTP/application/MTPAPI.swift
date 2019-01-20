@@ -18,6 +18,7 @@ enum MTPAPIError: Swift.Error {
 
 enum MTP {
     case checklistBeaches
+    case checklistGolfCourses
     case checklistLocations
     case checklistUNCountries
     case checklistWHSs
@@ -41,6 +42,8 @@ extension MTP: TargetType {
         switch self {
         case .checklistBeaches:
             return "me/checklists/beaches"
+        case .checklistGolfCourses:
+            return "me/checklists/golfcourses"
         case .checklistLocations:
             return "me/checklists/locations"
         case .checklistUNCountries:
@@ -67,6 +70,7 @@ extension MTP: TargetType {
     public var method: Moya.Method {
         switch self {
         case .checklistBeaches,
+             .checklistGolfCourses,
              .checklistLocations,
              .checklistUNCountries,
              .checklistWHSs,
@@ -104,6 +108,7 @@ extension MTP: TargetType {
                                                    "password": password],
                                       encoding: JSONEncoding.default)
         case .checklistBeaches,
+             .checklistGolfCourses,
              .checklistLocations,
              .checklistUNCountries,
              .checklistWHSs,
@@ -137,6 +142,7 @@ extension MTP: AccessTokenAuthorizable {
     var authorizationType: AuthorizationType {
         switch self {
         case .checklistBeaches,
+             .checklistGolfCourses,
              .checklistLocations,
              .checklistUNCountries,
              .checklistWHSs,
@@ -441,6 +447,12 @@ extension MTPAPI {
                 if case let .success(checklist) = result {
                     log.verbose("checklistBeaches (\(checklist.count)): " + checklist.debugDescription)
                     gestalt.checklistBeaches = checklist
+                }
+            }
+            MTPAPI.load(checklist: .checklistGolfCourses) { result in
+                if case let .success(checklist) = result {
+                    log.verbose("checklistGolfCourses (\(checklist.count)): " + checklist.debugDescription)
+                    gestalt.checklistGolfCourses = checklist
                 }
             }
             MTPAPI.load(checklist: .checklistLocations) { result in
