@@ -22,6 +22,24 @@ extension UserDefaults: Gestalt {
         }
     }
 
+    var checklistUNCountries: [Int] {
+        get {
+            do {
+                return try get(objectType: [Int].self, forKey: #function) ?? []
+            } catch {
+                log.error("decoding checklistUNCountries value: \(error)")
+                return []
+            }
+        }
+        set {
+            do {
+                try set(object: newValue, forKey: #function)
+            } catch {
+                log.error("encoding checklistUNCountries newValue: \(error)")
+            }
+        }
+    }
+
     var email: String {
         get { return string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }

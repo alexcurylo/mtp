@@ -18,6 +18,7 @@ enum MTPAPIError: Swift.Error {
 
 enum MTP {
     case checklistLocations
+    case checklistUNCountries
     case countries // appears same as `location` but returns 891 in production
     case countriesSearch(query: String?)
     case location // appears same as `countries` but returns 915 in production
@@ -38,6 +39,8 @@ extension MTP: TargetType {
         switch self {
         case .checklistLocations:
             return "me/checklists/locations"
+        case .checklistUNCountries:
+            return "me/checklists/uncountries"
         case .countries:
             return "countries"
         case .countriesSearch:
@@ -58,6 +61,7 @@ extension MTP: TargetType {
     public var method: Moya.Method {
         switch self {
         case .checklistLocations,
+             .checklistUNCountries,
              .countries,
              .countriesSearch,
              .location,
@@ -92,6 +96,7 @@ extension MTP: TargetType {
                                                    "password": password],
                                       encoding: JSONEncoding.default)
         case .checklistLocations,
+             .checklistUNCountries,
              .countries,
              .countriesSearch,
              .location,
@@ -122,6 +127,7 @@ extension MTP: AccessTokenAuthorizable {
     var authorizationType: AuthorizationType {
         switch self {
         case .checklistLocations,
+             .checklistUNCountries,
              .userGetByToken:
             return .bearer
         case .countries,
@@ -151,30 +157,30 @@ enum MTPAPI {
 
 extension MTPAPI {
 
-    static func checklistLocations(then: @escaping IntResult = { _ in }) {
+    static func load(checklist endpoint: MTP,
+                     then: @escaping IntResult) {
         guard gestalt.isLoggedIn else {
-            log.verbose("checklistLocations attempt invalid: not logged in")
+            log.verbose("load checklist attempt invalid: not logged in")
             return then(.failure(.parameter))
         }
 
         let auth = AccessTokenPlugin { gestalt.token }
         let provider = MoyaProvider<MTP>(plugins: [auth])
-        provider.request(.checklistLocations) { response in
+        provider.request(endpoint) { response in
             switch response {
             case .success(let result):
                 do {
-                    let locations = try result.map([Int].self,
+                    let checklist = try result.map([Int].self,
                                                    using: JSONDecoder.mtp)
-                    gestalt.checklistLocations = locations
-                    log.verbose("checklistLocations: " + locations.debugDescription)
-                    return then(.success(locations))
+                    log.verbose("checklist: " + checklist.debugDescription)
+                    return then(.success(checklist))
                 } catch {
-                    log.error("decoding checklistLocations: \(error)")
+                    log.error("decoding checklist: \(error)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("me/checklists/locations \(message)")
+                log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
@@ -418,8 +424,21 @@ extension MTPAPI {
     static func applicationDidBecomeActive() {
         if gestalt.isLoggedIn {
             MTPAPI.userGetByToken()
-            MTPAPI.checklistLocations()
+
+            MTPAPI.load(checklist: .checklistLocations) { result in
+                if case let .success(checklist) = result {
+                    log.verbose("checklistLocations (\(checklist.count)): " + checklist.debugDescription)
+                    gestalt.checklistLocations = checklist
+                }
+            }
+            MTPAPI.load(checklist: .checklistUNCountries) { result in
+                if case let .success(checklist) = result {
+                    log.verbose("checklistUNCountries (\(checklist.count)): " + checklist.debugDescription)
+                    gestalt.checklistUNCountries = checklist
+                }
+            }
         }
+
         MTPAPI.loadLocations()
         MTPAPI.loadWHS()
     }
