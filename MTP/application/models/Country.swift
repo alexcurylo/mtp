@@ -53,7 +53,7 @@ struct Country: Codable {
     let GroupCandidateId: Int?
     let Location: String? // not in staging
     let MLHowtoget: String?
-    let RegionIDnew: UncertainValue<Int, String> // String on mtp.travel, Int on aws.mtp.travel
+    let RegionIDnew: UncertainValue<Int, String>? // String on in production, Int? in staging
     let RegionName: String?
     let Regionold: Int?
     let URL: String?
@@ -68,17 +68,17 @@ struct Country: Codable {
     let countryId: UncertainValue<Int, String> // String in children, nil in locationSearch
     let countryName: String? // nil in locationSearch
     let cv: String?
-    let dateUpdated: Date
-    let distance: UncertainValue<Int, String> // Int in new account, nil in old
+    let dateUpdated: Date? // not in staging
+    let distance: UncertainValue<Double, String> // Double in staging, String in production
     let distanceold: String?
     let id: UncertainValue<Int, String> // String in children
     let info: String?
     let isMtpLocation: UncertainValue<Int, String> // String in children
     let isUn: UncertainValue<Int, String> // String in children
-    let lat: UncertainValue<Double, String> // Double in new account, nil in old
+    let lat: UncertainValue<Double, String> // Double in staging, nil in old
     let latitude: String?
     let locationName: String
-    let lon: UncertainValue<Double, String> // Double in new account, nil in old
+    let lon: UncertainValue<Double, String> // Double in staging, nil in old
     let longitude: String?
     let order: String?
     let rank: Int
@@ -91,7 +91,7 @@ struct Country: Codable {
     let visitors: Int
     let weather: String?
     let weatherhist: String?
-    let zoom: UncertainValue<Int, String> // Int in new account, nil in old
+    let zoom: UncertainValue<Int, String> // Int in staging, nil in old
 }
 
 extension Country: CustomStringConvertible {
