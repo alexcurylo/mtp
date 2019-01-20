@@ -7,8 +7,8 @@ struct WHS: Codable {
     let countVisitors: Int? // not in staging
     let id: Int
     let lat: UncertainValue<Double, String> // Double in staging, String in production
-    let location: Location
-    let locationId: String
+    let location: WHSLocation
+    let locationId: UncertainValue<Int, String> // Int in staging, String in production
     let long: UncertainValue<Double, String> // Double in staging, String in production
     let title: String
     let unescoId: Int

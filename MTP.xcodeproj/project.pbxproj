@@ -73,6 +73,7 @@
 		FAC159A221EB68AA00564E2D /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC159A121EB68AA00564E2D /* Location.swift */; };
 		FAC3BCB8216A225900E1507E /* TagButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC3BCB5216A225900E1507E /* TagButton.swift */; };
 		FAC3BCB9216A225900E1507E /* TagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC3BCB6216A225900E1507E /* TagsView.swift */; };
+		FAD2B51321F45796009FFDD7 /* WHSLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51221F45796009FFDD7 /* WHSLocation.swift */; };
 		FADC1ABA2144FAD70011EE49 /* Date+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */; };
 		FADC1ABC2145563F0011EE49 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADC1ABB2145563F0011EE49 /* Country.swift */; };
 		FADC1ABE2145E9760011EE49 /* MyPhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADC1ABD2145E9760011EE49 /* MyPhotosVC.swift */; };
@@ -202,6 +203,7 @@
 		FAC159A121EB68AA00564E2D /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		FAC3BCB5216A225900E1507E /* TagButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagButton.swift; sourceTree = "<group>"; };
 		FAC3BCB6216A225900E1507E /* TagsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsView.swift; sourceTree = "<group>"; };
+		FAD2B51221F45796009FFDD7 /* WHSLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WHSLocation.swift; sourceTree = "<group>"; };
 		FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Formatting.swift"; sourceTree = "<group>"; };
 		FADC1ABB2145563F0011EE49 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		FADC1ABD2145E9760011EE49 /* MyPhotosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPhotosVC.swift; sourceTree = "<group>"; };
@@ -392,6 +394,7 @@
 				FA76D9742131278900EF8E25 /* User.swift */,
 				FA4653312115A250005B5A0A /* UserDefaults+Gestalt.swift */,
 				FA2E718421ED535B00E6AB73 /* WHS.swift */,
+				FAD2B51221F45796009FFDD7 /* WHSLocation.swift */,
 			);
 			path = application;
 			sourceTree = "<group>";
@@ -888,6 +891,7 @@
 				FA392BBB20DF69F30026C828 /* AppDelegate.swift in Sources */,
 				FA463780210DE94C0007382D /* EditProfileVC.swift in Sources */,
 				FA254DCB21685D6800FC9360 /* NSObject+Create.swift in Sources */,
+				FAD2B51321F45796009FFDD7 /* WHSLocation.swift in Sources */,
 				FADC1ABC2145563F0011EE49 /* Country.swift in Sources */,
 				FA99615F2136CF3100C85FBC /* MyProfilePagingVC.swift in Sources */,
 				FADC1ABE2145E9760011EE49 /* MyPhotosVC.swift in Sources */,
