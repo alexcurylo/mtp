@@ -31,9 +31,6 @@ enum MTP {
     case userGetByToken
     case userLogin(email: String, password: String)
     case whs
-
-    // To get the full, non-cached, re-computed data, use preventCache with a random number
-    // https://mtp.travel/api/location?preventCache=1234
 }
 
 extension MTP: TargetType {
@@ -42,6 +39,8 @@ extension MTP: TargetType {
     private var productionURL: URL? { return URL(string: "https://mtp.travel/api/") }
     // swiftlint:disable:next force_unwrapping
     public var baseURL: URL { return productionURL! }
+
+    public var preventCache: Bool { return false }
 
     public var path: String {
         switch self {
@@ -125,6 +124,10 @@ extension MTP: TargetType {
              .unCountry,
              .userGetByToken,
              .whs:
+            if preventCache {
+                return .requestParameters(parameters: ["preventCache": "1"],
+                                          encoding: URLEncoding.default)
+            }
             return .requestPlain
         }
     }
@@ -196,7 +199,7 @@ extension MTPAPI {
                 do {
                     let countries = try result.map([Country].self,
                                                    using: JSONDecoder.mtp)
-                    //log.verbose("countries[\(query)]: " + countries.debugDescription)
+                    log.verbose("countries[\(query)] succeeded")
                     return then(.success(countries))
                 } catch {
                     log.error("decoding countries: \(error)")
@@ -218,7 +221,7 @@ extension MTPAPI {
                 do {
                     let beaches = try result.map([Place].self,
                                                  using: JSONDecoder.mtp)
-                    //log.verbose("beaches: " + beaches.debugDescription)
+                    log.verbose("beaches succeeded")
                     gestalt.beaches = beaches
                     return then(.success(beaches))
                 } catch {
@@ -252,7 +255,7 @@ extension MTPAPI {
                 do {
                     let checklists = try result.map(Checklists.self,
                                                     using: JSONDecoder.mtp)
-                    //log.verbose("checklists: " + checklists.debugDescription)
+                    log.verbose("checklists: succeeded")
                     gestalt.checklists = checklists
                     return then(.success(checklists))
                 } catch {
@@ -275,7 +278,7 @@ extension MTPAPI {
                 do {
                     let countries = try result.map([Country].self,
                                                    using: JSONDecoder.mtp)
-                    //log.verbose("countries: " + countries.debugDescription)
+                    log.verbose("countries succeeded")
                     return then(.success(countries))
                 } catch {
                     log.error("decoding countries: \(error)")
@@ -297,7 +300,7 @@ extension MTPAPI {
                 do {
                     let diveSites = try result.map([Place].self,
                                                    using: JSONDecoder.mtp)
-                    //log.verbose("diveSites: " + diveSites.debugDescription)
+                    log.verbose("diveSites succeeded")
                     gestalt.diveSites = diveSites
                     return then(.success(diveSites))
                 } catch {
@@ -320,7 +323,7 @@ extension MTPAPI {
                 do {
                     let golfCourses = try result.map([Place].self,
                                                      using: JSONDecoder.mtp)
-                    //log.verbose("golfCourses: " + golfCourses.debugDescription)
+                    log.verbose("golfCourses succeeded")
                     gestalt.golfCourses = golfCourses
                     return then(.success(golfCourses))
                 } catch {
@@ -343,7 +346,7 @@ extension MTPAPI {
                 do {
                     let locations = try result.map([Location].self,
                                                    using: JSONDecoder.mtp)
-                    //log.verbose("locations: " + locations.debugDescription)
+                    log.verbose("locations succeeded")
                     gestalt.locations = locations
                     return then(.success(locations))
                 } catch {
@@ -366,7 +369,7 @@ extension MTPAPI {
                 do {
                     let restaurants = try result.map([Restaurant].self,
                                                      using: JSONDecoder.mtp)
-                    //log.verbose("restaurants: " + restaurants.debugDescription)
+                    log.verbose("restaurants succeeded")
                     gestalt.restaurants = restaurants
                     return then(.success(restaurants))
                 } catch {
@@ -394,7 +397,7 @@ extension MTPAPI {
                 do {
                     let unCountries = try result.map([Country].self,
                                                      using: JSONDecoder.mtp)
-                    //log.verbose("unCountries: " + unCountries.debugDescription)
+                    log.verbose("unCountries succeeded")
                     gestalt.unCountries = unCountries
                     return then(.success(unCountries))
                 } catch {
@@ -417,7 +420,7 @@ extension MTPAPI {
                 do {
                     let whs = try result.map([WHS].self,
                                              using: JSONDecoder.mtp)
-                    //log.verbose("whs: " + whs.debugDescription)
+                    log.verbose("whs succeeded")
                     gestalt.whs = whs
                     return then(.success(whs))
                 } catch {
@@ -449,7 +452,7 @@ extension MTPAPI {
                 do {
                     let locations = try result.map([Country].self,
                                                    using: JSONDecoder.mtp)
-                    //log.verbose("locations[\(query)]: " + locations.debugDescription)
+                    log.verbose("locations[\(query)] succeeded")
                     return then(.success(locations))
                 } catch {
                     log.error("decoding locations: \(error)")
