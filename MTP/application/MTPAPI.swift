@@ -22,6 +22,7 @@ enum MTP {
     case checklists
     case countries // appears same as `location` but returns 891 in production
     case countriesSearch(query: String?)
+    case golfcourse
     case location // appears same as `countries` but returns 915 in production
     case locationsSearch(parentCountry: Int?, query: String?)
     case unCountry
@@ -50,6 +51,8 @@ extension MTP: TargetType {
             return "countries"
         case .countriesSearch:
             return "countries/search"
+        case .golfcourse:
+            return "golfcourse"
         case .location:
             return "location"
         case .locationsSearch:
@@ -71,6 +74,7 @@ extension MTP: TargetType {
              .checklists,
              .countries,
              .countriesSearch,
+             .golfcourse,
              .location,
              .locationsSearch,
              .unCountry,
@@ -105,6 +109,7 @@ extension MTP: TargetType {
              .checklists,
              .countries,
              .countriesSearch,
+             .golfcourse,
              .location,
              .locationsSearch,
              .unCountry,
@@ -139,6 +144,7 @@ extension MTP: AccessTokenAuthorizable {
         case .beach,
              .countries,
              .countriesSearch,
+             .golfcourse,
              .location,
              .locationsSearch,
              .unCountry,
@@ -260,6 +266,29 @@ extension MTPAPI {
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
                 log.error("failure: \(MTP.countries.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
+    static func loadGolfCourses(then: @escaping PlacesResult = { _ in }) {
+        let provider = MoyaProvider<MTP>()
+        provider.request(.golfcourse) { response in
+            switch response {
+            case .success(let result):
+                do {
+                    let golfCourses = try result.map([Place].self,
+                                                     using: JSONDecoder.mtp)
+                    log.verbose("golfCourses: " + golfCourses.debugDescription)
+                    gestalt.golfCourses = golfCourses
+                    return then(.success(golfCourses))
+                } catch {
+                    log.error("decoding golfCourses: \(error)")
+                    return then(.failure(.results))
+                }
+            case .failure(let error):
+                let message = error.errorDescription ?? Localized.unknown()
+                log.error("failure: \(MTP.golfcourse.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
@@ -485,6 +514,7 @@ extension MTPAPI {
 
     static func refreshData() {
         loadBeaches()
+        loadGolfCourses()
         loadLocations()
         loadUNCountries()
         loadWHS()

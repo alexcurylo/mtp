@@ -47,6 +47,25 @@ extension UserDefaults: Gestalt {
         set { set(newValue, forKey: #function) }
     }
 
+    var golfCourses: [Place] {
+        get {
+            do {
+                return try get(objectType: [Place].self, forKey: #function) ?? []
+            } catch {
+                log.error("decoding golfcourses value: \(error)")
+                return []
+            }
+        }
+        set {
+            do {
+                try set(object: newValue, forKey: #function)
+                notifyObservers(about: #function)
+            } catch {
+                log.error("encoding golfcourses newValue: \(error)")
+            }
+        }
+    }
+
     var lastUserRefresh: Date? {
         get { return date(forKey: #function) }
         set { set(newValue, forKey: #function) }
