@@ -138,8 +138,13 @@ extension MTP: TargetType {
 
     // swiftlint:disable:next discouraged_optional_collection
     var headers: [String: String]? {
-        return ["Content-Type": "application/json; charset=utf-8",
-                "Accept": "application/json; charset=utf-8"]
+        var headers = ["Content-Type": "application/json; charset=utf-8",
+                       "Accept": "application/json; charset=utf-8"]
+        let etag = ""
+        if !etag.isEmpty {
+            headers["If-None-Match"] = etag
+        }
+        return headers
     }
 
     public var sampleData: Data {
