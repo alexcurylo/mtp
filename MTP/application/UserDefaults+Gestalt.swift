@@ -66,6 +66,25 @@ extension UserDefaults: Gestalt {
         set { set(newValue, forKey: #function) }
     }
 
+    var etags: [String: String] {
+        get {
+            do {
+                return try get(objectType: [String: String].self, forKey: #function) ?? [:]
+            } catch {
+                log.error("decoding golfCourses value: \(error)")
+                return [:]
+            }
+        }
+        set {
+            do {
+                try set(object: newValue, forKey: #function)
+                notifyObservers(about: #function)
+            } catch {
+                log.error("encoding golfCourses newValue: \(error)")
+            }
+        }
+    }
+
     var golfCourses: [Place] {
         get {
             do {

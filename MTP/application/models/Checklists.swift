@@ -2,6 +2,20 @@
 
 import Foundation
 
+enum Checklist: String {
+    case beaches
+    case divesites
+    case golfcourses
+    case locations
+    case restaurants
+    case uncountries
+    case whss
+
+    var path: String {
+        return "me/checklists/" + rawValue
+    }
+}
+
 struct Checklists: Codable {
     let beaches: [Int]
     let divesites: [Int]

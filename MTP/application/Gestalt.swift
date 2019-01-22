@@ -11,6 +11,7 @@ protocol Gestalt: Observable {
     var checklists: Checklists? { get set }
     var diveSites: [Place] { get set }
     var email: String { get set }
+    var etags: [String: String] { get set }
     var golfCourses: [Place] { get set }
     var lastUserRefresh: Date? { get set }
     var locations: [Location] { get set }
@@ -23,6 +24,8 @@ protocol Gestalt: Observable {
     var user: User? { get set }
     var whs: [WHS] { get set }
 }
+
+// MARK: - User state
 
 extension Gestalt {
 

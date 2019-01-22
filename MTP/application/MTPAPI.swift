@@ -140,7 +140,6 @@ extension MTP: TargetType {
     var headers: [String: String]? {
         var headers = ["Content-Type": "application/json; charset=utf-8",
                        "Accept": "application/json; charset=utf-8"]
-        let etag = ""
         if !etag.isEmpty {
             headers["If-None-Match"] = etag
         }
@@ -172,6 +171,13 @@ extension MTP: AccessTokenAuthorizable {
              .whs:
             return .none
         }
+    }
+}
+
+private extension MTP {
+
+    var etag: String {
+        return gestalt.etags[path] ?? ""
     }
 }
 
@@ -220,9 +226,13 @@ extension MTPAPI {
 
     static func loadBeaches(then: @escaping PlacesResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
-        provider.request(.beach) { response in
+        let endpoint = MTP.beach
+        provider.request(endpoint) { response in
             switch response {
             case .success(let result):
+                guard result.processChangedData() else {
+                    return then(.failure(.notModified))
+                }
                 do {
                     let beaches = try result.map([Place].self,
                                                  using: JSONDecoder.mtp)
@@ -240,7 +250,7 @@ extension MTPAPI {
                 }
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(MTP.beach.path) \(message)")
+                log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
@@ -254,9 +264,13 @@ extension MTPAPI {
 
         let auth = AccessTokenPlugin { gestalt.token }
         let provider = MoyaProvider<MTP>(plugins: [auth])
-        provider.request(.checklists) { response in
+        let endpoint = MTP.checklists
+        provider.request(endpoint) { response in
             switch response {
             case .success(let result):
+                guard result.processChangedData() else {
+                    return then(.failure(.notModified))
+                }
                 do {
                     let checklists = try result.map(Checklists.self,
                                                     using: JSONDecoder.mtp)
@@ -269,7 +283,7 @@ extension MTPAPI {
                 }
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(MTP.checklists.path) \(message)")
+                log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
@@ -277,9 +291,13 @@ extension MTPAPI {
 
     static func loadCountries(then: @escaping CountriesResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
-        provider.request(.countries) { response in
+        let endpoint = MTP.countries
+        provider.request(endpoint) { response in
             switch response {
             case .success(let result):
+                guard result.processChangedData() else {
+                    return then(.failure(.notModified))
+                }
                 do {
                     let countries = try result.map([Country].self,
                                                    using: JSONDecoder.mtp)
@@ -291,7 +309,7 @@ extension MTPAPI {
                 }
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(MTP.countries.path) \(message)")
+                log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
@@ -299,9 +317,13 @@ extension MTPAPI {
 
     static func loadDiveSites(then: @escaping PlacesResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
-        provider.request(.divesite) { response in
+        let endpoint = MTP.divesite
+        provider.request(endpoint) { response in
             switch response {
             case .success(let result):
+                guard result.processChangedData() else {
+                    return then(.failure(.notModified))
+                }
                 do {
                     let diveSites = try result.map([Place].self,
                                                    using: JSONDecoder.mtp)
@@ -314,7 +336,7 @@ extension MTPAPI {
                 }
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(MTP.divesite.path) \(message)")
+                log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
@@ -322,9 +344,13 @@ extension MTPAPI {
 
     static func loadGolfCourses(then: @escaping PlacesResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
-        provider.request(.golfcourse) { response in
+        let endpoint = MTP.golfcourse
+        provider.request(endpoint) { response in
             switch response {
             case .success(let result):
+                guard result.processChangedData() else {
+                    return then(.failure(.notModified))
+                }
                 do {
                     let golfCourses = try result.map([Place].self,
                                                      using: JSONDecoder.mtp)
@@ -337,7 +363,7 @@ extension MTPAPI {
                 }
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(MTP.golfcourse.path) \(message)")
+                log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
@@ -345,9 +371,13 @@ extension MTPAPI {
 
     static func loadLocations(then: @escaping LocationsResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
-        provider.request(.location) { response in
+        let endpoint = MTP.location
+        provider.request(endpoint) { response in
             switch response {
             case .success(let result):
+                guard result.processChangedData() else {
+                    return then(.failure(.notModified))
+                }
                 do {
                     let locations = try result.map([Location].self,
                                                    using: JSONDecoder.mtp)
@@ -360,7 +390,7 @@ extension MTPAPI {
                 }
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(MTP.location.path) \(message)")
+                log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
@@ -368,9 +398,13 @@ extension MTPAPI {
 
     static func loadRestaurants(then: @escaping RestaurantsResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
-        provider.request(.restaurant) { response in
+        let endpoint = MTP.restaurant
+        provider.request(endpoint) { response in
             switch response {
             case .success(let result):
+                guard result.processChangedData() else {
+                    return then(.failure(.notModified))
+                }
                 do {
                     let restaurants = try result.map([Restaurant].self,
                                                      using: JSONDecoder.mtp)
@@ -388,7 +422,7 @@ extension MTPAPI {
                 }
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(MTP.restaurant.path) \(message)")
+                log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
@@ -396,9 +430,13 @@ extension MTPAPI {
 
     static func loadUNCountries(then: @escaping CountriesResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
-        provider.request(.unCountry) { response in
+        let endpoint = MTP.unCountry
+        provider.request(endpoint) { response in
             switch response {
             case .success(let result):
+                guard result.processChangedData() else {
+                    return then(.failure(.notModified))
+                }
                 do {
                     let unCountries = try result.map([Country].self,
                                                      using: JSONDecoder.mtp)
@@ -411,7 +449,7 @@ extension MTPAPI {
                 }
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(MTP.unCountry.path) \(message)")
+                log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
@@ -419,9 +457,13 @@ extension MTPAPI {
 
     static func loadWHS(then: @escaping WHSResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
-        provider.request(.whs) { response in
+        let endpoint = MTP.whs
+        provider.request(endpoint) { response in
             switch response {
             case .success(let result):
+                guard result.processChangedData() else {
+                    return then(.failure(.notModified))
+                }
                 do {
                     let whs = try result.map([WHS].self,
                                              using: JSONDecoder.mtp)
@@ -439,7 +481,7 @@ extension MTPAPI {
                 }
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(MTP.whs.path) \(message)")
+                log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
@@ -450,8 +492,9 @@ extension MTPAPI {
                                 then: @escaping CountriesResult) {
         let provider = MoyaProvider<MTP>()
         let queryParam = query.isEmpty ? nil : query
-        provider.request(.locationsSearch(parentCountry: parentCountry,
-                                          query: queryParam)) { response in
+        let endpoint = MTP.locationsSearch(parentCountry: parentCountry,
+                                           query: queryParam)
+        provider.request(endpoint) { response in
             switch response {
             case .success(let result):
                 do {
@@ -465,7 +508,7 @@ extension MTPAPI {
                 }
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(MTP.checklists.path) \(message)")
+                log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
@@ -502,7 +545,8 @@ extension MTPAPI {
 
         let auth = AccessTokenPlugin { gestalt.token }
         let provider = MoyaProvider<MTP>(plugins: [auth])
-        provider.request(.userGetByToken) { response in
+        let endpoint = MTP.userGetByToken
+        provider.request(endpoint) { response in
             switch response {
             case .success(let result):
                 do {
@@ -518,7 +562,7 @@ extension MTPAPI {
                 }
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(MTP.userGetByToken.path) \(message)")
+                log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
@@ -582,6 +626,25 @@ extension MTPAPI {
         gestalt.name = name
         gestalt.password = password
         then(.success(true))
+    }
+}
+
+extension Response {
+
+    func processChangedData() -> Bool {
+        // nothing currently supports real 304
+        guard let response = response,
+              response.statusCode != 304 else { return false }
+        // AWS sends "Not-Modified=1"
+        if let header = response.allHeaderFields["not-modified"] as? String,
+           header == "1" { return false }
+        // This is the internal caching
+        if let status = try? mapString(atKeyPath: "status").lowercased(),
+           status == "not-modified" { return false }
+
+        // TODO: Save etag
+
+        return true
     }
 }
 
