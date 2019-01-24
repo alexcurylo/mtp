@@ -230,7 +230,7 @@ extension MTPAPI {
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
-                guard result.processChangedData() else {
+                guard result.processChanges(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
                 do {
@@ -240,11 +240,6 @@ extension MTPAPI {
                     gestalt.beaches = beaches
                     return then(.success(beaches))
                 } catch {
-                    if let resultString = try? result.mapString(),
-                        resultString == "{\"status\":\"Not-Modified\"}" {
-                        // on staging also can check not-modified 1 in result.response.allHeaderFields
-                        return then(.failure(.notModified))
-                    }
                     log.error("decoding beaches: \(error)")
                     return then(.failure(.results))
                 }
@@ -268,7 +263,7 @@ extension MTPAPI {
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
-                guard result.processChangedData() else {
+                guard result.processChanges(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
                 do {
@@ -295,7 +290,7 @@ extension MTPAPI {
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
-                guard result.processChangedData() else {
+                guard result.processChanges(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
                 do {
@@ -321,7 +316,7 @@ extension MTPAPI {
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
-                guard result.processChangedData() else {
+                guard result.processChanges(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
                 do {
@@ -348,7 +343,7 @@ extension MTPAPI {
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
-                guard result.processChangedData() else {
+                guard result.processChanges(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
                 do {
@@ -375,7 +370,7 @@ extension MTPAPI {
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
-                guard result.processChangedData() else {
+                guard result.processChanges(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
                 do {
@@ -402,7 +397,7 @@ extension MTPAPI {
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
-                guard result.processChangedData() else {
+                guard result.processChanges(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
                 do {
@@ -412,11 +407,6 @@ extension MTPAPI {
                     gestalt.restaurants = restaurants
                     return then(.success(restaurants))
                 } catch {
-                    if let resultString = try? result.mapString(),
-                        resultString == "{\"status\":\"Not-Modified\"}" {
-                        // on staging also can check not-modified 1 in result.response.allHeaderFields
-                        return then(.failure(.notModified))
-                    }
                     log.error("decoding restaurants: \(error)")
                     return then(.failure(.results))
                 }
@@ -434,7 +424,7 @@ extension MTPAPI {
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
-                guard result.processChangedData() else {
+                guard result.processChanges(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
                 do {
@@ -461,7 +451,7 @@ extension MTPAPI {
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
-                guard result.processChangedData() else {
+                guard result.processChanges(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
                 do {
@@ -471,11 +461,6 @@ extension MTPAPI {
                     gestalt.whs = whs
                     return then(.success(whs))
                 } catch {
-                    if let resultString = try? result.mapString(),
-                        resultString == "{\"status\":\"Not-Modified\"}" {
-                        // on staging also can check not-modified 1 in result.response.allHeaderFields
-                        return then(.failure(.notModified))
-                    }
                     log.error("decoding whs: \(error)")
                     return then(.failure(.results))
                 }
@@ -631,20 +616,38 @@ extension MTPAPI {
 
 extension Response {
 
-    func processChangedData() -> Bool {
+    func processChanges(from endpoint: MTP) -> Bool {
         // nothing currently supports real 304
         guard let response = response,
               response.statusCode != 304 else { return false }
         // AWS sends "Not-Modified=1"
-        if let header = response.allHeaderFields["not-modified"] as? String,
+        if let header = response.find(header: "not-modified"),
            header == "1" { return false }
         // This is the internal caching
         if let status = try? mapString(atKeyPath: "status").lowercased(),
-           status == "not-modified" { return false }
+           status == "not-modified" {
+            return false
+        }
 
-        // TODO: Save etag
+        if let etag = response.find(header: "etag") {
+            gestalt.etags[endpoint.path] = etag
+        }
 
         return true
+    }
+}
+
+extension HTTPURLResponse {
+
+    func find(header: String) -> String? {
+        let keyValues = allHeaderFields.map {
+            (String(describing: $0.key).lowercased(), String(describing: $0.value))
+        }
+
+        if let headerValue = keyValues.first(where: { $0.0 == header.lowercased() }) {
+            return headerValue.1
+        }
+        return nil
     }
 }
 
