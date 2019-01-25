@@ -230,7 +230,7 @@ extension MTPAPI {
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
-                guard result.processChanges(from: endpoint) else {
+                guard result.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
                 do {
@@ -263,7 +263,7 @@ extension MTPAPI {
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
-                guard result.processChanges(from: endpoint) else {
+                guard result.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
                 do {
@@ -290,7 +290,7 @@ extension MTPAPI {
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
-                guard result.processChanges(from: endpoint) else {
+                guard result.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
                 do {
@@ -316,7 +316,7 @@ extension MTPAPI {
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
-                guard result.processChanges(from: endpoint) else {
+                guard result.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
                 do {
@@ -343,7 +343,7 @@ extension MTPAPI {
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
-                guard result.processChanges(from: endpoint) else {
+                guard result.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
                 do {
@@ -370,7 +370,7 @@ extension MTPAPI {
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
-                guard result.processChanges(from: endpoint) else {
+                guard result.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
                 do {
@@ -397,7 +397,7 @@ extension MTPAPI {
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
-                guard result.processChanges(from: endpoint) else {
+                guard result.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
                 do {
@@ -424,7 +424,7 @@ extension MTPAPI {
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
-                guard result.processChanges(from: endpoint) else {
+                guard result.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
                 do {
@@ -451,7 +451,7 @@ extension MTPAPI {
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
-                guard result.processChanges(from: endpoint) else {
+                guard result.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
                 do {
@@ -616,20 +616,24 @@ extension MTPAPI {
 
 extension Response {
 
-    func processChanges(from endpoint: MTP) -> Bool {
+    func modified(from endpoint: MTP) -> Bool {
         // nothing currently supports real 304
         guard let response = response,
-              response.statusCode != 304 else { return false }
-        // AWS sends "Not-Modified=1"
-        if let header = response.find(header: "not-modified"),
-           header == "1" { return false }
+              response.statusCode != 304 else {
+                return false
+        }
+        // staging sends "Not-Modified=1", production sends "not-modified=1"
+        if let header = response.find(header: "Not-Modified"),
+           header == "1" {
+            return false
+        }
         // This is the internal caching
-        if let status = try? mapString(atKeyPath: "status").lowercased(),
-           status == "not-modified" {
+        if let body = try? mapString(),
+           body == "{\"status\":\"Not-Modified\"}" {
             return false
         }
 
-        if let etag = response.find(header: "etag") {
+        if let etag = response.find(header: "Etag") {
             gestalt.etags[endpoint.path] = etag
         }
 
