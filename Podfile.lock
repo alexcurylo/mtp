@@ -1,15 +1,15 @@
 PODS:
   - Alamofire (4.8.1)
   - Anchorage (4.3)
-  - AppCenter (1.12.0):
-    - AppCenter/Analytics (= 1.12.0)
-    - AppCenter/Crashes (= 1.12.0)
-  - AppCenter/Analytics (1.12.0):
+  - AppCenter (1.13.0):
+    - AppCenter/Analytics (= 1.13.0)
+    - AppCenter/Crashes (= 1.13.0)
+  - AppCenter/Analytics (1.13.0):
     - AppCenter/Core
-  - AppCenter/Core (1.12.0)
-  - AppCenter/Crashes (1.12.0):
+  - AppCenter/Core (1.13.0)
+  - AppCenter/Crashes (1.13.0):
     - AppCenter/Core
-  - AppCenter/Distribute (1.12.0):
+  - AppCenter/Distribute (1.13.0):
     - AppCenter/Core
   - Bolts (1.9.0):
     - Bolts/AppLinks (= 1.9.0)
@@ -98,7 +98,7 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
   Anchorage: 21a98675245188427f0bcea21404d42a824a766f
-  AppCenter: 4d27bdafd74b1b3e90946b9989fd6011a7e39c5e
+  AppCenter: a70408f15de23f925001bfc7b7473094a009a4eb
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   FacebookCore: 74288d0add931d361b1596beae787ab72c438249
   FacebookLogin: ebcf34714a1cb9f0759d9f071cfb01ed500996cf
