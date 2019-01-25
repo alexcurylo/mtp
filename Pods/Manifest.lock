@@ -30,11 +30,11 @@ PODS:
     - FacebookCore (~> 0.5)
     - FBSDKCoreKit (~> 4.37)
     - FBSDKShareKit (~> 4.37)
-  - FBSDKCoreKit (4.39.1):
+  - FBSDKCoreKit (4.40.0):
     - Bolts (~> 1.9)
-  - FBSDKLoginKit (4.39.1):
+  - FBSDKLoginKit (4.40.0):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.39.1):
+  - FBSDKShareKit (4.40.0):
     - FBSDKCoreKit
   - JWTDecode (2.2.0)
   - KRActivityIndicatorView (3.0.0)
@@ -103,9 +103,9 @@ SPEC CHECKSUMS:
   FacebookCore: 74288d0add931d361b1596beae787ab72c438249
   FacebookLogin: ebcf34714a1cb9f0759d9f071cfb01ed500996cf
   FacebookShare: 963b4bb1124a64a395b1e428163d70b5774116e8
-  FBSDKCoreKit: f442aa96179cc9b382bb4abeb7e340a47cca8f91
-  FBSDKLoginKit: c3079d9a4db27c492287b1eed7a4272b28cf8a59
-  FBSDKShareKit: 27d7b982e7b1f4638da2f2b1ab6eba5afc6b5888
+  FBSDKCoreKit: ae214474b25033399c131dc81d258e412582a2ba
+  FBSDKLoginKit: 7a1e411d46acc8834588eca437daf34de42e1d52
+  FBSDKShareKit: 0e45916f4150da485928ae2a17ca021950b194f5
   JWTDecode: 85a405ab16d5473e99bd89ded1d535090ebd6a0e
   KRActivityIndicatorView: c414000730a6f4969eeb354bee4f2aebc89c2c2e
   KRProgressHUD: 79c8703f82179fe34b3602f10b30726f887983fa
