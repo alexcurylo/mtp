@@ -50,7 +50,7 @@ PODS:
     - R.swift.Library (~> 5.0.0)
   - R.swift.Library (5.0.0)
   - Result (4.1.0)
-  - SwiftLint (0.29.3)
+  - SwiftLint (0.30.1)
   - SwiftyBeaver (1.6.1)
 
 DEPENDENCIES:
@@ -114,7 +114,7 @@ SPEC CHECKSUMS:
   R.swift: 81455d81467763cbd3f4d79d938d05f4ac4c0228
   R.swift.Library: 0bf390e729bc10bb2c9e4fb78bd043164a7be4ff
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
-  SwiftLint: bfa7ca7b4d170cfaf0d236ca3ffd969e88a2f002
+  SwiftLint: a54bf1fe12b55c68560eb2a7689dfc81458508f7
   SwiftyBeaver: ccfcdf85a04d429f1633f668650b0ce8020bda3a
 
 PODFILE CHECKSUM: a3ad7f7f1e49a15524b0742deccdcec07c5da914
