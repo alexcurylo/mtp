@@ -1,19 +1,22 @@
 // @copyright Trollwerks Inc.
 
+import Anchorage
 import MapKit
 import UIKit
 
 final class LocationsVC: UIViewController {
 
-    let locationManager = CLLocationManager()
-    private var centered = false
-
     @IBOutlet private var mapView: MKMapView?
     @IBOutlet private var searchBar: UISearchBar?
 
+    let locationManager = CLLocationManager()
+    private var centering = true
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
         start(tracking: .dontAsk)
+        setupCompass()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -45,16 +48,33 @@ final class LocationsVC: UIViewController {
 
 private extension LocationsVC {
 
+    enum Layout {
+        static let margin = CGFloat(16)
+    }
+
     @IBAction func unwindToLocations(segue: UIStoryboardSegue) {
         log.verbose(segue.name)
     }
 
-    func zoomAndCenter() {
-        guard !centered, let here = locationManager.location?.coordinate else { return }
+    func setupCompass() {
+        guard let map = mapView, map.showsCompass == true else { return }
+        let compass = MKCompassButton(mapView: mapView)
+        compass.compassVisibility = .visible
+        view.addSubview(compass)
+        compass.topAnchor == map.safeAreaLayoutGuide.topAnchor + Layout.margin
+        compass.rightAnchor == map.rightAnchor - Layout.margin
+        map.showsCompass = false
+    }
 
-        centered = true
+    func zoomAndCenter() {
+        guard !centering,
+              let here = locationManager.location?.coordinate else { return }
+
+        centering = true
+        let viewRegion = MKCoordinateRegion(center: here,
+                                            latitudinalMeters: 200,
+                                            longitudinalMeters: 200)
         DispatchQueue.main.async { [weak self] in
-            let viewRegion = MKCoordinateRegion(center: here, latitudinalMeters: 200, longitudinalMeters: 200)
             self?.mapView?.setRegion(viewRegion, animated: true)
         }
     }
@@ -67,6 +87,7 @@ extension LocationsVC: MKMapViewDelegate {
     }
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated: Bool) {
         log.verbose(#function)
+        centering = false
     }
 
     func mapViewWillStartLoadingMap(_ mapView: MKMapView) {
