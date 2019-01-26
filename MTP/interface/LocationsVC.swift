@@ -11,12 +11,14 @@ final class LocationsVC: UIViewController {
 
     let locationManager = CLLocationManager()
     private var centering = true
+    private var userTrackingButton: MKUserTrackingButton?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        start(tracking: .dontAsk)
         setupCompass()
+        setupUserTrackingButtonAndScaleView()
+        userTrackingButton?.set(visibility: self.start(tracking: .dontAsk))
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -61,9 +63,36 @@ private extension LocationsVC {
         let compass = MKCompassButton(mapView: mapView)
         compass.compassVisibility = .visible
         view.addSubview(compass)
-        compass.topAnchor == map.safeAreaLayoutGuide.topAnchor + Layout.margin
-        compass.rightAnchor == map.rightAnchor - Layout.margin
+        compass.topAnchor == view.safeAreaLayoutGuide.topAnchor + Layout.margin
+        compass.trailingAnchor == view.trailingAnchor - Layout.margin
         map.showsCompass = false
+    }
+
+    func setupUserTrackingButtonAndScaleView() {
+        mapView?.showsUserLocation = true
+
+        let tracker = MKUserTrackingButton(mapView: mapView)
+        tracker.layer.backgroundColor = UIColor(white: 1, alpha: 0.8).cgColor
+        tracker.layer.borderColor = UIColor.white.cgColor
+        tracker.layer.borderWidth = 1
+        tracker.layer.cornerRadius = 5
+        tracker.isHidden = true
+        view.addSubview(tracker)
+        userTrackingButton = tracker
+
+        let scale = MKScaleView(mapView: mapView)
+        scale.legendAlignment = .trailing
+        view.addSubview(scale)
+
+        let stack = UIStackView(arrangedSubviews: [scale, tracker])
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.alignment = .center
+        stack.spacing = 10
+        view.addSubview(stack)
+
+        stack.bottomAnchor == view.safeAreaLayoutGuide.bottomAnchor - Layout.margin
+        stack.trailingAnchor == view.trailingAnchor - Layout.margin
     }
 
     func zoomAndCenter() {
@@ -218,10 +247,10 @@ extension LocationsVC: LocationTracker {
 
     func locationManager(_ manager: CLLocationManager,
                          didChangeAuthorization status: CLAuthorizationStatus) {
-        log.verbose(#function)
         DispatchQueue.main.async { [weak self] in
-            self?.start(tracking: .ask)
-            self?.zoomAndCenter()
+            guard let self = self else { return }
+            self.userTrackingButton?.set(visibility: self.start(tracking: .ask))
+            self.zoomAndCenter()
         }
     }
 
@@ -231,5 +260,22 @@ extension LocationsVC: LocationTracker {
 
     func locationManager(_ manager: CLLocationManager, didVisit visit: CLVisit) {
         log.verbose(#function)
+    }
+}
+
+private extension MKUserTrackingButton {
+
+    func set(visibility forStatus: CLAuthorizationStatus) {
+        let authorized: Bool
+        switch forStatus {
+        case .authorizedWhenInUse,
+             .authorizedAlways:
+            authorized = true
+        case .denied,
+             .notDetermined,
+             .restricted:
+            authorized = false
+        }
+        isHidden = !authorized
     }
 }

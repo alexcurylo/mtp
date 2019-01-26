@@ -17,7 +17,7 @@ protocol LocationTracker: CLLocationManagerDelegate {
 
 extension LocationTracker {
 
-    func start(tracking ask: Permission) {
+    @discardableResult func start(tracking ask: Permission) -> CLAuthorizationStatus {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
 
@@ -43,6 +43,7 @@ extension LocationTracker {
                 locationManager.requestWhenInUseAuthorization()
             }
         }
+        return status
     }
 }
 
