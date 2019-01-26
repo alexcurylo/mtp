@@ -48,6 +48,7 @@
 		FA4653322115A250005B5A0A /* UserDefaults+Gestalt.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653312115A250005B5A0A /* UserDefaults+Gestalt.swift */; };
 		FA4653342115ADC6005B5A0A /* MTPAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653332115ADC6005B5A0A /* MTPAPI.swift */; };
 		FA5AC0B421FC49860080F84F /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0B321FC49860080F84F /* PlaceAnnotation.swift */; };
+		FA5AC0B621FC4EBE0080F84F /* PlacerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0B521FC4EBE0080F84F /* PlacerAnnotationView.swift */; };
 		FA6A188621EFEF920092C56C /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6A188521EFEF920092C56C /* Observable.swift */; };
 		FA74574D210CA5730010F4F4 /* MyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74574C210CA5730010F4F4 /* MyProfileVC.swift */; };
 		FA745753210DA4C60010F4F4 /* MyProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA745755210DA4C60010F4F4 /* MyProfile.storyboard */; };
@@ -174,6 +175,7 @@
 		FA4F1C5D20DFA69000B8A1ED /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		FA4F1C5E20DFA74500B8A1ED /* Gemfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile; sourceTree = "<group>"; };
 		FA5AC0B321FC49860080F84F /* PlaceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotation.swift; sourceTree = "<group>"; };
+		FA5AC0B521FC4EBE0080F84F /* PlacerAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacerAnnotationView.swift; sourceTree = "<group>"; };
 		FA6A188521EFEF920092C56C /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		FA74574C210CA5730010F4F4 /* MyProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileVC.swift; sourceTree = "<group>"; };
 		FA745754210DA4C60010F4F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyProfile.storyboard; sourceTree = "<group>"; };
@@ -465,6 +467,7 @@
 			children = (
 				FA392BBC20DF69F30026C828 /* LocationsVC.swift */,
 				FA5AC0B321FC49860080F84F /* PlaceAnnotation.swift */,
+				FA5AC0B521FC4EBE0080F84F /* PlacerAnnotationView.swift */,
 			);
 			path = locations;
 			sourceTree = "<group>";
@@ -909,6 +912,7 @@
 				FAE1F11E2143B29F0002CAB2 /* LocationTracker.swift in Sources */,
 				FAC3BCB9216A225900E1507E /* TagsView.swift in Sources */,
 				FAC159A221EB68AA00564E2D /* Location.swift in Sources */,
+				FA5AC0B621FC4EBE0080F84F /* PlacerAnnotationView.swift in Sources */,
 				FA76D9752131278900EF8E25 /* User.swift in Sources */,
 				FA6A188621EFEF920092C56C /* Observable.swift in Sources */,
 				FA74C111211BBF490013A840 /* String+Formatting.swift in Sources */,
