@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import Foundation
+import CoreLocation
 
 struct Country: Codable {
 
@@ -108,4 +108,18 @@ extension Country: CustomDebugStringConvertible {
         /Country >
         """
     }
+}
+
+extension Country {
+
+    var coordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(
+            latitude: lat.doubleValue ?? 0,
+            longitude: lon.doubleValue ?? 0
+        )
+    }
+
+    var title: String { return locationName }
+
+    var subtitle: String { return "" }
 }

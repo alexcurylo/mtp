@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import Foundation
+import CoreLocation
 
 struct WHS: Codable {
     let active: String? // not in staging
@@ -47,4 +47,13 @@ extension WHS {
     static var count: Int {
         return gestalt.whss.count
     }
+
+    var coordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(
+            latitude: lat.doubleValue ?? 0,
+            longitude: long.doubleValue ?? 0
+        )
+    }
+
+    var subtitle: String { return "" }
 }

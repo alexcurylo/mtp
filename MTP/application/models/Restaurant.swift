@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import Foundation
+import CoreLocation
 
 struct Restaurant: Codable {
     let active: String
@@ -62,4 +62,16 @@ extension Restaurant: CustomDebugStringConvertible {
         /Restaurant >
         """
     }
+}
+
+extension Restaurant {
+
+    var coordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(
+            latitude: lat.doubleValue ?? 0,
+            longitude: long.doubleValue ?? 0
+        )
+    }
+
+    var subtitle: String { return "" }
 }

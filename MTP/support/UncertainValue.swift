@@ -22,6 +22,17 @@ struct UncertainValue<T: Codable, U: Codable>: Codable {
         }
     }
 
+    var doubleValue: Double? {
+        switch value {
+        case let doubleValue as Double:
+            return doubleValue
+        case let stringValue as String:
+            return Double(stringValue)
+        default:
+            return nil
+        }
+    }
+
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         guard !container.decodeNil() else { return }

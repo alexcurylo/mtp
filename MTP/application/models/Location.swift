@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import Foundation
+import CoreLocation
 
 struct Location: Codable {
     let Country: String? // not in staging
@@ -83,4 +83,15 @@ extension Location {
     static var count: Int {
         return gestalt.locations.count
     }
+
+    var coordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(
+            latitude: lat.doubleValue ?? 0,
+            longitude: lon.doubleValue ?? 0
+        )
+    }
+
+    var title: String { return locationName }
+
+    var subtitle: String { return "" }
 }
