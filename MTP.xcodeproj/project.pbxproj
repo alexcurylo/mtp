@@ -406,7 +406,7 @@
 		FA392BEC20DFA56B0026C828 /* interface */ = {
 			isa = PBXGroup;
 			children = (
-				FA392BBC20DF69F30026C828 /* LocationsVC.swift */,
+				FA5AC0B121FC38790080F84F /* locations */,
 				FAFEDA5321296F6D00DA3DB8 /* MainTBC.swift */,
 				FA390137213B7D490016A362 /* profile */,
 				FA390135213B7C5E0016A362 /* rankings */,
@@ -420,9 +420,9 @@
 			children = (
 				FA392BC320DF69F50026C828 /* Assets.xcassets */,
 				FA392BC820DF69F50026C828 /* Info.plist */,
-				FAE1F115213BFBA80002CAB2 /* Locations.storyboard */,
 				FA74C10D211BB8F00013A840 /* Localizable.strings */,
 				FA392BC020DF69F30026C828 /* Main.storyboard */,
+				FA5AC0B221FC389D0080F84F /* locations */,
 				FA8A65B0217ED4A300BC0DFE /* profile */,
 				FA8A65B1217ED4F200BC0DFE /* rankings */,
 				FAAE29C120EFADC700B43BA9 /* R.generated.swift */,
@@ -456,6 +456,22 @@
 				FAF122F6215652AE0099B772 /* xccconfig */,
 			);
 			name = metadata;
+			sourceTree = "<group>";
+		};
+		FA5AC0B121FC38790080F84F /* locations */ = {
+			isa = PBXGroup;
+			children = (
+				FA392BBC20DF69F30026C828 /* LocationsVC.swift */,
+			);
+			path = locations;
+			sourceTree = "<group>";
+		};
+		FA5AC0B221FC389D0080F84F /* locations */ = {
+			isa = PBXGroup;
+			children = (
+				FAE1F115213BFBA80002CAB2 /* Locations.storyboard */,
+			);
+			name = locations;
 			sourceTree = "<group>";
 		};
 		FA8A65B0217ED4A300BC0DFE /* profile */ = {
