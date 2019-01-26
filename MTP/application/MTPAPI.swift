@@ -320,13 +320,13 @@ extension MTPAPI {
                     return then(.failure(.notModified))
                 }
                 do {
-                    let diveSites = try result.map([Place].self,
+                    let divesites = try result.map([Place].self,
                                                    using: JSONDecoder.mtp)
-                    log.verbose("diveSites succeeded")
-                    gestalt.diveSites = diveSites
-                    return then(.success(diveSites))
+                    log.verbose("divesites succeeded")
+                    gestalt.divesites = divesites
+                    return then(.success(divesites))
                 } catch {
-                    log.error("decoding diveSites: \(error)")
+                    log.error("decoding divesites: \(error)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -347,13 +347,13 @@ extension MTPAPI {
                     return then(.failure(.notModified))
                 }
                 do {
-                    let golfCourses = try result.map([Place].self,
+                    let golfcourses = try result.map([Place].self,
                                                      using: JSONDecoder.mtp)
-                    log.verbose("golfCourses succeeded")
-                    gestalt.golfCourses = golfCourses
-                    return then(.success(golfCourses))
+                    log.verbose("golfcourses succeeded")
+                    gestalt.golfcourses = golfcourses
+                    return then(.success(golfcourses))
                 } catch {
-                    log.error("decoding golfCourses: \(error)")
+                    log.error("decoding golfcourses: \(error)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -428,13 +428,13 @@ extension MTPAPI {
                     return then(.failure(.notModified))
                 }
                 do {
-                    let unCountries = try result.map([Country].self,
+                    let uncountries = try result.map([Country].self,
                                                      using: JSONDecoder.mtp)
-                    log.verbose("unCountries succeeded")
-                    gestalt.unCountries = unCountries
-                    return then(.success(unCountries))
+                    log.verbose("uncountries succeeded")
+                    gestalt.uncountries = uncountries
+                    return then(.success(uncountries))
                 } catch {
-                    log.error("decoding unCountries: \(error)")
+                    log.error("decoding uncountries: \(error)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -455,13 +455,13 @@ extension MTPAPI {
                     return then(.failure(.notModified))
                 }
                 do {
-                    let whs = try result.map([WHS].self,
-                                             using: JSONDecoder.mtp)
-                    log.verbose("whs succeeded")
-                    gestalt.whs = whs
-                    return then(.success(whs))
+                    let whss = try result.map([WHS].self,
+                                              using: JSONDecoder.mtp)
+                    log.verbose("whss succeeded")
+                    gestalt.whss = whss
+                    return then(.success(whss))
                 } catch {
-                    log.error("decoding whs: \(error)")
+                    log.error("decoding whss: \(error)")
                     return then(.failure(.results))
                 }
             case .failure(let error):

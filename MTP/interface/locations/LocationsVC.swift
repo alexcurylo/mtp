@@ -13,11 +13,20 @@ final class LocationsVC: UIViewController {
     private var trackingButton: MKUserTrackingButton?
     private var centered = false
 
+    var beachesObserver: Observer?
+    var divesitesObserver: Observer?
+    var golfcoursesObserver: Observer?
+    var locationsObserver: Observer?
+    var restaurantsObserver: Observer?
+    var uncountriesObserver: Observer?
+    var whssObserver: Observer?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupCompass()
         setupTracking()
+        setupAnnotations()
         trackingButton?.set(visibility: start(tracking: .dontAsk))
     }
 
@@ -105,6 +114,34 @@ private extension LocationsVC {
                                             longitudinalMeters: 200)
         DispatchQueue.main.async { [weak self] in
             self?.mapView?.setRegion(viewRegion, animated: true)
+        }
+    }
+
+    func setupAnnotations() {
+        observe()
+    }
+
+    func observe() {
+        beachesObserver = Checklist.beaches.observer { [weak self] in
+            self?.showBeaches()
+        }
+        divesitesObserver = Checklist.divesites.observer { [weak self] in
+            self?.showDiveSites()
+        }
+        golfcoursesObserver = Checklist.golfcourses.observer { [weak self] in
+            self?.showGolfCourses()
+        }
+        locationsObserver = Checklist.locations.observer { [weak self] in
+            self?.showBeaches()
+        }
+        restaurantsObserver = Checklist.restaurants.observer { [weak self] in
+            self?.showRestaurants()
+        }
+        uncountriesObserver = Checklist.uncountries.observer { [weak self] in
+            self?.showUNCountries()
+        }
+        whssObserver = Checklist.whss.observer { [weak self] in
+            self?.showWHSs()
         }
     }
 }

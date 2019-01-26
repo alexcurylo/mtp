@@ -97,7 +97,7 @@ private extension MyProfileVC {
         guard userObserver == nil else { return }
 
         configure()
-        userObserver = gestalt.newUserObserver { [weak self] in
+        userObserver = gestalt.userObserver { [weak self] in
             self?.configure()
         }
     }

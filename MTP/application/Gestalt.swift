@@ -9,10 +9,10 @@ protocol Gestalt: Observable {
 
     var beaches: [Place] { get set }
     var checklists: Checklists? { get set }
-    var diveSites: [Place] { get set }
+    var divesites: [Place] { get set }
     var email: String { get set }
     var etags: [String: String] { get set }
-    var golfCourses: [Place] { get set }
+    var golfcourses: [Place] { get set }
     var lastUserRefresh: Date? { get set }
     var locations: [Location] { get set }
     var name: String { get set }
@@ -20,9 +20,9 @@ protocol Gestalt: Observable {
     var rankingsFilter: UserFilter? { get set }
     var restaurants: [Restaurant] { get set }
     var token: String { get set }
-    var unCountries: [Country] { get set }
+    var uncountries: [Country] { get set }
     var user: User? { get set }
-    var whs: [WHS] { get set }
+    var whss: [WHS] { get set }
 }
 
 // MARK: - User state
@@ -54,13 +54,31 @@ extension Gestalt {
 // MARK: - Observable
 
 enum GestaltChange: String {
-    case locations
     case user
-    case whs
+    // and the contents of Checklist
 }
 
 extension Notification.Name {
     static let gestaltChange = Notification.Name("GestaltChange")
+}
+
+final class GestaltObserver: ObserverImpl {
+
+    init(of value: GestaltChange,
+         notify: @escaping NotificationHandler) {
+        super.init(notification: gestalt.notification,
+                   key: gestalt.statusKey,
+                   value: value.rawValue,
+                   notify: notify)
+    }
+
+    init(of value: Checklist,
+         notify: @escaping NotificationHandler) {
+        super.init(notification: gestalt.notification,
+                   key: gestalt.statusKey,
+                   value: value.rawValue,
+                   notify: notify)
+    }
 }
 
 extension Gestalt {
@@ -73,24 +91,14 @@ extension Gestalt {
         return .gestaltChange
     }
 
-    func newUserObserver(handler: @escaping NotificationHandler) -> Observer {
-        return ObserverImpl(notification: notification,
-                            key: statusKey,
-                            value: GestaltChange.user.rawValue,
-                            notify: handler)
+    func userObserver(handler: @escaping NotificationHandler) -> Observer {
+        return GestaltObserver(of: .user, notify: handler)
     }
+}
 
-    func newLocationsObserver(handler: @escaping NotificationHandler) -> Observer {
-        return ObserverImpl(notification: notification,
-                            key: statusKey,
-                            value: GestaltChange.locations.rawValue,
-                            notify: handler)
-    }
+extension Checklist {
 
-    func newWHSObserver(handler: @escaping NotificationHandler) -> Observer {
-        return ObserverImpl(notification: notification,
-                            key: statusKey,
-                            value: GestaltChange.whs.rawValue,
-                            notify: handler)
+    func observer(handler: @escaping NotificationHandler) -> Observer {
+        return GestaltObserver(of: self, notify: handler)
     }
 }

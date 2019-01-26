@@ -45,6 +45,6 @@ extension WHS: CustomDebugStringConvertible {
 extension WHS {
 
     static var count: Int {
-        return gestalt.whs.count
+        return gestalt.whss.count
     }
 }

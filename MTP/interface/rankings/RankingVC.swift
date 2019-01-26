@@ -137,11 +137,11 @@ extension RankingVC: UICollectionViewDataSource {
     func observe() {
         guard userObserver == nil else { return }
 
-        userObserver = gestalt.newUserObserver { [weak self] in
+        userObserver = gestalt.userObserver { [weak self] in
             log.todo("RankingVC update")
             self?.collectionView.reloadData()
         }
-        locationsObserver = gestalt.newLocationsObserver { [weak self] in
+        locationsObserver = Checklist.locations.observer { [weak self] in
             log.todo("RankingVC update")
             self?.collectionView.reloadData()
         }

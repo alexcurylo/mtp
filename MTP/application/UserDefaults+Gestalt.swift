@@ -42,12 +42,12 @@ extension UserDefaults: Gestalt {
         }
     }
 
-    var diveSites: [Place] {
+    var divesites: [Place] {
         get {
             do {
                 return try get(objectType: [Place].self, forKey: #function) ?? []
             } catch {
-                log.error("decoding diveSites value: \(error)")
+                log.error("decoding divesites value: \(error)")
                 return []
             }
         }
@@ -56,7 +56,7 @@ extension UserDefaults: Gestalt {
                 try set(object: newValue, forKey: #function)
                 notifyObservers(about: #function)
             } catch {
-                log.error("encoding diveSites newValue: \(error)")
+                log.error("encoding divesites newValue: \(error)")
             }
         }
     }
@@ -71,7 +71,7 @@ extension UserDefaults: Gestalt {
             do {
                 return try get(objectType: [String: String].self, forKey: #function) ?? [:]
             } catch {
-                log.error("decoding golfCourses value: \(error)")
+                log.error("decoding etags value: \(error)")
                 return [:]
             }
         }
@@ -80,17 +80,17 @@ extension UserDefaults: Gestalt {
                 try set(object: newValue, forKey: #function)
                 notifyObservers(about: #function)
             } catch {
-                log.error("encoding golfCourses newValue: \(error)")
+                log.error("encoding etags newValue: \(error)")
             }
         }
     }
 
-    var golfCourses: [Place] {
+    var golfcourses: [Place] {
         get {
             do {
                 return try get(objectType: [Place].self, forKey: #function) ?? []
             } catch {
-                log.error("decoding golfCourses value: \(error)")
+                log.error("decoding golfcourses value: \(error)")
                 return []
             }
         }
@@ -99,7 +99,7 @@ extension UserDefaults: Gestalt {
                 try set(object: newValue, forKey: #function)
                 notifyObservers(about: #function)
             } catch {
-                log.error("encoding golfCourses newValue: \(error)")
+                log.error("encoding golfcourses newValue: \(error)")
             }
         }
     }
@@ -184,12 +184,12 @@ extension UserDefaults: Gestalt {
         set { set(newValue, forKey: #function) }
     }
 
-    var unCountries: [Country] {
+    var uncountries: [Country] {
         get {
             do {
                 return try get(objectType: [Country].self, forKey: #function) ?? []
             } catch {
-                log.error("decoding unCountries value: \(error)")
+                log.error("decoding uncountries value: \(error)")
                 return []
             }
         }
@@ -198,7 +198,7 @@ extension UserDefaults: Gestalt {
                 try set(object: newValue, forKey: #function)
                 notifyObservers(about: #function)
             } catch {
-                log.error("encoding unCountries newValue: \(error)")
+                log.error("encoding uncountries newValue: \(error)")
             }
         }
     }
@@ -226,12 +226,12 @@ extension UserDefaults: Gestalt {
         }
     }
 
-    var whs: [WHS] {
+    var whss: [WHS] {
         get {
             do {
                 return try get(objectType: [WHS].self, forKey: #function) ?? []
             } catch {
-                log.error("decoding WHS value: \(error)")
+                log.error("decoding whss value: \(error)")
                 return []
             }
         }
@@ -240,7 +240,7 @@ extension UserDefaults: Gestalt {
                 try set(object: newValue, forKey: #function)
                 notifyObservers(about: #function)
             } catch {
-                log.error("encoding WHS newValue: \(error)")
+                log.error("encoding whss newValue: \(error)")
             }
         }
     }

@@ -68,10 +68,10 @@ private extension MyAboutVC {
         guard userObserver == nil else { return }
 
         configure()
-        userObserver = gestalt.newUserObserver { [weak self] in
+        userObserver = gestalt.userObserver { [weak self] in
             self?.configure()
         }
-        locationsObserver = gestalt.newLocationsObserver { [weak self] in
+        locationsObserver = Checklist.locations.observer { [weak self] in
             self?.configure()
         }
     }
