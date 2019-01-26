@@ -1,8 +1,9 @@
 // @copyright Trollwerks Inc.
 
+// swiftlint:disable file_length
+
 import Anchorage
 import MapKit
-import UIKit
 
 final class LocationsVC: UIViewController {
 
@@ -13,13 +14,21 @@ final class LocationsVC: UIViewController {
     private var trackingButton: MKUserTrackingButton?
     private var centered = false
 
-    var beachesObserver: Observer?
-    var divesitesObserver: Observer?
-    var golfcoursesObserver: Observer?
-    var locationsObserver: Observer?
-    var restaurantsObserver: Observer?
-    var uncountriesObserver: Observer?
-    var whssObserver: Observer?
+    private var beachesObserver: Observer?
+    private var divesitesObserver: Observer?
+    private var golfcoursesObserver: Observer?
+    private var locationsObserver: Observer?
+    private var restaurantsObserver: Observer?
+    private var uncountriesObserver: Observer?
+    private var whssObserver: Observer?
+
+    private var beachesAnnotations: Set<PlaceAnnotation> = []
+    private var divesitesAnnotations: Set<PlaceAnnotation> = []
+    private var golfcoursesAnnotations: Set<PlaceAnnotation> = []
+    private var locationsAnnotations: Set<PlaceAnnotation> = []
+    private var restaurantsAnnotations: Set<PlaceAnnotation> = []
+    private var uncountriesAnnotations: Set<PlaceAnnotation> = []
+    private var whssAnnotations: Set<PlaceAnnotation> = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -119,6 +128,14 @@ private extension LocationsVC {
 
     func setupAnnotations() {
         observe()
+
+        showBeaches()
+        showDiveSites()
+        showGolfCourses()
+        showLocations()
+        showRestaurants()
+        showUNCountries()
+        showWHSs()
     }
 
     func observe() {
@@ -143,6 +160,125 @@ private extension LocationsVC {
         whssObserver = Checklist.whss.observer { [weak self] in
             self?.showWHSs()
         }
+    }
+
+    func showBeaches() {
+        let new = Set<PlaceAnnotation>(gestalt.beaches.map { place in
+            PlaceAnnotation(type: .beaches,
+                            coordinate: place.coordinate,
+                            title: place.title,
+                            subtitle: place.subtitle)
+        })
+
+        let subtracted = beachesAnnotations.subtracting(new)
+        mapView?.removeAnnotations(Array(subtracted))
+        beachesAnnotations.subtract(subtracted)
+
+        let added = new.subtracting(beachesAnnotations)
+        mapView?.addAnnotations(Array(added))
+        beachesAnnotations.formUnion(added)
+    }
+
+    func showDiveSites() {
+        let new = Set<PlaceAnnotation>(gestalt.divesites.map { place in
+            PlaceAnnotation(type: .divesites,
+                            coordinate: place.coordinate,
+                            title: place.title,
+                            subtitle: place.subtitle)
+        })
+
+        let subtracted = divesitesAnnotations.subtracting(new)
+        mapView?.removeAnnotations(Array(subtracted))
+        divesitesAnnotations.subtract(subtracted)
+
+        let added = new.subtracting(divesitesAnnotations)
+        mapView?.addAnnotations(Array(added))
+        divesitesAnnotations.formUnion(added)
+    }
+
+    func showGolfCourses() {
+        let new = Set<PlaceAnnotation>(gestalt.golfcourses.map { place in
+            PlaceAnnotation(type: .golfcourses,
+                            coordinate: place.coordinate,
+                            title: place.title,
+                            subtitle: place.subtitle)
+        })
+
+        let subtracted = golfcoursesAnnotations.subtracting(new)
+        mapView?.removeAnnotations(Array(subtracted))
+        golfcoursesAnnotations.subtract(subtracted)
+
+        let added = new.subtracting(golfcoursesAnnotations)
+        mapView?.addAnnotations(Array(added))
+        golfcoursesAnnotations.formUnion(added)
+    }
+
+    func showLocations() {
+        let new = Set<PlaceAnnotation>(gestalt.locations.map { place in
+            PlaceAnnotation(type: .locations,
+                            coordinate: place.coordinate,
+                            title: place.title,
+                            subtitle: place.subtitle)
+        })
+
+        let subtracted = locationsAnnotations.subtracting(new)
+        mapView?.removeAnnotations(Array(subtracted))
+        locationsAnnotations.subtract(subtracted)
+
+        let added = new.subtracting(locationsAnnotations)
+        mapView?.addAnnotations(Array(added))
+        locationsAnnotations.formUnion(added)
+    }
+
+    func showRestaurants() {
+        let new = Set<PlaceAnnotation>(gestalt.restaurants.map { place in
+            PlaceAnnotation(type: .restaurants,
+                            coordinate: place.coordinate,
+                            title: place.title,
+                            subtitle: place.subtitle)
+        })
+
+        let subtracted = restaurantsAnnotations.subtracting(new)
+        mapView?.removeAnnotations(Array(subtracted))
+        restaurantsAnnotations.subtract(subtracted)
+
+        let added = new.subtracting(restaurantsAnnotations)
+        mapView?.addAnnotations(Array(added))
+        restaurantsAnnotations.formUnion(added)
+    }
+
+    func showUNCountries() {
+        let new = Set<PlaceAnnotation>(gestalt.uncountries.map { place in
+            PlaceAnnotation(type: .uncountries,
+                            coordinate: place.coordinate,
+                            title: place.title,
+                            subtitle: place.subtitle)
+        })
+
+        let subtracted = uncountriesAnnotations.subtracting(new)
+        mapView?.removeAnnotations(Array(subtracted))
+        uncountriesAnnotations.subtract(subtracted)
+
+        let added = new.subtracting(uncountriesAnnotations)
+        mapView?.addAnnotations(Array(added))
+        uncountriesAnnotations.formUnion(added)
+    }
+
+    func showWHSs() {
+        let new = Set<PlaceAnnotation>(gestalt.whss.map { whs in
+            PlaceAnnotation(type: .whss,
+                            coordinate: whs.coordinate,
+                            title: whs.title,
+                            subtitle: whs.subtitle)
+        })
+
+        let subtracted = whssAnnotations.subtracting(new)
+        mapView?.removeAnnotations(Array(subtracted))
+        whssAnnotations.subtract(subtracted)
+
+        let added = new.subtracting(whssAnnotations)
+        mapView?.addAnnotations(Array(added))
+        whssAnnotations.formUnion(added)
     }
 }
 
@@ -192,7 +328,13 @@ extension LocationsVC: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView,
                  viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         log.verbose(#function)
-        return nil
+        if annotation is MKUserLocation { return nil }
+
+        let annotationView = mapView.dequeueReusableAnnotationView(
+            withIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier,
+            for: annotation)
+        annotationView.clusteringIdentifier = "identifier"
+        return annotationView
     }
     func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
         log.verbose(#function)
