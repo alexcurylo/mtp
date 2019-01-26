@@ -10,15 +10,15 @@ final class LocationsVC: UIViewController {
     @IBOutlet private var searchBar: UISearchBar?
 
     let locationManager = CLLocationManager()
-    private var centering = true
-    private var userTrackingButton: MKUserTrackingButton?
+    private var trackingButton: MKUserTrackingButton?
+    private var centered = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupCompass()
-        setupUserTrackingButtonAndScaleView()
-        userTrackingButton?.set(visibility: self.start(tracking: .dontAsk))
+        setupTracking()
+        trackingButton?.set(visibility: start(tracking: .dontAsk))
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -30,7 +30,7 @@ final class LocationsVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        start(tracking: .ask)
+        trackingButton?.set(visibility: start(tracking: .ask))
         zoomAndCenter()
     }
 
@@ -68,7 +68,7 @@ private extension LocationsVC {
         map.showsCompass = false
     }
 
-    func setupUserTrackingButtonAndScaleView() {
+    func setupTracking() {
         mapView?.showsUserLocation = true
 
         let tracker = MKUserTrackingButton(mapView: mapView)
@@ -78,7 +78,7 @@ private extension LocationsVC {
         tracker.layer.cornerRadius = 5
         tracker.isHidden = true
         view.addSubview(tracker)
-        userTrackingButton = tracker
+        trackingButton = tracker
 
         let scale = MKScaleView(mapView: mapView)
         scale.legendAlignment = .trailing
@@ -96,10 +96,10 @@ private extension LocationsVC {
     }
 
     func zoomAndCenter() {
-        guard !centering,
+        guard !centered,
               let here = locationManager.location?.coordinate else { return }
 
-        centering = true
+        centered = true
         let viewRegion = MKCoordinateRegion(center: here,
                                             latitudinalMeters: 200,
                                             longitudinalMeters: 200)
@@ -116,7 +116,6 @@ extension LocationsVC: MKMapViewDelegate {
     }
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated: Bool) {
         log.verbose(#function)
-        centering = false
     }
 
     func mapViewWillStartLoadingMap(_ mapView: MKMapView) {
@@ -145,7 +144,7 @@ extension LocationsVC: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         log.verbose(#function)
         zoomAndCenter()
-   }
+    }
     func mapView(_ mapView: MKMapView, didFailToLocateUserWithError error: Error) {
         log.verbose(#function)
     }
@@ -199,7 +198,6 @@ extension LocationsVC: LocationTracker {
     func locationManager(_ manager: CLLocationManager,
                          didUpdateLocations locations: [CLLocation]) {
         log.verbose(#function)
-        zoomAndCenter()
     }
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         log.verbose(#function)
@@ -249,7 +247,7 @@ extension LocationsVC: LocationTracker {
                          didChangeAuthorization status: CLAuthorizationStatus) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            self.userTrackingButton?.set(visibility: self.start(tracking: .ask))
+            self.trackingButton?.set(visibility: self.start(tracking: .ask))
             self.zoomAndCenter()
         }
     }
