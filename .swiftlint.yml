@@ -60,6 +60,7 @@ opt_in_rules:
   - nimble_operator
 #- no_extension_access_modifier
 #- no_grouping_extension
+  - nslocalizedstring_key
   - number_separator
 #- object_literal
   - operator_usage_whitespace
@@ -82,6 +83,7 @@ opt_in_rules:
   - sorted_imports
   - static_operator
 #- strict_fileprivate
+  - strong_iboutlet
 #- switch_case_on_newline
   - toggle_bool
   - trailing_closure
