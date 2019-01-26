@@ -65,8 +65,16 @@ extension UIColor {
         return R.color.azureRadiance() ?? .black
     }
 
+    static var beaches: UIColor {
+        return R.color.beaches() ?? .black
+    }
+
     static var carnation: UIColor { // #F5515F
         return R.color.carnation() ?? .black
+    }
+
+    static var divesites: UIColor {
+        return R.color.divesites() ?? .black
     }
 
     static var dodgerBlue: UIColor { // #19C0FD
@@ -89,6 +97,14 @@ extension UIColor {
         return R.color.gallery() ?? .black
     }
 
+    static var golfcourses: UIColor {
+        return R.color.golfcourses() ?? .black
+    }
+
+    static var locations: UIColor {
+        return R.color.locations() ?? .black
+    }
+
     static var mercury: UIColor { // #E9E9E9
         return R.color.mercury() ?? .black
     }
@@ -99,5 +115,17 @@ extension UIColor {
 
     static var regalBlue: UIColor { // #004B78
         return R.color.regalBlue() ?? .black
+    }
+
+    static var restaurants: UIColor {
+        return R.color.restaurants() ?? .black
+    }
+
+    static var uncountries: UIColor {
+        return R.color.uncountries() ?? .black
+    }
+
+    static var whss: UIColor {
+        return R.color.whss() ?? .black
     }
 }
