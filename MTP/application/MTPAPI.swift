@@ -19,7 +19,9 @@ enum MTPAPIError: Swift.Error {
 
 enum MTP: Hashable {
     case beach
+    case checkIn(list: Checklist, id: Int)
     case checklists
+    case checkOut(list: Checklist, id: Int)
     case countries // appears same as `location` but returns 891 in production
     case countriesSearch(query: String?)
     case divesite
@@ -46,6 +48,9 @@ extension MTP: TargetType {
         switch self {
         case .beach:
             return "beach"
+        case .checkIn(let list, _),
+             .checkOut(let list, _):
+            return list.path
         case .checklists:
             return "me/checklists"
         case .countries:
@@ -75,6 +80,8 @@ extension MTP: TargetType {
 
     public var method: Moya.Method {
         switch self {
+        case .checkOut:
+            return .delete
         case .beach,
              .checklists,
              .countries,
@@ -88,7 +95,8 @@ extension MTP: TargetType {
              .userGetByToken,
              .whs:
             return .get
-        case .userLogin:
+        case .checkIn,
+             .userLogin:
             return .post
         }
     }
@@ -112,6 +120,12 @@ extension MTP: TargetType {
             return .requestParameters(parameters: ["email": email,
                                                    "password": password],
                                       encoding: JSONEncoding.default)
+        case .checkIn(_, let id):
+             return .requestParameters(parameters: ["id": id],
+                                       encoding: URLEncoding(destination: .queryString))
+        case .checkOut(_, let id):
+            return .requestParameters(parameters: ["id": id],
+                                      encoding: URLEncoding.default)
         case .beach,
              .checklists,
              .countries,
@@ -155,7 +169,9 @@ extension MTP: AccessTokenAuthorizable {
 
     var authorizationType: AuthorizationType {
         switch self {
-        case .checklists,
+        case .checkIn,
+             .checklists,
+             .checkOut,
              .userGetByToken:
             return .bearer
         case .beach,
@@ -198,6 +214,63 @@ enum MTPAPI {
 // MARK: - Queries
 
 extension MTPAPI {
+
+    static func check(list: Checklist,
+                      id: Int,
+                      visited: Bool,
+                      then: @escaping BoolResult = { _ in }) {
+        if visited {
+            MTPAPI.checkIn(list: list, id: id, then: then)
+        } else {
+            MTPAPI.checkOut(list: list, id: id, then: then)
+        }
+    }
+
+    static func checkIn(list: Checklist,
+                        id: Int,
+                        then: @escaping BoolResult = { _ in }) {
+        guard gestalt.isLoggedIn else {
+            log.verbose("checkIn attempt invalid: not logged in")
+            return then(.failure(.parameter))
+        }
+
+        let auth = AccessTokenPlugin { gestalt.token }
+        let provider = MoyaProvider<MTP>(plugins: [auth])
+        let endpoint = MTP.checkIn(list: list, id: id)
+        provider.request(endpoint) { response in
+            switch response {
+            case .success:
+                return then(.success(true))
+            case .failure(let error):
+                let message = error.errorDescription ?? Localized.unknown()
+                log.error("failure: \(endpoint.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
+    static func checkOut(list: Checklist,
+                         id: Int,
+                         then: @escaping BoolResult = { _ in }) {
+        guard gestalt.isLoggedIn else {
+            log.verbose("checkOut attempt invalid: not logged in")
+            return then(.failure(.parameter))
+        }
+
+        let auth = AccessTokenPlugin { gestalt.token }
+        let provider = MoyaProvider<MTP>(plugins: [auth])
+        let endpoint = MTP.checkOut(list: list, id: id)
+        provider.request(endpoint) { response in
+            switch response {
+            case .success:
+                return then(.success(true))
+            case .failure(let error):
+                let message = error.errorDescription ?? Localized.unknown()
+                log.error("failure: \(endpoint.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
 
     static func countriesSearch(query: String,
                                 then: @escaping CountriesResult) {
