@@ -8,12 +8,10 @@ final class MyCountsVC: UIViewController {
 
     @IBOutlet private var pagesHolder: UIView?
 
-    private let pagingVC = RankingPagingVC()
+    private let pagingVC = MyCountsPagingVC()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        gestalt.rankingsFilter = nil
 
         configurePagesHolder()
     }
@@ -21,7 +19,7 @@ final class MyCountsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        show(navBar: animated, style: .standard)
+        hide(navBar: false)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -82,7 +80,7 @@ extension MyCountsVC: PagingViewControllerDataSource {
             members: RankingPagingItem.pages[index].members,
             filter: gestalt.rankingsFilter)
 
-        let insets = UIEdgeInsets(top: RankingPagingVC.Layout.menuHeight,
+        let insets = UIEdgeInsets(top: MyCountsPagingVC.Layout.menuHeight,
                                   left: 0,
                                   bottom: 0,
                                   right: 0)

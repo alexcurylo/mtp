@@ -52,6 +52,7 @@
 		FA5AC0B821FD4A160080F84F /* PlaceClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0B721FD4A160080F84F /* PlaceClusterAnnotationView.swift */; };
 		FA5AC0BB21FDC1060080F84F /* MyCounts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA5AC0B921FDC1050080F84F /* MyCounts.storyboard */; };
 		FA5AC0BD21FDC80A0080F84F /* MyCountsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0BC21FDC80A0080F84F /* MyCountsVC.swift */; };
+		FA5AC0BF21FDCB9D0080F84F /* MyCountsPagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0BE21FDCB9D0080F84F /* MyCountsPagingVC.swift */; };
 		FA6A188621EFEF920092C56C /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6A188521EFEF920092C56C /* Observable.swift */; };
 		FA74574D210CA5730010F4F4 /* MyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74574C210CA5730010F4F4 /* MyProfileVC.swift */; };
 		FA745753210DA4C60010F4F4 /* MyProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA745755210DA4C60010F4F4 /* MyProfile.storyboard */; };
@@ -182,6 +183,7 @@
 		FA5AC0B721FD4A160080F84F /* PlaceClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceClusterAnnotationView.swift; sourceTree = "<group>"; };
 		FA5AC0BA21FDC1050080F84F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyCounts.storyboard; sourceTree = "<group>"; };
 		FA5AC0BC21FDC80A0080F84F /* MyCountsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCountsVC.swift; sourceTree = "<group>"; };
+		FA5AC0BE21FDCB9D0080F84F /* MyCountsPagingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCountsPagingVC.swift; sourceTree = "<group>"; };
 		FA6A188521EFEF920092C56C /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		FA74574C210CA5730010F4F4 /* MyProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileVC.swift; sourceTree = "<group>"; };
 		FA745754210DA4C60010F4F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyProfile.storyboard; sourceTree = "<group>"; };
@@ -335,6 +337,7 @@
 			children = (
 				FA46377F210DE94C0007382D /* EditProfileVC.swift */,
 				FA254DCC2169A2A400FC9360 /* MyAboutVC.swift */,
+				FA5AC0BE21FDCB9D0080F84F /* MyCountsPagingVC.swift */,
 				FA5AC0BC21FDC80A0080F84F /* MyCountsVC.swift */,
 				FADC1ABD2145E9760011EE49 /* MyPhotosVC.swift */,
 				FA3BD1D1215F7FCD007EAF75 /* MyPostsVC.swift */,
@@ -918,6 +921,7 @@
 				FA4653342115ADC6005B5A0A /* MTPAPI.swift in Sources */,
 				FA5AC0B421FC49860080F84F /* PlaceAnnotation.swift in Sources */,
 				FA390139213B84B40016A362 /* RankingPagingVC.swift in Sources */,
+				FA5AC0BF21FDCB9D0080F84F /* MyCountsPagingVC.swift in Sources */,
 				FADC1ABA2144FAD70011EE49 /* Date+Formatting.swift in Sources */,
 				FAE1F11E2143B29F0002CAB2 /* LocationTracker.swift in Sources */,
 				FAC3BCB9216A225900E1507E /* TagsView.swift in Sources */,

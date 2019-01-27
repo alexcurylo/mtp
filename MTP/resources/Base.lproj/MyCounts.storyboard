@@ -13,7 +13,7 @@
         <!--Counts-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
-                <viewController storyboardIdentifier="myCounts" title="Counts" id="8rJ-Kc-sve" customClass="MyCountsVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="myCounts" title="Counts" hidesBottomBarWhenPushed="YES" id="8rJ-Kc-sve" customClass="MyCountsVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QS5-Rx-YEW" customClass="GradientView" customModule="MTP" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -43,12 +43,7 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
-                    <navigationItem key="navigationItem" title="Rankings" id="IRl-yV-ZCr">
-                        <rightBarButtonItems>
-                            <barButtonItem title="navSearch" image="navSearch" id="dbl-tA-izr"/>
-                            <barButtonItem title="navFilterWhite" image="navFilterWhite" id="7ts-AP-fBQ"/>
-                        </rightBarButtonItems>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Rankings" id="IRl-yV-ZCr"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -79,8 +74,4 @@
             <point key="canvasLocation" x="1124" y="-8.5457271364317844"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="navFilterWhite" width="30" height="31"/>
-        <image name="navSearch" width="30" height="30"/>
-    </resources>
 </document>
