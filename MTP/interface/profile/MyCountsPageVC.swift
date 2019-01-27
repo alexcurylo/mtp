@@ -50,9 +50,9 @@ final class MyCountsPageVC: UIViewController {
             RankingCell.self,
             forCellWithReuseIdentifier: RankingCell.reuseIdentifier)
         collectionView.register(
-            RankingHeader.self,
+            CountHeader.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: RankingHeader.reuseIdentifier)
+            withReuseIdentifier: CountHeader.reuseIdentifier)
 
         observe()
     }
@@ -102,7 +102,7 @@ extension MyCountsPageVC: UICollectionViewDataSource {
                         at indexPath: IndexPath) -> UICollectionReusableView {
         let view = collectionView.dequeueReusableSupplementaryView(
             ofKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: RankingHeader.reuseIdentifier,
+            withReuseIdentifier: CountHeader.reuseIdentifier,
             for: indexPath)
 
         return view
