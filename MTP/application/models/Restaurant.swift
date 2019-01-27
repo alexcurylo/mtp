@@ -3,6 +3,7 @@
 import CoreLocation
 
 struct Restaurant: Codable {
+
     let active: String
     let address: String?
     let countVisitors: Int? // not in staging
@@ -61,6 +62,21 @@ extension Restaurant: CustomDebugStringConvertible {
         visitors: \(visitors)
         /Restaurant >
         """
+    }
+}
+
+extension Restaurant: PlaceInfo {
+
+    var placeId: Int {
+        return id
+    }
+
+    var placeName: String {
+        return title
+    }
+
+    var placeRegion: String {
+        return location?.regionName ?? Localized.unknown()
     }
 }
 

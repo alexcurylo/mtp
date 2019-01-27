@@ -100,6 +100,27 @@ enum Checklist: String, CaseIterable {
         return visits ?? []
     }
 
+    var places: [PlaceInfo] {
+        let places: [PlaceInfo]
+        switch self {
+        case .locations:
+            places = gestalt.locations
+        case .uncountries:
+            places = gestalt.uncountries
+        case .whss:
+            places = gestalt.whss
+        case .beaches:
+            places = gestalt.beaches
+        case .golfcourses:
+            places = gestalt.golfcourses
+        case .divesites:
+            places = gestalt.divesites
+        case .restaurants:
+            places = gestalt.restaurants
+        }
+        return places
+    }
+
     func set(id: Int,
              visited: Bool) {
         guard visits.contains(id) != visited else { return }

@@ -2,7 +2,15 @@
 
 import CoreLocation
 
+protocol PlaceInfo {
+
+    var placeId: Int { get }
+    var placeName: String { get }
+    var placeRegion: String { get }
+}
+
 struct Place: Codable {
+
     let active: String
     let countVisitors: Int? // not in staging
     let country: String
@@ -47,6 +55,21 @@ extension Place: CustomDebugStringConvertible {
         visitors: \(visitors)
         /Place >
         """
+    }
+}
+
+extension Place: PlaceInfo {
+
+    var placeId: Int {
+        return id
+    }
+
+    var placeName: String {
+        return title
+    }
+
+    var placeRegion: String {
+        return location.regionName
     }
 }
 

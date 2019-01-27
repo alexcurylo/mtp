@@ -3,6 +3,7 @@
 import CoreLocation
 
 struct Location: Codable {
+
     let Country: String? // not in staging
     let CountryId: Int? // not in staging
     let Location: String? // not in staging
@@ -75,6 +76,21 @@ extension Location: CustomDebugStringConvertible {
         visitors: \(visitors)
         /Location >
         """
+    }
+}
+
+extension Location: PlaceInfo {
+
+    var placeId: Int {
+        return id
+    }
+
+    var placeName: String {
+        return title
+    }
+
+    var placeRegion: String {
+        return regionName
     }
 }
 

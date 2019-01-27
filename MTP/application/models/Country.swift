@@ -110,6 +110,21 @@ extension Country: CustomDebugStringConvertible {
     }
 }
 
+extension Country: PlaceInfo {
+
+    var placeId: Int {
+        return id.intValue ?? 0
+    }
+
+    var placeName: String {
+        return title
+    }
+
+    var placeRegion: String {
+        return regionName ?? Localized.unknown()
+    }
+}
+
 extension Country {
 
     var coordinate: CLLocationCoordinate2D {

@@ -3,6 +3,7 @@
 import CoreLocation
 
 struct WHS: Codable {
+
     let active: String? // not in staging
     let countVisitors: Int? // not in staging
     let id: Int
@@ -39,6 +40,21 @@ extension WHS: CustomDebugStringConvertible {
         visitors: \(visitors)
         /Location >
         """
+    }
+}
+
+extension WHS: PlaceInfo {
+
+    var placeId: Int {
+        return id
+    }
+
+    var placeName: String {
+        return title
+    }
+
+    var placeRegion: String {
+        return location.regionName
     }
 }
 
