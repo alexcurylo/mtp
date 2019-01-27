@@ -50,6 +50,7 @@
 		FA5AC0B421FC49860080F84F /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0B321FC49860080F84F /* PlaceAnnotation.swift */; };
 		FA5AC0B621FC4EBE0080F84F /* PlaceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0B521FC4EBE0080F84F /* PlaceAnnotationView.swift */; };
 		FA5AC0B821FD4A160080F84F /* PlaceClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0B721FD4A160080F84F /* PlaceClusterAnnotationView.swift */; };
+		FA5AC0BB21FDC1060080F84F /* MyCounts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA5AC0B921FDC1050080F84F /* MyCounts.storyboard */; };
 		FA6A188621EFEF920092C56C /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6A188521EFEF920092C56C /* Observable.swift */; };
 		FA74574D210CA5730010F4F4 /* MyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74574C210CA5730010F4F4 /* MyProfileVC.swift */; };
 		FA745753210DA4C60010F4F4 /* MyProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA745755210DA4C60010F4F4 /* MyProfile.storyboard */; };
@@ -178,6 +179,7 @@
 		FA5AC0B321FC49860080F84F /* PlaceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotation.swift; sourceTree = "<group>"; };
 		FA5AC0B521FC4EBE0080F84F /* PlaceAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotationView.swift; sourceTree = "<group>"; };
 		FA5AC0B721FD4A160080F84F /* PlaceClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceClusterAnnotationView.swift; sourceTree = "<group>"; };
+		FA5AC0BA21FDC1050080F84F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyCounts.storyboard; sourceTree = "<group>"; };
 		FA6A188521EFEF920092C56C /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		FA74574C210CA5730010F4F4 /* MyProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileVC.swift; sourceTree = "<group>"; };
 		FA745754210DA4C60010F4F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyProfile.storyboard; sourceTree = "<group>"; };
@@ -488,6 +490,7 @@
 			children = (
 				FA463781210E00E60007382D /* EditProfile.storyboard */,
 				FABA740B213A29CD0059ACCA /* MyAbout.storyboard */,
+				FA5AC0B921FDC1050080F84F /* MyCounts.storyboard */,
 				FABA740E213A359C0059ACCA /* MyPhotos.storyboard */,
 				FABA7411213A374F0059ACCA /* MyPosts.storyboard */,
 				FA745755210DA4C60010F4F4 /* MyProfile.storyboard */,
@@ -707,6 +710,7 @@
 				FAE1F117213BFBA80002CAB2 /* Locations.storyboard in Resources */,
 				FA392BC720DF69F50026C828 /* LaunchScreen.storyboard in Resources */,
 				FA74C10F211BB8F00013A840 /* Localizable.strings in Resources */,
+				FA5AC0BB21FDC1060080F84F /* MyCounts.storyboard in Resources */,
 				FA81361220E8F64500313AB9 /* Settings.bundle in Resources */,
 				FA392BC420DF69F50026C828 /* Assets.xcassets in Resources */,
 				FA463783210E00E60007382D /* EditProfile.storyboard in Resources */,
@@ -1043,6 +1047,14 @@
 				FA463782210E00E60007382D /* Base */,
 			);
 			name = EditProfile.storyboard;
+			sourceTree = "<group>";
+		};
+		FA5AC0B921FDC1050080F84F /* MyCounts.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA5AC0BA21FDC1050080F84F /* Base */,
+			);
+			name = MyCounts.storyboard;
 			sourceTree = "<group>";
 		};
 		FA745755210DA4C60010F4F4 /* MyProfile.storyboard */ = {
