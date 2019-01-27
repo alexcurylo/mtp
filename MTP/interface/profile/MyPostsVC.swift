@@ -118,7 +118,7 @@ struct MyPostCellModel {
 
 final class MyPostCell: UICollectionViewCell {
 
-    fileprivate static let reuseIdentifier: String = "MyPostCell"
+    static let reuseIdentifier = NSStringFromClass(MyPostCell.self)
 
     @IBOutlet private var imageView: UIImageView?
     @IBOutlet private var dateLabel: UILabel?

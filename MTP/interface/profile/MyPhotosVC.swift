@@ -101,7 +101,7 @@ private extension MyPhotosVC {
 
 final class MyPhotoCell: UICollectionViewCell {
 
-    fileprivate static let reuseIdentifier: String = "MyPhotoCell"
+    static let reuseIdentifier = NSStringFromClass(MyPhotoCell.self)
 
     @IBOutlet private var imageView: UIImageView?
 
