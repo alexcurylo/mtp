@@ -24,7 +24,7 @@ final class MyCountsPageVC: UIViewController {
 
     let collectionView: UICollectionView = {
         let flow = UICollectionViewFlowLayout()
-        flow.minimumLineSpacing = Layout.lineSpacing
+        flow.minimumLineSpacing = 0 // Layout.lineSpacing
         let collectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: flow)
         collectionView.backgroundColor = .clear
@@ -47,8 +47,8 @@ final class MyCountsPageVC: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(
-            RankingCell.self,
-            forCellWithReuseIdentifier: RankingCell.reuseIdentifier)
+            CountCell.self,
+            forCellWithReuseIdentifier: CountCell.reuseIdentifier)
         collectionView.register(
             CountHeader.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
@@ -116,12 +116,12 @@ extension MyCountsPageVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: RankingCell.reuseIdentifier,
+            withReuseIdentifier: CountCell.reuseIdentifier,
             for: indexPath)
 
         let rank = indexPath.row + 1
         if let user = gestalt.user {
-            (cell as? RankingCell)?.set(user: user, for: rank)
+            (cell as? CountCell)?.set(user: user, for: rank)
         }
 
         return cell
