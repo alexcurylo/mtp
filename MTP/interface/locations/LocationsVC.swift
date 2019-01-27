@@ -127,6 +127,7 @@ private extension LocationsVC {
     }
 
     func setupAnnotations() {
+        registerAnnotationViews()
         observe()
 
         showBeaches()
@@ -159,6 +160,15 @@ private extension LocationsVC {
         }
         whssObserver = Checklist.whss.observer { [weak self] in
             self?.showWHSs()
+        }
+    }
+
+    func registerAnnotationViews() {
+        Checklist.allCases.forEach {
+            mapView?.register(
+                PlaceAnnotationView.self,
+                forAnnotationViewWithReuseIdentifier: $0.rawValue
+            )
         }
     }
 
@@ -327,14 +337,12 @@ extension LocationsVC: MKMapViewDelegate {
 
     func mapView(_ mapView: MKMapView,
                  viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        log.verbose(#function)
-        if annotation is MKUserLocation { return nil }
+        guard let place = annotation as? PlaceAnnotation else { return nil }
 
-        let annotationView = mapView.dequeueReusableAnnotationView(
-            withIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier,
-            for: annotation)
-        annotationView.clusteringIdentifier = "identifier"
-        return annotationView
+        return mapView.dequeueReusableAnnotationView(
+            withIdentifier: place.identifier,
+            for: place
+        )
     }
     func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
         log.verbose(#function)

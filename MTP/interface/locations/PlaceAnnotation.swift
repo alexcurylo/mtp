@@ -9,6 +9,9 @@ final class PlaceAnnotation: NSObject, MKAnnotation {
     var subtitle: String?
 
     var type: Checklist
+    var identifier: String {
+        return type.rawValue
+    }
 
     init(type: Checklist,
          coordinate: CLLocationCoordinate2D,
@@ -22,16 +25,32 @@ final class PlaceAnnotation: NSObject, MKAnnotation {
     }
 
     override var hash: Int {
-        return title.hashValue ^ subtitle.hashValue ^ type.rawValue.hashValue
+        return title.hashValue ^ identifier.hashValue
     }
 
     override func isEqual(_ object: Any?) -> Bool {
-        if let other = object as? PlaceAnnotation {
-            return title == other.title &&
-                   subtitle == other.subtitle &&
-                   type == other.type
-        } else {
+        guard let other = object as? PlaceAnnotation else {
             return false
         }
+        return coordinate == other.coordinate &&
+               title == other.title &&
+               subtitle == other.subtitle &&
+               type == other.type
+    }
+
+    var background: UIColor {
+        return type.background
+    }
+
+    var image: UIImage {
+        return type.image
+    }
+}
+
+extension CLLocationCoordinate2D: Equatable {
+
+    public static func == (lhs: CLLocationCoordinate2D,
+                           rhs: CLLocationCoordinate2D) -> Bool {
+        return lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
     }
 }
