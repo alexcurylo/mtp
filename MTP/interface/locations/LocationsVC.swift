@@ -170,6 +170,10 @@ private extension LocationsVC {
                 forAnnotationViewWithReuseIdentifier: $0.rawValue
             )
         }
+        mapView?.register(
+            PlaceClusterAnnotationView.self,
+            forAnnotationViewWithReuseIdentifier: PlaceClusterAnnotationView.identifier
+        )
     }
 
     func showBeaches() {
@@ -334,12 +338,23 @@ extension LocationsVC: MKMapViewDelegate {
 
     func mapView(_ mapView: MKMapView,
                  viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard let place = annotation as? PlaceAnnotation else { return nil }
-
-        return mapView.dequeueReusableAnnotationView(
-            withIdentifier: place.identifier,
-            for: place
-        )
+        switch annotation {
+        case let place as PlaceAnnotation:
+            return mapView.dequeueReusableAnnotationView(
+                withIdentifier: place.identifier,
+                for: place
+            )
+        case let cluster as MKClusterAnnotation:
+            return mapView.dequeueReusableAnnotationView(
+                withIdentifier: PlaceClusterAnnotationView.identifier,
+                for: cluster
+            )
+        case is MKUserLocation:
+            return nil
+        default:
+            log.debug("unexpected annotation: \(annotation)")
+            return nil
+        }
     }
     func mapView(_ mapView: MKMapView,
                  didAdd views: [MKAnnotationView]) {
@@ -351,11 +366,9 @@ extension LocationsVC: MKMapViewDelegate {
     }
     func mapView(_ mapView: MKMapView,
                  didSelect view: MKAnnotationView) {
-        log.verbose(#function)
     }
     func mapView(_ mapView: MKMapView,
                  didDeselect view: MKAnnotationView) {
-        log.verbose(#function)
     }
     func mapView(_ mapView: MKMapView,
                  annotationView view: MKAnnotationView,
@@ -376,7 +389,6 @@ extension LocationsVC: MKMapViewDelegate {
 
     func mapView(_ mapView: MKMapView,
                  clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
-        log.verbose(#function)
         return MKClusterAnnotation(memberAnnotations: memberAnnotations)
     }
 }

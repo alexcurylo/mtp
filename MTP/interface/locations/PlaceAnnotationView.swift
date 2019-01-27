@@ -4,12 +4,12 @@ import MapKit
 
 final class PlaceAnnotationView: MKMarkerAnnotationView {
 
-    static let cluster = NSStringFromClass(PlaceAnnotationView.self)
-
     override init(annotation: MKAnnotation?,
                   reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
-        clusteringIdentifier = PlaceAnnotationView.cluster
+        clusteringIdentifier = PlaceClusterAnnotationView.identifier
+        collisionMode = .circle
+        canShowCallout = true
     }
 
     @available(*, unavailable)
@@ -21,15 +21,14 @@ final class PlaceAnnotationView: MKMarkerAnnotationView {
         super.prepareForDisplay()
         guard let place = annotation as? PlaceAnnotation else { return }
 
-        displayPriority = .required
         markerTintColor = place.background
         glyphImage = place.image
-        canShowCallout = true
    }
 
     override func prepareForReuse() {
         markerTintColor = nil
         glyphImage = nil
+        annotation = nil
         super.prepareForReuse()
     }
 }
