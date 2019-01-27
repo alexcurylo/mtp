@@ -294,45 +294,42 @@ private extension LocationsVC {
 
 extension LocationsVC: MKMapViewDelegate {
 
-    func mapView(_ mapView: MKMapView, regionWillChangeAnimated: Bool) {
-        log.verbose(#function)
+    func mapView(_ mapView: MKMapView,
+                 regionWillChangeAnimated: Bool) {
     }
-    func mapView(_ mapView: MKMapView, regionDidChangeAnimated: Bool) {
-        log.verbose(#function)
+    func mapView(_ mapView: MKMapView,
+                 regionDidChangeAnimated: Bool) {
     }
 
     func mapViewWillStartLoadingMap(_ mapView: MKMapView) {
-        log.verbose(#function)
     }
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
-        log.verbose(#function)
     }
     func mapViewDidFailLoadingMap(_ mapView: MKMapView) {
-        log.verbose(#function)
+        log.error(#function)
     }
 
     func mapViewWillStartRenderingMap(_ mapView: MKMapView) {
-        log.verbose(#function)
     }
-    func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
-        log.verbose(#function)
+    func mapViewDidFinishRenderingMap(_ mapView: MKMapView,
+                                      fullyRendered: Bool) {
     }
 
     func mapViewWillStartLocatingUser(_ mapView: MKMapView) {
-        log.verbose(#function)
     }
     func mapViewDidStopLocatingUser(_ mapView: MKMapView) {
-        log.verbose(#function)
     }
-    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-        log.verbose(#function)
+    func mapView(_ mapView: MKMapView,
+                 didUpdate userLocation: MKUserLocation) {
         zoomAndCenter()
     }
-    func mapView(_ mapView: MKMapView, didFailToLocateUserWithError error: Error) {
-        log.verbose(#function)
+    func mapView(_ mapView: MKMapView,
+                 didFailToLocateUserWithError error: Error) {
+        log.error(#function)
     }
-    func mapView(_ mapView: MKMapView, didChange mode: MKUserTrackingMode, animated: Bool) {
-        log.verbose(#function)
+    func mapView(_ mapView: MKMapView,
+                 didChange mode: MKUserTrackingMode,
+                 animated: Bool) {
     }
 
     func mapView(_ mapView: MKMapView,
@@ -344,18 +341,20 @@ extension LocationsVC: MKMapViewDelegate {
             for: place
         )
     }
-    func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
-        log.verbose(#function)
+    func mapView(_ mapView: MKMapView,
+                 didAdd views: [MKAnnotationView]) {
     }
     func mapView(_ mapView: MKMapView,
                  annotationView view: MKAnnotationView,
                  calloutAccessoryControlTapped control: UIControl) {
         log.verbose(#function)
     }
-    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+    func mapView(_ mapView: MKMapView,
+                 didSelect view: MKAnnotationView) {
         log.verbose(#function)
     }
-    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+    func mapView(_ mapView: MKMapView,
+                 didDeselect view: MKAnnotationView) {
         log.verbose(#function)
     }
     func mapView(_ mapView: MKMapView,
@@ -365,11 +364,13 @@ extension LocationsVC: MKMapViewDelegate {
         log.verbose(#function)
     }
 
-    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+    func mapView(_ mapView: MKMapView,
+                 rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         log.verbose(#function)
         return MKOverlayRenderer(overlay: overlay)
     }
-    func mapView(_ mapView: MKMapView, didAdd renderers: [MKOverlayRenderer]) {
+    func mapView(_ mapView: MKMapView,
+                 didAdd renderers: [MKOverlayRenderer]) {
         log.verbose(#function)
     }
 
@@ -384,50 +385,50 @@ extension LocationsVC: LocationTracker {
 
     func locationManager(_ manager: CLLocationManager,
                          didUpdateLocations locations: [CLLocation]) {
-        log.verbose(#function)
     }
-    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-        log.verbose(#function)
+    func locationManager(_ manager: CLLocationManager,
+                         didUpdateHeading newHeading: CLHeading) {
     }
     func locationManagerShouldDisplayHeadingCalibration(_ manager: CLLocationManager) -> Bool {
-        log.verbose(#function)
         return true
     }
 
     func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
-        log.verbose(#function)
     }
     func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) {
-        log.verbose(#function)
     }
 
-    func locationManager(_ manager: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {
-        log.verbose(#function)
+    func locationManager(_ manager: CLLocationManager,
+                         didDetermineState state: CLRegionState,
+                         for region: CLRegion) {
     }
-    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        log.verbose(#function)
+    func locationManager(_ manager: CLLocationManager,
+                         didEnterRegion region: CLRegion) {
     }
-    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-        log.verbose(#function)
+    func locationManager(_ manager: CLLocationManager,
+                         didExitRegion region: CLRegion) {
     }
-    func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
-        log.verbose(#function)
+    func locationManager(_ manager: CLLocationManager,
+                         didRangeBeacons beacons: [CLBeacon],
+                         in region: CLBeaconRegion) {
     }
     func locationManager(_ manager: CLLocationManager,
                          rangingBeaconsDidFailFor region: CLBeaconRegion,
                          withError error: Error) {
-        log.verbose(#function)
     }
 
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        log.verbose(#function)
+    func locationManager(_ manager: CLLocationManager,
+                         didFailWithError error: Error) {
+        log.error(#function)
     }
 
-    func locationManager(_ manager: CLLocationManager, didStartMonitoringFor region: CLRegion) {
-        log.verbose(#function)
+    func locationManager(_ manager: CLLocationManager,
+                         didStartMonitoringFor region: CLRegion) {
     }
-    func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
-        log.verbose(#function)
+    func locationManager(_ manager: CLLocationManager,
+                         monitoringDidFailFor region: CLRegion?,
+                         withError error: Error) {
+        log.error(#function)
     }
 
     func locationManager(_ manager: CLLocationManager,
@@ -439,12 +440,13 @@ extension LocationsVC: LocationTracker {
         }
     }
 
-    func locationManager(_ manager: CLLocationManager, didFinishDeferredUpdatesWithError error: Error?) {
-        log.verbose(#function)
+    func locationManager(_ manager: CLLocationManager,
+                         didFinishDeferredUpdatesWithError error: Error?) {
+        log.error(#function)
     }
 
-    func locationManager(_ manager: CLLocationManager, didVisit visit: CLVisit) {
-        log.verbose(#function)
+    func locationManager(_ manager: CLLocationManager,
+                         didVisit visit: CLVisit) {
     }
 }
 
