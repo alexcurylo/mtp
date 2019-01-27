@@ -12,19 +12,24 @@ protocol MyCountsPageVCDelegate: AnyObject {
 final class MyCountsPageVC: UIViewController {
 
     private enum Layout {
-        static let headerHeight = CGFloat(98)
-        static let lineSpacing = CGFloat(8)
+        static let headerHeight = CGFloat(32)
+        static let margin = CGFloat(8)
         static let collectionInsets = UIEdgeInsets(top: 0,
-                                                   left: lineSpacing,
+                                                   left: margin,
                                                    bottom: 0,
-                                                   right: lineSpacing)
-
+                                                   right: 0)
+        static let sectionInsets = UIEdgeInsets(top: 0,
+                                                left: 0,
+                                                bottom: margin,
+                                                right: 0)
         static let cellHeight = CGFloat(90)
+        static let cellSpacing = CGFloat(0)
     }
 
     let collectionView: UICollectionView = {
         let flow = UICollectionViewFlowLayout()
-        flow.minimumLineSpacing = 0 // Layout.lineSpacing
+        flow.minimumLineSpacing = Layout.cellSpacing
+        flow.sectionInset = Layout.sectionInsets
         let collectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: flow)
         collectionView.backgroundColor = .clear
@@ -33,10 +38,10 @@ final class MyCountsPageVC: UIViewController {
 
     weak var delegate: MyCountsPageVCDelegate?
 
-    private var members: [Int] = []
-
-    var userObserver: Observer?
-    var locationsObserver: Observer?
+    private var list: Checklist?
+    private var groups: [String: [PlaceInfo]] = [:]
+    private var sections: [String] = []
+    private var expanded: [String: Bool] = [:]
 
     init(options: PagingOptions) {
         super.init(nibName: nil, bundle: nil)
@@ -53,8 +58,6 @@ final class MyCountsPageVC: UIViewController {
             CountHeader.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: CountHeader.reuseIdentifier)
-
-        observe()
     }
 
     @available(*, unavailable)
@@ -67,10 +70,15 @@ final class MyCountsPageVC: UIViewController {
         collectionView.collectionViewLayout.invalidateLayout()
     }
 
-    func set(members list: [Int]) {
-        members = list
+    func set(list: Checklist) {
+        self.list = list
+        let places = list.places
+        groups = Dictionary(grouping: places) { $0.placeRegion }
+        sections = groups.keys.sorted()
+        expanded = [:]
 
         collectionView.reloadData()
+        observe()
     }
 }
 
@@ -105,12 +113,29 @@ extension MyCountsPageVC: UICollectionViewDataSource {
             withReuseIdentifier: CountHeader.reuseIdentifier,
             for: indexPath)
 
+        if let header = view as? CountHeader {
+            let key = sections[indexPath.section]
+            let count = groups[key]?.count ?? 0
+            header.set(key: key, count: count)
+            header.delegate = self
+        }
+
         return view
+    }
+
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return sections.count
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return members.count
+        let key = sections[section]
+        if let isExpanded = expanded[key],
+           isExpanded == true,
+           let group = groups[key] {
+            return group.count
+        }
+        return 0
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -119,24 +144,32 @@ extension MyCountsPageVC: UICollectionViewDataSource {
             withReuseIdentifier: CountCell.reuseIdentifier,
             for: indexPath)
 
-        let rank = indexPath.row + 1
-        if let user = gestalt.user {
-            (cell as? CountCell)?.set(user: user, for: rank)
+        if let count = cell as? CountCell,
+           let list = list,
+           let place = groups[sections[indexPath.section]]?[indexPath.row] {
+            count.set(name: place.placeName,
+                      list: list,
+                      id: place.placeId)
         }
 
         return cell
     }
 
     func observe() {
-        guard userObserver == nil else { return }
+        // checklists
+        // places
+    }
+}
 
-        userObserver = gestalt.userObserver { [weak self] in
-            log.todo("MyCountsPageVC update")
-            self?.collectionView.reloadData()
+extension MyCountsPageVC: CountHeaderDelegate {
+
+    func toggle(section key: String) {
+        if let isExpanded = expanded[key],
+           isExpanded == true {
+            expanded[key] = false
+        } else {
+            expanded[key] = true
         }
-        locationsObserver = Checklist.locations.observer { [weak self] in
-            log.todo("MyCountsPageVC update")
-            self?.collectionView.reloadData()
-        }
+        collectionView.reloadData()
     }
 }

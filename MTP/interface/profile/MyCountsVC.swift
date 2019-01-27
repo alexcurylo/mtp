@@ -10,6 +10,12 @@ final class MyCountsVC: UIViewController {
 
     private let pagingVC = MyCountsPagingVC()
 
+    private let pages: [MyCountsPagingItem] = {
+        Checklist.allCases.compactMap { list in
+            MyCountsPagingItem(list: list)
+        }
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -63,7 +69,7 @@ private extension MyCountsVC {
 
         pagingVC.dataSource = self
         pagingVC.delegate = self
-        pagingVC.select(pagingItem: MyCountsPagingItem.pages[0])
+        pagingVC.select(pagingItem: pages[0])
     }
 
     func update(menu height: CGFloat) {
@@ -78,7 +84,7 @@ extension MyCountsVC: PagingViewControllerDataSource {
         let viewController = MyCountsPageVC(options: pagingViewController.options)
         viewController.delegate = self
         viewController.set(
-            members: MyCountsPagingItem.pages[index].members)
+            list: pages[index].list)
 
         let insets = UIEdgeInsets(top: MyCountsPagingVC.Layout.menuHeight,
                                   left: 0,
@@ -92,14 +98,14 @@ extension MyCountsVC: PagingViewControllerDataSource {
 
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  pagingItemForIndex index: Int) -> T {
-        guard let result = MyCountsPagingItem.pages[index] as? T else {
+        guard let result = pages[index] as? T else {
             fatalError("MyCountsPagingItem type failure")
         }
         return result
     }
 
     func numberOfViewControllers<T>(in: PagingViewController<T>) -> Int {
-        return MyCountsPagingItem.pages.count
+        return pages.count
     }
 }
 

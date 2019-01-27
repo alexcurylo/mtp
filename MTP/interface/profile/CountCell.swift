@@ -6,41 +6,30 @@ final class CountCell: UICollectionViewCell {
 
     static let reuseIdentifier = NSStringFromClass(CountCell.self)
 
+    func set(name: String, list: Checklist, id: Int) {
+        nameLabel.text = name
+        countryLabel.text = name
+
+        let remaining = Localized.remaining(0)
+        remainingButton.setTitle(remaining, for: .normal)
+    }
+
     private enum Layout {
-        static let avatarSize = CGFloat(48)
         static let rankSize = CGFloat(18)
         static let margin = CGFloat(8)
         static let spacing = CGSize(width: 12, height: 4)
         static let cornerRadius = CGFloat(4)
         static let overlap = CGFloat(-8)
-    }
-
-    private let avatarImageView: UIImageView = create {
-        $0.heightAnchor == Layout.avatarSize
-        $0.widthAnchor == Layout.avatarSize
-        $0.cornerRadius = Layout.avatarSize / 2
-        $0.backgroundColor = .mercury
-    }
-    private let rankLabel: UILabel = create {
-        $0.font = Avenir.heavy.of(size: 10)
-        $0.heightAnchor == Layout.rankSize
-        $0.widthAnchor == Layout.avatarSize - Layout.margin
-        $0.cornerRadius = Layout.rankSize / 2
-        $0.backgroundColor = .gallery
-        $0.textAlignment = .center
+        static let fontSize = CGFloat(15)
     }
 
     private let nameLabel: UILabel = create {
-        $0.font = Avenir.heavy.of(size: 18)
+        $0.font = Avenir.medium.of(size: Layout.fontSize)
     }
     private let countryLabel: UILabel = create {
         $0.font = Avenir.medium.of(size: 15)
     }
 
-    private let visitedButton: GradientButton = create {
-        configure(button: $0)
-        $0.addTarget(self, action: #selector(tapVisited), for: .touchUpInside)
-    }
     private let remainingButton: GradientButton = create {
         configure(button: $0)
         $0.addTarget(self, action: #selector(tapRemaining), for: .touchUpInside)
@@ -57,28 +46,11 @@ final class CountCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func set(user: User, for rank: Int) {
-        log.todo("avatar")
-        avatarImageView.image = nil
-        rankLabel.text = rank.grouped
-
-        nameLabel.text = user.fullName
-        countryLabel.text = user.country.countryName
-
-        let visited = Localized.visited(user.visited)
-        visitedButton.setTitle(visited, for: .normal)
-        let remaining = Localized.remaining(user.remaining)
-        remainingButton.setTitle(remaining, for: .normal)
-    }
-
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        avatarImageView.image = nil
-        rankLabel.text = nil
         nameLabel.text = nil
         countryLabel.text = nil
-        visitedButton.setTitle(nil, for: .normal)
         remainingButton.setTitle(nil, for: .normal)
     }
 }
@@ -100,25 +72,20 @@ private extension CountCell {
 
     func configure() {
         contentView.backgroundColor = .green
-        contentView.layer.cornerRadius = Layout.cornerRadius
+        contentView.cornerRadius = Layout.cornerRadius
         contentView.clipsToBounds = true
-
-        let badges = UIStackView(arrangedSubviews: [avatarImageView, rankLabel])
-        badges.axis = .vertical
-        badges.alignment = .center
-        badges.spacing = Layout.overlap
 
         let labels = UIStackView(arrangedSubviews: [nameLabel, countryLabel])
         labels.axis = .vertical
 
-        let infos = UIStackView(arrangedSubviews: [badges, labels])
+        let infos = UIStackView(arrangedSubviews: [labels])
         infos.spacing = Layout.spacing.width
         infos.alignment = .center
         contentView.addSubview(infos)
         infos.centerYAnchor == contentView.centerYAnchor
         infos.leadingAnchor == contentView.leadingAnchor + Layout.margin
 
-        let buttons = UIStackView(arrangedSubviews: [visitedButton, remainingButton])
+        let buttons = UIStackView(arrangedSubviews: [remainingButton])
         buttons.axis = .vertical
         buttons.distribution = .fillEqually
         buttons.alignment = .trailing

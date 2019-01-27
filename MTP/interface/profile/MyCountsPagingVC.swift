@@ -140,8 +140,8 @@ private class MyCountsPagingCell: PagingCell {
             fatalError("MyCountsPagingItem type failure")
         }
 
-        imageView.image = item.page.image
-        titleLabel.text = item.page.title
+        imageView.image = item.list.image
+        titleLabel.text = item.list.title
 
         if selected {
             contentView.backgroundColor = UIColor(white: 1, alpha: 0.6)

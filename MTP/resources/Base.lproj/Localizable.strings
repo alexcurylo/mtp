@@ -33,6 +33,8 @@
 "Visited" = "Visited: %ld";
 "Remaining" = "Remaining: %ld";
 
+"RegionCount" = "%@ (%ld)";
+
 // RankingPage
 
 "locations" = "All MTP Locations";
