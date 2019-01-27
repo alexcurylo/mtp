@@ -34,8 +34,6 @@ final class MyCountsPageVC: UIViewController {
     weak var delegate: MyCountsPageVCDelegate?
 
     private var members: [Int] = []
-    private var filterDescription: String = ""
-    private var rank = 0
 
     var userObserver: Observer?
     var locationsObserver: Observer?
@@ -69,11 +67,8 @@ final class MyCountsPageVC: UIViewController {
         collectionView.collectionViewLayout.invalidateLayout()
     }
 
-    func set(members list: [Int], filter: UserFilter?) {
+    func set(members list: [Int]) {
         members = list
-        filterDescription = filter?.description ?? Localized.allLocations()
-        log.todo("MyCountsPageVC header rank)")
-        rank = 9_999
 
         collectionView.reloadData()
     }
@@ -109,8 +104,6 @@ extension MyCountsPageVC: UICollectionViewDataSource {
             ofKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: RankingHeader.reuseIdentifier,
             for: indexPath)
-
-        (view as? RankingHeader)?.set(rank: rank, for: filterDescription)
 
         return view
     }

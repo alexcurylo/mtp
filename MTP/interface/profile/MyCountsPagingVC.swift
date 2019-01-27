@@ -23,13 +23,13 @@ final class MyCountsPagingVC: PagingViewController<MyCountsPagingItem> {
     }
 
     override func loadView() {
-        view = RankingPagingView(options: options,
-                                 collectionView: collectionView,
-                                 pageView: pageViewController.view)
+        view = MyCountsPagingView(options: options,
+                                  collectionView: collectionView,
+                                  pageView: pageViewController.view)
     }
 
     func configure() {
-        menuItemSource = .class(type: RankingPagingCell.self)
+        menuItemSource = .class(type: MyCountsPagingCell.self)
         menuItemSize = .fixed(width: Layout.itemSize.width,
                               height: Layout.itemSize.height)
         menuInsets = Layout.insets
@@ -47,8 +47,8 @@ final class MyCountsPagingVC: PagingViewController<MyCountsPagingItem> {
     }
 
     func update(menu height: CGFloat) {
-        guard let pagingView = view as? RankingPagingView else {
-            fatalError("RankingPagingView type failure")
+        guard let pagingView = view as? MyCountsPagingView else {
+            fatalError("MyCountsPagingView type failure")
         }
         pagingView.menuHeightConstraint?.constant = height
 
@@ -65,7 +65,7 @@ final class MyCountsPagingVC: PagingViewController<MyCountsPagingItem> {
     }
 }
 
-private class RankingPagingView: PagingView {
+private class MyCountsPagingView: PagingView {
 
     var menuHeightConstraint: NSLayoutConstraint?
 
@@ -99,7 +99,7 @@ private class RankingPagingView: PagingView {
     }
 }
 
-private class RankingPagingCell: PagingCell {
+private class MyCountsPagingCell: PagingCell {
 
     private let imageView: UIImageView = create {
         $0.contentMode = .scaleAspectFit

@@ -43,7 +43,7 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
-                    <navigationItem key="navigationItem" title="Rankings" id="IRl-yV-ZCr"/>
+                    <navigationItem key="navigationItem" title="Counts" id="IRl-yV-ZCr"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>

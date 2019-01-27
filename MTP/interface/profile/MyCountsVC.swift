@@ -20,6 +20,7 @@ final class MyCountsVC: UIViewController {
         super.viewWillAppear(animated)
 
         hide(navBar: false)
+        hide(toolBar: false)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -77,8 +78,7 @@ extension MyCountsVC: PagingViewControllerDataSource {
         let viewController = MyCountsPageVC(options: pagingViewController.options)
         viewController.delegate = self
         viewController.set(
-            members: MyCountsPagingItem.pages[index].members,
-            filter: gestalt.rankingsFilter)
+            members: MyCountsPagingItem.pages[index].members)
 
         let insets = UIEdgeInsets(top: MyCountsPagingVC.Layout.menuHeight,
                                   left: 0,
