@@ -13,7 +13,7 @@
         <!--Counts-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
-                <viewController storyboardIdentifier="myCounts" title="Counts" id="8rJ-Kc-sve" customClass="RankingsVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="myCounts" title="Counts" id="8rJ-Kc-sve" customClass="MyCountsVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QS5-Rx-YEW" customClass="GradientView" customModule="MTP" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
