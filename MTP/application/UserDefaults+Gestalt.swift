@@ -104,11 +104,6 @@ extension UserDefaults: Gestalt {
         }
     }
 
-    var lastUserRefresh: Date? {
-        get { return date(forKey: #function) }
-        set { set(newValue, forKey: #function) }
-    }
-
     var locations: [Location] {
         get {
             do {

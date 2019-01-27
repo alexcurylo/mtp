@@ -13,7 +13,6 @@ protocol Gestalt: Observable {
     var email: String { get set }
     var etags: [String: String] { get set }
     var golfcourses: [Place] { get set }
-    var lastUserRefresh: Date? { get set }
     var locations: [Location] { get set }
     var name: String { get set }
     var password: String { get set }

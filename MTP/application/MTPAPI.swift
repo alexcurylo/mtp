@@ -17,7 +17,7 @@ enum MTPAPIError: Swift.Error {
     case token
 }
 
-enum MTP {
+enum MTP: Hashable {
     case beach
     case checklists
     case countries // appears same as `location` but returns 891 in production
@@ -227,7 +227,11 @@ extension MTPAPI {
     static func loadBeaches(then: @escaping PlacesResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.beach
+        guard !endpoint.isThrottled else {
+            return then(.failure(.throttle))
+        }
         provider.request(endpoint) { response in
+            endpoint.markResponded()
             switch response {
             case .success(let result):
                 guard result.modified(from: endpoint) else {
@@ -260,7 +264,11 @@ extension MTPAPI {
         let auth = AccessTokenPlugin { gestalt.token }
         let provider = MoyaProvider<MTP>(plugins: [auth])
         let endpoint = MTP.checklists
+        guard !endpoint.isThrottled else {
+            return then(.failure(.throttle))
+        }
         provider.request(endpoint) { response in
+            endpoint.markResponded()
             switch response {
             case .success(let result):
                 guard result.modified(from: endpoint) else {
@@ -287,7 +295,11 @@ extension MTPAPI {
     static func loadCountries(then: @escaping CountriesResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.countries
+        guard !endpoint.isThrottled else {
+            return then(.failure(.throttle))
+        }
         provider.request(endpoint) { response in
+            endpoint.markResponded()
             switch response {
             case .success(let result):
                 guard result.modified(from: endpoint) else {
@@ -313,7 +325,11 @@ extension MTPAPI {
     static func loadDiveSites(then: @escaping PlacesResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.divesite
+        guard !endpoint.isThrottled else {
+            return then(.failure(.throttle))
+        }
         provider.request(endpoint) { response in
+            endpoint.markResponded()
             switch response {
             case .success(let result):
                 guard result.modified(from: endpoint) else {
@@ -340,7 +356,11 @@ extension MTPAPI {
     static func loadGolfCourses(then: @escaping PlacesResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.golfcourse
+        guard !endpoint.isThrottled else {
+            return then(.failure(.throttle))
+        }
         provider.request(endpoint) { response in
+            endpoint.markResponded()
             switch response {
             case .success(let result):
                 guard result.modified(from: endpoint) else {
@@ -367,7 +387,11 @@ extension MTPAPI {
     static func loadLocations(then: @escaping LocationsResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.location
+        guard !endpoint.isThrottled else {
+            return then(.failure(.throttle))
+        }
         provider.request(endpoint) { response in
+            endpoint.markResponded()
             switch response {
             case .success(let result):
                 guard result.modified(from: endpoint) else {
@@ -394,7 +418,11 @@ extension MTPAPI {
     static func loadRestaurants(then: @escaping RestaurantsResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.restaurant
+        guard !endpoint.isThrottled else {
+            return then(.failure(.throttle))
+        }
         provider.request(endpoint) { response in
+            endpoint.markResponded()
             switch response {
             case .success(let result):
                 guard result.modified(from: endpoint) else {
@@ -421,7 +449,11 @@ extension MTPAPI {
     static func loadUNCountries(then: @escaping CountriesResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.unCountry
+        guard !endpoint.isThrottled else {
+            return then(.failure(.throttle))
+        }
         provider.request(endpoint) { response in
+            endpoint.markResponded()
             switch response {
             case .success(let result):
                 guard result.modified(from: endpoint) else {
@@ -448,7 +480,11 @@ extension MTPAPI {
     static func loadWHS(then: @escaping WHSResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.whs
+        guard !endpoint.isThrottled else {
+            return then(.failure(.throttle))
+        }
         provider.request(endpoint) { response in
+            endpoint.markResponded()
             switch response {
             case .success(let result):
                 guard result.modified(from: endpoint) else {
@@ -520,25 +556,24 @@ extension MTPAPI {
             log.verbose("userGetByToken attempt invalid: not logged in")
             return then(.failure(.parameter))
         }
-        if let last = gestalt.lastUserRefresh {
-            let next = last.addingTimeInterval(60 * 5)
-            guard next < Date().toUTC else {
-                log.verbose("userGetByToken attempt invalid: 5 minute throttle")
-                return then(.failure(.throttle))
-            }
-        }
 
         let auth = AccessTokenPlugin { gestalt.token }
         let provider = MoyaProvider<MTP>(plugins: [auth])
         let endpoint = MTP.userGetByToken
+        guard !endpoint.isThrottled else {
+            return then(.failure(.throttle))
+        }
         provider.request(endpoint) { response in
+            endpoint.markResponded()
             switch response {
             case .success(let result):
                 do {
+                    guard result.modified(from: endpoint) else {
+                        return then(.failure(.notModified))
+                    }
                     let user = try result.map(User.self,
                                               using: JSONDecoder.mtp)
                     gestalt.user = user
-                    gestalt.lastUserRefresh = Date().toUTC
                     log.verbose("refreshed user: " + user.debugDescription)
                     return then(.success(user))
                 } catch {
@@ -568,7 +603,6 @@ extension MTPAPI {
                 guard let token = user.token else { throw MTPAPIError.token }
                 gestalt.token = token
                 gestalt.user = user
-                gestalt.lastUserRefresh = Date().toUTC
                 gestalt.email = email
                 gestalt.password = password
                 log.verbose("logged in user: " + user.debugDescription)
@@ -617,6 +651,8 @@ extension MTPAPI {
 extension Response {
 
     func modified(from endpoint: MTP) -> Bool {
+        endpoint.markReceived()
+
         // nothing currently supports real 304
         guard let response = response,
               response.statusCode != 304 else {
@@ -679,5 +715,37 @@ extension MTPAPI {
     static func applicationDidBecomeActive() {
         refreshData()
         refreshUser()
+    }
+}
+
+private var active: Set<MTP> = []
+private var received: [MTP: Date] = [:]
+
+extension MTP {
+
+    var isThrottled: Bool {
+        guard !active.contains(self) else {
+            return true
+        }
+        active.update(with: self)
+
+        let throttle = TimeInterval(60 * 5)
+        if let last = received[self] {
+            let next = last.addingTimeInterval(throttle)
+            let now = Date().toUTC
+            guard next <= now else {
+                return true
+            }
+        }
+        return false
+    }
+
+    func markResponded() {
+        active.remove(self)
+    }
+
+    func markReceived() {
+        markResponded()
+        received[self] = Date().toUTC
     }
 }
