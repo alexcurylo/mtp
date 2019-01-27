@@ -23,12 +23,28 @@ final class PlaceAnnotationView: MKMarkerAnnotationView {
 
         markerTintColor = place.background
         glyphImage = place.image
+        let visit: UISwitch = create {
+            $0.isOn = place.visited
+            $0.addTarget(self,
+                         action: #selector(toggleVisit),
+                         for: .valueChanged)
+        }
+        rightCalloutAccessoryView = visit
    }
 
     override func prepareForReuse() {
         markerTintColor = nil
         glyphImage = nil
+        rightCalloutAccessoryView = nil
         annotation = nil
         super.prepareForReuse()
+    }
+}
+
+private extension PlaceAnnotationView {
+
+    @objc func toggleVisit(_ sender: UISwitch) {
+        guard let place = annotation as? PlaceAnnotation else { return }
+        place.visited = sender.isOn
     }
 }

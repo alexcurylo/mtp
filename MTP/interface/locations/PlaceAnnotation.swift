@@ -9,15 +9,18 @@ final class PlaceAnnotation: NSObject, MKAnnotation {
     var subtitle: String?
 
     var type: Checklist
+    var id: Int
     var identifier: String {
         return type.rawValue
     }
 
     init(type: Checklist,
+         id: Int,
          coordinate: CLLocationCoordinate2D,
          title: String = "",
          subtitle: String = "") {
         self.type = type
+        self.id = id
         self.coordinate = coordinate
         self.title = title
         self.subtitle = subtitle
@@ -44,6 +47,15 @@ final class PlaceAnnotation: NSObject, MKAnnotation {
 
     var image: UIImage {
         return type.image
+    }
+
+    var visited: Bool {
+        get {
+            return type.visits.contains(id)
+        }
+        set {
+            type.set(id: id, visited: newValue)
+        }
     }
 }
 

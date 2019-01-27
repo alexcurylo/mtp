@@ -179,6 +179,7 @@ private extension LocationsVC {
     func showBeaches() {
         let new = Set<PlaceAnnotation>(gestalt.beaches.map { place in
             PlaceAnnotation(type: .beaches,
+                            id: place.id,
                             coordinate: place.coordinate,
                             title: place.title,
                             subtitle: place.subtitle)
@@ -196,6 +197,7 @@ private extension LocationsVC {
     func showDiveSites() {
         let new = Set<PlaceAnnotation>(gestalt.divesites.map { place in
             PlaceAnnotation(type: .divesites,
+                            id: place.id,
                             coordinate: place.coordinate,
                             title: place.title,
                             subtitle: place.subtitle)
@@ -213,6 +215,7 @@ private extension LocationsVC {
     func showGolfCourses() {
         let new = Set<PlaceAnnotation>(gestalt.golfcourses.map { place in
             PlaceAnnotation(type: .golfcourses,
+                            id: place.id,
                             coordinate: place.coordinate,
                             title: place.title,
                             subtitle: place.subtitle)
@@ -230,6 +233,7 @@ private extension LocationsVC {
     func showLocations() {
         let new = Set<PlaceAnnotation>(gestalt.locations.map { place in
             PlaceAnnotation(type: .locations,
+                            id: place.id,
                             coordinate: place.coordinate,
                             title: place.title,
                             subtitle: place.subtitle)
@@ -247,6 +251,7 @@ private extension LocationsVC {
     func showRestaurants() {
         let new = Set<PlaceAnnotation>(gestalt.restaurants.map { place in
             PlaceAnnotation(type: .restaurants,
+                            id: place.id,
                             coordinate: place.coordinate,
                             title: place.title,
                             subtitle: place.subtitle)
@@ -264,6 +269,7 @@ private extension LocationsVC {
     func showUNCountries() {
         let new = Set<PlaceAnnotation>(gestalt.uncountries.map { place in
             PlaceAnnotation(type: .uncountries,
+                            id: place.id.intValue ?? 0,
                             coordinate: place.coordinate,
                             title: place.title,
                             subtitle: place.subtitle)
@@ -279,11 +285,12 @@ private extension LocationsVC {
     }
 
     func showWHSs() {
-        let new = Set<PlaceAnnotation>(gestalt.whss.map { whs in
+        let new = Set<PlaceAnnotation>(gestalt.whss.map { place in
             PlaceAnnotation(type: .whss,
-                            coordinate: whs.coordinate,
-                            title: whs.title,
-                            subtitle: whs.subtitle)
+                            id: place.id,
+                            coordinate: place.coordinate,
+                            title: place.title,
+                            subtitle: place.subtitle)
         })
 
         let subtracted = whssAnnotations.subtracting(new)
@@ -362,6 +369,7 @@ extension LocationsVC: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView,
                  annotationView view: MKAnnotationView,
                  calloutAccessoryControlTapped control: UIControl) {
+        guard !(control is UISwitch) else { return }
         log.verbose(#function)
     }
     func mapView(_ mapView: MKMapView,
@@ -374,7 +382,6 @@ extension LocationsVC: MKMapViewDelegate {
                  annotationView view: MKAnnotationView,
                  didChange newState: MKAnnotationView.DragState,
                  fromOldState oldState: MKAnnotationView.DragState) {
-        log.verbose(#function)
     }
 
     func mapView(_ mapView: MKMapView,

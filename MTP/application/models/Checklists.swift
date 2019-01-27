@@ -77,16 +77,59 @@ enum Checklist: String, CaseIterable {
         // swiftlint:disable:next force_unwrapping
         return background!
    }
+
+    var visits: [Int] {
+        // swiftlint:disable:next discouraged_optional_collection
+        let visits: [Int]?
+        switch self {
+        case .locations:
+            visits = gestalt.checklists?.locations
+        case .uncountries:
+            visits = gestalt.checklists?.uncountries
+        case .whss:
+            visits = gestalt.checklists?.whss
+        case .beaches:
+            visits = gestalt.checklists?.beaches
+        case .golfcourses:
+            visits = gestalt.checklists?.golfcourses
+        case .divesites:
+            visits = gestalt.checklists?.divesites
+        case .restaurants:
+            visits = gestalt.checklists?.restaurants
+        }
+        return visits ?? []
+    }
+
+    func set(id: Int,
+             visited: Bool) {
+        guard visits.contains(id) != visited else { return }
+
+        gestalt.checklists?.set(list: self,
+                                id: id,
+                                visited: visited)
+    }
 }
 
 struct Checklists: Codable {
-    let beaches: [Int]
-    let divesites: [Int]
-    let golfcourses: [Int]
-    let locations: [Int]
-    let restaurants: [Int]
-    let uncountries: [Int]
-    let whss: [Int]
+    var beaches: [Int]
+    var divesites: [Int]
+    var golfcourses: [Int]
+    var locations: [Int]
+    var restaurants: [Int]
+    var uncountries: [Int]
+    var whss: [Int]
+
+    mutating func set(list: Checklist,
+                      id: Int,
+                      visited: Bool) {
+        guard restaurants.contains(id) != visited else { return }
+
+        if visited {
+            restaurants.append(id)
+        } else if let index = restaurants.index(of: id) {
+            restaurants.remove(at: index)
+        }
+    }
 }
 
 extension Checklists: CustomStringConvertible {
