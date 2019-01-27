@@ -53,6 +53,7 @@
 		FA5AC0BB21FDC1060080F84F /* MyCounts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA5AC0B921FDC1050080F84F /* MyCounts.storyboard */; };
 		FA5AC0BD21FDC80A0080F84F /* MyCountsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0BC21FDC80A0080F84F /* MyCountsVC.swift */; };
 		FA5AC0BF21FDCB9D0080F84F /* MyCountsPagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0BE21FDCB9D0080F84F /* MyCountsPagingVC.swift */; };
+		FA5AC0C121FDCCDE0080F84F /* MyCountsPagingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C021FDCCDE0080F84F /* MyCountsPagingItem.swift */; };
 		FA6A188621EFEF920092C56C /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6A188521EFEF920092C56C /* Observable.swift */; };
 		FA74574D210CA5730010F4F4 /* MyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74574C210CA5730010F4F4 /* MyProfileVC.swift */; };
 		FA745753210DA4C60010F4F4 /* MyProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA745755210DA4C60010F4F4 /* MyProfile.storyboard */; };
@@ -184,6 +185,7 @@
 		FA5AC0BA21FDC1050080F84F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyCounts.storyboard; sourceTree = "<group>"; };
 		FA5AC0BC21FDC80A0080F84F /* MyCountsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCountsVC.swift; sourceTree = "<group>"; };
 		FA5AC0BE21FDCB9D0080F84F /* MyCountsPagingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCountsPagingVC.swift; sourceTree = "<group>"; };
+		FA5AC0C021FDCCDE0080F84F /* MyCountsPagingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCountsPagingItem.swift; sourceTree = "<group>"; };
 		FA6A188521EFEF920092C56C /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		FA74574C210CA5730010F4F4 /* MyProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileVC.swift; sourceTree = "<group>"; };
 		FA745754210DA4C60010F4F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyProfile.storyboard; sourceTree = "<group>"; };
@@ -337,6 +339,7 @@
 			children = (
 				FA46377F210DE94C0007382D /* EditProfileVC.swift */,
 				FA254DCC2169A2A400FC9360 /* MyAboutVC.swift */,
+				FA5AC0C021FDCCDE0080F84F /* MyCountsPagingItem.swift */,
 				FA5AC0BE21FDCB9D0080F84F /* MyCountsPagingVC.swift */,
 				FA5AC0BC21FDC80A0080F84F /* MyCountsVC.swift */,
 				FADC1ABD2145E9760011EE49 /* MyPhotosVC.swift */,
@@ -966,6 +969,7 @@
 				FA32CC782100C360004C1329 /* SignupVC.swift in Sources */,
 				FA25ACE6217B54A8000AE26D /* RankingCell.swift in Sources */,
 				FAAE29C520F05A9600B43BA9 /* UserDefaults+TypeSafety.swift in Sources */,
+				FA5AC0C121FDCCDE0080F84F /* MyCountsPagingItem.swift in Sources */,
 				FA46377E210DE1E60007382D /* SettingsVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

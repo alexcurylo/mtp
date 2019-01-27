@@ -62,7 +62,7 @@ private extension MyCountsVC {
 
         pagingVC.dataSource = self
         pagingVC.delegate = self
-        pagingVC.select(pagingItem: RankingPagingItem.pages[0])
+        pagingVC.select(pagingItem: MyCountsPagingItem.pages[0])
     }
 
     func update(menu height: CGFloat) {
@@ -77,7 +77,7 @@ extension MyCountsVC: PagingViewControllerDataSource {
         let viewController = RankingVC(options: pagingViewController.options)
         viewController.delegate = self
         viewController.set(
-            members: RankingPagingItem.pages[index].members,
+            members: MyCountsPagingItem.pages[index].members,
             filter: gestalt.rankingsFilter)
 
         let insets = UIEdgeInsets(top: MyCountsPagingVC.Layout.menuHeight,
@@ -92,14 +92,14 @@ extension MyCountsVC: PagingViewControllerDataSource {
 
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  pagingItemForIndex index: Int) -> T {
-        guard let result = RankingPagingItem.pages[index] as? T else {
-            fatalError("RankingPagingItem type failure")
+        guard let result = MyCountsPagingItem.pages[index] as? T else {
+            fatalError("MyCountsPagingItem type failure")
         }
         return result
     }
 
     func numberOfViewControllers<T>(in: PagingViewController<T>) -> Int {
-        return RankingPagingItem.pages.count
+        return MyCountsPagingItem.pages.count
     }
 }
 

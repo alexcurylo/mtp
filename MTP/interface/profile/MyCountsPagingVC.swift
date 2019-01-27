@@ -4,7 +4,7 @@ import Anchorage
 import Parchment
 import UIKit
 
-final class MyCountsPagingVC: PagingViewController<RankingPagingItem> {
+final class MyCountsPagingVC: PagingViewController<MyCountsPagingItem> {
 
     enum Layout {
         static let insets = UIEdgeInsets(top: 8,
@@ -95,7 +95,7 @@ private class RankingPagingView: PagingView {
             pageView.trailingAnchor.constraint(equalTo: trailingAnchor),
             pageView.bottomAnchor.constraint(equalTo: bottomAnchor),
             pageView.topAnchor.constraint(equalTo: topAnchor)
-            ])
+        ])
     }
 }
 
@@ -136,8 +136,8 @@ private class RankingPagingCell: PagingCell {
     override func setPagingItem(_ pagingItem: PagingItem,
                                 selected: Bool,
                                 options: PagingOptions) {
-        guard let item = pagingItem as? RankingPagingItem else {
-            fatalError("RankingPagingItem type failure")
+        guard let item = pagingItem as? MyCountsPagingItem else {
+            fatalError("MyCountsPagingItem type failure")
         }
 
         imageView.image = item.page.image
