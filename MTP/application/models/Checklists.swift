@@ -1,19 +1,82 @@
 // @copyright Trollwerks Inc.
 
-import Foundation
+import UIKit
 
-enum Checklist: String {
-    case beaches
-    case divesites
-    case golfcourses
+enum Checklist: String, CaseIterable {
     case locations
-    case restaurants
     case uncountries
     case whss
+    case beaches
+    case golfcourses
+    case divesites
+    case restaurants
 
     var path: String {
         return "me/checklists/" + rawValue
     }
+
+    var title: String {
+        switch self {
+        case .locations:
+            return Localized.locations()
+        case .uncountries:
+            return Localized.uncountries()
+        case .whss:
+            return Localized.whss()
+        case .beaches:
+            return Localized.beaches()
+        case .golfcourses:
+            return Localized.golfcourses()
+        case .divesites:
+            return Localized.divesites()
+        case .restaurants:
+            return Localized.restaurants()
+        }
+    }
+
+    var image: UIImage {
+        let image: UIImage?
+        switch self {
+        case .locations:
+            image = R.image.listMTP()
+        case .uncountries:
+            image = R.image.listUN()
+        case .whss:
+            image = R.image.listWHS()
+        case .beaches:
+            image = R.image.listBeaches()
+        case .golfcourses:
+            image = R.image.listGolf()
+        case .divesites:
+            image = R.image.listDive()
+        case .restaurants:
+            image = R.image.listRestaurants()
+        }
+        // swiftlint:disable:next force_unwrapping
+        return image!
+    }
+
+    var background: UIColor {
+        let background: UIColor?
+        switch self {
+        case .locations:
+            background = R.color.locations()
+        case .uncountries:
+            background = R.color.uncountries()
+        case .whss:
+            background = R.color.whss()
+        case .beaches:
+             background = R.color.beaches()
+        case .golfcourses:
+            background = R.color.golfcourses()
+        case .divesites:
+            background = R.color.divesites()
+        case .restaurants:
+            background = R.color.restaurants()
+        }
+        // swiftlint:disable:next force_unwrapping
+        return background!
+   }
 }
 
 struct Checklists: Codable {
@@ -55,5 +118,13 @@ extension Checklists: CustomDebugStringConvertible {
         whss: \(whss.debugDescription)
         /Checklists >
         """
+    }
+}
+
+extension Hashable where Self: CaseIterable {
+
+    var index: Self.AllCases.Index {
+        // swiftlint:disable:next force_unwrapping
+        return type(of: self).allCases.firstIndex(of: self)!
     }
 }

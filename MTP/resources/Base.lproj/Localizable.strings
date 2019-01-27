@@ -35,13 +35,13 @@
 
 // RankingPage
 
-"AllMTPLocations" = "All MTP Locations";
-"UNCountries" = "UN Countries";
-"WHSites" = "WHS";
-"Beaches" = "Beaches";
-"GolfCourses" = "Golf Courses";
-"DiveSites" = "Dive Sites";
-"Restaurants" = "Restaurants";
+"locations" = "All MTP Locations";
+"uncountries" = "UN Countries";
+"whss" = "WHS";
+"beaches" = "Beaches";
+"golfcourses" = "Golf Courses";
+"divesites" = "Dive Sites";
+"restaurants" = "Restaurants";
 
 "MyRanking" = "My ranking:";
 "TopTravelers" = "Top Travelers:";
