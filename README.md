@@ -25,20 +25,23 @@ The [Most Traveled People](https://mtp.travel) iOS app.
 Requirements
 ------------
 
-- Xcode 10.0 or later
+- Xcode 10.1 or later
 - iOS 11.0 or later
 
 ### Tools:
 
 - [AppCenter](https://appcenter.ms/) for distribution management
-- [Bundler](https://bundler.io/) for dependency management
-- [CocoaPods](https://cocoapods.org/) for dependency management
+- [Bundler](https://bundler.io/) for Ruby dependency management
+- [CocoaPods](https://cocoapods.org/) for iOS dependency management
+- [codebeat](https://codebeat.co/projects/github-com-alexcurylo-mtp-develop) for automated code review
 - [Coveralls](https://coveralls.io/github/alexcurylo/mtp?branch=develop) for test coverage statistics
 - [Danger](http://danger.systems/ruby/) for automated code review
+- [Gitter](https://gitter.im/alexcurylo/mtp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) for chat
 - [Slather](https://github.com/SlatherOrg/slather) for test coverage reports
 - [SwiftLint](https://github.com/realm/SwiftLint) for opinionated coding style enforcement
 - [SwiftyBeaver](https://github.com/SwiftyBeaver/SwiftyBeaver) for logging
 - [Travis-CI](https://travis-ci.org/alexcurylo/mtp) for test builds
+- [Waffle](https://waffle.io/alexcurylo/mtp) for project management
 
 ### Libraries:
 
