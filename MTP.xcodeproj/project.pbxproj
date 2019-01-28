@@ -231,6 +231,7 @@
 		FAC159A121EB68AA00564E2D /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		FAC3BCB5216A225900E1507E /* TagButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagButton.swift; sourceTree = "<group>"; };
 		FAC3BCB6216A225900E1507E /* TagsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsView.swift; sourceTree = "<group>"; };
+		FAC7A77621FF400300DCED01 /* .codebeatignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .codebeatignore; sourceTree = "<group>"; };
 		FAD2B51221F45796009FFDD7 /* PlaceLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceLocation.swift; sourceTree = "<group>"; };
 		FAD2B51521F46913009FFDD7 /* Checklists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checklists.swift; sourceTree = "<group>"; };
 		FAD2B51721F48AB8009FFDD7 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
@@ -466,6 +467,7 @@
 		FA392BEE20DFA6190026C828 /* metadata */ = {
 			isa = PBXGroup;
 			children = (
+				FAC7A77621FF400300DCED01 /* .codebeatignore */,
 				FAB53F8620DFCC04007A80A7 /* .coveralls.yml */,
 				FA4F1C5D20DFA69000B8A1ED /* .gitignore */,
 				FA9A71E220F2308E005F6A57 /* .jazzy.yaml */,
