@@ -155,9 +155,8 @@ extension MyCountsPageVC: UICollectionViewDataSource {
         }
 
         switch list?.hierarchy {
-        case .regionSubgrouped?:
-            fallthrough
-        case .country?:
+        case .country?,
+             .regionSubgrouped?:
             let regionCountries = countries[key]?.count ?? 0
             return regionPlaces.count + regionCountries
         default:
@@ -181,7 +180,7 @@ extension MyCountsPageVC: UICollectionViewDataSource {
             if let place = place {
                 let isLast = indexPath.row == self.collectionView(
                     collectionView,
-                    numberOfItemsInSection: indexPath.section)
+                    numberOfItemsInSection: indexPath.section) - 1
                 counter.set(title: place.placeName,
                             subtitle: list.isSubtitled ? place.placeCountry : "",
                             list: list,
@@ -206,9 +205,8 @@ extension MyCountsPageVC: UICollectionViewDataSource {
         var countdown = indexPath.row
 
         switch list?.hierarchy {
-        case .regionSubgrouped?:
-            fallthrough
-        case .country?:
+        case .country?,
+             .regionSubgrouped?:
             let regionCountries = countries[key] ?? []
             for country in regionCountries {
                 let countryPlaces = countriesPlaces[key]?[country] ?? []
@@ -226,7 +224,7 @@ extension MyCountsPageVC: UICollectionViewDataSource {
                     countdown -= 1
                 }
             }
-            log.error("Failed to find model!")
+            log.error("Failed to find grouped line model!")
             return (CountGroupCell.reuseIdentifier, nil, nil)
         default:
              let regionPlaces = regionsPlaces[key] ?? []
@@ -257,7 +255,7 @@ private extension MyCountsPageVC {
 
     func count(places: [PlaceInfo],
                visits: [Int]) {
-        let groupCountries = list?.isGrouped ?? false
+        let groupCountries = (list?.isGrouped ?? false) || (list?.isSubgrouped ?? false)
         regionsExpanded = [:]
         regionsVisited = [:]
         countries = [:]
