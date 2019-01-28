@@ -233,6 +233,7 @@
 		FAC3BCB6216A225900E1507E /* TagsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsView.swift; sourceTree = "<group>"; };
 		FAC7A77621FF400300DCED01 /* .codebeatignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .codebeatignore; sourceTree = "<group>"; };
 		FAC7A77721FF43F900DCED01 /* .codebeatsettings */ = {isa = PBXFileReference; lastKnownFileType = text; path = .codebeatsettings; sourceTree = "<group>"; };
+		FAC7A77821FF452500DCED01 /* .swift-version */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".swift-version"; sourceTree = "<group>"; };
 		FAD2B51221F45796009FFDD7 /* PlaceLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceLocation.swift; sourceTree = "<group>"; };
 		FAD2B51521F46913009FFDD7 /* Checklists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checklists.swift; sourceTree = "<group>"; };
 		FAD2B51721F48AB8009FFDD7 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
@@ -475,6 +476,7 @@
 				FA9A71E220F2308E005F6A57 /* .jazzy.yaml */,
 				FAB53F8420DFCC03007A80A7 /* .slather.yml */,
 				FA3E366B20DFB484002AF4EE /* .swiftlint.yml */,
+				FAC7A77821FF452500DCED01 /* .swift-version */,
 				FAB53F8520DFCC03007A80A7 /* .travis.yml */,
 				FA4B7FE121E38BF3006AF8E2 /* apple-app-site-association */,
 				FAB53F8320DFCB40007A80A7 /* Dangerfile */,
