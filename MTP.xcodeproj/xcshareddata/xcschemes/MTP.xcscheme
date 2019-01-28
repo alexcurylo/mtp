@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "78F3EB8ECDB767BC81A5257F68D718E2"
+               BlueprintIdentifier = "980A8AC4EA1D52B0BE535CB69C792FE4"
                BuildableName = "libPods-MTP.a"
                BlueprintName = "Pods-MTP"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -101,6 +101,13 @@
             ReferencedContainer = "container:MTP.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "CFNETWORK_DIAGNOSTICS"
+            value = "3"
+            isEnabled = "NO">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>

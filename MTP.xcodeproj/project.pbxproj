@@ -10,16 +10,19 @@
 		0A2349E36085A3EE89A30019 /* Pods-MTP-metadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = B988D22396864AC3181C1EA5 /* Pods-MTP-metadata.plist */; };
 		122BA726DE2ED1EC0C4144BB /* libPods-MTPUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C0AF3F035BC227379ED6DE /* libPods-MTPUITests.a */; };
 		529054A21D10AD8DB1855DB5 /* libPods-MTPTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 848B6781D80D51E75A14ECF6 /* libPods-MTPTests.a */; };
+		8C5ECE0221FE9B3600322ABF /* Checklist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5ECE0121FE9B3600322ABF /* Checklist.swift */; };
+		8C5ECE9E21FEE6F800322ABF /* CountGroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5ECE9D21FEE6F800322ABF /* CountGroupCell.swift */; };
 		C1D9A04EB6208ED844515108 /* libPods-MTP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA7B8EF0C9A37C87525A9855 /* libPods-MTP.a */; };
 		F5352AD2AEBF0C3A5C6191CE /* Pods-MTP-settings-metadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E2C18C122B275F3B40CDCDA /* Pods-MTP-settings-metadata.plist */; };
 		FA0BE96C210C5F3300797224 /* ViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0BE96B210C5F3300797224 /* ViewTests.swift */; };
-		FA12D680213B8A240053E9BF /* RankingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12D67F213B8A240053E9BF /* RankingPage.swift */; };
+		FA12D680213B8A240053E9BF /* RankingPagingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12D67F213B8A240053E9BF /* RankingPagingItem.swift */; };
 		FA12D682213B963C0053E9BF /* RankingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12D681213B963C0053E9BF /* RankingVC.swift */; };
 		FA254DCB21685D6800FC9360 /* NSObject+Create.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA254DCA21685D6800FC9360 /* NSObject+Create.swift */; };
 		FA254DCD2169A2A400FC9360 /* MyAboutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA254DCC2169A2A400FC9360 /* MyAboutVC.swift */; };
 		FA25ACE6217B54A8000AE26D /* RankingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA25ACE5217B54A8000AE26D /* RankingCell.swift */; };
 		FA25ACE8217C87ED000AE26D /* RankingHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA25ACE7217C87ED000AE26D /* RankingHeader.swift */; };
 		FA291FD5217ECBC8004140BD /* RankingsFilterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA291FD4217ECBC8004140BD /* RankingsFilterVC.swift */; };
+		FA2E718521ED535B00E6AB73 /* WHS.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2E718421ED535B00E6AB73 /* WHS.swift */; };
 		FA32CC7220FAC863004C1329 /* XCTestCase+UITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA32CC7120FAC863004C1329 /* XCTestCase+UITest.swift */; };
 		FA32CC7420FB6E67004C1329 /* UIView+Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA32CC7320FB6E67004C1329 /* UIView+Gradient.swift */; };
 		FA32CC762100C34E004C1329 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA32CC752100C34E004C1329 /* LoginVC.swift */; };
@@ -46,6 +49,17 @@
 		FA46533021157784005B5A0A /* FacebookButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA46532F21157784005B5A0A /* FacebookButton.swift */; };
 		FA4653322115A250005B5A0A /* UserDefaults+Gestalt.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653312115A250005B5A0A /* UserDefaults+Gestalt.swift */; };
 		FA4653342115ADC6005B5A0A /* MTPAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653332115ADC6005B5A0A /* MTPAPI.swift */; };
+		FA5AC0B421FC49860080F84F /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0B321FC49860080F84F /* PlaceAnnotation.swift */; };
+		FA5AC0B621FC4EBE0080F84F /* PlaceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0B521FC4EBE0080F84F /* PlaceAnnotationView.swift */; };
+		FA5AC0B821FD4A160080F84F /* PlaceClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0B721FD4A160080F84F /* PlaceClusterAnnotationView.swift */; };
+		FA5AC0BB21FDC1060080F84F /* MyCounts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA5AC0B921FDC1050080F84F /* MyCounts.storyboard */; };
+		FA5AC0BD21FDC80A0080F84F /* MyCountsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0BC21FDC80A0080F84F /* MyCountsVC.swift */; };
+		FA5AC0BF21FDCB9D0080F84F /* MyCountsPagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0BE21FDCB9D0080F84F /* MyCountsPagingVC.swift */; };
+		FA5AC0C121FDCCDE0080F84F /* MyCountsPagingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C021FDCCDE0080F84F /* MyCountsPagingItem.swift */; };
+		FA5AC0C321FDCE200080F84F /* MyCountsPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C221FDCE200080F84F /* MyCountsPageVC.swift */; };
+		FA5AC0C521FDD7C00080F84F /* CountHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C421FDD7C00080F84F /* CountHeader.swift */; };
+		FA5AC0C721FDD8AA0080F84F /* CountToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C621FDD8AA0080F84F /* CountToggleCell.swift */; };
+		FA6A188621EFEF920092C56C /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6A188521EFEF920092C56C /* Observable.swift */; };
 		FA74574D210CA5730010F4F4 /* MyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74574C210CA5730010F4F4 /* MyProfileVC.swift */; };
 		FA745753210DA4C60010F4F4 /* MyProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA745755210DA4C60010F4F4 /* MyProfile.storyboard */; };
 		FA745757210DBD910010F4F4 /* UINavigationBar+Transparent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA745756210DBD910010F4F4 /* UINavigationBar+Transparent.swift */; };
@@ -68,8 +82,14 @@
 		FABA740D213A29CD0059ACCA /* MyAbout.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABA740B213A29CD0059ACCA /* MyAbout.storyboard */; };
 		FABA7410213A359C0059ACCA /* MyPhotos.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABA740E213A359C0059ACCA /* MyPhotos.storyboard */; };
 		FABA7413213A374F0059ACCA /* MyPosts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABA7411213A374F0059ACCA /* MyPosts.storyboard */; };
+		FAC159A221EB68AA00564E2D /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC159A121EB68AA00564E2D /* Location.swift */; };
 		FAC3BCB8216A225900E1507E /* TagButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC3BCB5216A225900E1507E /* TagButton.swift */; };
 		FAC3BCB9216A225900E1507E /* TagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC3BCB6216A225900E1507E /* TagsView.swift */; };
+		FAD2B51321F45796009FFDD7 /* PlaceLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51221F45796009FFDD7 /* PlaceLocation.swift */; };
+		FAD2B51621F46913009FFDD7 /* Checklists.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51521F46913009FFDD7 /* Checklists.swift */; };
+		FAD2B51821F48AB8009FFDD7 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51721F48AB8009FFDD7 /* Place.swift */; };
+		FAD2B51A21F492B3009FFDD7 /* UncertainValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51921F492B3009FFDD7 /* UncertainValue.swift */; };
+		FAD2B51C21F4A675009FFDD7 /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51B21F4A675009FFDD7 /* Restaurant.swift */; };
 		FADC1ABA2144FAD70011EE49 /* Date+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */; };
 		FADC1ABC2145563F0011EE49 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADC1ABB2145563F0011EE49 /* Country.swift */; };
 		FADC1ABE2145E9760011EE49 /* MyPhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADC1ABD2145E9760011EE49 /* MyPhotosVC.swift */; };
@@ -109,19 +129,22 @@
 		7A421C21DED7018B2D88EDFE /* Pods-MTPTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MTPTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MTPTests/Pods-MTPTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7E2C18C122B275F3B40CDCDA /* Pods-MTP-settings-metadata.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "Pods-MTP-settings-metadata.plist"; path = "MTP/resources/Settings.bundle/Pods-MTP-settings-metadata.plist"; sourceTree = "<group>"; };
 		848B6781D80D51E75A14ECF6 /* libPods-MTPTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MTPTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C5ECE0121FE9B3600322ABF /* Checklist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checklist.swift; sourceTree = "<group>"; };
+		8C5ECE9D21FEE6F800322ABF /* CountGroupCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountGroupCell.swift; sourceTree = "<group>"; };
 		B1C0AF3F035BC227379ED6DE /* libPods-MTPUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MTPUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B988D22396864AC3181C1EA5 /* Pods-MTP-metadata.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "Pods-MTP-metadata.plist"; path = "Pods/Pods-MTP-metadata.plist"; sourceTree = "<group>"; };
 		CF56246BCC141A7DD1DD5AF9 /* Pods-MTPUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MTPUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MTPUITests/Pods-MTPUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E03793369993AA49FE17B339 /* Pods-MTP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MTP.release.xcconfig"; path = "Pods/Target Support Files/Pods-MTP/Pods-MTP.release.xcconfig"; sourceTree = "<group>"; };
 		EA7B8EF0C9A37C87525A9855 /* libPods-MTP.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MTP.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA0BE96B210C5F3300797224 /* ViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTests.swift; sourceTree = "<group>"; };
-		FA12D67F213B8A240053E9BF /* RankingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingPage.swift; sourceTree = "<group>"; };
+		FA12D67F213B8A240053E9BF /* RankingPagingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingPagingItem.swift; sourceTree = "<group>"; };
 		FA12D681213B963C0053E9BF /* RankingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingVC.swift; sourceTree = "<group>"; };
 		FA254DCA21685D6800FC9360 /* NSObject+Create.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+Create.swift"; sourceTree = "<group>"; };
 		FA254DCC2169A2A400FC9360 /* MyAboutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAboutVC.swift; sourceTree = "<group>"; };
 		FA25ACE5217B54A8000AE26D /* RankingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingCell.swift; sourceTree = "<group>"; };
 		FA25ACE7217C87ED000AE26D /* RankingHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingHeader.swift; sourceTree = "<group>"; };
 		FA291FD4217ECBC8004140BD /* RankingsFilterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsFilterVC.swift; sourceTree = "<group>"; };
+		FA2E718421ED535B00E6AB73 /* WHS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WHS.swift; sourceTree = "<group>"; };
 		FA32CC7120FAC863004C1329 /* XCTestCase+UITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+UITest.swift"; sourceTree = "<group>"; };
 		FA32CC7320FB6E67004C1329 /* UIView+Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Gradient.swift"; sourceTree = "<group>"; };
 		FA32CC752100C34E004C1329 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -163,6 +186,17 @@
 		FA4F1C5C20DFA67700B8A1ED /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FA4F1C5D20DFA69000B8A1ED /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		FA4F1C5E20DFA74500B8A1ED /* Gemfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile; sourceTree = "<group>"; };
+		FA5AC0B321FC49860080F84F /* PlaceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotation.swift; sourceTree = "<group>"; };
+		FA5AC0B521FC4EBE0080F84F /* PlaceAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotationView.swift; sourceTree = "<group>"; };
+		FA5AC0B721FD4A160080F84F /* PlaceClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceClusterAnnotationView.swift; sourceTree = "<group>"; };
+		FA5AC0BA21FDC1050080F84F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyCounts.storyboard; sourceTree = "<group>"; };
+		FA5AC0BC21FDC80A0080F84F /* MyCountsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCountsVC.swift; sourceTree = "<group>"; };
+		FA5AC0BE21FDCB9D0080F84F /* MyCountsPagingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCountsPagingVC.swift; sourceTree = "<group>"; };
+		FA5AC0C021FDCCDE0080F84F /* MyCountsPagingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCountsPagingItem.swift; sourceTree = "<group>"; };
+		FA5AC0C221FDCE200080F84F /* MyCountsPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCountsPageVC.swift; sourceTree = "<group>"; };
+		FA5AC0C421FDD7C00080F84F /* CountHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountHeader.swift; sourceTree = "<group>"; };
+		FA5AC0C621FDD8AA0080F84F /* CountToggleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountToggleCell.swift; sourceTree = "<group>"; };
+		FA6A188521EFEF920092C56C /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		FA74574C210CA5730010F4F4 /* MyProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileVC.swift; sourceTree = "<group>"; };
 		FA745754210DA4C60010F4F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyProfile.storyboard; sourceTree = "<group>"; };
 		FA745756210DBD910010F4F4 /* UINavigationBar+Transparent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+Transparent.swift"; sourceTree = "<group>"; };
@@ -194,8 +228,14 @@
 		FABA740C213A29CD0059ACCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyAbout.storyboard; sourceTree = "<group>"; };
 		FABA740F213A359C0059ACCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyPhotos.storyboard; sourceTree = "<group>"; };
 		FABA7412213A374F0059ACCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyPosts.storyboard; sourceTree = "<group>"; };
+		FAC159A121EB68AA00564E2D /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		FAC3BCB5216A225900E1507E /* TagButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagButton.swift; sourceTree = "<group>"; };
 		FAC3BCB6216A225900E1507E /* TagsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsView.swift; sourceTree = "<group>"; };
+		FAD2B51221F45796009FFDD7 /* PlaceLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceLocation.swift; sourceTree = "<group>"; };
+		FAD2B51521F46913009FFDD7 /* Checklists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checklists.swift; sourceTree = "<group>"; };
+		FAD2B51721F48AB8009FFDD7 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		FAD2B51921F492B3009FFDD7 /* UncertainValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UncertainValue.swift; sourceTree = "<group>"; };
+		FAD2B51B21F4A675009FFDD7 /* Restaurant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
 		FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Formatting.swift"; sourceTree = "<group>"; };
 		FADC1ABB2145563F0011EE49 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		FADC1ABD2145E9760011EE49 /* MyPhotosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPhotosVC.swift; sourceTree = "<group>"; };
@@ -282,7 +322,7 @@
 			children = (
 				FA25ACE5217B54A8000AE26D /* RankingCell.swift */,
 				FA25ACE7217C87ED000AE26D /* RankingHeader.swift */,
-				FA12D67F213B8A240053E9BF /* RankingPage.swift */,
+				FA12D67F213B8A240053E9BF /* RankingPagingItem.swift */,
 				FA390138213B84B40016A362 /* RankingPagingVC.swift */,
 				FA291FD4217ECBC8004140BD /* RankingsFilterVC.swift */,
 				FA392BBE20DF69F30026C828 /* RankingsVC.swift */,
@@ -307,8 +347,15 @@
 		FA390137213B7D490016A362 /* profile */ = {
 			isa = PBXGroup;
 			children = (
+				FA5AC0C421FDD7C00080F84F /* CountHeader.swift */,
+				FA5AC0C621FDD8AA0080F84F /* CountToggleCell.swift */,
+				8C5ECE9D21FEE6F800322ABF /* CountGroupCell.swift */,
 				FA46377F210DE94C0007382D /* EditProfileVC.swift */,
 				FA254DCC2169A2A400FC9360 /* MyAboutVC.swift */,
+				FA5AC0C221FDCE200080F84F /* MyCountsPageVC.swift */,
+				FA5AC0C021FDCCDE0080F84F /* MyCountsPagingItem.swift */,
+				FA5AC0BE21FDCB9D0080F84F /* MyCountsPagingVC.swift */,
+				FA5AC0BC21FDC80A0080F84F /* MyCountsVC.swift */,
 				FADC1ABD2145E9760011EE49 /* MyPhotosVC.swift */,
 				FA3BD1D1215F7FCD007EAF75 /* MyPostsVC.swift */,
 				FA74574C210CA5730010F4F4 /* MyProfileVC.swift */,
@@ -379,10 +426,9 @@
 			children = (
 				FA392BBA20DF69F30026C828 /* AppDelegate.swift */,
 				FA9A71DE20F1D3FA005F6A57 /* AppDelegate+Tools.swift */,
-				FADC1ABB2145563F0011EE49 /* Country.swift */,
+				FAD2B51421F468A3009FFDD7 /* models */,
 				FA3CEC552132579300791195 /* Gestalt.swift */,
 				FA4653332115ADC6005B5A0A /* MTPAPI.swift */,
-				FA76D9742131278900EF8E25 /* User.swift */,
 				FA4653312115A250005B5A0A /* UserDefaults+Gestalt.swift */,
 			);
 			path = application;
@@ -391,7 +437,7 @@
 		FA392BEC20DFA56B0026C828 /* interface */ = {
 			isa = PBXGroup;
 			children = (
-				FA392BBC20DF69F30026C828 /* LocationsVC.swift */,
+				FA5AC0B121FC38790080F84F /* locations */,
 				FAFEDA5321296F6D00DA3DB8 /* MainTBC.swift */,
 				FA390137213B7D490016A362 /* profile */,
 				FA390135213B7C5E0016A362 /* rankings */,
@@ -405,9 +451,9 @@
 			children = (
 				FA392BC320DF69F50026C828 /* Assets.xcassets */,
 				FA392BC820DF69F50026C828 /* Info.plist */,
-				FAE1F115213BFBA80002CAB2 /* Locations.storyboard */,
 				FA74C10D211BB8F00013A840 /* Localizable.strings */,
 				FA392BC020DF69F30026C828 /* Main.storyboard */,
+				FA5AC0B221FC389D0080F84F /* locations */,
 				FA8A65B0217ED4A300BC0DFE /* profile */,
 				FA8A65B1217ED4F200BC0DFE /* rankings */,
 				FAAE29C120EFADC700B43BA9 /* R.generated.swift */,
@@ -443,11 +489,31 @@
 			name = metadata;
 			sourceTree = "<group>";
 		};
+		FA5AC0B121FC38790080F84F /* locations */ = {
+			isa = PBXGroup;
+			children = (
+				FA392BBC20DF69F30026C828 /* LocationsVC.swift */,
+				FA5AC0B321FC49860080F84F /* PlaceAnnotation.swift */,
+				FA5AC0B521FC4EBE0080F84F /* PlaceAnnotationView.swift */,
+				FA5AC0B721FD4A160080F84F /* PlaceClusterAnnotationView.swift */,
+			);
+			path = locations;
+			sourceTree = "<group>";
+		};
+		FA5AC0B221FC389D0080F84F /* locations */ = {
+			isa = PBXGroup;
+			children = (
+				FAE1F115213BFBA80002CAB2 /* Locations.storyboard */,
+			);
+			name = locations;
+			sourceTree = "<group>";
+		};
 		FA8A65B0217ED4A300BC0DFE /* profile */ = {
 			isa = PBXGroup;
 			children = (
 				FA463781210E00E60007382D /* EditProfile.storyboard */,
 				FABA740B213A29CD0059ACCA /* MyAbout.storyboard */,
+				FA5AC0B921FDC1050080F84F /* MyCounts.storyboard */,
 				FABA740E213A359C0059ACCA /* MyPhotos.storyboard */,
 				FABA7411213A374F0059ACCA /* MyPosts.storyboard */,
 				FA745755210DA4C60010F4F4 /* MyProfile.storyboard */,
@@ -484,6 +550,7 @@
 				FAE1F11D2143B29F0002CAB2 /* LocationTracker.swift */,
 				FA463784210E06230007382D /* Logger.swift */,
 				FA254DCA21685D6800FC9360 /* NSObject+Create.swift */,
+				FA6A188521EFEF920092C56C /* Observable.swift */,
 				FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */,
 				FA835D33210EAC110098C270 /* Styler.swift */,
 				FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */,
@@ -492,9 +559,26 @@
 				FAC3BCB5216A225900E1507E /* TagButton.swift */,
 				FAC3BCB6216A225900E1507E /* TagsView.swift */,
 				FA32CC7320FB6E67004C1329 /* UIView+Gradient.swift */,
+				FAD2B51921F492B3009FFDD7 /* UncertainValue.swift */,
 				FAAE29C420F05A9600B43BA9 /* UserDefaults+TypeSafety.swift */,
 			);
 			path = support;
+			sourceTree = "<group>";
+		};
+		FAD2B51421F468A3009FFDD7 /* models */ = {
+			isa = PBXGroup;
+			children = (
+				8C5ECE0121FE9B3600322ABF /* Checklist.swift */,
+				FAD2B51521F46913009FFDD7 /* Checklists.swift */,
+				FADC1ABB2145563F0011EE49 /* Country.swift */,
+				FAC159A121EB68AA00564E2D /* Location.swift */,
+				FAD2B51721F48AB8009FFDD7 /* Place.swift */,
+				FAD2B51221F45796009FFDD7 /* PlaceLocation.swift */,
+				FAD2B51B21F4A675009FFDD7 /* Restaurant.swift */,
+				FA76D9742131278900EF8E25 /* User.swift */,
+				FA2E718421ED535B00E6AB73 /* WHS.swift */,
+			);
+			path = models;
 			sourceTree = "<group>";
 		};
 		FAE1F11A21437F2E0002CAB2 /* support */ = {
@@ -650,6 +734,7 @@
 				FAE1F117213BFBA80002CAB2 /* Locations.storyboard in Resources */,
 				FA392BC720DF69F50026C828 /* LaunchScreen.storyboard in Resources */,
 				FA74C10F211BB8F00013A840 /* Localizable.strings in Resources */,
+				FA5AC0BB21FDC1060080F84F /* MyCounts.storyboard in Resources */,
 				FA81361220E8F64500313AB9 /* Settings.bundle in Resources */,
 				FA392BC420DF69F50026C828 /* Assets.xcassets in Resources */,
 				FA463783210E00E60007382D /* EditProfile.storyboard in Resources */,
@@ -847,45 +932,64 @@
 				FA74574D210CA5730010F4F4 /* MyProfileVC.swift in Sources */,
 				FAFEDA50211DB0E800DA3DB8 /* LoginFailVC.swift in Sources */,
 				FA835D36210F054F0098C270 /* ReplaceTopSegue.swift in Sources */,
+				8C5ECE9E21FEE6F800322ABF /* CountGroupCell.swift in Sources */,
 				FA25ACE8217C87ED000AE26D /* RankingHeader.swift in Sources */,
 				FA291FD5217ECBC8004140BD /* RankingsFilterVC.swift in Sources */,
-				FA12D680213B8A240053E9BF /* RankingPage.swift in Sources */,
+				FA12D680213B8A240053E9BF /* RankingPagingItem.swift in Sources */,
 				FAC3BCB8216A225900E1507E /* TagButton.swift in Sources */,
+				FA5AC0C521FDD7C00080F84F /* CountHeader.swift in Sources */,
 				FA4653342115ADC6005B5A0A /* MTPAPI.swift in Sources */,
+				FA5AC0B421FC49860080F84F /* PlaceAnnotation.swift in Sources */,
 				FA390139213B84B40016A362 /* RankingPagingVC.swift in Sources */,
+				FA5AC0BF21FDCB9D0080F84F /* MyCountsPagingVC.swift in Sources */,
 				FADC1ABA2144FAD70011EE49 /* Date+Formatting.swift in Sources */,
 				FAE1F11E2143B29F0002CAB2 /* LocationTracker.swift in Sources */,
 				FAC3BCB9216A225900E1507E /* TagsView.swift in Sources */,
+				FAC159A221EB68AA00564E2D /* Location.swift in Sources */,
+				FA5AC0B621FC4EBE0080F84F /* PlaceAnnotationView.swift in Sources */,
 				FA76D9752131278900EF8E25 /* User.swift in Sources */,
+				8C5ECE0221FE9B3600322ABF /* Checklist.swift in Sources */,
+				FA6A188621EFEF920092C56C /* Observable.swift in Sources */,
 				FA74C111211BBF490013A840 /* String+Formatting.swift in Sources */,
 				FA3BD1D2215F7FCD007EAF75 /* MyPostsVC.swift in Sources */,
 				FAFEDA522129602800DA3DB8 /* WelcomeVC.swift in Sources */,
 				FA9A71DF20F1D3FA005F6A57 /* AppDelegate+Tools.swift in Sources */,
 				FA32CC7420FB6E67004C1329 /* UIView+Gradient.swift in Sources */,
+				FA5AC0B821FD4A160080F84F /* PlaceClusterAnnotationView.swift in Sources */,
 				FAF1853120FA0C8600CC5D83 /* RootVC.swift in Sources */,
 				FAFEDA5421296F6D00DA3DB8 /* MainTBC.swift in Sources */,
+				FA2E718521ED535B00E6AB73 /* WHS.swift in Sources */,
 				FAAE29BF20EE51A700B43BA9 /* UIApplication+Environment.swift in Sources */,
 				FA32CC762100C34E004C1329 /* LoginVC.swift in Sources */,
 				FA46533021157784005B5A0A /* FacebookButton.swift in Sources */,
 				FA745757210DBD910010F4F4 /* UINavigationBar+Transparent.swift in Sources */,
+				FAD2B51821F48AB8009FFDD7 /* Place.swift in Sources */,
 				FA392BBF20DF69F30026C828 /* RankingsVC.swift in Sources */,
+				FA5AC0C321FDCE200080F84F /* MyCountsPageVC.swift in Sources */,
+				FAD2B51621F46913009FFDD7 /* Checklists.swift in Sources */,
 				FAAE29C220EFADC800B43BA9 /* R.generated.swift in Sources */,
+				FA5AC0C721FDD8AA0080F84F /* CountToggleCell.swift in Sources */,
 				FA12D682213B963C0053E9BF /* RankingVC.swift in Sources */,
 				FA4653322115A250005B5A0A /* UserDefaults+Gestalt.swift in Sources */,
 				FA74C0F02117C60B0013A840 /* ForgotPasswordVC.swift in Sources */,
 				FA392BBB20DF69F30026C828 /* AppDelegate.swift in Sources */,
+				FAD2B51C21F4A675009FFDD7 /* Restaurant.swift in Sources */,
 				FA463780210DE94C0007382D /* EditProfileVC.swift in Sources */,
 				FA254DCB21685D6800FC9360 /* NSObject+Create.swift in Sources */,
+				FAD2B51321F45796009FFDD7 /* PlaceLocation.swift in Sources */,
 				FADC1ABC2145563F0011EE49 /* Country.swift in Sources */,
 				FA99615F2136CF3100C85FBC /* MyProfilePagingVC.swift in Sources */,
+				FA5AC0BD21FDC80A0080F84F /* MyCountsVC.swift in Sources */,
 				FADC1ABE2145E9760011EE49 /* MyPhotosVC.swift in Sources */,
 				FA835D34210EAC110098C270 /* Styler.swift in Sources */,
 				FA392BBD20DF69F30026C828 /* LocationsVC.swift in Sources */,
+				FAD2B51A21F492B3009FFDD7 /* UncertainValue.swift in Sources */,
 				FAE1F119214354A80002CAB2 /* Avenir.swift in Sources */,
 				FA254DCD2169A2A400FC9360 /* MyAboutVC.swift in Sources */,
 				FA32CC782100C360004C1329 /* SignupVC.swift in Sources */,
 				FA25ACE6217B54A8000AE26D /* RankingCell.swift in Sources */,
 				FAAE29C520F05A9600B43BA9 /* UserDefaults+TypeSafety.swift in Sources */,
+				FA5AC0C121FDCCDE0080F84F /* MyCountsPagingItem.swift in Sources */,
 				FA46377E210DE1E60007382D /* SettingsVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -975,6 +1079,14 @@
 				FA463782210E00E60007382D /* Base */,
 			);
 			name = EditProfile.storyboard;
+			sourceTree = "<group>";
+		};
+		FA5AC0B921FDC1050080F84F /* MyCounts.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA5AC0BA21FDC1050080F84F /* Base */,
+			);
+			name = MyCounts.storyboard;
 			sourceTree = "<group>";
 		};
 		FA745755210DA4C60010F4F4 /* MyProfile.storyboard */ = {

@@ -48,10 +48,10 @@ extension MyPhotosVC {
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: MyPhotoCell.reuseIdentifier,
+            withReuseIdentifier: R.reuseIdentifier.myPhotoCell,
             for: indexPath)
 
-        if let photoCell = cell as? MyPhotoCell,
+        if let photoCell = cell,
            let photo = photos?[indexPath.item] {
             let size = self.collectionView(collectionView,
                                            layout: collectionView.collectionViewLayout,
@@ -62,9 +62,10 @@ extension MyPhotosVC {
                                                   options: nil) { result, _ in
                 photoCell.set(image: result)
             }
+            return photoCell
         }
 
-        return cell
+        return MyPhotoCell()
     }
 }
 
@@ -100,8 +101,6 @@ private extension MyPhotosVC {
 }
 
 final class MyPhotoCell: UICollectionViewCell {
-
-    fileprivate static let reuseIdentifier: String = "MyPhotoCell"
 
     @IBOutlet private var imageView: UIImageView?
 

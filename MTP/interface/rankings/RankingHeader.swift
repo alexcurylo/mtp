@@ -4,7 +4,7 @@ import Anchorage
 
 final class RankingHeader: UICollectionReusableView {
 
-    static let reuseIdentifier: String = "RankingHeader"
+    static let reuseIdentifier = NSStringFromClass(RankingHeader.self)
 
     private enum Layout {
         static let avatarSize = CGFloat(25)

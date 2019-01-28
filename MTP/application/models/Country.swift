@@ -1,63 +1,18 @@
 // @copyright Trollwerks Inc.
 
-import Foundation
-
-struct UncertainValue<T: Codable, U: Codable>: Codable {
-
-    var tValue: T?
-    var uValue: U?
-
-    var value: Any? {
-        return tValue ?? uValue
-    }
-
-    var intValue: Int? {
-        switch value {
-        case let intValue as Int:
-            return intValue
-        case let stringValue as String:
-            return Int(stringValue)
-        default:
-            return nil
-        }
-    }
-
-    init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        guard !container.decodeNil() else { return }
-        tValue = try? container.decode(T.self)
-        guard tValue == nil else { return }
-        uValue = try? container.decode(U.self)
-        guard uValue == nil else { return }
-        let context = DecodingError.Context(codingPath: decoder.codingPath,
-                                            debugDescription: "expected a \(T.self) or \(U.self)")
-        throw DecodingError.typeMismatch(type(of: self), context)
-    }
-
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        if let tValue = tValue {
-            try container.encode(tValue)
-        } else if let uValue = uValue {
-            try container.encode(uValue)
-        } else {
-            try container.encodeNil()
-        }
-    }
-}
+import CoreLocation
 
 struct Country: Codable {
 
     let Country: String?
-    let CountryId: UncertainValue<Int, String> // String in children
+    let CountryId: UncertainValue<Int, String>? // String in children, not in staging
     let GroupCandidateId: Int?
-    let Location: String
+    let Location: String? // not in staging
     let MLHowtoget: String?
-    let RegionIDnew: UncertainValue<Int, String> // String on mtp.travel, Int on aws.mtp.travel
+    let RegionIDnew: UncertainValue<Int, String>? // String on in production, Int? in staging
     let RegionName: String?
     let Regionold: Int?
     let URL: String?
-    let countryName: String? // nil in locationSearch
     let active: String
     let adminLevel: UncertainValue<Int, String> // String in children
     let airports: String?
@@ -65,21 +20,22 @@ struct Country: Codable {
     // swiftlint:disable:next discouraged_optional_collection
     let children: [Country]?
     let cities: String?
-    let countryId: UncertainValue<Int, String> // String in children, nil in locationSearch
     let countVisitors: Int?
+    let countryId: UncertainValue<Int, String> // String in children, nil in locationSearch
+    let countryName: String? // nil in locationSearch
     let cv: String?
-    let info: String?
-    let isMtpLocation: UncertainValue<Int, String> // String in children
-    let lat: UncertainValue<Double, String> // Double in new account, nil in old
-    let latitude: String?
-    let lon: UncertainValue<Double, String> // Double in new account, nil in old
-    let longitude: String?
-    let dateUpdated: Date
-    let distance: UncertainValue<Int, String> // Int in new account, nil in old
+    let dateUpdated: Date? // not in staging
+    let distance: UncertainValue<Double, String> // Double in staging, String in production
     let distanceold: String?
     let id: UncertainValue<Int, String> // String in children
+    let info: String?
+    let isMtpLocation: UncertainValue<Int, String> // String in children
     let isUn: UncertainValue<Int, String> // String in children
+    let lat: UncertainValue<Double, String> // Double in staging, nil in old
+    let latitude: String?
     let locationName: String
+    let lon: UncertainValue<Double, String> // Double in staging, nil in old
+    let longitude: String?
     let order: String?
     let rank: Int
     let regionId: UncertainValue<Int, String> // String in children, nil in locationSearch
@@ -91,7 +47,7 @@ struct Country: Codable {
     let visitors: Int
     let weather: String?
     let weatherhist: String?
-    let zoom: UncertainValue<Int, String> // Int in new account, nil in old
+    let zoom: UncertainValue<Int, String> // Int in staging, nil in old
 }
 
 extension Country: CustomStringConvertible {
@@ -109,7 +65,7 @@ extension Country: CustomDebugStringConvertible {
         Country: \(String(describing: Country))
         CountryId: \(String(describing: CountryId))
         GroupCandidate_id: \(String(describing: GroupCandidateId))
-        Location: \(Location)
+        Location: \(String(describing: Location))
         ML_howtoget: \(String(describing: MLHowtoget))
         RegionIDnew: \(String(describing: RegionIDnew))
         RegionName: \(String(describing: RegionName))
@@ -125,7 +81,7 @@ extension Country: CustomDebugStringConvertible {
         countryName: \(String(describing: countryName))
         cv: \(String(describing: cv))
         count_visitors: \(String(describing: countVisitors))
-        dateUpdated: \(dateUpdated)
+        dateUpdated: \(String(describing: dateUpdated))
         distance: \(String(describing: distance))
         distanceold: \(String(describing: distanceold))
         is_mtp_location: \(isMtpLocation)
@@ -154,7 +110,35 @@ extension Country: CustomDebugStringConvertible {
     }
 }
 
+extension Country: PlaceInfo {
+
+    var placeCountry: String {
+        return countryName ?? Localized.unknown()
+    }
+
+    var placeId: Int {
+        return id.intValue ?? 0
+    }
+
+    var placeName: String {
+        return title
+    }
+
+    var placeRegion: String {
+        return regionName ?? Localized.unknown()
+    }
+}
+
 extension Country {
 
-    static let count = 873
+    var coordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(
+            latitude: lat.doubleValue ?? 0,
+            longitude: lon.doubleValue ?? 0
+        )
+    }
+
+    var title: String { return locationName }
+
+    var subtitle: String { return "" }
 }

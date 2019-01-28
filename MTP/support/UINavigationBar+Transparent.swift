@@ -14,6 +14,10 @@ extension UIViewController {
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 
+    func hide(toolBar animated: Bool) {
+        navigationController?.setToolbarHidden(true, animated: animated)
+    }
+
     func show(navBar animated: Bool, style: Styler? = nil) {
         if let style = style {
             navigationController?.navigationBar.set(style: style)

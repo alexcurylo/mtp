@@ -4,7 +4,7 @@ import Anchorage
 
 final class RankingCell: UICollectionViewCell {
 
-    static let reuseIdentifier: String = "RankingCell"
+    static let reuseIdentifier = NSStringFromClass(RankingCell.self)
 
     private enum Layout {
         static let avatarSize = CGFloat(48)

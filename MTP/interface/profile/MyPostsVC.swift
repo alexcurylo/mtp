@@ -50,17 +50,17 @@ extension MyPostsVC {
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: MyPostCell.reuseIdentifier,
+            withReuseIdentifier: R.reuseIdentifier.myPostCell,
             for: indexPath)
 
-        if let postCell = cell as? MyPostCell,
+        if let postCell = cell,
            let flow = flow {
             postCell.set(model: posts[indexPath.row],
-                         width: collectionView.frame.width - flow.sectionInset.horizontal
-            )
+                         width: collectionView.frame.width - flow.sectionInset.horizontal)
+            return postCell
         }
 
-        return cell
+        return MyPostCell()
     }
 }
 
@@ -117,8 +117,6 @@ struct MyPostCellModel {
 }
 
 final class MyPostCell: UICollectionViewCell {
-
-    fileprivate static let reuseIdentifier: String = "MyPostCell"
 
     @IBOutlet private var imageView: UIImageView?
     @IBOutlet private var dateLabel: UILabel?

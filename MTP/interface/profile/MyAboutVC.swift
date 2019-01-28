@@ -16,6 +16,9 @@ final class MyAboutVC: UITableViewController {
 
     @IBOutlet private var linksStack: UIStackView?
 
+    var userObserver: Observer?
+    var locationsObserver: Observer?
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -23,7 +26,7 @@ final class MyAboutVC: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        configure()
+        observe()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -60,6 +63,18 @@ extension MyAboutVC {
 }
 
 private extension MyAboutVC {
+
+    func observe() {
+        guard userObserver == nil else { return }
+
+        configure()
+        userObserver = gestalt.userObserver { [weak self] in
+            self?.configure()
+        }
+        locationsObserver = Checklist.locations.observer { [weak self] in
+            self?.configure()
+        }
+    }
 
     func configure() {
         guard let user = gestalt.user else { return }

@@ -1,15 +1,15 @@
 PODS:
-  - Alamofire (4.8.0)
+  - Alamofire (4.8.1)
   - Anchorage (4.3)
-  - AppCenter (1.12.0):
-    - AppCenter/Analytics (= 1.12.0)
-    - AppCenter/Crashes (= 1.12.0)
-  - AppCenter/Analytics (1.12.0):
+  - AppCenter (1.13.0):
+    - AppCenter/Analytics (= 1.13.0)
+    - AppCenter/Crashes (= 1.13.0)
+  - AppCenter/Analytics (1.13.0):
     - AppCenter/Core
-  - AppCenter/Core (1.12.0)
-  - AppCenter/Crashes (1.12.0):
+  - AppCenter/Core (1.13.0)
+  - AppCenter/Crashes (1.13.0):
     - AppCenter/Core
-  - AppCenter/Distribute (1.12.0):
+  - AppCenter/Distribute (1.13.0):
     - AppCenter/Core
   - Bolts (1.9.0):
     - Bolts/AppLinks (= 1.9.0)
@@ -30,11 +30,11 @@ PODS:
     - FacebookCore (~> 0.5)
     - FBSDKCoreKit (~> 4.37)
     - FBSDKShareKit (~> 4.37)
-  - FBSDKCoreKit (4.39.1):
+  - FBSDKCoreKit (4.40.0):
     - Bolts (~> 1.9)
-  - FBSDKLoginKit (4.39.1):
+  - FBSDKLoginKit (4.40.0):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.39.1):
+  - FBSDKShareKit (4.40.0):
     - FBSDKCoreKit
   - JWTDecode (2.2.0)
   - KRActivityIndicatorView (3.0.0)
@@ -46,11 +46,11 @@ PODS:
     - Alamofire (~> 4.1)
     - Result (~> 4.0)
   - Parchment (1.5.0)
-  - R.swift (5.0.1):
+  - R.swift (5.0.2):
     - R.swift.Library (~> 5.0.0)
   - R.swift.Library (5.0.0)
   - Result (4.1.0)
-  - SwiftLint (0.29.3)
+  - SwiftLint (0.30.1)
   - SwiftyBeaver (1.6.1)
 
 DEPENDENCIES:
@@ -96,25 +96,25 @@ SPEC REPOS:
     - SwiftyBeaver
 
 SPEC CHECKSUMS:
-  Alamofire: 3ec537f71edc9804815215393ae2b1a8ea33a844
+  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
   Anchorage: 21a98675245188427f0bcea21404d42a824a766f
-  AppCenter: 4d27bdafd74b1b3e90946b9989fd6011a7e39c5e
+  AppCenter: a70408f15de23f925001bfc7b7473094a009a4eb
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   FacebookCore: 74288d0add931d361b1596beae787ab72c438249
   FacebookLogin: ebcf34714a1cb9f0759d9f071cfb01ed500996cf
   FacebookShare: 963b4bb1124a64a395b1e428163d70b5774116e8
-  FBSDKCoreKit: f442aa96179cc9b382bb4abeb7e340a47cca8f91
-  FBSDKLoginKit: c3079d9a4db27c492287b1eed7a4272b28cf8a59
-  FBSDKShareKit: 27d7b982e7b1f4638da2f2b1ab6eba5afc6b5888
+  FBSDKCoreKit: ae214474b25033399c131dc81d258e412582a2ba
+  FBSDKLoginKit: 7a1e411d46acc8834588eca437daf34de42e1d52
+  FBSDKShareKit: 0e45916f4150da485928ae2a17ca021950b194f5
   JWTDecode: 85a405ab16d5473e99bd89ded1d535090ebd6a0e
   KRActivityIndicatorView: c414000730a6f4969eeb354bee4f2aebc89c2c2e
   KRProgressHUD: 79c8703f82179fe34b3602f10b30726f887983fa
   Moya: cf730b3cd9e005401ef37a85143aa141a12fd38f
   Parchment: 5a8c9c73549a6d73a7c1b606c27246910d2e5720
-  R.swift: a8e1a7e7f38441282fbcb7a3c266076eb38b77ba
+  R.swift: 81455d81467763cbd3f4d79d938d05f4ac4c0228
   R.swift.Library: 0bf390e729bc10bb2c9e4fb78bd043164a7be4ff
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
-  SwiftLint: bfa7ca7b4d170cfaf0d236ca3ffd969e88a2f002
+  SwiftLint: a54bf1fe12b55c68560eb2a7689dfc81458508f7
   SwiftyBeaver: ccfcdf85a04d429f1633f668650b0ce8020bda3a
 
 PODFILE CHECKSUM: a3ad7f7f1e49a15524b0742deccdcec07c5da914

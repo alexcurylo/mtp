@@ -61,43 +61,47 @@ extension UIColor {
 
     // http://chir.ag/projects/name-that-color/#FFFFFF
 
+    // swiftlint:disable force_unwrapping
+
     static var azureRadiance: UIColor { // #028DFF
-        return R.color.azureRadiance() ?? .black
+        return R.color.azureRadiance()!
     }
 
     static var carnation: UIColor { // #F5515F
-        return R.color.carnation() ?? .black
+        return R.color.carnation()!
     }
 
     static var dodgerBlue: UIColor { // #19C0FD
-        return R.color.dodgerBlue() ?? .black
+        return R.color.dodgerBlue()!
     }
 
     static var dustyGray: UIColor { // #9C9C9C
-        return R.color.dustyGray() ?? .black
+        return R.color.dustyGray()!
     }
 
     static var facebookButton: UIColor { // #4267B2
-        return R.color.facebookButton() ?? .black
+        return R.color.facebookButton()!
     }
 
     static var frenchPass: UIColor { // #D1F1FD
-        return R.color.frenchPass() ?? .black
+        return R.color.frenchPass()!
     }
 
     static var gallery: UIColor { // #EEEEEE
-        return R.color.gallery() ?? .black
+        return R.color.gallery()!
     }
 
     static var mercury: UIColor { // #E9E9E9
-        return R.color.mercury() ?? .black
+        return R.color.mercury()!
     }
 
     static var pohutukawa: UIColor { // #9F041B
-        return R.color.pohutukawa() ?? .black
+        return R.color.pohutukawa()!
     }
 
     static var regalBlue: UIColor { // #004B78
-        return R.color.regalBlue() ?? .black
+        return R.color.regalBlue()!
     }
+
+    // swiftlint:enable force_unwrapping
 }
