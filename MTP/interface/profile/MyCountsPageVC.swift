@@ -40,6 +40,7 @@ final class MyCountsPageVC: UIViewController {
 
     typealias Region = String
     typealias Country = String
+    typealias Location = String
 
     private var list: Checklist?
 
@@ -53,6 +54,10 @@ final class MyCountsPageVC: UIViewController {
     private var countriesVisited: [Region: [Country: Int]] = [:]
     //private var countriesExpanded: [Region: [Country: Bool]] = [:]
 
+    private var locations: [Region: [Country: [Location]]] = [:]
+    private var locationsPlaces: [Region: [Country: [Location: [PlaceInfo]]]] = [:]
+    private var locationsVisited: [Region: [Country: [Location: Int]]] = [:]
+
     init(options: PagingOptions) {
         super.init(nibName: nil, bundle: nil)
 
@@ -64,6 +69,9 @@ final class MyCountsPageVC: UIViewController {
         collectionView.register(
             CountToggleCell.self,
             forCellWithReuseIdentifier: CountToggleCell.reuseIdentifier)
+        collectionView.register(
+            CountGroupCell.self,
+            forCellWithReuseIdentifier: CountGroupCell.reuseIdentifier)
         collectionView.register(
             CountHeader.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
@@ -142,41 +150,88 @@ extension MyCountsPageVC: UICollectionViewDataSource {
         let key = regions[section]
         guard let isExpanded = regionsExpanded[key],
            isExpanded == true,
-           let regionPlaces = regionsPlaces[key],
-           let list = list else {
+           let regionPlaces = regionsPlaces[key] else {
             return 0
         }
 
-        switch list.hierarchy {
-        case .regionSubgrouped:
+        switch list?.hierarchy {
+        case .regionSubgrouped?:
             fallthrough
-        case .country:
+        case .country?:
             let regionCountries = countries[key]?.count ?? 0
             return regionPlaces.count + regionCountries
-        case .region,
-             .regionSubtitled:
+        default:
             return regionPlaces.count
         }
     }
 
+    typealias GroupModel = (key: String, count: Int, visited: Int)
+    typealias CellModel = (String, PlaceInfo?, GroupModel?)
+
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let (identifier, place, group) = model(of: indexPath)
         let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: CountToggleCell.reuseIdentifier,
+            withReuseIdentifier: identifier,
             for: indexPath)
+        guard let list = list else { return cell }
 
-        if let count = cell as? CountToggleCell,
-           let list = list,
-           let regionPlaces = regionsPlaces[regions[indexPath.section]] {
-            let place = regionPlaces[indexPath.row]
-            count.set(title: place.placeName,
-                      subtitle: list.isSubtitled ? place.placeCountry : "",
-                      list: list,
-                      id: place.placeId,
-                      isLast: indexPath.row == regionPlaces.count - 1)
+        switch cell {
+        case let counter as CountToggleCell:
+            if let place = place {
+                let isLast = indexPath.row == self.collectionView(
+                    collectionView,
+                    numberOfItemsInSection: indexPath.section)
+                counter.set(title: place.placeName,
+                            subtitle: list.isSubtitled ? place.placeCountry : "",
+                            list: list,
+                            id: place.placeId,
+                            isLast: isLast)
+            }
+        case let grouper as CountGroupCell:
+            if let group = group {
+                grouper.set(key: group.key,
+                            count: group.count,
+                            visited: group.visited)
+            }
+        default:
+            break
         }
 
         return cell
+    }
+
+    func model(of indexPath: IndexPath) -> CellModel {
+        let key = regions[indexPath.section]
+        var countdown = indexPath.row
+
+        switch list?.hierarchy {
+        case .regionSubgrouped?:
+            fallthrough
+        case .country?:
+            let regionCountries = countries[key] ?? []
+            for country in regionCountries {
+                let countryPlaces = countriesPlaces[key]?[country] ?? []
+                if countdown == 0 {
+                    let visited = countriesVisited[key]?[country] ?? 0
+                    let model = (country, countryPlaces.count, visited)
+                    return (CountGroupCell.reuseIdentifier, nil, model)
+                }
+                countdown -= 1
+
+                for place in countryPlaces {
+                    if countdown == 0 {
+                        return (CountToggleCell.reuseIdentifier, place, nil)
+                    }
+                    countdown -= 1
+                }
+            }
+            log.error("Failed to find model!")
+            return (CountGroupCell.reuseIdentifier, nil, nil)
+        default:
+             let regionPlaces = regionsPlaces[key] ?? []
+             return (CountToggleCell.reuseIdentifier, regionPlaces[countdown], nil)
+        }
     }
 
     func observe() {
