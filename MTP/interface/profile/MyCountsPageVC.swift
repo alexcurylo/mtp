@@ -62,8 +62,8 @@ final class MyCountsPageVC: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(
-            CountCell.self,
-            forCellWithReuseIdentifier: CountCell.reuseIdentifier)
+            CountToggleCell.self,
+            forCellWithReuseIdentifier: CountToggleCell.reuseIdentifier)
         collectionView.register(
             CountHeader.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
@@ -162,10 +162,10 @@ extension MyCountsPageVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: CountCell.reuseIdentifier,
+            withReuseIdentifier: CountToggleCell.reuseIdentifier,
             for: indexPath)
 
-        if let count = cell as? CountCell,
+        if let count = cell as? CountToggleCell,
            let list = list,
            let regionPlaces = regionsPlaces[regions[indexPath.section]] {
             let place = regionPlaces[indexPath.row]

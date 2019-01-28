@@ -2,9 +2,9 @@
 
 import Anchorage
 
-final class CountCell: UICollectionViewCell {
+final class CountToggleCell: UICollectionViewCell {
 
-    static let reuseIdentifier = NSStringFromClass(CountCell.self)
+    static let reuseIdentifier = NSStringFromClass(CountToggleCell.self)
 
     func set(title: String,
              subtitle: String,
@@ -71,7 +71,7 @@ final class CountCell: UICollectionViewCell {
     }
 }
 
-private extension CountCell {
+private extension CountToggleCell {
 
     func configure() {
         contentView.backgroundColor = .white
