@@ -45,6 +45,10 @@ extension WHS: CustomDebugStringConvertible {
 
 extension WHS: PlaceInfo {
 
+    var placeCountry: String {
+        return location.countryName
+    }
+
     var placeId: Int {
         return id
     }

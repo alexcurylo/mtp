@@ -38,11 +38,20 @@ final class MyCountsPageVC: UIViewController {
 
     weak var delegate: MyCountsPageVCDelegate?
 
+    typealias Region = String
+    typealias Country = String
+
     private var list: Checklist?
-    private var groups: [String: [PlaceInfo]] = [:]
-    private var sections: [String] = []
-    private var expanded: [String: Bool] = [:]
-    private var visited: [String: Int] = [:]
+
+    private var regions: [Region] = []
+    private var regionsPlaces: [Region: [PlaceInfo]] = [:]
+    private var regionsVisited: [Region: Int] = [:]
+    private var regionsExpanded: [Region: Bool] = [:]
+
+    private var countries: [Region: [Country]] = [:]
+    private var countriesPlaces: [Region: [Country: [PlaceInfo]]] = [:]
+    private var countriesVisited: [Region: [Country: Int]] = [:]
+    //private var countriesExpanded: [Region: [Country: Bool]] = [:]
 
     init(options: PagingOptions) {
         super.init(nibName: nil, bundle: nil)
@@ -73,11 +82,8 @@ final class MyCountsPageVC: UIViewController {
 
     func set(list: Checklist) {
         self.list = list
-        let places = list.places
-        groups = Dictionary(grouping: places) { $0.placeRegion }
-        sections = groups.keys.sorted()
-        expanded = [:]
-        visited = [:]
+        count(places: list.places,
+              visits: list.visits)
 
         collectionView.reloadData()
         observe()
@@ -116,50 +122,41 @@ extension MyCountsPageVC: UICollectionViewDataSource {
             for: indexPath)
 
         if let header = view as? CountHeader {
-            let key = sections[indexPath.section]
-            let count: Int
-            let visits: Int
-            if let group = groups[key],
-               let list = list {
-                count = group.count
-                if let visit = visited[key] {
-                    visits = visit
-                } else {
-                    let visitList = list.visits
-                    let visit = group.reduce(0) {
-                        $0 + (visitList.contains($1.placeId) ? 1 : 0)
-                    }
-                    visits = visit
-                    visited[key] = visit
-                }
-            } else {
-                count = 0
-                visits = 0
-            }
-
-            header.set(key: key,
-                       count: count,
-                       visited: visits,
-                       isExpanded: expanded[key] ?? false)
             header.delegate = self
+            let key = regions[indexPath.section]
+            header.set(key: key,
+                       count: regionsPlaces[key]?.count ?? 0,
+                       visited: regionsVisited[key, default: 0],
+                       isExpanded: regionsExpanded[key, default: false])
         }
 
         return view
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return sections.count
+        return regions.count
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        let key = sections[section]
-        if let isExpanded = expanded[key],
+        let key = regions[section]
+        guard let isExpanded = regionsExpanded[key],
            isExpanded == true,
-           let group = groups[key] {
-            return group.count
+           let regionPlaces = regionsPlaces[key],
+           let list = list else {
+            return 0
         }
-        return 0
+
+        switch list.hierarchy {
+        case .regionSubgrouped:
+            fallthrough
+        case .country:
+            let regionCountries = countries[key]?.count ?? 0
+            return regionPlaces.count + regionCountries
+        case .region,
+             .regionSubtitled:
+            return regionPlaces.count
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -170,12 +167,13 @@ extension MyCountsPageVC: UICollectionViewDataSource {
 
         if let count = cell as? CountCell,
            let list = list,
-           let group = groups[sections[indexPath.section]] {
-            let place = group[indexPath.row]
-            count.set(name: place.placeName,
+           let regionPlaces = regionsPlaces[regions[indexPath.section]] {
+            let place = regionPlaces[indexPath.row]
+            count.set(title: place.placeName,
+                      subtitle: list.isSubtitled ? place.placeCountry : "",
                       list: list,
                       id: place.placeId,
-                      isLast: indexPath.row == group.count - 1)
+                      isLast: indexPath.row == regionPlaces.count - 1)
         }
 
         return cell
@@ -190,12 +188,52 @@ extension MyCountsPageVC: UICollectionViewDataSource {
 extension MyCountsPageVC: CountHeaderDelegate {
 
     func toggle(section key: String) {
-        if let isExpanded = expanded[key],
+        if let isExpanded = regionsExpanded[key],
            isExpanded == true {
-            expanded[key] = false
+            regionsExpanded[key] = false
         } else {
-            expanded[key] = true
+            regionsExpanded[key] = true
         }
         collectionView.reloadData()
+    }
+}
+
+private extension MyCountsPageVC {
+
+    func count(places: [PlaceInfo],
+               visits: [Int]) {
+        let groupCountries = list?.isGrouped ?? false
+        regionsExpanded = [:]
+        regionsVisited = [:]
+        countries = [:]
+        countriesPlaces = [:]
+        countriesVisited = [:]
+        //countriesExpanded = [:]
+
+        regionsPlaces = Dictionary(grouping: places) { $0.placeRegion }
+        regions = regionsPlaces.keys.sorted()
+        for (region, places) in regionsPlaces {
+            let regionPlaces = places.sorted { $0.placeName < $1.placeName }
+            regionsPlaces[region] = regionPlaces
+            let regionVisited = regionPlaces.reduce(0) {
+                $0 + (visits.contains($1.placeId) ? 1 : 0)
+            }
+            regionsVisited[region] = regionVisited
+
+            if !groupCountries { continue }
+
+            //countriesExpanded[region] = [:]
+            let countryPlaces = Dictionary(grouping: regionPlaces) { $0.placeCountry }
+            countriesPlaces[region] = countryPlaces
+            countries[region] = countryPlaces.keys.sorted()
+            var countryVisits: [Country: Int] = [:]
+            for (country, subplaces) in countryPlaces {
+                let countryVisited = subplaces.reduce(0) {
+                    $0 + (visits.contains($1.placeId) ? 1 : 0)
+                }
+                countryVisits[country] = countryVisited
+            }
+            countriesVisited[region] = countryVisits
+        }
     }
 }

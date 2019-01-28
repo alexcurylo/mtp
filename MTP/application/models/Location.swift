@@ -81,6 +81,10 @@ extension Location: CustomDebugStringConvertible {
 
 extension Location: PlaceInfo {
 
+    var placeCountry: String {
+        return countryName
+    }
+
     var placeId: Int {
         return id
     }

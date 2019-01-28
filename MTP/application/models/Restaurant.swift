@@ -67,6 +67,10 @@ extension Restaurant: CustomDebugStringConvertible {
 
 extension Restaurant: PlaceInfo {
 
+    var placeCountry: String {
+        return location?.countryName ?? Localized.unknown()
+    }
+
     var placeId: Int {
         return id
     }

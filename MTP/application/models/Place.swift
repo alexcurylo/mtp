@@ -4,6 +4,7 @@ import CoreLocation
 
 protocol PlaceInfo {
 
+    var placeCountry: String { get }
     var placeId: Int { get }
     var placeName: String { get }
     var placeRegion: String { get }
@@ -59,6 +60,10 @@ extension Place: CustomDebugStringConvertible {
 }
 
 extension Place: PlaceInfo {
+
+    var placeCountry: String {
+        return country.isEmpty ? location.countryName : country
+    }
 
     var placeId: Int {
         return id

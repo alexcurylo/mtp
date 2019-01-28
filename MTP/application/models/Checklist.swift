@@ -134,4 +134,54 @@ enum Checklist: String, CaseIterable {
                                 id: id,
                                 visited: visited)
     }
+
+    var hierarchy: Hierarchy {
+        switch self {
+        case .locations:
+            return .regionSubgrouped
+        case .uncountries:
+            return .region
+        case .whss:
+            return .country
+        case .beaches:
+            return .regionSubtitled
+        case .golfcourses:
+            return .regionSubtitled
+        case .divesites:
+            return .regionSubtitled
+        case .restaurants:
+            return .regionSubtitled // by region/country/location on website
+        }
+    }
+
+    var isGrouped: Bool {
+        return hierarchy.isGrouped
+    }
+
+    var isSubgrouped: Bool {
+        return hierarchy.isSubgrouped
+    }
+
+    var isSubtitled: Bool {
+        return hierarchy.isSubtitled
+    }
+}
+
+enum Hierarchy {
+    case country
+    case region
+    case regionSubgrouped // region/country if 1 else region/country/locations
+    case regionSubtitled
+
+    var isGrouped: Bool {
+        return self == .country
+    }
+
+    var isSubgrouped: Bool {
+        return self == .regionSubgrouped
+    }
+
+    var isSubtitled: Bool {
+        return self == .regionSubtitled
+    }
 }

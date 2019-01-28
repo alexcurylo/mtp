@@ -112,6 +112,10 @@ extension Country: CustomDebugStringConvertible {
 
 extension Country: PlaceInfo {
 
+    var placeCountry: String {
+        return countryName ?? Localized.unknown()
+    }
+
     var placeId: Int {
         return id.intValue ?? 0
     }
