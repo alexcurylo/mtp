@@ -121,9 +121,13 @@ enum Checklist: String, CaseIterable {
         return places
     }
 
+    func isVisited(id: Int) -> Bool {
+        return visits.contains(id)
+    }
+
     func set(id: Int,
              visited: Bool) {
-        guard visits.contains(id) != visited else { return }
+        guard isVisited(id: id) != visited else { return }
 
         gestalt.checklists?.set(list: self,
                                 id: id,

@@ -33,11 +33,12 @@ final class PlaceAnnotationView: MKMarkerAnnotationView {
    }
 
     override func prepareForReuse() {
+        super.prepareForReuse()
+
         markerTintColor = nil
         glyphImage = nil
         rightCalloutAccessoryView = nil
         annotation = nil
-        super.prepareForReuse()
     }
 }
 

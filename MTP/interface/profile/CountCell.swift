@@ -6,34 +6,41 @@ final class CountCell: UICollectionViewCell {
 
     static let reuseIdentifier = NSStringFromClass(CountCell.self)
 
-    func set(name: String, list: Checklist, id: Int) {
-        nameLabel.text = name
-        countryLabel.text = name
+    func set(name: String,
+             list: Checklist,
+             id: Int,
+             isLast: Bool) {
+        self.list = list
+        self.id = id
 
-        let remaining = Localized.remaining(0)
-        remainingButton.setTitle(remaining, for: .normal)
+        nameLabel.text = name
+        visit.isOn = list.isVisited(id: id)
+
+        if isLast {
+            round(corners: [.bottomLeft, .bottomRight],
+                  by: Layout.cornerRadius)
+        } else {
+            layer.mask = nil
+        }
     }
 
     private enum Layout {
         static let rankSize = CGFloat(18)
         static let margin = CGFloat(8)
+        static let indent = CGFloat(24)
         static let spacing = CGSize(width: 12, height: 4)
         static let cornerRadius = CGFloat(4)
-        static let overlap = CGFloat(-8)
         static let fontSize = CGFloat(15)
     }
 
     private let nameLabel: UILabel = create {
         $0.font = Avenir.medium.of(size: Layout.fontSize)
     }
-    private let countryLabel: UILabel = create {
-        $0.font = Avenir.medium.of(size: 15)
-    }
 
-    private let remainingButton: GradientButton = create {
-        configure(button: $0)
-        $0.addTarget(self, action: #selector(tapRemaining), for: .touchUpInside)
-    }
+    private let visit = UISwitch()
+
+    private var list: Checklist?
+    private var id: Int?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -49,33 +56,20 @@ final class CountCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
+        list = nil
+        id = nil
         nameLabel.text = nil
-        countryLabel.text = nil
-        remainingButton.setTitle(nil, for: .normal)
+        visit.isOn = false
+        layer.mask = nil
     }
 }
 
 private extension CountCell {
 
-    class func configure(button: GradientButton) {
-        button.orientation = GradientOrientation.horizontal.rawValue
-        button.startColor = .dodgerBlue
-        button.endColor = .azureRadiance
-        button.cornerRadius = Layout.cornerRadius
-        button.contentEdgeInsets = UIEdgeInsets(
-            top: 0,
-            left: Layout.margin,
-            bottom: 0,
-            right: Layout.margin)
-        button.titleLabel?.font = Avenir.heavy.of(size: 14)
-    }
-
     func configure() {
-        contentView.backgroundColor = .green
-        contentView.cornerRadius = Layout.cornerRadius
-        contentView.clipsToBounds = true
+        contentView.backgroundColor = .white
 
-        let labels = UIStackView(arrangedSubviews: [nameLabel, countryLabel])
+        let labels = UIStackView(arrangedSubviews: [nameLabel])
         labels.axis = .vertical
 
         let infos = UIStackView(arrangedSubviews: [labels])
@@ -83,9 +77,9 @@ private extension CountCell {
         infos.alignment = .center
         contentView.addSubview(infos)
         infos.centerYAnchor == contentView.centerYAnchor
-        infos.leadingAnchor == contentView.leadingAnchor + Layout.margin
+        infos.leadingAnchor == contentView.leadingAnchor + Layout.indent
 
-        let buttons = UIStackView(arrangedSubviews: [remainingButton])
+        let buttons = UIStackView(arrangedSubviews: [visit])
         buttons.axis = .vertical
         buttons.distribution = .fillEqually
         buttons.alignment = .trailing
@@ -93,13 +87,15 @@ private extension CountCell {
         contentView.addSubview(buttons)
         buttons.verticalAnchors == contentView.verticalAnchors + Layout.margin
         buttons.trailingAnchor == contentView.trailingAnchor - Layout.margin
+
+        visit.addTarget(self,
+                        action: #selector(toggleVisit),
+                        for: .valueChanged)
     }
 
-    @IBAction func tapVisited() {
-        log.todo("tapVisited()")
-    }
+    @objc func toggleVisit(_ sender: UISwitch) {
+        guard let id = id else { return }
 
-    @IBAction func tapRemaining() {
-        log.todo("tapRemaining()")
+        list?.set(id: id, visited: sender.isOn)
     }
 }

@@ -13,11 +13,18 @@ final class CountHeader: UICollectionReusableView {
 
     weak var delegate: CountHeaderDelegate?
 
-    private var key: String = ""
+    private var key = ""
 
-    func set(key: String, count: Int) {
+    func set(key: String,
+             count: Int,
+             visited: Int,
+             isExpanded: Bool) {
         self.key = key
-        label.text = Localized.regionCount(key, count)
+
+        label.text = Localized.regionVisitedCount(key, visited, count)
+
+        let corners: UIRectCorner = isExpanded ? [.topLeft, .topRight] : .allCorners
+        round(corners: corners, by: Layout.cornerRadius)
     }
 
     private enum Layout {
@@ -50,6 +57,7 @@ final class CountHeader: UICollectionReusableView {
         delegate = nil
         key = ""
         label.text = nil
+        layer.mask = nil
     }
 }
 
@@ -57,8 +65,6 @@ private extension CountHeader {
 
     func configure() {
         backgroundColor = .white
-        cornerRadius = Layout.cornerRadius
-        clipsToBounds = true
 
         addSubview(label)
         label.edgeAnchors == edgeAnchors + Layout.insets

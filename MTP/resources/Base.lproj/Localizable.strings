@@ -34,6 +34,7 @@
 "Remaining" = "Remaining: %ld";
 
 "RegionCount" = "%@ (%ld)";
+"RegionVisitedCount" = "%@ (%ld/%ld)";
 
 // RankingPage
 

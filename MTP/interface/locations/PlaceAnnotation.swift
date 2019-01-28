@@ -51,7 +51,7 @@ final class PlaceAnnotation: NSObject, MKAnnotation {
 
     var visited: Bool {
         get {
-            return type.visits.contains(id)
+            return type.isVisited(id: id)
         }
         set {
             type.set(id: id, visited: newValue)

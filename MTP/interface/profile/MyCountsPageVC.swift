@@ -22,7 +22,7 @@ final class MyCountsPageVC: UIViewController {
                                                 left: 0,
                                                 bottom: margin,
                                                 right: 0)
-        static let cellHeight = CGFloat(90)
+        static let cellHeight = CGFloat(51)
         static let cellSpacing = CGFloat(0)
     }
 
@@ -42,6 +42,7 @@ final class MyCountsPageVC: UIViewController {
     private var groups: [String: [PlaceInfo]] = [:]
     private var sections: [String] = []
     private var expanded: [String: Bool] = [:]
+    private var visited: [String: Int] = [:]
 
     init(options: PagingOptions) {
         super.init(nibName: nil, bundle: nil)
@@ -76,6 +77,7 @@ final class MyCountsPageVC: UIViewController {
         groups = Dictionary(grouping: places) { $0.placeRegion }
         sections = groups.keys.sorted()
         expanded = [:]
+        visited = [:]
 
         collectionView.reloadData()
         observe()
@@ -115,8 +117,30 @@ extension MyCountsPageVC: UICollectionViewDataSource {
 
         if let header = view as? CountHeader {
             let key = sections[indexPath.section]
-            let count = groups[key]?.count ?? 0
-            header.set(key: key, count: count)
+            let count: Int
+            let visits: Int
+            if let group = groups[key],
+               let list = list {
+                count = group.count
+                if let visit = visited[key] {
+                    visits = visit
+                } else {
+                    let visitList = list.visits
+                    let visit = group.reduce(0) {
+                        $0 + (visitList.contains($1.placeId) ? 1 : 0)
+                    }
+                    visits = visit
+                    visited[key] = visit
+                }
+            } else {
+                count = 0
+                visits = 0
+            }
+
+            header.set(key: key,
+                       count: count,
+                       visited: visits,
+                       isExpanded: expanded[key] ?? false)
             header.delegate = self
         }
 
@@ -146,10 +170,12 @@ extension MyCountsPageVC: UICollectionViewDataSource {
 
         if let count = cell as? CountCell,
            let list = list,
-           let place = groups[sections[indexPath.section]]?[indexPath.row] {
+           let group = groups[sections[indexPath.section]] {
+            let place = group[indexPath.row]
             count.set(name: place.placeName,
                       list: list,
-                      id: place.placeId)
+                      id: place.placeId,
+                      isLast: indexPath.row == group.count - 1)
         }
 
         return cell

@@ -28,9 +28,10 @@ final class PlaceClusterAnnotationView: MKAnnotationView {
     }
 
     override func prepareForReuse() {
+        super.prepareForReuse()
+
         image = nil
         annotation = nil
-        super.prepareForReuse()
     }
 }
 
