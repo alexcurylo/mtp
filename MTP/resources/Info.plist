@@ -73,7 +73,7 @@
 	<key>FacebookAppID</key>
 	<string>272251119515198</string>
 	<key>FacebookDisplayName</key>
-	<string>Trollwerks</string>
+	<string>Most Traveled People</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>MTP needs your location to show you nearby places to visit. With &quot;Always&quot; access, MTP can notify you when you approach places.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
