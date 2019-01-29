@@ -53,6 +53,8 @@ extension Gestalt {
 // MARK: - Observable
 
 enum GestaltChange: String {
+
+    case checklists
     case user
     // and the contents of Checklist
 }
@@ -92,6 +94,10 @@ extension Gestalt {
 
     func userObserver(handler: @escaping NotificationHandler) -> Observer {
         return GestaltObserver(of: .user, notify: handler)
+    }
+
+    func checklistsObserver(handler: @escaping NotificationHandler) -> Observer {
+        return GestaltObserver(of: .checklists, notify: handler)
     }
 }
 

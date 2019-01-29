@@ -15,7 +15,7 @@ final class MyProfileVC: UIViewController {
 
     @IBOutlet private var pagesHolder: UIView?
 
-    var userObserver: Observer?
+    private var userObserver: Observer?
 
     override func viewDidLoad() {
         super.viewDidLoad()

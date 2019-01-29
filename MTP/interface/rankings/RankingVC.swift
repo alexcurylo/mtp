@@ -37,8 +37,8 @@ final class RankingVC: UIViewController {
     private var filterDescription: String = ""
     private var rank = 0
 
-    var userObserver: Observer?
-    var locationsObserver: Observer?
+    private var userObserver: Observer?
+    private var locationsObserver: Observer?
 
     init(options: PagingOptions) {
         super.init(nibName: nil, bundle: nil)

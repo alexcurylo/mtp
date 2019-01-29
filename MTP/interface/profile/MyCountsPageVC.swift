@@ -52,11 +52,13 @@ final class MyCountsPageVC: UIViewController {
     private var countries: [Region: [Country]] = [:]
     private var countriesPlaces: [Region: [Country: [PlaceInfo]]] = [:]
     private var countriesVisited: [Region: [Country: Int]] = [:]
-    //private var countriesExpanded: [Region: [Country: Bool]] = [:]
 
     private var locations: [Region: [Country: [Location]]] = [:]
     private var locationsPlaces: [Region: [Country: [Location: [PlaceInfo]]]] = [:]
     private var locationsVisited: [Region: [Country: [Location: Int]]] = [:]
+
+    private var checklistsObserver: Observer?
+    private var placesObserver: Observer?
 
     init(options: PagingOptions) {
         super.init(nibName: nil, bundle: nil)
@@ -233,8 +235,18 @@ extension MyCountsPageVC: UICollectionViewDataSource {
     }
 
     func observe() {
-        // checklists
-        // places
+        guard checklistsObserver == nil else { return }
+
+        checklistsObserver = gestalt.checklistsObserver { [weak self] in
+            guard let self = self,
+                  let list = self.list else { return }
+            self.set(list: list)
+        }
+        placesObserver = list?.observer { [weak self] in
+            guard let self = self,
+                let list = self.list else { return }
+            self.set(list: list)
+        }
     }
 }
 
@@ -256,12 +268,10 @@ private extension MyCountsPageVC {
     func count(places: [PlaceInfo],
                visits: [Int]) {
         let groupCountries = (list?.isGrouped ?? false) || (list?.isSubgrouped ?? false)
-        regionsExpanded = [:]
         regionsVisited = [:]
         countries = [:]
         countriesPlaces = [:]
         countriesVisited = [:]
-        //countriesExpanded = [:]
 
         regionsPlaces = Dictionary(grouping: places) { $0.placeRegion }
         regions = regionsPlaces.keys.sorted()
@@ -275,7 +285,6 @@ private extension MyCountsPageVC {
 
             if !groupCountries { continue }
 
-            //countriesExpanded[region] = [:]
             let countryPlaces = Dictionary(grouping: regionPlaces) { $0.placeCountry }
             countriesPlaces[region] = countryPlaces
             countries[region] = countryPlaces.keys.sorted()

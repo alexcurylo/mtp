@@ -16,8 +16,8 @@ final class MyAboutVC: UITableViewController {
 
     @IBOutlet private var linksStack: UIStackView?
 
-    var userObserver: Observer?
-    var locationsObserver: Observer?
+    private var userObserver: Observer?
+    private var locationsObserver: Observer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
