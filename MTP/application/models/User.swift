@@ -180,7 +180,7 @@ extension UserFilter: CustomStringConvertible, CustomDebugStringConvertible {
     public var debugDescription: String {
         let components: [String] = [
             locationDescription,
-            gender.description,
+            genderDescription,
             ageDescription,
             facebookDescription
         ].compactMap { $0 }.filter { !$0.isEmpty }
@@ -190,6 +190,10 @@ extension UserFilter: CustomStringConvertible, CustomDebugStringConvertible {
     private var locationDescription: String {
         log.todo("UserFilter.location")
         return Localized.allLocations()
+    }
+
+    private var genderDescription: String? {
+        return gender != .all ? gender.description : nil
     }
 
     private var ageDescription: String? {

@@ -41,7 +41,7 @@ final class MyCountsPageVC: UIViewController {
     typealias Country = String
     typealias Location = String
 
-    private var list: Checklist?
+    private var list: Checklist = .locations
 
     private var regions: [Region] = []
     private var regionsPlaces: [Region: [PlaceInfo]] = [:]
@@ -155,9 +155,9 @@ extension MyCountsPageVC: UICollectionViewDataSource {
             return 0
         }
 
-        switch list?.hierarchy {
-        case .country?,
-             .regionSubgrouped?:
+        switch list.hierarchy {
+        case .country,
+             .regionSubgrouped:
             let regionCountries = countries[key]?.count ?? 0
             return regionPlaces.count + regionCountries
         default:
@@ -174,7 +174,6 @@ extension MyCountsPageVC: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: identifier,
             for: indexPath)
-        guard let list = list else { return cell }
 
         switch cell {
         case let counter as CountToggleCell:
@@ -205,9 +204,9 @@ extension MyCountsPageVC: UICollectionViewDataSource {
         let key = regions[indexPath.section]
         var countdown = indexPath.row
 
-        switch list?.hierarchy {
-        case .country?,
-             .regionSubgrouped?:
+        switch list.hierarchy {
+        case .country,
+             .regionSubgrouped:
             let regionCountries = countries[key] ?? []
             for country in regionCountries {
                 let countryPlaces = countriesPlaces[key]?[country] ?? []
@@ -237,14 +236,12 @@ extension MyCountsPageVC: UICollectionViewDataSource {
         guard checklistsObserver == nil else { return }
 
         checklistsObserver = gestalt.checklistsObserver { [weak self] in
-            guard let self = self,
-                  let list = self.list else { return }
-            self.set(list: list)
+            guard let self = self else { return }
+            self.set(list: self.list)
         }
-        placesObserver = list?.observer { [weak self] in
-            guard let self = self,
-                let list = self.list else { return }
-            self.set(list: list)
+        placesObserver = list.observer { [weak self] in
+            guard let self = self else { return }
+            self.set(list: self.list)
         }
     }
 }
@@ -266,7 +263,7 @@ private extension MyCountsPageVC {
 
     func count(places: [PlaceInfo],
                visits: [Int]) {
-        let groupCountries = (list?.isGrouped ?? false) || (list?.isSubgrouped ?? false)
+        let groupCountries = list.isGrouped || list.isSubgrouped
         regionsVisited = [:]
         countries = [:]
         countriesPlaces = [:]
