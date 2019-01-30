@@ -32,7 +32,9 @@ final class RankingsPageVC: UIViewController {
 
     weak var delegate: RankingsPageVCDelegate?
 
+    private var list: Checklist?
     private var members: [Int] = []
+    private var filter = gestalt.rankingsFilter
     private var filterDescription: String = ""
     private var rank = 0
 
@@ -54,8 +56,6 @@ final class RankingsPageVC: UIViewController {
             RankingHeader.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: RankingHeader.reuseIdentifier)
-
-        observe()
     }
 
     @available(*, unavailable)
@@ -68,13 +68,15 @@ final class RankingsPageVC: UIViewController {
         collectionView.collectionViewLayout.invalidateLayout()
     }
 
-    func set(members list: [Int], filter: UserFilter?) {
-        members = list
+    func set(list: Checklist) {
+        self.list = list
         filterDescription = filter?.description ?? Localized.allLocations()
-        log.todo("RankingsPageVC header rank)")
+        log.todo("RankingsPageVC members, rank)")
+        members = [1, 2, 3, 4, 5]
         rank = 9_999
 
         collectionView.reloadData()
+        observe()
     }
 }
 

@@ -2,7 +2,6 @@
 
 import Anchorage
 import Parchment
-import UIKit
 
 final class MyCountsVC: UIViewController {
 
@@ -78,8 +77,7 @@ extension MyCountsVC: PagingViewControllerDataSource {
                                  viewControllerForIndex index: Int) -> UIViewController {
         let viewController = MyCountsPageVC(options: pagingViewController.options)
         viewController.delegate = self
-        viewController.set(
-            list: pages[index].list)
+        viewController.set(list: pages[index].list)
 
         let insets = UIEdgeInsets(top: MyCountsPagingVC.Layout.menuHeight,
                                   left: 0,

@@ -4,7 +4,7 @@ import Anchorage
 import Parchment
 import UIKit
 
-final class RankingsPagingVC: PagingViewController<RankingsPagingItem> {
+final class RankingsPagingVC: PagingViewController<ListPagingItem> {
 
     enum Layout {
         static let insets = UIEdgeInsets(top: 8,
@@ -136,12 +136,12 @@ private class RankingPagingCell: PagingCell {
     override func setPagingItem(_ pagingItem: PagingItem,
                                 selected: Bool,
                                 options: PagingOptions) {
-        guard let item = pagingItem as? RankingsPagingItem else {
-            fatalError("RankingsPagingItem type failure")
+        guard let item = pagingItem as? ListPagingItem else {
+            fatalError("ListPagingItem type failure")
         }
 
-        imageView.image = item.page.image
-        titleLabel.text = item.page.title
+        imageView.image = item.list.image
+        titleLabel.text = item.list.title
 
         if selected {
             contentView.backgroundColor = UIColor(white: 1, alpha: 0.6)

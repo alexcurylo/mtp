@@ -16,7 +16,6 @@
 		C1D9A04EB6208ED844515108 /* libPods-MTP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA7B8EF0C9A37C87525A9855 /* libPods-MTP.a */; };
 		F5352AD2AEBF0C3A5C6191CE /* Pods-MTP-settings-metadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E2C18C122B275F3B40CDCDA /* Pods-MTP-settings-metadata.plist */; };
 		FA0BE96C210C5F3300797224 /* ViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0BE96B210C5F3300797224 /* ViewTests.swift */; };
-		FA12D680213B8A240053E9BF /* RankingsPagingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12D67F213B8A240053E9BF /* RankingsPagingItem.swift */; };
 		FA12D682213B963C0053E9BF /* RankingsPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12D681213B963C0053E9BF /* RankingsPageVC.swift */; };
 		FA254DCB21685D6800FC9360 /* NSObject+Create.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA254DCA21685D6800FC9360 /* NSObject+Create.swift */; };
 		FA254DCD2169A2A400FC9360 /* MyAboutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA254DCC2169A2A400FC9360 /* MyAboutVC.swift */; };
@@ -139,7 +138,6 @@
 		E03793369993AA49FE17B339 /* Pods-MTP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MTP.release.xcconfig"; path = "Pods/Target Support Files/Pods-MTP/Pods-MTP.release.xcconfig"; sourceTree = "<group>"; };
 		EA7B8EF0C9A37C87525A9855 /* libPods-MTP.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MTP.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA0BE96B210C5F3300797224 /* ViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTests.swift; sourceTree = "<group>"; };
-		FA12D67F213B8A240053E9BF /* RankingsPagingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsPagingItem.swift; sourceTree = "<group>"; };
 		FA12D681213B963C0053E9BF /* RankingsPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsPageVC.swift; sourceTree = "<group>"; };
 		FA254DCA21685D6800FC9360 /* NSObject+Create.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+Create.swift"; sourceTree = "<group>"; };
 		FA254DCC2169A2A400FC9360 /* MyAboutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAboutVC.swift; sourceTree = "<group>"; };
@@ -330,7 +328,6 @@
 				FA25ACE7217C87ED000AE26D /* RankingHeader.swift */,
 				FA291FD4217ECBC8004140BD /* RankingsFilterVC.swift */,
 				FA12D681213B963C0053E9BF /* RankingsPageVC.swift */,
-				FA12D67F213B8A240053E9BF /* RankingsPagingItem.swift */,
 				FA390138213B84B40016A362 /* RankingsPagingVC.swift */,
 				FA392BBE20DF69F30026C828 /* RankingsVC.swift */,
 			);
@@ -944,7 +941,6 @@
 				8C5ECE9E21FEE6F800322ABF /* CountGroupCell.swift in Sources */,
 				FA25ACE8217C87ED000AE26D /* RankingHeader.swift in Sources */,
 				FA291FD5217ECBC8004140BD /* RankingsFilterVC.swift in Sources */,
-				FA12D680213B8A240053E9BF /* RankingsPagingItem.swift in Sources */,
 				FAC3BCB8216A225900E1507E /* TagButton.swift in Sources */,
 				FA5AC0C521FDD7C00080F84F /* CountHeader.swift in Sources */,
 				8C5ECF3A21FFE49800322ABF /* RankingsPage.swift in Sources */,

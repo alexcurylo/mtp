@@ -2,13 +2,13 @@
 
 import Anchorage
 import Parchment
-import UIKit
 
 final class RankingsVC: UIViewController {
 
     @IBOutlet private var pagesHolder: UIView?
 
     private let pagingVC = RankingsPagingVC()
+    private let pages = ListPagingItem.pages
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,7 +67,7 @@ private extension RankingsVC {
 
         pagingVC.dataSource = self
         pagingVC.delegate = self
-        pagingVC.select(pagingItem: RankingsPagingItem.pages[0])
+        pagingVC.select(pagingItem: ListPagingItem.pages[0])
     }
 
     func update(menu height: CGFloat) {
@@ -81,9 +81,7 @@ extension RankingsVC: PagingViewControllerDataSource {
                                  viewControllerForIndex index: Int) -> UIViewController {
         let viewController = RankingsPageVC(options: pagingViewController.options)
         viewController.delegate = self
-        viewController.set(
-            members: RankingsPagingItem.pages[index].members,
-            filter: gestalt.rankingsFilter)
+        viewController.set(list: pages[index].list)
 
         let insets = UIEdgeInsets(top: RankingsPagingVC.Layout.menuHeight,
                                   left: 0,
@@ -97,14 +95,14 @@ extension RankingsVC: PagingViewControllerDataSource {
 
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  pagingItemForIndex index: Int) -> T {
-        guard let result = RankingsPagingItem.pages[index] as? T else {
-            fatalError("RankingsPagingItem type failure")
+        guard let result = pages[index] as? T else {
+            fatalError("ListPagingItem type failure")
         }
         return result
     }
 
     func numberOfViewControllers<T>(in: PagingViewController<T>) -> Int {
-        return RankingsPagingItem.pages.count
+        return pages.count
     }
 }
 

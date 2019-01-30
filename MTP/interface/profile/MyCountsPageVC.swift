@@ -2,7 +2,6 @@
 
 import Anchorage
 import Parchment
-import UIKit
 
 protocol MyCountsPageVCDelegate: AnyObject {
 
