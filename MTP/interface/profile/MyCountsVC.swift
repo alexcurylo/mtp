@@ -9,12 +9,7 @@ final class MyCountsVC: UIViewController {
     @IBOutlet private var pagesHolder: UIView?
 
     private let pagingVC = MyCountsPagingVC()
-
-    private let pages: [MyCountsPagingItem] = {
-        Checklist.allCases.compactMap { list in
-            MyCountsPagingItem(list: list)
-        }
-    }()
+    private let pages = ListPagingItem.pages
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,7 +94,7 @@ extension MyCountsVC: PagingViewControllerDataSource {
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  pagingItemForIndex index: Int) -> T {
         guard let result = pages[index] as? T else {
-            fatalError("MyCountsPagingItem type failure")
+            fatalError("ListPagingItem type failure")
         }
         return result
     }
