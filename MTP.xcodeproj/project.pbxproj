@@ -325,6 +325,7 @@
 		FA390135213B7C5E0016A362 /* rankings */ = {
 			isa = PBXGroup;
 			children = (
+				FA5AC0C021FDCCDE0080F84F /* ListPagingItem.swift */,
 				FA25ACE5217B54A8000AE26D /* RankingCell.swift */,
 				FA25ACE7217C87ED000AE26D /* RankingHeader.swift */,
 				FA291FD4217ECBC8004140BD /* RankingsFilterVC.swift */,
@@ -356,7 +357,6 @@
 				FA5AC0C621FDD8AA0080F84F /* CountToggleCell.swift */,
 				8C5ECE9D21FEE6F800322ABF /* CountGroupCell.swift */,
 				FA46377F210DE94C0007382D /* EditProfileVC.swift */,
-				FA5AC0C021FDCCDE0080F84F /* ListPagingItem.swift */,
 				FA254DCC2169A2A400FC9360 /* MyAboutVC.swift */,
 				FA5AC0C221FDCE200080F84F /* MyCountsPageVC.swift */,
 				FA5AC0BE21FDCB9D0080F84F /* MyCountsPagingVC.swift */,
