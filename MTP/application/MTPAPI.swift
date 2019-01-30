@@ -28,6 +28,7 @@ enum MTP: Hashable {
     case golfcourse
     case location // appears same as `countries` but returns 915 in production
     case locationsSearch(parentCountry: Int?, query: String?)
+    case rankings // ?checklistType=restaurants&gender=&country=&country_id=&location=&location_id=&ageGroup=&facebookConnected=&page=1
     case restaurant
     case unCountry
     case userGetByToken
@@ -65,6 +66,8 @@ extension MTP: TargetType {
             return "location"
         case .locationsSearch:
             return "locations/search"
+        case .rankings:
+            return "rankings/users"
         case .restaurant:
             return "restaurant"
         case .unCountry:
@@ -90,6 +93,7 @@ extension MTP: TargetType {
              .golfcourse,
              .location,
              .locationsSearch,
+             .rankings,
              .restaurant,
              .unCountry,
              .userGetByToken,
@@ -126,6 +130,8 @@ extension MTP: TargetType {
         case .checkOut(_, let id):
             return .requestParameters(parameters: ["id": id],
                                       encoding: URLEncoding.default)
+        case .rankings: // ?checklistType=restaurants&gender=&country=&country_id=&location=&location_id=&ageGroup=&facebookConnected=&page=1
+            return .requestPlain
         case .beach,
              .checklists,
              .countries,
@@ -172,6 +178,7 @@ extension MTP: AccessTokenAuthorizable {
         case .checkIn,
              .checklists,
              .checkOut,
+             .rankings,
              .userGetByToken:
             return .bearer
         case .beach,
@@ -204,6 +211,7 @@ enum MTPAPI {
     typealias CountriesResult = (_ result: Result<[Country], MTPAPIError>) -> Void
     typealias LocationsResult = (_ result: Result<[Location], MTPAPIError>) -> Void
     typealias PlacesResult = (_ result: Result<[Place], MTPAPIError>) -> Void
+    typealias RankingsResult = (_ result: Result<RankingsPage, MTPAPIError>) -> Void
     typealias RestaurantsResult = (_ result: Result<[Restaurant], MTPAPIError>) -> Void
     typealias UserResult = (_ result: Result<User, MTPAPIError>) -> Void
     typealias WHSResult = (_ result: Result<[WHS], MTPAPIError>) -> Void
@@ -415,7 +423,7 @@ extension MTPAPI {
                     gestalt.divesites = divesites
                     return then(.success(divesites))
                 } catch {
-                    log.error("decoding divesites: \(error)")
+                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -476,6 +484,38 @@ extension MTPAPI {
                     log.verbose("locations succeeded")
                     gestalt.locations = locations
                     return then(.success(locations))
+                } catch {
+                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    return then(.failure(.results))
+                }
+            case .failure(let error):
+                let message = error.errorDescription ?? Localized.unknown()
+                log.error("failure: \(endpoint.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
+    static func loadRankings(then: @escaping RankingsResult = { _ in }) {
+        guard gestalt.isLoggedIn else {
+            log.verbose("load rankings attempt invalid: not logged in")
+            return then(.failure(.parameter))
+        }
+
+        let auth = AccessTokenPlugin { gestalt.token }
+        let provider = MoyaProvider<MTP>(plugins: [auth])
+        let endpoint = MTP.rankings
+        provider.request(endpoint) { response in
+            switch response {
+            case .success(let result):
+                guard result.modified(from: endpoint) else {
+                    return then(.failure(.notModified))
+                }
+                do {
+                    let page = try result.map(RankingsPage.self,
+                                              using: JSONDecoder.mtp)
+                    log.verbose("loadRankings succeeded:\n\(page)")
+                    return then(.success(page))
                 } catch {
                     log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
@@ -570,7 +610,7 @@ extension MTPAPI {
                     gestalt.whss = whss
                     return then(.success(whss))
                 } catch {
-                    log.error("decoding whss: \(error)")
+                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -597,7 +637,7 @@ extension MTPAPI {
                     log.verbose("locations[\(query)] succeeded")
                     return then(.success(locations))
                 } catch {
-                    log.error("decoding locations: \(error)")
+                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -787,6 +827,8 @@ extension MTPAPI {
 
         userGetByToken()
         loadChecklists()
+
+        loadRankings()
     }
 
     static func applicationDidBecomeActive() {
