@@ -122,3 +122,50 @@ extension RankingsUser: CustomDebugStringConvertible {
         """
     }
 }
+
+struct RankingsPageSpec: Hashable {
+
+    enum Gender: String {
+        case male = "M"
+        case female = "F"
+    }
+
+    let checklistType: Checklist = .locations
+    let page: Int = 1
+
+    let gender: Gender? = nil
+    let country: String? = nil
+    let countryId: Int? = nil
+    let location: String? = nil
+    let locationId: Int? = nil
+    let ageGroup: Int? = nil
+    // swiftlint:disable:next discouraged_optional_boolean
+    let facebookConnected: Bool? = nil
+
+    var parameters: [String: String] {
+        var parameters: [String: String] = [:]
+
+        parameters["checklistType"] = checklistType.rawValue
+        parameters["page"] = String(page)
+        if let gender = gender {
+            parameters["gender"] = gender.rawValue
+        }
+        if let country = country {
+            parameters["country"] = country
+        }
+        if let countryId = countryId {
+            parameters["country_id"] = String(countryId)
+        }
+        if let location = location {
+            parameters["location"] = location
+        }
+        if let locationId = locationId {
+            parameters["location_id"] = String(locationId)
+        }
+        if let facebookConnected = facebookConnected {
+            parameters["facebookConnected"] = String(facebookConnected)
+        }
+
+        return parameters
+    }
+}

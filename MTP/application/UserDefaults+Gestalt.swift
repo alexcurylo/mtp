@@ -155,6 +155,25 @@ extension UserDefaults: Gestalt {
         }
     }
 
+    var rankingsPage: RankingsPage? {
+        get {
+            do {
+                return try get(objectType: RankingsPage.self, forKey: #function)
+            } catch {
+                log.error("decoding rankingsPage value: \(error)")
+                return nil
+            }
+        }
+        set {
+            do {
+                try set(object: newValue, forKey: #function)
+                notifyObservers(about: #function)
+            } catch {
+                log.error("encoding rankingsPage newValue: \(error)")
+            }
+        }
+    }
+
     var restaurants: [Restaurant] {
         get {
             do {

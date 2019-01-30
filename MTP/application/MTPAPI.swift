@@ -28,7 +28,7 @@ enum MTP: Hashable {
     case golfcourse
     case location // appears same as `countries` but returns 915 in production
     case locationsSearch(parentCountry: Int?, query: String?)
-    case rankings // ?checklistType=restaurants&gender=&country=&country_id=&location=&location_id=&ageGroup=&facebookConnected=&page=1
+    case rankings(page: RankingsPageSpec)
     case restaurant
     case unCountry
     case userGetByToken
@@ -130,8 +130,9 @@ extension MTP: TargetType {
         case .checkOut(_, let id):
             return .requestParameters(parameters: ["id": id],
                                       encoding: URLEncoding.default)
-        case .rankings: // ?checklistType=restaurants&gender=&country=&country_id=&location=&location_id=&ageGroup=&facebookConnected=&page=1
-            return .requestPlain
+        case .rankings(let page):
+            return .requestParameters(parameters: page.parameters,
+                                      encoding: URLEncoding.default)
         case .beach,
              .checklists,
              .countries,
@@ -496,15 +497,16 @@ extension MTPAPI {
         }
     }
 
-    static func loadRankings(then: @escaping RankingsResult = { _ in }) {
-        guard gestalt.isLoggedIn else {
-            log.verbose("load rankings attempt invalid: not logged in")
-            return then(.failure(.parameter))
+    static func loadRankings(page: RankingsPageSpec,
+                             then: @escaping RankingsResult = { _ in }) {
+        let provider: MoyaProvider<MTP>
+        if gestalt.isLoggedIn {
+            let auth = AccessTokenPlugin { gestalt.token }
+            provider = MoyaProvider<MTP>(plugins: [auth])
+        } else {
+            provider = MoyaProvider<MTP>()
         }
-
-        let auth = AccessTokenPlugin { gestalt.token }
-        let provider = MoyaProvider<MTP>(plugins: [auth])
-        let endpoint = MTP.rankings
+        let endpoint = MTP.rankings(page: page)
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
@@ -515,6 +517,7 @@ extension MTPAPI {
                     let page = try result.map(RankingsPage.self,
                                               using: JSONDecoder.mtp)
                     log.verbose("loadRankings succeeded:\n\(page)")
+                    gestalt.rankingsPage = page
                     return then(.success(page))
                 } catch {
                     log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -820,6 +823,8 @@ extension MTPAPI {
         loadRestaurants()
         loadUNCountries()
         loadWHS()
+
+        loadRankings(page: RankingsPageSpec())
     }
 
     static func refreshUser() {
@@ -827,8 +832,6 @@ extension MTPAPI {
 
         userGetByToken()
         loadChecklists()
-
-        loadRankings()
     }
 
     static func applicationDidBecomeActive() {
