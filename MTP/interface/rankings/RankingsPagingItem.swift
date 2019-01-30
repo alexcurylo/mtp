@@ -2,7 +2,7 @@
 
 import Parchment
 
-struct RankingPagingItem: PagingItem, Hashable, Comparable {
+struct RankingsPagingItem: PagingItem, Hashable, Comparable {
 
     let page: Checklist
     let members: [Int]
@@ -11,34 +11,34 @@ struct RankingPagingItem: PagingItem, Hashable, Comparable {
         hasher.combine(page)
     }
 
-    static func == (lhs: RankingPagingItem, rhs: RankingPagingItem) -> Bool {
+    static func == (lhs: RankingsPagingItem, rhs: RankingsPagingItem) -> Bool {
         return lhs.page == rhs.page
     }
 
-    static func < (lhs: RankingPagingItem, rhs: RankingPagingItem) -> Bool {
+    static func < (lhs: RankingsPagingItem, rhs: RankingsPagingItem) -> Bool {
         return lhs.page.index < rhs.page.index
     }
 
     static let pages = [
-        RankingPagingItem(
+        RankingsPagingItem(
             page: .locations,
             members: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
-        RankingPagingItem(
+        RankingsPagingItem(
             page: .uncountries,
             members: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
-        RankingPagingItem(
+        RankingsPagingItem(
             page: .whss,
             members: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
-        RankingPagingItem(
+        RankingsPagingItem(
             page: .beaches,
             members: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
-        RankingPagingItem(
+        RankingsPagingItem(
             page: .golfcourses,
             members: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
-        RankingPagingItem(
+        RankingsPagingItem(
             page: .divesites,
             members: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
-        RankingPagingItem(
+        RankingsPagingItem(
             page: .restaurants,
             members: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
     ]
