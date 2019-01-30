@@ -286,7 +286,7 @@ extension MTPAPI {
                     log.verbose("countries[\(query)] succeeded")
                     return then(.success(countries))
                 } catch {
-                    log.error("decoding countries: \(error)")
+                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -317,7 +317,7 @@ extension MTPAPI {
                     gestalt.beaches = beaches
                     return then(.success(beaches))
                 } catch {
-                    log.error("decoding beaches: \(error)")
+                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -354,7 +354,7 @@ extension MTPAPI {
                     gestalt.checklists = checklists
                     return then(.success(checklists))
                 } catch {
-                    log.error("decoding checklists: \(error)")
+                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -384,7 +384,7 @@ extension MTPAPI {
                     log.verbose("countries succeeded")
                     return then(.success(countries))
                 } catch {
-                    log.error("decoding countries: \(error)")
+                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -446,7 +446,7 @@ extension MTPAPI {
                     gestalt.golfcourses = golfcourses
                     return then(.success(golfcourses))
                 } catch {
-                    log.error("decoding golfcourses: \(error)")
+                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -477,7 +477,7 @@ extension MTPAPI {
                     gestalt.locations = locations
                     return then(.success(locations))
                 } catch {
-                    log.error("decoding locations: \(error)")
+                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -508,7 +508,7 @@ extension MTPAPI {
                     gestalt.restaurants = restaurants
                     return then(.success(restaurants))
                 } catch {
-                    log.error("decoding restaurants: \(error)")
+                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -539,7 +539,7 @@ extension MTPAPI {
                     gestalt.uncountries = uncountries
                     return then(.success(uncountries))
                 } catch {
-                    log.error("decoding uncountries: \(error)")
+                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -650,7 +650,7 @@ extension MTPAPI {
                     log.verbose("refreshed user: " + user.debugDescription)
                     return then(.success(user))
                 } catch {
-                    log.error("decoding user: \(error)")
+                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -747,6 +747,10 @@ extension Response {
         }
 
         return true
+    }
+
+    var toString: String {
+        return (try? mapString()) ?? "mapString failed"
     }
 }
 
