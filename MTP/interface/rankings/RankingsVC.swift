@@ -79,7 +79,7 @@ extension RankingsVC: PagingViewControllerDataSource {
 
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  viewControllerForIndex index: Int) -> UIViewController {
-        let viewController = RankingVC(options: pagingViewController.options)
+        let viewController = RankingsPageVC(options: pagingViewController.options)
         viewController.delegate = self
         viewController.set(
             members: RankingsPagingItem.pages[index].members,
@@ -108,10 +108,10 @@ extension RankingsVC: PagingViewControllerDataSource {
     }
 }
 
-extension RankingsVC: RankingVCDelegate {
+extension RankingsVC: RankingsPageVCDelegate {
 
-    func didScroll(rankingVC: RankingVC) {
-        let height = pagingVC.menuHeight(for: rankingVC.collectionView)
+    func didScroll(rankingsPageVC: RankingsPageVC) {
+        let height = pagingVC.menuHeight(for: rankingsPageVC.collectionView)
         update(menu: height)
     }
 }
@@ -125,8 +125,8 @@ extension RankingsVC: PagingViewControllerDelegate {
                                  startingViewController: UIViewController,
                                  destinationViewController: UIViewController?,
                                  progress: CGFloat) {
-        guard let destinationViewController = destinationViewController as? RankingVC else { return }
-        guard let startingViewController = startingViewController as? RankingVC else { return }
+        guard let destinationViewController = destinationViewController as? RankingsPageVC else { return }
+        guard let startingViewController = startingViewController as? RankingsPageVC else { return }
 
         let from = pagingVC.menuHeight(for: startingViewController.collectionView)
         let to = pagingVC.menuHeight(for: destinationViewController.collectionView)

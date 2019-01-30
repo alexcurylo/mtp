@@ -2,14 +2,13 @@
 
 import Anchorage
 import Parchment
-import UIKit
 
-protocol RankingVCDelegate: AnyObject {
+protocol RankingsPageVCDelegate: AnyObject {
 
-    func didScroll(rankingVC: RankingVC)
+    func didScroll(rankingsPageVC: RankingsPageVC)
 }
 
-final class RankingVC: UIViewController {
+final class RankingsPageVC: UIViewController {
 
     private enum Layout {
         static let headerHeight = CGFloat(98)
@@ -31,7 +30,7 @@ final class RankingVC: UIViewController {
         return collectionView
     }()
 
-    weak var delegate: RankingVCDelegate?
+    weak var delegate: RankingsPageVCDelegate?
 
     private var members: [Int] = []
     private var filterDescription: String = ""
@@ -72,14 +71,14 @@ final class RankingVC: UIViewController {
     func set(members list: [Int], filter: UserFilter?) {
         members = list
         filterDescription = filter?.description ?? Localized.allLocations()
-        log.todo("RankingVC header rank)")
+        log.todo("RankingsPageVC header rank)")
         rank = 9_999
 
         collectionView.reloadData()
     }
 }
 
-extension RankingVC: UICollectionViewDelegateFlowLayout {
+extension RankingsPageVC: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -96,11 +95,11 @@ extension RankingVC: UICollectionViewDelegateFlowLayout {
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        delegate?.didScroll(rankingVC: self)
+        delegate?.didScroll(rankingsPageVC: self)
     }
 }
 
-extension RankingVC: UICollectionViewDataSource {
+extension RankingsPageVC: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
@@ -138,11 +137,11 @@ extension RankingVC: UICollectionViewDataSource {
         guard userObserver == nil else { return }
 
         userObserver = gestalt.userObserver { [weak self] in
-            log.todo("RankingVC update")
+            log.todo("RankingsPageVC update")
             self?.collectionView.reloadData()
         }
         locationsObserver = Checklist.locations.observer { [weak self] in
-            log.todo("RankingVC update")
+            log.todo("RankingsPageVC update")
             self?.collectionView.reloadData()
         }
     }
