@@ -4,7 +4,7 @@ import Anchorage
 import Parchment
 import UIKit
 
-final class RankingPagingVC: PagingViewController<RankingsPagingItem> {
+final class RankingsPagingVC: PagingViewController<RankingsPagingItem> {
 
     enum Layout {
         static let insets = UIEdgeInsets(top: 8,
