@@ -45,15 +45,15 @@ Requirements
 
 ### Libraries:
 
-- [Anchorage](https://github.com/Raizlabs/Anchorage) for fluent layout declarations
 - [Alamofire](https://github.com/Alamofire/Alamofire) for HTTP networking
-- [Facebook SDK](https://github.com/facebook/facebook-objc-sdk) for Facebook support
-- [Facebook SDK in Swift](https://github.com/facebook/facebook-sdk-swift) wrapping Facebook SDK
+- [Anchorage](https://github.com/Raizlabs/Anchorage) for fluent layout declarations
+- [Facebook SDK in Swift](https://github.com/facebook/facebook-sdk-swift)  for Facebook support
 - [JWTDecode](https://github.com/auth0/JWTDecode.swift) for [JSON Web Token](https://jwt.io) management
 - [KRProgressHUD](https://github.com/krimpedance/KRProgressHUD) for progress management
 - [Moya](https://github.com/Moya/Moya) for network endpoint abstraction
 - [Parchment](https://github.com/rechsteiner/Parchment) for view paging
 - [R.swift](https://github.com/mac-cain13/R.swift/) for typed resource identifiers
+- [Realm Swift](https://github.com/realm/realm-cocoa) for data management
 - [Result](https://github.com/antitypical/Result) for operation result modelling
 
 Usage
