@@ -2,7 +2,7 @@
 
 import UIKit
 
-final class MyAboutVC: UITableViewController {
+final class MyAboutVC: UITableViewController, ServiceProvider {
 
     @IBOutlet private var rankingLabel: UILabel?
     @IBOutlet private var mapImageView: UIImageView?
@@ -157,7 +157,7 @@ private extension MyAboutVC {
     @IBAction func tapLink(_ sender: GradientButton) {
         if let link = sender.accessibilityIdentifier,
            let url = URL(string: link) {
-            UIApplication.shared.open(url)
+            app.open(url)
         }
     }
 }

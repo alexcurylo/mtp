@@ -8,7 +8,7 @@ enum Permission {
     case dontAsk
 }
 
-protocol LocationTracker: CLLocationManagerDelegate {
+protocol LocationTracker: CLLocationManagerDelegate, ServiceProvider {
 
     var locationManager: CLLocationManager { get }
 
@@ -59,12 +59,12 @@ extension LocationTracker where Self: UIViewController {
             preferredStyle: .alert
         )
 
-        alert.addAction(UIAlertAction(title: Localized.cancel(), style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: Localized.cancel(),
+                                      style: .default,
+                                      handler: nil))
         alert.addAction(UIAlertAction(title: Localized.allowLocationAccess(),
                                       style: .cancel) { _ -> Void in
-            UIApplication.shared.open(settingsAppURL,
-                                      options: [:],
-                                      completionHandler: nil)
+            self.app.open(settingsAppURL)
         })
 
         present(alert, animated: true, completion: nil)
