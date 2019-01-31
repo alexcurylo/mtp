@@ -19,6 +19,8 @@ target 'MTP' do
   pod 'KRProgressHUD'
   pod 'Moya'
   pod 'Parchment'
+  pod 'Realm', :modular_headers => true
+  pod 'RealmSwift'
   pod 'R.swift'
   pod 'SwiftLint'
   pod 'SwiftyBeaver'
