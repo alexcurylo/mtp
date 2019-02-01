@@ -58,16 +58,19 @@ final class RankingCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func set(user: User, for rank: Int) {
+    func set(user: User,
+             for rank: Int,
+             in list: Checklist) {
         rankLabel.text = rank.grouped
 
         avatarImageView.setImage(for: user)
         nameLabel.text = user.fullName
         countryLabel.text = user.country.countryName
 
-        let visited = Localized.visited(user.visited)
+        let status = list.status
+        let visited = Localized.visited(status.visited)
         visitedButton.setTitle(visited, for: .normal)
-        let remaining = Localized.remaining(user.remaining)
+        let remaining = Localized.remaining(status.remaining)
         remainingButton.setTitle(remaining, for: .normal)
     }
 

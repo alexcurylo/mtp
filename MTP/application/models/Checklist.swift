@@ -12,6 +12,8 @@ enum Checklist: String, CaseIterable {
     case divesites
     case restaurants
 
+    typealias Status = (visited: Int, remaining: Int)
+
     var background: UIColor {
         let background: UIColor?
         switch self {
@@ -145,6 +147,32 @@ enum Checklist: String, CaseIterable {
         }
     }
 
+    var remaining: Int {
+        return status.remaining
+    }
+
+    var status: Status {
+        let total: Int
+        switch self {
+        case .locations:
+            total = gestalt.locations.count
+        case .uncountries:
+            total = gestalt.uncountries.count
+        case .whss:
+            total = gestalt.whss.count
+        case .beaches:
+            total = gestalt.beaches.count
+        case .golfcourses:
+            total = gestalt.golfcourses.count
+        case .divesites:
+            total = gestalt.divesites.count
+        case .restaurants:
+            total = gestalt.restaurants.count
+        }
+        let complete = visited
+        return (complete, total - complete)
+    }
+
     var title: String {
         switch self {
         case .locations:
@@ -162,6 +190,29 @@ enum Checklist: String, CaseIterable {
         case .restaurants:
             return Localized.restaurants()
         }
+    }
+
+    var visited: Int {
+        guard let user = gestalt.user else { return 0 }
+
+        let score: Int?
+        switch self {
+        case .locations:
+            score = user.scoreLocations.intValue
+        case .uncountries:
+            score = user.scoreUncountries.intValue
+        case .whss:
+            score = user.scoreWhss.intValue
+        case .beaches:
+            score = user.scoreBeaches.intValue
+        case .golfcourses:
+            score = user.scoreGolfcourses.intValue
+        case .divesites:
+            score = user.scoreDivesites.intValue
+        case .restaurants:
+            score = user.scoreRestaurants.intValue
+        }
+        return score ?? 0
     }
 
     var visits: [Int] {

@@ -100,10 +100,6 @@ extension Location: PlaceInfo {
 
 extension Location {
 
-    static var count: Int {
-        return gestalt.locations.count
-    }
-
     var coordinate: CLLocationCoordinate2D {
         return CLLocationCoordinate2D(
             latitude: lat.doubleValue ?? 0,

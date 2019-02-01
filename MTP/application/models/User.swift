@@ -161,14 +161,6 @@ extension User {
             return R.image.placeholderThumb()
         }
     }
-
-    var visited: Int {
-        return scoreLocations.intValue ?? 0
-    }
-
-    var remaining: Int {
-        return Location.count - visited
-    }
 }
 
 enum Gender: Int, Codable {

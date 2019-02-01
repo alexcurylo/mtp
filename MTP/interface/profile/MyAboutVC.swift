@@ -88,14 +88,16 @@ private extension MyAboutVC {
     }
 
     func configure(ranking user: User) {
-        let rank = 9_999
+        let list = Checklist.locations
+
+        let rank = list.rank
         let ranking = Localized.ranking(rank.grouped)
         rankingLabel?.text = ranking
 
-        let visited = Localized.visited(user.visited)
+        let status = list.status
+        let visited = Localized.visited(status.visited)
         visitedButton?.setTitle(visited, for: .normal)
-
-        let remaining = Localized.remaining(user.remaining)
+        let remaining = Localized.remaining(status.remaining)
         remainingButton?.setTitle(remaining, for: .normal)
 
         bioTextView?.text = user.bio

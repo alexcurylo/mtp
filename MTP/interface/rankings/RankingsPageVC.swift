@@ -130,7 +130,9 @@ extension RankingsPageVC: UICollectionViewDataSource {
 
         let rank = indexPath.row + 1
         if let user = gestalt.user {
-            (cell as? RankingCell)?.set(user: user, for: rank)
+            (cell as? RankingCell)?.set(user: user,
+                                        for: rank,
+                                        in: list)
         }
 
         return cell

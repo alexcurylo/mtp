@@ -66,10 +66,6 @@ extension WHS: PlaceInfo {
 
 extension WHS {
 
-    static var count: Int {
-        return gestalt.whss.count
-    }
-
     var coordinate: CLLocationCoordinate2D {
         return CLLocationCoordinate2D(
             latitude: lat.doubleValue ?? 0,
