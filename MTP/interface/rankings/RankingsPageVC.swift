@@ -36,7 +36,7 @@ final class RankingsPageVC: UIViewController {
     private var rankings: RankingsPage?
     private var filter = UserFilter()
     private var filterDescription = ""
-    private var rank = 0
+    private var filterRank = 0
 
     private var userObserver: Observer?
     private var locationsObserver: Observer?
@@ -74,7 +74,7 @@ final class RankingsPageVC: UIViewController {
         filterDescription = filter.description
         rankings = gestalt.rankingsPage
         log.todo("RankingsPageVC rankings, filter)")
-        rank = list.rank
+        filterRank = list.rank()
 
         collectionView.reloadData()
         observe()
@@ -112,7 +112,9 @@ extension RankingsPageVC: UICollectionViewDataSource {
             withReuseIdentifier: RankingHeader.reuseIdentifier,
             for: indexPath)
 
-        (view as? RankingHeader)?.set(rank: rank, for: filterDescription)
+        if let header = view as? RankingHeader {
+            header.set(rank: filterRank, for: filterDescription)
+        }
 
         return view
     }
@@ -128,15 +130,18 @@ extension RankingsPageVC: UICollectionViewDataSource {
             withReuseIdentifier: RankingCell.reuseIdentifier,
             for: indexPath)
 
-        let rank = indexPath.row + 1
-        if let user = gestalt.user {
-            (cell as? RankingCell)?.set(user: user,
-                                        for: rank,
-                                        in: list)
+        if let cell = cell as? RankingCell {
+            let rank = indexPath.row + 1
+            cell.set(user: user(at: rank),
+                     for: rank,
+                     in: list)
         }
 
         return cell
     }
+}
+
+private extension RankingsPageVC {
 
     func observe() {
         guard userObserver == nil else { return }
@@ -149,5 +154,18 @@ extension RankingsPageVC: UICollectionViewDataSource {
             log.todo("RankingsPageVC update")
             self?.collectionView.reloadData()
         }
+    }
+
+    func user(at rank: Int) -> User {
+        guard let ranked = rankings?.users.data[rank - 1]  else {
+            return User.loading
+        }
+
+        if let myself = gestalt.user,
+           myself.id == ranked.id {
+            return myself
+        }
+
+        return User(ranked: ranked)
     }
 }

@@ -4,7 +4,7 @@ import CoreLocation
 
 struct Country: Codable {
 
-    let Country: String?
+    //let Country: String?
     let CountryId: UncertainValue<Int, String>? // String in children, not in staging
     let GroupCandidateId: Int?
     let Location: String? // not in staging
@@ -62,7 +62,6 @@ extension Country: CustomDebugStringConvertible {
     var debugDescription: String {
         return """
         < Country: \(description):
-        Country: \(String(describing: Country))
         CountryId: \(String(describing: CountryId))
         GroupCandidate_id: \(String(describing: GroupCandidateId))
         Location: \(String(describing: Location))
@@ -130,6 +129,53 @@ extension Country: PlaceInfo {
 }
 
 extension Country {
+
+    // swiftlint:disable:next closure_body_length
+    static var loading: Country = {
+        Country(
+            CountryId: nil,
+            GroupCandidateId: nil,
+            Location: nil,
+            MLHowtoget: nil,
+            RegionIDnew: nil,
+            RegionName: nil,
+            Regionold: nil,
+            URL: nil,
+            active: "",
+            adminLevel: UncertainValue<Int, String>(with: 0),
+            airports: nil,
+            candidateDate: nil,
+            children: nil,
+            cities: nil,
+            countVisitors: nil,
+            countryId: UncertainValue<Int, String>(with: 0),
+            countryName: Localized.loading(),
+            cv: nil,
+            dateUpdated: nil,
+            distance: UncertainValue<Double, String>(with: 0),
+            distanceold: nil,
+            id: UncertainValue<Int, String>(with: 0),
+            info: nil,
+            isMtpLocation: UncertainValue<Int, String>(with: 0),
+            isUn: UncertainValue<Int, String>(with: 0),
+            lat: UncertainValue<Double, String>(with: 0),
+            latitude: nil,
+            locationName: "",
+            lon: UncertainValue<Double, String>(with: 0),
+            longitude: nil,
+            order: nil,
+            rank: 0,
+            regionId: UncertainValue<Int, String>(with: 0),
+            regionName: nil,
+            seaports: nil,
+            timename: nil,
+            typelevel: nil,
+            utc: nil,
+            visitors: 0,
+            weather: nil,
+            weatherhist: nil,
+            zoom: UncertainValue<Int, String>(with: 0))
+    }()
 
     var coordinate: CLLocationCoordinate2D {
         return CLLocationCoordinate2D(

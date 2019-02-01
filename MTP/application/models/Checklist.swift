@@ -127,8 +127,9 @@ enum Checklist: String, CaseIterable {
                                 visited: visited)
     }
 
-    var rank: Int {
-        guard let user = gestalt.user else { return 0 }
+    func rank(of user: User? = nil) -> Int {
+        guard let user = user ?? gestalt.user else { return 0 }
+
         switch self {
         case .locations:
             return user.rankLocations
@@ -147,11 +148,11 @@ enum Checklist: String, CaseIterable {
         }
     }
 
-    var remaining: Int {
-        return status.remaining
+    func remaining(of user: User? = nil) -> Int {
+        return status(of: user).remaining
     }
 
-    var status: Status {
+    func status(of user: User? = nil) -> Status {
         let total: Int
         switch self {
         case .locations:
@@ -169,7 +170,7 @@ enum Checklist: String, CaseIterable {
         case .restaurants:
             total = gestalt.restaurants.count
         }
-        let complete = visited
+        let complete = visited(of: user)
         return (complete, total - complete)
     }
 
@@ -192,8 +193,8 @@ enum Checklist: String, CaseIterable {
         }
     }
 
-    var visited: Int {
-        guard let user = gestalt.user else { return 0 }
+    func visited(of user: User? = nil) -> Int {
+        guard let user = user ?? gestalt.user else { return 0 }
 
         let score: Int?
         switch self {

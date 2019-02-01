@@ -33,6 +33,14 @@ struct UncertainValue<T: Codable, U: Codable>: Codable {
         }
     }
 
+    init(with value: T) {
+        tValue = value
+    }
+
+    init(with value: U) {
+        uValue = value
+    }
+
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         guard !container.decodeNil() else { return }

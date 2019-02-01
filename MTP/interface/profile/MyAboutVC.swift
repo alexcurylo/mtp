@@ -90,11 +90,11 @@ private extension MyAboutVC {
     func configure(ranking user: User) {
         let list = Checklist.locations
 
-        let rank = list.rank
+        let rank = list.rank()
         let ranking = Localized.ranking(rank.grouped)
         rankingLabel?.text = ranking
 
-        let status = list.status
+        let status = list.status()
         let visited = Localized.visited(status.visited)
         visitedButton?.setTitle(visited, for: .normal)
         let remaining = Localized.remaining(status.remaining)

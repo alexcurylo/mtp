@@ -145,6 +145,98 @@ extension Link: CustomStringConvertible, CustomDebugStringConvertible {
 
 extension User {
 
+    // swiftlint:disable:next closure_body_length
+    static var loading: User = {
+        User(
+            airport: nil,
+            bio: nil,
+            birthday: Date(),
+            country: Country.loading,
+            countryId: UncertainValue<Int, String>(with: 0),
+            createdAt: Date(),
+            email: "",
+            facebookEmail: nil,
+            facebookId: UncertainValue<Int, String>(with: 0),
+            facebookUserToken: nil,
+            favoritePlaces: [],
+            firstName: "",
+            fullName: Localized.loading(),
+            gender: "",
+            id: 0,
+            lastLogIn: nil,
+            lastName: "",
+            location: Country.loading,
+            links: [],
+            locationId: UncertainValue<Int, String>(with: 0),
+            picture: nil,
+            rankBeaches: 0,
+            rankDivesites: 0,
+            rankGolfcourses: 0,
+            rankLocations: 0,
+            rankRestaurants: 0,
+            rankUncountries: 0,
+            rankWhss: 0,
+            role: 0,
+            score: UncertainValue<Int, String>(with: 0),
+            scoreBeaches: UncertainValue<Int, String>(with: 0),
+            scoreDivesites: UncertainValue<Int, String>(with: 0),
+            scoreGolfcourses: UncertainValue<Int, String>(with: 0),
+            scoreLocations: UncertainValue<Int, String>(with: 0),
+            scoreRestaurants: UncertainValue<Int, String>(with: 0),
+            scoreUncountries: UncertainValue<Int, String>(with: 0),
+            scoreWhss: UncertainValue<Int, String>(with: 0),
+            status: "",
+            token: nil,
+            updatedAt: Date(),
+            username: ""
+        )
+    }()
+
+    // swiftlint:disable:next function_body_length
+    init(ranked: RankingsUser) {
+        airport = nil
+        bio = nil
+        birthday = ranked.birthday
+        country = ranked.country ?? Country.loading
+        countryId = UncertainValue<Int, String>(with: 0)
+        createdAt = Date()
+        email = ""
+        facebookEmail = nil
+        facebookId = UncertainValue<Int, String>(with: 0)
+        facebookUserToken = nil
+        favoritePlaces = []
+        firstName = ranked.firstName
+        fullName = ranked.fullName
+        gender = ranked.gender
+        id = ranked.id
+        lastLogIn = nil
+        lastName = ranked.lastName
+        location = ranked.location
+        links = []
+        locationId = UncertainValue<Int, String>(with: ranked.locationId)
+        picture = nil
+        rankBeaches = 0
+        rankDivesites = 0
+        rankGolfcourses = 0
+        rankLocations = ranked.rankLocations
+        rankRestaurants = 0
+        rankUncountries = 0
+        rankWhss = 0
+        role = ranked.role
+        score = UncertainValue<Int, String>(with: 0)
+        scoreBeaches = UncertainValue<Int, String>(with: 0)
+        scoreDivesites = UncertainValue<Int, String>(with: 0)
+        scoreGolfcourses = UncertainValue<Int, String>(with: 0)
+        scoreLocations = UncertainValue<Int, String>(with: ranked.scoreLocations)
+        scoreRestaurants = UncertainValue<Int, String>(with: 0)
+        scoreUncountries = UncertainValue<Int, String>(with: 0)
+        scoreWhss = UncertainValue<Int, String>(with: 0)
+        status = ""
+        token = nil
+        updatedAt = Date()
+        username = ""
+    }
+
     var imageUrl: URL? {
         guard let uuid = picture, !uuid.isEmpty else { return nil }
         let link = "https://mtp.travel/api/files/preview?uuid=\(uuid)&size=thumb"

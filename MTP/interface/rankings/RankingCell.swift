@@ -67,7 +67,7 @@ final class RankingCell: UICollectionViewCell {
         nameLabel.text = user.fullName
         countryLabel.text = user.country.countryName
 
-        let status = list.status
+        let status = list.status(of: user)
         let visited = Localized.visited(status.visited)
         visitedButton.setTitle(visited, for: .normal)
         let remaining = Localized.remaining(status.remaining)
