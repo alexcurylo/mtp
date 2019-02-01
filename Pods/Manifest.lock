@@ -45,6 +45,7 @@ PODS:
   - Moya/Core (12.0.1):
     - Alamofire (~> 4.1)
     - Result (~> 4.0)
+  - Nuke (7.5.2)
   - Parchment (1.5.0)
   - R.swift (5.0.2):
     - R.swift.Library (~> 5.0.0)
@@ -72,6 +73,7 @@ DEPENDENCIES:
   - JWTDecode
   - KRProgressHUD
   - Moya
+  - Nuke
   - Parchment
   - R.swift
   - Realm
@@ -95,6 +97,7 @@ SPEC REPOS:
     - KRActivityIndicatorView
     - KRProgressHUD
     - Moya
+    - Nuke
     - Parchment
     - R.swift
     - R.swift.Library
@@ -119,6 +122,7 @@ SPEC CHECKSUMS:
   KRActivityIndicatorView: c414000730a6f4969eeb354bee4f2aebc89c2c2e
   KRProgressHUD: 79c8703f82179fe34b3602f10b30726f887983fa
   Moya: cf730b3cd9e005401ef37a85143aa141a12fd38f
+  Nuke: 0350d346a688426e8f2331253ef28dc2fc4f6178
   Parchment: 5a8c9c73549a6d73a7c1b606c27246910d2e5720
   R.swift: 81455d81467763cbd3f4d79d938d05f4ac4c0228
   R.swift.Library: 0bf390e729bc10bb2c9e4fb78bd043164a7be4ff
@@ -128,6 +132,6 @@ SPEC CHECKSUMS:
   SwiftLint: a54bf1fe12b55c68560eb2a7689dfc81458508f7
   SwiftyBeaver: ccfcdf85a04d429f1633f668650b0ce8020bda3a
 
-PODFILE CHECKSUM: f41b66da33760bf3e424cb7547205604237801af
+PODFILE CHECKSUM: 003c75ac2343c99ecbb425837e7a855b984adc50
 
 COCOAPODS: 1.5.3

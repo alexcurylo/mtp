@@ -51,6 +51,7 @@ Requirements
 - [JWTDecode](https://github.com/auth0/JWTDecode.swift) for [JSON Web Token](https://jwt.io) management
 - [KRProgressHUD](https://github.com/krimpedance/KRProgressHUD) for progress management
 - [Moya](https://github.com/Moya/Moya) for network endpoint abstraction
+- [Nuke](https://github.com/kean/Nuke) for networked image loading
 - [Parchment](https://github.com/rechsteiner/Parchment) for view paging
 - [R.swift](https://github.com/mac-cain13/R.swift/) for typed resource identifiers
 - [Realm Swift](https://github.com/realm/realm-cocoa) for data management

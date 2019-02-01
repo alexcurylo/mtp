@@ -18,6 +18,7 @@ target 'MTP' do
   pod 'JWTDecode'
   pod 'KRProgressHUD'
   pod 'Moya'
+  pod 'Nuke'
   pod 'Parchment'
   pod 'Realm', :modular_headers => true
   pod 'RealmSwift'
