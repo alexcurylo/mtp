@@ -25,6 +25,7 @@ final class RankingHeader: UICollectionReusableView {
         $0.widthAnchor == Layout.avatarSize
         $0.cornerRadius = Layout.avatarSize / 2
         $0.backgroundColor = .mercury
+        $0.contentMode = .scaleAspectFill
     }
     private let rankLabel: UILabel = create {
         $0.font = Avenir.medium.of(size: 15)
@@ -46,8 +47,7 @@ final class RankingHeader: UICollectionReusableView {
     }
 
     func set(rank: Int, for filter: String) {
-        log.todo("avatar")
-        avatarImageView.image = nil
+        avatarImageView.image = gestalt.user?.image
         rankLabel.text = rank.grouped
         filterLabel.text = filter
     }

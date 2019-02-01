@@ -20,6 +20,7 @@ final class RankingCell: UICollectionViewCell {
         $0.widthAnchor == Layout.avatarSize
         $0.cornerRadius = Layout.avatarSize / 2
         $0.backgroundColor = .mercury
+        $0.contentMode = .scaleAspectFill
     }
     private let rankLabel: UILabel = create {
         $0.font = Avenir.heavy.of(size: 10)
@@ -58,10 +59,9 @@ final class RankingCell: UICollectionViewCell {
     }
 
     func set(user: User, for rank: Int) {
-        log.todo("avatar")
-        avatarImageView.image = nil
         rankLabel.text = rank.grouped
 
+        avatarImageView.image = user.image
         nameLabel.text = user.fullName
         countryLabel.text = user.country.countryName
 

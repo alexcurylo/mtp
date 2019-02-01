@@ -60,27 +60,7 @@ private extension MyProfileVC {
     }
 
     func setupHeaderView() {
-        guard let user = gestalt.user else { return }
-
         headerView?.round(corners: [.topLeft, .topRight], by: 5)
-
-        log.todo("avatar")
-
-        fullNameLabel?.text = user.fullName
-        countryLabel?.text = user.country.countryName
-
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
-        birthdayLabel?.text = dateFormatter.string(from: user.birthday)
-
-        log.todo("follow counts")
-        let followersCount = 9_999
-        let followers = Localized.followers(followersCount.grouped)
-        followersLabel?.text = followers
-        let followingCount = 9_999
-        let following = Localized.following(followingCount.grouped)
-        followingLabel?.text = following
     }
 
     func setupPagesHolder() {
@@ -105,8 +85,7 @@ private extension MyProfileVC {
     func configure() {
         guard let user = gestalt.user else { return }
 
-        log.todo("avatar")
-
+        avatarImageView?.image = user.image
         fullNameLabel?.text = user.fullName
         countryLabel?.text = user.country.countryName
 

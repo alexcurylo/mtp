@@ -145,6 +145,17 @@ extension Link: CustomStringConvertible, CustomDebugStringConvertible {
 
 extension User {
 
+    var image: UIImage? {
+        switch gender {
+        case "F":
+            return R.image.placeholderFemaleThumb()
+        case "M":
+            return R.image.placeholderMaleThumb()
+        default:
+            return R.image.placeholderThumb()
+        }
+    }
+
     var visited: Int {
         return scoreLocations.intValue ?? 0
     }
