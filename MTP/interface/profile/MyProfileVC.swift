@@ -85,7 +85,7 @@ private extension MyProfileVC {
     func configure() {
         guard let user = gestalt.user else { return }
 
-        avatarImageView?.image = user.image
+        avatarImageView?.setImage(for: user)
         fullNameLabel?.text = user.fullName
         countryLabel?.text = user.country.countryName
 

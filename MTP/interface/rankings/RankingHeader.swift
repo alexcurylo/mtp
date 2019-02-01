@@ -47,7 +47,7 @@ final class RankingHeader: UICollectionReusableView {
     }
 
     func set(rank: Int, for filter: String) {
-        avatarImageView.image = gestalt.user?.image
+        avatarImageView.setImage(for: gestalt.user)
         rankLabel.text = rank.grouped
         filterLabel.text = filter
     }

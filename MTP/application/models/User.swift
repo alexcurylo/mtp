@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import UIKit
+import Nuke
 
 struct User: Codable {
 
@@ -145,7 +145,13 @@ extension Link: CustomStringConvertible, CustomDebugStringConvertible {
 
 extension User {
 
-    var image: UIImage? {
+    var imageUrl: URL? {
+        guard let uuid = picture, !uuid.isEmpty else { return nil }
+        let link = "https://mtp.travel/api/files/preview?uuid=\(uuid)&size=thumb"
+        return URL(string: link)
+    }
+
+    var placeholder: UIImage? {
         switch gender {
         case "F":
             return R.image.placeholderFemaleThumb()
@@ -228,5 +234,25 @@ extension UserFilter: CustomStringConvertible, CustomDebugStringConvertible {
 
     private var facebookDescription: String? {
         return facebook ? Localized.facebookFriends() : nil
+    }
+}
+
+extension UIImageView {
+
+    func setImage(for user: User?) {
+        let placeholder = user?.placeholder
+        guard let url = user?.imageUrl else {
+            image = placeholder
+            return
+        }
+
+        Nuke.loadImage(
+            with: url,
+            options: ImageLoadingOptions(
+                placeholder: placeholder,
+                transition: .fadeIn(duration: 0.2)
+            ),
+            into: self
+        )
     }
 }

@@ -61,7 +61,7 @@ final class RankingCell: UICollectionViewCell {
     func set(user: User, for rank: Int) {
         rankLabel.text = rank.grouped
 
-        avatarImageView.image = user.image
+        avatarImageView.setImage(for: user)
         nameLabel.text = user.fullName
         countryLabel.text = user.country.countryName
 
