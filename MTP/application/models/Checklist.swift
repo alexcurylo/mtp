@@ -12,26 +12,44 @@ enum Checklist: String, CaseIterable {
     case divesites
     case restaurants
 
-    var path: String {
-        return "me/checklists/" + rawValue
-    }
-
-    var title: String {
+    var background: UIColor {
+        let background: UIColor?
         switch self {
         case .locations:
-            return Localized.locations()
+            background = R.color.locations()
         case .uncountries:
-            return Localized.uncountries()
+            background = R.color.uncountries()
         case .whss:
-            return Localized.whss()
+            background = R.color.whss()
         case .beaches:
-            return Localized.beaches()
+            background = R.color.beaches()
         case .golfcourses:
-            return Localized.golfcourses()
+            background = R.color.golfcourses()
         case .divesites:
-            return Localized.divesites()
+            background = R.color.divesites()
         case .restaurants:
-            return Localized.restaurants()
+            background = R.color.restaurants()
+        }
+        // swiftlint:disable:next force_unwrapping
+        return background!
+    }
+
+    var hierarchy: Hierarchy {
+        switch self {
+        case .locations:
+            return .regionSubgrouped
+        case .uncountries:
+            return .region
+        case .whss:
+            return .country
+        case .beaches:
+            return .regionSubtitled
+        case .golfcourses:
+            return .regionSubtitled
+        case .divesites:
+            return .regionSubtitled
+        case .restaurants:
+            return .regionSubtitled // by region/country/location on website
         }
     }
 
@@ -57,48 +75,20 @@ enum Checklist: String, CaseIterable {
         return image!
     }
 
-    var background: UIColor {
-        let background: UIColor?
-        switch self {
-        case .locations:
-            background = R.color.locations()
-        case .uncountries:
-            background = R.color.uncountries()
-        case .whss:
-            background = R.color.whss()
-        case .beaches:
-            background = R.color.beaches()
-        case .golfcourses:
-            background = R.color.golfcourses()
-        case .divesites:
-            background = R.color.divesites()
-        case .restaurants:
-            background = R.color.restaurants()
-        }
-        // swiftlint:disable:next force_unwrapping
-        return background!
+    var isGrouped: Bool {
+        return hierarchy.isGrouped
     }
 
-    var visits: [Int] {
-        // swiftlint:disable:next discouraged_optional_collection
-        let visits: [Int]?
-        switch self {
-        case .locations:
-            visits = gestalt.checklists?.locations
-        case .uncountries:
-            visits = gestalt.checklists?.uncountries
-        case .whss:
-            visits = gestalt.checklists?.whss
-        case .beaches:
-            visits = gestalt.checklists?.beaches
-        case .golfcourses:
-            visits = gestalt.checklists?.golfcourses
-        case .divesites:
-            visits = gestalt.checklists?.divesites
-        case .restaurants:
-            visits = gestalt.checklists?.restaurants
-        }
-        return visits ?? []
+    var isSubgrouped: Bool {
+        return hierarchy.isSubgrouped
+    }
+
+    var isSubtitled: Bool {
+        return hierarchy.isSubtitled
+    }
+
+    func isVisited(id: Int) -> Bool {
+        return visits.contains(id)
     }
 
     var places: [PlaceInfo] {
@@ -122,8 +112,8 @@ enum Checklist: String, CaseIterable {
         return places
     }
 
-    func isVisited(id: Int) -> Bool {
-        return visits.contains(id)
+    var path: String {
+        return "me/checklists/" + rawValue
     }
 
     func set(id: Int,
@@ -135,35 +125,65 @@ enum Checklist: String, CaseIterable {
                                 visited: visited)
     }
 
-    var hierarchy: Hierarchy {
+    var rank: Int {
+        guard let user = gestalt.user else { return 0 }
         switch self {
         case .locations:
-            return .regionSubgrouped
+            return user.rankLocations
         case .uncountries:
-            return .region
+            return user.rankUncountries
         case .whss:
-            return .country
+            return user.rankWhss
         case .beaches:
-            return .regionSubtitled
+            return user.rankBeaches
         case .golfcourses:
-            return .regionSubtitled
+            return user.rankGolfcourses
         case .divesites:
-            return .regionSubtitled
+            return user.rankDivesites
         case .restaurants:
-            return .regionSubtitled // by region/country/location on website
+            return user.rankRestaurants
         }
     }
 
-    var isGrouped: Bool {
-        return hierarchy.isGrouped
+    var title: String {
+        switch self {
+        case .locations:
+            return Localized.locations()
+        case .uncountries:
+            return Localized.uncountries()
+        case .whss:
+            return Localized.whss()
+        case .beaches:
+            return Localized.beaches()
+        case .golfcourses:
+            return Localized.golfcourses()
+        case .divesites:
+            return Localized.divesites()
+        case .restaurants:
+            return Localized.restaurants()
+        }
     }
 
-    var isSubgrouped: Bool {
-        return hierarchy.isSubgrouped
-    }
-
-    var isSubtitled: Bool {
-        return hierarchy.isSubtitled
+    var visits: [Int] {
+        // swiftlint:disable:next discouraged_optional_collection
+        let visits: [Int]?
+        switch self {
+        case .locations:
+            visits = gestalt.checklists?.locations
+        case .uncountries:
+            visits = gestalt.checklists?.uncountries
+        case .whss:
+            visits = gestalt.checklists?.whss
+        case .beaches:
+            visits = gestalt.checklists?.beaches
+        case .golfcourses:
+            visits = gestalt.checklists?.golfcourses
+        case .divesites:
+            visits = gestalt.checklists?.divesites
+        case .restaurants:
+            visits = gestalt.checklists?.restaurants
+        }
+        return visits ?? []
     }
 }
 

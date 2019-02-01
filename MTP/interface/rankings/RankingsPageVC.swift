@@ -73,8 +73,8 @@ final class RankingsPageVC: UIViewController {
         filter = gestalt.rankingsFilter ?? UserFilter()
         filterDescription = filter.description
         rankings = gestalt.rankingsPage
-        log.todo("RankingsPageVC rankings, filter, rank)")
-        rank = 9_999
+        log.todo("RankingsPageVC rankings, filter)")
+        rank = list.rank
 
         collectionView.reloadData()
         observe()

@@ -31,6 +31,8 @@ enum MTP: Hashable {
     case rankings(page: RankingsPageSpec)
     case restaurant
     case unCountry
+    // case user -- https://mtp.travel/api/user/1
+    // case picture -- https://mtp.travel/api/files/preview?uuid=5lePRid3jo2etG0pSHqQs2&size={large|thumb|???}
     case userGetByToken
     case userLogin(email: String, password: String)
     case whs

@@ -11,6 +11,7 @@ struct WHS: Codable {
     let location: PlaceLocation
     let locationId: UncertainValue<Int, String> // Int in staging, String in production
     let long: UncertainValue<Double, String> // Double in staging, String in production
+    let parentId: Int?
     let title: String
     let unescoId: Int
     let visitors: Int
@@ -35,6 +36,7 @@ extension WHS: CustomDebugStringConvertible {
         location: \(String(describing: location))
         locationId: \(String(describing: locationId))
         long: \(String(describing: long))
+        parentId: \(String(describing: parentId))
         title: \(title)
         unescoId: \(unescoId)
         visitors: \(visitors)

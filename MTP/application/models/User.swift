@@ -25,6 +25,13 @@ struct User: Codable {
     let links: [Link]
     let locationId: UncertainValue<Int, String> // Int in staging, String in production
     let picture: String?
+    let rankBeaches: Int
+    let rankDivesites: Int
+    let rankGolfcourses: Int
+    let rankLocations: Int
+    let rankRestaurants: Int
+    let rankUncountries: Int
+    let rankWhss: Int
     let role: Int
     let score: UncertainValue<Int, String> // Int in staging, String in production
     let scoreBeaches: UncertainValue<Int, String> // Int in staging, String in production
@@ -73,6 +80,13 @@ extension User: CustomDebugStringConvertible {
             links: \(links.debugDescription)
             location_id: \(locationId)
             picture: \(String(describing: picture))
+            rankBeaches: \(rankBeaches)
+            rankDivesites: \(rankDivesites)
+            rankGolfcourses: \(rankGolfcourses)
+            rankLocations: \(rankLocations)
+            rankRestaurants: \(rankRestaurants)
+            rankUncountries: \(rankUncountries)
+            rankWhss: \(rankWhss)
             role: \(role)
             score: \(score)
             score_beaches: \(scoreBeaches)
