@@ -22,11 +22,9 @@ enum MTP: Hashable {
     case checkIn(list: Checklist, id: Int)
     case checklists
     case checkOut(list: Checklist, id: Int)
-    case countries // appears same as `location` but returns 891 in production
-    case countriesSearch(query: String?)
     case divesite
     case golfcourse
-    case location // appears same as `countries` but returns 915 in production
+    case location
     case locationsSearch(parentCountry: Int?, query: String?)
     case rankings(page: RankingsPageSpec)
     case restaurant
@@ -56,10 +54,6 @@ extension MTP: TargetType {
             return list.path
         case .checklists:
             return "me/checklists"
-        case .countries:
-            return "countries"
-        case .countriesSearch:
-            return "countries/search"
         case .divesite:
             return "divesite"
         case .golfcourse:
@@ -89,8 +83,6 @@ extension MTP: TargetType {
             return .delete
         case .beach,
              .checklists,
-             .countries,
-             .countriesSearch,
              .divesite,
              .golfcourse,
              .location,
@@ -109,9 +101,6 @@ extension MTP: TargetType {
 
     var task: Task {
         switch self {
-        case let .countriesSearch(query?):
-            return .requestParameters(parameters: ["query": query],
-                                      encoding: URLEncoding.default)
         case let .locationsSearch(parentCountry?, query?):
             return .requestParameters(parameters: ["parentCountry": parentCountry,
                                                    "query": query],
@@ -137,8 +126,6 @@ extension MTP: TargetType {
                                       encoding: URLEncoding.default)
         case .beach,
              .checklists,
-             .countries,
-             .countriesSearch,
              .divesite,
              .golfcourse,
              .location,
@@ -185,8 +172,6 @@ extension MTP: AccessTokenAuthorizable {
              .userGetByToken:
             return .bearer
         case .beach,
-             .countries,
-             .countriesSearch,
              .divesite,
              .golfcourse,
              .location,
@@ -211,7 +196,6 @@ enum MTPAPI {
 
     typealias BoolResult = (_ result: Result<Bool, MTPAPIError>) -> Void
     typealias ChecklistsResult = (_ result: Result<Checklists, MTPAPIError>) -> Void
-    typealias CountriesResult = (_ result: Result<[Country], MTPAPIError>) -> Void
     typealias LocationsResult = (_ result: Result<[Location], MTPAPIError>) -> Void
     typealias PlacesResult = (_ result: Result<[Place], MTPAPIError>) -> Void
     typealias RankingsResult = (_ result: Result<RankingsPage, MTPAPIError>) -> Void
@@ -283,31 +267,6 @@ extension MTPAPI {
         }
     }
 
-    static func countriesSearch(query: String,
-                                then: @escaping CountriesResult) {
-        let provider = MoyaProvider<MTP>()
-        let queryParam = query.isEmpty ? nil : query
-        let endpoint = MTP.countriesSearch(query: queryParam)
-        provider.request(endpoint) { response in
-            switch response {
-            case .success(let result):
-                do {
-                    let countries = try result.map([Country].self,
-                                                   using: JSONDecoder.mtp)
-                    log.verbose("countries[\(query)] succeeded")
-                    return then(.success(countries))
-                } catch {
-                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
-                }
-            case .failure(let error):
-                let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
-            }
-        }
-    }
-
     static func loadBeaches(then: @escaping PlacesResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.beach
@@ -364,36 +323,6 @@ extension MTPAPI {
                     log.verbose("checklists: succeeded")
                     gestalt.checklists = checklists
                     return then(.success(checklists))
-                } catch {
-                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
-                }
-            case .failure(let error):
-                let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
-            }
-        }
-    }
-
-    static func loadCountries(then: @escaping CountriesResult = { _ in }) {
-        let provider = MoyaProvider<MTP>()
-        let endpoint = MTP.countries
-        guard !endpoint.isThrottled else {
-            return then(.failure(.throttle))
-        }
-        provider.request(endpoint) { response in
-            endpoint.markResponded()
-            switch response {
-            case .success(let result):
-                guard result.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                do {
-                    let countries = try result.map([Country].self,
-                                                   using: JSONDecoder.mtp)
-                    log.verbose("countries succeeded")
-                    return then(.success(countries))
                 } catch {
                     log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
@@ -564,7 +493,7 @@ extension MTPAPI {
         }
     }
 
-    static func loadUNCountries(then: @escaping CountriesResult = { _ in }) {
+    static func loadUNCountries(then: @escaping LocationsResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.unCountry
         guard !endpoint.isThrottled else {
@@ -578,7 +507,7 @@ extension MTPAPI {
                     return then(.failure(.notModified))
                 }
                 do {
-                    let uncountries = try result.map([Country].self,
+                    let uncountries = try result.map([Location].self,
                                                      using: JSONDecoder.mtp)
                     log.verbose("uncountries succeeded")
                     gestalt.uncountries = uncountries
@@ -628,7 +557,7 @@ extension MTPAPI {
 
     static func locationsSearch(query: String,
                                 parentCountry: Int? = nil,
-                                then: @escaping CountriesResult) {
+                                then: @escaping LocationsResult) {
         let provider = MoyaProvider<MTP>()
         let queryParam = query.isEmpty ? nil : query
         let endpoint = MTP.locationsSearch(parentCountry: parentCountry,
@@ -637,7 +566,7 @@ extension MTPAPI {
             switch response {
             case .success(let result):
                 do {
-                    let locations = try result.map([Country].self,
+                    let locations = try result.map([Location].self,
                                                    using: JSONDecoder.mtp)
                     log.verbose("locations[\(query)] succeeded")
                     return then(.success(locations))

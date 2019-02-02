@@ -4,28 +4,19 @@ import CoreLocation
 
 struct Location: Codable {
 
-    let Country: String? // not in staging
-    let CountryId: Int? // not in staging
-    let Location: String? // not in staging
-    let RegionIDnew: String? // not in staging
-    let RegionName: String? // not in staging
-    let active: String? // not in staging
-    let adminLevel: Int? // not in staging
+    let active: String
+    let adminLevel: Int
     let airports: String?
     let countryId: Int
     let countryName: String
-    let countVisitors: Int? // not in staging
-    let dateUpdated: Date? // not in staging
-    let distance: UncertainValue<Double, String> // Double in staging, String in production
+    let distance: Double?
     let featuredImg: String?
     let id: Int
     let isMtpLocation: Int
     let isUn: Int
-    let lat: UncertainValue<Double, String> // Double in staging, String in production
-    let latitude: String?
+    let lat: Double?
     let locationName: String
-    let lon: UncertainValue<Double, String> // Double in staging, String in production
-    let longitude: String?
+    let lon: Double?
     let rank: Int
     let rankUn: Int
     let regionId: Int
@@ -34,13 +25,13 @@ struct Location: Codable {
     let visitorsUn: Int
     let weather: String?
     let weatherhist: String?
-    let zoom: UncertainValue<Int, String> // Int in staging, String in production
+    let zoom: Int?
 }
 
 extension Location: CustomStringConvertible {
 
     public var description: String {
-        return "\(String(describing: countryName)) (\(String(describing: countryId)))"
+        return "\(countryName) (\(countryId))"
     }
 }
 
@@ -49,31 +40,28 @@ extension Location: CustomDebugStringConvertible {
     var debugDescription: String {
         return """
         < Location: \(description):
-        Country: \(String(describing: Country))
-        CountryId: \(String(describing: CountryId))
-        Location: \(String(describing: Location))
-        RegionIDnew: \(String(describing: RegionIDnew))
-        RegionName: \(String(describing: RegionName))
-        active: \(String(describing: active))
-        admin_level: \(String(describing: adminLevel))
+        active: \(active)
+        admin_level: \(adminLevel)
         airports: \(String(describing: airports))
-        countryId: \(String(describing: countryId))
-        countryName: \(String(describing: countryName))
-        count_visitors: \(String(describing: countVisitors))
-        dateUpdated: \(String(describing: dateUpdated))
+        countryId: \(countryId)
+        countryName: \(countryName)
         distance: \(String(describing: distance))
-        is_mtp_location: \(isMtpLocation)
+        featuredImg: \(String(describing: featuredImg))
         id: \(id)
+        is_mtp_location: \(isMtpLocation)
         is_un: \(isUn)
         lat: \(String(describing: lat))
-        latitude: \(String(describing: latitude))
-        lon: \(String(describing: lon))
-        longitude: \(String(describing: longitude))
         location_name: \(locationName)
+        lon: \(String(describing: lon))
         rank: \(rank)
-        region_id: \(String(describing: regionId))
-        region_name: \(String(describing: regionName))
+        rankUn: \(rankUn)
+        region_id: \(regionId)
+        region_name: \(regionName)
         visitors: \(visitors)
+        visitorsUn: \(visitorsUn)
+        weather: \(String(describing: weather))
+        weatherhist: \(String(describing: weatherhist))
+        zoom: \(String(describing: zoom))
         /Location >
         """
     }
@@ -100,11 +88,37 @@ extension Location: PlaceInfo {
 
 extension Location {
 
+    // swiftlint:disable:next closure_body_length
+    static var loading: Location = {
+        Location(
+            active: "",
+            adminLevel: 0,
+            airports: "",
+            countryId: 0,
+            countryName: Localized.loading(),
+            distance: 0.0,
+            featuredImg: "",
+            id: 0,
+            isMtpLocation: 0,
+            isUn: 0,
+            lat: 0.0,
+            locationName: "",
+            lon: 0.0,
+            rank: 0,
+            rankUn: 0,
+            regionId: 0,
+            regionName: "",
+            visitors: 0,
+            visitorsUn: 0,
+            weather: "",
+            weatherhist: "",
+            zoom: 0)
+    }()
+
     var coordinate: CLLocationCoordinate2D {
         return CLLocationCoordinate2D(
-            latitude: lat.doubleValue ?? 0,
-            longitude: lon.doubleValue ?? 0
-        )
+            latitude: lat ?? 0,
+            longitude: lon ?? 0)
     }
 
     var title: String { return locationName }

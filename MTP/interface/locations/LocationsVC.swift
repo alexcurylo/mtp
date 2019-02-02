@@ -269,7 +269,7 @@ private extension LocationsVC {
     func showUNCountries() {
         let new = Set<PlaceAnnotation>(gestalt.uncountries.map { place in
             PlaceAnnotation(type: .uncountries,
-                            id: place.id.intValue ?? 0,
+                            id: place.id,
                             coordinate: place.coordinate,
                             title: place.title,
                             subtitle: place.subtitle)

@@ -20,7 +20,7 @@ protocol Gestalt: Observable {
     var rankingsPage: RankingsPage? { get set }
     var restaurants: [Restaurant] { get set }
     var token: String { get set }
-    var uncountries: [Country] { get set }
+    var uncountries: [Location] { get set }
     var user: User? { get set }
     var whss: [WHS] { get set }
 }

@@ -7,7 +7,7 @@ struct User: Codable {
     let airport: String?
     let bio: String?
     let birthday: Date
-    let country: Country
+    let country: Location // still has 30 items
     let countryId: UncertainValue<Int, String> // Int in staging, String in production
     let createdAt: Date
     let email: String
@@ -21,7 +21,7 @@ struct User: Codable {
     let id: Int
     let lastLogIn: String?
     let lastName: String
-    let location: Country
+    let location: Location // still has 30 items
     let links: [Link]
     let locationId: UncertainValue<Int, String> // Int in staging, String in production
     let picture: String?
@@ -151,7 +151,7 @@ extension User {
             airport: nil,
             bio: nil,
             birthday: Date(),
-            country: Country.loading,
+            country: Location.loading,
             countryId: UncertainValue<Int, String>(with: 0),
             createdAt: Date(),
             email: "",
@@ -165,7 +165,7 @@ extension User {
             id: 0,
             lastLogIn: nil,
             lastName: "",
-            location: Country.loading,
+            location: Location.loading,
             links: [],
             locationId: UncertainValue<Int, String>(with: 0),
             picture: nil,
@@ -197,7 +197,7 @@ extension User {
         airport = nil
         bio = nil
         birthday = ranked.birthday
-        country = ranked.country ?? Country.loading
+        country = ranked.country ?? Location.loading
         countryId = UncertainValue<Int, String>(with: 0)
         createdAt = Date()
         email = ""
