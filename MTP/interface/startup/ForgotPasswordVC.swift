@@ -14,7 +14,7 @@ final class ForgotPasswordVC: UIViewController, ServiceProvider {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        email = gestalt.email
+        email = data.email
         let message = R.string.localizable.sendLink(email.hiddenName)
         messageLabel?.text = message
     }

@@ -16,7 +16,7 @@ final class RootVC: UIViewController, ServiceProvider {
             return false
         }
 
-        return gestalt.isLoggedIn
+        return data.isLoggedIn
     }
 
     override func viewDidLoad() {

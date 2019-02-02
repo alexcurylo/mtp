@@ -3,9 +3,7 @@
 import JWTDecode
 import UIKit
 
-var gestalt = UserDefaults.standard
-
-protocol Gestalt: Observable, ServiceProvider {
+protocol DataService: AnyObject, Observable, ServiceProvider {
 
     var beaches: [Place] { get set }
     var checklists: Checklists? { get set }
@@ -27,9 +25,9 @@ protocol Gestalt: Observable, ServiceProvider {
 
 // MARK: - User state
 
-extension Gestalt {
+extension DataService {
 
-    mutating func logOut() {
+    func logOut() {
         FacebookButton.logOut()
         email = ""
         token = ""
@@ -53,58 +51,57 @@ extension Gestalt {
 
 // MARK: - Observable
 
-enum GestaltChange: String {
+enum DataServiceChange: String {
 
     case checklists
     case user
     // and the contents of Checklist
 }
 
-extension Notification.Name {
-    static let gestaltChange = Notification.Name("GestaltChange")
-}
+final class DataServiceObserver: ObserverImpl {
 
-final class GestaltObserver: ObserverImpl {
+    static let notification = Notification.Name("DataServiceChange")
+    static let statusKey = StatusKey.change
 
-    init(of value: GestaltChange,
+    init(of value: DataServiceChange,
          notify: @escaping NotificationHandler) {
-        super.init(notification: gestalt.notification,
-                   key: gestalt.statusKey,
+        super.init(notification: DataServiceObserver.notification,
+                   key: DataServiceObserver.statusKey,
                    value: value.rawValue,
                    notify: notify)
     }
 
     init(of value: Checklist,
          notify: @escaping NotificationHandler) {
-        super.init(notification: gestalt.notification,
-                   key: gestalt.statusKey,
+        super.init(notification: DataServiceObserver.notification,
+                   key: DataServiceObserver.statusKey,
                    value: value.rawValue,
                    notify: notify)
     }
 }
 
-extension Gestalt {
+extension DataService {
 
     var statusKey: StatusKey {
-        return .change
+        return DataServiceObserver.statusKey
     }
 
     var notification: Notification.Name {
-        return .gestaltChange
+        return DataServiceObserver.notification
     }
 
     func userObserver(handler: @escaping NotificationHandler) -> Observer {
-        return GestaltObserver(of: .user, notify: handler)
+        return DataServiceObserver(of: .user, notify: handler)
     }
 
     func checklistsObserver(handler: @escaping NotificationHandler) -> Observer {
-        return GestaltObserver(of: .checklists, notify: handler)
+        return DataServiceObserver(of: .checklists, notify: handler)
     }
 }
 
 extension Checklist {
 
     func observer(handler: @escaping NotificationHandler) -> Observer {
-        return GestaltObserver(of: self, notify: handler)
+        return DataServiceObserver(of: self, notify: handler)
     }
 }

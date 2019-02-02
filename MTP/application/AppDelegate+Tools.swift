@@ -44,7 +44,7 @@ extension AppDelegate {
 
 private let swiftyBeaver = SwiftyBeaver.self
 
-final class SwiftyBeaverLoggingService: LoggingService {
+struct SwiftyBeaverLoggingService: LoggingService {
 
     func custom(level: LoggingLevel,
                 message: @autoclosure () -> Any,

@@ -235,7 +235,7 @@ extension MyCountsPageVC: UICollectionViewDataSource {
     func observe() {
         guard checklistsObserver == nil else { return }
 
-        checklistsObserver = gestalt.checklistsObserver { [weak self] in
+        checklistsObserver = data.checklistsObserver { [weak self] in
             guard let self = self else { return }
             self.set(list: self.list)
         }

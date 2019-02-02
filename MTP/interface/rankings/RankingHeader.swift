@@ -3,7 +3,7 @@
 import Anchorage
 import Nuke
 
-final class RankingHeader: UICollectionReusableView {
+final class RankingHeader: UICollectionReusableView, ServiceProvider {
 
     static let reuseIdentifier = NSStringFromClass(RankingHeader.self)
 
@@ -51,7 +51,7 @@ final class RankingHeader: UICollectionReusableView {
         rankLabel.text = rank.grouped
         filterLabel.text = filter
 
-        if let user = gestalt.user {
+        if let user = data.user {
             avatarImageView.set(thumbnail: user)
         } else {
             avatarImageView.image = nil

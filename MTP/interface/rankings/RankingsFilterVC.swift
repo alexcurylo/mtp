@@ -65,7 +65,7 @@ extension RankingsFilterVC {
 private extension RankingsFilterVC {
 
     func configure() {
-        let filter = gestalt.rankingsFilter ?? UserFilter()
+        let filter = data.rankingsFilter ?? UserFilter()
         original = filter
         current = filter
         saveButton?.isEnabled = false
@@ -88,9 +88,9 @@ private extension RankingsFilterVC {
 
     func saveEdits(notifying controller: UIViewController?) {
         if let current = current {
-            gestalt.rankingsFilter = current == UserFilter() ? nil : current
+            data.rankingsFilter = current == UserFilter() ? nil : current
         } else {
-            gestalt.rankingsFilter = nil
+            data.rankingsFilter = nil
         }
         if let controller = controller as? RankingsVC {
             controller.updateFilter()

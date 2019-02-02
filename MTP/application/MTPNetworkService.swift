@@ -190,10 +190,10 @@ extension MTP: AccessTokenAuthorizable {
     }
 }
 
-private extension MTP {
+extension MTP: ServiceProvider {
 
     var etag: String {
-        return gestalt.etags[path] ?? ""
+        return data.etags[path] ?? ""
     }
 }
 
@@ -245,12 +245,12 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     func checkIn(list: Checklist,
                  id: Int,
                  then: @escaping BoolResult = { _ in }) {
-        guard gestalt.isLoggedIn else {
+        guard data.isLoggedIn else {
             log.verbose("checkIn attempt invalid: not logged in")
             return then(.failure(.parameter))
         }
 
-        let auth = AccessTokenPlugin { gestalt.token }
+        let auth = AccessTokenPlugin { self.data.token }
         let provider = MoyaProvider<MTP>(plugins: [auth])
         let endpoint = MTP.checkIn(list: list, id: id)
         provider.request(endpoint) { response in
@@ -268,12 +268,12 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     func checkOut(list: Checklist,
                   id: Int,
                   then: @escaping BoolResult = { _ in }) {
-        guard gestalt.isLoggedIn else {
+        guard data.isLoggedIn else {
             log.verbose("checkOut attempt invalid: not logged in")
             return then(.failure(.parameter))
         }
 
-        let auth = AccessTokenPlugin { gestalt.token }
+        let auth = AccessTokenPlugin { self.data.token }
         let provider = MoyaProvider<MTP>(plugins: [auth])
         let endpoint = MTP.checkOut(list: list, id: id)
         provider.request(endpoint) { response in
@@ -305,7 +305,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     let beaches = try result.map([Place].self,
                                                  using: JSONDecoder.mtp)
                     self.log.verbose("beaches succeeded")
-                    gestalt.beaches = beaches
+                    self.data.beaches = beaches
                     return then(.success(beaches))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -323,12 +323,12 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     }
 
     func loadChecklists(then: @escaping ChecklistsResult = { _ in }) {
-        guard gestalt.isLoggedIn else {
+        guard data.isLoggedIn else {
             log.verbose("load checklists attempt invalid: not logged in")
             return then(.failure(.parameter))
         }
 
-        let auth = AccessTokenPlugin { gestalt.token }
+        let auth = AccessTokenPlugin { self.data.token }
         let provider = MoyaProvider<MTP>(plugins: [auth])
         let endpoint = MTP.checklists
         guard !endpoint.isThrottled else {
@@ -345,7 +345,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     let checklists = try result.map(Checklists.self,
                                                     using: JSONDecoder.mtp)
                     self.log.verbose("checklists: succeeded")
-                    gestalt.checklists = checklists
+                    self.data.checklists = checklists
                     return then(.success(checklists))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -378,7 +378,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 do {
                     let divesites = try result.map([Place].self,
                                                    using: JSONDecoder.mtp)
-                    gestalt.divesites = divesites
+                    self.data.divesites = divesites
                     return then(.success(divesites))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -411,7 +411,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 do {
                     let golfcourses = try result.map([Place].self,
                                                      using: JSONDecoder.mtp)
-                    gestalt.golfcourses = golfcourses
+                    self.data.golfcourses = golfcourses
                     return then(.success(golfcourses))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -444,7 +444,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 do {
                     let locations = try result.map([Location].self,
                                                    using: JSONDecoder.mtp)
-                    gestalt.locations = locations
+                    self.data.locations = locations
                     return then(.success(locations))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -464,8 +464,8 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     func loadRankings(page: RankingsPageSpec,
                       then: @escaping RankingsResult = { _ in }) {
         let provider: MoyaProvider<MTP>
-        if gestalt.isLoggedIn {
-            let auth = AccessTokenPlugin { gestalt.token }
+        if data.isLoggedIn {
+            let auth = AccessTokenPlugin { self.data.token }
             provider = MoyaProvider<MTP>(plugins: [auth])
         } else {
             provider = MoyaProvider<MTP>()
@@ -480,7 +480,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 do {
                     let rankingsPage = try result.map(RankingsPage.self,
                                                       using: JSONDecoder.mtp)
-                    gestalt.rankingsPages[page.key] = rankingsPage
+                    self.data.rankingsPages[page.key] = rankingsPage
                     return then(.success(rankingsPage))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -513,7 +513,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 do {
                     let restaurants = try result.map([Restaurant].self,
                                                      using: JSONDecoder.mtp)
-                    gestalt.restaurants = restaurants
+                    self.data.restaurants = restaurants
                     return then(.success(restaurants))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -546,7 +546,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 do {
                     let uncountries = try result.map([Location].self,
                                                      using: JSONDecoder.mtp)
-                    gestalt.uncountries = uncountries
+                    self.data.uncountries = uncountries
                     return then(.success(uncountries))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -613,7 +613,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 do {
                     let whss = try result.map([WHS].self,
                                               using: JSONDecoder.mtp)
-                    gestalt.whss = whss
+                    self.data.whss = whss
                     return then(.success(whss))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -673,12 +673,12 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     }
 
     func userGetByToken(then: @escaping UserResult = { _ in }) {
-        guard gestalt.isLoggedIn else {
+        guard data.isLoggedIn else {
             log.verbose("userGetByToken attempt invalid: not logged in")
             return then(.failure(.parameter))
         }
 
-        let auth = AccessTokenPlugin { gestalt.token }
+        let auth = AccessTokenPlugin { self.data.token }
         let provider = MoyaProvider<MTP>(plugins: [auth])
         let endpoint = MTP.userGetByToken
         guard !endpoint.isThrottled else {
@@ -694,7 +694,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     }
                     let user = try result.map(User.self,
                                               using: JSONDecoder.mtp)
-                    gestalt.user = user
+                    self.data.user = user
                     self.log.verbose("refreshed user: " + user.debugDescription)
                     return then(.success(user))
                 } catch {
@@ -725,10 +725,10 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 let user = try result.map(User.self,
                                           using: JSONDecoder.mtp)
                 guard let token = user.token else { throw MTPNetworkError.token }
-                gestalt.token = token
-                gestalt.user = user
-                gestalt.email = email
-                gestalt.password = password
+                data.token = token
+                data.user = user
+                data.email = email
+                data.password = password
                 log.verbose("logged in user: " + user.debugDescription)
                 return then(.success(user))
             } catch {
@@ -765,9 +765,9 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
 
         log.todo("implement register: \(name), \(email), \(password)")
 
-        gestalt.email = email
-        gestalt.name = name
-        gestalt.password = password
+        data.email = email
+        data.name = name
+        data.password = password
         then(.success(true))
     }
 }
@@ -784,7 +784,7 @@ extension MoyaError {
     }
 }
 
-extension Response {
+extension Response: ServiceProvider {
 
     func modified(from endpoint: MTP) -> Bool {
         endpoint.markReceived()
@@ -805,7 +805,7 @@ extension Response {
         }
 
         if let etag = response.find(header: "Etag") {
-            gestalt.etags[endpoint.path] = etag
+            data.etags[endpoint.path] = etag
         }
 
         return true
@@ -849,7 +849,7 @@ extension MoyaMTPNetworkService {
     }
 
     func refreshUser() {
-        guard gestalt.isLoggedIn else { return }
+        guard data.isLoggedIn else { return }
 
         userGetByToken()
         loadChecklists()

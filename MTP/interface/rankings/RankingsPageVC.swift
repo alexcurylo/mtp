@@ -70,9 +70,9 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
 
     func set(list: Checklist) {
         self.list = list
-        filter = gestalt.rankingsFilter ?? UserFilter()
+        filter = data.rankingsFilter ?? UserFilter()
         filterDescription = filter.description
-        rankings = gestalt.rankingsPages[list.rawValue]
+        rankings = data.rankingsPages[list.rawValue]
         log.todo("RankingsPageVC rankings, filter)")
         filterRank = list.rank()
 
@@ -146,7 +146,7 @@ private extension RankingsPageVC {
     func observe() {
         guard userObserver == nil else { return }
 
-        userObserver = gestalt.userObserver { [weak self] in
+        userObserver = data.userObserver { [weak self] in
             self?.log.todo("RankingsPageVC update")
             self?.collectionView.reloadData()
         }
@@ -161,7 +161,7 @@ private extension RankingsPageVC {
             return User.loading
         }
 
-        if let myself = gestalt.user,
+        if let myself = data.user,
            myself.id == ranked.id {
             return myself
         }

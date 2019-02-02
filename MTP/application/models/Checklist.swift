@@ -2,7 +2,7 @@
 
 import UIKit
 
-enum Checklist: String, CaseIterable {
+enum Checklist: String, CaseIterable, ServiceProvider {
 
     case locations
     case uncountries
@@ -97,19 +97,19 @@ enum Checklist: String, CaseIterable {
         let places: [PlaceInfo]
         switch self {
         case .locations:
-            places = gestalt.locations
+            places = data.locations
         case .uncountries:
-            places = gestalt.uncountries
+            places = data.uncountries
         case .whss:
-            places = gestalt.whss
+            places = data.whss
         case .beaches:
-            places = gestalt.beaches
+            places = data.beaches
         case .golfcourses:
-            places = gestalt.golfcourses
+            places = data.golfcourses
         case .divesites:
-            places = gestalt.divesites
+            places = data.divesites
         case .restaurants:
-            places = gestalt.restaurants
+            places = data.restaurants
         }
         return places
     }
@@ -122,13 +122,13 @@ enum Checklist: String, CaseIterable {
              visited: Bool) {
         guard isVisited(id: id) != visited else { return }
 
-        gestalt.checklists?.set(list: self,
-                                id: id,
-                                visited: visited)
+        data.checklists?.set(list: self,
+                             id: id,
+                             visited: visited)
     }
 
     func rank(of user: User? = nil) -> Int {
-        guard let user = user ?? gestalt.user else { return 0 }
+        guard let user = user ?? data.user else { return 0 }
 
         switch self {
         case .locations:
@@ -156,19 +156,19 @@ enum Checklist: String, CaseIterable {
         let total: Int
         switch self {
         case .locations:
-            total = gestalt.locations.count
+            total = data.locations.count
         case .uncountries:
-            total = gestalt.uncountries.count
+            total = data.uncountries.count
         case .whss:
-            total = gestalt.whss.count
+            total = data.whss.count
         case .beaches:
-            total = gestalt.beaches.count
+            total = data.beaches.count
         case .golfcourses:
-            total = gestalt.golfcourses.count
+            total = data.golfcourses.count
         case .divesites:
-            total = gestalt.divesites.count
+            total = data.divesites.count
         case .restaurants:
-            total = gestalt.restaurants.count
+            total = data.restaurants.count
         }
         let complete = visited(of: user)
         return (complete, total - complete)
@@ -194,7 +194,7 @@ enum Checklist: String, CaseIterable {
     }
 
     func visited(of user: User? = nil) -> Int {
-        guard let user = user ?? gestalt.user else { return 0 }
+        guard let user = user ?? data.user else { return 0 }
 
         switch self {
         case .locations:
@@ -215,7 +215,7 @@ enum Checklist: String, CaseIterable {
     }
 
     var visits: [Int] {
-        guard let checklists = gestalt.checklists else { return [] }
+        guard let checklists = data.checklists else { return [] }
 
         switch self {
         case .locations:

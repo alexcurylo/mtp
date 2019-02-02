@@ -2,7 +2,7 @@
 
 import Foundation
 
-extension UserDefaults: Gestalt, ServiceProvider {
+extension UserDefaults: DataService, ServiceProvider {
 
     var beaches: [Place] {
         get {

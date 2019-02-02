@@ -13,7 +13,7 @@ final class RankingsVC: UIViewController, ServiceProvider {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        gestalt.rankingsFilter = nil
+        data.rankingsFilter = nil
 
         configurePagesHolder()
     }

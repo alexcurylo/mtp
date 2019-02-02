@@ -43,13 +43,13 @@
 		FA392BDD20DF69F50026C828 /* MTPUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA392BDC20DF69F50026C828 /* MTPUITests.swift */; };
 		FA3BD1D2215F7FCD007EAF75 /* MyPostsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3BD1D1215F7FCD007EAF75 /* MyPostsVC.swift */; };
 		FA3BD2292160D6BC007EAF75 /* CreateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3BD2282160D6BC007EAF75 /* CreateTests.swift */; };
-		FA3CEC562132579300791195 /* Gestalt.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3CEC552132579300791195 /* Gestalt.swift */; };
+		FA3CEC562132579300791195 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3CEC552132579300791195 /* DataService.swift */; };
 		FA46377E210DE1E60007382D /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA46377D210DE1E60007382D /* SettingsVC.swift */; };
 		FA463780210DE94C0007382D /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA46377F210DE94C0007382D /* EditProfileVC.swift */; };
 		FA463783210E00E60007382D /* EditProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA463781210E00E60007382D /* EditProfile.storyboard */; };
 		FA463785210E06230007382D /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA463784210E06230007382D /* LoggingService.swift */; };
 		FA46533021157784005B5A0A /* FacebookButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA46532F21157784005B5A0A /* FacebookButton.swift */; };
-		FA4653322115A250005B5A0A /* UserDefaults+Gestalt.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653312115A250005B5A0A /* UserDefaults+Gestalt.swift */; };
+		FA4653322115A250005B5A0A /* UserDefaults+DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653312115A250005B5A0A /* UserDefaults+DataService.swift */; };
 		FA4653342115ADC6005B5A0A /* MTPNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653332115ADC6005B5A0A /* MTPNetworkService.swift */; };
 		FA5AC0B421FC49860080F84F /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0B321FC49860080F84F /* PlaceAnnotation.swift */; };
 		FA5AC0B621FC4EBE0080F84F /* PlaceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0B521FC4EBE0080F84F /* PlaceAnnotationView.swift */; };
@@ -172,7 +172,7 @@
 		FA392BDE20DF69F50026C828 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA3BD1D1215F7FCD007EAF75 /* MyPostsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostsVC.swift; sourceTree = "<group>"; };
 		FA3BD2282160D6BC007EAF75 /* CreateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateTests.swift; sourceTree = "<group>"; };
-		FA3CEC552132579300791195 /* Gestalt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gestalt.swift; sourceTree = "<group>"; };
+		FA3CEC552132579300791195 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		FA3E366A20DFACCD002AF4EE /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		FA3E366B20DFB484002AF4EE /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		FA3E366F20DFC0E3002AF4EE /* IDETemplateMacros.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = IDETemplateMacros.plist; path = MTP.xcodeproj/xcshareddata/IDETemplateMacros.plist; sourceTree = "<group>"; };
@@ -181,7 +181,7 @@
 		FA463782210E00E60007382D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/EditProfile.storyboard; sourceTree = "<group>"; };
 		FA463784210E06230007382D /* LoggingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingService.swift; sourceTree = "<group>"; };
 		FA46532F21157784005B5A0A /* FacebookButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookButton.swift; sourceTree = "<group>"; };
-		FA4653312115A250005B5A0A /* UserDefaults+Gestalt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Gestalt.swift"; sourceTree = "<group>"; };
+		FA4653312115A250005B5A0A /* UserDefaults+DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+DataService.swift"; sourceTree = "<group>"; };
 		FA4653332115ADC6005B5A0A /* MTPNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPNetworkService.swift; sourceTree = "<group>"; };
 		FA4B7FE021E38970006AF8E2 /* MTP.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MTP.entitlements; sourceTree = "<group>"; };
 		FA4B7FE121E38BF3006AF8E2 /* apple-app-site-association */ = {isa = PBXFileReference; lastKnownFileType = text; path = "apple-app-site-association"; sourceTree = "<group>"; };
@@ -431,10 +431,10 @@
 				FA392BBA20DF69F30026C828 /* AppDelegate.swift */,
 				FA9A71DE20F1D3FA005F6A57 /* AppDelegate+Tools.swift */,
 				FAD2B51421F468A3009FFDD7 /* models */,
-				FA3CEC552132579300791195 /* Gestalt.swift */,
+				FA3CEC552132579300791195 /* DataService.swift */,
 				FA4653332115ADC6005B5A0A /* MTPNetworkService.swift */,
 				8C76D5DB22028874005CF4CD /* ServiceProvider.swift */,
-				FA4653312115A250005B5A0A /* UserDefaults+Gestalt.swift */,
+				FA4653312115A250005B5A0A /* UserDefaults+DataService.swift */,
 			);
 			path = application;
 			sourceTree = "<group>";
@@ -936,7 +936,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA3CEC562132579300791195 /* Gestalt.swift in Sources */,
+				FA3CEC562132579300791195 /* DataService.swift in Sources */,
 				FA463785210E06230007382D /* LoggingService.swift in Sources */,
 				FA74574D210CA5730010F4F4 /* MyProfileVC.swift in Sources */,
 				FAFEDA50211DB0E800DA3DB8 /* LoginFailVC.swift in Sources */,
@@ -980,7 +980,7 @@
 				FAAE29C220EFADC800B43BA9 /* R.generated.swift in Sources */,
 				FA5AC0C721FDD8AA0080F84F /* CountToggleCell.swift in Sources */,
 				FA12D682213B963C0053E9BF /* RankingsPageVC.swift in Sources */,
-				FA4653322115A250005B5A0A /* UserDefaults+Gestalt.swift in Sources */,
+				FA4653322115A250005B5A0A /* UserDefaults+DataService.swift in Sources */,
 				FA74C0F02117C60B0013A840 /* ForgotPasswordVC.swift in Sources */,
 				FA392BBB20DF69F30026C828 /* AppDelegate.swift in Sources */,
 				FAD2B51C21F4A675009FFDD7 /* Restaurant.swift in Sources */,

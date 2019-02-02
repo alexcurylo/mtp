@@ -76,13 +76,13 @@ private extension MyProfileVC {
         guard userObserver == nil else { return }
 
         configure()
-        userObserver = gestalt.userObserver { [weak self] in
+        userObserver = data.userObserver { [weak self] in
             self?.configure()
         }
     }
 
     func configure() {
-        guard let user = gestalt.user else { return }
+        guard let user = data.user else { return }
 
         avatarImageView?.set(thumbnail: user)
         fullNameLabel?.text = user.fullName

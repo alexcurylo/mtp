@@ -33,7 +33,7 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
         case R.segue.editProfileVC.saveEdits.identifier:
             saveEdits()
         case R.segue.editProfileVC.unwindFromEditProfile.identifier:
-            gestalt.logOut()
+            data.logOut()
         case R.segue.editProfileVC.cancelEdits.identifier,
              R.segue.editProfileVC.showConfirmDelete.identifier:
             break

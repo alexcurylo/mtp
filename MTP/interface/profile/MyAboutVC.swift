@@ -68,7 +68,7 @@ private extension MyAboutVC {
         guard userObserver == nil else { return }
 
         configure()
-        userObserver = gestalt.userObserver { [weak self] in
+        userObserver = data.userObserver { [weak self] in
             self?.configure()
         }
         locationsObserver = Checklist.locations.observer { [weak self] in
@@ -77,7 +77,7 @@ private extension MyAboutVC {
     }
 
     func configure() {
-        guard let user = gestalt.user else { return }
+        guard let user = data.user else { return }
 
         log.todo("configure about")
 

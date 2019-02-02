@@ -49,10 +49,10 @@ final class LoginVC: UIViewController, ServiceProvider {
             let alert = R.segue.loginVC.presentLoginFail(segue: segue)
             alert?.destination.errorMessage = errorMessage
             hide(navBar: true)
-            gestalt.email = emailTextField?.text ?? ""
+            data.email = emailTextField?.text ?? ""
         case R.segue.loginVC.presentForgotPassword.identifier:
             hide(navBar: true)
-            gestalt.email = emailTextField?.text ?? ""
+            data.email = emailTextField?.text ?? ""
         case R.segue.loginVC.showMain.identifier,
              R.segue.loginVC.switchSignup.identifier,
              R.segue.loginVC.unwindFromLogin.identifier:
