@@ -30,6 +30,7 @@
 		FA32CC782100C360004C1329 /* SignupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA32CC772100C360004C1329 /* SignupVC.swift */; };
 		FA32CC7E2100CB75004C1329 /* Signup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA32CC802100CB75004C1329 /* Signup.storyboard */; };
 		FA32CC892100CC6B004C1329 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA32CC8B2100CC6B004C1329 /* Login.storyboard */; };
+		FA36FBED22059E6B00616CDE /* ApplicationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA36FBEC22059E6B00616CDE /* ApplicationService.swift */; };
 		FA390132213AB4A90016A362 /* Rankings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA390134213AB4A90016A362 /* Rankings.storyboard */; };
 		FA390139213B84B40016A362 /* RankingsPagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA390138213B84B40016A362 /* RankingsPagingVC.swift */; };
 		FA392BBB20DF69F30026C828 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA392BBA20DF69F30026C828 /* AppDelegate.swift */; };
@@ -152,6 +153,7 @@
 		FA32CC772100C360004C1329 /* SignupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupVC.swift; sourceTree = "<group>"; };
 		FA32CC7F2100CB75004C1329 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Signup.storyboard; sourceTree = "<group>"; };
 		FA32CC8A2100CC6B004C1329 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Login.storyboard; sourceTree = "<group>"; };
+		FA36FBEC22059E6B00616CDE /* ApplicationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationService.swift; sourceTree = "<group>"; };
 		FA390133213AB4A90016A362 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Rankings.storyboard; sourceTree = "<group>"; };
 		FA390138213B84B40016A362 /* RankingsPagingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsPagingVC.swift; sourceTree = "<group>"; };
 		FA392BB720DF69F30026C828 /* MTP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MTP.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -550,6 +552,7 @@
 		FAAE29C320F0570000B43BA9 /* support */ = {
 			isa = PBXGroup;
 			children = (
+				FA36FBEC22059E6B00616CDE /* ApplicationService.swift */,
 				FAE1F118214354A80002CAB2 /* Avenir.swift */,
 				FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */,
 				FA46532F21157784005B5A0A /* FacebookButton.swift */,
@@ -994,6 +997,7 @@
 				FA254DCD2169A2A400FC9360 /* MyAboutVC.swift in Sources */,
 				FA32CC782100C360004C1329 /* SignupVC.swift in Sources */,
 				FA25ACE6217B54A8000AE26D /* RankingCell.swift in Sources */,
+				FA36FBED22059E6B00616CDE /* ApplicationService.swift in Sources */,
 				FAAE29C520F05A9600B43BA9 /* UserDefaults+TypeSafety.swift in Sources */,
 				FA5AC0C121FDCCDE0080F84F /* ListPagingItem.swift in Sources */,
 				FA46377E210DE1E60007382D /* SettingsVC.swift in Sources */,
