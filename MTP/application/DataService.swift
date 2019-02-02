@@ -49,6 +49,139 @@ extension DataService {
     }
 }
 
+final class DataServiceImpl: DataService {
+
+    let defaults = UserDefaults.standard
+
+    var beaches: [Place] {
+        get { return defaults.beaches }
+        set {
+            defaults.beaches = newValue
+            notifyObservers(about: #function)
+        }
+    }
+
+    var checklists: Checklists? {
+        get { return defaults.checklists }
+        set {
+            defaults.checklists = newValue
+            notifyObservers(about: #function)
+        }
+    }
+
+    var divesites: [Place] {
+        get { return defaults.divesites }
+        set {
+            defaults.divesites = newValue
+            notifyObservers(about: #function)
+        }
+    }
+
+    var email: String {
+        get { return defaults.email }
+        set {
+            defaults.email = newValue
+            notifyObservers(about: #function)
+        }
+    }
+
+    var etags: [String: String] {
+        get { return defaults.etags }
+        set {
+            defaults.etags = newValue
+            notifyObservers(about: #function)
+        }
+    }
+
+    var golfcourses: [Place] {
+        get { return defaults.golfcourses }
+        set {
+            defaults.golfcourses = newValue
+            notifyObservers(about: #function)
+        }
+    }
+
+    var locations: [Location] {
+        get { return defaults.locations }
+        set {
+            defaults.locations = newValue
+            notifyObservers(about: #function)
+        }
+    }
+
+    var name: String {
+        get { return defaults.name }
+        set {
+            defaults.name = newValue
+            notifyObservers(about: #function)
+        }
+    }
+
+    var password: String {
+        get { return defaults.password }
+        set {
+            defaults.password = newValue
+            notifyObservers(about: #function)
+        }
+    }
+
+    var rankingsFilter: UserFilter? {
+        get { return defaults.rankingsFilter }
+        set {
+            defaults.rankingsFilter = newValue
+            notifyObservers(about: #function)
+        }
+    }
+
+    var rankingsPages: [String: RankingsPage] {
+        get { return defaults.rankingsPages }
+        set {
+            defaults.rankingsPages = newValue
+            notifyObservers(about: #function)
+        }
+    }
+
+    var restaurants: [Restaurant] {
+        get { return defaults.restaurants }
+        set {
+            defaults.restaurants = newValue
+            notifyObservers(about: #function)
+        }
+    }
+
+    var token: String {
+        get { return defaults.token }
+        set {
+            defaults.token = newValue
+            notifyObservers(about: #function)
+        }
+    }
+
+    var uncountries: [Location] {
+        get { return defaults.uncountries }
+        set {
+            defaults.uncountries = newValue
+            notifyObservers(about: #function)
+        }
+    }
+
+    var user: User? {
+        get { return defaults.user }
+        set {
+            defaults.user = newValue
+            notifyObservers(about: #function)
+        }
+    }
+
+    var whss: [WHS] {
+        get { return defaults.whss }
+        set {
+            defaults.whss = newValue
+            notifyObservers(about: #function)
+        }
+    }
+}
+
 // MARK: - Observable
 
 enum DataServiceChange: String {

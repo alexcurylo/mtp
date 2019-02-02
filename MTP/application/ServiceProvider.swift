@@ -29,7 +29,7 @@ extension ServiceProvider {
 private enum ServiceProviderInstances {
 
     static let appServiceInstance = UIApplication.shared
-    static let dataServiceInstance = UserDefaults.standard
+    static let dataServiceInstance = DataServiceImpl()
     static let logServiceInstance = SwiftyBeaverLoggingService()
     static let mtpServiceInstance = MoyaMTPNetworkService()
 }

@@ -2,7 +2,7 @@
 
 import Foundation
 
-extension UserDefaults: DataService, ServiceProvider {
+extension UserDefaults: ServiceProvider {
 
     var beaches: [Place] {
         get {
@@ -16,7 +16,6 @@ extension UserDefaults: DataService, ServiceProvider {
         set {
             do {
                 try set(object: newValue, forKey: #function)
-                notifyObservers(about: #function)
             } catch {
                 log.error("encoding beaches newValue: \(error)")
             }
@@ -35,7 +34,6 @@ extension UserDefaults: DataService, ServiceProvider {
         set {
             do {
                 try set(object: newValue, forKey: #function)
-                notifyObservers(about: #function)
             } catch {
                 log.error("encoding checklists newValue: \(error)")
             }
@@ -54,7 +52,6 @@ extension UserDefaults: DataService, ServiceProvider {
         set {
             do {
                 try set(object: newValue, forKey: #function)
-                notifyObservers(about: #function)
             } catch {
                 log.error("encoding divesites newValue: \(error)")
             }
@@ -78,7 +75,6 @@ extension UserDefaults: DataService, ServiceProvider {
         set {
             do {
                 try set(object: newValue, forKey: #function)
-                notifyObservers(about: #function)
             } catch {
                 log.error("encoding etags newValue: \(error)")
             }
@@ -97,7 +93,6 @@ extension UserDefaults: DataService, ServiceProvider {
         set {
             do {
                 try set(object: newValue, forKey: #function)
-                notifyObservers(about: #function)
             } catch {
                 log.error("encoding golfcourses newValue: \(error)")
             }
@@ -116,7 +111,6 @@ extension UserDefaults: DataService, ServiceProvider {
         set {
             do {
                 try set(object: newValue, forKey: #function)
-                notifyObservers(about: #function)
             } catch {
                 log.error("encoding locations newValue: \(error)")
             }
@@ -167,7 +161,6 @@ extension UserDefaults: DataService, ServiceProvider {
         set {
             do {
                 try set(object: newValue, forKey: #function)
-                notifyObservers(about: #function)
             } catch {
                 log.error("encoding rankingsPages newValue: \(error)")
             }
@@ -186,7 +179,6 @@ extension UserDefaults: DataService, ServiceProvider {
         set {
             do {
                 try set(object: newValue, forKey: #function)
-                notifyObservers(about: #function)
             } catch {
                 log.error("encoding restaurants newValue: \(error)")
             }
@@ -210,7 +202,6 @@ extension UserDefaults: DataService, ServiceProvider {
         set {
             do {
                 try set(object: newValue, forKey: #function)
-                notifyObservers(about: #function)
             } catch {
                 log.error("encoding uncountries newValue: \(error)")
             }
@@ -233,7 +224,6 @@ extension UserDefaults: DataService, ServiceProvider {
             }
             do {
                 try set(object: newUser, forKey: #function)
-                notifyObservers(about: #function)
             } catch {
                 log.error("encoding user newValue: \(error)")
             }
@@ -252,7 +242,6 @@ extension UserDefaults: DataService, ServiceProvider {
         set {
             do {
                 try set(object: newValue, forKey: #function)
-                notifyObservers(about: #function)
             } catch {
                 log.error("encoding whss newValue: \(error)")
             }
