@@ -2,7 +2,7 @@
 
 import UIKit
 
-final class LoginFailVC: UIViewController {
+final class LoginFailVC: UIViewController, ServiceProvider {
 
     @IBOutlet private var alertHolder: UIView?
     @IBOutlet private var bottomY: NSLayoutConstraint?

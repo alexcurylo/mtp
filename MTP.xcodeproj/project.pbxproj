@@ -46,7 +46,7 @@
 		FA46377E210DE1E60007382D /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA46377D210DE1E60007382D /* SettingsVC.swift */; };
 		FA463780210DE94C0007382D /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA46377F210DE94C0007382D /* EditProfileVC.swift */; };
 		FA463783210E00E60007382D /* EditProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA463781210E00E60007382D /* EditProfile.storyboard */; };
-		FA463785210E06230007382D /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA463784210E06230007382D /* Logger.swift */; };
+		FA463785210E06230007382D /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA463784210E06230007382D /* LoggingService.swift */; };
 		FA46533021157784005B5A0A /* FacebookButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA46532F21157784005B5A0A /* FacebookButton.swift */; };
 		FA4653322115A250005B5A0A /* UserDefaults+Gestalt.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653312115A250005B5A0A /* UserDefaults+Gestalt.swift */; };
 		FA4653342115ADC6005B5A0A /* MTPAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653332115ADC6005B5A0A /* MTPAPI.swift */; };
@@ -177,7 +177,7 @@
 		FA46377D210DE1E60007382D /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		FA46377F210DE94C0007382D /* EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
 		FA463782210E00E60007382D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/EditProfile.storyboard; sourceTree = "<group>"; };
-		FA463784210E06230007382D /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		FA463784210E06230007382D /* LoggingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingService.swift; sourceTree = "<group>"; };
 		FA46532F21157784005B5A0A /* FacebookButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookButton.swift; sourceTree = "<group>"; };
 		FA4653312115A250005B5A0A /* UserDefaults+Gestalt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Gestalt.swift"; sourceTree = "<group>"; };
 		FA4653332115ADC6005B5A0A /* MTPAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPAPI.swift; sourceTree = "<group>"; };
@@ -554,7 +554,7 @@
 				FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */,
 				FA46532F21157784005B5A0A /* FacebookButton.swift */,
 				FAE1F11D2143B29F0002CAB2 /* LocationTracker.swift */,
-				FA463784210E06230007382D /* Logger.swift */,
+				FA463784210E06230007382D /* LoggingService.swift */,
 				FA254DCA21685D6800FC9360 /* NSObject+Create.swift */,
 				FA6A188521EFEF920092C56C /* Observable.swift */,
 				FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */,
@@ -934,7 +934,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA3CEC562132579300791195 /* Gestalt.swift in Sources */,
-				FA463785210E06230007382D /* Logger.swift in Sources */,
+				FA463785210E06230007382D /* LoggingService.swift in Sources */,
 				FA74574D210CA5730010F4F4 /* MyProfileVC.swift in Sources */,
 				FAFEDA50211DB0E800DA3DB8 /* LoginFailVC.swift in Sources */,
 				FA835D36210F054F0098C270 /* ReplaceTopSegue.swift in Sources */,

@@ -2,7 +2,7 @@
 
 import UIKit
 
-final class MainTBC: UITabBarController {
+final class MainTBC: UITabBarController, ServiceProvider {
 
     enum Route: Int {
         // Tabs

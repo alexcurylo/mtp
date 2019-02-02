@@ -276,7 +276,7 @@ extension Gender: CustomStringConvertible, CustomDebugStringConvertible {
     }
 }
 
-struct UserFilter: Codable, Equatable {
+struct UserFilter: Codable, Equatable, ServiceProvider {
 
     var countryId: Int?
     var provinceId: Int?

@@ -1,9 +1,8 @@
 // @copyright Trollwerks Inc.
 
 import Parchment
-import UIKit
 
-final class MyProfilePagingVC: FixedPagingViewController {
+final class MyProfilePagingVC: FixedPagingViewController, ServiceProvider {
 
     init() {
         let controllers = [

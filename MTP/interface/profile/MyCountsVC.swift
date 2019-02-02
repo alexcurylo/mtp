@@ -3,7 +3,7 @@
 import Anchorage
 import Parchment
 
-final class MyCountsVC: UIViewController {
+final class MyCountsVC: UIViewController, ServiceProvider {
 
     @IBOutlet private var pagesHolder: UIView?
 
@@ -112,7 +112,6 @@ extension MyCountsVC: MyCountsPageVCDelegate {
 
 extension MyCountsVC: PagingViewControllerDelegate {
 
-    // swiftlint:disable:next function_parameter_count
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  isScrollingFromItem currentPagingItem: T,
                                  toItem upcomingPagingItem: T?,

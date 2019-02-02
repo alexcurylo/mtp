@@ -2,7 +2,7 @@
 
 import UIKit
 
-final class RootVC: UIViewController {
+final class RootVC: UIViewController, ServiceProvider {
 
     @IBOutlet private var credentials: UIView?
     @IBOutlet private var credentialsBottom: NSLayoutConstraint?

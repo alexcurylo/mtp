@@ -5,7 +5,7 @@ import UIKit
 
 var gestalt = UserDefaults.standard
 
-protocol Gestalt: Observable {
+protocol Gestalt: Observable, ServiceProvider {
 
     var beaches: [Place] { get set }
     var checklists: Checklists? { get set }

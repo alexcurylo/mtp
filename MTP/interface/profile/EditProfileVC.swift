@@ -2,7 +2,7 @@
 
 import UIKit
 
-final class EditProfileVC: UITableViewController {
+final class EditProfileVC: UITableViewController, ServiceProvider {
 
     @IBOutlet private var backgroundView: UIView?
 
@@ -57,7 +57,7 @@ private extension EditProfileVC {
             case .success:
                 self?.performSegue(withIdentifier: R.segue.editProfileVC.unwindFromEditProfile, sender: self)
             case .failure(let error):
-                log.todo("handle error calling /deleteAccount: \(String(describing: error))")
+                self?.log.todo("handle error calling /deleteAccount: \(String(describing: error))")
             }
         }
     }

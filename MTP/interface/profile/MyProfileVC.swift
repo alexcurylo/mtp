@@ -1,9 +1,8 @@
 // @copyright Trollwerks Inc.
 
 import Anchorage
-import UIKit
 
-final class MyProfileVC: UIViewController {
+final class MyProfileVC: UIViewController, ServiceProvider {
 
     @IBOutlet private var headerView: UIView?
     @IBOutlet private var avatarImageView: UIImageView?

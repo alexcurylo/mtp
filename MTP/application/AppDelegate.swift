@@ -3,7 +3,7 @@
 import UIKit
 
 @UIApplicationMain
-final class AppDelegate: UIResponder, UIApplicationDelegate {
+final class AppDelegate: UIResponder, UIApplicationDelegate, ServiceProvider {
 
     var window: UIWindow?
 

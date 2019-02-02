@@ -2,7 +2,7 @@
 
 import KRProgressHUD
 
-final class LoginVC: UIViewController {
+final class LoginVC: UIViewController, ServiceProvider {
 
     @IBOutlet private var emailTextField: UITextField?
     @IBOutlet private var passwordTextField: UITextField?

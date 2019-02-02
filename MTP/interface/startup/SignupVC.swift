@@ -2,7 +2,7 @@
 
 import UIKit
 
-final class SignupVC: UIViewController {
+final class SignupVC: UIViewController, ServiceProvider {
 
     @IBOutlet private var nameTextField: UITextField?
     @IBOutlet private var emailTextField: UITextField?
@@ -98,7 +98,7 @@ private extension SignupVC {
             case .success:
                 self?.performSegue(withIdentifier: R.segue.signupVC.showWelcome, sender: self)
             case .failure(let error):
-                log.todo("handle error calling /register: \(String(describing: error))")
+                self?.log.todo("handle error calling /register: \(String(describing: error))")
             }
         }
     }

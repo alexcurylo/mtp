@@ -3,7 +3,7 @@
 import Anchorage
 import Nuke
 
-final class RankingCell: UICollectionViewCell {
+final class RankingCell: UICollectionViewCell, ServiceProvider {
 
     static let reuseIdentifier = NSStringFromClass(RankingCell.self)
 

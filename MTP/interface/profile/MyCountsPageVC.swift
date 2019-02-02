@@ -8,7 +8,7 @@ protocol MyCountsPageVCDelegate: AnyObject {
     func didScroll(myCountsPageVC: MyCountsPageVC)
 }
 
-final class MyCountsPageVC: UIViewController {
+final class MyCountsPageVC: UIViewController, ServiceProvider {
 
     private enum Layout {
         static let headerHeight = CGFloat(32)

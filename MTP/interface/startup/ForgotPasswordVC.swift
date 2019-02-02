@@ -2,7 +2,7 @@
 
 import UIKit
 
-final class ForgotPasswordVC: UIViewController {
+final class ForgotPasswordVC: UIViewController, ServiceProvider {
 
     @IBOutlet private var alertHolder: UIView?
     @IBOutlet private var bottomY: NSLayoutConstraint?
@@ -55,7 +55,7 @@ private extension ForgotPasswordVC {
             case .success:
                 self?.performSegue(withIdentifier: R.segue.forgotPasswordVC.dismissForgotPassword, sender: self)
             case .failure(let error):
-                log.todo("handle error calling /forgotPassword: \(String(describing: error))")
+                self?.log.todo("handle error calling /forgotPassword: \(String(describing: error))")
                 self?.performSegue(withIdentifier: R.segue.forgotPasswordVC.dismissForgotPassword, sender: self)
             }
         }

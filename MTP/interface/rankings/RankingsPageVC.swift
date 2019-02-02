@@ -8,7 +8,7 @@ protocol RankingsPageVCDelegate: AnyObject {
     func didScroll(rankingsPageVC: RankingsPageVC)
 }
 
-final class RankingsPageVC: UIViewController {
+final class RankingsPageVC: UIViewController, ServiceProvider {
 
     private enum Layout {
         static let headerHeight = CGFloat(98)
@@ -147,11 +147,11 @@ private extension RankingsPageVC {
         guard userObserver == nil else { return }
 
         userObserver = gestalt.userObserver { [weak self] in
-            log.todo("RankingsPageVC update")
+            self?.log.todo("RankingsPageVC update")
             self?.collectionView.reloadData()
         }
         locationsObserver = Checklist.locations.observer { [weak self] in
-            log.todo("RankingsPageVC update")
+            self?.log.todo("RankingsPageVC update")
             self?.collectionView.reloadData()
         }
     }

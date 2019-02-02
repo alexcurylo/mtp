@@ -2,7 +2,7 @@
 
 import UIKit
 
-final class SettingsVC: UITableViewController {
+final class SettingsVC: UITableViewController, ServiceProvider {
 
     @IBOutlet private var backgroundView: UIView?
 

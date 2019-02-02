@@ -197,7 +197,7 @@ private extension MTP {
     }
 }
 
-enum MTPAPI {
+enum MTPAPI: ServiceProvider {
 
     typealias BoolResult = (_ result: Result<Bool, MTPAPIError>) -> Void
     typealias ChecklistsResult = (_ result: Result<Checklists, MTPAPIError>) -> Void
@@ -214,6 +214,8 @@ enum MTPAPI {
 // MARK: - Queries
 
 extension MTPAPI {
+
+    static let log = SwiftyBeaverLoggingService()
 
     static func check(list: Checklist,
                       id: Int,

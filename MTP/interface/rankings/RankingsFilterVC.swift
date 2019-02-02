@@ -2,7 +2,7 @@
 
 import UIKit
 
-final class RankingsFilterVC: UITableViewController {
+final class RankingsFilterVC: UITableViewController, ServiceProvider {
 
     @IBOutlet private var saveButton: UIBarButtonItem?
 

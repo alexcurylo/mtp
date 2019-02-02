@@ -5,6 +5,7 @@ import UIKit
 protocol ServiceProvider {
 
     var app: ApplicationService { get }
+    var log: LoggingService { get }
 
     var networkService: NetworkService { get }
     var dataService: DataService { get }
@@ -16,6 +17,10 @@ extension ServiceProvider {
     var app: ApplicationService {
         return ServiceProviderInstances.appServiceInstance
     }
+    var log: LoggingService {
+        return ServiceProviderInstances.logServiceInstance
+    }
+
     var networkService: NetworkService {
         return ServiceProviderInstances.networkServiceInstance
     }
@@ -35,6 +40,8 @@ struct UserServiceImpl: UserService { }
 
 private enum ServiceProviderInstances {
     static let appServiceInstance = UIApplication.shared
+    static let logServiceInstance = SwiftyBeaverLoggingService()
+
     static let networkServiceInstance = NetworkServiceImpl()
     static let dataServiceInstance = DataServiceImpl()
     static let userServiceInstance = UserServiceImpl()

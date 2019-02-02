@@ -1,9 +1,8 @@
 // @copyright Trollwerks Inc.
 
 import Anchorage
-import UIKit
 
-final class MyPostsVC: UICollectionViewController {
+final class MyPostsVC: UICollectionViewController, ServiceProvider {
 
     private enum Layout {
         static let cellHeight = CGFloat(100)

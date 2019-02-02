@@ -2,11 +2,10 @@
 
 import FacebookCore
 import FacebookLogin
-import UIKit
 
 // https://developers.facebook.com/docs/facebook-login/ios/advanced/#custom-login-button
 
-final class FacebookButton: UIButton {
+final class FacebookButton: UIButton, ServiceProvider {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,12 +28,12 @@ final class FacebookButton: UIButton {
             switch result {
             // swiftlint:disable:next pattern_matching_keywords
             case .success(let granted, let declined, _):
-                log.verbose("Facebook login: granted \(granted), declined \(declined)")
+                self?.log.verbose("Facebook login: granted \(granted), declined \(declined)")
                 self?.requestInfo(then: then)
             case .cancelled:
-                log.verbose("Facebook login cancelled")
+                self?.log.verbose("Facebook login cancelled")
             case .failed(let error):
-                log.verbose("Facebook login failed: \(error)")
+                self?.log.verbose("Facebook login failed: \(error)")
             }
         }
     }
@@ -53,7 +52,7 @@ private extension FacebookButton {
 
     func requestInfo(then: @escaping (String, String, String) -> Void) {
         let connection = GraphRequestConnection()
-        connection.add(InfoRequest()) { _, result in
+        connection.add(InfoRequest()) { [weak self] _, result in
             let name: String
             let email: String
             let id: String
@@ -63,7 +62,7 @@ private extension FacebookButton {
                 email = info.email
                 id = info.id
             case .failed(let error):
-                log.verbose("Facebook login failed: \(error)")
+                self?.log.verbose("Facebook login failed: \(error)")
                 name = ""
                 email = ""
                 id = ""
