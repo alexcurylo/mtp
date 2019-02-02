@@ -29,7 +29,7 @@ enum MTP: Hashable {
     case rankings(page: RankingsPageSpec)
     case restaurant
     case unCountry
-    // case user -- https://mtp.travel/api/user/1
+    case user(id: Int)
     // case picture -- https://mtp.travel/api/files/preview?uuid=5lePRid3jo2etG0pSHqQs2&size={large|thumb|???}
     case userGetByToken
     case userLogin(email: String, password: String)
@@ -70,6 +70,8 @@ extension MTP: TargetType {
             return "un-country"
         case .userGetByToken:
             return "user/getByToken"
+        case .user(let id):
+            return "user/\(id)"
         case .userLogin:
             return "user/login"
         case .whs:
@@ -90,6 +92,7 @@ extension MTP: TargetType {
              .rankings,
              .restaurant,
              .unCountry,
+             .user,
              .userGetByToken,
              .whs:
             return .get
@@ -132,6 +135,7 @@ extension MTP: TargetType {
              .locationsSearch,
              .restaurant,
              .unCountry,
+             .user,
              .userGetByToken,
              .whs:
             if preventCache {
@@ -178,6 +182,7 @@ extension MTP: AccessTokenAuthorizable {
              .locationsSearch,
              .restaurant,
              .unCountry,
+             .user,
              .userLogin,
              .whs:
             return .none
@@ -533,6 +538,40 @@ extension MTPAPI {
                     log.verbose("uncountries succeeded")
                     gestalt.uncountries = uncountries
                     return then(.success(uncountries))
+                } catch {
+                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    return then(.failure(.results))
+                }
+            case .failure(let error):
+                guard error.modified(from: endpoint) else {
+                    return then(.failure(.notModified))
+                }
+                let message = error.errorDescription ?? Localized.unknown()
+                log.error("failure: \(endpoint.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
+    static func loadUser(id: Int,
+                         then: @escaping UserResult = { _ in }) {
+        let provider = MoyaProvider<MTP>()
+        let endpoint = MTP.user(id: id)
+        guard !endpoint.isThrottled else {
+            return then(.failure(.throttle))
+        }
+        provider.request(endpoint) { response in
+            endpoint.markResponded()
+            switch response {
+            case .success(let result):
+                do {
+                    guard result.modified(from: endpoint) else {
+                        return then(.failure(.notModified))
+                    }
+                    let user = try result.map(User.self,
+                                              using: JSONDecoder.mtp)
+                    log.todo("refreshed user: " + user.debugDescription)
+                    return then(.success(user))
                 } catch {
                     log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))

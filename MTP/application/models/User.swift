@@ -323,11 +323,11 @@ extension UserFilter: CustomStringConvertible, CustomDebugStringConvertible {
 
 extension UIImageView {
 
-    func setImage(for user: User?) {
-        let placeholder = user?.placeholder
-        guard let url = user?.imageUrl else {
+    @discardableResult func set(thumbnail user: User) -> Bool {
+        let placeholder = user.placeholder
+        guard let url = user.imageUrl else {
             image = placeholder
-            return
+            return true
         }
 
         Nuke.loadImage(
@@ -338,5 +338,7 @@ extension UIImageView {
             ),
             into: self
         )
+
+        return false
     }
 }

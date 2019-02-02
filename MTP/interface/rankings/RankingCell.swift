@@ -1,6 +1,7 @@
 // @copyright Trollwerks Inc.
 
 import Anchorage
+import Nuke
 
 final class RankingCell: UICollectionViewCell {
 
@@ -47,6 +48,8 @@ final class RankingCell: UICollectionViewCell {
         $0.addTarget(self, action: #selector(tapRemaining), for: .touchUpInside)
     }
 
+    private var current: User?
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -61,9 +64,9 @@ final class RankingCell: UICollectionViewCell {
     func set(user: User,
              for rank: Int,
              in list: Checklist) {
-        rankLabel.text = rank.grouped
+        current = user
 
-        avatarImageView.setImage(for: user)
+        rankLabel.text = rank.grouped
         nameLabel.text = user.fullName
         countryLabel.text = user.location.description
 
@@ -72,11 +75,26 @@ final class RankingCell: UICollectionViewCell {
         visitedButton.setTitle(visited, for: .normal)
         let remaining = Localized.remaining(status.remaining)
         remainingButton.setTitle(remaining, for: .normal)
+
+        guard avatarImageView.set(thumbnail: user) else { return }
+        MTPAPI.loadUser(id: user.id) { [weak self] result in
+            switch result {
+            case let .success(value):
+                guard let self = self else { return }
+                if self.current?.id == value.id {
+                    self.avatarImageView.set(thumbnail: value)
+                }
+            default:
+                break
+            }
+        }
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
 
+        current = nil
+        Nuke.cancelRequest(for: avatarImageView)
         avatarImageView.image = nil
         rankLabel.text = nil
         nameLabel.text = nil

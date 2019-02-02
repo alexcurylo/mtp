@@ -1,6 +1,7 @@
 // @copyright Trollwerks Inc.
 
 import Anchorage
+import Nuke
 
 final class RankingHeader: UICollectionReusableView {
 
@@ -47,14 +48,20 @@ final class RankingHeader: UICollectionReusableView {
     }
 
     func set(rank: Int, for filter: String) {
-        avatarImageView.setImage(for: gestalt.user)
         rankLabel.text = rank.grouped
         filterLabel.text = filter
+
+        if let user = gestalt.user {
+            avatarImageView.set(thumbnail: user)
+        } else {
+            avatarImageView.image = nil
+        }
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
 
+        Nuke.cancelRequest(for: avatarImageView)
         avatarImageView.image = nil
         rankLabel.text = nil
         filterLabel.text = nil
