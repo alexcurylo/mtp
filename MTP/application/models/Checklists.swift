@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-struct Checklists: Codable {
+struct Checklists: Codable, ServiceProvider {
 
     var beaches: [Int]
     var divesites: [Int]
@@ -29,7 +29,7 @@ struct Checklists: Codable {
         case .restaurants:
             set(visits: &restaurants, id: id, visited: visited)
         }
-        MTPAPI.check(list: list, id: id, visited: visited)
+        mtp.check(list: list, id: id, visited: visited) { _ in }
     }
 
     func set(visits: inout [Int],

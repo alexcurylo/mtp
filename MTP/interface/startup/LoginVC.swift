@@ -102,8 +102,8 @@ private extension LoginVC {
     func login(email: String, password: String) {
         KRProgressHUD.show(withMessage: Localized.loggingIn())
 
-        MTPAPI.userLogin(email: email,
-                         password: password) { [weak self] result in
+        mtp.userLogin(email: email,
+                      password: password) { [weak self] result in
             switch result {
             case .success:
                 KRProgressHUD.showSuccess(withMessage: Localized.success())

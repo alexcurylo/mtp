@@ -6,7 +6,7 @@ import Alamofire
 import Moya
 import enum Result.Result
 
-enum MTPAPIError: Swift.Error {
+enum MTPNetworkError: Swift.Error {
     case unknown
     case parameter
     case network(String)
@@ -197,40 +197,54 @@ private extension MTP {
     }
 }
 
-enum MTPAPI: ServiceProvider {
+protocol MTPNetworkService {
 
-    typealias BoolResult = (_ result: Result<Bool, MTPAPIError>) -> Void
-    typealias ChecklistsResult = (_ result: Result<Checklists, MTPAPIError>) -> Void
-    typealias LocationsResult = (_ result: Result<[Location], MTPAPIError>) -> Void
-    typealias PlacesResult = (_ result: Result<[Place], MTPAPIError>) -> Void
-    typealias RankingsResult = (_ result: Result<RankingsPage, MTPAPIError>) -> Void
-    typealias RestaurantsResult = (_ result: Result<[Restaurant], MTPAPIError>) -> Void
-    typealias UserResult = (_ result: Result<User, MTPAPIError>) -> Void
-    typealias WHSResult = (_ result: Result<[WHS], MTPAPIError>) -> Void
+    typealias BoolResult = (_ result: Result<Bool, MTPNetworkError>) -> Void
+    typealias ChecklistsResult = (_ result: Result<Checklists, MTPNetworkError>) -> Void
+    typealias LocationsResult = (_ result: Result<[Location], MTPNetworkError>) -> Void
+    typealias PlacesResult = (_ result: Result<[Place], MTPNetworkError>) -> Void
+    typealias RankingsResult = (_ result: Result<RankingsPage, MTPNetworkError>) -> Void
+    typealias RestaurantsResult = (_ result: Result<[Restaurant], MTPNetworkError>) -> Void
+    typealias UserResult = (_ result: Result<User, MTPNetworkError>) -> Void
+    typealias WHSResult = (_ result: Result<[WHS], MTPNetworkError>) -> Void
 
-    static let parentCountryUSA = 977
+    func check(list: Checklist,
+               id: Int,
+               visited: Bool,
+               then: @escaping BoolResult)
+    func loadUser(id: Int,
+                  then: @escaping UserResult)
+    func userDeleteAccount(then: @escaping BoolResult)
+    func userForgotPassword(email: String,
+                            then: @escaping BoolResult)
+    func userLogin(email: String,
+                   password: String,
+                   then: @escaping UserResult)
+    func userRegister(name: String,
+                      email: String,
+                      password: String,
+                      then: @escaping BoolResult)
+
+    func applicationDidBecomeActive()
 }
 
-// MARK: - Queries
+// swiftlint:disable:next type_body_length
+struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
 
-extension MTPAPI {
-
-    static let log = SwiftyBeaverLoggingService()
-
-    static func check(list: Checklist,
-                      id: Int,
-                      visited: Bool,
-                      then: @escaping BoolResult = { _ in }) {
+    func check(list: Checklist,
+               id: Int,
+               visited: Bool,
+               then: @escaping BoolResult = { _ in }) {
         if visited {
-            MTPAPI.checkIn(list: list, id: id, then: then)
+            checkIn(list: list, id: id, then: then)
         } else {
-            MTPAPI.checkOut(list: list, id: id, then: then)
+            checkOut(list: list, id: id, then: then)
         }
     }
 
-    static func checkIn(list: Checklist,
-                        id: Int,
-                        then: @escaping BoolResult = { _ in }) {
+    func checkIn(list: Checklist,
+                 id: Int,
+                 then: @escaping BoolResult = { _ in }) {
         guard gestalt.isLoggedIn else {
             log.verbose("checkIn attempt invalid: not logged in")
             return then(.failure(.parameter))
@@ -245,15 +259,15 @@ extension MTPAPI {
                 return then(.success(true))
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(endpoint.path) \(message)")
+                self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
     }
 
-    static func checkOut(list: Checklist,
-                         id: Int,
-                         then: @escaping BoolResult = { _ in }) {
+    func checkOut(list: Checklist,
+                  id: Int,
+                  then: @escaping BoolResult = { _ in }) {
         guard gestalt.isLoggedIn else {
             log.verbose("checkOut attempt invalid: not logged in")
             return then(.failure(.parameter))
@@ -268,13 +282,13 @@ extension MTPAPI {
                 return then(.success(true))
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(endpoint.path) \(message)")
+                self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
     }
 
-    static func loadBeaches(then: @escaping PlacesResult = { _ in }) {
+    func loadBeaches(then: @escaping PlacesResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.beach
         guard !endpoint.isThrottled else {
@@ -290,11 +304,11 @@ extension MTPAPI {
                 do {
                     let beaches = try result.map([Place].self,
                                                  using: JSONDecoder.mtp)
-                    log.verbose("beaches succeeded")
+                    self.log.verbose("beaches succeeded")
                     gestalt.beaches = beaches
                     return then(.success(beaches))
                 } catch {
-                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -302,13 +316,13 @@ extension MTPAPI {
                     return then(.failure(.notModified))
                 }
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(endpoint.path) \(message)")
+                self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
     }
 
-    static func loadChecklists(then: @escaping ChecklistsResult = { _ in }) {
+    func loadChecklists(then: @escaping ChecklistsResult = { _ in }) {
         guard gestalt.isLoggedIn else {
             log.verbose("load checklists attempt invalid: not logged in")
             return then(.failure(.parameter))
@@ -330,11 +344,11 @@ extension MTPAPI {
                 do {
                     let checklists = try result.map(Checklists.self,
                                                     using: JSONDecoder.mtp)
-                    log.verbose("checklists: succeeded")
+                    self.log.verbose("checklists: succeeded")
                     gestalt.checklists = checklists
                     return then(.success(checklists))
                 } catch {
-                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -342,13 +356,13 @@ extension MTPAPI {
                     return then(.failure(.notModified))
                 }
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(endpoint.path) \(message)")
+                self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
     }
 
-    static func loadDiveSites(then: @escaping PlacesResult = { _ in }) {
+    func loadDiveSites(then: @escaping PlacesResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.divesite
         guard !endpoint.isThrottled else {
@@ -364,11 +378,10 @@ extension MTPAPI {
                 do {
                     let divesites = try result.map([Place].self,
                                                    using: JSONDecoder.mtp)
-                    log.verbose("divesites succeeded")
                     gestalt.divesites = divesites
                     return then(.success(divesites))
                 } catch {
-                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -376,13 +389,13 @@ extension MTPAPI {
                     return then(.failure(.notModified))
                 }
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(endpoint.path) \(message)")
+                self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
     }
 
-    static func loadGolfCourses(then: @escaping PlacesResult = { _ in }) {
+    func loadGolfCourses(then: @escaping PlacesResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.golfcourse
         guard !endpoint.isThrottled else {
@@ -398,11 +411,10 @@ extension MTPAPI {
                 do {
                     let golfcourses = try result.map([Place].self,
                                                      using: JSONDecoder.mtp)
-                    log.verbose("golfcourses succeeded")
                     gestalt.golfcourses = golfcourses
                     return then(.success(golfcourses))
                 } catch {
-                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -410,13 +422,13 @@ extension MTPAPI {
                     return then(.failure(.notModified))
                 }
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(endpoint.path) \(message)")
+                self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
     }
 
-    static func loadLocations(then: @escaping LocationsResult = { _ in }) {
+    func loadLocations(then: @escaping LocationsResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.location
         guard !endpoint.isThrottled else {
@@ -432,11 +444,10 @@ extension MTPAPI {
                 do {
                     let locations = try result.map([Location].self,
                                                    using: JSONDecoder.mtp)
-                    log.verbose("locations succeeded")
                     gestalt.locations = locations
                     return then(.success(locations))
                 } catch {
-                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -444,14 +455,14 @@ extension MTPAPI {
                     return then(.failure(.notModified))
                 }
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(endpoint.path) \(message)")
+                self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
     }
 
-    static func loadRankings(page: RankingsPageSpec,
-                             then: @escaping RankingsResult = { _ in }) {
+    func loadRankings(page: RankingsPageSpec,
+                      then: @escaping RankingsResult = { _ in }) {
         let provider: MoyaProvider<MTP>
         if gestalt.isLoggedIn {
             let auth = AccessTokenPlugin { gestalt.token }
@@ -469,11 +480,10 @@ extension MTPAPI {
                 do {
                     let rankingsPage = try result.map(RankingsPage.self,
                                                       using: JSONDecoder.mtp)
-                    log.verbose("loadRankings succeeded:\n\(rankingsPage)")
                     gestalt.rankingsPages[page.key] = rankingsPage
                     return then(.success(rankingsPage))
                 } catch {
-                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -481,13 +491,13 @@ extension MTPAPI {
                     return then(.failure(.notModified))
                 }
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(endpoint.path) \(message)")
+                self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
     }
 
-    static func loadRestaurants(then: @escaping RestaurantsResult = { _ in }) {
+    func loadRestaurants(then: @escaping RestaurantsResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.restaurant
         guard !endpoint.isThrottled else {
@@ -503,11 +513,10 @@ extension MTPAPI {
                 do {
                     let restaurants = try result.map([Restaurant].self,
                                                      using: JSONDecoder.mtp)
-                    log.verbose("restaurants succeeded")
                     gestalt.restaurants = restaurants
                     return then(.success(restaurants))
                 } catch {
-                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -515,13 +524,13 @@ extension MTPAPI {
                     return then(.failure(.notModified))
                 }
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(endpoint.path) \(message)")
+                self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
     }
 
-    static func loadUNCountries(then: @escaping LocationsResult = { _ in }) {
+    func loadUNCountries(then: @escaping LocationsResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.unCountry
         guard !endpoint.isThrottled else {
@@ -537,11 +546,10 @@ extension MTPAPI {
                 do {
                     let uncountries = try result.map([Location].self,
                                                      using: JSONDecoder.mtp)
-                    log.verbose("uncountries succeeded")
                     gestalt.uncountries = uncountries
                     return then(.success(uncountries))
                 } catch {
-                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -549,14 +557,14 @@ extension MTPAPI {
                     return then(.failure(.notModified))
                 }
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(endpoint.path) \(message)")
+                self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
     }
 
-    static func loadUser(id: Int,
-                         then: @escaping UserResult = { _ in }) {
+    func loadUser(id: Int,
+                  then: @escaping UserResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.user(id: id)
         guard !endpoint.isThrottled else {
@@ -572,10 +580,10 @@ extension MTPAPI {
                     }
                     let user = try result.map(User.self,
                                               using: JSONDecoder.mtp)
-                    log.todo("refreshed user: " + user.debugDescription)
+                    self.log.todo("refreshed user: " + user.debugDescription)
                     return then(.success(user))
                 } catch {
-                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -583,13 +591,13 @@ extension MTPAPI {
                     return then(.failure(.notModified))
                 }
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(endpoint.path) \(message)")
+                self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
     }
 
-    static func loadWHS(then: @escaping WHSResult = { _ in }) {
+    func loadWHS(then: @escaping WHSResult = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.whs
         guard !endpoint.isThrottled else {
@@ -605,11 +613,10 @@ extension MTPAPI {
                 do {
                     let whss = try result.map([WHS].self,
                                               using: JSONDecoder.mtp)
-                    log.verbose("whss succeeded")
                     gestalt.whss = whss
                     return then(.success(whss))
                 } catch {
-                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -617,15 +624,15 @@ extension MTPAPI {
                     return then(.failure(.notModified))
                 }
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(endpoint.path) \(message)")
+                self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
     }
 
-    static func locationsSearch(query: String,
-                                parentCountry: Int? = nil,
-                                then: @escaping LocationsResult) {
+    func locationsSearch(query: String,
+                         parentCountry: Int? = nil,
+                         then: @escaping LocationsResult) {
         let provider = MoyaProvider<MTP>()
         let queryParam = query.isEmpty ? nil : query
         let endpoint = MTP.locationsSearch(parentCountry: parentCountry,
@@ -636,37 +643,36 @@ extension MTPAPI {
                 do {
                     let locations = try result.map([Location].self,
                                                    using: JSONDecoder.mtp)
-                    log.verbose("locations[\(query)] succeeded")
                     return then(.success(locations))
                 } catch {
-                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(endpoint.path) \(message)")
+                self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
     }
 
-    static func userDeleteAccount(then: @escaping BoolResult) {
-        log.todo("MTPAPI.implement deleteAccount")
+    func userDeleteAccount(then: @escaping BoolResult) {
+        log.todo("implement deleteAccount")
         then(.success(true))
     }
 
-    static func userForgotPassword(email: String,
-                                   then: @escaping BoolResult) {
+    func userForgotPassword(email: String,
+                            then: @escaping BoolResult) {
         guard !email.isEmpty else {
             log.verbose("forgotPassword attempt invalid: email `\(email)`")
             return then(.failure(.parameter))
         }
 
-        log.todo("implement MTPAPI.forgotPassword: \(email)")
+        log.todo("implement forgotPassword: \(email)")
         then(.success(true))
     }
 
-    static func userGetByToken(then: @escaping UserResult = { _ in }) {
+    func userGetByToken(then: @escaping UserResult = { _ in }) {
         guard gestalt.isLoggedIn else {
             log.verbose("userGetByToken attempt invalid: not logged in")
             return then(.failure(.parameter))
@@ -689,10 +695,10 @@ extension MTPAPI {
                     let user = try result.map(User.self,
                                               using: JSONDecoder.mtp)
                     gestalt.user = user
-                    log.verbose("refreshed user: " + user.debugDescription)
+                    self.log.verbose("refreshed user: " + user.debugDescription)
                     return then(.success(user))
                 } catch {
-                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
                 }
             case .failure(let error):
@@ -700,15 +706,15 @@ extension MTPAPI {
                     return then(.failure(.notModified))
                 }
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(endpoint.path) \(message)")
+                self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
     }
 
-    static func userLogin(email: String,
-                          password: String,
-                          then: @escaping UserResult) {
+    func userLogin(email: String,
+                   password: String,
+                   then: @escaping UserResult) {
         guard !email.isEmpty && !password.isEmpty else {
             log.verbose("userLogin attempt invalid: email `\(email)` password `\(password)`")
             return then(.failure(.parameter))
@@ -718,7 +724,7 @@ extension MTPAPI {
             do {
                 let user = try result.map(User.self,
                                           using: JSONDecoder.mtp)
-                guard let token = user.token else { throw MTPAPIError.token }
+                guard let token = user.token else { throw MTPNetworkError.token }
                 gestalt.token = token
                 gestalt.user = user
                 gestalt.email = email
@@ -726,7 +732,7 @@ extension MTPAPI {
                 log.verbose("logged in user: " + user.debugDescription)
                 return then(.success(user))
             } catch {
-                log.error("decoding user: \(error)")
+                self.log.error("decoding user: \(error)")
                 return then(.failure(.results))
             }
         }
@@ -738,26 +744,26 @@ extension MTPAPI {
             case .success(let result):
                 return parse(result: result)
             case .failure(.underlying(AFError.responseValidationFailed, _)):
-                log.error("user/login API rejection")
+                self.log.error("user/login API rejection")
                 return then(.failure(.status))
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
-                log.error("failure: \(endpoint.path) \(message)")
+                self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
     }
 
-    static func userRegister(name: String,
-                             email: String,
-                             password: String,
-                             then: @escaping BoolResult) {
+    func userRegister(name: String,
+                      email: String,
+                      password: String,
+                      then: @escaping BoolResult) {
         guard !name.isEmpty && !email.isEmpty && !password.isEmpty else {
             log.verbose("register attempt invalid: name `\(name)` email `\(email)` password `\(password)`")
             return then(.failure(.parameter))
         }
 
-        log.todo("implement MTPAPI.register: \(name), \(email), \(password)")
+        log.todo("implement register: \(name), \(email), \(password)")
 
         gestalt.email = email
         gestalt.name = name
@@ -826,9 +832,9 @@ extension HTTPURLResponse {
 
 // MARK: - Support
 
-extension MTPAPI {
+extension MoyaMTPNetworkService {
 
-    static func refreshData() {
+    func refreshData() {
         loadBeaches()
         loadDiveSites()
         loadGolfCourses()
@@ -842,14 +848,14 @@ extension MTPAPI {
         }
     }
 
-    static func refreshUser() {
+    func refreshUser() {
         guard gestalt.isLoggedIn else { return }
 
         userGetByToken()
         loadChecklists()
     }
 
-    static func applicationDidBecomeActive() {
+    func applicationDidBecomeActive() {
         refreshData()
         refreshUser()
     }

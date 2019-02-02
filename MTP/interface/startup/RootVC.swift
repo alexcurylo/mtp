@@ -29,7 +29,6 @@ final class RootVC: UIViewController, ServiceProvider {
         hide(navBar: animated)
 
         if isloggedIn {
-            MTPAPI.refreshUser()
             credentials?.isHidden = true
             credentialsBottom?.constant = 0
             performSegue(withIdentifier: R.segue.rootVC.showMain, sender: self)

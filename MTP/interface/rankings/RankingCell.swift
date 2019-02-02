@@ -77,7 +77,7 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         remainingButton.setTitle(remaining, for: .normal)
 
         guard avatarImageView.set(thumbnail: user) else { return }
-        MTPAPI.loadUser(id: user.id) { [weak self] result in
+        mtp.loadUser(id: user.id) { [weak self] result in
             switch result {
             case let .success(value):
                 guard let self = self else { return }

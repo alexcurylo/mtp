@@ -48,11 +48,11 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
 private extension EditProfileVC {
 
     func saveEdits() {
-        log.todo("MTPAPI.implement saveEdits")
+        log.todo("implement saveEdits")
     }
 
     @IBAction func deleteAccount(segue: UIStoryboardSegue) {
-        MTPAPI.userDeleteAccount { [weak self] result in
+        mtp.userDeleteAccount { [weak self] result in
             switch result {
             case .success:
                 self?.performSegue(withIdentifier: R.segue.editProfileVC.unwindFromEditProfile, sender: self)
