@@ -196,46 +196,43 @@ enum Checklist: String, CaseIterable {
     func visited(of user: User? = nil) -> Int {
         guard let user = user ?? gestalt.user else { return 0 }
 
-        let score: Int?
         switch self {
         case .locations:
-            score = user.scoreLocations.intValue
+            return user.scoreLocations
         case .uncountries:
-            score = user.scoreUncountries.intValue
+            return user.scoreUncountries
         case .whss:
-            score = user.scoreWhss.intValue
+            return user.scoreWhss
         case .beaches:
-            score = user.scoreBeaches.intValue
+            return user.scoreBeaches
         case .golfcourses:
-            score = user.scoreGolfcourses.intValue
+            return user.scoreGolfcourses
         case .divesites:
-            score = user.scoreDivesites.intValue
+            return user.scoreDivesites
         case .restaurants:
-            score = user.scoreRestaurants.intValue
+            return user.scoreRestaurants
         }
-        return score ?? 0
     }
 
     var visits: [Int] {
-        // swiftlint:disable:next discouraged_optional_collection
-        let visits: [Int]?
+        guard let checklists = gestalt.checklists else { return [] }
+
         switch self {
         case .locations:
-            visits = gestalt.checklists?.locations
+            return checklists.locations
         case .uncountries:
-            visits = gestalt.checklists?.uncountries
+            return checklists.uncountries
         case .whss:
-            visits = gestalt.checklists?.whss
+            return checklists.whss
         case .beaches:
-            visits = gestalt.checklists?.beaches
+            return checklists.beaches
         case .golfcourses:
-            visits = gestalt.checklists?.golfcourses
+            return checklists.golfcourses
         case .divesites:
-            visits = gestalt.checklists?.divesites
+            return checklists.divesites
         case .restaurants:
-            visits = gestalt.checklists?.restaurants
+            return checklists.restaurants
         }
-        return visits ?? []
     }
 }
 

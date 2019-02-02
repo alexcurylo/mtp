@@ -8,11 +8,11 @@ struct User: Codable {
     let bio: String?
     let birthday: Date
     let country: Location // still has 30 items
-    let countryId: UncertainValue<Int, String> // Int in staging, String in production
+    let countryId: Int
     let createdAt: Date
     let email: String
     let facebookEmail: String?
-    let facebookId: UncertainValue<Int, String> // Int in staging, String in production
+    let facebookId: Int?
     let facebookUserToken: String?
     let favoritePlaces: [FavoritePlace]
     let firstName: String
@@ -21,9 +21,9 @@ struct User: Codable {
     let id: Int
     let lastLogIn: String?
     let lastName: String
-    let location: Location // still has 30 items
     let links: [Link]
-    let locationId: UncertainValue<Int, String> // Int in staging, String in production
+    let location: Location // still has 30 items
+    let locationId: Int
     let picture: String?
     let rankBeaches: Int
     let rankDivesites: Int
@@ -33,14 +33,14 @@ struct User: Codable {
     let rankUncountries: Int
     let rankWhss: Int
     let role: Int
-    let score: UncertainValue<Int, String> // Int in staging, String in production
-    let scoreBeaches: UncertainValue<Int, String> // Int in staging, String in production
-    let scoreDivesites: UncertainValue<Int, String> // Int in staging, String in production
-    let scoreGolfcourses: UncertainValue<Int, String> // Int in staging, String in production
-    let scoreLocations: UncertainValue<Int, String> // Int in staging, String in production
-    let scoreRestaurants: UncertainValue<Int, String> // Int in staging, String in production
-    let scoreUncountries: UncertainValue<Int, String> // Int in staging, String in production
-    let scoreWhss: UncertainValue<Int, String> // Int in staging, String in production
+    let score: Int
+    let scoreBeaches: Int
+    let scoreDivesites: Int
+    let scoreGolfcourses: Int
+    let scoreLocations: Int
+    let scoreRestaurants: Int
+    let scoreUncountries: Int
+    let scoreWhss: Int
     let status: String
     let token: String? // found only in login response
     let updatedAt: Date
@@ -152,11 +152,11 @@ extension User {
             bio: nil,
             birthday: Date(),
             country: Location.loading,
-            countryId: UncertainValue<Int, String>(with: 0),
+            countryId: 0,
             createdAt: Date(),
             email: "",
             facebookEmail: nil,
-            facebookId: UncertainValue<Int, String>(with: 0),
+            facebookId: 0,
             facebookUserToken: nil,
             favoritePlaces: [],
             firstName: "",
@@ -165,9 +165,9 @@ extension User {
             id: 0,
             lastLogIn: nil,
             lastName: "",
-            location: Location.loading,
             links: [],
-            locationId: UncertainValue<Int, String>(with: 0),
+            location: Location.loading,
+            locationId: 0,
             picture: nil,
             rankBeaches: 0,
             rankDivesites: 0,
@@ -177,14 +177,14 @@ extension User {
             rankUncountries: 0,
             rankWhss: 0,
             role: 0,
-            score: UncertainValue<Int, String>(with: 0),
-            scoreBeaches: UncertainValue<Int, String>(with: 0),
-            scoreDivesites: UncertainValue<Int, String>(with: 0),
-            scoreGolfcourses: UncertainValue<Int, String>(with: 0),
-            scoreLocations: UncertainValue<Int, String>(with: 0),
-            scoreRestaurants: UncertainValue<Int, String>(with: 0),
-            scoreUncountries: UncertainValue<Int, String>(with: 0),
-            scoreWhss: UncertainValue<Int, String>(with: 0),
+            score: 0,
+            scoreBeaches: 0,
+            scoreDivesites: 0,
+            scoreGolfcourses: 0,
+            scoreLocations: 0,
+            scoreRestaurants: 0,
+            scoreUncountries: 0,
+            scoreWhss: 0,
             status: "",
             token: nil,
             updatedAt: Date(),
@@ -198,11 +198,11 @@ extension User {
         bio = nil
         birthday = ranked.birthday
         country = ranked.country ?? ranked.location
-        countryId = UncertainValue<Int, String>(with: 0)
+        countryId = 0
         createdAt = Date()
         email = ""
         facebookEmail = nil
-        facebookId = UncertainValue<Int, String>(with: 0)
+        facebookId = 0
         facebookUserToken = nil
         favoritePlaces = []
         firstName = ranked.firstName
@@ -213,7 +213,7 @@ extension User {
         lastName = ranked.lastName
         location = ranked.location
         links = []
-        locationId = UncertainValue<Int, String>(with: ranked.locationId)
+        locationId = ranked.locationId
         picture = nil
         rankBeaches = ranked.rankBeaches ?? 0
         rankDivesites = ranked.rankDivesites ?? 0
@@ -223,14 +223,14 @@ extension User {
         rankUncountries = ranked.rankUncountries ?? 0
         rankWhss = ranked.rankWhss ?? 0
         role = ranked.role
-        score = UncertainValue<Int, String>(with: 0)
-        scoreBeaches = UncertainValue<Int, String>(with: ranked.scoreBeaches ?? 0)
-        scoreDivesites = UncertainValue<Int, String>(with: ranked.scoreDivesites ?? 0)
-        scoreGolfcourses = UncertainValue<Int, String>(with: ranked.scoreGolfcourses ?? 0)
-        scoreLocations = UncertainValue<Int, String>(with: ranked.scoreLocations ?? 0)
-        scoreRestaurants = UncertainValue<Int, String>(with: ranked.scoreRestaurants ?? 0)
-        scoreUncountries = UncertainValue<Int, String>(with: ranked.scoreUncountries ?? 0)
-        scoreWhss = UncertainValue<Int, String>(with: ranked.scoreWhss ?? 0)
+        score = 0
+        scoreBeaches = ranked.scoreBeaches ?? 0
+        scoreDivesites = ranked.scoreDivesites ?? 0
+        scoreGolfcourses = ranked.scoreGolfcourses ?? 0
+        scoreLocations = ranked.scoreLocations ?? 0
+        scoreRestaurants = ranked.scoreRestaurants ?? 0
+        scoreUncountries = ranked.scoreUncountries ?? 0
+        scoreWhss = ranked.scoreWhss ?? 0
         status = ""
         token = nil
         updatedAt = Date()

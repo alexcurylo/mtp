@@ -48,8 +48,9 @@ struct UncertainValue<T: Codable, U: Codable>: Codable {
         guard tValue == nil else { return }
         uValue = try? container.decode(U.self)
         guard uValue == nil else { return }
-        let context = DecodingError.Context(codingPath: decoder.codingPath,
-                                            debugDescription: "expected a \(T.self) or \(U.self)")
+        let context = DecodingError.Context(
+            codingPath: decoder.codingPath,
+            debugDescription: "expected a \(T.self) or \(U.self)")
         throw DecodingError.typeMismatch(type(of: self), context)
     }
 
@@ -62,5 +63,23 @@ struct UncertainValue<T: Codable, U: Codable>: Codable {
         } else {
             try container.encodeNil()
         }
+    }
+}
+
+struct JSONNull: Codable {
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if !container.decodeNil() {
+            let context = DecodingError.Context(
+                codingPath: decoder.codingPath,
+                debugDescription: "JSONNull expected nil")
+            throw DecodingError.typeMismatch(type(of: self), context)
+        }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encodeNil()
     }
 }
