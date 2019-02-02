@@ -27,15 +27,6 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
 
 extension DataService {
 
-    func logOut() {
-        FacebookButton.logOut()
-        email = ""
-        token = ""
-        name = ""
-        password = ""
-        user = nil
-    }
-
     var isLoggedIn: Bool {
         guard !token.isEmpty,
               let jwt = try? decode(jwt: token),
@@ -46,6 +37,19 @@ extension DataService {
             log.debug("token expired -- should we be refreshing somehow?")
         }
         return expired
+    }
+
+    func logOut() {
+        FacebookButton.logOut()
+        email = ""
+        token = ""
+        name = ""
+        password = ""
+        user = nil
+    }
+
+    func update(user: User) {
+        log.todo("update user: " + user.debugDescription)
     }
 }
 

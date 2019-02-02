@@ -79,8 +79,6 @@ private extension MyAboutVC {
     func configure() {
         guard let user = data.user else { return }
 
-        log.todo("configure about")
-
         configure(ranking: user)
         configure(airport: user)
         configure(favorite: user)

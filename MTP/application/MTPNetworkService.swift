@@ -580,7 +580,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     }
                     let user = try result.map(User.self,
                                               using: JSONDecoder.mtp)
-                    self.log.todo("refreshed user: " + user.debugDescription)
+                    self.data.update(user: user)
                     return then(.success(user))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
