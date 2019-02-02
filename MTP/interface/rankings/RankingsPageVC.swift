@@ -72,7 +72,7 @@ final class RankingsPageVC: UIViewController {
         self.list = list
         filter = gestalt.rankingsFilter ?? UserFilter()
         filterDescription = filter.description
-        rankings = gestalt.rankingsPage
+        rankings = gestalt.rankingsPages[list.rawValue]
         log.todo("RankingsPageVC rankings, filter)")
         filterRank = list.rank()
 

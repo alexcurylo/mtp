@@ -17,7 +17,7 @@ protocol Gestalt: Observable {
     var name: String { get set }
     var password: String { get set }
     var rankingsFilter: UserFilter? { get set }
-    var rankingsPage: RankingsPage? { get set }
+    var rankingsPages: [String: RankingsPage] { get set }
     var restaurants: [Restaurant] { get set }
     var token: String { get set }
     var uncountries: [Location] { get set }

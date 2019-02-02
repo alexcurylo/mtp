@@ -460,11 +460,11 @@ extension MTPAPI {
                     return then(.failure(.notModified))
                 }
                 do {
-                    let page = try result.map(RankingsPage.self,
-                                              using: JSONDecoder.mtp)
-                    log.verbose("loadRankings succeeded:\n\(page)")
-                    gestalt.rankingsPage = page
-                    return then(.success(page))
+                    let rankingsPage = try result.map(RankingsPage.self,
+                                                      using: JSONDecoder.mtp)
+                    log.verbose("loadRankings succeeded:\n\(rankingsPage)")
+                    gestalt.rankingsPages[page.key] = rankingsPage
+                    return then(.success(rankingsPage))
                 } catch {
                     log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
@@ -796,7 +796,9 @@ extension MTPAPI {
         loadUNCountries()
         loadWHS()
 
-        loadRankings(page: RankingsPageSpec())
+        Checklist.allCases.forEach {
+            loadRankings(page: RankingsPageSpec(list: $0))
+        }
     }
 
     static func refreshUser() {

@@ -58,7 +58,7 @@ extension RankingsPageUsers: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
-        < RankingsPage: \(description):
+        < RankingsPageUsers: \(description):
         currentPage: \(currentPage)
         data: \(data)
         firstPageUrl: \(firstPageUrl)
@@ -71,7 +71,7 @@ extension RankingsPageUsers: CustomDebugStringConvertible {
         prevPageUrl: \(String(describing: prevPageUrl))
         to: \(to)
         total: \(total)
-        /RankingsPage >
+        /RankingsPageUsers >
         """
     }
 }
@@ -88,9 +88,21 @@ struct RankingsUser: Codable {
     let lastName: String
     let location: Location // still has 30 items
     let locationId: Int
-    let rankLocations: Int
+    let rankBeaches: Int?
+    let rankDivesites: Int?
+    let rankGolfcourses: Int?
+    let rankLocations: Int?
+    let rankRestaurants: Int?
+    let rankUncountries: Int?
+    let rankWhss: Int?
     let role: Int
-    let scoreLocations: Int
+    let scoreBeaches: Int?
+    let scoreDivesites: Int?
+    let scoreGolfcourses: Int?
+    let scoreLocations: Int?
+    let scoreRestaurants: Int?
+    let scoreUncountries: Int?
+    let scoreWhss: Int?
 }
 
 extension RankingsUser: CustomStringConvertible {
@@ -104,21 +116,33 @@ extension RankingsUser: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
-        < RankingsPage: \(description):
+        < RankingsUser: \(description):
         birthday: \(birthday)
-        country: \(country.debugDescription)
+        country: \(String(describing: country))
         currentRank: \(currentRank)
         first_name: \(firstName)
         full_name: \(fullName)
         gender: \(gender)
         id: \(id)
         last_name: \(lastName)
-        location: \(location.debugDescription)
+        location: \(location)
         location_id: \(locationId)
-        rankLocations: \(rankLocations)
+        rankBeaches: \(String(describing: rankBeaches))
+        rankDivesites: \(String(describing: rankDivesites))
+        rankGolfcourses: \(String(describing: rankGolfcourses))
+        rankLocations: \(String(describing: rankLocations))
+        rankRestaurants: \(String(describing: rankRestaurants))
+        rankUncountries: \(String(describing: rankUncountries))
+        rankWhss: \(String(describing: rankWhss))
         role: \(role)
-        score_locations: \(scoreLocations)
-        /RankingsPage >
+        scoreBeaches: \(String(describing: scoreBeaches))
+        scoreDivesites: \(String(describing: scoreDivesites))
+        scoreGolfcourses: \(String(describing: scoreGolfcourses))
+        scoreLocations: \(String(describing: scoreLocations))
+        scoreRestaurants: \(String(describing: scoreRestaurants))
+        scoreUncountries: \(String(describing: scoreUncountries))
+        scoreWhss: \(String(describing: scoreWhss))
+        /RankingsUser >
         """
     }
 }
@@ -130,7 +154,7 @@ struct RankingsPageSpec: Hashable {
         case female = "F"
     }
 
-    let checklistType: Checklist = .locations
+    let checklistType: Checklist
     let page: Int = 1
 
     let gender: Gender? = nil
@@ -141,6 +165,17 @@ struct RankingsPageSpec: Hashable {
     let ageGroup: Int? = nil
     // swiftlint:disable:next discouraged_optional_boolean
     let facebookConnected: Bool? = nil
+}
+
+extension RankingsPageSpec {
+
+    init(list: Checklist) {
+        checklistType = list
+    }
+
+    var key: String {
+        return checklistType.rawValue
+    }
 
     var parameters: [String: String] {
         var parameters: [String: String] = [:]

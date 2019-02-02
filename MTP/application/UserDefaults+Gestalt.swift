@@ -155,13 +155,13 @@ extension UserDefaults: Gestalt {
         }
     }
 
-    var rankingsPage: RankingsPage? {
+    var rankingsPages: [String: RankingsPage] {
         get {
             do {
-                return try get(objectType: RankingsPage.self, forKey: #function)
+                return try get(objectType: [String: RankingsPage].self, forKey: #function) ?? [:]
             } catch {
-                log.error("decoding rankingsPage value: \(error)")
-                return nil
+                log.error("decoding rankingsPages value: \(error)")
+                return [:]
             }
         }
         set {
@@ -169,7 +169,7 @@ extension UserDefaults: Gestalt {
                 try set(object: newValue, forKey: #function)
                 notifyObservers(about: #function)
             } catch {
-                log.error("encoding rankingsPage newValue: \(error)")
+                log.error("encoding rankingsPages newValue: \(error)")
             }
         }
     }

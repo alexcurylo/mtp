@@ -31,7 +31,12 @@ struct Location: Codable {
 extension Location: CustomStringConvertible {
 
     public var description: String {
-        return "\(countryName) (\(countryId))"
+        if !countryName.isEmpty
+           && !locationName.isEmpty
+           && countryName != locationName {
+            return "\(locationName), \(countryName)"
+        }
+        return locationName.isEmpty ? countryName : locationName
     }
 }
 

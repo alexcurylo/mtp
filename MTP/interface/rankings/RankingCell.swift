@@ -65,7 +65,7 @@ final class RankingCell: UICollectionViewCell {
 
         avatarImageView.setImage(for: user)
         nameLabel.text = user.fullName
-        countryLabel.text = user.country.countryName
+        countryLabel.text = user.location.description
 
         let status = list.status(of: user)
         let visited = Localized.visited(status.visited)
