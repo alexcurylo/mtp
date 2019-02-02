@@ -291,6 +291,9 @@ extension MTPAPI {
                     return then(.failure(.results))
                 }
             case .failure(let error):
+                guard error.modified(from: endpoint) else {
+                    return then(.failure(.notModified))
+                }
                 let message = error.errorDescription ?? Localized.unknown()
                 log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
@@ -328,6 +331,9 @@ extension MTPAPI {
                     return then(.failure(.results))
                 }
             case .failure(let error):
+                guard error.modified(from: endpoint) else {
+                    return then(.failure(.notModified))
+                }
                 let message = error.errorDescription ?? Localized.unknown()
                 log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
@@ -359,6 +365,9 @@ extension MTPAPI {
                     return then(.failure(.results))
                 }
             case .failure(let error):
+                guard error.modified(from: endpoint) else {
+                    return then(.failure(.notModified))
+                }
                 let message = error.errorDescription ?? Localized.unknown()
                 log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
@@ -390,6 +399,9 @@ extension MTPAPI {
                     return then(.failure(.results))
                 }
             case .failure(let error):
+                guard error.modified(from: endpoint) else {
+                    return then(.failure(.notModified))
+                }
                 let message = error.errorDescription ?? Localized.unknown()
                 log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
@@ -421,6 +433,9 @@ extension MTPAPI {
                     return then(.failure(.results))
                 }
             case .failure(let error):
+                guard error.modified(from: endpoint) else {
+                    return then(.failure(.notModified))
+                }
                 let message = error.errorDescription ?? Localized.unknown()
                 log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
@@ -455,6 +470,9 @@ extension MTPAPI {
                     return then(.failure(.results))
                 }
             case .failure(let error):
+                guard error.modified(from: endpoint) else {
+                    return then(.failure(.notModified))
+                }
                 let message = error.errorDescription ?? Localized.unknown()
                 log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
@@ -486,6 +504,9 @@ extension MTPAPI {
                     return then(.failure(.results))
                 }
             case .failure(let error):
+                guard error.modified(from: endpoint) else {
+                    return then(.failure(.notModified))
+                }
                 let message = error.errorDescription ?? Localized.unknown()
                 log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
@@ -517,6 +538,9 @@ extension MTPAPI {
                     return then(.failure(.results))
                 }
             case .failure(let error):
+                guard error.modified(from: endpoint) else {
+                    return then(.failure(.notModified))
+                }
                 let message = error.errorDescription ?? Localized.unknown()
                 log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
@@ -548,6 +572,9 @@ extension MTPAPI {
                     return then(.failure(.results))
                 }
             case .failure(let error):
+                guard error.modified(from: endpoint) else {
+                    return then(.failure(.notModified))
+                }
                 let message = error.errorDescription ?? Localized.unknown()
                 log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
@@ -628,6 +655,9 @@ extension MTPAPI {
                     return then(.failure(.results))
                 }
             case .failure(let error):
+                guard error.modified(from: endpoint) else {
+                    return then(.failure(.notModified))
+                }
                 let message = error.errorDescription ?? Localized.unknown()
                 log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
@@ -695,12 +725,23 @@ extension MTPAPI {
     }
 }
 
+extension MoyaError {
+
+    func modified(from endpoint: MTP) -> Bool {
+        guard let response = response,
+             response.statusCode != 304 else {
+                endpoint.markReceived()
+                return false
+        }
+        return true
+    }
+}
+
 extension Response {
 
     func modified(from endpoint: MTP) -> Bool {
         endpoint.markReceived()
 
-        // nothing currently supports real 304
         guard let response = response,
               response.statusCode != 304 else {
                 return false
