@@ -4,24 +4,6 @@ import Foundation
 
 extension UserDefaults: ServiceProvider {
 
-    var beaches: [Place] {
-        get {
-            do {
-                return try get(objectType: [Place].self, forKey: #function) ?? []
-            } catch {
-                log.error("decoding beaches value: \(error)")
-                return []
-            }
-        }
-        set {
-            do {
-                try set(object: newValue, forKey: #function)
-            } catch {
-                log.error("encoding beaches newValue: \(error)")
-            }
-        }
-    }
-
     var checklists: Checklists? {
         get {
             do {
@@ -36,24 +18,6 @@ extension UserDefaults: ServiceProvider {
                 try set(object: newValue, forKey: #function)
             } catch {
                 log.error("encoding checklists newValue: \(error)")
-            }
-        }
-    }
-
-    var divesites: [Place] {
-        get {
-            do {
-                return try get(objectType: [Place].self, forKey: #function) ?? []
-            } catch {
-                log.error("decoding divesites value: \(error)")
-                return []
-            }
-        }
-        set {
-            do {
-                try set(object: newValue, forKey: #function)
-            } catch {
-                log.error("encoding divesites newValue: \(error)")
             }
         }
     }
@@ -77,24 +41,6 @@ extension UserDefaults: ServiceProvider {
                 try set(object: newValue, forKey: #function)
             } catch {
                 log.error("encoding etags newValue: \(error)")
-            }
-        }
-    }
-
-    var golfcourses: [Place] {
-        get {
-            do {
-                return try get(objectType: [Place].self, forKey: #function) ?? []
-            } catch {
-                log.error("decoding golfcourses value: \(error)")
-                return []
-            }
-        }
-        set {
-            do {
-                try set(object: newValue, forKey: #function)
-            } catch {
-                log.error("encoding golfcourses newValue: \(error)")
             }
         }
     }

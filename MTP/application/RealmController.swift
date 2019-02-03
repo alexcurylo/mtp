@@ -36,6 +36,54 @@ final class RealmController: ServiceProvider {
         }
     }
 
+    var beaches: [Beach] {
+        let results = realm.objects(Beach.self)
+        return Array(results)
+    }
+
+    func set(beaches: [PlaceJSON]) {
+        do {
+            let objects = beaches.map { Beach(from: $0) }
+            try realm.write {
+                realm.add(objects, update: true)
+            }
+        } catch {
+            log.error("set beaches: \(error)")
+        }
+    }
+
+    var divesites: [DiveSite] {
+        let results = realm.objects(DiveSite.self)
+        return Array(results)
+    }
+
+    func set(divesites: [PlaceJSON]) {
+        do {
+            let objects = divesites.map { DiveSite(from: $0) }
+            try realm.write {
+                realm.add(objects, update: true)
+            }
+        } catch {
+            log.error("set divesites: \(error)")
+        }
+    }
+
+    var golfcourses: [GolfCourse] {
+        let results = realm.objects(GolfCourse.self)
+        return Array(results)
+    }
+
+    func set(golfcourses: [PlaceJSON]) {
+        do {
+            let objects = golfcourses.map { GolfCourse(from: $0) }
+            try realm.write {
+                realm.add(objects, update: true)
+            }
+        } catch {
+            log.error("set golfcourses: \(error)")
+        }
+    }
+
     var locations: [Location] {
         let results = realm.objects(Location.self)
         return Array(results)

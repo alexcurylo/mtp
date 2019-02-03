@@ -36,7 +36,7 @@ extension RestaurantJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
-        < Restaurant: \(description):
+        < RestaurantJSON: \(description):
         active: \(active)
         address: \(String(describing: address))
         country: \(String(describing: country))
@@ -55,7 +55,7 @@ extension RestaurantJSON: CustomDebugStringConvertible {
         title: \(title)
         url: \(url)
         visitors: \(visitors)
-        /Restaurant >
+        /RestaurantJSON >
         """
     }
 }

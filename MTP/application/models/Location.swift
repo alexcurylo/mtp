@@ -45,7 +45,7 @@ extension LocationJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
-        < Location: \(description):
+        < LocationJSON: \(description):
         active: \(active)
         admin_level: \(adminLevel)
         airports: \(String(describing: airports))
@@ -68,7 +68,7 @@ extension LocationJSON: CustomDebugStringConvertible {
         weather: \(String(describing: weather))
         weatherhist: \(String(describing: weatherhist))
         zoom: \(String(describing: zoom))
-        /Location >
+        /LocationJSON >
         """
     }
 }

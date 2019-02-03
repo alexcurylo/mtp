@@ -29,7 +29,7 @@ extension WHSJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
-        < Location: \(description):
+        < WHSJSON: \(description):
         active: \(active)
         id: \(id)
         lat: \(lat)
@@ -41,7 +41,7 @@ extension WHSJSON: CustomDebugStringConvertible {
         title: \(title)
         unescoId: \(unescoId)
         visitors: \(visitors)
-        /Location >
+        /WHSJSON >
         """
     }
 }

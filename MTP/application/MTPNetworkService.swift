@@ -202,7 +202,7 @@ protocol MTPNetworkService {
     typealias BoolResult = (_ result: Result<Bool, MTPNetworkError>) -> Void
     typealias ChecklistsResult = (_ result: Result<Checklists, MTPNetworkError>) -> Void
     typealias LocationsResult = (_ result: Result<[LocationJSON], MTPNetworkError>) -> Void
-    typealias PlacesResult = (_ result: Result<[Place], MTPNetworkError>) -> Void
+    typealias PlacesResult = (_ result: Result<[PlaceJSON], MTPNetworkError>) -> Void
     typealias RankingsResult = (_ result: Result<RankingsPage, MTPNetworkError>) -> Void
     typealias RestaurantsResult = (_ result: Result<[RestaurantJSON], MTPNetworkError>) -> Void
     typealias UserResult = (_ result: Result<User, MTPNetworkError>) -> Void
@@ -302,10 +302,9 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.failure(.notModified))
                 }
                 do {
-                    let beaches = try result.map([Place].self,
+                    let beaches = try result.map([PlaceJSON].self,
                                                  using: JSONDecoder.mtp)
-                    self.log.verbose("beaches succeeded")
-                    self.data.beaches = beaches
+                    self.data.set(beaches: beaches)
                     return then(.success(beaches))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -376,9 +375,9 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.failure(.notModified))
                 }
                 do {
-                    let divesites = try result.map([Place].self,
+                    let divesites = try result.map([PlaceJSON].self,
                                                    using: JSONDecoder.mtp)
-                    self.data.divesites = divesites
+                    self.data.set(divesites: divesites)
                     return then(.success(divesites))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -409,9 +408,9 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.failure(.notModified))
                 }
                 do {
-                    let golfcourses = try result.map([Place].self,
+                    let golfcourses = try result.map([PlaceJSON].self,
                                                      using: JSONDecoder.mtp)
-                    self.data.golfcourses = golfcourses
+                    self.data.set(golfcourses: golfcourses)
                     return then(.success(golfcourses))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")

@@ -5,12 +5,12 @@ import UIKit
 
 protocol DataService: AnyObject, Observable, ServiceProvider {
 
-    var beaches: [Place] { get set }
+    var beaches: [Beach] { get }
     var checklists: Checklists? { get set }
-    var divesites: [Place] { get set }
+    var divesites: [DiveSite] { get }
     var email: String { get set }
     var etags: [String: String] { get set }
-    var golfcourses: [Place] { get set }
+    var golfcourses: [GolfCourse] { get }
     var locations: [Location] { get }
     var name: String { get set }
     var password: String { get set }
@@ -22,6 +22,9 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var user: User? { get set }
     var whss: [WHS] { get }
 
+    func set(beaches: [PlaceJSON])
+    func set(divesites: [PlaceJSON])
+    func set(golfcourses: [PlaceJSON])
     func set(locations: [LocationJSON])
     func set(restaurants: [RestaurantJSON])
     func set(uncountries: [LocationJSON])
@@ -63,12 +66,13 @@ final class DataServiceImpl: DataService {
     private let defaults = UserDefaults.standard
     private let realm = RealmController()
 
-    var beaches: [Place] {
-        get { return defaults.beaches }
-        set {
-            defaults.beaches = newValue
-            notifyObservers(about: #function)
-        }
+    var beaches: [Beach] {
+        return realm.beaches
+    }
+
+    func set(beaches: [PlaceJSON]) {
+        realm.set(beaches: beaches)
+        notifyObservers(about: #function)
     }
 
     var checklists: Checklists? {
@@ -79,12 +83,13 @@ final class DataServiceImpl: DataService {
         }
     }
 
-    var divesites: [Place] {
-        get { return defaults.divesites }
-        set {
-            defaults.divesites = newValue
-            notifyObservers(about: #function)
-        }
+    var divesites: [DiveSite] {
+        return realm.divesites
+    }
+
+    func set(divesites: [PlaceJSON]) {
+        realm.set(divesites: divesites)
+        notifyObservers(about: #function)
     }
 
     var email: String {
@@ -103,12 +108,13 @@ final class DataServiceImpl: DataService {
         }
     }
 
-    var golfcourses: [Place] {
-        get { return defaults.golfcourses }
-        set {
-            defaults.golfcourses = newValue
-            notifyObservers(about: #function)
-        }
+    var golfcourses: [GolfCourse] {
+        return realm.golfcourses
+    }
+
+    func set(golfcourses: [PlaceJSON]) {
+        realm.set(golfcourses: golfcourses)
+        notifyObservers(about: #function)
     }
 
     var locations: [Location] {
