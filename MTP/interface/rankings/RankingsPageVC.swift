@@ -71,7 +71,7 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
         filter = data.lastRankingsQuery
         filter.checklistType = list
         filterDescription = filter.description
-        rankings = data.rankingsPages[list.rawValue]
+        rankings = data.get(rankings: filter)
         log.todo("RankingsPageVC rankings, filter)")
         filterRank = list.rank()
 

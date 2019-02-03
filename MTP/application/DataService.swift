@@ -15,13 +15,13 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var locations: [Location] { get }
     var name: String { get set }
     var password: String { get set }
-    var rankingsPages: [String: RankingsPageInfoJSON] { get set }
     var restaurants: [Restaurant] { get }
     var token: String { get set }
     var uncountries: [UNCountry] { get }
     var user: UserJSON? { get set }
     var whss: [WHS] { get }
 
+    func get(rankings: RankingsQuery) -> RankingsPageInfoJSON?
     func get(userId: Int) -> User
     func set(beaches: [PlaceJSON])
     func set(divesites: [PlaceJSON])
@@ -151,7 +151,12 @@ final class DataServiceImpl: DataService {
         }
     }
 
-    var rankingsPages: [String: RankingsPageInfoJSON] {
+    func get(rankings: RankingsQuery) -> RankingsPageInfoJSON? {
+        log.todo("switch to db: \(rankings.debugDescription)")
+        return rankingsPages[rankings.checklistType.rawValue]
+    }
+
+    private var rankingsPages: [String: RankingsPageInfoJSON] {
         get { return defaults.rankingsPages }
         set {
             defaults.rankingsPages = newValue
@@ -218,7 +223,9 @@ final class DataServiceImpl: DataService {
 
     func update(page: RankingsPageInfoJSON,
                 for query: RankingsQuery) {
+        log.todo("switch to db: \(query.debugDescription)")
         rankingsPages[query.key] = page
+
         realm.set(userIds: page.users.data)
         notifyObservers(about: #function)
     }
