@@ -31,6 +31,7 @@
 		FA32CC7E2100CB75004C1329 /* Signup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA32CC802100CB75004C1329 /* Signup.storyboard */; };
 		FA32CC892100CC6B004C1329 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA32CC8B2100CC6B004C1329 /* Login.storyboard */; };
 		FA36FBED22059E6B00616CDE /* ApplicationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA36FBEC22059E6B00616CDE /* ApplicationService.swift */; };
+		FA36FBEF2206461F00616CDE /* RealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA36FBEE2206461F00616CDE /* RealmController.swift */; };
 		FA390132213AB4A90016A362 /* Rankings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA390134213AB4A90016A362 /* Rankings.storyboard */; };
 		FA390139213B84B40016A362 /* RankingsPagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA390138213B84B40016A362 /* RankingsPagingVC.swift */; };
 		FA392BBB20DF69F30026C828 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA392BBA20DF69F30026C828 /* AppDelegate.swift */; };
@@ -154,6 +155,7 @@
 		FA32CC7F2100CB75004C1329 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Signup.storyboard; sourceTree = "<group>"; };
 		FA32CC8A2100CC6B004C1329 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Login.storyboard; sourceTree = "<group>"; };
 		FA36FBEC22059E6B00616CDE /* ApplicationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationService.swift; sourceTree = "<group>"; };
+		FA36FBEE2206461F00616CDE /* RealmController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmController.swift; sourceTree = "<group>"; };
 		FA390133213AB4A90016A362 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Rankings.storyboard; sourceTree = "<group>"; };
 		FA390138213B84B40016A362 /* RankingsPagingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsPagingVC.swift; sourceTree = "<group>"; };
 		FA392BB720DF69F30026C828 /* MTP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MTP.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -433,6 +435,7 @@
 				FAD2B51421F468A3009FFDD7 /* models */,
 				FA3CEC552132579300791195 /* DataService.swift */,
 				FA4653332115ADC6005B5A0A /* MTPNetworkService.swift */,
+				FA36FBEE2206461F00616CDE /* RealmController.swift */,
 				8C76D5DB22028874005CF4CD /* ServiceProvider.swift */,
 				FA4653312115A250005B5A0A /* UserDefaults+DataService.swift */,
 			);
@@ -963,6 +966,7 @@
 				FA3BD1D2215F7FCD007EAF75 /* MyPostsVC.swift in Sources */,
 				FAFEDA522129602800DA3DB8 /* WelcomeVC.swift in Sources */,
 				FA9A71DF20F1D3FA005F6A57 /* AppDelegate+Tools.swift in Sources */,
+				FA36FBEF2206461F00616CDE /* RealmController.swift in Sources */,
 				FA32CC7420FB6E67004C1329 /* UIView+Gradient.swift in Sources */,
 				FA5AC0B821FD4A160080F84F /* PlaceClusterAnnotationView.swift in Sources */,
 				FAF1853120FA0C8600CC5D83 /* RootVC.swift in Sources */,

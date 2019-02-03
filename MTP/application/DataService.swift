@@ -55,7 +55,8 @@ extension DataService {
 
 final class DataServiceImpl: DataService {
 
-    let defaults = UserDefaults.standard
+    private let defaults = UserDefaults.standard
+    private let realm = RealmController()
 
     var beaches: [Place] {
         get { return defaults.beaches }
