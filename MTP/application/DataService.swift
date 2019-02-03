@@ -11,7 +11,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var email: String { get set }
     var etags: [String: String] { get set }
     var golfcourses: [GolfCourse] { get }
-    var lastRankingsQuery: RankingsQuery? { get set }
+    var lastRankingsQuery: RankingsQuery { get set }
     var locations: [Location] { get }
     var name: String { get set }
     var password: String { get set }
@@ -118,8 +118,8 @@ final class DataServiceImpl: DataService {
         notifyObservers(about: #function)
     }
 
-    var lastRankingsQuery: RankingsQuery? {
-        get { return defaults.lastRankingsQuery }
+    var lastRankingsQuery: RankingsQuery {
+        get { return defaults.lastRankingsQuery ?? RankingsQuery() }
         set {
             defaults.lastRankingsQuery = newValue
             notifyObservers(about: #function)

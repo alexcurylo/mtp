@@ -65,11 +65,12 @@ extension RankingsFilterVC {
 private extension RankingsFilterVC {
 
     func configure() {
-        let filter = data.lastRankingsQuery ?? RankingsQuery()
+        let filter = data.lastRankingsQuery
         original = filter
         current = filter
         saveButton?.isEnabled = false
 
+        log.todo("configure filter")
         // country/state
         // gender
         // age
@@ -87,10 +88,8 @@ private extension RankingsFilterVC {
     }
 
     func saveEdits(notifying controller: UIViewController?) {
-        if let current = current {
-            data.lastRankingsQuery = current == RankingsQuery() ? nil : current
-        } else {
-            data.lastRankingsQuery = nil
+        if let current = current, current != original {
+            data.lastRankingsQuery = current
         }
         if let controller = controller as? RankingsVC {
             controller.updateFilter()

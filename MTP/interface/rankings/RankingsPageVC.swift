@@ -68,7 +68,7 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
     }
 
     func set(list: Checklist) {
-        filter = data.lastRankingsQuery ?? RankingsQuery()
+        filter = data.lastRankingsQuery
         filter.checklistType = list
         filterDescription = filter.description
         rankings = data.rankingsPages[list.rawValue]
