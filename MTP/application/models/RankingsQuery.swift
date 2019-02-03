@@ -2,39 +2,39 @@
 
 import Foundation
 
-struct RankingsPage: Codable {
+struct RankingsPageInfoJSON: Codable {
 
     let endRank: Int
     let endScore: Int
     let maxScore: Int
-    let users: RankingsPageUsers
+    let users: RankingsPageJSON
 }
 
-extension RankingsPage: CustomStringConvertible {
+extension RankingsPageInfoJSON: CustomStringConvertible {
 
     public var description: String {
-        return "RankingsPage: \(endRank) \(endScore)"
+        return "RankingsPageInfoJSON: \(endRank) \(endScore)"
     }
 }
 
-extension RankingsPage: CustomDebugStringConvertible {
+extension RankingsPageInfoJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
-        < RankingsPage: \(description):
+        < RankingsPageInfoJSON: \(description):
         endRank: \(endRank)
         endScore: \(endScore)
         maxScore: \(maxScore)
         users: \(users)
-        /RankingsPage >
+        /RankingsPageInfoJSON >
         """
     }
 }
 
-struct RankingsPageUsers: Codable {
+struct RankingsPageJSON: Codable {
 
     let currentPage: Int
-    let data: [RankingsUser]
+    let data: [RankedUserJSON]
     let firstPageUrl: String
     let from: Int
     let lastPage: Int
@@ -47,18 +47,18 @@ struct RankingsPageUsers: Codable {
     let total: Int
 }
 
-extension RankingsPageUsers: CustomStringConvertible {
+extension RankingsPageJSON: CustomStringConvertible {
 
     public var description: String {
-        return "RankingsPageUsers: \(currentPage) \(lastPage)"
+        return "RankingsPageJSON: \(currentPage) \(lastPage)"
     }
 }
 
-extension RankingsPageUsers: CustomDebugStringConvertible {
+extension RankingsPageJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
-        < RankingsPageUsers: \(description):
+        < RankingsPageJSON: \(description):
         currentPage: \(currentPage)
         data: \(data)
         firstPageUrl: \(firstPageUrl)
@@ -76,7 +76,7 @@ extension RankingsPageUsers: CustomDebugStringConvertible {
     }
 }
 
-struct RankingsUser: Codable {
+struct RankedUserJSON: Codable {
 
     let birthday: Date
     let country: LocationJSON?
@@ -105,18 +105,18 @@ struct RankingsUser: Codable {
     let scoreWhss: Int?
 }
 
-extension RankingsUser: CustomStringConvertible {
+extension RankedUserJSON: CustomStringConvertible {
 
     public var description: String {
-        return "RankingsUser: \(currentRank) \(fullName)"
+        return "RankedUserJSON: \(currentRank) \(fullName)"
     }
 }
 
-extension RankingsUser: CustomDebugStringConvertible {
+extension RankedUserJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
-        < RankingsUser: \(description):
+        < RankedUserJSON: \(description):
         birthday: \(birthday)
         country: \(String(describing: country))
         currentRank: \(currentRank)
@@ -142,12 +142,12 @@ extension RankingsUser: CustomDebugStringConvertible {
         scoreRestaurants: \(String(describing: scoreRestaurants))
         scoreUncountries: \(String(describing: scoreUncountries))
         scoreWhss: \(String(describing: scoreWhss))
-        /RankingsUser >
+        /RankedUserJSON >
         """
     }
 }
 
-struct RankingsPageSpec: Hashable {
+struct RankingsQuery: Hashable {
 
     enum Gender: String {
         case male = "M"
@@ -167,7 +167,7 @@ struct RankingsPageSpec: Hashable {
     let facebookConnected: Bool? = nil
 }
 
-extension RankingsPageSpec {
+extension RankingsQuery {
 
     init(list: Checklist) {
         checklistType = list

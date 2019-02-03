@@ -47,13 +47,18 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func set(rank: Int, for filter: String) {
-        rankLabel.text = rank.grouped
+    func set(rank: Int,
+             list: Checklist,
+             filter: String) {
         filterLabel.text = filter
 
         if let user = data.user {
+            let status = list.status(of: user)
+            let total = (status.visited + status.remaining).grouped
+            rankLabel.text = "\(rank.grouped) (\(status.visited.grouped)/\(total))"
             avatarImageView.set(thumbnail: user)
         } else {
+            rankLabel.text = rank.grouped
             avatarImageView.image = nil
         }
     }

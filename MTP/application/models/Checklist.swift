@@ -148,11 +148,11 @@ enum Checklist: String, CaseIterable, ServiceProvider {
         }
     }
 
-    func remaining(of user: UserJSON? = nil) -> Int {
+    func remaining(of user: UserInfo) -> Int {
         return status(of: user).remaining
     }
 
-    func status(of user: UserJSON? = nil) -> Status {
+    func status(of user: UserInfo) -> Status {
         let total: Int
         switch self {
         case .locations:
@@ -193,9 +193,7 @@ enum Checklist: String, CaseIterable, ServiceProvider {
         }
     }
 
-    func visited(of user: UserJSON? = nil) -> Int {
-        guard let user = user ?? data.user else { return 0 }
-
+    func visited(of user: UserInfo) -> Int {
         switch self {
         case .locations:
             return user.scoreLocations

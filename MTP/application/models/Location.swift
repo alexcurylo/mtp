@@ -73,36 +73,6 @@ extension LocationJSON: CustomDebugStringConvertible {
     }
 }
 
-extension LocationJSON {
-
-    // swiftlint:disable:next closure_body_length
-    static var loading: LocationJSON = {
-        LocationJSON(
-            active: "",
-            adminLevel: 0,
-            airports: "",
-            countryId: 0,
-            countryName: Localized.loading(),
-            distance: 0.0,
-            featuredImg: "",
-            id: 0,
-            isMtpLocation: 0,
-            isUn: 0,
-            lat: 0.0,
-            locationName: "",
-            lon: 0.0,
-            rank: 0,
-            rankUn: 0,
-            regionId: 0,
-            regionName: "",
-            visitors: 0,
-            visitorsUn: 0,
-            weather: "",
-            weatherhist: "",
-            zoom: 0)
-    }()
-}
-
 @objcMembers final class Location: Object {
 
     dynamic var countryName: String = ""

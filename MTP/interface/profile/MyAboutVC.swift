@@ -92,7 +92,7 @@ private extension MyAboutVC {
         let ranking = Localized.ranking(rank.grouped)
         rankingLabel?.text = ranking
 
-        let status = list.status()
+        let status = list.status(of: user)
         let visited = Localized.visited(status.visited)
         visitedButton?.setTitle(visited, for: .normal)
         let remaining = Localized.remaining(status.remaining)

@@ -137,6 +137,33 @@ final class RealmController: ServiceProvider {
         }
     }
 
+    func user(id: Int) -> User? {
+        let results = realm.objects(User.self).filter("id = \(id)")
+        return results.first
+    }
+
+    func set(userId: UserJSON) {
+        do {
+            let object = User(from: userId)
+            try realm.write {
+                realm.add(object, update: true)
+            }
+        } catch {
+            log.error("set userIds: \(error)")
+        }
+    }
+
+    func set(userIds: [RankedUserJSON]) {
+        do {
+            let objects = userIds.map { User(from: $0) }
+            try realm.write {
+                realm.add(objects, update: true)
+            }
+        } catch {
+            log.error("set userIds: \(error)")
+        }
+    }
+
     var whss: [WHS] {
         let results = realm.objects(WHS.self)
         return Array(results)

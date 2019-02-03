@@ -77,10 +77,10 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
-    var rankingsPages: [String: RankingsPage] {
+    var rankingsPages: [String: RankingsPageInfoJSON] {
         get {
             do {
-                return try get(objectType: [String: RankingsPage].self, forKey: #function) ?? [:]
+                return try get(objectType: [String: RankingsPageInfoJSON].self, forKey: #function) ?? [:]
             } catch {
                 log.error("decoding rankingsPages value: \(error)")
                 return [:]

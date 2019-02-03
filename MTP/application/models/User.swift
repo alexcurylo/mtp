@@ -3,7 +3,20 @@
 import Nuke
 import RealmSwift
 
-struct UserJSON: Codable {
+protocol UserInfo {
+
+    var gender: String { get }
+    var picture: String? { get }
+    var scoreBeaches: Int { get }
+    var scoreDivesites: Int { get }
+    var scoreGolfcourses: Int { get }
+    var scoreLocations: Int { get }
+    var scoreRestaurants: Int { get }
+    var scoreUncountries: Int { get }
+    var scoreWhss: Int { get }
+}
+
+struct UserJSON: Codable, UserInfo {
 
     let airport: String?
     let bio: String?
@@ -144,99 +157,7 @@ extension Link: CustomStringConvertible, CustomDebugStringConvertible {
     }
 }
 
-extension UserJSON {
-
-    // swiftlint:disable:next closure_body_length
-    static var loading: UserJSON = {
-        UserJSON(
-            airport: nil,
-            bio: nil,
-            birthday: Date(),
-            country: LocationJSON.loading,
-            countryId: 0,
-            createdAt: Date(),
-            email: "",
-            facebookEmail: nil,
-            facebookId: 0,
-            facebookUserToken: nil,
-            favoritePlaces: [],
-            firstName: "",
-            fullName: Localized.loading(),
-            gender: "",
-            id: 0,
-            lastLogIn: nil,
-            lastName: "",
-            links: [],
-            location: LocationJSON.loading,
-            locationId: 0,
-            picture: nil,
-            rankBeaches: 0,
-            rankDivesites: 0,
-            rankGolfcourses: 0,
-            rankLocations: 0,
-            rankRestaurants: 0,
-            rankUncountries: 0,
-            rankWhss: 0,
-            role: 0,
-            score: 0,
-            scoreBeaches: 0,
-            scoreDivesites: 0,
-            scoreGolfcourses: 0,
-            scoreLocations: 0,
-            scoreRestaurants: 0,
-            scoreUncountries: 0,
-            scoreWhss: 0,
-            status: "",
-            token: nil,
-            updatedAt: Date(),
-            username: ""
-        )
-    }()
-
-    // swiftlint:disable:next function_body_length
-    init(ranked: RankingsUser) {
-        airport = nil
-        bio = nil
-        birthday = ranked.birthday
-        country = ranked.country ?? ranked.location
-        countryId = 0
-        createdAt = Date()
-        email = ""
-        facebookEmail = nil
-        facebookId = 0
-        facebookUserToken = nil
-        favoritePlaces = []
-        firstName = ranked.firstName
-        fullName = ranked.fullName
-        gender = ranked.gender
-        id = ranked.id
-        lastLogIn = nil
-        lastName = ranked.lastName
-        location = ranked.location
-        links = []
-        locationId = ranked.locationId
-        picture = nil
-        rankBeaches = ranked.rankBeaches ?? 0
-        rankDivesites = ranked.rankDivesites ?? 0
-        rankGolfcourses = ranked.rankGolfcourses ?? 0
-        rankLocations = ranked.rankLocations ?? 0
-        rankRestaurants = ranked.rankRestaurants ?? 0
-        rankUncountries = ranked.rankUncountries ?? 0
-        rankWhss = ranked.rankWhss ?? 0
-        role = ranked.role
-        score = 0
-        scoreBeaches = ranked.scoreBeaches ?? 0
-        scoreDivesites = ranked.scoreDivesites ?? 0
-        scoreGolfcourses = ranked.scoreGolfcourses ?? 0
-        scoreLocations = ranked.scoreLocations ?? 0
-        scoreRestaurants = ranked.scoreRestaurants ?? 0
-        scoreUncountries = ranked.scoreUncountries ?? 0
-        scoreWhss = ranked.scoreWhss ?? 0
-        status = ""
-        token = nil
-        updatedAt = Date()
-        username = ""
-    }
+extension UserInfo {
 
     var imageUrl: URL? {
         guard let uuid = picture, !uuid.isEmpty else { return nil }
@@ -258,7 +179,7 @@ extension UserJSON {
 
 extension UIImageView {
 
-    @discardableResult func set(thumbnail user: UserJSON) -> Bool {
+    @discardableResult func set(thumbnail user: UserInfo) -> Bool {
         let placeholder = user.placeholder
         guard let url = user.imageUrl else {
             image = placeholder
@@ -278,17 +199,55 @@ extension UIImageView {
     }
 }
 
-@objcMembers final class User: Object {
+@objcMembers final class User: Object, UserInfo {
 
+    dynamic var fullName: String = ""
+    dynamic var gender: String = ""
     dynamic var id: Int = 0
+    dynamic var locationName: String = ""
+    dynamic var picture: String?
+    dynamic var scoreBeaches: Int = 0
+    dynamic var scoreDivesites: Int = 0
+    dynamic var scoreGolfcourses: Int = 0
+    dynamic var scoreLocations: Int = 0
+    dynamic var scoreRestaurants: Int = 0
+    dynamic var scoreUncountries: Int = 0
+    dynamic var scoreWhss: Int = 0
 
     override static func primaryKey() -> String? {
         return "id"
     }
 
+    convenience init(from: RankedUserJSON) {
+        self.init()
+
+        fullName = from.fullName
+        gender = from.gender
+        id = from.id
+        locationName = from.location.description
+        scoreBeaches = from.scoreBeaches ?? 0
+        scoreDivesites = from.scoreDivesites ?? 0
+        scoreGolfcourses = from.scoreGolfcourses ?? 0
+        scoreLocations = from.scoreLocations ?? 0
+        scoreRestaurants = from.scoreRestaurants ?? 0
+        scoreUncountries = from.scoreUncountries ?? 0
+        scoreWhss = from.scoreWhss ?? 0
+   }
+
     convenience init(from: UserJSON) {
         self.init()
-        
+
+        fullName = from.fullName
+        gender = from.gender
         id = from.id
-   }
+        locationName = from.location.description
+        picture = from.picture
+        scoreBeaches = from.scoreBeaches
+        scoreDivesites = from.scoreDivesites
+        scoreGolfcourses = from.scoreGolfcourses
+        scoreLocations = from.scoreLocations
+        scoreRestaurants = from.scoreRestaurants
+        scoreUncountries = from.scoreUncountries
+        scoreWhss = from.scoreWhss
+    }
 }

@@ -15,20 +15,25 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var name: String { get set }
     var password: String { get set }
     var rankingsFilter: UserFilter? { get set }
-    var rankingsPages: [String: RankingsPage] { get set }
+    var rankingsPages: [String: RankingsPageInfoJSON] { get set }
     var restaurants: [Restaurant] { get }
     var token: String { get set }
     var uncountries: [UNCountry] { get }
     var user: UserJSON? { get set }
     var whss: [WHS] { get }
 
+    func get(userId: Int) -> User
     func set(beaches: [PlaceJSON])
     func set(divesites: [PlaceJSON])
     func set(golfcourses: [PlaceJSON])
     func set(locations: [LocationJSON])
     func set(restaurants: [RestaurantJSON])
     func set(uncountries: [LocationJSON])
+    func set(userId: UserJSON)
+    func set(userIds: [RankedUserJSON])
     func set(whss: [WHSJSON])
+    func update(page: RankingsPageInfoJSON,
+                for query: RankingsQuery)
 }
 
 // MARK: - User state
@@ -54,10 +59,6 @@ extension DataService {
         name = ""
         password = ""
         user = nil
-    }
-
-    func update(user: UserJSON) {
-        log.todo("update user: " + user.debugDescription)
     }
 }
 
@@ -150,7 +151,7 @@ final class DataServiceImpl: DataService {
         }
     }
 
-    var rankingsPages: [String: RankingsPage] {
+    var rankingsPages: [String: RankingsPageInfoJSON] {
         get { return defaults.rankingsPages }
         set {
             defaults.rankingsPages = newValue
@@ -192,12 +193,33 @@ final class DataServiceImpl: DataService {
         }
     }
 
+    func get(userId: Int) -> User {
+        return realm.user(id: userId) ?? User()
+    }
+
+    func set(userId: UserJSON) {
+        realm.set(userId: userId)
+        notifyObservers(about: #function)
+    }
+
+    func set(userIds: [RankedUserJSON]) {
+        realm.set(userIds: userIds)
+        notifyObservers(about: #function)
+    }
+
     var whss: [WHS] {
         return realm.whss
     }
 
     func set(whss: [WHSJSON]) {
         realm.set(whss: whss)
+        notifyObservers(about: #function)
+    }
+
+    func update(page: RankingsPageInfoJSON,
+                for query: RankingsQuery) {
+        rankingsPages[query.key] = page
+        realm.set(userIds: page.users.data)
         notifyObservers(about: #function)
     }
 }

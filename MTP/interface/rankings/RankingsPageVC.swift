@@ -33,7 +33,7 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
     weak var delegate: RankingsPageVCDelegate?
 
     private var list: Checklist = .locations
-    private var rankings: RankingsPage?
+    private var rankings: RankingsPageInfoJSON?
     private var filter = UserFilter()
     private var filterDescription = ""
     private var filterRank = 0
@@ -113,7 +113,9 @@ extension RankingsPageVC: UICollectionViewDataSource {
             for: indexPath)
 
         if let header = view as? RankingHeader {
-            header.set(rank: filterRank, for: filterDescription)
+            header.set(rank: filterRank,
+                       list: list,
+                       filter: filterDescription)
         }
 
         return view
@@ -156,16 +158,11 @@ private extension RankingsPageVC {
         }
     }
 
-    func user(at rank: Int) -> UserJSON {
+    func user(at rank: Int) -> User {
         guard let ranked = rankings?.users.data[rank - 1]  else {
-            return UserJSON.loading
+            return User()
         }
 
-        if let myself = data.user,
-           myself.id == ranked.id {
-            return myself
-        }
-
-        return UserJSON(ranked: ranked)
+        return data.get(userId: ranked.id)
     }
 }

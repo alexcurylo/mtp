@@ -48,7 +48,7 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         $0.addTarget(self, action: #selector(tapRemaining), for: .touchUpInside)
     }
 
-    private var current: UserJSON?
+    private var current: User?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -61,14 +61,14 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func set(user: UserJSON,
+    func set(user: User,
              for rank: Int,
              in list: Checklist) {
         current = user
 
         rankLabel.text = rank.grouped
         nameLabel.text = user.fullName
-        countryLabel.text = user.location.description
+        countryLabel.text = user.locationName
 
         let status = list.status(of: user)
         let visited = Localized.visited(status.visited)

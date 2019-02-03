@@ -26,7 +26,7 @@ enum MTP: Hashable {
     case golfcourse
     case location
     case locationsSearch(parentCountry: Int?, query: String?)
-    case rankings(page: RankingsPageSpec)
+    case rankings(query: RankingsQuery)
     case restaurant
     case unCountry
     case user(id: Int)
@@ -124,8 +124,8 @@ extension MTP: TargetType {
         case .checkOut(_, let id):
             return .requestParameters(parameters: ["id": id],
                                       encoding: URLEncoding.default)
-        case .rankings(let page):
-            return .requestParameters(parameters: page.parameters,
+        case .rankings(let query):
+            return .requestParameters(parameters: query.parameters,
                                       encoding: URLEncoding.default)
         case .beach,
              .checklists,
@@ -203,7 +203,7 @@ protocol MTPNetworkService {
     typealias ChecklistsResult = (_ result: Result<Checklists, MTPNetworkError>) -> Void
     typealias LocationsResult = (_ result: Result<[LocationJSON], MTPNetworkError>) -> Void
     typealias PlacesResult = (_ result: Result<[PlaceJSON], MTPNetworkError>) -> Void
-    typealias RankingsResult = (_ result: Result<RankingsPage, MTPNetworkError>) -> Void
+    typealias RankingsResult = (_ result: Result<RankingsPageInfoJSON, MTPNetworkError>) -> Void
     typealias RestaurantsResult = (_ result: Result<[RestaurantJSON], MTPNetworkError>) -> Void
     typealias UserResult = (_ result: Result<UserJSON, MTPNetworkError>) -> Void
     typealias WHSResult = (_ result: Result<[WHSJSON], MTPNetworkError>) -> Void
@@ -460,7 +460,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadRankings(page: RankingsPageSpec,
+    func loadRankings(query: RankingsQuery,
                       then: @escaping RankingsResult = { _ in }) {
         let provider: MoyaProvider<MTP>
         if data.isLoggedIn {
@@ -469,7 +469,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         } else {
             provider = MoyaProvider<MTP>()
         }
-        let endpoint = MTP.rankings(page: page)
+        let endpoint = MTP.rankings(query: query)
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
@@ -477,9 +477,9 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.failure(.notModified))
                 }
                 do {
-                    let rankingsPage = try result.map(RankingsPage.self,
+                    let rankingsPage = try result.map(RankingsPageInfoJSON.self,
                                                       using: JSONDecoder.mtp)
-                    self.data.rankingsPages[page.key] = rankingsPage
+                    self.data.update(page: rankingsPage, for: query)
                     return then(.success(rankingsPage))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -579,7 +579,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     }
                     let user = try result.map(UserJSON.self,
                                               using: JSONDecoder.mtp)
-                    self.data.update(user: user)
+                    self.data.set(userId: user)
                     return then(.success(user))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -694,7 +694,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     let user = try result.map(UserJSON.self,
                                               using: JSONDecoder.mtp)
                     self.data.user = user
-                    self.log.verbose("refreshed user: " + user.debugDescription)
+                    self.data.set(userId: user)
                     return then(.success(user))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -729,6 +729,8 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 data.email = email
                 data.password = password
                 log.verbose("logged in user: " + user.debugDescription)
+                self.data.user = user
+                self.data.set(userId: user)
                 return then(.success(user))
             } catch {
                 self.log.error("decoding user: \(error)")
@@ -848,7 +850,7 @@ extension MoyaMTPNetworkService {
         loadWHS()
 
         Checklist.allCases.forEach {
-            loadRankings(page: RankingsPageSpec(list: $0))
+            loadRankings(query: RankingsQuery(list: $0))
         }
     }
 
