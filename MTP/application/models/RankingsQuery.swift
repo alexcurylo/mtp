@@ -147,29 +147,85 @@ extension RankedUserJSON: CustomDebugStringConvertible {
     }
 }
 
-struct RankingsQuery: Hashable {
+struct RankingsQuery: Codable, Hashable {
 
-    enum Gender: String {
-        case male = "M"
+    enum Gender: String, Codable, CustomStringConvertible {
+        case all = ""
         case female = "F"
+        case male = "M"
+
+        var description: String {
+            switch self {
+            case .all: return "all"
+            case .female: return Localized.female()
+            case .male: return Localized.male()
+            }
+        }
     }
 
-    let checklistType: Checklist
-    let page: Int = 1
+    var checklistType: Checklist
+    var page: Int = 1
 
-    let gender: Gender? = nil
-    let country: String? = nil
-    let countryId: Int? = nil
-    let location: String? = nil
-    let locationId: Int? = nil
-    let ageGroup: Int? = nil
-    // swiftlint:disable:next discouraged_optional_boolean
-    let facebookConnected: Bool? = nil
+    var ageGroup: Int?
+    var country: String?
+    var countryId: Int?
+    var facebookConnected: Bool = false
+    var gender: Gender = .all
+    var location: String?
+    var locationId: Int?
+}
+
+extension RankingsQuery: CustomStringConvertible {
+
+    var description: String {
+        let components: [String] = [
+            locationDescription,
+            genderDescription,
+            ageDescription,
+            facebookDescription
+        ].compactMap { $0 }.filter { !$0.isEmpty }
+        return components.joined(separator: Localized.join())
+    }
+
+    private var ageDescription: String? {
+        return nil
+    }
+
+    private var facebookDescription: String? {
+        return facebookConnected ? Localized.facebookFriends() : nil
+    }
+
+    private var genderDescription: String? {
+        return gender != .all ? gender.description : nil
+    }
+
+    private var locationDescription: String {
+        return Localized.allLocations()
+    }
+}
+
+extension RankingsQuery: CustomDebugStringConvertible {
+
+    var debugDescription: String {
+        return """
+        < RankingsQuery: \(description):
+        checklistType: \(checklistType)
+        page: \(page)
+        ageGroup: \(String(describing: ageGroup))
+        country: \(String(describing: country))
+        countryId: \(String(describing: countryId))
+        facebookConnected: \(facebookConnected)
+        gender: \(gender)
+        location: \(String(describing: location))
+        locationId: \(String(describing: locationId))
+        /RankingsQuery >
+        """
+    }
 }
 
 extension RankingsQuery {
 
-    init(list: Checklist) {
+    init(list: Checklist = .locations) {
         checklistType = list
     }
 
@@ -182,23 +238,24 @@ extension RankingsQuery {
 
         parameters["checklistType"] = checklistType.rawValue
         parameters["page"] = String(page)
-        if let gender = gender {
-            parameters["gender"] = gender.rawValue
-        }
+
         if let country = country {
             parameters["country"] = country
         }
         if let countryId = countryId {
             parameters["country_id"] = String(countryId)
         }
+        if facebookConnected {
+            parameters["facebookConnected"] = "true"
+        }
+        if gender != .all {
+            parameters["gender"] = gender.rawValue
+        }
         if let location = location {
             parameters["location"] = location
         }
         if let locationId = locationId {
             parameters["location_id"] = String(locationId)
-        }
-        if let facebookConnected = facebookConnected {
-            parameters["facebookConnected"] = String(facebookConnected)
         }
 
         return parameters

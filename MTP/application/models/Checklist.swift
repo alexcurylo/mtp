@@ -2,7 +2,7 @@
 
 import UIKit
 
-enum Checklist: String, CaseIterable, ServiceProvider {
+enum Checklist: String, Codable, CaseIterable, ServiceProvider {
 
     case locations
     case uncountries

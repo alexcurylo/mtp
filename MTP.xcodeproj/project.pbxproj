@@ -32,7 +32,6 @@
 		FA32CC892100CC6B004C1329 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA32CC8B2100CC6B004C1329 /* Login.storyboard */; };
 		FA36FBED22059E6B00616CDE /* ApplicationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA36FBEC22059E6B00616CDE /* ApplicationService.swift */; };
 		FA36FBEF2206461F00616CDE /* RealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA36FBEE2206461F00616CDE /* RealmController.swift */; };
-		FA36FBF12206A84400616CDE /* UserFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA36FBF02206A84400616CDE /* UserFilter.swift */; };
 		FA390132213AB4A90016A362 /* Rankings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA390134213AB4A90016A362 /* Rankings.storyboard */; };
 		FA390139213B84B40016A362 /* RankingsPagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA390138213B84B40016A362 /* RankingsPagingVC.swift */; };
 		FA392BBB20DF69F30026C828 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA392BBA20DF69F30026C828 /* AppDelegate.swift */; };
@@ -157,7 +156,6 @@
 		FA32CC8A2100CC6B004C1329 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Login.storyboard; sourceTree = "<group>"; };
 		FA36FBEC22059E6B00616CDE /* ApplicationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationService.swift; sourceTree = "<group>"; };
 		FA36FBEE2206461F00616CDE /* RealmController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmController.swift; sourceTree = "<group>"; };
-		FA36FBF02206A84400616CDE /* UserFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFilter.swift; sourceTree = "<group>"; };
 		FA390133213AB4A90016A362 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Rankings.storyboard; sourceTree = "<group>"; };
 		FA390138213B84B40016A362 /* RankingsPagingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsPagingVC.swift; sourceTree = "<group>"; };
 		FA392BB720DF69F30026C828 /* MTP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MTP.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -590,7 +588,6 @@
 				8C5ECF3921FFE49800322ABF /* RankingsQuery.swift */,
 				FAD2B51B21F4A675009FFDD7 /* Restaurant.swift */,
 				FA76D9742131278900EF8E25 /* User.swift */,
-				FA36FBF02206A84400616CDE /* UserFilter.swift */,
 				FA2E718421ED535B00E6AB73 /* WHS.swift */,
 			);
 			path = models;
@@ -984,7 +981,6 @@
 				FA392BBF20DF69F30026C828 /* RankingsVC.swift in Sources */,
 				FA5AC0C321FDCE200080F84F /* MyCountsPageVC.swift in Sources */,
 				FAD2B51621F46913009FFDD7 /* Checklists.swift in Sources */,
-				FA36FBF12206A84400616CDE /* UserFilter.swift in Sources */,
 				FAAE29C220EFADC800B43BA9 /* R.generated.swift in Sources */,
 				FA5AC0C721FDD8AA0080F84F /* CountToggleCell.swift in Sources */,
 				FA12D682213B963C0053E9BF /* RankingsPageVC.swift in Sources */,

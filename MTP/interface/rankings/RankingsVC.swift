@@ -13,8 +13,6 @@ final class RankingsVC: UIViewController, ServiceProvider {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        data.rankingsFilter = nil
-
         configurePagesHolder()
     }
 

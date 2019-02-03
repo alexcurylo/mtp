@@ -11,10 +11,10 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var email: String { get set }
     var etags: [String: String] { get set }
     var golfcourses: [GolfCourse] { get }
+    var lastRankingsQuery: RankingsQuery? { get set }
     var locations: [Location] { get }
     var name: String { get set }
     var password: String { get set }
-    var rankingsFilter: UserFilter? { get set }
     var rankingsPages: [String: RankingsPageInfoJSON] { get set }
     var restaurants: [Restaurant] { get }
     var token: String { get set }
@@ -118,6 +118,14 @@ final class DataServiceImpl: DataService {
         notifyObservers(about: #function)
     }
 
+    var lastRankingsQuery: RankingsQuery? {
+        get { return defaults.lastRankingsQuery }
+        set {
+            defaults.lastRankingsQuery = newValue
+            notifyObservers(about: #function)
+        }
+    }
+
     var locations: [Location] {
         return realm.locations
     }
@@ -139,14 +147,6 @@ final class DataServiceImpl: DataService {
         get { return defaults.password }
         set {
             defaults.password = newValue
-            notifyObservers(about: #function)
-        }
-    }
-
-    var rankingsFilter: UserFilter? {
-        get { return defaults.rankingsFilter }
-        set {
-            defaults.rankingsFilter = newValue
             notifyObservers(about: #function)
         }
     }

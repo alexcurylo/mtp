@@ -45,6 +45,28 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
+    var lastRankingsQuery: RankingsQuery? {
+        get {
+            do {
+                return try get(objectType: RankingsQuery.self, forKey: #function)
+            } catch {
+                log.error("decoding lastRankingsQuery value: \(error)")
+                return nil
+            }
+        }
+        set {
+            guard let newQuery = newValue else {
+                set(nil, forKey: #function)
+                return
+            }
+            do {
+                try set(object: newQuery, forKey: #function)
+            } catch {
+                log.error("encoding lastRankingsQuery newValue: \(error)")
+            }
+        }
+    }
+
     var name: String {
         get { return string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }
@@ -53,28 +75,6 @@ extension UserDefaults: ServiceProvider {
     var password: String {
         get { return string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }
-    }
-
-    var rankingsFilter: UserFilter? {
-        get {
-            do {
-                return try get(objectType: UserFilter.self, forKey: #function)
-            } catch {
-                log.error("decoding rankingsFilter value: \(error)")
-                return nil
-            }
-        }
-        set {
-            guard let newRankingsFilter = newValue else {
-                set(nil, forKey: #function)
-                return
-            }
-            do {
-                try set(object: newRankingsFilter, forKey: #function)
-            } catch {
-                log.error("encoding rankingsFilter newValue: \(error)")
-            }
-        }
     }
 
     var rankingsPages: [String: RankingsPageInfoJSON] {

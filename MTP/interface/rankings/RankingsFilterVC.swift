@@ -8,8 +8,8 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
 
     @IBOutlet private var facebookSwitch: UISwitch?
 
-    private var original: UserFilter?
-    private var current: UserFilter?
+    private var original: RankingsQuery?
+    private var current: RankingsQuery?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,7 +65,7 @@ extension RankingsFilterVC {
 private extension RankingsFilterVC {
 
     func configure() {
-        let filter = data.rankingsFilter ?? UserFilter()
+        let filter = data.lastRankingsQuery ?? RankingsQuery()
         original = filter
         current = filter
         saveButton?.isEnabled = false
@@ -74,11 +74,11 @@ private extension RankingsFilterVC {
         // gender
         // age
 
-        facebookSwitch?.isOn = filter.facebook
+        facebookSwitch?.isOn = filter.facebookConnected
     }
 
     @IBAction func switchFacebook(_ sender: UISwitch) {
-        current?.facebook = sender.isOn
+        current?.facebookConnected = sender.isOn
         updateSave()
     }
 
@@ -88,9 +88,9 @@ private extension RankingsFilterVC {
 
     func saveEdits(notifying controller: UIViewController?) {
         if let current = current {
-            data.rankingsFilter = current == UserFilter() ? nil : current
+            data.lastRankingsQuery = current == RankingsQuery() ? nil : current
         } else {
-            data.rankingsFilter = nil
+            data.lastRankingsQuery = nil
         }
         if let controller = controller as? RankingsVC {
             controller.updateFilter()

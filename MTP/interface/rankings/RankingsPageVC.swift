@@ -32,9 +32,8 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
 
     weak var delegate: RankingsPageVCDelegate?
 
-    private var list: Checklist = .locations
     private var rankings: RankingsPageInfoJSON?
-    private var filter = UserFilter()
+    private var filter = RankingsQuery()
     private var filterDescription = ""
     private var filterRank = 0
 
@@ -69,8 +68,8 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
     }
 
     func set(list: Checklist) {
-        self.list = list
-        filter = data.rankingsFilter ?? UserFilter()
+        filter = data.lastRankingsQuery ?? RankingsQuery()
+        filter.checklistType = list
         filterDescription = filter.description
         rankings = data.rankingsPages[list.rawValue]
         log.todo("RankingsPageVC rankings, filter)")
@@ -114,7 +113,7 @@ extension RankingsPageVC: UICollectionViewDataSource {
 
         if let header = view as? RankingHeader {
             header.set(rank: filterRank,
-                       list: list,
+                       list: filter.checklistType,
                        filter: filterDescription)
         }
 
@@ -136,7 +135,7 @@ extension RankingsPageVC: UICollectionViewDataSource {
             let rank = indexPath.row + 1
             cell.set(user: user(at: rank),
                      for: rank,
-                     in: list)
+                     in: filter.checklistType)
         }
 
         return cell
