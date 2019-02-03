@@ -1,8 +1,9 @@
 // @copyright Trollwerks Inc.
 
 import Nuke
+import RealmSwift
 
-struct User: Codable {
+struct UserJSON: Codable {
 
     let airport: String?
     let bio: String?
@@ -47,14 +48,14 @@ struct User: Codable {
     let username: String
 }
 
-extension User: CustomStringConvertible {
+extension UserJSON: CustomStringConvertible {
 
     public var description: String {
         return "\(username) (\(id))"
     }
 }
 
-extension User: CustomDebugStringConvertible {
+extension UserJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
@@ -143,11 +144,11 @@ extension Link: CustomStringConvertible, CustomDebugStringConvertible {
     }
 }
 
-extension User {
+extension UserJSON {
 
     // swiftlint:disable:next closure_body_length
-    static var loading: User = {
-        User(
+    static var loading: UserJSON = {
+        UserJSON(
             airport: nil,
             bio: nil,
             birthday: Date(),
@@ -255,75 +256,9 @@ extension User {
     }
 }
 
-enum Gender: Int, Codable {
-    case all
-    case female
-    case male
-}
-
-extension Gender: CustomStringConvertible, CustomDebugStringConvertible {
-
-    public var description: String {
-        switch self {
-        case .all: return ""
-        case .female: return Localized.female()
-        case .male: return Localized.male()
-        }
-    }
-
-    public var debugDescription: String {
-        return String(rawValue)
-    }
-}
-
-struct UserFilter: Codable, Equatable, ServiceProvider {
-
-    var countryId: Int?
-    var provinceId: Int?
-    var gender: Gender = .all
-    var ageMin: Int?
-    var ageMax: Int?
-    var facebook: Bool = false
-}
-
-extension UserFilter: CustomStringConvertible, CustomDebugStringConvertible {
-
-    public var description: String {
-        return debugDescription
-    }
-
-    public var debugDescription: String {
-        let components: [String] = [
-            locationDescription,
-            genderDescription,
-            ageDescription,
-            facebookDescription
-        ].compactMap { $0 }.filter { !$0.isEmpty }
-        return components.joined(separator: Localized.join())
-    }
-
-    private var locationDescription: String {
-        log.todo("UserFilter.location")
-        return Localized.allLocations()
-    }
-
-    private var genderDescription: String? {
-        return gender != .all ? gender.description : nil
-    }
-
-    private var ageDescription: String? {
-        log.todo("UserFilter.ageDescription")
-        return nil
-    }
-
-    private var facebookDescription: String? {
-        return facebook ? Localized.facebookFriends() : nil
-    }
-}
-
 extension UIImageView {
 
-    @discardableResult func set(thumbnail user: User) -> Bool {
+    @discardableResult func set(thumbnail user: UserJSON) -> Bool {
         let placeholder = user.placeholder
         guard let url = user.imageUrl else {
             image = placeholder
@@ -341,4 +276,19 @@ extension UIImageView {
 
         return false
     }
+}
+
+@objcMembers final class User: Object {
+
+    dynamic var id: Int = 0
+
+    override static func primaryKey() -> String? {
+        return "id"
+    }
+
+    convenience init(from: UserJSON) {
+        self.init()
+        
+        id = from.id
+   }
 }

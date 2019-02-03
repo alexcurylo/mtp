@@ -100,10 +100,10 @@ extension UserDefaults: ServiceProvider {
         set { set(newValue, forKey: #function) }
     }
 
-    var user: User? {
+    var user: UserJSON? {
         get {
             do {
-                return try get(objectType: User.self, forKey: #function)
+                return try get(objectType: UserJSON.self, forKey: #function)
             } catch {
                 log.error("decoding user value: \(error)")
                 return nil

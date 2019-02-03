@@ -205,7 +205,7 @@ protocol MTPNetworkService {
     typealias PlacesResult = (_ result: Result<[PlaceJSON], MTPNetworkError>) -> Void
     typealias RankingsResult = (_ result: Result<RankingsPage, MTPNetworkError>) -> Void
     typealias RestaurantsResult = (_ result: Result<[RestaurantJSON], MTPNetworkError>) -> Void
-    typealias UserResult = (_ result: Result<User, MTPNetworkError>) -> Void
+    typealias UserResult = (_ result: Result<UserJSON, MTPNetworkError>) -> Void
     typealias WHSResult = (_ result: Result<[WHSJSON], MTPNetworkError>) -> Void
 
     func check(list: Checklist,
@@ -577,7 +577,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     guard result.modified(from: endpoint) else {
                         return then(.failure(.notModified))
                     }
-                    let user = try result.map(User.self,
+                    let user = try result.map(UserJSON.self,
                                               using: JSONDecoder.mtp)
                     self.data.update(user: user)
                     return then(.success(user))
@@ -691,7 +691,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     guard result.modified(from: endpoint) else {
                         return then(.failure(.notModified))
                     }
-                    let user = try result.map(User.self,
+                    let user = try result.map(UserJSON.self,
                                               using: JSONDecoder.mtp)
                     self.data.user = user
                     self.log.verbose("refreshed user: " + user.debugDescription)
@@ -721,7 +721,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
 
         func parse(result: Response) {
             do {
-                let user = try result.map(User.self,
+                let user = try result.map(UserJSON.self,
                                           using: JSONDecoder.mtp)
                 guard let token = user.token else { throw MTPNetworkError.token }
                 data.token = token

@@ -85,7 +85,7 @@ private extension MyAboutVC {
         configure(links: user)
     }
 
-    func configure(ranking user: User) {
+    func configure(ranking user: UserJSON) {
         let list = Checklist.locations
 
         let rank = list.rank()
@@ -101,11 +101,11 @@ private extension MyAboutVC {
         bioTextView?.text = user.bio
     }
 
-    func configure(airport user: User) {
+    func configure(airport user: UserJSON) {
         airportLabel?.text = user.airport
     }
 
-    func configure(favorite user: User) {
+    func configure(favorite user: UserJSON) {
         let fakeNames = [ "Greater Blue Mountains Area",
                           "Shark Bay",
                           "Purnululu National Park",
@@ -116,7 +116,7 @@ private extension MyAboutVC {
         favoriteTags?.append(contentsOf: fakeNames)
     }
 
-    func configure(links user: User) {
+    func configure(links user: UserJSON) {
         guard let views = linksStack?.arrangedSubviews else { return }
         (2..<views.count).forEach { index in
             views[index].removeFromSuperview()

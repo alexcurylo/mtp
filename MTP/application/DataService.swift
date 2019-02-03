@@ -19,7 +19,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var restaurants: [Restaurant] { get }
     var token: String { get set }
     var uncountries: [UNCountry] { get }
-    var user: User? { get set }
+    var user: UserJSON? { get set }
     var whss: [WHS] { get }
 
     func set(beaches: [PlaceJSON])
@@ -56,7 +56,7 @@ extension DataService {
         user = nil
     }
 
-    func update(user: User) {
+    func update(user: UserJSON) {
         log.todo("update user: " + user.debugDescription)
     }
 }
@@ -184,7 +184,7 @@ final class DataServiceImpl: DataService {
         notifyObservers(about: #function)
     }
 
-    var user: User? {
+    var user: UserJSON? {
         get { return defaults.user }
         set {
             defaults.user = newValue

@@ -156,9 +156,9 @@ private extension RankingsPageVC {
         }
     }
 
-    func user(at rank: Int) -> User {
+    func user(at rank: Int) -> UserJSON {
         guard let ranked = rankings?.users.data[rank - 1]  else {
-            return User.loading
+            return UserJSON.loading
         }
 
         if let myself = data.user,
@@ -166,6 +166,6 @@ private extension RankingsPageVC {
             return myself
         }
 
-        return User(ranked: ranked)
+        return UserJSON(ranked: ranked)
     }
 }

@@ -48,7 +48,7 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         $0.addTarget(self, action: #selector(tapRemaining), for: .touchUpInside)
     }
 
-    private var current: User?
+    private var current: UserJSON?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -61,7 +61,7 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func set(user: User,
+    func set(user: UserJSON,
              for rank: Int,
              in list: Checklist) {
         current = user
