@@ -11,16 +11,19 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var email: String { get set }
     var etags: [String: String] { get set }
     var golfcourses: [Place] { get set }
-    var locations: [Location] { get set }
+    var locations: [Location] { get }
     var name: String { get set }
     var password: String { get set }
     var rankingsFilter: UserFilter? { get set }
     var rankingsPages: [String: RankingsPage] { get set }
     var restaurants: [Restaurant] { get set }
     var token: String { get set }
-    var uncountries: [Location] { get set }
+    var uncountries: [UNCountry] { get }
     var user: User? { get set }
     var whss: [WHS] { get set }
+
+    func set(locations: [LocationJSON])
+    func set(uncountries: [LocationJSON])
 }
 
 // MARK: - User state
@@ -107,11 +110,12 @@ final class DataServiceImpl: DataService {
     }
 
     var locations: [Location] {
-        get { return defaults.locations }
-        set {
-            defaults.locations = newValue
-            notifyObservers(about: #function)
-        }
+        return realm.locations
+    }
+
+    func set(locations: [LocationJSON]) {
+        realm.set(locations: locations)
+        notifyObservers(about: #function)
     }
 
     var name: String {
@@ -162,12 +166,13 @@ final class DataServiceImpl: DataService {
         }
     }
 
-    var uncountries: [Location] {
-        get { return defaults.uncountries }
-        set {
-            defaults.uncountries = newValue
-            notifyObservers(about: #function)
-        }
+    var uncountries: [UNCountry] {
+        return realm.uncountries
+    }
+
+    func set(uncountries: [LocationJSON]) {
+        realm.set(uncountries: uncountries)
+        notifyObservers(about: #function)
     }
 
     var user: User? {

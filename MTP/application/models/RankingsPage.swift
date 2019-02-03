@@ -79,14 +79,14 @@ extension RankingsPageUsers: CustomDebugStringConvertible {
 struct RankingsUser: Codable {
 
     let birthday: Date
-    let country: Location?
+    let country: LocationJSON?
     let currentRank: Int
     let firstName: String
     let fullName: String
     let gender: String
     let id: Int
     let lastName: String
-    let location: Location // still has 30 items
+    let location: LocationJSON // still has 30 items
     let locationId: Int
     let rankBeaches: Int?
     let rankDivesites: Int?

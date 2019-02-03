@@ -201,7 +201,7 @@ protocol MTPNetworkService {
 
     typealias BoolResult = (_ result: Result<Bool, MTPNetworkError>) -> Void
     typealias ChecklistsResult = (_ result: Result<Checklists, MTPNetworkError>) -> Void
-    typealias LocationsResult = (_ result: Result<[Location], MTPNetworkError>) -> Void
+    typealias LocationsResult = (_ result: Result<[LocationJSON], MTPNetworkError>) -> Void
     typealias PlacesResult = (_ result: Result<[Place], MTPNetworkError>) -> Void
     typealias RankingsResult = (_ result: Result<RankingsPage, MTPNetworkError>) -> Void
     typealias RestaurantsResult = (_ result: Result<[Restaurant], MTPNetworkError>) -> Void
@@ -442,9 +442,9 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.failure(.notModified))
                 }
                 do {
-                    let locations = try result.map([Location].self,
+                    let locations = try result.map([LocationJSON].self,
                                                    using: JSONDecoder.mtp)
-                    self.data.locations = locations
+                    self.data.set(locations: locations)
                     return then(.success(locations))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -544,9 +544,9 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.failure(.notModified))
                 }
                 do {
-                    let uncountries = try result.map([Location].self,
+                    let uncountries = try result.map([LocationJSON].self,
                                                      using: JSONDecoder.mtp)
-                    self.data.uncountries = uncountries
+                    self.data.set(uncountries: uncountries)
                     return then(.success(uncountries))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -641,7 +641,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
             switch response {
             case .success(let result):
                 do {
-                    let locations = try result.map([Location].self,
+                    let locations = try result.map([LocationJSON].self,
                                                    using: JSONDecoder.mtp)
                     return then(.success(locations))
                 } catch {

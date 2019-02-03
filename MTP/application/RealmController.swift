@@ -12,7 +12,6 @@ import RealmSwift
 // https://stackoverflow.com/questions/52742525/merge-a-realm-and-codable-class-in-swift-4
 // https://stackoverflow.com/questions/51302029/how-to-make-the-realmswift-realmoptional-compatible-with-swift-codable
 
-
 final class RealmController: ServiceProvider {
 
     private lazy var realm: Realm = {
@@ -34,7 +33,38 @@ final class RealmController: ServiceProvider {
         // swiftlint:disable:next inert_defer
         defer {
             log.verbose("realm database: \(fileURL)")
-            _ = realm
+        }
+    }
+
+    var locations: [Location] {
+        let results = realm.objects(Location.self)
+        return Array(results)
+    }
+
+    func set(locations: [LocationJSON]) {
+        do {
+            let objects = locations.map { Location(from: $0) }
+            try realm.write {
+                realm.add(objects, update: true)
+            }
+        } catch {
+            log.error("set locations: \(error)")
+        }
+    }
+
+    var uncountries: [UNCountry] {
+        let results = realm.objects(UNCountry.self)
+        return Array(results)
+    }
+
+    func set(uncountries: [LocationJSON]) {
+        do {
+            let objects = uncountries.map { UNCountry(from: $0) }
+            try realm.write {
+                realm.add(objects, update: true)
+            }
+        } catch {
+            log.error("set locations: \(error)")
         }
     }
 }

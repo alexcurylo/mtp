@@ -7,7 +7,7 @@ struct User: Codable {
     let airport: String?
     let bio: String?
     let birthday: Date
-    let country: Location // still has 30 items
+    let country: LocationJSON // still has 30 items
     let countryId: Int
     let createdAt: Date
     let email: String
@@ -22,7 +22,7 @@ struct User: Codable {
     let lastLogIn: String?
     let lastName: String
     let links: [Link]
-    let location: Location // still has 30 items
+    let location: LocationJSON // still has 30 items
     let locationId: Int
     let picture: String?
     let rankBeaches: Int
@@ -62,7 +62,7 @@ extension User: CustomDebugStringConvertible {
             airport: \(String(describing: airport))
             bio: \(String(describing: bio))
             birthday: \(birthday)
-            country: \(country.debugDescription)
+            country: \(country)
             country_id: \(countryId)
             created_at: \(createdAt)
             email: \(email)
@@ -76,7 +76,7 @@ extension User: CustomDebugStringConvertible {
             id: \(id)
             last_log_in: \(String(describing: lastLogIn))
             last_name: \(lastName)
-            location: \(location.debugDescription)
+            location: \(location)
             links: \(links.debugDescription)
             location_id: \(locationId)
             picture: \(String(describing: picture))
@@ -151,7 +151,7 @@ extension User {
             airport: nil,
             bio: nil,
             birthday: Date(),
-            country: Location.loading,
+            country: LocationJSON.loading,
             countryId: 0,
             createdAt: Date(),
             email: "",
@@ -166,7 +166,7 @@ extension User {
             lastLogIn: nil,
             lastName: "",
             links: [],
-            location: Location.loading,
+            location: LocationJSON.loading,
             locationId: 0,
             picture: nil,
             rankBeaches: 0,

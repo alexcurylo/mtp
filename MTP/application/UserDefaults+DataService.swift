@@ -99,24 +99,6 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
-    var locations: [Location] {
-        get {
-            do {
-                return try get(objectType: [Location].self, forKey: #function) ?? []
-            } catch {
-                log.error("decoding locations value: \(error)")
-                return []
-            }
-        }
-        set {
-            do {
-                try set(object: newValue, forKey: #function)
-            } catch {
-                log.error("encoding locations newValue: \(error)")
-            }
-        }
-    }
-
     var name: String {
         get { return string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }
@@ -188,24 +170,6 @@ extension UserDefaults: ServiceProvider {
     var token: String {
         get { return string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }
-    }
-
-    var uncountries: [Location] {
-        get {
-            do {
-                return try get(objectType: [Location].self, forKey: #function) ?? []
-            } catch {
-                log.error("decoding uncountries value: \(error)")
-                return []
-            }
-        }
-        set {
-            do {
-                try set(object: newValue, forKey: #function)
-            } catch {
-                log.error("encoding uncountries newValue: \(error)")
-            }
-        }
     }
 
     var user: User? {
