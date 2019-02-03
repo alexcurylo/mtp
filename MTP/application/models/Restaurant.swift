@@ -77,7 +77,8 @@ extension RestaurantJSON: CustomDebugStringConvertible {
                      with controller: RealmController) {
         self.init()
 
-        let location = controller.location(id: from.locationId)
+        let locationId = from.location?.id ?? from.locationId
+        let location = controller.location(id: locationId)
         countryName = location?.countryName ?? Localized.unknown()
         id = from.id
         lat = from.lat

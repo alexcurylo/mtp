@@ -175,22 +175,4 @@ extension UserDefaults: ServiceProvider {
             }
         }
     }
-
-    var whss: [WHS] {
-        get {
-            do {
-                return try get(objectType: [WHS].self, forKey: #function) ?? []
-            } catch {
-                log.error("decoding whss value: \(error)")
-                return []
-            }
-        }
-        set {
-            do {
-                try set(object: newValue, forKey: #function)
-            } catch {
-                log.error("encoding whss newValue: \(error)")
-            }
-        }
-    }
 }

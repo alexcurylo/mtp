@@ -20,11 +20,12 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var token: String { get set }
     var uncountries: [UNCountry] { get }
     var user: User? { get set }
-    var whss: [WHS] { get set }
+    var whss: [WHS] { get }
 
     func set(locations: [LocationJSON])
     func set(restaurants: [RestaurantJSON])
     func set(uncountries: [LocationJSON])
+    func set(whss: [WHSJSON])
 }
 
 // MARK: - User state
@@ -186,11 +187,12 @@ final class DataServiceImpl: DataService {
     }
 
     var whss: [WHS] {
-        get { return defaults.whss }
-        set {
-            defaults.whss = newValue
-            notifyObservers(about: #function)
-        }
+        return realm.whss
+    }
+
+    func set(whss: [WHSJSON]) {
+        realm.set(whss: whss)
+        notifyObservers(about: #function)
     }
 }
 

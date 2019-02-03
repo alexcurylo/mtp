@@ -85,7 +85,23 @@ final class RealmController: ServiceProvider {
                 realm.add(objects, update: true)
             }
         } catch {
-            log.error("set locations: \(error)")
+            log.error("set uncountries: \(error)")
+        }
+    }
+
+    var whss: [WHS] {
+        let results = realm.objects(WHS.self)
+        return Array(results)
+    }
+
+    func set(whss: [WHSJSON]) {
+        do {
+            let objects = whss.map { WHS(from: $0) }
+            try realm.write {
+                realm.add(objects, update: true)
+            }
+        } catch {
+            log.error("set whss: \(error)")
         }
     }
 }

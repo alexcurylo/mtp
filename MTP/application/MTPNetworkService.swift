@@ -206,7 +206,7 @@ protocol MTPNetworkService {
     typealias RankingsResult = (_ result: Result<RankingsPage, MTPNetworkError>) -> Void
     typealias RestaurantsResult = (_ result: Result<[RestaurantJSON], MTPNetworkError>) -> Void
     typealias UserResult = (_ result: Result<User, MTPNetworkError>) -> Void
-    typealias WHSResult = (_ result: Result<[WHS], MTPNetworkError>) -> Void
+    typealias WHSResult = (_ result: Result<[WHSJSON], MTPNetworkError>) -> Void
 
     func check(list: Checklist,
                id: Int,
@@ -611,9 +611,9 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.failure(.notModified))
                 }
                 do {
-                    let whss = try result.map([WHS].self,
+                    let whss = try result.map([WHSJSON].self,
                                               using: JSONDecoder.mtp)
-                    self.data.whss = whss
+                    self.data.set(whss: whss)
                     return then(.success(whss))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
