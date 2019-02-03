@@ -35,7 +35,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate, ServiceProvider {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        mtp.applicationDidBecomeActive()
+        mtp.refreshFromWebsite()
 
         logFacebookActivate()
     }

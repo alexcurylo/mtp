@@ -204,7 +204,7 @@ protocol MTPNetworkService {
     typealias LocationsResult = (_ result: Result<[LocationJSON], MTPNetworkError>) -> Void
     typealias PlacesResult = (_ result: Result<[Place], MTPNetworkError>) -> Void
     typealias RankingsResult = (_ result: Result<RankingsPage, MTPNetworkError>) -> Void
-    typealias RestaurantsResult = (_ result: Result<[Restaurant], MTPNetworkError>) -> Void
+    typealias RestaurantsResult = (_ result: Result<[RestaurantJSON], MTPNetworkError>) -> Void
     typealias UserResult = (_ result: Result<User, MTPNetworkError>) -> Void
     typealias WHSResult = (_ result: Result<[WHS], MTPNetworkError>) -> Void
 
@@ -225,7 +225,7 @@ protocol MTPNetworkService {
                       password: String,
                       then: @escaping BoolResult)
 
-    func applicationDidBecomeActive()
+    func refreshFromWebsite()
 }
 
 // swiftlint:disable:next type_body_length
@@ -511,9 +511,9 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.failure(.notModified))
                 }
                 do {
-                    let restaurants = try result.map([Restaurant].self,
+                    let restaurants = try result.map([RestaurantJSON].self,
                                                      using: JSONDecoder.mtp)
-                    self.data.restaurants = restaurants
+                    self.data.set(restaurants: restaurants)
                     return then(.success(restaurants))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -834,11 +834,16 @@ extension HTTPURLResponse {
 
 extension MoyaMTPNetworkService {
 
-    func refreshData() {
+    private func refreshData() {
+        loadLocations { _ in
+            self.refreshLocationUsingData()
+        }
+    }
+
+    private func refreshLocationUsingData() {
         loadBeaches()
         loadDiveSites()
         loadGolfCourses()
-        loadLocations()
         loadRestaurants()
         loadUNCountries()
         loadWHS()
@@ -848,14 +853,14 @@ extension MoyaMTPNetworkService {
         }
     }
 
-    func refreshUser() {
+    private func refreshUser() {
         guard data.isLoggedIn else { return }
 
         userGetByToken()
         loadChecklists()
     }
 
-    func applicationDidBecomeActive() {
+    func refreshFromWebsite() {
         refreshData()
         refreshUser()
     }

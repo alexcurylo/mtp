@@ -41,6 +41,11 @@ final class RealmController: ServiceProvider {
         return Array(results)
     }
 
+    func location(id: Int) -> Location? {
+        let results = realm.objects(Location.self).filter("id = \(id)")
+        return results.first
+    }
+
     func set(locations: [LocationJSON]) {
         do {
             let objects = locations.map { Location(from: $0) }
@@ -49,6 +54,22 @@ final class RealmController: ServiceProvider {
             }
         } catch {
             log.error("set locations: \(error)")
+        }
+    }
+
+    var restaurants: [Restaurant] {
+        let results = realm.objects(Restaurant.self)
+        return Array(results)
+    }
+
+    func set(restaurants: [RestaurantJSON]) {
+        do {
+            let objects = restaurants.map { Restaurant(from: $0, with: self) }
+            try realm.write {
+                realm.add(objects, update: true)
+            }
+        } catch {
+            log.error("set restaurants: \(error)")
         }
     }
 

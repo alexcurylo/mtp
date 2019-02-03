@@ -16,13 +16,14 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var password: String { get set }
     var rankingsFilter: UserFilter? { get set }
     var rankingsPages: [String: RankingsPage] { get set }
-    var restaurants: [Restaurant] { get set }
+    var restaurants: [Restaurant] { get }
     var token: String { get set }
     var uncountries: [UNCountry] { get }
     var user: User? { get set }
     var whss: [WHS] { get set }
 
     func set(locations: [LocationJSON])
+    func set(restaurants: [RestaurantJSON])
     func set(uncountries: [LocationJSON])
 }
 
@@ -151,11 +152,12 @@ final class DataServiceImpl: DataService {
     }
 
     var restaurants: [Restaurant] {
-        get { return defaults.restaurants }
-        set {
-            defaults.restaurants = newValue
-            notifyObservers(about: #function)
-        }
+        return realm.restaurants
+    }
+
+    func set(restaurants: [RestaurantJSON]) {
+        realm.set(restaurants: restaurants)
+        notifyObservers(about: #function)
     }
 
     var token: String {
