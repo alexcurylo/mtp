@@ -58,7 +58,6 @@ script:
     -configuration Debug
     -derivedDataPath build
     -enableCodeCoverage YES
-    -quiet
     CODE_SIGN_IDENTITY=""
     CODE_SIGNING_REQUIRED=NO
     ONLY_ACTIVE_ARCH=NO
