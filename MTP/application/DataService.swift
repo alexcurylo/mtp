@@ -21,19 +21,19 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var user: UserJSON? { get set }
     var whss: [WHS] { get }
 
-    func get(rankings: RankingsQuery) -> RankingsPageInfoJSON?
+    func get(rankings query: RankingsQuery) -> RankingsPageInfo?
     func get(userId: Int) -> User
+
     func set(beaches: [PlaceJSON])
     func set(divesites: [PlaceJSON])
     func set(golfcourses: [PlaceJSON])
     func set(locations: [LocationJSON])
     func set(restaurants: [RestaurantJSON])
+    func set(rankings query: RankingsQuery,
+             info: RankingsPageInfoJSON)
     func set(uncountries: [LocationJSON])
     func set(userId: UserJSON)
-    func set(userIds: [RankedUserJSON])
     func set(whss: [WHSJSON])
-    func update(page: RankingsPageInfoJSON,
-                for query: RankingsQuery)
 }
 
 // MARK: - User state
@@ -151,17 +151,18 @@ final class DataServiceImpl: DataService {
         }
     }
 
-    func get(rankings: RankingsQuery) -> RankingsPageInfoJSON? {
-        log.todo("switch to db: \(rankings.debugDescription)")
-        return rankingsPages[rankings.checklistType.rawValue]
+    func get(rankings query: RankingsQuery) -> RankingsPageInfo? {
+        return realm.rankings(query: query)
     }
 
-    private var rankingsPages: [String: RankingsPageInfoJSON] {
-        get { return defaults.rankingsPages }
-        set {
-            defaults.rankingsPages = newValue
-            notifyObservers(about: #function)
+    func set(rankings query: RankingsQuery,
+             info: RankingsPageInfoJSON) {
+        if info.users.perPage != 50 {
+            log.warning("expect 50 users per page not \(info.users.perPage)")
         }
+
+        realm.set(rankings: query, info: info)
+        notifyObservers(about: #function)
     }
 
     var restaurants: [Restaurant] {
@@ -207,26 +208,12 @@ final class DataServiceImpl: DataService {
         notifyObservers(about: #function)
     }
 
-    func set(userIds: [RankedUserJSON]) {
-        realm.set(userIds: userIds)
-        notifyObservers(about: #function)
-    }
-
     var whss: [WHS] {
         return realm.whss
     }
 
     func set(whss: [WHSJSON]) {
         realm.set(whss: whss)
-        notifyObservers(about: #function)
-    }
-
-    func update(page: RankingsPageInfoJSON,
-                for query: RankingsQuery) {
-        log.todo("switch to db: \(query.debugDescription)")
-        rankingsPages[query.key] = page
-
-        realm.set(userIds: page.users.data)
         notifyObservers(about: #function)
     }
 }

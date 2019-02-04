@@ -90,7 +90,8 @@ final class RealmController: ServiceProvider {
     }
 
     func location(id: Int) -> Location? {
-        let results = realm.objects(Location.self).filter("id = \(id)")
+        let results = realm.objects(Location.self)
+                           .filter("id = \(id)")
         return results.first
     }
 
@@ -102,6 +103,27 @@ final class RealmController: ServiceProvider {
             }
         } catch {
             log.error("set locations: \(error)")
+        }
+    }
+
+    func rankings(query: RankingsQuery) -> RankingsPageInfo? {
+        let filter = "queryKey = '\(query.queryKey)' AND page = \(query.page)"
+        let results = realm.objects(RankingsPageInfo.self)
+                           .filter(filter)
+        return results.first
+    }
+
+    func set(rankings query: RankingsQuery,
+             info: RankingsPageInfoJSON) {
+        do {
+            let page = RankingsPageInfo(query: query, info: info)
+            let users = info.users.data.map { User(from: $0) }
+            try realm.write {
+                realm.add(page, update: true)
+                realm.add(users, update: true)
+            }
+        } catch {
+            log.error("update query:page: \(error)")
         }
     }
 
@@ -138,7 +160,8 @@ final class RealmController: ServiceProvider {
     }
 
     func user(id: Int) -> User? {
-        let results = realm.objects(User.self).filter("id = \(id)")
+        let results = realm.objects(User.self)
+                           .filter("id = \(id)")
         return results.first
     }
 
@@ -147,17 +170,6 @@ final class RealmController: ServiceProvider {
             let object = User(from: userId)
             try realm.write {
                 realm.add(object, update: true)
-            }
-        } catch {
-            log.error("set userIds: \(error)")
-        }
-    }
-
-    func set(userIds: [RankedUserJSON]) {
-        do {
-            let objects = userIds.map { User(from: $0) }
-            try realm.write {
-                realm.add(objects, update: true)
             }
         } catch {
             log.error("set userIds: \(error)")

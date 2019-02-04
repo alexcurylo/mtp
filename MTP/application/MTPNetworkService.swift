@@ -477,10 +477,10 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.failure(.notModified))
                 }
                 do {
-                    let rankingsPage = try result.map(RankingsPageInfoJSON.self,
-                                                      using: JSONDecoder.mtp)
-                    self.data.update(page: rankingsPage, for: query)
-                    return then(.success(rankingsPage))
+                    let info = try result.map(RankingsPageInfoJSON.self,
+                                              using: JSONDecoder.mtp)
+                    self.data.set(rankings: query, info: info)
+                    return then(.success(info))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))

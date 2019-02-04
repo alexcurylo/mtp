@@ -77,24 +77,6 @@ extension UserDefaults: ServiceProvider {
         set { set(newValue, forKey: #function) }
     }
 
-    var rankingsPages: [String: RankingsPageInfoJSON] {
-        get {
-            do {
-                return try get(objectType: [String: RankingsPageInfoJSON].self, forKey: #function) ?? [:]
-            } catch {
-                log.error("decoding rankingsPages value: \(error)")
-                return [:]
-            }
-        }
-        set {
-            do {
-                try set(object: newValue, forKey: #function)
-            } catch {
-                log.error("encoding rankingsPages newValue: \(error)")
-            }
-        }
-    }
-
     var token: String {
         get { return string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }
