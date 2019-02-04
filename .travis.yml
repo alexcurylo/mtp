@@ -32,6 +32,8 @@ cache:
 
 before_install:
 #- rvm install ruby-2.2.2
+ - gem update --system
+ - gem install bundler
  - bundle install
 # Can't find AppCenter 1.7.1 (18.06.24)
 # - bundle exec pod repo update --silent
