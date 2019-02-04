@@ -19,7 +19,7 @@ env:
   - IOS_WORKSPACE=MTP.xcworkspace
   - IOS_SCHEME=MTP
   - IOS_SDK=iphonesimulator12.0
-  - IOS_DESTINATION='platform=iOS Simulator,name=iPhone X'
+  - IOS_DESTINATION='platform=iOS Simulator,name=iPhone XS'
 
 branches:
   except:
@@ -58,9 +58,10 @@ script:
     -configuration Debug
     -derivedDataPath build
     -enableCodeCoverage YES
+    -quiet
     CODE_SIGN_IDENTITY=""
     CODE_SIGNING_REQUIRED=NO
-    ONLY_ACTIVE_ARCH=YES
+    ONLY_ACTIVE_ARCH=NO
     GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES
     GCC_GENERATE_TEST_COVERAGE_FILES=YES
     | xcpretty -f `xcpretty-travis-formatter`
