@@ -56,6 +56,7 @@
 "Male" = "Male";
 "Female" = "Female";
 "FacebookFriends" = "Friends";
-"AgeRange" = "%@-%@";
+"AllAges" = "All ages";
+"AgeRange" = "%ld-%ld";
 "Under20" = "Under 20";
-"Over79" = "Over 79";
+"Over80" = "Over 80";

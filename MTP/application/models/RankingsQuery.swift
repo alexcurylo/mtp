@@ -18,10 +18,36 @@ struct RankingsQuery: Codable, Hashable {
         }
     }
 
+    enum Age: Int, Codable, CustomStringConvertible {
+        case all = 0
+        case under20 = 1
+        case from20to30 = 20
+        case from30to40 = 30
+        case from40to50 = 40
+        case from50to60 = 50
+        case from60to70 = 60
+        case from70to80 = 70
+        case over80 = 80
+
+        var description: String {
+            switch self {
+            case .all: return Localized.allAges()
+            case .under20: return Localized.under20()
+            case .from20to30: return Localized.ageRange(20, 30)
+            case .from30to40: return Localized.ageRange(30, 40)
+            case .from40to50: return Localized.ageRange(40, 50)
+            case .from50to60: return Localized.ageRange(50, 60)
+            case .from60to70: return Localized.ageRange(60, 70)
+            case .from70to80: return Localized.ageRange(70, 80)
+            case .over80: return Localized.over80()
+            }
+        }
+    }
+
     var checklistType: Checklist
     var page: Int = 1
 
-    var ageGroup: Int?
+    var ageGroup: Age = .all
     var country: String?
     var countryId: Int?
     var facebookConnected: Bool = false
@@ -43,7 +69,7 @@ extension RankingsQuery: CustomStringConvertible {
     }
 
     private var ageDescription: String? {
-        return nil
+        return ageGroup != .all ? ageGroup.description : nil
     }
 
     private var facebookDescription: String? {
@@ -101,8 +127,8 @@ extension RankingsQuery {
         parameters["checklistType"] = checklistType.rawValue
         parameters["page"] = String(page)
 
-        if let ageGroup = ageGroup {
-            parameters["ageGroup"] = String(ageGroup)
+        if ageGroup != .all {
+            parameters["ageGroup"] = String(ageGroup.rawValue)
         }
         if let country = country {
             parameters["country"] = country
