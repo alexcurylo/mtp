@@ -2,47 +2,61 @@
 
 import Foundation
 
+enum Gender: String, Codable, CustomStringConvertible {
+    case all = ""
+    case female = "F"
+    case male = "M"
+
+    var description: String {
+        switch self {
+        case .all: return "all"
+        case .female: return Localized.female()
+        case .male: return Localized.male()
+        }
+    }
+}
+
+enum Age: Int, Codable, CustomStringConvertible {
+    case all = 0
+    case under20
+    case from20to30
+    case from30to40
+    case from40to50
+    case from50to60
+    case from60to70
+    case from70to80
+    case over80
+
+    var description: String {
+        switch self {
+        case .all: return Localized.allAges()
+        case .under20: return Localized.under20()
+        case .from20to30: return Localized.ageRange(20, 30)
+        case .from30to40: return Localized.ageRange(30, 40)
+        case .from40to50: return Localized.ageRange(40, 50)
+        case .from50to60: return Localized.ageRange(50, 60)
+        case .from60to70: return Localized.ageRange(60, 70)
+        case .from70to80: return Localized.ageRange(70, 80)
+        case .over80: return Localized.over80()
+        }
+    }
+
+    var parameter: Int {
+        switch self {
+        case .all: return 0
+        case .under20: return 1
+        case .from20to30: return 20
+        case .from30to40: return 30
+        case .from40to50: return 40
+        case .from50to60: return 50
+        case .from60to70: return 60
+        case .from70to80: return 70
+        case .over80: return 80
+        }
+    }
+}
+
 struct RankingsQuery: Codable, Hashable {
-
-    enum Gender: String, Codable, CustomStringConvertible {
-        case all = ""
-        case female = "F"
-        case male = "M"
-
-        var description: String {
-            switch self {
-            case .all: return "all"
-            case .female: return Localized.female()
-            case .male: return Localized.male()
-            }
-        }
-    }
-
-    enum Age: Int, Codable, CustomStringConvertible {
-        case all = 0
-        case under20 = 1
-        case from20to30 = 20
-        case from30to40 = 30
-        case from40to50 = 40
-        case from50to60 = 50
-        case from60to70 = 60
-        case from70to80 = 70
-        case over80 = 80
-
-        var description: String {
-            switch self {
-            case .all: return Localized.allAges()
-            case .under20: return Localized.under20()
-            case .from20to30: return Localized.ageRange(20, 30)
-            case .from30to40: return Localized.ageRange(30, 40)
-            case .from40to50: return Localized.ageRange(40, 50)
-            case .from50to60: return Localized.ageRange(50, 60)
-            case .from60to70: return Localized.ageRange(60, 70)
-            case .from70to80: return Localized.ageRange(70, 80)
-            case .over80: return Localized.over80()
-            }
-        }
-    }
 
     var checklistType: Checklist
     var page: Int = 1
@@ -128,7 +142,7 @@ extension RankingsQuery {
         parameters["page"] = String(page)
 
         if ageGroup != .all {
-            parameters["ageGroup"] = String(ageGroup.rawValue)
+            parameters["ageGroup"] = String(ageGroup.parameter)
         }
         if let country = country {
             parameters["country"] = country

@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -73,8 +74,9 @@
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
+                                                        <constraint firstItem="yR3-vm-X7f" firstAttribute="top" secondItem="VQM-iw-mBM" secondAttribute="top" constant="8" id="Bj4-EN-BAZ"/>
                                                         <constraint firstItem="yR3-vm-X7f" firstAttribute="centerX" secondItem="VQM-iw-mBM" secondAttribute="centerX" id="PXA-hR-N9o"/>
-                                                        <constraint firstItem="yR3-vm-X7f" firstAttribute="centerY" secondItem="VQM-iw-mBM" secondAttribute="centerY" id="asC-Hc-TNp"/>
+                                                        <constraint firstAttribute="bottom" secondItem="yR3-vm-X7f" secondAttribute="bottom" constant="8" id="klx-fA-zQ5"/>
                                                     </constraints>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -104,7 +106,7 @@
                                                     <rect key="frame" x="12" y="8" width="351" height="149"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="cja-QE-6fO">
-                                                            <rect key="frame" x="35.5" y="38" width="280" height="73"/>
+                                                            <rect key="frame" x="35.5" y="8" width="280" height="133"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select gender" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4iE-8B-e2I">
                                                                     <rect key="frame" x="81.5" y="0.0" width="117.5" height="25"/>
@@ -113,28 +115,37 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="pRC-wh-IrO">
-                                                                    <rect key="frame" x="0.0" y="33" width="280" height="40"/>
+                                                                    <rect key="frame" x="0.0" y="33" width="280" height="100"/>
                                                                     <subviews>
                                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nz8-e0-Xla">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="54" height="40"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="54" height="100"/>
                                                                             <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
                                                                             <state key="normal" title="Male" image="genderMale">
                                                                                 <color key="titleColor" name="azureRadiance"/>
                                                                             </state>
+                                                                            <connections>
+                                                                                <action selector="selectMale:" destination="HHm-kq-ClN" eventType="touchUpInside" id="gLi-ic-8SR"/>
+                                                                            </connections>
                                                                         </button>
                                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hXT-Ta-Ctj">
-                                                                            <rect key="frame" x="58" y="0.0" width="148" height="40"/>
+                                                                            <rect key="frame" x="58" y="0.0" width="148" height="100"/>
                                                                             <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
                                                                             <state key="normal" title="Male &amp; Female" image="genderMaleAndFemale">
                                                                                 <color key="titleColor" name="azureRadiance"/>
                                                                             </state>
+                                                                            <connections>
+                                                                                <action selector="selectMaleAndFemale:" destination="HHm-kq-ClN" eventType="touchUpInside" id="jiF-Yp-3t4"/>
+                                                                            </connections>
                                                                         </button>
                                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dt8-XX-kg1">
-                                                                            <rect key="frame" x="210" y="0.0" width="70" height="40"/>
+                                                                            <rect key="frame" x="210" y="0.0" width="70" height="100"/>
                                                                             <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
                                                                             <state key="normal" title="Female" image="genderFemale">
                                                                                 <color key="titleColor" name="azureRadiance"/>
                                                                             </state>
+                                                                            <connections>
+                                                                                <action selector="selectFemale:" destination="HHm-kq-ClN" eventType="touchUpInside" id="NCR-NI-VF0"/>
+                                                                            </connections>
                                                                         </button>
                                                                     </subviews>
                                                                 </stackView>
@@ -143,8 +154,9 @@
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
+                                                        <constraint firstAttribute="bottom" secondItem="cja-QE-6fO" secondAttribute="bottom" constant="8" id="UPa-sW-Zsu"/>
                                                         <constraint firstItem="cja-QE-6fO" firstAttribute="centerX" secondItem="r3f-oC-4oY" secondAttribute="centerX" id="fO2-bg-TQO"/>
-                                                        <constraint firstItem="cja-QE-6fO" firstAttribute="centerY" secondItem="r3f-oC-4oY" secondAttribute="centerY" id="gsd-3B-2cD"/>
+                                                        <constraint firstItem="cja-QE-6fO" firstAttribute="top" secondItem="r3f-oC-4oY" secondAttribute="top" constant="8" id="wlb-0s-glb"/>
                                                     </constraints>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -174,16 +186,34 @@
                                                     <rect key="frame" x="12" y="8" width="351" height="87"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="5Cn-PO-545">
-                                                            <rect key="frame" x="112.5" y="12" width="126" height="63"/>
+                                                            <rect key="frame" x="25.5" y="8" width="300" height="71"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Age range" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C5G-EY-AwM">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="89" height="25"/>
-                                                                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
-                                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="7" translatesAutoresizingMaskIntoConstraints="NO" id="LlX-CO-jQb">
-                                                                    <rect key="frame" x="-2" y="33" width="130" height="31"/>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="AiM-sI-pY6">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="179.5" height="33"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Age range" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C5G-EY-AwM">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="89" height="33"/>
+                                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
+                                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mv8-WL-DS0">
+                                                                            <rect key="frame" x="97" y="0.0" width="82.5" height="33"/>
+                                                                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                    </subviews>
+                                                                </stackView>
+                                                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="8" minValue="0.0" maxValue="8" translatesAutoresizingMaskIntoConstraints="NO" id="LlX-CO-jQb">
+                                                                    <rect key="frame" x="-2" y="41" width="304" height="31"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="300" id="0DL-kG-jlP"/>
+                                                                        <constraint firstAttribute="height" constant="30" id="Cb8-78-GIC"/>
+                                                                    </constraints>
+                                                                    <connections>
+                                                                        <action selector="slideAge:" destination="HHm-kq-ClN" eventType="valueChanged" id="fRc-zu-Lri"/>
+                                                                    </connections>
                                                                 </slider>
                                                             </subviews>
                                                         </stackView>
@@ -191,7 +221,8 @@
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstItem="5Cn-PO-545" firstAttribute="centerX" secondItem="WsQ-EU-NBj" secondAttribute="centerX" id="6i7-fM-RNp"/>
-                                                        <constraint firstItem="5Cn-PO-545" firstAttribute="centerY" secondItem="WsQ-EU-NBj" secondAttribute="centerY" id="R7X-ab-IU1"/>
+                                                        <constraint firstAttribute="bottom" secondItem="5Cn-PO-545" secondAttribute="bottom" constant="8" id="hUz-6r-hAN"/>
+                                                        <constraint firstItem="5Cn-PO-545" firstAttribute="top" secondItem="WsQ-EU-NBj" secondAttribute="top" constant="8" id="wcQ-uH-Ccj"/>
                                                     </constraints>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -221,16 +252,16 @@
                                                     <rect key="frame" x="12" y="8" width="351" height="95"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="W9e-hR-tal">
-                                                            <rect key="frame" x="31" y="14" width="289" height="67"/>
+                                                            <rect key="frame" x="31" y="8" width="289" height="79"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Facebook" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gEv-dx-nDd">
-                                                                    <rect key="frame" x="103.5" y="0.0" width="82" height="25"/>
+                                                                    <rect key="frame" x="103.5" y="0.0" width="82" height="37"/>
                                                                     <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
                                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="xBm-aH-ird">
-                                                                    <rect key="frame" x="0.0" y="36" width="289" height="31"/>
+                                                                    <rect key="frame" x="0.0" y="48" width="289" height="31"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All Travelers" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DdM-pN-8kj">
                                                                             <rect key="frame" x="0.0" y="0.0" width="82.5" height="31"/>
@@ -257,8 +288,9 @@
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
-                                                        <constraint firstItem="W9e-hR-tal" firstAttribute="centerY" secondItem="iAs-uw-rrQ" secondAttribute="centerY" id="EVS-B6-DDc"/>
                                                         <constraint firstItem="W9e-hR-tal" firstAttribute="centerX" secondItem="iAs-uw-rrQ" secondAttribute="centerX" id="dv9-4e-EtN"/>
+                                                        <constraint firstItem="W9e-hR-tal" firstAttribute="top" secondItem="iAs-uw-rrQ" secondAttribute="top" constant="8" id="pwo-l6-Zuh"/>
+                                                        <constraint firstAttribute="bottom" secondItem="W9e-hR-tal" secondAttribute="bottom" constant="8" id="uDc-5A-gK4"/>
                                                     </constraints>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -310,7 +342,12 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                     <connections>
+                        <outlet property="ageLabel" destination="Mv8-WL-DS0" id="pbL-vN-srk"/>
+                        <outlet property="ageSlider" destination="LlX-CO-jQb" id="V3U-Vi-INs"/>
                         <outlet property="facebookSwitch" destination="dGh-Eo-EcS" id="trZ-h1-gGB"/>
+                        <outlet property="femaleButton" destination="Dt8-XX-kg1" id="vvf-ce-m2x"/>
+                        <outlet property="maleAndFemaleButton" destination="hXT-Ta-Ctj" id="USE-4t-OfB"/>
+                        <outlet property="maleButton" destination="nz8-e0-Xla" id="0Zr-di-DlP"/>
                         <outlet property="saveButton" destination="r6d-I5-wcN" id="NLN-bC-6yw"/>
                     </connections>
                 </tableViewController>

@@ -6,6 +6,13 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
 
     @IBOutlet private var saveButton: UIBarButtonItem?
 
+    @IBOutlet private var femaleButton: UIButton?
+    @IBOutlet private var maleAndFemaleButton: UIButton?
+    @IBOutlet private var maleButton: UIButton?
+
+    @IBOutlet private var ageSlider: UISlider?
+    @IBOutlet private var ageLabel: UILabel?
+
     @IBOutlet private var facebookSwitch: UISwitch?
 
     private var original: RankingsQuery?
@@ -72,11 +79,47 @@ private extension RankingsFilterVC {
 
         log.todo("configure filter")
         // country/state
-        // gender
-        // age
+
+        femaleButton?.isSelected = filter.gender == .female
+        maleAndFemaleButton?.isSelected = filter.gender == .all
+        maleButton?.isSelected = filter.gender == .male
+
+        ageSlider?.value = Float(filter.ageGroup.rawValue)
+        ageLabel?.text = filter.ageGroup.description
 
         facebookSwitch?.isOn = filter.facebookConnected
     }
+
+    @IBAction func selectFemale(_ sender: UIButton) {
+        femaleButton?.isSelected = true
+        maleAndFemaleButton?.isSelected = false
+        maleButton?.isSelected = false
+        current?.gender = .female
+        updateSave()
+   }
+
+    @IBAction func selectMale(_ sender: UIButton) {
+        femaleButton?.isSelected = false
+        maleAndFemaleButton?.isSelected = false
+        maleButton?.isSelected = true
+        current?.gender = .male
+        updateSave()
+    }
+
+    @IBAction func selectMaleAndFemale(_ sender: UIButton) {
+        femaleButton?.isSelected = false
+        maleAndFemaleButton?.isSelected = true
+        maleButton?.isSelected = false
+        current?.gender = .all
+        updateSave()
+    }
+
+    @IBAction func slideAge(_ sender: UISlider) {
+        let ageGroup = Age(rawValue: Int(sender.value)) ?? .all
+        ageLabel?.text = ageGroup.description
+        current?.ageGroup = ageGroup
+        updateSave()
+  }
 
     @IBAction func switchFacebook(_ sender: UISwitch) {
         current?.facebookConnected = sender.isOn
