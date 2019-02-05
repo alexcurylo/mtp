@@ -6,6 +6,9 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
 
     @IBOutlet private var saveButton: UIBarButtonItem?
 
+    @IBOutlet private var countryLabel: UILabel?
+    @IBOutlet private var locationLabel: UILabel?
+
     @IBOutlet private var femaleButton: UIButton?
     @IBOutlet private var maleAndFemaleButton: UIButton?
     @IBOutlet private var maleButton: UIButton?
@@ -41,10 +44,26 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
+        // swiftlint:disable:next nesting
+        typealias This = R.segue.rankingsFilterVC
         switch segue.identifier {
-        case R.segue.rankingsFilterVC.saveEdits.identifier:
-            saveEdits(notifying: R.segue.rankingsFilterVC.saveEdits(segue: segue)?.destination)
-        case R.segue.rankingsFilterVC.cancelEdits.identifier:
+        case This.showCountry.identifier:
+            if let destination = This.showCountry(segue: segue)?.destination {
+                destination.delegate = self
+                log.todo("crashes?")
+                destination.basePredicate = NSPredicate(format: "id = countryId")
+            }
+        case This.showLocation.identifier:
+            if let destination = This.showLocation(segue: segue)?.destination {
+                destination.delegate = self
+                if let parent = current?.countryId, parent > 0 {
+                    log.todo("returns nothing?")
+                    destination.basePredicate = NSPredicate(format: "countryId = \(parent)")
+                }
+            }
+        case This.saveEdits.identifier:
+            saveEdits(notifying: This.saveEdits(segue: segue)?.destination)
+        case This.cancelEdits.identifier:
             break
         default:
             log.debug("unexpected segue: \(segue.name)")
@@ -67,9 +86,25 @@ extension RankingsFilterVC {
     }
 }
 
+extension RankingsFilterVC: LocationSearchDelegate {
+
+    func locationSearch(controller: RealmSearchViewController,
+                        didSelect location: Location) {
+        log.todo("configure location or country selection")
+        current?.countryId = location.countryId
+        current?.locationId = location.id
+        configureLocation()
+        updateSave()
+    }
+}
+
 // MARK: - Private
 
 private extension RankingsFilterVC {
+
+    @IBAction func unwindToRankingsFilter(segue: UIStoryboardSegue) {
+        log.verbose(segue.name)
+    }
 
     func configure() {
         let filter = data.lastRankingsQuery
@@ -77,8 +112,7 @@ private extension RankingsFilterVC {
         current = filter
         saveButton?.isEnabled = false
 
-        log.todo("configure filter")
-        // country/state
+        configureLocation()
 
         femaleButton?.isSelected = filter.gender == .female
         maleAndFemaleButton?.isSelected = filter.gender == .all
@@ -89,6 +123,15 @@ private extension RankingsFilterVC {
 
         facebookSwitch?.isOn = filter.facebookConnected
     }
+
+    func configureLocation() {
+        log.todo("configure location or country display")
+        let country = data.get(location: current?.countryId)
+        countryLabel?.text = country?.countryName ?? Localized.allLocations()
+
+        let location = data.get(location: current?.locationId)
+        locationLabel?.text = location?.locationName ?? Localized.allLocations()
+   }
 
     @IBAction func selectFemale(_ sender: UIButton) {
         femaleButton?.isSelected = true

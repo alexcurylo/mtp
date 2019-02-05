@@ -10,7 +10,7 @@ final class CountGroupCell: UICollectionViewCell {
              count: Int,
              visited: Int) {
 
-        label.text = Localized.regionVisitedCount(key, visited, count)
+        label.text = Localized.locationVisitedCount(key, visited, count)
     }
 
     private enum Layout {

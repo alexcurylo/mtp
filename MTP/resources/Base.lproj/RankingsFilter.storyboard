@@ -33,10 +33,10 @@
                                                     <rect key="frame" x="8" y="8" width="359" height="71"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="yR3-vm-X7f">
-                                                            <rect key="frame" x="98" y="8" width="163" height="55"/>
+                                                            <rect key="frame" x="81.5" y="8" width="196.5" height="55"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="4sh-DR-GPE">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="148.5" height="25"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="189" height="25"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Country:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MxR-4w-2bq">
                                                                             <rect key="frame" x="0.0" y="0.0" width="73" height="25"/>
@@ -44,16 +44,20 @@
                                                                             <color key="textColor" name="azureRadiance"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Country" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D6V-Rp-IeK">
-                                                                            <rect key="frame" x="81" y="0.0" width="67.5" height="25"/>
-                                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
-                                                                            <color key="textColor" name="azureRadiance"/>
+                                                                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trigger Country" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b9K-D8-0UK">
+                                                                            <rect key="frame" x="81" y="0.0" width="108" height="25"/>
+                                                                            <gestureRecognizers/>
+                                                                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                             <nil key="highlightedColor"/>
+                                                                            <connections>
+                                                                                <outletCollection property="gestureRecognizers" destination="rUm-jN-Jw5" appends="YES" id="lmr-D8-WHd"/>
+                                                                            </connections>
                                                                         </label>
                                                                     </subviews>
                                                                 </stackView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="nyE-6X-rNe">
-                                                                    <rect key="frame" x="0.0" y="30" width="163" height="25"/>
+                                                                    <rect key="frame" x="0.0" y="30" width="196.5" height="25"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b15-Lc-sFx">
                                                                             <rect key="frame" x="0.0" y="0.0" width="77.5" height="25"/>
@@ -61,11 +65,15 @@
                                                                             <color key="textColor" name="azureRadiance"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UvN-yW-iJP">
-                                                                            <rect key="frame" x="85.5" y="0.0" width="77.5" height="25"/>
-                                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
-                                                                            <color key="textColor" name="azureRadiance"/>
+                                                                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trigger Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gGv-H7-xWb">
+                                                                            <rect key="frame" x="85.5" y="0.0" width="111" height="25"/>
+                                                                            <gestureRecognizers/>
+                                                                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                             <nil key="highlightedColor"/>
+                                                                            <connections>
+                                                                                <outletCollection property="gestureRecognizers" destination="MNo-lH-faV" appends="YES" id="UfE-B7-JD7"/>
+                                                                            </connections>
                                                                         </label>
                                                                     </subviews>
                                                                 </stackView>
@@ -344,8 +352,10 @@
                     <connections>
                         <outlet property="ageLabel" destination="Mv8-WL-DS0" id="pbL-vN-srk"/>
                         <outlet property="ageSlider" destination="LlX-CO-jQb" id="V3U-Vi-INs"/>
+                        <outlet property="countryLabel" destination="b9K-D8-0UK" id="1eo-VD-n0g"/>
                         <outlet property="facebookSwitch" destination="dGh-Eo-EcS" id="trZ-h1-gGB"/>
                         <outlet property="femaleButton" destination="Dt8-XX-kg1" id="vvf-ce-m2x"/>
+                        <outlet property="locationLabel" destination="gGv-H7-xWb" id="x9q-ym-8aB"/>
                         <outlet property="maleAndFemaleButton" destination="hXT-Ta-Ctj" id="USE-4t-OfB"/>
                         <outlet property="maleButton" destination="nz8-e0-Xla" id="0Zr-di-DlP"/>
                         <outlet property="saveButton" destination="r6d-I5-wcN" id="NLN-bC-6yw"/>
@@ -353,8 +363,77 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AnB-IS-z2h" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="uxq-Yu-xPh" userLabel="Exit" sceneMemberID="exit"/>
+                <tapGestureRecognizer id="rUm-jN-Jw5" userLabel="Tap Country">
+                    <connections>
+                        <segue destination="clk-57-GkD" kind="show" identifier="showCountry" id="5Vg-PH-PpB"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="MNo-lH-faV" userLabel="Tap Location">
+                    <connections>
+                        <segue destination="clk-57-GkD" kind="show" identifier="showLocation" id="6kA-98-phq"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="3032.8000000000002" y="-453.82308845577217"/>
+        </scene>
+        <!--Countries-->
+        <scene sceneID="wF7-ek-Ee4">
+            <objects>
+                <tableViewController title="Countries" id="clk-57-GkD" customClass="LocationSearchVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="A0P-5Z-6Ie">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="locationSearchTableViewCell" id="22W-ui-Wnx" customClass="LocationSearchTableViewCell" customModule="MTP" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="22W-ui-Wnx" id="JG0-Rw-aiR">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E9q-Fv-kff">
+                                            <rect key="frame" x="12" y="8" width="351" height="27.5"/>
+                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="E9q-Fv-kff" secondAttribute="bottom" constant="8" id="6E0-EO-Uif"/>
+                                        <constraint firstItem="E9q-Fv-kff" firstAttribute="top" secondItem="JG0-Rw-aiR" secondAttribute="top" constant="8" id="BIQ-FK-4bG"/>
+                                        <constraint firstAttribute="trailing" secondItem="E9q-Fv-kff" secondAttribute="trailing" constant="12" id="QGg-OA-tW6"/>
+                                        <constraint firstItem="E9q-Fv-kff" firstAttribute="leading" secondItem="JG0-Rw-aiR" secondAttribute="leading" constant="12" id="ruV-sx-SYr"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="locationLabel" destination="E9q-Fv-kff" id="MyE-Kk-qnj"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="clk-57-GkD" id="Rkj-5D-ixJ"/>
+                            <outlet property="delegate" destination="clk-57-GkD" id="c5Q-Lv-EgM"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Select" id="bt1-6E-UmI"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="entityName" value="Location"/>
+                        <userDefinedRuntimeAttribute type="string" keyPath="searchPropertyKeyPath" value="locationName"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="useContainsSearch" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="sortAscending" value="YES"/>
+                        <userDefinedRuntimeAttribute type="string" keyPath="sortPropertyKey" value="locationName"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="caseInsensitiveSearch" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="searchBarInTableView" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <segue destination="Fy8-Ps-EXZ" kind="unwind" identifier="saveSelection" unwindAction="unwindToRankingsFilterWithSegue:" id="WWn-NI-UHp"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5pI-5d-1VL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Fy8-Ps-EXZ" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="3919" y="-454"/>
         </scene>
     </scenes>
     <resources>
@@ -366,4 +445,7 @@
             <color red="0.0078431372549019607" green="0.55294117647058827" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="6kA-98-phq"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -21,8 +21,9 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var user: UserJSON? { get set }
     var whss: [WHS] { get }
 
+    func get(location id: Int?) -> Location?
     func get(rankings query: RankingsQuery) -> RankingsPageInfo?
-    func get(userId: Int) -> User
+    func get(user id: Int) -> User
 
     func set(beaches: [PlaceJSON])
     func set(divesites: [PlaceJSON])
@@ -130,6 +131,10 @@ final class DataServiceImpl: DataService {
         return realm.locations
     }
 
+    func get(location id: Int?) -> Location? {
+        return realm.location(id: id)
+    }
+
     func set(locations: [LocationJSON]) {
         realm.set(locations: locations)
         notifyObservers(about: #function)
@@ -199,8 +204,8 @@ final class DataServiceImpl: DataService {
         }
     }
 
-    func get(userId: Int) -> User {
-        return realm.user(id: userId) ?? User()
+    func get(user id: Int) -> User {
+        return realm.user(id: id) ?? User()
     }
 
     func set(userId: UserJSON) {

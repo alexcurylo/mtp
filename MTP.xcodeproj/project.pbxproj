@@ -75,6 +75,8 @@
 		FA81361220E8F64500313AB9 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FA81361120E8F64500313AB9 /* Settings.bundle */; };
 		FA835D34210EAC110098C270 /* Styler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA835D33210EAC110098C270 /* Styler.swift */; };
 		FA835D36210F054F0098C270 /* ReplaceTopSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */; };
+		FA8833E12209BF570037C796 /* RealmSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8833E02209BF570037C796 /* RealmSearchViewController.swift */; };
+		FA8833E32209BF810037C796 /* LocationSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8833E22209BF810037C796 /* LocationSearchVC.swift */; };
 		FA8A65AF217ED3BA00BC0DFE /* RankingsFilter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA8A65AD217ED3BA00BC0DFE /* RankingsFilter.storyboard */; };
 		FA99615F2136CF3100C85FBC /* MyProfilePagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA99615E2136CF3100C85FBC /* MyProfilePagingVC.swift */; };
 		FA9A71DF20F1D3FA005F6A57 /* AppDelegate+Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9A71DE20F1D3FA005F6A57 /* AppDelegate+Tools.swift */; };
@@ -216,6 +218,8 @@
 		FA81361320E8FD4E00313AB9 /* script_build_end.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = script_build_end.sh; sourceTree = "<group>"; };
 		FA835D33210EAC110098C270 /* Styler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styler.swift; sourceTree = "<group>"; };
 		FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplaceTopSegue.swift; sourceTree = "<group>"; };
+		FA8833E02209BF570037C796 /* RealmSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmSearchViewController.swift; sourceTree = "<group>"; };
+		FA8833E22209BF810037C796 /* LocationSearchVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchVC.swift; sourceTree = "<group>"; };
 		FA8A65AE217ED3BA00BC0DFE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/RankingsFilter.storyboard; sourceTree = "<group>"; };
 		FA99615E2136CF3100C85FBC /* MyProfilePagingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfilePagingVC.swift; sourceTree = "<group>"; };
 		FA9A71DE20F1D3FA005F6A57 /* AppDelegate+Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Tools.swift"; sourceTree = "<group>"; };
@@ -330,6 +334,7 @@
 			isa = PBXGroup;
 			children = (
 				FA5AC0C021FDCCDE0080F84F /* ListPagingItem.swift */,
+				FA8833E22209BF810037C796 /* LocationSearchVC.swift */,
 				FA25ACE5217B54A8000AE26D /* RankingCell.swift */,
 				FA25ACE7217C87ED000AE26D /* RankingHeader.swift */,
 				FA291FD4217ECBC8004140BD /* RankingsFilterVC.swift */,
@@ -565,6 +570,7 @@
 				FA463784210E06230007382D /* LoggingService.swift */,
 				FA254DCA21685D6800FC9360 /* NSObject+Create.swift */,
 				FA6A188521EFEF920092C56C /* Observable.swift */,
+				FA8833E02209BF570037C796 /* RealmSearchViewController.swift */,
 				FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */,
 				FA835D33210EAC110098C270 /* Styler.swift */,
 				FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */,
@@ -958,10 +964,12 @@
 				FA390139213B84B40016A362 /* RankingsPagingVC.swift in Sources */,
 				FA5AC0BF21FDCB9D0080F84F /* MyCountsPagingVC.swift in Sources */,
 				FADC1ABA2144FAD70011EE49 /* Date+Formatting.swift in Sources */,
+				FA8833E12209BF570037C796 /* RealmSearchViewController.swift in Sources */,
 				FAE1F11E2143B29F0002CAB2 /* LocationTracker.swift in Sources */,
 				FAC3BCB9216A225900E1507E /* TagsView.swift in Sources */,
 				FAC159A221EB68AA00564E2D /* Location.swift in Sources */,
 				FA5AC0B621FC4EBE0080F84F /* PlaceAnnotationView.swift in Sources */,
+				FA8833E32209BF810037C796 /* LocationSearchVC.swift in Sources */,
 				FA76D9752131278900EF8E25 /* User.swift in Sources */,
 				8C76D8EC2207CD36005CF4CD /* RankingsPageInfo.swift in Sources */,
 				8C5ECE0221FE9B3600322ABF /* Checklist.swift in Sources */,

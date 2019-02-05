@@ -89,7 +89,8 @@ final class RealmController: ServiceProvider {
         return Array(results)
     }
 
-    func location(id: Int) -> Location? {
+    func location(id: Int?) -> Location? {
+        guard let id = id, id > 0 else { return nil }
         let results = realm.objects(Location.self)
                            .filter("id = \(id)")
         return results.first

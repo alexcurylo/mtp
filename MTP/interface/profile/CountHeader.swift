@@ -21,7 +21,7 @@ final class CountHeader: UICollectionReusableView {
              isExpanded: Bool) {
         self.key = key
 
-        label.text = Localized.regionVisitedCount(key, visited, count)
+        label.text = Localized.locationVisitedCount(key, visited, count)
 
         let corners: UIRectCorner = isExpanded ? [.topLeft, .topRight] : .allCorners
         round(corners: corners, by: Layout.cornerRadius)

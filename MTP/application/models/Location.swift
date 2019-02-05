@@ -75,6 +75,7 @@ extension LocationJSON: CustomDebugStringConvertible {
 
 @objcMembers final class Location: Object {
 
+    dynamic var countryId: Int = 0
     dynamic var countryName: String = ""
     dynamic var id: Int = 0
     dynamic var lat: Double?
@@ -88,6 +89,8 @@ extension LocationJSON: CustomDebugStringConvertible {
 
     convenience init(from: LocationJSON) {
         self.init()
+
+        countryId = from.countryId
         countryName = from.countryName
         id = from.id
         lat = from.lat

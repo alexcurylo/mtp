@@ -162,6 +162,6 @@ private extension RankingsPageVC {
             return User()
         }
 
-        return data.get(userId: userId)
+        return data.get(user: userId)
     }
 }

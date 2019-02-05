@@ -8,8 +8,8 @@ struct WHSJSON: Codable {
     let active: String
     let id: Int
     let lat: Double
-    let location: PlaceLocation
-    let locationId: Int
+    let location: PlaceLocation? // nil in 1154?
+    let locationId: Int? // nil in 1159?
     let long: Double
     let parentId: Int?
     let rank: Int
@@ -33,8 +33,8 @@ extension WHSJSON: CustomDebugStringConvertible {
         active: \(active)
         id: \(id)
         lat: \(lat)
-        location: \(location)
-        locationId: \(locationId)
+        location: \(String(describing: location))
+        locationId: \(String(describing: locationId))
         long: \(long)
         parentId: \(String(describing: parentId))
         rank: \(rank)
@@ -62,11 +62,11 @@ extension WHSJSON: CustomDebugStringConvertible {
     convenience init(from: WHSJSON) {
         self.init()
 
-        countryName = from.location.countryName
+        countryName = from.location?.countryName ?? Localized.unknown()
         id = from.id
         lat = from.lat
         long = from.long
-        regionName = from.location.regionName
+        regionName = from.location?.regionName ?? Localized.unknown()
         title = from.title
     }
 
