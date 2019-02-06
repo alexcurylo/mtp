@@ -22,10 +22,10 @@ enum MTP: Hashable {
     case checkIn(list: Checklist, id: Int)
     case checklists
     case checkOut(list: Checklist, id: Int)
+    case countriesSearch(query: String?)
     case divesite
     case golfcourse
     case location
-    case locationsSearch(parentCountry: Int?, query: String?)
     case rankings(query: RankingsQuery)
     case restaurant
     case unCountry
@@ -54,14 +54,14 @@ extension MTP: TargetType {
             return list.path
         case .checklists:
             return "me/checklists"
+        case .countriesSearch:
+            return "countries/search"
         case .divesite:
             return "divesite"
         case .golfcourse:
             return "golfcourse"
         case .location:
             return "location"
-        case .locationsSearch:
-            return "locations/search"
         case .rankings:
             return "rankings/users"
         case .restaurant:
@@ -85,10 +85,10 @@ extension MTP: TargetType {
             return .delete
         case .beach,
              .checklists,
+             .countriesSearch,
              .divesite,
              .golfcourse,
              .location,
-             .locationsSearch,
              .rankings,
              .restaurant,
              .unCountry,
@@ -104,14 +104,7 @@ extension MTP: TargetType {
 
     var task: Task {
         switch self {
-        case let .locationsSearch(parentCountry?, query?):
-            return .requestParameters(parameters: ["parentCountry": parentCountry,
-                                                   "query": query],
-                                      encoding: URLEncoding.default)
-        case let .locationsSearch(parentCountry?, nil):
-            return .requestParameters(parameters: ["parentCountry": parentCountry],
-                                      encoding: URLEncoding.default)
-        case let .locationsSearch(nil, query?):
+        case let .countriesSearch(query?):
             return .requestParameters(parameters: ["query": query],
                                       encoding: URLEncoding.default)
         case let .userLogin(email, password):
@@ -129,10 +122,10 @@ extension MTP: TargetType {
                                       encoding: URLEncoding.default)
         case .beach,
              .checklists,
+             .countriesSearch,
              .divesite,
              .golfcourse,
              .location,
-             .locationsSearch,
              .restaurant,
              .unCountry,
              .user,
@@ -176,10 +169,10 @@ extension MTP: AccessTokenAuthorizable {
              .userGetByToken:
             return .bearer
         case .beach,
+             .countriesSearch,
              .divesite,
              .golfcourse,
              .location,
-             .locationsSearch,
              .restaurant,
              .unCountry,
              .user,
@@ -629,20 +622,19 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func locationsSearch(query: String,
-                         parentCountry: Int? = nil,
+    func searchCountries(query: String = "",
                          then: @escaping LocationsResult) {
         let provider = MoyaProvider<MTP>()
         let queryParam = query.isEmpty ? nil : query
-        let endpoint = MTP.locationsSearch(parentCountry: parentCountry,
-                                           query: queryParam)
+        let endpoint = MTP.countriesSearch(query: queryParam)
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
                 do {
-                    let locations = try result.map([LocationJSON].self,
+                    let countries = try result.map([LocationJSON].self,
                                                    using: JSONDecoder.mtp)
-                    return then(.success(locations))
+                    self.data.set(locations: countries)
+                    return then(.success(countries))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
@@ -836,8 +828,11 @@ extension HTTPURLResponse {
 extension MoyaMTPNetworkService {
 
     private func refreshData() {
-        loadLocations { _ in
-            self.refreshLocationUsingData()
+        // populate with countries first to guarantee locations' parent exists
+        searchCountries { _ in
+            self.loadLocations { _ in
+                self.refreshLocationUsingData()
+            }
         }
     }
 

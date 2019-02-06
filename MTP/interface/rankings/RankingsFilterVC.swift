@@ -42,28 +42,25 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
         super.didReceiveMemoryWarning()
     }
 
+    typealias Segues = R.segue.rankingsFilterVC
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
-        // swiftlint:disable:next nesting
-        typealias This = R.segue.rankingsFilterVC
         switch segue.identifier {
-        case This.showCountry.identifier:
-            if let destination = This.showCountry(segue: segue)?.destination {
+        case Segues.showCountry.identifier:
+            if let destination = Segues.showCountry(segue: segue)?.destination {
                 destination.delegate = self
-                log.todo("crashes?")
-                destination.basePredicate = NSPredicate(format: "id = countryId")
+                destination.basePredicate = NSPredicate(format: "countryName = locationName")
             }
-        case This.showLocation.identifier:
-            if let destination = This.showLocation(segue: segue)?.destination {
+        case Segues.showLocation.identifier:
+            if let destination = Segues.showLocation(segue: segue)?.destination {
                 destination.delegate = self
                 if let parent = current?.countryId, parent > 0 {
-                    log.todo("returns nothing?")
-                    destination.basePredicate = NSPredicate(format: "countryId = \(parent)")
+                    destination.basePredicate = NSPredicate(format: "countryId = \(parent) AND countryId != id")
                 }
             }
-        case This.saveEdits.identifier:
-            saveEdits(notifying: This.saveEdits(segue: segue)?.destination)
-        case This.cancelEdits.identifier:
+        case Segues.saveEdits.identifier:
+            saveEdits(notifying: Segues.saveEdits(segue: segue)?.destination)
+        case Segues.cancelEdits.identifier:
             break
         default:
             log.debug("unexpected segue: \(segue.name)")
