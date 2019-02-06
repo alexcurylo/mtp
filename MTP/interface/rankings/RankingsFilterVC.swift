@@ -49,7 +49,7 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
         case Segues.showCountry.identifier:
             if let destination = Segues.showCountry(segue: segue)?.destination {
                 destination.delegate = self
-                destination.basePredicate = NSPredicate(format: "countryName = locationName")
+                destination.basePredicate = NSPredicate(format: "countryName = locationName OR countryId = 0")
             }
         case Segues.showLocation.identifier:
             if let destination = Segues.showLocation(segue: segue)?.destination {
@@ -124,7 +124,7 @@ private extension RankingsFilterVC {
     func configureLocation() {
         log.todo("configure location or country display")
         let country = data.get(location: current?.countryId)
-        countryLabel?.text = country?.countryName ?? Localized.allLocations()
+        countryLabel?.text = country?.countryName ?? Localized.allCountries()
 
         let location = data.get(location: current?.locationId)
         locationLabel?.text = location?.locationName ?? Localized.allLocations()

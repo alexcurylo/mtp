@@ -52,7 +52,9 @@
 "loading" = "Loading…";
 
 "join" = ", ";
+"allCountries" = "All countries";
 "allLocations" = "All locations";
+"allRegions" = "All regions";
 "selectCountry" = "Select Country";
 "selectLocation" = "Select Location";
 "male" = "Male";

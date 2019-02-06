@@ -90,7 +90,7 @@ final class RealmController: ServiceProvider {
     }
 
     func location(id: Int?) -> Location? {
-        guard let id = id, id > 0 else { return nil }
+        guard let id = id else { return nil }
         let results = realm.objects(Location.self)
                            .filter("id = \(id)")
         return results.first
@@ -100,6 +100,7 @@ final class RealmController: ServiceProvider {
         do {
             let objects = locations.map { Location(from: $0) }
             try realm.write {
+                realm.add(Location.all, update: true)
                 realm.add(objects, update: true)
             }
         } catch {

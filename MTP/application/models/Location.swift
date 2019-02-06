@@ -99,6 +99,14 @@ extension LocationJSON: CustomDebugStringConvertible {
         regionName = from.regionName
     }
 
+    static var all: Location {
+        let all = Location()
+        all.countryName = Localized.allCountries()
+        all.locationName = Localized.allLocations()
+        all.regionName = Localized.allRegions()
+        return all
+    }
+
     override var description: String {
         if !countryName.isEmpty
            && !locationName.isEmpty
