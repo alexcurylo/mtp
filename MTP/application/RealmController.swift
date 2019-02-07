@@ -89,6 +89,12 @@ final class RealmController: ServiceProvider {
         return Array(results)
     }
 
+    func locations(filter: String) -> [Location] {
+        let results = realm.objects(Location.self)
+                           .filter(filter)
+        return Array(results)
+    }
+
     func location(id: Int?) -> Location? {
         guard let id = id else { return nil }
         let results = realm.objects(Location.self)

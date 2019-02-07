@@ -73,7 +73,7 @@ extension LocationJSON: CustomDebugStringConvertible {
     }
 }
 
-@objcMembers final class Location: Object {
+@objcMembers final class Location: Object, ServiceProvider {
 
     dynamic var countryId: Int = 0
     dynamic var countryName: String = ""
@@ -99,13 +99,13 @@ extension LocationJSON: CustomDebugStringConvertible {
         regionName = from.regionName
     }
 
-    static var all: Location {
+    static var all: Location = {
         let all = Location()
-        all.countryName = Localized.allCountries()
-        all.locationName = Localized.allLocations()
-        all.regionName = Localized.allRegions()
+        all.countryName = "(\(Localized.allCountries()))"
+        all.locationName = "(\(Localized.allLocations()))"
+        all.regionName = "(\(Localized.allRegions()))"
         return all
-    }
+    }()
 
     override var description: String {
         if !countryName.isEmpty
@@ -147,6 +147,13 @@ extension Location {
     var title: String { return locationName }
 
     var subtitle: String { return "" }
+
+    var isParent: Bool { return !children.isEmpty }
+
+    var children: [Location] {
+        let filter = "countryId = \(countryId) AND countryId !=id"
+        return data.get(locations: filter)
+    }
 }
 
 @objcMembers final class UNCountry: Object {

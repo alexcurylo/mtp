@@ -10,7 +10,46 @@ protocol LocationSearchDelegate: AnyObject {
 
 final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
 
-    weak var delegate: LocationSearchDelegate?
+    enum List {
+        case countries
+        case locations(country: Int?)
+    }
+
+    private var list: List = .countries
+    private weak var delegate: LocationSearchDelegate?
+
+    func set(list: List, delegate: LocationSearchDelegate) {
+        self.list = list
+        self.delegate = delegate
+
+        switch list {
+        case .countries:
+            let isCountry = NSPredicate(format: "countryName = locationName")
+            let isAll = NSPredicate(format: "countryId = 0")
+            basePredicate = NSCompoundPredicate(
+                type: .or,
+                subpredicates: [isCountry, isAll])
+            title = Localized.selectCountry()
+        case let .locations(country?):
+            let isThisCountry = NSPredicate(format: "countryId = \(country)")
+            let isNotParent = NSPredicate(format: "countryId != id")
+            let isChild = NSCompoundPredicate(
+                type: .and,
+                subpredicates: [isThisCountry, isNotParent])
+            let isAll = NSPredicate(format: "countryId = 0")
+            basePredicate = NSCompoundPredicate(
+                type: .or,
+                subpredicates: [isChild, isAll])
+            title = Localized.selectLocation()
+        case .locations:
+            let isNotCountry = NSPredicate(format: "countryName != locationName")
+            let isAll = NSPredicate(format: "countryId = 0")
+            basePredicate = NSCompoundPredicate(
+                type: .or,
+                subpredicates: [isNotCountry, isAll])
+            title = Localized.selectLocation()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +59,7 @@ final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
                    orientation: .topRightBottomLeft)
         }
         tableView.backgroundView = backgroundView
+        tableView.tableFooterView = UIView()
 
         tableView.estimatedRowHeight = 88
         tableView.rowHeight = UITableView.automaticDimension
@@ -59,7 +99,8 @@ final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
             for: indexPath)
 
         if let cell = cell {
-            cell.set(location: object as? Location)
+            cell.set(list: list,
+                     location: object as? Location)
             return cell
         }
         return UITableViewCell()
@@ -70,9 +111,11 @@ final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
                                        atIndexPath indexPath: IndexPath) {
         controller.tableView.deselectRow(at: indexPath, animated: true)
         if let location = anObject as? Location {
-            delegate?.locationSearch(controller: self, didSelect: location)
+            delegate?.locationSearch(controller: self,
+                                     didSelect: location)
         }
-        performSegue(withIdentifier: R.segue.locationSearchVC.saveSelection, sender: self)
+        performSegue(withIdentifier: R.segue.locationSearchVC.saveSelection,
+                     sender: self)
     }
 }
 
@@ -84,8 +127,16 @@ final class LocationSearchTableViewCell: UITableViewCell {
         super.awakeFromNib()
     }
 
-    func set(location: Location?) {
-        locationLabel?.text = location?.locationName ?? Localized.unknown()
+    func set(list: LocationSearchVC.List,
+             location: Location?) {
+        let text: String?
+        switch list {
+        case .countries:
+            text = location?.countryName
+        case .locations:
+            text = location?.locationName
+        }
+        locationLabel?.text = text ?? Localized.unknown()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

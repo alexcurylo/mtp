@@ -22,6 +22,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var whss: [WHS] { get }
 
     func get(location id: Int?) -> Location?
+    func get(locations filter: String) -> [Location]
     func get(rankings query: RankingsQuery) -> RankingsPageInfo?
     func get(user id: Int) -> User
 
@@ -133,6 +134,10 @@ final class DataServiceImpl: DataService {
 
     func get(location id: Int?) -> Location? {
         return realm.location(id: id)
+    }
+
+    func get(locations filter: String) -> [Location] {
+        return realm.locations(filter: filter)
     }
 
     func set(locations: [LocationJSON]) {

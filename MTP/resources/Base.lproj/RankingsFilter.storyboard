@@ -22,7 +22,7 @@
                         <sections>
                             <tableViewSection id="DfI-LB-v0n">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="87" id="i33-u9-sYy" userLabel="Country">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="87" id="i33-u9-sYy" userLabel="Location">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="87"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="i33-u9-sYy" id="J30-1V-8aX">
@@ -356,6 +356,8 @@
                         <outlet property="facebookSwitch" destination="dGh-Eo-EcS" id="trZ-h1-gGB"/>
                         <outlet property="femaleButton" destination="Dt8-XX-kg1" id="vvf-ce-m2x"/>
                         <outlet property="locationLabel" destination="gGv-H7-xWb" id="x9q-ym-8aB"/>
+                        <outlet property="locationLine" destination="nyE-6X-rNe" id="iQY-JR-ucb"/>
+                        <outlet property="locationStack" destination="yR3-vm-X7f" id="Q56-OK-Qg5"/>
                         <outlet property="maleAndFemaleButton" destination="hXT-Ta-Ctj" id="USE-4t-OfB"/>
                         <outlet property="maleButton" destination="nz8-e0-Xla" id="0Zr-di-DlP"/>
                         <outlet property="saveButton" destination="r6d-I5-wcN" id="NLN-bC-6yw"/>

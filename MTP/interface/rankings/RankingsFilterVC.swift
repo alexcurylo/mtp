@@ -6,6 +6,8 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
 
     @IBOutlet private var saveButton: UIBarButtonItem?
 
+    @IBOutlet private var locationStack: UIStackView?
+    @IBOutlet private var locationLine: UIStackView?
     @IBOutlet private var countryLabel: UILabel?
     @IBOutlet private var locationLabel: UILabel?
 
@@ -48,15 +50,14 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
         switch segue.identifier {
         case Segues.showCountry.identifier:
             if let destination = Segues.showCountry(segue: segue)?.destination {
-                destination.delegate = self
-                destination.basePredicate = NSPredicate(format: "countryName = locationName OR countryId = 0")
+                destination.set(list: .countries,
+                                delegate: self)
             }
         case Segues.showLocation.identifier:
             if let destination = Segues.showLocation(segue: segue)?.destination {
-                destination.delegate = self
-                if let parent = current?.countryId, parent > 0 {
-                    destination.basePredicate = NSPredicate(format: "countryId = \(parent) AND countryId != id")
-                }
+                let country = current?.countryId
+                destination.set(list: .locations(country: country),
+                                delegate: self)
             }
         case Segues.saveEdits.identifier:
             saveEdits(notifying: Segues.saveEdits(segue: segue)?.destination)
@@ -87,9 +88,10 @@ extension RankingsFilterVC: LocationSearchDelegate {
 
     func locationSearch(controller: RealmSearchViewController,
                         didSelect location: Location) {
-        log.todo("configure location or country selection")
         current?.countryId = location.countryId
+        current?.country = location.countryId > 0 ? location.countryName: nil
         current?.locationId = location.id
+        current?.location = location.id > 0 ? location.locationName : nil
         configureLocation()
         updateSave()
     }
@@ -122,12 +124,20 @@ private extension RankingsFilterVC {
     }
 
     func configureLocation() {
-        log.todo("configure location or country display")
-        let country = data.get(location: current?.countryId)
+        let countryId = current?.countryId ?? 0
+        let country = countryId > 0 ? data.get(location: countryId) : nil
         countryLabel?.text = country?.countryName ?? Localized.allCountries()
 
-        let location = data.get(location: current?.locationId)
+        let locationId = current?.locationId ?? 0
+        let location = locationId > 0 ? data.get(location: locationId) : nil
         locationLabel?.text = location?.locationName ?? Localized.allLocations()
+
+        guard let locationLine = locationLine else { return }
+        if let location = location, location.isParent {
+            locationStack?.addArrangedSubview(locationLine)
+        } else {
+            locationStack?.removeArrangedSubview(locationLine)
+        }
    }
 
     @IBAction func selectFemale(_ sender: UIButton) {

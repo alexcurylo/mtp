@@ -95,7 +95,14 @@ extension RankingsQuery: CustomStringConvertible {
     }
 
     private var locationDescription: String {
-        return Localized.allLocations()
+        switch (country, location) {
+        case (_, let location?):
+            return location
+        case (let country?, _):
+            return country
+        default:
+            return Localized.allCountries()
+        }
     }
 }
 
@@ -144,9 +151,10 @@ extension RankingsQuery {
         if ageGroup != .all {
             parameters["ageGroup"] = String(ageGroup.parameter)
         }
-        if let country = country {
-            parameters["country"] = country
-        }
+        // appears unnecessary?
+        //if let country = country {
+            //parameters["country"] = country
+        //}
         if let countryId = countryId {
             parameters["country_id"] = String(countryId)
         }
@@ -156,9 +164,10 @@ extension RankingsQuery {
         if gender != .all {
             parameters["gender"] = gender.rawValue
         }
-        if let location = location {
-            parameters["location"] = location
-        }
+        // appears unnecessary?
+        //if let location = location {
+            //parameters["location"] = location
+        //}
         if let locationId = locationId {
             parameters["location_id"] = String(locationId)
         }
