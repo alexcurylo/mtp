@@ -192,31 +192,24 @@ extension MTP: ServiceProvider {
 
 protocol MTPNetworkService {
 
-    typealias BoolResult = (_ result: Result<Bool, MTPNetworkError>) -> Void
-    typealias ChecklistsResult = (_ result: Result<Checklists, MTPNetworkError>) -> Void
-    typealias LocationsResult = (_ result: Result<[LocationJSON], MTPNetworkError>) -> Void
-    typealias PlacesResult = (_ result: Result<[PlaceJSON], MTPNetworkError>) -> Void
-    typealias RankingsResult = (_ result: Result<RankingsPageInfoJSON, MTPNetworkError>) -> Void
-    typealias RestaurantsResult = (_ result: Result<[RestaurantJSON], MTPNetworkError>) -> Void
-    typealias UserResult = (_ result: Result<UserJSON, MTPNetworkError>) -> Void
-    typealias WHSResult = (_ result: Result<[WHSJSON], MTPNetworkError>) -> Void
+    typealias MTPResult<T> = (_ result: Result<T, MTPNetworkError>) -> Void
 
     func check(list: Checklist,
                id: Int,
                visited: Bool,
-               then: @escaping BoolResult)
+               then: @escaping MTPResult<Bool>)
     func loadUser(id: Int,
-                  then: @escaping UserResult)
-    func userDeleteAccount(then: @escaping BoolResult)
+                  then: @escaping MTPResult<UserJSON>)
+    func userDeleteAccount(then: @escaping MTPResult<Bool>)
     func userForgotPassword(email: String,
-                            then: @escaping BoolResult)
+                            then: @escaping MTPResult<Bool>)
     func userLogin(email: String,
                    password: String,
-                   then: @escaping UserResult)
+                   then: @escaping MTPResult<UserJSON>)
     func userRegister(name: String,
                       email: String,
                       password: String,
-                      then: @escaping BoolResult)
+                      then: @escaping MTPResult<Bool>)
 
     func refreshFromWebsite()
 }
@@ -227,7 +220,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     func check(list: Checklist,
                id: Int,
                visited: Bool,
-               then: @escaping BoolResult = { _ in }) {
+               then: @escaping MTPResult<Bool> = { _ in }) {
         if visited {
             checkIn(list: list, id: id, then: then)
         } else {
@@ -237,7 +230,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
 
     func checkIn(list: Checklist,
                  id: Int,
-                 then: @escaping BoolResult = { _ in }) {
+                 then: @escaping MTPResult<Bool> = { _ in }) {
         guard data.isLoggedIn else {
             log.verbose("checkIn attempt invalid: not logged in")
             return then(.failure(.parameter))
@@ -260,7 +253,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
 
     func checkOut(list: Checklist,
                   id: Int,
-                  then: @escaping BoolResult = { _ in }) {
+                  then: @escaping MTPResult<Bool> = { _ in }) {
         guard data.isLoggedIn else {
             log.verbose("checkOut attempt invalid: not logged in")
             return then(.failure(.parameter))
@@ -281,7 +274,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadBeaches(then: @escaping PlacesResult = { _ in }) {
+    func loadBeaches(then: @escaping MTPResult<[PlaceJSON]> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.beach
         guard !endpoint.isThrottled else {
@@ -314,7 +307,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadChecklists(then: @escaping ChecklistsResult = { _ in }) {
+    func loadChecklists(then: @escaping MTPResult<Checklists> = { _ in }) {
         guard data.isLoggedIn else {
             log.verbose("load checklists attempt invalid: not logged in")
             return then(.failure(.parameter))
@@ -354,7 +347,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadDiveSites(then: @escaping PlacesResult = { _ in }) {
+    func loadDiveSites(then: @escaping MTPResult<[PlaceJSON]> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.divesite
         guard !endpoint.isThrottled else {
@@ -387,7 +380,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadGolfCourses(then: @escaping PlacesResult = { _ in }) {
+    func loadGolfCourses(then: @escaping MTPResult<[PlaceJSON]> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.golfcourse
         guard !endpoint.isThrottled else {
@@ -420,7 +413,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadLocations(then: @escaping LocationsResult = { _ in }) {
+    func loadLocations(then: @escaping MTPResult<[LocationJSON]> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.location
         guard !endpoint.isThrottled else {
@@ -454,7 +447,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     }
 
     func loadRankings(query: RankingsQuery,
-                      then: @escaping RankingsResult = { _ in }) {
+                      then: @escaping MTPResult<RankingsPageInfoJSON> = { _ in }) {
         let provider: MoyaProvider<MTP>
         if data.isLoggedIn {
             let auth = AccessTokenPlugin { self.data.token }
@@ -489,7 +482,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadRestaurants(then: @escaping RestaurantsResult = { _ in }) {
+    func loadRestaurants(then: @escaping MTPResult<[RestaurantJSON]> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.restaurant
         guard !endpoint.isThrottled else {
@@ -522,7 +515,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadUNCountries(then: @escaping LocationsResult = { _ in }) {
+    func loadUNCountries(then: @escaping MTPResult<[LocationJSON]> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.unCountry
         guard !endpoint.isThrottled else {
@@ -556,7 +549,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     }
 
     func loadUser(id: Int,
-                  then: @escaping UserResult = { _ in }) {
+                  then: @escaping MTPResult<UserJSON> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.user(id: id)
         guard !endpoint.isThrottled else {
@@ -589,7 +582,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadWHS(then: @escaping WHSResult = { _ in }) {
+    func loadWHS(then: @escaping MTPResult<[WHSJSON]> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.whs
         guard !endpoint.isThrottled else {
@@ -623,7 +616,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     }
 
     func searchCountries(query: String = "",
-                         then: @escaping LocationsResult) {
+                         then: @escaping MTPResult<[CountryJSON]>) {
         let provider = MoyaProvider<MTP>()
         let queryParam = query.isEmpty ? nil : query
         let endpoint = MTP.countriesSearch(query: queryParam)
@@ -631,9 +624,9 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
             switch response {
             case .success(let result):
                 do {
-                    let countries = try result.map([LocationJSON].self,
+                    let countries = try result.map([CountryJSON].self,
                                                    using: JSONDecoder.mtp)
-                    self.data.set(locations: countries)
+                    self.data.set(countries: countries)
                     return then(.success(countries))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -647,13 +640,13 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func userDeleteAccount(then: @escaping BoolResult) {
+    func userDeleteAccount(then: @escaping MTPResult<Bool>) {
         log.todo("implement deleteAccount")
         then(.success(true))
     }
 
     func userForgotPassword(email: String,
-                            then: @escaping BoolResult) {
+                            then: @escaping MTPResult<Bool>) {
         guard !email.isEmpty else {
             log.verbose("forgotPassword attempt invalid: email `\(email)`")
             return then(.failure(.parameter))
@@ -663,7 +656,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         then(.success(true))
     }
 
-    func userGetByToken(then: @escaping UserResult = { _ in }) {
+    func userGetByToken(then: @escaping MTPResult<UserJSON> = { _ in }) {
         guard data.isLoggedIn else {
             log.verbose("userGetByToken attempt invalid: not logged in")
             return then(.failure(.parameter))
@@ -705,7 +698,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
 
     func userLogin(email: String,
                    password: String,
-                   then: @escaping UserResult) {
+                   then: @escaping MTPResult<UserJSON>) {
         guard !email.isEmpty && !password.isEmpty else {
             log.verbose("userLogin attempt invalid: email `\(email)` password `\(password)`")
             return then(.failure(.parameter))
@@ -750,7 +743,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     func userRegister(name: String,
                       email: String,
                       password: String,
-                      then: @escaping BoolResult) {
+                      then: @escaping MTPResult<Bool>) {
         guard !name.isEmpty && !email.isEmpty && !password.isEmpty else {
             log.verbose("register attempt invalid: name `\(name)` email `\(email)` password `\(password)`")
             return then(.failure(.parameter))
@@ -828,7 +821,6 @@ extension HTTPURLResponse {
 extension MoyaMTPNetworkService {
 
     private func refreshData() {
-        // populate with countries first to guarantee locations' parent exists
         searchCountries { _ in
             self.loadLocations { _ in
                 self.refreshLocationUsingData()

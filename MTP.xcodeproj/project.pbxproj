@@ -77,6 +77,8 @@
 		FA835D36210F054F0098C270 /* ReplaceTopSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */; };
 		FA8833E12209BF570037C796 /* RealmSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8833E02209BF570037C796 /* RealmSearchViewController.swift */; };
 		FA8833E32209BF810037C796 /* LocationSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8833E22209BF810037C796 /* LocationSearchVC.swift */; };
+		FA8833E5220CE7350037C796 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8833E4220CE7350037C796 /* Country.swift */; };
+		FA8833E7220CE8260037C796 /* UNCountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8833E6220CE8260037C796 /* UNCountry.swift */; };
 		FA8A65AF217ED3BA00BC0DFE /* RankingsFilter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA8A65AD217ED3BA00BC0DFE /* RankingsFilter.storyboard */; };
 		FA99615F2136CF3100C85FBC /* MyProfilePagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA99615E2136CF3100C85FBC /* MyProfilePagingVC.swift */; };
 		FA9A71DF20F1D3FA005F6A57 /* AppDelegate+Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9A71DE20F1D3FA005F6A57 /* AppDelegate+Tools.swift */; };
@@ -220,6 +222,8 @@
 		FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplaceTopSegue.swift; sourceTree = "<group>"; };
 		FA8833E02209BF570037C796 /* RealmSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmSearchViewController.swift; sourceTree = "<group>"; };
 		FA8833E22209BF810037C796 /* LocationSearchVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchVC.swift; sourceTree = "<group>"; };
+		FA8833E4220CE7350037C796 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
+		FA8833E6220CE8260037C796 /* UNCountry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNCountry.swift; sourceTree = "<group>"; };
 		FA8A65AE217ED3BA00BC0DFE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/RankingsFilter.storyboard; sourceTree = "<group>"; };
 		FA99615E2136CF3100C85FBC /* MyProfilePagingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfilePagingVC.swift; sourceTree = "<group>"; };
 		FA9A71DE20F1D3FA005F6A57 /* AppDelegate+Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Tools.swift"; sourceTree = "<group>"; };
@@ -590,12 +594,14 @@
 			children = (
 				8C5ECE0121FE9B3600322ABF /* Checklist.swift */,
 				FAD2B51521F46913009FFDD7 /* Checklists.swift */,
+				FA8833E4220CE7350037C796 /* Country.swift */,
 				FAC159A121EB68AA00564E2D /* Location.swift */,
 				FAD2B51721F48AB8009FFDD7 /* PlaceInfo.swift */,
 				FAD2B51221F45796009FFDD7 /* PlaceLocation.swift */,
 				8C5ECF3921FFE49800322ABF /* RankingsQuery.swift */,
 				8C76D8EB2207CD36005CF4CD /* RankingsPageInfo.swift */,
 				FAD2B51B21F4A675009FFDD7 /* Restaurant.swift */,
+				FA8833E6220CE8260037C796 /* UNCountry.swift */,
 				FA76D9742131278900EF8E25 /* User.swift */,
 				FA2E718421ED535B00E6AB73 /* WHS.swift */,
 			);
@@ -975,7 +981,9 @@
 				8C5ECE0221FE9B3600322ABF /* Checklist.swift in Sources */,
 				FA6A188621EFEF920092C56C /* Observable.swift in Sources */,
 				FA74C111211BBF490013A840 /* String+Formatting.swift in Sources */,
+				FA8833E7220CE8260037C796 /* UNCountry.swift in Sources */,
 				FA3BD1D2215F7FCD007EAF75 /* MyPostsVC.swift in Sources */,
+				FA8833E5220CE7350037C796 /* Country.swift in Sources */,
 				FAFEDA522129602800DA3DB8 /* WelcomeVC.swift in Sources */,
 				FA9A71DF20F1D3FA005F6A57 /* AppDelegate+Tools.swift in Sources */,
 				FA36FBEF2206461F00616CDE /* RealmController.swift in Sources */,

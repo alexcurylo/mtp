@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import UIKit
+import RealmSwift
 
 final class RankingsFilterVC: UITableViewController, ServiceProvider {
 
@@ -87,11 +87,25 @@ extension RankingsFilterVC {
 extension RankingsFilterVC: LocationSearchDelegate {
 
     func locationSearch(controller: RealmSearchViewController,
-                        didSelect location: Location) {
-        current?.countryId = location.countryId
-        current?.country = location.countryId > 0 ? location.countryName: nil
-        current?.locationId = location.id
-        current?.location = location.id > 0 ? location.locationName : nil
+                        didSelect item: Object) {
+        switch item {
+        case let country as Country:
+            guard current?.countryId != country.countryId else { return }
+            current?.countryId = country.countryId
+            current?.country = country.countryName
+            current?.locationId = 0
+            current?.location = nil
+        case let location as Location:
+            guard current?.locationId != location.id else { return }
+            current?.countryId = location.countryId
+            current?.country = location.countryId > 0 ? location.countryName: nil
+            current?.locationId = location.id
+            current?.location = location.id > 0 ? location.locationName : nil
+        default:
+            log.error("unknown item type selected")
+            return
+        }
+
         configureLocation()
         updateSave()
     }
@@ -131,13 +145,16 @@ private extension RankingsFilterVC {
         let locationId = current?.locationId ?? 0
         let location = locationId > 0 ? data.get(location: locationId) : nil
         locationLabel?.text = location?.locationName ?? Localized.allLocations()
-
+        log.todo("collapses and draws on top of each other")
+/*
         guard let locationLine = locationLine else { return }
         if let location = location, location.isParent {
             locationStack?.addArrangedSubview(locationLine)
         } else {
             locationStack?.removeArrangedSubview(locationLine)
         }
+        tableView.reloadData()
+ */
    }
 
     @IBAction func selectFemale(_ sender: UIButton) {

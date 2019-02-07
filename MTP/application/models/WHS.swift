@@ -59,7 +59,8 @@ extension WHSJSON: CustomDebugStringConvertible {
         return "id"
     }
 
-    convenience init(from: WHSJSON) {
+    convenience init?(from: WHSJSON) {
+        guard from.active == "Y" else { return nil }
         self.init()
 
         countryName = from.location?.countryName ?? Localized.unknown()

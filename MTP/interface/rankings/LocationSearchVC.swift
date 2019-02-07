@@ -5,7 +5,7 @@ import RealmSwift
 protocol LocationSearchDelegate: AnyObject {
 
     func locationSearch(controller: RealmSearchViewController,
-                        didSelect location: Location)
+                        didSelect item: Object)
 }
 
 final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
@@ -24,13 +24,16 @@ final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
 
         switch list {
         case .countries:
-            let isCountry = NSPredicate(format: "countryName = locationName")
+            entityName = "Country"
+            basePredicate = nil
+            /*let isCountry = NSPredicate(format: "countryName = locationName")
             let isAll = NSPredicate(format: "countryId = 0")
             basePredicate = NSCompoundPredicate(
                 type: .or,
-                subpredicates: [isCountry, isAll])
+                subpredicates: [isCountry, isAll])*/
             title = Localized.selectCountry()
         case let .locations(country?):
+            entityName = "Location"
             let isThisCountry = NSPredicate(format: "countryId = \(country)")
             let isNotParent = NSPredicate(format: "countryId != id")
             let isChild = NSCompoundPredicate(
@@ -42,6 +45,7 @@ final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
                 subpredicates: [isChild, isAll])
             title = Localized.selectLocation()
         case .locations:
+            entityName = "Location"
             let isNotCountry = NSPredicate(format: "countryName != locationName")
             let isAll = NSPredicate(format: "countryId = 0")
             basePredicate = NSCompoundPredicate(
@@ -99,8 +103,7 @@ final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
             for: indexPath)
 
         if let cell = cell {
-            cell.set(list: list,
-                     location: object as? Location)
+            cell.set(list: list, item: object)
             return cell
         }
         return UITableViewCell()
@@ -110,9 +113,9 @@ final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
                                        didSelectObject anObject: Object,
                                        atIndexPath indexPath: IndexPath) {
         controller.tableView.deselectRow(at: indexPath, animated: true)
-        if let location = anObject as? Location {
+        if let item = anObject as? Object {
             delegate?.locationSearch(controller: self,
-                                     didSelect: location)
+                                     didSelect: item)
         }
         performSegue(withIdentifier: R.segue.locationSearchVC.saveSelection,
                      sender: self)
@@ -128,13 +131,13 @@ final class LocationSearchTableViewCell: UITableViewCell {
     }
 
     func set(list: LocationSearchVC.List,
-             location: Location?) {
+             item: Object?) {
         let text: String?
         switch list {
         case .countries:
-            text = location?.countryName
+            text = (item as? Country)?.countryName ?? Localized.unknown()
         case .locations:
-            text = location?.locationName
+            text = (item as? Location)?.locationName ?? Localized.unknown()
         }
         locationLabel?.text = text ?? Localized.unknown()
     }

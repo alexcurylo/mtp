@@ -43,12 +43,29 @@ final class RealmController: ServiceProvider {
 
     func set(beaches: [PlaceJSON]) {
         do {
-            let objects = beaches.map { Beach(from: $0) }
+            let objects = beaches.compactMap { Beach(from: $0) }
             try realm.write {
                 realm.add(objects, update: true)
             }
         } catch {
             log.error("set beaches: \(error)")
+        }
+    }
+
+    var countries: [Country] {
+        let results = realm.objects(Country.self)
+        return Array(results)
+    }
+
+    func set(countries: [CountryJSON]) {
+        do {
+            let objects = countries.map { Country(from: $0) }
+            try realm.write {
+                realm.add(Country.all, update: true)
+                realm.add(objects, update: true)
+            }
+        } catch {
+            log.error("set countries: \(error)")
         }
     }
 
@@ -142,7 +159,7 @@ final class RealmController: ServiceProvider {
 
     func set(restaurants: [RestaurantJSON]) {
         do {
-            let objects = restaurants.map { Restaurant(from: $0, with: self) }
+            let objects = restaurants.compactMap { Restaurant(from: $0, with: self) }
             try realm.write {
                 realm.add(objects, update: true)
             }
@@ -158,7 +175,7 @@ final class RealmController: ServiceProvider {
 
     func set(uncountries: [LocationJSON]) {
         do {
-            let objects = uncountries.map { UNCountry(from: $0) }
+            let objects = uncountries.compactMap { UNCountry(from: $0) }
             try realm.write {
                 realm.add(objects, update: true)
             }
@@ -191,7 +208,7 @@ final class RealmController: ServiceProvider {
 
     func set(whss: [WHSJSON]) {
         do {
-            let objects = whss.map { WHS(from: $0) }
+            let objects = whss.compactMap { WHS(from: $0) }
             try realm.write {
                 realm.add(objects, update: true)
             }

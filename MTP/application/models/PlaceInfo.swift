@@ -73,7 +73,8 @@ extension PlaceJSON: CustomDebugStringConvertible {
         return "id"
     }
 
-    convenience init(from: PlaceJSON) {
+    convenience init?(from: PlaceJSON) {
+        guard from.active == "Y" else { return nil }
         self.init()
 
         countryName = from.location.countryName

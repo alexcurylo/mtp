@@ -73,8 +73,9 @@ extension RestaurantJSON: CustomDebugStringConvertible {
         return "id"
     }
 
-    convenience init(from: RestaurantJSON,
-                     with controller: RealmController) {
+    convenience init?(from: RestaurantJSON,
+                      with controller: RealmController) {
+        guard from.active == "Y" else { return nil }
         self.init()
 
         let locationId = from.location?.id ?? from.locationId

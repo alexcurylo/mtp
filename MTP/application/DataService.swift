@@ -7,6 +7,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
 
     var beaches: [Beach] { get }
     var checklists: Checklists? { get set }
+    var countries: [Country] { get }
     var divesites: [DiveSite] { get }
     var email: String { get set }
     var etags: [String: String] { get set }
@@ -27,6 +28,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func get(user id: Int) -> User
 
     func set(beaches: [PlaceJSON])
+    func set(countries: [CountryJSON])
     func set(divesites: [PlaceJSON])
     func set(golfcourses: [PlaceJSON])
     func set(locations: [LocationJSON])
@@ -84,6 +86,15 @@ final class DataServiceImpl: DataService {
             defaults.checklists = newValue
             notifyObservers(about: #function)
         }
+    }
+
+    var countries: [Country] {
+        return realm.countries
+    }
+
+    func set(countries: [CountryJSON]) {
+        realm.set(countries: countries)
+        notifyObservers(about: #function)
     }
 
     var divesites: [DiveSite] {
