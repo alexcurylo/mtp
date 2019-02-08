@@ -24,33 +24,28 @@ final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
 
         switch list {
         case .countries:
+            searchPropertyKeyPath = "countryName"
+            sortPropertyKey = "countryName"
             entityName = "Country"
             basePredicate = nil
-            /*let isCountry = NSPredicate(format: "countryName = locationName")
-            let isAll = NSPredicate(format: "countryId = 0")
-            basePredicate = NSCompoundPredicate(
-                type: .or,
-                subpredicates: [isCountry, isAll])*/
+
             title = Localized.selectCountry()
         case let .locations(country?):
             entityName = "Location"
-            let isThisCountry = NSPredicate(format: "countryId = \(country)")
-            let isNotParent = NSPredicate(format: "countryId != id")
-            let isChild = NSCompoundPredicate(
-                type: .and,
-                subpredicates: [isThisCountry, isNotParent])
+            searchPropertyKeyPath = "locationName"
+            sortPropertyKey = "locationName"
+            let isChild = NSPredicate(format: "countryId = \(country)")
             let isAll = NSPredicate(format: "countryId = 0")
             basePredicate = NSCompoundPredicate(
                 type: .or,
                 subpredicates: [isChild, isAll])
+
             title = Localized.selectLocation()
         case .locations:
             entityName = "Location"
-            let isNotCountry = NSPredicate(format: "countryName != locationName")
-            let isAll = NSPredicate(format: "countryId = 0")
-            basePredicate = NSCompoundPredicate(
-                type: .or,
-                subpredicates: [isNotCountry, isAll])
+            searchPropertyKeyPath = "locationName"
+            sortPropertyKey = "locationName"
+
             title = Localized.selectLocation()
         }
     }
@@ -113,10 +108,10 @@ final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
                                        didSelectObject anObject: Object,
                                        atIndexPath indexPath: IndexPath) {
         controller.tableView.deselectRow(at: indexPath, animated: true)
-        if let item = anObject as? Object {
-            delegate?.locationSearch(controller: self,
-                                     didSelect: item)
-        }
+
+        delegate?.locationSearch(controller: self,
+                                 didSelect: anObject)
+
         performSegue(withIdentifier: R.segue.locationSearchVC.saveSelection,
                      sender: self)
     }

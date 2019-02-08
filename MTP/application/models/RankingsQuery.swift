@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import Foundation
+import RealmSwift
 
 enum Gender: String, Codable, CustomStringConvertible {
     case all = ""
@@ -56,7 +56,7 @@ enum Age: Int, Codable, CustomStringConvertible {
     }
 }
 
-struct RankingsQuery: Codable, Hashable {
+struct RankingsQuery: Codable, Hashable, ServiceProvider {
 
     var checklistType: Checklist
     var page: Int = 1
@@ -173,5 +173,31 @@ extension RankingsQuery {
         }
 
         return parameters
+    }
+
+    mutating func update(with item: Object) -> Bool {
+        switch item {
+        case let countryItem as Country:
+            let newId = countryItem.countryId > 0 ? countryItem.countryId : nil
+            guard countryId != newId else { break }
+            countryId = newId
+            country = newId != nil ? countryItem.countryName : nil
+            locationId = nil
+            location = nil
+            return true
+        case let locationItem as Location:
+            print(locationItem.debugDescription)
+            let newId = locationItem.id > 0 ? locationItem.id : nil
+            guard locationId != newId else { break }
+            locationId = newId
+            location = newId != nil ? locationItem.locationName : nil
+            guard locationItem.countryId > 0 else { return true }
+            countryId = locationItem.countryId
+            country = locationItem.countryName
+            return true
+        default:
+            log.error("unknown item type selected")
+        }
+        return false
     }
 }

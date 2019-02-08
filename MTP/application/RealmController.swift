@@ -57,6 +57,13 @@ final class RealmController: ServiceProvider {
         return Array(results)
     }
 
+    func country(id: Int?) -> Country? {
+        guard let id = id else { return nil }
+        let results = realm.objects(Country.self)
+            .filter("countryId = \(id)")
+        return results.first
+    }
+
     func set(countries: [CountryJSON]) {
         do {
             let objects = countries.map { Country(from: $0) }

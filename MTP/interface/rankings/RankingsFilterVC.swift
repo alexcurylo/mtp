@@ -88,23 +88,7 @@ extension RankingsFilterVC: LocationSearchDelegate {
 
     func locationSearch(controller: RealmSearchViewController,
                         didSelect item: Object) {
-        switch item {
-        case let country as Country:
-            guard current?.countryId != country.countryId else { return }
-            current?.countryId = country.countryId
-            current?.country = country.countryName
-            current?.locationId = 0
-            current?.location = nil
-        case let location as Location:
-            guard current?.locationId != location.id else { return }
-            current?.countryId = location.countryId
-            current?.country = location.countryId > 0 ? location.countryName: nil
-            current?.locationId = location.id
-            current?.location = location.id > 0 ? location.locationName : nil
-        default:
-            log.error("unknown item type selected")
-            return
-        }
+        guard current?.update(with: item) ?? false else { return }
 
         configureLocation()
         updateSave()
@@ -139,12 +123,17 @@ private extension RankingsFilterVC {
 
     func configureLocation() {
         let countryId = current?.countryId ?? 0
-        let country = countryId > 0 ? data.get(location: countryId) : nil
+        let country = countryId > 0 ? data.get(country: countryId) : nil
         countryLabel?.text = country?.countryName ?? Localized.allCountries()
+        guard country?.hasChildren ?? false else {
+            locationLabel?.text = countryLabel?.text
+            return
+        }
 
         let locationId = current?.locationId ?? 0
         let location = locationId > 0 ? data.get(location: locationId) : nil
         locationLabel?.text = location?.locationName ?? Localized.allLocations()
+
         log.todo("collapses and draws on top of each other")
 /*
         guard let locationLine = locationLine else { return }

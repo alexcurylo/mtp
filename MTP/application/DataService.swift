@@ -22,6 +22,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var user: UserJSON? { get set }
     var whss: [WHS] { get }
 
+    func get(country id: Int?) -> Country?
     func get(location id: Int?) -> Location?
     func get(locations filter: String) -> [Location]
     func get(rankings query: RankingsQuery) -> RankingsPageInfo?
@@ -90,6 +91,10 @@ final class DataServiceImpl: DataService {
 
     var countries: [Country] {
         return realm.countries
+    }
+
+    func get(country id: Int?) -> Country? {
+        return realm.country(id: id)
     }
 
     func set(countries: [CountryJSON]) {
