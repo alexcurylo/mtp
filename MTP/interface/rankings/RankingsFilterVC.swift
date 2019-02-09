@@ -125,25 +125,22 @@ private extension RankingsFilterVC {
         let countryId = current?.countryId ?? 0
         let country = countryId > 0 ? data.get(country: countryId) : nil
         countryLabel?.text = country?.countryName ?? Localized.allCountries()
-        guard country?.hasChildren ?? false else {
-            locationLabel?.text = countryLabel?.text
-            return
-        }
 
         let locationId = current?.locationId ?? 0
         let location = locationId > 0 ? data.get(location: locationId) : nil
-        locationLabel?.text = location?.locationName ?? Localized.allLocations()
 
-        log.todo("collapses and draws on top of each other")
-/*
         guard let locationLine = locationLine else { return }
-        if let location = location, location.isParent {
+        if let country = country, country.hasChildren {
+            locationLabel?.text = location?.locationName ?? Localized.allLocations()
+
             locationStack?.addArrangedSubview(locationLine)
         } else {
+            locationLabel?.text = countryLabel?.text
+
             locationStack?.removeArrangedSubview(locationLine)
+            locationLine.removeFromSuperview()
         }
         tableView.reloadData()
- */
    }
 
     @IBAction func selectFemale(_ sender: UIButton) {

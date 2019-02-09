@@ -73,7 +73,7 @@ extension LocationJSON: CustomDebugStringConvertible {
     }
 }
 
-@objcMembers final class Location: Object, ServiceProvider {
+@objcMembers final class Location: Object {
 
     dynamic var countryId: Int = 0
     dynamic var countryName: String = ""
@@ -148,10 +148,4 @@ extension Location {
 
     var subtitle: String { return "" }
 
-    var isParent: Bool { return !children.isEmpty }
-
-    var children: [Location] {
-        let filter = "countryId = \(countryId) AND countryId !=id"
-        return data.get(locations: filter)
-    }
 }

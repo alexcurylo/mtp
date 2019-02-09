@@ -60,4 +60,9 @@ extension CountryJSON: CustomDebugStringConvertible {
     override var description: String {
         return countryName
     }
+
+    var children: [Location] {
+        let filter = "countryId = \(countryId) AND countryId != id"
+        return data.get(locations: filter)
+    }
 }
