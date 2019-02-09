@@ -16,7 +16,8 @@ final class WithableTests: XCTestCase {
             $0.backgroundColor = .green
             $0.tintColor = .red
         }
-        let copy = UIView().with {
+        let frame = CGRect(x: 10, y: 10, width: 10, height: 10)
+        let copy = UIView(frame: frame).with {
             $0.alpha = 0.42
             $0.backgroundColor = .green
             $0.tintColor = .red
@@ -33,5 +34,6 @@ final class WithableTests: XCTestCase {
             XCTAssertEqual(expected.backgroundColor, actual.backgroundColor)
             XCTAssertEqual(expected.tintColor, actual.tintColor)
         }
+        XCTAssertEqual(frame, copy.frame)
     }
 }
