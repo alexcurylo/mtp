@@ -125,12 +125,12 @@ private extension MyAboutVC {
         for link in user.links {
             guard !link.text.isEmpty else { continue }
 
-            let label: UILabel = create {
+            let label = UILabel {
                 $0.text = link.text.uppercased()
                 $0.font = Avenir.heavy.of(size: 10)
                 $0.alpha = 0.7
             }
-            let button: GradientButton = create {
+            let button = GradientButton {
                 $0.orientation = GradientOrientation.horizontal.rawValue
                 $0.startColor = .dodgerBlue
                 $0.endColor = .azureRadiance

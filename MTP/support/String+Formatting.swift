@@ -23,7 +23,7 @@ extension String {
 
 extension Formatter {
 
-    static let grouping: NumberFormatter = create {
+    static let grouping = NumberFormatter {
         $0.usesGroupingSeparator = true
         $0.numberStyle = .decimal
         $0.locale = Locale.current

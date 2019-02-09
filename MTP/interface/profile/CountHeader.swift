@@ -36,7 +36,7 @@ final class CountHeader: UICollectionReusableView {
         static let fontSize = CGFloat(18)
     }
 
-    private let label: UILabel = create {
+    private let label = UILabel {
         $0.font = Avenir.heavy.of(size: Layout.fontSize)
     }
 
@@ -68,7 +68,6 @@ private extension CountHeader {
 
         addSubview(label)
         label.edgeAnchors == edgeAnchors + Layout.insets
-
         let tap = UITapGestureRecognizer(target: self,
                                          action: #selector(tapped))
         addGestureRecognizer(tap)

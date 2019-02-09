@@ -4,15 +4,19 @@ import Parchment
 
 final class MyProfilePagingVC: FixedPagingViewController, ServiceProvider {
 
-    init() {
+    static var profile: MyProfilePagingVC {
         let controllers = [
             R.storyboard.myAbout.myAbout(),
             R.storyboard.myCounts.myCounts(),
             R.storyboard.myPhotos.myPhotos(),
             R.storyboard.myPosts.myPosts()
         ].compactMap { $0 }
-        super.init(viewControllers: controllers)
 
+        return MyProfilePagingVC(viewControllers: controllers)
+    }
+
+    override init(viewControllers: [UIViewController]) {
+        super.init(viewControllers: viewControllers)
         configure()
     }
 

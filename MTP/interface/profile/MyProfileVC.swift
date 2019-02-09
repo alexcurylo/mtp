@@ -65,7 +65,7 @@ private extension MyProfileVC {
     func setupPagesHolder() {
         guard let holder = pagesHolder else { return }
 
-        let pagesVC = MyProfilePagingVC()
+        let pagesVC = MyProfilePagingVC.profile
         addChild(pagesVC)
         holder.addSubview(pagesVC.view)
         pagesVC.view.edgeAnchors == holder.edgeAnchors

@@ -53,7 +53,7 @@ final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let backgroundView: GradientView = create {
+        let backgroundView = GradientView {
             $0.set(gradient: [.dodgerBlue, .azureRadiance],
                    orientation: .topRightBottomLeft)
         }

@@ -21,17 +21,17 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
                                                 right: 0)
    }
 
-    private let avatarImageView: UIImageView = create {
+    private let avatarImageView = UIImageView {
         $0.heightAnchor == Layout.avatarSize
         $0.widthAnchor == Layout.avatarSize
         $0.cornerRadius = Layout.avatarSize / 2
         $0.backgroundColor = .mercury
         $0.contentMode = .scaleAspectFill
     }
-    private let rankLabel: UILabel = create {
+    private let rankLabel = UILabel {
         $0.font = Avenir.medium.of(size: 15)
     }
-    private let filterLabel: UILabel = create {
+    private let filterLabel = UILabel {
         $0.font = Avenir.medium.of(size: 15)
         $0.textColor = .white
     }
@@ -78,7 +78,7 @@ private extension RankingHeader {
     func configure() {
         backgroundColor = .clear
 
-        let rankTitle: UILabel = create {
+        let rankTitle = UILabel {
             $0.font = Avenir.heavy.of(size: 18)
             $0.text = Localized.myRanking()
             $0.setContentHuggingPriority(.required, for: .horizontal)
@@ -88,7 +88,7 @@ private extension RankingHeader {
         rankLine.spacing = Layout.spacing
         rankLine.alignment = .center
 
-        let rankView: UIView = create {
+        let rankView = UIView {
             $0.backgroundColor = .white
             $0.cornerRadius = Layout.cornerRadius
         }
@@ -96,7 +96,7 @@ private extension RankingHeader {
         rankLine.leadingAnchor == rankView.leadingAnchor + Layout.spacing
         rankLine.centerYAnchor == rankView.centerYAnchor
 
-        let filterTitle: UILabel = create {
+        let filterTitle = UILabel {
             $0.font = Avenir.black.of(size: 18)
             $0.text = Localized.topTravelers()
             $0.textColor = .white

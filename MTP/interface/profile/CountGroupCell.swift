@@ -21,7 +21,7 @@ final class CountGroupCell: UICollectionViewCell {
         static let fontSize = CGFloat(17)
     }
 
-    private let label: UILabel = create {
+    private let label = UILabel {
         $0.font = Avenir.heavy.of(size: Layout.fontSize)
     }
 

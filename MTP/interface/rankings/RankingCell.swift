@@ -16,14 +16,14 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         static let overlap = CGFloat(-8)
     }
 
-    private let avatarImageView: UIImageView = create {
+    private let avatarImageView = UIImageView {
         $0.heightAnchor == Layout.avatarSize
         $0.widthAnchor == Layout.avatarSize
         $0.cornerRadius = Layout.avatarSize / 2
         $0.backgroundColor = .mercury
         $0.contentMode = .scaleAspectFill
     }
-    private let rankLabel: UILabel = create {
+    private let rankLabel = UILabel {
         $0.font = Avenir.heavy.of(size: 10)
         $0.heightAnchor == Layout.rankSize
         $0.widthAnchor == Layout.avatarSize - Layout.margin
@@ -32,18 +32,18 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         $0.textAlignment = .center
     }
 
-    private let nameLabel: UILabel = create {
+    private let nameLabel = UILabel {
         $0.font = Avenir.heavy.of(size: 18)
     }
-    private let countryLabel: UILabel = create {
+    private let countryLabel = UILabel {
         $0.font = Avenir.medium.of(size: 15)
     }
 
-    private let visitedButton: GradientButton = create {
+    private let visitedButton = GradientButton {
         configure(button: $0)
         $0.addTarget(self, action: #selector(tapVisited), for: .touchUpInside)
     }
-    private let remainingButton: GradientButton = create {
+    private let remainingButton = GradientButton {
         configure(button: $0)
         $0.addTarget(self, action: #selector(tapRemaining), for: .touchUpInside)
     }

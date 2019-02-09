@@ -72,7 +72,7 @@ private class RankingPagingView: PagingView {
     override func configure() {
         super.configure()
 
-        let menuBackground: GradientView = create {
+        let menuBackground = GradientView {
             $0.set(gradient: [.dodgerBlue, .azureRadiance],
                    orientation: .horizontal)
         }
@@ -101,11 +101,11 @@ private class RankingPagingView: PagingView {
 
 private class RankingPagingCell: PagingCell {
 
-    private let imageView: UIImageView = create {
+    private let imageView = UIImageView {
         $0.contentMode = .scaleAspectFit
     }
 
-    private let titleLabel: UILabel = create {
+    private let titleLabel = UILabel {
         $0.font = Avenir.heavy.of(size: 10)
         $0.textColor = .black
         $0.textAlignment = .center

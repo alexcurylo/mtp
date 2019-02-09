@@ -36,10 +36,10 @@ final class CountToggleCell: UICollectionViewCell {
         static let subtitleSize = CGFloat(14)
     }
 
-    private let titleLabel: UILabel = create {
+    private let titleLabel = UILabel {
         $0.font = Avenir.medium.of(size: Layout.titleSize)
     }
-    private let subtitleLabel: UILabel = create {
+    private let subtitleLabel = UILabel {
         $0.font = Avenir.oblique.of(size: Layout.subtitleSize)
     }
 

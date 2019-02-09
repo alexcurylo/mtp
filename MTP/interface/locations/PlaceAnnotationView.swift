@@ -23,7 +23,7 @@ final class PlaceAnnotationView: MKMarkerAnnotationView {
 
         markerTintColor = place.background
         glyphImage = place.image
-        let visit: UISwitch = create {
+        let visit = UISwitch {
             $0.isOn = place.visited
             $0.addTarget(self,
                          action: #selector(toggleVisit),
