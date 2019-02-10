@@ -2,7 +2,7 @@
 
 import UIKit
 
-final class WelcomeVC: UIViewController {
+final class WelcomeVC: UIViewController, ServiceProvider {
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -2,7 +2,7 @@
 
 import UIKit
 
-final class RootVC: UIViewController {
+final class RootVC: UIViewController, ServiceProvider {
 
     @IBOutlet private var credentials: UIView?
     @IBOutlet private var credentialsBottom: NSLayoutConstraint?
@@ -16,7 +16,7 @@ final class RootVC: UIViewController {
             return false
         }
 
-        return gestalt.isLoggedIn
+        return data.isLoggedIn
     }
 
     override func viewDidLoad() {
@@ -29,7 +29,6 @@ final class RootVC: UIViewController {
         hide(navBar: animated)
 
         if isloggedIn {
-            MTPAPI.refreshUser()
             credentials?.isHidden = true
             credentialsBottom?.constant = 0
             performSegue(withIdentifier: R.segue.rootVC.showMain, sender: self)

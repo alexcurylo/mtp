@@ -1,9 +1,8 @@
 // @copyright Trollwerks Inc.
 
 import Photos
-import UIKit
 
-final class MyPhotosVC: UICollectionViewController {
+final class MyPhotosVC: UICollectionViewController, ServiceProvider {
 
     private enum Layout {
         static let minItemSize = CGFloat(100)

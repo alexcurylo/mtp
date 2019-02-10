@@ -40,9 +40,27 @@ extension AppDelegate {
 
 // MARK: - SwiftyBeaver
 
-//https://docs.swiftybeaver.com
+// https://docs.swiftybeaver.com
 
-let swiftyBeaver = SwiftyBeaver.self
+private let swiftyBeaver = SwiftyBeaver.self
+
+struct SwiftyBeaverLoggingService: LoggingService {
+
+    func custom(level: LoggingLevel,
+                message: @autoclosure () -> Any,
+                file: String,
+                function: String,
+                line: Int,
+                context: Any?) {
+        let sbLevel = SwiftyBeaver.Level(rawValue: level.rawValue) ?? .verbose
+        swiftyBeaver.custom(level: sbLevel,
+                            message: message,
+                            file: file,
+                            function: function,
+                            line: line,
+                            context: context)
+    }
+}
 
 extension AppDelegate {
 

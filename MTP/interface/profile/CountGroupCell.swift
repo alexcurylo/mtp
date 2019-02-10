@@ -10,7 +10,7 @@ final class CountGroupCell: UICollectionViewCell {
              count: Int,
              visited: Int) {
 
-        label.text = Localized.regionVisitedCount(key, visited, count)
+        label.text = Localized.locationVisitedCount(key, visited, count)
     }
 
     private enum Layout {
@@ -21,7 +21,7 @@ final class CountGroupCell: UICollectionViewCell {
         static let fontSize = CGFloat(17)
     }
 
-    private let label: UILabel = create {
+    private let label = UILabel {
         $0.font = Avenir.heavy.of(size: Layout.fontSize)
     }
 

@@ -2,7 +2,7 @@
 
 import UIKit
 
-final class MyAboutVC: UITableViewController {
+final class MyAboutVC: UITableViewController, ServiceProvider {
 
     @IBOutlet private var rankingLabel: UILabel?
     @IBOutlet private var mapImageView: UIImageView?
@@ -16,8 +16,8 @@ final class MyAboutVC: UITableViewController {
 
     @IBOutlet private var linksStack: UIStackView?
 
-    var userObserver: Observer?
-    var locationsObserver: Observer?
+    private var locationsObserver: Observer?
+    private var userObserver: Observer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,21 +65,20 @@ extension MyAboutVC {
 private extension MyAboutVC {
 
     func observe() {
-        guard userObserver == nil else { return }
+        guard locationsObserver == nil else { return }
 
         configure()
-        userObserver = gestalt.userObserver { [weak self] in
+
+        locationsObserver = Checklist.locations.observer { [weak self] _ in
             self?.configure()
         }
-        locationsObserver = Checklist.locations.observer { [weak self] in
+        userObserver = data.observer(of: .user) { [weak self] _ in
             self?.configure()
         }
     }
 
     func configure() {
-        guard let user = gestalt.user else { return }
-
-        log.todo("configure about")
+        guard let user = data.user else { return }
 
         configure(ranking: user)
         configure(airport: user)
@@ -87,25 +86,27 @@ private extension MyAboutVC {
         configure(links: user)
     }
 
-    func configure(ranking user: User) {
-        let rank = 9_999
+    func configure(ranking user: UserJSON) {
+        let list = Checklist.locations
+
+        let rank = list.rank()
         let ranking = Localized.ranking(rank.grouped)
         rankingLabel?.text = ranking
 
-        let visited = Localized.visited(user.visited)
+        let status = list.status(of: user)
+        let visited = Localized.visited(status.visited)
         visitedButton?.setTitle(visited, for: .normal)
-
-        let remaining = Localized.remaining(user.remaining)
+        let remaining = Localized.remaining(status.remaining)
         remainingButton?.setTitle(remaining, for: .normal)
 
         bioTextView?.text = user.bio
     }
 
-    func configure(airport user: User) {
+    func configure(airport user: UserJSON) {
         airportLabel?.text = user.airport
     }
 
-    func configure(favorite user: User) {
+    func configure(favorite user: UserJSON) {
         let fakeNames = [ "Greater Blue Mountains Area",
                           "Shark Bay",
                           "Purnululu National Park",
@@ -116,7 +117,7 @@ private extension MyAboutVC {
         favoriteTags?.append(contentsOf: fakeNames)
     }
 
-    func configure(links user: User) {
+    func configure(links user: UserJSON) {
         guard let views = linksStack?.arrangedSubviews else { return }
         (2..<views.count).forEach { index in
             views[index].removeFromSuperview()
@@ -125,12 +126,12 @@ private extension MyAboutVC {
         for link in user.links {
             guard !link.text.isEmpty else { continue }
 
-            let label: UILabel = create {
+            let label = UILabel {
                 $0.text = link.text.uppercased()
                 $0.font = Avenir.heavy.of(size: 10)
                 $0.alpha = 0.7
             }
-            let button: GradientButton = create {
+            let button = GradientButton {
                 $0.orientation = GradientOrientation.horizontal.rawValue
                 $0.startColor = .dodgerBlue
                 $0.endColor = .azureRadiance
@@ -157,7 +158,7 @@ private extension MyAboutVC {
     @IBAction func tapLink(_ sender: GradientButton) {
         if let link = sender.accessibilityIdentifier,
            let url = URL(string: link) {
-            UIApplication.shared.open(url)
+            app.open(url)
         }
     }
 }

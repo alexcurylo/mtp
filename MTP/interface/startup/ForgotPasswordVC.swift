@@ -2,7 +2,7 @@
 
 import UIKit
 
-final class ForgotPasswordVC: UIViewController {
+final class ForgotPasswordVC: UIViewController, ServiceProvider {
 
     @IBOutlet private var alertHolder: UIView?
     @IBOutlet private var bottomY: NSLayoutConstraint?
@@ -14,7 +14,7 @@ final class ForgotPasswordVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        email = gestalt.email
+        email = data.email
         let message = R.string.localizable.sendLink(email.hiddenName)
         messageLabel?.text = message
     }
@@ -50,12 +50,12 @@ final class ForgotPasswordVC: UIViewController {
 private extension ForgotPasswordVC {
 
     @IBAction func continueTapped(_ sender: GradientButton) {
-        MTPAPI.userForgotPassword(email: email) { [weak self] result in
+        mtp.userForgotPassword(email: email) { [weak self] result in
             switch result {
             case .success:
                 self?.performSegue(withIdentifier: R.segue.forgotPasswordVC.dismissForgotPassword, sender: self)
             case .failure(let error):
-                log.todo("handle error calling /forgotPassword: \(String(describing: error))")
+                self?.log.todo("handle error calling /forgotPassword: \(String(describing: error))")
                 self?.performSegue(withIdentifier: R.segue.forgotPasswordVC.dismissForgotPassword, sender: self)
             }
         }

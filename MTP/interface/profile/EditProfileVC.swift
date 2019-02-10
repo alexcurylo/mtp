@@ -2,7 +2,7 @@
 
 import UIKit
 
-final class EditProfileVC: UITableViewController {
+final class EditProfileVC: UITableViewController, ServiceProvider {
 
     @IBOutlet private var backgroundView: UIView?
 
@@ -33,7 +33,7 @@ final class EditProfileVC: UITableViewController {
         case R.segue.editProfileVC.saveEdits.identifier:
             saveEdits()
         case R.segue.editProfileVC.unwindFromEditProfile.identifier:
-            gestalt.logOut()
+            data.logOut()
         case R.segue.editProfileVC.cancelEdits.identifier,
              R.segue.editProfileVC.showConfirmDelete.identifier:
             break
@@ -48,16 +48,16 @@ final class EditProfileVC: UITableViewController {
 private extension EditProfileVC {
 
     func saveEdits() {
-        log.todo("MTPAPI.implement saveEdits")
+        log.todo("implement saveEdits")
     }
 
     @IBAction func deleteAccount(segue: UIStoryboardSegue) {
-        MTPAPI.userDeleteAccount { [weak self] result in
+        mtp.userDeleteAccount { [weak self] result in
             switch result {
             case .success:
                 self?.performSegue(withIdentifier: R.segue.editProfileVC.unwindFromEditProfile, sender: self)
             case .failure(let error):
-                log.todo("handle error calling /deleteAccount: \(String(describing: error))")
+                self?.log.todo("handle error calling /deleteAccount: \(String(describing: error))")
             }
         }
     }

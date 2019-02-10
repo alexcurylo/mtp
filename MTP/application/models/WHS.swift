@@ -1,52 +1,85 @@
 // @copyright Trollwerks Inc.
 
 import CoreLocation
+import RealmSwift
 
-struct WHS: Codable {
+struct WHSJSON: Codable {
 
-    let active: String? // not in staging
-    let countVisitors: Int? // not in staging
+    let active: String
     let id: Int
-    let lat: UncertainValue<Double, String> // Double in staging, String in production
-    let location: PlaceLocation
-    let locationId: UncertainValue<Int, String> // Int in staging, String in production
-    let long: UncertainValue<Double, String> // Double in staging, String in production
+    let lat: Double
+    let location: PlaceLocation? // nil in 1154?
+    let locationId: Int? // nil in 1159?
+    let long: Double
+    let parentId: Int?
+    let rank: Int
     let title: String
     let unescoId: Int
     let visitors: Int
 }
 
-extension WHS: CustomStringConvertible {
+extension WHSJSON: CustomStringConvertible {
 
     public var description: String {
         return "\(String(describing: title)) (\(String(describing: unescoId)))"
     }
 }
 
-extension WHS: CustomDebugStringConvertible {
+extension WHSJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
-        < Location: \(description):
-        active: \(String(describing: active))
-        count_visitors: \(String(describing: countVisitors))
+        < WHSJSON: \(description):
+        active: \(active)
         id: \(id)
-        lat: \(String(describing: lat))
+        lat: \(lat)
         location: \(String(describing: location))
         locationId: \(String(describing: locationId))
-        long: \(String(describing: long))
+        long: \(long)
+        parentId: \(String(describing: parentId))
+        rank: \(rank)
         title: \(title)
         unescoId: \(unescoId)
         visitors: \(visitors)
-        /Location >
+        /WHSJSON >
         """
+    }
+}
+
+@objcMembers final class WHS: Object {
+
+    dynamic var countryName: String = ""
+    dynamic var id: Int = 0
+    dynamic var lat: Double = 0
+    dynamic var long: Double = 0
+    dynamic var regionName: String = ""
+    dynamic var title: String = ""
+
+    override static func primaryKey() -> String? {
+        return "id"
+    }
+
+    convenience init?(from: WHSJSON) {
+        guard from.active == "Y" else { return nil }
+        self.init()
+
+        countryName = from.location?.countryName ?? Localized.unknown()
+        id = from.id
+        lat = from.lat
+        long = from.long
+        regionName = from.location?.regionName ?? Localized.unknown()
+        title = from.title
+    }
+
+    override var description: String {
+        return title
     }
 }
 
 extension WHS: PlaceInfo {
 
     var placeCountry: String {
-        return location.countryName
+        return countryName
     }
 
     var placeId: Int {
@@ -58,20 +91,16 @@ extension WHS: PlaceInfo {
     }
 
     var placeRegion: String {
-        return location.regionName
+        return regionName
     }
 }
 
 extension WHS {
 
-    static var count: Int {
-        return gestalt.whss.count
-    }
-
     var coordinate: CLLocationCoordinate2D {
         return CLLocationCoordinate2D(
-            latitude: lat.doubleValue ?? 0,
-            longitude: long.doubleValue ?? 0
+            latitude: lat,
+            longitude: long
         )
     }
 

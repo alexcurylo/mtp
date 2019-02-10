@@ -2,7 +2,7 @@
 
 import Foundation
 
-typealias NotificationHandler = () -> Void
+typealias NotificationHandler = ([AnyHashable: Any]) -> Void
 
 @objc protocol Observer {
 
@@ -39,29 +39,34 @@ class ObserverImpl: Observer {
     }
 
     func subscribe() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(receiveNotification(_:)),
-                                               name: notification,
-                                               object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(receive(notification:)),
+            name: notification,
+            object: nil
+        )
     }
 
     func unsubscribe() {
-        NotificationCenter.default.removeObserver(self,
-                                                  name: notification,
-                                                  object: nil)
+        NotificationCenter.default.removeObserver(
+            self,
+            name: notification,
+            object: nil
+        )
     }
 
-    @objc func receiveNotification(_ notification: Notification) {
+    @objc func receive(notification: Notification) {
         if let userInfo = notification.userInfo,
            let status = userInfo[key] as? String,
            value == status {
-            notify()
+            notify(userInfo)
         }
     }
 }
 
 enum StatusKey: String {
     case change
+    case value
 }
 
 protocol Observable {
@@ -69,14 +74,19 @@ protocol Observable {
     var statusKey: StatusKey { get }
     var notification: Notification.Name { get }
 
-    func notifyObservers(about changeTo: String)
+    func notify(observers changed: String,
+                info: [AnyHashable: Any])
 }
 
 extension Observable {
 
-    func notifyObservers(about changeTo: String) {
-        NotificationCenter.default.post(name: notification,
-                                        object: self,
-                                        userInfo: [statusKey.rawValue: changeTo])
+    func notify(observers changed: String,
+                info: [AnyHashable: Any] = [:]) {
+        var userInfo = info
+        userInfo[statusKey.rawValue] = changed
+        NotificationCenter.default.post(
+            name: notification,
+            object: self,
+            userInfo: userInfo)
     }
 }

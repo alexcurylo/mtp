@@ -45,7 +45,7 @@ extension UIView {
     func apply(gradient colors: [UIColor],
                orientation: GradientOrientation? = .vertical,
                locations: [Float] = []) {
-        let apply: CAGradientLayer = gradient ?? create { [weak self] in
+        let apply: CAGradientLayer = gradient ?? CAGradientLayer { [weak self] in
             $0.name = UIView.gradientLayerName
             self?.layer.insertSublayer($0, at: 0)
         }

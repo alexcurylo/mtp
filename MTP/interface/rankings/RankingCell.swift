@@ -1,8 +1,9 @@
 // @copyright Trollwerks Inc.
 
 import Anchorage
+import Nuke
 
-final class RankingCell: UICollectionViewCell {
+final class RankingCell: UICollectionViewCell, ServiceProvider {
 
     static let reuseIdentifier = NSStringFromClass(RankingCell.self)
 
@@ -15,13 +16,14 @@ final class RankingCell: UICollectionViewCell {
         static let overlap = CGFloat(-8)
     }
 
-    private let avatarImageView: UIImageView = create {
+    private let avatarImageView = UIImageView {
         $0.heightAnchor == Layout.avatarSize
         $0.widthAnchor == Layout.avatarSize
         $0.cornerRadius = Layout.avatarSize / 2
         $0.backgroundColor = .mercury
+        $0.contentMode = .scaleAspectFill
     }
-    private let rankLabel: UILabel = create {
+    private let rankLabel = UILabel {
         $0.font = Avenir.heavy.of(size: 10)
         $0.heightAnchor == Layout.rankSize
         $0.widthAnchor == Layout.avatarSize - Layout.margin
@@ -30,21 +32,23 @@ final class RankingCell: UICollectionViewCell {
         $0.textAlignment = .center
     }
 
-    private let nameLabel: UILabel = create {
+    private let nameLabel = UILabel {
         $0.font = Avenir.heavy.of(size: 18)
     }
-    private let countryLabel: UILabel = create {
+    private let countryLabel = UILabel {
         $0.font = Avenir.medium.of(size: 15)
     }
 
-    private let visitedButton: GradientButton = create {
+    private let visitedButton = GradientButton {
         configure(button: $0)
         $0.addTarget(self, action: #selector(tapVisited), for: .touchUpInside)
     }
-    private let remainingButton: GradientButton = create {
+    private let remainingButton = GradientButton {
         configure(button: $0)
         $0.addTarget(self, action: #selector(tapRemaining), for: .touchUpInside)
     }
+
+    private var current: User?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -57,23 +61,39 @@ final class RankingCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func set(user: User, for rank: Int) {
-        log.todo("avatar")
-        avatarImageView.image = nil
+    func set(user: User,
+             for rank: Int,
+             in list: Checklist) {
+        current = user
+
         rankLabel.text = rank.grouped
-
         nameLabel.text = user.fullName
-        countryLabel.text = user.country.countryName
+        countryLabel.text = user.locationName
 
-        let visited = Localized.visited(user.visited)
+        guard user.id != 0 else {
+            nameLabel.text = Localized.loading()
+            avatarImageView.image = nil
+            visitedButton.isHidden = true
+            remainingButton.isHidden = true
+            return
+        }
+
+        avatarImageView.set(thumbnail: user)
+
+        let status = list.status(of: user)
+        visitedButton.isHidden = false
+        let visited = Localized.visited(status.visited)
         visitedButton.setTitle(visited, for: .normal)
-        let remaining = Localized.remaining(user.remaining)
+        remainingButton.isHidden = false
+        let remaining = Localized.remaining(status.remaining)
         remainingButton.setTitle(remaining, for: .normal)
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
 
+        current = nil
+        Nuke.cancelRequest(for: avatarImageView)
         avatarImageView.image = nil
         rankLabel.text = nil
         nameLabel.text = nil

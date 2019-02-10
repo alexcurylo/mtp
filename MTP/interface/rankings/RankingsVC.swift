@@ -2,18 +2,16 @@
 
 import Anchorage
 import Parchment
-import UIKit
 
-final class RankingsVC: UIViewController {
+final class RankingsVC: UIViewController, ServiceProvider {
 
     @IBOutlet private var pagesHolder: UIView?
 
-    private let pagingVC = RankingPagingVC()
+    private let pagingVC = RankingsPagingVC()
+    private let pages = ListPagingItem.pages
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        gestalt.rankingsFilter = nil
 
         configurePagesHolder()
     }
@@ -45,6 +43,7 @@ final class RankingsVC: UIViewController {
     }
 
     func updateFilter() {
+        mtp.refreshRankings()
         pagingVC.reloadData()
     }
 }
@@ -67,7 +66,7 @@ private extension RankingsVC {
 
         pagingVC.dataSource = self
         pagingVC.delegate = self
-        pagingVC.select(pagingItem: RankingPagingItem.pages[0])
+        pagingVC.select(pagingItem: ListPagingItem.pages[0])
     }
 
     func update(menu height: CGFloat) {
@@ -79,13 +78,11 @@ extension RankingsVC: PagingViewControllerDataSource {
 
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  viewControllerForIndex index: Int) -> UIViewController {
-        let viewController = RankingVC(options: pagingViewController.options)
+        let viewController = RankingsPageVC(options: pagingViewController.options)
         viewController.delegate = self
-        viewController.set(
-            members: RankingPagingItem.pages[index].members,
-            filter: gestalt.rankingsFilter)
+        viewController.set(list: pages[index].list)
 
-        let insets = UIEdgeInsets(top: RankingPagingVC.Layout.menuHeight,
+        let insets = UIEdgeInsets(top: RankingsPagingVC.Layout.menuHeight,
                                   left: 0,
                                   bottom: 0,
                                   right: 0)
@@ -97,36 +94,35 @@ extension RankingsVC: PagingViewControllerDataSource {
 
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  pagingItemForIndex index: Int) -> T {
-        guard let result = RankingPagingItem.pages[index] as? T else {
-            fatalError("RankingPagingItem type failure")
+        guard let result = pages[index] as? T else {
+            fatalError("ListPagingItem type failure")
         }
         return result
     }
 
     func numberOfViewControllers<T>(in: PagingViewController<T>) -> Int {
-        return RankingPagingItem.pages.count
+        return pages.count
     }
 }
 
-extension RankingsVC: RankingVCDelegate {
+extension RankingsVC: RankingsPageVCDelegate {
 
-    func didScroll(rankingVC: RankingVC) {
-        let height = pagingVC.menuHeight(for: rankingVC.collectionView)
+    func didScroll(rankingsPageVC: RankingsPageVC) {
+        let height = pagingVC.menuHeight(for: rankingsPageVC.collectionView)
         update(menu: height)
     }
 }
 
 extension RankingsVC: PagingViewControllerDelegate {
 
-    // swiftlint:disable:next function_parameter_count
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  isScrollingFromItem currentPagingItem: T,
                                  toItem upcomingPagingItem: T?,
                                  startingViewController: UIViewController,
                                  destinationViewController: UIViewController?,
                                  progress: CGFloat) {
-        guard let destinationViewController = destinationViewController as? RankingVC else { return }
-        guard let startingViewController = startingViewController as? RankingVC else { return }
+        guard let destinationViewController = destinationViewController as? RankingsPageVC else { return }
+        guard let startingViewController = startingViewController as? RankingsPageVC else { return }
 
         let from = pagingVC.menuHeight(for: startingViewController.collectionView)
         let to = pagingVC.menuHeight(for: destinationViewController.collectionView)

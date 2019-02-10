@@ -4,7 +4,7 @@ import Anchorage
 import Parchment
 import UIKit
 
-final class MyCountsPagingVC: PagingViewController<MyCountsPagingItem> {
+final class MyCountsPagingVC: PagingViewController<ListPagingItem> {
 
     enum Layout {
         static let insets = UIEdgeInsets(top: 8,
@@ -72,7 +72,7 @@ private class MyCountsPagingView: PagingView {
     override func configure() {
         super.configure()
 
-        let menuBackground: GradientView = create {
+        let menuBackground = GradientView {
             $0.set(gradient: [.dodgerBlue, .azureRadiance],
                    orientation: .horizontal)
         }
@@ -101,11 +101,11 @@ private class MyCountsPagingView: PagingView {
 
 private class MyCountsPagingCell: PagingCell {
 
-    private let imageView: UIImageView = create {
+    private let imageView = UIImageView {
         $0.contentMode = .scaleAspectFit
     }
 
-    private let titleLabel: UILabel = create {
+    private let titleLabel = UILabel {
         $0.font = Avenir.heavy.of(size: 10)
         $0.textColor = .black
         $0.textAlignment = .center
@@ -136,8 +136,8 @@ private class MyCountsPagingCell: PagingCell {
     override func setPagingItem(_ pagingItem: PagingItem,
                                 selected: Bool,
                                 options: PagingOptions) {
-        guard let item = pagingItem as? MyCountsPagingItem else {
-            fatalError("MyCountsPagingItem type failure")
+        guard let item = pagingItem as? ListPagingItem else {
+            fatalError("ListPagingItem type failure")
         }
 
         imageView.image = item.list.image

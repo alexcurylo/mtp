@@ -2,7 +2,7 @@
 
 import KRProgressHUD
 
-final class LoginVC: UIViewController {
+final class LoginVC: UIViewController, ServiceProvider {
 
     @IBOutlet private var emailTextField: UITextField?
     @IBOutlet private var passwordTextField: UITextField?
@@ -49,10 +49,10 @@ final class LoginVC: UIViewController {
             let alert = R.segue.loginVC.presentLoginFail(segue: segue)
             alert?.destination.errorMessage = errorMessage
             hide(navBar: true)
-            gestalt.email = emailTextField?.text ?? ""
+            data.email = emailTextField?.text ?? ""
         case R.segue.loginVC.presentForgotPassword.identifier:
             hide(navBar: true)
-            gestalt.email = emailTextField?.text ?? ""
+            data.email = emailTextField?.text ?? ""
         case R.segue.loginVC.showMain.identifier,
              R.segue.loginVC.switchSignup.identifier,
              R.segue.loginVC.unwindFromLogin.identifier:
@@ -102,8 +102,8 @@ private extension LoginVC {
     func login(email: String, password: String) {
         KRProgressHUD.show(withMessage: Localized.loggingIn())
 
-        MTPAPI.userLogin(email: email,
-                         password: password) { [weak self] result in
+        mtp.userLogin(email: email,
+                      password: password) { [weak self] result in
             switch result {
             case .success:
                 KRProgressHUD.showSuccess(withMessage: Localized.success())

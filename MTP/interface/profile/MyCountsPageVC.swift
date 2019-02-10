@@ -2,14 +2,13 @@
 
 import Anchorage
 import Parchment
-import UIKit
 
 protocol MyCountsPageVCDelegate: AnyObject {
 
     func didScroll(myCountsPageVC: MyCountsPageVC)
 }
 
-final class MyCountsPageVC: UIViewController {
+final class MyCountsPageVC: UIViewController, ServiceProvider {
 
     private enum Layout {
         static let headerHeight = CGFloat(32)
@@ -42,7 +41,7 @@ final class MyCountsPageVC: UIViewController {
     typealias Country = String
     typealias Location = String
 
-    private var list: Checklist?
+    private var list: Checklist = .locations
 
     private var regions: [Region] = []
     private var regionsPlaces: [Region: [PlaceInfo]] = [:]
@@ -52,11 +51,13 @@ final class MyCountsPageVC: UIViewController {
     private var countries: [Region: [Country]] = [:]
     private var countriesPlaces: [Region: [Country: [PlaceInfo]]] = [:]
     private var countriesVisited: [Region: [Country: Int]] = [:]
-    //private var countriesExpanded: [Region: [Country: Bool]] = [:]
 
     private var locations: [Region: [Country: [Location]]] = [:]
     private var locationsPlaces: [Region: [Country: [Location: [PlaceInfo]]]] = [:]
     private var locationsVisited: [Region: [Country: [Location: Int]]] = [:]
+
+    private var checklistsObserver: Observer?
+    private var placesObserver: Observer?
 
     init(options: PagingOptions) {
         super.init(nibName: nil, bundle: nil)
@@ -154,9 +155,9 @@ extension MyCountsPageVC: UICollectionViewDataSource {
             return 0
         }
 
-        switch list?.hierarchy {
-        case .country?,
-             .regionSubgrouped?:
+        switch list.hierarchy {
+        case .country,
+             .regionSubgrouped:
             let regionCountries = countries[key]?.count ?? 0
             return regionPlaces.count + regionCountries
         default:
@@ -173,7 +174,6 @@ extension MyCountsPageVC: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: identifier,
             for: indexPath)
-        guard let list = list else { return cell }
 
         switch cell {
         case let counter as CountToggleCell:
@@ -204,9 +204,9 @@ extension MyCountsPageVC: UICollectionViewDataSource {
         let key = regions[indexPath.section]
         var countdown = indexPath.row
 
-        switch list?.hierarchy {
-        case .country?,
-             .regionSubgrouped?:
+        switch list.hierarchy {
+        case .country,
+             .regionSubgrouped:
             let regionCountries = countries[key] ?? []
             for country in regionCountries {
                 let countryPlaces = countriesPlaces[key]?[country] ?? []
@@ -233,8 +233,16 @@ extension MyCountsPageVC: UICollectionViewDataSource {
     }
 
     func observe() {
-        // checklists
-        // places
+        guard checklistsObserver == nil else { return }
+
+        checklistsObserver = data.observer(of: .checklists) { [weak self] _ in
+            guard let self = self else { return }
+            self.set(list: self.list)
+        }
+        placesObserver = list.observer { [weak self] _ in
+            guard let self = self else { return }
+            self.set(list: self.list)
+        }
     }
 }
 
@@ -255,13 +263,11 @@ private extension MyCountsPageVC {
 
     func count(places: [PlaceInfo],
                visits: [Int]) {
-        let groupCountries = (list?.isGrouped ?? false) || (list?.isSubgrouped ?? false)
-        regionsExpanded = [:]
+        let groupCountries = list.isGrouped || list.isSubgrouped
         regionsVisited = [:]
         countries = [:]
         countriesPlaces = [:]
         countriesVisited = [:]
-        //countriesExpanded = [:]
 
         regionsPlaces = Dictionary(grouping: places) { $0.placeRegion }
         regions = regionsPlaces.keys.sorted()
@@ -275,7 +281,6 @@ private extension MyCountsPageVC {
 
             if !groupCountries { continue }
 
-            //countriesExpanded[region] = [:]
             let countryPlaces = Dictionary(grouping: regionPlaces) { $0.placeCountry }
             countriesPlaces[region] = countryPlaces
             countries[region] = countryPlaces.keys.sorted()

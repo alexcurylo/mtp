@@ -2,19 +2,13 @@
 
 import Anchorage
 import Parchment
-import UIKit
 
-final class MyCountsVC: UIViewController {
+final class MyCountsVC: UIViewController, ServiceProvider {
 
     @IBOutlet private var pagesHolder: UIView?
 
     private let pagingVC = MyCountsPagingVC()
-
-    private let pages: [MyCountsPagingItem] = {
-        Checklist.allCases.compactMap { list in
-            MyCountsPagingItem(list: list)
-        }
-    }()
+    private let pages = ListPagingItem.pages
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,8 +77,7 @@ extension MyCountsVC: PagingViewControllerDataSource {
                                  viewControllerForIndex index: Int) -> UIViewController {
         let viewController = MyCountsPageVC(options: pagingViewController.options)
         viewController.delegate = self
-        viewController.set(
-            list: pages[index].list)
+        viewController.set(list: pages[index].list)
 
         let insets = UIEdgeInsets(top: MyCountsPagingVC.Layout.menuHeight,
                                   left: 0,
@@ -99,7 +92,7 @@ extension MyCountsVC: PagingViewControllerDataSource {
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  pagingItemForIndex index: Int) -> T {
         guard let result = pages[index] as? T else {
-            fatalError("MyCountsPagingItem type failure")
+            fatalError("ListPagingItem type failure")
         }
         return result
     }
@@ -119,7 +112,6 @@ extension MyCountsVC: MyCountsPageVCDelegate {
 
 extension MyCountsVC: PagingViewControllerDelegate {
 
-    // swiftlint:disable:next function_parameter_count
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  isScrollingFromItem currentPagingItem: T,
                                  toItem upcomingPagingItem: T?,

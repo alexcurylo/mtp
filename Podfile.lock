@@ -45,10 +45,16 @@ PODS:
   - Moya/Core (12.0.1):
     - Alamofire (~> 4.1)
     - Result (~> 4.0)
+  - Nuke (7.5.2)
   - Parchment (1.5.0)
   - R.swift (5.0.2):
     - R.swift.Library (~> 5.0.0)
   - R.swift.Library (5.0.0)
+  - Realm (3.13.1):
+    - Realm/Headers (= 3.13.1)
+  - Realm/Headers (3.13.1)
+  - RealmSwift (3.13.1):
+    - Realm (= 3.13.1)
   - Result (4.1.0)
   - SwiftLint (0.30.1)
   - SwiftyBeaver (1.6.1)
@@ -67,8 +73,11 @@ DEPENDENCIES:
   - JWTDecode
   - KRProgressHUD
   - Moya
+  - Nuke
   - Parchment
   - R.swift
+  - Realm
+  - RealmSwift
   - SwiftLint
   - SwiftyBeaver
 
@@ -88,9 +97,12 @@ SPEC REPOS:
     - KRActivityIndicatorView
     - KRProgressHUD
     - Moya
+    - Nuke
     - Parchment
     - R.swift
     - R.swift.Library
+    - Realm
+    - RealmSwift
     - Result
     - SwiftLint
     - SwiftyBeaver
@@ -110,13 +122,16 @@ SPEC CHECKSUMS:
   KRActivityIndicatorView: c414000730a6f4969eeb354bee4f2aebc89c2c2e
   KRProgressHUD: 79c8703f82179fe34b3602f10b30726f887983fa
   Moya: cf730b3cd9e005401ef37a85143aa141a12fd38f
+  Nuke: 0350d346a688426e8f2331253ef28dc2fc4f6178
   Parchment: 5a8c9c73549a6d73a7c1b606c27246910d2e5720
   R.swift: 81455d81467763cbd3f4d79d938d05f4ac4c0228
   R.swift.Library: 0bf390e729bc10bb2c9e4fb78bd043164a7be4ff
+  Realm: 50071da38fe079e0735e47c9f2eae738c68c5996
+  RealmSwift: 8a1e6a02b7a08cd17a31e3115143fb69fe5f3fb9
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
   SwiftLint: a54bf1fe12b55c68560eb2a7689dfc81458508f7
   SwiftyBeaver: ccfcdf85a04d429f1633f668650b0ce8020bda3a
 
-PODFILE CHECKSUM: a3ad7f7f1e49a15524b0742deccdcec07c5da914
+PODFILE CHECKSUM: 2b33349e983ee51f7b10bea827b1267255acdc5f
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.0

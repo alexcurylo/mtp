@@ -1,1 +1,0 @@
-../../../../AppCenter/AppCenter-SDK-Apple/iOS/AppCenterDistribute.framework/Headers/MSReleaseDetails.h

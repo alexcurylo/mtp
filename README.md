@@ -1,10 +1,17 @@
 # [mtp](https://github.com/alexcurylo/mtp)
 [![Travis](https://travis-ci.org/alexcurylo/mtp.svg?branch=develop)](https://travis-ci.org/alexcurylo/mtp)
 [![AppCenter](https://build.appcenter.ms/v0.1/apps/ac2fc09b-92be-47cb-b23c-3e523b23bced/branches/develop/badge)](https://appcenter.ms)
+[![codebeat](https://codebeat.co/badges/321a44b1-ff7b-48fd-b8e2-42a5a8d19568)](https://codebeat.co/projects/github-com-alexcurylo-mtp-develop)
 [![Coverage](https://coveralls.io/repos/github/alexcurylo/mtp/badge.svg?branch=develop)](https://coveralls.io/github/alexcurylo/mtp?branch=develop)
+[![docs](https://alexcurylo.github.io/mtp/badge.svg)](https://alexcurylo.github.io/mtp)
+[![Swift](https://img.shields.io/badge/Swift-4.2-orange.svg)](https://swift.org)
+[![Xcode](https://img.shields.io/badge/Xcode-10.1-blue.svg)](https://developer.apple.com/xcode)
+[![MIT](https://img.shields.io/badge/License-MIT-red.svg)](https://opensource.org/licenses/MIT)
+
 [![Issues](https://img.shields.io/github/issues/alexcurylo/mtp.svg)](https://github.com/alexcurylo/mtp/issues)
 [![Waffle](https://badge.waffle.io/alexcurylo/mtp.svg?columns=all)](https://waffle.io/alexcurylo/mtp)
-[![codebeat](https://codebeat.co/badges/321a44b1-ff7b-48fd-b8e2-42a5a8d19568)](https://codebeat.co/projects/github-com-alexcurylo-mtp-develop)
+[![Join the chat at https://gitter.im/alexcurylo/mtp](https://badges.gitter.im/alexcurylo/mtp.svg)](https://gitter.im/alexcurylo/mtp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
+
 
 Table of Contents
 -----------------
@@ -25,34 +32,37 @@ The [Most Traveled People](https://mtp.travel) iOS app.
 Requirements
 ------------
 
-- Xcode 10.0 or later
+- Xcode 10.1 or later
 - iOS 11.0 or later
 
 ### Tools:
 
 - [AppCenter](https://appcenter.ms/) for distribution management
-- [Bundler](https://bundler.io/) for dependency management
-- [CocoaPods](https://cocoapods.org/) for dependency management
+- [Bundler](https://bundler.io/) for Ruby dependency management
+- [CocoaPods](https://cocoapods.org/) for iOS dependency management
+- [codebeat](https://codebeat.co/projects/github-com-alexcurylo-mtp-develop) for automated code review
 - [Coveralls](https://coveralls.io/github/alexcurylo/mtp?branch=develop) for test coverage statistics
 - [Danger](http://danger.systems/ruby/) for automated code review
+- [Gitter](https://gitter.im/alexcurylo/mtp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) for chat
 - [Slather](https://github.com/SlatherOrg/slather) for test coverage reports
 - [SwiftLint](https://github.com/realm/SwiftLint) for opinionated coding style enforcement
 - [SwiftyBeaver](https://github.com/SwiftyBeaver/SwiftyBeaver) for logging
 - [Travis-CI](https://travis-ci.org/alexcurylo/mtp) for test builds
+- [Waffle](https://waffle.io/alexcurylo/mtp) for project management
 
 ### Libraries:
 
-- [Anchorage](https://github.com/Raizlabs/Anchorage) for fluent layout declarations
 - [Alamofire](https://github.com/Alamofire/Alamofire) for HTTP networking
-- [Facebook SDK](https://github.com/facebook/facebook-objc-sdk) for Facebook support
-- [Facebook SDK in Swift](https://github.com/facebook/facebook-sdk-swift) wrapping Facebook SDK
+- [Anchorage](https://github.com/Raizlabs/Anchorage) for fluent layout declarations
+- [Facebook SDK in Swift](https://github.com/facebook/facebook-sdk-swift)  for Facebook support
 - [JWTDecode](https://github.com/auth0/JWTDecode.swift) for [JSON Web Token](https://jwt.io) management
 - [KRProgressHUD](https://github.com/krimpedance/KRProgressHUD) for progress management
 - [Moya](https://github.com/Moya/Moya) for network endpoint abstraction
+- [Nuke](https://github.com/kean/Nuke) for networked image loading
 - [Parchment](https://github.com/rechsteiner/Parchment) for view paging
 - [R.swift](https://github.com/mac-cain13/R.swift/) for typed resource identifiers
+- [Realm Swift](https://github.com/realm/realm-cocoa) for data management
 - [Result](https://github.com/antitypical/Result) for operation result modelling
-- [Tags](https://github.com/pikachu987/Tags) for tag management
 
 Usage
 -----
@@ -76,7 +86,7 @@ Author
 
 [![web: trollwerks.com](http://img.shields.io/badge/web-www.trollwerks.com-blue.svg)](http://trollwerks.com) 
 [![twitter: @trollwerks](http://img.shields.io/badge/twitter-%40trollwerks-blue.svg)](https://twitter.com/trollwerks) 
-[![email: alex@trollwerks.com](http://img.shields.io/badge/email-alex%40trollwerks.com-blue.svg)](mailto:alex@trollwerks.com) [![Join the chat at https://gitter.im/alexcurylo/mtp](https://badges.gitter.im/alexcurylo/mtp.svg)](https://gitter.im/alexcurylo/mtp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
+[![email: alex@trollwerks.com](http://img.shields.io/badge/email-alex%40trollwerks.com-blue.svg)](mailto:alex@trollwerks.com)
 
 License
 -------

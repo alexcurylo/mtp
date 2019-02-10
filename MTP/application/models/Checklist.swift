@@ -2,7 +2,7 @@
 
 import UIKit
 
-enum Checklist: String, CaseIterable {
+enum Checklist: String, Codable, CaseIterable, ServiceProvider {
 
     case locations
     case uncountries
@@ -12,26 +12,46 @@ enum Checklist: String, CaseIterable {
     case divesites
     case restaurants
 
-    var path: String {
-        return "me/checklists/" + rawValue
-    }
+    typealias Status = (visited: Int, remaining: Int)
 
-    var title: String {
+    var background: UIColor {
+        let background: UIColor?
         switch self {
         case .locations:
-            return Localized.locations()
+            background = R.color.locations()
         case .uncountries:
-            return Localized.uncountries()
+            background = R.color.uncountries()
         case .whss:
-            return Localized.whss()
+            background = R.color.whss()
         case .beaches:
-            return Localized.beaches()
+            background = R.color.beaches()
         case .golfcourses:
-            return Localized.golfcourses()
+            background = R.color.golfcourses()
         case .divesites:
-            return Localized.divesites()
+            background = R.color.divesites()
         case .restaurants:
-            return Localized.restaurants()
+            background = R.color.restaurants()
+        }
+        // swiftlint:disable:next force_unwrapping
+        return background!
+    }
+
+    var hierarchy: Hierarchy {
+        switch self {
+        case .locations:
+            return .regionSubgrouped
+        case .uncountries:
+            return .region
+        case .whss:
+            return .country
+        case .beaches:
+            return .regionSubtitled
+        case .golfcourses:
+            return .regionSubtitled
+        case .divesites:
+            return .regionSubtitled
+        case .restaurants:
+            return .regionSubtitled // by region/country/location on website
         }
     }
 
@@ -57,103 +77,6 @@ enum Checklist: String, CaseIterable {
         return image!
     }
 
-    var background: UIColor {
-        let background: UIColor?
-        switch self {
-        case .locations:
-            background = R.color.locations()
-        case .uncountries:
-            background = R.color.uncountries()
-        case .whss:
-            background = R.color.whss()
-        case .beaches:
-            background = R.color.beaches()
-        case .golfcourses:
-            background = R.color.golfcourses()
-        case .divesites:
-            background = R.color.divesites()
-        case .restaurants:
-            background = R.color.restaurants()
-        }
-        // swiftlint:disable:next force_unwrapping
-        return background!
-    }
-
-    var visits: [Int] {
-        // swiftlint:disable:next discouraged_optional_collection
-        let visits: [Int]?
-        switch self {
-        case .locations:
-            visits = gestalt.checklists?.locations
-        case .uncountries:
-            visits = gestalt.checklists?.uncountries
-        case .whss:
-            visits = gestalt.checklists?.whss
-        case .beaches:
-            visits = gestalt.checklists?.beaches
-        case .golfcourses:
-            visits = gestalt.checklists?.golfcourses
-        case .divesites:
-            visits = gestalt.checklists?.divesites
-        case .restaurants:
-            visits = gestalt.checklists?.restaurants
-        }
-        return visits ?? []
-    }
-
-    var places: [PlaceInfo] {
-        let places: [PlaceInfo]
-        switch self {
-        case .locations:
-            places = gestalt.locations
-        case .uncountries:
-            places = gestalt.uncountries
-        case .whss:
-            places = gestalt.whss
-        case .beaches:
-            places = gestalt.beaches
-        case .golfcourses:
-            places = gestalt.golfcourses
-        case .divesites:
-            places = gestalt.divesites
-        case .restaurants:
-            places = gestalt.restaurants
-        }
-        return places
-    }
-
-    func isVisited(id: Int) -> Bool {
-        return visits.contains(id)
-    }
-
-    func set(id: Int,
-             visited: Bool) {
-        guard isVisited(id: id) != visited else { return }
-
-        gestalt.checklists?.set(list: self,
-                                id: id,
-                                visited: visited)
-    }
-
-    var hierarchy: Hierarchy {
-        switch self {
-        case .locations:
-            return .regionSubgrouped
-        case .uncountries:
-            return .region
-        case .whss:
-            return .country
-        case .beaches:
-            return .regionSubtitled
-        case .golfcourses:
-            return .regionSubtitled
-        case .divesites:
-            return .regionSubtitled
-        case .restaurants:
-            return .regionSubtitled // by region/country/location on website
-        }
-    }
-
     var isGrouped: Bool {
         return hierarchy.isGrouped
     }
@@ -164,6 +87,150 @@ enum Checklist: String, CaseIterable {
 
     var isSubtitled: Bool {
         return hierarchy.isSubtitled
+    }
+
+    func isVisited(id: Int) -> Bool {
+        return visits.contains(id)
+    }
+
+    var places: [PlaceInfo] {
+        let places: [PlaceInfo]
+        switch self {
+        case .locations:
+            places = data.locations
+        case .uncountries:
+            places = data.uncountries
+        case .whss:
+            places = data.whss
+        case .beaches:
+            places = data.beaches
+        case .golfcourses:
+            places = data.golfcourses
+        case .divesites:
+            places = data.divesites
+        case .restaurants:
+            places = data.restaurants
+        }
+        return places
+    }
+
+    var path: String {
+        return "me/checklists/" + rawValue
+    }
+
+    func set(id: Int,
+             visited: Bool) {
+        guard isVisited(id: id) != visited else { return }
+
+        data.checklists?.set(list: self,
+                             id: id,
+                             visited: visited)
+    }
+
+    func rank(of user: UserJSON? = nil) -> Int {
+        guard let user = user ?? data.user else { return 0 }
+
+        switch self {
+        case .locations:
+            return user.rankLocations
+        case .uncountries:
+            return user.rankUncountries
+        case .whss:
+            return user.rankWhss
+        case .beaches:
+            return user.rankBeaches
+        case .golfcourses:
+            return user.rankGolfcourses
+        case .divesites:
+            return user.rankDivesites
+        case .restaurants:
+            return user.rankRestaurants
+        }
+    }
+
+    func remaining(of user: UserInfo) -> Int {
+        return status(of: user).remaining
+    }
+
+    func status(of user: UserInfo) -> Status {
+        let total: Int
+        switch self {
+        case .locations:
+            total = data.locations.count
+        case .uncountries:
+            total = data.uncountries.count
+        case .whss:
+            total = data.whss.count
+        case .beaches:
+            total = data.beaches.count
+        case .golfcourses:
+            total = data.golfcourses.count
+        case .divesites:
+            total = data.divesites.count
+        case .restaurants:
+            total = data.restaurants.count
+        }
+        let complete = visited(of: user)
+        return (complete, total - complete)
+    }
+
+    var title: String {
+        switch self {
+        case .locations:
+            return Localized.locations()
+        case .uncountries:
+            return Localized.uncountries()
+        case .whss:
+            return Localized.whss()
+        case .beaches:
+            return Localized.beaches()
+        case .golfcourses:
+            return Localized.golfcourses()
+        case .divesites:
+            return Localized.divesites()
+        case .restaurants:
+            return Localized.restaurants()
+        }
+    }
+
+    func visited(of user: UserInfo) -> Int {
+        switch self {
+        case .locations:
+            return user.scoreLocations
+        case .uncountries:
+            return user.scoreUncountries
+        case .whss:
+            return user.scoreWhss
+        case .beaches:
+            return user.scoreBeaches
+        case .golfcourses:
+            return user.scoreGolfcourses
+        case .divesites:
+            return user.scoreDivesites
+        case .restaurants:
+            return user.scoreRestaurants
+        }
+    }
+
+    var visits: [Int] {
+        guard let checklists = data.checklists else { return [] }
+
+        switch self {
+        case .locations:
+            return checklists.locations
+        case .uncountries:
+            return checklists.uncountries
+        case .whss:
+            return checklists.whss
+        case .beaches:
+            return checklists.beaches
+        case .golfcourses:
+            return checklists.golfcourses
+        case .divesites:
+            return checklists.divesites
+        case .restaurants:
+            return checklists.restaurants
+        }
     }
 }
 

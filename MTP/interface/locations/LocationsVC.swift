@@ -140,25 +140,25 @@ private extension LocationsVC {
     }
 
     func observe() {
-        beachesObserver = Checklist.beaches.observer { [weak self] in
+        beachesObserver = Checklist.beaches.observer { [weak self] _ in
             self?.showBeaches()
         }
-        divesitesObserver = Checklist.divesites.observer { [weak self] in
+        divesitesObserver = Checklist.divesites.observer { [weak self] _ in
             self?.showDiveSites()
         }
-        golfcoursesObserver = Checklist.golfcourses.observer { [weak self] in
+        golfcoursesObserver = Checklist.golfcourses.observer { [weak self] _ in
             self?.showGolfCourses()
         }
-        locationsObserver = Checklist.locations.observer { [weak self] in
+        locationsObserver = Checklist.locations.observer { [weak self] _ in
             self?.showBeaches()
         }
-        restaurantsObserver = Checklist.restaurants.observer { [weak self] in
+        restaurantsObserver = Checklist.restaurants.observer { [weak self] _ in
             self?.showRestaurants()
         }
-        uncountriesObserver = Checklist.uncountries.observer { [weak self] in
+        uncountriesObserver = Checklist.uncountries.observer { [weak self] _ in
             self?.showUNCountries()
         }
-        whssObserver = Checklist.whss.observer { [weak self] in
+        whssObserver = Checklist.whss.observer { [weak self] _ in
             self?.showWHSs()
         }
     }
@@ -177,7 +177,7 @@ private extension LocationsVC {
     }
 
     func showBeaches() {
-        let new = Set<PlaceAnnotation>(gestalt.beaches.map { place in
+        let new = Set<PlaceAnnotation>(data.beaches.map { place in
             PlaceAnnotation(type: .beaches,
                             id: place.id,
                             coordinate: place.coordinate,
@@ -195,7 +195,7 @@ private extension LocationsVC {
     }
 
     func showDiveSites() {
-        let new = Set<PlaceAnnotation>(gestalt.divesites.map { place in
+        let new = Set<PlaceAnnotation>(data.divesites.map { place in
             PlaceAnnotation(type: .divesites,
                             id: place.id,
                             coordinate: place.coordinate,
@@ -213,7 +213,7 @@ private extension LocationsVC {
     }
 
     func showGolfCourses() {
-        let new = Set<PlaceAnnotation>(gestalt.golfcourses.map { place in
+        let new = Set<PlaceAnnotation>(data.golfcourses.map { place in
             PlaceAnnotation(type: .golfcourses,
                             id: place.id,
                             coordinate: place.coordinate,
@@ -231,7 +231,7 @@ private extension LocationsVC {
     }
 
     func showLocations() {
-        let new = Set<PlaceAnnotation>(gestalt.locations.map { place in
+        let new = Set<PlaceAnnotation>(data.locations.map { place in
             PlaceAnnotation(type: .locations,
                             id: place.id,
                             coordinate: place.coordinate,
@@ -249,7 +249,7 @@ private extension LocationsVC {
     }
 
     func showRestaurants() {
-        let new = Set<PlaceAnnotation>(gestalt.restaurants.map { place in
+        let new = Set<PlaceAnnotation>(data.restaurants.map { place in
             PlaceAnnotation(type: .restaurants,
                             id: place.id,
                             coordinate: place.coordinate,
@@ -267,9 +267,9 @@ private extension LocationsVC {
     }
 
     func showUNCountries() {
-        let new = Set<PlaceAnnotation>(gestalt.uncountries.map { place in
+        let new = Set<PlaceAnnotation>(data.uncountries.map { place in
             PlaceAnnotation(type: .uncountries,
-                            id: place.id.intValue ?? 0,
+                            id: place.id,
                             coordinate: place.coordinate,
                             title: place.title,
                             subtitle: place.subtitle)
@@ -285,7 +285,7 @@ private extension LocationsVC {
     }
 
     func showWHSs() {
-        let new = Set<PlaceAnnotation>(gestalt.whss.map { place in
+        let new = Set<PlaceAnnotation>(data.whss.map { place in
             PlaceAnnotation(type: .whss,
                             id: place.id,
                             coordinate: place.coordinate,

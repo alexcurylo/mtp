@@ -1,18 +1,32 @@
 // @copyright Trollwerks Inc.
 
-import UIKit
+import Nuke
+import RealmSwift
 
-struct User: Codable {
+protocol UserInfo {
+
+    var gender: String { get }
+    var picture: String? { get }
+    var scoreBeaches: Int { get }
+    var scoreDivesites: Int { get }
+    var scoreGolfcourses: Int { get }
+    var scoreLocations: Int { get }
+    var scoreRestaurants: Int { get }
+    var scoreUncountries: Int { get }
+    var scoreWhss: Int { get }
+}
+
+struct UserJSON: Codable, UserInfo {
 
     let airport: String?
     let bio: String?
     let birthday: Date
-    let country: Country
-    let countryId: UncertainValue<Int, String> // Int in staging, String in production
+    let country: LocationJSON // still has 30 items
+    let countryId: Int
     let createdAt: Date
     let email: String
     let facebookEmail: String?
-    let facebookId: UncertainValue<Int, String> // Int in staging, String in production
+    let facebookId: Int?
     let facebookUserToken: String?
     let favoritePlaces: [FavoritePlace]
     let firstName: String
@@ -21,33 +35,40 @@ struct User: Codable {
     let id: Int
     let lastLogIn: String?
     let lastName: String
-    let location: Country
     let links: [Link]
-    let locationId: UncertainValue<Int, String> // Int in staging, String in production
+    let location: LocationJSON // still has 30 items
+    let locationId: Int
     let picture: String?
+    let rankBeaches: Int
+    let rankDivesites: Int
+    let rankGolfcourses: Int
+    let rankLocations: Int
+    let rankRestaurants: Int
+    let rankUncountries: Int
+    let rankWhss: Int
     let role: Int
-    let score: UncertainValue<Int, String> // Int in staging, String in production
-    let scoreBeaches: UncertainValue<Int, String> // Int in staging, String in production
-    let scoreDivesites: UncertainValue<Int, String> // Int in staging, String in production
-    let scoreGolfcourses: UncertainValue<Int, String> // Int in staging, String in production
-    let scoreLocations: UncertainValue<Int, String> // Int in staging, String in production
-    let scoreRestaurants: UncertainValue<Int, String> // Int in staging, String in production
-    let scoreUncountries: UncertainValue<Int, String> // Int in staging, String in production
-    let scoreWhss: UncertainValue<Int, String> // Int in staging, String in production
+    let score: Int
+    let scoreBeaches: Int
+    let scoreDivesites: Int
+    let scoreGolfcourses: Int
+    let scoreLocations: Int
+    let scoreRestaurants: Int
+    let scoreUncountries: Int
+    let scoreWhss: Int
     let status: String
     let token: String? // found only in login response
     let updatedAt: Date
     let username: String
 }
 
-extension User: CustomStringConvertible {
+extension UserJSON: CustomStringConvertible {
 
     public var description: String {
         return "\(username) (\(id))"
     }
 }
 
-extension User: CustomDebugStringConvertible {
+extension UserJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
@@ -55,7 +76,7 @@ extension User: CustomDebugStringConvertible {
             airport: \(String(describing: airport))
             bio: \(String(describing: bio))
             birthday: \(birthday)
-            country: \(country.debugDescription)
+            country: \(country)
             country_id: \(countryId)
             created_at: \(createdAt)
             email: \(email)
@@ -69,10 +90,17 @@ extension User: CustomDebugStringConvertible {
             id: \(id)
             last_log_in: \(String(describing: lastLogIn))
             last_name: \(lastName)
-            location: \(location.debugDescription)
+            location: \(location)
             links: \(links.debugDescription)
             location_id: \(locationId)
             picture: \(String(describing: picture))
+            rankBeaches: \(rankBeaches)
+            rankDivesites: \(rankDivesites)
+            rankGolfcourses: \(rankGolfcourses)
+            rankLocations: \(rankLocations)
+            rankRestaurants: \(rankRestaurants)
+            rankUncountries: \(rankUncountries)
+            rankWhss: \(rankWhss)
             role: \(role)
             score: \(score)
             score_beaches: \(scoreBeaches)
@@ -129,75 +157,96 @@ extension Link: CustomStringConvertible, CustomDebugStringConvertible {
     }
 }
 
-extension User {
+extension UserInfo {
 
-    var visited: Int {
-        return scoreLocations.intValue ?? 0
+    var imageUrl: URL? {
+        guard let uuid = picture, !uuid.isEmpty else { return nil }
+        let link = "https://mtp.travel/api/files/preview?uuid=\(uuid)&size=thumb"
+        return URL(string: link)
     }
 
-    var remaining: Int {
-        return Location.count - visited
-    }
-}
-
-enum Gender: Int, Codable {
-    case all
-    case female
-    case male
-}
-
-extension Gender: CustomStringConvertible, CustomDebugStringConvertible {
-
-    public var description: String {
-        switch self {
-        case .all: return ""
-        case .female: return Localized.female()
-        case .male: return Localized.male()
+    var placeholder: UIImage? {
+        switch gender {
+        case "F":
+            return R.image.placeholderFemaleThumb()
+        case "M":
+            return R.image.placeholderMaleThumb()
+        default:
+            return R.image.placeholderThumb()
         }
     }
+}
 
-    public var debugDescription: String {
-        return String(rawValue)
+extension UIImageView {
+
+    func set(thumbnail user: UserInfo) {
+        let placeholder = user.placeholder
+        guard let url = user.imageUrl else {
+            image = placeholder
+            return
+        }
+
+        Nuke.loadImage(
+            with: url,
+            options: ImageLoadingOptions(
+                placeholder: placeholder,
+                transition: .fadeIn(duration: 0.2)
+            ),
+            into: self
+        )
     }
 }
 
-struct UserFilter: Codable, Equatable {
+@objcMembers final class User: Object, UserInfo {
 
-    var countryId: Int?
-    var provinceId: Int?
-    var gender: Gender = .all
-    var ageMin: Int?
-    var ageMax: Int?
-    var facebook: Bool = false
-}
+    dynamic var fullName: String = ""
+    dynamic var gender: String = ""
+    dynamic var id: Int = 0
+    dynamic var locationName: String = ""
+    dynamic var picture: String?
+    dynamic var scoreBeaches: Int = 0
+    dynamic var scoreDivesites: Int = 0
+    dynamic var scoreGolfcourses: Int = 0
+    dynamic var scoreLocations: Int = 0
+    dynamic var scoreRestaurants: Int = 0
+    dynamic var scoreUncountries: Int = 0
+    dynamic var scoreWhss: Int = 0
 
-extension UserFilter: CustomStringConvertible, CustomDebugStringConvertible {
-
-    public var description: String {
-        return debugDescription
+    override static func primaryKey() -> String? {
+        return "id"
     }
 
-    public var debugDescription: String {
-        let components: [String] = [
-            locationDescription,
-            gender.description,
-            ageDescription,
-            facebookDescription
-        ].compactMap { $0 }.filter { !$0.isEmpty }
-        return components.joined(separator: Localized.join())
-    }
+    convenience init(from: RankedUserJSON) {
+        self.init()
 
-    private var locationDescription: String {
-        log.todo("UserFilter.location")
-        return Localized.allLocations()
-    }
+        fullName = from.fullName
+        gender = from.gender
+        id = from.id
+        locationName = from.location.description
+        picture = from.picture
+        scoreBeaches = from.scoreBeaches ?? 0
+        scoreDivesites = from.scoreDivesites ?? 0
+        scoreGolfcourses = from.scoreGolfcourses ?? 0
+        scoreLocations = from.scoreLocations ?? 0
+        scoreRestaurants = from.scoreRestaurants ?? 0
+        scoreUncountries = from.scoreUncountries ?? 0
+        scoreWhss = from.scoreWhss ?? 0
+   }
 
-    private var ageDescription: String? {
-        log.todo("UserFilter.ageDescription")
-        return nil
-    }
+    convenience init(from: UserJSON) {
+        self.init()
 
-    private var facebookDescription: String? {
-        return facebook ? Localized.facebookFriends() : nil
+        fullName = from.fullName
+        gender = from.gender
+        id = from.id
+        locationName = from.location.description
+        picture = from.picture
+        scoreBeaches = from.scoreBeaches
+        scoreDivesites = from.scoreDivesites
+        scoreGolfcourses = from.scoreGolfcourses
+        scoreLocations = from.scoreLocations
+        scoreRestaurants = from.scoreRestaurants
+        scoreUncountries = from.scoreUncountries
+        scoreWhss = from.scoreWhss
     }
 }

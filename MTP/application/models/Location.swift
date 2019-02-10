@@ -1,31 +1,23 @@
 // @copyright Trollwerks Inc.
 
 import CoreLocation
+import RealmSwift
 
-struct Location: Codable {
+struct LocationJSON: Codable {
 
-    let Country: String? // not in staging
-    let CountryId: Int? // not in staging
-    let Location: String? // not in staging
-    let RegionIDnew: String? // not in staging
-    let RegionName: String? // not in staging
-    let active: String? // not in staging
-    let adminLevel: Int? // not in staging
+    let active: String
+    let adminLevel: Int
     let airports: String?
     let countryId: Int
     let countryName: String
-    let countVisitors: Int? // not in staging
-    let dateUpdated: Date? // not in staging
-    let distance: UncertainValue<Double, String> // Double in staging, String in production
+    let distance: Double?
     let featuredImg: String?
     let id: Int
     let isMtpLocation: Int
     let isUn: Int
-    let lat: UncertainValue<Double, String> // Double in staging, String in production
-    let latitude: String?
+    let lat: Double?
     let locationName: String
-    let lon: UncertainValue<Double, String> // Double in staging, String in production
-    let longitude: String?
+    let lon: Double?
     let rank: Int
     let rankUn: Int
     let regionId: Int
@@ -34,48 +26,94 @@ struct Location: Codable {
     let visitorsUn: Int
     let weather: String?
     let weatherhist: String?
-    let zoom: UncertainValue<Int, String> // Int in staging, String in production
+    let zoom: Int?
 }
 
-extension Location: CustomStringConvertible {
+extension LocationJSON: CustomStringConvertible {
 
     public var description: String {
-        return "\(String(describing: countryName)) (\(String(describing: countryId)))"
+        if !countryName.isEmpty
+            && !locationName.isEmpty
+            && countryName != locationName {
+            return "\(locationName), \(countryName)"
+        }
+        return locationName.isEmpty ? countryName : locationName
     }
 }
 
-extension Location: CustomDebugStringConvertible {
+extension LocationJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
-        < Location: \(description):
-        Country: \(String(describing: Country))
-        CountryId: \(String(describing: CountryId))
-        Location: \(String(describing: Location))
-        RegionIDnew: \(String(describing: RegionIDnew))
-        RegionName: \(String(describing: RegionName))
-        active: \(String(describing: active))
-        admin_level: \(String(describing: adminLevel))
+        < LocationJSON: \(description):
+        active: \(active)
+        admin_level: \(adminLevel)
         airports: \(String(describing: airports))
-        countryId: \(String(describing: countryId))
-        countryName: \(String(describing: countryName))
-        count_visitors: \(String(describing: countVisitors))
-        dateUpdated: \(String(describing: dateUpdated))
+        countryId: \(countryId)
+        countryName: \(countryName)
         distance: \(String(describing: distance))
-        is_mtp_location: \(isMtpLocation)
+        featuredImg: \(String(describing: featuredImg))
         id: \(id)
+        is_mtp_location: \(isMtpLocation)
         is_un: \(isUn)
         lat: \(String(describing: lat))
-        latitude: \(String(describing: latitude))
-        lon: \(String(describing: lon))
-        longitude: \(String(describing: longitude))
         location_name: \(locationName)
+        lon: \(String(describing: lon))
         rank: \(rank)
-        region_id: \(String(describing: regionId))
-        region_name: \(String(describing: regionName))
+        rankUn: \(rankUn)
+        region_id: \(regionId)
+        region_name: \(regionName)
         visitors: \(visitors)
-        /Location >
+        visitorsUn: \(visitorsUn)
+        weather: \(String(describing: weather))
+        weatherhist: \(String(describing: weatherhist))
+        zoom: \(String(describing: zoom))
+        /LocationJSON >
         """
+    }
+}
+
+@objcMembers final class Location: Object {
+
+    dynamic var countryId: Int = 0
+    dynamic var countryName: String = ""
+    dynamic var id: Int = 0
+    dynamic var lat: Double?
+    dynamic var locationName: String = ""
+    dynamic var lon: Double?
+    dynamic var regionName: String = ""
+
+    override static func primaryKey() -> String? {
+        return "id"
+    }
+
+    convenience init(from: LocationJSON) {
+        self.init()
+
+        countryId = from.countryId
+        countryName = from.countryName
+        id = from.id
+        lat = from.lat
+        locationName = from.locationName
+        lon = from.lon
+        regionName = from.regionName
+    }
+
+    static var all: Location = {
+        let all = Location()
+        all.countryName = "(\(Localized.allCountries()))"
+        all.locationName = "(\(Localized.allLocations()))"
+        all.regionName = "(\(Localized.allRegions()))"
+        return all
+    }()
+
+    override var description: String {
+        if !countryName.isEmpty
+           && !locationName.isEmpty
+           && countryName != locationName {
+            return "\(locationName), \(countryName)"
+        }
+        return locationName.isEmpty ? countryName : locationName
     }
 }
 
@@ -100,15 +138,10 @@ extension Location: PlaceInfo {
 
 extension Location {
 
-    static var count: Int {
-        return gestalt.locations.count
-    }
-
     var coordinate: CLLocationCoordinate2D {
         return CLLocationCoordinate2D(
-            latitude: lat.doubleValue ?? 0,
-            longitude: lon.doubleValue ?? 0
-        )
+            latitude: lat ?? 0,
+            longitude: lon ?? 0)
     }
 
     var title: String { return locationName }

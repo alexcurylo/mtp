@@ -2,7 +2,8 @@
 
 import UIKit
 
-enum Avenir: String {
+enum Avenir: String, ServiceProvider {
+
     case light = "Avenir-Light"
     case lightOblique = "Avenir-LightOblique"
     case book = "Avenir-Book"

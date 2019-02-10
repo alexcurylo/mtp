@@ -1,9 +1,8 @@
 // @copyright Trollwerks Inc.
 
 import Anchorage
-import UIKit
 
-final class MyProfileVC: UIViewController {
+final class MyProfileVC: UIViewController, ServiceProvider {
 
     @IBOutlet private var headerView: UIView?
     @IBOutlet private var avatarImageView: UIImageView?
@@ -15,7 +14,7 @@ final class MyProfileVC: UIViewController {
 
     @IBOutlet private var pagesHolder: UIView?
 
-    var userObserver: Observer?
+    private var userObserver: Observer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,33 +59,13 @@ private extension MyProfileVC {
     }
 
     func setupHeaderView() {
-        guard let user = gestalt.user else { return }
-
         headerView?.round(corners: [.topLeft, .topRight], by: 5)
-
-        log.todo("avatar")
-
-        fullNameLabel?.text = user.fullName
-        countryLabel?.text = user.country.countryName
-
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
-        birthdayLabel?.text = dateFormatter.string(from: user.birthday)
-
-        log.todo("follow counts")
-        let followersCount = 9_999
-        let followers = Localized.followers(followersCount.grouped)
-        followersLabel?.text = followers
-        let followingCount = 9_999
-        let following = Localized.following(followingCount.grouped)
-        followingLabel?.text = following
     }
 
     func setupPagesHolder() {
         guard let holder = pagesHolder else { return }
 
-        let pagesVC = MyProfilePagingVC()
+        let pagesVC = MyProfilePagingVC.profile
         addChild(pagesVC)
         holder.addSubview(pagesVC.view)
         pagesVC.view.edgeAnchors == holder.edgeAnchors
@@ -97,18 +76,17 @@ private extension MyProfileVC {
         guard userObserver == nil else { return }
 
         configure()
-        userObserver = gestalt.userObserver { [weak self] in
+        userObserver = data.observer(of: .user) { [weak self] _ in
             self?.configure()
         }
     }
 
     func configure() {
-        guard let user = gestalt.user else { return }
+        guard let user = data.user else { return }
 
-        log.todo("avatar")
-
+        avatarImageView?.set(thumbnail: user)
         fullNameLabel?.text = user.fullName
-        countryLabel?.text = user.country.countryName
+        countryLabel?.text = user.location.description
 
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium

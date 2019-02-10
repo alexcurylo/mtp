@@ -2,7 +2,7 @@
 
 import UIKit
 
-final class SignupVC: UIViewController {
+final class SignupVC: UIViewController, ServiceProvider {
 
     @IBOutlet private var nameTextField: UITextField?
     @IBOutlet private var emailTextField: UITextField?
@@ -93,12 +93,12 @@ private extension SignupVC {
     }
 
     func register(name: String, email: String, password: String) {
-        MTPAPI.userRegister(name: name, email: email, password: password) { [weak self] result in
+        mtp.userRegister(name: name, email: email, password: password) { [weak self] result in
             switch result {
             case .success:
                 self?.performSegue(withIdentifier: R.segue.signupVC.showWelcome, sender: self)
             case .failure(let error):
-                log.todo("handle error calling /register: \(String(describing: error))")
+                self?.log.todo("handle error calling /register: \(String(describing: error))")
             }
         }
     }

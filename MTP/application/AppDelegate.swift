@@ -3,7 +3,7 @@
 import UIKit
 
 @UIApplicationMain
-final class AppDelegate: UIResponder, UIApplicationDelegate {
+final class AppDelegate: UIResponder, UIApplicationDelegate, ServiceProvider {
 
     var window: UIWindow?
 
@@ -35,7 +35,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        MTPAPI.applicationDidBecomeActive()
+        mtp.refreshEverything()
 
         logFacebookActivate()
     }

@@ -112,3 +112,5 @@ excluded:
 file_header:
   required_pattern: |
                     \/\/ @copyright Trollwerks Inc.
+
+function_parameter_count: 6

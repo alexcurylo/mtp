@@ -19,14 +19,14 @@ extension Date {
 
 extension DateFormatter {
 
-    static let mtpDay: DateFormatter = create {
+    static let mtpDay = DateFormatter {
         $0.dateFormat = "yyyy-MM-dd"
         $0.calendar = Calendar(identifier: .iso8601)
         $0.timeZone = TimeZone(secondsFromGMT: 0)
         $0.locale = Locale(identifier: "en_US_POSIX")
     }
 
-    static let mtpTime: DateFormatter = create {
+    static let mtpTime = DateFormatter {
         $0.dateFormat = "yyyy-MM-dd HH:mm:ss"
         $0.calendar = Calendar(identifier: .iso8601)
         $0.timeZone = TimeZone(secondsFromGMT: 0)

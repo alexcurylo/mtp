@@ -1,9 +1,8 @@
 // @copyright Trollwerks Inc.
 
 import Anchorage
-import UIKit
 
-final class MyPostsVC: UICollectionViewController {
+final class MyPostsVC: UICollectionViewController, ServiceProvider {
 
     private enum Layout {
         static let cellHeight = CGFloat(100)
@@ -11,7 +10,7 @@ final class MyPostsVC: UICollectionViewController {
 
     private var posts: [MyPostCellModel] = []
 
-    private let dateFormatter: DateFormatter = create {
+    private let dateFormatter = DateFormatter {
         $0.dateStyle = .long
         $0.timeStyle = .none
     }

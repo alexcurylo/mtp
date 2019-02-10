@@ -2,39 +2,39 @@
 
 // networking handling
 
-"Unknown" = "unknown";
-"Success" = "Success!";
-"Error" = "Error";
-"NetworkError" = "A network failure occurred: %@";
-"ResultError" = "Unexpected results were received. Please update to the latest app version.";
-"UnexpectedError" = "An unexpected error occurred. Please update to the latest app version.";
+"unknown" = "unknown";
+"success" = "Success!";
+"error" = "Error";
+"networkError" = "A network failure occurred: %@";
+"resultError" = "Unexpected results were received. Please update to the latest app version.";
+"unexpectedError" = "An unexpected error occurred. Please update to the latest app version.";
 
 // ForgotPasswordVC
 
-"SendLink" = "We will send a link to your email %@ enabling you to reset your password.";
+"sendLink" = "We will send a link to your email %@ enabling you to reset your password.";
 
 // LocationTracker
 
-"NeedLocationAccess" = "Need Location Access";
-"LocationAccessRequired" = "Location access is required for displaying nearby places.";
-"Cancel" = "Cancel";
-"AllowLocationAccess" = "Allow Location Access";
+"needLocationAccess" = "Need Location Access";
+"locationAccessRequired" = "Location access is required for displaying nearby places.";
+"cancel" = "Cancel";
+"allowLocationAccess" = "Allow Location Access";
 
 // LoginVC
 
-"LoggingIn" = "Logging in…";
+"loggingIn" = "Logging in…";
 
 // MyProfileVC
 
-"Followers" = "%@ Followers";
-"Following" = "%@ Following";
+"followers" = "%@ Followers";
+"following" = "%@ Following";
 
-"Ranking" = "MTP ranking: %@";
-"Visited" = "Visited: %ld";
-"Remaining" = "Remaining: %ld";
+"ranking" = "MTP ranking: %@";
+"visited" = "Visited: %ld";
+"remaining" = "Remaining: %ld";
 
-"RegionCount" = "%@ (%ld)";
-"RegionVisitedCount" = "%@ (%ld/%ld)";
+"locationCount" = "%@ (%ld)";
+"locationVisitedCount" = "%@ (%ld/%ld)";
 
 // RankingPage
 
@@ -46,14 +46,21 @@
 "divesites" = "Dive Sites";
 "restaurants" = "Restaurants";
 
-"MyRanking" = "My ranking:";
-"TopTravelers" = "Top Travelers:";
+"myRanking" = "My ranking:";
+"topTravelers" = "Top Travelers:";
 
-"Join" = ", ";
-"AllLocations" = "All locations";
-"Male" = "Male";
-"Female" = "Female";
-"FacebookFriends" = "Friends";
-"AgeRange" = "%@-%@";
-"Under20" = "Under 20";
-"Over79" = "Over 79";
+"loading" = "Loading…";
+
+"join" = ", ";
+"allCountries" = "All countries";
+"allLocations" = "All locations";
+"allRegions" = "All regions";
+"selectCountry" = "Select Country";
+"selectLocation" = "Select Location";
+"male" = "Male";
+"female" = "Female";
+"facebookFriends" = "Friends";
+"allAges" = "All ages";
+"ageRange" = "%ld-%ld";
+"under20" = "Under 20";
+"over80" = "Over 80";

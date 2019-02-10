@@ -5,20 +5,23 @@ platform :ios, $iosVersion
 
 target 'MTP' do
 
-  pod 'Anchorage', :inhibit_warnings => true
+  pod 'Anchorage'
   pod 'AppCenter'
   pod 'AppCenter/Distribute'
   pod 'Bolts', :modular_headers => true, :inhibit_warnings => true
   pod 'FacebookCore', :inhibit_warnings => true
   pod 'FacebookLogin'
   pod 'FacebookShare', :inhibit_warnings => true
-  pod 'FBSDKCoreKit', :modular_headers => true, :inhibit_warnings => true
-  pod 'FBSDKLoginKit', :modular_headers => true, :inhibit_warnings => true
+  pod 'FBSDKCoreKit', :modular_headers => true
+  pod 'FBSDKLoginKit', :modular_headers => true
   pod 'FBSDKShareKit', :modular_headers => true, :inhibit_warnings => true
   pod 'JWTDecode'
   pod 'KRProgressHUD'
   pod 'Moya'
+  pod 'Nuke'
   pod 'Parchment'
+  pod 'Realm', :modular_headers => true
+  pod 'RealmSwift'
   pod 'R.swift'
   pod 'SwiftLint'
   pod 'SwiftyBeaver'
@@ -39,11 +42,13 @@ plugin 'cocoapods-acknowledgements',
         'SwiftLint',
     ]
 
-# avoid 'set to 7.0' warnings in Xcode 10
 post_install do |installer|
     installer.pods_project.targets.each do |target|
         target.build_configurations.each do |config|
-            config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = $iosVersion
+            # patch SwiftLint
+            if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 8.0
+                config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '8.0'
+            end
         end
     end
 end
