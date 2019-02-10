@@ -803,7 +803,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-MTP/Pods-MTP-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-MTP/Pods-MTP-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/AppCenter/AppCenterDistributeResources.bundle",
 				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
 			);
@@ -814,7 +814,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MTP/Pods-MTP-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MTP/Pods-MTP-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		758B7A9DF0E27C737110216C /* [CP] Check Pods Manifest.lock */ = {

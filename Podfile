@@ -42,12 +42,12 @@ plugin 'cocoapods-acknowledgements',
         'SwiftLint',
     ]
 
-# avoid Validate Project Settings warnings with AppCenter/Distribute (1.13.0)
 post_install do |installer|
     installer.pods_project.targets.each do |target|
-        if target.name == 'AppCenter-AppCenterDistributeResources'
-            target.build_configurations.each do |config|
-                config.build_settings['PRODUCT_BUNDLE_IDENTIFIER'] = 'com.suppress.warnings'
+        target.build_configurations.each do |config|
+            # patch SwiftLint
+            if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 8.0
+                config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '8.0'
             end
         end
     end
