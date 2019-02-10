@@ -211,7 +211,8 @@ protocol MTPNetworkService {
                       password: String,
                       then: @escaping MTPResult<Bool>)
 
-    func refreshFromWebsite()
+    func refreshEverything()
+    func refreshRankings()
 }
 
 // swiftlint:disable:next type_body_length
@@ -820,37 +821,45 @@ extension HTTPURLResponse {
 
 extension MoyaMTPNetworkService {
 
-    private func refreshData() {
+    func refreshEverything() {
+        refreshUser()
+        refreshData()
+    }
+
+    func refreshRankings() {
+        var query = data.lastRankingsQuery
+        Checklist.allCases.forEach { list in
+            query.checklistType = list
+            loadRankings(query: query)
+        }
+    }
+}
+
+private extension MoyaMTPNetworkService {
+
+    func refreshData() {
         searchCountries { _ in
             self.loadLocations { _ in
-                self.refreshLocationUsingData()
+                self.refreshPlaces()
+                self.refreshRankings()
             }
         }
     }
 
-    private func refreshLocationUsingData() {
+    func refreshPlaces() {
         loadBeaches()
         loadDiveSites()
         loadGolfCourses()
         loadRestaurants()
         loadUNCountries()
         loadWHS()
-
-        Checklist.allCases.forEach {
-            loadRankings(query: RankingsQuery(list: $0))
-        }
     }
 
-    private func refreshUser() {
+    func refreshUser() {
         guard data.isLoggedIn else { return }
 
         userGetByToken()
         loadChecklists()
-    }
-
-    func refreshFromWebsite() {
-        refreshData()
-        refreshUser()
     }
 }
 

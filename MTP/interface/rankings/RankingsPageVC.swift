@@ -37,8 +37,8 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
     private var filterDescription = ""
     private var filterRank = 0
 
-    private var userObserver: Observer?
-    private var locationsObserver: Observer?
+    private var checklistsObserver: Observer?
+    private var rankingsObserver: Observer?
 
     init(options: PagingOptions) {
         super.init(nibName: nil, bundle: nil)
@@ -71,11 +71,8 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
         filter = data.lastRankingsQuery
         filter.checklistType = list
         filterDescription = filter.description
-        rankings = data.get(rankings: filter)
-        log.todo("RankingsPageVC rankings, filter)")
-        filterRank = list.rank()
 
-        collectionView.reloadData()
+        updateRankings()
         observe()
     }
 }
@@ -145,16 +142,26 @@ extension RankingsPageVC: UICollectionViewDataSource {
 private extension RankingsPageVC {
 
     func observe() {
-        guard userObserver == nil else { return }
+        guard checklistsObserver == nil else { return }
 
-        userObserver = data.userObserver { [weak self] in
-            self?.log.todo("RankingsPageVC update")
+        checklistsObserver = data.observer(of: .checklists) { [weak self] _ in
             self?.collectionView.reloadData()
         }
-        locationsObserver = Checklist.locations.observer { [weak self] in
-            self?.log.todo("RankingsPageVC update")
-            self?.collectionView.reloadData()
+        rankingsObserver = data.observer(of: .rankings) { [weak self] info in
+            guard let self = self,
+                  let queryValue = info[StatusKey.value.rawValue] as? RankingsQuery,
+                  queryValue.queryKey == self.filter.queryKey else { return }
+            self.updateRankings()
         }
+    }
+
+    func updateRankings() {
+        rankings = data.get(rankings: filter)
+
+        log.todo("RankingsPageVC rank for filter -- waiting for endpoint")
+        filterRank = filter.checklistType.rank()
+
+        collectionView.reloadData()
     }
 
     func user(at rank: Int) -> User {

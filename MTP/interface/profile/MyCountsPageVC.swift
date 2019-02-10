@@ -235,11 +235,11 @@ extension MyCountsPageVC: UICollectionViewDataSource {
     func observe() {
         guard checklistsObserver == nil else { return }
 
-        checklistsObserver = data.checklistsObserver { [weak self] in
+        checklistsObserver = data.observer(of: .checklists) { [weak self] _ in
             guard let self = self else { return }
             self.set(list: self.list)
         }
-        placesObserver = list.observer { [weak self] in
+        placesObserver = list.observer { [weak self] _ in
             guard let self = self else { return }
             self.set(list: self.list)
         }

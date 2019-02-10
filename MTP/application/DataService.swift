@@ -78,14 +78,14 @@ final class DataServiceImpl: DataService {
 
     func set(beaches: [PlaceJSON]) {
         realm.set(beaches: beaches)
-        notifyObservers(about: #function)
+        notify(change: .beaches)
     }
 
     var checklists: Checklists? {
         get { return defaults.checklists }
         set {
             defaults.checklists = newValue
-            notifyObservers(about: #function)
+            notify(change: .checklists)
         }
     }
 
@@ -99,7 +99,6 @@ final class DataServiceImpl: DataService {
 
     func set(countries: [CountryJSON]) {
         realm.set(countries: countries)
-        notifyObservers(about: #function)
     }
 
     var divesites: [DiveSite] {
@@ -108,14 +107,13 @@ final class DataServiceImpl: DataService {
 
     func set(divesites: [PlaceJSON]) {
         realm.set(divesites: divesites)
-        notifyObservers(about: #function)
+        notify(change: .divesites)
     }
 
     var email: String {
         get { return defaults.email }
         set {
             defaults.email = newValue
-            notifyObservers(about: #function)
         }
     }
 
@@ -123,7 +121,6 @@ final class DataServiceImpl: DataService {
         get { return defaults.etags }
         set {
             defaults.etags = newValue
-            notifyObservers(about: #function)
         }
     }
 
@@ -133,14 +130,13 @@ final class DataServiceImpl: DataService {
 
     func set(golfcourses: [PlaceJSON]) {
         realm.set(golfcourses: golfcourses)
-        notifyObservers(about: #function)
+        notify(change: .golfcourses)
     }
 
     var lastRankingsQuery: RankingsQuery {
         get { return defaults.lastRankingsQuery ?? RankingsQuery() }
         set {
             defaults.lastRankingsQuery = newValue
-            notifyObservers(about: #function)
         }
     }
 
@@ -158,14 +154,13 @@ final class DataServiceImpl: DataService {
 
     func set(locations: [LocationJSON]) {
         realm.set(locations: locations)
-        notifyObservers(about: #function)
+        notify(change: .locations)
     }
 
     var name: String {
         get { return defaults.name }
         set {
             defaults.name = newValue
-            notifyObservers(about: #function)
         }
     }
 
@@ -173,7 +168,6 @@ final class DataServiceImpl: DataService {
         get { return defaults.password }
         set {
             defaults.password = newValue
-            notifyObservers(about: #function)
         }
     }
 
@@ -188,7 +182,7 @@ final class DataServiceImpl: DataService {
         }
 
         realm.set(rankings: query, info: info)
-        notifyObservers(about: #function)
+        notify(change: .rankings, object: query)
     }
 
     var restaurants: [Restaurant] {
@@ -197,14 +191,13 @@ final class DataServiceImpl: DataService {
 
     func set(restaurants: [RestaurantJSON]) {
         realm.set(restaurants: restaurants)
-        notifyObservers(about: #function)
+        notify(change: .restaurants)
     }
 
     var token: String {
         get { return defaults.token }
         set {
             defaults.token = newValue
-            notifyObservers(about: #function)
         }
     }
 
@@ -214,14 +207,14 @@ final class DataServiceImpl: DataService {
 
     func set(uncountries: [LocationJSON]) {
         realm.set(uncountries: uncountries)
-        notifyObservers(about: #function)
+        notify(change: .uncountries)
     }
 
     var user: UserJSON? {
         get { return defaults.user }
         set {
             defaults.user = newValue
-            notifyObservers(about: #function)
+            notify(change: .user)
         }
     }
 
@@ -231,7 +224,7 @@ final class DataServiceImpl: DataService {
 
     func set(userId: UserJSON) {
         realm.set(userId: userId)
-        notifyObservers(about: #function)
+        notify(change: .userId)
     }
 
     var whss: [WHS] {
@@ -240,7 +233,7 @@ final class DataServiceImpl: DataService {
 
     func set(whss: [WHSJSON]) {
         realm.set(whss: whss)
-        notifyObservers(about: #function)
+        notify(change: .whss)
     }
 }
 
@@ -248,9 +241,17 @@ final class DataServiceImpl: DataService {
 
 enum DataServiceChange: String {
 
+    case beaches
     case checklists
+    case divesites
+    case golfcourses
+    case locations
+    case rankings
+    case restaurants
+    case uncountries
     case user
-    // and the contents of Checklist
+    case userId
+    case whss
 }
 
 final class DataServiceObserver: ObserverImpl {
@@ -259,14 +260,6 @@ final class DataServiceObserver: ObserverImpl {
     static let statusKey = StatusKey.change
 
     init(of value: DataServiceChange,
-         notify: @escaping NotificationHandler) {
-        super.init(notification: DataServiceObserver.notification,
-                   key: DataServiceObserver.statusKey,
-                   value: value.rawValue,
-                   notify: notify)
-    }
-
-    init(of value: Checklist,
          notify: @escaping NotificationHandler) {
         super.init(notification: DataServiceObserver.notification,
                    key: DataServiceObserver.statusKey,
@@ -285,18 +278,43 @@ extension DataService {
         return DataServiceObserver.notification
     }
 
-    func userObserver(handler: @escaping NotificationHandler) -> Observer {
-        return DataServiceObserver(of: .user, notify: handler)
+    func notify(change: DataServiceChange,
+                object: Any? = nil) {
+        var info: [AnyHashable: Any] = [:]
+        if let object = object {
+            info[StatusKey.value.rawValue] = object
+        }
+        notify(observers: change.rawValue, info: info)
     }
 
-    func checklistsObserver(handler: @escaping NotificationHandler) -> Observer {
-        return DataServiceObserver(of: .checklists, notify: handler)
+    func observer(of: DataServiceChange,
+                  handler: @escaping NotificationHandler) -> Observer {
+        return DataServiceObserver(of: of, notify: handler)
     }
 }
 
 extension Checklist {
 
     func observer(handler: @escaping NotificationHandler) -> Observer {
-        return DataServiceObserver(of: self, notify: handler)
+        return DataServiceObserver(of: change, notify: handler)
+    }
+
+    var change: DataServiceChange {
+        switch self {
+        case .beaches:
+            return .beaches
+        case .divesites:
+            return .divesites
+        case .golfcourses:
+            return .golfcourses
+        case .locations:
+            return .locations
+        case .restaurants:
+            return .restaurants
+        case .uncountries:
+            return .uncountries
+        case .whss:
+            return .whss
+        }
     }
 }

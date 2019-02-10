@@ -140,25 +140,25 @@ private extension LocationsVC {
     }
 
     func observe() {
-        beachesObserver = Checklist.beaches.observer { [weak self] in
+        beachesObserver = Checklist.beaches.observer { [weak self] _ in
             self?.showBeaches()
         }
-        divesitesObserver = Checklist.divesites.observer { [weak self] in
+        divesitesObserver = Checklist.divesites.observer { [weak self] _ in
             self?.showDiveSites()
         }
-        golfcoursesObserver = Checklist.golfcourses.observer { [weak self] in
+        golfcoursesObserver = Checklist.golfcourses.observer { [weak self] _ in
             self?.showGolfCourses()
         }
-        locationsObserver = Checklist.locations.observer { [weak self] in
+        locationsObserver = Checklist.locations.observer { [weak self] _ in
             self?.showBeaches()
         }
-        restaurantsObserver = Checklist.restaurants.observer { [weak self] in
+        restaurantsObserver = Checklist.restaurants.observer { [weak self] _ in
             self?.showRestaurants()
         }
-        uncountriesObserver = Checklist.uncountries.observer { [weak self] in
+        uncountriesObserver = Checklist.uncountries.observer { [weak self] _ in
             self?.showUNCountries()
         }
-        whssObserver = Checklist.whss.observer { [weak self] in
+        whssObserver = Checklist.whss.observer { [weak self] _ in
             self?.showWHSs()
         }
     }

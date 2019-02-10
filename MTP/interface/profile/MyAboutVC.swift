@@ -16,8 +16,8 @@ final class MyAboutVC: UITableViewController, ServiceProvider {
 
     @IBOutlet private var linksStack: UIStackView?
 
-    private var userObserver: Observer?
     private var locationsObserver: Observer?
+    private var userObserver: Observer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,13 +65,14 @@ extension MyAboutVC {
 private extension MyAboutVC {
 
     func observe() {
-        guard userObserver == nil else { return }
+        guard locationsObserver == nil else { return }
 
         configure()
-        userObserver = data.userObserver { [weak self] in
+
+        locationsObserver = Checklist.locations.observer { [weak self] _ in
             self?.configure()
         }
-        locationsObserver = Checklist.locations.observer { [weak self] in
+        userObserver = data.observer(of: .user) { [weak self] _ in
             self?.configure()
         }
     }

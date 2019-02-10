@@ -76,7 +76,7 @@ private extension MyProfileVC {
         guard userObserver == nil else { return }
 
         configure()
-        userObserver = data.userObserver { [weak self] in
+        userObserver = data.observer(of: .user) { [weak self] _ in
             self?.configure()
         }
     }

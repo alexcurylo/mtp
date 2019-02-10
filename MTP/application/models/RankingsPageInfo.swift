@@ -36,14 +36,14 @@ struct RankingsPageJSON: Codable {
     let currentPage: Int
     let data: [RankedUserJSON]
     let firstPageUrl: String
-    let from: Int
+    let from: Int? // nil if data empty
     let lastPage: Int
     let lastPageUrl: String
     let nextPageUrl: String?
     let path: String
     let perPage: Int
     let prevPageUrl: String?
-    let to: Int
+    let to: Int? // nil if data empty
     let total: Int
 }
 
@@ -62,14 +62,14 @@ extension RankingsPageJSON: CustomDebugStringConvertible {
         currentPage: \(currentPage)
         data: \(data.debugDescription)
         firstPageUrl: \(firstPageUrl)
-        from: \(from)
+        from: \(String(describing: from))
         lastPage: \(lastPage)
         lastPageUrl: \(lastPageUrl)
         nextPageUrl: \(String(describing: nextPageUrl))
         path: \(path)
         perPage: \(perPage)
         prevPageUrl: \(String(describing: prevPageUrl))
-        to: \(to)
+        to: \(String(describing: to))
         total: \(total)
         /RankingsPageUsers >
         """

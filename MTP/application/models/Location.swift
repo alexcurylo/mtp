@@ -147,5 +147,4 @@ extension Location {
     var title: String { return locationName }
 
     var subtitle: String { return "" }
-
 }

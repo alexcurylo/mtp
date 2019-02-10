@@ -43,6 +43,7 @@ final class RankingsVC: UIViewController, ServiceProvider {
     }
 
     func updateFilter() {
+        mtp.refreshRankings()
         pagingVC.reloadData()
     }
 }
