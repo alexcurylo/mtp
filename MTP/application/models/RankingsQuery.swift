@@ -68,6 +68,12 @@ struct RankingsQuery: Codable, Hashable, ServiceProvider {
     var gender: Gender = .all
     var location: String?
     var locationId: Int?
+
+    func with(page: Int) -> RankingsQuery {
+        var withPage = self
+        withPage.page = page
+        return withPage
+    }
 }
 
 extension RankingsQuery: CustomStringConvertible {
@@ -140,6 +146,17 @@ extension RankingsQuery {
                              }
                              .joined(separator: "?")
         return queryKey
+    }
+
+    var dbKey: String {
+        let params = parameters
+        let dbKey = params.keys
+                          .sorted()
+                          .compactMap { key -> String? in
+                             "\(key)=\(params[key] ?? "")"
+                          }
+                          .joined(separator: "?")
+        return dbKey
     }
 
     var parameters: [String: String] {

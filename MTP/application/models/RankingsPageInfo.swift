@@ -88,6 +88,7 @@ struct RankedUserJSON: Codable {
     let lastName: String
     let location: LocationJSON // still has 30 items
     let locationId: Int
+    let picture: String?
     let rankBeaches: Int?
     let rankDivesites: Int?
     let rankGolfcourses: Int?
@@ -127,6 +128,7 @@ extension RankedUserJSON: CustomDebugStringConvertible {
         last_name: \(lastName)
         location: \(location)
         location_id: \(locationId)
+        picture: \(String(describing: picture))
         rankBeaches: \(String(describing: rankBeaches))
         rankDivesites: \(String(describing: rankDivesites))
         rankGolfcourses: \(String(describing: rankGolfcourses))
@@ -149,13 +151,16 @@ extension RankedUserJSON: CustomDebugStringConvertible {
 
 @objcMembers final class RankingsPageInfo: Object {
 
+    static let expectedUserCount = 50
+
     dynamic var lastPage: Int = 0
     dynamic var page: Int = 0
     dynamic var queryKey: String = ""
+    dynamic var dbKey: String = ""
     let userIds = List<Int>()
 
     override static func primaryKey() -> String? {
-        return "queryKey"
+        return "dbKey"
     }
 
     convenience init(query: RankingsQuery,
@@ -163,6 +168,7 @@ extension RankedUserJSON: CustomDebugStringConvertible {
         self.init()
 
         queryKey = query.queryKey
+        dbKey = query.dbKey
 
         page = info.users.currentPage
         lastPage = info.users.lastPage

@@ -179,11 +179,11 @@ extension UserInfo {
 
 extension UIImageView {
 
-    @discardableResult func set(thumbnail user: UserInfo) -> Bool {
+    func set(thumbnail user: UserInfo) {
         let placeholder = user.placeholder
         guard let url = user.imageUrl else {
             image = placeholder
-            return true
+            return
         }
 
         Nuke.loadImage(
@@ -194,8 +194,6 @@ extension UIImageView {
             ),
             into: self
         )
-
-        return false
     }
 }
 
@@ -225,6 +223,7 @@ extension UIImageView {
         gender = from.gender
         id = from.id
         locationName = from.location.description
+        picture = from.picture
         scoreBeaches = from.scoreBeaches ?? 0
         scoreDivesites = from.scoreDivesites ?? 0
         scoreGolfcourses = from.scoreGolfcourses ?? 0

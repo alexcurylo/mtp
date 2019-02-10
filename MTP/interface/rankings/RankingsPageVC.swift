@@ -2,6 +2,7 @@
 
 import Anchorage
 import Parchment
+import RealmSwift
 
 protocol RankingsPageVCDelegate: AnyObject {
 
@@ -32,7 +33,7 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
 
     weak var delegate: RankingsPageVCDelegate?
 
-    private var rankings: RankingsPageInfo?
+    private var rankings: Results<RankingsPageInfo>?
     private var filter = RankingsQuery()
     private var filterDescription = ""
     private var filterRank = 0
@@ -119,7 +120,20 @@ extension RankingsPageVC: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return rankings?.userIds.count ?? 0
+        guard let first = rankings?.first else { return 0 }
+        guard first.lastPage > 1 else {
+            return first.userIds.count
+        }
+
+        let paged = (first.lastPage - 1) * RankingsPageInfo.expectedUserCount
+        if let last = rankings?.filter("page = lastPage").last {
+            return paged + last.userIds.count
+        }
+
+        let lastPageQuery = filter.with(page: first.lastPage)
+        mtp.loadRankings(query: lastPageQuery) { _ in }
+
+        return paged
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -165,10 +179,15 @@ private extension RankingsPageVC {
     }
 
     func user(at rank: Int) -> User {
-        guard let userId = rankings?.userIds[rank - 1]  else {
+        let pageIndex = ((rank - 1) / RankingsPageInfo.expectedUserCount) + 1
+        let userIndex = (rank - 1) % RankingsPageInfo.expectedUserCount
+        guard let page = rankings?.filter("page = \(pageIndex)").first else {
+            let userPageQuery = filter.with(page: pageIndex)
+            mtp.loadRankings(query: userPageQuery) { _ in }
             return User()
         }
 
+        let userId = page.userIds[userIndex]
         return data.get(user: userId)
     }
 }

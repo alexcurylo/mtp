@@ -198,6 +198,8 @@ protocol MTPNetworkService {
                id: Int,
                visited: Bool,
                then: @escaping MTPResult<Bool>)
+    func loadRankings(query: RankingsQuery,
+                      then: @escaping MTPResult<RankingsPageInfoJSON>)
     func loadUser(id: Int,
                   then: @escaping MTPResult<UserJSON>)
     func userDeleteAccount(then: @escaping MTPResult<Bool>)

@@ -70,24 +70,23 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         nameLabel.text = user.fullName
         countryLabel.text = user.locationName
 
+        guard user.id != 0 else {
+            nameLabel.text = Localized.loading()
+            avatarImageView.image = nil
+            visitedButton.isHidden = true
+            remainingButton.isHidden = true
+            return
+        }
+
+        avatarImageView.set(thumbnail: user)
+
         let status = list.status(of: user)
+        visitedButton.isHidden = false
         let visited = Localized.visited(status.visited)
         visitedButton.setTitle(visited, for: .normal)
+        remainingButton.isHidden = false
         let remaining = Localized.remaining(status.remaining)
         remainingButton.setTitle(remaining, for: .normal)
-
-        guard avatarImageView.set(thumbnail: user) else { return }
-        mtp.loadUser(id: user.id) { [weak self] result in
-            switch result {
-            case let .success(value):
-                guard let self = self else { return }
-                if self.current?.id == value.id {
-                    self.avatarImageView.set(thumbnail: value)
-                }
-            default:
-                break
-            }
-        }
     }
 
     override func prepareForReuse() {

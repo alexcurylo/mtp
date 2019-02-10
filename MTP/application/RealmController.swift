@@ -138,11 +138,12 @@ final class RealmController: ServiceProvider {
         }
     }
 
-    func rankings(query: RankingsQuery) -> RankingsPageInfo? {
-        let filter = "queryKey = '\(query.queryKey)' AND page = \(query.page)"
+    func rankings(query: RankingsQuery) -> Results<RankingsPageInfo> {
+        let filter = "queryKey = '\(query.queryKey)'"
         let results = realm.objects(RankingsPageInfo.self)
                            .filter(filter)
-        return results.first
+                           .sorted(byKeyPath: "page")
+        return results
     }
 
     func set(rankings query: RankingsQuery,

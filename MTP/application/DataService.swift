@@ -1,7 +1,7 @@
 // @copyright Trollwerks Inc.
 
 import JWTDecode
-import UIKit
+import RealmSwift
 
 protocol DataService: AnyObject, Observable, ServiceProvider {
 
@@ -25,7 +25,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func get(country id: Int?) -> Country?
     func get(location id: Int?) -> Location?
     func get(locations filter: String) -> [Location]
-    func get(rankings query: RankingsQuery) -> RankingsPageInfo?
+    func get(rankings query: RankingsQuery) -> Results<RankingsPageInfo>
     func get(user id: Int) -> User
 
     func set(beaches: [PlaceJSON])
@@ -171,13 +171,13 @@ final class DataServiceImpl: DataService {
         }
     }
 
-    func get(rankings query: RankingsQuery) -> RankingsPageInfo? {
+    func get(rankings query: RankingsQuery) -> Results<RankingsPageInfo> {
         return realm.rankings(query: query)
     }
 
     func set(rankings query: RankingsQuery,
              info: RankingsPageInfoJSON) {
-        if info.users.perPage != 50 {
+        if info.users.perPage != RankingsPageInfo.expectedUserCount {
             log.warning("expect 50 users per page not \(info.users.perPage)")
         }
 
