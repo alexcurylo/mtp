@@ -93,12 +93,13 @@ private extension MyProfileVC {
         dateFormatter.timeStyle = .none
         birthdayLabel?.text = dateFormatter.string(from: user.birthday)
 
-        log.todo("follow counts")
+        #if FOLLOWERS_IMPLEMENTED
         let followersCount = 9_999
         let followers = Localized.followers(followersCount.grouped)
         followersLabel?.text = followers
         let followingCount = 9_999
         let following = Localized.following(followingCount.grouped)
         followingLabel?.text = following
+        #endif
     }
 }
