@@ -107,7 +107,7 @@ private extension LoginVC {
             switch result {
             case .success:
                 KRProgressHUD.showSuccess(withMessage: Localized.success())
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
                     KRProgressHUD.dismiss()
                     self?.performSegue(withIdentifier: R.segue.loginVC.showMain, sender: self)
                 }

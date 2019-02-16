@@ -12,6 +12,8 @@
 // ForgotPasswordVC
 
 "sendLink" = "We will send a link to your email %@ enabling you to reset your password.";
+"resettingPassword" = "Resetting password…";
+"emailError" = "Sorry, that email was not found.";
 
 // LocationTracker
 

@@ -8,9 +8,10 @@ import enum Result.Result
 
 enum MTPNetworkError: Swift.Error {
     case unknown
-    case parameter
+    case message(String)
     case network(String)
     case notModified
+    case parameter
     case results
     case status
     case throttle
@@ -26,6 +27,7 @@ enum MTP: Hashable {
     case divesite
     case golfcourse
     case location
+    case passwordReset(email: String)
     case rankings(query: RankingsQuery)
     case restaurant
     case unCountry
@@ -64,6 +66,8 @@ extension MTP: TargetType {
             return "location"
         case .rankings:
             return "rankings/users"
+        case .passwordReset:
+            return "password/reset"
         case .restaurant:
             return "restaurant"
         case .unCountry:
@@ -97,6 +101,7 @@ extension MTP: TargetType {
              .whs:
             return .get
         case .checkIn,
+             .passwordReset,
              .userLogin:
             return .post
         }
@@ -107,19 +112,22 @@ extension MTP: TargetType {
         case let .countriesSearch(query?):
             return .requestParameters(parameters: ["query": query],
                                       encoding: URLEncoding.default)
-        case let .userLogin(email, password):
-            return .requestParameters(parameters: ["email": email,
-                                                   "password": password],
-                                      encoding: JSONEncoding.default)
         case .checkIn(_, let id):
              return .requestParameters(parameters: ["id": id],
                                        encoding: URLEncoding(destination: .queryString))
         case .checkOut(_, let id):
             return .requestParameters(parameters: ["id": id],
                                       encoding: URLEncoding.default)
+        case .passwordReset(let email):
+            return .requestParameters(parameters: ["email": email],
+                                      encoding: URLEncoding(destination: .queryString))
         case .rankings(let query):
             return .requestParameters(parameters: query.parameters,
                                       encoding: URLEncoding.default)
+        case let .userLogin(email, password):
+            return .requestParameters(parameters: ["email": email,
+                                                   "password": password],
+                                      encoding: JSONEncoding.default)
         case .beach,
              .checklists,
              .countriesSearch,
@@ -173,6 +181,7 @@ extension MTP: AccessTokenAuthorizable {
              .divesite,
              .golfcourse,
              .location,
+             .passwordReset,
              .restaurant,
              .unCountry,
              .user,
@@ -204,7 +213,7 @@ protocol MTPNetworkService {
                   then: @escaping MTPResult<UserJSON>)
     func userDeleteAccount(then: @escaping MTPResult<Bool>)
     func userForgotPassword(email: String,
-                            then: @escaping MTPResult<Bool>)
+                            then: @escaping MTPResult<String>)
     func userLogin(email: String,
                    password: String,
                    then: @escaping MTPResult<UserJSON>)
@@ -649,14 +658,39 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     }
 
     func userForgotPassword(email: String,
-                            then: @escaping MTPResult<Bool>) {
+                            then: @escaping MTPResult<String>) {
         guard !email.isEmpty else {
             log.verbose("forgotPassword attempt invalid: email `\(email)`")
             return then(.failure(.parameter))
         }
 
-        log.todo("implement forgotPassword: \(email)")
-        then(.success(true))
+        let provider = MoyaProvider<MTP>()
+        let endpoint = MTP.passwordReset(email: email)
+        provider.request(endpoint) { response in
+            switch response {
+            case .success(let result):
+                do {
+                    let info = try result.map(PasswordResetInfo.self,
+                                              using: JSONDecoder.mtp)
+                    self.log.verbose("reset password: " + info.debugDescription)
+                    if info.isSuccess {
+                        return then(.success(info.message))
+                    } else {
+                        return then(.failure(.message(info.message)))
+                    }
+                } catch {
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    return then(.failure(.results))
+                }
+            case .failure(.underlying(AFError.responseValidationFailed, _)):
+                self.log.error("API rejection: \(endpoint.path)")
+                return then(.failure(.status))
+            case .failure(let error):
+                let message = error.errorDescription ?? Localized.unknown()
+                self.log.error("failure: \(endpoint.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
     }
 
     func userGetByToken(then: @escaping MTPResult<UserJSON> = { _ in }) {
@@ -733,7 +767,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
             case .success(let result):
                 return parse(result: result)
             case .failure(.underlying(AFError.responseValidationFailed, _)):
-                self.log.error("user/login API rejection")
+                self.log.error("API rejection: \(endpoint.path)")
                 return then(.failure(.status))
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()

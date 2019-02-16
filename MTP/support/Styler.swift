@@ -105,3 +105,18 @@ extension UIColor {
 
     // swiftlint:enable force_unwrapping
 }
+
+extension DispatchTime {
+
+    static var short: DispatchTime {
+        return now() + 0.5
+    }
+
+    static var medium: DispatchTime {
+        return now() + 2
+    }
+
+    static var long: DispatchTime {
+        return now() + 5
+    }
+}

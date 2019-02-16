@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import UIKit
+import KRProgressHUD
 
 final class ForgotPasswordVC: UIViewController, ServiceProvider {
 
@@ -36,10 +36,11 @@ final class ForgotPasswordVC: UIViewController, ServiceProvider {
         super.didReceiveMemoryWarning()
     }
 
+    typealias Segues = R.segue.forgotPasswordVC
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
-        case R.segue.forgotPasswordVC.dismissForgotPassword.identifier:
+        case Segues.dismissForgotPassword.identifier:
             presentingViewController?.show(navBar: true)
         default:
             log.debug("unexpected segue: \(segue.name)")
@@ -50,13 +51,35 @@ final class ForgotPasswordVC: UIViewController, ServiceProvider {
 private extension ForgotPasswordVC {
 
     @IBAction func continueTapped(_ sender: GradientButton) {
+        KRProgressHUD.show(withMessage: Localized.resettingPassword())
+
+        // swiftlint:disable:next closure_body_length
         mtp.userForgotPassword(email: email) { [weak self] result in
+            let errorMessage: String
             switch result {
-            case .success:
-                self?.performSegue(withIdentifier: R.segue.forgotPasswordVC.dismissForgotPassword, sender: self)
-            case .failure(let error):
-                self?.log.todo("handle error calling /forgotPassword: \(String(describing: error))")
-                self?.performSegue(withIdentifier: R.segue.forgotPasswordVC.dismissForgotPassword, sender: self)
+            case .success(let message):
+                KRProgressHUD.showSuccess(withMessage: message)
+                DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
+                    KRProgressHUD.dismiss()
+                    self?.performSegue(withIdentifier: Segues.dismissForgotPassword, sender: self)
+                }
+                return
+            case .failure(.status),
+                 .failure(.parameter):
+                errorMessage = Localized.emailError()
+            case .failure(.results):
+                errorMessage = Localized.resultError()
+            case .failure(.message(let message)):
+                errorMessage = message
+            case .failure(.network(let message)):
+                errorMessage = Localized.networkError(message)
+            default:
+                errorMessage = Localized.unexpectedError()
+            }
+            KRProgressHUD.showError(withMessage: errorMessage)
+            DispatchQueue.main.asyncAfter(deadline: .medium) {
+                KRProgressHUD.dismiss()
+                self?.performSegue(withIdentifier: Segues.dismissForgotPassword, sender: self)
             }
         }
     }
