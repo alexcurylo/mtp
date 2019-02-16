@@ -72,6 +72,7 @@
 		FA74C111211BBF490013A840 /* String+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74C110211BBF490013A840 /* String+Formatting.swift */; };
 		FA74C113211C61580013A840 /* StringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74C112211C61580013A840 /* StringTests.swift */; };
 		FA76D9752131278900EF8E25 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA76D9742131278900EF8E25 /* User.swift */; };
+		FA7C200E221820FA002C6DAB /* PasswordResetInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7C200D221820FA002C6DAB /* PasswordResetInfo.swift */; };
 		FA81361220E8F64500313AB9 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FA81361120E8F64500313AB9 /* Settings.bundle */; };
 		FA835D34210EAC110098C270 /* Styler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA835D33210EAC110098C270 /* Styler.swift */; };
 		FA835D36210F054F0098C270 /* ReplaceTopSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */; };
@@ -216,6 +217,7 @@
 		FA74C110211BBF490013A840 /* String+Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Formatting.swift"; sourceTree = "<group>"; };
 		FA74C112211C61580013A840 /* StringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringTests.swift; sourceTree = "<group>"; };
 		FA76D9742131278900EF8E25 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		FA7C200D221820FA002C6DAB /* PasswordResetInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordResetInfo.swift; sourceTree = "<group>"; };
 		FA81361120E8F64500313AB9 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		FA81361320E8FD4E00313AB9 /* script_build_end.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = script_build_end.sh; sourceTree = "<group>"; };
 		FA835D33210EAC110098C270 /* Styler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styler.swift; sourceTree = "<group>"; };
@@ -597,6 +599,7 @@
 				FA8833E4220CE7350037C796 /* Country.swift */,
 				FAC159A121EB68AA00564E2D /* Location.swift */,
 				FAD2B51721F48AB8009FFDD7 /* PlaceInfo.swift */,
+				FA7C200D221820FA002C6DAB /* PasswordResetInfo.swift */,
 				FAD2B51221F45796009FFDD7 /* PlaceLocation.swift */,
 				8C5ECF3921FFE49800322ABF /* RankingsQuery.swift */,
 				8C76D8EB2207CD36005CF4CD /* RankingsPageInfo.swift */,
@@ -974,6 +977,7 @@
 				FAE1F11E2143B29F0002CAB2 /* LocationTracker.swift in Sources */,
 				FAC3BCB9216A225900E1507E /* TagsView.swift in Sources */,
 				FAC159A221EB68AA00564E2D /* Location.swift in Sources */,
+				FA7C200E221820FA002C6DAB /* PasswordResetInfo.swift in Sources */,
 				FA5AC0B621FC4EBE0080F84F /* PlaceAnnotationView.swift in Sources */,
 				FA8833E32209BF810037C796 /* LocationSearchVC.swift in Sources */,
 				FA76D9752131278900EF8E25 /* User.swift in Sources */,
