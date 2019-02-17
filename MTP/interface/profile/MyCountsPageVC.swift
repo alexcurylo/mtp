@@ -37,24 +37,24 @@ final class MyCountsPageVC: UIViewController, ServiceProvider {
 
     weak var delegate: MyCountsPageVCDelegate?
 
-    typealias Region = String
-    typealias Country = String
-    typealias Location = String
+    typealias RegionKey = String
+    typealias CountryKey = String
+    typealias LocationKey = String
 
     private var list: Checklist = .locations
 
-    private var regions: [Region] = []
-    private var regionsPlaces: [Region: [PlaceInfo]] = [:]
-    private var regionsVisited: [Region: Int] = [:]
-    private var regionsExpanded: [Region: Bool] = [:]
+    private var regions: [RegionKey] = []
+    private var regionsPlaces: [RegionKey: [PlaceInfo]] = [:]
+    private var regionsVisited: [RegionKey: Int] = [:]
+    private var regionsExpanded: [RegionKey: Bool] = [:]
 
-    private var countries: [Region: [Country]] = [:]
-    private var countriesPlaces: [Region: [Country: [PlaceInfo]]] = [:]
-    private var countriesVisited: [Region: [Country: Int]] = [:]
+    private var countries: [RegionKey: [CountryKey]] = [:]
+    private var countriesPlaces: [RegionKey: [CountryKey: [PlaceInfo]]] = [:]
+    private var countriesVisited: [RegionKey: [CountryKey: Int]] = [:]
 
-    private var locations: [Region: [Country: [Location]]] = [:]
-    private var locationsPlaces: [Region: [Country: [Location: [PlaceInfo]]]] = [:]
-    private var locationsVisited: [Region: [Country: [Location: Int]]] = [:]
+    private var locations: [RegionKey: [CountryKey: [LocationKey]]] = [:]
+    private var locationsPlaces: [RegionKey: [CountryKey: [LocationKey: [PlaceInfo]]]] = [:]
+    private var locationsVisited: [RegionKey: [CountryKey: [LocationKey: Int]]] = [:]
 
     private var checklistsObserver: Observer?
     private var placesObserver: Observer?
@@ -270,7 +270,7 @@ private extension MyCountsPageVC {
         countriesVisited = [:]
 
         regionsPlaces = Dictionary(grouping: places) { $0.placeRegion }
-        regions = regionsPlaces.keys.sorted()
+        regions = regionsPlaces.keys.filter { $0 != Location.all.regionName }.sorted()
         for (region, places) in regionsPlaces {
             let regionPlaces = places.sorted { $0.placeName < $1.placeName }
             regionsPlaces[region] = regionPlaces
@@ -284,7 +284,7 @@ private extension MyCountsPageVC {
             let countryPlaces = Dictionary(grouping: regionPlaces) { $0.placeCountry }
             countriesPlaces[region] = countryPlaces
             countries[region] = countryPlaces.keys.sorted()
-            var countryVisits: [Country: Int] = [:]
+            var countryVisits: [CountryKey: Int] = [:]
             for (country, subplaces) in countryPlaces {
                 let countryVisited = subplaces.reduce(0) {
                     $0 + (visits.contains($1.placeId) ? 1 : 0)
