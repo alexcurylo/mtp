@@ -17,6 +17,7 @@ final class CountToggleCell: UICollectionViewCell {
         titleLabel.text = title
         subtitleLabel.text = subtitle
         visit.isOn = list.isVisited(id: id)
+        visit.isEnabled = !list.hasChildren(id: id)
 
         if isLast {
             round(corners: [.bottomLeft, .bottomRight],

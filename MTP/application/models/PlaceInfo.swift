@@ -5,10 +5,19 @@ import RealmSwift
 
 protocol PlaceInfo {
 
+    var placeParent: PlaceInfo? { get }
     var placeCountry: String { get }
     var placeId: Int { get }
     var placeName: String { get }
     var placeRegion: String { get }
+}
+
+// swiftlint:disable:next static_operator
+func == (lhs: PlaceInfo, rhs: PlaceInfo) -> Bool {
+    return lhs.placeCountry == rhs.placeCountry &&
+        lhs.placeId == rhs.placeId &&
+        lhs.placeName == rhs.placeName &&
+        lhs.placeRegion == rhs.placeRegion
 }
 
 struct PlaceJSON: Codable {
@@ -92,6 +101,10 @@ extension PlaceJSON: CustomDebugStringConvertible {
 
 extension Beach: PlaceInfo {
 
+    var placeParent: PlaceInfo? {
+        return nil
+    }
+
     var placeCountry: String {
         return countryName
     }
@@ -152,6 +165,10 @@ extension Beach {
 
 extension DiveSite: PlaceInfo {
 
+    var placeParent: PlaceInfo? {
+        return nil
+    }
+
     var placeCountry: String {
         return countryName
     }
@@ -211,6 +228,10 @@ extension DiveSite {
 }
 
 extension GolfCourse: PlaceInfo {
+
+    var placeParent: PlaceInfo? {
+        return nil
+    }
 
     var placeCountry: String {
         return countryName

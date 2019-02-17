@@ -126,6 +126,10 @@ extension LocationJSON: CustomDebugStringConvertible {
 
 extension Location: PlaceInfo {
 
+    var placeParent: PlaceInfo? {
+        return nil
+    }
+
     var placeCountry: String {
         return countryName
     }

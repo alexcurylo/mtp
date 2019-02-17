@@ -43,7 +43,7 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         case .uncountries:
             return .region
         case .whss:
-            return .country
+            return .parent
         case .beaches:
             return .regionSubtitled
         case .golfcourses:
@@ -81,12 +81,38 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         return hierarchy.isGrouped
     }
 
+    var isParented: Bool {
+        return hierarchy.isParented
+    }
+
     var isSubgrouped: Bool {
         return hierarchy.isSubgrouped
     }
 
     var isSubtitled: Bool {
         return hierarchy.isSubtitled
+    }
+
+    var isShowingCountries: Bool {
+        return hierarchy.isShowingCountries
+    }
+
+    func hasChildren(id: Int) -> Bool {
+        switch self {
+        case .whss:
+            return data.hasChildren(whs: id)
+        default:
+            return false
+        }
+    }
+
+    func hasParent(id: Int) -> Bool {
+        switch self {
+        case .whss:
+            return data.get(whs: id)?.hasParent ?? false
+        default:
+            return false
+        }
     }
 
     func isVisited(id: Int) -> Bool {
@@ -160,7 +186,7 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         case .uncountries:
             total = data.uncountries.count
         case .whss:
-            total = data.whss.filter { $0.isParent }.count
+            total = data.whss.filter { !$0.hasParent }.count
         case .beaches:
             total = data.beaches.count
         case .golfcourses:
@@ -236,6 +262,7 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
 
 enum Hierarchy {
     case country
+    case parent
     case region
     case regionSubgrouped // region/country if 1 else region/country/locations
     case regionSubtitled
@@ -244,11 +271,27 @@ enum Hierarchy {
         return self == .country
     }
 
+    var isParented: Bool {
+        return self == .parent
+    }
+
     var isSubgrouped: Bool {
         return self == .regionSubgrouped
     }
 
     var isSubtitled: Bool {
         return self == .regionSubtitled
+    }
+
+    var isShowingCountries: Bool {
+        switch self {
+        case .country,
+             .parent,
+             .regionSubgrouped:
+            return true
+        case .region,
+             .regionSubtitled:
+            return false
+        }
     }
 }

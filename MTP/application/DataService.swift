@@ -27,6 +27,8 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func get(locations filter: String) -> [Location]
     func get(rankings query: RankingsQuery) -> Results<RankingsPageInfo>
     func get(user id: Int) -> User
+    func get(whs id: Int) -> WHS?
+    func hasChildren(whs id: Int) -> Bool
 
     func set(beaches: [PlaceJSON])
     func set(countries: [CountryJSON])
@@ -220,6 +222,14 @@ final class DataServiceImpl: DataService {
 
     func get(user id: Int) -> User {
         return realm.user(id: id) ?? User()
+    }
+
+    func get(whs id: Int) -> WHS? {
+        return realm.whs(id: id)
+    }
+
+    func hasChildren(whs id: Int) -> Bool {
+        return !realm.whss.filter { $0.parentId == id }.isEmpty
     }
 
     func set(userId: UserJSON) {

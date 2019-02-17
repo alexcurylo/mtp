@@ -46,7 +46,7 @@ extension WHSJSON: CustomDebugStringConvertible {
     }
 }
 
-@objcMembers final class WHS: Object {
+@objcMembers final class WHS: Object, ServiceProvider {
 
     dynamic var countryName: String = ""
     dynamic var id: Int = 0
@@ -80,6 +80,13 @@ extension WHSJSON: CustomDebugStringConvertible {
 
 extension WHS: PlaceInfo {
 
+    var placeParent: PlaceInfo? {
+        if hasParent {
+            return data.get(whs: parentId)
+        }
+        return nil
+    }
+
     var placeCountry: String {
         return countryName
     }
@@ -108,7 +115,7 @@ extension WHS {
 
     var subtitle: String { return "" }
 
-    var isParent: Bool {
-        return parentId == 0
+    var hasParent: Bool {
+        return parentId != 0
     }
 }

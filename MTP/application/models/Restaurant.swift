@@ -95,6 +95,10 @@ extension RestaurantJSON: CustomDebugStringConvertible {
 
 extension Restaurant: PlaceInfo {
 
+    var placeParent: PlaceInfo? {
+        return nil
+    }
+
     var placeCountry: String {
         return countryName
     }

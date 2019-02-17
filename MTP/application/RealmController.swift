@@ -214,6 +214,12 @@ final class RealmController: ServiceProvider {
         return Array(results)
     }
 
+    func whs(id: Int) -> WHS? {
+        let results = realm.objects(WHS.self)
+                           .filter("id = \(id)")
+        return results.first
+    }
+
     func set(whss: [WHSJSON]) {
         do {
             let objects = whss.compactMap { WHS(from: $0) }

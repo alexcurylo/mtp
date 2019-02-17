@@ -47,6 +47,10 @@ import RealmSwift
 
 extension UNCountry: PlaceInfo {
 
+    var placeParent: PlaceInfo? {
+        return nil
+    }
+
     var placeCountry: String {
         return countryName
     }
