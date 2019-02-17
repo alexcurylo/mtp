@@ -52,6 +52,7 @@ extension WHSJSON: CustomDebugStringConvertible {
     dynamic var id: Int = 0
     dynamic var lat: Double = 0
     dynamic var long: Double = 0
+    dynamic var parentId: Int = 0
     dynamic var regionName: String = ""
     dynamic var title: String = ""
 
@@ -67,6 +68,7 @@ extension WHSJSON: CustomDebugStringConvertible {
         id = from.id
         lat = from.lat
         long = from.long
+        parentId = from.parentId ?? 0
         regionName = from.location?.regionName ?? Localized.unknown()
         title = from.title
     }
@@ -105,4 +107,8 @@ extension WHS {
     }
 
     var subtitle: String { return "" }
+
+    var isParent: Bool {
+        return parentId == 0
+    }
 }

@@ -160,7 +160,7 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         case .uncountries:
             total = data.uncountries.count
         case .whss:
-            total = data.whss.count
+            total = data.whss.filter { $0.isParent }.count
         case .beaches:
             total = data.beaches.count
         case .golfcourses:
