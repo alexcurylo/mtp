@@ -73,14 +73,14 @@ extension LocationJSON: CustomDebugStringConvertible {
     }
 }
 
-@objcMembers final class Location: Object {
+@objcMembers final class Location: Object, ServiceProvider {
 
     dynamic var countryId: Int = 0
     dynamic var countryName: String = ""
     dynamic var id: Int = 0
-    dynamic var lat: Double?
+    dynamic var lat: Double = 0
     dynamic var locationName: String = ""
-    dynamic var lon: Double?
+    dynamic var lon: Double = 0
     dynamic var regionName: String = ""
 
     override static func primaryKey() -> String? {
@@ -93,11 +93,18 @@ extension LocationJSON: CustomDebugStringConvertible {
         countryId = from.countryId
         countryName = from.countryName
         id = from.id
-        lat = from.lat
         locationName = from.locationName
-        lon = from.lon
         regionName = from.regionName
-    }
+        if let latitude = from.lat,
+           let longitude = from.lon {
+            lat = latitude
+            lon = longitude
+        } else {
+            log.warning("Location nil coordinates: \(locationName)")
+            lat = 0
+            lon = 0
+        }
+  }
 
     static var all: Location = {
         let all = Location()
@@ -140,8 +147,8 @@ extension Location {
 
     var coordinate: CLLocationCoordinate2D {
         return CLLocationCoordinate2D(
-            latitude: lat ?? 0,
-            longitude: lon ?? 0)
+            latitude: lat,
+            longitude: lon)
     }
 
     var title: String { return locationName }

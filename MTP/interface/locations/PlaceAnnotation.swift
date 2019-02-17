@@ -14,11 +14,16 @@ final class PlaceAnnotation: NSObject, MKAnnotation {
         return type.rawValue
     }
 
-    init(type: Checklist,
-         id: Int,
-         coordinate: CLLocationCoordinate2D,
-         title: String = "",
-         subtitle: String = "") {
+    init?(type: Checklist,
+          id: Int,
+          coordinate: CLLocationCoordinate2D,
+          title: String = "",
+          subtitle: String = "") {
+        guard !coordinate.isZero else {
+            print("Place nil coordinates: \(type), \(title)")
+            return nil
+        }
+
         self.type = type
         self.id = id
         self.coordinate = coordinate
@@ -64,5 +69,11 @@ extension CLLocationCoordinate2D: Equatable {
     public static func == (lhs: CLLocationCoordinate2D,
                            rhs: CLLocationCoordinate2D) -> Bool {
         return lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
+    }
+
+    static var zero = CLLocationCoordinate2D(latitude: 0, longitude: 0)
+
+    var isZero: Bool {
+        return self == .zero
     }
 }

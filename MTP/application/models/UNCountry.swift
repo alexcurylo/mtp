@@ -3,13 +3,13 @@
 import CoreLocation
 import RealmSwift
 
-@objcMembers final class UNCountry: Object {
+@objcMembers final class UNCountry: Object, ServiceProvider {
 
     dynamic var countryName: String = ""
     dynamic var id: Int = 0
-    dynamic var lat: Double?
+    dynamic var lat: Double = 0
     dynamic var locationName: String = ""
-    dynamic var lon: Double?
+    dynamic var lon: Double = 0
     dynamic var regionName: String = ""
 
     override static func primaryKey() -> String? {
@@ -22,10 +22,17 @@ import RealmSwift
 
         countryName = from.countryName
         id = from.id
-        lat = from.lat
         locationName = from.locationName
-        lon = from.lon
         regionName = from.regionName
+        if let latitude = from.lat,
+           let longitude = from.lon {
+            lat = latitude
+            lon = longitude
+        } else {
+            log.warning("UNCountry nil coordinates: \(countryName)")
+            lat = 0
+            lon = 0
+        }
     }
 
     override var description: String {
@@ -61,8 +68,8 @@ extension UNCountry {
 
     var coordinate: CLLocationCoordinate2D {
         return CLLocationCoordinate2D(
-            latitude: lat ?? 0,
-            longitude: lon ?? 0)
+            latitude: lat,
+            longitude: lon)
     }
 
     var title: String { return locationName }

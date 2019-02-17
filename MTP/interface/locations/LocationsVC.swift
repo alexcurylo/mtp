@@ -177,7 +177,7 @@ private extension LocationsVC {
     }
 
     func showBeaches() {
-        let new = Set<PlaceAnnotation>(data.beaches.map { place in
+        let new = Set<PlaceAnnotation>(data.beaches.compactMap { place in
             PlaceAnnotation(type: .beaches,
                             id: place.id,
                             coordinate: place.coordinate,
@@ -195,7 +195,7 @@ private extension LocationsVC {
     }
 
     func showDiveSites() {
-        let new = Set<PlaceAnnotation>(data.divesites.map { place in
+        let new = Set<PlaceAnnotation>(data.divesites.compactMap { place in
             PlaceAnnotation(type: .divesites,
                             id: place.id,
                             coordinate: place.coordinate,
@@ -213,7 +213,7 @@ private extension LocationsVC {
     }
 
     func showGolfCourses() {
-        let new = Set<PlaceAnnotation>(data.golfcourses.map { place in
+        let new = Set<PlaceAnnotation>(data.golfcourses.compactMap { place in
             PlaceAnnotation(type: .golfcourses,
                             id: place.id,
                             coordinate: place.coordinate,
@@ -231,7 +231,7 @@ private extension LocationsVC {
     }
 
     func showLocations() {
-        let new = Set<PlaceAnnotation>(data.locations.map { place in
+        let new = Set<PlaceAnnotation>(data.locations.compactMap { place in
             PlaceAnnotation(type: .locations,
                             id: place.id,
                             coordinate: place.coordinate,
@@ -249,7 +249,7 @@ private extension LocationsVC {
     }
 
     func showRestaurants() {
-        let new = Set<PlaceAnnotation>(data.restaurants.map { place in
+        let new = Set<PlaceAnnotation>(data.restaurants.compactMap { place in
             PlaceAnnotation(type: .restaurants,
                             id: place.id,
                             coordinate: place.coordinate,
@@ -267,7 +267,7 @@ private extension LocationsVC {
     }
 
     func showUNCountries() {
-        let new = Set<PlaceAnnotation>(data.uncountries.map { place in
+        let new = Set<PlaceAnnotation>(data.uncountries.compactMap { place in
             PlaceAnnotation(type: .uncountries,
                             id: place.id,
                             coordinate: place.coordinate,
@@ -285,7 +285,7 @@ private extension LocationsVC {
     }
 
     func showWHSs() {
-        let new = Set<PlaceAnnotation>(data.whss.map { place in
+        let new = Set<PlaceAnnotation>(data.whss.compactMap { place in
             PlaceAnnotation(type: .whss,
                             id: place.id,
                             coordinate: place.coordinate,
