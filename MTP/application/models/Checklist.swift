@@ -106,6 +106,15 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         }
     }
 
+    func hasVisitedChildren(id: Int) -> Bool {
+        switch self {
+        case .whss:
+            return data.hasVisitedChildren(whs: id)
+        default:
+            return false
+        }
+    }
+
     func hasParent(id: Int) -> Bool {
         switch self {
         case .whss:

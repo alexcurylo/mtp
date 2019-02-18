@@ -2,7 +2,7 @@
 
 import Anchorage
 
-final class CountToggleCell: UICollectionViewCell {
+final class CountToggleCell: UICollectionViewCell, ServiceProvider {
 
     static let reuseIdentifier = NSStringFromClass(CountToggleCell.self)
 
@@ -10,9 +10,11 @@ final class CountToggleCell: UICollectionViewCell {
              subtitle: String,
              list: Checklist,
              id: Int,
+             parentId: Int?,
              isLast: Bool) {
         self.list = list
         self.id = id
+        self.parentId = parentId
 
         titleLabel.text = title
         subtitleLabel.text = subtitle
@@ -23,7 +25,7 @@ final class CountToggleCell: UICollectionViewCell {
             titleLabel.font = Avenir.oblique.of(size: Layout.titleSize)
             visit.isEnabled = false
         } else {
-            if list.hasParent(id: id) {
+            if parentId != nil {
                 labelsIndent?.constant = Layout.childIndent
             } else {
                 labelsIndent?.constant = Layout.parentIndent
@@ -63,6 +65,7 @@ final class CountToggleCell: UICollectionViewCell {
 
     private var list: Checklist?
     private var id: Int?
+    private var parentId: Int?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -117,8 +120,13 @@ private extension CountToggleCell {
     }
 
     @objc func toggleVisit(_ sender: UISwitch) {
-        guard let id = id else { return }
+        guard let id = id, let list = list else { return }
 
-        list?.set(id: id, visited: sender.isOn)
+        list.set(id: id, visited: sender.isOn)
+
+        guard let parentId = parentId  else { return }
+
+        let parentVisited = list.hasVisitedChildren(id: parentId)
+        list.set(id: parentId, visited: parentVisited)
     }
 }

@@ -29,6 +29,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func get(user id: Int) -> User
     func get(whs id: Int) -> WHS?
     func hasChildren(whs id: Int) -> Bool
+    func hasVisitedChildren(whs id: Int) -> Bool
 
     func set(beaches: [PlaceJSON])
     func set(countries: [CountryJSON])
@@ -230,6 +231,17 @@ final class DataServiceImpl: DataService {
 
     func hasChildren(whs id: Int) -> Bool {
         return !realm.whss.filter { $0.parentId == id }.isEmpty
+    }
+
+    func hasVisitedChildren(whs id: Int) -> Bool {
+        let children = realm.whss.filter { $0.parentId == id }
+        let visits = checklists?.whss ?? []
+        for child in children {
+            if visits.contains(child.id) {
+                return true
+            }
+        }
+        return false
     }
 
     func set(userId: UserJSON) {

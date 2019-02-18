@@ -195,6 +195,7 @@ extension MyCountsPageVC: UICollectionViewDataSource {
                             subtitle: list.isSubtitled ? place.placeCountry : "",
                             list: list,
                             id: place.placeId,
+                            parentId: place.placeParent?.placeId,
                             isLast: isLast)
             }
         case let grouper as CountGroupCell:
@@ -328,7 +329,8 @@ private extension MyCountsPageVC {
             regionsPlaces[region] = regionPlaces
 
             let regionVisited = regionPlaces.reduce(0) {
-                $0 + (visits.contains($1.placeId) ? 1 : 0)
+                let parentVisit = $1.placeParent == nil && visits.contains($1.placeId)
+                return $0 + (parentVisit ? 1 : 0)
             }
             regionsVisited[region] = regionVisited
 
