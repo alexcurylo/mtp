@@ -17,7 +17,20 @@ final class CountToggleCell: UICollectionViewCell {
         titleLabel.text = title
         subtitleLabel.text = subtitle
         visit.isOn = list.isVisited(id: id)
-        visit.isEnabled = !list.hasChildren(id: id)
+
+        if list.hasChildren(id: id) {
+            labelsIndent?.constant = Layout.parentIndent
+            titleLabel.font = Avenir.oblique.of(size: Layout.titleSize)
+            visit.isEnabled = false
+        } else {
+            if list.hasParent(id: id) {
+                labelsIndent?.constant = Layout.childIndent
+            } else {
+                labelsIndent?.constant = Layout.parentIndent
+            }
+            titleLabel.font = Avenir.medium.of(size: Layout.titleSize)
+            visit.isEnabled = true
+        }
 
         if isLast {
             round(corners: [.bottomLeft, .bottomRight],
@@ -30,7 +43,8 @@ final class CountToggleCell: UICollectionViewCell {
     private enum Layout {
         static let rankSize = CGFloat(18)
         static let margin = CGFloat(8)
-        static let indent = CGFloat(24)
+        static let parentIndent = CGFloat(24)
+        static let childIndent = CGFloat(32)
         static let spacing = CGSize(width: 12, height: 4)
         static let cornerRadius = CGFloat(4)
         static let titleSize = CGFloat(16)
@@ -43,6 +57,7 @@ final class CountToggleCell: UICollectionViewCell {
     private let subtitleLabel = UILabel {
         $0.font = Avenir.oblique.of(size: Layout.subtitleSize)
     }
+    private var labelsIndent: NSLayoutConstraint?
 
     private let visit = UISwitch()
 
@@ -85,7 +100,7 @@ private extension CountToggleCell {
         infos.alignment = .center
         contentView.addSubview(infos)
         infos.centerYAnchor == contentView.centerYAnchor
-        infos.leadingAnchor == contentView.leadingAnchor + Layout.indent
+        labelsIndent = infos.leadingAnchor == contentView.leadingAnchor + Layout.parentIndent
 
         let buttons = UIStackView(arrangedSubviews: [visit])
         buttons.axis = .vertical

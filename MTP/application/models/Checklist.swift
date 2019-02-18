@@ -81,8 +81,8 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         return hierarchy.isGrouped
     }
 
-    var isParented: Bool {
-        return hierarchy.isParented
+    var isShowingChildren: Bool {
+        return hierarchy.isShowingChildren
     }
 
     var isSubgrouped: Bool {
@@ -271,7 +271,7 @@ enum Hierarchy {
         return self == .country
     }
 
-    var isParented: Bool {
+    var isShowingChildren: Bool {
         return self == .parent
     }
 

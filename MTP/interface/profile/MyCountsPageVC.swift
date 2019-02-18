@@ -37,11 +37,13 @@ final class MyCountsPageVC: UIViewController, ServiceProvider {
 
     weak var delegate: MyCountsPageVCDelegate?
 
+    private var list: Checklist = .locations
+
     typealias RegionKey = String
     typealias CountryKey = String
-    typealias LocationKey = String
-
-    private var list: Checklist = .locations
+    typealias ParentKey = Int
+    typealias CountryPlaces = [CountryKey: [PlaceInfo]]
+    typealias CountryFamilies = [CountryKey: [ParentKey: [PlaceInfo]]]
 
     private var regions: [RegionKey] = []
     private var regionsPlaces: [RegionKey: [PlaceInfo]] = [:]
@@ -49,12 +51,9 @@ final class MyCountsPageVC: UIViewController, ServiceProvider {
     private var regionsExpanded: [RegionKey: Bool] = [:]
 
     private var countries: [RegionKey: [CountryKey]] = [:]
-    private var countriesPlaces: [RegionKey: [CountryKey: [PlaceInfo]]] = [:]
+    private var countriesPlaces: [RegionKey: CountryPlaces] = [:]
+    private var countriesFamilies: [RegionKey: CountryFamilies] = [:]
     private var countriesVisited: [RegionKey: [CountryKey: Int]] = [:]
-
-    private var locations: [RegionKey: [CountryKey: [LocationKey]]] = [:]
-    private var locationsPlaces: [RegionKey: [CountryKey: [LocationKey: [PlaceInfo]]]] = [:]
-    private var locationsVisited: [RegionKey: [CountryKey: [LocationKey: Int]]] = [:]
 
     private var checklistsObserver: Observer?
     private var placesObserver: Observer?
@@ -133,8 +132,16 @@ extension MyCountsPageVC: UICollectionViewDataSource {
         if let header = view as? CountHeader {
             header.delegate = self
             let key = regions[indexPath.section]
+
+            let count: Int
+            if list.isShowingChildren {
+                let parents = countriesPlaces[key]?.values.flatMap { $0 }.map { $0.placeId }
+                count = Set<Int>(parents ?? []).count
+            } else {
+                count = regionsPlaces[key]?.count ?? 0
+            }
             header.set(key: key,
-                       count: regionsPlaces[key]?.count ?? 0,
+                       count: count,
                        visited: regionsVisited[key, default: 0],
                        isExpanded: regionsExpanded[key, default: false])
         }
@@ -155,16 +162,21 @@ extension MyCountsPageVC: UICollectionViewDataSource {
             return 0
         }
 
-        if list.isShowingCountries {
+        if list.isShowingChildren {
+            let regionCountries = countries[key]?.count ?? 0
+            let parents = countriesPlaces[key] ?? [:]
+            let regionParents = parents.reduce(0) { $0 + $1.value.count }
+            let families = countriesFamilies[key] ?? [:]
+            let regionChildren = families.reduce(0) { $0 + $1.value.values.flatMap { $0 }.count }
+            let items = regionCountries + regionParents + regionChildren
+            return items
+        } else if list.isShowingCountries {
             let regionCountries = countries[key]?.count ?? 0
             return regionPlaces.count + regionCountries
         } else {
             return regionPlaces.count
         }
     }
-
-    typealias GroupModel = (key: String, count: Int, visited: Int)
-    typealias CellModel = (String, PlaceInfo?, GroupModel?)
 
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -198,36 +210,6 @@ extension MyCountsPageVC: UICollectionViewDataSource {
         return cell
     }
 
-    func model(of indexPath: IndexPath) -> CellModel {
-        let key = regions[indexPath.section]
-        var countdown = indexPath.row
-
-        if list.isShowingCountries {
-            let regionCountries = countries[key] ?? []
-            for country in regionCountries {
-                let countryPlaces = countriesPlaces[key]?[country] ?? []
-                if countdown == 0 {
-                    let visited = countriesVisited[key]?[country] ?? 0
-                    let model = (country, countryPlaces.count, visited)
-                    return (CountGroupCell.reuseIdentifier, nil, model)
-                }
-                countdown -= 1
-
-                for place in countryPlaces {
-                    if countdown == 0 {
-                        return (CountToggleCell.reuseIdentifier, place, nil)
-                    }
-                    countdown -= 1
-                }
-            }
-            log.error("Failed to find grouped line model!")
-            return (CountGroupCell.reuseIdentifier, nil, nil)
-        } else {
-             let regionPlaces = regionsPlaces[key] ?? []
-             return (CountToggleCell.reuseIdentifier, regionPlaces[countdown], nil)
-        }
-    }
-
     func observe() {
         guard checklistsObserver == nil else { return }
 
@@ -257,12 +239,86 @@ extension MyCountsPageVC: CountHeaderDelegate {
 
 private extension MyCountsPageVC {
 
+    typealias GroupModel = (key: String, count: Int, visited: Int)
+    typealias CellModel = (String, PlaceInfo?, GroupModel?)
+
+    func model(of indexPath: IndexPath) -> CellModel {
+        if list.isShowingChildren {
+            return childrenModel(of: indexPath)
+        } else if list.isShowingCountries {
+            return countryModel(of: indexPath)
+        } else {
+            let regionPlaces = regionsPlaces[regions[indexPath.section]] ?? []
+            return (CountToggleCell.reuseIdentifier, regionPlaces[indexPath.row], nil)
+        }
+    }
+
+    func childrenModel(of indexPath: IndexPath) -> CellModel {
+        let key = regions[indexPath.section]
+        var countdown = indexPath.row
+
+        let regionCountries = countries[key] ?? []
+        for country in regionCountries {
+            let countryParents = countriesPlaces[key]?[country] ?? []
+            let countryChildren = countriesFamilies[key]?[country] ?? [:]
+            if countdown == 0 {
+                let visited = countriesVisited[key]?[country] ?? 0
+                let model = (country, countryParents.count, visited)
+                return (CountGroupCell.reuseIdentifier, nil, model)
+            }
+            countdown -= 1
+
+            for place in countryParents {
+                if countdown == 0 {
+                    return (CountToggleCell.reuseIdentifier, place, nil)
+                }
+                countdown -= 1
+
+                let placeChildren = countryChildren[place.placeId] ?? []
+                for child in placeChildren {
+                    if countdown == 0 {
+                        return (CountToggleCell.reuseIdentifier, child, nil)
+                    }
+                    countdown -= 1
+                }
+            }
+        }
+        log.error("Failed to find childrenModel \(indexPath)")
+        return (CountGroupCell.reuseIdentifier, nil, nil)
+    }
+
+    func countryModel(of indexPath: IndexPath) -> CellModel {
+        let key = regions[indexPath.section]
+        var countdown = indexPath.row
+
+        let regionCountries = countries[key] ?? []
+        for country in regionCountries {
+            let countryPlaces = countriesPlaces[key]?[country] ?? []
+            if countdown == 0 {
+                let visited = countriesVisited[key]?[country] ?? 0
+                let model = (country, countryPlaces.count, visited)
+                return (CountGroupCell.reuseIdentifier, nil, model)
+            }
+            countdown -= 1
+
+            for place in countryPlaces {
+                if countdown == 0 {
+                    return (CountToggleCell.reuseIdentifier, place, nil)
+                }
+                countdown -= 1
+            }
+        }
+        log.error("Failed to find countryModel \(indexPath)")
+        return (CountGroupCell.reuseIdentifier, nil, nil)
+    }
+
     func count(places: [PlaceInfo],
                visits: [Int]) {
         let groupCountries = !list.isSubtitled
         regionsVisited = [:]
         countries = [:]
         countriesPlaces = [:]
+        countriesFamilies = [:]
         countriesVisited = [:]
 
         regionsPlaces = Dictionary(grouping: places) { $0.placeRegion }
@@ -270,6 +326,7 @@ private extension MyCountsPageVC {
         for (region, places) in regionsPlaces {
             let regionPlaces = places.sorted { $0.placeName < $1.placeName }
             regionsPlaces[region] = regionPlaces
+
             let regionVisited = regionPlaces.reduce(0) {
                 $0 + (visits.contains($1.placeId) ? 1 : 0)
             }
@@ -278,11 +335,13 @@ private extension MyCountsPageVC {
             if !groupCountries { continue }
 
             let childPlaces = Dictionary(grouping: regionPlaces) { $0.placeCountry }
-            let countryPlaces = parented(countries: childPlaces)
-            countriesPlaces[region] = countryPlaces
-            countries[region] = countryPlaces.keys.sorted()
+            let (parentPlaces, parentFamilies) = groupChildren(countries: childPlaces)
+            countriesPlaces[region] = parentPlaces
+            countriesFamilies[region] = parentFamilies
+            countries[region] = parentPlaces.keys.sorted()
+
             var countryVisits: [CountryKey: Int] = [:]
-            for (country, subplaces) in countryPlaces {
+            for (country, subplaces) in parentPlaces {
                 let countryVisited = subplaces.reduce(0) {
                     $0 + (visits.contains($1.placeId) ? 1 : 0)
                 }
@@ -292,23 +351,30 @@ private extension MyCountsPageVC {
         }
     }
 
-    func parented(countries: [CountryKey: [PlaceInfo]]) -> [CountryKey: [PlaceInfo]] {
-        guard list.isParented else { return countries }
+    func groupChildren(countries: CountryPlaces) -> (CountryPlaces, CountryFamilies?) {
+        guard list.isShowingChildren else { return (countries, nil) }
 
-        var parented: [CountryKey: [PlaceInfo]] = [:]
-        for (country, children) in countries {
+        var parentPlaces: CountryPlaces = [:]
+        var parentFamilies: CountryFamilies = [:]
+        for (country, places) in countries {
             var parents: [PlaceInfo] = []
-            for child in children {
-                if let parent = child.placeParent {
+            var families: [ParentKey: [PlaceInfo]] = [:]
+            for place in places {
+                if let parent = place.placeParent {
                     if !parents.contains { $0 == parent } {
                         parents.append(parent)
                     }
-                } else if !parents.contains { $0 == child } {
-                    parents.append(child)
+                    var family = families[parent.placeId] ?? []
+                    family.append(place)
+                    families[parent.placeId] = family.sorted { $0.placeName < $1.placeName }
+                } else if !parents.contains { $0 == place } {
+                    parents.append(place)
                 }
             }
-            parented[country] = parents.sorted { $0.placeName < $1.placeName }
+            parentPlaces[country] = parents.sorted { $0.placeName < $1.placeName }
+            parentFamilies[country] = families.isEmpty ? nil: families
         }
-        return parented
+
+        return (parentPlaces, parentFamilies.isEmpty ? nil: parentFamilies)
     }
 }
