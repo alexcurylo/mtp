@@ -36,25 +36,6 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         return background!
     }
 
-    var hierarchy: Hierarchy {
-        switch self {
-        case .locations:
-            return .regionSubgrouped
-        case .uncountries:
-            return .region
-        case .whss:
-            return .parent
-        case .beaches:
-            return .regionSubtitled
-        case .golfcourses:
-            return .regionSubtitled
-        case .divesites:
-            return .regionSubtitled
-        case .restaurants:
-            return .regionSubtitled // by region/country/location on website
-        }
-    }
-
     var image: UIImage {
         let image: UIImage?
         switch self {
@@ -75,26 +56,6 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         }
         // swiftlint:disable:next force_unwrapping
         return image!
-    }
-
-    var isGrouped: Bool {
-        return hierarchy.isGrouped
-    }
-
-    var isShowingChildren: Bool {
-        return hierarchy.isShowingChildren
-    }
-
-    var isSubgrouped: Bool {
-        return hierarchy.isSubgrouped
-    }
-
-    var isSubtitled: Bool {
-        return hierarchy.isSubtitled
-    }
-
-    var isShowingCountries: Bool {
-        return hierarchy.isShowingCountries
     }
 
     func hasChildren(id: Int) -> Bool {
@@ -302,5 +263,47 @@ enum Hierarchy {
              .regionSubtitled:
             return false
         }
+    }
+}
+
+extension Checklist {
+
+    var hierarchy: Hierarchy {
+        switch self {
+        case .locations:
+            return .regionSubgrouped
+        case .uncountries:
+            return .region
+        case .whss:
+            return .parent
+        case .beaches:
+            return .regionSubtitled
+        case .golfcourses:
+            return .regionSubtitled
+        case .divesites:
+            return .regionSubtitled
+        case .restaurants:
+            return .regionSubtitled // by region/country/location on website
+        }
+    }
+
+    var isGrouped: Bool {
+        return hierarchy.isGrouped
+    }
+
+    var isShowingChildren: Bool {
+        return hierarchy.isShowingChildren
+    }
+
+    var isSubgrouped: Bool {
+        return hierarchy.isSubgrouped
+    }
+
+    var isSubtitled: Bool {
+        return hierarchy.isSubtitled
+    }
+
+    var isShowingCountries: Bool {
+        return hierarchy.isShowingCountries
     }
 }
