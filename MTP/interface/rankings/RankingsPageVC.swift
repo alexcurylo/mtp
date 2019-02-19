@@ -125,7 +125,7 @@ extension RankingsPageVC: UICollectionViewDataSource {
             return first.userIds.count
         }
 
-        let paged = (first.lastPage - 1) * RankingsPageInfo.expectedUserCount
+        let paged = (first.lastPage - 1) * RankingsPageInfo.perPage
         if let last = rankings?.filter("page = lastPage").last {
             return paged + last.userIds.count
         }
@@ -179,8 +179,8 @@ private extension RankingsPageVC {
     }
 
     func user(at rank: Int) -> User {
-        let pageIndex = ((rank - 1) / RankingsPageInfo.expectedUserCount) + 1
-        let userIndex = (rank - 1) % RankingsPageInfo.expectedUserCount
+        let pageIndex = ((rank - 1) / RankingsPageInfo.perPage) + 1
+        let userIndex = (rank - 1) % RankingsPageInfo.perPage
         guard let page = rankings?.filter("page = \(pageIndex)").first else {
             let userPageQuery = filter.with(page: pageIndex)
             mtp.loadRankings(query: userPageQuery) { _ in }

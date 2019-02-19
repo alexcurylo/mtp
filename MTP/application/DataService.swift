@@ -191,7 +191,7 @@ final class DataServiceImpl: DataService {
 
     func set(rankings query: RankingsQuery,
              info: RankingsPageInfoJSON) {
-        if info.users.perPage != RankingsPageInfo.expectedUserCount {
+        if info.users.perPage != RankingsPageInfo.perPage {
             log.warning("expect 50 users per page not \(info.users.perPage)")
         }
 
