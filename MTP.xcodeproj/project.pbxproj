@@ -73,6 +73,7 @@
 		FA74C113211C61580013A840 /* StringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74C112211C61580013A840 /* StringTests.swift */; };
 		FA76D9752131278900EF8E25 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA76D9742131278900EF8E25 /* User.swift */; };
 		FA7C200E221820FA002C6DAB /* PasswordResetInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7C200D221820FA002C6DAB /* PasswordResetInfo.swift */; };
+		FA7C2010221BA0A1002C6DAB /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7C200F221BA0A1002C6DAB /* Post.swift */; };
 		FA81361220E8F64500313AB9 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FA81361120E8F64500313AB9 /* Settings.bundle */; };
 		FA835D34210EAC110098C270 /* Styler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA835D33210EAC110098C270 /* Styler.swift */; };
 		FA835D36210F054F0098C270 /* ReplaceTopSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */; };
@@ -218,6 +219,7 @@
 		FA74C112211C61580013A840 /* StringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringTests.swift; sourceTree = "<group>"; };
 		FA76D9742131278900EF8E25 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		FA7C200D221820FA002C6DAB /* PasswordResetInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordResetInfo.swift; sourceTree = "<group>"; };
+		FA7C200F221BA0A1002C6DAB /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		FA81361120E8F64500313AB9 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		FA81361320E8FD4E00313AB9 /* script_build_end.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = script_build_end.sh; sourceTree = "<group>"; };
 		FA835D33210EAC110098C270 /* Styler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styler.swift; sourceTree = "<group>"; };
@@ -601,6 +603,7 @@
 				FAD2B51721F48AB8009FFDD7 /* PlaceInfo.swift */,
 				FA7C200D221820FA002C6DAB /* PasswordResetInfo.swift */,
 				FAD2B51221F45796009FFDD7 /* PlaceLocation.swift */,
+				FA7C200F221BA0A1002C6DAB /* Post.swift */,
 				8C5ECF3921FFE49800322ABF /* RankingsQuery.swift */,
 				8C76D8EB2207CD36005CF4CD /* RankingsPageInfo.swift */,
 				FAD2B51B21F4A675009FFDD7 /* Restaurant.swift */,
@@ -966,6 +969,7 @@
 				FA25ACE8217C87ED000AE26D /* RankingHeader.swift in Sources */,
 				FA291FD5217ECBC8004140BD /* RankingsFilterVC.swift in Sources */,
 				FAC3BCB8216A225900E1507E /* TagButton.swift in Sources */,
+				FA7C2010221BA0A1002C6DAB /* Post.swift in Sources */,
 				FA5AC0C521FDD7C00080F84F /* CountHeader.swift in Sources */,
 				8C5ECF3A21FFE49800322ABF /* RankingsQuery.swift in Sources */,
 				FA4653342115ADC6005B5A0A /* MTPNetworkService.swift in Sources */,
