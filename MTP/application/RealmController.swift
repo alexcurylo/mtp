@@ -20,6 +20,11 @@ final class RealmController: ServiceProvider {
             let noLocking = [FileAttributeKey.protectionKey: FileProtectionType.none]
             try FileManager.default.setAttributes(noLocking, ofItemAtPath: folder)
             return try Realm()
+        } catch(let error as NSError) where error.code == 10 {
+            // for now, reset instead of migrating
+            deleteDatabaseFiles()
+            // swiftlint:disable:next force_try
+            return try! Realm()
         } catch {
             let message = "creating realm: \(error)"
             log.error(message)
@@ -28,12 +33,12 @@ final class RealmController: ServiceProvider {
     }()
 
     init() {
-        //deleteDatabaseFiles()
-
+        #if DEBUG
         // swiftlint:disable:next inert_defer
         defer {
             log.verbose("realm database: \(fileURL)")
         }
+        #endif
     }
 
     var beaches: [Beach] {
