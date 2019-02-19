@@ -1,6 +1,7 @@
 // @copyright Trollwerks Inc.
 
 import Anchorage
+import Nuke
 
 final class MyPostsVC: UICollectionViewController, ServiceProvider {
 
@@ -90,17 +91,14 @@ private extension MyPostsVC {
     }
 
     func refreshPosts() {
-        log.debug("My Posts should be using posts from site")
-
-        posts = (1...8).map {
-            MyPostCellModel(image: nil,
-                            date: dateFormatter.string(from: Date()).uppercased(),
-                            title: "This is post title \($0) which is long enough to wrap",
-                            body: """
-                                  This is a body title of a very long body
-                                  continued on another line to make it long
-                                  enough to wrap on a standard cell
-                                  """)
+        posts = data.posts.map { post in
+            let location = data.get(location: post.locationId)
+            return MyPostCellModel(
+                location: location,
+                date: dateFormatter.string(from: post.updatedAt).uppercased(),
+                title: location?.title ?? Localized.unknown(),
+                body: post.post
+            )
         }
 
         collectionView.reloadData()
@@ -109,7 +107,7 @@ private extension MyPostsVC {
 
 struct MyPostCellModel {
 
-    let image: UIImage?
+    let location: Location?
     let date: String
     let title: String
     let body: String
@@ -132,7 +130,7 @@ final class MyPostCell: UICollectionViewCell {
 
     fileprivate func set(model: MyPostCellModel,
                          width: CGFloat) {
-        imageView?.image = model.image
+        imageView?.set(thumbnail: model.location)
         dateLabel?.text = model.date
         titleLabel?.text = model.title
         bodyLabel?.text = model.body
@@ -143,7 +141,10 @@ final class MyPostCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        imageView?.image = nil
+        if let imageView = imageView {
+            Nuke.cancelRequest(for: imageView)
+            imageView.image = nil
+        }
         dateLabel?.text = nil
         titleLabel?.text = nil
         bodyLabel?.text = nil

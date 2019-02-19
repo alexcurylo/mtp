@@ -1,6 +1,7 @@
 // @copyright Trollwerks Inc.
 
 import CoreLocation
+import Nuke
 import RealmSwift
 
 struct LocationJSON: Codable {
@@ -77,6 +78,7 @@ extension LocationJSON: CustomDebugStringConvertible {
 
     dynamic var countryId: Int = 0
     dynamic var countryName: String = ""
+    dynamic var featuredImg: String?
     dynamic var id: Int = 0
     dynamic var lat: Double = 0
     dynamic var locationName: String = ""
@@ -92,6 +94,7 @@ extension LocationJSON: CustomDebugStringConvertible {
 
         countryId = from.countryId
         countryName = from.countryName
+        featuredImg = from.featuredImg
         id = from.id
         locationName = from.locationName
         regionName = from.regionName
@@ -158,4 +161,30 @@ extension Location {
     var title: String { return locationName }
 
     var subtitle: String { return "" }
+
+    var imageUrl: URL? {
+        guard let uuid = featuredImg, !uuid.isEmpty else { return nil }
+        let link = "https://mtp.travel/api/files/preview?uuid=\(uuid)"
+        return URL(string: link)
+    }
+}
+
+extension UIImageView {
+
+    func set(thumbnail location: Location?) {
+        let placeholder = R.image.placeholderThumb()
+        guard let url = location?.imageUrl else {
+            image = placeholder
+            return
+        }
+
+        Nuke.loadImage(
+            with: url,
+            options: ImageLoadingOptions(
+                placeholder: placeholder,
+                transition: .fadeIn(duration: 0.2)
+            ),
+            into: self
+        )
+    }
 }

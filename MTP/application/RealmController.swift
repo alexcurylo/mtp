@@ -34,7 +34,6 @@ final class RealmController: ServiceProvider {
 
     init() {
         #if DEBUG
-        // swiftlint:disable:next inert_defer
         defer {
             log.verbose("realm database: \(fileURL)")
         }
@@ -140,6 +139,23 @@ final class RealmController: ServiceProvider {
             }
         } catch {
             log.error("set locations: \(error)")
+        }
+    }
+
+    var posts: [Post] {
+        let results = realm.objects(Post.self)
+                           .sorted(byKeyPath: "updatedAt", ascending: false)
+        return Array(results)
+    }
+
+    func set(posts: [PostJSON]) {
+        do {
+            let objects = posts.compactMap { Post(from: $0) }
+            try realm.write {
+                realm.add(objects, update: true)
+            }
+        } catch {
+            log.error("set posts: \(error)")
         }
     }
 
