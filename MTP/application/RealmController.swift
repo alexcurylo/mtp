@@ -142,6 +142,26 @@ final class RealmController: ServiceProvider {
         }
     }
 
+    var photos: [Photo] {
+        let results = realm.objects(Photo.self)
+                           .sorted(byKeyPath: "updatedAt", ascending: false)
+        return Array(results)
+    }
+
+    func set(photos page: Int,
+             info: PhotosPageInfoJSON) {
+        do {
+            let page = PhotosPageInfo(info: info)
+            let photos = info.data.map { Photo(from: $0) }
+            try realm.write {
+                realm.add(page, update: true)
+                realm.add(photos, update: true)
+            }
+        } catch {
+            log.error("update photos:page: \(error)")
+        }
+    }
+
     var posts: [Post] {
         let results = realm.objects(Post.self)
                            .sorted(byKeyPath: "updatedAt", ascending: false)

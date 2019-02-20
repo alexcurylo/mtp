@@ -29,6 +29,7 @@ enum MTP: Hashable {
     case location
     case locationPosts
     case passwordReset(email: String)
+    case photos(page: Int)
     case rankings(query: RankingsQuery)
     case restaurant
     case unCountry
@@ -67,6 +68,8 @@ extension MTP: TargetType {
             return "location"
         case .locationPosts:
             return "users/me/location-posts"
+        case .photos:
+            return "users/me/photos"
         case .rankings:
             return "rankings/users"
         case .passwordReset:
@@ -97,6 +100,7 @@ extension MTP: TargetType {
              .golfcourse,
              .location,
              .locationPosts,
+             .photos,
              .rankings,
              .restaurant,
              .unCountry,
@@ -125,6 +129,9 @@ extension MTP: TargetType {
         case .passwordReset(let email):
             return .requestParameters(parameters: ["email": email],
                                       encoding: URLEncoding(destination: .queryString))
+        case .photos(let page):
+            return .requestParameters(parameters: ["page": page],
+                                      encoding: URLEncoding.default)
         case .rankings(let query):
             return .requestParameters(parameters: query.parameters,
                                       encoding: URLEncoding.default)
@@ -179,6 +186,7 @@ extension MTP: AccessTokenAuthorizable {
              .checklists,
              .checkOut,
              .locationPosts,
+             .photos,
              .rankings,
              .userGetByToken:
             return .bearer
@@ -449,6 +457,42 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                                                    using: JSONDecoder.mtp)
                     self.data.set(locations: locations)
                     return then(.success(locations))
+                } catch {
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    return then(.failure(.results))
+                }
+            case .failure(let error):
+                guard error.modified(from: endpoint) else {
+                    return then(.failure(.notModified))
+                }
+                let message = error.errorDescription ?? Localized.unknown()
+                self.log.error("failure: \(endpoint.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
+    func loadPhotos(page: Int,
+                    then: @escaping MTPResult<PhotosPageInfoJSON> = { _ in }) {
+        guard data.isLoggedIn else {
+            log.verbose("load photos attempt invalid: not logged in")
+            return then(.failure(.parameter))
+        }
+
+        let auth = AccessTokenPlugin { self.data.token }
+        let provider = MoyaProvider<MTP>(plugins: [auth])
+        let endpoint = MTP.photos(page: page)
+        provider.request(endpoint) { response in
+            switch response {
+            case .success(let result):
+                guard result.modified(from: endpoint) else {
+                    return then(.failure(.notModified))
+                }
+                do {
+                    let info = try result.map(PhotosPageInfoJSON.self,
+                                              using: JSONDecoder.mtp)
+                    self.data.set(photos: page, info: info)
+                    return then(.success(info))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
@@ -942,6 +986,7 @@ private extension MoyaMTPNetworkService {
         userGetByToken()
         loadChecklists()
         loadPosts()
+        loadPhotos(page: 1)
     }
 }
 
