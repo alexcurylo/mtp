@@ -89,8 +89,9 @@ private extension LoginVC {
     }
 
     @IBAction func facebookTapped(_ sender: FacebookButton) {
-        sender.login { [weak self] _, email, id in
-            self?.login(email: email, password: id)
+        sender.login { [weak self] _, email, _ in
+            self?.emailTextField?.text = email
+            // currently not implemented: login with Facebook ID
         }
     }
 
