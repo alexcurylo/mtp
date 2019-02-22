@@ -140,6 +140,7 @@ extension PhotoJSON: CustomDebugStringConvertible {
 @objcMembers final class Photo: Object {
 
     dynamic var id: Int = 0
+    dynamic var locationId: Int = 0
     dynamic var updatedAt = Date()
     dynamic var uuid: String = ""
 
@@ -151,6 +152,7 @@ extension PhotoJSON: CustomDebugStringConvertible {
         self.init()
 
         id = from.id
+        locationId = from.locationId ?? 0
         updatedAt = from.updatedAt
         uuid = from.uuid
     }

@@ -27,6 +27,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func get(country id: Int?) -> Country?
     func get(location id: Int?) -> Location?
     func get(locations filter: String) -> [Location]
+    func get(photos locationId: Int?) -> [Photo]
     func get(rankings query: RankingsQuery) -> Results<RankingsPageInfo>
     func get(user id: Int) -> User
     func get(whs id: Int) -> WHS?
@@ -181,6 +182,11 @@ final class DataServiceImpl: DataService {
 
     var photos: [Photo] {
         return realm.photos
+    }
+
+    func get(photos locationId: Int?) -> [Photo] {
+        guard let locationId = locationId else { return [] }
+        return realm.photos(filter: "locationId = \(locationId)")
     }
 
     func set(photos page: Int,

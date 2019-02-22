@@ -148,6 +148,13 @@ final class RealmController: ServiceProvider {
         return Array(results)
     }
 
+    func photos(filter: String) -> [Photo] {
+        let results = realm.objects(Photo.self)
+                           .filter(filter)
+                           .sorted(byKeyPath: "updatedAt", ascending: false)
+        return Array(results)
+    }
+
     func set(photos page: Int,
              info: PhotosPageInfoJSON) {
         do {

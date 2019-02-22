@@ -92,8 +92,10 @@ private extension MyPostsVC {
 
     func refreshPosts() {
         posts = data.posts.map { post in
+            let photos = data.get(photos: post.locationId)
             let location = data.get(location: post.locationId)
             return MyPostCellModel(
+                photo: photos.first,
                 location: location,
                 date: dateFormatter.string(from: post.updatedAt).uppercased(),
                 title: location?.title ?? Localized.unknown(),
@@ -107,6 +109,7 @@ private extension MyPostsVC {
 
 struct MyPostCellModel {
 
+    let photo: Photo?
     let location: Location?
     let date: String
     let title: String
@@ -130,7 +133,11 @@ final class MyPostCell: UICollectionViewCell {
 
     fileprivate func set(model: MyPostCellModel,
                          width: CGFloat) {
-        imageView?.set(thumbnail: model.location)
+        if let photo = model.photo {
+            imageView?.set(thumbnail: photo)
+        } else {
+            imageView?.set(thumbnail: model.location)
+        }
         dateLabel?.text = model.date
         titleLabel?.text = model.title
         bodyLabel?.text = model.body

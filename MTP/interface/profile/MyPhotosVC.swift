@@ -1,5 +1,6 @@
 // @copyright Trollwerks Inc.
 
+import Nuke
 import Photos
 
 final class MyPhotosVC: UICollectionViewController, ServiceProvider {
@@ -8,7 +9,8 @@ final class MyPhotosVC: UICollectionViewController, ServiceProvider {
         static let minItemSize = CGFloat(100)
     }
 
-    private var photos: PHFetchResult<PHAsset>?
+    private var photos: [Photo] = []
+    private var devicePhotos: PHFetchResult<PHAsset>?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,7 +20,6 @@ final class MyPhotosVC: UICollectionViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         refreshPhotos()
-        collectionView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -41,7 +42,7 @@ extension MyPhotosVC {
 
     override func collectionView(_ collectionView: UICollectionView,
                                  numberOfItemsInSection section: Int) -> Int {
-        return photos?.count ?? 0
+        return photos.count
     }
 
     override func collectionView(_ collectionView: UICollectionView,
@@ -50,18 +51,9 @@ extension MyPhotosVC {
             withReuseIdentifier: R.reuseIdentifier.myPhotoCell,
             for: indexPath)
 
-        if let photoCell = cell,
-           let photo = photos?[indexPath.item] {
-            let size = self.collectionView(collectionView,
-                                           layout: collectionView.collectionViewLayout,
-                                           sizeForItemAt: indexPath)
-            PHImageManager.default().requestImage(for: photo,
-                                                  targetSize: size,
-                                                  contentMode: .aspectFill,
-                                                  options: nil) { result, _ in
-                photoCell.set(image: result)
-            }
-            return photoCell
+        if let cell = cell {
+            cell.set(photo: photos[indexPath.item])
+            return cell
         }
 
         return MyPhotoCell()
@@ -92,10 +84,30 @@ extension MyPhotosVC: UICollectionViewDelegateFlowLayout {
 private extension MyPhotosVC {
 
     func refreshPhotos() {
-        log.debug("My Photos should be using photos from site")
+        photos = data.photos
+        collectionView.reloadData()
+    }
+
+    func refreshDevicePhotos() {
         let options = PHFetchOptions()
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-        photos = PHAsset.fetchAssets(with: options)
+        devicePhotos = PHAsset.fetchAssets(with: options)
+    }
+
+    func setDevicePhoto(cell: MyPhotoCell, indexPath: IndexPath) {
+        guard let photo = devicePhotos?[indexPath.item] else { return }
+
+        let size = self.collectionView(
+            collectionView,
+            layout: collectionView.collectionViewLayout,
+            sizeForItemAt: indexPath)
+        PHImageManager.default().requestImage(
+            for: photo,
+            targetSize: size,
+            contentMode: .aspectFill,
+            options: nil) { result, _ in
+                cell.set(image: result)
+        }
     }
 }
 
@@ -107,9 +119,16 @@ final class MyPhotoCell: UICollectionViewCell {
         imageView?.image = image
     }
 
+    fileprivate func set(photo: Photo?) {
+        imageView?.set(thumbnail: photo)
+    }
+
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        imageView?.image = nil
+        if let imageView = imageView {
+            Nuke.cancelRequest(for: imageView)
+            imageView.image = nil
+        }
     }
 }
