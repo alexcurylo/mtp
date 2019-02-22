@@ -1,6 +1,5 @@
 // @copyright Trollwerks Inc.
 
-import Nuke
 import Photos
 
 final class MyPhotosVC: UICollectionViewController, ServiceProvider {
@@ -126,9 +125,6 @@ final class MyPhotoCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        if let imageView = imageView {
-            Nuke.cancelRequest(for: imageView)
-            imageView.image = nil
-        }
+        imageView?.prepareForReuse()
     }
 }

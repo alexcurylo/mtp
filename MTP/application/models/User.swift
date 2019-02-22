@@ -1,6 +1,5 @@
 // @copyright Trollwerks Inc.
 
-import Nuke
 import RealmSwift
 
 protocol UserInfo {
@@ -174,26 +173,6 @@ extension UserInfo {
         default:
             return R.image.placeholderThumb()
         }
-    }
-}
-
-extension UIImageView {
-
-    func set(thumbnail user: UserInfo) {
-        let placeholder = user.placeholder
-        guard let url = user.imageUrl else {
-            image = placeholder
-            return
-        }
-
-        Nuke.loadImage(
-            with: url,
-            options: ImageLoadingOptions(
-                placeholder: placeholder,
-                transition: .fadeIn(duration: 0.2)
-            ),
-            into: self
-        )
     }
 }
 

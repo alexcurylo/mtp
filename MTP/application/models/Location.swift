@@ -1,7 +1,6 @@
 // @copyright Trollwerks Inc.
 
 import CoreLocation
-import Nuke
 import RealmSwift
 
 struct LocationJSON: Codable {
@@ -166,25 +165,5 @@ extension Location {
         guard let uuid = featuredImg, !uuid.isEmpty else { return nil }
         let link = "https://mtp.travel/api/files/preview?uuid=\(uuid)"
         return URL(string: link)
-    }
-}
-
-extension UIImageView {
-
-    func set(thumbnail location: Location?) {
-        let placeholder = R.image.placeholderThumb()
-        guard let url = location?.imageUrl else {
-            image = placeholder
-            return
-        }
-
-        Nuke.loadImage(
-            with: url,
-            options: ImageLoadingOptions(
-                placeholder: placeholder,
-                transition: .fadeIn(duration: 0.2)
-            ),
-            into: self
-        )
     }
 }

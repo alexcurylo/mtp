@@ -1,7 +1,6 @@
 // @copyright Trollwerks Inc.
 
 import Anchorage
-import Nuke
 
 final class MyPostsVC: UICollectionViewController, ServiceProvider {
 
@@ -148,10 +147,7 @@ final class MyPostCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        if let imageView = imageView {
-            Nuke.cancelRequest(for: imageView)
-            imageView.image = nil
-        }
+        imageView?.prepareForReuse()
         dateLabel?.text = nil
         titleLabel?.text = nil
         bodyLabel?.text = nil

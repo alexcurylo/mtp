@@ -1,6 +1,5 @@
 // @copyright Trollwerks Inc.
 
-import Nuke
 import RealmSwift
 
 struct PhotosPageInfoJSON: Codable {
@@ -161,25 +160,5 @@ extension PhotoJSON: CustomDebugStringConvertible {
         guard !uuid.isEmpty else { return nil }
         let link = "https://mtp.travel/api/files/preview?uuid=\(uuid)"
         return URL(string: link)
-    }
-}
-
-extension UIImageView {
-
-    func set(thumbnail photo: Photo?) {
-        let placeholder = R.image.placeholderThumb()
-        guard let url = photo?.imageUrl else {
-            image = placeholder
-            return
-        }
-
-        Nuke.loadImage(
-            with: url,
-            options: ImageLoadingOptions(
-                placeholder: placeholder,
-                transition: .fadeIn(duration: 0.2)
-            ),
-            into: self
-        )
     }
 }

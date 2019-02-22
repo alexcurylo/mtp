@@ -1,7 +1,6 @@
 // @copyright Trollwerks Inc.
 
 import Anchorage
-import Nuke
 
 final class RankingHeader: UICollectionReusableView, ServiceProvider {
 
@@ -66,8 +65,7 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        Nuke.cancelRequest(for: avatarImageView)
-        avatarImageView.image = nil
+        avatarImageView.prepareForReuse()
         rankLabel.text = nil
         filterLabel.text = nil
     }
