@@ -142,6 +142,12 @@ final class RealmController: ServiceProvider {
         }
     }
 
+    func photo(id: Int) -> Photo? {
+        let results = realm.objects(Photo.self)
+                           .filter("id = \(id)")
+        return results.first
+    }
+
     var photos: [Photo] {
         let results = realm.objects(Photo.self)
                            .sorted(byKeyPath: "updatedAt", ascending: false)
@@ -167,6 +173,12 @@ final class RealmController: ServiceProvider {
         } catch {
             log.error("update photos:page: \(error)")
         }
+    }
+
+    var photosPages: Results<PhotosPageInfo> {
+        let results = realm.objects(PhotosPageInfo.self)
+                           .sorted(byKeyPath: "page")
+        return results
     }
 
     var posts: [Post] {

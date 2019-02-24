@@ -155,8 +155,10 @@ extension RankedUserJSON: CustomDebugStringConvertible {
 
     dynamic var lastPage: Int = 0
     dynamic var page: Int = 0
-    dynamic var queryKey: String = ""
+
     dynamic var dbKey: String = ""
+    dynamic var queryKey: String = ""
+
     let userIds = List<Int>()
 
     override static func primaryKey() -> String? {

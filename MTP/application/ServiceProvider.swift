@@ -2,6 +2,8 @@
 
 import UIKit
 
+// https://medium.com/@neobeppe/how-to-dismantle-a-massive-singleton-ios-app-a3fb75f7d18f
+
 protocol ServiceProvider {
 
     var app: ApplicationService { get }

@@ -67,7 +67,7 @@ struct PhotoJSON: Codable {
     }
 
     let createdAt: Date
-    let desc: String
+    let desc: String?
     let id: Int
     let location: LocationJSON? // still has 30 items
     let locationId: Int?
@@ -93,7 +93,7 @@ extension PhotoJSON: CustomDebugStringConvertible {
         return """
         < PhotoJSON: \(description):
         createdAt: \(createdAt)
-        desc: \(desc)
+        desc: \(String(describing: desc))
         id: \(id)
         location: \(String(describing: location))
         locationId: \(String(describing: locationId))
@@ -115,8 +115,11 @@ extension PhotoJSON: CustomDebugStringConvertible {
 
     dynamic var lastPage: Int = 0
     dynamic var page: Int = 0
-    dynamic var queryKey: String = ""
+    dynamic var total: Int = 0
+
     dynamic var dbKey: String = ""
+    dynamic var queryKey: String = ""
+
     let photoIds = List<Int>()
 
     override static func primaryKey() -> String? {
@@ -128,6 +131,7 @@ extension PhotoJSON: CustomDebugStringConvertible {
 
         page = info.paging.currentPage
         lastPage = info.paging.lastPage
+        total = info.paging.total
 
         queryKey = "me"
         dbKey = "userId=\(queryKey)?page=\(page)"

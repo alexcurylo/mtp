@@ -16,7 +16,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var locations: [Location] { get }
     var name: String { get set }
     var password: String { get set }
-    var photos: [Photo] { get }
+    var photosPages: Results<PhotosPageInfo> { get }
     var posts: [Post] { get }
     var restaurants: [Restaurant] { get }
     var token: String { get set }
@@ -27,6 +27,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func get(country id: Int?) -> Country?
     func get(location id: Int?) -> Location?
     func get(locations filter: String) -> [Location]
+    func get(photo id: Int) -> Photo
     func get(photos locationId: Int?) -> [Photo]
     func get(rankings query: RankingsQuery) -> Results<RankingsPageInfo>
     func get(user id: Int) -> User
@@ -180,8 +181,12 @@ final class DataServiceImpl: DataService {
         }
     }
 
-    var photos: [Photo] {
-        return realm.photos
+    var photosPages: Results<PhotosPageInfo> {
+        return realm.photosPages
+    }
+
+    func get(photo id: Int) -> Photo {
+        return realm.photo(id: id) ?? Photo()
     }
 
     func get(photos locationId: Int?) -> [Photo] {
@@ -196,7 +201,7 @@ final class DataServiceImpl: DataService {
         }
 
         realm.set(photos: page, info: info)
-        notify(change: .photos, object: page)
+        notify(change: .photoPages, object: page)
     }
 
     var posts: [Post] {
@@ -302,7 +307,7 @@ enum DataServiceChange: String {
     case divesites
     case golfcourses
     case locations
-    case photos
+    case photoPages
     case posts
     case rankings
     case restaurants

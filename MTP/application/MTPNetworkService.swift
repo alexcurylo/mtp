@@ -221,6 +221,8 @@ protocol MTPNetworkService {
                id: Int,
                visited: Bool,
                then: @escaping MTPResult<Bool>)
+    func loadPhotos(page: Int,
+                    then: @escaping MTPResult<PhotosPageInfoJSON>)
     func loadRankings(query: RankingsQuery,
                       then: @escaping MTPResult<RankingsPageInfoJSON>)
     func loadUser(id: Int,

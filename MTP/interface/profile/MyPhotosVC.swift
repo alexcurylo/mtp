@@ -1,6 +1,7 @@
 // @copyright Trollwerks Inc.
 
 import Photos
+import RealmSwift
 
 final class MyPhotosVC: UICollectionViewController, ServiceProvider {
 
@@ -8,17 +9,20 @@ final class MyPhotosVC: UICollectionViewController, ServiceProvider {
         static let minItemSize = CGFloat(100)
     }
 
-    private var photos: [Photo] = []
+    private var photosPages: Results<PhotosPageInfo>?
     private var devicePhotos: PHFetchResult<PHAsset>?
+
+    private var pagesObserver: Observer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        updatePhotos()
+        observe()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        refreshPhotos()
     }
 
     override func didReceiveMemoryWarning() {
@@ -41,7 +45,7 @@ extension MyPhotosVC {
 
     override func collectionView(_ collectionView: UICollectionView,
                                  numberOfItemsInSection section: Int) -> Int {
-        return photos.count
+        return photosPages?.first?.total ?? 0
     }
 
     override func collectionView(_ collectionView: UICollectionView,
@@ -51,7 +55,7 @@ extension MyPhotosVC {
             for: indexPath)
 
         if let cell = cell {
-            cell.set(photo: photos[indexPath.item])
+            cell.set(photo: photo(at: indexPath.item))
             return cell
         }
 
@@ -82,9 +86,29 @@ extension MyPhotosVC: UICollectionViewDelegateFlowLayout {
 
 private extension MyPhotosVC {
 
-    func refreshPhotos() {
-        photos = data.photos
+    func updatePhotos() {
+        photosPages = data.photosPages
         collectionView.reloadData()
+    }
+
+    func observe() {
+        guard pagesObserver == nil else { return }
+
+        pagesObserver = data.observer(of: .photoPages) { [weak self] _ in
+            self?.updatePhotos()
+        }
+    }
+
+    func photo(at index: Int) -> Photo {
+        let pageIndex = (index / PhotosPageInfo.perPage) + 1
+        let photoIndex = index % PhotosPageInfo.perPage
+        guard let page = photosPages?.filter("page = \(pageIndex)").first else {
+            mtp.loadPhotos(page: pageIndex) { _ in }
+            return Photo()
+        }
+
+        let photoId = page.photoIds[photoIndex]
+        return data.get(photo: photoId)
     }
 
     func refreshDevicePhotos() {
