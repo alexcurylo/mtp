@@ -5,6 +5,7 @@ import Foundation
 // version of Location found in place results on staging
 
 struct PlaceLocation: Codable {
+
     let countryId: Int
     let countryName: String
     let id: Int

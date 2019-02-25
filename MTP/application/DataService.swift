@@ -48,6 +48,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func set(restaurants: [RestaurantJSON])
     func set(rankings query: RankingsQuery,
              info: RankingsPageInfoJSON)
+    func set(scorecard: ScorecardWrapperJSON)
     func set(uncountries: [LocationJSON])
     func set(userId: UserJSON)
     func set(whss: [WHSJSON])
@@ -242,6 +243,11 @@ final class DataServiceImpl: DataService {
         notify(change: .restaurants)
     }
 
+    func set(scorecard: ScorecardWrapperJSON) {
+        realm.set(scorecard: scorecard)
+        notify(change: .scorecard)
+    }
+
     var token: String {
         get { return defaults.token }
         set {
@@ -317,6 +323,7 @@ enum DataServiceChange: String {
     case posts
     case rankings
     case restaurants
+    case scorecard
     case uncountries
     case user
     case userId

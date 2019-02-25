@@ -237,6 +237,17 @@ final class RealmController: ServiceProvider {
         }
     }
 
+    func set(scorecard: ScorecardWrapperJSON) {
+        do {
+            let object = Scorecard(from: scorecard)
+            try realm.write {
+                realm.add(object, update: true)
+            }
+        } catch {
+            log.error("set scorecard: \(error)")
+        }
+    }
+
     var uncountries: [UNCountry] {
         let results = realm.objects(UNCountry.self)
         return Array(results)

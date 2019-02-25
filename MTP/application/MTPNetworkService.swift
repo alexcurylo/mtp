@@ -32,6 +32,7 @@ enum MTP: Hashable {
     case photos(user: Int?, page: Int)
     case rankings(query: RankingsQuery)
     case restaurant
+    case scorecard(user: Int?)
     case unCountry
     case user(id: Int)
     // case picture -- https://mtp.travel/api/files/preview?uuid=5lePRid3jo2etG0pSHqQs2&size={large|thumb|???}
@@ -78,6 +79,10 @@ extension MTP: TargetType {
             return "password/reset"
         case .restaurant:
             return "restaurant"
+        case .scorecard(let user?):
+            return "users/\(user)/scorecard"
+        case .scorecard:
+            return "me/scorecard"
         case .unCountry:
             return "un-country"
         case .userGetByToken:
@@ -105,6 +110,7 @@ extension MTP: TargetType {
              .photos,
              .rankings,
              .restaurant,
+             .scorecard,
              .unCountry,
              .user,
              .userGetByToken,
@@ -131,7 +137,7 @@ extension MTP: TargetType {
         case .passwordReset(let email):
             return .requestParameters(parameters: ["email": email],
                                       encoding: URLEncoding(destination: .queryString))
-        case .photos(let page):
+        case .photos(_, let page):
             return .requestParameters(parameters: ["page": page],
                                       encoding: URLEncoding.default)
         case .rankings(let query):
@@ -149,6 +155,7 @@ extension MTP: TargetType {
              .location,
              .locationPosts,
              .restaurant,
+             .scorecard,
              .unCountry,
              .user,
              .userGetByToken,
@@ -190,6 +197,7 @@ extension MTP: AccessTokenAuthorizable {
              .locationPosts,
              .photos,
              .rankings,
+             .scorecard,
              .userGetByToken:
             return .bearer
         case .beach,
@@ -228,6 +236,8 @@ protocol MTPNetworkService {
                     then: @escaping MTPResult<PhotosPageInfoJSON>)
     func loadRankings(query: RankingsQuery,
                       then: @escaping MTPResult<RankingsPageInfoJSON>)
+    func loadScorecard(user id: Int?,
+                       then: @escaping MTPResult<ScorecardJSON>)
     func loadUser(id: Int,
                   then: @escaping MTPResult<UserJSON>)
     func userDeleteAccount(then: @escaping MTPResult<Bool>)
@@ -622,6 +632,42 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
+    func loadScorecard(user id: Int?,
+                       then: @escaping MTPResult<ScorecardJSON> = { _ in }) {
+        guard data.isLoggedIn else {
+            log.verbose("load scorecard attempt invalid: not logged in")
+            return then(.failure(.parameter))
+        }
+
+        let auth = AccessTokenPlugin { self.data.token }
+        let provider = MoyaProvider<MTP>(plugins: [auth])
+        let endpoint = MTP.scorecard(user: id)
+        provider.request(endpoint) { response in
+            switch response {
+            case .success(let result):
+                guard result.modified(from: endpoint) else {
+                    return then(.failure(.notModified))
+                }
+                do {
+                    let scorecard = try result.map(ScorecardWrapperJSON.self,
+                                                   using: JSONDecoder.mtp)
+                    self.data.set(scorecard: scorecard)
+                    return then(.success(scorecard.data))
+                } catch {
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    return then(.failure(.results))
+                }
+            case .failure(let error):
+                guard error.modified(from: endpoint) else {
+                    return then(.failure(.notModified))
+                }
+                let message = error.errorDescription ?? Localized.unknown()
+                self.log.error("failure: \(endpoint.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
     func loadUNCountries(then: @escaping MTPResult<[LocationJSON]> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.unCountry
@@ -993,6 +1039,7 @@ private extension MoyaMTPNetworkService {
         loadChecklists()
         loadPosts()
         loadPhotos(user: nil, page: 1)
+        loadScorecard(user: nil)
     }
 }
 
