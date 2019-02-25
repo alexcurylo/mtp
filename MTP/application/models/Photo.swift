@@ -116,6 +116,7 @@ extension PhotoJSON: CustomDebugStringConvertible {
     dynamic var lastPage: Int = 0
     dynamic var page: Int = 0
     dynamic var total: Int = 0
+    dynamic var userId: Int?
 
     dynamic var dbKey: String = ""
     dynamic var queryKey: String = ""
@@ -126,14 +127,24 @@ extension PhotoJSON: CustomDebugStringConvertible {
         return "dbKey"
     }
 
-    convenience init(info: PhotosPageInfoJSON) {
+    static func key(user id: Int?) -> String {
+        if let id = id {
+            return "\(id)"
+        } else {
+            return "me"
+        }
+    }
+
+    convenience init(user id: Int?,
+                     info: PhotosPageInfoJSON) {
         self.init()
 
+        userId = id
         page = info.paging.currentPage
         lastPage = info.paging.lastPage
         total = info.paging.total
 
-        queryKey = "me"
+        queryKey = PhotosPageInfo.key(user: id)
         dbKey = "userId=\(queryKey)?page=\(page)"
 
         info.data.forEach { photoIds.append($0.id) }
@@ -145,6 +156,7 @@ extension PhotoJSON: CustomDebugStringConvertible {
     dynamic var id: Int = 0
     dynamic var locationId: Int = 0
     dynamic var updatedAt = Date()
+    dynamic var userId: Int = 0
     dynamic var uuid: String = ""
 
     override static func primaryKey() -> String? {
@@ -157,6 +169,7 @@ extension PhotoJSON: CustomDebugStringConvertible {
         id = from.id
         locationId = from.locationId ?? 0
         updatedAt = from.updatedAt
+        userId = from.userId
         uuid = from.uuid
     }
 

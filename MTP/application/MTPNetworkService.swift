@@ -29,7 +29,7 @@ enum MTP: Hashable {
     case location
     case locationPosts
     case passwordReset(email: String)
-    case photos(page: Int)
+    case photos(user: Int?, page: Int)
     case rankings(query: RankingsQuery)
     case restaurant
     case unCountry
@@ -68,6 +68,8 @@ extension MTP: TargetType {
             return "location"
         case .locationPosts:
             return "users/me/location-posts"
+        case .photos(let user?, _):
+            return "users/\(user)/photos"
         case .photos:
             return "users/me/photos"
         case .rankings:
@@ -221,7 +223,8 @@ protocol MTPNetworkService {
                id: Int,
                visited: Bool,
                then: @escaping MTPResult<Bool>)
-    func loadPhotos(page: Int,
+    func loadPhotos(user id: Int?,
+                    page: Int,
                     then: @escaping MTPResult<PhotosPageInfoJSON>)
     func loadRankings(query: RankingsQuery,
                       then: @escaping MTPResult<RankingsPageInfoJSON>)
@@ -474,7 +477,8 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadPhotos(page: Int,
+    func loadPhotos(user id: Int?,
+                    page: Int,
                     then: @escaping MTPResult<PhotosPageInfoJSON> = { _ in }) {
         guard data.isLoggedIn else {
             log.verbose("load photos attempt invalid: not logged in")
@@ -483,7 +487,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
 
         let auth = AccessTokenPlugin { self.data.token }
         let provider = MoyaProvider<MTP>(plugins: [auth])
-        let endpoint = MTP.photos(page: page)
+        let endpoint = MTP.photos(user: id, page: page)
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
@@ -493,7 +497,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 do {
                     let info = try result.map(PhotosPageInfoJSON.self,
                                               using: JSONDecoder.mtp)
-                    self.data.set(photos: page, info: info)
+                    self.data.set(photos: page, user: id, info: info)
                     return then(.success(info))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -988,7 +992,7 @@ private extension MoyaMTPNetworkService {
         userGetByToken()
         loadChecklists()
         loadPosts()
-        loadPhotos(page: 1)
+        loadPhotos(user: nil, page: 1)
     }
 }
 

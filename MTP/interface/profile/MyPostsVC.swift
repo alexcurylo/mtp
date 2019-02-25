@@ -91,7 +91,7 @@ private extension MyPostsVC {
 
     func refreshPosts() {
         posts = data.posts.map { post in
-            let photos = data.get(photos: post.locationId)
+            let photos = data.get(user: nil, photos: post.locationId)
             let location = data.get(location: post.locationId)
             return MyPostCellModel(
                 photo: photos.first,

@@ -87,7 +87,7 @@ extension MyPhotosVC: UICollectionViewDelegateFlowLayout {
 private extension MyPhotosVC {
 
     func updatePhotos() {
-        photosPages = data.photosPages
+        photosPages = data.getPhotosPages(user: nil)
         collectionView.reloadData()
     }
 
@@ -103,7 +103,8 @@ private extension MyPhotosVC {
         let pageIndex = (index / PhotosPageInfo.perPage) + 1
         let photoIndex = index % PhotosPageInfo.perPage
         guard let page = photosPages?.filter("page = \(pageIndex)").first else {
-            mtp.loadPhotos(page: pageIndex) { _ in }
+            mtp.loadPhotos(user: nil,
+                           page: pageIndex) { _ in }
             return Photo()
         }
 

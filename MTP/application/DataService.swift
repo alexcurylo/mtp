@@ -16,7 +16,6 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var locations: [Location] { get }
     var name: String { get set }
     var password: String { get set }
-    var photosPages: Results<PhotosPageInfo> { get }
     var posts: [Post] { get }
     var restaurants: [Restaurant] { get }
     var token: String { get set }
@@ -27,8 +26,10 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func get(country id: Int?) -> Country?
     func get(location id: Int?) -> Location?
     func get(locations filter: String) -> [Location]
-    func get(photo id: Int) -> Photo
-    func get(photos locationId: Int?) -> [Photo]
+    func getPhotosPages(user id: Int?) -> Results<PhotosPageInfo>
+    func get(photo: Int) -> Photo
+    func get(user id: Int?,
+             photos location: Int?) -> [Photo]
     func get(rankings query: RankingsQuery) -> Results<RankingsPageInfo>
     func get(user id: Int) -> User
     func get(whs id: Int) -> WHS?
@@ -41,6 +42,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func set(golfcourses: [PlaceJSON])
     func set(locations: [LocationJSON])
     func set(photos page: Int,
+             user id: Int?,
              info: PhotosPageInfoJSON)
     func set(posts: [PostJSON])
     func set(restaurants: [RestaurantJSON])
@@ -181,26 +183,30 @@ final class DataServiceImpl: DataService {
         }
     }
 
-    var photosPages: Results<PhotosPageInfo> {
-        return realm.photosPages
+    func getPhotosPages(user id: Int?) -> Results<PhotosPageInfo> {
+        return realm.photosPages(user: id)
     }
 
-    func get(photo id: Int) -> Photo {
-        return realm.photo(id: id) ?? Photo()
+    func get(photo: Int) -> Photo {
+        return realm.photo(id: photo) ?? Photo()
     }
 
-    func get(photos locationId: Int?) -> [Photo] {
-        guard let locationId = locationId else { return [] }
-        return realm.photos(filter: "locationId = \(locationId)")
+    func get(user id: Int?,
+             photos location: Int?) -> [Photo] {
+        guard let userId = id ?? user?.id,
+              let location = location else { return [] }
+
+        return realm.photos(user: userId, location: location)
     }
 
     func set(photos page: Int,
+             user id: Int?,
              info: PhotosPageInfoJSON) {
         if info.paging.perPage != PhotosPageInfo.perPage {
             log.warning("expect 25 users per page not \(info.paging.perPage)")
         }
 
-        realm.set(photos: page, info: info)
+        realm.set(photos: page, user: id, info: info)
         notify(change: .photoPages, object: page)
     }
 
