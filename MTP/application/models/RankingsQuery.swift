@@ -159,6 +159,16 @@ extension RankingsQuery {
         return dbKey
     }
 
+    var isAllTravelers: Bool {
+        if ageGroup != .all { return false }
+        if countryId != nil { return false }
+        if facebookConnected { return false }
+        if gender != .all { return false }
+        if locationId != nil { return false }
+
+        return true
+    }
+
     var parameters: [String: String] {
         var parameters: [String: String] = [:]
 
@@ -168,10 +178,6 @@ extension RankingsQuery {
         if ageGroup != .all {
             parameters["ageGroup"] = String(ageGroup.parameter)
         }
-        // appears unnecessary?
-        //if let country = country {
-            //parameters["country"] = country
-        //}
         if let countryId = countryId {
             parameters["country_id"] = String(countryId)
         }
@@ -181,10 +187,6 @@ extension RankingsQuery {
         if gender != .all {
             parameters["gender"] = gender.rawValue
         }
-        // appears unnecessary?
-        //if let location = location {
-            //parameters["location"] = location
-        //}
         if let locationId = locationId {
             parameters["location_id"] = String(locationId)
         }

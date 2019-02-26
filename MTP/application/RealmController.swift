@@ -237,6 +237,13 @@ final class RealmController: ServiceProvider {
         }
     }
 
+    func scorecard(id: Int?) -> Scorecard? {
+        guard let id = id else { return nil }
+        let results = realm.objects(Scorecard.self)
+                           .filter("userId = \(id)")
+        return results.first
+    }
+
     func set(scorecard: ScorecardWrapperJSON) {
         do {
             let object = Scorecard(from: scorecard)

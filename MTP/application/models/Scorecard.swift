@@ -174,6 +174,7 @@ extension ScorecardJSON: CustomDebugStringConvertible {
     dynamic var age: Int = 0
     dynamic var countryId: Int = 0
     dynamic var gender: String = ""
+    dynamic var locationId: Int = 0
 
     dynamic var ageAndCountry: Int = 0
     dynamic var ageAndGenderAndCountry: Int = 0
@@ -191,6 +192,7 @@ extension ScorecardJSON: CustomDebugStringConvertible {
 
         age = from.data.ageLevel.min
         countryId = from.data.user.location.countryId
+        locationId = from.data.user.location.id
         gender = from.data.user.gender
 
         let ranks = from.data.rank.locations
@@ -198,5 +200,25 @@ extension ScorecardJSON: CustomDebugStringConvertible {
         ageAndGenderAndCountry = ranks.ageAndGenderAndCountry
         country = ranks.country
         genderAndCountry = ranks.genderAndCountry
+    }
+
+    func rank(filter: RankingsQuery) -> Int? {
+        guard countryId == filter.countryId,
+              locationId == filter.locationId else { return nil }
+
+        let hasAge = filter.ageGroup != .all
+        let ageMatches = filter.ageGroup.parameter == age
+        let hasGender = filter.gender != .all
+        let genderMatches = filter.gender.rawValue == gender
+        switch (hasAge, hasGender) {
+        case (false, false):
+            return country
+        case (true, false):
+            return ageMatches ? ageAndCountry : nil
+        case (false, true):
+            return genderMatches ? genderAndCountry : nil
+        case (true, true):
+            return ageMatches && genderMatches ? ageAndGenderAndCountry : nil
+        }
     }
 }

@@ -3,6 +3,8 @@
 import JWTDecode
 import RealmSwift
 
+// swiftlint:disable file_length
+
 protocol DataService: AnyObject, Observable, ServiceProvider {
 
     var beaches: [Beach] { get }
@@ -18,6 +20,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var password: String { get set }
     var posts: [Post] { get }
     var restaurants: [Restaurant] { get }
+    var scorecard: Scorecard? { get }
     var token: String { get set }
     var uncountries: [UNCountry] { get }
     var user: UserJSON? { get set }
@@ -241,6 +244,10 @@ final class DataServiceImpl: DataService {
     func set(restaurants: [RestaurantJSON]) {
         realm.set(restaurants: restaurants)
         notify(change: .restaurants)
+    }
+
+    var scorecard: Scorecard? {
+        return realm.scorecard(id: user?.id)
     }
 
     func set(scorecard: ScorecardWrapperJSON) {

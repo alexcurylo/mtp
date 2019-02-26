@@ -36,7 +36,7 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
     private var rankings: Results<RankingsPageInfo>?
     private var filter = RankingsQuery()
     private var filterDescription = ""
-    private var filterRank = 0
+    private var filterRank: Int?
 
     private var checklistsObserver: Observer?
     private var rankingsObserver: Observer?
@@ -172,8 +172,14 @@ private extension RankingsPageVC {
     func updateRankings() {
         rankings = data.get(rankings: filter)
 
-        log.todo("RankingsPageVC rank for filter -- waiting for endpoint")
-        filterRank = filter.checklistType.rank()
+        if filter.isAllTravelers {
+            filterRank = filter.checklistType.rank()
+        } else if filter.checklistType == .locations,
+                  let scorecard = data.scorecard {
+            filterRank = scorecard.rank(filter: filter)
+       } else {
+            filterRank = nil
+        }
 
         collectionView.reloadData()
     }

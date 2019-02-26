@@ -27,13 +27,24 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
         $0.backgroundColor = .mercury
         $0.contentMode = .scaleAspectFill
     }
+    private let rankTitle = UILabel {
+        $0.font = Avenir.heavy.of(size: 18)
+        $0.setContentHuggingPriority(.required, for: .horizontal)
+    }
     private let rankLabel = UILabel {
         $0.font = Avenir.medium.of(size: 15)
     }
+    private let rankView = UIView {
+        $0.backgroundColor = .white
+        $0.cornerRadius = Layout.cornerRadius
+    }
+
     private let filterLabel = UILabel {
         $0.font = Avenir.medium.of(size: 15)
         $0.textColor = .white
     }
+
+    private var lines: UIStackView?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -46,19 +57,32 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func set(rank: Int,
+    func set(rank: Int?,
              list: Checklist,
              filter: String) {
         filterLabel.text = filter
 
-        if let user = data.user {
-            let status = list.status(of: user)
-            let total = (status.visited + status.remaining).grouped
-            rankLabel.text = "\(rank.grouped) (\(status.visited.grouped)/\(total))"
-            avatarImageView.set(thumbnail: user)
+        guard let user = data.user else {
+            lines?.removeArrangedSubview(rankView)
+            rankView.removeFromSuperview()
+            return
+        }
+        if rankView.superview == nil {
+            lines?.insertArrangedSubview(rankView, at: 0)
+        }
+
+        avatarImageView.set(thumbnail: user)
+
+        let status = list.status(of: user)
+        let visitedText = status.visited.grouped
+        let totalText = (status.visited + status.remaining).grouped
+        if let rank = rank {
+            let rankText = rank.grouped
+            rankTitle.text = Localized.myRanking()
+            rankLabel.text = Localized.rankScoreFraction(rankText, visitedText, totalText)
         } else {
-            rankLabel.text = rank.grouped
-            avatarImageView.image = nil
+            rankTitle.text = Localized.myScore()
+            rankLabel.text = Localized.scoreFraction(visitedText, totalText)
         }
     }
 
@@ -76,20 +100,10 @@ private extension RankingHeader {
     func configure() {
         backgroundColor = .clear
 
-        let rankTitle = UILabel {
-            $0.font = Avenir.heavy.of(size: 18)
-            $0.text = Localized.myRanking()
-            $0.setContentHuggingPriority(.required, for: .horizontal)
-        }
-
         let rankLine = UIStackView(arrangedSubviews: [avatarImageView, rankTitle, rankLabel])
         rankLine.spacing = Layout.spacing
         rankLine.alignment = .center
 
-        let rankView = UIView {
-            $0.backgroundColor = .white
-            $0.cornerRadius = Layout.cornerRadius
-        }
         rankView.addSubview(rankLine)
         rankLine.leadingAnchor == rankView.leadingAnchor + Layout.spacing
         rankLine.centerYAnchor == rankView.centerYAnchor
@@ -107,10 +121,11 @@ private extension RankingHeader {
         filterLine.layoutMargins = Layout.filterMargins
         filterLine.isLayoutMarginsRelativeArrangement = true
 
-        let lines = UIStackView(arrangedSubviews: [rankView, filterLine])
-        lines.axis = .vertical
-        lines.distribution = .fillEqually
-        addSubview(lines)
-        lines.edgeAnchors == edgeAnchors + Layout.insets
+        let stack = UIStackView(arrangedSubviews: [rankView, filterLine])
+        stack.axis = .vertical
+        stack.distribution = .fillEqually
+        addSubview(stack)
+        stack.edgeAnchors == edgeAnchors + Layout.insets
+        lines = stack
     }
 }

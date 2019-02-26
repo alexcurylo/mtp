@@ -49,6 +49,9 @@
 "restaurants" = "Restaurants";
 
 "myRanking" = "My ranking:";
+"myScore" = "My score:";
+"rankScoreFraction" = "%@ (%@/%@)";
+"scoreFraction" = "%@/%@";
 "topTravelers" = "Top Travelers:";
 
 "loading" = "Loading…";
