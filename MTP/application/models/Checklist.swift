@@ -110,10 +110,6 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         return places
     }
 
-    var path: String {
-        return "me/checklists/" + rawValue
-    }
-
     func set(id: Int,
              visited: Bool) {
         guard isVisited(id: id) != visited else { return }

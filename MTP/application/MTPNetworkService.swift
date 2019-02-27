@@ -32,7 +32,7 @@ enum MTP: Hashable {
     case photos(user: Int?, page: Int)
     case rankings(query: RankingsQuery)
     case restaurant
-    case scorecard(user: Int?)
+    case scorecard(list: Checklist, user: Int)
     case unCountry
     case user(id: Int)
     // case picture -- https://mtp.travel/api/files/preview?uuid=5lePRid3jo2etG0pSHqQs2&size={large|thumb|???}
@@ -56,7 +56,7 @@ extension MTP: TargetType {
             return "beach"
         case .checkIn(let list, _),
              .checkOut(let list, _):
-            return list.path
+            return "me/checklists/\(list.rawValue)"
         case .checklists:
             return "me/checklists"
         case .countriesSearch:
@@ -79,10 +79,8 @@ extension MTP: TargetType {
             return "password/reset"
         case .restaurant:
             return "restaurant"
-        case .scorecard(let user?):
-            return "users/\(user)/scorecard"
-        case .scorecard:
-            return "me/scorecard"
+        case let .scorecard(list, user):
+            return "users/\(user)/scorecard/\(list.rawValue)"
         case .unCountry:
             return "un-country"
         case .userGetByToken:
@@ -197,7 +195,6 @@ extension MTP: AccessTokenAuthorizable {
              .locationPosts,
              .photos,
              .rankings,
-             .scorecard,
              .userGetByToken:
             return .bearer
         case .beach,
@@ -207,6 +204,7 @@ extension MTP: AccessTokenAuthorizable {
              .location,
              .passwordReset,
              .restaurant,
+             .scorecard,
              .unCountry,
              .user,
              .userLogin,
@@ -236,7 +234,8 @@ protocol MTPNetworkService {
                     then: @escaping MTPResult<PhotosPageInfoJSON>)
     func loadRankings(query: RankingsQuery,
                       then: @escaping MTPResult<RankingsPageInfoJSON>)
-    func loadScorecard(user id: Int?,
+    func loadScorecard(list: Checklist,
+                       user id: Int,
                        then: @escaping MTPResult<ScorecardJSON>)
     func loadUser(id: Int,
                   then: @escaping MTPResult<UserJSON>)
@@ -632,16 +631,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadScorecard(user id: Int?,
+    func loadScorecard(list: Checklist,
+                       user id: Int,
                        then: @escaping MTPResult<ScorecardJSON> = { _ in }) {
-        guard data.isLoggedIn else {
-            log.verbose("load scorecard attempt invalid: not logged in")
-            return then(.failure(.parameter))
-        }
-
-        let auth = AccessTokenPlugin { self.data.token }
-        let provider = MoyaProvider<MTP>(plugins: [auth])
-        let endpoint = MTP.scorecard(user: id)
+        let provider = MoyaProvider<MTP>()
+        let endpoint = MTP.scorecard(list: list, user: id)
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
@@ -1035,11 +1029,16 @@ private extension MoyaMTPNetworkService {
     func refreshUser() {
         guard data.isLoggedIn else { return }
 
-        userGetByToken()
-        loadChecklists()
-        loadPosts()
-        loadPhotos(user: nil, page: 1)
-        loadScorecard(user: nil)
+        userGetByToken { result in
+            guard case .success(let user) = result else { return }
+
+            self.loadChecklists()
+            self.loadPosts()
+            self.loadPhotos(user: nil, page: 1)
+            Checklist.allCases.forEach { list in
+                self.loadScorecard(list: list, user: user.id)
+            }
+        }
     }
 }
 

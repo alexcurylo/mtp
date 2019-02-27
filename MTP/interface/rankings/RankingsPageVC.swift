@@ -40,6 +40,7 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
 
     private var checklistsObserver: Observer?
     private var rankingsObserver: Observer?
+    private var scorecardObserver: Observer?
 
     init(options: PagingOptions) {
         super.init(nibName: nil, bundle: nil)
@@ -161,27 +162,40 @@ private extension RankingsPageVC {
         checklistsObserver = data.observer(of: .checklists) { [weak self] _ in
             self?.collectionView.reloadData()
         }
+
         rankingsObserver = data.observer(of: .rankings) { [weak self] info in
             guard let self = self,
                   let queryValue = info[StatusKey.value.rawValue] as? RankingsQuery,
                   queryValue.queryKey == self.filter.queryKey else { return }
             self.updateRankings()
         }
+
+        scorecardObserver = data.observer(of: .scorecard) { [weak self] _ in
+            self?.updateRank()
+        }
     }
 
     func updateRankings() {
         rankings = data.get(rankings: filter)
+        updateRank()
+        collectionView.reloadData()
+    }
 
+    func updateRank() {
+        let newRank: Int?
         if filter.isAllTravelers {
-            filterRank = filter.checklistType.rank()
-        } else if filter.checklistType == .locations,
-                  let scorecard = data.scorecard {
-            filterRank = scorecard.rank(filter: filter)
-       } else {
-            filterRank = nil
+            newRank = filter.checklistType.rank()
+        } else if let scorecard = data.get(scorecard: filter.checklistType,
+                                           user: data.user?.id) {
+            newRank = scorecard.rank(filter: filter)
+        } else {
+            newRank = nil
         }
 
-        collectionView.reloadData()
+        if newRank != filterRank {
+            filterRank = newRank
+            collectionView.collectionViewLayout.invalidateLayout()
+        }
     }
 
     func user(at rank: Int) -> User {

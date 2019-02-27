@@ -20,7 +20,6 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var password: String { get set }
     var posts: [Post] { get }
     var restaurants: [Restaurant] { get }
-    var scorecard: Scorecard? { get }
     var token: String { get set }
     var uncountries: [UNCountry] { get }
     var user: UserJSON? { get set }
@@ -34,6 +33,8 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func get(user id: Int?,
              photos location: Int?) -> [Photo]
     func get(rankings query: RankingsQuery) -> Results<RankingsPageInfo>
+    func get(scorecard list: Checklist, user id: Int?) -> Scorecard?
+
     func get(user id: Int) -> User
     func get(whs id: Int) -> WHS?
     func hasChildren(whs id: Int) -> Bool
@@ -246,8 +247,9 @@ final class DataServiceImpl: DataService {
         notify(change: .restaurants)
     }
 
-    var scorecard: Scorecard? {
-        return realm.scorecard(id: user?.id)
+    func get(scorecard list: Checklist, user id: Int?) -> Scorecard? {
+        guard let id = id else { return nil }
+        return realm.scorecard(list: list, id: id)
     }
 
     func set(scorecard: ScorecardWrapperJSON) {

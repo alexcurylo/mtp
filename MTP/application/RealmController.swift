@@ -237,10 +237,10 @@ final class RealmController: ServiceProvider {
         }
     }
 
-    func scorecard(id: Int?) -> Scorecard? {
-        guard let id = id else { return nil }
+    func scorecard(list: Checklist, id: Int) -> Scorecard? {
+        let key = Scorecard.key(list: list, user: id)
         let results = realm.objects(Scorecard.self)
-                           .filter("userId = \(id)")
+                           .filter("dbKey = \(key)")
         return results.first
     }
 
