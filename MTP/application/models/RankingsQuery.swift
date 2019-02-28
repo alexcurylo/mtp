@@ -3,6 +3,7 @@
 import RealmSwift
 
 enum Gender: String, Codable, CustomStringConvertible {
+
     case all = ""
     case female = "F"
     case male = "M"
@@ -17,6 +18,7 @@ enum Gender: String, Codable, CustomStringConvertible {
 }
 
 enum Age: Int, Codable, CustomStringConvertible {
+
     case all = 0
     case under20
     case from20to30
@@ -57,6 +59,8 @@ enum Age: Int, Codable, CustomStringConvertible {
 }
 
 struct RankingsQuery: Codable, Hashable, ServiceProvider {
+
+    static let allLocations = -1
 
     var checklistType: Checklist
     var page: Int = 1
@@ -187,8 +191,13 @@ extension RankingsQuery {
         if gender != .all {
             parameters["gender"] = gender.rawValue
         }
-        if let locationId = locationId {
-            parameters["location_id"] = String(locationId)
+        switch locationId {
+        case let id? where id > 0:
+            parameters["location_id"] = String(id)
+        case RankingsQuery.allLocations:
+            parameters["location_id"] = "all"
+        default:
+            break
         }
 
         return parameters
@@ -201,14 +210,13 @@ extension RankingsQuery {
             guard countryId != newId else { break }
             countryId = newId
             country = newId != nil ? countryItem.countryName : nil
-            locationId = nil
+            locationId = countryItem.hasChildren ? RankingsQuery.allLocations : nil
             location = nil
             return true
         case let locationItem as Location:
-            print(locationItem.debugDescription)
             let newId = locationItem.id > 0 ? locationItem.id : nil
             guard locationId != newId else { break }
-            locationId = newId
+            locationId = newId ?? RankingsQuery.allLocations
             location = newId != nil ? locationItem.locationName : nil
             guard locationItem.countryId > 0 else { return true }
             countryId = locationItem.countryId
