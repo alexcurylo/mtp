@@ -77,6 +77,7 @@
 		FA7C200E221820FA002C6DAB /* PasswordResetInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7C200D221820FA002C6DAB /* PasswordResetInfo.swift */; };
 		FA7C2010221BA0A1002C6DAB /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7C200F221BA0A1002C6DAB /* Post.swift */; };
 		FA7C2012221C2F20002C6DAB /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7C2011221C2F20002C6DAB /* Photo.swift */; };
+		FA7C2014222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7C2013222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift */; };
 		FA81361220E8F64500313AB9 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FA81361120E8F64500313AB9 /* Settings.bundle */; };
 		FA835D34210EAC110098C270 /* Styler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA835D33210EAC110098C270 /* Styler.swift */; };
 		FA835D36210F054F0098C270 /* ReplaceTopSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */; };
@@ -226,6 +227,7 @@
 		FA7C200D221820FA002C6DAB /* PasswordResetInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordResetInfo.swift; sourceTree = "<group>"; };
 		FA7C200F221BA0A1002C6DAB /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		FA7C2011221C2F20002C6DAB /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		FA7C2013222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate2D+Equatable.swift"; sourceTree = "<group>"; };
 		FA81361120E8F64500313AB9 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		FA81361320E8FD4E00313AB9 /* script_build_end.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = script_build_end.sh; sourceTree = "<group>"; };
 		FA835D33210EAC110098C270 /* Styler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styler.swift; sourceTree = "<group>"; };
@@ -579,6 +581,7 @@
 			children = (
 				FA36FBEC22059E6B00616CDE /* ApplicationService.swift */,
 				FAE1F118214354A80002CAB2 /* Avenir.swift */,
+				FA7C2013222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift */,
 				FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */,
 				FA46532F21157784005B5A0A /* FacebookButton.swift */,
 				FAE1F11D2143B29F0002CAB2 /* LocationTracker.swift */,
@@ -1025,6 +1028,7 @@
 				FA5AC0C721FDD8AA0080F84F /* CountToggleCell.swift in Sources */,
 				FA12D682213B963C0053E9BF /* RankingsPageVC.swift in Sources */,
 				FA4653322115A250005B5A0A /* UserDefaults+DataService.swift in Sources */,
+				FA7C2014222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift in Sources */,
 				FA74C0F02117C60B0013A840 /* ForgotPasswordVC.swift in Sources */,
 				FA392BBB20DF69F30026C828 /* AppDelegate.swift in Sources */,
 				FAD2B51C21F4A675009FFDD7 /* Restaurant.swift in Sources */,
