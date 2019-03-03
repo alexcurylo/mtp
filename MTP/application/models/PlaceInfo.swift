@@ -8,6 +8,7 @@ protocol PlaceInfo {
     var placeCoordinate: CLLocationCoordinate2D { get }
     var placeCountry: String { get }
     var placeId: Int { get }
+    var placeIsMappable: Bool { get }
     var placeParent: PlaceInfo? { get }
     var placeRegion: String { get }
     var placeSubtitle: String { get }
@@ -22,6 +23,21 @@ func == (lhs: PlaceInfo, rhs: PlaceInfo) -> Bool {
            lhs.placeRegion == rhs.placeRegion &&
            lhs.placeSubtitle == rhs.placeSubtitle &&
            lhs.placeTitle == rhs.placeTitle
+}
+
+extension PlaceInfo {
+
+    var placeIsMappable: Bool {
+        return true
+    }
+
+    var placeParent: PlaceInfo? {
+        return nil
+    }
+
+    var placeSubtitle: String {
+        return ""
+    }
 }
 
 struct PlaceJSON: Codable {
@@ -87,7 +103,9 @@ extension PlaceJSON: CustomDebugStringConvertible {
     }
 
     convenience init?(from: PlaceJSON) {
-        guard from.active == "Y" else { return nil }
+        guard from.active == "Y" else {
+            return nil
+        }
         self.init()
 
         countryName = from.location.countryName
@@ -120,16 +138,8 @@ extension Beach: PlaceInfo {
         return id
     }
 
-    var placeParent: PlaceInfo? {
-        return nil
-    }
-    
     var placeRegion: String {
         return regionName
-    }
-
-    var placeSubtitle: String {
-        return ""
     }
 
     var placeTitle: String {
@@ -150,7 +160,10 @@ extension Beach: PlaceInfo {
         return "id"
     }
 
-    convenience init(from: PlaceJSON) {
+    convenience init?(from: PlaceJSON) {
+        guard from.active == "Y" else {
+            return nil
+        }
         self.init()
 
         countryName = from.location.countryName
@@ -183,16 +196,8 @@ extension DiveSite: PlaceInfo {
         return id
     }
 
-    var placeParent: PlaceInfo? {
-        return nil
-    }
-
     var placeRegion: String {
         return regionName
-    }
-
-    var placeSubtitle: String {
-        return ""
     }
 
     var placeTitle: String {
@@ -213,7 +218,10 @@ extension DiveSite: PlaceInfo {
         return "id"
     }
 
-    convenience init(from: PlaceJSON) {
+    convenience init?(from: PlaceJSON) {
+        guard from.active == "Y" else {
+            return nil
+        }
         self.init()
 
         countryName = from.location.countryName
@@ -246,18 +254,10 @@ extension GolfCourse: PlaceInfo {
         return id
     }
 
-    var placeParent: PlaceInfo? {
-        return nil
-    }
-
     var placeRegion: String {
         return regionName
     }
 
-    var placeSubtitle: String {
-        return ""
-    }
-    
     var placeTitle: String {
         return title
     }

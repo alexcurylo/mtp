@@ -14,17 +14,15 @@ import RealmSwift
     }
 
     convenience init?(from: LocationJSON) {
-        guard from.active == "Y" else { return nil }
+        guard from.active == "Y" else {
+            return nil
+        }
         self.init()
 
         id = from.id
-        // country Swaziland, location eSwatini (Swaziland)
-        country = from.locationName
+        // all match except country Swaziland, location eSwatini (Swaziland)
+        country = from.countryName
         region = from.regionName
-    }
-
-    override var description: String {
-        return country
     }
 }
 
@@ -32,10 +30,6 @@ extension UNCountry: PlaceInfo {
 
     var placeCoordinate: CLLocationCoordinate2D {
         return .zero
-    }
-
-    var placeParent: PlaceInfo? {
-        return nil
     }
 
     var placeCountry: String {
@@ -48,10 +42,6 @@ extension UNCountry: PlaceInfo {
 
     var placeRegion: String {
         return region
-    }
-
-    var placeSubtitle: String {
-        return ""
     }
 
     var placeTitle: String {

@@ -173,9 +173,13 @@ private extension LocationsVC {
 
     func annotations(list: Checklist) -> Set<PlaceAnnotation> {
         return Set<PlaceAnnotation>(list.places.compactMap { place in
+            guard place.placeIsMappable else {
+                return nil
+            }
+
             let coordinate = place.placeCoordinate
             guard !coordinate.isZero else {
-                log.warning("Place nil coordinates: \(list), \(place.placeTitle)")
+                log.warning("Coordinates missing: \(list) \(place.placeId), \(place.placeTitle)")
                 return nil
             }
 

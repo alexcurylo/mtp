@@ -8,8 +8,8 @@ struct WHSJSON: Codable {
     let active: String
     let id: Int
     let lat: Double
-    let location: PlaceLocation? // nil in 1154?
-    let locationId: Int? // nil in 1159?
+    let location: PlaceLocation?
+    let locationId: Int?
     let long: Double
     let parentId: Int?
     let rank: Int
@@ -61,7 +61,9 @@ extension WHSJSON: CustomDebugStringConvertible {
     }
 
     convenience init?(from: WHSJSON) {
-        guard from.active == "Y" else { return nil }
+        guard from.active == "Y" else {
+            return nil
+        }
         self.init()
 
         countryName = from.location?.countryName ?? Localized.unknown()
@@ -95,6 +97,17 @@ extension WHS: PlaceInfo {
         return id
     }
 
+    var placeIsMappable: Bool {
+        switch id {
+        case 275, // Jesuit Missions of the Guaranis
+             1_133, // Primeval Beech Forests of the Carpathians
+             1_187: // Struve Geodetic Arc
+            return false
+        default:
+            return true
+        }
+    }
+
     var placeParent: PlaceInfo? {
         if hasParent {
             return data.get(whs: parentId)
@@ -104,10 +117,6 @@ extension WHS: PlaceInfo {
 
     var placeRegion: String {
         return regionName
-    }
-
-    var placeSubtitle: String {
-        return ""
     }
 
     var placeTitle: String {

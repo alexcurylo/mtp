@@ -88,24 +88,20 @@ extension LocationJSON: CustomDebugStringConvertible {
         return "id"
     }
 
-    convenience init(from: LocationJSON) {
+    convenience init?(from: LocationJSON) {
+        guard from.active == "Y" else {
+            return nil
+        }
         self.init()
 
         countryId = from.countryId
         countryName = from.countryName
         featuredImg = from.featuredImg
         id = from.id
+        lat = from.lat ?? 0
         locationName = from.locationName
+        lon = from.lon ?? 0
         regionName = from.regionName
-        if let latitude = from.lat,
-           let longitude = from.lon {
-            lat = latitude
-            lon = longitude
-        } else {
-            log.warning("Location nil coordinates: \(locationName)")
-            lat = 0
-            lon = 0
-        }
   }
 
     static var all: Location = {
@@ -143,18 +139,14 @@ extension Location: PlaceInfo {
         return id
     }
 
-    var placeParent: PlaceInfo? {
-        return nil
+    var placeIsMappable: Bool {
+        return id != 0
     }
 
     var placeRegion: String {
         return regionName
     }
 
-    var placeSubtitle: String {
-        return ""
-    }
-    
     var placeTitle: String {
         return locationName
     }
