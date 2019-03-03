@@ -5,19 +5,23 @@ import RealmSwift
 
 protocol PlaceInfo {
 
-    var placeParent: PlaceInfo? { get }
+    var placeCoordinate: CLLocationCoordinate2D { get }
     var placeCountry: String { get }
     var placeId: Int { get }
-    var placeName: String { get }
+    var placeParent: PlaceInfo? { get }
     var placeRegion: String { get }
+    var placeSubtitle: String { get }
+    var placeTitle: String { get }
 }
 
 // swiftlint:disable:next static_operator
 func == (lhs: PlaceInfo, rhs: PlaceInfo) -> Bool {
-    return lhs.placeCountry == rhs.placeCountry &&
-        lhs.placeId == rhs.placeId &&
-        lhs.placeName == rhs.placeName &&
-        lhs.placeRegion == rhs.placeRegion
+    return lhs.placeCoordinate == rhs.placeCoordinate &&
+           lhs.placeCountry == rhs.placeCountry &&
+           lhs.placeId == rhs.placeId &&
+           lhs.placeRegion == rhs.placeRegion &&
+           lhs.placeSubtitle == rhs.placeSubtitle &&
+           lhs.placeTitle == rhs.placeTitle
 }
 
 struct PlaceJSON: Codable {
@@ -101,8 +105,11 @@ extension PlaceJSON: CustomDebugStringConvertible {
 
 extension Beach: PlaceInfo {
 
-    var placeParent: PlaceInfo? {
-        return nil
+    var placeCoordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(
+            latitude: lat,
+            longitude: long
+        )
     }
 
     var placeCountry: String {
@@ -113,25 +120,21 @@ extension Beach: PlaceInfo {
         return id
     }
 
-    var placeName: String {
-        return title
+    var placeParent: PlaceInfo? {
+        return nil
     }
-
+    
     var placeRegion: String {
         return regionName
     }
-}
 
-extension Beach {
-
-    var coordinate: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(
-            latitude: lat,
-            longitude: long
-        )
+    var placeSubtitle: String {
+        return ""
     }
 
-    var subtitle: String { return "" }
+    var placeTitle: String {
+        return title
+    }
 }
 
 @objcMembers final class DiveSite: Object {
@@ -165,8 +168,11 @@ extension Beach {
 
 extension DiveSite: PlaceInfo {
 
-    var placeParent: PlaceInfo? {
-        return nil
+    var placeCoordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(
+            latitude: lat,
+            longitude: long
+        )
     }
 
     var placeCountry: String {
@@ -177,25 +183,21 @@ extension DiveSite: PlaceInfo {
         return id
     }
 
-    var placeName: String {
-        return title
+    var placeParent: PlaceInfo? {
+        return nil
     }
 
     var placeRegion: String {
         return regionName
     }
-}
 
-extension DiveSite {
-
-    var coordinate: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(
-            latitude: lat,
-            longitude: long
-        )
+    var placeSubtitle: String {
+        return ""
     }
 
-    var subtitle: String { return "" }
+    var placeTitle: String {
+        return title
+    }
 }
 
 @objcMembers final class GolfCourse: Object {
@@ -229,8 +231,11 @@ extension DiveSite {
 
 extension GolfCourse: PlaceInfo {
 
-    var placeParent: PlaceInfo? {
-        return nil
+    var placeCoordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(
+            latitude: lat,
+            longitude: long
+        )
     }
 
     var placeCountry: String {
@@ -241,23 +246,19 @@ extension GolfCourse: PlaceInfo {
         return id
     }
 
-    var placeName: String {
-        return title
+    var placeParent: PlaceInfo? {
+        return nil
     }
 
     var placeRegion: String {
         return regionName
     }
-}
 
-extension GolfCourse {
-
-    var coordinate: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(
-            latitude: lat,
-            longitude: long
-        )
+    var placeSubtitle: String {
+        return ""
     }
-
-    var subtitle: String { return "" }
+    
+    var placeTitle: String {
+        return title
+    }
 }

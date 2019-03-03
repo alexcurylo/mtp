@@ -128,8 +128,11 @@ extension LocationJSON: CustomDebugStringConvertible {
 
 extension Location: PlaceInfo {
 
-    var placeParent: PlaceInfo? {
-        return nil
+    var placeCoordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(
+            latitude: lat,
+            longitude: lon
+        )
     }
 
     var placeCountry: String {
@@ -140,26 +143,24 @@ extension Location: PlaceInfo {
         return id
     }
 
-    var placeName: String {
-        return title
+    var placeParent: PlaceInfo? {
+        return nil
     }
 
     var placeRegion: String {
         return regionName
     }
+
+    var placeSubtitle: String {
+        return ""
+    }
+    
+    var placeTitle: String {
+        return locationName
+    }
 }
 
 extension Location {
-
-    var coordinate: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(
-            latitude: lat,
-            longitude: lon)
-    }
-
-    var title: String { return locationName }
-
-    var subtitle: String { return "" }
 
     var imageUrl: URL? {
         guard let uuid = featuredImg, !uuid.isEmpty else { return nil }

@@ -97,7 +97,7 @@ private extension MyPostsVC {
                 photo: photos.first,
                 location: location,
                 date: dateFormatter.string(from: post.updatedAt).uppercased(),
-                title: location?.title ?? Localized.unknown(),
+                title: location?.placeTitle ?? Localized.unknown(),
                 body: post.post
             )
         }

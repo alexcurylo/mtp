@@ -19,16 +19,14 @@ final class PlaceAnnotation: NSObject, MKAnnotation {
           coordinate: CLLocationCoordinate2D,
           title: String = "",
           subtitle: String = "") {
-        guard !coordinate.isZero else {
-            print("Place nil coordinates: \(type), \(title)")
-            return nil
-        }
+        guard !coordinate.isZero else { return nil }
 
         self.type = type
         self.id = id
         self.coordinate = coordinate
         self.title = title
         self.subtitle = subtitle
+
         super.init()
     }
 

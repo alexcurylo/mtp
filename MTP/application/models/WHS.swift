@@ -80,11 +80,11 @@ extension WHSJSON: CustomDebugStringConvertible {
 
 extension WHS: PlaceInfo {
 
-    var placeParent: PlaceInfo? {
-        if hasParent {
-            return data.get(whs: parentId)
-        }
-        return nil
+    var placeCoordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(
+            latitude: lat,
+            longitude: long
+        )
     }
 
     var placeCountry: String {
@@ -95,25 +95,27 @@ extension WHS: PlaceInfo {
         return id
     }
 
-    var placeName: String {
-        return title
+    var placeParent: PlaceInfo? {
+        if hasParent {
+            return data.get(whs: parentId)
+        }
+        return nil
     }
 
     var placeRegion: String {
         return regionName
     }
+
+    var placeSubtitle: String {
+        return ""
+    }
+
+    var placeTitle: String {
+        return title
+    }
 }
 
 extension WHS {
-
-    var coordinate: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(
-            latitude: lat,
-            longitude: long
-        )
-    }
-
-    var subtitle: String { return "" }
 
     var hasParent: Bool {
         return parentId != 0

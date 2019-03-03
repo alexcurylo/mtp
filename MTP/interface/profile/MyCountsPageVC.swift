@@ -191,7 +191,7 @@ extension MyCountsPageVC: UICollectionViewDataSource {
                 let isLast = indexPath.row == self.collectionView(
                     collectionView,
                     numberOfItemsInSection: indexPath.section) - 1
-                counter.set(title: place.placeName,
+                counter.set(title: place.placeTitle,
                             subtitle: list.isSubtitled ? place.placeCountry : "",
                             list: list,
                             id: place.placeId,
@@ -325,7 +325,7 @@ private extension MyCountsPageVC {
         regionsPlaces = Dictionary(grouping: places) { $0.placeRegion }
         regions = regionsPlaces.keys.filter { $0 != Location.all.regionName }.sorted()
         for (region, places) in regionsPlaces {
-            let regionPlaces = places.sorted { $0.placeName < $1.placeName }
+            let regionPlaces = places.sorted { $0.placeTitle < $1.placeTitle }
             regionsPlaces[region] = regionPlaces
 
             let regionVisited = regionPlaces.reduce(0) {
@@ -368,12 +368,12 @@ private extension MyCountsPageVC {
                     }
                     var family = families[parent.placeId] ?? []
                     family.append(place)
-                    families[parent.placeId] = family.sorted { $0.placeName < $1.placeName }
+                    families[parent.placeId] = family.sorted { $0.placeTitle < $1.placeTitle }
                 } else if !parents.contains { $0 == place } {
                     parents.append(place)
                 }
             }
-            parentPlaces[country] = parents.sorted { $0.placeName < $1.placeName }
+            parentPlaces[country] = parents.sorted { $0.placeTitle < $1.placeTitle }
             parentFamilies[country] = families.isEmpty ? nil: families
         }
 

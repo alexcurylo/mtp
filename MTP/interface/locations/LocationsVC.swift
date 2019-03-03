@@ -171,14 +171,26 @@ private extension LocationsVC {
         )
     }
 
-    func showBeaches() {
-        let new = Set<PlaceAnnotation>(data.beaches.compactMap { place in
-            PlaceAnnotation(type: .beaches,
-                            id: place.id,
-                            coordinate: place.coordinate,
-                            title: place.title,
-                            subtitle: place.subtitle)
+    func annotations(list: Checklist) -> Set<PlaceAnnotation> {
+        return Set<PlaceAnnotation>(list.places.compactMap { place in
+            let coordinate = place.placeCoordinate
+            guard !coordinate.isZero else {
+                log.warning("Place nil coordinates: \(list), \(place.placeTitle)")
+                return nil
+            }
+
+            return PlaceAnnotation(
+                type: list,
+                id: place.placeId,
+                coordinate: coordinate,
+                title: place.placeTitle,
+                subtitle: place.placeSubtitle
+            )
         })
+    }
+
+    func showBeaches() {
+        let new = annotations(list: .beaches)
 
         let subtracted = beachesAnnotations.subtracting(new)
         mapView?.removeAnnotations(Array(subtracted))
@@ -190,13 +202,7 @@ private extension LocationsVC {
     }
 
     func showDiveSites() {
-        let new = Set<PlaceAnnotation>(data.divesites.compactMap { place in
-            PlaceAnnotation(type: .divesites,
-                            id: place.id,
-                            coordinate: place.coordinate,
-                            title: place.title,
-                            subtitle: place.subtitle)
-        })
+        let new = annotations(list: .divesites)
 
         let subtracted = divesitesAnnotations.subtracting(new)
         mapView?.removeAnnotations(Array(subtracted))
@@ -208,13 +214,7 @@ private extension LocationsVC {
     }
 
     func showGolfCourses() {
-        let new = Set<PlaceAnnotation>(data.golfcourses.compactMap { place in
-            PlaceAnnotation(type: .golfcourses,
-                            id: place.id,
-                            coordinate: place.coordinate,
-                            title: place.title,
-                            subtitle: place.subtitle)
-        })
+        let new = annotations(list: .golfcourses)
 
         let subtracted = golfcoursesAnnotations.subtracting(new)
         mapView?.removeAnnotations(Array(subtracted))
@@ -226,13 +226,7 @@ private extension LocationsVC {
     }
 
     func showLocations() {
-        let new = Set<PlaceAnnotation>(data.locations.compactMap { place in
-            PlaceAnnotation(type: .locations,
-                            id: place.id,
-                            coordinate: place.coordinate,
-                            title: place.title,
-                            subtitle: place.subtitle)
-        })
+        let new = annotations(list: .locations)
 
         let subtracted = locationsAnnotations.subtracting(new)
         mapView?.removeAnnotations(Array(subtracted))
@@ -244,13 +238,7 @@ private extension LocationsVC {
     }
 
     func showRestaurants() {
-        let new = Set<PlaceAnnotation>(data.restaurants.compactMap { place in
-            PlaceAnnotation(type: .restaurants,
-                            id: place.id,
-                            coordinate: place.coordinate,
-                            title: place.title,
-                            subtitle: place.subtitle)
-        })
+        let new = annotations(list: .restaurants)
 
         let subtracted = restaurantsAnnotations.subtracting(new)
         mapView?.removeAnnotations(Array(subtracted))
@@ -262,13 +250,7 @@ private extension LocationsVC {
     }
 
     func showWHSs() {
-        let new = Set<PlaceAnnotation>(data.whss.compactMap { place in
-            PlaceAnnotation(type: .whss,
-                            id: place.id,
-                            coordinate: place.coordinate,
-                            title: place.title,
-                            subtitle: place.subtitle)
-        })
+        let new = annotations(list: .whss)
 
         let subtracted = whssAnnotations.subtracting(new)
         mapView?.removeAnnotations(Array(subtracted))

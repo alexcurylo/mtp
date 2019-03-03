@@ -95,8 +95,11 @@ extension RestaurantJSON: CustomDebugStringConvertible {
 
 extension Restaurant: PlaceInfo {
 
-    var placeParent: PlaceInfo? {
-        return nil
+    var placeCoordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(
+            latitude: lat,
+            longitude: long
+        )
     }
 
     var placeCountry: String {
@@ -107,23 +110,19 @@ extension Restaurant: PlaceInfo {
         return id
     }
 
-    var placeName: String {
-        return title
+    var placeParent: PlaceInfo? {
+        return nil
     }
 
     var placeRegion: String {
         return regionName
     }
-}
 
-extension Restaurant {
-
-    var coordinate: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(
-            latitude: lat,
-            longitude: long
-        )
+    var placeSubtitle: String {
+        return ""
     }
 
-    var subtitle: String { return "" }
+    var placeTitle: String {
+        return title
+    }
 }
