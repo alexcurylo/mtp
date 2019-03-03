@@ -19,15 +19,14 @@ final class LocationsVC: UIViewController {
     private var golfcoursesObserver: Observer?
     private var locationsObserver: Observer?
     private var restaurantsObserver: Observer?
-    private var uncountriesObserver: Observer?
     private var whssObserver: Observer?
+    // UN Countries not mapped
 
     private var beachesAnnotations: Set<PlaceAnnotation> = []
     private var divesitesAnnotations: Set<PlaceAnnotation> = []
     private var golfcoursesAnnotations: Set<PlaceAnnotation> = []
     private var locationsAnnotations: Set<PlaceAnnotation> = []
     private var restaurantsAnnotations: Set<PlaceAnnotation> = []
-    private var uncountriesAnnotations: Set<PlaceAnnotation> = []
     private var whssAnnotations: Set<PlaceAnnotation> = []
 
     override func viewDidLoad() {
@@ -135,7 +134,6 @@ private extension LocationsVC {
         showGolfCourses()
         showLocations()
         showRestaurants()
-        showUNCountries()
         showWHSs()
     }
 
@@ -154,9 +152,6 @@ private extension LocationsVC {
         }
         restaurantsObserver = Checklist.restaurants.observer { [weak self] _ in
             self?.showRestaurants()
-        }
-        uncountriesObserver = Checklist.uncountries.observer { [weak self] _ in
-            self?.showUNCountries()
         }
         whssObserver = Checklist.whss.observer { [weak self] _ in
             self?.showWHSs()
@@ -264,24 +259,6 @@ private extension LocationsVC {
         let added = new.subtracting(restaurantsAnnotations)
         mapView?.addAnnotations(Array(added))
         restaurantsAnnotations.formUnion(added)
-    }
-
-    func showUNCountries() {
-        let new = Set<PlaceAnnotation>(data.uncountries.compactMap { place in
-            PlaceAnnotation(type: .uncountries,
-                            id: place.id,
-                            coordinate: place.coordinate,
-                            title: place.title,
-                            subtitle: place.subtitle)
-        })
-
-        let subtracted = uncountriesAnnotations.subtracting(new)
-        mapView?.removeAnnotations(Array(subtracted))
-        uncountriesAnnotations.subtract(subtracted)
-
-        let added = new.subtracting(uncountriesAnnotations)
-        mapView?.addAnnotations(Array(added))
-        uncountriesAnnotations.formUnion(added)
     }
 
     func showWHSs() {
