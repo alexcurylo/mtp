@@ -137,6 +137,7 @@ private extension LoginVC {
                     KRProgressHUD.dismiss()
                     self?.performSegue(withIdentifier: R.segue.loginVC.showMain, sender: self)
                 }
+                return
             case .failure(.status):
                 self?.errorMessage = ""
             case .failure(.results):

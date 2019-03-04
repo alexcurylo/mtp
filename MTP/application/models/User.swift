@@ -17,6 +17,15 @@ protocol UserInfo {
 
 struct UserJSON: Codable, UserInfo {
 
+    enum Status: String {
+
+        case active = "A"
+        case deceased = "D"
+        case inactive = "I"
+        case notVerified = "W"
+        case suspended = "S"
+    }
+
     let airport: String?
     let bio: String?
     let birthday: Date
@@ -35,8 +44,8 @@ struct UserJSON: Codable, UserInfo {
     let lastLogIn: String?
     let lastName: String
     let links: [Link]
-    let location: LocationJSON // still has 30 items
-    let locationId: Int
+    let location: LocationJSON? // nil if user created with nil country+location
+    let locationId: Int? // missing if user created with nil country+location
     let picture: String?
     let rankBeaches: Int
     let rankDivesites: Int
@@ -65,6 +74,10 @@ extension UserJSON: CustomStringConvertible {
     public var description: String {
         return "\(username) (\(id))"
     }
+
+    var locationName: String {
+        return location?.description ?? Localized.unknown()
+    }
 }
 
 extension UserJSON: CustomDebugStringConvertible {
@@ -89,9 +102,9 @@ extension UserJSON: CustomDebugStringConvertible {
             id: \(id)
             last_log_in: \(String(describing: lastLogIn))
             last_name: \(lastName)
-            location: \(location)
+            location: \(String(describing: location))
             links: \(links.debugDescription)
-            location_id: \(locationId)
+            location_id: \(String(describing: locationId))
             picture: \(String(describing: picture))
             rankBeaches: \(rankBeaches)
             rankDivesites: \(rankDivesites)
@@ -218,7 +231,7 @@ extension UserInfo {
         fullName = from.fullName
         gender = from.gender
         id = from.id
-        locationName = from.location.description
+        locationName = from.locationName
         picture = from.picture
         scoreBeaches = from.scoreBeaches
         scoreDivesites = from.scoreDivesites
