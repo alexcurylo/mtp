@@ -22,9 +22,17 @@
 "cancel" = "Cancel";
 "allowLocationAccess" = "Allow Location Access";
 
+// SignupVC
+
+"signingUp" = "Signing up…";
+"fixName" = "Please enter a first and last name!";
+"fixAcceptablePassword" = "Please enter a password of at least 6 characters!";
+
 // LoginVC
 
 "loggingIn" = "Logging in…";
+"fixEmail" = "That does not appear to be a valid email!";
+"fixPassword" = "That does not appear to be a valid password!";
 
 // MyProfileVC
 

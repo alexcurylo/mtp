@@ -42,6 +42,20 @@ final class LoginVC: UIViewController, ServiceProvider {
         super.didReceiveMemoryWarning()
     }
 
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        switch identifier {
+        case R.segue.loginVC.presentForgotPassword.identifier:
+            guard let email = emailTextField?.text, email.isValidEmail else {
+                errorMessage = Localized.fixEmail()
+                performSegue(withIdentifier: R.segue.loginVC.presentLoginFail, sender: self)
+                return false
+            }
+            return true
+        default:
+            return true
+        }
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
@@ -101,8 +115,19 @@ private extension LoginVC {
     }
 
     func login(email: String, password: String) {
-        KRProgressHUD.show(withMessage: Localized.loggingIn())
+        if !email.isValidEmail {
+            errorMessage = Localized.fixEmail()
+        } else if !password.isValidPassword {
+            errorMessage = Localized.fixPassword()
+        } else {
+            errorMessage = ""
+        }
+        guard errorMessage.isEmpty else {
+            performSegue(withIdentifier: R.segue.loginVC.presentLoginFail, sender: self)
+            return
+        }
 
+        KRProgressHUD.show(withMessage: Localized.loggingIn())
         mtp.userLogin(email: email,
                       password: password) { [weak self] result in
             switch result {
@@ -112,7 +137,6 @@ private extension LoginVC {
                     KRProgressHUD.dismiss()
                     self?.performSegue(withIdentifier: R.segue.loginVC.showMain, sender: self)
                 }
-                return
             case .failure(.status):
                 self?.errorMessage = ""
             case .failure(.results):

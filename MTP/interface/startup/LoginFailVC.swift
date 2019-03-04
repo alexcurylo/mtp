@@ -10,12 +10,14 @@ final class LoginFailVC: UIViewController, ServiceProvider {
     @IBOutlet private var messageLabel: UILabel?
 
     var errorMessage: String?
+    var isSwitchable: Bool = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         if let message = errorMessage, !message.isEmpty {
             messageLabel?.text = message
+            isSwitchable = false
         }
     }
 
@@ -34,6 +36,15 @@ final class LoginFailVC: UIViewController, ServiceProvider {
     override func didReceiveMemoryWarning() {
         log.warning("didReceiveMemoryWarning: \(type(of: self))")
         super.didReceiveMemoryWarning()
+    }
+
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        switch identifier {
+        case R.segue.loginFailVC.switchForgotPassword.identifier:
+            return isSwitchable
+        default:
+            return true
+        }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

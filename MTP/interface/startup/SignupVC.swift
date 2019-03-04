@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import UIKit
+import KRProgressHUD
 
 final class SignupVC: UIViewController, ServiceProvider {
 
@@ -8,6 +8,8 @@ final class SignupVC: UIViewController, ServiceProvider {
     @IBOutlet private var emailTextField: UITextField?
     @IBOutlet private var passwordTextField: UITextField?
     @IBOutlet private var togglePasswordButton: UIButton?
+
+    private var errorMessage: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +46,10 @@ final class SignupVC: UIViewController, ServiceProvider {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
+        case R.segue.signupVC.presentSignupFail.identifier:
+            let alert = R.segue.signupVC.presentSignupFail(segue: segue)
+            alert?.destination.errorMessage = errorMessage
+            hide(navBar: true)
         case R.segue.signupVC.pushTermsOfService.identifier,
              R.segue.signupVC.showWelcome.identifier,
              R.segue.signupVC.switchLogin.identifier,
@@ -93,13 +99,41 @@ private extension SignupVC {
     }
 
     func register(name: String, email: String, password: String) {
+        if !name.isValidName {
+            errorMessage = Localized.fixName()
+        } else if !email.isValidEmail {
+            errorMessage = Localized.fixEmail()
+        } else if !password.isAcceptablePassword {
+            errorMessage = Localized.fixAcceptablePassword()
+        } else {
+            errorMessage = ""
+        }
+        guard errorMessage.isEmpty else {
+            performSegue(withIdentifier: R.segue.signupVC.presentSignupFail, sender: self)
+            return
+        }
+
+        KRProgressHUD.show(withMessage: Localized.signingUp())
         mtp.userRegister(name: name, email: email, password: password) { [weak self] result in
             switch result {
             case .success:
-                self?.performSegue(withIdentifier: R.segue.signupVC.showWelcome, sender: self)
-            case .failure(let error):
-                self?.log.todo("handle error calling /register: \(String(describing: error))")
+                KRProgressHUD.showSuccess(withMessage: Localized.success())
+                DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
+                    KRProgressHUD.dismiss()
+                    self?.performSegue(withIdentifier: R.segue.signupVC.showWelcome, sender: self)
+                }
+                return
+            case .failure(.status):
+                self?.errorMessage = ""
+            case .failure(.results):
+                self?.errorMessage = Localized.resultError()
+            case .failure(.network(let message)):
+                self?.errorMessage = Localized.networkError(message)
+            default:
+                self?.errorMessage = Localized.unexpectedError()
             }
+            KRProgressHUD.dismiss()
+            self?.performSegue(withIdentifier: R.segue.signupVC.presentSignupFail, sender: self)
         }
     }
 }
@@ -131,6 +165,19 @@ extension SignupVC: UINavigationControllerDelegate {
         if toVC is LoginVC {
             return FadeInAnimator()
         }
+        return nil
+    }
+}
+
+extension SignupVC: UIViewControllerTransitioningDelegate {
+
+    func animationController(forPresented presented: UIViewController,
+                             presenting: UIViewController,
+                             source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return ZoomAnimator()
+    }
+
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return nil
     }
 }

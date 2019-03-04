@@ -15,7 +15,7 @@ final class ForgotPasswordVC: UIViewController, ServiceProvider {
         super.viewDidLoad()
 
         email = data.email
-        let message = R.string.localizable.sendLink(email.hiddenName)
+        let message = Localized.sendLink(email.hiddenName)
         messageLabel?.text = message
     }
 
