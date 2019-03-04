@@ -750,7 +750,7 @@ SOFTWARE.
 			<key>summary</key>
 			<string>A flexible paging menu controller with support for infinite data sources.</string>
 			<key>version</key>
-			<string>1.5.0</string>
+			<string>1.6.0</string>
 		</dict>
 		<dict>
 			<key>authors</key>

@@ -46,7 +46,7 @@ PODS:
     - Alamofire (~> 4.1)
     - Result (~> 4.0)
   - Nuke (7.5.2)
-  - Parchment (1.5.0)
+  - Parchment (1.6.0)
   - R.swift (5.0.2):
     - R.swift.Library (~> 5.0.0)
   - R.swift.Library (5.0.0)
@@ -123,7 +123,7 @@ SPEC CHECKSUMS:
   KRProgressHUD: 79c8703f82179fe34b3602f10b30726f887983fa
   Moya: cf730b3cd9e005401ef37a85143aa141a12fd38f
   Nuke: 0350d346a688426e8f2331253ef28dc2fc4f6178
-  Parchment: 5a8c9c73549a6d73a7c1b606c27246910d2e5720
+  Parchment: d3a7b367c529fa6ef51aa43f5717a7ff36d4b1f5
   R.swift: 81455d81467763cbd3f4d79d938d05f4ac4c0228
   R.swift.Library: 0bf390e729bc10bb2c9e4fb78bd043164a7be4ff
   Realm: 50071da38fe079e0735e47c9f2eae738c68c5996

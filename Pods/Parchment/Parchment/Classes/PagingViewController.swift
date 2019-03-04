@@ -331,6 +331,22 @@ open class PagingViewController<T: PagingItem>:
   
   // MARK: Public Methods
   
+  /// Reload the data for the menu items. This method will not reload
+  /// the view controllers.
+  open func reloadMenu() {
+    let previouslySelected = state.currentPagingItem
+    let items = generateItemsForIndexedDataSource()
+    indexedDataSource?.items = items
+    
+    if let pagingItem = items.first(where: { $0 == previouslySelected }) {
+      resetItems(around: pagingItem)
+    } else if let firstItem = items.first {
+      resetItems(around: firstItem)
+    } else {
+      stateMachine.fire(.removeAll)
+    }
+  }
+  
   /// Reload data for all the menu items. This will keep the
   /// previously selected item if it's still part of the updated data.
   /// If not, it will select the first item in the list. This method
@@ -344,8 +360,10 @@ open class PagingViewController<T: PagingItem>:
     
     if let pagingItem = items.first(where: { $0 == previouslySelected }) {
       resetItems(around: pagingItem)
+      resetViewControllers(around: pagingItem)
     } else if let firstItem = items.first {
       resetItems(around: firstItem)
+      resetViewControllers(around: firstItem)
     } else {
       stateMachine.fire(.removeAll)
     }
@@ -363,6 +381,7 @@ open class PagingViewController<T: PagingItem>:
   open func reloadData(around pagingItem: T) {
     indexedDataSource?.items = generateItemsForIndexedDataSource()
     resetItems(around: pagingItem)
+    resetViewControllers(around: pagingItem)
   }
 
   /// Selects a given paging item. This need to be called after you
@@ -787,11 +806,13 @@ open class PagingViewController<T: PagingItem>:
     stateMachine.fire(.reset(pagingItem: pagingItem))
     collectionView.reloadData()
     
+    configureSizeCache(for: pagingItem)
+  }
+  
+  private func resetViewControllers(around pagingItem: T) {
     pageViewController.removeAllViewControllers()
     selectViewController(pagingItem, direction: .none, animated: false)
     
-    configureSizeCache(for: pagingItem)
-
     // Reloading the data triggers the didFinishScrollingFrom delegate
     // to be called which in turn means the wrong item will be selected.
     // For now, we just fix this by selecting the correct item manually.

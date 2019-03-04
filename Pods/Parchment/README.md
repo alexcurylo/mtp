@@ -147,7 +147,12 @@ func reloadData()
 This will keep the previously selected item if it's still part of the
 updated data. If not, it will select the first item in the list. It
 will also reload the view controllers displayed in the page view
-controller.
+controller. If you only want to reload the menu items, you can use
+this method:
+
+```Swift
+func reloadMenu()
+```
 
 Calling `reloadData()` will not work when using
 `PagingViewControllerInfiniteDataSource`, as we then need to know what
