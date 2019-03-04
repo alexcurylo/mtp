@@ -3,6 +3,8 @@
 import JWTDecode
 import RealmSwift
 
+// swiftlint:disable file_length
+
 protocol DataService: AnyObject, Observable, ServiceProvider {
 
     var beaches: [Beach] { get }
@@ -16,6 +18,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var locations: [Location] { get }
     var name: String { get set }
     var password: String { get set }
+    var posts: [Post] { get }
     var restaurants: [Restaurant] { get }
     var token: String { get set }
     var uncountries: [UNCountry] { get }
@@ -25,17 +28,31 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func get(country id: Int?) -> Country?
     func get(location id: Int?) -> Location?
     func get(locations filter: String) -> [Location]
+    func getPhotosPages(user id: Int?) -> Results<PhotosPageInfo>
+    func get(photo: Int) -> Photo
+    func get(user id: Int?,
+             photos location: Int?) -> [Photo]
     func get(rankings query: RankingsQuery) -> Results<RankingsPageInfo>
+    func get(scorecard list: Checklist, user id: Int?) -> Scorecard?
+
     func get(user id: Int) -> User
+    func get(whs id: Int) -> WHS?
+    func hasChildren(whs id: Int) -> Bool
+    func hasVisitedChildren(whs id: Int) -> Bool
 
     func set(beaches: [PlaceJSON])
     func set(countries: [CountryJSON])
     func set(divesites: [PlaceJSON])
     func set(golfcourses: [PlaceJSON])
     func set(locations: [LocationJSON])
+    func set(photos page: Int,
+             user id: Int?,
+             info: PhotosPageInfoJSON)
+    func set(posts: [PostJSON])
     func set(restaurants: [RestaurantJSON])
     func set(rankings query: RankingsQuery,
              info: RankingsPageInfoJSON)
+    func set(scorecard: ScorecardWrapperJSON)
     func set(uncountries: [LocationJSON])
     func set(userId: UserJSON)
     func set(whss: [WHSJSON])
@@ -171,13 +188,49 @@ final class DataServiceImpl: DataService {
         }
     }
 
+    func getPhotosPages(user id: Int?) -> Results<PhotosPageInfo> {
+        return realm.photosPages(user: id)
+    }
+
+    func get(photo: Int) -> Photo {
+        return realm.photo(id: photo) ?? Photo()
+    }
+
+    func get(user id: Int?,
+             photos location: Int?) -> [Photo] {
+        guard let userId = id ?? user?.id,
+              let location = location else { return [] }
+
+        return realm.photos(user: userId, location: location)
+    }
+
+    func set(photos page: Int,
+             user id: Int?,
+             info: PhotosPageInfoJSON) {
+        if info.paging.perPage != PhotosPageInfo.perPage {
+            log.warning("expect 25 users per page not \(info.paging.perPage)")
+        }
+
+        realm.set(photos: page, user: id, info: info)
+        notify(change: .photoPages, object: page)
+    }
+
+    var posts: [Post] {
+        return realm.posts
+    }
+
+    func set(posts: [PostJSON]) {
+        realm.set(posts: posts)
+        notify(change: .posts)
+    }
+
     func get(rankings query: RankingsQuery) -> Results<RankingsPageInfo> {
         return realm.rankings(query: query)
     }
 
     func set(rankings query: RankingsQuery,
              info: RankingsPageInfoJSON) {
-        if info.users.perPage != RankingsPageInfo.expectedUserCount {
+        if info.users.perPage != RankingsPageInfo.perPage {
             log.warning("expect 50 users per page not \(info.users.perPage)")
         }
 
@@ -192,6 +245,16 @@ final class DataServiceImpl: DataService {
     func set(restaurants: [RestaurantJSON]) {
         realm.set(restaurants: restaurants)
         notify(change: .restaurants)
+    }
+
+    func get(scorecard list: Checklist, user id: Int?) -> Scorecard? {
+        guard let id = id else { return nil }
+        return realm.scorecard(list: list, id: id)
+    }
+
+    func set(scorecard: ScorecardWrapperJSON) {
+        realm.set(scorecard: scorecard)
+        notify(change: .scorecard)
     }
 
     var token: String {
@@ -222,6 +285,25 @@ final class DataServiceImpl: DataService {
         return realm.user(id: id) ?? User()
     }
 
+    func get(whs id: Int) -> WHS? {
+        return realm.whs(id: id)
+    }
+
+    func hasChildren(whs id: Int) -> Bool {
+        return !realm.whss.filter { $0.parentId == id }.isEmpty
+    }
+
+    func hasVisitedChildren(whs id: Int) -> Bool {
+        let children = realm.whss.filter { $0.parentId == id }
+        let visits = checklists?.whss ?? []
+        for child in children {
+            if visits.contains(child.id) {
+                return true
+            }
+        }
+        return false
+    }
+
     func set(userId: UserJSON) {
         realm.set(userId: userId)
         notify(change: .userId)
@@ -246,8 +328,11 @@ enum DataServiceChange: String {
     case divesites
     case golfcourses
     case locations
+    case photoPages
+    case posts
     case rankings
     case restaurants
+    case scorecard
     case uncountries
     case user
     case userId

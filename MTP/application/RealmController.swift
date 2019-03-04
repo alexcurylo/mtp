@@ -20,6 +20,11 @@ final class RealmController: ServiceProvider {
             let noLocking = [FileAttributeKey.protectionKey: FileProtectionType.none]
             try FileManager.default.setAttributes(noLocking, ofItemAtPath: folder)
             return try Realm()
+        } catch(let error as NSError) where error.code == 10 {
+            // for now, reset instead of migrating
+            deleteDatabaseFiles()
+            // swiftlint:disable:next force_try
+            return try! Realm()
         } catch {
             let message = "creating realm: \(error)"
             log.error(message)
@@ -28,12 +33,11 @@ final class RealmController: ServiceProvider {
     }()
 
     init() {
-        //deleteDatabaseFiles()
-
-        // swiftlint:disable:next inert_defer
+        #if DEBUG
         defer {
             log.verbose("realm database: \(fileURL)")
         }
+        #endif
     }
 
     var beaches: [Beach] {
@@ -83,7 +87,7 @@ final class RealmController: ServiceProvider {
 
     func set(divesites: [PlaceJSON]) {
         do {
-            let objects = divesites.map { DiveSite(from: $0) }
+            let objects = divesites.compactMap { DiveSite(from: $0) }
             try realm.write {
                 realm.add(objects, update: true)
             }
@@ -99,7 +103,7 @@ final class RealmController: ServiceProvider {
 
     func set(golfcourses: [PlaceJSON]) {
         do {
-            let objects = golfcourses.map { GolfCourse(from: $0) }
+            let objects = golfcourses.compactMap { GolfCourse(from: $0) }
             try realm.write {
                 realm.add(objects, update: true)
             }
@@ -128,13 +132,70 @@ final class RealmController: ServiceProvider {
 
     func set(locations: [LocationJSON]) {
         do {
-            let objects = locations.map { Location(from: $0) }
+            let objects = locations.compactMap { Location(from: $0) }
             try realm.write {
                 realm.add(Location.all, update: true)
                 realm.add(objects, update: true)
             }
         } catch {
             log.error("set locations: \(error)")
+        }
+    }
+
+    func photo(id: Int) -> Photo? {
+        let filter = "id = \(id)"
+        let results = realm.objects(Photo.self)
+                           .filter(filter)
+        return results.first
+    }
+
+    func photos(user id: Int,
+                location: Int) -> [Photo] {
+        let filter = "userId = \(id) AND locationId = \(location)"
+        let results = realm.objects(Photo.self)
+                           .filter(filter)
+                           .sorted(byKeyPath: "updatedAt", ascending: false)
+        return Array(results)
+    }
+
+    func set(photos page: Int,
+             user: Int?,
+             info: PhotosPageInfoJSON) {
+        do {
+            let page = PhotosPageInfo(user: user, info: info)
+            let photos = info.data.map { Photo(from: $0) }
+            try realm.write {
+                realm.add(page, update: true)
+                realm.add(photos, update: true)
+            }
+        } catch {
+            log.error("update photos:page: \(error)")
+        }
+    }
+
+    func photosPages(user id: Int?) -> Results<PhotosPageInfo> {
+        let queryKey = PhotosPageInfo.key(user: id)
+        let filter = "queryKey = '\(queryKey)'"
+        let results = realm.objects(PhotosPageInfo.self)
+                           .filter(filter)
+                           .sorted(byKeyPath: "page")
+        return results
+    }
+
+    var posts: [Post] {
+        let results = realm.objects(Post.self)
+                           .sorted(byKeyPath: "updatedAt", ascending: false)
+        return Array(results)
+    }
+
+    func set(posts: [PostJSON]) {
+        do {
+            let objects = posts.compactMap { Post(from: $0) }
+            try realm.write {
+                realm.add(objects, update: true)
+            }
+        } catch {
+            log.error("set posts: \(error)")
         }
     }
 
@@ -176,6 +237,24 @@ final class RealmController: ServiceProvider {
         }
     }
 
+    func scorecard(list: Checklist, id: Int) -> Scorecard? {
+        let key = Scorecard.key(list: list, user: id)
+        let results = realm.objects(Scorecard.self)
+                           .filter("dbKey = \(key)")
+        return results.first
+    }
+
+    func set(scorecard: ScorecardWrapperJSON) {
+        do {
+            let object = Scorecard(from: scorecard)
+            try realm.write {
+                realm.add(object, update: true)
+            }
+        } catch {
+            log.error("set scorecard: \(error)")
+        }
+    }
+
     var uncountries: [UNCountry] {
         let results = realm.objects(UNCountry.self)
         return Array(results)
@@ -212,6 +291,12 @@ final class RealmController: ServiceProvider {
     var whss: [WHS] {
         let results = realm.objects(WHS.self)
         return Array(results)
+    }
+
+    func whs(id: Int) -> WHS? {
+        let results = realm.objects(WHS.self)
+                           .filter("id = \(id)")
+        return results.first
     }
 
     func set(whss: [WHSJSON]) {

@@ -1,7 +1,7 @@
 # references:
 # https://github.com/realm/SwiftLint#configuration
 #
-# `swiftlint rules` last updated version 0.29.3
+# `swiftlint rules` last updated version 0.31
 #
 # Disable an individual warning with [next|previous]:
 # // swiftlint:disable:previous line_length
@@ -78,6 +78,7 @@ opt_in_rules:
   - redundant_nil_coalescing
   - redundant_type_annotation
   - required_enum_case
+#- required_deinit
   - single_test_class
   - sorted_first_last
   - sorted_imports

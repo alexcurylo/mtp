@@ -71,7 +71,7 @@ extension RankingsPageJSON: CustomDebugStringConvertible {
         prevPageUrl: \(String(describing: prevPageUrl))
         to: \(String(describing: to))
         total: \(total)
-        /RankingsPageUsers >
+        /RankingsPageJSON >
         """
     }
 }
@@ -151,12 +151,14 @@ extension RankedUserJSON: CustomDebugStringConvertible {
 
 @objcMembers final class RankingsPageInfo: Object {
 
-    static let expectedUserCount = 50
+    static let perPage = 50
 
     dynamic var lastPage: Int = 0
     dynamic var page: Int = 0
-    dynamic var queryKey: String = ""
+
     dynamic var dbKey: String = ""
+    dynamic var queryKey: String = ""
+
     let userIds = List<Int>()
 
     override static func primaryKey() -> String? {

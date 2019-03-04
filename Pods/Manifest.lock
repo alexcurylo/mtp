@@ -1,15 +1,15 @@
 PODS:
   - Alamofire (4.8.1)
   - Anchorage (4.3)
-  - AppCenter (1.13.0):
-    - AppCenter/Analytics (= 1.13.0)
-    - AppCenter/Crashes (= 1.13.0)
-  - AppCenter/Analytics (1.13.0):
+  - AppCenter (1.13.2):
+    - AppCenter/Analytics (= 1.13.2)
+    - AppCenter/Crashes (= 1.13.2)
+  - AppCenter/Analytics (1.13.2):
     - AppCenter/Core
-  - AppCenter/Core (1.13.0)
-  - AppCenter/Crashes (1.13.0):
+  - AppCenter/Core (1.13.2)
+  - AppCenter/Crashes (1.13.2):
     - AppCenter/Core
-  - AppCenter/Distribute (1.13.0):
+  - AppCenter/Distribute (1.13.2):
     - AppCenter/Core
   - Bolts (1.9.0):
     - Bolts/AppLinks (= 1.9.0)
@@ -46,7 +46,7 @@ PODS:
     - Alamofire (~> 4.1)
     - Result (~> 4.0)
   - Nuke (7.5.2)
-  - Parchment (1.5.0)
+  - Parchment (1.6.0)
   - R.swift (5.0.2):
     - R.swift.Library (~> 5.0.0)
   - R.swift.Library (5.0.0)
@@ -56,8 +56,8 @@ PODS:
   - RealmSwift (3.13.1):
     - Realm (= 3.13.1)
   - Result (4.1.0)
-  - SwiftLint (0.30.1)
-  - SwiftyBeaver (1.6.1)
+  - SwiftLint (0.31.0)
+  - SwiftyBeaver (1.6.2)
 
 DEPENDENCIES:
   - Anchorage
@@ -110,7 +110,7 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
   Anchorage: 21a98675245188427f0bcea21404d42a824a766f
-  AppCenter: a70408f15de23f925001bfc7b7473094a009a4eb
+  AppCenter: bce7fe1098e8e8aeb70aaae1898600534069f549
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   FacebookCore: 74288d0add931d361b1596beae787ab72c438249
   FacebookLogin: ebcf34714a1cb9f0759d9f071cfb01ed500996cf
@@ -123,15 +123,15 @@ SPEC CHECKSUMS:
   KRProgressHUD: 79c8703f82179fe34b3602f10b30726f887983fa
   Moya: cf730b3cd9e005401ef37a85143aa141a12fd38f
   Nuke: 0350d346a688426e8f2331253ef28dc2fc4f6178
-  Parchment: 5a8c9c73549a6d73a7c1b606c27246910d2e5720
+  Parchment: d3a7b367c529fa6ef51aa43f5717a7ff36d4b1f5
   R.swift: 81455d81467763cbd3f4d79d938d05f4ac4c0228
   R.swift.Library: 0bf390e729bc10bb2c9e4fb78bd043164a7be4ff
   Realm: 50071da38fe079e0735e47c9f2eae738c68c5996
   RealmSwift: 8a1e6a02b7a08cd17a31e3115143fb69fe5f3fb9
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
-  SwiftLint: a54bf1fe12b55c68560eb2a7689dfc81458508f7
-  SwiftyBeaver: ccfcdf85a04d429f1633f668650b0ce8020bda3a
+  SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
+  SwiftyBeaver: 8e67ab3cd94389cbbb7a9c7cc02748d98bfee68e
 
 PODFILE CHECKSUM: 2b33349e983ee51f7b10bea827b1267255acdc5f
 
-COCOAPODS: 1.6.0
+COCOAPODS: 1.6.1

@@ -1,6 +1,1 @@
-module FBSDKShareKit {
-  umbrella header "FBSDKShareKit-umbrella.h"
-
-  export *
-  module * { export * }
-}
+../../../Target Support Files/FBSDKShareKit/FBSDKShareKit.modulemap

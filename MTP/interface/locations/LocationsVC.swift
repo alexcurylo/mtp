@@ -19,15 +19,14 @@ final class LocationsVC: UIViewController {
     private var golfcoursesObserver: Observer?
     private var locationsObserver: Observer?
     private var restaurantsObserver: Observer?
-    private var uncountriesObserver: Observer?
     private var whssObserver: Observer?
+    // UN Countries not mapped
 
     private var beachesAnnotations: Set<PlaceAnnotation> = []
     private var divesitesAnnotations: Set<PlaceAnnotation> = []
     private var golfcoursesAnnotations: Set<PlaceAnnotation> = []
     private var locationsAnnotations: Set<PlaceAnnotation> = []
     private var restaurantsAnnotations: Set<PlaceAnnotation> = []
-    private var uncountriesAnnotations: Set<PlaceAnnotation> = []
     private var whssAnnotations: Set<PlaceAnnotation> = []
 
     override func viewDidLoad() {
@@ -135,7 +134,6 @@ private extension LocationsVC {
         showGolfCourses()
         showLocations()
         showRestaurants()
-        showUNCountries()
         showWHSs()
     }
 
@@ -155,9 +153,6 @@ private extension LocationsVC {
         restaurantsObserver = Checklist.restaurants.observer { [weak self] _ in
             self?.showRestaurants()
         }
-        uncountriesObserver = Checklist.uncountries.observer { [weak self] _ in
-            self?.showUNCountries()
-        }
         whssObserver = Checklist.whss.observer { [weak self] _ in
             self?.showWHSs()
         }
@@ -176,14 +171,30 @@ private extension LocationsVC {
         )
     }
 
-    func showBeaches() {
-        let new = Set<PlaceAnnotation>(data.beaches.map { place in
-            PlaceAnnotation(type: .beaches,
-                            id: place.id,
-                            coordinate: place.coordinate,
-                            title: place.title,
-                            subtitle: place.subtitle)
+    func annotations(list: Checklist) -> Set<PlaceAnnotation> {
+        return Set<PlaceAnnotation>(list.places.compactMap { place in
+            guard place.placeIsMappable else {
+                return nil
+            }
+
+            let coordinate = place.placeCoordinate
+            guard !coordinate.isZero else {
+                log.warning("Coordinates missing: \(list) \(place.placeId), \(place.placeTitle)")
+                return nil
+            }
+
+            return PlaceAnnotation(
+                type: list,
+                id: place.placeId,
+                coordinate: coordinate,
+                title: place.placeTitle,
+                subtitle: place.placeSubtitle
+            )
         })
+    }
+
+    func showBeaches() {
+        let new = annotations(list: .beaches)
 
         let subtracted = beachesAnnotations.subtracting(new)
         mapView?.removeAnnotations(Array(subtracted))
@@ -195,13 +206,7 @@ private extension LocationsVC {
     }
 
     func showDiveSites() {
-        let new = Set<PlaceAnnotation>(data.divesites.map { place in
-            PlaceAnnotation(type: .divesites,
-                            id: place.id,
-                            coordinate: place.coordinate,
-                            title: place.title,
-                            subtitle: place.subtitle)
-        })
+        let new = annotations(list: .divesites)
 
         let subtracted = divesitesAnnotations.subtracting(new)
         mapView?.removeAnnotations(Array(subtracted))
@@ -213,13 +218,7 @@ private extension LocationsVC {
     }
 
     func showGolfCourses() {
-        let new = Set<PlaceAnnotation>(data.golfcourses.map { place in
-            PlaceAnnotation(type: .golfcourses,
-                            id: place.id,
-                            coordinate: place.coordinate,
-                            title: place.title,
-                            subtitle: place.subtitle)
-        })
+        let new = annotations(list: .golfcourses)
 
         let subtracted = golfcoursesAnnotations.subtracting(new)
         mapView?.removeAnnotations(Array(subtracted))
@@ -231,13 +230,7 @@ private extension LocationsVC {
     }
 
     func showLocations() {
-        let new = Set<PlaceAnnotation>(data.locations.map { place in
-            PlaceAnnotation(type: .locations,
-                            id: place.id,
-                            coordinate: place.coordinate,
-                            title: place.title,
-                            subtitle: place.subtitle)
-        })
+        let new = annotations(list: .locations)
 
         let subtracted = locationsAnnotations.subtracting(new)
         mapView?.removeAnnotations(Array(subtracted))
@@ -249,13 +242,7 @@ private extension LocationsVC {
     }
 
     func showRestaurants() {
-        let new = Set<PlaceAnnotation>(data.restaurants.map { place in
-            PlaceAnnotation(type: .restaurants,
-                            id: place.id,
-                            coordinate: place.coordinate,
-                            title: place.title,
-                            subtitle: place.subtitle)
-        })
+        let new = annotations(list: .restaurants)
 
         let subtracted = restaurantsAnnotations.subtracting(new)
         mapView?.removeAnnotations(Array(subtracted))
@@ -266,32 +253,8 @@ private extension LocationsVC {
         restaurantsAnnotations.formUnion(added)
     }
 
-    func showUNCountries() {
-        let new = Set<PlaceAnnotation>(data.uncountries.map { place in
-            PlaceAnnotation(type: .uncountries,
-                            id: place.id,
-                            coordinate: place.coordinate,
-                            title: place.title,
-                            subtitle: place.subtitle)
-        })
-
-        let subtracted = uncountriesAnnotations.subtracting(new)
-        mapView?.removeAnnotations(Array(subtracted))
-        uncountriesAnnotations.subtract(subtracted)
-
-        let added = new.subtracting(uncountriesAnnotations)
-        mapView?.addAnnotations(Array(added))
-        uncountriesAnnotations.formUnion(added)
-    }
-
     func showWHSs() {
-        let new = Set<PlaceAnnotation>(data.whss.map { place in
-            PlaceAnnotation(type: .whss,
-                            id: place.id,
-                            coordinate: place.coordinate,
-                            title: place.title,
-                            subtitle: place.subtitle)
-        })
+        let new = annotations(list: .whss)
 
         let subtracted = whssAnnotations.subtracting(new)
         mapView?.removeAnnotations(Array(subtracted))

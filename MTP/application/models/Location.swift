@@ -73,31 +73,36 @@ extension LocationJSON: CustomDebugStringConvertible {
     }
 }
 
-@objcMembers final class Location: Object {
+@objcMembers final class Location: Object, ServiceProvider {
 
     dynamic var countryId: Int = 0
     dynamic var countryName: String = ""
+    dynamic var featuredImg: String?
     dynamic var id: Int = 0
-    dynamic var lat: Double?
+    dynamic var lat: Double = 0
     dynamic var locationName: String = ""
-    dynamic var lon: Double?
+    dynamic var lon: Double = 0
     dynamic var regionName: String = ""
 
     override static func primaryKey() -> String? {
         return "id"
     }
 
-    convenience init(from: LocationJSON) {
+    convenience init?(from: LocationJSON) {
+        guard from.active == "Y" else {
+            return nil
+        }
         self.init()
 
         countryId = from.countryId
         countryName = from.countryName
+        featuredImg = from.featuredImg
         id = from.id
-        lat = from.lat
+        lat = from.lat ?? 0
         locationName = from.locationName
-        lon = from.lon
+        lon = from.lon ?? 0
         regionName = from.regionName
-    }
+  }
 
     static var all: Location = {
         let all = Location()
@@ -119,6 +124,13 @@ extension LocationJSON: CustomDebugStringConvertible {
 
 extension Location: PlaceInfo {
 
+    var placeCoordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(
+            latitude: lat,
+            longitude: lon
+        )
+    }
+
     var placeCountry: String {
         return countryName
     }
@@ -127,24 +139,24 @@ extension Location: PlaceInfo {
         return id
     }
 
-    var placeName: String {
-        return title
+    var placeIsMappable: Bool {
+        return id != 0
     }
 
     var placeRegion: String {
         return regionName
     }
+
+    var placeTitle: String {
+        return locationName
+    }
 }
 
 extension Location {
 
-    var coordinate: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(
-            latitude: lat ?? 0,
-            longitude: lon ?? 0)
+    var imageUrl: URL? {
+        guard let uuid = featuredImg, !uuid.isEmpty else { return nil }
+        let link = "https://mtp.travel/api/files/preview?uuid=\(uuid)"
+        return URL(string: link)
     }
-
-    var title: String { return locationName }
-
-    var subtitle: String { return "" }
 }

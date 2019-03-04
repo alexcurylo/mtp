@@ -42,6 +42,20 @@ final class LoginVC: UIViewController, ServiceProvider {
         super.didReceiveMemoryWarning()
     }
 
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        switch identifier {
+        case R.segue.loginVC.presentForgotPassword.identifier:
+            guard let email = emailTextField?.text, email.isValidEmail else {
+                errorMessage = Localized.fixEmail()
+                performSegue(withIdentifier: R.segue.loginVC.presentLoginFail, sender: self)
+                return false
+            }
+            return true
+        default:
+            return true
+        }
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
@@ -89,8 +103,9 @@ private extension LoginVC {
     }
 
     @IBAction func facebookTapped(_ sender: FacebookButton) {
-        sender.login { [weak self] _, email, id in
-            self?.login(email: email, password: id)
+        sender.login { [weak self] _, email, _ in
+            self?.emailTextField?.text = email
+            // currently not implemented: login with Facebook ID
         }
     }
 
@@ -100,18 +115,28 @@ private extension LoginVC {
     }
 
     func login(email: String, password: String) {
-        KRProgressHUD.show(withMessage: Localized.loggingIn())
+        if !email.isValidEmail {
+            errorMessage = Localized.fixEmail()
+        } else if !password.isValidPassword {
+            errorMessage = Localized.fixPassword()
+        } else {
+            errorMessage = ""
+        }
+        guard errorMessage.isEmpty else {
+            performSegue(withIdentifier: R.segue.loginVC.presentLoginFail, sender: self)
+            return
+        }
 
+        KRProgressHUD.show(withMessage: Localized.loggingIn())
         mtp.userLogin(email: email,
                       password: password) { [weak self] result in
             switch result {
             case .success:
                 KRProgressHUD.showSuccess(withMessage: Localized.success())
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
                     KRProgressHUD.dismiss()
                     self?.performSegue(withIdentifier: R.segue.loginVC.showMain, sender: self)
                 }
-                return
             case .failure(.status):
                 self?.errorMessage = ""
             case .failure(.results):

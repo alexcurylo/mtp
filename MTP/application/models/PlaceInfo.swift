@@ -5,10 +5,39 @@ import RealmSwift
 
 protocol PlaceInfo {
 
+    var placeCoordinate: CLLocationCoordinate2D { get }
     var placeCountry: String { get }
     var placeId: Int { get }
-    var placeName: String { get }
+    var placeIsMappable: Bool { get }
+    var placeParent: PlaceInfo? { get }
     var placeRegion: String { get }
+    var placeSubtitle: String { get }
+    var placeTitle: String { get }
+}
+
+// swiftlint:disable:next static_operator
+func == (lhs: PlaceInfo, rhs: PlaceInfo) -> Bool {
+    return lhs.placeCoordinate == rhs.placeCoordinate &&
+           lhs.placeCountry == rhs.placeCountry &&
+           lhs.placeId == rhs.placeId &&
+           lhs.placeRegion == rhs.placeRegion &&
+           lhs.placeSubtitle == rhs.placeSubtitle &&
+           lhs.placeTitle == rhs.placeTitle
+}
+
+extension PlaceInfo {
+
+    var placeIsMappable: Bool {
+        return true
+    }
+
+    var placeParent: PlaceInfo? {
+        return nil
+    }
+
+    var placeSubtitle: String {
+        return ""
+    }
 }
 
 struct PlaceJSON: Codable {
@@ -74,7 +103,9 @@ extension PlaceJSON: CustomDebugStringConvertible {
     }
 
     convenience init?(from: PlaceJSON) {
-        guard from.active == "Y" else { return nil }
+        guard from.active == "Y" else {
+            return nil
+        }
         self.init()
 
         countryName = from.location.countryName
@@ -92,6 +123,13 @@ extension PlaceJSON: CustomDebugStringConvertible {
 
 extension Beach: PlaceInfo {
 
+    var placeCoordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(
+            latitude: lat,
+            longitude: long
+        )
+    }
+
     var placeCountry: String {
         return countryName
     }
@@ -100,25 +138,13 @@ extension Beach: PlaceInfo {
         return id
     }
 
-    var placeName: String {
-        return title
-    }
-
     var placeRegion: String {
         return regionName
     }
-}
 
-extension Beach {
-
-    var coordinate: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(
-            latitude: lat,
-            longitude: long
-        )
+    var placeTitle: String {
+        return title
     }
-
-    var subtitle: String { return "" }
 }
 
 @objcMembers final class DiveSite: Object {
@@ -134,7 +160,10 @@ extension Beach {
         return "id"
     }
 
-    convenience init(from: PlaceJSON) {
+    convenience init?(from: PlaceJSON) {
+        guard from.active == "Y" else {
+            return nil
+        }
         self.init()
 
         countryName = from.location.countryName
@@ -152,6 +181,13 @@ extension Beach {
 
 extension DiveSite: PlaceInfo {
 
+    var placeCoordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(
+            latitude: lat,
+            longitude: long
+        )
+    }
+
     var placeCountry: String {
         return countryName
     }
@@ -160,25 +196,13 @@ extension DiveSite: PlaceInfo {
         return id
     }
 
-    var placeName: String {
-        return title
-    }
-
     var placeRegion: String {
         return regionName
     }
-}
 
-extension DiveSite {
-
-    var coordinate: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(
-            latitude: lat,
-            longitude: long
-        )
+    var placeTitle: String {
+        return title
     }
-
-    var subtitle: String { return "" }
 }
 
 @objcMembers final class GolfCourse: Object {
@@ -194,7 +218,10 @@ extension DiveSite {
         return "id"
     }
 
-    convenience init(from: PlaceJSON) {
+    convenience init?(from: PlaceJSON) {
+        guard from.active == "Y" else {
+            return nil
+        }
         self.init()
 
         countryName = from.location.countryName
@@ -212,6 +239,13 @@ extension DiveSite {
 
 extension GolfCourse: PlaceInfo {
 
+    var placeCoordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(
+            latitude: lat,
+            longitude: long
+        )
+    }
+
     var placeCountry: String {
         return countryName
     }
@@ -220,23 +254,11 @@ extension GolfCourse: PlaceInfo {
         return id
     }
 
-    var placeName: String {
-        return title
-    }
-
     var placeRegion: String {
         return regionName
     }
-}
 
-extension GolfCourse {
-
-    var coordinate: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(
-            latitude: lat,
-            longitude: long
-        )
+    var placeTitle: String {
+        return title
     }
-
-    var subtitle: String { return "" }
 }

@@ -12,6 +12,8 @@
 // ForgotPasswordVC
 
 "sendLink" = "We will send a link to your email %@ enabling you to reset your password.";
+"resettingPassword" = "Resetting password…";
+"emailError" = "Sorry, that email was not found.";
 
 // LocationTracker
 
@@ -20,9 +22,17 @@
 "cancel" = "Cancel";
 "allowLocationAccess" = "Allow Location Access";
 
+// SignupVC
+
+"signingUp" = "Signing up…";
+"fixName" = "Please enter a first and last name!";
+"fixAcceptablePassword" = "Please enter a password of at least 6 characters!";
+
 // LoginVC
 
 "loggingIn" = "Logging in…";
+"fixEmail" = "That does not appear to be a valid email!";
+"fixPassword" = "That does not appear to be a valid password!";
 
 // MyProfileVC
 
@@ -47,6 +57,9 @@
 "restaurants" = "Restaurants";
 
 "myRanking" = "My ranking:";
+"myScore" = "My score:";
+"rankScoreFraction" = "%@ (%@/%@)";
+"scoreFraction" = "%@/%@";
 "topTravelers" = "Top Travelers:";
 
 "loading" = "Loading…";

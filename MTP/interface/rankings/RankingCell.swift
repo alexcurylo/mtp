@@ -1,7 +1,6 @@
 // @copyright Trollwerks Inc.
 
 import Anchorage
-import Nuke
 
 final class RankingCell: UICollectionViewCell, ServiceProvider {
 
@@ -93,8 +92,7 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         super.prepareForReuse()
 
         current = nil
-        Nuke.cancelRequest(for: avatarImageView)
-        avatarImageView.image = nil
+        avatarImageView.prepareForReuse()
         rankLabel.text = nil
         nameLabel.text = nil
         countryLabel.text = nil

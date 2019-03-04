@@ -36,25 +36,6 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         return background!
     }
 
-    var hierarchy: Hierarchy {
-        switch self {
-        case .locations:
-            return .regionSubgrouped
-        case .uncountries:
-            return .region
-        case .whss:
-            return .country
-        case .beaches:
-            return .regionSubtitled
-        case .golfcourses:
-            return .regionSubtitled
-        case .divesites:
-            return .regionSubtitled
-        case .restaurants:
-            return .regionSubtitled // by region/country/location on website
-        }
-    }
-
     var image: UIImage {
         let image: UIImage?
         switch self {
@@ -77,16 +58,31 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         return image!
     }
 
-    var isGrouped: Bool {
-        return hierarchy.isGrouped
+    func hasChildren(id: Int) -> Bool {
+        switch self {
+        case .whss:
+            return data.hasChildren(whs: id)
+        default:
+            return false
+        }
     }
 
-    var isSubgrouped: Bool {
-        return hierarchy.isSubgrouped
+    func hasVisitedChildren(id: Int) -> Bool {
+        switch self {
+        case .whss:
+            return data.hasVisitedChildren(whs: id)
+        default:
+            return false
+        }
     }
 
-    var isSubtitled: Bool {
-        return hierarchy.isSubtitled
+    func hasParent(id: Int) -> Bool {
+        switch self {
+        case .whss:
+            return data.get(whs: id)?.hasParent ?? false
+        default:
+            return false
+        }
     }
 
     func isVisited(id: Int) -> Bool {
@@ -112,10 +108,6 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
             places = data.restaurants
         }
         return places
-    }
-
-    var path: String {
-        return "me/checklists/" + rawValue
     }
 
     func set(id: Int,
@@ -160,7 +152,7 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         case .uncountries:
             total = data.uncountries.count
         case .whss:
-            total = data.whss.count
+            total = data.whss.filter { !$0.hasParent }.count
         case .beaches:
             total = data.beaches.count
         case .golfcourses:
@@ -236,6 +228,7 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
 
 enum Hierarchy {
     case country
+    case parent
     case region
     case regionSubgrouped // region/country if 1 else region/country/locations
     case regionSubtitled
@@ -244,11 +237,69 @@ enum Hierarchy {
         return self == .country
     }
 
+    var isShowingChildren: Bool {
+        return self == .parent
+    }
+
     var isSubgrouped: Bool {
         return self == .regionSubgrouped
     }
 
     var isSubtitled: Bool {
         return self == .regionSubtitled
+    }
+
+    var isShowingCountries: Bool {
+        switch self {
+        case .country,
+             .parent,
+             .regionSubgrouped:
+            return true
+        case .region,
+             .regionSubtitled:
+            return false
+        }
+    }
+}
+
+extension Checklist {
+
+    var hierarchy: Hierarchy {
+        switch self {
+        case .locations:
+            return .regionSubgrouped
+        case .uncountries:
+            return .region
+        case .whss:
+            return .parent
+        case .beaches:
+            return .regionSubtitled
+        case .golfcourses:
+            return .regionSubtitled
+        case .divesites:
+            return .regionSubtitled
+        case .restaurants:
+            return .regionSubtitled // by region/country/location on website
+        }
+    }
+
+    var isGrouped: Bool {
+        return hierarchy.isGrouped
+    }
+
+    var isShowingChildren: Bool {
+        return hierarchy.isShowingChildren
+    }
+
+    var isSubgrouped: Bool {
+        return hierarchy.isSubgrouped
+    }
+
+    var isSubtitled: Bool {
+        return hierarchy.isSubtitled
+    }
+
+    var isShowingCountries: Bool {
+        return hierarchy.isShowingCountries
     }
 }

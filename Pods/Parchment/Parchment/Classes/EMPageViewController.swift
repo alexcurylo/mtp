@@ -290,8 +290,35 @@ open class EMPageViewController: UIViewController, UIScrollViewDelegate {
         self.scrollReverse(animated: animated, completion: completion)
     }
     
-    
     // MARK: - View Controller Overrides
+    
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let selectedViewController = selectedViewController {
+            selectedViewController.beginAppearanceTransition(true, animated: animated)
+        }
+    }
+    
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let selectedViewController = selectedViewController {
+            selectedViewController.endAppearanceTransition()
+        }
+    }
+    
+    open override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if let selectedViewController = selectedViewController {
+            selectedViewController.beginAppearanceTransition(false, animated: animated)
+        }
+    }
+    
+    open override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        if let selectedViewController = selectedViewController {
+            selectedViewController.endAppearanceTransition()
+        }
+    }
     
     // Overriden to have control of accurate view appearance method calls
     open override var shouldAutomaticallyForwardAppearanceMethods : Bool {

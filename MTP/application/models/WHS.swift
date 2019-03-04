@@ -8,8 +8,8 @@ struct WHSJSON: Codable {
     let active: String
     let id: Int
     let lat: Double
-    let location: PlaceLocation? // nil in 1154?
-    let locationId: Int? // nil in 1159?
+    let location: PlaceLocation?
+    let locationId: Int?
     let long: Double
     let parentId: Int?
     let rank: Int
@@ -46,12 +46,13 @@ extension WHSJSON: CustomDebugStringConvertible {
     }
 }
 
-@objcMembers final class WHS: Object {
+@objcMembers final class WHS: Object, ServiceProvider {
 
     dynamic var countryName: String = ""
     dynamic var id: Int = 0
     dynamic var lat: Double = 0
     dynamic var long: Double = 0
+    dynamic var parentId: Int = 0
     dynamic var regionName: String = ""
     dynamic var title: String = ""
 
@@ -60,13 +61,16 @@ extension WHSJSON: CustomDebugStringConvertible {
     }
 
     convenience init?(from: WHSJSON) {
-        guard from.active == "Y" else { return nil }
+        guard from.active == "Y" else {
+            return nil
+        }
         self.init()
 
         countryName = from.location?.countryName ?? Localized.unknown()
         id = from.id
         lat = from.lat
         long = from.long
+        parentId = from.parentId ?? 0
         regionName = from.location?.regionName ?? Localized.unknown()
         title = from.title
     }
@@ -78,6 +82,13 @@ extension WHSJSON: CustomDebugStringConvertible {
 
 extension WHS: PlaceInfo {
 
+    var placeCoordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(
+            latitude: lat,
+            longitude: long
+        )
+    }
+
     var placeCountry: String {
         return countryName
     }
@@ -86,23 +97,36 @@ extension WHS: PlaceInfo {
         return id
     }
 
-    var placeName: String {
-        return title
+    var placeIsMappable: Bool {
+        switch id {
+        case 275, // Jesuit Missions of the Guaranis
+             1_133, // Primeval Beech Forests of the Carpathians
+             1_187: // Struve Geodetic Arc
+            return false
+        default:
+            return true
+        }
+    }
+
+    var placeParent: PlaceInfo? {
+        if hasParent {
+            return data.get(whs: parentId)
+        }
+        return nil
     }
 
     var placeRegion: String {
         return regionName
     }
+
+    var placeTitle: String {
+        return title
+    }
 }
 
 extension WHS {
 
-    var coordinate: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(
-            latitude: lat,
-            longitude: long
-        )
+    var hasParent: Bool {
+        return parentId != 0
     }
-
-    var subtitle: String { return "" }
 }

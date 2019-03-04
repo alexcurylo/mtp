@@ -1,6 +1,1 @@
-module Nuke {
-  umbrella header "Nuke-umbrella.h"
-
-  export *
-  module * { export * }
-}
+../../../Target Support Files/Nuke/Nuke.modulemap

@@ -151,7 +151,7 @@ THE SOFTWARE.</string>
 			<key>summary</key>
 			<string>Visual Studio App Center is your continuous integration, delivery and learning solution for iOS and macOS apps.</string>
 			<key>version</key>
-			<string>1.13.0</string>
+			<string>1.13.2</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -750,7 +750,7 @@ SOFTWARE.
 			<key>summary</key>
 			<string>A flexible paging menu controller with support for infinite data sources.</string>
 			<key>version</key>
-			<string>1.5.0</string>
+			<string>1.6.0</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -1485,7 +1485,7 @@ SOFTWARE.
 			<key>summary</key>
 			<string>Convenient logging during development &amp; release in Swift 2, 3 &amp; 4</string>
 			<key>version</key>
-			<string>1.6.1</string>
+			<string>1.6.2</string>
 		</dict>
 	</array>
 </dict>

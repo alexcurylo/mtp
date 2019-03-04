@@ -90,17 +90,16 @@ private extension MyPostsVC {
     }
 
     func refreshPosts() {
-        log.debug("My Posts should be using posts from site")
-
-        posts = (1...8).map {
-            MyPostCellModel(image: nil,
-                            date: dateFormatter.string(from: Date()).uppercased(),
-                            title: "This is post title \($0) which is long enough to wrap",
-                            body: """
-                                  This is a body title of a very long body
-                                  continued on another line to make it long
-                                  enough to wrap on a standard cell
-                                  """)
+        posts = data.posts.map { post in
+            let photos = data.get(user: nil, photos: post.locationId)
+            let location = data.get(location: post.locationId)
+            return MyPostCellModel(
+                photo: photos.first,
+                location: location,
+                date: dateFormatter.string(from: post.updatedAt).uppercased(),
+                title: location?.placeTitle ?? Localized.unknown(),
+                body: post.post
+            )
         }
 
         collectionView.reloadData()
@@ -109,7 +108,8 @@ private extension MyPostsVC {
 
 struct MyPostCellModel {
 
-    let image: UIImage?
+    let photo: Photo?
+    let location: Location?
     let date: String
     let title: String
     let body: String
@@ -132,7 +132,11 @@ final class MyPostCell: UICollectionViewCell {
 
     fileprivate func set(model: MyPostCellModel,
                          width: CGFloat) {
-        imageView?.image = model.image
+        if let photo = model.photo {
+            imageView?.set(thumbnail: photo)
+        } else {
+            imageView?.set(thumbnail: model.location)
+        }
         dateLabel?.text = model.date
         titleLabel?.text = model.title
         bodyLabel?.text = model.body
@@ -143,7 +147,7 @@ final class MyPostCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        imageView?.image = nil
+        imageView?.prepareForReuse()
         dateLabel?.text = nil
         titleLabel?.text = nil
         bodyLabel?.text = nil

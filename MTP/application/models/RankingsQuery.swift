@@ -3,6 +3,7 @@
 import RealmSwift
 
 enum Gender: String, Codable, CustomStringConvertible {
+
     case all = ""
     case female = "F"
     case male = "M"
@@ -17,6 +18,7 @@ enum Gender: String, Codable, CustomStringConvertible {
 }
 
 enum Age: Int, Codable, CustomStringConvertible {
+
     case all = 0
     case under20
     case from20to30
@@ -57,6 +59,8 @@ enum Age: Int, Codable, CustomStringConvertible {
 }
 
 struct RankingsQuery: Codable, Hashable, ServiceProvider {
+
+    static let allLocations = -1
 
     var checklistType: Checklist
     var page: Int = 1
@@ -159,6 +163,16 @@ extension RankingsQuery {
         return dbKey
     }
 
+    var isAllTravelers: Bool {
+        if ageGroup != .all { return false }
+        if countryId != nil { return false }
+        if facebookConnected { return false }
+        if gender != .all { return false }
+        if locationId != nil { return false }
+
+        return true
+    }
+
     var parameters: [String: String] {
         var parameters: [String: String] = [:]
 
@@ -168,10 +182,6 @@ extension RankingsQuery {
         if ageGroup != .all {
             parameters["ageGroup"] = String(ageGroup.parameter)
         }
-        // appears unnecessary?
-        //if let country = country {
-            //parameters["country"] = country
-        //}
         if let countryId = countryId {
             parameters["country_id"] = String(countryId)
         }
@@ -181,12 +191,13 @@ extension RankingsQuery {
         if gender != .all {
             parameters["gender"] = gender.rawValue
         }
-        // appears unnecessary?
-        //if let location = location {
-            //parameters["location"] = location
-        //}
-        if let locationId = locationId {
-            parameters["location_id"] = String(locationId)
+        switch locationId {
+        case let id? where id > 0:
+            parameters["location_id"] = String(id)
+        case RankingsQuery.allLocations:
+            parameters["location_id"] = "all"
+        default:
+            break
         }
 
         return parameters
@@ -199,14 +210,13 @@ extension RankingsQuery {
             guard countryId != newId else { break }
             countryId = newId
             country = newId != nil ? countryItem.countryName : nil
-            locationId = nil
+            locationId = countryItem.hasChildren ? RankingsQuery.allLocations : nil
             location = nil
             return true
         case let locationItem as Location:
-            print(locationItem.debugDescription)
             let newId = locationItem.id > 0 ? locationItem.id : nil
             guard locationId != newId else { break }
-            locationId = newId
+            locationId = newId ?? RankingsQuery.allLocations
             location = newId != nil ? locationItem.locationName : nil
             guard locationItem.countryId > 0 else { return true }
             countryId = locationItem.countryId

@@ -2,7 +2,7 @@
 
 import Anchorage
 
-final class CountToggleCell: UICollectionViewCell {
+final class CountToggleCell: UICollectionViewCell, ServiceProvider {
 
     static let reuseIdentifier = NSStringFromClass(CountToggleCell.self)
 
@@ -10,13 +10,29 @@ final class CountToggleCell: UICollectionViewCell {
              subtitle: String,
              list: Checklist,
              id: Int,
+             parentId: Int?,
              isLast: Bool) {
         self.list = list
         self.id = id
+        self.parentId = parentId
 
         titleLabel.text = title
         subtitleLabel.text = subtitle
         visit.isOn = list.isVisited(id: id)
+
+        if list.hasChildren(id: id) {
+            labelsIndent?.constant = Layout.parentIndent
+            titleLabel.font = Avenir.oblique.of(size: Layout.titleSize)
+            visit.isEnabled = false
+        } else {
+            if parentId != nil {
+                labelsIndent?.constant = Layout.childIndent
+            } else {
+                labelsIndent?.constant = Layout.parentIndent
+            }
+            titleLabel.font = Avenir.medium.of(size: Layout.titleSize)
+            visit.isEnabled = true
+        }
 
         if isLast {
             round(corners: [.bottomLeft, .bottomRight],
@@ -29,7 +45,8 @@ final class CountToggleCell: UICollectionViewCell {
     private enum Layout {
         static let rankSize = CGFloat(18)
         static let margin = CGFloat(8)
-        static let indent = CGFloat(24)
+        static let parentIndent = CGFloat(24)
+        static let childIndent = CGFloat(32)
         static let spacing = CGSize(width: 12, height: 4)
         static let cornerRadius = CGFloat(4)
         static let titleSize = CGFloat(16)
@@ -42,11 +59,13 @@ final class CountToggleCell: UICollectionViewCell {
     private let subtitleLabel = UILabel {
         $0.font = Avenir.oblique.of(size: Layout.subtitleSize)
     }
+    private var labelsIndent: NSLayoutConstraint?
 
     private let visit = UISwitch()
 
     private var list: Checklist?
     private var id: Int?
+    private var parentId: Int?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -84,7 +103,7 @@ private extension CountToggleCell {
         infos.alignment = .center
         contentView.addSubview(infos)
         infos.centerYAnchor == contentView.centerYAnchor
-        infos.leadingAnchor == contentView.leadingAnchor + Layout.indent
+        labelsIndent = infos.leadingAnchor == contentView.leadingAnchor + Layout.parentIndent
 
         let buttons = UIStackView(arrangedSubviews: [visit])
         buttons.axis = .vertical
@@ -101,8 +120,13 @@ private extension CountToggleCell {
     }
 
     @objc func toggleVisit(_ sender: UISwitch) {
-        guard let id = id else { return }
+        guard let id = id, let list = list else { return }
 
-        list?.set(id: id, visited: sender.isOn)
+        list.set(id: id, visited: sender.isOn)
+
+        guard let parentId = parentId  else { return }
+
+        let parentVisited = list.hasVisitedChildren(id: parentId)
+        list.set(id: parentId, visited: parentVisited)
     }
 }

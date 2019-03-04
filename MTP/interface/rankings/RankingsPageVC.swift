@@ -36,10 +36,11 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
     private var rankings: Results<RankingsPageInfo>?
     private var filter = RankingsQuery()
     private var filterDescription = ""
-    private var filterRank = 0
+    private var filterRank: Int?
 
     private var checklistsObserver: Observer?
     private var rankingsObserver: Observer?
+    private var scorecardObserver: Observer?
 
     init(options: PagingOptions) {
         super.init(nibName: nil, bundle: nil)
@@ -125,7 +126,7 @@ extension RankingsPageVC: UICollectionViewDataSource {
             return first.userIds.count
         }
 
-        let paged = (first.lastPage - 1) * RankingsPageInfo.expectedUserCount
+        let paged = (first.lastPage - 1) * RankingsPageInfo.perPage
         if let last = rankings?.filter("page = lastPage").last {
             return paged + last.userIds.count
         }
@@ -161,26 +162,45 @@ private extension RankingsPageVC {
         checklistsObserver = data.observer(of: .checklists) { [weak self] _ in
             self?.collectionView.reloadData()
         }
+
         rankingsObserver = data.observer(of: .rankings) { [weak self] info in
             guard let self = self,
                   let queryValue = info[StatusKey.value.rawValue] as? RankingsQuery,
                   queryValue.queryKey == self.filter.queryKey else { return }
             self.updateRankings()
         }
+
+        scorecardObserver = data.observer(of: .scorecard) { [weak self] _ in
+            self?.updateRank()
+        }
     }
 
     func updateRankings() {
         rankings = data.get(rankings: filter)
-
-        log.todo("RankingsPageVC rank for filter -- waiting for endpoint")
-        filterRank = filter.checklistType.rank()
-
+        updateRank()
         collectionView.reloadData()
     }
 
+    func updateRank() {
+        let newRank: Int?
+        if filter.isAllTravelers {
+            newRank = filter.checklistType.rank()
+        } else if let scorecard = data.get(scorecard: filter.checklistType,
+                                           user: data.user?.id) {
+            newRank = scorecard.rank(filter: filter)
+        } else {
+            newRank = nil
+        }
+
+        if newRank != filterRank {
+            filterRank = newRank
+            collectionView.collectionViewLayout.invalidateLayout()
+        }
+    }
+
     func user(at rank: Int) -> User {
-        let pageIndex = ((rank - 1) / RankingsPageInfo.expectedUserCount) + 1
-        let userIndex = (rank - 1) % RankingsPageInfo.expectedUserCount
+        let pageIndex = ((rank - 1) / RankingsPageInfo.perPage) + 1
+        let userIndex = (rank - 1) % RankingsPageInfo.perPage
         guard let page = rankings?.filter("page = \(pageIndex)").first else {
             let userPageQuery = filter.with(page: pageIndex)
             mtp.loadRankings(query: userPageQuery) { _ in }
