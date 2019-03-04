@@ -78,6 +78,7 @@ opt_in_rules:
   - redundant_nil_coalescing
   - redundant_type_annotation
   - required_enum_case
+#- required_deinit
   - single_test_class
   - sorted_first_last
   - sorted_imports
