@@ -57,7 +57,7 @@ PODS:
     - Realm (= 3.13.1)
   - Result (4.1.0)
   - SwiftLint (0.31.0)
-  - SwiftyBeaver (1.6.1)
+  - SwiftyBeaver (1.6.2)
 
 DEPENDENCIES:
   - Anchorage
@@ -130,7 +130,7 @@ SPEC CHECKSUMS:
   RealmSwift: 8a1e6a02b7a08cd17a31e3115143fb69fe5f3fb9
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
   SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
-  SwiftyBeaver: ccfcdf85a04d429f1633f668650b0ce8020bda3a
+  SwiftyBeaver: 8e67ab3cd94389cbbb7a9c7cc02748d98bfee68e
 
 PODFILE CHECKSUM: 2b33349e983ee51f7b10bea827b1267255acdc5f
 
