@@ -46,6 +46,10 @@
 "locationCount" = "%@ (%ld)";
 "locationVisitedCount" = "%@ (%ld/%ld)";
 
+// EditProfileVC
+
+"deletingAccount" = "Deleting account…";
+
 // RankingPage
 
 "locations" = "All MTP Locations";

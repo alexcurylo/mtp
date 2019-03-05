@@ -2,6 +2,23 @@
 
 import Foundation
 
+struct OperationInfo: Codable {
+
+    let code: Int
+    let message: String
+
+    var isSuccess: Bool {
+        return code == 200
+    }
+}
+
+extension OperationInfo: CustomStringConvertible {
+
+    public var description: String {
+        return "code \(code): \(message)"
+    }
+}
+
 enum MessageType: String {
     case error
     case success

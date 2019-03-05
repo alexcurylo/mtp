@@ -19,6 +19,13 @@ enum MTPNetworkError: Swift.Error {
 }
 
 enum MTP: Hashable {
+
+    enum Size: String {
+        case any = ""
+        case large
+        case thumb
+    }
+
     case beach
     case checkIn(list: Checklist, id: Int)
     case checklists
@@ -29,13 +36,14 @@ enum MTP: Hashable {
     case location
     case locationPosts
     case passwordReset(email: String)
+    case picture(uuid: String, size: Size)
     case photos(user: Int?, page: Int)
     case rankings(query: RankingsQuery)
     case restaurant
     case scorecard(list: Checklist, user: Int)
     case unCountry
     case user(id: Int)
-    // case picture -- https://mtp.travel/api/files/preview?uuid=5lePRid3jo2etG0pSHqQs2&size={large|thumb|???}
+    case userDelete(id: Int)
     case userGetByToken
     case userLogin(email: String, password: String)
     case whs
@@ -73,6 +81,8 @@ extension MTP: TargetType {
             return "users/\(user)/photos"
         case .photos:
             return "users/me/photos"
+        case .picture:
+            return "files/preview"
         case .rankings:
             return "rankings/users"
         case .passwordReset:
@@ -85,7 +95,8 @@ extension MTP: TargetType {
             return "un-country"
         case .userGetByToken:
             return "user/getByToken"
-        case .user(let id):
+        case .user(let id),
+             .userDelete(let id):
             return "user/\(id)"
         case .userLogin:
             return "user/login"
@@ -96,7 +107,8 @@ extension MTP: TargetType {
 
     public var method: Moya.Method {
         switch self {
-        case .checkOut:
+        case .checkOut,
+             .userDelete:
             return .delete
         case .beach,
              .checklists,
@@ -106,6 +118,7 @@ extension MTP: TargetType {
              .location,
              .locationPosts,
              .photos,
+             .picture,
              .rankings,
              .restaurant,
              .scorecard,
@@ -138,6 +151,10 @@ extension MTP: TargetType {
         case .photos(_, let page):
             return .requestParameters(parameters: ["page": page],
                                       encoding: URLEncoding.default)
+        case let .picture(uuid, size):
+            return .requestParameters(parameters: ["uuid": uuid,
+                                                   "size": size.rawValue],
+                                      encoding: URLEncoding.default)
         case .rankings(let query):
             return .requestParameters(parameters: query.parameters,
                                       encoding: URLEncoding.default)
@@ -156,6 +173,7 @@ extension MTP: TargetType {
              .scorecard,
              .unCountry,
              .user,
+             .userDelete,
              .userGetByToken,
              .whs:
             if preventCache {
@@ -195,6 +213,7 @@ extension MTP: AccessTokenAuthorizable {
              .locationPosts,
              .photos,
              .rankings,
+             .userDelete,
              .userGetByToken:
             return .bearer
         case .beach,
@@ -203,6 +222,7 @@ extension MTP: AccessTokenAuthorizable {
              .golfcourse,
              .location,
              .passwordReset,
+             .picture,
              .restaurant,
              .scorecard,
              .unCountry,
@@ -239,7 +259,7 @@ protocol MTPNetworkService {
                        then: @escaping MTPResult<ScorecardJSON>)
     func loadUser(id: Int,
                   then: @escaping MTPResult<UserJSON>)
-    func userDeleteAccount(then: @escaping MTPResult<Bool>)
+    func userDeleteAccount(then: @escaping MTPResult<String>)
     func userForgotPassword(email: String,
                             then: @escaping MTPResult<String>)
     func userLogin(email: String,
@@ -787,9 +807,39 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func userDeleteAccount(then: @escaping MTPResult<Bool>) {
-        log.todo("implement deleteAccount")
-        then(.success(true))
+    func userDeleteAccount(then: @escaping MTPResult<String>) {
+        guard let userId = data.user?.id else {
+            log.verbose("userDeleteAccount attempt invalid: not logged in")
+            return then(.failure(.parameter))
+        }
+
+        let auth = AccessTokenPlugin { self.data.token }
+        let provider = MoyaProvider<MTP>(plugins: [auth])
+        let endpoint = MTP.userDelete(id: userId)
+        provider.request(endpoint) { response in
+            switch response {
+            case .success(let result):
+                do {
+                    let info = try result.map(OperationInfo.self,
+                                              using: JSONDecoder.mtp)
+                    if info.isSuccess {
+                        return then(.success(info.message))
+                    } else {
+                        return then(.failure(.message(info.message)))
+                    }
+                } catch {
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    return then(.failure(.results))
+                }
+            case .failure(.underlying(AFError.responseValidationFailed, _)):
+                self.log.error("API rejection: \(endpoint.path)")
+                return then(.failure(.status))
+            case .failure(let error):
+                let message = error.errorDescription ?? Localized.unknown()
+                self.log.error("failure: \(endpoint.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
     }
 
     func userForgotPassword(email: String,

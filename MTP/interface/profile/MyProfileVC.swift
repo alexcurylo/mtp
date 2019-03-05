@@ -86,7 +86,7 @@ private extension MyProfileVC {
 
         avatarImageView?.set(thumbnail: user)
         fullNameLabel?.text = user.fullName
-        countryLabel?.text = user.locationName
+        countryLabel?.text = user.location.description
 
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium

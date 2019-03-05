@@ -30,6 +30,7 @@ enum Styler {
         KRProgressHUD.set(maskType: .custom(color: UIColor(white: 0, alpha: 0.8)))
         KRProgressHUD.set(style: .black)
         KRProgressHUD.set(activityIndicatorViewColors: [.white, UIColor(white: 0.7, alpha: 1)])
+        KRProgressHUD.set(duration: 10)
     }
 
     var barTint: UIColor {
@@ -109,14 +110,14 @@ extension UIColor {
 extension DispatchTime {
 
     static var short: DispatchTime {
-        return now() + 0.5
+        return now() + 1
     }
 
     static var medium: DispatchTime {
-        return now() + 2
+        return now() + 4
     }
 
     static var long: DispatchTime {
-        return now() + 5
+        return now() + 8
     }
 }

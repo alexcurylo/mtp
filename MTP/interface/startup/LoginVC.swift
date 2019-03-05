@@ -138,9 +138,8 @@ private extension LoginVC {
                     self?.performSegue(withIdentifier: R.segue.loginVC.showMain, sender: self)
                 }
                 return
-            case .failure(.status):
-                self?.errorMessage = ""
-            case .failure(.results):
+            case .failure(.status),
+                 .failure(.results):
                 self?.errorMessage = Localized.resultError()
             case .failure(.network(let message)):
                 self?.errorMessage = Localized.networkError(message)

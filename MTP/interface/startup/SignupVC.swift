@@ -123,9 +123,8 @@ private extension SignupVC {
                     self?.performSegue(withIdentifier: R.segue.signupVC.showWelcome, sender: self)
                 }
                 return
-            case .failure(.status):
-                self?.errorMessage = ""
-            case .failure(.results):
+            case .failure(.status),
+                 .failure(.results):
                 self?.errorMessage = Localized.resultError()
             case .failure(.network(let message)):
                 self?.errorMessage = Localized.networkError(message)
