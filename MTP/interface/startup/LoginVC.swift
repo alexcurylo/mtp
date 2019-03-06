@@ -103,7 +103,7 @@ private extension LoginVC {
 
     @IBAction func loginTapped(_ sender: GradientButton) {
         view.endEditing(true)
-        login()
+        prepareLogin(showError: true)
     }
 
     @IBAction func facebookTapped(_ sender: FacebookButton) {
@@ -114,16 +114,9 @@ private extension LoginVC {
         }
     }
 
-    func login(ifValid: Bool = false) {
+    func prepareLogin(showError: Bool) {
         let email = emailTextField?.text ?? ""
         let password = passwordTextField?.text ?? ""
-        if ifValid {
-            guard email.isValidEmail, password.isValidPassword else { return }
-        }
-        login(email: email, password: password)
-    }
-
-    func login(email: String, password: String) {
         if !email.isValidEmail {
             errorMessage = Localized.fixEmail()
         } else if !password.isValidPassword {
@@ -132,13 +125,18 @@ private extension LoginVC {
             errorMessage = ""
         }
         guard errorMessage.isEmpty else {
-            performSegue(withIdentifier: R.segue.loginVC.presentLoginFail, sender: self)
+            if showError {
+                performSegue(withIdentifier: Segues.presentLoginFail, sender: self)
+            }
             return
         }
+        login(email: email, password: password)
+    }
 
+    func login(email: String, password: String) {
         KRProgressHUD.show(withMessage: Localized.loggingIn())
         mtp.userLogin(email: email,
-                      password: password) { [weak self] result in
+                      password: passwordz) { [weak self] result in
             switch result {
             case .success:
                 KRProgressHUD.showSuccess(withMessage: Localized.success())
@@ -169,7 +167,7 @@ extension LoginVC: UITextFieldDelegate {
             passwordTextField?.becomeFirstResponder()
         case passwordTextField:
             passwordTextField?.resignFirstResponder()
-            login(ifValid: true)
+            prepareLogin(showError: false)
         default:
             break
         }
