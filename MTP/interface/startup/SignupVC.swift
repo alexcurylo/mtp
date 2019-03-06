@@ -87,39 +87,60 @@ private extension SignupVC {
 
     @IBAction func signupTapped(_ sender: GradientButton) {
         view.endEditing(true)
-        register()
+        prepareRegister(showError: true)
     }
 
     @IBAction func facebookTapped(_ sender: FacebookButton) {
         view.endEditing(true)
-        sender.login { [weak self] name, email, id in
-            self?.register(name: name, email: email, password: id)
+        sender.login { [weak self] name, email, _ in
+            guard let self = self else { return }
+
+            self.log.todo("populate from Facebook")
+            self.nameTextField?.text = name
+            self.emailTextField?.text = email
+            self.prepareRegister(showError: false)
         }
     }
 
-    func register() {
-        register(name: nameTextField?.text ?? "",
-                 email: emailTextField?.text ?? "",
-                 password: passwordTextField?.text ?? "")
-    }
-
-    func register(name: String, email: String, password: String) {
-        if !name.isValidName {
-            errorMessage = Localized.fixName()
+    func prepareRegister(showError: Bool) {
+        log.todo("validate all fields")
+        let name = nameTextField?.text ?? ""
+        let email = emailTextField?.text ?? ""
+        let password = passwordTextField?.text ?? ""
+        if name.isEmpty {
+            errorMessage = "fix name"
         } else if !email.isValidEmail {
             errorMessage = Localized.fixEmail()
-        } else if !password.isAcceptablePassword {
-            errorMessage = Localized.fixAcceptablePassword()
+        } else if !password.isValidPassword {
+            errorMessage = Localized.fixPassword()
         } else {
             errorMessage = ""
         }
         guard errorMessage.isEmpty else {
-            performSegue(withIdentifier: R.segue.signupVC.presentSignupFail, sender: self)
+            if showError {
+                performSegue(withIdentifier: Segues.presentSignupFail, sender: self)
+            }
             return
         }
 
+        let info = RegistrationInfo(
+            birthday: Date(),
+            country: Country(),
+            firstName: name,
+            email: email,
+            gender: .all,
+            lastName: name,
+            location: Location(),
+            password: password,
+            passwordConfirmation: ""
+        )
+
+        register(info: info)
+    }
+
+    func register(info: RegistrationInfo) {
         KRProgressHUD.show(withMessage: Localized.signingUp())
-        mtp.userRegister(name: name, email: email, password: password) { [weak self] result in
+        mtp.userRegister(info: info) { [weak self] result in
             switch result {
             case .success:
                 KRProgressHUD.showSuccess(withMessage: Localized.success())
@@ -152,6 +173,7 @@ extension SignupVC: UITextFieldDelegate {
             passwordTextField?.becomeFirstResponder()
         case passwordTextField:
             passwordTextField?.resignFirstResponder()
+            prepareRegister(showError: false)
         default:
             break
         }

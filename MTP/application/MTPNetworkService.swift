@@ -265,10 +265,8 @@ protocol MTPNetworkService {
     func userLogin(email: String,
                    password: String,
                    then: @escaping MTPResult<UserJSON>)
-    func userRegister(name: String,
-                      email: String,
-                      password: String,
-                      then: @escaping MTPResult<Bool>)
+    func userRegister(info: RegistrationInfo,
+                      then: @escaping MTPResult<UserJSON>)
 
     func refreshEverything()
     func refreshRankings()
@@ -959,21 +957,16 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func userRegister(name: String,
-                      email: String,
-                      password: String,
-                      then: @escaping MTPResult<Bool>) {
-        guard !name.isEmpty && !email.isEmpty && !password.isEmpty else {
-            log.verbose("register attempt invalid: name `\(name)` email `\(email)` password `\(password)`")
+    func userRegister(info: RegistrationInfo,
+                      then: @escaping MTPResult<UserJSON>) {
+        guard info.isValid else {
+            log.verbose("register attempt invalid: \(info)")
             return then(.failure(.parameter))
         }
 
-        log.todo("implement register: \(name), \(email), \(password)")
+        log.todo("implement register: \(info)")
 
-        data.email = email
-        data.name = name
-        data.password = password
-        then(.success(true))
+        then(.failure(.parameter))
     }
 }
 
