@@ -58,6 +58,7 @@ final class LoginVC: UIViewController, ServiceProvider {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
+        view.endEditing(true)
         switch segue.identifier {
         case R.segue.loginVC.presentLoginFail.identifier:
             let alert = R.segue.loginVC.presentLoginFail(segue: segue)
@@ -99,19 +100,25 @@ private extension LoginVC {
     }
 
     @IBAction func loginTapped(_ sender: GradientButton) {
+        view.endEditing(true)
         login()
     }
 
     @IBAction func facebookTapped(_ sender: FacebookButton) {
+        view.endEditing(true)
         sender.login { [weak self] _, email, _ in
             self?.emailTextField?.text = email
             // currently not implemented: login with Facebook ID
         }
     }
 
-    func login() {
-        login(email: emailTextField?.text ?? "",
-              password: passwordTextField?.text ?? "")
+    func login(ifValid: Bool = false) {
+        let email = emailTextField?.text ?? ""
+        let password = passwordTextField?.text ?? ""
+        if ifValid {
+            guard email.isValidEmail, password.isValidPassword else { return }
+        }
+        login(email: email, password: password)
     }
 
     func login(email: String, password: String) {
@@ -160,6 +167,7 @@ extension LoginVC: UITextFieldDelegate {
             passwordTextField?.becomeFirstResponder()
         case passwordTextField:
             passwordTextField?.resignFirstResponder()
+            login(ifValid: true)
         default:
             break
         }

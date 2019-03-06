@@ -45,6 +45,7 @@ final class SignupVC: UIViewController, ServiceProvider {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
+        view.endEditing(true)
         switch segue.identifier {
         case R.segue.signupVC.presentSignupFail.identifier:
             let alert = R.segue.signupVC.presentSignupFail(segue: segue)
@@ -83,10 +84,12 @@ private extension SignupVC {
     }
 
     @IBAction func signupTapped(_ sender: GradientButton) {
+        view.endEditing(true)
         register()
     }
 
     @IBAction func facebookTapped(_ sender: FacebookButton) {
+        view.endEditing(true)
         sender.login { [weak self] name, email, id in
             self?.register(name: name, email: email, password: id)
         }

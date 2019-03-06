@@ -951,9 +951,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
             switch response {
             case .success(let result):
                 return parse(result: result)
-            case .failure(.underlying(AFError.responseValidationFailed, _)):
-                self.log.error("API rejection: \(endpoint.path)")
-                return then(.failure(.status))
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")

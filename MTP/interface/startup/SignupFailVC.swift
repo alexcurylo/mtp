@@ -50,9 +50,11 @@ final class SignupFailVC: UIViewController, ServiceProvider {
 private extension SignupFailVC {
 
     func hideAlert() {
-        centerY?.priority = .defaultLow
-        bottomY?.priority = .defaultHigh
-        bottomY?.constant = -(alertHolder?.bounds.height ?? 0)
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
+        let hide = -(alertHolder?.bounds.height ?? 0)
+        bottomY?.constant = hide
+        view.setNeedsLayout()
         view.layoutIfNeeded()
     }
 
