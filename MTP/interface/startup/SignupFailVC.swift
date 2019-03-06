@@ -4,6 +4,8 @@ import UIKit
 
 final class SignupFailVC: UIViewController, ServiceProvider {
 
+    typealias Segues = R.segue.signupFailVC
+
     @IBOutlet private var alertHolder: UIView?
     @IBOutlet private var bottomY: NSLayoutConstraint?
     @IBOutlet private var centerY: NSLayoutConstraint?
@@ -39,7 +41,7 @@ final class SignupFailVC: UIViewController, ServiceProvider {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
-        case R.segue.signupFailVC.dismissSignupFail.identifier:
+        case Segues.dismissSignupFail.identifier:
             presentingViewController?.show(navBar: true)
         default:
             log.debug("unexpected segue: \(segue.name)")

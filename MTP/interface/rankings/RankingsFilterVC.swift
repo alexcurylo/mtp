@@ -4,6 +4,8 @@ import RealmSwift
 
 final class RankingsFilterVC: UITableViewController, ServiceProvider {
 
+    typealias Segues = R.segue.rankingsFilterVC
+
     @IBOutlet private var saveButton: UIBarButtonItem?
 
     @IBOutlet private var locationStack: UIStackView?
@@ -44,7 +46,6 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
         super.didReceiveMemoryWarning()
     }
 
-    typealias Segues = R.segue.rankingsFilterVC
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {

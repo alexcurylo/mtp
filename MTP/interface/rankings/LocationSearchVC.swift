@@ -10,6 +10,8 @@ protocol LocationSearchDelegate: AnyObject {
 
 final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
 
+    typealias Segues = R.segue.locationSearchVC
+
     enum List {
         case countries
         case locations(country: Int?)
@@ -82,8 +84,7 @@ final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
-        case R.segue.rankingsVC.showFilter.identifier,
-             R.segue.rankingsVC.showSearch.identifier:
+        case Segues.saveSelection.identifier:
             break
         default:
             log.debug("unexpected segue: \(segue.name)")
@@ -112,7 +113,7 @@ final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
         delegate?.locationSearch(controller: self,
                                  didSelect: anObject)
 
-        performSegue(withIdentifier: R.segue.locationSearchVC.saveSelection,
+        performSegue(withIdentifier: Segues.saveSelection,
                      sender: self)
     }
 }

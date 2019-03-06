@@ -4,6 +4,8 @@ import UIKit
 
 final class LoginFailVC: UIViewController, ServiceProvider {
 
+    typealias Segues = R.segue.loginFailVC
+
     @IBOutlet private var alertHolder: UIView?
     @IBOutlet private var bottomY: NSLayoutConstraint?
     @IBOutlet private var centerY: NSLayoutConstraint?
@@ -40,7 +42,7 @@ final class LoginFailVC: UIViewController, ServiceProvider {
 
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         switch identifier {
-        case R.segue.loginFailVC.switchForgotPassword.identifier:
+        case Segues.switchForgotPassword.identifier:
             return isSwitchable
         default:
             return true
@@ -50,9 +52,9 @@ final class LoginFailVC: UIViewController, ServiceProvider {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
-        case R.segue.loginFailVC.dismissLoginFail.identifier:
+        case Segues.dismissLoginFail.identifier:
             presentingViewController?.show(navBar: true)
-        case R.segue.loginFailVC.switchForgotPassword.identifier:
+        case Segues.switchForgotPassword.identifier:
             break
         default:
             log.debug("unexpected segue: \(segue.name)")

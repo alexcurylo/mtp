@@ -4,6 +4,8 @@ import UIKit
 
 final class RootVC: UIViewController, ServiceProvider {
 
+    typealias Segues = R.segue.rootVC
+
     @IBOutlet private var credentials: UIView?
     @IBOutlet private var credentialsBottom: NSLayoutConstraint?
     @IBOutlet private var loginButton: UIButton?
@@ -31,7 +33,7 @@ final class RootVC: UIViewController, ServiceProvider {
         if isloggedIn {
             credentials?.isHidden = true
             credentialsBottom?.constant = 0
-            performSegue(withIdentifier: R.segue.rootVC.showMain, sender: self)
+            performSegue(withIdentifier: Segues.showMain, sender: self)
         } else {
             credentials?.isHidden = false
             credentialsBottom?.constant = -(credentials?.bounds.height ?? 0)
@@ -56,10 +58,10 @@ final class RootVC: UIViewController, ServiceProvider {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
-        case R.segue.rootVC.embedLaunchScreen.identifier,
-             R.segue.rootVC.showMain.identifier,
-             R.segue.rootVC.showLogin.identifier,
-             R.segue.rootVC.showSignup.identifier:
+        case Segues.embedLaunchScreen.identifier,
+             Segues.showMain.identifier,
+             Segues.showLogin.identifier,
+             Segues.showSignup.identifier:
             break
         default:
             log.debug("unexpected segue: \(segue.name)")

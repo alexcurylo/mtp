@@ -7,6 +7,8 @@ import MapKit
 
 final class LocationsVC: UIViewController {
 
+    typealias Segues = R.segue.locationsVC
+
     @IBOutlet private var mapView: MKMapView?
     @IBOutlet private var searchBar: UISearchBar?
 
@@ -59,6 +61,9 @@ final class LocationsVC: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
+        case Segues.showFilter.identifier,
+             Segues.showList.identifier:
+            break
         default:
             log.debug("unexpected segue: \(segue.name)")
         }

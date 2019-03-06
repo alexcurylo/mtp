@@ -4,6 +4,8 @@ import KRProgressHUD
 
 final class ForgotPasswordVC: UIViewController, ServiceProvider {
 
+    typealias Segues = R.segue.forgotPasswordVC
+
     @IBOutlet private var alertHolder: UIView?
     @IBOutlet private var bottomY: NSLayoutConstraint?
     @IBOutlet private var centerY: NSLayoutConstraint?
@@ -36,7 +38,6 @@ final class ForgotPasswordVC: UIViewController, ServiceProvider {
         super.didReceiveMemoryWarning()
     }
 
-    typealias Segues = R.segue.forgotPasswordVC
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {

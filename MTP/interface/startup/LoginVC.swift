@@ -4,6 +4,8 @@ import KRProgressHUD
 
 final class LoginVC: UIViewController, ServiceProvider {
 
+    typealias Segues = R.segue.loginVC
+
     @IBOutlet private var emailTextField: UITextField?
     @IBOutlet private var passwordTextField: UITextField?
     @IBOutlet private var togglePasswordButton: UIButton?
@@ -44,10 +46,10 @@ final class LoginVC: UIViewController, ServiceProvider {
 
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         switch identifier {
-        case R.segue.loginVC.presentForgotPassword.identifier:
+        case Segues.presentForgotPassword.identifier:
             guard let email = emailTextField?.text, email.isValidEmail else {
                 errorMessage = Localized.fixEmail()
-                performSegue(withIdentifier: R.segue.loginVC.presentLoginFail, sender: self)
+                performSegue(withIdentifier: Segues.presentLoginFail, sender: self)
                 return false
             }
             return true
@@ -60,17 +62,17 @@ final class LoginVC: UIViewController, ServiceProvider {
         log.verbose("prepare for \(segue.name)")
         view.endEditing(true)
         switch segue.identifier {
-        case R.segue.loginVC.presentLoginFail.identifier:
-            let alert = R.segue.loginVC.presentLoginFail(segue: segue)
+        case Segues.presentLoginFail.identifier:
+            let alert = Segues.presentLoginFail(segue: segue)
             alert?.destination.errorMessage = errorMessage
             hide(navBar: true)
             data.email = emailTextField?.text ?? ""
-        case R.segue.loginVC.presentForgotPassword.identifier:
+        case Segues.presentForgotPassword.identifier:
             hide(navBar: true)
             data.email = emailTextField?.text ?? ""
-        case R.segue.loginVC.showMain.identifier,
-             R.segue.loginVC.switchSignup.identifier,
-             R.segue.loginVC.unwindFromLogin.identifier:
+        case Segues.showMain.identifier,
+             Segues.switchSignup.identifier,
+             Segues.unwindFromLogin.identifier:
             break
         default:
             log.debug("unexpected segue: \(segue.name)")
@@ -142,7 +144,7 @@ private extension LoginVC {
                 KRProgressHUD.showSuccess(withMessage: Localized.success())
                 DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
                     KRProgressHUD.dismiss()
-                    self?.performSegue(withIdentifier: R.segue.loginVC.showMain, sender: self)
+                    self?.performSegue(withIdentifier: Segues.showMain, sender: self)
                 }
                 return
             case .failure(.status),
@@ -154,7 +156,7 @@ private extension LoginVC {
                 self?.errorMessage = Localized.unexpectedError()
             }
             KRProgressHUD.dismiss()
-            self?.performSegue(withIdentifier: R.segue.loginVC.presentLoginFail, sender: self)
+            self?.performSegue(withIdentifier: Segues.presentLoginFail, sender: self)
         }
     }
 }

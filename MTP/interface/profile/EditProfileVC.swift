@@ -4,6 +4,8 @@ import KRProgressHUD
 
 final class EditProfileVC: UITableViewController, ServiceProvider {
 
+    typealias Segues = R.segue.editProfileVC
+
     @IBOutlet private var backgroundView: UIView?
 
     override func viewDidLoad() {
@@ -30,12 +32,12 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
-        case R.segue.editProfileVC.saveEdits.identifier:
+        case Segues.saveEdits.identifier:
             saveEdits()
-        case R.segue.editProfileVC.unwindFromEditProfile.identifier:
+        case Segues.unwindFromEditProfile.identifier:
             data.logOut()
-        case R.segue.editProfileVC.cancelEdits.identifier,
-             R.segue.editProfileVC.showConfirmDelete.identifier:
+        case Segues.cancelEdits.identifier,
+             Segues.showConfirmDelete.identifier:
             break
         default:
             log.debug("unexpected segue: \(segue.name)")
@@ -60,7 +62,7 @@ private extension EditProfileVC {
                 KRProgressHUD.showSuccess(withMessage: Localized.success())
                 DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
                     KRProgressHUD.dismiss()
-                    self?.performSegue(withIdentifier: R.segue.editProfileVC.unwindFromEditProfile, sender: self)
+                    self?.performSegue(withIdentifier: Segues.unwindFromEditProfile, sender: self)
                 }
                 return
             case .failure(.status),

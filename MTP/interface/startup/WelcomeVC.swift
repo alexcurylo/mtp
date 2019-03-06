@@ -4,6 +4,8 @@ import UIKit
 
 final class WelcomeVC: UIViewController, ServiceProvider {
 
+    typealias Segues = R.segue.welcomeVC
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -26,10 +28,10 @@ final class WelcomeVC: UIViewController, ServiceProvider {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
-        case R.segue.welcomeVC.showSettings.identifier:
-            let settings = R.segue.welcomeVC.showSettings(segue: segue)
+        case Segues.showSettings.identifier:
+            let settings = Segues.showSettings(segue: segue)
             settings?.destination.destination = .editProfile
-        case R.segue.welcomeVC.showMain.identifier:
+        case Segues.showMain.identifier:
             break
         default:
             log.debug("unexpected segue: \(segue.name)")

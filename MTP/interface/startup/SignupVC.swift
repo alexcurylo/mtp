@@ -4,6 +4,8 @@ import KRProgressHUD
 
 final class SignupVC: UIViewController, ServiceProvider {
 
+    typealias Segues = R.segue.signupVC
+
     @IBOutlet private var nameTextField: UITextField?
     @IBOutlet private var emailTextField: UITextField?
     @IBOutlet private var passwordTextField: UITextField?
@@ -47,14 +49,14 @@ final class SignupVC: UIViewController, ServiceProvider {
         log.verbose("prepare for \(segue.name)")
         view.endEditing(true)
         switch segue.identifier {
-        case R.segue.signupVC.presentSignupFail.identifier:
-            let alert = R.segue.signupVC.presentSignupFail(segue: segue)
+        case Segues.presentSignupFail.identifier:
+            let alert = Segues.presentSignupFail(segue: segue)
             alert?.destination.errorMessage = errorMessage
             hide(navBar: true)
-        case R.segue.signupVC.pushTermsOfService.identifier,
-             R.segue.signupVC.showWelcome.identifier,
-             R.segue.signupVC.switchLogin.identifier,
-             R.segue.signupVC.unwindFromSignup.identifier:
+        case Segues.pushTermsOfService.identifier,
+             Segues.showWelcome.identifier,
+             Segues.switchLogin.identifier,
+             Segues.unwindFromSignup.identifier:
             break
         default:
             log.debug("unexpected segue: \(segue.name)")
@@ -123,7 +125,7 @@ private extension SignupVC {
                 KRProgressHUD.showSuccess(withMessage: Localized.success())
                 DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
                     KRProgressHUD.dismiss()
-                    self?.performSegue(withIdentifier: R.segue.signupVC.showWelcome, sender: self)
+                    self?.performSegue(withIdentifier: Segues.showWelcome, sender: self)
                 }
                 return
             case .failure(.status),
@@ -135,7 +137,7 @@ private extension SignupVC {
                 self?.errorMessage = Localized.unexpectedError()
             }
             KRProgressHUD.dismiss()
-            self?.performSegue(withIdentifier: R.segue.signupVC.presentSignupFail, sender: self)
+            self?.performSegue(withIdentifier: Segues.presentSignupFail, sender: self)
         }
     }
 }
