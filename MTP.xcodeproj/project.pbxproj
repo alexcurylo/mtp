@@ -67,6 +67,7 @@
 		FA5AC0C321FDCE200080F84F /* MyCountsPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C221FDCE200080F84F /* MyCountsPageVC.swift */; };
 		FA5AC0C521FDD7C00080F84F /* CountHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C421FDD7C00080F84F /* CountHeader.swift */; };
 		FA5AC0C721FDD8AA0080F84F /* CountToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C621FDD8AA0080F84F /* CountToggleCell.swift */; };
+		FA5DBFA8222FF9E300639148 /* RegistrationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5DBFA7222FF9E300639148 /* RegistrationInfo.swift */; };
 		FA6A188621EFEF920092C56C /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6A188521EFEF920092C56C /* Observable.swift */; };
 		FA74574D210CA5730010F4F4 /* MyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74574C210CA5730010F4F4 /* MyProfileVC.swift */; };
 		FA745753210DA4C60010F4F4 /* MyProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA745755210DA4C60010F4F4 /* MyProfile.storyboard */; };
@@ -219,6 +220,7 @@
 		FA5AC0C221FDCE200080F84F /* MyCountsPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCountsPageVC.swift; sourceTree = "<group>"; };
 		FA5AC0C421FDD7C00080F84F /* CountHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountHeader.swift; sourceTree = "<group>"; };
 		FA5AC0C621FDD8AA0080F84F /* CountToggleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountToggleCell.swift; sourceTree = "<group>"; };
+		FA5DBFA7222FF9E300639148 /* RegistrationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationInfo.swift; sourceTree = "<group>"; };
 		FA6A188521EFEF920092C56C /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		FA74574C210CA5730010F4F4 /* MyProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileVC.swift; sourceTree = "<group>"; };
 		FA745754210DA4C60010F4F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyProfile.storyboard; sourceTree = "<group>"; };
@@ -623,6 +625,7 @@
 				FA7C200F221BA0A1002C6DAB /* Post.swift */,
 				8C5ECF3921FFE49800322ABF /* RankingsQuery.swift */,
 				8C76D8EB2207CD36005CF4CD /* RankingsPageInfo.swift */,
+				FA5DBFA7222FF9E300639148 /* RegistrationInfo.swift */,
 				FAD2B51B21F4A675009FFDD7 /* Restaurant.swift */,
 				8CE3FC2B222389B600B94EAA /* Scorecard.swift */,
 				FA8833E6220CE8260037C796 /* UNCountry.swift */,
@@ -1050,6 +1053,7 @@
 				FA392BBD20DF69F30026C828 /* LocationsVC.swift in Sources */,
 				FAD2B51A21F492B3009FFDD7 /* UncertainValue.swift in Sources */,
 				FAE1F119214354A80002CAB2 /* Avenir.swift in Sources */,
+				FA5DBFA8222FF9E300639148 /* RegistrationInfo.swift in Sources */,
 				FA254DCD2169A2A400FC9360 /* MyAboutVC.swift in Sources */,
 				FA32CC782100C360004C1329 /* SignupVC.swift in Sources */,
 				FA25ACE6217B54A8000AE26D /* RankingCell.swift in Sources */,

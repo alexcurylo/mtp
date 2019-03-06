@@ -3,6 +3,11 @@
 import CoreLocation
 import RealmSwift
 
+enum AdminLevel: Int {
+    case country = 2
+    case location = 4
+}
+
 struct LocationJSON: Codable {
 
     let active: String
