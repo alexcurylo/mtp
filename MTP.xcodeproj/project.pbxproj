@@ -11,6 +11,7 @@
 		122BA726DE2ED1EC0C4144BB /* libPods-MTPUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C0AF3F035BC227379ED6DE /* libPods-MTPUITests.a */; };
 		529054A21D10AD8DB1855DB5 /* libPods-MTPTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 848B6781D80D51E75A14ECF6 /* libPods-MTPTests.a */; };
 		8C3EA813222F64F100CB4886 /* UITopLoadingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EA812222F64F100CB4886 /* UITopLoadingTextView.swift */; };
+		8C3EAA1C2230BFA500CB4886 /* InsetTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EAA1B2230BFA500CB4886 /* InsetTextField.swift */; };
 		8C5ECE0221FE9B3600322ABF /* Checklist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5ECE0121FE9B3600322ABF /* Checklist.swift */; };
 		8C5ECE9E21FEE6F800322ABF /* CountGroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5ECE9D21FEE6F800322ABF /* CountGroupCell.swift */; };
 		8C5ECF3A21FFE49800322ABF /* RankingsQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5ECF3921FFE49800322ABF /* RankingsQuery.swift */; };
@@ -146,6 +147,7 @@
 		7E2C18C122B275F3B40CDCDA /* Pods-MTP-settings-metadata.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "Pods-MTP-settings-metadata.plist"; path = "MTP/resources/Settings.bundle/Pods-MTP-settings-metadata.plist"; sourceTree = "<group>"; };
 		848B6781D80D51E75A14ECF6 /* libPods-MTPTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MTPTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C3EA812222F64F100CB4886 /* UITopLoadingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITopLoadingTextView.swift; sourceTree = "<group>"; };
+		8C3EAA1B2230BFA500CB4886 /* InsetTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetTextField.swift; sourceTree = "<group>"; };
 		8C5ECE0121FE9B3600322ABF /* Checklist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checklist.swift; sourceTree = "<group>"; };
 		8C5ECE9D21FEE6F800322ABF /* CountGroupCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountGroupCell.swift; sourceTree = "<group>"; };
 		8C5ECF3921FFE49800322ABF /* RankingsQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsQuery.swift; sourceTree = "<group>"; };
@@ -591,6 +593,7 @@
 				FA7C2013222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift */,
 				FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */,
 				FA46532F21157784005B5A0A /* FacebookButton.swift */,
+				8C3EAA1B2230BFA500CB4886 /* InsetTextField.swift */,
 				FAE1F11D2143B29F0002CAB2 /* LocationTracker.swift */,
 				FA463784210E06230007382D /* LoggingService.swift */,
 				FA6A188521EFEF920092C56C /* Observable.swift */,
@@ -1016,6 +1019,7 @@
 				FA74C111211BBF490013A840 /* String+Formatting.swift in Sources */,
 				FA8833E7220CE8260037C796 /* UNCountry.swift in Sources */,
 				FA3BD1D2215F7FCD007EAF75 /* MyPostsVC.swift in Sources */,
+				8C3EAA1C2230BFA500CB4886 /* InsetTextField.swift in Sources */,
 				FA8833E5220CE7350037C796 /* Country.swift in Sources */,
 				FAFEDA522129602800DA3DB8 /* WelcomeVC.swift in Sources */,
 				FA9A71DF20F1D3FA005F6A57 /* AppDelegate+Tools.swift in Sources */,
