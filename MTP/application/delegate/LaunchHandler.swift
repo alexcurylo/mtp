@@ -7,11 +7,55 @@ import AppCenterDistribute
 import FacebookCore
 import SwiftyBeaver
 
+struct LaunchHandler: AppHandler, ServiceProvider {
+
+    static var shared: LaunchHandler? {
+        return RoutingAppDelegate.shared.handlers.firstOf(type: self)
+    }
+
+    let dependencies: [AppHandler.Type] = []
+}
+
+extension LaunchHandler: AppLaunchHandler {
+
+    func application(_ application: UIApplication,
+                     // swiftlint:disable:next discouraged_optional_collection
+                     willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        return true
+    }
+
+    func application(_ application: UIApplication,
+                     // swiftlint:disable:next discouraged_optional_collection
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        configureLogging()
+
+        configureAppCenter()
+
+        configureSettingsDisplay()
+
+        configureFacebook(app: application, options: launchOptions ?? [:])
+
+        configureAppearance()
+
+        return true
+    }
+}
+
+private extension LaunchHandler {
+    func configureSettingsDisplay() {
+        StringKey.infoDictionarySettingsKeys.copyToUserDefaults()
+    }
+
+    func configureAppearance() {
+        style.standard.styleAppearance()
+    }
+}
+
 // MARK: - AppCenter
 
 // https://docs.microsoft.com/en-us/appcenter/
 
-extension AppDelegate {
+extension LaunchHandler {
 
     func configureAppCenter() {
         guard !UIApplication.isTesting else { return }
@@ -62,7 +106,7 @@ struct SwiftyBeaverLoggingService: LoggingService {
     }
 }
 
-extension AppDelegate {
+extension LaunchHandler {
 
     func configureLogging() {
 
@@ -91,7 +135,7 @@ extension AppDelegate {
 // https://developers.facebook.com/docs/swift/login
 // https://developers.facebook.com/docs/facebook-login/testing-your-login-flow/
 
-extension AppDelegate {
+extension LaunchHandler {
 
     func configureFacebook(app: UIApplication,
                            options: [UIApplication.LaunchOptionsKey: Any]) {
@@ -99,6 +143,9 @@ extension AppDelegate {
             app,
             didFinishLaunchingWithOptions: options)
     }
+}
+
+extension ActionHandler {
 
     func handleFacebookURL(app: UIApplication,
                            open url: URL,
