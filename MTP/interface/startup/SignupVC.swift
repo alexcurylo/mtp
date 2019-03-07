@@ -6,9 +6,12 @@ final class SignupVC: UIViewController, ServiceProvider {
 
     typealias Segues = R.segue.signupVC
 
-    @IBOutlet private var nameTextField: UITextField?
-    @IBOutlet private var emailTextField: UITextField?
-    @IBOutlet private var passwordTextField: UITextField?
+    @IBOutlet private var credentialsStack: UIStackView?
+    @IBOutlet private var facebookStack: UIStackView?
+
+    @IBOutlet private var nameTextField: InsetTextField?
+    @IBOutlet private var emailTextField: InsetTextField?
+    @IBOutlet private var passwordTextField: InsetTextField?
     @IBOutlet private var togglePasswordButton: UIButton?
 
     private var errorMessage: String = ""
@@ -94,6 +97,12 @@ private extension SignupVC {
         view.endEditing(true)
         sender.login { [weak self] name, email, _ in
             guard let self = self else { return }
+
+            if let stack = self.credentialsStack,
+                let fbStack = self.facebookStack {
+                stack.removeArrangedSubview(fbStack)
+                fbStack.removeFromSuperview()
+            }
 
             self.log.todo("populate from Facebook")
             self.nameTextField?.text = name

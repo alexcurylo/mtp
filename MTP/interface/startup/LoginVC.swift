@@ -6,8 +6,8 @@ final class LoginVC: UIViewController, ServiceProvider {
 
     typealias Segues = R.segue.loginVC
 
-    @IBOutlet private var emailTextField: UITextField?
-    @IBOutlet private var passwordTextField: UITextField?
+    @IBOutlet private var emailTextField: InsetTextField?
+    @IBOutlet private var passwordTextField: InsetTextField?
     @IBOutlet private var togglePasswordButton: UIButton?
 
     private var errorMessage: String = ""
