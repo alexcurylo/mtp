@@ -11,6 +11,7 @@ final class MTPDelegateTests: XCTestCase {
         XCTAssertNotNil(delegate)
 
         let expected: [String] = [
+            String(describing: SpyServiceHandler.self)
         ]
         let actual = delegate?.handlers.map { String(describing: type(of: $0)) } ?? []
         XCTAssertEqual(expected, actual)

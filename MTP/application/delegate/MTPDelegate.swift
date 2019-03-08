@@ -15,7 +15,11 @@ final class MTPDelegate: RoutingAppDelegate {
         ]
 
         let forUnitTests = forUnitTests ?? UIApplication.isUnitTesting
-        if !forUnitTests {
+        if forUnitTests {
+            runtimeHandlers += [
+                SpyServiceHandler()
+            ] as Handlers
+        } else {
             runtimeHandlers += [
                 ActionHandler(),
                 LaunchHandler()
