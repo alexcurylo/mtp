@@ -61,15 +61,16 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
 extension DataService {
 
     var isLoggedIn: Bool {
-        guard !token.isEmpty,
-              let jwt = try? decode(jwt: token),
-              let expiry = jwt.expiresAt else { return false }
-        // https://github.com/auth0/JWTDecode.swift/issues/70
-        let expired = expiry > Date().toUTC
-        if expired {
-            log.debug("token expired -- should we be refreshing somehow?")
+        guard !token.isEmpty else { return false }
+        guard let jwt = try? decode(jwt: token),
+              !jwt.expired else {
+            // Appears to have 1 year expiry
+            log.todo("token expired -- should we be refreshing somehow?")
+            return false
         }
-        return expired
+        // https://github.com/auth0/JWTDecode.swift/issues/70
+        // let expired = jwt.expiresAt < Date().toUTC?
+        return true
     }
 
     func logOut() {
