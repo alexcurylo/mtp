@@ -10,7 +10,7 @@
 		0A2349E36085A3EE89A30019 /* Pods-MTP-metadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = B988D22396864AC3181C1EA5 /* Pods-MTP-metadata.plist */; };
 		122BA726DE2ED1EC0C4144BB /* libPods-MTPUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C0AF3F035BC227379ED6DE /* libPods-MTPUITests.a */; };
 		529054A21D10AD8DB1855DB5 /* libPods-MTPTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 848B6781D80D51E75A14ECF6 /* libPods-MTPTests.a */; };
-		8C0127F9223202FA00EA2095 /* SpyServiceHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127F8223202FA00EA2095 /* SpyServiceHandler.swift */; };
+		8C0127F9223202FA00EA2095 /* ServiceHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127F8223202FA00EA2095 /* ServiceHandler.swift */; };
 		8C0127FB2232054E00EA2095 /* SpyServiceHandler+AppLaunchHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127FA2232054E00EA2095 /* SpyServiceHandler+AppLaunchHandler.swift */; };
 		8C0127FD2232084600EA2095 /* SpyApplicationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127FC2232084600EA2095 /* SpyApplicationService.swift */; };
 		8C0127FF2232089100EA2095 /* SpyLoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127FE2232089100EA2095 /* SpyLoggingService.swift */; };
@@ -159,7 +159,7 @@
 		7A421C21DED7018B2D88EDFE /* Pods-MTPTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MTPTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MTPTests/Pods-MTPTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7E2C18C122B275F3B40CDCDA /* Pods-MTP-settings-metadata.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "Pods-MTP-settings-metadata.plist"; path = "MTP/resources/Settings.bundle/Pods-MTP-settings-metadata.plist"; sourceTree = "<group>"; };
 		848B6781D80D51E75A14ECF6 /* libPods-MTPTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MTPTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8C0127F8223202FA00EA2095 /* SpyServiceHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyServiceHandler.swift; sourceTree = "<group>"; };
+		8C0127F8223202FA00EA2095 /* ServiceHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceHandler.swift; sourceTree = "<group>"; };
 		8C0127FA2232054E00EA2095 /* SpyServiceHandler+AppLaunchHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SpyServiceHandler+AppLaunchHandler.swift"; sourceTree = "<group>"; };
 		8C0127FC2232084600EA2095 /* SpyApplicationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyApplicationService.swift; sourceTree = "<group>"; };
 		8C0127FE2232089100EA2095 /* SpyLoggingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyLoggingService.swift; sourceTree = "<group>"; };
@@ -370,7 +370,7 @@
 				8C3EAB892230FD2800CB4886 /* MTPDelegate.swift */,
 				FA392BBA20DF69F30026C828 /* ActionHandler.swift */,
 				FA9A71DE20F1D3FA005F6A57 /* LaunchHandler.swift */,
-				8C0127F8223202FA00EA2095 /* SpyServiceHandler.swift */,
+				8C0127F8223202FA00EA2095 /* ServiceHandler.swift */,
 			);
 			path = delegate;
 			sourceTree = "<group>";
@@ -1084,7 +1084,7 @@
 				FA5AC0B821FD4A160080F84F /* PlaceClusterAnnotationView.swift in Sources */,
 				FAF1853120FA0C8600CC5D83 /* RootVC.swift in Sources */,
 				FA7C2012221C2F20002C6DAB /* Photo.swift in Sources */,
-				8C0127F9223202FA00EA2095 /* SpyServiceHandler.swift in Sources */,
+				8C0127F9223202FA00EA2095 /* ServiceHandler.swift in Sources */,
 				FAFEDA5421296F6D00DA3DB8 /* MainTBC.swift in Sources */,
 				FA2E718521ED535B00E6AB73 /* WHS.swift in Sources */,
 				FAAE29BF20EE51A700B43BA9 /* UIApplication+Environment.swift in Sources */,

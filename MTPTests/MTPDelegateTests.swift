@@ -19,6 +19,7 @@ final class MTPDelegateTests: XCTestCase {
 
     func testDeploymentHandlerList() {
         let expected = [
+            String(describing: ServiceHandler.self),
             String(describing: ActionHandler.self),
             String(describing: LaunchHandler.self)
         ]

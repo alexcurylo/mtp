@@ -1,18 +1,20 @@
 // @copyright Trollwerks Inc.
 
-@testable import MTP
+import  UIKit
 
-extension SpyServiceHandler: AppLaunchHandler {
+struct ServiceHandler: AppHandler { }
+
+extension ServiceHandler: AppLaunchHandler {
 
     public func application(
         _ application: UIApplication,
         // swiftlint:disable:next discouraged_optional_collection
         willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        ServiceProviderInstances.logServiceInstance = SpyLoggingService()
-        ServiceProviderInstances.appServiceInstance = SpyApplicationService()
-        ServiceProviderInstances.dataServiceInstance = SpyDataService()
-        ServiceProviderInstances.mtpServiceInstance = SpyMTPNetworkService()
+        ServiceProviderInstances.logServiceInstance = SwiftyBeaverLoggingService()
+        ServiceProviderInstances.appServiceInstance = UIApplication.shared
+        ServiceProviderInstances.dataServiceInstance = DataServiceImpl()
+        ServiceProviderInstances.mtpServiceInstance = MoyaMTPNetworkService()
 
         return true
     }
@@ -24,3 +26,7 @@ extension SpyServiceHandler: AppLaunchHandler {
         return true
     }
 }
+
+struct SpyServiceHandler: AppHandler { }
+
+// SpyServiceHandler+AppLaunchHandler in test target sets spy instances

@@ -2,14 +2,7 @@
 
 import UIKit
 
-struct ActionHandler: AppHandler, ServiceProvider {
-
-    static var shared: ActionHandler? {
-        return RoutingAppDelegate.shared.handlers.firstOf(type: self)
-    }
-
-    let dependencies: [AppHandler.Type] = []
-}
+struct ActionHandler: AppHandler, ServiceProvider { }
 
 extension ActionHandler: AppOpenURLHandler {
 

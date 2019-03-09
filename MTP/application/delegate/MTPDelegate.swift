@@ -21,6 +21,7 @@ final class MTPDelegate: RoutingAppDelegate {
             ] as Handlers
         } else {
             runtimeHandlers += [
+                ServiceHandler(),
                 ActionHandler(),
                 LaunchHandler()
             ] as Handlers

@@ -8,11 +8,7 @@ import UserNotifications
 // swiftlint:disable file_length
 
 // Adopt to be constructed at app startup
-
-protocol AppHandler {
-
-    var dependencies: [AppHandler.Type] { get }
-}
+protocol AppHandler { }
 
 // Adopt more protocols to have notifications routed to your handler
 
@@ -168,6 +164,10 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
 
     var handlers: Handlers {
         fatalError("Incorrect RoutingAppDelegate usage: subclass and override `handlers`")
+    }
+
+    func handler<T>(type: T.Type) -> T? {
+        return RoutingAppDelegate.shared.handlers.firstOf(type: T.self)
     }
 
     // MARK: - All members of UIApplicationDelegate as found in 12.0 SDK

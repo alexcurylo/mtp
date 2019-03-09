@@ -7,14 +7,7 @@ import AppCenterDistribute
 import FacebookCore
 import SwiftyBeaver
 
-struct LaunchHandler: AppHandler, ServiceProvider {
-
-    static var shared: LaunchHandler? {
-        return RoutingAppDelegate.shared.handlers.firstOf(type: self)
-    }
-
-    let dependencies: [AppHandler.Type] = []
-}
+struct LaunchHandler: AppHandler, ServiceProvider { }
 
 extension LaunchHandler: AppLaunchHandler {
 
