@@ -204,7 +204,8 @@ extension UserInfo {
         return "id"
     }
 
-    convenience init(from: RankedUserJSON) {
+    convenience init(from: RankedUserJSON,
+                     with existing: User?) {
         self.init()
 
         fullName = from.fullName
@@ -212,14 +213,14 @@ extension UserInfo {
         id = from.id
         locationName = from.location.description
         picture = from.picture
-        scoreBeaches = from.scoreBeaches ?? 0
-        scoreDivesites = from.scoreDivesites ?? 0
-        scoreGolfcourses = from.scoreGolfcourses ?? 0
-        scoreLocations = from.scoreLocations ?? 0
-        scoreRestaurants = from.scoreRestaurants ?? 0
-        scoreUncountries = from.scoreUncountries ?? 0
-        scoreWhss = from.scoreWhss ?? 0
-   }
+        scoreBeaches = from.scoreBeaches ?? existing?.scoreBeaches ?? 0
+        scoreDivesites = from.scoreDivesites ?? existing?.scoreDivesites ?? 0
+        scoreGolfcourses = from.scoreGolfcourses ?? existing?.scoreGolfcourses ?? 0
+        scoreLocations = from.scoreLocations ?? existing?.scoreLocations ?? 0
+        scoreRestaurants = from.scoreRestaurants ?? existing?.scoreRestaurants ?? 0
+        scoreUncountries = from.scoreUncountries ?? existing?.scoreUncountries ?? 0
+        scoreWhss = from.scoreWhss ?? existing?.scoreWhss ?? 0
+    }
 
     convenience init(from: UserJSON) {
         self.init()
@@ -236,5 +237,22 @@ extension UserInfo {
         scoreRestaurants = from.scoreRestaurants
         scoreUncountries = from.scoreUncountries
         scoreWhss = from.scoreWhss
+    }
+
+    override func isEqual(_ object: Any?) -> Bool {
+        guard let other = object as? User else { return false }
+        guard !isSameObject(as: other) else { return true }
+        return fullName == other.fullName &&
+               gender == other.gender &&
+               id == other.id &&
+               locationName == other.locationName &&
+               picture == other.picture &&
+               scoreBeaches == other.scoreBeaches &&
+               scoreDivesites == other.scoreDivesites &&
+               scoreGolfcourses == other.scoreGolfcourses &&
+               scoreLocations == other.scoreLocations &&
+               scoreRestaurants == other.scoreRestaurants &&
+               scoreUncountries == other.scoreUncountries &&
+               scoreWhss == other.scoreWhss
     }
 }

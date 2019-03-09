@@ -730,7 +730,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     }
                     let user = try result.map(UserJSON.self,
                                               using: JSONDecoder.mtp)
-                    self.data.set(userId: user)
+                    self.data.set(user: user)
                     return then(.success(user))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -899,7 +899,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     let user = try result.map(UserJSON.self,
                                               using: JSONDecoder.mtp)
                     self.data.user = user
-                    self.data.set(userId: user)
                     return then(.success(user))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -929,14 +928,12 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 let user = try result.map(UserJSON.self,
                                           using: JSONDecoder.mtp)
                 guard let token = user.token else { throw MTPNetworkError.token }
+                log.verbose("logged in user: " + user.debugDescription)
                 data.token = token
                 data.user = user
-                log.verbose("logged in user: " + user.debugDescription)
-                self.data.user = user
-                self.data.set(userId: user)
                 return then(.success(user))
             } catch {
-                self.log.error("decoding user: \(error)")
+                log.error("decoding user: \(error)")
                 return then(.failure(.results))
             }
         }

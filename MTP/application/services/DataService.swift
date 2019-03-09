@@ -52,7 +52,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
              info: RankingsPageInfoJSON)
     func set(scorecard: ScorecardWrapperJSON)
     func set(uncountries: [LocationJSON])
-    func set(userId: UserJSON)
+    func set(user data: UserJSON)
     func set(whss: [WHSJSON])
 }
 
@@ -275,6 +275,9 @@ final class DataServiceImpl: DataService {
         set {
             defaults.user = newValue
             notify(change: .user)
+            if let newValue = newValue {
+                set(user: newValue)
+            }
         }
     }
 
@@ -301,8 +304,8 @@ final class DataServiceImpl: DataService {
         return false
     }
 
-    func set(userId: UserJSON) {
-        realm.set(userId: userId)
+    func set(user data: UserJSON) {
+        realm.set(user: data)
         notify(change: .userId)
     }
 

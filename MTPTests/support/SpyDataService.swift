@@ -505,15 +505,15 @@ final class SpyDataService: DataService {
         invokedSetUncountriesParameters = (uncountries, ())
         invokedSetUncountriesParametersList.append((uncountries, ()))
     }
-    var invokedSetUserId = false
-    var invokedSetUserIdCount = 0
-    var invokedSetUserIdParameters: (userId: UserJSON, Void)?
-    var invokedSetUserIdParametersList = [(userId: UserJSON, Void)]()
-    func set(userId: UserJSON) {
-        invokedSetUserId = true
-        invokedSetUserIdCount += 1
-        invokedSetUserIdParameters = (userId, ())
-        invokedSetUserIdParametersList.append((userId, ()))
+    var invokedSetUser = false
+    var invokedSetUserCount = 0
+    var invokedSetUserParameters: (user: UserJSON, Void)?
+    var invokedSetUserParametersList = [(user: UserJSON, Void)]()
+    func set(user data: UserJSON) {
+        invokedSetUser = true
+        invokedSetUserCount += 1
+        invokedSetUserParameters = (data, ())
+        invokedSetUserParametersList.append((data, ()))
     }
     var invokedSetWhss = false
     var invokedSetWhssCount = 0
