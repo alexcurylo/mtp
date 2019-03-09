@@ -35,7 +35,7 @@ import UIKit
         return super.rightViewRect(forBounds: bounds)
     }
 
-    func disable(text: String){
+    func disable(text: String) {
         self.text = text
         if !text.isEmpty {
             isEnabled = false

@@ -80,7 +80,7 @@ struct RegistrationInfo: Codable {
          country: Country,
          firstName: String,
          email: String,
-         gender: Gender,
+         gender: String,
          lastName: String,
          location: Location,
          password: String,
@@ -90,7 +90,7 @@ struct RegistrationInfo: Codable {
         country_id = country.countryId
         self.email = email
         first_name = firstName
-        self.gender = gender.rawValue
+        self.gender = gender
         last_name = lastName
         self.location = LocationInfo(location: location)
         location_id = location.id

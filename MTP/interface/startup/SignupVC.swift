@@ -12,6 +12,7 @@ final class SignupVC: UIViewController, ServiceProvider {
     @IBOutlet private var emailTextField: InsetTextField?
     @IBOutlet private var firstNameTextField: InsetTextField?
     @IBOutlet private var lastNameTextField: InsetTextField?
+    @IBOutlet private var genderTextField: InsetTextField?
     @IBOutlet private var passwordTextField: InsetTextField?
     @IBOutlet private var togglePasswordButton: UIButton?
     @IBOutlet private var confirmPasswordTextField: InsetTextField?
@@ -19,15 +20,24 @@ final class SignupVC: UIViewController, ServiceProvider {
 
     private var errorMessage: String = ""
 
+    let genders = [Localized.selectGender(), Localized.male(), Localized.female()]
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        emailTextField?.text = data.email
+
+        _ = UIPickerView().with {
+            $0.dataSource = self
+            $0.delegate = self
+            genderTextField?.inputView = $0
+        }
+
         passwordTextField?.rightViewMode = .always
         passwordTextField?.rightView = togglePasswordButton
+
         confirmPasswordTextField?.rightViewMode = .always
         confirmPasswordTextField?.rightView = toggleConfirmPasswordButton
-
-        emailTextField?.text = data.email
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -129,6 +139,13 @@ private extension SignupVC {
 
             self.emailTextField?.disable(text: info.email)
             self.firstNameTextField?.disable(text: info.first_name)
+            let gender: String
+            switch info.gender {
+            case "M": gender = Localized.male()
+            case "F": gender = Localized.female()
+            default: gender = ""
+            }
+            self.genderTextField?.disable(text: gender)
             self.lastNameTextField?.disable(text: info.last_name)
 
             self.prepareRegister(showError: false)
@@ -139,6 +156,12 @@ private extension SignupVC {
         let email = emailTextField?.text ?? ""
         let firstName = firstNameTextField?.text ?? ""
         let lastName = lastNameTextField?.text ?? ""
+        let gender: String
+        if let first = genderTextField?.text?.first {
+            gender = String(first)
+        } else {
+            gender = ""
+        }
         let password = passwordTextField?.text ?? ""
         let passwordConfirmation = confirmPasswordTextField?.text ?? ""
 
@@ -148,6 +171,8 @@ private extension SignupVC {
             errorMessage = Localized.fixFirstName()
         } else if lastName.isEmpty {
             errorMessage = Localized.fixLastName()
+        } else if gender.isEmpty {
+            errorMessage = Localized.fixGender()
         } else if !password.isValidPassword {
             errorMessage = Localized.fixPassword()
         } else if password != passwordConfirmation {
@@ -167,8 +192,8 @@ private extension SignupVC {
             country: Country(),
             firstName: firstName,
             email: email,
-            gender: .all,
             location: Location(),
+            gender: gender,
             lastName: lastName,
             password: password,
             passwordConfirmation: passwordConfirmation
@@ -211,6 +236,8 @@ extension SignupVC: UITextFieldDelegate {
         case firstNameTextField:
             lastNameTextField?.becomeFirstResponder()
         case lastNameTextField:
+            genderTextField?.becomeFirstResponder()
+        case genderTextField:
             passwordTextField?.becomeFirstResponder()
         case passwordTextField:
             confirmPasswordTextField?.becomeFirstResponder()
@@ -248,5 +275,33 @@ extension SignupVC: UIViewControllerTransitioningDelegate {
 
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return nil
+    }
+}
+
+extension SignupVC: UIPickerViewDataSource {
+
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return genders.count
+    }
+}
+
+extension SignupVC: UIPickerViewDelegate {
+
+    public func pickerView(_ pickerView: UIPickerView,
+                           titleForRow row: Int,
+                           forComponent component: Int) -> String? {
+        return genders[row]
+    }
+
+    public func pickerView(_ pickerView: UIPickerView,
+                           didSelectRow row: Int,
+                           inComponent component: Int) {
+        guard row > 0 else { return }
+        genderTextField?.text = genders[row]
+        genderTextField?.resignFirstResponder()
     }
 }
