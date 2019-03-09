@@ -32,10 +32,6 @@ extension String {
     }
 
     var isValidPassword: Bool {
-        return !isEmpty
-    }
-
-    var isAcceptablePassword: Bool {
         return count >= 6 // as per signup.blade.php
     }
 }

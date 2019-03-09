@@ -63,12 +63,15 @@ struct RegistrationInfo: Codable {
     let passwordConfirmation: String
 
     var isValid: Bool {
-        return country.isValid &&
+        return birthday != Date.distantFuture &&
+               country.isValid &&
+               country_id > 0 &&
                !email.isEmpty &&
                !first_name.isEmpty &&
                !gender.isEmpty &&
                !last_name.isEmpty &&
                (!country.has_children || location.isValid) &&
+               location_id > 0 &&
                !password.isEmpty &&
                password == passwordConfirmation
     }
@@ -93,5 +96,29 @@ struct RegistrationInfo: Codable {
         location_id = location.id
         self.password = password
         self.passwordConfirmation = passwordConfirmation
+    }
+
+    init(facebook response: [String: Any]) {
+        if let dateString = response["birthday"] as? String,
+           let date = DateFormatter.fbDay.date(from: dateString) {
+            birthday = date
+        } else {
+            birthday = Date.distantFuture
+        }
+        email = response["email"] as? String ?? ""
+        first_name = response["first_name"] as? String ?? ""
+        switch response["gender"] as? String {
+        case "female": gender = "F"
+        case "male": gender = "M"
+        default: gender = ""
+        }
+        last_name = response["last_name"] as? String ?? ""
+
+        country = CountryInfo(country: Country())
+        country_id = 0
+        location = LocationInfo(location: Location())
+        location_id = 0
+        password = ""
+        passwordConfirmation = ""
     }
 }

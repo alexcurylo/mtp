@@ -34,4 +34,12 @@ import UIKit
     override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
         return super.rightViewRect(forBounds: bounds)
     }
+
+    func disable(text: String){
+        self.text = text
+        if !text.isEmpty {
+            isEnabled = false
+            alpha = 0.8
+        }
+    }
 }

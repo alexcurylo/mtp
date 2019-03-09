@@ -112,8 +112,8 @@ private extension LoginVC {
 
     @IBAction func facebookTapped(_ sender: FacebookButton) {
         view.endEditing(true)
-        sender.login { [weak self] _, email, _ in
-            self?.emailTextField?.text = email
+        sender.login { [weak self] info in
+            self?.emailTextField?.text = info?.email
             // currently not implemented: login with Facebook ID
         }
     }
@@ -123,8 +123,8 @@ private extension LoginVC {
         let password = passwordTextField?.text ?? ""
         if !email.isValidEmail {
             errorMessage = Localized.fixEmail()
-        } else if !password.isValidPassword {
-            errorMessage = Localized.fixPassword()
+        } else if password.isEmpty {
+            errorMessage = Localized.enterPassword()
         } else {
             errorMessage = ""
         }

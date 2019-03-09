@@ -9,10 +9,13 @@ final class SignupVC: UIViewController, ServiceProvider {
     @IBOutlet private var credentialsStack: UIStackView?
     @IBOutlet private var facebookStack: UIStackView?
 
-    @IBOutlet private var nameTextField: InsetTextField?
     @IBOutlet private var emailTextField: InsetTextField?
+    @IBOutlet private var firstNameTextField: InsetTextField?
+    @IBOutlet private var lastNameTextField: InsetTextField?
     @IBOutlet private var passwordTextField: InsetTextField?
     @IBOutlet private var togglePasswordButton: UIButton?
+    @IBOutlet private var confirmPasswordTextField: InsetTextField?
+    @IBOutlet private var toggleConfirmPasswordButton: UIButton?
 
     private var errorMessage: String = ""
 
@@ -21,6 +24,8 @@ final class SignupVC: UIViewController, ServiceProvider {
 
         passwordTextField?.rightViewMode = .always
         passwordTextField?.rightView = togglePasswordButton
+        confirmPasswordTextField?.rightViewMode = .always
+        confirmPasswordTextField?.rightView = toggleConfirmPasswordButton
 
         emailTextField?.text = data.email
     }
@@ -74,7 +79,16 @@ final class SignupVC: UIViewController, ServiceProvider {
 private extension SignupVC {
 
     @IBAction func visibilityTapped(_ sender: UIButton) {
-        guard let field = passwordTextField else { return }
+        let textField: InsetTextField?
+        switch sender {
+        case togglePasswordButton:
+            textField = passwordTextField
+        case toggleConfirmPasswordButton:
+            textField = confirmPasswordTextField
+        default:
+            textField = nil
+        }
+        guard let field = textField else { return }
 
         if sender.isSelected {
             sender.isSelected = false
@@ -99,8 +113,13 @@ private extension SignupVC {
 
     @IBAction func facebookTapped(_ sender: FacebookButton) {
         view.endEditing(true)
-        sender.login { [weak self] name, email, _ in
+        sender.login { [weak self] info in
             guard let self = self else { return }
+            guard let info = info else {
+                self.errorMessage = Localized.facebookFailed()
+                self.performSegue(withIdentifier: Segues.presentSignupFail, sender: self)
+                return
+            }
 
             if let stack = self.credentialsStack,
                 let fbStack = self.facebookStack {
@@ -108,24 +127,31 @@ private extension SignupVC {
                 fbStack.removeFromSuperview()
             }
 
-            self.log.todo("populate from Facebook")
-            self.nameTextField?.text = name
-            self.emailTextField?.text = email
+            self.emailTextField?.disable(text: info.email)
+            self.firstNameTextField?.disable(text: info.first_name)
+            self.lastNameTextField?.disable(text: info.last_name)
+
             self.prepareRegister(showError: false)
         }
     }
 
     func prepareRegister(showError: Bool) {
-        log.todo("validate all fields")
-        let name = nameTextField?.text ?? ""
         let email = emailTextField?.text ?? ""
+        let firstName = firstNameTextField?.text ?? ""
+        let lastName = lastNameTextField?.text ?? ""
         let password = passwordTextField?.text ?? ""
-        if name.isEmpty {
-            errorMessage = "fix name"
-        } else if !email.isValidEmail {
+        let passwordConfirmation = confirmPasswordTextField?.text ?? ""
+
+        if !email.isValidEmail {
             errorMessage = Localized.fixEmail()
+        } else if firstName.isEmpty {
+            errorMessage = Localized.fixFirstName()
+        } else if lastName.isEmpty {
+            errorMessage = Localized.fixLastName()
         } else if !password.isValidPassword {
             errorMessage = Localized.fixPassword()
+        } else if password != passwordConfirmation {
+            errorMessage = Localized.fixConfirmPassword()
         } else {
             errorMessage = ""
         }
@@ -139,13 +165,13 @@ private extension SignupVC {
         let info = RegistrationInfo(
             birthday: Date(),
             country: Country(),
-            firstName: name,
+            firstName: firstName,
             email: email,
             gender: .all,
-            lastName: name,
             location: Location(),
+            lastName: lastName,
             password: password,
-            passwordConfirmation: ""
+            passwordConfirmation: passwordConfirmation
         )
 
         register(info: info)
@@ -180,12 +206,16 @@ extension SignupVC: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
-        case nameTextField:
-            emailTextField?.becomeFirstResponder()
         case emailTextField:
+            firstNameTextField?.becomeFirstResponder()
+        case firstNameTextField:
+            lastNameTextField?.becomeFirstResponder()
+        case lastNameTextField:
             passwordTextField?.becomeFirstResponder()
         case passwordTextField:
-            passwordTextField?.resignFirstResponder()
+            confirmPasswordTextField?.becomeFirstResponder()
+        case confirmPasswordTextField:
+            confirmPasswordTextField?.resignFirstResponder()
             prepareRegister(showError: false)
         default:
             break
