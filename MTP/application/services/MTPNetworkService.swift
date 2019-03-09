@@ -931,8 +931,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 guard let token = user.token else { throw MTPNetworkError.token }
                 data.token = token
                 data.user = user
-                data.email = email
-                data.password = password
                 log.verbose("logged in user: " + user.debugDescription)
                 self.data.user = user
                 self.data.set(userId: user)

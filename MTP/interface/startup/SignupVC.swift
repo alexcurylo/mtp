@@ -21,6 +21,8 @@ final class SignupVC: UIViewController, ServiceProvider {
 
         passwordTextField?.rightViewMode = .always
         passwordTextField?.rightView = togglePasswordButton
+
+        emailTextField?.text = data.email
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -37,7 +39,9 @@ final class SignupVC: UIViewController, ServiceProvider {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.delegate = nil
-    }
+
+        data.email = emailTextField?.text ?? ""
+   }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)

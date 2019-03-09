@@ -16,8 +16,6 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var golfcourses: [GolfCourse] { get }
     var lastRankingsQuery: RankingsQuery { get set }
     var locations: [Location] { get }
-    var name: String { get set }
-    var password: String { get set }
     var posts: [Post] { get }
     var restaurants: [Restaurant] { get }
     var token: String { get set }
@@ -78,8 +76,6 @@ extension DataService {
         FacebookButton.logOut()
         email = ""
         token = ""
-        name = ""
-        password = ""
         user = nil
     }
 }

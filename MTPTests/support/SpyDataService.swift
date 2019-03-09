@@ -127,46 +127,6 @@ final class SpyDataService: DataService {
         invokedLocationsGetterCount += 1
         return stubbedLocations
     }
-    var invokedNameSetter = false
-    var invokedNameSetterCount = 0
-    var invokedName: String?
-    var invokedNameList = [String]()
-    var invokedNameGetter = false
-    var invokedNameGetterCount = 0
-    var stubbedName: String! = ""
-    var name: String {
-        set {
-            invokedNameSetter = true
-            invokedNameSetterCount += 1
-            invokedName = newValue
-            invokedNameList.append(newValue)
-        }
-        get {
-            invokedNameGetter = true
-            invokedNameGetterCount += 1
-            return stubbedName
-        }
-    }
-    var invokedPasswordSetter = false
-    var invokedPasswordSetterCount = 0
-    var invokedPassword: String?
-    var invokedPasswordList = [String]()
-    var invokedPasswordGetter = false
-    var invokedPasswordGetterCount = 0
-    var stubbedPassword: String! = ""
-    var password: String {
-        set {
-            invokedPasswordSetter = true
-            invokedPasswordSetterCount += 1
-            invokedPassword = newValue
-            invokedPasswordList.append(newValue)
-        }
-        get {
-            invokedPasswordGetter = true
-            invokedPasswordGetterCount += 1
-            return stubbedPassword
-        }
-    }
     var invokedPostsGetter = false
     var invokedPostsGetterCount = 0
     var stubbedPosts: [Post]! = []

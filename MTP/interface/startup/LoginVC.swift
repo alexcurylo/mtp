@@ -24,6 +24,8 @@ final class LoginVC: UIViewController, ServiceProvider {
 
         show(navBar: animated, style: .login)
         navigationController?.delegate = self
+
+        emailTextField?.text = data.email
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -33,6 +35,8 @@ final class LoginVC: UIViewController, ServiceProvider {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.delegate = nil
+
+        data.email = emailTextField?.text ?? ""
    }
 
     override func viewDidDisappear(_ animated: Bool) {
