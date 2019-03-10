@@ -84,5 +84,6 @@
 "fixFirstName" = "Please enter a first name!";
 "fixLastName" = "Please enter a last name!";
 "fixGender" = "Please select a gender!";
+"fixBirthday" = "Please select a birthday!";
 "fixPassword" = "Please enter a password of at least 6 characters!";
 "fixConfirmPassword" = "Those passwords do not match!";

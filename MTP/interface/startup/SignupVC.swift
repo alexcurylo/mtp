@@ -2,6 +2,8 @@
 
 import KRProgressHUD
 
+// swiftlint:disable file_length
+
 final class SignupVC: UIViewController, ServiceProvider {
 
     typealias Segues = R.segue.signupVC
@@ -13,31 +15,53 @@ final class SignupVC: UIViewController, ServiceProvider {
     @IBOutlet private var firstNameTextField: InsetTextField?
     @IBOutlet private var lastNameTextField: InsetTextField?
     @IBOutlet private var genderTextField: InsetTextField?
+    @IBOutlet private var birthdayTextField: InsetTextField?
     @IBOutlet private var passwordTextField: InsetTextField?
     @IBOutlet private var togglePasswordButton: UIButton?
     @IBOutlet private var confirmPasswordTextField: InsetTextField?
     @IBOutlet private var toggleConfirmPasswordButton: UIButton?
 
+    @IBOutlet private var keyboardToolbar: UIToolbar?
+    @IBOutlet private var toolbarBackButton: UIBarButtonItem?
+    @IBOutlet private var toolbarNextButton: UIBarButtonItem?
+
     private var errorMessage: String = ""
 
-    let genders = [Localized.selectGender(), Localized.male(), Localized.female()]
+    private let genders = [Localized.selectGender(), Localized.male(), Localized.female()]
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         emailTextField?.text = data.email
+        emailTextField?.inputAccessoryView = keyboardToolbar
 
-        _ = UIPickerView().with {
+        firstNameTextField?.inputAccessoryView = keyboardToolbar
+
+        lastNameTextField?.inputAccessoryView = keyboardToolbar
+
+        genderTextField?.inputView = UIPickerView().with {
             $0.dataSource = self
             $0.delegate = self
-            genderTextField?.inputView = $0
         }
+        genderTextField?.inputAccessoryView = keyboardToolbar
+
+        birthdayTextField?.inputView = UIDatePicker().with {
+            $0.datePickerMode = .date
+            $0.maximumDate = Date()
+            $0.minimumDate = Calendar.current.date(byAdding: .year, value: -120, to: Date())
+            $0.addTarget(self,
+                         action: #selector(birthdayChanged(_:)),
+                         for: .valueChanged)
+        }
+        birthdayTextField?.inputAccessoryView = keyboardToolbar
 
         passwordTextField?.rightViewMode = .always
         passwordTextField?.rightView = togglePasswordButton
+        passwordTextField?.inputAccessoryView = keyboardToolbar
 
         confirmPasswordTextField?.rightViewMode = .always
         confirmPasswordTextField?.rightView = toggleConfirmPasswordButton
+        confirmPasswordTextField?.inputAccessoryView = keyboardToolbar
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -137,21 +161,81 @@ private extension SignupVC {
                 fbStack.removeFromSuperview()
             }
 
-            self.emailTextField?.disable(text: info.email)
-            self.firstNameTextField?.disable(text: info.first_name)
-            let gender: String
-            switch info.gender {
-            case "M": gender = Localized.male()
-            case "F": gender = Localized.female()
-            default: gender = ""
-            }
-            self.genderTextField?.disable(text: gender)
-            self.lastNameTextField?.disable(text: info.last_name)
-
-            self.prepareRegister(showError: false)
+            self.populate(with: info)
         }
     }
 
+    @IBAction func toolbarBackTapped(_ sender: UIBarButtonItem) {
+        if emailTextField?.isEditing ?? false {
+            emailTextField?.resignFirstResponder()
+            prepareRegister(showError: false)
+        } else if firstNameTextField?.isEditing ?? false {
+            emailTextField?.becomeFirstResponder()
+        } else if lastNameTextField?.isEditing ?? false {
+            firstNameTextField?.becomeFirstResponder()
+        } else if genderTextField?.isEditing ?? false {
+            lastNameTextField?.becomeFirstResponder()
+        } else if birthdayTextField?.isEditing ?? false {
+            genderTextField?.becomeFirstResponder()
+        } else if passwordTextField?.isEditing ?? false {
+            birthdayTextField?.becomeFirstResponder()
+        } else if confirmPasswordTextField?.isEditing ?? false {
+            passwordTextField?.becomeFirstResponder()
+        }
+    }
+
+    @IBAction func toolbarNextTapped(_ sender: UIBarButtonItem) {
+        if emailTextField?.isEditing ?? false {
+            firstNameTextField?.becomeFirstResponder()
+        } else if firstNameTextField?.isEditing ?? false {
+            lastNameTextField?.becomeFirstResponder()
+        } else if lastNameTextField?.isEditing ?? false {
+            genderTextField?.becomeFirstResponder()
+        } else if genderTextField?.isEditing ?? false {
+            birthdayTextField?.becomeFirstResponder()
+        } else if birthdayTextField?.isEditing ?? false {
+            passwordTextField?.becomeFirstResponder()
+        } else if passwordTextField?.isEditing ?? false {
+            confirmPasswordTextField?.becomeFirstResponder()
+        } else if confirmPasswordTextField?.isEditing ?? false {
+            passwordTextField?.becomeFirstResponder()
+            prepareRegister(showError: false)
+        }
+    }
+
+    @IBAction func toolbarDoneTapped(_ sender: UIBarButtonItem) {
+        view.endEditing(true)
+        prepareRegister(showError: false)
+    }
+
+    func populate(with info: RegistrationInfo) {
+        emailTextField?.disable(text: info.email)
+
+        firstNameTextField?.disable(text: info.first_name)
+
+        let gender: String
+        switch info.gender {
+        case "M": gender = Localized.male()
+        case "F": gender = Localized.female()
+        default: gender = ""
+        }
+        genderTextField?.disable(text: gender)
+
+        lastNameTextField?.disable(text: info.last_name)
+
+        if info.birthday != Date.distantFuture {
+            let birthday = DateFormatter.mtpDay.string(from: info.birthday)
+            birthdayTextField?.disable(text: birthday)
+        }
+
+        prepareRegister(showError: false)
+    }
+
+    @IBAction func birthdayChanged(_ sender: UIDatePicker) {
+        birthdayTextField?.text = DateFormatter.mtpDay.string(from: sender.date)
+    }
+
+    // swiftlint:disable:next function_body_length
     func prepareRegister(showError: Bool) {
         let email = emailTextField?.text ?? ""
         let firstName = firstNameTextField?.text ?? ""
@@ -162,6 +246,8 @@ private extension SignupVC {
         } else {
             gender = ""
         }
+        let birthdayText = birthdayTextField?.text ?? ""
+        let birthday = DateFormatter.mtpDay.date(from: birthdayText)
         let password = passwordTextField?.text ?? ""
         let passwordConfirmation = confirmPasswordTextField?.text ?? ""
 
@@ -173,6 +259,8 @@ private extension SignupVC {
             errorMessage = Localized.fixLastName()
         } else if gender.isEmpty {
             errorMessage = Localized.fixGender()
+        } else if birthday == nil {
+            errorMessage = Localized.fixBirthday()
         } else if !password.isValidPassword {
             errorMessage = Localized.fixPassword()
         } else if password != passwordConfirmation {
@@ -188,8 +276,8 @@ private extension SignupVC {
         }
 
         let info = RegistrationInfo(
-            birthday: Date(),
             country: Country(),
+            birthday: birthday ?? Date.distantFuture,
             firstName: firstName,
             email: email,
             location: Location(),
@@ -229,6 +317,21 @@ private extension SignupVC {
 
 extension SignupVC: UITextFieldDelegate {
 
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        switch textField {
+        case emailTextField:
+            toolbarBackButton?.isEnabled = false
+            toolbarNextButton?.isEnabled = true
+        case confirmPasswordTextField:
+            toolbarBackButton?.isEnabled = true
+            toolbarNextButton?.isEnabled = false
+        default:
+            toolbarBackButton?.isEnabled = true
+            toolbarNextButton?.isEnabled = true
+        }
+        return true
+    }
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case emailTextField:
@@ -238,6 +341,8 @@ extension SignupVC: UITextFieldDelegate {
         case lastNameTextField:
             genderTextField?.becomeFirstResponder()
         case genderTextField:
+            birthdayTextField?.becomeFirstResponder()
+        case birthdayTextField:
             passwordTextField?.becomeFirstResponder()
         case passwordTextField:
             confirmPasswordTextField?.becomeFirstResponder()

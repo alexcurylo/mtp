@@ -287,8 +287,11 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="emailTextField" destination="8O1-zS-xwC" id="Gra-O4-j35"/>
+                        <outlet property="keyboardToolbar" destination="jKj-Xc-Xm9" id="SWi-qD-EXb"/>
                         <outlet property="passwordTextField" destination="zEZ-d4-d11" id="qnv-Gc-381"/>
                         <outlet property="togglePasswordButton" destination="khv-EQ-jcb" id="7No-Pc-l6s"/>
+                        <outlet property="toolbarBackButton" destination="G5h-3y-Tfb" id="qoX-u0-cPQ"/>
+                        <outlet property="toolbarNextButton" destination="s31-Jh-0nz" id="wF6-3F-MUm"/>
                         <segue destination="pSz-or-at9" kind="show" identifier="showMain" id="Gl0-s0-NUI"/>
                         <segue destination="ZAf-Mp-iHO" kind="presentation" identifier="presentLoginFail" modalTransitionStyle="crossDissolve" id="ySR-F5-KRz"/>
                     </connections>
@@ -304,6 +307,28 @@
                     </connections>
                 </button>
                 <exit id="ejT-Co-vbU" userLabel="Exit" sceneMemberID="exit"/>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="jKj-Xc-Xm9">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <items>
+                        <barButtonItem title="Back" id="G5h-3y-Tfb">
+                            <connections>
+                                <action selector="toolbarBackTapped:" destination="W0B-NC-hgt" id="JHh-nM-zNR"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem title="Next" id="s31-Jh-0nz">
+                            <connections>
+                                <action selector="toolbarNextTapped:" destination="W0B-NC-hgt" id="aft-Rk-0h5"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="pvV-z9-LNH"/>
+                        <barButtonItem systemItem="done" id="EUm-H8-o2i">
+                            <connections>
+                                <action selector="toolbarDoneTapped:" destination="W0B-NC-hgt" id="ciy-Qp-CJI"/>
+                            </connections>
+                        </barButtonItem>
+                    </items>
+                </toolbar>
             </objects>
             <point key="canvasLocation" x="389.60000000000002" y="896.40179910044981"/>
         </scene>

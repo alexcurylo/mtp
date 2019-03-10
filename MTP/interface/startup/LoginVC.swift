@@ -10,13 +10,20 @@ final class LoginVC: UIViewController, ServiceProvider {
     @IBOutlet private var passwordTextField: InsetTextField?
     @IBOutlet private var togglePasswordButton: UIButton?
 
+    @IBOutlet private var keyboardToolbar: UIToolbar?
+    @IBOutlet private var toolbarBackButton: UIBarButtonItem?
+    @IBOutlet private var toolbarNextButton: UIBarButtonItem?
+
     private var errorMessage: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        emailTextField?.inputAccessoryView = keyboardToolbar
+
         passwordTextField?.rightViewMode = .always
         passwordTextField?.rightView = togglePasswordButton
+        passwordTextField?.inputAccessoryView = keyboardToolbar
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -118,6 +125,29 @@ private extension LoginVC {
         }
     }
 
+    @IBAction func toolbarBackTapped(_ sender: UIBarButtonItem) {
+        if emailTextField?.isEditing ?? false {
+            emailTextField?.resignFirstResponder()
+            prepareLogin(showError: false)
+        } else if passwordTextField?.isEditing ?? false {
+            emailTextField?.becomeFirstResponder()
+        }
+    }
+
+    @IBAction func toolbarNextTapped(_ sender: UIBarButtonItem) {
+        if emailTextField?.isEditing ?? false {
+            passwordTextField?.becomeFirstResponder()
+        } else if passwordTextField?.isEditing ?? false {
+            passwordTextField?.resignFirstResponder()
+            prepareLogin(showError: false)
+        }
+    }
+
+    @IBAction func toolbarDoneTapped(_ sender: UIBarButtonItem) {
+        view.endEditing(true)
+        prepareLogin(showError: false)
+   }
+
     func prepareLogin(showError: Bool) {
         let email = emailTextField?.text ?? ""
         let password = passwordTextField?.text ?? ""
@@ -164,6 +194,21 @@ private extension LoginVC {
 }
 
 extension LoginVC: UITextFieldDelegate {
+
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        switch textField {
+        case emailTextField:
+            toolbarBackButton?.isEnabled = false
+            toolbarNextButton?.isEnabled = true
+        case passwordTextField:
+            toolbarBackButton?.isEnabled = true
+            toolbarNextButton?.isEnabled = false
+        default:
+            toolbarBackButton?.isEnabled = true
+            toolbarNextButton?.isEnabled = true
+        }
+        return true
+    }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
