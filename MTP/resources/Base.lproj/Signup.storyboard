@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Ecq-E5-OQM" userLabel="Credentials Stack">
-                                <rect key="frame" x="32" y="74" width="256" height="561.5"/>
+                                <rect key="frame" x="32" y="74" width="256" height="662.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="qyu-KV-sXB" userLabel="Facebook Stack">
                                         <rect key="frame" x="0.0" y="0.0" width="256" height="108"/>
@@ -97,10 +97,10 @@
                                         </constraints>
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s6t-sG-dgB" userLabel="Credentials">
-                                        <rect key="frame" x="0.0" y="116" width="256" height="353"/>
+                                        <rect key="frame" x="0.0" y="116" width="256" height="454"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="VIo-QH-PZ2">
-                                                <rect key="frame" x="0.0" y="0.0" width="256" height="353"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="256" height="454"/>
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your email" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JUr-F9-mJF" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="256" height="50"/>
@@ -186,8 +186,52 @@
                                                             <outlet property="delegate" destination="VZf-fG-PrW" id="ArW-md-7OW"/>
                                                         </connections>
                                                     </textField>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Birthday" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TD2-H5-D6D" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Home Country" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="of2-5v-sav" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="202" width="256" height="50"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="50" id="CXr-rV-23e"/>
+                                                        </constraints>
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="15"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" textContentType="name"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                                <real key="value" value="0.0"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="hInset">
+                                                                <real key="value" value="16"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="VZf-fG-PrW" id="76K-9t-IT6"/>
+                                                            <segue destination="PfS-HC-PPO" kind="show" identifier="showCountry" id="a8e-iA-t1V"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="State/Province" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0wm-Do-yw1" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="252.5" width="256" height="50"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="50" id="cLi-x9-MYO"/>
+                                                        </constraints>
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="15"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" textContentType="name"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                                <real key="value" value="0.0"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="hInset">
+                                                                <real key="value" value="16"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="VZf-fG-PrW" id="KyT-vj-3QI"/>
+                                                            <segue destination="PfS-HC-PPO" kind="show" identifier="showLocation" id="hkf-mG-nci"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Birthday" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TD2-H5-D6D" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="303" width="256" height="50"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="TEE-Hp-Vj8"/>
@@ -208,7 +252,7 @@
                                                         </connections>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="n6Q-oe-4DJ" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="252.5" width="256" height="50"/>
+                                                        <rect key="frame" x="0.0" y="353.5" width="256" height="50"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="Lgd-Qs-Nr9"/>
@@ -229,7 +273,7 @@
                                                         </connections>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Confirm Password" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SMh-oa-DIs" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="303" width="256" height="50"/>
+                                                        <rect key="frame" x="0.0" y="404" width="256" height="50"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="pnT-ta-UKK"/>
@@ -277,7 +321,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4h0-y8-Si9" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="477" width="256" height="50"/>
+                                        <rect key="frame" x="0.0" y="578" width="256" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="fDW-xk-vk8"/>
                                         </constraints>
@@ -304,7 +348,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MGV-q0-7lo">
-                                        <rect key="frame" x="0.0" y="535" width="256" height="26.5"/>
+                                        <rect key="frame" x="0.0" y="636" width="256" height="26.5"/>
                                         <state key="normal">
                                             <attributedString key="attributedTitle">
                                                 <fragment content="By signing up you agree to">
@@ -399,13 +443,16 @@
                     <connections>
                         <outlet property="birthdayTextField" destination="TD2-H5-D6D" id="96c-SF-Yln"/>
                         <outlet property="confirmPasswordTextField" destination="SMh-oa-DIs" id="nhA-P5-cma"/>
+                        <outlet property="countryTextField" destination="of2-5v-sav" id="ymr-Xi-qcM"/>
                         <outlet property="credentialsStack" destination="Ecq-E5-OQM" id="RQo-RB-dnw"/>
                         <outlet property="emailTextField" destination="JUr-F9-mJF" id="2ov-BM-h7Q"/>
                         <outlet property="facebookStack" destination="qyu-KV-sXB" id="bcR-Wn-sKv"/>
+                        <outlet property="fieldsStack" destination="VIo-QH-PZ2" id="HLH-iB-83g"/>
                         <outlet property="firstNameTextField" destination="6Z5-BT-WlN" id="KHu-Ok-grb"/>
                         <outlet property="genderTextField" destination="B4L-tv-2IT" id="4Sj-Cc-LER"/>
                         <outlet property="keyboardToolbar" destination="dGe-nr-kbZ" id="rj6-8T-g7f"/>
                         <outlet property="lastNameTextField" destination="B4n-c0-9pg" id="fQl-Tj-wRo"/>
+                        <outlet property="locationTextField" destination="0wm-Do-yw1" id="2LP-au-twQ"/>
                         <outlet property="passwordTextField" destination="n6Q-oe-4DJ" id="kdy-Kx-e9d"/>
                         <outlet property="toggleConfirmPasswordButton" destination="HbW-1G-lKZ" id="Mpm-Vg-ita"/>
                         <outlet property="togglePasswordButton" destination="HLz-Mw-MsJ" id="GLa-3i-Lpl"/>
@@ -3801,7 +3848,7 @@ Cg
                 <viewControllerPlaceholder storyboardName="Login" id="eWl-wd-VrB" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SgP-zy-D7e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1436" y="1229"/>
+            <point key="canvasLocation" x="633" y="1257"/>
         </scene>
         <!--Welcome-->
         <scene sceneID="6VT-7d-upx">
@@ -3975,7 +4022,7 @@ to your Profile Settings.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M5w-pf-vRC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2508" y="797"/>
+            <point key="canvasLocation" x="2507" y="803"/>
         </scene>
         <!--Signup FailVC-->
         <scene sceneID="E8N-hd-hxC">
@@ -4120,7 +4167,15 @@ to your Profile Settings.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6J3-dQ-u6G" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2508" y="1543"/>
+            <point key="canvasLocation" x="2610" y="1569"/>
+        </scene>
+        <!--LocationSearch-->
+        <scene sceneID="2hu-RY-d2y">
+            <objects>
+                <viewControllerPlaceholder storyboardName="LocationSearch" id="PfS-HC-PPO" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Us8-iP-3er" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1457" y="1331"/>
         </scene>
     </scenes>
     <resources>
@@ -4141,7 +4196,8 @@ to your Profile Settings.</string>
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="a8e-iA-t1V"/>
         <segue reference="e73-rY-bFS"/>
-        <segue reference="VFq-Qq-FvX"/>
+        <segue reference="oCn-24-dvd"/>
     </inferredMetricsTieBreakers>
 </document>

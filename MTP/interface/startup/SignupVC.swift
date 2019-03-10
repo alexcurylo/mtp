@@ -1,6 +1,7 @@
 // @copyright Trollwerks Inc.
 
 import KRProgressHUD
+import RealmSwift
 
 // swiftlint:disable file_length
 
@@ -10,11 +11,14 @@ final class SignupVC: UIViewController, ServiceProvider {
 
     @IBOutlet private var credentialsStack: UIStackView?
     @IBOutlet private var facebookStack: UIStackView?
+    @IBOutlet private var fieldsStack: UIStackView?
 
     @IBOutlet private var emailTextField: InsetTextField?
     @IBOutlet private var firstNameTextField: InsetTextField?
     @IBOutlet private var lastNameTextField: InsetTextField?
     @IBOutlet private var genderTextField: InsetTextField?
+    @IBOutlet private var countryTextField: InsetTextField?
+    @IBOutlet private var locationTextField: InsetTextField?
     @IBOutlet private var birthdayTextField: InsetTextField?
     @IBOutlet private var passwordTextField: InsetTextField?
     @IBOutlet private var togglePasswordButton: UIButton?
@@ -27,41 +31,15 @@ final class SignupVC: UIViewController, ServiceProvider {
 
     private var errorMessage: String = ""
 
+    private var country: Country?
+    private var location: Location?
+
     private let genders = [Localized.selectGender(), Localized.male(), Localized.female()]
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        emailTextField?.text = data.email
-        emailTextField?.inputAccessoryView = keyboardToolbar
-
-        firstNameTextField?.inputAccessoryView = keyboardToolbar
-
-        lastNameTextField?.inputAccessoryView = keyboardToolbar
-
-        genderTextField?.inputView = UIPickerView().with {
-            $0.dataSource = self
-            $0.delegate = self
-        }
-        genderTextField?.inputAccessoryView = keyboardToolbar
-
-        birthdayTextField?.inputView = UIDatePicker().with {
-            $0.datePickerMode = .date
-            $0.maximumDate = Date()
-            $0.minimumDate = Calendar.current.date(byAdding: .year, value: -120, to: Date())
-            $0.addTarget(self,
-                         action: #selector(birthdayChanged(_:)),
-                         for: .valueChanged)
-        }
-        birthdayTextField?.inputAccessoryView = keyboardToolbar
-
-        passwordTextField?.rightViewMode = .always
-        passwordTextField?.rightView = togglePasswordButton
-        passwordTextField?.inputAccessoryView = keyboardToolbar
-
-        confirmPasswordTextField?.rightViewMode = .always
-        confirmPasswordTextField?.rightView = toggleConfirmPasswordButton
-        confirmPasswordTextField?.inputAccessoryView = keyboardToolbar
+        setupView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -99,6 +77,19 @@ final class SignupVC: UIViewController, ServiceProvider {
             let alert = Segues.presentSignupFail(segue: segue)
             alert?.destination.errorMessage = errorMessage
             hide(navBar: true)
+        case Segues.showCountry.identifier:
+            if let destination = Segues.showCountry(segue: segue)?.destination {
+                destination.set(list: .country,
+                                styler: .login,
+                                delegate: self)
+            }
+        case Segues.showLocation.identifier:
+            if let destination = Segues.showLocation(segue: segue)?.destination {
+                let countryId = country?.countryId
+                destination.set(list: .location(country: countryId),
+                                styler: .login,
+                                delegate: self)
+            }
         case Segues.pushTermsOfService.identifier,
              Segues.showWelcome.identifier,
              Segues.switchLogin.identifier,
@@ -111,6 +102,61 @@ final class SignupVC: UIViewController, ServiceProvider {
 }
 
 private extension SignupVC {
+
+    func setupView() {
+        emailTextField?.text = data.email
+        emailTextField?.inputAccessoryView = keyboardToolbar
+
+        firstNameTextField?.inputAccessoryView = keyboardToolbar
+
+        lastNameTextField?.inputAccessoryView = keyboardToolbar
+
+        genderTextField?.inputView = UIPickerView {
+            $0.dataSource = self
+            $0.delegate = self
+        }
+        genderTextField?.inputAccessoryView = keyboardToolbar
+
+        birthdayTextField?.inputView = UIDatePicker {
+            $0.datePickerMode = .date
+            $0.maximumDate = Date()
+            $0.minimumDate = Calendar.current.date(byAdding: .year, value: -120, to: Date())
+            $0.addTarget(self,
+                         action: #selector(birthdayChanged(_:)),
+                         for: .valueChanged)
+        }
+        birthdayTextField?.inputAccessoryView = keyboardToolbar
+
+        show(location: false)
+
+        passwordTextField?.rightViewMode = .always
+        passwordTextField?.rightView = togglePasswordButton
+        passwordTextField?.inputAccessoryView = keyboardToolbar
+
+        confirmPasswordTextField?.rightViewMode = .always
+        confirmPasswordTextField?.rightView = toggleConfirmPasswordButton
+        confirmPasswordTextField?.inputAccessoryView = keyboardToolbar
+    }
+
+    var isLocationVisible: Bool {
+        return locationTextField?.superview != nil
+    }
+
+    func show(location visible: Bool) {
+        guard let location = locationTextField,
+              let stack = fieldsStack,
+              let country = countryTextField else { return }
+        switch (visible, isLocationVisible) {
+        case (true, false):
+            let after = stack.arrangedSubviews.firstIndex(of: country) ?? 0
+            stack.insertArrangedSubview(location, at: after + 1)
+        case (false, true):
+            stack.removeArrangedSubview(location)
+            location.removeFromSuperview()
+        default:
+            break
+        }
+    }
 
     @IBAction func visibilityTapped(_ sender: UIButton) {
         let textField: InsetTextField?
@@ -175,8 +221,16 @@ private extension SignupVC {
             firstNameTextField?.becomeFirstResponder()
         } else if genderTextField?.isEditing ?? false {
             lastNameTextField?.becomeFirstResponder()
-        } else if birthdayTextField?.isEditing ?? false {
+        } else if countryTextField?.isEditing ?? false {
             genderTextField?.becomeFirstResponder()
+        } else if locationTextField?.isEditing ?? false {
+            countryTextField?.becomeFirstResponder()
+        } else if birthdayTextField?.isEditing ?? false {
+            if isLocationVisible {
+                locationTextField?.becomeFirstResponder()
+            } else {
+                countryTextField?.becomeFirstResponder()
+            }
         } else if passwordTextField?.isEditing ?? false {
             birthdayTextField?.becomeFirstResponder()
         } else if confirmPasswordTextField?.isEditing ?? false {
@@ -192,6 +246,14 @@ private extension SignupVC {
         } else if lastNameTextField?.isEditing ?? false {
             genderTextField?.becomeFirstResponder()
         } else if genderTextField?.isEditing ?? false {
+            countryTextField?.becomeFirstResponder()
+        } else if countryTextField?.isEditing ?? false {
+            if isLocationVisible {
+                locationTextField?.becomeFirstResponder()
+            } else {
+                birthdayTextField?.becomeFirstResponder()
+            }
+        } else if locationTextField?.isEditing ?? false {
             birthdayTextField?.becomeFirstResponder()
         } else if birthdayTextField?.isEditing ?? false {
             passwordTextField?.becomeFirstResponder()
@@ -235,7 +297,7 @@ private extension SignupVC {
         birthdayTextField?.text = DateFormatter.mtpDay.string(from: sender.date)
     }
 
-    // swiftlint:disable:next function_body_length
+    // swiftlint:disable:next function_body_length cyclomatic_complexity
     func prepareRegister(showError: Bool) {
         let email = emailTextField?.text ?? ""
         let firstName = firstNameTextField?.text ?? ""
@@ -259,6 +321,10 @@ private extension SignupVC {
             errorMessage = Localized.fixLastName()
         } else if gender.isEmpty {
             errorMessage = Localized.fixGender()
+        } else if country == nil {
+            errorMessage = Localized.fixCountry()
+        } else if isLocationVisible, location == nil {
+            errorMessage = Localized.fixLocation()
         } else if birthday == nil {
             errorMessage = Localized.fixBirthday()
         } else if !password.isValidPassword {
@@ -276,13 +342,13 @@ private extension SignupVC {
         }
 
         let info = RegistrationInfo(
-            country: Country(),
             birthday: birthday ?? Date.distantFuture,
+            country: country ?? Country(),
             firstName: firstName,
             email: email,
-            location: Location(),
             gender: gender,
             lastName: lastName,
+            location: location,
             password: password,
             passwordConfirmation: passwordConfirmation
         )
@@ -325,6 +391,12 @@ extension SignupVC: UITextFieldDelegate {
         case confirmPasswordTextField:
             toolbarBackButton?.isEnabled = true
             toolbarNextButton?.isEnabled = false
+        case countryTextField:
+            performSegue(withIdentifier: Segues.showCountry, sender: self)
+            return false
+        case locationTextField:
+            performSegue(withIdentifier: Segues.showLocation, sender: self)
+            return false
         default:
             toolbarBackButton?.isEnabled = true
             toolbarNextButton?.isEnabled = true
@@ -332,6 +404,7 @@ extension SignupVC: UITextFieldDelegate {
         return true
     }
 
+    // swiftlint:disable:next cyclomatic_complexity
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case emailTextField:
@@ -341,6 +414,14 @@ extension SignupVC: UITextFieldDelegate {
         case lastNameTextField:
             genderTextField?.becomeFirstResponder()
         case genderTextField:
+            countryTextField?.becomeFirstResponder()
+        case countryTextField:
+            if isLocationVisible {
+                locationTextField?.becomeFirstResponder()
+            } else {
+                birthdayTextField?.becomeFirstResponder()
+            }
+        case locationTextField:
             birthdayTextField?.becomeFirstResponder()
         case birthdayTextField:
             passwordTextField?.becomeFirstResponder()
@@ -367,6 +448,28 @@ extension SignupVC: UINavigationControllerDelegate {
             return FadeInAnimator()
         }
         return nil
+    }
+}
+
+extension SignupVC: LocationSearchDelegate {
+
+    func locationSearch(controller: RealmSearchViewController,
+                        didSelect item: Object) {
+        switch item {
+        case let countryItem as Country:
+            guard country != countryItem else { return }
+            country = countryItem
+            countryTextField?.text = countryItem.countryName
+            location = nil
+            locationTextField?.text = nil
+            show(location: countryItem.hasChildren)
+        case let locationItem as Location:
+            guard location != locationItem else { return }
+            location = locationItem
+            locationTextField?.text = locationItem.locationName
+        default:
+            log.error("unknown item type selected")
+        }
     }
 }
 

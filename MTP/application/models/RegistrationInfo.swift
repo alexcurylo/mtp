@@ -57,7 +57,7 @@ struct RegistrationInfo: Codable {
     let first_name: String
     let gender: String
     let last_name: String
-    let location: LocationInfo
+    let location: LocationInfo?
     let location_id: Int
     let password: String
     let passwordConfirmation: String
@@ -70,7 +70,7 @@ struct RegistrationInfo: Codable {
                !first_name.isEmpty &&
                !gender.isEmpty &&
                !last_name.isEmpty &&
-               (!country.has_children || location.isValid) &&
+               (!country.has_children || location?.isValid ?? false) &&
                location_id > 0 &&
                !password.isEmpty &&
                password == passwordConfirmation
@@ -82,7 +82,7 @@ struct RegistrationInfo: Codable {
          email: String,
          gender: String,
          lastName: String,
-         location: Location,
+         location: Location?,
          password: String,
          passwordConfirmation: String) {
         self.birthday = birthday
@@ -92,8 +92,12 @@ struct RegistrationInfo: Codable {
         first_name = firstName
         self.gender = gender
         last_name = lastName
-        self.location = LocationInfo(location: location)
-        location_id = location.id
+        if let location = location {
+            self.location = LocationInfo(location: location)
+        } else {
+            self.location = nil
+        }
+        location_id = location?.id ?? 0
         self.password = password
         self.passwordConfirmation = passwordConfirmation
     }

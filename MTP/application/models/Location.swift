@@ -125,6 +125,20 @@ extension LocationJSON: CustomDebugStringConvertible {
         }
         return locationName.isEmpty ? countryName : locationName
     }
+
+    override func isEqual(_ object: Any?) -> Bool {
+        guard let other = object as? Location else { return false }
+        guard !isSameObject(as: other) else { return true }
+
+        return countryId == other.countryId &&
+               countryName == other.countryName &&
+               featuredImg == other.featuredImg &&
+               id == other.id &&
+               lat == other.lat &&
+               locationName == other.locationName &&
+               lon == other.lon &&
+               regionName == other.regionName
+    }
 }
 
 extension Location: PlaceInfo {
