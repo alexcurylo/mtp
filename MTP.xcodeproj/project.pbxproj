@@ -102,6 +102,8 @@
 		FA8833E32209BF810037C796 /* LocationSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8833E22209BF810037C796 /* LocationSearchVC.swift */; };
 		FA8833E5220CE7350037C796 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8833E4220CE7350037C796 /* Country.swift */; };
 		FA8833E7220CE8260037C796 /* UNCountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8833E6220CE8260037C796 /* UNCountry.swift */; };
+		FA8839552234BDC9002F324F /* LocationSearch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA8839532234BDC9002F324F /* LocationSearch.storyboard */; };
+		FA88395722351C30002F324F /* UIImage+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA88395622351C30002F324F /* UIImage+Color.swift */; };
 		FA8A65AF217ED3BA00BC0DFE /* RankingsFilter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA8A65AD217ED3BA00BC0DFE /* RankingsFilter.storyboard */; };
 		FA99615F2136CF3100C85FBC /* MyProfilePagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA99615E2136CF3100C85FBC /* MyProfilePagingVC.swift */; };
 		FA9A71DF20F1D3FA005F6A57 /* LaunchHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9A71DE20F1D3FA005F6A57 /* LaunchHandler.swift */; };
@@ -270,6 +272,8 @@
 		FA8833E22209BF810037C796 /* LocationSearchVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchVC.swift; sourceTree = "<group>"; };
 		FA8833E4220CE7350037C796 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		FA8833E6220CE8260037C796 /* UNCountry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNCountry.swift; sourceTree = "<group>"; };
+		FA8839542234BDC9002F324F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LocationSearch.storyboard; sourceTree = "<group>"; };
+		FA88395622351C30002F324F /* UIImage+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Color.swift"; sourceTree = "<group>"; };
 		FA8A65AE217ED3BA00BC0DFE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/RankingsFilter.storyboard; sourceTree = "<group>"; };
 		FA99615E2136CF3100C85FBC /* MyProfilePagingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfilePagingVC.swift; sourceTree = "<group>"; };
 		FA9A71DE20F1D3FA005F6A57 /* LaunchHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchHandler.swift; sourceTree = "<group>"; };
@@ -615,6 +619,7 @@
 		FA8A65B1217ED4F200BC0DFE /* rankings */ = {
 			isa = PBXGroup;
 			children = (
+				FA8839532234BDC9002F324F /* LocationSearch.storyboard */,
 				FA390134213AB4A90016A362 /* Rankings.storyboard */,
 				FA8A65AD217ED3BA00BC0DFE /* RankingsFilter.storyboard */,
 			);
@@ -654,6 +659,7 @@
 				FA74C110211BBF490013A840 /* String+Formatting.swift */,
 				FAC3BCB5216A225900E1507E /* TagButton.swift */,
 				FAC3BCB6216A225900E1507E /* TagsView.swift */,
+				FA88395622351C30002F324F /* UIImage+Color.swift */,
 				8C3EA812222F64F100CB4886 /* UITopLoadingTextView.swift */,
 				FA32CC7320FB6E67004C1329 /* UIView+Gradient.swift */,
 				FAD2B51921F492B3009FFDD7 /* UncertainValue.swift */,
@@ -854,6 +860,7 @@
 				FABA7413213A374F0059ACCA /* MyPosts.storyboard in Resources */,
 				FA390132213AB4A90016A362 /* Rankings.storyboard in Resources */,
 				FA392BC220DF69F30026C828 /* Main.storyboard in Resources */,
+				FA8839552234BDC9002F324F /* LocationSearch.storyboard in Resources */,
 				FAF1853220FA0DEF00CC5D83 /* Root.storyboard in Resources */,
 				0A2349E36085A3EE89A30019 /* Pods-MTP-metadata.plist in Resources */,
 				FABA7410213A359C0059ACCA /* MyPhotos.storyboard in Resources */,
@@ -1062,6 +1069,7 @@
 				FAE1F11E2143B29F0002CAB2 /* LocationTracker.swift in Sources */,
 				8C91D293222CBFE20063C587 /* SignupFailVC.swift in Sources */,
 				FAC3BCB9216A225900E1507E /* TagsView.swift in Sources */,
+				FA88395722351C30002F324F /* UIImage+Color.swift in Sources */,
 				FAC159A221EB68AA00564E2D /* Location.swift in Sources */,
 				FA7C200E221820FA002C6DAB /* OperationInfo.swift in Sources */,
 				FA5AC0B621FC4EBE0080F84F /* PlaceAnnotationView.swift in Sources */,
@@ -1245,6 +1253,14 @@
 				FA74C10E211BB8F00013A840 /* Base */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		FA8839532234BDC9002F324F /* LocationSearch.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA8839542234BDC9002F324F /* Base */,
+			);
+			name = LocationSearch.storyboard;
 			sourceTree = "<group>";
 		};
 		FA8A65AD217ED3BA00BC0DFE /* RankingsFilter.storyboard */ = {
