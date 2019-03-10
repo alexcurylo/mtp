@@ -2,9 +2,9 @@
 
 import Foundation
 
-struct RegistrationInfo: Codable {
+struct RegistrationInfo: Codable, Hashable {
 
-    struct CountryInfo: Codable {
+    struct CountryInfo: Codable, Hashable {
         let admin_level: Int
         let country_id: Int
         let country_name: String
@@ -25,7 +25,7 @@ struct RegistrationInfo: Codable {
         }
     }
 
-    struct LocationInfo: Codable {
+    struct LocationInfo: Codable, Hashable {
         let admin_level: Int
         let country_id: Int
         let country_name: String

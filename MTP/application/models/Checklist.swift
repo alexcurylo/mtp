@@ -124,19 +124,19 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
 
         switch self {
         case .locations:
-            return user.rankLocations
+            return user.rankLocations ?? 0
         case .uncountries:
-            return user.rankUncountries
+            return user.rankUncountries ?? 0
         case .whss:
-            return user.rankWhss
+            return user.rankWhss ?? 0
         case .beaches:
-            return user.rankBeaches
+            return user.rankBeaches ?? 0
         case .golfcourses:
-            return user.rankGolfcourses
+            return user.rankGolfcourses ?? 0
         case .divesites:
-            return user.rankDivesites
+            return user.rankDivesites ?? 0
         case .restaurants:
-            return user.rankRestaurants
+            return user.rankRestaurants ?? 0
         }
     }
 
@@ -188,19 +188,19 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
     func visited(of user: UserInfo) -> Int {
         switch self {
         case .locations:
-            return user.scoreLocations
+            return user.visitLocations
         case .uncountries:
-            return user.scoreUncountries
+            return user.visitUncountries
         case .whss:
-            return user.scoreWhss
+            return user.visitWhss
         case .beaches:
-            return user.scoreBeaches
+            return user.visitBeaches
         case .golfcourses:
-            return user.scoreGolfcourses
+            return user.visitGolfcourses
         case .divesites:
-            return user.scoreDivesites
+            return user.visitDivesites
         case .restaurants:
-            return user.scoreRestaurants
+            return user.visitRestaurants
         }
     }
 

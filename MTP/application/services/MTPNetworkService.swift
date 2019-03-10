@@ -46,6 +46,7 @@ enum MTP: Hashable {
     case userDelete(id: Int)
     case userGetByToken
     case userLogin(email: String, password: String)
+    case userRegister(info: RegistrationInfo)
     case whs
 }
 
@@ -100,6 +101,8 @@ extension MTP: TargetType {
             return "user/\(id)"
         case .userLogin:
             return "user/login"
+        case .userRegister:
+            return "user"
         case .whs:
             return "whs"
         }
@@ -129,7 +132,8 @@ extension MTP: TargetType {
             return .get
         case .checkIn,
              .passwordReset,
-             .userLogin:
+             .userLogin,
+             .userRegister:
             return .post
         }
     }
@@ -162,6 +166,8 @@ extension MTP: TargetType {
             return .requestParameters(parameters: ["email": email,
                                                    "password": password],
                                       encoding: JSONEncoding.default)
+        case .userRegister(let info):
+            return .requestJSONEncodable(info)
         case .beach,
              .checklists,
              .countriesSearch,
@@ -228,6 +234,7 @@ extension MTP: AccessTokenAuthorizable {
              .unCountry,
              .user,
              .userLogin,
+             .userRegister,
              .whs:
             return .none
         }
@@ -923,6 +930,9 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
             return then(.failure(.parameter))
         }
 
+        let provider = MoyaProvider<MTP>()
+        let endpoint = MTP.userLogin(email: email, password: password)
+
         func parse(result: Response) {
             do {
                 let user = try result.map(UserJSON.self,
@@ -933,13 +943,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 data.user = user
                 return then(.success(user))
             } catch {
-                log.error("decoding user: \(error)")
+                log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                 return then(.failure(.results))
             }
         }
 
-        let provider = MoyaProvider<MTP>()
-        let endpoint = MTP.userLogin(email: email, password: password)
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
@@ -959,9 +967,37 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
             return then(.failure(.parameter))
         }
 
-        log.todo("implement register: \(info)")
+        let provider = MoyaProvider<MTP>()
+        let endpoint = MTP.userRegister(info: info)
 
-        then(.failure(.parameter))
+        func parse(result: Response) {
+            do {
+                let user = try result.map(UserJSON.self,
+                                          using: JSONDecoder.mtp)
+                guard let token = user.token else { throw MTPNetworkError.token }
+                log.verbose("registered user: " + user.debugDescription)
+                log.verbose("from result: " + result.toString)
+                data.token = token
+                data.user = user
+                userGetByToken { _ in
+                    then(.success(user))
+                }
+            } catch {
+                log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                return then(.failure(.results))
+            }
+        }
+
+        provider.request(endpoint) { response in
+            switch response {
+            case .success(let result):
+                return parse(result: result)
+            case .failure(let error):
+                let message = error.errorDescription ?? Localized.unknown()
+                self.log.error("failure: \(endpoint.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
     }
 }
 

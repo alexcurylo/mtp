@@ -45,7 +45,7 @@ extension UIImageView {
         )
     }
 
-    func set(thumbnail user: UserInfo) {
+    func set(thumbnail user: UserAvatar) {
         let placeholder = user.placeholder
         guard let url = user.imageUrl else {
             image = placeholder

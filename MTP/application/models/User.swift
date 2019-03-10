@@ -2,20 +2,24 @@
 
 import RealmSwift
 
-protocol UserInfo {
+protocol UserAvatar {
 
     var gender: String { get }
     var picture: String? { get }
-    var scoreBeaches: Int { get }
-    var scoreDivesites: Int { get }
-    var scoreGolfcourses: Int { get }
-    var scoreLocations: Int { get }
-    var scoreRestaurants: Int { get }
-    var scoreUncountries: Int { get }
-    var scoreWhss: Int { get }
 }
 
-struct UserJSON: Codable, UserInfo {
+protocol UserInfo: UserAvatar {
+
+    var visitBeaches: Int { get }
+    var visitDivesites: Int { get }
+    var visitGolfcourses: Int { get }
+    var visitLocations: Int { get }
+    var visitRestaurants: Int { get }
+    var visitUncountries: Int { get }
+    var visitWhss: Int { get }
+}
+
+struct UserJSON: Codable {
 
     enum Status: String {
 
@@ -36,35 +40,37 @@ struct UserJSON: Codable, UserInfo {
     let facebookEmail: String?
     let facebookId: Int?
     let facebookUserToken: String?
-    let favoritePlaces: [FavoritePlace]
+    // swiftlint:disable:next discouraged_optional_collection
+    let favoritePlaces: [FavoritePlace]? // not in signup
     let firstName: String
     let fullName: String
     let gender: String
     let id: Int
     let lastLogIn: String?
     let lastName: String
-    let links: [Link]
+    // swiftlint:disable:next discouraged_optional_collection
+    let links: [Link]? // not in signup
     let location: LocationJSON
     let locationId: Int
     let picture: String?
-    let rankBeaches: Int
-    let rankDivesites: Int
-    let rankGolfcourses: Int
-    let rankLocations: Int
-    let rankRestaurants: Int
-    let rankUncountries: Int
-    let rankWhss: Int
+    let rankBeaches: Int? // not in signup
+    let rankDivesites: Int? // not in signup
+    let rankGolfcourses: Int? // not in signup
+    let rankLocations: Int? // not in signup
+    let rankRestaurants: Int? // not in signup
+    let rankUncountries: Int? // not in signup
+    let rankWhss: Int? // not in signup
     let role: Int
-    let score: Int
-    let scoreBeaches: Int
-    let scoreDivesites: Int
-    let scoreGolfcourses: Int
-    let scoreLocations: Int
-    let scoreRestaurants: Int
-    let scoreUncountries: Int
-    let scoreWhss: Int
+    let score: Int? // not in signup
+    let scoreBeaches: Int? // not in signup
+    let scoreDivesites: Int? // not in signup
+    let scoreGolfcourses: Int? // not in signup
+    let scoreLocations: Int? // not in signup
+    let scoreRestaurants: Int? // not in signup
+    let scoreUncountries: Int? // not in signup
+    let scoreWhss: Int? // not in signup
     let status: String
-    let token: String? // found only in login response
+    let token: String? // found only in login + signup responses
     let updatedAt: Date
     let username: String
 }
@@ -102,22 +108,22 @@ extension UserJSON: CustomDebugStringConvertible {
             links: \(links.debugDescription)
             location_id: \(locationId)
             picture: \(String(describing: picture))
-            rankBeaches: \(rankBeaches)
-            rankDivesites: \(rankDivesites)
-            rankGolfcourses: \(rankGolfcourses)
-            rankLocations: \(rankLocations)
-            rankRestaurants: \(rankRestaurants)
-            rankUncountries: \(rankUncountries)
-            rankWhss: \(rankWhss)
+            rankBeaches: \(String(describing: rankBeaches))
+            rankDivesites: \(String(describing: rankDivesites))
+            rankGolfcourses: \(String(describing: rankGolfcourses))
+            rankLocations: \(String(describing: rankLocations))
+            rankRestaurants: \(String(describing: rankRestaurants))
+            rankUncountries: \(String(describing: rankUncountries))
+            rankWhss: \(String(describing: rankWhss))
             role: \(role)
-            score: \(score)
-            score_beaches: \(scoreBeaches)
-            score_divesites: \(scoreDivesites)
-            score_golfcourses: \(scoreGolfcourses)
-            score_locations: \(scoreLocations)
-            score_restaurants: \(scoreRestaurants)
-            score_uncountries: \(scoreUncountries)
-            score_whss: \(scoreWhss)
+            score: \(String(describing: score))
+            score_beaches: \(String(describing: scoreBeaches))
+            score_divesites: \(String(describing: scoreDivesites))
+            score_golfcourses: \(String(describing: scoreGolfcourses))
+            score_locations: \(String(describing: scoreLocations))
+            score_restaurants: \(String(describing: scoreRestaurants))
+            score_uncountries: \(String(describing: scoreUncountries))
+            score_whss: \(String(describing: scoreWhss))
             status: \(status)
             token: \(String(describing: token))
             updated_at: \(updatedAt)
@@ -125,6 +131,17 @@ extension UserJSON: CustomDebugStringConvertible {
         /User >
         """
     }
+}
+
+extension UserJSON: UserInfo {
+
+    var visitBeaches: Int { return scoreBeaches ?? 0 }
+    var visitDivesites: Int { return scoreDivesites ?? 0 }
+    var visitGolfcourses: Int { return scoreGolfcourses ?? 0 }
+    var visitLocations: Int { return scoreLocations ?? 0 }
+    var visitRestaurants: Int { return scoreRestaurants ?? 0 }
+    var visitUncountries: Int { return scoreUncountries ?? 0 }
+    var visitWhss: Int { return scoreWhss ?? 0 }
 }
 
 struct FavoritePlace: Codable {
@@ -165,7 +182,7 @@ extension Link: CustomStringConvertible, CustomDebugStringConvertible {
     }
 }
 
-extension UserInfo {
+extension UserAvatar {
 
     var imageUrl: URL? {
         guard let uuid = picture, !uuid.isEmpty else { return nil }
@@ -192,13 +209,13 @@ extension UserInfo {
     dynamic var id: Int = 0
     dynamic var locationName: String = ""
     dynamic var picture: String?
-    dynamic var scoreBeaches: Int = 0
-    dynamic var scoreDivesites: Int = 0
-    dynamic var scoreGolfcourses: Int = 0
-    dynamic var scoreLocations: Int = 0
-    dynamic var scoreRestaurants: Int = 0
-    dynamic var scoreUncountries: Int = 0
-    dynamic var scoreWhss: Int = 0
+    dynamic var visitBeaches: Int = 0
+    dynamic var visitDivesites: Int = 0
+    dynamic var visitGolfcourses: Int = 0
+    dynamic var visitLocations: Int = 0
+    dynamic var visitRestaurants: Int = 0
+    dynamic var visitUncountries: Int = 0
+    dynamic var visitWhss: Int = 0
 
     override static func primaryKey() -> String? {
         return "id"
@@ -213,13 +230,13 @@ extension UserInfo {
         id = from.id
         locationName = from.location.description
         picture = from.picture
-        scoreBeaches = from.scoreBeaches ?? existing?.scoreBeaches ?? 0
-        scoreDivesites = from.scoreDivesites ?? existing?.scoreDivesites ?? 0
-        scoreGolfcourses = from.scoreGolfcourses ?? existing?.scoreGolfcourses ?? 0
-        scoreLocations = from.scoreLocations ?? existing?.scoreLocations ?? 0
-        scoreRestaurants = from.scoreRestaurants ?? existing?.scoreRestaurants ?? 0
-        scoreUncountries = from.scoreUncountries ?? existing?.scoreUncountries ?? 0
-        scoreWhss = from.scoreWhss ?? existing?.scoreWhss ?? 0
+        visitBeaches = from.scoreBeaches ?? existing?.visitBeaches ?? 0
+        visitDivesites = from.scoreDivesites ?? existing?.visitDivesites ?? 0
+        visitGolfcourses = from.scoreGolfcourses ?? existing?.visitGolfcourses ?? 0
+        visitLocations = from.scoreLocations ?? existing?.visitLocations ?? 0
+        visitRestaurants = from.scoreRestaurants ?? existing?.visitRestaurants ?? 0
+        visitUncountries = from.scoreUncountries ?? existing?.visitUncountries ?? 0
+        visitWhss = from.scoreWhss ?? existing?.visitWhss ?? 0
     }
 
     convenience init(from: UserJSON) {
@@ -230,13 +247,13 @@ extension UserInfo {
         id = from.id
         locationName = from.location.description
         picture = from.picture
-        scoreBeaches = from.scoreBeaches
-        scoreDivesites = from.scoreDivesites
-        scoreGolfcourses = from.scoreGolfcourses
-        scoreLocations = from.scoreLocations
-        scoreRestaurants = from.scoreRestaurants
-        scoreUncountries = from.scoreUncountries
-        scoreWhss = from.scoreWhss
+        visitBeaches = from.scoreBeaches ?? 0
+        visitDivesites = from.scoreDivesites ?? 0
+        visitGolfcourses = from.scoreGolfcourses ?? 0
+        visitLocations = from.scoreLocations ?? 0
+        visitRestaurants = from.scoreRestaurants ?? 0
+        visitUncountries = from.scoreUncountries ?? 0
+        visitWhss = from.scoreWhss ?? 0
     }
 
     override func isEqual(_ object: Any?) -> Bool {
@@ -247,12 +264,12 @@ extension UserInfo {
                id == other.id &&
                locationName == other.locationName &&
                picture == other.picture &&
-               scoreBeaches == other.scoreBeaches &&
-               scoreDivesites == other.scoreDivesites &&
-               scoreGolfcourses == other.scoreGolfcourses &&
-               scoreLocations == other.scoreLocations &&
-               scoreRestaurants == other.scoreRestaurants &&
-               scoreUncountries == other.scoreUncountries &&
-               scoreWhss == other.scoreWhss
+               visitBeaches == other.visitBeaches &&
+               visitDivesites == other.visitDivesites &&
+               visitGolfcourses == other.visitGolfcourses &&
+               visitLocations == other.visitLocations &&
+               visitRestaurants == other.visitRestaurants &&
+               visitUncountries == other.visitUncountries &&
+               visitWhss == other.visitWhss
     }
 }
