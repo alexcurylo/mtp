@@ -28,6 +28,12 @@
 			</array>
 		</dict>
 	</array>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>FacebookAppID</key>
+	<string>970945913071007</string>
+	<key>FacebookDisplayName</key>
+	<string>Most Traveled People</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -35,10 +41,18 @@
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
 	</array>
-	<key>CFBundleVersion</key>
-	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>MTP needs your location to show you nearby places to visit. With "Always" access, MTP can notify you when you approach places.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>With "Always" access, MTP can notify you when you approach places.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>MTP needs your location to show you nearby places to visit.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>MTP needs to access your photo library to let you save a photo.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>MTP needs to access your photo library to let you select a photo.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -60,8 +74,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
@@ -70,19 +82,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>FacebookAppID</key>
-	<string>970945913071007</string>
-	<key>FacebookDisplayName</key>
-	<string>Most Traveled People</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>MTP needs your location to show you nearby places to visit. With &quot;Always&quot; access, MTP can notify you when you approach places.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>MTP needs your location to show you nearby places to visit.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>With &quot;Always&quot; access, MTP can notify you when you approach places.</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>MTP needs to access your photo library to let you save a photo.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>MTP needs to access your photo library to let you select a photo.</string>
 </dict>
 </plist>
