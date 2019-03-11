@@ -309,7 +309,7 @@ private extension SignupVC {
             gender = ""
         }
         let birthdayText = birthdayTextField?.text ?? ""
-        let birthday = DateFormatter.mtpDay.date(from: birthdayText)
+        let birthdayDate = DateFormatter.mtpDay.date(from: birthdayText)
         let password = passwordTextField?.text ?? ""
         let passwordConfirmation = confirmPasswordTextField?.text ?? ""
 
@@ -323,9 +323,13 @@ private extension SignupVC {
             errorMessage = Localized.fixGender()
         } else if country == nil {
             errorMessage = Localized.fixCountry()
-        } else if isLocationVisible, location == nil {
-            errorMessage = Localized.fixLocation()
-        } else if birthday == nil {
+        } else if location == nil {
+            if isLocationVisible {
+                errorMessage = Localized.fixLocation()
+            } else {
+                location = data.get(location: country?.countryId ?? 0)
+            }
+        } else if birthdayDate == nil {
             errorMessage = Localized.fixBirthday()
         } else if !password.isValidPassword {
             errorMessage = Localized.fixPassword()
@@ -334,16 +338,22 @@ private extension SignupVC {
         } else {
             errorMessage = ""
         }
-        guard errorMessage.isEmpty else {
+        guard let birthday = birthdayDate,
+              let country = country,
+              let location = location,
+              errorMessage.isEmpty else {
             if showError {
+                if errorMessage.isEmpty {
+                    errorMessage = Localized.unexpectedError()
+                }
                 performSegue(withIdentifier: Segues.presentSignupFail, sender: self)
             }
             return
         }
 
         let info = RegistrationInfo(
-            birthday: birthday ?? Date.distantFuture,
-            country: country ?? Country(),
+            birthday: birthday,
+            country: country,
             firstName: firstName,
             email: email,
             gender: gender,
@@ -370,6 +380,8 @@ private extension SignupVC {
             case .failure(.status),
                  .failure(.results):
                 self?.errorMessage = Localized.resultError()
+            case .failure(.message(let message)):
+                self?.errorMessage = message
             case .failure(.network(let message)):
                 self?.errorMessage = Localized.networkError(message)
             default:

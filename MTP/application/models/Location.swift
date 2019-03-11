@@ -178,4 +178,11 @@ extension Location {
         let link = "https://mtp.travel/api/files/preview?uuid=\(uuid)"
         return URL(string: link)
     }
+
+    var adminLevel: AdminLevel {
+        if countryId == id {
+            return .country
+        }
+        return .location
+    }
 }

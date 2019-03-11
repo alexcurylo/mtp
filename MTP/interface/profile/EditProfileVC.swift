@@ -68,6 +68,8 @@ private extension EditProfileVC {
             case .failure(.status),
                  .failure(.results):
                 errorMessage = Localized.resultError()
+            case .failure(.message(let message)):
+                errorMessage = message
             case .failure(.network(let message)):
                 errorMessage = Localized.networkError(message)
             default:

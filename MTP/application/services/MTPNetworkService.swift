@@ -55,7 +55,7 @@ extension MTP: TargetType {
     private var stagingURL: URL? { return URL(string: "https://aws.mtp.travel/api/") }
     private var productionURL: URL? { return URL(string: "https://mtp.travel/api/") }
     // swiftlint:disable:next force_unwrapping
-    public var baseURL: URL { return stagingURL! }
+    public var baseURL: URL { return productionURL! }
 
     public var preventCache: Bool { return false }
 
@@ -933,28 +933,45 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.userLogin(email: email, password: password)
 
-        func parse(result: Response) {
+        func parse(success response: Response) {
             do {
-                let user = try result.map(UserJSON.self,
-                                          using: JSONDecoder.mtp)
+                let user = try response.map(UserJSON.self,
+                                            using: JSONDecoder.mtp)
                 guard let token = user.token else { throw MTPNetworkError.token }
                 log.verbose("logged in user: " + user.debugDescription)
                 data.token = token
                 data.user = user
                 return then(.success(user))
             } catch {
-                log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
                 return then(.failure(.results))
             }
         }
 
-        provider.request(endpoint) { response in
-            switch response {
-            case .success(let result):
-                return parse(result: result)
+        func parse(error response: Response?) {
+            guard let response = response else {
+                return then(.failure(.results))
+            }
+
+            do {
+                let info = try response.map(OperationInfo.self,
+                                            using: JSONDecoder.mtp)
+                return then(.failure(.message(info.message)))
+            } catch {
+                self.log.error("decoding error response: \(error)\n-\n\(response.toString)")
+                return then(.failure(.results))
+            }
+        }
+
+        provider.request(endpoint) { result in
+            switch result {
+            case .success(let response):
+                return parse(success: response)
+            case .failure(.underlying(_, let response)):
+                return parse(error: response)
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
+                self.log.error("failure: \(endpoint.path) \(message) \(error)")
                 return then(.failure(.network(message)))
             }
         }
@@ -1022,7 +1039,6 @@ extension Response: ServiceProvider {
               response.statusCode != 304 else {
                 return false
         }
-        // staging sends "Not-Modified=1", production sends "not-modified=1"
         if let header = response.find(header: "Not-Modified"),
            header == "1" {
             return false

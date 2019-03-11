@@ -182,6 +182,8 @@ private extension LoginVC {
             case .failure(.status),
                  .failure(.results):
                 self?.errorMessage = Localized.resultError()
+            case .failure(.message(let message)):
+                self?.errorMessage = message
             case .failure(.network(let message)):
                 self?.errorMessage = Localized.networkError(message)
             default:
