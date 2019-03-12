@@ -5,10 +5,12 @@ import RealmSwift
 
 // swiftlint:disable file_length
 
-final class SignupVC: UIViewController, ServiceProvider {
+final class SignupVC: UIViewController, KeyboardListener, ServiceProvider {
 
     typealias Segues = R.segue.signupVC
 
+    // swiftlint:disable:next private_outlet
+    @IBOutlet var scrollView: UIScrollView?
     @IBOutlet private var credentialsStack: UIStackView?
     @IBOutlet private var facebookStack: UIStackView?
     @IBOutlet private var fieldsStack: UIStackView?
@@ -40,6 +42,11 @@ final class SignupVC: UIViewController, ServiceProvider {
         super.viewDidLoad()
 
         setupView()
+        startKeyboardListening()
+   }
+
+    deinit {
+        stopKeyboardListening()
     }
 
     override func viewWillAppear(_ animated: Bool) {

@@ -469,6 +469,7 @@
                         <outlet property="lastNameTextField" destination="B4n-c0-9pg" id="fQl-Tj-wRo"/>
                         <outlet property="locationTextField" destination="0wm-Do-yw1" id="2LP-au-twQ"/>
                         <outlet property="passwordTextField" destination="n6Q-oe-4DJ" id="kdy-Kx-e9d"/>
+                        <outlet property="scrollView" destination="Hnx-yz-Iz5" id="kuS-tE-8KC"/>
                         <outlet property="toggleConfirmPasswordButton" destination="HbW-1G-lKZ" id="Mpm-Vg-ita"/>
                         <outlet property="togglePasswordButton" destination="HLz-Mw-MsJ" id="GLa-3i-Lpl"/>
                         <outlet property="toolbarBackButton" destination="xAY-V7-g7K" id="2dF-Uy-nIe"/>
