@@ -19,6 +19,13 @@ extension Date {
 
 extension DateFormatter {
 
+    static let fbDay = DateFormatter {
+        $0.dateFormat = "MM/dd/yyyy"
+        $0.calendar = Calendar(identifier: .iso8601)
+        $0.timeZone = TimeZone(secondsFromGMT: 0)
+        $0.locale = Locale(identifier: "en_US_POSIX")
+    }
+
     static let mtpDay = DateFormatter {
         $0.dateFormat = "yyyy-MM-dd"
         $0.calendar = Calendar(identifier: .iso8601)

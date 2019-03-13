@@ -35,9 +35,9 @@ final class PlaceAnnotation: NSObject, MKAnnotation {
     }
 
     override func isEqual(_ object: Any?) -> Bool {
-        guard let other = object as? PlaceAnnotation else {
-            return false
-        }
+        guard let other = object as? PlaceAnnotation else { return false }
+        guard other !== self else { return true }
+
         return coordinate == other.coordinate &&
                title == other.title &&
                subtitle == other.subtitle &&

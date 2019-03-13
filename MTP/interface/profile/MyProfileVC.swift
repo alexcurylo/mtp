@@ -4,6 +4,8 @@ import Anchorage
 
 final class MyProfileVC: UIViewController, ServiceProvider {
 
+    typealias Segues = R.segue.myProfileVC
+
     @IBOutlet private var headerView: UIView?
     @IBOutlet private var avatarImageView: UIImageView?
     @IBOutlet private var fullNameLabel: UILabel?
@@ -42,9 +44,9 @@ final class MyProfileVC: UIViewController, ServiceProvider {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
-        case R.segue.myProfileVC.directEdit.identifier,
-             R.segue.myProfileVC.showEditProfile.identifier,
-             R.segue.myProfileVC.showSettings.identifier:
+        case Segues.directEdit.identifier,
+             Segues.showEditProfile.identifier,
+             Segues.showSettings.identifier:
             break
         default:
             log.debug("unexpected segue: \(segue.name)")

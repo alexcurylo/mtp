@@ -65,7 +65,7 @@ final class MTPTests: XCTestCase {
 
     func testAppDelegateConfiguration() {
         let app = UIApplication.shared
-        let delegate = app.delegate as? AppDelegate
+        let delegate = app.delegate as? MTPDelegate
         XCTAssertNotNil(delegate, "sharedApplication().delegate does not exist - set host application")
         XCTAssertNotNil(delegate?.window, "missing main window")
 
@@ -93,7 +93,7 @@ final class MTPTests: XCTestCase {
 
     func testAppDelegateDelegation() {
         let app = UIApplication.shared
-        guard let delegate = app.delegate as? AppDelegate else {
+        guard let delegate = app.delegate as? MTPDelegate else {
             return XCTFail("unexpected app delegate class")
         }
 

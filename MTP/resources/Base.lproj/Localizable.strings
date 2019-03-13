@@ -9,6 +9,10 @@
 "resultError" = "Unexpected results were received. Please update to the latest app version.";
 "unexpectedError" = "An unexpected error occurred. Please update to the latest app version.";
 
+// EditProfileVC
+
+"deletingAccount" = "Deleting account…";
+
 // ForgotPasswordVC
 
 "sendLink" = "We will send a link to your email %@ enabling you to reset your password.";
@@ -22,17 +26,11 @@
 "cancel" = "Cancel";
 "allowLocationAccess" = "Allow Location Access";
 
-// SignupVC
-
-"signingUp" = "Signing up…";
-"fixName" = "Please enter a first and last name!";
-"fixAcceptablePassword" = "Please enter a password of at least 6 characters!";
-
 // LoginVC
 
 "loggingIn" = "Logging in…";
 "fixEmail" = "That does not appear to be a valid email!";
-"fixPassword" = "That does not appear to be a valid password!";
+"enterPassword" = "Please enter a password!";
 
 // MyProfileVC
 
@@ -77,3 +75,17 @@
 "ageRange" = "%ld-%ld";
 "under20" = "Under 20";
 "over80" = "Over 80";
+
+// SignupVC
+
+"signingUp" = "Signing up…";
+"selectGender" = "Select Gender";
+"facebookFailed" = "Failed to get information from Facebook!";
+"fixFirstName" = "Please enter a first name!";
+"fixLastName" = "Please enter a last name!";
+"fixGender" = "Please select a gender!";
+"fixBirthday" = "Please select a birthday!";
+"fixCountry" = "Please select a country!";
+"fixLocation" = "Please select a location!";
+"fixPassword" = "Please enter a password of at least 6 characters!";
+"fixConfirmPassword" = "Those passwords do not match!";

@@ -4,6 +4,8 @@ import UIKit
 
 final class SettingsVC: UITableViewController, ServiceProvider {
 
+    typealias Segues = R.segue.settingsVC
+
     @IBOutlet private var backgroundView: UIView?
 
     override func viewDidLoad() {
@@ -30,7 +32,7 @@ final class SettingsVC: UITableViewController, ServiceProvider {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
-        case R.segue.settingsVC.unwindFromSettings.identifier:
+        case Segues.unwindFromSettings.identifier:
             break
         default:
             log.debug("unexpected segue: \(segue.name)")

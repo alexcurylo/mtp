@@ -4,6 +4,8 @@ import RealmSwift
 
 final class RankingsFilterVC: UITableViewController, ServiceProvider {
 
+    typealias Segues = R.segue.rankingsFilterVC
+
     @IBOutlet private var saveButton: UIBarButtonItem?
 
     @IBOutlet private var locationStack: UIStackView?
@@ -44,19 +46,20 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
         super.didReceiveMemoryWarning()
     }
 
-    typealias Segues = R.segue.rankingsFilterVC
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
         case Segues.showCountry.identifier:
-            if let destination = Segues.showCountry(segue: segue)?.destination {
+            if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
                 destination.set(list: .countries,
+                                styler: .standard,
                                 delegate: self)
             }
         case Segues.showLocation.identifier:
-            if let destination = Segues.showLocation(segue: segue)?.destination {
+            if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC {
                 let country = current?.countryId
                 destination.set(list: .locations(country: country),
+                                styler: .standard,
                                 delegate: self)
             }
         case Segues.saveEdits.identifier:
@@ -98,10 +101,6 @@ extension RankingsFilterVC: LocationSearchDelegate {
 // MARK: - Private
 
 private extension RankingsFilterVC {
-
-    @IBAction func unwindToRankingsFilter(segue: UIStoryboardSegue) {
-        log.verbose(segue.name)
-    }
 
     func configure() {
         let filter = data.lastRankingsQuery

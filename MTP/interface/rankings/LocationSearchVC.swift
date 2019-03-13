@@ -10,53 +10,36 @@ protocol LocationSearchDelegate: AnyObject {
 
 final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
 
+    typealias Segues = R.segue.locationSearchVC
+
     enum List {
         case countries
+        case country
+        case location(country: Int?)
         case locations(country: Int?)
     }
 
     private var list: List = .countries
+    private var styler: Styler = .standard
     private weak var delegate: LocationSearchDelegate?
 
-    func set(list: List, delegate: LocationSearchDelegate) {
+    private let backgroundView = GradientView()
+
+    func set(list: List,
+             styler: Styler,
+             delegate: LocationSearchDelegate) {
         self.list = list
+        self.styler = styler
         self.delegate = delegate
 
-        switch list {
-        case .countries:
-            searchPropertyKeyPath = "countryName"
-            sortPropertyKey = "countryName"
-            entityName = "Country"
-            basePredicate = nil
+        backgroundView.set(style: styler)
 
-            title = Localized.selectCountry()
-        case let .locations(country?):
-            entityName = "Location"
-            searchPropertyKeyPath = "locationName"
-            sortPropertyKey = "locationName"
-            let isChild = NSPredicate(format: "countryId = \(country)")
-            let isAll = NSPredicate(format: "countryId = 0")
-            basePredicate = NSCompoundPredicate(
-                type: .or,
-                subpredicates: [isChild, isAll])
-
-            title = Localized.selectLocation()
-        case .locations:
-            entityName = "Location"
-            searchPropertyKeyPath = "locationName"
-            sortPropertyKey = "locationName"
-
-            title = Localized.selectLocation()
-        }
+        configureSearch()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let backgroundView = GradientView {
-            $0.set(gradient: [.dodgerBlue, .azureRadiance],
-                   orientation: .topRightBottomLeft)
-        }
         tableView.backgroundView = backgroundView
         tableView.tableFooterView = UIView()
 
@@ -67,7 +50,7 @@ final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        show(navBar: animated, style: .standard)
+        show(navBar: animated, style: styler)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -82,8 +65,7 @@ final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
-        case R.segue.rankingsVC.showFilter.identifier,
-             R.segue.rankingsVC.showSearch.identifier:
+        case Segues.pop.identifier:
             break
         default:
             log.debug("unexpected segue: \(segue.name)")
@@ -112,8 +94,61 @@ final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
         delegate?.locationSearch(controller: self,
                                  didSelect: anObject)
 
-        performSegue(withIdentifier: R.segue.locationSearchVC.saveSelection,
+        performSegue(withIdentifier: Segues.pop,
                      sender: self)
+    }
+}
+
+private extension LocationSearchVC {
+
+    func configureSearch() {
+        switch list {
+        case .countries:
+            searchPropertyKeyPath = "countryName"
+            sortPropertyKey = "countryName"
+            entityName = "Country"
+            basePredicate = nil
+
+            title = Localized.selectCountry()
+        case .country:
+            searchPropertyKeyPath = "countryName"
+            sortPropertyKey = "countryName"
+            entityName = "Country"
+            basePredicate = NSPredicate(format: "countryId > 0")
+
+            title = Localized.selectCountry()
+        case let .location(country?):
+            entityName = "Location"
+            searchPropertyKeyPath = "locationName"
+            sortPropertyKey = "locationName"
+            basePredicate = NSPredicate(format: "countryId = \(country)")
+
+            title = Localized.selectLocation()
+        case .location:
+            entityName = "Location"
+            searchPropertyKeyPath = "locationName"
+            sortPropertyKey = "locationName"
+            basePredicate = NSPredicate(format: "countryId > 0")
+
+            title = Localized.selectLocation()
+        case let .locations(country?):
+            entityName = "Location"
+            searchPropertyKeyPath = "locationName"
+            sortPropertyKey = "locationName"
+            let isChild = NSPredicate(format: "countryId = \(country)")
+            let isAll = NSPredicate(format: "countryId = 0")
+            basePredicate = NSCompoundPredicate(
+                type: .or,
+                subpredicates: [isChild, isAll])
+
+            title = Localized.selectLocation()
+        case .locations:
+            entityName = "Location"
+            searchPropertyKeyPath = "locationName"
+            sortPropertyKey = "locationName"
+
+            title = Localized.selectLocation()
+        }
     }
 }
 
@@ -129,9 +164,11 @@ final class LocationSearchTableViewCell: UITableViewCell {
              item: Object?) {
         let text: String?
         switch list {
-        case .countries:
+        case .countries,
+             .country:
             text = (item as? Country)?.countryName ?? Localized.unknown()
-        case .locations:
+        case .location,
+             .locations:
             text = (item as? Location)?.locationName ?? Localized.unknown()
         }
         locationLabel?.text = text ?? Localized.unknown()

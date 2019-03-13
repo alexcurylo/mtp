@@ -215,6 +215,19 @@ extension UIColor {
         super.layoutSublayers(of: layer)
         gradient?.frame = bounds
     }
+
+    func set(style: Styler) {
+        switch style {
+        case .login:
+            set(gradient: [.frenchPass, .white],
+                orientation: .vertical)
+        case .map:
+            break
+        case .standard:
+            set(gradient: [.dodgerBlue, .azureRadiance],
+                orientation: .topRightBottomLeft)
+        }
+    }
 }
 
 @IBDesignable class GradientButton: UIButton {

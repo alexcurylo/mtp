@@ -2,7 +2,7 @@
 
 import Foundation
 
-// version of Location found in place results on staging
+// version of Location found in place results
 
 struct PlaceLocation: Codable {
 

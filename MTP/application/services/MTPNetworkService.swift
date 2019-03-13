@@ -19,6 +19,13 @@ enum MTPNetworkError: Swift.Error {
 }
 
 enum MTP: Hashable {
+
+    enum Size: String {
+        case any = ""
+        case large
+        case thumb
+    }
+
     case beach
     case checkIn(list: Checklist, id: Int)
     case checklists
@@ -29,15 +36,17 @@ enum MTP: Hashable {
     case location
     case locationPosts
     case passwordReset(email: String)
+    case picture(uuid: String, size: Size)
     case photos(user: Int?, page: Int)
     case rankings(query: RankingsQuery)
     case restaurant
     case scorecard(list: Checklist, user: Int)
     case unCountry
     case user(id: Int)
-    // case picture -- https://mtp.travel/api/files/preview?uuid=5lePRid3jo2etG0pSHqQs2&size={large|thumb|???}
+    case userDelete(id: Int)
     case userGetByToken
     case userLogin(email: String, password: String)
+    case userRegister(info: RegistrationInfo)
     case whs
 }
 
@@ -73,6 +82,8 @@ extension MTP: TargetType {
             return "users/\(user)/photos"
         case .photos:
             return "users/me/photos"
+        case .picture:
+            return "files/preview"
         case .rankings:
             return "rankings/users"
         case .passwordReset:
@@ -85,10 +96,13 @@ extension MTP: TargetType {
             return "un-country"
         case .userGetByToken:
             return "user/getByToken"
-        case .user(let id):
+        case .user(let id),
+             .userDelete(let id):
             return "user/\(id)"
         case .userLogin:
             return "user/login"
+        case .userRegister:
+            return "user"
         case .whs:
             return "whs"
         }
@@ -96,7 +110,8 @@ extension MTP: TargetType {
 
     public var method: Moya.Method {
         switch self {
-        case .checkOut:
+        case .checkOut,
+             .userDelete:
             return .delete
         case .beach,
              .checklists,
@@ -106,6 +121,7 @@ extension MTP: TargetType {
              .location,
              .locationPosts,
              .photos,
+             .picture,
              .rankings,
              .restaurant,
              .scorecard,
@@ -116,7 +132,8 @@ extension MTP: TargetType {
             return .get
         case .checkIn,
              .passwordReset,
-             .userLogin:
+             .userLogin,
+             .userRegister:
             return .post
         }
     }
@@ -138,6 +155,10 @@ extension MTP: TargetType {
         case .photos(_, let page):
             return .requestParameters(parameters: ["page": page],
                                       encoding: URLEncoding.default)
+        case let .picture(uuid, size):
+            return .requestParameters(parameters: ["uuid": uuid,
+                                                   "size": size.rawValue],
+                                      encoding: URLEncoding.default)
         case .rankings(let query):
             return .requestParameters(parameters: query.parameters,
                                       encoding: URLEncoding.default)
@@ -145,6 +166,8 @@ extension MTP: TargetType {
             return .requestParameters(parameters: ["email": email,
                                                    "password": password],
                                       encoding: JSONEncoding.default)
+        case .userRegister(let info):
+            return .requestJSONEncodable(info)
         case .beach,
              .checklists,
              .countriesSearch,
@@ -156,6 +179,7 @@ extension MTP: TargetType {
              .scorecard,
              .unCountry,
              .user,
+             .userDelete,
              .userGetByToken,
              .whs:
             if preventCache {
@@ -195,6 +219,7 @@ extension MTP: AccessTokenAuthorizable {
              .locationPosts,
              .photos,
              .rankings,
+             .userDelete,
              .userGetByToken:
             return .bearer
         case .beach,
@@ -203,11 +228,13 @@ extension MTP: AccessTokenAuthorizable {
              .golfcourse,
              .location,
              .passwordReset,
+             .picture,
              .restaurant,
              .scorecard,
              .unCountry,
              .user,
              .userLogin,
+             .userRegister,
              .whs:
             return .none
         }
@@ -239,16 +266,14 @@ protocol MTPNetworkService {
                        then: @escaping MTPResult<ScorecardJSON>)
     func loadUser(id: Int,
                   then: @escaping MTPResult<UserJSON>)
-    func userDeleteAccount(then: @escaping MTPResult<Bool>)
+    func userDeleteAccount(then: @escaping MTPResult<String>)
     func userForgotPassword(email: String,
                             then: @escaping MTPResult<String>)
     func userLogin(email: String,
                    password: String,
                    then: @escaping MTPResult<UserJSON>)
-    func userRegister(name: String,
-                      email: String,
-                      password: String,
-                      then: @escaping MTPResult<Bool>)
+    func userRegister(info: RegistrationInfo,
+                      then: @escaping MTPResult<UserJSON>)
 
     func refreshEverything()
     func refreshRankings()
@@ -712,7 +737,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     }
                     let user = try result.map(UserJSON.self,
                                               using: JSONDecoder.mtp)
-                    self.data.set(userId: user)
+                    self.data.set(user: user)
                     return then(.success(user))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -787,9 +812,39 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func userDeleteAccount(then: @escaping MTPResult<Bool>) {
-        log.todo("implement deleteAccount")
-        then(.success(true))
+    func userDeleteAccount(then: @escaping MTPResult<String>) {
+        guard let userId = data.user?.id else {
+            log.verbose("userDeleteAccount attempt invalid: not logged in")
+            return then(.failure(.parameter))
+        }
+
+        let auth = AccessTokenPlugin { self.data.token }
+        let provider = MoyaProvider<MTP>(plugins: [auth])
+        let endpoint = MTP.userDelete(id: userId)
+        provider.request(endpoint) { response in
+            switch response {
+            case .success(let result):
+                do {
+                    let info = try result.map(OperationInfo.self,
+                                              using: JSONDecoder.mtp)
+                    if info.isSuccess {
+                        return then(.success(info.message))
+                    } else {
+                        return then(.failure(.message(info.message)))
+                    }
+                } catch {
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    return then(.failure(.results))
+                }
+            case .failure(.underlying(AFError.responseValidationFailed, _)):
+                self.log.error("API rejection: \(endpoint.path)")
+                return then(.failure(.status))
+            case .failure(let error):
+                let message = error.errorDescription ?? Localized.unknown()
+                self.log.error("failure: \(endpoint.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
     }
 
     func userForgotPassword(email: String,
@@ -851,7 +906,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     let user = try result.map(UserJSON.self,
                                               using: JSONDecoder.mtp)
                     self.data.user = user
-                    self.data.set(userId: user)
                     return then(.success(user))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -876,57 +930,91 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
             return then(.failure(.parameter))
         }
 
+        let provider = MoyaProvider<MTP>()
+        let endpoint = MTP.userLogin(email: email, password: password)
+
+        func parse(success response: Response) {
+            do {
+                let user = try response.map(UserJSON.self,
+                                            using: JSONDecoder.mtp)
+                guard let token = user.token else { throw MTPNetworkError.token }
+                log.verbose("logged in user: " + user.debugDescription)
+                data.token = token
+                data.user = user
+                return then(.success(user))
+            } catch {
+                log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                return then(.failure(.results))
+            }
+        }
+
+        func parse(error response: Response?) {
+            guard let response = response else {
+                return then(.failure(.results))
+            }
+
+            do {
+                let info = try response.map(OperationInfo.self,
+                                            using: JSONDecoder.mtp)
+                return then(.failure(.message(info.message)))
+            } catch {
+                self.log.error("decoding error response: \(error)\n-\n\(response.toString)")
+                return then(.failure(.results))
+            }
+        }
+
+        provider.request(endpoint) { result in
+            switch result {
+            case .success(let response):
+                return parse(success: response)
+            case .failure(.underlying(_, let response)):
+                return parse(error: response)
+            case .failure(let error):
+                let message = error.errorDescription ?? Localized.unknown()
+                self.log.error("failure: \(endpoint.path) \(message) \(error)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
+    func userRegister(info: RegistrationInfo,
+                      then: @escaping MTPResult<UserJSON>) {
+        guard info.isValid else {
+            log.verbose("register attempt invalid: \(info)")
+            return then(.failure(.parameter))
+        }
+
+        let provider = MoyaProvider<MTP>()
+        let endpoint = MTP.userRegister(info: info)
+
         func parse(result: Response) {
             do {
                 let user = try result.map(UserJSON.self,
                                           using: JSONDecoder.mtp)
                 guard let token = user.token else { throw MTPNetworkError.token }
+                log.verbose("registered user: " + user.debugDescription)
+                log.verbose("from result: " + result.toString)
                 data.token = token
                 data.user = user
-                data.email = email
-                data.password = password
-                log.verbose("logged in user: " + user.debugDescription)
-                self.data.user = user
-                self.data.set(userId: user)
-                return then(.success(user))
+                userGetByToken { _ in
+                    then(.success(user))
+                }
             } catch {
-                self.log.error("decoding user: \(error)")
+                log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                 return then(.failure(.results))
             }
         }
 
-        let provider = MoyaProvider<MTP>()
-        let endpoint = MTP.userLogin(email: email, password: password)
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
                 return parse(result: result)
-            case .failure(.underlying(AFError.responseValidationFailed, _)):
-                self.log.error("API rejection: \(endpoint.path)")
-                return then(.failure(.status))
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
         }
-    }
-
-    func userRegister(name: String,
-                      email: String,
-                      password: String,
-                      then: @escaping MTPResult<Bool>) {
-        guard !name.isEmpty && !email.isEmpty && !password.isEmpty else {
-            log.verbose("register attempt invalid: name `\(name)` email `\(email)` password `\(password)`")
-            return then(.failure(.parameter))
-        }
-
-        log.todo("implement register: \(name), \(email), \(password)")
-
-        data.email = email
-        data.name = name
-        data.password = password
-        then(.success(true))
     }
 }
 
@@ -951,7 +1039,6 @@ extension Response: ServiceProvider {
               response.statusCode != 304 else {
                 return false
         }
-        // staging sends "Not-Modified=1", production sends "not-modified=1"
         if let header = response.find(header: "Not-Modified"),
            header == "1" {
             return false

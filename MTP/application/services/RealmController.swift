@@ -211,7 +211,7 @@ final class RealmController: ServiceProvider {
              info: RankingsPageInfoJSON) {
         do {
             let page = RankingsPageInfo(query: query, info: info)
-            let users = info.users.data.map { User(from: $0) }
+            let users = info.users.data.map { User(from: $0, with: user(id: $0.id)) }
             try realm.write {
                 realm.add(page, update: true)
                 realm.add(users, update: true)
@@ -277,9 +277,9 @@ final class RealmController: ServiceProvider {
         return results.first
     }
 
-    func set(userId: UserJSON) {
+    func set(user data: UserJSON) {
         do {
-            let object = User(from: userId)
+            let object = User(from: data)
             try realm.write {
                 realm.add(object, update: true)
             }

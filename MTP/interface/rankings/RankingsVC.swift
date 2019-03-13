@@ -5,6 +5,8 @@ import Parchment
 
 final class RankingsVC: UIViewController, ServiceProvider {
 
+    typealias Segues = R.segue.rankingsVC
+
     @IBOutlet private var pagesHolder: UIView?
 
     private let pagingVC = RankingsPagingVC()
@@ -34,8 +36,8 @@ final class RankingsVC: UIViewController, ServiceProvider {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
-        case R.segue.rankingsVC.showFilter.identifier,
-             R.segue.rankingsVC.showSearch.identifier:
+        case Segues.showFilter.identifier,
+             Segues.showSearch.identifier:
             break
         default:
             log.debug("unexpected segue: \(segue.name)")

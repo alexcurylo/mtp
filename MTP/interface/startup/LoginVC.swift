@@ -4,17 +4,26 @@ import KRProgressHUD
 
 final class LoginVC: UIViewController, ServiceProvider {
 
-    @IBOutlet private var emailTextField: UITextField?
-    @IBOutlet private var passwordTextField: UITextField?
+    typealias Segues = R.segue.loginVC
+
+    @IBOutlet private var emailTextField: InsetTextField?
+    @IBOutlet private var passwordTextField: InsetTextField?
     @IBOutlet private var togglePasswordButton: UIButton?
+
+    @IBOutlet private var keyboardToolbar: UIToolbar?
+    @IBOutlet private var toolbarBackButton: UIBarButtonItem?
+    @IBOutlet private var toolbarNextButton: UIBarButtonItem?
 
     private var errorMessage: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        emailTextField?.inputAccessoryView = keyboardToolbar
+
         passwordTextField?.rightViewMode = .always
         passwordTextField?.rightView = togglePasswordButton
+        passwordTextField?.inputAccessoryView = keyboardToolbar
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -22,6 +31,8 @@ final class LoginVC: UIViewController, ServiceProvider {
 
         show(navBar: animated, style: .login)
         navigationController?.delegate = self
+
+        emailTextField?.text = data.email
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -31,6 +42,8 @@ final class LoginVC: UIViewController, ServiceProvider {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.delegate = nil
+
+        data.email = emailTextField?.text ?? ""
    }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -44,10 +57,10 @@ final class LoginVC: UIViewController, ServiceProvider {
 
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         switch identifier {
-        case R.segue.loginVC.presentForgotPassword.identifier:
+        case Segues.presentForgotPassword.identifier:
             guard let email = emailTextField?.text, email.isValidEmail else {
                 errorMessage = Localized.fixEmail()
-                performSegue(withIdentifier: R.segue.loginVC.presentLoginFail, sender: self)
+                performSegue(withIdentifier: Segues.presentLoginFail, sender: self)
                 return false
             }
             return true
@@ -58,18 +71,19 @@ final class LoginVC: UIViewController, ServiceProvider {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
+        view.endEditing(true)
         switch segue.identifier {
-        case R.segue.loginVC.presentLoginFail.identifier:
-            let alert = R.segue.loginVC.presentLoginFail(segue: segue)
+        case Segues.presentLoginFail.identifier:
+            let alert = Segues.presentLoginFail(segue: segue)
             alert?.destination.errorMessage = errorMessage
             hide(navBar: true)
             data.email = emailTextField?.text ?? ""
-        case R.segue.loginVC.presentForgotPassword.identifier:
+        case Segues.presentForgotPassword.identifier:
             hide(navBar: true)
             data.email = emailTextField?.text ?? ""
-        case R.segue.loginVC.showMain.identifier,
-             R.segue.loginVC.switchSignup.identifier,
-             R.segue.loginVC.unwindFromLogin.identifier:
+        case Segues.showMain.identifier,
+             Segues.switchSignup.identifier,
+             Segues.unwindFromLogin.identifier:
             break
         default:
             log.debug("unexpected segue: \(segue.name)")
@@ -99,34 +113,61 @@ private extension LoginVC {
     }
 
     @IBAction func loginTapped(_ sender: GradientButton) {
-        login()
+        view.endEditing(true)
+        prepareLogin(showError: true)
     }
 
     @IBAction func facebookTapped(_ sender: FacebookButton) {
-        sender.login { [weak self] _, email, _ in
-            self?.emailTextField?.text = email
+        view.endEditing(true)
+        sender.login { [weak self] info in
+            self?.emailTextField?.text = info?.email
             // currently not implemented: login with Facebook ID
         }
     }
 
-    func login() {
-        login(email: emailTextField?.text ?? "",
-              password: passwordTextField?.text ?? "")
+    @IBAction func toolbarBackTapped(_ sender: UIBarButtonItem) {
+        if emailTextField?.isEditing ?? false {
+            emailTextField?.resignFirstResponder()
+            prepareLogin(showError: false)
+        } else if passwordTextField?.isEditing ?? false {
+            emailTextField?.becomeFirstResponder()
+        }
     }
 
-    func login(email: String, password: String) {
+    @IBAction func toolbarNextTapped(_ sender: UIBarButtonItem) {
+        if emailTextField?.isEditing ?? false {
+            passwordTextField?.becomeFirstResponder()
+        } else if passwordTextField?.isEditing ?? false {
+            passwordTextField?.resignFirstResponder()
+            prepareLogin(showError: false)
+        }
+    }
+
+    @IBAction func toolbarDoneTapped(_ sender: UIBarButtonItem) {
+        view.endEditing(true)
+        prepareLogin(showError: false)
+   }
+
+    func prepareLogin(showError: Bool) {
+        let email = emailTextField?.text ?? ""
+        let password = passwordTextField?.text ?? ""
         if !email.isValidEmail {
             errorMessage = Localized.fixEmail()
-        } else if !password.isValidPassword {
-            errorMessage = Localized.fixPassword()
+        } else if password.isEmpty {
+            errorMessage = Localized.enterPassword()
         } else {
             errorMessage = ""
         }
         guard errorMessage.isEmpty else {
-            performSegue(withIdentifier: R.segue.loginVC.presentLoginFail, sender: self)
+            if showError {
+                performSegue(withIdentifier: Segues.presentLoginFail, sender: self)
+            }
             return
         }
+        login(email: email, password: password)
+    }
 
+    func login(email: String, password: String) {
         KRProgressHUD.show(withMessage: Localized.loggingIn())
         mtp.userLogin(email: email,
                       password: password) { [weak self] result in
@@ -135,24 +176,41 @@ private extension LoginVC {
                 KRProgressHUD.showSuccess(withMessage: Localized.success())
                 DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
                     KRProgressHUD.dismiss()
-                    self?.performSegue(withIdentifier: R.segue.loginVC.showMain, sender: self)
+                    self?.performSegue(withIdentifier: Segues.showMain, sender: self)
                 }
-            case .failure(.status):
-                self?.errorMessage = ""
-            case .failure(.results):
+                return
+            case .failure(.status),
+                 .failure(.results):
                 self?.errorMessage = Localized.resultError()
+            case .failure(.message(let message)):
+                self?.errorMessage = message
             case .failure(.network(let message)):
                 self?.errorMessage = Localized.networkError(message)
             default:
                 self?.errorMessage = Localized.unexpectedError()
             }
             KRProgressHUD.dismiss()
-            self?.performSegue(withIdentifier: R.segue.loginVC.presentLoginFail, sender: self)
+            self?.performSegue(withIdentifier: Segues.presentLoginFail, sender: self)
         }
     }
 }
 
 extension LoginVC: UITextFieldDelegate {
+
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        switch textField {
+        case emailTextField:
+            toolbarBackButton?.isEnabled = false
+            toolbarNextButton?.isEnabled = true
+        case passwordTextField:
+            toolbarBackButton?.isEnabled = true
+            toolbarNextButton?.isEnabled = false
+        default:
+            toolbarBackButton?.isEnabled = true
+            toolbarNextButton?.isEnabled = true
+        }
+        return true
+    }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
@@ -160,6 +218,7 @@ extension LoginVC: UITextFieldDelegate {
             passwordTextField?.becomeFirstResponder()
         case passwordTextField:
             passwordTextField?.resignFirstResponder()
+            prepareLogin(showError: false)
         default:
             break
         }

@@ -22,8 +22,8 @@ final class FacebookButton: UIButton, ServiceProvider {
         setup()
     }
 
-    func login(then: @escaping (String, String, String) -> Void) {
-        let info: [ReadPermission] = [ .publicProfile, .email ]
+    func login(then: @escaping (RegistrationInfo?) -> Void) {
+        let info: [ReadPermission] = [ .publicProfile, .email, .userBirthday, .userGender ]
         LoginManager().logIn(readPermissions: info) { [weak self] result in
             switch result {
             // swiftlint:disable:next pattern_matching_keywords
@@ -32,8 +32,10 @@ final class FacebookButton: UIButton, ServiceProvider {
                 self?.requestInfo(then: then)
             case .cancelled:
                 self?.log.verbose("Facebook login cancelled")
+                then(nil)
             case .failed(let error):
                 self?.log.verbose("Facebook login failed: \(error)")
+                then(nil)
             }
         }
     }
@@ -50,24 +52,18 @@ private extension FacebookButton {
         imageView?.contentMode = .scaleAspectFit
     }
 
-    func requestInfo(then: @escaping (String, String, String) -> Void) {
+    func requestInfo(then: @escaping (RegistrationInfo?) -> Void) {
         let connection = GraphRequestConnection()
         connection.add(InfoRequest()) { [weak self] _, result in
-            let name: String
-            let email: String
-            let id: String
+            let info: RegistrationInfo?
             switch result {
-            case .success(let info):
-                name = info.name
-                email = info.email
-                id = info.id
+            case .success(let fbInfo):
+                info = fbInfo.info
             case .failed(let error):
                 self?.log.verbose("Facebook login failed: \(error)")
-                name = ""
-                email = ""
-                id = ""
+                info = nil
             }
-            then(name, email, id)
+            then(info)
         }
         connection.start()
     }
@@ -77,39 +73,21 @@ private struct InfoRequest: GraphRequestProtocol {
 
     struct Response: GraphResponseProtocol {
 
-        let email: String
-        let gender: String
-        let id: String
-        let name: String
-        let picture: URL?
+        let info: RegistrationInfo?
 
         init(rawResponse: Any?) {
             guard let response = rawResponse as? [String: Any] else {
-                email = ""
-                id = ""
-                gender = ""
-                name = ""
-                picture = nil
+                info = nil
                 return
             }
 
-            email = response["email"] as? String ?? ""
-            gender = response["gender"] as? String ?? ""
-            id = response["id"] as? String ?? ""
-            name = response["name"] as? String ?? ""
-            if let info = response["picture"] as? [String: Any],
-               let data = info["data"] as? [String: Any],
-               let url = data["url"] as? String {
-                picture = URL(string: url)
-            } else {
-                picture = nil
-            }
+            info = RegistrationInfo(facebook: response)
         }
     }
 
     var graphPath = "/me"
     // swiftlint:disable:next discouraged_optional_collection
-    var parameters: [String: Any]? = ["fields": "email,gender,id,name,picture.type(large)"]
+    var parameters: [String: Any]? = ["fields": "birthday,email,first_name,gender,last_name"]
     var accessToken = AccessToken.current
     var httpMethod: GraphRequestHTTPMethod = .GET
     var apiVersion: GraphAPIVersion = .defaultVersion

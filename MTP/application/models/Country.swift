@@ -65,4 +65,13 @@ extension CountryJSON: CustomDebugStringConvertible {
         let filter = "countryId = \(countryId) AND countryId != id"
         return data.get(locations: filter)
     }
+
+    override func isEqual(_ object: Any?) -> Bool {
+        guard let other = object as? Country else { return false }
+        guard !isSameObject(as: other) else { return true }
+
+        return countryId == other.countryId &&
+               countryName == other.countryName &&
+               hasChildren == other.hasChildren
+    }
 }

@@ -32,60 +32,60 @@ class RealmSearchViewController: UITableViewController, RealmSearchResultsDataSo
 
     @IBInspectable var entityName: String? {
         didSet {
-            self.refreshSearchResults()
+            refreshSearchResults()
         }
     }
 
     @IBInspectable var searchPropertyKeyPath: String? {
         didSet {
 
-            if self.searchPropertyKeyPath?.contains(".") == false && self.sortPropertyKey == nil {
+            if searchPropertyKeyPath?.contains(".") == false && sortPropertyKey == nil {
 
-                self.sortPropertyKey = self.searchPropertyKeyPath
+                sortPropertyKey = searchPropertyKeyPath
             }
 
-            self.refreshSearchResults()
+            refreshSearchResults()
         }
     }
 
     var basePredicate: NSPredicate? {
         didSet {
-            self.refreshSearchResults()
+            refreshSearchResults()
         }
     }
 
     @IBInspectable var sortPropertyKey: String? {
         didSet {
-            self.refreshSearchResults()
+            refreshSearchResults()
         }
     }
 
     @IBInspectable var sortAscending: Bool = true {
         didSet {
-            self.refreshSearchResults()
+            refreshSearchResults()
         }
     }
 
-    @IBInspectable var searchBarInTableView: Bool = true
+    @IBInspectable var searchBarInTableView: Bool = false
 
     @IBInspectable var caseInsensitiveSearch: Bool = true {
         didSet {
-            self.refreshSearchResults()
+            refreshSearchResults()
         }
     }
 
     @IBInspectable var useContainsSearch: Bool = false {
         didSet {
-            self.refreshSearchResults()
+            refreshSearchResults()
         }
     }
 
     var realmConfiguration: Realm.Configuration {
         set {
-            self.internalConfiguration = newValue
+            internalConfiguration = newValue
         }
         get {
-            if let configuration = self.internalConfiguration {
+            if let configuration = internalConfiguration {
                 return configuration
             }
 
@@ -95,23 +95,23 @@ class RealmSearchViewController: UITableViewController, RealmSearchResultsDataSo
 
     var realm: Realm {
         // swiftlint:disable:next force_try
-        return try! Realm(configuration: self.realmConfiguration)
+        return try! Realm(configuration: realmConfiguration)
     }
 
     var results: RLMResults<RLMObject>?
 
     var searchBar: UISearchBar {
-        return self.searchController.searchBar
+        return searchController.searchBar
     }
 
     // MARK: - Public Methods
 
     func refreshSearchResults() {
-        let searchString = self.searchController.searchBar.text
+        let searchString = searchController.searchBar.text
 
-        let predicate = self.searchPredicate(searchString)
+        let predicate = searchPredicate(searchString)
 
-        self.updateResults(predicate)
+        updateResults(predicate)
     }
 
     // MARK: - Initialization
@@ -142,23 +142,30 @@ class RealmSearchViewController: UITableViewController, RealmSearchResultsDataSo
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.viewIsLoaded = true
+        viewIsLoaded = true
 
-        if self.searchBarInTableView {
-            self.tableView.tableHeaderView = self.searchBar
-
-            self.searchBar.sizeToFit()
+        if searchBarInTableView {
+            tableView.tableHeaderView = searchBar
+            searchBar.sizeToFit()
         } else {
-            self.searchController.hidesNavigationBarDuringPresentation = false
+            if let searchField = searchBar.value(forKey: "searchField") as? UITextField {
+                searchField.backgroundColor = .white
+                searchField.borderStyle = .none
+                searchBar.searchTextPositionAdjustment = UIOffset(horizontal: 8, vertical: 0)
+            }
+
+            navigationItem.searchController = searchController
+            navigationItem.hidesSearchBarWhenScrolling = false
+            searchController.hidesNavigationBarDuringPresentation = false
         }
 
-        self.definesPresentationContext = true
+        definesPresentationContext = true
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.refreshSearchResults()
+        refreshSearchResults()
     }
 
     // MARK: - RealmSearchResultsDataSource
@@ -203,37 +210,37 @@ class RealmSearchViewController: UITableViewController, RealmSearchResultsDataSo
     }()
 
     fileprivate var rlmRealm: RLMRealm {
-        let configuration = self.toRLMConfiguration(self.realmConfiguration)
+        let configuration = toRLMConfiguration(realmConfiguration)
         // swiftlint:disable:next force_try
         return try! RLMRealm(configuration: configuration)
     }
 
     fileprivate var isReadOnly: Bool {
-        return self.realmConfiguration.readOnly
+        return realmConfiguration.readOnly
     }
 
     fileprivate func updateResults(_ predicate: NSPredicate?) {
-        if let results = self.searchResults(self.entityName,
-                                            inRealm: self.rlmRealm,
-                                            predicate: predicate,
-                                            sortPropertyKey: self.sortPropertyKey,
-                                            sortAscending: self.sortAscending) {
+        if let results = searchResults(entityName,
+                                       inRealm: rlmRealm,
+                                       predicate: predicate,
+                                       sortPropertyKey: sortPropertyKey,
+                                       sortAscending: sortAscending) {
 
             guard !isReadOnly else {
                 self.results = results
-                self.tableView.reloadData()
+                tableView.reloadData()
                 return
             }
 
-            self.token = results.addNotificationBlock { [weak self] results, change, error in
-                if let weakSelf = self {
-                    if error != nil || !weakSelf.viewIsLoaded {
+            token = results.addNotificationBlock { [weak self] results, change, error in
+                if let self = self {
+                    if error != nil || !self.viewIsLoaded {
                         return
                     }
 
-                    weakSelf.results = results
+                    self.results = results
 
-                    let tableView = weakSelf.tableView
+                    let tableView = self.tableView
 
                     // Initial run of the query will pass nil for the change information
                     if change == nil {
@@ -258,13 +265,13 @@ class RealmSearchViewController: UITableViewController, RealmSearchResultsDataSo
         if let text = text, !text.isEmpty {
 
             // swiftlint:disable:next force_unwrapping
-            let leftExpression = NSExpression(forKeyPath: self.searchPropertyKeyPath!)
+            let leftExpression = NSExpression(forKeyPath: searchPropertyKeyPath!)
 
             let rightExpression = NSExpression(forConstantValue: text)
 
-            let operatorType: NSComparisonPredicate.Operator = self.useContainsSearch ? .contains : .beginsWith
+            let operatorType: NSComparisonPredicate.Operator = useContainsSearch ? .contains : .beginsWith
 
-            let options: NSComparisonPredicate.Options = self.caseInsensitiveSearch ? .caseInsensitive : []
+            let options: NSComparisonPredicate.Options = caseInsensitiveSearch ? .caseInsensitive : []
 
             let filterPredicate = NSComparisonPredicate(leftExpression: leftExpression,
                                                         rightExpression: rightExpression,
@@ -272,10 +279,10 @@ class RealmSearchViewController: UITableViewController, RealmSearchResultsDataSo
                                                         type: operatorType,
                                                         options: options)
 
-            if self.basePredicate != nil {
+            if basePredicate != nil {
 
                 // swiftlint:disable:next force_unwrapping
-                let subs = [self.basePredicate!, filterPredicate]
+                let subs = [basePredicate!, filterPredicate]
                 let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: subs)
 
                 return compoundPredicate
@@ -284,7 +291,7 @@ class RealmSearchViewController: UITableViewController, RealmSearchResultsDataSo
             return filterPredicate
         }
 
-        return self.basePredicate
+        return basePredicate
     }
 
     fileprivate func searchResults(_ entityName: String?,
@@ -350,12 +357,12 @@ class RealmSearchViewController: UITableViewController, RealmSearchResultsDataSo
 extension RealmSearchViewController {
 
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        if let results = self.results {
+        if let results = results {
             let baseObject = results.object(at: UInt(indexPath.row)) as RLMObjectBase
             // swiftlint:disable:next force_cast
             let object = baseObject as! Object
 
-            self.resultsDelegate.searchViewController(self, willSelectObject: object, atIndexPath: indexPath)
+            resultsDelegate.searchViewController(self, willSelectObject: object, atIndexPath: indexPath)
 
             return indexPath
         }
@@ -366,12 +373,12 @@ extension RealmSearchViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        if let results = self.results {
+        if let results = results {
             let baseObject = results.object(at: UInt(indexPath.row)) as RLMObjectBase
             // swiftlint:disable:next force_cast
             let object = baseObject as! Object
 
-            self.resultsDelegate.searchViewController(self, didSelectObject: object, atIndexPath: indexPath)
+            resultsDelegate.searchViewController(self, didSelectObject: object, atIndexPath: indexPath)
         }
     }
 }
@@ -385,7 +392,7 @@ extension RealmSearchViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let results = self.results {
+        if let results = results {
             return Int(results.count)
         }
 
@@ -393,12 +400,12 @@ extension RealmSearchViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let results = self.results {
+        if let results = results {
             let baseObject = results.object(at: UInt(indexPath.row)) as RLMObjectBase
             // swiftlint:disable:next force_cast
             let object = baseObject as! Object
 
-            let cell = self.resultsDataSource.searchViewController(self, cellForObject: object, atIndexPath: indexPath)
+            let cell = resultsDataSource.searchViewController(self, cellForObject: object, atIndexPath: indexPath)
 
             return cell
         }
@@ -412,6 +419,6 @@ extension RealmSearchViewController {
 extension RealmSearchViewController: UISearchResultsUpdating {
 
     func updateSearchResults(for searchController: UISearchController) {
-        self.refreshSearchResults()
+        refreshSearchResults()
     }
 }

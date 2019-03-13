@@ -123,7 +123,7 @@ private extension MyAboutVC {
             views[index].removeFromSuperview()
         }
 
-        for link in user.links {
+        for link in user.links ?? [] {
             guard !link.text.isEmpty else { continue }
 
             let label = UILabel {

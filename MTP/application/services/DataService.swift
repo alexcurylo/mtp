@@ -16,8 +16,6 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var golfcourses: [GolfCourse] { get }
     var lastRankingsQuery: RankingsQuery { get set }
     var locations: [Location] { get }
-    var name: String { get set }
-    var password: String { get set }
     var posts: [Post] { get }
     var restaurants: [Restaurant] { get }
     var token: String { get set }
@@ -54,7 +52,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
              info: RankingsPageInfoJSON)
     func set(scorecard: ScorecardWrapperJSON)
     func set(uncountries: [LocationJSON])
-    func set(userId: UserJSON)
+    func set(user data: UserJSON)
     func set(whss: [WHSJSON])
 }
 
@@ -63,23 +61,22 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
 extension DataService {
 
     var isLoggedIn: Bool {
-        guard !token.isEmpty,
-              let jwt = try? decode(jwt: token),
-              let expiry = jwt.expiresAt else { return false }
-        // https://github.com/auth0/JWTDecode.swift/issues/70
-        let expired = expiry > Date().toUTC
-        if expired {
-            log.debug("token expired -- should we be refreshing somehow?")
+        guard !token.isEmpty else { return false }
+        guard let jwt = try? decode(jwt: token),
+              !jwt.expired else {
+            // Appears to have 1 year expiry
+            log.todo("token expired -- should we be refreshing somehow?")
+            return false
         }
-        return expired
+        // https://github.com/auth0/JWTDecode.swift/issues/70
+        // let expired = jwt.expiresAt < Date().toUTC?
+        return true
     }
 
     func logOut() {
         FacebookButton.logOut()
         email = ""
         token = ""
-        name = ""
-        password = ""
         user = nil
     }
 }
@@ -278,6 +275,9 @@ final class DataServiceImpl: DataService {
         set {
             defaults.user = newValue
             notify(change: .user)
+            if let newValue = newValue {
+                set(user: newValue)
+            }
         }
     }
 
@@ -304,8 +304,8 @@ final class DataServiceImpl: DataService {
         return false
     }
 
-    func set(userId: UserJSON) {
-        realm.set(userId: userId)
+    func set(user data: UserJSON) {
+        realm.set(user: data)
         notify(change: .userId)
     }
 

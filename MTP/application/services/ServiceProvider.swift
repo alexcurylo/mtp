@@ -14,24 +14,31 @@ protocol ServiceProvider {
 
 extension ServiceProvider {
 
+    // override to return mocks/stubs
+    // defaults set by ServiceHandler or SpyServiceHandler
+
     var app: ApplicationService {
         return ServiceProviderInstances.appServiceInstance
     }
+
     var data: DataService {
         return ServiceProviderInstances.dataServiceInstance
     }
+
     var log: LoggingService {
         return ServiceProviderInstances.logServiceInstance
     }
+
     var mtp: MTPNetworkService {
         return ServiceProviderInstances.mtpServiceInstance
     }
 }
 
-private enum ServiceProviderInstances {
+enum ServiceProviderInstances {
 
-    static let appServiceInstance = UIApplication.shared
-    static let dataServiceInstance = DataServiceImpl()
-    static let logServiceInstance = SwiftyBeaverLoggingService()
-    static let mtpServiceInstance = MoyaMTPNetworkService()
+    // swiftlint:disable implicitly_unwrapped_optional
+    static var appServiceInstance: ApplicationService!
+    static var dataServiceInstance: DataService!
+    static var logServiceInstance: LoggingService!
+    static var mtpServiceInstance: MTPNetworkService!
 }

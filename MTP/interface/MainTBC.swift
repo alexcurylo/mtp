@@ -4,6 +4,8 @@ import UIKit
 
 final class MainTBC: UITabBarController, ServiceProvider {
 
+    typealias Segues = R.segue.myProfileVC
+
     enum Route: Int {
         // Tabs
         case locations = 0
@@ -72,7 +74,7 @@ private extension MainTBC {
             selectedIndex = goto.rawValue
         case .editProfile:
             selectedIndex = Route.myProfile.rawValue
-            myProfile?.performSegue(withIdentifier: R.segue.myProfileVC.directEdit, sender: self)
+            myProfile?.performSegue(withIdentifier: Segues.directEdit, sender: self)
         }
 
         destination = nil

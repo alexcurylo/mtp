@@ -30,8 +30,9 @@ extension UINavigationBar {
 
     func set(style: Styler) {
         tintColor = style.barTint
-        let attributes = NSAttributedString.attributes(color: style.barColor,
-                                                       font: style.barFont)
+        let attributes = NSAttributedString.attributes(
+            color: style.barColor,
+            font: style.barFont)
         titleTextAttributes = attributes
     }
 

@@ -3,6 +3,11 @@
 import CoreLocation
 import RealmSwift
 
+enum AdminLevel: Int {
+    case country = 2
+    case location = 4
+}
+
 struct LocationJSON: Codable {
 
     let active: String
@@ -120,6 +125,20 @@ extension LocationJSON: CustomDebugStringConvertible {
         }
         return locationName.isEmpty ? countryName : locationName
     }
+
+    override func isEqual(_ object: Any?) -> Bool {
+        guard let other = object as? Location else { return false }
+        guard !isSameObject(as: other) else { return true }
+
+        return countryId == other.countryId &&
+               countryName == other.countryName &&
+               featuredImg == other.featuredImg &&
+               id == other.id &&
+               lat == other.lat &&
+               locationName == other.locationName &&
+               lon == other.lon &&
+               regionName == other.regionName
+    }
 }
 
 extension Location: PlaceInfo {
@@ -158,5 +177,12 @@ extension Location {
         guard let uuid = featuredImg, !uuid.isEmpty else { return nil }
         let link = "https://mtp.travel/api/files/preview?uuid=\(uuid)"
         return URL(string: link)
+    }
+
+    var adminLevel: AdminLevel {
+        if countryId == id {
+            return .country
+        }
+        return .location
     }
 }
