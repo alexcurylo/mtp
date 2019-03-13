@@ -85,13 +85,13 @@ final class SignupVC: UIViewController, KeyboardListener, ServiceProvider {
             alert?.destination.errorMessage = errorMessage
             hide(navBar: true)
         case Segues.showCountry.identifier:
-            if let destination = Segues.showCountry(segue: segue)?.destination {
+            if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
                 destination.set(list: .country,
                                 styler: .login,
                                 delegate: self)
             }
         case Segues.showLocation.identifier:
-            if let destination = Segues.showLocation(segue: segue)?.destination {
+            if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC {
                 let countryId = country?.countryId
                 destination.set(list: .location(country: countryId),
                                 styler: .login,

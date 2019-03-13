@@ -208,7 +208,9 @@
                                                                 </userDefinedRuntimeAttributes>
                                                                 <connections>
                                                                     <outlet property="delegate" destination="VZf-fG-PrW" id="76K-9t-IT6"/>
-                                                                    <segue destination="PfS-HC-PPO" kind="show" identifier="showCountry" id="a8e-iA-t1V"/>
+                                                                    <segue destination="PfS-HC-PPO" kind="popoverPresentation" identifier="showCountry" popoverAnchorView="of2-5v-sav" id="a8e-iA-t1V">
+                                                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                                                    </segue>
                                                                 </connections>
                                                             </textField>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="State/Province" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0wm-Do-yw1" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
@@ -230,7 +232,9 @@
                                                                 </userDefinedRuntimeAttributes>
                                                                 <connections>
                                                                     <outlet property="delegate" destination="VZf-fG-PrW" id="KyT-vj-3QI"/>
-                                                                    <segue destination="PfS-HC-PPO" kind="show" identifier="showLocation" id="hkf-mG-nci"/>
+                                                                    <segue destination="PfS-HC-PPO" kind="popoverPresentation" identifier="showLocation" popoverAnchorView="0wm-Do-yw1" id="hkf-mG-nci">
+                                                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                                                    </segue>
                                                                 </connections>
                                                             </textField>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Birthday" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TD2-H5-D6D" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">

@@ -50,13 +50,13 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
         case Segues.showCountry.identifier:
-            if let destination = Segues.showCountry(segue: segue)?.destination {
+            if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
                 destination.set(list: .countries,
                                 styler: .standard,
                                 delegate: self)
             }
         case Segues.showLocation.identifier:
-            if let destination = Segues.showLocation(segue: segue)?.destination {
+            if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC {
                 let country = current?.countryId
                 destination.set(list: .locations(country: country),
                                 styler: .standard,

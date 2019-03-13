@@ -367,12 +367,16 @@
                 <exit id="uxq-Yu-xPh" userLabel="Exit" sceneMemberID="exit"/>
                 <tapGestureRecognizer id="rUm-jN-Jw5" userLabel="Tap Country">
                     <connections>
-                        <segue destination="T4t-4J-rRI" kind="show" identifier="showCountry" id="5Vg-PH-PpB"/>
+                        <segue destination="T4t-4J-rRI" kind="popoverPresentation" identifier="showCountry" popoverAnchorView="MxR-4w-2bq" id="5Vg-PH-PpB">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                        </segue>
                     </connections>
                 </tapGestureRecognizer>
                 <tapGestureRecognizer id="MNo-lH-faV" userLabel="Tap Location">
                     <connections>
-                        <segue destination="T4t-4J-rRI" kind="show" identifier="showLocation" id="6kA-98-phq"/>
+                        <segue destination="T4t-4J-rRI" kind="popoverPresentation" identifier="showLocation" popoverAnchorView="b15-Lc-sFx" id="6kA-98-phq">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                        </segue>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
