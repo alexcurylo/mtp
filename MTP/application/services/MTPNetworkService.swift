@@ -20,6 +20,11 @@ enum MTPNetworkError: Swift.Error {
 
 enum MTP: Hashable {
 
+    enum Map: String {
+        case uncountries
+        case world
+    }
+
     enum Size: String {
         case any = ""
         case large
@@ -32,6 +37,7 @@ enum MTP: Hashable {
     case checkOut(list: Checklist, id: Int)
     case countriesSearch(query: String?)
     case divesite
+    case geoJson(map: Map)
     case golfcourse
     case location
     case locationPosts
@@ -72,6 +78,8 @@ extension MTP: TargetType {
             return "countries/search"
         case .divesite:
             return "divesite"
+        case .geoJson(let map):
+            return "geojson-files/\(map.rawValue)-map"
         case .golfcourse:
             return "golfcourse"
         case .location:
@@ -117,6 +125,7 @@ extension MTP: TargetType {
              .checklists,
              .countriesSearch,
              .divesite,
+             .geoJson,
              .golfcourse,
              .location,
              .locationPosts,
@@ -172,6 +181,7 @@ extension MTP: TargetType {
              .checklists,
              .countriesSearch,
              .divesite,
+             .geoJson,
              .golfcourse,
              .location,
              .locationPosts,
@@ -225,6 +235,7 @@ extension MTP: AccessTokenAuthorizable {
         case .beach,
              .countriesSearch,
              .divesite,
+             .geoJson,
              .golfcourse,
              .location,
              .passwordReset,

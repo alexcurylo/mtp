@@ -36,6 +36,11 @@ extension String {
     }
 }
 
+extension String: LocalizedError {
+
+    public var errorDescription: String? { return self }
+}
+
 extension Formatter {
 
     static let grouping = NumberFormatter {

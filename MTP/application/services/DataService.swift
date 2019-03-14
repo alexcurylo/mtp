@@ -22,6 +22,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var uncountries: [UNCountry] { get }
     var user: UserJSON? { get set }
     var whss: [WHS] { get }
+    var worldMap: WorldMap { get }
 
     func get(country id: Int?) -> Country?
     func get(location id: Int?) -> Location?
@@ -317,6 +318,8 @@ final class DataServiceImpl: DataService {
         realm.set(whss: whss)
         notify(change: .whss)
     }
+
+    var worldMap = WorldMap()
 }
 
 // MARK: - Observable

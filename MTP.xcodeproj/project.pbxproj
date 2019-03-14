@@ -32,6 +32,8 @@
 		8C76D5DC22028874005CF4CD /* ServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C76D5DB22028874005CF4CD /* ServiceProvider.swift */; };
 		8C76D8EC2207CD36005CF4CD /* RankingsPageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C76D8EB2207CD36005CF4CD /* RankingsPageInfo.swift */; };
 		8C91D293222CBFE20063C587 /* SignupFailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D292222CBFE20063C587 /* SignupFailVC.swift */; };
+		8CAE30592239DA7D00E31647 /* world-map.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 8CAE30572239DA7C00E31647 /* world-map.geojson */; };
+		8CAE30642239F4F100E31647 /* WorldMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CAE30632239F4F100E31647 /* WorldMap.swift */; };
 		8CE3FC2C222389B600B94EAA /* Scorecard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE3FC2B222389B600B94EAA /* Scorecard.swift */; };
 		8CFEE459221FA2120061614B /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFEE458221FA2120061614B /* ImageService.swift */; };
 		C1D9A04EB6208ED844515108 /* libPods-MTP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA7B8EF0C9A37C87525A9855 /* libPods-MTP.a */; };
@@ -184,6 +186,8 @@
 		8C76D5DB22028874005CF4CD /* ServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProvider.swift; sourceTree = "<group>"; };
 		8C76D8EB2207CD36005CF4CD /* RankingsPageInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsPageInfo.swift; sourceTree = "<group>"; };
 		8C91D292222CBFE20063C587 /* SignupFailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupFailVC.swift; sourceTree = "<group>"; };
+		8CAE30572239DA7C00E31647 /* world-map.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "world-map.geojson"; sourceTree = "<group>"; };
+		8CAE30632239F4F100E31647 /* WorldMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldMap.swift; sourceTree = "<group>"; };
 		8CE3FC2B222389B600B94EAA /* Scorecard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scorecard.swift; sourceTree = "<group>"; };
 		8CFEE458221FA2120061614B /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		B1C0AF3F035BC227379ED6DE /* libPods-MTPUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MTPUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -553,6 +557,7 @@
 				FAAE29C120EFADC700B43BA9 /* R.generated.swift */,
 				FA81361120E8F64500313AB9 /* Settings.bundle */,
 				FA8A65B2217ED50E00BC0DFE /* startup */,
+				8CAE30572239DA7C00E31647 /* world-map.geojson */,
 			);
 			path = resources;
 			sourceTree = "<group>";
@@ -678,6 +683,7 @@
 				8C5ECE0121FE9B3600322ABF /* Checklist.swift */,
 				FAD2B51521F46913009FFDD7 /* Checklists.swift */,
 				FA8833E4220CE7350037C796 /* Country.swift */,
+				8CAE30632239F4F100E31647 /* WorldMap.swift */,
 				FAC159A121EB68AA00564E2D /* Location.swift */,
 				FAD2B51721F48AB8009FFDD7 /* PlaceInfo.swift */,
 				FA7C200D221820FA002C6DAB /* OperationInfo.swift */,
@@ -857,6 +863,7 @@
 				FA74C10F211BB8F00013A840 /* Localizable.strings in Resources */,
 				FA5AC0BB21FDC1060080F84F /* MyCounts.storyboard in Resources */,
 				FA81361220E8F64500313AB9 /* Settings.bundle in Resources */,
+				8CAE30592239DA7D00E31647 /* world-map.geojson in Resources */,
 				FA392BC420DF69F50026C828 /* Assets.xcassets in Resources */,
 				FA463783210E00E60007382D /* EditProfile.storyboard in Resources */,
 				FABA740D213A29CD0059ACCA /* MyAbout.storyboard in Resources */,
@@ -1067,6 +1074,7 @@
 				FA390139213B84B40016A362 /* RankingsPagingVC.swift in Sources */,
 				8C3EA813222F64F100CB4886 /* UITopLoadingTextView.swift in Sources */,
 				FA5AC0BF21FDCB9D0080F84F /* MyCountsPagingVC.swift in Sources */,
+				8CAE30642239F4F100E31647 /* WorldMap.swift in Sources */,
 				FADC1ABA2144FAD70011EE49 /* Date+Formatting.swift in Sources */,
 				FA8833E12209BF570037C796 /* RealmSearchViewController.swift in Sources */,
 				FAE1F11E2143B29F0002CAB2 /* LocationTracker.swift in Sources */,

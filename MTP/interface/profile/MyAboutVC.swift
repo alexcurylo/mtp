@@ -19,8 +19,20 @@ final class MyAboutVC: UITableViewController, ServiceProvider {
     private var locationsObserver: Observer?
     private var userObserver: Observer?
 
+    private var mapBounds: CGRect?
+
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        if let map = mapImageView,
+            mapBounds != map.bounds {
+            mapBounds = map.bounds
+           map.image = data.worldMap.draw(with: map.bounds)
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
