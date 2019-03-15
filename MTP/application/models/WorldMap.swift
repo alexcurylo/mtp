@@ -56,9 +56,16 @@ struct GeoJSON: Codable {
     }
 }
 
-struct WorldMap {
+struct WorldMap: ServiceProvider {
 
     let locations: [GeoJSON.Feature]
+
+    typealias Bounds = (west: Double, north: Double, east: Double, south: Double)
+
+    let mapBox: Bounds = (west: -182, north: 84, east: 184, south: -91 )
+    #if RECALCULATE_MAPBOX
+    static var calcBox: Bounds = (0, 0, 0, 0)
+    #endif
 
     init() {
         do {
@@ -74,38 +81,81 @@ struct WorldMap {
         }
     }
 
-    func draw(with bounds: CGRect) -> UIImage? {
-        let kLatitudeDistance: CGFloat = 200
-        let kLongitudeDistance: CGFloat = 200
-        let kLongitudeLatitudeRatio: CGFloat = 1.23
-        let scaleHorizontal = bounds.width / kLongitudeDistance
-        let scaleVertical = bounds.height / kLatitudeDistance
-        let scale = min(scaleHorizontal, scaleVertical)
-        let scaleTransform = CGAffineTransform(scaleX: scale,
-                                               y: scale * kLongitudeLatitudeRatio)
+    func draw(with width: CGFloat) -> UIImage? {
+        let outline = width > 700
+        let offset: Double
+        if outline {
+            let center: Double
+            if Int(UIScreen.main.scale) % 2 == 0 {
+                center = 1 / Double(UIScreen.main.scale * 2)
+            } else {
+                center = 0
+            }
+            offset = 0.5 - center
+        } else {
+            offset = 0.0
+        }
+        let origin = CLLocationCoordinate2D(latitude: mapBox.north + offset,
+                                            longitude: mapBox.west + offset)
 
-        UIGraphicsBeginImageContextWithOptions(bounds.size, false, 0)
+        let boxWidth = mapBox.east - mapBox.west
+        let scale = width / CGFloat(boxWidth)
+        let scaleTransform = CGAffineTransform(scaleX: scale, y: scale)
+        let boxHeight = mapBox.north - mapBox.south
+        let clipAntarctica: CGFloat = 0.94
+        let height = width * CGFloat(boxHeight / boxWidth) * clipAntarctica
+        let size = CGSize(width: width, height: height.rounded(.down))
+
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
         guard let context = UIGraphicsGetCurrentContext() else { return nil }
-        context.setLineWidth(0.3)
+        context.setLineWidth(outline ? 1 / UIScreen.main.scale : 1)
+        UIColor.white.setStroke()
 
-        locations.forEach { $0.draw(with: scaleTransform) }
+        let visits = data.checklists?.locations ?? []
+        locations.forEach { location in
+            guard let path = location.path(at: origin) else { return }
+            path.apply(scaleTransform)
+
+            let visited = visits.contains(location.properties.locid)
+            let color: UIColor = visited ? .azureRadiance : .lightGray
+            color.setFill()
+            path.fill()
+            if outline {
+                path.stroke()
+            }
+        }
 
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
+        validate()
         return image
+    }
+
+    func validate() {
+        #if RECALCULATE_MAPBOX
+        assert(mapBox.west == WorldMap.calcBox.west.rounded(.down))
+        assert(mapBox.north == WorldMap.calcBox.north.rounded(.up))
+        assert(mapBox.east == WorldMap.calcBox.east.rounded(.up))
+        assert(mapBox.south == WorldMap.calcBox.south.rounded(.down))
+        #endif
     }
 }
 
 extension GeoJSON.Feature {
 
-    var path: UIBezierPath? {
-        let kLeftLongitude: CLLocationDegrees = -180
-        let kTopLatitude: CLLocationDegrees = 90
+    func path(at origin: CLLocationCoordinate2D) -> UIBezierPath? {
 
         let path = UIBezierPath()
         geometry.coordinates.first?.forEach { coordinate in
-            let point = CGPoint(x: coordinate.longitude - kLeftLongitude,
-                                y: kTopLatitude - coordinate.latitude)
+            #if RECALCULATE_MAPBOX
+            WorldMap.calcBox.west = min(WorldMap.calcBox.west, coordinate.longitude)
+            WorldMap.calcBox.north = max(WorldMap.calcBox.north, coordinate.latitude)
+            WorldMap.calcBox.east = max(WorldMap.calcBox.east, coordinate.longitude)
+            WorldMap.calcBox.south = min(WorldMap.calcBox.south, coordinate.latitude)
+            #endif
+
+            let point = CGPoint(x: coordinate.longitude - origin.longitude,
+                                y: origin.latitude - coordinate.latitude)
             if path.isEmpty {
                 path.move(to: point)
             } else {
@@ -115,16 +165,5 @@ extension GeoJSON.Feature {
         path.close()
 
         return path
-    }
-
-    func draw(with transform: CGAffineTransform) {
-        guard let outline = path else { return }
-        outline.apply(transform)
-
-        UIColor.green.setFill()
-        outline.fill()
-
-        UIColor.red.setStroke()
-        outline.stroke()
     }
 }

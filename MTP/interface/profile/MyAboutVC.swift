@@ -19,19 +19,20 @@ final class MyAboutVC: UITableViewController, ServiceProvider {
     private var locationsObserver: Observer?
     private var userObserver: Observer?
 
-    private var mapBounds: CGRect?
+    private var mapWidth: CGFloat = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
 
-        if let map = mapImageView,
-            mapBounds != map.bounds {
-            mapBounds = map.bounds
-           map.image = data.worldMap.draw(with: map.bounds)
+        guard let inset = mapImageView?.superview?.frame.origin.x else { return }
+        let width = tableView.bounds.width - (inset * 2)
+        if mapWidth != width, let image = data.worldMap.draw(with: width) {
+            mapWidth = image.size.width
+            mapImageView?.image = image
         }
     }
 
