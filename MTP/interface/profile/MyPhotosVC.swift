@@ -17,7 +17,7 @@ final class MyPhotosVC: UICollectionViewController, ServiceProvider {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        updatePhotos()
+        update()
         observe()
     }
 
@@ -86,7 +86,7 @@ extension MyPhotosVC: UICollectionViewDelegateFlowLayout {
 
 private extension MyPhotosVC {
 
-    func updatePhotos() {
+    func update() {
         photosPages = data.getPhotosPages(user: nil)
         collectionView.reloadData()
     }
@@ -95,7 +95,7 @@ private extension MyPhotosVC {
         guard pagesObserver == nil else { return }
 
         pagesObserver = data.observer(of: .photoPages) { [weak self] _ in
-            self?.updatePhotos()
+            self?.update()
         }
     }
 

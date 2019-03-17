@@ -55,6 +55,8 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func set(uncountries: [LocationJSON])
     func set(user data: UserJSON)
     func set(whss: [WHSJSON])
+
+    func deleteUserPhotos()
 }
 
 // MARK: - User state
@@ -65,8 +67,8 @@ extension DataService {
         guard !token.isEmpty else { return false }
         guard let jwt = try? decode(jwt: token),
               !jwt.expired else {
-            // Appears to have 1 year expiry
-            log.todo("token expired -- should we be refreshing somehow?")
+            // Appears to have 1 year expiry -- can we refresh?
+            logOut()
             return false
         }
         // https://github.com/auth0/JWTDecode.swift/issues/70
@@ -76,7 +78,14 @@ extension DataService {
 
     func logOut() {
         FacebookButton.logOut()
+        MTP.unthrottle()
+
+        checklists = nil
         email = ""
+        etags = [:]
+        deleteUserPhotos()
+        lastRankingsQuery = RankingsQuery()
+        set(posts: [])
         token = ""
         user = nil
     }
@@ -86,6 +95,10 @@ final class DataServiceImpl: DataService {
 
     private let defaults = UserDefaults.standard
     private let realm = RealmController()
+
+    func deleteUserPhotos() {
+        realm.deleteUserPhotos()
+    }
 
     var beaches: [Beach] {
         return realm.beaches
@@ -170,20 +183,6 @@ final class DataServiceImpl: DataService {
     func set(locations: [LocationJSON]) {
         realm.set(locations: locations)
         notify(change: .locations)
-    }
-
-    var name: String {
-        get { return defaults.name }
-        set {
-            defaults.name = newValue
-        }
-    }
-
-    var password: String {
-        get { return defaults.password }
-        set {
-            defaults.password = newValue
-        }
     }
 
     func getPhotosPages(user id: Int?) -> Results<PhotosPageInfo> {

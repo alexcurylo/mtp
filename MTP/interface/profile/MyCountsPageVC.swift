@@ -90,10 +90,8 @@ final class MyCountsPageVC: UIViewController, ServiceProvider {
 
     func set(list: Checklist) {
         self.list = list
-        count(places: list.places,
-              visits: list.visits)
 
-        collectionView.reloadData()
+        update()
         observe()
     }
 }
@@ -210,19 +208,6 @@ extension MyCountsPageVC: UICollectionViewDataSource {
 
         return cell
     }
-
-    func observe() {
-        guard checklistsObserver == nil else { return }
-
-        checklistsObserver = data.observer(of: .checklists) { [weak self] _ in
-            guard let self = self else { return }
-            self.set(list: self.list)
-        }
-        placesObserver = list.observer { [weak self] _ in
-            guard let self = self else { return }
-            self.set(list: self.list)
-        }
-    }
 }
 
 extension MyCountsPageVC: CountHeaderDelegate {
@@ -242,6 +227,25 @@ private extension MyCountsPageVC {
 
     typealias GroupModel = (key: String, count: Int, visited: Int)
     typealias CellModel = (String, PlaceInfo?, GroupModel?)
+
+    func update() {
+        count(places: list.places,
+              visits: list.visits)
+
+        collectionView.reloadData()
+    }
+
+    func observe() {
+        placesObserver = list.observer { [weak self] _ in
+            self?.update()
+        }
+
+        guard checklistsObserver == nil else { return }
+
+        checklistsObserver = data.observer(of: .checklists) { [weak self] _ in
+            self?.update()
+        }
+    }
 
     func model(of indexPath: IndexPath) -> CellModel {
         if list.isShowingChildren {

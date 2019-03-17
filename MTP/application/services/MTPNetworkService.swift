@@ -952,6 +952,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 log.verbose("logged in user: " + user.debugDescription)
                 data.token = token
                 data.user = user
+                refresh(info: user)
                 return then(.success(user))
             } catch {
                 log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
@@ -1129,13 +1130,18 @@ private extension MoyaMTPNetworkService {
 
         userGetByToken { result in
             guard case .success(let user) = result else { return }
+            self.refresh(info: user)
+        }
+    }
 
-            self.loadChecklists()
-            self.loadPosts()
-            self.loadPhotos(user: nil, page: 1)
-            Checklist.allCases.forEach { list in
-                self.loadScorecard(list: list, user: user.id)
-            }
+    func refresh(info user: UserJSON) {
+        guard data.isLoggedIn else { return }
+
+        self.loadChecklists()
+        self.loadPosts()
+        self.loadPhotos(user: nil, page: 1)
+        Checklist.allCases.forEach { list in
+            self.loadScorecard(list: list, user: user.id)
         }
     }
 }
@@ -1160,6 +1166,11 @@ extension MTP {
             }
         }
         return false
+    }
+
+    static func unthrottle() {
+        active = []
+        received = [:]
     }
 
     func markResponded() {

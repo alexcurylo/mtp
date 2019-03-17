@@ -5,13 +5,7 @@ import RealmSwift
 // https://realm.io/docs/swift/latest
 // https://realm.io/docs/data-model
 
-// Direct JSON decoding to Object notes:
-// https://github.com/Kaakati/Realm-and-Swift-Codable
-// https://stackoverflow.com/questions/45452833/how-to-use-list-type-with-codable-realmswift
-// https://stackoverflow.com/questions/53332732/how-to-implement-codable-while-using-realm
-// https://stackoverflow.com/questions/52742525/merge-a-realm-and-codable-class-in-swift-4
-// https://stackoverflow.com/questions/51302029/how-to-make-the-realmswift-realmoptional-compatible-with-swift-codable
-
+// swiftlint:disable:next type_body_length
 final class RealmController: ServiceProvider {
 
     private lazy var realm: Realm = {
@@ -182,6 +176,20 @@ final class RealmController: ServiceProvider {
         return results
     }
 
+    func deleteUserPhotos() {
+        do {
+            let queryKey = PhotosPageInfo.key(user: nil)
+            let filter = "queryKey = '\(queryKey)'"
+            let results = realm.objects(PhotosPageInfo.self)
+                .filter(filter)
+            try realm.write {
+                realm.delete(results)
+            }
+        } catch {
+            log.error("deleteUserPhotos: \(error)")
+        }
+    }
+
     var posts: [Post] {
         let results = realm.objects(Post.self)
                            .sorted(byKeyPath: "updatedAt", ascending: false)
@@ -192,6 +200,7 @@ final class RealmController: ServiceProvider {
         do {
             let objects = posts.compactMap { Post(from: $0) }
             try realm.write {
+                realm.delete(realm.objects(Post.self))
                 realm.add(objects, update: true)
             }
         } catch {
