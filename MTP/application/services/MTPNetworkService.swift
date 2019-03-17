@@ -54,6 +54,9 @@ enum MTP: Hashable {
     case userLogin(email: String, password: String)
     case userRegister(info: RegistrationInfo)
     case whs
+
+    // GET minimap: /minimaps/{user_id}.png
+    // force map reload: POST /api/users/{user_id}/minimap
 }
 
 extension MTP: TargetType {

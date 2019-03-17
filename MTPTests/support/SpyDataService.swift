@@ -199,6 +199,14 @@ final class SpyDataService: DataService {
         invokedWhssGetterCount += 1
         return stubbedWhss
     }
+    var invokedWorldMapGetter = false
+    var invokedWorldMapGetterCount = 0
+    var stubbedWorldMap: WorldMap!
+    var worldMap: WorldMap {
+        invokedWorldMapGetter = true
+        invokedWorldMapGetterCount += 1
+        return stubbedWorldMap
+    }
     var invokedStatusKeyGetter = false
     var invokedStatusKeyGetterCount = 0
     var stubbedStatusKey: StatusKey!
@@ -524,6 +532,12 @@ final class SpyDataService: DataService {
         invokedSetWhssCount += 1
         invokedSetWhssParameters = (whss, ())
         invokedSetWhssParametersList.append((whss, ()))
+    }
+    var invokedDeleteUserPhotos = false
+    var invokedDeleteUserPhotosCount = 0
+    func deleteUserPhotos() {
+        invokedDeleteUserPhotos = true
+        invokedDeleteUserPhotosCount += 1
     }
     var invokedNotify = false
     var invokedNotifyCount = 0

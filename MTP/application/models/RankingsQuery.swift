@@ -17,29 +17,29 @@ enum Gender: String, Codable, CustomStringConvertible {
     }
 }
 
-enum Age: Int, Codable, CustomStringConvertible {
+enum Age: Int, CaseIterable, Codable, CustomStringConvertible {
 
     case all = 0
     case under20
-    case from20to30
-    case from30to40
-    case from40to50
-    case from50to60
-    case from60to70
-    case from70to80
-    case over80
+    case from20to29
+    case from30to39
+    case from40to49
+    case from50to59
+    case from60to69
+    case from70to79
+    case over79
 
     var description: String {
         switch self {
         case .all: return Localized.allAges()
         case .under20: return Localized.under20()
-        case .from20to30: return Localized.ageRange(20, 30)
-        case .from30to40: return Localized.ageRange(30, 40)
-        case .from40to50: return Localized.ageRange(40, 50)
-        case .from50to60: return Localized.ageRange(50, 60)
-        case .from60to70: return Localized.ageRange(60, 70)
-        case .from70to80: return Localized.ageRange(70, 80)
-        case .over80: return Localized.over80()
+        case .from20to29: return Localized.ageRange(20, 29)
+        case .from30to39: return Localized.ageRange(30, 39)
+        case .from40to49: return Localized.ageRange(40, 49)
+        case .from50to59: return Localized.ageRange(50, 59)
+        case .from60to69: return Localized.ageRange(60, 69)
+        case .from70to79: return Localized.ageRange(70, 79)
+        case .over79: return Localized.over79()
         }
     }
 
@@ -47,13 +47,13 @@ enum Age: Int, Codable, CustomStringConvertible {
         switch self {
         case .all: return 0
         case .under20: return 1
-        case .from20to30: return 20
-        case .from30to40: return 30
-        case .from40to50: return 40
-        case .from50to60: return 50
-        case .from60to70: return 60
-        case .from70to80: return 70
-        case .over80: return 80
+        case .from20to29: return 20
+        case .from30to39: return 30
+        case .from40to49: return 40
+        case .from50to59: return 50
+        case .from60to69: return 60
+        case .from70to79: return 70
+        case .over79: return 80
         }
     }
 }

@@ -74,7 +74,7 @@
 "allAges" = "All ages";
 "ageRange" = "%ld-%ld";
 "under20" = "Under 20";
-"over80" = "Over 80";
+"over79" = "Over 79";
 
 // SignupVC
 
