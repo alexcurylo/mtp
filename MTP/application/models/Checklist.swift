@@ -2,6 +2,17 @@
 
 import UIKit
 
+struct ChecklistFlags: Codable, Equatable {
+
+    var beaches: Bool = true
+    var divesites: Bool = true
+    var golfcourses: Bool = true
+    var locations: Bool = true
+    var restaurants: Bool = true
+    var uncountries: Bool = true
+    var whss: Bool = true
+}
+
 enum Checklist: String, Codable, CaseIterable, ServiceProvider {
 
     case locations

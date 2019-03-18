@@ -6,12 +6,16 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
 
     typealias Segues = R.segue.editProfileVC
 
+    @IBOutlet private var saveButton: UIBarButtonItem?
+
     @IBOutlet private var backgroundView: UIView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.backgroundView = backgroundView
+
+        configure()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -48,6 +52,14 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
 // MARK: - Actions
 
 private extension EditProfileVC {
+
+    func configure() {
+        saveButton?.isEnabled = false
+    }
+
+    func updateSave() {
+        //saveButton?.isEnabled = original != current
+    }
 
     func saveEdits() {
         log.todo("implement saveEdits")

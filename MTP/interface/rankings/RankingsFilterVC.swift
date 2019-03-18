@@ -34,10 +34,6 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
         }
         tableView.backgroundView = backgroundView
 
-        femaleButton?.centerImageAndButton(gap: 8, imageOnTop: true)
-        maleAndFemaleButton?.centerImageAndButton(gap: 8, imageOnTop: true)
-        maleButton?.centerImageAndButton(gap: 8, imageOnTop: true)
-
         configure()
    }
 
@@ -114,8 +110,11 @@ private extension RankingsFilterVC {
 
         configureLocation()
 
+        femaleButton?.centerImageAndButton(gap: 8, imageOnTop: true)
         femaleButton?.set(tintedSelection: filter.gender == .female)
+        maleAndFemaleButton?.centerImageAndButton(gap: 8, imageOnTop: true)
         maleAndFemaleButton?.set(tintedSelection: filter.gender == .all)
+        maleButton?.centerImageAndButton(gap: 8, imageOnTop: true)
         maleButton?.set(tintedSelection: filter.gender == .male)
 
         ageSlider?.value = Float(filter.ageGroup.rawValue)

@@ -127,6 +127,26 @@ final class SpyDataService: DataService {
         invokedLocationsGetterCount += 1
         return stubbedLocations
     }
+    var invokedMapDisplaySetter = false
+    var invokedMapDisplaySetterCount = 0
+    var invokedMapDisplay: ChecklistFlags?
+    var invokedMapDisplayList = [ChecklistFlags]()
+    var invokedMapDisplayGetter = false
+    var invokedMapDisplayGetterCount = 0
+    var stubbedMapDisplay: ChecklistFlags!
+    var mapDisplay: ChecklistFlags {
+        set {
+            invokedMapDisplaySetter = true
+            invokedMapDisplaySetterCount += 1
+            invokedMapDisplay = newValue
+            invokedMapDisplayList.append(newValue)
+        }
+        get {
+            invokedMapDisplayGetter = true
+            invokedMapDisplayGetterCount += 1
+            return stubbedMapDisplay
+        }
+    }
     var invokedPostsGetter = false
     var invokedPostsGetterCount = 0
     var stubbedPosts: [Post]! = []

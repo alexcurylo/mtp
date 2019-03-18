@@ -16,6 +16,8 @@ final class LocationsVC: UIViewController {
     private var trackingButton: MKUserTrackingButton?
     private var centered = false
 
+    private var mapDisplay = ChecklistFlags()
+
     private var beachesObserver: Observer?
     private var divesitesObserver: Observer?
     private var golfcoursesObserver: Observer?
@@ -34,6 +36,7 @@ final class LocationsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        mapDisplay = data.mapDisplay
         setupCompass()
         setupTracking()
         setupAnnotations()
@@ -67,6 +70,11 @@ final class LocationsVC: UIViewController {
         default:
             log.debug("unexpected segue: \(segue.name)")
         }
+    }
+
+    func updateFilter() {
+        mapDisplay = data.mapDisplay
+        showAnnotations()
     }
 }
 
@@ -133,7 +141,10 @@ private extension LocationsVC {
     func setupAnnotations() {
         registerAnnotationViews()
         observe()
+        showAnnotations()
+    }
 
+    func showAnnotations() {
         showBeaches()
         showDiveSites()
         showGolfCourses()
@@ -176,7 +187,10 @@ private extension LocationsVC {
         )
     }
 
-    func annotations(list: Checklist) -> Set<PlaceAnnotation> {
+    func annotations(list: Checklist,
+                     shown: Bool) -> Set<PlaceAnnotation> {
+        guard shown else { return [] }
+
         return Set<PlaceAnnotation>(list.places.compactMap { place in
             guard place.placeIsMappable else {
                 return nil
@@ -199,7 +213,7 @@ private extension LocationsVC {
     }
 
     func showBeaches() {
-        let new = annotations(list: .beaches)
+        let new = annotations(list: .beaches, shown: mapDisplay.beaches)
 
         let subtracted = beachesAnnotations.subtracting(new)
         mapView?.removeAnnotations(Array(subtracted))
@@ -211,7 +225,7 @@ private extension LocationsVC {
     }
 
     func showDiveSites() {
-        let new = annotations(list: .divesites)
+        let new = annotations(list: .divesites, shown: mapDisplay.divesites)
 
         let subtracted = divesitesAnnotations.subtracting(new)
         mapView?.removeAnnotations(Array(subtracted))
@@ -223,7 +237,7 @@ private extension LocationsVC {
     }
 
     func showGolfCourses() {
-        let new = annotations(list: .golfcourses)
+        let new = annotations(list: .golfcourses, shown: mapDisplay.golfcourses)
 
         let subtracted = golfcoursesAnnotations.subtracting(new)
         mapView?.removeAnnotations(Array(subtracted))
@@ -235,7 +249,7 @@ private extension LocationsVC {
     }
 
     func showLocations() {
-        let new = annotations(list: .locations)
+        let new = annotations(list: .locations, shown: mapDisplay.locations)
 
         let subtracted = locationsAnnotations.subtracting(new)
         mapView?.removeAnnotations(Array(subtracted))
@@ -247,7 +261,7 @@ private extension LocationsVC {
     }
 
     func showRestaurants() {
-        let new = annotations(list: .restaurants)
+        let new = annotations(list: .restaurants, shown: mapDisplay.restaurants)
 
         let subtracted = restaurantsAnnotations.subtracting(new)
         mapView?.removeAnnotations(Array(subtracted))
@@ -259,7 +273,7 @@ private extension LocationsVC {
     }
 
     func showWHSs() {
-        let new = annotations(list: .whss)
+        let new = annotations(list: .whss, shown: mapDisplay.whss)
 
         let subtracted = whssAnnotations.subtracting(new)
         mapView?.removeAnnotations(Array(subtracted))

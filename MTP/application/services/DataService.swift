@@ -16,6 +16,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var golfcourses: [GolfCourse] { get }
     var lastRankingsQuery: RankingsQuery { get set }
     var locations: [Location] { get }
+    var mapDisplay: ChecklistFlags { get set }
     var posts: [Post] { get }
     var restaurants: [Restaurant] { get }
     var token: String { get set }
@@ -183,6 +184,13 @@ final class DataServiceImpl: DataService {
     func set(locations: [LocationJSON]) {
         realm.set(locations: locations)
         notify(change: .locations)
+    }
+
+    var mapDisplay: ChecklistFlags {
+        get { return defaults.mapDisplay ?? ChecklistFlags() }
+        set {
+            defaults.mapDisplay = newValue
+        }
     }
 
     func getPhotosPages(user id: Int?) -> Results<PhotosPageInfo> {
