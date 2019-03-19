@@ -113,6 +113,16 @@ extension RankingsVC: RankingsPageVCDelegate {
         let height = pagingVC.menuHeight(for: rankingsPageVC.collectionView)
         update(menu: height)
     }
+
+    func tapped(visited user: User, list: Checklist) {
+        log.todo("implement visited profile")
+        performSegue(withIdentifier: Segues.showUserProfile, sender: self)
+    }
+
+    func tapped(remaining user: User, list: Checklist) {
+        log.todo("implement remaining profile")
+        performSegue(withIdentifier: Segues.showUserProfile, sender: self)
+    }
 }
 
 extension RankingsVC: PagingViewControllerDelegate {

@@ -4,7 +4,7 @@ import Anchorage
 import Parchment
 import RealmSwift
 
-protocol RankingsPageVCDelegate: AnyObject {
+protocol RankingsPageVCDelegate: RankingCellDelegate {
 
     func didScroll(rankingsPageVC: RankingsPageVC)
 }
@@ -147,7 +147,8 @@ extension RankingsPageVC: UICollectionViewDataSource {
             let rank = indexPath.row + 1
             cell.set(user: user(at: rank),
                      for: rank,
-                     in: filter.checklistType)
+                     in: filter.checklistType,
+                     delegate: delegate)
         }
 
         return cell

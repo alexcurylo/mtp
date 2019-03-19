@@ -2,6 +2,12 @@
 
 import Anchorage
 
+protocol RankingCellDelegate: AnyObject {
+
+    func tapped(visited user: User, list: Checklist)
+    func tapped(remaining user: User, list: Checklist)
+}
+
 final class RankingCell: UICollectionViewCell, ServiceProvider {
 
     static let reuseIdentifier = NSStringFromClass(RankingCell.self)
@@ -9,8 +15,9 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
     private enum Layout {
         static let avatarSize = CGFloat(48)
         static let rankSize = CGFloat(18)
+        static let buttonHeight = CGFloat(35)
         static let margin = CGFloat(8)
-        static let spacing = CGSize(width: 12, height: 4)
+        static let spacing = CGSize(width: 8, height: 4)
         static let cornerRadius = CGFloat(4)
         static let overlap = CGFloat(-8)
     }
@@ -33,21 +40,27 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
 
     private let nameLabel = UILabel {
         $0.font = Avenir.heavy.of(size: 18)
+        $0.numberOfLines = 2
+        $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
     private let countryLabel = UILabel {
         $0.font = Avenir.medium.of(size: 15)
+        $0.numberOfLines = 1
+        $0.minimumScaleFactor = 0.6
+        $0.adjustsFontSizeToFitWidth = true
+        $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
 
-    private let visitedButton = GradientButton {
+    private let visitedButton = GradientButton(type: .system).with {
         configure(button: $0)
-        $0.addTarget(self, action: #selector(tapVisited), for: .touchUpInside)
     }
-    private let remainingButton = GradientButton {
+    private let remainingButton = GradientButton(type: .system).with {
         configure(button: $0)
-        $0.addTarget(self, action: #selector(tapRemaining), for: .touchUpInside)
     }
 
-    private var current: User?
+    private var user: User?
+    private var list: Checklist?
+    private weak var delegate: RankingCellDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -62,8 +75,11 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
 
     func set(user: User,
              for rank: Int,
-             in list: Checklist) {
-        current = user
+             in list: Checklist,
+             delegate: RankingCellDelegate?) {
+        self.user = user
+        self.list = list
+        self.delegate = delegate
 
         rankLabel.text = rank.grouped
         nameLabel.text = user.fullName
@@ -91,7 +107,9 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        current = nil
+        user = nil
+        list = nil
+        delegate = nil
         avatarImageView.prepareForReuse()
         rankLabel.text = nil
         nameLabel.text = nil
@@ -114,43 +132,53 @@ private extension RankingCell {
             bottom: 0,
             right: Layout.margin)
         button.titleLabel?.font = Avenir.heavy.of(size: 14)
-    }
+        button.setTitleColor(.white, for: .normal)
+        button.heightAnchor == Layout.buttonHeight
+   }
 
     func configure() {
         contentView.backgroundColor = .white
-        contentView.layer.cornerRadius = Layout.cornerRadius
-        contentView.clipsToBounds = true
+        contentView.cornerRadius = Layout.cornerRadius
+
+        visitedButton.addTarget(self, action: #selector(visitedTapped), for: .touchUpInside)
+        remainingButton.addTarget(self, action: #selector(remainingTapped), for: .touchUpInside)
 
         let badges = UIStackView(arrangedSubviews: [avatarImageView, rankLabel])
         badges.axis = .vertical
         badges.alignment = .center
         badges.spacing = Layout.overlap
+        badges.setContentHuggingPriority(.required, for: .horizontal)
 
         let labels = UIStackView(arrangedSubviews: [nameLabel, countryLabel])
         labels.axis = .vertical
-
-        let infos = UIStackView(arrangedSubviews: [badges, labels])
-        infos.spacing = Layout.spacing.width
-        infos.alignment = .center
-        contentView.addSubview(infos)
-        infos.centerYAnchor == contentView.centerYAnchor
-        infos.leadingAnchor == contentView.leadingAnchor + Layout.margin
+        labels.setContentHuggingPriority(.defaultLow, for: .horizontal)
 
         let buttons = UIStackView(arrangedSubviews: [visitedButton, remainingButton])
         buttons.axis = .vertical
         buttons.distribution = .fillEqually
         buttons.alignment = .trailing
         buttons.spacing = Layout.spacing.height
-        contentView.addSubview(buttons)
-        buttons.verticalAnchors == contentView.verticalAnchors + Layout.margin
-        buttons.trailingAnchor == contentView.trailingAnchor - Layout.margin
+        buttons.setContentHuggingPriority(.required, for: .horizontal)
+
+        let infos = UIStackView(arrangedSubviews: [badges, labels, buttons])
+        infos.spacing = Layout.spacing.width
+        infos.alignment = .center
+        infos.distribution = .fill
+        contentView.addSubview(infos)
+        infos.edgeAnchors == contentView.edgeAnchors + Layout.margin
     }
 
-    @IBAction func tapVisited() {
-        log.todo("tapVisited()")
+    @IBAction func visitedTapped(_ sender: GradientButton) {
+        if let user = user,
+           let list = list {
+            delegate?.tapped(visited: user, list: list)
+        }
     }
 
-    @IBAction func tapRemaining() {
-        log.todo("tapRemaining()")
+    @IBAction func remainingTapped(_ sender: GradientButton) {
+        if let user = user,
+           let list = list {
+            delegate?.tapped(remaining: user, list: list)
+        }
     }
 }

@@ -39,3 +39,26 @@ final class SettingsVC: UITableViewController, ServiceProvider {
         }
     }
 }
+
+private extension SettingsVC {
+
+    @IBAction func aboutTapped(_ sender: UIButton) {
+        log.todo("aboutTapped")
+    }
+
+    @IBAction func shareTapped(_ sender: UIButton) {
+        log.todo("shareTapped")
+    }
+
+    @IBAction func faqTapped(_ sender: UIButton) {
+        log.todo("faqTapped")
+    }
+
+    @IBAction func membersTapped(_ sender: UIButton) {
+        log.todo("membersTapped")
+    }
+
+    @IBAction func contactTapped(_ sender: UIButton) {
+        log.todo("contactTapped")
+    }
+}
