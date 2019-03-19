@@ -10,6 +10,27 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
 
     @IBOutlet private var backgroundView: UIView?
 
+    @IBOutlet private var avatarButton: UIButton?
+    @IBOutlet private var firstNameTextField: UITextField?
+    @IBOutlet private var lastNameTextField: UITextField?
+    @IBOutlet private var birthdayTextField: UITextField?
+    @IBOutlet private var countryTextField: UITextField?
+    @IBOutlet private var locationTextField: UITextField?
+    @IBOutlet private var emailTextField: UITextField?
+    @IBOutlet private var aboutTextView: UITextView?
+    @IBOutlet private var airportTextField: UITextField?
+
+    @IBOutlet private var favoritesStack: UIStackView?
+    @IBOutlet private var favoritesTitle: UILabel?
+
+    @IBOutlet private var linksStack: UIStackView?
+    @IBOutlet private var linksTitle: UILabel?
+    @IBOutlet private var addLinkButton: UIButton?
+
+    @IBOutlet private var contactDisplayButton: UIButton?
+    @IBOutlet private var contactDontDisplayButton: UIButton?
+    @IBOutlet private var contactNoneButton: UIButton?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -63,6 +84,27 @@ private extension EditProfileVC {
 
     func saveEdits() {
         log.todo("implement saveEdits")
+    }
+
+    @IBAction func avatarTapped(_ sender: UIButton) {
+    }
+
+    @IBAction func deleteFavoriteTapped(_ sender: UIButton) {
+    }
+
+    @IBAction func deleteLinkTapped(_ sender: UIButton) {
+    }
+
+    @IBAction func addLinkTapped(_ sender: UIButton) {
+    }
+
+    @IBAction func contactDisplayTapped(_ sender: UIButton) {
+    }
+
+    @IBAction func contactDontDisplayTapped(_ sender: UIButton) {
+    }
+
+    @IBAction func contactNoneTapped(_ sender: UIButton) {
     }
 
     @IBAction func deleteAccount(segue: UIStoryboardSegue) {
