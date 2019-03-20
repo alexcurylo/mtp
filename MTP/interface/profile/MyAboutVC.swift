@@ -12,8 +12,6 @@ final class MyAboutVC: UITableViewController, ServiceProvider {
 
     @IBOutlet private var airportLabel: UILabel?
 
-    @IBOutlet private var favoriteTags: TagsView?
-
     @IBOutlet private var linksStack: UIStackView?
 
     private var locationsObserver: Observer?
@@ -75,6 +73,8 @@ extension MyAboutVC {
     }
 }
 
+// MARK: - Private
+
 private extension MyAboutVC {
 
     func update() {
@@ -83,7 +83,6 @@ private extension MyAboutVC {
         update(map: mapWidth)
         update(ranking: user)
         update(airport: user)
-        update(favorite: user)
         update(links: user)
     }
 
@@ -124,17 +123,6 @@ private extension MyAboutVC {
 
     func update(airport user: UserJSON) {
         airportLabel?.text = user.airport
-    }
-
-    func update(favorite user: UserJSON) {
-        let fakeNames = [ "Greater Blue Mountains Area",
-                          "Shark Bay",
-                          "Purnululu National Park",
-                          "Frsaer Island",
-                          "Ningaloo Coast",
-                          "Great Barrier Reef"]
-        favoriteTags?.removeAll()
-        favoriteTags?.append(contentsOf: fakeNames)
     }
 
     func update(links user: UserJSON) {

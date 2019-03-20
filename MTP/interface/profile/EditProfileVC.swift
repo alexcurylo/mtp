@@ -14,14 +14,12 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
     @IBOutlet private var firstNameTextField: UITextField?
     @IBOutlet private var lastNameTextField: UITextField?
     @IBOutlet private var birthdayTextField: UITextField?
+    @IBOutlet private var genderTextField: UITextField?
     @IBOutlet private var countryTextField: UITextField?
     @IBOutlet private var locationTextField: UITextField?
     @IBOutlet private var emailTextField: UITextField?
     @IBOutlet private var aboutTextView: UITextView?
     @IBOutlet private var airportTextField: UITextField?
-
-    @IBOutlet private var favoritesStack: UIStackView?
-    @IBOutlet private var favoritesTitle: UILabel?
 
     @IBOutlet private var linksStack: UIStackView?
     @IBOutlet private var linksTitle: UILabel?
@@ -70,7 +68,22 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
     }
 }
 
-// MARK: - Actions
+// MARK: - UITableViewDelegate
+
+extension EditProfileVC {
+
+    override func tableView(_ tableView: UITableView,
+                            heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+
+    override func tableView(_ tableView: UITableView,
+                            estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+}
+
+// MARK: - Private
 
 private extension EditProfileVC {
 
@@ -87,24 +100,27 @@ private extension EditProfileVC {
     }
 
     @IBAction func avatarTapped(_ sender: UIButton) {
-    }
-
-    @IBAction func deleteFavoriteTapped(_ sender: UIButton) {
+        log.todo("avatarTapped")
     }
 
     @IBAction func deleteLinkTapped(_ sender: UIButton) {
+        log.todo("deleteLinkTapped")
     }
 
     @IBAction func addLinkTapped(_ sender: UIButton) {
+        log.todo("addLinkTapped")
     }
 
     @IBAction func contactDisplayTapped(_ sender: UIButton) {
+        log.todo("contactDisplayTapped")
     }
 
     @IBAction func contactDontDisplayTapped(_ sender: UIButton) {
+        log.todo("contactDontDisplayTapped")
     }
 
     @IBAction func contactNoneTapped(_ sender: UIButton) {
+        log.todo("contactNoneTapped")
     }
 
     @IBAction func deleteAccount(segue: UIStoryboardSegue) {
