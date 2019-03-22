@@ -2,28 +2,36 @@
 
 import MapKit
 
+protocol PlaceAnnotationDelegate: AnyObject {
+
+    func show(location: PlaceAnnotation)
+}
+
 final class PlaceAnnotation: NSObject, MKAnnotation {
 
     @objc dynamic var coordinate: CLLocationCoordinate2D
     var title: String?
     var subtitle: String?
 
-    var type: Checklist
-    var id: Int
+    let type: Checklist
+    let id: Int
     var identifier: String {
         return type.rawValue
     }
+    weak var delegate: PlaceAnnotationDelegate?
 
     init?(type: Checklist,
           id: Int,
           coordinate: CLLocationCoordinate2D,
-          title: String = "",
-          subtitle: String = "") {
+          delegate: PlaceAnnotationDelegate,
+          title: String,
+          subtitle: String) {
         guard !coordinate.isZero else { return nil }
 
         self.type = type
         self.id = id
         self.coordinate = coordinate
+        self.delegate = delegate
         self.title = title
         self.subtitle = subtitle
 
@@ -59,5 +67,9 @@ final class PlaceAnnotation: NSObject, MKAnnotation {
         set {
             type.set(id: id, visited: newValue)
         }
+    }
+
+    func show() {
+        delegate?.show(location: self)
     }
 }

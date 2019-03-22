@@ -112,6 +112,8 @@
 		FA8A65AF217ED3BA00BC0DFE /* RankingsFilter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA8A65AD217ED3BA00BC0DFE /* RankingsFilter.storyboard */; };
 		FA99615F2136CF3100C85FBC /* MyProfilePagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA99615E2136CF3100C85FBC /* MyProfilePagingVC.swift */; };
 		FA9A71DF20F1D3FA005F6A57 /* LaunchHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9A71DE20F1D3FA005F6A57 /* LaunchHandler.swift */; };
+		FAA818FE22447EAB00BB9F92 /* LocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA818FD22447EAB00BB9F92 /* LocationVC.swift */; };
+		FAA819002244814900BB9F92 /* LocationPagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA818FF2244814900BB9F92 /* LocationPagingVC.swift */; };
 		FAAE29BF20EE51A700B43BA9 /* UIApplication+Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */; };
 		FAAE29C020EE581900B43BA9 /* UIApplication+Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */; };
 		FAAE29C220EFADC800B43BA9 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAE29C120EFADC700B43BA9 /* R.generated.swift */; };
@@ -290,6 +292,8 @@
 		FA9A71E020F1DD60005F6A57 /* Gemfile.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile.lock; sourceTree = "<group>"; };
 		FA9A71E120F1DD6C005F6A57 /* Podfile.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile.lock; sourceTree = "<group>"; };
 		FA9A71E220F2308E005F6A57 /* .jazzy.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .jazzy.yaml; sourceTree = "<group>"; };
+		FAA818FD22447EAB00BB9F92 /* LocationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationVC.swift; sourceTree = "<group>"; };
+		FAA818FF2244814900BB9F92 /* LocationPagingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPagingVC.swift; sourceTree = "<group>"; };
 		FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Environment.swift"; sourceTree = "<group>"; };
 		FAAE29C120EFADC700B43BA9 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		FAAE29C420F05A9600B43BA9 /* UserDefaults+TypeSafety.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+TypeSafety.swift"; sourceTree = "<group>"; };
@@ -598,7 +602,9 @@
 		FA5AC0B121FC38790080F84F /* locations */ = {
 			isa = PBXGroup;
 			children = (
+				FAA818FF2244814900BB9F92 /* LocationPagingVC.swift */,
 				FA392BBC20DF69F30026C828 /* LocationsVC.swift */,
+				FAA818FD22447EAB00BB9F92 /* LocationVC.swift */,
 				8C617971223F2D79000827D6 /* LocationsFilterVC.swift */,
 				FA5AC0B321FC49860080F84F /* PlaceAnnotation.swift */,
 				FA5AC0B521FC4EBE0080F84F /* PlaceAnnotationView.swift */,
@@ -1078,6 +1084,7 @@
 				8C5ECF3A21FFE49800322ABF /* RankingsQuery.swift in Sources */,
 				8CE3FC2C222389B600B94EAA /* Scorecard.swift in Sources */,
 				FA4653342115ADC6005B5A0A /* MTPNetworkService.swift in Sources */,
+				FAA819002244814900BB9F92 /* LocationPagingVC.swift in Sources */,
 				FA5AC0B421FC49860080F84F /* PlaceAnnotation.swift in Sources */,
 				FA390139213B84B40016A362 /* RankingsPagingVC.swift in Sources */,
 				8C3EA813222F64F100CB4886 /* UITopLoadingTextView.swift in Sources */,
@@ -1128,6 +1135,7 @@
 				FA5AC0C721FDD8AA0080F84F /* CountToggleCell.swift in Sources */,
 				FA12D682213B963C0053E9BF /* RankingsPageVC.swift in Sources */,
 				FA4653322115A250005B5A0A /* UserDefaults+DataService.swift in Sources */,
+				FAA818FE22447EAB00BB9F92 /* LocationVC.swift in Sources */,
 				FA7C2014222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift in Sources */,
 				FA74C0F02117C60B0013A840 /* ForgotPasswordVC.swift in Sources */,
 				FA392BBB20DF69F30026C828 /* ActionHandler.swift in Sources */,

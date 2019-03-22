@@ -19,6 +19,10 @@
 "resettingPassword" = "Resetting password…";
 "emailError" = "Sorry, that email was not found.";
 
+// LocationsVC
+
+"showMore" = "Show More";
+
 // LocationTracker
 
 "needLocationAccess" = "Need Location Access";

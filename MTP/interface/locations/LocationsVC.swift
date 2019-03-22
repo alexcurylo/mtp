@@ -7,10 +7,11 @@ import MapKit
 
 final class LocationsVC: UIViewController {
 
-    typealias Segues = R.segue.locationsVC
+    private typealias Segues = R.segue.locationsVC
 
     @IBOutlet private var mapView: MKMapView?
     @IBOutlet private var searchBar: UISearchBar?
+    @IBOutlet private var showMoreButton: UIButton?
 
     let locationManager = CLLocationManager()
     private var trackingButton: MKUserTrackingButton?
@@ -32,6 +33,8 @@ final class LocationsVC: UIViewController {
     private var locationsAnnotations: Set<PlaceAnnotation> = []
     private var restaurantsAnnotations: Set<PlaceAnnotation> = []
     private var whssAnnotations: Set<PlaceAnnotation> = []
+
+    private var selected: PlaceAnnotation?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,6 +70,8 @@ final class LocationsVC: UIViewController {
         case Segues.showFilter.identifier,
              Segues.showList.identifier:
             break
+        case Segues.showLocation.identifier:
+            log.todo("inject selected")
         default:
             log.debug("unexpected segue: \(segue.name)")
         }
@@ -75,6 +80,14 @@ final class LocationsVC: UIViewController {
     func updateFilter() {
         mapDisplay = data.mapDisplay
         showAnnotations()
+    }
+}
+
+extension LocationsVC: PlaceAnnotationDelegate {
+
+    func show(location: PlaceAnnotation) {
+        selected = location
+        performSegue(withIdentifier: Segues.showLocation, sender: self)
     }
 }
 
@@ -206,6 +219,7 @@ private extension LocationsVC {
                 type: list,
                 id: place.placeId,
                 coordinate: coordinate,
+                delegate: self,
                 title: place.placeTitle,
                 subtitle: place.placeSubtitle
             )
