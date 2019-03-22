@@ -9,7 +9,7 @@ final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
             R.storyboard.myAbout.myAbout(),
             R.storyboard.myPhotos.myPhotos(),
             R.storyboard.myPosts.myPosts()
-            ].compactMap { $0 }
+        ].compactMap { $0 }
 
         return LocationPagingVC(viewControllers: controllers)
     }

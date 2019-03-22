@@ -12,6 +12,8 @@ final class RankingsVC: UIViewController, ServiceProvider {
     private let pagingVC = RankingsPagingVC()
     private let pages = ListPagingItem.pages
 
+    private var model: UserProfileVC.Model?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -39,6 +41,11 @@ final class RankingsVC: UIViewController, ServiceProvider {
         case Segues.showFilter.identifier,
              Segues.showSearch.identifier:
             break
+        case Segues.showUserProfile.identifier:
+            if let profile = Segues.showUserProfile(segue: segue)?.destination,
+               let model = model {
+                profile.inject(model: model)
+            }
         default:
             log.debug("unexpected segue: \(segue.name)")
         }
@@ -115,12 +122,12 @@ extension RankingsVC: RankingsPageVCDelegate {
     }
 
     func tapped(visited user: User, list: Checklist) {
-        log.todo("implement visited profile")
+        model = (user: user, tab: .visited)
         performSegue(withIdentifier: Segues.showUserProfile, sender: self)
     }
 
     func tapped(remaining user: User, list: Checklist) {
-        log.todo("implement remaining profile")
+        model = (user: user, tab: .remaining)
         performSegue(withIdentifier: Segues.showUserProfile, sender: self)
     }
 }
