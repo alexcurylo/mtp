@@ -4,7 +4,7 @@ import RealmSwift
 
 final class LocationsFilterVC: UITableViewController, ServiceProvider {
 
-    typealias Segues = R.segue.locationsFilterVC
+    private typealias Segues = R.segue.locationsFilterVC
 
     @IBOutlet private var saveButton: UIBarButtonItem?
     @IBOutlet private var locationsSwitch: UISwitch?
@@ -19,6 +19,7 @@ final class LocationsFilterVC: UITableViewController, ServiceProvider {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
 
         let backgroundView = GradientView {
             $0.set(gradient: [.dodgerBlue, .azureRadiance],
@@ -120,4 +121,22 @@ private extension LocationsFilterVC {
         current.restaurants.toggle()
         updateSave()
    }
+}
+
+extension LocationsFilterVC: Injectable {
+
+    typealias Model = ()
+
+    func inject(model: Model) {
+    }
+
+    func requireInjections() {
+        saveButton.require()
+        locationsSwitch.require()
+        whsSwitch.require()
+        beachesSwitch.require()
+        golfCoursesSwitch.require()
+        diveSitesSwitch.require()
+        restaurantsSwitch.require()
+    }
 }

@@ -20,7 +20,7 @@ final class ReplaceTopSegue: UIStoryboardSegue {
 final class DismissSegue: UIStoryboardSegue {
 
     override func perform() {
-        source.presentingViewController?.dismiss(animated: true, completion: nil)
+        source.presentingViewController?.dismiss(animated: true)
     }
 }
 
@@ -35,11 +35,18 @@ final class SwitchAlertSegue: UIStoryboardSegue {
 
     override func perform() {
         if let presenter = source.presentingViewController {
-            presenter.dismiss(animated: false, completion: nil)
-            presenter.present(destination, animated: false, completion: nil)
+            presenter.dismiss(animated: false)
+            presenter.present(destination, animated: false)
         } else {
             super.perform()
         }
+    }
+}
+
+final class TabPresentSegue: UIStoryboardSegue {
+
+    override func perform() {
+        source.tabBarController?.present(destination, animated: true)
     }
 }
 

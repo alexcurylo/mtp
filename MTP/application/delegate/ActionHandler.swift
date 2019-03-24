@@ -1,8 +1,9 @@
 // @copyright Trollwerks Inc.
 
+import FacebookCore
 import UIKit
 
-struct ActionHandler: AppHandler, ServiceProvider { }
+struct ActionHandler: AppHandler { }
 
 extension ActionHandler: AppOpenURLHandler {
 
@@ -13,23 +14,16 @@ extension ActionHandler: AppOpenURLHandler {
     }
 }
 
-extension ActionHandler: AppStateHandler {
+// MARK: - Facebook
 
-    func applicationWillEnterForeground(_ application: UIApplication) {
-    }
+extension ActionHandler {
 
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        mtp.refreshEverything()
-
-        logFacebookActivate()
-    }
-
-    func applicationWillResignActive(_ application: UIApplication) {
-    }
-
-    func applicationDidEnterBackground(_ application: UIApplication) {
-    }
-
-    func applicationWillTerminate(_ application: UIApplication) {
+    func handleFacebookURL(app: UIApplication,
+                           open url: URL,
+                           options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {
+        return SDKApplicationDelegate.shared.application(
+            app,
+            open: url,
+            options: options)
     }
 }

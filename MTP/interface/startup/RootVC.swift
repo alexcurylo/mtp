@@ -4,25 +4,16 @@ import UIKit
 
 final class RootVC: UIViewController, ServiceProvider {
 
-    typealias Segues = R.segue.rootVC
+    private typealias Segues = R.segue.rootVC
 
     @IBOutlet private var credentials: UIView?
     @IBOutlet private var credentialsBottom: NSLayoutConstraint?
     @IBOutlet private var loginButton: UIButton?
     @IBOutlet private var signupButton: UIButton?
 
-    private var isloggedIn: Bool {
-        if let loggedIn = ProcessInfo.setting(bool: .loggedIn) {
-            return loggedIn
-        } else if UIApplication.isTesting {
-            return false
-        }
-
-        return data.isLoggedIn
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -58,8 +49,10 @@ final class RootVC: UIViewController, ServiceProvider {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
+        case Segues.showMain.identifier:
+            let main = Segues.showMain(segue: segue)
+            main?.destination.inject(model: .locations)
         case Segues.embedLaunchScreen.identifier,
-             Segues.showMain.identifier,
              Segues.showLogin.identifier,
              Segues.showSignup.identifier:
             break
@@ -70,6 +63,16 @@ final class RootVC: UIViewController, ServiceProvider {
 }
 
 private extension RootVC {
+
+    var isloggedIn: Bool {
+        if let loggedIn = ProcessInfo.setting(bool: .loggedIn) {
+            return loggedIn
+        } else if UIApplication.isTesting {
+            return false
+        }
+
+        return data.isLoggedIn
+    }
 
     @IBAction func unwindToRoot(segue: UIStoryboardSegue) {
         log.verbose(segue.name)
@@ -90,5 +93,20 @@ private extension RootVC {
                 self.view.layoutIfNeeded()
             },
             completion: nil)
+    }
+}
+
+extension RootVC: Injectable {
+
+    typealias Model = ()
+
+    func inject(model: Model) {
+    }
+
+    func requireInjections() {
+        credentials.require()
+        credentialsBottom.require()
+        loginButton.require()
+        signupButton.require()
     }
 }

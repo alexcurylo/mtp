@@ -159,7 +159,7 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         let total: Int
         switch self {
         case .locations:
-            total = data.locations.count
+            total = data.locations.filter { $0.id > 0 }.count
         case .uncountries:
             total = data.uncountries.count
         case .whss:

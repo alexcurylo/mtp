@@ -5,25 +5,28 @@ import XCTest
 
 final class MTPDelegateTests: XCTestCase {
 
-    // Verify optimal unit testing delegate configuration
-    func testRuntimeExistenceWithCorrectHandlers() {
-        let delegate = UIApplication.shared.delegate as? MTPDelegate
-        XCTAssertNotNil(delegate)
-
+    func testTestingHandlerList() throws {
+        // given
         let expected: [String] = [
             String(describing: SpyServiceHandler.self)
         ]
-        let actual = delegate?.handlers.map { String(describing: type(of: $0)) } ?? []
+
+        // when
+        let delegate = try unwrap(UIApplication.shared.delegate as? MTPDelegate)
+        let actual = delegate.handlers.map { String(describing: type(of: $0)) }
+
+        // then
         XCTAssertEqual(expected, actual)
     }
 
-    func testDeploymentHandlerList() {
+    func testProductionHandlerList() {
         let expected = [
             String(describing: ServiceHandler.self),
-            String(describing: ActionHandler.self),
-            String(describing: LaunchHandler.self)
+            String(describing: LaunchHandler.self),
+            String(describing: StateHandler.self),
+            String(describing: ActionHandler.self)
         ]
-        let actual = MTPDelegate.runtimeHandlers(forUnitTests: false)
+        let actual = MTPDelegate.runtimeHandlers(for: .production)
                                 .map { String(describing: type(of: $0)) }
         XCTAssertEqual(expected, actual)
     }

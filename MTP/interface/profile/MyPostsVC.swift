@@ -19,6 +19,7 @@ final class MyPostsVC: UICollectionViewController, ServiceProvider {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
 
         flow?.itemSize = UICollectionViewFlowLayout.automaticSize
         flow?.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
@@ -117,6 +118,17 @@ private extension MyPostsVC {
 
     var flow: UICollectionViewFlowLayout? {
         return collectionView.collectionViewLayout as? UICollectionViewFlowLayout
+    }
+}
+
+extension MyPostsVC: Injectable {
+
+    typealias Model = ()
+
+    func inject(model: Model) {
+    }
+
+    func requireInjections() {
     }
 }
 

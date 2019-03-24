@@ -9,20 +9,13 @@ import XCTest
 
 final class RoutingAppDelegateTests: XCTestCase {
 
-    let liveApp = UIApplication.shared
+    private let liveApp = UIApplication.shared
 
-    // Intentionally testing global to verify refactored behaviour
     func testRuntimeApplicationDelegation() {
         XCTAssertTrue(liveApp.delegate is RoutingAppDelegate)
         XCTAssertEqual(liveApp.delegate as? RoutingAppDelegate, RoutingAppDelegate.shared)
         XCTAssertNotNil(RoutingAppDelegate.shared.window)
         XCTAssertNotNil(RoutingAppDelegate.shared.handlers)
-    }
-
-    func testHandlerUniqueness() {
-        let handlers = MTPDelegate.runtimeHandlers(forUnitTests: false)
-        let handlerTypes: Set<String> = Set(handlers.map { String(describing: type(of: $0)) })
-        XCTAssertEqual(handlers.count, handlerTypes.count, "Handlers are expected to be singletons")
     }
 
     func testAppLaunchHandlerManagement() throws {

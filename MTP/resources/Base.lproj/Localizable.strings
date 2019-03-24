@@ -48,6 +48,8 @@
 "locationCount" = "%@ (%ld)";
 "locationVisitedCount" = "%@ (%ld/%ld)";
 
+"locationDescription" = "%@, %@";
+
 // RankingPage
 
 "locations" = "All MTP Locations";

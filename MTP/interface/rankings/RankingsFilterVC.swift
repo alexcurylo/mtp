@@ -4,7 +4,7 @@ import RealmSwift
 
 final class RankingsFilterVC: UITableViewController, ServiceProvider {
 
-    typealias Segues = R.segue.rankingsFilterVC
+    private typealias Segues = R.segue.rankingsFilterVC
 
     @IBOutlet private var saveButton: UIBarButtonItem?
 

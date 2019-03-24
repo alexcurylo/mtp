@@ -4,37 +4,23 @@ import UIKit
 
 final class MainTBC: UITabBarController, ServiceProvider {
 
-    typealias Segues = R.segue.myProfileVC
+    private typealias Segues = R.segue.myProfileVC
 
     enum Route: Int {
-        // Tabs
+        // tabs
         case locations = 0
         case rankings = 1
         case myProfile = 2
-        // Presentations
+        // presentations
         case editProfile
     }
 
-    var destination: Route?
-
-    var locations: LocationsVC? {
-        return viewControllers?[Route.locations.rawValue] as? LocationsVC
-    }
-
-    var rankings: RankingsVC? {
-        return viewControllers?[Route.rankings.rawValue] as? RankingsVC
-    }
-
-    var myProfileNav: UINavigationController? {
-        return viewControllers?[Route.myProfile.rawValue] as? UINavigationController
-    }
-
-    var myProfile: MyProfileVC? {
-        return myProfileNav?.topViewController as? MyProfileVC
-    }
+    private var destination: Route?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
+
         checkDestination()
     }
 
@@ -62,9 +48,29 @@ final class MainTBC: UITabBarController, ServiceProvider {
             log.debug("unexpected segue: \(segue.name)")
         }
     }
+
+    func route(to user: User?) {
+        locations?.reveal(user: user)
+        selectedIndex = Route.locations.rawValue
+    }
 }
 
 private extension MainTBC {
+
+    var locations: LocationsVC? {
+        let nav = viewControllers?[Route.locations.rawValue] as? UINavigationController
+        return nav?.topViewController as? LocationsVC
+    }
+
+    var rankings: RankingsVC? {
+        let nav = viewControllers?[Route.rankings.rawValue] as? UINavigationController
+        return nav?.topViewController as? RankingsVC
+    }
+
+    var myProfile: MyProfileVC? {
+        let nav = viewControllers?[Route.myProfile.rawValue] as? UINavigationController
+        return nav?.topViewController as? MyProfileVC
+    }
 
     func checkDestination() {
         guard let goto = destination else { return }
@@ -78,5 +84,18 @@ private extension MainTBC {
         }
 
         destination = nil
+    }
+}
+
+extension MainTBC: Injectable {
+
+    typealias Model = Route
+
+    func inject(model: Model) {
+        destination = model
+    }
+
+    func requireInjections() {
+        destination.require()
     }
 }

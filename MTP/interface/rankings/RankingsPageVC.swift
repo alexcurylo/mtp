@@ -79,6 +79,8 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
     }
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
+
 extension RankingsPageVC: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView,
@@ -94,11 +96,18 @@ extension RankingsPageVC: UICollectionViewDelegateFlowLayout {
         return CGSize(width: collectionView.bounds.width,
                       height: Layout.cellHeight)
     }
+}
+
+// MARK: - UIScrollViewDelegate
+
+extension RankingsPageVC {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         delegate?.didScroll(rankingsPageVC: self)
     }
 }
+
+// MARK: - UICollectionViewDataSource
 
 extension RankingsPageVC: UICollectionViewDataSource {
 
@@ -154,6 +163,8 @@ extension RankingsPageVC: UICollectionViewDataSource {
         return cell
     }
 }
+
+// MARK: - Private
 
 private extension RankingsPageVC {
 

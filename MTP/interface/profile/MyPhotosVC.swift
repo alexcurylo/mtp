@@ -16,6 +16,7 @@ final class MyPhotosVC: UICollectionViewController, ServiceProvider {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
 
         update()
         observe()
@@ -132,6 +133,17 @@ private extension MyPhotosVC {
             options: nil) { result, _ in
                 cell.set(image: result)
         }
+    }
+}
+
+extension MyPhotosVC: Injectable {
+
+    typealias Model = ()
+
+    func inject(model: Model) {
+    }
+
+    func requireInjections() {
     }
 }
 

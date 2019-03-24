@@ -23,7 +23,9 @@ protocol RealmSearchResultsDelegate: AnyObject {
                               atIndexPath indexPath: IndexPath)
 }
 
-class RealmSearchViewController: UITableViewController, RealmSearchResultsDataSource, RealmSearchResultsDelegate {
+class RealmSearchViewController: UITableViewController,
+                                 RealmSearchResultsDataSource,
+                                 RealmSearchResultsDelegate {
 
     // swiftlint:disable:next implicitly_unwrapped_optional
     var resultsDataSource: RealmSearchResultsDataSource!
@@ -104,6 +106,20 @@ class RealmSearchViewController: UITableViewController, RealmSearchResultsDataSo
         return searchController.searchBar
     }
 
+    private var viewIsLoaded: Bool = false
+
+    private var internalConfiguration: Realm.Configuration?
+
+    private var token: RLMNotificationToken?
+
+    private lazy var searchController: UISearchController = {
+        let controller = UISearchController(searchResultsController: nil)
+        controller.searchResultsUpdater = self
+        controller.dimsBackgroundDuringPresentation = false
+
+        return controller
+    }()
+
     // MARK: - Public Methods
 
     func refreshSearchResults() {
@@ -116,7 +132,8 @@ class RealmSearchViewController: UITableViewController, RealmSearchResultsDataSo
 
     // MARK: - Initialization
 
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    override init(nibName nibNameOrNil: String?,
+                  bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
         resultsDataSource = self
@@ -192,34 +209,23 @@ class RealmSearchViewController: UITableViewController, RealmSearchResultsDataSo
                               atIndexPath indexPath: IndexPath) {
         // Subclasses to redeclare
     }
+}
 
-    // MARK: - Private
+// MARK: - Private
 
-    fileprivate var viewIsLoaded: Bool = false
+private extension RealmSearchViewController {
 
-    fileprivate var internalConfiguration: Realm.Configuration?
-
-    fileprivate var token: RLMNotificationToken?
-
-    fileprivate lazy var searchController: UISearchController = {
-        let controller = UISearchController(searchResultsController: nil)
-        controller.searchResultsUpdater = self
-        controller.dimsBackgroundDuringPresentation = false
-
-        return controller
-    }()
-
-    fileprivate var rlmRealm: RLMRealm {
+    var rlmRealm: RLMRealm {
         let configuration = toRLMConfiguration(realmConfiguration)
         // swiftlint:disable:next force_try
         return try! RLMRealm(configuration: configuration)
     }
 
-    fileprivate var isReadOnly: Bool {
+    var isReadOnly: Bool {
         return realmConfiguration.readOnly
     }
 
-    fileprivate func updateResults(_ predicate: NSPredicate?) {
+    func updateResults(_ predicate: NSPredicate?) {
         if let results = searchResults(entityName,
                                        inRealm: rlmRealm,
                                        predicate: predicate,
@@ -261,7 +267,7 @@ class RealmSearchViewController: UITableViewController, RealmSearchResultsDataSo
         }
     }
 
-    fileprivate func searchPredicate(_ text: String?) -> NSPredicate? {
+    func searchPredicate(_ text: String?) -> NSPredicate? {
         if let text = text, !text.isEmpty {
 
             // swiftlint:disable:next force_unwrapping
@@ -294,11 +300,11 @@ class RealmSearchViewController: UITableViewController, RealmSearchResultsDataSo
         return basePredicate
     }
 
-    fileprivate func searchResults(_ entityName: String?,
-                                   inRealm realm: RLMRealm?,
-                                   predicate: NSPredicate?,
-                                   sortPropertyKey: String?,
-                                   sortAscending: Bool) -> RLMResults<RLMObject>? {
+    func searchResults(_ entityName: String?,
+                       inRealm realm: RLMRealm?,
+                       predicate: NSPredicate?,
+                       sortPropertyKey: String?,
+                       sortAscending: Bool) -> RLMResults<RLMObject>? {
 
         if entityName != nil && realm != nil {
 
@@ -324,7 +330,7 @@ class RealmSearchViewController: UITableViewController, RealmSearchResultsDataSo
         return nil
     }
 
-    fileprivate func toRLMConfiguration(_ configuration: Realm.Configuration) -> RLMRealmConfiguration {
+    func toRLMConfiguration(_ configuration: Realm.Configuration) -> RLMRealmConfiguration {
         let rlmConfiguration = RLMRealmConfiguration()
 
         if configuration.fileURL != nil {
@@ -341,7 +347,7 @@ class RealmSearchViewController: UITableViewController, RealmSearchResultsDataSo
         return rlmConfiguration
     }
 
-    fileprivate func runOnMainThread(_ block: @escaping () -> Void) {
+    func runOnMainThread(_ block: @escaping () -> Void) {
         if Thread.isMainThread {
             block()
         } else {

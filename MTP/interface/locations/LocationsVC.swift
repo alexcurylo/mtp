@@ -4,6 +4,7 @@
 
 import Anchorage
 import MapKit
+import RealmSwift
 
 final class LocationsVC: UIViewController {
 
@@ -15,7 +16,7 @@ final class LocationsVC: UIViewController {
 
     let locationManager = CLLocationManager()
     private var trackingButton: MKUserTrackingButton?
-    private var centered = false
+    private var mapCentered = false
 
     private var mapDisplay = ChecklistFlags()
 
@@ -38,6 +39,7 @@ final class LocationsVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
 
         mapDisplay = data.mapDisplay
         setupCompass()
@@ -56,7 +58,13 @@ final class LocationsVC: UIViewController {
         super.viewDidAppear(animated)
 
         trackingButton?.set(visibility: start(tracking: .ask))
-        zoomAndCenter()
+        centerOnDevice()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        mapCentered = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -80,6 +88,21 @@ final class LocationsVC: UIViewController {
     func updateFilter() {
         mapDisplay = data.mapDisplay
         showAnnotations()
+    }
+
+    func reveal(user: User?) {
+        guard let name = user?.locationName, !name.isEmpty else { return }
+
+        let place = data.locations
+                        .first { $0.description == name }
+        guard let coordinate = place?.placeCoordinate else { return }
+
+        navigationController?.popToRootViewController(animated: false)
+        zoom(to: coordinate)
+    }
+
+    func reveal(place: PlaceAnnotation?) {
+        zoom(to: place?.coordinate)
     }
 }
 
@@ -138,12 +161,18 @@ private extension LocationsVC {
         stack.trailingAnchor == view.trailingAnchor - Layout.margin
     }
 
-    func zoomAndCenter() {
-        guard !centered,
+    func centerOnDevice() {
+        guard !mapCentered,
               let here = locationManager.location?.coordinate else { return }
 
-        centered = true
-        let viewRegion = MKCoordinateRegion(center: here,
+        zoom(to: here)
+    }
+
+    func zoom(to center: CLLocationCoordinate2D?) {
+        guard let center = center else { return }
+
+        mapCentered = true
+        let viewRegion = MKCoordinateRegion(center: center,
                                             latitudinalMeters: 200,
                                             longitudinalMeters: 200)
         DispatchQueue.main.async { [weak self] in
@@ -328,7 +357,7 @@ extension LocationsVC: MKMapViewDelegate {
     }
     func mapView(_ mapView: MKMapView,
                  didUpdate userLocation: MKUserLocation) {
-        zoomAndCenter()
+        centerOnDevice()
     }
     func mapView(_ mapView: MKMapView,
                  didFailToLocateUserWithError error: Error) {
@@ -451,7 +480,7 @@ extension LocationsVC: LocationTracker {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.trackingButton?.set(visibility: self.start(tracking: .ask))
-            self.zoomAndCenter()
+            self.centerOnDevice()
         }
     }
 
@@ -479,5 +508,19 @@ private extension MKUserTrackingButton {
             authorized = false
         }
         isHidden = !authorized
+    }
+}
+
+extension LocationsVC: Injectable {
+
+    typealias Model = ()
+
+    func inject(model: Model) {
+    }
+
+    func requireInjections() {
+        mapView.require()
+        searchBar.require()
+        showMoreButton.require()
     }
 }

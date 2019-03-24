@@ -4,7 +4,7 @@ import KRProgressHUD
 
 final class EditProfileVC: UITableViewController, ServiceProvider {
 
-    typealias Segues = R.segue.editProfileVC
+    private typealias Segues = R.segue.editProfileVC
 
     @IBOutlet private var saveButton: UIBarButtonItem?
 
@@ -31,6 +31,7 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
 
         tableView.backgroundView = backgroundView
 
@@ -150,5 +151,33 @@ private extension EditProfileVC {
                 KRProgressHUD.dismiss()
             }
         }
+    }
+}
+
+extension EditProfileVC: Injectable {
+
+    typealias Model = ()
+
+    func inject(model: Model) {
+    }
+
+    func requireInjections() {
+        saveButton.require()
+        backgroundView.require()
+        firstNameTextField.require()
+        lastNameTextField.require()
+        birthdayTextField.require()
+        genderTextField.require()
+        countryTextField.require()
+        locationTextField.require()
+        emailTextField.require()
+        aboutTextView.require()
+        airportTextField.require()
+        linksStack.require()
+        linksTitle.require()
+        addLinkButton.require()
+        contactDisplayButton.require()
+        contactDontDisplayButton.require()
+        contactNoneButton.require()
     }
 }

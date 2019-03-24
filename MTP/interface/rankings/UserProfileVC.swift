@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import UIKit
+import Anchorage
 
 final class UserProfileVC: UIViewController, ServiceProvider {
 
@@ -11,10 +11,14 @@ final class UserProfileVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.userProfileVC
 
-    @IBOutlet private var alertHolder: UIView?
-    @IBOutlet private var bottomY: NSLayoutConstraint?
-    @IBOutlet private var centerY: NSLayoutConstraint?
-    @IBOutlet private var messageLabel: UILabel?
+    @IBOutlet private var headerView: UIView?
+    @IBOutlet private var avatarImageView: UIImageView?
+    @IBOutlet private var fullNameLabel: UILabel?
+    @IBOutlet private var countryLabel: UILabel?
+
+    @IBOutlet private var pagesHolder: UIView?
+
+    private var userObserver: Observer?
 
     private var user: User?
     private var selected: Tab?
@@ -22,19 +26,15 @@ final class UserProfileVC: UIViewController, ServiceProvider {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
 
-        requireInjected()
-
-        if let message = errorMessage, !message.isEmpty {
-            messageLabel?.text = message
-        }
+        setupPagesHolder()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        presentingViewController?.hide(navBar: animated)
-        presentingViewController?.hide(toolBar: animated)
+        observe()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -50,10 +50,47 @@ final class UserProfileVC: UIViewController, ServiceProvider {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
         case Segues.dismissUserProfile.identifier:
-            presentingViewController?.show(navBar: true)
+            break
         default:
             log.debug("unexpected segue: \(segue.name)")
         }
+    }
+}
+
+private extension UserProfileVC {
+
+    @IBAction func mapButtonTapped(_ sender: UIButton) {
+        let tabController = presentingViewController as? MainTBC
+        tabController?.dismiss(animated: false) { [user] in
+            tabController?.route(to: user)
+        }
+    }
+
+    func setupPagesHolder() {
+        guard let holder = pagesHolder else { return }
+
+        let pagesVC = UserProfilePagingVC.profile
+        addChild(pagesVC)
+        holder.addSubview(pagesVC.view)
+        pagesVC.view.edgeAnchors == holder.edgeAnchors
+        pagesVC.didMove(toParent: self)
+    }
+
+    func observe() {
+        guard userObserver == nil else { return }
+
+        configure()
+        userObserver = data.observer(of: .userId) { [weak self] _ in
+            self?.configure()
+        }
+    }
+
+    func configure() {
+        guard let user = user else { return }
+
+        avatarImageView?.set(thumbnail: user)
+        fullNameLabel?.text = user.fullName
+        countryLabel?.text = user.locationName
     }
 }
 
@@ -66,12 +103,14 @@ extension UserProfileVC: Injectable {
         selected = model.tab
     }
 
-    func requireInjected() {
+    func requireInjections() {
         user.require()
         selected.require()
 
-        alertHolder.require()
-        bottomY.require()
-        centerY.require()
+        headerView.require()
+        avatarImageView.require()
+        fullNameLabel.require()
+        countryLabel.require()
+        pagesHolder.require()
     }
 }

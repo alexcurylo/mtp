@@ -12,6 +12,7 @@ final class MyCountsVC: UIViewController, ServiceProvider {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
 
         configurePagesHolder()
     }
@@ -75,18 +76,17 @@ extension MyCountsVC: PagingViewControllerDataSource {
 
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  viewControllerForIndex index: Int) -> UIViewController {
-        let viewController = MyCountsPageVC(options: pagingViewController.options)
-        viewController.delegate = self
-        viewController.set(list: pages[index].list)
+        let pageVC = MyCountsPageVC(model: pages[index].list,
+                                    delegate: self)
 
         let insets = UIEdgeInsets(top: MyCountsPagingVC.Layout.menuHeight,
                                   left: 0,
                                   bottom: 0,
                                   right: 0)
-        viewController.collectionView.contentInset = insets
-        viewController.collectionView.scrollIndicatorInsets = insets
+        pageVC.collectionView.contentInset = insets
+        pageVC.collectionView.scrollIndicatorInsets = insets
 
-        return viewController
+        return pageVC
     }
 
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
@@ -125,5 +125,17 @@ extension MyCountsVC: PagingViewControllerDelegate {
         let to = pagingVC.menuHeight(for: destinationViewController.collectionView)
         let height = ((to - from) * abs(progress)) + from
         update(menu: height)
+    }
+}
+
+extension MyCountsVC: Injectable {
+
+    typealias Model = ()
+
+    func inject(model: Model) {
+    }
+
+    func requireInjections() {
+        pagesHolder.require()
     }
 }

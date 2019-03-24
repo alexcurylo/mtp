@@ -89,6 +89,9 @@
 		FA5AC0C521FDD7C00080F84F /* CountHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C421FDD7C00080F84F /* CountHeader.swift */; };
 		FA5AC0C721FDD8AA0080F84F /* CountToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C621FDD8AA0080F84F /* CountToggleCell.swift */; };
 		FA5DBFA8222FF9E300639148 /* RegistrationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5DBFA7222FF9E300639148 /* RegistrationInfo.swift */; };
+		FA62BAE522471780009FDC4E /* StateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA62BAE422471780009FDC4E /* StateHandler.swift */; };
+		FA62BAE922478A6D009FDC4E /* UserProfilePagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA62BAE822478A6D009FDC4E /* UserProfilePagingVC.swift */; };
+		FA62BAEB2247A9A0009FDC4E /* CountsPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA62BAEA2247A9A0009FDC4E /* CountsPageVC.swift */; };
 		FA6A188621EFEF920092C56C /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6A188521EFEF920092C56C /* Observable.swift */; };
 		FA74574D210CA5730010F4F4 /* MyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74574C210CA5730010F4F4 /* MyProfileVC.swift */; };
 		FA745753210DA4C60010F4F4 /* MyProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA745755210DA4C60010F4F4 /* MyProfile.storyboard */; };
@@ -267,6 +270,9 @@
 		FA5AC0C421FDD7C00080F84F /* CountHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountHeader.swift; sourceTree = "<group>"; };
 		FA5AC0C621FDD8AA0080F84F /* CountToggleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountToggleCell.swift; sourceTree = "<group>"; };
 		FA5DBFA7222FF9E300639148 /* RegistrationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationInfo.swift; sourceTree = "<group>"; };
+		FA62BAE422471780009FDC4E /* StateHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateHandler.swift; sourceTree = "<group>"; };
+		FA62BAE822478A6D009FDC4E /* UserProfilePagingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfilePagingVC.swift; sourceTree = "<group>"; };
+		FA62BAEA2247A9A0009FDC4E /* CountsPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountsPageVC.swift; sourceTree = "<group>"; };
 		FA6A188521EFEF920092C56C /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		FA74574C210CA5730010F4F4 /* MyProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileVC.swift; sourceTree = "<group>"; };
 		FA745754210DA4C60010F4F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyProfile.storyboard; sourceTree = "<group>"; };
@@ -393,6 +399,7 @@
 				FA392BBA20DF69F30026C828 /* ActionHandler.swift */,
 				FA9A71DE20F1D3FA005F6A57 /* LaunchHandler.swift */,
 				8C0127F8223202FA00EA2095 /* ServiceHandler.swift */,
+				FA62BAE422471780009FDC4E /* StateHandler.swift */,
 			);
 			path = delegate;
 			sourceTree = "<group>";
@@ -437,6 +444,7 @@
 				FA12D681213B963C0053E9BF /* RankingsPageVC.swift */,
 				FA390138213B84B40016A362 /* RankingsPagingVC.swift */,
 				FA392BBE20DF69F30026C828 /* RankingsVC.swift */,
+				FA62BAE822478A6D009FDC4E /* UserProfilePagingVC.swift */,
 				8C0F242A22432076005BD5DC /* UserProfileVC.swift */,
 			);
 			path = rankings;
@@ -459,9 +467,10 @@
 		FA390137213B7D490016A362 /* profile */ = {
 			isa = PBXGroup;
 			children = (
-				FA5AC0C421FDD7C00080F84F /* CountHeader.swift */,
-				FA5AC0C621FDD8AA0080F84F /* CountToggleCell.swift */,
 				8C5ECE9D21FEE6F800322ABF /* CountGroupCell.swift */,
+				FA5AC0C421FDD7C00080F84F /* CountHeader.swift */,
+				FA62BAEA2247A9A0009FDC4E /* CountsPageVC.swift */,
+				FA5AC0C621FDD8AA0080F84F /* CountToggleCell.swift */,
 				FA46377F210DE94C0007382D /* EditProfileVC.swift */,
 				FA254DCC2169A2A400FC9360 /* MyAboutVC.swift */,
 				FA5AC0C221FDCE200080F84F /* MyCountsPageVC.swift */,
@@ -1137,6 +1146,7 @@
 				FAD2B51821F48AB8009FFDD7 /* PlaceInfo.swift in Sources */,
 				FA392BBF20DF69F30026C828 /* RankingsVC.swift in Sources */,
 				FA5AC0C321FDCE200080F84F /* MyCountsPageVC.swift in Sources */,
+				FA62BAE522471780009FDC4E /* StateHandler.swift in Sources */,
 				8C3EAB842230FCC200CB4886 /* RoutingAppDelegate.swift in Sources */,
 				FAD2B51621F46913009FFDD7 /* Checklists.swift in Sources */,
 				FAAE29C220EFADC800B43BA9 /* R.generated.swift in Sources */,
@@ -1160,6 +1170,7 @@
 				8C50B16C22374C650013BD34 /* UIViewController+Keyboard.swift in Sources */,
 				FAD2B51A21F492B3009FFDD7 /* UncertainValue.swift in Sources */,
 				FAE1F119214354A80002CAB2 /* Avenir.swift in Sources */,
+				FA62BAE922478A6D009FDC4E /* UserProfilePagingVC.swift in Sources */,
 				FA5DBFA8222FF9E300639148 /* RegistrationInfo.swift in Sources */,
 				FA254DCD2169A2A400FC9360 /* MyAboutVC.swift in Sources */,
 				FA32CC782100C360004C1329 /* SignupVC.swift in Sources */,
@@ -1168,6 +1179,7 @@
 				FAAE29C520F05A9600B43BA9 /* UserDefaults+TypeSafety.swift in Sources */,
 				FA5AC0C121FDCCDE0080F84F /* ListPagingItem.swift in Sources */,
 				FA46377E210DE1E60007382D /* SettingsVC.swift in Sources */,
+				FA62BAEB2247A9A0009FDC4E /* CountsPageVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -21,6 +21,7 @@ final class MyAboutVC: UITableViewController, ServiceProvider {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
     }
 
     override func viewWillLayoutSubviews() {
@@ -168,5 +169,23 @@ private extension MyAboutVC {
            let url = URL(string: link) {
             app.open(url)
         }
+    }
+}
+
+extension MyAboutVC: Injectable {
+
+    typealias Model = ()
+
+    func inject(model: Model) {
+    }
+
+    func requireInjections() {
+        rankingLabel.require()
+        mapImageView.require()
+        visitedButton.require()
+        remainingButton.require()
+        bioTextView.require()
+        airportLabel.require()
+        linksStack.require()
     }
 }

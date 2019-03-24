@@ -32,6 +32,10 @@ extension UIViewController {
         }
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
+
+    func show(toolBar animated: Bool) {
+        navigationController?.setToolbarHidden(false, animated: animated)
+    }
 }
 
 extension UINavigationBar {

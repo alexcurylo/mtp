@@ -5,33 +5,31 @@ import UIKit
 @UIApplicationMain
 final class MTPDelegate: RoutingAppDelegate {
 
-    // MTPDelegate.init() constructs these at _UIApplicationMainPreparations time
-    // Adopt AppLaunchHandler for calls at FinishLaunching times when Foundation exists
-    private let allHandlers: Handlers = MTPDelegate.runtimeHandlers()
-
-    // swiftlint:disable:next discouraged_optional_boolean
-    class func runtimeHandlers(forUnitTests: Bool? = nil) -> Handlers {
-        var runtimeHandlers: Handlers = [
-        ]
-
-        let forUnitTests = forUnitTests ?? UIApplication.isUnitTesting
-        if forUnitTests {
-            runtimeHandlers += [
-                SpyServiceHandler()
-            ] as Handlers
-        } else {
-            runtimeHandlers += [
-                ServiceHandler(),
-                ActionHandler(),
-                LaunchHandler()
-            ] as Handlers
-        }
-
-        return runtimeHandlers
+    enum Runtime {
+        case production
+        case testing
     }
 
     override var handlers: Handlers {
-        return allHandlers
+        return runtimeHandlers
+    }
+
+    private var runtimeHandlers: Handlers = {
+        let runtime: Runtime = UIApplication.isUnitTesting ? .testing : .production
+        return MTPDelegate.runtimeHandlers(for: runtime)
+    }()
+
+    static func runtimeHandlers(for runtime: Runtime) -> Handlers {
+        guard runtime == .production else {
+            return [SpyServiceHandler()]
+        }
+
+        return [
+            ServiceHandler(),
+            LaunchHandler(),
+            StateHandler(),
+            ActionHandler()
+        ]
     }
 }
 

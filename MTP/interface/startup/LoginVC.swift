@@ -4,7 +4,7 @@ import KRProgressHUD
 
 final class LoginVC: UIViewController, ServiceProvider {
 
-    typealias Segues = R.segue.loginVC
+    private typealias Segues = R.segue.loginVC
 
     @IBOutlet private var emailTextField: InsetTextField?
     @IBOutlet private var passwordTextField: InsetTextField?
@@ -18,6 +18,7 @@ final class LoginVC: UIViewController, ServiceProvider {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
 
         emailTextField?.inputAccessoryView = keyboardToolbar
 
@@ -75,14 +76,16 @@ final class LoginVC: UIViewController, ServiceProvider {
         switch segue.identifier {
         case Segues.presentLoginFail.identifier:
             let alert = Segues.presentLoginFail(segue: segue)
-            alert?.destination.errorMessage = errorMessage
+            alert?.destination.inject(model: errorMessage)
             hide(navBar: true)
             data.email = emailTextField?.text ?? ""
         case Segues.presentForgotPassword.identifier:
             hide(navBar: true)
             data.email = emailTextField?.text ?? ""
-        case Segues.showMain.identifier,
-             Segues.switchSignup.identifier,
+        case Segues.showMain.identifier:
+            let main = Segues.showMain(segue: segue)
+            main?.destination.inject(model: .locations)
+        case Segues.switchSignup.identifier,
              Segues.unwindFromLogin.identifier:
             break
         default:
@@ -250,5 +253,22 @@ extension LoginVC: UIViewControllerTransitioningDelegate {
 
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return nil
+    }
+}
+
+extension LoginVC: Injectable {
+
+    typealias Model = ()
+
+    func inject(model: Model) {
+    }
+
+    func requireInjections() {
+        emailTextField.require()
+        passwordTextField.require()
+        togglePasswordButton.require()
+        keyboardToolbar.require()
+        toolbarBackButton.require()
+        toolbarNextButton.require()
     }
 }

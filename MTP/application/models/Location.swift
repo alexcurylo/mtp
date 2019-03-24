@@ -121,7 +121,7 @@ extension LocationJSON: CustomDebugStringConvertible {
         if !countryName.isEmpty
            && !locationName.isEmpty
            && countryName != locationName {
-            return "\(locationName), \(countryName)"
+            return Localized.locationDescription(locationName, countryName)
         }
         return locationName.isEmpty ? countryName : locationName
     }

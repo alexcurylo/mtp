@@ -4,7 +4,7 @@ import Anchorage
 
 final class LocationVC: UIViewController, ServiceProvider {
 
-    //typealias Segues = R.segue.locationVC
+    //private typealias Segues = R.segue.locationVC
 
     @IBOutlet private var headerView: UIView?
     @IBOutlet private var avatarImageView: UIImageView?
@@ -20,6 +20,7 @@ final class LocationVC: UIViewController, ServiceProvider {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
 
         setupHeaderView()
         setupPagesHolder()
@@ -94,14 +95,19 @@ private extension LocationVC {
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .none
         birthdayLabel?.text = dateFormatter.string(from: user.birthday)
+    }
+}
 
-        #if FOLLOWERS_IMPLEMENTED
-        let followersCount = 9_999
-        let followers = Localized.followers(followersCount.grouped)
-        followersLabel?.text = followers
-        let followingCount = 9_999
-        let following = Localized.following(followingCount.grouped)
-        followingLabel?.text = following
-        #endif
+extension LocationVC: Injectable {
+
+    typealias Model = ()
+
+    func inject(model: Model) {
+    }
+
+    func requireInjections() {
+        avatarImageView.require()
+        fullNameLabel.require()
+        countryLabel.require()
     }
 }

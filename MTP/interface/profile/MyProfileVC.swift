@@ -4,7 +4,7 @@ import Anchorage
 
 final class MyProfileVC: UIViewController, ServiceProvider {
 
-    typealias Segues = R.segue.myProfileVC
+    private typealias Segues = R.segue.myProfileVC
 
     @IBOutlet private var headerView: UIView?
     @IBOutlet private var avatarImageView: UIImageView?
@@ -20,6 +20,7 @@ final class MyProfileVC: UIViewController, ServiceProvider {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
 
         setupHeaderView()
         setupPagesHolder()
@@ -102,6 +103,26 @@ private extension MyProfileVC {
         let followingCount = 9_999
         let following = Localized.following(followingCount.grouped)
         followingLabel?.text = following
+        #endif
+    }
+}
+
+extension MyProfileVC: Injectable {
+
+    typealias Model = ()
+
+    func inject(model: Model) { }
+
+    func requireInjections() {
+        headerView.require()
+        avatarImageView.require()
+        fullNameLabel.require()
+        countryLabel.require()
+        birthdayLabel.require()
+        pagesHolder.require()
+        #if FOLLOWERS_IMPLEMENTED
+        followersLabel.require()
+        followingLabel.require()
         #endif
     }
 }

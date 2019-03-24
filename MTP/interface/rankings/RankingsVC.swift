@@ -5,7 +5,7 @@ import Parchment
 
 final class RankingsVC: UIViewController, ServiceProvider {
 
-    typealias Segues = R.segue.rankingsVC
+    private typealias Segues = R.segue.rankingsVC
 
     @IBOutlet private var pagesHolder: UIView?
 
@@ -16,6 +16,7 @@ final class RankingsVC: UIViewController, ServiceProvider {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
 
         configurePagesHolder()
     }
@@ -147,5 +148,17 @@ extension RankingsVC: PagingViewControllerDelegate {
         let to = pagingVC.menuHeight(for: destinationViewController.collectionView)
         let height = ((to - from) * abs(progress)) + from
         update(menu: height)
+    }
+}
+
+extension RankingsVC: Injectable {
+
+    typealias Model = ()
+
+    func inject(model: Model) {
+    }
+
+    func requireInjections() {
+        pagesHolder.require()
     }
 }
