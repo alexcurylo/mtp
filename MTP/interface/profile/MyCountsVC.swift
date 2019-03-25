@@ -76,8 +76,7 @@ extension MyCountsVC: PagingViewControllerDataSource {
 
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  viewControllerForIndex index: Int) -> UIViewController {
-        let pageVC = MyCountsPageVC(model: pages[index].list,
-                                    delegate: self)
+        let pageVC = MyCountsPageVC(model: (pages[index].list, self))
 
         let insets = UIEdgeInsets(top: MyCountsPagingVC.Layout.menuHeight,
                                   left: 0,

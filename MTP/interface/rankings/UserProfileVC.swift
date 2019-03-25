@@ -1,11 +1,12 @@
 // @copyright Trollwerks Inc.
 
 import Anchorage
+import Parchment
 
 final class UserProfileVC: UIViewController, ServiceProvider {
 
-    enum Tab {
-        case visited
+    enum Tab: Int {
+        case visited = 0
         case remaining
     }
 
@@ -20,9 +21,9 @@ final class UserProfileVC: UIViewController, ServiceProvider {
 
     private var userObserver: Observer?
 
+    private var list: Checklist = .locations
     private var user: User?
-    private var selected: Tab?
-    private var errorMessage: String?
+    private var selected: Tab = .visited
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,13 +68,18 @@ private extension UserProfileVC {
     }
 
     func setupPagesHolder() {
-        guard let holder = pagesHolder else { return }
+        guard let holder = pagesHolder,
+              let user = user else { return }
 
-        let pagesVC = UserProfilePagingVC.profile
+        let pagesVC = UserProfilePagingVC.profile(model: (list, user))
         addChild(pagesVC)
         holder.addSubview(pagesVC.view)
         pagesVC.view.edgeAnchors == holder.edgeAnchors
         pagesVC.didMove(toParent: self)
+
+        let item = pagesVC.pagingViewController(pagesVC,
+                                                pagingItemForIndex: selected.rawValue)
+        pagesVC.select(pagingItem: item, animated: false)
     }
 
     func observe() {
@@ -96,16 +102,16 @@ private extension UserProfileVC {
 
 extension UserProfileVC: Injectable {
 
-    typealias Model = (user: User, tab: Tab)
+    typealias Model = (list: Checklist, user: User, tab: Tab)
 
     func inject(model: Model) {
+        list = model.list
         user = model.user
         selected = model.tab
     }
 
     func requireInjections() {
         user.require()
-        selected.require()
 
         headerView.require()
         avatarImageView.require()

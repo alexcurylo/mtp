@@ -218,7 +218,7 @@
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstItem="gRi-cM-jCb" firstAttribute="top" secondItem="Row-1V-4l6" secondAttribute="top" constant="8" id="469-WU-s85"/>
-                                                        <constraint firstAttribute="bottom" secondItem="gRi-cM-jCb" secondAttribute="bottom" constant="16" id="E8E-Ux-hmk"/>
+                                                        <constraint firstAttribute="bottom" secondItem="gRi-cM-jCb" secondAttribute="bottom" constant="12" id="E8E-Ux-hmk"/>
                                                         <constraint firstAttribute="trailing" secondItem="gRi-cM-jCb" secondAttribute="trailing" constant="8" id="drk-oa-C54"/>
                                                         <constraint firstItem="gRi-cM-jCb" firstAttribute="leading" secondItem="Row-1V-4l6" secondAttribute="leading" constant="8" id="kIj-GE-xpv"/>
                                                     </constraints>
@@ -249,6 +249,11 @@
                                                 <constraint firstItem="Row-1V-4l6" firstAttribute="leading" secondItem="4n6-IT-ySg" secondAttribute="leading" id="Xy5-bs-Nx5"/>
                                                 <constraint firstAttribute="bottom" secondItem="q55-Rb-L1K" secondAttribute="bottom" id="o2n-3Q-HB1"/>
                                             </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <real key="value" value="5"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
                                         </view>
                                     </subviews>
                                     <constraints>
@@ -257,11 +262,6 @@
                                         <constraint firstAttribute="bottom" secondItem="4n6-IT-ySg" secondAttribute="bottom" constant="16" id="fN5-yg-X92"/>
                                         <constraint firstItem="4n6-IT-ySg" firstAttribute="top" secondItem="QfS-zh-P0W" secondAttribute="top" constant="16" id="xSV-hs-Mhn"/>
                                     </constraints>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                            <real key="value" value="5"/>
-                                        </userDefinedRuntimeAttribute>
-                                    </userDefinedRuntimeAttributes>
                                 </view>
                                 <blurEffect style="dark"/>
                             </visualEffectView>

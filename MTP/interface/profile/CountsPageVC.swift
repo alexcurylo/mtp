@@ -5,6 +5,13 @@ import Parchment
 
 class CountsPageVC: UIViewController, ServiceProvider {
 
+    typealias CountsModel = Checklist
+
+    let list: Checklist
+    var isEditable: Bool { return false }
+    var places: [PlaceInfo] { return [] }
+    var visits: [Int] { return [] }
+
     private enum Layout {
         static let headerHeight = CGFloat(32)
         static let margin = CGFloat(8)
@@ -42,8 +49,6 @@ class CountsPageVC: UIViewController, ServiceProvider {
         return collectionView
     }()
 
-    private var list: Checklist = .locations
-
     typealias RegionKey = String
     typealias CountryKey = String
     typealias ParentKey = Int
@@ -60,12 +65,9 @@ class CountsPageVC: UIViewController, ServiceProvider {
     private var countriesFamilies: [RegionKey: CountryFamilies] = [:]
     private var countriesVisited: [RegionKey: [CountryKey: Int]] = [:]
 
-    private var checklistsObserver: Observer?
-    private var placesObserver: Observer?
-
-    init(model: Model) {
+    init(model: CountsModel) {
+        list = model
         super.init(nibName: nil, bundle: nil)
-        inject(model: model)
 
         configure()
     }
@@ -80,7 +82,28 @@ class CountsPageVC: UIViewController, ServiceProvider {
 
         collectionView.collectionViewLayout.invalidateLayout()
     }
+
+    func configure() {
+        view.addSubview(collectionView)
+        collectionView.edgeAnchors == view.edgeAnchors + Layout.collectionInsets
+        collectionView.dataSource = self
+        collectionView.delegate = self
+
+        update()
+        observe()
+    }
+
+    func update() {
+        count(places: places, visits: visits)
+        collectionView.reloadData()
+    }
+
+    func observe() {
+        // to be overridden
+    }
 }
+
+// MARK: - UICollectionViewDelegateFlowLayout
 
 extension CountsPageVC: UICollectionViewDelegateFlowLayout {
 
@@ -98,6 +121,8 @@ extension CountsPageVC: UICollectionViewDelegateFlowLayout {
                       height: Layout.cellHeight)
     }
 }
+
+// MARK: - UICollectionViewDataSource
 
 extension CountsPageVC: UICollectionViewDataSource {
 
@@ -176,6 +201,7 @@ extension CountsPageVC: UICollectionViewDataSource {
                             list: list,
                             id: place.placeId,
                             parentId: place.placeParent?.placeId,
+                            editable: isEditable,
                             isLast: isLast)
             }
         case let grouper as CountGroupCell:
@@ -192,6 +218,8 @@ extension CountsPageVC: UICollectionViewDataSource {
     }
 }
 
+// MARK: - CountHeaderDelegate
+
 extension CountsPageVC: CountHeaderDelegate {
 
     func toggle(section key: String) {
@@ -205,41 +233,12 @@ extension CountsPageVC: CountHeaderDelegate {
     }
 }
 
+// MARK: - Private
+
 private extension CountsPageVC {
 
     typealias GroupModel = (key: String, count: Int, visited: Int)
     typealias CellModel = (String, PlaceInfo?, GroupModel?)
-
-    func configure() {
-        requireInjections()
-
-        view.addSubview(collectionView)
-        collectionView.edgeAnchors == view.edgeAnchors + Layout.collectionInsets
-        collectionView.dataSource = self
-        collectionView.delegate = self
-
-        update()
-        observe()
-    }
-
-    func update() {
-        count(places: list.places,
-              visits: list.visits)
-
-        collectionView.reloadData()
-    }
-
-    func observe() {
-        placesObserver = list.observer { [weak self] _ in
-            self?.update()
-        }
-
-        guard checklistsObserver == nil else { return }
-
-        checklistsObserver = data.observer(of: .checklists) { [weak self] _ in
-            self?.update()
-        }
-    }
 
     func model(of indexPath: IndexPath) -> CellModel {
         if list.isShowingChildren {
@@ -376,17 +375,5 @@ private extension CountsPageVC {
         }
 
         return (parentPlaces, parentFamilies.isEmpty ? nil: parentFamilies)
-    }
-}
-
-extension CountsPageVC: Injectable {
-
-    typealias Model = Checklist
-
-    func inject(model: Model) {
-        list = model
-    }
-
-    func requireInjections() {
     }
 }

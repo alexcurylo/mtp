@@ -4,11 +4,11 @@ import Parchment
 
 final class UserProfilePagingVC: FixedPagingViewController, ServiceProvider {
 
-    static var profile: UserProfilePagingVC {
+    static func profile(model: Model) -> UserProfilePagingVC {
 
         let controllers: [CountsPageVC] = [
-            CountsPageVC(model: .locations),
-            CountsPageVC(model: .beaches)
+            UserProfilePageVC(model: (model.list, model.user, .visited)),
+            UserProfilePageVC(model: (model.list, model.user, .remaining))
         ]
 
         return UserProfilePagingVC(viewControllers: controllers)
@@ -64,5 +64,16 @@ private extension UserProfilePagingVC {
             zIndex: .max,
             spacing: .zero,
             insets: .zero)
+    }
+}
+
+extension UserProfilePagingVC: Injectable {
+
+    typealias Model = (list: Checklist, user: User)
+
+    func inject(model: Model) {
+    }
+
+    func requireInjections() {
     }
 }

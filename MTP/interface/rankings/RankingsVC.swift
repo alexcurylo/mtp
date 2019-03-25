@@ -123,12 +123,12 @@ extension RankingsVC: RankingsPageVCDelegate {
     }
 
     func tapped(visited user: User, list: Checklist) {
-        model = (user: user, tab: .visited)
+        model = (list: list, user: user, tab: .visited)
         performSegue(withIdentifier: Segues.showUserProfile, sender: self)
     }
 
     func tapped(remaining user: User, list: Checklist) {
-        model = (user: user, tab: .remaining)
+        model = (list: list, user: user, tab: .remaining)
         performSegue(withIdentifier: Segues.showUserProfile, sender: self)
     }
 }
