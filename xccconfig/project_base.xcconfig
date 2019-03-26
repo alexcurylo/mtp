@@ -411,7 +411,7 @@ SDKROOT = iphoneos
 // 
 // NOTE: This must also be set as a project level custom setting for `pod install` to work correctly!
 
-SWIFT_VERSION = 4.2
+SWIFT_VERSION = 5.0
 
 
 
