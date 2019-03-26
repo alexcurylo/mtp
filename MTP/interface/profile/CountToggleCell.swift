@@ -6,11 +6,13 @@ final class CountToggleCell: UICollectionViewCell, ServiceProvider {
 
     static let reuseIdentifier = NSStringFromClass(CountToggleCell.self)
 
+    // swiftlint:disable:next function_parameter_count
     func set(title: String,
              subtitle: String,
              list: Checklist,
              id: Int,
              parentId: Int?,
+             editable: Bool,
              isLast: Bool) {
         self.list = list
         self.id = id
@@ -18,7 +20,6 @@ final class CountToggleCell: UICollectionViewCell, ServiceProvider {
 
         titleLabel.text = title
         subtitleLabel.text = subtitle
-        visit.isOn = list.isVisited(id: id)
 
         if list.hasChildren(id: id) {
             labelsIndent?.constant = Layout.parentIndent
@@ -32,6 +33,20 @@ final class CountToggleCell: UICollectionViewCell, ServiceProvider {
             }
             titleLabel.font = Avenir.medium.of(size: Layout.titleSize)
             visit.isEnabled = true
+        }
+
+        let isEditable = visit.superview != nil
+        switch (editable, isEditable) {
+        case (true, true):
+            visit.isOn = list.isVisited(id: id)
+        case (true, false):
+            visit.isOn = list.isVisited(id: id)
+            buttons.addArrangedSubview(visit)
+        case (false, true):
+            buttons.removeArrangedSubview(visit)
+            visit.removeFromSuperview()
+        default:
+            break
         }
 
         if isLast {
@@ -62,6 +77,12 @@ final class CountToggleCell: UICollectionViewCell, ServiceProvider {
     private var labelsIndent: NSLayoutConstraint?
 
     private let visit = UISwitch()
+    private let buttons = UIStackView(arrangedSubviews: []).with { stack in
+        stack.axis = .vertical
+        stack.distribution = .fillEqually
+        stack.alignment = .trailing
+        stack.spacing = Layout.spacing.height
+    }
 
     private var list: Checklist?
     private var id: Int?
@@ -105,11 +126,6 @@ private extension CountToggleCell {
         infos.centerYAnchor == contentView.centerYAnchor
         labelsIndent = infos.leadingAnchor == contentView.leadingAnchor + Layout.parentIndent
 
-        let buttons = UIStackView(arrangedSubviews: [visit])
-        buttons.axis = .vertical
-        buttons.distribution = .fillEqually
-        buttons.alignment = .trailing
-        buttons.spacing = Layout.spacing.height
         contentView.addSubview(buttons)
         buttons.verticalAnchors == contentView.verticalAnchors + Layout.margin
         buttons.trailingAnchor == contentView.trailingAnchor - Layout.margin

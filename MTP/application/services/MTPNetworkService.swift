@@ -20,6 +20,11 @@ enum MTPNetworkError: Swift.Error {
 
 enum MTP: Hashable {
 
+    enum Map: String {
+        case uncountries
+        case world
+    }
+
     enum Size: String {
         case any = ""
         case large
@@ -32,6 +37,7 @@ enum MTP: Hashable {
     case checkOut(list: Checklist, id: Int)
     case countriesSearch(query: String?)
     case divesite
+    case geoJson(map: Map)
     case golfcourse
     case location
     case locationPosts
@@ -48,6 +54,9 @@ enum MTP: Hashable {
     case userLogin(email: String, password: String)
     case userRegister(info: RegistrationInfo)
     case whs
+
+    // GET minimap: /minimaps/{user_id}.png
+    // force map reload: POST /api/users/{user_id}/minimap
 }
 
 extension MTP: TargetType {
@@ -72,6 +81,8 @@ extension MTP: TargetType {
             return "countries/search"
         case .divesite:
             return "divesite"
+        case .geoJson(let map):
+            return "geojson-files/\(map.rawValue)-map"
         case .golfcourse:
             return "golfcourse"
         case .location:
@@ -117,6 +128,7 @@ extension MTP: TargetType {
              .checklists,
              .countriesSearch,
              .divesite,
+             .geoJson,
              .golfcourse,
              .location,
              .locationPosts,
@@ -172,6 +184,7 @@ extension MTP: TargetType {
              .checklists,
              .countriesSearch,
              .divesite,
+             .geoJson,
              .golfcourse,
              .location,
              .locationPosts,
@@ -225,6 +238,7 @@ extension MTP: AccessTokenAuthorizable {
         case .beach,
              .countriesSearch,
              .divesite,
+             .geoJson,
              .golfcourse,
              .location,
              .passwordReset,
@@ -941,6 +955,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 log.verbose("logged in user: " + user.debugDescription)
                 data.token = token
                 data.user = user
+                refresh(info: user)
                 return then(.success(user))
             } catch {
                 log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
@@ -1118,13 +1133,18 @@ private extension MoyaMTPNetworkService {
 
         userGetByToken { result in
             guard case .success(let user) = result else { return }
+            self.refresh(info: user)
+        }
+    }
 
-            self.loadChecklists()
-            self.loadPosts()
-            self.loadPhotos(user: nil, page: 1)
-            Checklist.allCases.forEach { list in
-                self.loadScorecard(list: list, user: user.id)
-            }
+    func refresh(info user: UserJSON) {
+        guard data.isLoggedIn else { return }
+
+        self.loadChecklists()
+        self.loadPosts()
+        self.loadPhotos(user: nil, page: 1)
+        Checklist.allCases.forEach { list in
+            self.loadScorecard(list: list, user: user.id)
         }
     }
 }
@@ -1149,6 +1169,11 @@ extension MTP {
             }
         }
         return false
+    }
+
+    static func unthrottle() {
+        active = []
+        received = [:]
     }
 
     func markResponded() {

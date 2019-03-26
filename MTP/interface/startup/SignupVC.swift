@@ -5,12 +5,11 @@ import RealmSwift
 
 // swiftlint:disable file_length
 
-final class SignupVC: UIViewController, KeyboardListener, ServiceProvider {
+final class SignupVC: UIViewController, ServiceProvider {
 
-    typealias Segues = R.segue.signupVC
+    private typealias Segues = R.segue.signupVC
 
-    // swiftlint:disable:next private_outlet
-    @IBOutlet var scrollView: UIScrollView?
+    @IBOutlet private var scrollView: UIScrollView?
     @IBOutlet private var credentialsStack: UIStackView?
     @IBOutlet private var facebookStack: UIStackView?
     @IBOutlet private var fieldsStack: UIStackView?
@@ -40,6 +39,7 @@ final class SignupVC: UIViewController, KeyboardListener, ServiceProvider {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
 
         setupView()
         startKeyboardListening()
@@ -106,6 +106,11 @@ final class SignupVC: UIViewController, KeyboardListener, ServiceProvider {
             log.debug("unexpected segue: \(segue.name)")
         }
     }
+}
+
+extension SignupVC: KeyboardListener {
+
+    var keyboardScrollee: UIScrollView? { return scrollView }
 }
 
 private extension SignupVC {
@@ -530,5 +535,34 @@ extension SignupVC: UIPickerViewDelegate {
         guard row > 0 else { return }
         genderTextField?.text = genders[row]
         genderTextField?.resignFirstResponder()
+    }
+}
+
+extension SignupVC: Injectable {
+
+    typealias Model = ()
+
+    func inject(model: Model) {
+    }
+
+    func requireInjections() {
+        scrollView.require()
+        credentialsStack.require()
+        facebookStack.require()
+        fieldsStack.require()
+        emailTextField.require()
+        firstNameTextField.require()
+        lastNameTextField.require()
+        genderTextField.require()
+        countryTextField.require()
+        locationTextField.require()
+        birthdayTextField.require()
+        passwordTextField.require()
+        togglePasswordButton.require()
+        confirmPasswordTextField.require()
+        toggleConfirmPasswordButton.require()
+        keyboardToolbar.require()
+        toolbarBackButton.require()
+        toolbarNextButton.require()
     }
 }

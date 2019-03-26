@@ -4,14 +4,38 @@ import KRProgressHUD
 
 final class EditProfileVC: UITableViewController, ServiceProvider {
 
-    typealias Segues = R.segue.editProfileVC
+    private typealias Segues = R.segue.editProfileVC
+
+    @IBOutlet private var saveButton: UIBarButtonItem?
 
     @IBOutlet private var backgroundView: UIView?
 
+    @IBOutlet private var avatarButton: UIButton?
+    @IBOutlet private var firstNameTextField: UITextField?
+    @IBOutlet private var lastNameTextField: UITextField?
+    @IBOutlet private var birthdayTextField: UITextField?
+    @IBOutlet private var genderTextField: UITextField?
+    @IBOutlet private var countryTextField: UITextField?
+    @IBOutlet private var locationTextField: UITextField?
+    @IBOutlet private var emailTextField: UITextField?
+    @IBOutlet private var aboutTextView: UITextView?
+    @IBOutlet private var airportTextField: UITextField?
+
+    @IBOutlet private var linksStack: UIStackView?
+    @IBOutlet private var linksTitle: UILabel?
+    @IBOutlet private var addLinkButton: UIButton?
+
+    @IBOutlet private var contactDisplayButton: UIButton?
+    @IBOutlet private var contactDontDisplayButton: UIButton?
+    @IBOutlet private var contactNoneButton: UIButton?
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
 
         tableView.backgroundView = backgroundView
+
+        configure()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -45,12 +69,59 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
     }
 }
 
-// MARK: - Actions
+// MARK: - UITableViewDelegate
+
+extension EditProfileVC {
+
+    override func tableView(_ tableView: UITableView,
+                            heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+
+    override func tableView(_ tableView: UITableView,
+                            estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+}
+
+// MARK: - Private
 
 private extension EditProfileVC {
 
+    func configure() {
+        saveButton?.isEnabled = false
+    }
+
+    func updateSave() {
+        //saveButton?.isEnabled = original != current
+    }
+
     func saveEdits() {
         log.todo("implement saveEdits")
+    }
+
+    @IBAction func avatarTapped(_ sender: UIButton) {
+        log.todo("avatarTapped")
+    }
+
+    @IBAction func deleteLinkTapped(_ sender: UIButton) {
+        log.todo("deleteLinkTapped")
+    }
+
+    @IBAction func addLinkTapped(_ sender: UIButton) {
+        log.todo("addLinkTapped")
+    }
+
+    @IBAction func contactDisplayTapped(_ sender: UIButton) {
+        log.todo("contactDisplayTapped")
+    }
+
+    @IBAction func contactDontDisplayTapped(_ sender: UIButton) {
+        log.todo("contactDontDisplayTapped")
+    }
+
+    @IBAction func contactNoneTapped(_ sender: UIButton) {
+        log.todo("contactNoneTapped")
     }
 
     @IBAction func deleteAccount(segue: UIStoryboardSegue) {
@@ -80,5 +151,33 @@ private extension EditProfileVC {
                 KRProgressHUD.dismiss()
             }
         }
+    }
+}
+
+extension EditProfileVC: Injectable {
+
+    typealias Model = ()
+
+    func inject(model: Model) {
+    }
+
+    func requireInjections() {
+        saveButton.require()
+        backgroundView.require()
+        firstNameTextField.require()
+        lastNameTextField.require()
+        birthdayTextField.require()
+        genderTextField.require()
+        countryTextField.require()
+        locationTextField.require()
+        emailTextField.require()
+        aboutTextView.require()
+        airportTextField.require()
+        linksStack.require()
+        linksTitle.require()
+        addLinkButton.require()
+        contactDisplayButton.require()
+        contactDontDisplayButton.require()
+        contactNoneButton.require()
     }
 }

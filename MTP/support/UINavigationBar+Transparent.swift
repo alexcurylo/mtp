@@ -11,11 +11,19 @@ enum Transparency {
 extension UIViewController {
 
     func hide(navBar animated: Bool) {
-        navigationController?.setNavigationBarHidden(true, animated: animated)
+        if let presenter = presentingViewController {
+            presenter.hide(navBar: animated)
+        } else if let nav = navigationController {
+            nav.setNavigationBarHidden(true, animated: animated)
+        }
     }
 
     func hide(toolBar animated: Bool) {
-        navigationController?.setToolbarHidden(true, animated: animated)
+        if let presenter = presentingViewController {
+            presenter.hide(toolBar: animated)
+        } else if let nav = navigationController {
+            nav.setToolbarHidden(true, animated: animated)
+        }
     }
 
     func show(navBar animated: Bool, style: Styler? = nil) {
@@ -23,6 +31,10 @@ extension UIViewController {
             navigationController?.navigationBar.set(style: style)
         }
         navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+
+    func show(toolBar animated: Bool) {
+        navigationController?.setToolbarHidden(false, animated: animated)
     }
 }
 

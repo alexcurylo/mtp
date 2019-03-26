@@ -4,18 +4,19 @@ import UIKit
 
 final class LoginFailVC: UIViewController, ServiceProvider {
 
-    typealias Segues = R.segue.loginFailVC
+    private typealias Segues = R.segue.loginFailVC
 
     @IBOutlet private var alertHolder: UIView?
     @IBOutlet private var bottomY: NSLayoutConstraint?
     @IBOutlet private var centerY: NSLayoutConstraint?
     @IBOutlet private var messageLabel: UILabel?
 
-    var errorMessage: String?
-    var isSwitchable: Bool = true
+    private var errorMessage: String?
+    private var isSwitchable: Bool = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
 
         if let message = errorMessage, !message.isEmpty {
             messageLabel?.text = message
@@ -88,5 +89,23 @@ private extension LoginFailVC {
                 self.view.layoutIfNeeded()
             },
             completion: nil)
+    }
+}
+
+extension LoginFailVC: Injectable {
+
+    typealias Model = String
+
+    func inject(model: Model) {
+        errorMessage = model
+    }
+
+    func requireInjections() {
+        errorMessage.require()
+
+        alertHolder.require()
+        bottomY.require()
+        centerY.require()
+        messageLabel.require()
     }
 }

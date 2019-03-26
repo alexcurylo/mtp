@@ -4,7 +4,7 @@ import Anchorage
 import Parchment
 import RealmSwift
 
-protocol RankingsPageVCDelegate: AnyObject {
+protocol RankingsPageVCDelegate: RankingCellDelegate {
 
     func didScroll(rankingsPageVC: RankingsPageVC)
 }
@@ -79,6 +79,8 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
     }
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
+
 extension RankingsPageVC: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView,
@@ -94,11 +96,18 @@ extension RankingsPageVC: UICollectionViewDelegateFlowLayout {
         return CGSize(width: collectionView.bounds.width,
                       height: Layout.cellHeight)
     }
+}
+
+// MARK: - UIScrollViewDelegate
+
+extension RankingsPageVC {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         delegate?.didScroll(rankingsPageVC: self)
     }
 }
+
+// MARK: - UICollectionViewDataSource
 
 extension RankingsPageVC: UICollectionViewDataSource {
 
@@ -147,12 +156,15 @@ extension RankingsPageVC: UICollectionViewDataSource {
             let rank = indexPath.row + 1
             cell.set(user: user(at: rank),
                      for: rank,
-                     in: filter.checklistType)
+                     in: filter.checklistType,
+                     delegate: delegate)
         }
 
         return cell
     }
 }
+
+// MARK: - Private
 
 private extension RankingsPageVC {
 

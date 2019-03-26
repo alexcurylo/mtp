@@ -4,12 +4,13 @@ import UIKit
 
 final class SettingsVC: UITableViewController, ServiceProvider {
 
-    typealias Segues = R.segue.settingsVC
+    private typealias Segues = R.segue.settingsVC
 
     @IBOutlet private var backgroundView: UIView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
 
         tableView.backgroundView = backgroundView
     }
@@ -37,5 +38,40 @@ final class SettingsVC: UITableViewController, ServiceProvider {
         default:
             log.debug("unexpected segue: \(segue.name)")
         }
+    }
+}
+
+private extension SettingsVC {
+
+    @IBAction func aboutTapped(_ sender: UIButton) {
+        log.todo("aboutTapped")
+    }
+
+    @IBAction func shareTapped(_ sender: UIButton) {
+        log.todo("shareTapped")
+    }
+
+    @IBAction func faqTapped(_ sender: UIButton) {
+        log.todo("faqTapped")
+    }
+
+    @IBAction func membersTapped(_ sender: UIButton) {
+        log.todo("membersTapped")
+    }
+
+    @IBAction func contactTapped(_ sender: UIButton) {
+        log.todo("contactTapped")
+    }
+}
+
+extension SettingsVC: Injectable {
+
+    typealias Model = ()
+
+    func inject(model: Model) {
+    }
+
+    func requireInjections() {
+        backgroundView.require()
     }
 }

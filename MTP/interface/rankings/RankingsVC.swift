@@ -5,15 +5,18 @@ import Parchment
 
 final class RankingsVC: UIViewController, ServiceProvider {
 
-    typealias Segues = R.segue.rankingsVC
+    private typealias Segues = R.segue.rankingsVC
 
     @IBOutlet private var pagesHolder: UIView?
 
     private let pagingVC = RankingsPagingVC()
     private let pages = ListPagingItem.pages
 
+    private var model: UserProfileVC.Model?
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
 
         configurePagesHolder()
     }
@@ -39,6 +42,11 @@ final class RankingsVC: UIViewController, ServiceProvider {
         case Segues.showFilter.identifier,
              Segues.showSearch.identifier:
             break
+        case Segues.showUserProfile.identifier:
+            if let profile = Segues.showUserProfile(segue: segue)?.destination,
+               let model = model {
+                profile.inject(model: model)
+            }
         default:
             log.debug("unexpected segue: \(segue.name)")
         }
@@ -113,6 +121,16 @@ extension RankingsVC: RankingsPageVCDelegate {
         let height = pagingVC.menuHeight(for: rankingsPageVC.collectionView)
         update(menu: height)
     }
+
+    func tapped(visited user: User, list: Checklist) {
+        model = (list: list, user: user, tab: .visited)
+        performSegue(withIdentifier: Segues.showUserProfile, sender: self)
+    }
+
+    func tapped(remaining user: User, list: Checklist) {
+        model = (list: list, user: user, tab: .remaining)
+        performSegue(withIdentifier: Segues.showUserProfile, sender: self)
+    }
 }
 
 extension RankingsVC: PagingViewControllerDelegate {
@@ -130,5 +148,17 @@ extension RankingsVC: PagingViewControllerDelegate {
         let to = pagingVC.menuHeight(for: destinationViewController.collectionView)
         let height = ((to - from) * abs(progress)) + from
         update(menu: height)
+    }
+}
+
+extension RankingsVC: Injectable {
+
+    typealias Model = ()
+
+    func inject(model: Model) {
+    }
+
+    func requireInjections() {
+        pagesHolder.require()
     }
 }

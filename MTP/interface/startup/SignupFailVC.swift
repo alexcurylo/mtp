@@ -4,7 +4,7 @@ import UIKit
 
 final class SignupFailVC: UIViewController, ServiceProvider {
 
-    typealias Segues = R.segue.signupFailVC
+    private typealias Segues = R.segue.signupFailVC
 
     @IBOutlet private var alertHolder: UIView?
     @IBOutlet private var bottomY: NSLayoutConstraint?
@@ -15,6 +15,7 @@ final class SignupFailVC: UIViewController, ServiceProvider {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
 
         if let message = errorMessage, !message.isEmpty {
             messageLabel?.text = message
@@ -73,5 +74,23 @@ private extension SignupFailVC {
                 self.view.layoutIfNeeded()
             },
             completion: nil)
+    }
+}
+
+extension SignupFailVC: Injectable {
+
+    typealias Model = String
+
+    func inject(model: Model) {
+        errorMessage = model
+    }
+
+    func requireInjections() {
+        errorMessage.require()
+
+        alertHolder.require()
+        bottomY.require()
+        centerY.require()
+        messageLabel.require()
     }
 }

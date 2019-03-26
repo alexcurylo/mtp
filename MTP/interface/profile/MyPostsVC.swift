@@ -15,17 +15,24 @@ final class MyPostsVC: UICollectionViewController, ServiceProvider {
         $0.timeStyle = .none
     }
 
+    private var postsObserver: Observer?
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
 
         flow?.itemSize = UICollectionViewFlowLayout.automaticSize
         flow?.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+
+        update()
+        observe()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        refreshPosts()
+        update()
+        observe()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -85,11 +92,7 @@ extension MyPostsVC: UICollectionViewDelegateFlowLayout {
 
 private extension MyPostsVC {
 
-    var flow: UICollectionViewFlowLayout? {
-        return collectionView.collectionViewLayout as? UICollectionViewFlowLayout
-    }
-
-    func refreshPosts() {
+    func update() {
         posts = data.posts.map { post in
             let photos = data.get(user: nil, photos: post.locationId)
             let location = data.get(location: post.locationId)
@@ -103,6 +106,29 @@ private extension MyPostsVC {
         }
 
         collectionView.reloadData()
+    }
+
+    func observe() {
+        guard postsObserver == nil else { return }
+
+        postsObserver = data.observer(of: .posts) { [weak self] _ in
+            self?.update()
+        }
+    }
+
+    var flow: UICollectionViewFlowLayout? {
+        return collectionView.collectionViewLayout as? UICollectionViewFlowLayout
+    }
+}
+
+extension MyPostsVC: Injectable {
+
+    typealias Model = ()
+
+    func inject(model: Model) {
+    }
+
+    func requireInjections() {
     }
 }
 

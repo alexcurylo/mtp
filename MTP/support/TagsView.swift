@@ -1,5 +1,7 @@
 // @copyright Trollwerks Inc.
 
+#if IMPLEMENT_FAVORITES
+
 //Copyright (c) 2018 pikachu987 <pikachu77769@gmail.com>
 //
 //Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -409,3 +411,5 @@ extension TagsView: TagButtonDelegate {
         }
     }
 }
+
+#endif

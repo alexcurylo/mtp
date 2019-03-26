@@ -4,17 +4,21 @@
 
 import Anchorage
 import MapKit
+import RealmSwift
 
 final class LocationsVC: UIViewController {
 
-    typealias Segues = R.segue.locationsVC
+    private typealias Segues = R.segue.locationsVC
 
     @IBOutlet private var mapView: MKMapView?
     @IBOutlet private var searchBar: UISearchBar?
+    @IBOutlet private var showMoreButton: UIButton?
 
     let locationManager = CLLocationManager()
     private var trackingButton: MKUserTrackingButton?
-    private var centered = false
+    private var mapCentered = false
+
+    private var mapDisplay = ChecklistFlags()
 
     private var beachesObserver: Observer?
     private var divesitesObserver: Observer?
@@ -31,9 +35,13 @@ final class LocationsVC: UIViewController {
     private var restaurantsAnnotations: Set<PlaceAnnotation> = []
     private var whssAnnotations: Set<PlaceAnnotation> = []
 
+    private var selected: PlaceAnnotation?
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
 
+        mapDisplay = data.mapDisplay
         setupCompass()
         setupTracking()
         setupAnnotations()
@@ -50,7 +58,13 @@ final class LocationsVC: UIViewController {
         super.viewDidAppear(animated)
 
         trackingButton?.set(visibility: start(tracking: .ask))
-        zoomAndCenter()
+        centerOnDevice()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        mapCentered = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -64,9 +78,39 @@ final class LocationsVC: UIViewController {
         case Segues.showFilter.identifier,
              Segues.showList.identifier:
             break
+        case Segues.showLocation.identifier:
+            log.todo("inject selected")
         default:
             log.debug("unexpected segue: \(segue.name)")
         }
+    }
+
+    func updateFilter() {
+        mapDisplay = data.mapDisplay
+        showAnnotations()
+    }
+
+    func reveal(user: User?) {
+        guard let name = user?.locationName, !name.isEmpty else { return }
+
+        let place = data.locations
+                        .first { $0.description == name }
+        guard let coordinate = place?.placeCoordinate else { return }
+
+        navigationController?.popToRootViewController(animated: false)
+        zoom(to: coordinate)
+    }
+
+    func reveal(place: PlaceAnnotation?) {
+        zoom(to: place?.coordinate)
+    }
+}
+
+extension LocationsVC: PlaceAnnotationDelegate {
+
+    func show(location: PlaceAnnotation) {
+        selected = location
+        performSegue(withIdentifier: Segues.showLocation, sender: self)
     }
 }
 
@@ -117,12 +161,18 @@ private extension LocationsVC {
         stack.trailingAnchor == view.trailingAnchor - Layout.margin
     }
 
-    func zoomAndCenter() {
-        guard !centered,
+    func centerOnDevice() {
+        guard !mapCentered,
               let here = locationManager.location?.coordinate else { return }
 
-        centered = true
-        let viewRegion = MKCoordinateRegion(center: here,
+        zoom(to: here)
+    }
+
+    func zoom(to center: CLLocationCoordinate2D?) {
+        guard let center = center else { return }
+
+        mapCentered = true
+        let viewRegion = MKCoordinateRegion(center: center,
                                             latitudinalMeters: 200,
                                             longitudinalMeters: 200)
         DispatchQueue.main.async { [weak self] in
@@ -133,7 +183,10 @@ private extension LocationsVC {
     func setupAnnotations() {
         registerAnnotationViews()
         observe()
+        showAnnotations()
+    }
 
+    func showAnnotations() {
         showBeaches()
         showDiveSites()
         showGolfCourses()
@@ -176,7 +229,10 @@ private extension LocationsVC {
         )
     }
 
-    func annotations(list: Checklist) -> Set<PlaceAnnotation> {
+    func annotations(list: Checklist,
+                     shown: Bool) -> Set<PlaceAnnotation> {
+        guard shown else { return [] }
+
         return Set<PlaceAnnotation>(list.places.compactMap { place in
             guard place.placeIsMappable else {
                 return nil
@@ -192,6 +248,7 @@ private extension LocationsVC {
                 type: list,
                 id: place.placeId,
                 coordinate: coordinate,
+                delegate: self,
                 title: place.placeTitle,
                 subtitle: place.placeSubtitle
             )
@@ -199,7 +256,7 @@ private extension LocationsVC {
     }
 
     func showBeaches() {
-        let new = annotations(list: .beaches)
+        let new = annotations(list: .beaches, shown: mapDisplay.beaches)
 
         let subtracted = beachesAnnotations.subtracting(new)
         mapView?.removeAnnotations(Array(subtracted))
@@ -211,7 +268,7 @@ private extension LocationsVC {
     }
 
     func showDiveSites() {
-        let new = annotations(list: .divesites)
+        let new = annotations(list: .divesites, shown: mapDisplay.divesites)
 
         let subtracted = divesitesAnnotations.subtracting(new)
         mapView?.removeAnnotations(Array(subtracted))
@@ -223,7 +280,7 @@ private extension LocationsVC {
     }
 
     func showGolfCourses() {
-        let new = annotations(list: .golfcourses)
+        let new = annotations(list: .golfcourses, shown: mapDisplay.golfcourses)
 
         let subtracted = golfcoursesAnnotations.subtracting(new)
         mapView?.removeAnnotations(Array(subtracted))
@@ -235,7 +292,7 @@ private extension LocationsVC {
     }
 
     func showLocations() {
-        let new = annotations(list: .locations)
+        let new = annotations(list: .locations, shown: mapDisplay.locations)
 
         let subtracted = locationsAnnotations.subtracting(new)
         mapView?.removeAnnotations(Array(subtracted))
@@ -247,7 +304,7 @@ private extension LocationsVC {
     }
 
     func showRestaurants() {
-        let new = annotations(list: .restaurants)
+        let new = annotations(list: .restaurants, shown: mapDisplay.restaurants)
 
         let subtracted = restaurantsAnnotations.subtracting(new)
         mapView?.removeAnnotations(Array(subtracted))
@@ -259,7 +316,7 @@ private extension LocationsVC {
     }
 
     func showWHSs() {
-        let new = annotations(list: .whss)
+        let new = annotations(list: .whss, shown: mapDisplay.whss)
 
         let subtracted = whssAnnotations.subtracting(new)
         mapView?.removeAnnotations(Array(subtracted))
@@ -300,7 +357,7 @@ extension LocationsVC: MKMapViewDelegate {
     }
     func mapView(_ mapView: MKMapView,
                  didUpdate userLocation: MKUserLocation) {
-        zoomAndCenter()
+        centerOnDevice()
     }
     func mapView(_ mapView: MKMapView,
                  didFailToLocateUserWithError error: Error) {
@@ -423,7 +480,7 @@ extension LocationsVC: LocationTracker {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.trackingButton?.set(visibility: self.start(tracking: .ask))
-            self.zoomAndCenter()
+            self.centerOnDevice()
         }
     }
 
@@ -451,5 +508,19 @@ private extension MKUserTrackingButton {
             authorized = false
         }
         isHidden = !authorized
+    }
+}
+
+extension LocationsVC: Injectable {
+
+    typealias Model = ()
+
+    func inject(model: Model) {
+    }
+
+    func requireInjections() {
+        mapView.require()
+        searchBar.require()
+        showMoreButton.require()
     }
 }

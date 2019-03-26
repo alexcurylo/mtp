@@ -4,10 +4,11 @@ import UIKit
 
 final class WelcomeVC: UIViewController, ServiceProvider {
 
-    typealias Segues = R.segue.welcomeVC
+    private typealias Segues = R.segue.welcomeVC
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -30,11 +31,23 @@ final class WelcomeVC: UIViewController, ServiceProvider {
         switch segue.identifier {
         case Segues.showSettings.identifier:
             let settings = Segues.showSettings(segue: segue)
-            settings?.destination.destination = .editProfile
+            settings?.destination.inject(model: .editProfile)
         case Segues.showMain.identifier:
-            break
+            let main = Segues.showMain(segue: segue)
+            main?.destination.inject(model: .locations)
         default:
             log.debug("unexpected segue: \(segue.name)")
         }
+    }
+}
+
+extension WelcomeVC: Injectable {
+
+    typealias Model = ()
+
+    func inject(model: Model) {
+    }
+
+    func requireInjections() {
     }
 }

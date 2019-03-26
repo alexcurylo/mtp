@@ -16,12 +16,14 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var golfcourses: [GolfCourse] { get }
     var lastRankingsQuery: RankingsQuery { get set }
     var locations: [Location] { get }
+    var mapDisplay: ChecklistFlags { get set }
     var posts: [Post] { get }
     var restaurants: [Restaurant] { get }
     var token: String { get set }
     var uncountries: [UNCountry] { get }
     var user: UserJSON? { get set }
     var whss: [WHS] { get }
+    var worldMap: WorldMap { get }
 
     func get(country id: Int?) -> Country?
     func get(location id: Int?) -> Location?
@@ -54,6 +56,8 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func set(uncountries: [LocationJSON])
     func set(user data: UserJSON)
     func set(whss: [WHSJSON])
+
+    func deleteUserPhotos()
 }
 
 // MARK: - User state
@@ -64,8 +68,8 @@ extension DataService {
         guard !token.isEmpty else { return false }
         guard let jwt = try? decode(jwt: token),
               !jwt.expired else {
-            // Appears to have 1 year expiry
-            log.todo("token expired -- should we be refreshing somehow?")
+            // Appears to have 1 year expiry -- can we refresh?
+            logOut()
             return false
         }
         // https://github.com/auth0/JWTDecode.swift/issues/70
@@ -75,7 +79,14 @@ extension DataService {
 
     func logOut() {
         FacebookButton.logOut()
+        MTP.unthrottle()
+
+        checklists = nil
         email = ""
+        etags = [:]
+        deleteUserPhotos()
+        lastRankingsQuery = RankingsQuery()
+        set(posts: [])
         token = ""
         user = nil
     }
@@ -85,6 +96,10 @@ final class DataServiceImpl: DataService {
 
     private let defaults = UserDefaults.standard
     private let realm = RealmController()
+
+    func deleteUserPhotos() {
+        realm.deleteUserPhotos()
+    }
 
     var beaches: [Beach] {
         return realm.beaches
@@ -171,17 +186,10 @@ final class DataServiceImpl: DataService {
         notify(change: .locations)
     }
 
-    var name: String {
-        get { return defaults.name }
+    var mapDisplay: ChecklistFlags {
+        get { return defaults.mapDisplay ?? ChecklistFlags() }
         set {
-            defaults.name = newValue
-        }
-    }
-
-    var password: String {
-        get { return defaults.password }
-        set {
-            defaults.password = newValue
+            defaults.mapDisplay = newValue
         }
     }
 
@@ -317,6 +325,8 @@ final class DataServiceImpl: DataService {
         realm.set(whss: whss)
         notify(change: .whss)
     }
+
+    var worldMap = WorldMap()
 }
 
 // MARK: - Observable

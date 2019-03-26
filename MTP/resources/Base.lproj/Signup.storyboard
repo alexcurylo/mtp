@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="VZf-fG-PrW">
-    <device id="retina6_5" orientation="portrait">
+    <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -16,11 +16,11 @@
             <objects>
                 <viewController title="Sign Up to MTP" definesPresentationContext="YES" providesPresentationContextTransitionStyle="YES" id="VZf-fG-PrW" customClass="SignupVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jbu-cQ-Pp1" customClass="GradientView" customModule="MTP" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hnx-yz-Iz5">
-                                <rect key="frame" x="0.0" y="20" width="414" height="842"/>
+                                <rect key="frame" x="0.0" y="20" width="414" height="716"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Ecq-E5-OQM" userLabel="Credentials Stack">
                                         <rect key="frame" x="32" y="16" width="350" height="721.66666666666663"/>
@@ -540,11 +540,11 @@
             <objects>
                 <viewController title="Terms of Service" id="RVy-dB-36p" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IET-yo-uft">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LEM-rz-ioT" customClass="UITopLoadingTextView" customModule="MTP" customModuleProvider="target">
-                                <rect key="frame" x="16" y="104" width="382" height="758"/>
+                                <rect key="frame" x="16" y="80" width="382" height="656"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <attributedString key="attributedText">
                                     <fragment content="TERMS OF USE">
@@ -3875,23 +3875,23 @@ Cg
             <objects>
                 <viewController title="Welcome" id="Sh2-4H-ObH" customClass="WelcomeVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6F1-I8-OSZ" customClass="GradientView" customModule="MTP" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud1" translatesAutoresizingMaskIntoConstraints="NO" id="zgx-2g-52R">
-                                <rect key="frame" x="16" y="296" width="97" height="58"/>
+                                <rect key="frame" x="16" y="240" width="97" height="58"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud2" translatesAutoresizingMaskIntoConstraints="NO" id="4aG-gG-oiE">
-                                <rect key="frame" x="327" y="318" width="101" height="55"/>
+                                <rect key="frame" x="327" y="262" width="101" height="55"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud3" translatesAutoresizingMaskIntoConstraints="NO" id="vOe-gG-w9J">
-                                <rect key="frame" x="-16" y="447" width="112" height="69"/>
+                                <rect key="frame" x="-16" y="391" width="112" height="69"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud4" translatesAutoresizingMaskIntoConstraints="NO" id="C15-xM-60M">
-                                <rect key="frame" x="353" y="458" width="104" height="68"/>
+                                <rect key="frame" x="353" y="402" width="104" height="68"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="KW2-wY-ZyV" userLabel="Message Stack">
-                                <rect key="frame" x="32" y="145.66666666666663" width="350" height="336"/>
+                                <rect key="frame" x="32" y="89.666666666666686" width="350" height="336"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Kb-WM-TtP">
                                         <rect key="frame" x="0.0" y="0.0" width="350" height="115"/>
@@ -3909,7 +3909,7 @@ You’re now a member of MTP.</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bmf-Ij-HCS">
-                                        <rect key="frame" x="0.0" y="131.00000000000003" width="350" height="44"/>
+                                        <rect key="frame" x="0.0" y="131" width="350" height="44"/>
                                         <attributedString key="attributedText">
                                             <fragment content="Welcome to the ranks of the Most Traveled People!">
                                                 <attributes>
@@ -3932,15 +3932,15 @@ You’re now a member of MTP.</string>
                                     <constraint firstAttribute="width" priority="750" constant="400" id="koW-Cp-IOu"/>
                                 </constraints>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="oIZ-aS-8gw" userLabel="Settings Stack">
-                                <rect key="frame" x="32" y="654" width="350" height="176"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="oIZ-aS-8gw" userLabel="Settings Stack">
+                                <rect key="frame" x="32" y="552" width="350" height="160"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uPv-Ce-edY">
                                         <rect key="frame" x="0.0" y="0.0" width="350" height="44"/>
                                         <attributedString key="attributedText">
                                             <fragment>
-                                                <string key="content">Tell us more about yourself by going
-to your Profile Settings.</string>
+                                                <string key="content">Tell us more about yourself by
+going to your Profile Settings.</string>
                                                 <attributes>
                                                     <color key="NSColor" red="0.29020000000000001" green="0.29019" blue="0.29019" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <font key="NSFont" size="16" name="Avenir-Medium"/>
@@ -3951,7 +3951,7 @@ to your Profile Settings.</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="53c-W7-tyV" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="60" width="350" height="50"/>
+                                        <rect key="frame" x="0.0" y="52" width="350" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="Nw9-fI-jRX"/>
                                         </constraints>
@@ -3979,7 +3979,7 @@ to your Profile Settings.</string>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xpu-l4-3G1">
-                                        <rect key="frame" x="0.0" y="126" width="350" height="50"/>
+                                        <rect key="frame" x="0.0" y="110" width="350" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="1Xd-6d-FLg"/>
                                         </constraints>
@@ -4020,7 +4020,7 @@ to your Profile Settings.</string>
                             <constraint firstItem="oIZ-aS-8gw" firstAttribute="centerX" secondItem="6F1-I8-OSZ" secondAttribute="centerX" id="W2a-RC-LKh"/>
                             <constraint firstItem="qkD-oK-Frk" firstAttribute="leading" secondItem="zgx-2g-52R" secondAttribute="trailing" constant="-81" id="XYY-24-UJU"/>
                             <constraint firstItem="Kuc-B8-4qY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="oIZ-aS-8gw" secondAttribute="trailing" constant="32" id="bEj-WX-euo"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="oIZ-aS-8gw" secondAttribute="bottom" constant="32" id="h15-jx-VKg"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="oIZ-aS-8gw" secondAttribute="bottom" constant="24" id="h15-jx-VKg"/>
                             <constraint firstItem="qkD-oK-Frk" firstAttribute="top" secondItem="4aG-gG-oiE" secondAttribute="bottom" constant="-36.5" id="inN-X3-boD"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Kuc-B8-4qY"/>
@@ -4049,29 +4049,29 @@ to your Profile Settings.</string>
             <objects>
                 <viewController modalPresentationStyle="overCurrentContext" id="ChW-sd-d9N" customClass="SignupFailVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CNi-hS-40Q">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8ej-Bp-9VC">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="20" width="414" height="716"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="luo-5c-ZeG">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T2c-UT-ea1">
-                                            <rect key="frame" x="24" y="593" width="366" height="225"/>
+                                            <rect key="frame" x="24" y="491" width="366" height="225"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="bHw-g2-ft1">
                                                     <rect key="frame" x="8" y="24" width="350" height="189"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MYq-z1-v8M">
-                                                            <rect key="frame" x="0.0" y="0.0" width="350" height="122"/>
+                                                            <rect key="frame" x="35.333333333333343" y="0.0" width="279.33333333333326" height="122"/>
                                                             <subviews>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1pZ-CH-liT">
-                                                                    <rect key="frame" x="54" y="0.0" width="242" height="122"/>
+                                                                    <rect key="frame" x="54.000000000000014" y="0.0" width="171.33333333333337" height="122"/>
                                                                 </button>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A0B-lJ-JAv">
-                                                                    <rect key="frame" x="54" y="0.0" width="242" height="122"/>
+                                                                    <rect key="frame" x="54.000000000000014" y="0.0" width="171.33333333333337" height="122"/>
                                                                     <attributedString key="attributedText">
                                                                         <fragment content="Sorry, there was an error signing up.">
                                                                             <attributes>

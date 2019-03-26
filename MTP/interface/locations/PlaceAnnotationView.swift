@@ -23,6 +23,7 @@ final class PlaceAnnotationView: MKMarkerAnnotationView {
 
         markerTintColor = place.background
         glyphImage = place.image
+
         let visit = UISwitch {
             $0.isOn = place.visited
             $0.addTarget(self,
@@ -30,6 +31,26 @@ final class PlaceAnnotationView: MKMarkerAnnotationView {
                          for: .valueChanged)
         }
         rightCalloutAccessoryView = visit
+
+        let showMore = GradientButton {
+            $0.orientation = GradientOrientation.horizontal.rawValue
+            $0.startColor = .dodgerBlue
+            $0.endColor = .azureRadiance
+            $0.cornerRadius = 4
+            $0.contentEdgeInsets = UIEdgeInsets(
+                top: 8,
+                left: 16,
+                bottom: 8,
+                right: 16)
+
+            let title = Localized.showMore()
+            $0.setTitle(title, for: .normal)
+            $0.titleLabel?.font = Avenir.heavy.of(size: 18)
+            $0.addTarget(self,
+                         action: #selector(showMoreTapped),
+                         for: .touchUpInside)
+        }
+        detailCalloutAccessoryView = showMore
    }
 
     override func prepareForReuse() {
@@ -38,6 +59,7 @@ final class PlaceAnnotationView: MKMarkerAnnotationView {
         markerTintColor = nil
         glyphImage = nil
         rightCalloutAccessoryView = nil
+        detailCalloutAccessoryView = nil
         annotation = nil
     }
 }
@@ -47,5 +69,10 @@ private extension PlaceAnnotationView {
     @objc func toggleVisit(_ sender: UISwitch) {
         guard let place = annotation as? PlaceAnnotation else { return }
         place.visited = sender.isOn
+    }
+
+    @objc func showMoreTapped(_ sender: GradientButton) {
+        guard let place = annotation as? PlaceAnnotation else { return }
+        place.show()
     }
 }

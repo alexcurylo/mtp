@@ -127,6 +127,26 @@ final class SpyDataService: DataService {
         invokedLocationsGetterCount += 1
         return stubbedLocations
     }
+    var invokedMapDisplaySetter = false
+    var invokedMapDisplaySetterCount = 0
+    var invokedMapDisplay: ChecklistFlags?
+    var invokedMapDisplayList = [ChecklistFlags]()
+    var invokedMapDisplayGetter = false
+    var invokedMapDisplayGetterCount = 0
+    var stubbedMapDisplay: ChecklistFlags!
+    var mapDisplay: ChecklistFlags {
+        set {
+            invokedMapDisplaySetter = true
+            invokedMapDisplaySetterCount += 1
+            invokedMapDisplay = newValue
+            invokedMapDisplayList.append(newValue)
+        }
+        get {
+            invokedMapDisplayGetter = true
+            invokedMapDisplayGetterCount += 1
+            return stubbedMapDisplay
+        }
+    }
     var invokedPostsGetter = false
     var invokedPostsGetterCount = 0
     var stubbedPosts: [Post]! = []
@@ -198,6 +218,14 @@ final class SpyDataService: DataService {
         invokedWhssGetter = true
         invokedWhssGetterCount += 1
         return stubbedWhss
+    }
+    var invokedWorldMapGetter = false
+    var invokedWorldMapGetterCount = 0
+    var stubbedWorldMap: WorldMap!
+    var worldMap: WorldMap {
+        invokedWorldMapGetter = true
+        invokedWorldMapGetterCount += 1
+        return stubbedWorldMap
     }
     var invokedStatusKeyGetter = false
     var invokedStatusKeyGetterCount = 0
@@ -524,6 +552,12 @@ final class SpyDataService: DataService {
         invokedSetWhssCount += 1
         invokedSetWhssParameters = (whss, ())
         invokedSetWhssParametersList.append((whss, ()))
+    }
+    var invokedDeleteUserPhotos = false
+    var invokedDeleteUserPhotosCount = 0
+    func deleteUserPhotos() {
+        invokedDeleteUserPhotos = true
+        invokedDeleteUserPhotosCount += 1
     }
     var invokedNotify = false
     var invokedNotifyCount = 0

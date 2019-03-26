@@ -4,7 +4,7 @@ import RealmSwift
 
 final class RankingsFilterVC: UITableViewController, ServiceProvider {
 
-    typealias Segues = R.segue.rankingsFilterVC
+    private typealias Segues = R.segue.rankingsFilterVC
 
     @IBOutlet private var saveButton: UIBarButtonItem?
 
@@ -34,7 +34,7 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
         }
         tableView.backgroundView = backgroundView
 
-         configure()
+        configure()
    }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -110,9 +110,12 @@ private extension RankingsFilterVC {
 
         configureLocation()
 
-        femaleButton?.isSelected = filter.gender == .female
-        maleAndFemaleButton?.isSelected = filter.gender == .all
-        maleButton?.isSelected = filter.gender == .male
+        femaleButton?.centerImageAndButton(gap: 8, imageOnTop: true)
+        femaleButton?.set(tintedSelection: filter.gender == .female)
+        maleAndFemaleButton?.centerImageAndButton(gap: 8, imageOnTop: true)
+        maleAndFemaleButton?.set(tintedSelection: filter.gender == .all)
+        maleButton?.centerImageAndButton(gap: 8, imageOnTop: true)
+        maleButton?.set(tintedSelection: filter.gender == .male)
 
         ageSlider?.value = Float(filter.ageGroup.rawValue)
         ageLabel?.text = filter.ageGroup.description
@@ -143,31 +146,33 @@ private extension RankingsFilterVC {
    }
 
     @IBAction func selectFemale(_ sender: UIButton) {
-        femaleButton?.isSelected = true
-        maleAndFemaleButton?.isSelected = false
-        maleButton?.isSelected = false
+        femaleButton?.set(tintedSelection: true)
+        maleAndFemaleButton?.set(tintedSelection: false)
+        maleButton?.set(tintedSelection: false)
         current?.gender = .female
         updateSave()
    }
 
     @IBAction func selectMale(_ sender: UIButton) {
-        femaleButton?.isSelected = false
-        maleAndFemaleButton?.isSelected = false
-        maleButton?.isSelected = true
+        femaleButton?.set(tintedSelection: false)
+        maleAndFemaleButton?.set(tintedSelection: false)
+        maleButton?.set(tintedSelection: true)
         current?.gender = .male
         updateSave()
     }
 
     @IBAction func selectMaleAndFemale(_ sender: UIButton) {
-        femaleButton?.isSelected = false
-        maleAndFemaleButton?.isSelected = true
-        maleButton?.isSelected = false
+        femaleButton?.set(tintedSelection: false)
+        maleAndFemaleButton?.set(tintedSelection: true)
+        maleButton?.set(tintedSelection: false)
         current?.gender = .all
         updateSave()
     }
 
     @IBAction func slideAge(_ sender: UISlider) {
-        let ageGroup = Age(rawValue: Int(sender.value)) ?? .all
+        let newValue = sender.value.rounded()
+        sender.setValue(newValue, animated: false)
+        let ageGroup = Age(rawValue: Int(newValue)) ?? .all
         ageLabel?.text = ageGroup.description
         current?.ageGroup = ageGroup
         updateSave()
@@ -191,5 +196,31 @@ private extension RankingsFilterVC {
         } else {
             log.error("expected to return to Rankings tab")
         }
+    }
+}
+
+private extension UIButton {
+
+    func set(tintedSelection: Bool) {
+        isSelected = tintedSelection
+        tintColor = tintedSelection ? .azureRadiance : .black
+    }
+
+    func centerImageAndButton(gap: CGFloat, imageOnTop: Bool) {
+        guard let imageView = currentImage,
+              let titleLabel = titleLabel,
+              let text = titleLabel.text else { return }
+
+        let sign: CGFloat = imageOnTop ? 1 : -1
+        titleEdgeInsets = UIEdgeInsets(top: (imageView.size.height + gap) * sign,
+                                       left: -imageView.size.width,
+                                       bottom: 0,
+                                       right: 0)
+
+        let titleSize = text.size(withAttributes: [NSAttributedString.Key.font: titleLabel.font])
+        imageEdgeInsets = UIEdgeInsets(top: -(titleSize.height + gap) * sign,
+                                       left: 0,
+                                       bottom: 0,
+                                       right: -titleSize.width)
     }
 }

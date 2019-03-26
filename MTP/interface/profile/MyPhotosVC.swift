@@ -16,8 +16,9 @@ final class MyPhotosVC: UICollectionViewController, ServiceProvider {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
 
-        updatePhotos()
+        update()
         observe()
     }
 
@@ -86,7 +87,7 @@ extension MyPhotosVC: UICollectionViewDelegateFlowLayout {
 
 private extension MyPhotosVC {
 
-    func updatePhotos() {
+    func update() {
         photosPages = data.getPhotosPages(user: nil)
         collectionView.reloadData()
     }
@@ -95,7 +96,7 @@ private extension MyPhotosVC {
         guard pagesObserver == nil else { return }
 
         pagesObserver = data.observer(of: .photoPages) { [weak self] _ in
-            self?.updatePhotos()
+            self?.update()
         }
     }
 
@@ -132,6 +133,17 @@ private extension MyPhotosVC {
             options: nil) { result, _ in
                 cell.set(image: result)
         }
+    }
+}
+
+extension MyPhotosVC: Injectable {
+
+    typealias Model = ()
+
+    func inject(model: Model) {
+    }
+
+    func requireInjections() {
     }
 }
 

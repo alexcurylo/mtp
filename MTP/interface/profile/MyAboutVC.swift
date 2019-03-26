@@ -12,20 +12,32 @@ final class MyAboutVC: UITableViewController, ServiceProvider {
 
     @IBOutlet private var airportLabel: UILabel?
 
-    @IBOutlet private var favoriteTags: TagsView?
-
     @IBOutlet private var linksStack: UIStackView?
 
     private var locationsObserver: Observer?
     private var userObserver: Observer?
 
+    private var mapWidth: CGFloat = 0
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+        guard let inset = mapImageView?.superview?.frame.origin.x else { return }
+        let width = tableView.bounds.width - (inset * 2)
+        if mapWidth != width {
+            update(map: width)
+         }
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        update()
         observe()
     }
 
@@ -62,31 +74,39 @@ extension MyAboutVC {
     }
 }
 
+// MARK: - Private
+
 private extension MyAboutVC {
+
+    func update() {
+        guard let user = data.user else { return }
+
+        update(map: mapWidth)
+        update(ranking: user)
+        update(airport: user)
+        update(links: user)
+    }
 
     func observe() {
         guard locationsObserver == nil else { return }
 
-        configure()
-
         locationsObserver = Checklist.locations.observer { [weak self] _ in
-            self?.configure()
+            self?.update()
         }
         userObserver = data.observer(of: .user) { [weak self] _ in
-            self?.configure()
+            self?.update()
         }
     }
 
-    func configure() {
-        guard let user = data.user else { return }
+    func update(map width: CGFloat) {
+        guard width > 0,
+            let image = data.worldMap.draw(with: width) else { return }
 
-        configure(ranking: user)
-        configure(airport: user)
-        configure(favorite: user)
-        configure(links: user)
+        mapWidth = image.size.width
+        mapImageView?.image = image
     }
 
-    func configure(ranking user: UserJSON) {
+    func update(ranking user: UserJSON) {
         let list = Checklist.locations
 
         let rank = list.rank()
@@ -102,22 +122,11 @@ private extension MyAboutVC {
         bioTextView?.text = user.bio
     }
 
-    func configure(airport user: UserJSON) {
+    func update(airport user: UserJSON) {
         airportLabel?.text = user.airport
     }
 
-    func configure(favorite user: UserJSON) {
-        let fakeNames = [ "Greater Blue Mountains Area",
-                          "Shark Bay",
-                          "Purnululu National Park",
-                          "Frsaer Island",
-                          "Ningaloo Coast",
-                          "Great Barrier Reef"]
-        favoriteTags?.removeAll()
-        favoriteTags?.append(contentsOf: fakeNames)
-    }
-
-    func configure(links user: UserJSON) {
+    func update(links user: UserJSON) {
         guard let views = linksStack?.arrangedSubviews else { return }
         (2..<views.count).forEach { index in
             views[index].removeFromSuperview()
@@ -160,5 +169,23 @@ private extension MyAboutVC {
            let url = URL(string: link) {
             app.open(url)
         }
+    }
+}
+
+extension MyAboutVC: Injectable {
+
+    typealias Model = ()
+
+    func inject(model: Model) {
+    }
+
+    func requireInjections() {
+        rankingLabel.require()
+        mapImageView.require()
+        visitedButton.require()
+        remainingButton.require()
+        bioTextView.require()
+        airportLabel.require()
+        linksStack.require()
     }
 }

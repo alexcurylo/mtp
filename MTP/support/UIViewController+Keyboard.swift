@@ -4,7 +4,7 @@ import UIKit
 
 protocol KeyboardListener {
 
-    var scrollView: UIScrollView? { get }
+    var keyboardScrollee: UIScrollView? { get }
 }
 
 extension UIViewController {
@@ -35,7 +35,7 @@ extension UIViewController {
     }
 
     @objc func keyboardWillShow(_ notification: Notification) {
-        guard let scrollView = (self as? KeyboardListener)?.scrollView else { return }
+        guard let scrollView = (self as? KeyboardListener)?.keyboardScrollee else { return }
 
         let payload = KeyboardPayload(note: notification)
         let scrollFrame = scrollView.frame
@@ -55,7 +55,7 @@ extension UIViewController {
     }
 
     @objc func keyboardWillHide(_ notification: Notification) {
-        guard let scrollView = (self as? KeyboardListener)?.scrollView else { return }
+        guard let scrollView = (self as? KeyboardListener)?.keyboardScrollee else { return }
 
         let payload = KeyboardPayload(note: notification)
         let options = UIView.AnimationOptions.beginFromCurrentState
@@ -121,7 +121,7 @@ extension UIViewController {
         convert: KeyboardPayload.init)
 
     func addBlockKeyboardObservers() {
-        guard let scrollView = (self as? KeyboardListener)?.scrollView else { return }
+        guard let scrollView = (self as? KeyboardListener)?.keyboardScrollee else { return }
 
         let center = NotificationCenter.default
         center.addObserver(with: UIViewController.keyboardWillShow) { payload in

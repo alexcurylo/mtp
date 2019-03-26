@@ -137,19 +137,3 @@ extension LaunchHandler {
             didFinishLaunchingWithOptions: options)
     }
 }
-
-extension ActionHandler {
-
-    func handleFacebookURL(app: UIApplication,
-                           open url: URL,
-                           options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {
-        return SDKApplicationDelegate.shared.application(
-            app,
-            open: url,
-            options: options)
-    }
-
-    func logFacebookActivate() {
-        AppEventsLogger.activate()
-    }
-}

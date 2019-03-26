@@ -4,7 +4,7 @@ import KRProgressHUD
 
 final class ForgotPasswordVC: UIViewController, ServiceProvider {
 
-    typealias Segues = R.segue.forgotPasswordVC
+    private typealias Segues = R.segue.forgotPasswordVC
 
     @IBOutlet private var alertHolder: UIView?
     @IBOutlet private var bottomY: NSLayoutConstraint?
@@ -15,6 +15,7 @@ final class ForgotPasswordVC: UIViewController, ServiceProvider {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
 
         email = data.email
         let message = Localized.sendLink(email.hiddenName)
@@ -109,5 +110,20 @@ private extension ForgotPasswordVC {
                 self.view.layoutIfNeeded()
             },
             completion: nil)
+    }
+}
+
+extension ForgotPasswordVC: Injectable {
+
+    typealias Model = ()
+
+    func inject(model: Model) {
+    }
+
+    func requireInjections() {
+        alertHolder.require()
+        bottomY.require()
+        centerY.require()
+        messageLabel.require()
     }
 }

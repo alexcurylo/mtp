@@ -10,7 +10,7 @@ protocol LocationSearchDelegate: AnyObject {
 
 final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
 
-    typealias Segues = R.segue.locationSearchVC
+    private typealias Segues = R.segue.locationSearchVC
 
     enum List {
         case countries
@@ -39,6 +39,7 @@ final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
 
         tableView.backgroundView = backgroundView
         tableView.tableFooterView = UIView()
@@ -72,6 +73,8 @@ final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
         }
     }
 
+    // MARK: - RealmSearchResultsDataSource
+
     override func searchViewController(_ controller: RealmSearchViewController,
                                        cellForObject object: Object,
                                        atIndexPath indexPath: IndexPath) -> UITableViewCell {
@@ -85,6 +88,8 @@ final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
         }
         return UITableViewCell()
     }
+
+    // MARK: - RealmSearchResultsDelegate
 
     override func searchViewController(_ controller: RealmSearchViewController,
                                        didSelectObject anObject: Object,
@@ -149,6 +154,17 @@ private extension LocationSearchVC {
 
             title = Localized.selectLocation()
         }
+    }
+}
+
+extension LocationSearchVC: Injectable {
+
+    typealias Model = ()
+
+    func inject(model: Model) {
+    }
+
+    func requireInjections() {
     }
 }
 

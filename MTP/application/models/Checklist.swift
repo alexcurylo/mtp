@@ -2,6 +2,17 @@
 
 import UIKit
 
+struct ChecklistFlags: Codable, Equatable {
+
+    var beaches: Bool = true
+    var divesites: Bool = true
+    var golfcourses: Bool = true
+    var locations: Bool = true
+    var restaurants: Bool = true
+    var uncountries: Bool = true
+    var whss: Bool = true
+}
+
 enum Checklist: String, Codable, CaseIterable, ServiceProvider {
 
     case locations
@@ -148,7 +159,7 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         let total: Int
         switch self {
         case .locations:
-            total = data.locations.count
+            total = data.locations.filter { $0.id > 0 }.count
         case .uncountries:
             total = data.uncountries.count
         case .whss:

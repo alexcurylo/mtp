@@ -14,6 +14,10 @@ extension UserDefaults: ServiceProvider {
             }
         }
         set {
+            guard let newValue = newValue else {
+                set(nil, forKey: #function)
+                return
+            }
             do {
                 try set(object: newValue, forKey: #function)
             } catch {
@@ -55,26 +59,38 @@ extension UserDefaults: ServiceProvider {
             }
         }
         set {
-            guard let newQuery = newValue else {
+            guard let newValue = newValue else {
                 set(nil, forKey: #function)
                 return
             }
             do {
-                try set(object: newQuery, forKey: #function)
+                try set(object: newValue, forKey: #function)
             } catch {
                 log.error("encoding lastRankingsQuery newValue: \(error)")
             }
         }
     }
 
-    var name: String {
-        get { return string(forKey: #function) ?? "" }
-        set { set(newValue, forKey: #function) }
-    }
-
-    var password: String {
-        get { return string(forKey: #function) ?? "" }
-        set { set(newValue, forKey: #function) }
+    var mapDisplay: ChecklistFlags? {
+        get {
+            do {
+                return try get(objectType: ChecklistFlags.self, forKey: #function)
+            } catch {
+                log.error("decoding mapDisplay value: \(error)")
+                return nil
+            }
+        }
+        set {
+            guard let newValue = newValue else {
+                set(nil, forKey: #function)
+                return
+            }
+            do {
+                try set(object: newValue, forKey: #function)
+            } catch {
+                log.error("encoding mapDisplay newValue: \(error)")
+            }
+        }
     }
 
     var token: String {
@@ -92,12 +108,12 @@ extension UserDefaults: ServiceProvider {
             }
         }
         set {
-            guard let newUser = newValue else {
+            guard let newValue = newValue else {
                 set(nil, forKey: #function)
                 return
             }
             do {
-                try set(object: newUser, forKey: #function)
+                try set(object: newValue, forKey: #function)
             } catch {
                 log.error("encoding user newValue: \(error)")
             }
