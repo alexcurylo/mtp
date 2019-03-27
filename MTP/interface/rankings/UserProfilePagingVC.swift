@@ -2,26 +2,37 @@
 
 import Parchment
 
-final class UserProfilePagingVC: FixedPagingViewController, ServiceProvider {
+final class UserProfilePagingVC: FixedPagingViewController, UserProfilePageDataSource, ServiceProvider {
+
+    var scorecard: Scorecard?
+    var contentState: ContentState = .loading
+
+    private let model: Model
 
     static func profile(model: Model) -> UserProfilePagingVC {
 
-        let controllers: [CountsPageVC] = [
+        let controllers: [UserProfilePageVC] = [
             UserProfilePageVC(model: (model.list, model.user, .visited)),
             UserProfilePageVC(model: (model.list, model.user, .remaining))
         ]
 
-        return UserProfilePagingVC(viewControllers: controllers)
+        return UserProfilePagingVC(model: model,
+                                   viewControllers: controllers)
     }
 
-    init(viewControllers: [CountsPageVC]) {
+    init(model: Model,
+         viewControllers: [UserProfilePageVC]) {
+        self.model = model
         super.init(viewControllers: viewControllers)
 
-        configure()
+        setupLayout()
+        setupContent()
+        viewControllers.forEach { $0.dataSource = self }
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
-        super.init(viewControllers: [])
+        fatalError("init(coder:) has not been implemented")
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -48,7 +59,7 @@ final class UserProfilePagingVC: FixedPagingViewController, ServiceProvider {
 
 private extension UserProfilePagingVC {
 
-    func configure() {
+    func setupLayout() {
         menuItemSize = .sizeToFit(minWidth: 50, height: 38)
         menuBackgroundColor = .clear
 
@@ -64,6 +75,22 @@ private extension UserProfilePagingVC {
             zIndex: .max,
             spacing: .zero,
             insets: .zero)
+    }
+
+    func setupContent() {
+        checkScorecard(fail: .loading)
+        mtp.loadScorecard(list: model.list,
+                          user: model.user.id) { [weak self] _ in
+            self?.checkScorecard(fail: .error)
+        }
+    }
+
+    func checkScorecard(fail state: ContentState) {
+        scorecard = data.get(scorecard: model.list, user: model.user.id)
+        contentState = scorecard != nil ? .data : state
+        viewControllers.forEach {
+            ($0 as? UserProfilePageVC)?.update()
+        }
     }
 }
 

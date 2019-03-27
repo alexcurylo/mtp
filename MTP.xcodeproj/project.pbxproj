@@ -40,6 +40,7 @@
 		8CAE30592239DA7D00E31647 /* world-map.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 8CAE30572239DA7C00E31647 /* world-map.geojson */; };
 		8CAE30642239F4F100E31647 /* WorldMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CAE30632239F4F100E31647 /* WorldMap.swift */; };
 		8CE3FC2C222389B600B94EAA /* Scorecard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE3FC2B222389B600B94EAA /* Scorecard.swift */; };
+		8CE6F46B224B029500B24410 /* ContentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6F46A224B029400B24410 /* ContentState.swift */; };
 		8CFEE459221FA2120061614B /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFEE458221FA2120061614B /* ImageService.swift */; };
 		C1D9A04EB6208ED844515108 /* libPods-MTP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA7B8EF0C9A37C87525A9855 /* libPods-MTP.a */; };
 		F5352AD2AEBF0C3A5C6191CE /* Pods-MTP-settings-metadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E2C18C122B275F3B40CDCDA /* Pods-MTP-settings-metadata.plist */; };
@@ -204,6 +205,7 @@
 		8CAE30572239DA7C00E31647 /* world-map.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "world-map.geojson"; sourceTree = "<group>"; };
 		8CAE30632239F4F100E31647 /* WorldMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldMap.swift; sourceTree = "<group>"; };
 		8CE3FC2B222389B600B94EAA /* Scorecard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scorecard.swift; sourceTree = "<group>"; };
+		8CE6F46A224B029400B24410 /* ContentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentState.swift; sourceTree = "<group>"; };
 		8CFEE458221FA2120061614B /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		B1C0AF3F035BC227379ED6DE /* libPods-MTPUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MTPUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B988D22396864AC3181C1EA5 /* Pods-MTP-metadata.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "Pods-MTP-metadata.plist"; path = "Pods/Pods-MTP-metadata.plist"; sourceTree = "<group>"; };
@@ -680,6 +682,7 @@
 				8C3EAB8B2231100400CB4886 /* Array+Type.swift */,
 				FAE1F118214354A80002CAB2 /* Avenir.swift */,
 				FA7C2013222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift */,
+				8CE6F46A224B029400B24410 /* ContentState.swift */,
 				FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */,
 				FA46532F21157784005B5A0A /* FacebookButton.swift */,
 				8C9DD8CD2245034D00D5EAFB /* Injectable.swift */,
@@ -1107,6 +1110,7 @@
 				FA5AC0B421FC49860080F84F /* PlaceAnnotation.swift in Sources */,
 				FA390139213B84B40016A362 /* RankingsPagingVC.swift in Sources */,
 				8C3EA813222F64F100CB4886 /* UITopLoadingTextView.swift in Sources */,
+				8CE6F46B224B029500B24410 /* ContentState.swift in Sources */,
 				FA5AC0BF21FDCB9D0080F84F /* MyCountsPagingVC.swift in Sources */,
 				8CAE30642239F4F100E31647 /* WorldMap.swift in Sources */,
 				FADC1ABA2144FAD70011EE49 /* Date+Formatting.swift in Sources */,

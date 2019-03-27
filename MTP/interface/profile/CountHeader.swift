@@ -16,12 +16,16 @@ final class CountHeader: UICollectionReusableView {
     private var key = ""
 
     func set(key: String,
+             visited: Int?,
              count: Int,
-             visited: Int,
              isExpanded: Bool) {
         self.key = key
 
-        label.text = Localized.locationVisitedCount(key, visited, count)
+        if let visited = visited {
+            label.text = Localized.locationVisitedCount(key, visited, count)
+        } else {
+            label.text = Localized.locationCount(key, count)
+        }
 
         let corners: UIRectCorner = isExpanded ? [.topLeft, .topRight] : .allCorners
         round(corners: corners, by: Layout.cornerRadius)

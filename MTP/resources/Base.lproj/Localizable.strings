@@ -9,6 +9,12 @@
 "resultError" = "Unexpected results were received. Please update to the latest app version.";
 "unexpectedError" = "An unexpected error occurred. Please update to the latest app version.";
 
+// list state handling
+
+"emptyState" = "This list is empty!";
+"errorState" = "Error loading data!";
+"loading" = "Loading…";
+
 // EditProfileVC
 
 "deletingAccount" = "Deleting account…";
@@ -65,8 +71,6 @@
 "rankScoreFraction" = "%@ (%@/%@)";
 "scoreFraction" = "%@/%@";
 "topTravelers" = "Top Travelers:";
-
-"loading" = "Loading…";
 
 "join" = ", ";
 "allCountries" = "All countries";

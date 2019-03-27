@@ -186,7 +186,7 @@ struct ScorecardJSON: Codable {
     let ageLevel: AgeLevel
     let labelPairs: LabelPairs
     let rank: RanksWrapper
-    let remainingByUser: [Int: ScorecardLocationJSON]
+    let remainingByUser: UncertainValue<[Int: ScorecardLocationJSON], [Int]> // [] if empty
     let scoreBeaches: Int?
     let scoreDivesites: Int?
     let scoreGolfcourses: Int?
@@ -227,6 +227,8 @@ extension ScorecardJSON: CustomDebugStringConvertible {
 
     dynamic var userId: Int = 0
     dynamic var type: String = ""
+    dynamic var visited: Int = 0
+    dynamic var remaining: Int = 0
 
     dynamic var age: Int = 0
     dynamic var countryId: Int = 0
@@ -239,6 +241,8 @@ extension ScorecardJSON: CustomDebugStringConvertible {
     dynamic var genderAndCountry: Int = 0
 
     dynamic var dbKey: String = ""
+
+    let visits = List<Int>()
 
     override static func primaryKey() -> String? {
         return "dbKey"
@@ -253,6 +257,9 @@ extension ScorecardJSON: CustomDebugStringConvertible {
 
         userId = Int(from.data.userId) ?? 0
         type = from.data.type
+        visited = from.data.visitedByUser.count
+        from.data.visitedByUser.forEach { visits.append($0.1.id) }
+        remaining = from.data.remainingByUser.tValue?.count ?? 0
 
         age = from.data.ageLevel.min
         countryId = from.data.user.location.countryId
