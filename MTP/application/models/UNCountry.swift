@@ -8,6 +8,7 @@ import RealmSwift
     dynamic var country: String = ""
     dynamic var id: Int = 0
     dynamic var region: String = ""
+    dynamic var placeLocation: Location?
 
     override static func primaryKey() -> String? {
         return "id"

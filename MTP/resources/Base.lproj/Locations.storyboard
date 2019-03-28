@@ -144,10 +144,10 @@
             </objects>
             <point key="canvasLocation" x="2638" y="-551"/>
         </scene>
-        <!--My Profile-->
+        <!--Location-->
         <scene sceneID="ILp-2Y-xEw">
             <objects>
-                <viewController title="My Profile" id="Do2-0i-7MA" customClass="MyProfileVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Location" id="Do2-0i-7MA" customClass="LocationVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gQJ-pB-iKz" customClass="GradientView" customModule="MTP" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -235,7 +235,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tVF-2D-1go" customClass="GradientView" customModule="MTP" customModuleProvider="target">
-                                <rect key="frame" x="8" y="190" width="359" height="428"/>
+                                <rect key="frame" x="8" y="190" width="359" height="384"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="startColor">
@@ -273,7 +273,7 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
-                    <navigationItem key="navigationItem" title="My Profile" id="8Rf-0b-gVt">
+                    <navigationItem key="navigationItem" title="Location" id="8Rf-0b-gVt">
                         <rightBarButtonItems>
                             <barButtonItem title="navSettings" image="navSettings" id="Tar-KV-kdm"/>
                             <barButtonItem title="navEditProfile" image="navEditProfile" id="Vss-nf-4al"/>

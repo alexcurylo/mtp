@@ -16,12 +16,15 @@ final class LocationVC: UIViewController, ServiceProvider {
 
     @IBOutlet private var pagesHolder: UIView?
 
+    private var place: PlaceAnnotation?
+
     private var userObserver: Observer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
 
+        title = place?.title
         setupHeaderView()
         setupPagesHolder()
     }
@@ -85,27 +88,30 @@ private extension LocationVC {
     }
 
     func configure() {
-        guard let user = data.user else { return }
+        guard let place = place else { return }
 
-        avatarImageView?.set(thumbnail: user)
-        fullNameLabel?.text = user.fullName
-        countryLabel?.text = user.location.description
+        avatarImageView?.set(thumbnail: place)
+        fullNameLabel?.text = place.title
+        countryLabel?.text = place.subtitle
 
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .none
-        birthdayLabel?.text = dateFormatter.string(from: user.birthday)
+        birthdayLabel?.text = "tbd"
     }
 }
 
 extension LocationVC: Injectable {
 
-    typealias Model = ()
+    typealias Model = PlaceAnnotation
 
     func inject(model: Model) {
+        place = model
     }
 
     func requireInjections() {
+        place.require()
+
         avatarImageView.require()
         fullNameLabel.require()
         countryLabel.require()

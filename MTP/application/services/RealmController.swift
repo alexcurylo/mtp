@@ -41,7 +41,7 @@ final class RealmController: ServiceProvider {
 
     func set(beaches: [PlaceJSON]) {
         do {
-            let objects = beaches.compactMap { Beach(from: $0) }
+            let objects = beaches.compactMap { Beach(from: $0, with: self) }
             try realm.write {
                 realm.add(objects, update: true)
             }
@@ -81,7 +81,7 @@ final class RealmController: ServiceProvider {
 
     func set(divesites: [PlaceJSON]) {
         do {
-            let objects = divesites.compactMap { DiveSite(from: $0) }
+            let objects = divesites.compactMap { DiveSite(from: $0, with: self) }
             try realm.write {
                 realm.add(objects, update: true)
             }
@@ -97,7 +97,7 @@ final class RealmController: ServiceProvider {
 
     func set(golfcourses: [PlaceJSON]) {
         do {
-            let objects = golfcourses.compactMap { GolfCourse(from: $0) }
+            let objects = golfcourses.compactMap { GolfCourse(from: $0, with: self) }
             try realm.write {
                 realm.add(objects, update: true)
             }
@@ -310,7 +310,7 @@ final class RealmController: ServiceProvider {
 
     func set(whss: [WHSJSON]) {
         do {
-            let objects = whss.compactMap { WHS(from: $0) }
+            let objects = whss.compactMap { WHS(from: $0, with: self) }
             try realm.write {
                 realm.add(objects, update: true)
             }

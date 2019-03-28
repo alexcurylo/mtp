@@ -158,6 +158,14 @@ extension Location: PlaceInfo {
         return id
     }
 
+    var placeImage: String {
+        return featuredImg ?? ""
+    }
+
+    var placeLocation: Location? {
+        return self
+    }
+
     var placeIsMappable: Bool {
         return id != 0
     }

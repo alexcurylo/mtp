@@ -22,7 +22,7 @@ final class PlaceAnnotationView: MKMarkerAnnotationView {
         guard let place = annotation as? PlaceAnnotation else { return }
 
         markerTintColor = place.background
-        glyphImage = place.image
+        glyphImage = place.listImage
 
         let visit = UISwitch {
             $0.isOn = place.visited

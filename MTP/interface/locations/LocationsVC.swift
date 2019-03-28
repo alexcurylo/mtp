@@ -63,8 +63,6 @@ final class LocationsVC: UIViewController {
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-
-        mapCentered = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -79,6 +77,10 @@ final class LocationsVC: UIViewController {
              Segues.showList.identifier:
             break
         case Segues.showLocation.identifier:
+            if let location = Segues.showLocation(segue: segue)?.destination,
+               let selected = selected {
+                location.inject(model: selected)
+            }
             log.todo("inject selected")
         default:
             log.debug("unexpected segue: \(segue.name)")
@@ -110,6 +112,7 @@ extension LocationsVC: PlaceAnnotationDelegate {
 
     func show(location: PlaceAnnotation) {
         selected = location
+        mapView?.deselectAnnotation(location, animated: true)
         performSegue(withIdentifier: Segues.showLocation, sender: self)
     }
 }
@@ -250,7 +253,8 @@ private extension LocationsVC {
                 coordinate: coordinate,
                 delegate: self,
                 title: place.placeTitle,
-                subtitle: place.placeSubtitle
+                subtitle: place.placeSubtitle,
+                image: place.placeImage
             )
         })
     }

@@ -28,6 +28,23 @@ extension UIImageView {
         )
     }
 
+    func set(thumbnail place: PlaceAnnotation?) {
+        let placeholder = R.image.placeholderThumb()
+        guard let url = place?.imageUrl else {
+            image = placeholder
+            return
+        }
+
+        Nuke.loadImage(
+            with: url,
+            options: ImageLoadingOptions(
+                placeholder: placeholder,
+                transition: .fadeIn(duration: 0.2)
+            ),
+            into: self
+        )
+    }
+
     func set(thumbnail photo: Photo?) {
         let placeholder = R.image.placeholderThumb()
         guard let url = photo?.imageUrl else {

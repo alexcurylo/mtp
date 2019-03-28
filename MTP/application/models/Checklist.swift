@@ -123,7 +123,8 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
 
     func set(id: Int,
              visited: Bool) {
-        guard isVisited(id: id) != visited else { return }
+        guard self != .uncountries,
+              isVisited(id: id) != visited else { return }
 
         data.checklists?.set(list: self,
                              id: id,
