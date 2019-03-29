@@ -21,6 +21,8 @@ final class LocationPostsVC: UICollectionViewController, ServiceProvider {
         super.viewDidLoad()
         requireInjections()
 
+        log.todo("implement LocationPostsVC")
+
         flow?.itemSize = UICollectionViewFlowLayout.automaticSize
         flow?.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
 
@@ -144,10 +146,18 @@ struct LocationPostCellModel {
 final class LocationPostCell: UICollectionViewCell {
 
     @IBOutlet private var imageView: UIImageView?
+    @IBOutlet private var imageViewWidthConstraint: NSLayoutConstraint?
+
     @IBOutlet private var dateLabel: UILabel?
     @IBOutlet private var titleLabel: UILabel?
     @IBOutlet private var bodyLabel: UILabel?
+
     private var widthConstraint: NSLayoutConstraint?
+
+    let layout = (
+        imageWidth: (displayed: CGFloat(100),
+                     empty: CGFloat(0))
+    )
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -160,8 +170,10 @@ final class LocationPostCell: UICollectionViewCell {
                          width: CGFloat) {
         if let photo = model.photo {
             imageView?.set(thumbnail: photo)
+            imageViewWidthConstraint?.constant = layout.imageWidth.displayed
         } else {
-            imageView?.set(thumbnail: model.location)
+            imageView?.image = nil
+            imageViewWidthConstraint?.constant = layout.imageWidth.empty
         }
         dateLabel?.text = model.date
         titleLabel?.text = model.title

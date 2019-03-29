@@ -73,15 +73,15 @@ final class LocationsVC: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
-        case Segues.showFilter.identifier,
-             Segues.showList.identifier:
+        case Segues.showFilter.identifier:
             break
+        case Segues.showList.identifier:
+            log.todo("implement locations list")
         case Segues.showLocation.identifier:
             if let location = Segues.showLocation(segue: segue)?.destination,
                let selected = selected {
                 location.inject(model: selected)
             }
-            log.todo("inject selected")
         default:
             log.debug("unexpected segue: \(segue.name)")
         }
@@ -104,7 +104,10 @@ final class LocationsVC: UIViewController {
     }
 
     func reveal(place: PlaceAnnotation?) {
-        zoom(to: place?.coordinate)
+        guard let coordinate = place?.coordinate else { return }
+
+        navigationController?.popToRootViewController(animated: false)
+        zoom(to: coordinate)
     }
 }
 

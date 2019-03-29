@@ -177,14 +177,22 @@ extension Location: PlaceInfo {
     var placeTitle: String {
         return locationName
     }
+
+    var placeSubtitle: String {
+        return isCountry ? "" : countryName
+    }
 }
 
 extension Location {
 
     var imageUrl: URL? {
         guard let uuid = featuredImg, !uuid.isEmpty else { return nil }
-        let link = "https://mtp.travel/api/files/preview?uuid=\(uuid)"
-        return URL(string: link)
+        let target = MTP.picture(uuid: uuid, size: .any)
+        return target.requestUrl
+    }
+
+    var isCountry: Bool {
+        return adminLevel == .country
     }
 
     var adminLevel: AdminLevel {

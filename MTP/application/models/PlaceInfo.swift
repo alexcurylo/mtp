@@ -38,7 +38,7 @@ extension PlaceInfo {
     }
 
     var placeSubtitle: String {
-        return ""
+        return placeLocation?.description ?? ""
     }
 
     var placeImage: String {

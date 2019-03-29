@@ -175,7 +175,7 @@ extension PhotoJSON: CustomDebugStringConvertible {
 
     var imageUrl: URL? {
         guard !uuid.isEmpty else { return nil }
-        let link = "https://mtp.travel/api/files/preview?uuid=\(uuid)"
-        return URL(string: link)
+        let target = MTP.picture(uuid: uuid, size: .any)
+        return target.requestUrl
     }
 }

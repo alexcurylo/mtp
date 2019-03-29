@@ -24,6 +24,8 @@ final class LocationVC: UIViewController, ServiceProvider {
         super.viewDidLoad()
         requireInjections()
 
+        log.todo("implement LocationVC")
+
         title = place?.title
         setupHeaderView()
         setupPagesHolder()

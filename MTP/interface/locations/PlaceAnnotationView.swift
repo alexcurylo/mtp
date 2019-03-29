@@ -2,11 +2,12 @@
 
 import MapKit
 
-final class PlaceAnnotationView: MKMarkerAnnotationView {
+final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
 
     override init(annotation: MKAnnotation?,
                   reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
+
         clusteringIdentifier = PlaceClusterAnnotationView.identifier
         collisionMode = .circle
         canShowCallout = true
@@ -20,6 +21,8 @@ final class PlaceAnnotationView: MKMarkerAnnotationView {
     override func prepareForDisplay() {
         super.prepareForDisplay()
         guard let place = annotation as? PlaceAnnotation else { return }
+
+        log.todo("implement PlaceAnnotationView")
 
         markerTintColor = place.background
         glyphImage = place.listImage

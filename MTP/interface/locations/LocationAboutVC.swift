@@ -22,6 +22,8 @@ final class LocationAboutVC: UITableViewController, ServiceProvider {
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
+
+        log.todo("implement LocationAboutVC")
     }
 
     override func viewWillLayoutSubviews() {

@@ -39,9 +39,10 @@ final class RankingsVC: UIViewController, ServiceProvider {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
-        case Segues.showFilter.identifier,
-             Segues.showSearch.identifier:
-            break
+        case Segues.showFilter.identifier:
+             break
+         case Segues.showSearch.identifier:
+            log.todo("implement rankings search")
         case Segues.showUserProfile.identifier:
             if let profile = Segues.showUserProfile(segue: segue)?.destination,
                let model = model {

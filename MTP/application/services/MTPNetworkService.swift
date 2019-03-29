@@ -167,6 +167,9 @@ extension MTP: TargetType {
         case .photos(_, let page):
             return .requestParameters(parameters: ["page": page],
                                       encoding: URLEncoding.default)
+        case .picture(let uuid, .any):
+            return .requestParameters(parameters: ["uuid": uuid],
+                                      encoding: URLEncoding.default)
         case let .picture(uuid, size):
             return .requestParameters(parameters: ["uuid": uuid,
                                                    "size": size.rawValue],
@@ -219,6 +222,11 @@ extension MTP: TargetType {
 
     public var sampleData: Data {
         return "{}".data(using: String.Encoding.utf8) ?? Data()
+    }
+
+    var requestUrl: URL? {
+        let request = try? MoyaProvider.defaultEndpointMapping(for: self).urlRequest()
+        return request?.url
     }
 }
 

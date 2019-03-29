@@ -18,6 +18,8 @@ final class LocationPhotosVC: UICollectionViewController, ServiceProvider {
         super.viewDidLoad()
         requireInjections()
 
+        log.todo("implement LocationPhotosVC")
+
         update()
         observe()
     }

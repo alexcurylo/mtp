@@ -83,7 +83,7 @@ final class PlaceAnnotation: NSObject, MKAnnotation {
 
     var imageUrl: URL? {
         guard let uuid = image, !uuid.isEmpty else { return nil }
-        let link = "https://mtp.travel/api/files/preview?uuid=\(uuid)"
-        return URL(string: link)
+        let target = MTP.picture(uuid: uuid, size: .any)
+        return target.requestUrl
     }
 }

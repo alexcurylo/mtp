@@ -104,6 +104,7 @@
                                     <outlet property="bodyLabel" destination="CG2-76-d8N" id="ikA-Vk-cWm"/>
                                     <outlet property="dateLabel" destination="FTv-tQ-9e6" id="iY2-9T-IKh"/>
                                     <outlet property="imageView" destination="n7r-G5-Aky" id="VVA-Ch-s3w"/>
+                                    <outlet property="imageViewWidthConstraint" destination="Qwn-Se-bvC" id="rWs-cu-yEU"/>
                                     <outlet property="titleLabel" destination="VfI-H5-rIH" id="hNn-Pq-CVT"/>
                                 </connections>
                             </collectionViewCell>
