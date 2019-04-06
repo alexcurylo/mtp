@@ -8,6 +8,8 @@ final class LocationPostsVC: UICollectionViewController, ServiceProvider {
         static let cellHeight = CGFloat(100)
     }
 
+    private var place: PlaceAnnotation?
+
     private var posts: [LocationPostCellModel] = []
 
     private let dateFormatter = DateFormatter {
@@ -125,12 +127,15 @@ private extension LocationPostsVC {
 
 extension LocationPostsVC: Injectable {
 
-    typealias Model = ()
+    typealias Model = PlaceAnnotation
 
-    func inject(model: Model) {
+    @discardableResult func inject(model: Model) -> LocationPostsVC {
+        place = model
+        return self
     }
 
     func requireInjections() {
+        place.require()
     }
 }
 

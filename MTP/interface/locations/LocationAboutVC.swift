@@ -14,6 +14,8 @@ final class LocationAboutVC: UITableViewController, ServiceProvider {
 
     @IBOutlet private var linksStack: UIStackView?
 
+    private var place: PlaceAnnotation?
+
     private var locationsObserver: Observer?
     private var userObserver: Observer?
 
@@ -176,12 +178,16 @@ private extension LocationAboutVC {
 
 extension LocationAboutVC: Injectable {
 
-    typealias Model = ()
+    typealias Model = PlaceAnnotation
 
-    func inject(model: Model) {
+    @discardableResult func inject(model: Model) -> LocationAboutVC {
+        place = model
+        return self
     }
 
     func requireInjections() {
+        place.require()
+
         rankingLabel.require()
         mapImageView.require()
         visitedButton.require()

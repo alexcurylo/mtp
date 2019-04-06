@@ -68,7 +68,8 @@ extension SettingsVC: Injectable {
 
     typealias Model = ()
 
-    func inject(model: Model) {
+    @discardableResult func inject(model: Model) -> SettingsVC {
+        return self
     }
 
     func requireInjections() {

@@ -9,6 +9,8 @@ final class LocationPhotosVC: UICollectionViewController, ServiceProvider {
         static let minItemSize = CGFloat(100)
     }
 
+    private var place: PlaceAnnotation?
+
     private var photosPages: Results<PhotosPageInfo>?
     private var devicePhotos: PHFetchResult<PHAsset>?
 
@@ -91,6 +93,13 @@ private extension LocationPhotosVC {
 
     func update() {
         photosPages = data.getPhotosPages(user: nil)
+
+        if let place = place {
+            log.todo("getLocationPhotosPages")
+            mtp.loadPhotos(location: place.id,
+                           page: 1) { _ in }
+        }
+
         collectionView.reloadData()
     }
 
@@ -140,12 +149,15 @@ private extension LocationPhotosVC {
 
 extension LocationPhotosVC: Injectable {
 
-    typealias Model = ()
+    typealias Model = PlaceAnnotation
 
-    func inject(model: Model) {
+    @discardableResult func inject(model: Model) -> LocationPhotosVC {
+        place = model
+        return self
     }
 
     func requireInjections() {
+        place.require()
     }
 }
 

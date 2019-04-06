@@ -4,11 +4,11 @@ import Parchment
 
 final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
 
-    static var profile: LocationPagingVC {
+    static func profile(model: Model) -> LocationPagingVC {
         let controllers = [
-            R.storyboard.locationAbout.locationAbout(),
-            R.storyboard.locationPhotos.locationPhotos(),
-            R.storyboard.locationPosts.locationPosts()
+            R.storyboard.locationAbout.locationAbout()?.inject(model: model),
+            R.storyboard.locationPhotos.locationPhotos()?.inject(model: model),
+            R.storyboard.locationPosts.locationPosts()?.inject(model: model)
         ].compactMap { $0 }
 
         return LocationPagingVC(viewControllers: controllers)
@@ -63,5 +63,17 @@ private extension LocationPagingVC {
             zIndex: .max,
             spacing: .zero,
             insets: .zero)
+    }
+}
+
+extension LocationPagingVC: Injectable {
+
+    typealias Model = PlaceAnnotation
+
+    @discardableResult func inject(model: Model) -> LocationPagingVC {
+        return self
+    }
+
+    func requireInjections() {
     }
 }

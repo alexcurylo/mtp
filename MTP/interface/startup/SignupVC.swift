@@ -542,7 +542,8 @@ extension SignupVC: Injectable {
 
     typealias Model = ()
 
-    func inject(model: Model) {
+    @discardableResult func inject(model: Model) -> SignupVC {
+        return self
     }
 
     func requireInjections() {

@@ -104,10 +104,11 @@ extension UserProfileVC: Injectable {
 
     typealias Model = (list: Checklist, user: User, tab: Tab)
 
-    func inject(model: Model) {
+    @discardableResult func inject(model: Model) -> UserProfileVC {
         list = model.list
         user = model.user
         selected = model.tab
+        return self
     }
 
     func requireInjections() {

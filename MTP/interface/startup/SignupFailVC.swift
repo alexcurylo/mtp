@@ -81,8 +81,9 @@ extension SignupFailVC: Injectable {
 
     typealias Model = String
 
-    func inject(model: Model) {
+    @discardableResult func inject(model: Model) -> SignupFailVC {
         errorMessage = model
+        return self
     }
 
     func requireInjections() {

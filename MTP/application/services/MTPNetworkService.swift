@@ -40,6 +40,7 @@ enum MTP: Hashable {
     case geoJson(map: Map)
     case golfcourse
     case location
+    case locationPhotos(location: Int, page: Int)
     case locationPosts
     case passwordReset(email: String)
     case picture(uuid: String, size: Size)
@@ -87,6 +88,8 @@ extension MTP: TargetType {
             return "golfcourse"
         case .location:
             return "location"
+        case .locationPhotos(let id, _):
+            return "locations/\(id)/photos"
         case .locationPosts:
             return "users/me/location-posts"
         case .photos(let user?, _):
@@ -131,6 +134,7 @@ extension MTP: TargetType {
              .geoJson,
              .golfcourse,
              .location,
+             .locationPhotos,
              .locationPosts,
              .photos,
              .picture,
@@ -160,6 +164,9 @@ extension MTP: TargetType {
                                        encoding: URLEncoding(destination: .queryString))
         case .checkOut(_, let id):
             return .requestParameters(parameters: ["id": id],
+                                      encoding: URLEncoding.default)
+        case .locationPhotos(_, let page): // &orderBy=-created_at&limit=6
+            return .requestParameters(parameters: ["page": page],
                                       encoding: URLEncoding.default)
         case .passwordReset(let email):
             return .requestParameters(parameters: ["email": email],
@@ -249,6 +256,7 @@ extension MTP: AccessTokenAuthorizable {
              .geoJson,
              .golfcourse,
              .location,
+             .locationPhotos,
              .passwordReset,
              .picture,
              .restaurant,
@@ -278,6 +286,9 @@ protocol MTPNetworkService {
                id: Int,
                visited: Bool,
                then: @escaping MTPResult<Bool>)
+    func loadPhotos(location id: Int,
+                    page: Int,
+                    then: @escaping MTPResult<PhotosPageInfoJSON>)
     func loadPhotos(user id: Int?,
                     page: Int,
                     then: @escaping MTPResult<PhotosPageInfoJSON>)
@@ -533,6 +544,42 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
+    func loadPhotos(location id: Int,
+                    page: Int,
+                    then: @escaping MTPResult<PhotosPageInfoJSON> = { _ in }) {
+        let provider = MoyaProvider<MTP>()
+        let endpoint = MTP.locationPhotos(location: id, page: page)
+        guard !endpoint.isThrottled else {
+            return then(.failure(.throttle))
+        }
+        provider.request(endpoint) { response in
+            endpoint.markResponded()
+            switch response {
+            case .success(let result):
+                guard result.modified(from: endpoint) else {
+                    return then(.failure(.notModified))
+                }
+                do {
+                    let info = try result.map(PhotosPageInfoJSON.self,
+                                              using: JSONDecoder.mtp)
+                    //self.data.set(photos: page, location: id, info: info)
+                    print(info.debugDescription)
+                    return then(.success(info))
+                } catch {
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    return then(.failure(.results))
+                }
+            case .failure(let error):
+                guard error.modified(from: endpoint) else {
+                    return then(.failure(.notModified))
+                }
+                let message = error.errorDescription ?? Localized.unknown()
+                self.log.error("failure: \(endpoint.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
     func loadPhotos(user id: Int?,
                     page: Int,
                     then: @escaping MTPResult<PhotosPageInfoJSON> = { _ in }) {
@@ -544,7 +591,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         let auth = AccessTokenPlugin { self.data.token }
         let provider = MoyaProvider<MTP>(plugins: [auth])
         let endpoint = MTP.photos(user: id, page: page)
+        guard !endpoint.isThrottled else {
+            return then(.failure(.throttle))
+        }
         provider.request(endpoint) { response in
+            endpoint.markResponded()
             switch response {
             case .success(let result):
                 guard result.modified(from: endpoint) else {

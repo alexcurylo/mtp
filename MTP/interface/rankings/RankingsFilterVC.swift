@@ -110,11 +110,11 @@ private extension RankingsFilterVC {
 
         configureLocation()
 
-        femaleButton?.centerImageAndButton(gap: 8, imageOnTop: true)
+        femaleButton?.centerImageAndLabel(gap: 8, imageOnTop: true)
         femaleButton?.set(tintedSelection: filter.gender == .female)
-        maleAndFemaleButton?.centerImageAndButton(gap: 8, imageOnTop: true)
+        maleAndFemaleButton?.centerImageAndLabel(gap: 8, imageOnTop: true)
         maleAndFemaleButton?.set(tintedSelection: filter.gender == .all)
-        maleButton?.centerImageAndButton(gap: 8, imageOnTop: true)
+        maleButton?.centerImageAndLabel(gap: 8, imageOnTop: true)
         maleButton?.set(tintedSelection: filter.gender == .male)
 
         ageSlider?.value = Float(filter.ageGroup.rawValue)
@@ -206,18 +206,18 @@ private extension UIButton {
         tintColor = tintedSelection ? .azureRadiance : .black
     }
 
-    func centerImageAndButton(gap: CGFloat, imageOnTop: Bool) {
-        guard let imageView = currentImage,
-              let titleLabel = titleLabel,
-              let text = titleLabel.text else { return }
+    func centerImageAndLabel(gap: CGFloat, imageOnTop: Bool) {
+        guard let image = currentImage,
+              let label = titleLabel,
+              let text = label.text else { return }
 
         let sign: CGFloat = imageOnTop ? 1 : -1
-        titleEdgeInsets = UIEdgeInsets(top: (imageView.size.height + gap) * sign,
-                                       left: -imageView.size.width,
+        titleEdgeInsets = UIEdgeInsets(top: (image.size.height + gap) * sign,
+                                       left: -image.size.width,
                                        bottom: 0,
                                        right: 0)
 
-        let titleSize = text.size(withAttributes: [NSAttributedString.Key.font: titleLabel.font])
+        let titleSize = text.size(withAttributes: [NSAttributedString.Key.font: label.font])
         imageEdgeInsets = UIEdgeInsets(top: -(titleSize.height + gap) * sign,
                                        left: 0,
                                        bottom: 0,

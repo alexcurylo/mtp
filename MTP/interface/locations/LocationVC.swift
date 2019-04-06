@@ -71,9 +71,10 @@ private extension LocationVC {
     }
 
     func setupPagesHolder() {
-        guard let holder = pagesHolder else { return }
+        guard let holder = pagesHolder,
+              let place = place else { return }
 
-        let pagesVC = LocationPagingVC.profile
+        let pagesVC = LocationPagingVC.profile(model: place)
         addChild(pagesVC)
         holder.addSubview(pagesVC.view)
         pagesVC.view.edgeAnchors == holder.edgeAnchors
@@ -96,9 +97,6 @@ private extension LocationVC {
         fullNameLabel?.text = place.title
         countryLabel?.text = place.subtitle
 
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
         birthdayLabel?.text = "tbd"
     }
 }
@@ -107,8 +105,9 @@ extension LocationVC: Injectable {
 
     typealias Model = PlaceAnnotation
 
-    func inject(model: Model) {
+    @discardableResult func inject(model: Model) -> LocationVC {
         place = model
+        return self
     }
 
     func requireInjections() {

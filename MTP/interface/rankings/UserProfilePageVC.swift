@@ -69,7 +69,8 @@ extension UserProfilePageVC: Injectable {
                        user: User,
                        tab: UserProfileVC.Tab)
 
-    func inject(model: Model) {
+    @discardableResult func inject(model: Model) -> UserProfilePageVC {
+        return self
     }
 
     func requireInjections() {

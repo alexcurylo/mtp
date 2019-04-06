@@ -111,7 +111,9 @@ extension MyProfileVC: Injectable {
 
     typealias Model = ()
 
-    func inject(model: Model) { }
+    @discardableResult func inject(model: Model) -> MyProfileVC {
+        return self
+    }
 
     func requireInjections() {
         headerView.require()

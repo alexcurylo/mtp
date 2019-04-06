@@ -161,7 +161,8 @@ extension LocationSearchVC: Injectable {
 
     typealias Model = ()
 
-    func inject(model: Model) {
+    @discardableResult func inject(model: Model) -> LocationSearchVC {
+        return self
     }
 
     func requireInjections() {

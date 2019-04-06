@@ -91,8 +91,9 @@ extension MainTBC: Injectable {
 
     typealias Model = Route
 
-    func inject(model: Model) {
+    @discardableResult func inject(model: Model) -> MainTBC {
         destination = model
+        return self
     }
 
     func requireInjections() {

@@ -51,7 +51,8 @@ extension MyCountsPageVC: Injectable {
 
     typealias Model = (list: Checklist, delegate: MyCountsPageVCDelegate)
 
-    func inject(model: Model) {
+    @discardableResult func inject(model: Model) -> MyCountsPageVC {
+        return self
     }
 
     func requireInjections() {

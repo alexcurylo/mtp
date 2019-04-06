@@ -41,7 +41,7 @@ final class RankingsVC: UIViewController, ServiceProvider {
         switch segue.identifier {
         case Segues.showFilter.identifier:
              break
-         case Segues.showSearch.identifier:
+        case Segues.showSearch.identifier:
             log.todo("implement rankings search")
         case Segues.showUserProfile.identifier:
             if let profile = Segues.showUserProfile(segue: segue)?.destination,
@@ -156,7 +156,8 @@ extension RankingsVC: Injectable {
 
     typealias Model = ()
 
-    func inject(model: Model) {
+    @discardableResult func inject(model: Model) -> RankingsVC {
+        return self
     }
 
     func requireInjections() {

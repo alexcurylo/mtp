@@ -125,7 +125,8 @@ extension MyPostsVC: Injectable {
 
     typealias Model = ()
 
-    func inject(model: Model) {
+    @discardableResult func inject(model: Model) -> MyPostsVC {
+        return self
     }
 
     func requireInjections() {

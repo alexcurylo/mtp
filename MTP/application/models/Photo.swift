@@ -73,7 +73,7 @@ struct PhotoJSON: Codable {
     let locationId: Int?
     let mime: String
     let name: String
-    let pivot: PivotJSON
+    let pivot: PivotJSON? // not in location photos
     let type: String
     let updatedAt: Date
     let userId: Int
@@ -99,7 +99,7 @@ extension PhotoJSON: CustomDebugStringConvertible {
         locationId: \(String(describing: locationId))
         mime: \(mime)
         name: \(name)
-        pivot: \(pivot)
+        pivot: \(String(describing: pivot))
         type: \(type)
         updatedAt: \(updatedAt)
         userId: \(userId)
