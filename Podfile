@@ -16,7 +16,7 @@ target 'MTP' do
   pod 'FBSDKLoginKit', :modular_headers => true
   pod 'FBSDKShareKit', :modular_headers => true, :inhibit_warnings => true
   pod 'JWTDecode', :inhibit_warnings => true
-  pod 'KRProgressHUD'
+  pod 'KRProgressHUD', :inhibit_warnings => true
   pod 'Moya', :inhibit_warnings => true
   pod 'Nuke', :inhibit_warnings => true
   pod 'Parchment', :inhibit_warnings => true
@@ -43,26 +43,8 @@ plugin 'cocoapods-acknowledgements',
         'SwiftLint',
     ]
 
-my_project_pods_swift_versions = Hash[
-    "4.2", ["Parchment", "Realm", "RealmSwift", "SwiftyBeaver"]
-]
-
-def setup_swift_version(target, pods, swift_version)
-    if pods.any? { |pod| target.name.include?(pod) }
-        target.build_configurations.each do |config|
-            config.build_settings['SWIFT_VERSION'] = swift_version
-        end
-    end
-end
-
-def setup_all_swift_versions(target, pods_swift_versions)
-    pods_swift_versions.each { |swift_version, pods| setup_swift_version(target, pods, swift_version) }
-end
-
 post_install do |installer|
     installer.pods_project.targets.each do |target|
-        # patch language as needed
-        #setup_all_swift_versions(target, my_project_pods_swift_versions)
         # patch SwiftLint
         target.build_configurations.each do |config|
             if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 8.0

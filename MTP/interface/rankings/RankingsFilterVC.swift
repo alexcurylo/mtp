@@ -217,7 +217,8 @@ private extension UIButton {
                                        bottom: 0,
                                        right: 0)
 
-        let titleSize = text.size(withAttributes: [NSAttributedString.Key.font: titleLabel.font])
+        let font = titleLabel.font ?? Avenir.book.of(size: 17)
+        let titleSize = text.size(withAttributes: [NSAttributedString.Key.font: font])
         imageEdgeInsets = UIEdgeInsets(top: -(titleSize.height + gap) * sign,
                                        left: 0,
                                        bottom: 0,
