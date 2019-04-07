@@ -513,6 +513,8 @@ private extension MKUserTrackingButton {
              .notDetermined,
              .restricted:
             authorized = false
+        @unknown default:
+            authorized = false
         }
         isHidden = !authorized
     }

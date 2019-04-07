@@ -213,6 +213,7 @@ private extension RankingsPageVC {
     func user(at rank: Int) -> User {
         let pageIndex = ((rank - 1) / RankingsPageInfo.perPage) + 1
         let userIndex = (rank - 1) % RankingsPageInfo.perPage
+        // swiftlint:disable:next first_where
         guard let page = rankings?.filter("page = \(pageIndex)").first else {
             let userPageQuery = filter.with(page: pageIndex)
             mtp.loadRankings(query: userPageQuery) { _ in }

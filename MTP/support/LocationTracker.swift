@@ -42,6 +42,8 @@ extension LocationTracker {
             if ask == .ask {
                 locationManager.requestWhenInUseAuthorization()
             }
+        @unknown default:
+            log.error("handle authorization status \(status)!")
         }
         return status
     }

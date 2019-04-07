@@ -52,14 +52,14 @@ extension String {
     }
 
     func assert(contains content: @autoclosure () -> Any?) {
-        XCTAssertContainsString(self, content)
+        XCTAssertContainsString(self, content())
     }
 
     func assert(equal: @autoclosure () -> Any?) {
-        XCTAssertEqualStrings(self, equal)
+        XCTAssertEqualStrings(self, equal())
     }
 
     func assert(notEqual: @autoclosure () -> Any?) {
-        XCTAssertNotEqualStrings(self, notEqual)
+        XCTAssertNotEqualStrings(self, notEqual())
     }
 }

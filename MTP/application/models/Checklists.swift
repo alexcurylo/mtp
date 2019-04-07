@@ -38,7 +38,7 @@ struct Checklists: Codable, ServiceProvider {
         guard visits.contains(id) != visited else { return }
         if visited {
             visits.append(id)
-        } else if let index = visits.index(of: id) {
+        } else if let index = visits.firstIndex(of: id) {
             visits.remove(at: index)
         }
     }

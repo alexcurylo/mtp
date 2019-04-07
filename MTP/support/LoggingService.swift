@@ -40,7 +40,7 @@ extension LoggingService {
                  line: Int = #line,
                  context: Any? = nil) {
         custom(level: .verbose,
-               message: message,
+               message: message(),
                file: file,
                function: function,
                line: line,
@@ -53,7 +53,7 @@ extension LoggingService {
                line: Int = #line,
                context: Any? = nil) {
         custom(level: .debug,
-               message: message,
+               message: message(),
                file: file,
                function: function,
                line: line,
@@ -66,7 +66,7 @@ extension LoggingService {
               line: Int = #line,
               context: Any? = nil) {
         custom(level: .info,
-               message: message,
+               message: message(),
                file: file,
                function: function,
                line: line,
@@ -79,7 +79,7 @@ extension LoggingService {
                  line: Int = #line,
                  context: Any? = nil) {
         custom(level: .warning,
-               message: message,
+               message: message(),
                file: file,
                function: function,
                line: line,
@@ -92,7 +92,7 @@ extension LoggingService {
                line: Int = #line,
                context: Any? = nil) {
         custom(level: .error,
-               message: message,
+               message: message(),
                file: file,
                function: function,
                line: line,

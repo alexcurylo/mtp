@@ -91,7 +91,7 @@ struct SwiftyBeaverLoggingService: LoggingService {
                 context: Any?) {
         let sbLevel = SwiftyBeaver.Level(rawValue: level.rawValue) ?? .verbose
         swiftyBeaver.custom(level: sbLevel,
-                            message: message,
+                            message: message(),
                             file: file,
                             function: function,
                             line: line,
