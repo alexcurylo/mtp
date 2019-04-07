@@ -61,7 +61,7 @@ end
 post_install do |installer|
     installer.pods_project.targets.each do |target|
         # patch language as needed
-        setup_all_swift_versions(target, my_project_pods_swift_versions)
+        #setup_all_swift_versions(target, my_project_pods_swift_versions)
         # patch SwiftLint
         target.build_configurations.each do |config|
             if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 8.0
