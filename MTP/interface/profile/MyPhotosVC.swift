@@ -103,6 +103,7 @@ private extension MyPhotosVC {
     func photo(at index: Int) -> Photo {
         let pageIndex = (index / PhotosPageInfo.perPage) + 1
         let photoIndex = index % PhotosPageInfo.perPage
+        // swiftlint:disable:next first_where
         guard let page = photosPages?.filter("page = \(pageIndex)").first else {
             mtp.loadPhotos(user: nil,
                            page: pageIndex) { _ in }

@@ -50,11 +50,11 @@ PODS:
   - R.swift (5.0.2):
     - R.swift.Library (~> 5.0.0)
   - R.swift.Library (5.0.0)
-  - Realm (3.13.1):
-    - Realm/Headers (= 3.13.1)
-  - Realm/Headers (3.13.1)
-  - RealmSwift (3.13.1):
-    - Realm (= 3.13.1)
+  - Realm (3.14.1):
+    - Realm/Headers (= 3.14.1)
+  - Realm/Headers (3.14.1)
+  - RealmSwift (3.14.1):
+    - Realm (= 3.14.1)
   - Result (4.1.0)
   - SwiftLint (0.31.0)
   - SwiftyBeaver (1.6.2)
@@ -76,8 +76,9 @@ DEPENDENCIES:
   - Nuke
   - Parchment
   - R.swift
-  - Realm
-  - RealmSwift
+  - R.swift.Library
+  - Realm (~> 3.14.1)
+  - RealmSwift (~> 3.14.1)
   - SwiftLint
   - SwiftyBeaver
 
@@ -126,12 +127,12 @@ SPEC CHECKSUMS:
   Parchment: d3a7b367c529fa6ef51aa43f5717a7ff36d4b1f5
   R.swift: 81455d81467763cbd3f4d79d938d05f4ac4c0228
   R.swift.Library: 0bf390e729bc10bb2c9e4fb78bd043164a7be4ff
-  Realm: 50071da38fe079e0735e47c9f2eae738c68c5996
-  RealmSwift: 8a1e6a02b7a08cd17a31e3115143fb69fe5f3fb9
+  Realm: e12c9c2387d05c5bba3a9c394838f5870e85763b
+  RealmSwift: a82eab9b04c3e1616082c7e17aa300740847769c
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
   SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
   SwiftyBeaver: 8e67ab3cd94389cbbb7a9c7cc02748d98bfee68e
 
-PODFILE CHECKSUM: d2aca7093e350ddb6b5097b13977c097c9dec478
+PODFILE CHECKSUM: f5817af2407b66f11d2a58100281921fc5ad9d28
 
 COCOAPODS: 1.6.1

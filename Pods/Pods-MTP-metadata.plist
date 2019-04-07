@@ -1122,7 +1122,7 @@ regulations.
 			<key>summary</key>
 			<string>Realm is a modern data framework &amp; database for iOS, macOS, tvOS &amp; watchOS.</string>
 			<key>version</key>
-			<string>3.13.1</string>
+			<string>3.14.1</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -1396,7 +1396,7 @@ regulations.
 			<key>summary</key>
 			<string>Realm is a modern data framework &amp; database for iOS, macOS, tvOS &amp; watchOS.</string>
 			<key>version</key>
-			<string>3.13.1</string>
+			<string>3.14.1</string>
 		</dict>
 		<dict>
 			<key>authors</key>

@@ -12,19 +12,20 @@ target 'MTP' do
   pod 'FacebookCore', :inhibit_warnings => true
   pod 'FacebookLogin'
   pod 'FacebookShare', :inhibit_warnings => true
-  pod 'FBSDKCoreKit', :modular_headers => true
+  pod 'FBSDKCoreKit', :modular_headers => true, :inhibit_warnings => true
   pod 'FBSDKLoginKit', :modular_headers => true
   pod 'FBSDKShareKit', :modular_headers => true, :inhibit_warnings => true
-  pod 'JWTDecode'
+  pod 'JWTDecode', :inhibit_warnings => true
   pod 'KRProgressHUD'
-  pod 'Moya'
-  pod 'Nuke'
-  pod 'Parchment'
-  pod 'Realm', :modular_headers => true
-  pod 'RealmSwift'
-  pod 'R.swift'
+  pod 'Moya', :inhibit_warnings => true
+  pod 'Nuke', :inhibit_warnings => true
+  pod 'Parchment', :inhibit_warnings => true
+  pod 'Realm', '~> 3.14.1', :modular_headers => true
+  pod 'RealmSwift', '~> 3.14.1'
+  pod 'R.swift', :inhibit_warnings => true
+  pod 'R.swift.Library', :inhibit_warnings => true
   pod 'SwiftLint'
-  pod 'SwiftyBeaver'
+  pod 'SwiftyBeaver', :inhibit_warnings => true
 
   target 'MTPTests' do
     inherit! :search_paths

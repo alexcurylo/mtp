@@ -116,7 +116,7 @@ extension PhotoJSON: CustomDebugStringConvertible {
     dynamic var lastPage: Int = 0
     dynamic var page: Int = 0
     dynamic var total: Int = 0
-    dynamic var userId: Int?
+    dynamic var userId: Int = 0
 
     dynamic var dbKey: String = ""
     dynamic var queryKey: String = ""
@@ -139,7 +139,7 @@ extension PhotoJSON: CustomDebugStringConvertible {
                      info: PhotosPageInfoJSON) {
         self.init()
 
-        userId = id
+        userId = id ?? 0
         page = info.paging.currentPage
         lastPage = info.paging.lastPage
         total = info.paging.total
