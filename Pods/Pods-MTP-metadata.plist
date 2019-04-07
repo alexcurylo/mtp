@@ -1448,7 +1448,7 @@ SOFTWARE.</string>
 				<string>s.kreutzberger@googlemail.com</string>
 			</dict>
 			<key>description</key>
-			<string>&lt;p&gt;Easy-to-use, extensible &amp;amp; powerful logging &amp;amp; analytics for Swift 2, 3 &amp;amp; 4.
+			<string>&lt;p&gt;Easy-to-use, extensible &amp;amp; powerful logging &amp;amp; analytics for Swift 2 to Swift 5.
 Great for development &amp;amp; release due to its support for many logging destinations &amp;amp; platforms.&lt;/p&gt;
 </string>
 			<key>homepage</key>
@@ -1483,9 +1483,9 @@ SOFTWARE.
 			<key>socialMediaURL</key>
 			<string></string>
 			<key>summary</key>
-			<string>Convenient logging during development &amp; release in Swift 2, 3 &amp; 4</string>
+			<string>Convenient logging during development &amp; release in Swift 2, 3, 4 &amp; 5.</string>
 			<key>version</key>
-			<string>1.6.2</string>
+			<string>1.7.0</string>
 		</dict>
 	</array>
 </dict>
