@@ -18,7 +18,7 @@ env:
   - LANG=en_US.UTF-8
   - IOS_WORKSPACE=MTP.xcworkspace
   - IOS_SCHEME=MTP
-  - IOS_SDK=iphonesimulator12.0
+  - IOS_SDK=iphonesimulator12.2
   - IOS_DESTINATION='platform=iOS Simulator,name=iPhone XS'
 
 branches:
