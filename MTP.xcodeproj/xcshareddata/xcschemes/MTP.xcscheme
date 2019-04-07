@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "980A8AC4EA1D52B0BE535CB69C792FE4"
+               BlueprintIdentifier = "60E0CF45EB1153A41AB874D6BB8BBD69"
                BuildableName = "libPods-MTP.a"
                BlueprintName = "Pods-MTP"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -81,7 +81,6 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      enableThreadSanitizer = "YES"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
