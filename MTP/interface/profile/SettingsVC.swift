@@ -33,7 +33,8 @@ final class SettingsVC: UITableViewController, ServiceProvider {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
-        case Segues.unwindFromSettings.identifier:
+        case Segues.showFAQ.identifier,
+             Segues.unwindFromSettings.identifier:
             break
         default:
             log.debug("unexpected segue: \(segue.name)")
@@ -42,6 +43,10 @@ final class SettingsVC: UITableViewController, ServiceProvider {
 }
 
 private extension SettingsVC {
+
+    @IBAction func unwindToSettings(segue: UIStoryboardSegue) {
+        log.verbose(segue.name)
+    }
 
     @IBAction func aboutTapped(_ sender: UIButton) {
         log.todo("aboutTapped")
@@ -52,7 +57,6 @@ private extension SettingsVC {
     }
 
     @IBAction func faqTapped(_ sender: UIButton) {
-        log.todo("faqTapped")
     }
 
     @IBAction func membersTapped(_ sender: UIButton) {

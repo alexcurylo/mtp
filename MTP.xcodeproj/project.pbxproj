@@ -79,6 +79,8 @@
 		FA3BD1D2215F7FCD007EAF75 /* MyPostsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3BD1D1215F7FCD007EAF75 /* MyPostsVC.swift */; };
 		FA3BD2292160D6BC007EAF75 /* WithableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3BD2282160D6BC007EAF75 /* WithableTests.swift */; };
 		FA3CEC562132579300791195 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3CEC552132579300791195 /* DataService.swift */; };
+		FA40F752225B06010056182E /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA40F750225B06010056182E /* Settings.storyboard */; };
+		FA40F754225B06D50056182E /* FaqVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA40F753225B06D50056182E /* FaqVC.swift */; };
 		FA46377E210DE1E60007382D /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA46377D210DE1E60007382D /* SettingsVC.swift */; };
 		FA463780210DE94C0007382D /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA46377F210DE94C0007382D /* EditProfileVC.swift */; };
 		FA463783210E00E60007382D /* EditProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA463781210E00E60007382D /* EditProfile.storyboard */; };
@@ -262,6 +264,8 @@
 		FA3E366A20DFACCD002AF4EE /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		FA3E366B20DFB484002AF4EE /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		FA3E366F20DFC0E3002AF4EE /* IDETemplateMacros.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = IDETemplateMacros.plist; path = MTP.xcodeproj/xcshareddata/IDETemplateMacros.plist; sourceTree = "<group>"; };
+		FA40F751225B06010056182E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Settings.storyboard; sourceTree = "<group>"; };
+		FA40F753225B06D50056182E /* FaqVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaqVC.swift; sourceTree = "<group>"; };
 		FA46377D210DE1E60007382D /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		FA46377F210DE94C0007382D /* EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
 		FA463782210E00E60007382D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/EditProfile.storyboard; sourceTree = "<group>"; };
@@ -489,6 +493,7 @@
 				FA62BAEA2247A9A0009FDC4E /* CountsPageVC.swift */,
 				FA5AC0C621FDD8AA0080F84F /* CountToggleCell.swift */,
 				FA46377F210DE94C0007382D /* EditProfileVC.swift */,
+				FA40F753225B06D50056182E /* FaqVC.swift */,
 				FA254DCC2169A2A400FC9360 /* MyAboutVC.swift */,
 				FA5AC0C221FDCE200080F84F /* MyCountsPageVC.swift */,
 				FA5AC0BE21FDCB9D0080F84F /* MyCountsPagingVC.swift */,
@@ -668,6 +673,7 @@
 				FABA740E213A359C0059ACCA /* MyPhotos.storyboard */,
 				FABA7411213A374F0059ACCA /* MyPosts.storyboard */,
 				FA745755210DA4C60010F4F4 /* MyProfile.storyboard */,
+				FA40F750225B06010056182E /* Settings.storyboard */,
 			);
 			name = profile;
 			sourceTree = "<group>";
@@ -920,6 +926,7 @@
 				FA392BC420DF69F50026C828 /* Assets.xcassets in Resources */,
 				FA463783210E00E60007382D /* EditProfile.storyboard in Resources */,
 				FABA740D213A29CD0059ACCA /* MyAbout.storyboard in Resources */,
+				FA40F752225B06010056182E /* Settings.storyboard in Resources */,
 				FABA7413213A374F0059ACCA /* MyPosts.storyboard in Resources */,
 				FA390132213AB4A90016A362 /* Rankings.storyboard in Resources */,
 				8C617975223F2E1E000827D6 /* LocationsFilter.storyboard in Resources */,
@@ -1162,6 +1169,7 @@
 				8C3EAB8C2231100400CB4886 /* Array+Type.swift in Sources */,
 				FA9A71DF20F1D3FA005F6A57 /* LaunchHandler.swift in Sources */,
 				8CE6FC66224C6CB600B24410 /* LocationPostsVC.swift in Sources */,
+				FA40F754225B06D50056182E /* FaqVC.swift in Sources */,
 				FA36FBEF2206461F00616CDE /* RealmController.swift in Sources */,
 				FA32CC7420FB6E67004C1329 /* UIView+Gradient.swift in Sources */,
 				FA5AC0B821FD4A160080F84F /* PlaceClusterAnnotationView.swift in Sources */,
@@ -1333,6 +1341,14 @@
 				FA392BC620DF69F50026C828 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		FA40F750225B06010056182E /* Settings.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA40F751225B06010056182E /* Base */,
+			);
+			name = Settings.storyboard;
 			sourceTree = "<group>";
 		};
 		FA463781210E00E60007382D /* EditProfile.storyboard */ = {
