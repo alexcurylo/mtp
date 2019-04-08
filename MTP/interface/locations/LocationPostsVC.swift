@@ -159,10 +159,8 @@ final class LocationPostCell: UICollectionViewCell {
 
     private var widthConstraint: NSLayoutConstraint?
 
-    let layout = (
-        imageWidth: (displayed: CGFloat(100),
-                     empty: CGFloat(0))
-    )
+    let imageWidth = (displayed: CGFloat(100),
+                      empty: CGFloat(0))
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -175,10 +173,10 @@ final class LocationPostCell: UICollectionViewCell {
                          width: CGFloat) {
         if let photo = model.photo {
             imageView?.set(thumbnail: photo)
-            imageViewWidthConstraint?.constant = layout.imageWidth.displayed
+            imageViewWidthConstraint?.constant = imageWidth.displayed
         } else {
             imageView?.image = nil
-            imageViewWidthConstraint?.constant = layout.imageWidth.empty
+            imageViewWidthConstraint?.constant = imageWidth.empty
         }
         dateLabel?.text = model.date
         titleLabel?.text = model.title

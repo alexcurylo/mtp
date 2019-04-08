@@ -13,7 +13,7 @@ struct LocationJSON: Codable {
     let active: String
     let adminLevel: Int
     let airports: String?
-    let countryId: Int
+    let countryId: Int? // null or 0 in index 190-192 of un-country
     let countryName: String
     let distance: Double?
     let featuredImg: String?
@@ -54,7 +54,7 @@ extension LocationJSON: CustomDebugStringConvertible {
         active: \(active)
         admin_level: \(adminLevel)
         airports: \(String(describing: airports))
-        countryId: \(countryId)
+        countryId: \(String(describing: countryId))
         countryName: \(countryName)
         distance: \(String(describing: distance))
         featuredImg: \(String(describing: featuredImg))
@@ -99,7 +99,12 @@ extension LocationJSON: CustomDebugStringConvertible {
         }
         self.init()
 
-        countryId = from.countryId
+        guard let country = from.countryId, country > 0 else {
+            log.warning("Unexpected \(from.countryName) countryId: \(String(describing: from.countryId))")
+            return nil
+        }
+
+        countryId = country
         countryName = from.countryName
         featuredImg = from.featuredImg
         id = from.id

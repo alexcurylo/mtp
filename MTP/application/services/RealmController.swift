@@ -143,6 +143,14 @@ final class RealmController: ServiceProvider {
         return results.first
     }
 
+    func photos(location: Int) -> [Photo] {
+        let filter = "locationId = \(location)"
+        let results = realm.objects(Photo.self)
+                           .filter(filter)
+                           .sorted(byKeyPath: "updatedAt", ascending: false)
+        return Array(results)
+    }
+
     func photos(user id: Int,
                 location: Int) -> [Photo] {
         let filter = "userId = \(id) AND locationId = \(location)"
@@ -150,6 +158,18 @@ final class RealmController: ServiceProvider {
                            .filter(filter)
                            .sorted(byKeyPath: "updatedAt", ascending: false)
         return Array(results)
+    }
+
+    func set(locationPhotos id: Int,
+             info: PhotosInfoJSON) {
+        do {
+            let photos = info.data.map { Photo(from: $0) }
+            try realm.write {
+                realm.add(photos, update: true)
+            }
+        } catch {
+            log.error("update locationPhotos: \(error)")
+        }
     }
 
     func set(photos page: Int,

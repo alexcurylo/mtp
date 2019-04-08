@@ -1,6 +1,5 @@
 // @copyright Trollwerks Inc.
 
-import Photos
 import RealmSwift
 
 final class LocationPhotosVC: UICollectionViewController, ServiceProvider {
@@ -10,20 +9,19 @@ final class LocationPhotosVC: UICollectionViewController, ServiceProvider {
     }
 
     private var place: PlaceAnnotation?
+    private var photos: [Photo] = []
 
-    private var photosPages: Results<PhotosPageInfo>?
-    private var devicePhotos: PHFetchResult<PHAsset>?
-
-    private var pagesObserver: Observer?
+    private var photosObserver: Observer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
 
-        log.todo("implement LocationPhotosVC")
-
-        update()
         observe()
+        update()
+        if let place = place {
+            mtp.loadPhotos(location: place.id) { _ in }
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -50,7 +48,7 @@ extension LocationPhotosVC {
 
     override func collectionView(_ collectionView: UICollectionView,
                                  numberOfItemsInSection section: Int) -> Int {
-        return photosPages?.first?.total ?? 0
+        return photos.count
     }
 
     override func collectionView(_ collectionView: UICollectionView,
@@ -60,7 +58,7 @@ extension LocationPhotosVC {
             for: indexPath)
 
         if let cell = cell {
-            cell.set(photo: photo(at: indexPath.item))
+            cell.set(photo: photos[indexPath.item])
             return cell
         }
 
@@ -92,57 +90,21 @@ extension LocationPhotosVC: UICollectionViewDelegateFlowLayout {
 private extension LocationPhotosVC {
 
     func update() {
-        photosPages = data.getPhotosPages(user: nil)
+        guard let place = place else { return }
 
-        if let place = place {
-            log.todo("getLocationPhotosPages")
-            mtp.loadPhotos(location: place.id,
-                           page: 1) { _ in }
-        }
-
+        photos = data.get(locationPhotos: place.id)
         collectionView.reloadData()
     }
 
     func observe() {
-        guard pagesObserver == nil else { return }
+        guard photosObserver == nil else { return }
 
-        pagesObserver = data.observer(of: .photoPages) { [weak self] _ in
-            self?.update()
-        }
-    }
-
-    func photo(at index: Int) -> Photo {
-        let pageIndex = (index / PhotosPageInfo.perPage) + 1
-        let photoIndex = index % PhotosPageInfo.perPage
-        guard let page = photosPages?.filter("page = \(pageIndex)").first else {
-            mtp.loadPhotos(user: nil,
-                           page: pageIndex) { _ in }
-            return Photo()
-        }
-
-        let photoId = page.photoIds[photoIndex]
-        return data.get(photo: photoId)
-    }
-
-    func refreshDevicePhotos() {
-        let options = PHFetchOptions()
-        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-        devicePhotos = PHAsset.fetchAssets(with: options)
-    }
-
-    func setDevicePhoto(cell: LocationPhotoCell, indexPath: IndexPath) {
-        guard let photo = devicePhotos?[indexPath.item] else { return }
-
-        let size = self.collectionView(
-            collectionView,
-            layout: collectionView.collectionViewLayout,
-            sizeForItemAt: indexPath)
-        PHImageManager.default().requestImage(
-            for: photo,
-            targetSize: size,
-            contentMode: .aspectFill,
-            options: nil) { result, _ in
-                cell.set(image: result)
+        photosObserver = data.observer(of: .locationPhotos) { [weak self] info in
+            guard let self = self,
+                  let place = self.place,
+                  let updated = info[StatusKey.value.rawValue] as? Int,
+                  updated == place.id else { return }
+            self.update()
         }
     }
 }

@@ -262,7 +262,7 @@ extension ScorecardJSON: CustomDebugStringConvertible {
         remaining = from.data.remainingByUser.tValue?.count ?? 0
 
         age = from.data.ageLevel.min
-        countryId = from.data.user.location.countryId
+        countryId = from.data.user.location.countryId ?? 0
         locationId = from.data.user.location.id
         gender = from.data.user.gender
 

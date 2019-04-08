@@ -2,6 +2,31 @@
 
 import RealmSwift
 
+struct PhotosInfoJSON: Codable {
+
+    let code: Int
+    let data: [PhotoJSON]
+}
+
+extension PhotosInfoJSON: CustomStringConvertible {
+
+    public var description: String {
+        return "PhotosInfoJSON"
+    }
+}
+
+extension PhotosInfoJSON: CustomDebugStringConvertible {
+
+    var debugDescription: String {
+        return """
+        < PhotosInfoJSON: \(description):
+        code: \(code)
+        data: \(data.debugDescription))
+        /PhotosInfoJSON >
+        """
+    }
+}
+
 struct PhotosPageInfoJSON: Codable {
 
     let code: Int
@@ -61,6 +86,16 @@ extension PhotosPageJSON: CustomDebugStringConvertible {
 
 struct PhotoJSON: Codable {
 
+    struct OwnerJSON: Codable {
+        let country: String?
+        let firstName: String
+        let fullName: String
+        let id: Int
+        let lastName: String
+        let location: String?
+        let role: Int
+   }
+
     struct PivotJSON: Codable {
         let fileId: Int
         let userId: Int
@@ -73,6 +108,7 @@ struct PhotoJSON: Codable {
     let locationId: Int?
     let mime: String
     let name: String
+    let owner: OwnerJSON? // only in location photos
     let pivot: PivotJSON? // not in location photos
     let type: String
     let updatedAt: Date

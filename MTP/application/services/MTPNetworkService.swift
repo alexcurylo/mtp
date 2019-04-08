@@ -40,10 +40,10 @@ enum MTP: Hashable {
     case geoJson(map: Map)
     case golfcourse
     case location
-    case locationPhotos(location: Int, page: Int)
     case locationPosts
     case passwordReset(email: String)
     case picture(uuid: String, size: Size)
+    case locationPhotos(location: Int)
     case photos(user: Int?, page: Int)
     case rankings(query: RankingsQuery)
     case restaurant
@@ -88,8 +88,8 @@ extension MTP: TargetType {
             return "golfcourse"
         case .location:
             return "location"
-        case .locationPhotos(let id, _):
-            return "locations/\(id)/photos"
+        case .locationPhotos(let location):
+            return "locations/\(location)/photos"
         case .locationPosts:
             return "users/me/location-posts"
         case .photos(let user?, _):
@@ -165,9 +165,6 @@ extension MTP: TargetType {
         case .checkOut(_, let id):
             return .requestParameters(parameters: ["id": id],
                                       encoding: URLEncoding.default)
-        case .locationPhotos(_, let page): // &orderBy=-created_at&limit=6
-            return .requestParameters(parameters: ["page": page],
-                                      encoding: URLEncoding.default)
         case .passwordReset(let email):
             return .requestParameters(parameters: ["email": email],
                                       encoding: URLEncoding(destination: .queryString))
@@ -197,6 +194,7 @@ extension MTP: TargetType {
              .geoJson,
              .golfcourse,
              .location,
+             .locationPhotos, // &page=1&orderBy=-created_at&limit=6
              .locationPosts,
              .restaurant,
              .scorecard,
@@ -287,8 +285,7 @@ protocol MTPNetworkService {
                visited: Bool,
                then: @escaping MTPResult<Bool>)
     func loadPhotos(location id: Int,
-                    page: Int,
-                    then: @escaping MTPResult<PhotosPageInfoJSON>)
+                    then: @escaping MTPResult<PhotosInfoJSON>)
     func loadPhotos(user id: Int?,
                     page: Int,
                     then: @escaping MTPResult<PhotosPageInfoJSON>)
@@ -545,10 +542,9 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     }
 
     func loadPhotos(location id: Int,
-                    page: Int,
-                    then: @escaping MTPResult<PhotosPageInfoJSON> = { _ in }) {
+                    then: @escaping MTPResult<PhotosInfoJSON> = { _ in }) {
         let provider = MoyaProvider<MTP>()
-        let endpoint = MTP.locationPhotos(location: id, page: page)
+        let endpoint = MTP.locationPhotos(location: id)
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
@@ -560,10 +556,9 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.failure(.notModified))
                 }
                 do {
-                    let info = try result.map(PhotosPageInfoJSON.self,
+                    let info = try result.map(PhotosInfoJSON.self,
                                               using: JSONDecoder.mtp)
-                    //self.data.set(photos: page, location: id, info: info)
-                    print(info.debugDescription)
+                    self.data.set(locationPhotos: id, info: info)
                     return then(.success(info))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
