@@ -84,17 +84,17 @@ extension PhotosPageJSON: CustomDebugStringConvertible {
     }
 }
 
-struct PhotoJSON: Codable {
+struct OwnerJSON: Codable {
+    //let country: String? // UserJSON in user endpoint
+    let firstName: String
+    let fullName: String
+    let id: Int
+    let lastName: String
+    //let location: String? // LocationJSON in user endpoint
+    let role: Int
+}
 
-    struct OwnerJSON: Codable {
-        let country: String?
-        let firstName: String
-        let fullName: String
-        let id: Int
-        let lastName: String
-        let location: String?
-        let role: Int
-   }
+struct PhotoJSON: Codable {
 
     struct PivotJSON: Codable {
         let fileId: Int

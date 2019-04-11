@@ -41,6 +41,16 @@ final class SpyMTPNetworkService: MTPNetworkService {
         invokedLoadPhotosParameters = (id, page, then)
         invokedLoadPhotosParametersList.append((id, page, then))
     }
+    var invokedLoadPostsLocation = false
+    var invokedLoadPostsLocationCount = 0
+    var invokedLoadPostsLocationParameters: (id: Int, then: MTPResult<PostsJSON>)?
+    var invokedLoadPostsLocationParametersList = [(id: Int, then: MTPResult<PostsJSON>)]()
+    func loadPosts(location id: Int, then: @escaping MTPResult<PostsJSON>) {
+        invokedLoadPostsLocation = true
+        invokedLoadPostsLocationCount += 1
+        invokedLoadPostsLocationParameters = (id, then)
+        invokedLoadPostsLocationParametersList.append((id, then))
+    }
     var invokedLoadRankings = false
     var invokedLoadRankingsCount = 0
     var invokedLoadRankingsParameters: (query: RankingsQuery, then: MTPResult<RankingsPageInfoJSON>)?

@@ -210,8 +210,18 @@ final class RealmController: ServiceProvider {
         }
     }
 
-    var posts: [Post] {
+    func posts(location id: Int) -> [Post] {
+        let filter = "locationId = \(id)"
         let results = realm.objects(Post.self)
+                           .filter(filter)
+                           .sorted(byKeyPath: "updatedAt", ascending: false)
+        return Array(results)
+    }
+
+    func posts(user id: Int) -> [Post] {
+        let filter = "userId = \(id)"
+        let results = realm.objects(Post.self)
+                           .filter(filter)
                            .sorted(byKeyPath: "updatedAt", ascending: false)
         return Array(results)
     }
@@ -220,7 +230,6 @@ final class RealmController: ServiceProvider {
         do {
             let objects = posts.compactMap { Post(from: $0) }
             try realm.write {
-                realm.delete(realm.objects(Post.self))
                 realm.add(objects, update: true)
             }
         } catch {

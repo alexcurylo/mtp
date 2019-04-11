@@ -27,6 +27,7 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         markerTintColor = place.background
         glyphImage = place.listImage
 
+        #if VISIT_TOGGLE
         let visit = UISwitch {
             $0.isOn = place.visited
             $0.addTarget(self,
@@ -34,6 +35,7 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
                          for: .valueChanged)
         }
         rightCalloutAccessoryView = visit
+        #endif
 
         let showMore = GradientButton {
             $0.orientation = GradientOrientation.horizontal.rawValue

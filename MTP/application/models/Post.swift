@@ -6,7 +6,8 @@ struct PostsJSON: Codable {
 
     let code: Int
     let data: [PostJSON]
-    let paging: Bool
+    // swiftlint:disable:next discouraged_optional_boolean
+    let paging: Bool? // not in locations, always false for user
 }
 
 extension PostsJSON: CustomStringConvertible {
@@ -22,7 +23,7 @@ extension PostsJSON: CustomDebugStringConvertible {
         return """
         < PostsJSON: \(description):
         code: \(code)
-        paging: \(paging)
+        paging: \(String(describing: paging))
         data: \(data.debugDescription)
         /PostsJSON >
         """
@@ -33,12 +34,12 @@ struct PostJSON: Codable {
 
     let createdAt: Date
     let id: Int
-    let location: LocationJSON // still has 30 items
+    let location: PlaceLocation // LocationJSON in user endpoint
     let locationId: Int
     let post: String
     let status: String
     let updatedAt: Date
-    let owner: UserJSON
+    let owner: OwnerJSON // UserJSON in user endpoint
     let userId: Int
 }
 
@@ -74,6 +75,7 @@ extension PostJSON: CustomDebugStringConvertible {
     dynamic var locationId: Int = 0
     dynamic var post: String = ""
     dynamic var updatedAt = Date()
+    dynamic var userId: Int = 0
 
     override static func primaryKey() -> String? {
         return "id"
@@ -86,5 +88,6 @@ extension PostJSON: CustomDebugStringConvertible {
         locationId = from.locationId
         post = from.post
         updatedAt = from.updatedAt
+        userId = from.userId
     }
 }

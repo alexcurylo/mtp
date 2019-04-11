@@ -97,7 +97,7 @@ private extension LocationVC {
         fullNameLabel?.text = place.title
         countryLabel?.text = place.subtitle
 
-        birthdayLabel?.text = "tbd"
+        birthdayLabel?.text = ""
     }
 }
 

@@ -6,9 +6,9 @@ final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
 
     static func profile(model: Model) -> LocationPagingVC {
         let controllers = [
-            R.storyboard.locationAbout.locationAbout()?.inject(model: model),
+            R.storyboard.locationInfo.locationInfo()?.inject(model: model),
             R.storyboard.locationPhotos.locationPhotos()?.inject(model: model),
-            R.storyboard.locationPosts.locationPosts()?.inject(model: model)
+            R.storyboard.locationReviews.locationReviews()?.inject(model: model)
         ].compactMap { $0 }
 
         return LocationPagingVC(viewControllers: controllers)

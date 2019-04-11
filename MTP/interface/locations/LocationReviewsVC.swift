@@ -2,7 +2,7 @@
 
 import Anchorage
 
-final class LocationPostsVC: UICollectionViewController, ServiceProvider {
+final class LocationReviewsVC: UICollectionViewController, ServiceProvider {
 
     private enum Layout {
         static let cellHeight = CGFloat(100)
@@ -23,13 +23,14 @@ final class LocationPostsVC: UICollectionViewController, ServiceProvider {
         super.viewDidLoad()
         requireInjections()
 
-        log.todo("implement LocationPostsVC")
-
         flow?.itemSize = UICollectionViewFlowLayout.automaticSize
         flow?.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
 
-        update()
         observe()
+        update()
+        if let place = place {
+            mtp.loadPosts(location: place.id) { _ in }
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -50,7 +51,7 @@ final class LocationPostsVC: UICollectionViewController, ServiceProvider {
 
 // MARK: UICollectionViewDataSource
 
-extension LocationPostsVC {
+extension LocationReviewsVC {
 
     override func collectionView(_ collectionView: UICollectionView,
                                  numberOfItemsInSection section: Int) -> Int {
@@ -76,7 +77,7 @@ extension LocationPostsVC {
 
 // MARK: UICollectionViewDelegateFlowLayout
 
-extension LocationPostsVC: UICollectionViewDelegateFlowLayout {
+extension LocationReviewsVC: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -94,14 +95,18 @@ extension LocationPostsVC: UICollectionViewDelegateFlowLayout {
 
 // MARK: Data management
 
-private extension LocationPostsVC {
+private extension LocationReviewsVC {
 
     func update() {
-        posts = data.posts.map { post in
-            let photos = data.get(user: nil, photos: post.locationId)
+        guard let place = place else { return }
+
+        let locationPosts = data.get(locationPosts: place.id)
+
+        posts = locationPosts.map { post in
+            //let photos = data.get(user: nil, photos: post.locationId)
             let location = data.get(location: post.locationId)
             return LocationPostCellModel(
-                photo: photos.first,
+                photo: nil, //photos.first,
                 location: location,
                 date: dateFormatter.string(from: post.updatedAt).uppercased(),
                 title: location?.placeTitle ?? Localized.unknown(),
@@ -115,7 +120,7 @@ private extension LocationPostsVC {
     func observe() {
         guard postsObserver == nil else { return }
 
-        postsObserver = data.observer(of: .posts) { [weak self] _ in
+        postsObserver = data.observer(of: .locationPosts) { [weak self] _ in
             self?.update()
         }
     }
@@ -125,11 +130,11 @@ private extension LocationPostsVC {
     }
 }
 
-extension LocationPostsVC: Injectable {
+extension LocationReviewsVC: Injectable {
 
     typealias Model = PlaceAnnotation
 
-    @discardableResult func inject(model: Model) -> LocationPostsVC {
+    @discardableResult func inject(model: Model) -> LocationReviewsVC {
         place = model
         return self
     }
