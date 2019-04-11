@@ -1,25 +1,27 @@
 // @copyright Trollwerks Inc.
 
-import Photos
 import RealmSwift
 
-final class MyPhotosVC: UICollectionViewController, ServiceProvider {
+final class LocationPhotosVC: UICollectionViewController, ServiceProvider {
 
     private enum Layout {
         static let minItemSize = CGFloat(100)
     }
 
-    private var photosPages: Results<PhotosPageInfo>?
-    private var devicePhotos: PHFetchResult<PHAsset>?
+    private var place: PlaceAnnotation?
+    private var photos: [Photo] = []
 
-    private var pagesObserver: Observer?
+    private var photosObserver: Observer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
 
-        update()
         observe()
+        update()
+        if let place = place {
+            mtp.loadPhotos(location: place.id) { _ in }
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -42,31 +44,31 @@ final class MyPhotosVC: UICollectionViewController, ServiceProvider {
 
 // MARK: UICollectionViewDataSource
 
-extension MyPhotosVC {
+extension LocationPhotosVC {
 
     override func collectionView(_ collectionView: UICollectionView,
                                  numberOfItemsInSection section: Int) -> Int {
-        return photosPages?.first?.total ?? 0
+        return photos.count
     }
 
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: R.reuseIdentifier.myPhotoCell,
+            withReuseIdentifier: R.reuseIdentifier.locationPhotoCell,
             for: indexPath)
 
         if let cell = cell {
-            cell.set(photo: photo(at: indexPath.item))
+            cell.set(photo: photos[indexPath.item])
             return cell
         }
 
-        return MyPhotoCell()
+        return LocationPhotoCell()
     }
 }
 
 // MARK: UICollectionViewDelegateFlowLayout
 
-extension MyPhotosVC: UICollectionViewDelegateFlowLayout {
+extension LocationPhotosVC: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -85,71 +87,43 @@ extension MyPhotosVC: UICollectionViewDelegateFlowLayout {
 
 // MARK: Data management
 
-private extension MyPhotosVC {
+private extension LocationPhotosVC {
 
     func update() {
-        photosPages = data.getPhotosPages(user: nil)
+        guard let place = place else { return }
+
+        photos = data.get(locationPhotos: place.id)
         collectionView.reloadData()
     }
 
     func observe() {
-        guard pagesObserver == nil else { return }
+        guard photosObserver == nil else { return }
 
-        pagesObserver = data.observer(of: .photoPages) { [weak self] _ in
-            self?.update()
-        }
-    }
-
-    func photo(at index: Int) -> Photo {
-        let pageIndex = (index / PhotosPageInfo.perPage) + 1
-        let photoIndex = index % PhotosPageInfo.perPage
-        // swiftlint:disable:next first_where
-        guard let page = photosPages?.filter("page = \(pageIndex)").first else {
-            mtp.loadPhotos(user: nil,
-                           page: pageIndex) { _ in }
-            return Photo()
-        }
-
-        let photoId = page.photoIds[photoIndex]
-        return data.get(photo: photoId)
-    }
-
-    func refreshDevicePhotos() {
-        let options = PHFetchOptions()
-        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-        devicePhotos = PHAsset.fetchAssets(with: options)
-    }
-
-    func setDevicePhoto(cell: MyPhotoCell, indexPath: IndexPath) {
-        guard let photo = devicePhotos?[indexPath.item] else { return }
-
-        let size = self.collectionView(
-            collectionView,
-            layout: collectionView.collectionViewLayout,
-            sizeForItemAt: indexPath)
-        PHImageManager.default().requestImage(
-            for: photo,
-            targetSize: size,
-            contentMode: .aspectFill,
-            options: nil) { result, _ in
-                cell.set(image: result)
+        photosObserver = data.observer(of: .locationPhotos) { [weak self] info in
+            guard let self = self,
+                  let place = self.place,
+                  let updated = info[StatusKey.value.rawValue] as? Int,
+                  updated == place.id else { return }
+            self.update()
         }
     }
 }
 
-extension MyPhotosVC: Injectable {
+extension LocationPhotosVC: Injectable {
 
-    typealias Model = ()
+    typealias Model = PlaceAnnotation
 
-    @discardableResult func inject(model: Model) -> MyPhotosVC {
+    @discardableResult func inject(model: Model) -> LocationPhotosVC {
+        place = model
         return self
     }
 
     func requireInjections() {
+        place.require()
     }
 }
 
-final class MyPhotoCell: UICollectionViewCell {
+final class LocationPhotoCell: UICollectionViewCell {
 
     @IBOutlet private var imageView: UIImageView?
 

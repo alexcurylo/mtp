@@ -36,16 +36,18 @@ final class CountToggleCell: UICollectionViewCell, ServiceProvider {
         }
 
         let isEditable = visit.superview != nil
+        let isEnabled = list != .uncountries
         switch (editable, isEditable) {
-        case (true, true):
+        case (true, _):
             visit.isOn = list.isVisited(id: id)
-        case (true, false):
-            visit.isOn = list.isVisited(id: id)
-            buttons.addArrangedSubview(visit)
+            visit.isEnabled = isEnabled
+            if !isEditable {
+                buttons.addArrangedSubview(visit)
+            }
         case (false, true):
             buttons.removeArrangedSubview(visit)
             visit.removeFromSuperview()
-        default:
+        case (false, false):
             break
         }
 

@@ -41,7 +41,7 @@ final class RealmController: ServiceProvider {
 
     func set(beaches: [PlaceJSON]) {
         do {
-            let objects = beaches.compactMap { Beach(from: $0) }
+            let objects = beaches.compactMap { Beach(from: $0, with: self) }
             try realm.write {
                 realm.add(objects, update: true)
             }
@@ -81,7 +81,7 @@ final class RealmController: ServiceProvider {
 
     func set(divesites: [PlaceJSON]) {
         do {
-            let objects = divesites.compactMap { DiveSite(from: $0) }
+            let objects = divesites.compactMap { DiveSite(from: $0, with: self) }
             try realm.write {
                 realm.add(objects, update: true)
             }
@@ -97,7 +97,7 @@ final class RealmController: ServiceProvider {
 
     func set(golfcourses: [PlaceJSON]) {
         do {
-            let objects = golfcourses.compactMap { GolfCourse(from: $0) }
+            let objects = golfcourses.compactMap { GolfCourse(from: $0, with: self) }
             try realm.write {
                 realm.add(objects, update: true)
             }
@@ -143,6 +143,14 @@ final class RealmController: ServiceProvider {
         return results.first
     }
 
+    func photos(location: Int) -> [Photo] {
+        let filter = "locationId = \(location)"
+        let results = realm.objects(Photo.self)
+                           .filter(filter)
+                           .sorted(byKeyPath: "updatedAt", ascending: false)
+        return Array(results)
+    }
+
     func photos(user id: Int,
                 location: Int) -> [Photo] {
         let filter = "userId = \(id) AND locationId = \(location)"
@@ -150,6 +158,18 @@ final class RealmController: ServiceProvider {
                            .filter(filter)
                            .sorted(byKeyPath: "updatedAt", ascending: false)
         return Array(results)
+    }
+
+    func set(locationPhotos id: Int,
+             info: PhotosInfoJSON) {
+        do {
+            let photos = info.data.map { Photo(from: $0) }
+            try realm.write {
+                realm.add(photos, update: true)
+            }
+        } catch {
+            log.error("update locationPhotos: \(error)")
+        }
     }
 
     func set(photos page: Int,
@@ -190,8 +210,18 @@ final class RealmController: ServiceProvider {
         }
     }
 
-    var posts: [Post] {
+    func posts(location id: Int) -> [Post] {
+        let filter = "locationId = \(id)"
         let results = realm.objects(Post.self)
+                           .filter(filter)
+                           .sorted(byKeyPath: "updatedAt", ascending: false)
+        return Array(results)
+    }
+
+    func posts(user id: Int) -> [Post] {
+        let filter = "userId = \(id)"
+        let results = realm.objects(Post.self)
+                           .filter(filter)
                            .sorted(byKeyPath: "updatedAt", ascending: false)
         return Array(results)
     }
@@ -200,7 +230,6 @@ final class RealmController: ServiceProvider {
         do {
             let objects = posts.compactMap { Post(from: $0) }
             try realm.write {
-                realm.delete(realm.objects(Post.self))
                 realm.add(objects, update: true)
             }
         } catch {
@@ -310,7 +339,7 @@ final class RealmController: ServiceProvider {
 
     func set(whss: [WHSJSON]) {
         do {
-            let objects = whss.compactMap { WHS(from: $0) }
+            let objects = whss.compactMap { WHS(from: $0, with: self) }
             try realm.write {
                 realm.add(objects, update: true)
             }

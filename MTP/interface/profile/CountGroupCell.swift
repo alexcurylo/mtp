@@ -7,10 +7,13 @@ final class CountGroupCell: UICollectionViewCell {
     static let reuseIdentifier = NSStringFromClass(CountGroupCell.self)
 
     func set(key: String,
-             count: Int,
-             visited: Int) {
-
-        label.text = Localized.locationVisitedCount(key, visited, count)
+             visited: Int?,
+             count: Int) {
+        if let visited = visited {
+            label.text = Localized.locationVisitedCount(key, visited, count)
+        } else {
+            label.text = Localized.locationCount(key, count)
+        }
     }
 
     private enum Layout {

@@ -6,7 +6,7 @@ protocol Injectable {
 
     associatedtype Model
 
-    func inject(model: Model)
+    @discardableResult func inject(model: Model) -> Self
 
     // viewDidLoad is a good place to check Model and IBOutlets
     func requireInjections()

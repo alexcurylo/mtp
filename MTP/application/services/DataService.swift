@@ -27,6 +27,8 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
 
     func get(country id: Int?) -> Country?
     func get(location id: Int?) -> Location?
+    func get(locationPhotos id: Int) -> [Photo]
+    func get(locationPosts id: Int) -> [Post]
     func get(locations filter: String) -> [Location]
     func getPhotosPages(user id: Int?) -> Results<PhotosPageInfo>
     func get(photo: Int) -> Photo
@@ -45,6 +47,10 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func set(divesites: [PlaceJSON])
     func set(golfcourses: [PlaceJSON])
     func set(locations: [LocationJSON])
+    func set(location id: Int,
+             photos: PhotosInfoJSON)
+    func set(location id: Int,
+             posts: [PostJSON])
     func set(photos page: Int,
              user id: Int?,
              info: PhotosPageInfoJSON)
@@ -177,6 +183,14 @@ final class DataServiceImpl: DataService {
         return realm.location(id: id)
     }
 
+    func get(locationPhotos id: Int) -> [Photo] {
+        return realm.photos(location: id)
+    }
+
+    func get(locationPosts id: Int) -> [Post] {
+        return realm.posts(location: id)
+    }
+
     func get(locations filter: String) -> [Location] {
         return realm.locations(filter: filter)
     }
@@ -209,6 +223,18 @@ final class DataServiceImpl: DataService {
         return realm.photos(user: userId, location: location)
     }
 
+    func set(location id: Int,
+             photos: PhotosInfoJSON) {
+        realm.set(locationPhotos: id, info: photos)
+        notify(change: .locationPhotos, object: id)
+    }
+
+    func set(location id: Int,
+             posts: [PostJSON]) {
+        realm.set(posts: posts)
+        notify(change: .locationPosts, object: id)
+    }
+
     func set(photos page: Int,
              user id: Int?,
              info: PhotosPageInfoJSON) {
@@ -221,7 +247,7 @@ final class DataServiceImpl: DataService {
     }
 
     var posts: [Post] {
-        return realm.posts
+        return realm.posts(user: user?.id ?? 0)
     }
 
     func set(posts: [PostJSON]) {
@@ -337,6 +363,8 @@ enum DataServiceChange: String {
     case checklists
     case divesites
     case golfcourses
+    case locationPhotos
+    case locationPosts
     case locations
     case photoPages
     case posts

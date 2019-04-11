@@ -55,23 +55,27 @@ extension WHSJSON: CustomDebugStringConvertible {
     dynamic var parentId: Int = 0
     dynamic var regionName: String = ""
     dynamic var title: String = ""
+    dynamic var placeLocation: Location?
 
     override static func primaryKey() -> String? {
         return "id"
     }
 
-    convenience init?(from: WHSJSON) {
+    convenience init?(from: WHSJSON,
+                      with controller: RealmController) {
         guard from.active == "Y" else {
             return nil
         }
         self.init()
 
-        countryName = from.location?.countryName ?? Localized.unknown()
+        let locationId = from.location?.id ?? from.locationId
+        placeLocation = controller.location(id: locationId)
+        countryName = placeLocation?.countryName ?? Localized.unknown()
         id = from.id
         lat = from.lat
         long = from.long
         parentId = from.parentId ?? 0
-        regionName = from.location?.regionName ?? Localized.unknown()
+        regionName = placeLocation?.regionName ?? Localized.unknown()
         title = from.title
     }
 

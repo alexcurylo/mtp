@@ -9,10 +9,12 @@ protocol PlaceInfo {
     var placeCountry: String { get }
     var placeId: Int { get }
     var placeIsMappable: Bool { get }
+    var placeLocation: Location? { get }
     var placeParent: PlaceInfo? { get }
     var placeRegion: String { get }
     var placeSubtitle: String { get }
     var placeTitle: String { get }
+    var placeImage: String { get }
 }
 
 // swiftlint:disable:next static_operator
@@ -36,7 +38,11 @@ extension PlaceInfo {
     }
 
     var placeSubtitle: String {
-        return ""
+        return placeLocation?.description ?? ""
+    }
+
+    var placeImage: String {
+        return placeLocation?.featuredImg ?? ""
     }
 }
 
@@ -97,22 +103,25 @@ extension PlaceJSON: CustomDebugStringConvertible {
     dynamic var long: Double = 0
     dynamic var regionName: String = ""
     dynamic var title: String = ""
+    dynamic var placeLocation: Location?
 
     override static func primaryKey() -> String? {
         return "id"
     }
 
-    convenience init?(from: PlaceJSON) {
+    convenience init?(from: PlaceJSON,
+                      with controller: RealmController) {
         guard from.active == "Y" else {
             return nil
         }
         self.init()
 
-        countryName = from.location.countryName
+        placeLocation = controller.location(id: from.location.id)
+        countryName = placeLocation?.countryName ?? Localized.unknown()
         id = from.id
         lat = from.lat
         long = from.long
-        regionName = from.location.regionName
+        regionName = placeLocation?.regionName ?? Localized.unknown()
         title = from.title
     }
 
@@ -155,22 +164,25 @@ extension Beach: PlaceInfo {
     dynamic var long: Double = 0
     dynamic var regionName: String = ""
     dynamic var title: String = ""
+    dynamic var placeLocation: Location?
 
     override static func primaryKey() -> String? {
         return "id"
     }
 
-    convenience init?(from: PlaceJSON) {
+    convenience init?(from: PlaceJSON,
+                      with controller: RealmController) {
         guard from.active == "Y" else {
             return nil
         }
         self.init()
 
-        countryName = from.location.countryName
+        placeLocation = controller.location(id: from.location.id)
+        countryName = placeLocation?.countryName ?? Localized.unknown()
         id = from.id
         lat = from.lat
         long = from.long
-        regionName = from.location.regionName
+        regionName = placeLocation?.regionName ?? Localized.unknown()
         title = from.title
     }
 
@@ -213,22 +225,25 @@ extension DiveSite: PlaceInfo {
     dynamic var long: Double = 0
     dynamic var regionName: String = ""
     dynamic var title: String = ""
+    dynamic var placeLocation: Location?
 
     override static func primaryKey() -> String? {
         return "id"
     }
 
-    convenience init?(from: PlaceJSON) {
+    convenience init?(from: PlaceJSON,
+                      with controller: RealmController) {
         guard from.active == "Y" else {
             return nil
         }
         self.init()
 
-        countryName = from.location.countryName
+        placeLocation = controller.location(id: from.location.id)
+        countryName = placeLocation?.countryName ?? Localized.unknown()
         id = from.id
         lat = from.lat
         long = from.long
-        regionName = from.location.regionName
+        regionName = placeLocation?.regionName ?? Localized.unknown()
         title = from.title
     }
 

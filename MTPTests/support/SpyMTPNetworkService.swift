@@ -18,6 +18,17 @@ final class SpyMTPNetworkService: MTPNetworkService {
         invokedCheckParameters = (list, id, visited, then)
         invokedCheckParametersList.append((list, id, visited, then))
     }
+    var invokedLoadPhotosLocation = false
+    var invokedLoadPhotosLocationCount = 0
+    var invokedLoadPhotosLocationParameters: (id: Int, then: MTPResult<PhotosInfoJSON>)?
+    var invokedLoadPhotosLocationParametersList = [(id: Int, then: MTPResult<PhotosInfoJSON>)]()
+    func loadPhotos(location id: Int,
+                    then: @escaping MTPResult<PhotosInfoJSON>) {
+        invokedLoadPhotosLocation = true
+        invokedLoadPhotosLocationCount += 1
+        invokedLoadPhotosLocationParameters = (id, then)
+        invokedLoadPhotosLocationParametersList.append((id, then))
+    }
     var invokedLoadPhotos = false
     var invokedLoadPhotosCount = 0
     var invokedLoadPhotosParameters: (id: Int?, page: Int, then: MTPResult<PhotosPageInfoJSON>)?
@@ -29,6 +40,16 @@ final class SpyMTPNetworkService: MTPNetworkService {
         invokedLoadPhotosCount += 1
         invokedLoadPhotosParameters = (id, page, then)
         invokedLoadPhotosParametersList.append((id, page, then))
+    }
+    var invokedLoadPostsLocation = false
+    var invokedLoadPostsLocationCount = 0
+    var invokedLoadPostsLocationParameters: (id: Int, then: MTPResult<PostsJSON>)?
+    var invokedLoadPostsLocationParametersList = [(id: Int, then: MTPResult<PostsJSON>)]()
+    func loadPosts(location id: Int, then: @escaping MTPResult<PostsJSON>) {
+        invokedLoadPostsLocation = true
+        invokedLoadPostsLocationCount += 1
+        invokedLoadPostsLocationParameters = (id, then)
+        invokedLoadPostsLocationParametersList.append((id, then))
     }
     var invokedLoadRankings = false
     var invokedLoadRankingsCount = 0

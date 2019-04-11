@@ -158,7 +158,8 @@ extension EditProfileVC: Injectable {
 
     typealias Model = ()
 
-    func inject(model: Model) {
+    @discardableResult func inject(model: Model) -> EditProfileVC {
+        return self
     }
 
     func requireInjections() {

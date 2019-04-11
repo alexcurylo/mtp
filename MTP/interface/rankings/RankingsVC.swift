@@ -39,9 +39,10 @@ final class RankingsVC: UIViewController, ServiceProvider {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
-        case Segues.showFilter.identifier,
-             Segues.showSearch.identifier:
-            break
+        case Segues.showFilter.identifier:
+             break
+        case Segues.showSearch.identifier:
+            log.todo("implement rankings search")
         case Segues.showUserProfile.identifier:
             if let profile = Segues.showUserProfile(segue: segue)?.destination,
                let model = model {
@@ -123,12 +124,12 @@ extension RankingsVC: RankingsPageVCDelegate {
     }
 
     func tapped(visited user: User, list: Checklist) {
-        model = (list: list, user: user, tab: .visited)
+        model = (list, user, .visited)
         performSegue(withIdentifier: Segues.showUserProfile, sender: self)
     }
 
     func tapped(remaining user: User, list: Checklist) {
-        model = (list: list, user: user, tab: .remaining)
+        model = (list, user, .remaining)
         performSegue(withIdentifier: Segues.showUserProfile, sender: self)
     }
 }
@@ -155,7 +156,8 @@ extension RankingsVC: Injectable {
 
     typealias Model = ()
 
-    func inject(model: Model) {
+    @discardableResult func inject(model: Model) -> RankingsVC {
+        return self
     }
 
     func requireInjections() {

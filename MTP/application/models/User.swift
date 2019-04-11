@@ -186,8 +186,8 @@ extension UserAvatar {
 
     var imageUrl: URL? {
         guard let uuid = picture, !uuid.isEmpty else { return nil }
-        let link = "https://mtp.travel/api/files/preview?uuid=\(uuid)&size=thumb"
-        return URL(string: link)
+        let target = MTP.picture(uuid: uuid, size: .thumb)
+        return target.requestUrl
     }
 
     var placeholder: UIImage? {

@@ -299,6 +299,30 @@ final class SpyDataService: DataService {
         invokedGetLocationParametersList.append((id, ()))
         return stubbedGetLocationResult
     }
+    var invokedGetLocationPhotos = false
+    var invokedGetLocationPhotosCount = 0
+    var invokedGetLocationPhotosParameters: (id: Int, Void)?
+    var invokedGetLocationPhotosParametersList = [(id: Int, Void)]()
+    var stubbedGetLocationPhotosResult: [Photo]! = []
+    func get(locationPhotos id: Int) -> [Photo] {
+        invokedGetLocationPhotos = true
+        invokedGetLocationPhotosCount += 1
+        invokedGetLocationPhotosParameters = (id, ())
+        invokedGetLocationPhotosParametersList.append((id, ()))
+        return stubbedGetLocationPhotosResult
+    }
+    var invokedGetLocationPosts = false
+    var invokedGetLocationPostsCount = 0
+    var invokedGetLocationPostsParameters: (id: Int, Void)?
+    var invokedGetLocationPostsParametersList = [(id: Int, Void)]()
+    var stubbedGetLocationPostsResult: [Post]! = []
+    func get(locationPosts id: Int) -> [Post] {
+        invokedGetLocationPosts = true
+        invokedGetLocationPostsCount += 1
+        invokedGetLocationPostsParameters = (id, ())
+        invokedGetLocationPostsParametersList.append((id, ()))
+        return stubbedGetLocationPostsResult
+    }
     var invokedGetLocations = false
     var invokedGetLocationsCount = 0
     var invokedGetLocationsParameters: (filter: String, Void)?
@@ -470,6 +494,17 @@ final class SpyDataService: DataService {
         invokedSetLocationsParameters = (locations, ())
         invokedSetLocationsParametersList.append((locations, ()))
     }
+    var invokedSetLocationPhotos = false
+    var invokedSetLocationPhotosCount = 0
+    var invokedSetLocationPhotosParameters: (id: Int, photos: PhotosInfoJSON)?
+    var invokedSetLocationPhotosParametersList = [(id: Int, photos: PhotosInfoJSON)]()
+    func set(location id: Int,
+             photos: PhotosInfoJSON) {
+        invokedSetLocationPhotos = true
+        invokedSetLocationPhotosCount += 1
+        invokedSetLocationPhotosParameters = (id, photos)
+        invokedSetLocationPhotosParametersList.append((id, photos))
+    }
     var invokedSetPhotos = false
     var invokedSetPhotosCount = 0
     var invokedSetPhotosParameters: (page: Int, id: Int?, info: PhotosPageInfoJSON)?
@@ -481,6 +516,17 @@ final class SpyDataService: DataService {
         invokedSetPhotosCount += 1
         invokedSetPhotosParameters = (page, id, info)
         invokedSetPhotosParametersList.append((page, id, info))
+    }
+    var invokedSetLocationPosts = false
+    var invokedSetLocationPostsCount = 0
+    var invokedSetLocationPostsParameters: (id: Int, posts: [PostJSON])?
+    var invokedSetLocationPostsParametersList = [(id: Int, posts: [PostJSON])]()
+    func set(location id: Int,
+             posts: [PostJSON]) {
+        invokedSetLocationPosts = true
+        invokedSetLocationPostsCount += 1
+        invokedSetLocationPostsParameters = (id, posts)
+        invokedSetLocationPostsParametersList.append((id, posts))
     }
     var invokedSetPosts = false
     var invokedSetPostsCount = 0

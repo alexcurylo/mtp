@@ -96,8 +96,9 @@ extension LoginFailVC: Injectable {
 
     typealias Model = String
 
-    func inject(model: Model) {
+    @discardableResult func inject(model: Model) -> LoginFailVC {
         errorMessage = model
+        return self
     }
 
     func requireInjections() {

@@ -117,7 +117,8 @@ extension ForgotPasswordVC: Injectable {
 
     typealias Model = ()
 
-    func inject(model: Model) {
+    @discardableResult func inject(model: Model) -> ForgotPasswordVC {
+        return self
     }
 
     func requireInjections() {

@@ -2,6 +2,31 @@
 
 import RealmSwift
 
+struct PhotosInfoJSON: Codable {
+
+    let code: Int
+    let data: [PhotoJSON]
+}
+
+extension PhotosInfoJSON: CustomStringConvertible {
+
+    public var description: String {
+        return "PhotosInfoJSON"
+    }
+}
+
+extension PhotosInfoJSON: CustomDebugStringConvertible {
+
+    var debugDescription: String {
+        return """
+        < PhotosInfoJSON: \(description):
+        code: \(code)
+        data: \(data.debugDescription))
+        /PhotosInfoJSON >
+        """
+    }
+}
+
 struct PhotosPageInfoJSON: Codable {
 
     let code: Int
@@ -59,6 +84,16 @@ extension PhotosPageJSON: CustomDebugStringConvertible {
     }
 }
 
+struct OwnerJSON: Codable {
+    //let country: String? // UserJSON in user endpoint
+    let firstName: String
+    let fullName: String
+    let id: Int
+    let lastName: String
+    //let location: String? // LocationJSON in user endpoint
+    let role: Int
+}
+
 struct PhotoJSON: Codable {
 
     struct PivotJSON: Codable {
@@ -73,7 +108,8 @@ struct PhotoJSON: Codable {
     let locationId: Int?
     let mime: String
     let name: String
-    let pivot: PivotJSON
+    let owner: OwnerJSON? // only in location photos
+    let pivot: PivotJSON? // not in location photos
     let type: String
     let updatedAt: Date
     let userId: Int
@@ -99,7 +135,7 @@ extension PhotoJSON: CustomDebugStringConvertible {
         locationId: \(String(describing: locationId))
         mime: \(mime)
         name: \(name)
-        pivot: \(pivot)
+        pivot: \(String(describing: pivot))
         type: \(type)
         updatedAt: \(updatedAt)
         userId: \(userId)
@@ -175,7 +211,7 @@ extension PhotoJSON: CustomDebugStringConvertible {
 
     var imageUrl: URL? {
         guard !uuid.isEmpty else { return nil }
-        let link = "https://mtp.travel/api/files/preview?uuid=\(uuid)"
-        return URL(string: link)
+        let target = MTP.picture(uuid: uuid, size: .any)
+        return target.requestUrl
     }
 }

@@ -16,12 +16,17 @@ final class LocationVC: UIViewController, ServiceProvider {
 
     @IBOutlet private var pagesHolder: UIView?
 
+    private var place: PlaceAnnotation?
+
     private var userObserver: Observer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
 
+        log.todo("implement LocationVC")
+
+        title = place?.title
         setupHeaderView()
         setupPagesHolder()
     }
@@ -66,9 +71,10 @@ private extension LocationVC {
     }
 
     func setupPagesHolder() {
-        guard let holder = pagesHolder else { return }
+        guard let holder = pagesHolder,
+              let place = place else { return }
 
-        let pagesVC = LocationPagingVC.profile
+        let pagesVC = LocationPagingVC.profile(model: place)
         addChild(pagesVC)
         holder.addSubview(pagesVC.view)
         pagesVC.view.edgeAnchors == holder.edgeAnchors
@@ -85,27 +91,28 @@ private extension LocationVC {
     }
 
     func configure() {
-        guard let user = data.user else { return }
+        guard let place = place else { return }
 
-        avatarImageView?.set(thumbnail: user)
-        fullNameLabel?.text = user.fullName
-        countryLabel?.text = user.location.description
+        avatarImageView?.set(thumbnail: place)
+        fullNameLabel?.text = place.title
+        countryLabel?.text = place.subtitle
 
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
-        birthdayLabel?.text = dateFormatter.string(from: user.birthday)
+        birthdayLabel?.text = ""
     }
 }
 
 extension LocationVC: Injectable {
 
-    typealias Model = ()
+    typealias Model = PlaceAnnotation
 
-    func inject(model: Model) {
+    @discardableResult func inject(model: Model) -> LocationVC {
+        place = model
+        return self
     }
 
     func requireInjections() {
+        place.require()
+
         avatarImageView.require()
         fullNameLabel.require()
         countryLabel.require()

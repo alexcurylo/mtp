@@ -34,6 +34,7 @@ class CountsPageVC: UIViewController, ServiceProvider {
         let collectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: flow)
         collectionView.backgroundColor = .clear
+        collectionView.backgroundView = UIView { $0.backgroundColor = .clear }
 
         collectionView.register(
             CountToggleCell.self,
@@ -146,8 +147,8 @@ extension CountsPageVC: UICollectionViewDataSource {
                 count = regionsPlaces[key]?.count ?? 0
             }
             header.set(key: key,
+                       visited: isEditable ? regionsVisited[key, default: 0] : nil,
                        count: count,
-                       visited: regionsVisited[key, default: 0],
                        isExpanded: regionsExpanded[key, default: false])
         }
 
@@ -207,8 +208,8 @@ extension CountsPageVC: UICollectionViewDataSource {
         case let grouper as CountGroupCell:
             if let group = group {
                 grouper.set(key: group.key,
-                            count: group.count,
-                            visited: group.visited)
+                            visited: isEditable ? group.visited : nil,
+                            count: group.count)
             }
         default:
             break

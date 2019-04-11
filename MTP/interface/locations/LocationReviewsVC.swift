@@ -2,13 +2,15 @@
 
 import Anchorage
 
-final class MyPostsVC: UICollectionViewController, ServiceProvider {
+final class LocationReviewsVC: UICollectionViewController, ServiceProvider {
 
     private enum Layout {
         static let cellHeight = CGFloat(100)
     }
 
-    private var posts: [MyPostCellModel] = []
+    private var place: PlaceAnnotation?
+
+    private var posts: [LocationPostCellModel] = []
 
     private let dateFormatter = DateFormatter {
         $0.dateStyle = .long
@@ -24,8 +26,11 @@ final class MyPostsVC: UICollectionViewController, ServiceProvider {
         flow?.itemSize = UICollectionViewFlowLayout.automaticSize
         flow?.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
 
-        update()
         observe()
+        update()
+        if let place = place {
+            mtp.loadPosts(location: place.id) { _ in }
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -46,7 +51,7 @@ final class MyPostsVC: UICollectionViewController, ServiceProvider {
 
 // MARK: UICollectionViewDataSource
 
-extension MyPostsVC {
+extension LocationReviewsVC {
 
     override func collectionView(_ collectionView: UICollectionView,
                                  numberOfItemsInSection section: Int) -> Int {
@@ -56,7 +61,7 @@ extension MyPostsVC {
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: R.reuseIdentifier.myPostCell,
+            withReuseIdentifier: R.reuseIdentifier.locationPostCell,
             for: indexPath)
 
         if let postCell = cell,
@@ -66,13 +71,13 @@ extension MyPostsVC {
             return postCell
         }
 
-        return MyPostCell()
+        return LocationPostCell()
     }
 }
 
 // MARK: UICollectionViewDelegateFlowLayout
 
-extension MyPostsVC: UICollectionViewDelegateFlowLayout {
+extension LocationReviewsVC: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -90,14 +95,18 @@ extension MyPostsVC: UICollectionViewDelegateFlowLayout {
 
 // MARK: Data management
 
-private extension MyPostsVC {
+private extension LocationReviewsVC {
 
     func update() {
-        posts = data.posts.map { post in
-            let photos = data.get(user: nil, photos: post.locationId)
+        guard let place = place else { return }
+
+        let locationPosts = data.get(locationPosts: place.id)
+
+        posts = locationPosts.map { post in
+            //let photos = data.get(user: nil, photos: post.locationId)
             let location = data.get(location: post.locationId)
-            return MyPostCellModel(
-                photo: photos.first,
+            return LocationPostCellModel(
+                photo: nil, //photos.first,
                 location: location,
                 date: dateFormatter.string(from: post.updatedAt).uppercased(),
                 title: location?.placeTitle ?? Localized.unknown(),
@@ -111,7 +120,7 @@ private extension MyPostsVC {
     func observe() {
         guard postsObserver == nil else { return }
 
-        postsObserver = data.observer(of: .posts) { [weak self] _ in
+        postsObserver = data.observer(of: .locationPosts) { [weak self] _ in
             self?.update()
         }
     }
@@ -121,19 +130,21 @@ private extension MyPostsVC {
     }
 }
 
-extension MyPostsVC: Injectable {
+extension LocationReviewsVC: Injectable {
 
-    typealias Model = ()
+    typealias Model = PlaceAnnotation
 
-    @discardableResult func inject(model: Model) -> MyPostsVC {
+    @discardableResult func inject(model: Model) -> LocationReviewsVC {
+        place = model
         return self
     }
 
     func requireInjections() {
+        place.require()
     }
 }
 
-struct MyPostCellModel {
+struct LocationPostCellModel {
 
     let photo: Photo?
     let location: Location?
@@ -142,7 +153,7 @@ struct MyPostCellModel {
     let body: String
 }
 
-final class MyPostCell: UICollectionViewCell {
+final class LocationPostCell: UICollectionViewCell {
 
     @IBOutlet private var imageView: UIImageView?
     @IBOutlet private var imageViewWidthConstraint: NSLayoutConstraint?
@@ -154,7 +165,7 @@ final class MyPostCell: UICollectionViewCell {
     private var widthConstraint: NSLayoutConstraint?
 
     let imageWidth = (displayed: CGFloat(100),
-                     empty: CGFloat(0))
+                      empty: CGFloat(0))
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -163,7 +174,7 @@ final class MyPostCell: UICollectionViewCell {
         widthConstraint = contentView.widthAnchor == 0
     }
 
-    fileprivate func set(model: MyPostCellModel,
+    fileprivate func set(model: LocationPostCellModel,
                          width: CGFloat) {
         if let photo = model.photo {
             imageView?.set(thumbnail: photo)
