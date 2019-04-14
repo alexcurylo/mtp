@@ -12,7 +12,7 @@ final class CountToggleCell: UICollectionViewCell, ServiceProvider {
              list: Checklist,
              id: Int,
              parentId: Int?,
-             editable: Bool,
+             visitable: Bool,
              isLast: Bool) {
         self.list = list
         self.id = id
@@ -24,7 +24,7 @@ final class CountToggleCell: UICollectionViewCell, ServiceProvider {
         if list.hasChildren(id: id) {
             labelsIndent?.constant = Layout.parentIndent
             titleLabel.font = Avenir.oblique.of(size: Layout.titleSize)
-            visit.isEnabled = false
+            visit.isHidden = true
         } else {
             if parentId != nil {
                 labelsIndent?.constant = Layout.childIndent
@@ -32,24 +32,14 @@ final class CountToggleCell: UICollectionViewCell, ServiceProvider {
                 labelsIndent?.constant = Layout.parentIndent
             }
             titleLabel.font = Avenir.medium.of(size: Layout.titleSize)
-            visit.isEnabled = true
-        }
-
-        let isEditable = visit.superview != nil
-        let isEnabled = list != .uncountries
-        switch (editable, isEditable) {
-        case (true, _):
-            visit.isOn = list.isVisited(id: id)
-            visit.isEnabled = isEnabled
-            if !isEditable {
-                buttons.addArrangedSubview(visit)
+            visit.isHidden = !visitable
+            if visitable {
+                visit.isOn = list.isVisited(id: id)
+                visit.isEnabled = list != .uncountries
             }
-        case (false, true):
-            buttons.removeArrangedSubview(visit)
-            visit.removeFromSuperview()
-        case (false, false):
-            break
         }
+        // without this background randomly goes gray?
+        visit.styleAsFilter()
 
         if isLast {
             round(corners: [.bottomLeft, .bottomRight],
@@ -78,12 +68,8 @@ final class CountToggleCell: UICollectionViewCell, ServiceProvider {
     }
     private var labelsIndent: NSLayoutConstraint?
 
-    private let visit = UISwitch()
-    private let buttons = UIStackView(arrangedSubviews: []).with { stack in
-        stack.axis = .vertical
-        stack.distribution = .fillEqually
-        stack.alignment = .trailing
-        stack.spacing = Layout.spacing.height
+    private let visit = UISwitch {
+        $0.styleAsFilter()
     }
 
     private var list: Checklist?
@@ -106,9 +92,12 @@ final class CountToggleCell: UICollectionViewCell, ServiceProvider {
 
         list = nil
         id = nil
+        parentId = nil
         titleLabel.text = nil
         subtitleLabel.text = nil
         visit.isOn = false
+        visit.isEnabled = true
+        visit.isHidden = false
         layer.mask = nil
     }
 }
@@ -121,17 +110,13 @@ private extension CountToggleCell {
         let labels = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
         labels.axis = .vertical
 
-        let infos = UIStackView(arrangedSubviews: [labels])
+        let infos = UIStackView(arrangedSubviews: [labels, visit])
         infos.spacing = Layout.spacing.width
         infos.alignment = .center
         contentView.addSubview(infos)
         infos.centerYAnchor == contentView.centerYAnchor
         labelsIndent = infos.leadingAnchor == contentView.leadingAnchor + Layout.parentIndent
-
-        contentView.addSubview(buttons)
-        buttons.verticalAnchors == contentView.verticalAnchors + Layout.margin
-        buttons.trailingAnchor == contentView.trailingAnchor - Layout.margin
-
+        infos.trailingAnchor == contentView.trailingAnchor - Layout.margin
         visit.addTarget(self,
                         action: #selector(toggleVisit),
                         for: .valueChanged)

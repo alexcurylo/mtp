@@ -202,7 +202,7 @@ extension CountsPageVC: UICollectionViewDataSource {
                             list: list,
                             id: place.placeId,
                             parentId: place.placeParent?.placeId,
-                            editable: isEditable,
+                            visitable: isEditable,
                             isLast: isLast)
             }
         case let grouper as CountGroupCell:

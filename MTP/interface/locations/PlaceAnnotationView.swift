@@ -29,6 +29,7 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
 
         #if VISIT_TOGGLE
         let visit = UISwitch {
+            $0.styleAsFilter()
             $0.isOn = place.visited
             $0.addTarget(self,
                          action: #selector(toggleVisit),
