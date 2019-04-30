@@ -100,14 +100,14 @@ final class LocationsVC: UIViewController {
         guard let coordinate = place?.placeCoordinate else { return }
 
         navigationController?.popToRootViewController(animated: false)
-        zoom(to: coordinate)
+        zoom(to: coordinate, device: false)
     }
 
     func reveal(place: PlaceAnnotation?) {
         guard let coordinate = place?.coordinate else { return }
 
         navigationController?.popToRootViewController(animated: false)
-        zoom(to: coordinate)
+        zoom(to: coordinate, device: false)
     }
 }
 
@@ -171,16 +171,18 @@ private extension LocationsVC {
         guard !mapCentered,
               let here = locationManager.location?.coordinate else { return }
 
-        zoom(to: here)
+        zoom(to: here, device: true)
     }
 
-    func zoom(to center: CLLocationCoordinate2D?) {
+    func zoom(to center: CLLocationCoordinate2D?,
+              device: Bool) {
         guard let center = center else { return }
 
         mapCentered = true
+        let meters: CLLocationDistance = device ? 160_000 : 1_600
         let viewRegion = MKCoordinateRegion(center: center,
-                                            latitudinalMeters: 200,
-                                            longitudinalMeters: 200)
+                                            latitudinalMeters: meters,
+                                            longitudinalMeters: meters)
         DispatchQueue.main.async { [weak self] in
             self?.mapView?.setRegion(viewRegion, animated: true)
         }
