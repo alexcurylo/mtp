@@ -207,9 +207,12 @@ extension CountsPageVC: UICollectionViewDataSource {
             }
         case let grouper as CountGroupCell:
             if let group = group {
+                let expanded = regionsExpanded[group.key] ?? false
+                let disclose: Disclosure = expanded ? .close : .expand
                 grouper.set(key: group.key,
                             visited: isEditable ? group.visited : nil,
-                            count: group.count)
+                            count: group.count,
+                            disclose: disclose)
             }
         default:
             break

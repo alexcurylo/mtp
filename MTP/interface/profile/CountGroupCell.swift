@@ -2,18 +2,37 @@
 
 import Anchorage
 
+enum Disclosure {
+    case close
+    case empty
+    case expand
+
+    var image: UIImage? {
+        switch self {
+        case .close:
+            return R.image.arrowUp()
+        case .empty:
+            return nil
+        case .expand:
+            return R.image.arrowDown()
+       }
+    }
+}
+
 final class CountGroupCell: UICollectionViewCell {
 
     static let reuseIdentifier = NSStringFromClass(CountGroupCell.self)
 
     func set(key: String,
              visited: Int?,
-             count: Int) {
+             count: Int,
+             disclose: Disclosure) {
         if let visited = visited {
             label.text = Localized.locationVisitedCount(key, visited, count)
         } else {
             label.text = Localized.locationCount(key, count)
         }
+        disclosure.image = disclose.image
     }
 
     private enum Layout {
@@ -22,6 +41,10 @@ final class CountGroupCell: UICollectionViewCell {
                                          bottom: 0,
                                          right: 0)
         static let fontSize = CGFloat(17)
+    }
+
+    private let disclosure = UIImageView {
+        $0.setContentHuggingPriority(.required, for: .horizontal)
     }
 
     private let label = UILabel {
@@ -42,6 +65,7 @@ final class CountGroupCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
+        disclosure.image = nil
         label.text = nil
     }
 }
@@ -51,7 +75,10 @@ private extension CountGroupCell {
     func configure() {
         contentView.backgroundColor = .white
 
-        contentView.addSubview(label)
-        label.edgeAnchors == contentView.edgeAnchors + Layout.insets
+        let stack = UIStackView(arrangedSubviews: [disclosure, label])
+        stack.alignment = .center
+        stack.spacing = 5
+        contentView.addSubview(stack)
+        stack.edgeAnchors == contentView.edgeAnchors + Layout.insets
     }
 }

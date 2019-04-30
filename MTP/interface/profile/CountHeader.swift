@@ -21,6 +21,9 @@ final class CountHeader: UICollectionReusableView {
              isExpanded: Bool) {
         self.key = key
 
+        let disclose: Disclosure = isExpanded ? .close : .expand
+        disclosure.image = disclose.image
+
         if let visited = visited {
             label.text = Localized.locationVisitedCount(key, visited, count)
         } else {
@@ -38,6 +41,10 @@ final class CountHeader: UICollectionReusableView {
                                          bottom: 0,
                                          right: 0)
         static let fontSize = CGFloat(18)
+    }
+
+    private let disclosure = UIImageView {
+        $0.setContentHuggingPriority(.required, for: .horizontal)
     }
 
     private let label = UILabel {
@@ -60,6 +67,7 @@ final class CountHeader: UICollectionReusableView {
 
         delegate = nil
         key = ""
+        disclosure.image = nil
         label.text = nil
         layer.mask = nil
     }
@@ -70,8 +78,12 @@ private extension CountHeader {
     func configure() {
         backgroundColor = .white
 
-        addSubview(label)
-        label.edgeAnchors == edgeAnchors + Layout.insets
+        let stack = UIStackView(arrangedSubviews: [disclosure, label])
+        stack.alignment = .center
+        stack.spacing = 5
+        addSubview(stack)
+        stack.edgeAnchors == edgeAnchors + Layout.insets
+
         let tap = UITapGestureRecognizer(target: self,
                                          action: #selector(tapped))
         addGestureRecognizer(tap)
