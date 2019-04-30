@@ -72,6 +72,7 @@
 "scoreFraction" = "%@/%@";
 "topTravelers" = "Top Travelers:";
 
+"deceased" = "*";
 "join" = ", ";
 "allCountries" = "All countries";
 "allLocations" = "All locations";

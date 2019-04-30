@@ -10,6 +10,13 @@ protocol UserAvatar {
 
 protocol UserInfo: UserAvatar {
 
+    var orderBeaches: Int { get }
+    var orderDivesites: Int { get }
+    var orderGolfcourses: Int { get }
+    var orderLocations: Int { get }
+    var orderRestaurants: Int { get }
+    var orderUncountries: Int { get }
+    var orderWhss: Int { get }
     var visitBeaches: Int { get }
     var visitDivesites: Int { get }
     var visitGolfcourses: Int { get }
@@ -135,6 +142,13 @@ extension UserJSON: CustomDebugStringConvertible {
 
 extension UserJSON: UserInfo {
 
+    var orderBeaches: Int { return rankBeaches ?? 0 }
+    var orderDivesites: Int { return rankDivesites ?? 0 }
+    var orderGolfcourses: Int { return rankGolfcourses ?? 0 }
+    var orderLocations: Int { return rankLocations ?? 0 }
+    var orderRestaurants: Int { return rankRestaurants ?? 0 }
+    var orderUncountries: Int { return rankUncountries ?? 0 }
+    var orderWhss: Int { return rankWhss ?? 0 }
     var visitBeaches: Int { return scoreBeaches ?? 0 }
     var visitDivesites: Int { return scoreDivesites ?? 0 }
     var visitGolfcourses: Int { return scoreGolfcourses ?? 0 }
@@ -209,6 +223,13 @@ extension UserAvatar {
     dynamic var id: Int = 0
     dynamic var locationName: String = ""
     dynamic var picture: String?
+    dynamic var orderBeaches: Int = 0
+    dynamic var orderDivesites: Int = 0
+    dynamic var orderGolfcourses: Int = 0
+    dynamic var orderLocations: Int = 0
+    dynamic var orderRestaurants: Int = 0
+    dynamic var orderUncountries: Int = 0
+    dynamic var orderWhss: Int = 0
     dynamic var visitBeaches: Int = 0
     dynamic var visitDivesites: Int = 0
     dynamic var visitGolfcourses: Int = 0
@@ -230,6 +251,13 @@ extension UserAvatar {
         id = from.id
         locationName = from.location.description
         picture = from.picture
+        orderBeaches = from.rankBeaches ?? existing?.orderBeaches ?? 0
+        orderDivesites = from.rankDivesites ?? existing?.orderDivesites ?? 0
+        orderGolfcourses = from.rankGolfcourses ?? existing?.orderGolfcourses ?? 0
+        orderLocations = from.rankLocations ?? existing?.orderLocations ?? 0
+        orderRestaurants = from.rankRestaurants ?? existing?.orderRestaurants ?? 0
+        orderUncountries = from.rankUncountries ?? existing?.orderUncountries ?? 0
+        orderWhss = from.rankWhss ?? existing?.orderWhss ?? 0
         visitBeaches = from.scoreBeaches ?? existing?.visitBeaches ?? 0
         visitDivesites = from.scoreDivesites ?? existing?.visitDivesites ?? 0
         visitGolfcourses = from.scoreGolfcourses ?? existing?.visitGolfcourses ?? 0
@@ -247,6 +275,13 @@ extension UserAvatar {
         id = from.id
         locationName = from.location.description
         picture = from.picture
+        orderBeaches = from.rankBeaches ?? 0
+        orderDivesites = from.rankDivesites ?? 0
+        orderGolfcourses = from.rankGolfcourses ?? 0
+        orderLocations = from.rankLocations ?? 0
+        orderRestaurants = from.rankRestaurants ?? 0
+        orderUncountries = from.rankUncountries ?? 0
+        orderWhss = from.rankWhss ?? 0
         visitBeaches = from.scoreBeaches ?? 0
         visitDivesites = from.scoreDivesites ?? 0
         visitGolfcourses = from.scoreGolfcourses ?? 0
