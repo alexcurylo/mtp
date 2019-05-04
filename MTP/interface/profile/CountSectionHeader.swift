@@ -2,13 +2,13 @@
 
 import Anchorage
 
-protocol CountHeaderDelegate: AnyObject {
+protocol CountSectionHeaderDelegate: AnyObject {
 
-    func toggle(section key: String)
+    func toggle(region: String)
 }
 
 struct CountSectionModel {
-    var key: String
+    var region: String
     var visited: Int?
     var count: Int
     var isExpanded: Bool
@@ -18,7 +18,7 @@ final class CountSectionHeader: UICollectionReusableView {
 
     static let reuseIdentifier = NSStringFromClass(CountSectionHeader.self)
 
-    weak var delegate: CountHeaderDelegate?
+    weak var delegate: CountSectionHeaderDelegate?
 
     private var model: CountSectionModel?
 
@@ -29,9 +29,9 @@ final class CountSectionHeader: UICollectionReusableView {
         disclosure.image = disclose.image
 
         if let visited = model.visited {
-            label.text = Localized.locationVisitedCount(model.key, visited, model.count)
+            label.text = Localized.locationVisitedCount(model.region, visited, model.count)
         } else {
-            label.text = Localized.locationCount(model.key, model.count)
+            label.text = Localized.locationCount(model.region, model.count)
         }
 
         let corners: UIRectCorner = model.isExpanded ? [.topLeft, .topRight] : .allCorners
@@ -94,7 +94,7 @@ private extension CountSectionHeader {
     }
 
     @objc func tapped(_ sender: UIGestureRecognizer) {
-        guard let key = model?.key else { return }
-        delegate?.toggle(section: key)
+        guard let region = model?.region else { return }
+        delegate?.toggle(region: region)
     }
 }

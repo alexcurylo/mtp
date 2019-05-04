@@ -3,6 +3,8 @@
 import Anchorage
 import Parchment
 
+// swiftlint:disable file_length
+
 class CountsPageVC: UIViewController, ServiceProvider {
 
     typealias CountsModel = Checklist
@@ -54,6 +56,8 @@ class CountsPageVC: UIViewController, ServiceProvider {
     typealias ParentKey = Int
     typealias CountryPlaces = [CountryKey: [PlaceInfo]]
     typealias CountryFamilies = [CountryKey: [ParentKey: [PlaceInfo]]]
+    typealias CountryVisits = [CountryKey: Int]
+    typealias CountryExpanded = [CountryKey: Bool]
 
     private var regions: [RegionKey] = []
     private var regionsPlaces: [RegionKey: [PlaceInfo]] = [:]
@@ -63,7 +67,8 @@ class CountsPageVC: UIViewController, ServiceProvider {
     private var countries: [RegionKey: [CountryKey]] = [:]
     private var countriesPlaces: [RegionKey: CountryPlaces] = [:]
     private var countriesFamilies: [RegionKey: CountryFamilies] = [:]
-    private var countriesVisited: [RegionKey: [CountryKey: Int]] = [:]
+    private var countriesVisited: [RegionKey: CountryVisits] = [:]
+    private var countriesExpanded: [RegionKey: CountryExpanded] = [:]
 
     init(model: CountsModel) {
         list = model
@@ -136,21 +141,22 @@ extension CountsPageVC: UICollectionViewDataSource {
 
         if let header = view as? CountSectionHeader {
             header.delegate = self
-            let key = regions[indexPath.section]
+            let region = regions[indexPath.section]
 
             let count: Int
-            if list.isShowingChildren {
-                let parents = countriesPlaces[key]?.values.flatMap { $0 }.map { $0.placeId }
+            switch list {
+            case .whss:
+                let parents = countriesPlaces[region]?.values.flatMap { $0 }.map { $0.placeId }
                 count = Set<Int>(parents ?? []).count
-            } else {
-                count = regionsPlaces[key]?.count ?? 0
+            default:
+                count = regionsPlaces[region]?.count ?? 0
             }
 
             let model = CountSectionModel(
-                key: key,
-                visited: isEditable ? regionsVisited[key, default: 0] : nil,
+                region: region,
+                visited: isEditable ? regionsVisited[region, default: 0] : nil,
                 count: count,
-                isExpanded: regionsExpanded[key, default: false]
+                isExpanded: regionsExpanded[region, default: false]
             )
             header.set(model: model)
         }
@@ -164,25 +170,42 @@ extension CountsPageVC: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        let key = regions[section]
-        guard let isExpanded = regionsExpanded[key],
-            isExpanded == true,
-            let regionPlaces = regionsPlaces[key] else {
+        let region = regions[section]
+        guard let isExpanded = regionsExpanded[region],
+              isExpanded == true,
+              let regionPlaces = regionsPlaces[region] else {
                 return 0
         }
 
-        if list.isShowingChildren {
-            let regionCountries = countries[key]?.count ?? 0
-            let parents = countriesPlaces[key] ?? [:]
-            let regionParents = parents.reduce(0) { $0 + $1.value.count }
-            let families = countriesFamilies[key] ?? [:]
-            let regionChildren = families.reduce(0) { $0 + $1.value.values.flatMap { $0 }.count }
-            let items = regionCountries + regionParents + regionChildren
-            return items
-        } else if list.isShowingCountries {
-            let regionCountries = countries[key]?.count ?? 0
-            return regionPlaces.count + regionCountries
-        } else {
+        switch list {
+        case .whss:
+            let regionCountries = countries[region] ?? []
+            var regionParents = 0
+            var regionChildren = 0
+            for country in regionCountries {
+                guard let isExpanded = countriesExpanded[region]?[country],
+                      isExpanded == true,
+                      let parents = countriesPlaces[region]?[country] else {
+                        continue
+                }
+                regionParents += parents.count
+                let families = countriesFamilies[region]?[country] ?? [:]
+                regionChildren += families.count
+            }
+            return regionCountries.count + regionParents + regionChildren
+        case .locations:
+            let regionCountries = countries[region] ?? []
+            var regionChildren = 0
+            for country in regionCountries {
+                guard let isExpanded = countriesExpanded[region]?[country],
+                      isExpanded == true,
+                      let countryPlaces = countriesPlaces[region]?[country] else {
+                    continue
+                }
+                regionChildren += countryPlaces.count
+            }
+            return regionCountries.count + regionChildren
+        default:
             return regionPlaces.count
         }
     }
@@ -212,9 +235,11 @@ extension CountsPageVC: UICollectionViewDataSource {
             counter.set(model: model)
         case let grouper as CountCellGroup:
             guard let group = group else { break }
-            let expanded = regionsExpanded[group.key] ?? false
+            grouper.delegate = self
+            let expanded = countriesExpanded[group.region]?[group.country] ?? false
             let model = CountGroupModel(
-                key: group.key,
+                region: group.region,
+                country: group.country,
                 visited: isEditable ? group.visited : nil,
                 count: group.count,
                 disclose: expanded ? .close : .expand
@@ -228,17 +253,36 @@ extension CountsPageVC: UICollectionViewDataSource {
     }
 }
 
-// MARK: - CountHeaderDelegate
+// MARK: - CountSectionHeaderDelegate
 
-extension CountsPageVC: CountHeaderDelegate {
+extension CountsPageVC: CountSectionHeaderDelegate {
 
-    func toggle(section key: String) {
-        if let isExpanded = regionsExpanded[key],
-            isExpanded == true {
-            regionsExpanded[key] = false
+    func toggle(region: String) {
+        if let isExpanded = regionsExpanded[region],
+           isExpanded == true {
+            regionsExpanded[region] = false
+            countriesExpanded[region] = nil
         } else {
-            regionsExpanded[key] = true
+            regionsExpanded[region] = true
         }
+        collectionView.reloadData()
+    }
+}
+
+// MARK: - CountCellGroupDelegate
+
+extension CountsPageVC: CountCellGroupDelegate {
+
+    func toggle(region: String,
+                country: String) {
+        var expanded = countriesExpanded[region] ?? [:]
+        if let isExpanded = expanded[country],
+           isExpanded == true {
+            expanded[country] = nil
+        } else {
+            expanded[country] = true
+        }
+        countriesExpanded[region] = expanded
         collectionView.reloadData()
     }
 }
@@ -247,34 +291,40 @@ extension CountsPageVC: CountHeaderDelegate {
 
 private extension CountsPageVC {
 
-    typealias GroupModel = (key: String, count: Int, visited: Int)
+    typealias GroupModel = (region: String, country: String, count: Int, visited: Int)
     typealias CellModel = (String, PlaceInfo?, GroupModel?)
 
     func model(of indexPath: IndexPath) -> CellModel {
-        if list.isShowingChildren {
+        switch list {
+        case .whss:
             return childrenModel(of: indexPath)
-        } else if list.isShowingCountries {
+        case .locations:
             return countryModel(of: indexPath)
-        } else {
+        default:
             let regionPlaces = regionsPlaces[regions[indexPath.section]] ?? []
             return (CountCellItem.reuseIdentifier, regionPlaces[indexPath.row], nil)
         }
     }
 
     func childrenModel(of indexPath: IndexPath) -> CellModel {
-        let key = regions[indexPath.section]
+        let region = regions[indexPath.section]
         var countdown = indexPath.row
 
-        let regionCountries = countries[key] ?? []
+        let regionCountries = countries[region] ?? []
         for country in regionCountries {
-            let countryParents = countriesPlaces[key]?[country] ?? []
-            let countryChildren = countriesFamilies[key]?[country] ?? [:]
+            let countryParents = countriesPlaces[region]?[country] ?? []
+            let countryChildren = countriesFamilies[region]?[country] ?? [:]
             if countdown == 0 {
-                let visited = countriesVisited[key]?[country] ?? 0
-                let model = (country, countryParents.count, visited)
+                let visited = countriesVisited[region]?[country] ?? 0
+                let model = (region, country, countryParents.count, visited)
                 return (CountCellGroup.reuseIdentifier, nil, model)
             }
             countdown -= 1
+
+            guard let isExpanded = countriesExpanded[region]?[country],
+                isExpanded == true else {
+                    continue
+            }
 
             for place in countryParents {
                 if countdown == 0 {
@@ -296,18 +346,23 @@ private extension CountsPageVC {
     }
 
     func countryModel(of indexPath: IndexPath) -> CellModel {
-        let key = regions[indexPath.section]
+        let region = regions[indexPath.section]
         var countdown = indexPath.row
 
-        let regionCountries = countries[key] ?? []
+        let regionCountries = countries[region] ?? []
         for country in regionCountries {
-            let countryPlaces = countriesPlaces[key]?[country] ?? []
+            let countryPlaces = countriesPlaces[region]?[country] ?? []
             if countdown == 0 {
-                let visited = countriesVisited[key]?[country] ?? 0
-                let model = (country, countryPlaces.count, visited)
+                let visited = countriesVisited[region]?[country] ?? 0
+                let model = (region, country, countryPlaces.count, visited)
                 return (CountCellGroup.reuseIdentifier, nil, model)
             }
             countdown -= 1
+
+            guard let isExpanded = countriesExpanded[region]?[country],
+                isExpanded == true else {
+                    continue
+            }
 
             for place in countryPlaces {
                 if countdown == 0 {
@@ -361,7 +416,7 @@ private extension CountsPageVC {
     }
 
     func groupChildren(countries: CountryPlaces) -> (CountryPlaces, CountryFamilies?) {
-        guard list.isShowingChildren else { return (countries, nil) }
+        guard list == .whss else { return (countries, nil) }
 
         var parentPlaces: CountryPlaces = [:]
         var parentFamilies: CountryFamilies = [:]

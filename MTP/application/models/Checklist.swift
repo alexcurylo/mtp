@@ -258,38 +258,13 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
 }
 
 enum Hierarchy {
-    case country
     case parent
     case region
     case regionSubgrouped // region/country if 1 else region/country/locations
     case regionSubtitled
 
-    var isGrouped: Bool {
-        return self == .country
-    }
-
-    var isShowingChildren: Bool {
-        return self == .parent
-    }
-
-    var isSubgrouped: Bool {
-        return self == .regionSubgrouped
-    }
-
     var isSubtitled: Bool {
         return self == .regionSubtitled
-    }
-
-    var isShowingCountries: Bool {
-        switch self {
-        case .country,
-             .parent,
-             .regionSubgrouped:
-            return true
-        case .region,
-             .regionSubtitled:
-            return false
-        }
     }
 }
 
@@ -314,23 +289,7 @@ extension Checklist {
         }
     }
 
-    var isGrouped: Bool {
-        return hierarchy.isGrouped
-    }
-
-    var isShowingChildren: Bool {
-        return hierarchy.isShowingChildren
-    }
-
-    var isSubgrouped: Bool {
-        return hierarchy.isSubgrouped
-    }
-
     var isSubtitled: Bool {
         return hierarchy.isSubtitled
-    }
-
-    var isShowingCountries: Bool {
-        return hierarchy.isShowingCountries
     }
 }

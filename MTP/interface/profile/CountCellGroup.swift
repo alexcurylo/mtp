@@ -19,8 +19,15 @@ enum Disclosure {
     }
 }
 
+protocol CountCellGroupDelegate: AnyObject {
+
+    func toggle(region: String,
+                country: String)
+}
+
 struct CountGroupModel {
-    var key: String
+    var region: String
+    var country: String
     var visited: Int?
     var count: Int
     var disclose: Disclosure
@@ -30,11 +37,17 @@ final class CountCellGroup: UICollectionViewCell {
 
     static let reuseIdentifier = NSStringFromClass(CountCellGroup.self)
 
+    weak var delegate: CountCellGroupDelegate?
+
+    private var model: CountGroupModel?
+
     func set(model: CountGroupModel) {
+        self.model = model
+
         if let visited = model.visited {
-            label.text = Localized.locationVisitedCount(model.key, visited, model.count)
+            label.text = Localized.locationVisitedCount(model.country, visited, model.count)
         } else {
-            label.text = Localized.locationCount(model.key, model.count)
+            label.text = Localized.locationCount(model.country, model.count)
         }
         disclosure.image = model.disclose.image
     }
@@ -69,6 +82,8 @@ final class CountCellGroup: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
+        delegate = nil
+        model = nil
         disclosure.image = nil
         label.text = nil
     }
@@ -84,5 +99,15 @@ private extension CountCellGroup {
         stack.spacing = 5
         contentView.addSubview(stack)
         stack.edgeAnchors == contentView.edgeAnchors + Layout.insets
+
+        let tap = UITapGestureRecognizer(target: self,
+                                         action: #selector(tapped))
+        addGestureRecognizer(tap)
+    }
+
+    @objc func tapped(_ sender: UIGestureRecognizer) {
+        guard let model = model else { return }
+        delegate?.toggle(region: model.region,
+                         country: model.country)
     }
 }
