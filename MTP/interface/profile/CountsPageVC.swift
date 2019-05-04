@@ -202,6 +202,9 @@ extension CountsPageVC: UICollectionViewDataSource {
                       let countryPlaces = countriesPlaces[region]?[country] else {
                     continue
                 }
+                if let place = countryPlaces.first, place.placeIsCountry {
+                    continue
+                }
                 regionChildren += countryPlaces.count
             }
             return regionCountries.count + regionChildren
@@ -230,7 +233,8 @@ extension CountsPageVC: UICollectionViewDataSource {
                 id: place.placeId,
                 parentId: place.placeParent?.placeId,
                 isVisitable: isEditable,
-                isLast: isLast
+                isLast: isLast,
+                isCombined: list == .locations && place.placeIsCountry
             )
             counter.set(model: model)
         case let grouper as CountCellGroup:
@@ -353,6 +357,10 @@ private extension CountsPageVC {
         for country in regionCountries {
             let countryPlaces = countriesPlaces[region]?[country] ?? []
             if countdown == 0 {
+                if let place = countryPlaces.first, place.placeIsCountry {
+                    return (CountCellItem.reuseIdentifier, place, nil)
+                }
+
                 let visited = countriesVisited[region]?[country] ?? 0
                 let model = (region, country, countryPlaces.count, visited)
                 return (CountCellGroup.reuseIdentifier, nil, model)

@@ -10,6 +10,7 @@ struct CountItemModel {
     var parentId: Int?
     var isVisitable: Bool
     var isLast: Bool
+    var isCombined: Bool
 
     func description(titleFont: UIFont,
                      subtitleFont: UIFont) -> NSAttributedString {
@@ -45,10 +46,14 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
         } else {
             if model.parentId != nil {
                 labelsIndent?.constant = Layout.childIndent
+                font = Layout.titleMediumFont
+            } else if model.isCombined {
+                labelsIndent?.constant = Layout.combinedIndent
+                font = Layout.titleHeavyFont
             } else {
                 labelsIndent?.constant = Layout.parentIndent
+                font = Layout.titleMediumFont
             }
-            font = Layout.titleMediumFont
             visit.isHidden = !model.isVisitable
             if model.isVisitable {
                 visit.isOn = model.list.isVisited(id: model.id)
@@ -74,10 +79,12 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
     private enum Layout {
         static let rankSize = CGFloat(18)
         static let margin = CGFloat(8)
+        static let combinedIndent = CGFloat(12)
         static let parentIndent = CGFloat(16)
         static let childIndent = CGFloat(20)
         static let spacing = CGFloat(4)
         static let cornerRadius = CGFloat(4)
+        static let titleHeavyFont = Avenir.heavy.of(size: 17)
         static let titleMediumFont = Avenir.medium.of(size: 16)
         static let titleObliqueFont = Avenir.oblique.of(size: 16)
         static let subtitleFont = Avenir.oblique.of(size: 14)

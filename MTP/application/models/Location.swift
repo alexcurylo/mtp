@@ -186,6 +186,10 @@ extension Location: PlaceInfo {
     var placeSubtitle: String {
         return isCountry ? "" : countryName
     }
+
+    var placeIsCountry: Bool {
+        return isCountry
+    }
 }
 
 extension Location {

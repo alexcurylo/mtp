@@ -44,7 +44,7 @@ final class CountSectionHeader: UICollectionReusableView {
                                          left: 8,
                                          bottom: 0,
                                          right: 0)
-        static let fontSize = CGFloat(18)
+        static let font = Avenir.heavy.of(size: 18)
     }
 
     private let disclosure = UIImageView {
@@ -52,7 +52,7 @@ final class CountSectionHeader: UICollectionReusableView {
     }
 
     private let label = UILabel {
-        $0.font = Avenir.heavy.of(size: Layout.fontSize)
+        $0.font = Layout.font
     }
 
     override init(frame: CGRect) {

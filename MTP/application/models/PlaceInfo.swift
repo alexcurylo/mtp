@@ -15,6 +15,7 @@ protocol PlaceInfo {
     var placeSubtitle: String { get }
     var placeTitle: String { get }
     var placeImage: String { get }
+    var placeIsCountry: Bool { get }
 }
 
 // swiftlint:disable:next static_operator
@@ -43,6 +44,10 @@ extension PlaceInfo {
 
     var placeImage: String {
         return placeLocation?.featuredImg ?? ""
+    }
+
+    var placeIsCountry: Bool {
+        return false
     }
 }
 
