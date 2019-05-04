@@ -75,3 +75,10 @@ extension NSAttributedString {
         return attributes
     }
 }
+
+extension UIFont {
+
+    var attributes: NSAttributedString.Attributes {
+        return [NSAttributedString.Key.font: self]
+    }
+}

@@ -19,25 +19,29 @@ enum Disclosure {
     }
 }
 
-final class CountGroupCell: UICollectionViewCell {
+struct CountGroupModel {
+    var key: String
+    var visited: Int?
+    var count: Int
+    var disclose: Disclosure
+}
 
-    static let reuseIdentifier = NSStringFromClass(CountGroupCell.self)
+final class CountCellGroup: UICollectionViewCell {
 
-    func set(key: String,
-             visited: Int?,
-             count: Int,
-             disclose: Disclosure) {
-        if let visited = visited {
-            label.text = Localized.locationVisitedCount(key, visited, count)
+    static let reuseIdentifier = NSStringFromClass(CountCellGroup.self)
+
+    func set(model: CountGroupModel) {
+        if let visited = model.visited {
+            label.text = Localized.locationVisitedCount(model.key, visited, model.count)
         } else {
-            label.text = Localized.locationCount(key, count)
+            label.text = Localized.locationCount(model.key, model.count)
         }
-        disclosure.image = disclose.image
+        disclosure.image = model.disclose.image
     }
 
     private enum Layout {
         static let insets = UIEdgeInsets(top: 0,
-                                         left: 16,
+                                         left: 12,
                                          bottom: 0,
                                          right: 0)
         static let fontSize = CGFloat(17)
@@ -70,7 +74,7 @@ final class CountGroupCell: UICollectionViewCell {
     }
 }
 
-private extension CountGroupCell {
+private extension CountCellGroup {
 
     func configure() {
         contentView.backgroundColor = .white

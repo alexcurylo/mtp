@@ -7,37 +7,41 @@ protocol CountHeaderDelegate: AnyObject {
     func toggle(section key: String)
 }
 
-final class CountHeader: UICollectionReusableView {
+struct CountSectionModel {
+    var key: String
+    var visited: Int?
+    var count: Int
+    var isExpanded: Bool
+}
 
-    static let reuseIdentifier = NSStringFromClass(CountHeader.self)
+final class CountSectionHeader: UICollectionReusableView {
+
+    static let reuseIdentifier = NSStringFromClass(CountSectionHeader.self)
 
     weak var delegate: CountHeaderDelegate?
 
-    private var key = ""
+    private var model: CountSectionModel?
 
-    func set(key: String,
-             visited: Int?,
-             count: Int,
-             isExpanded: Bool) {
-        self.key = key
+    func set(model: CountSectionModel) {
+        self.model = model
 
-        let disclose: Disclosure = isExpanded ? .close : .expand
+        let disclose: Disclosure = model.isExpanded ? .close : .expand
         disclosure.image = disclose.image
 
-        if let visited = visited {
-            label.text = Localized.locationVisitedCount(key, visited, count)
+        if let visited = model.visited {
+            label.text = Localized.locationVisitedCount(model.key, visited, model.count)
         } else {
-            label.text = Localized.locationCount(key, count)
+            label.text = Localized.locationCount(model.key, model.count)
         }
 
-        let corners: UIRectCorner = isExpanded ? [.topLeft, .topRight] : .allCorners
+        let corners: UIRectCorner = model.isExpanded ? [.topLeft, .topRight] : .allCorners
         round(corners: corners, by: Layout.cornerRadius)
     }
 
     private enum Layout {
         static let cornerRadius = CGFloat(4)
         static let insets = UIEdgeInsets(top: 0,
-                                         left: 16,
+                                         left: 8,
                                          bottom: 0,
                                          right: 0)
         static let fontSize = CGFloat(18)
@@ -66,14 +70,14 @@ final class CountHeader: UICollectionReusableView {
         super.prepareForReuse()
 
         delegate = nil
-        key = ""
+        model = nil
         disclosure.image = nil
         label.text = nil
         layer.mask = nil
     }
 }
 
-private extension CountHeader {
+private extension CountSectionHeader {
 
     func configure() {
         backgroundColor = .white
@@ -90,6 +94,7 @@ private extension CountHeader {
     }
 
     @objc func tapped(_ sender: UIGestureRecognizer) {
+        guard let key = model?.key else { return }
         delegate?.toggle(section: key)
     }
 }

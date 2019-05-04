@@ -13,7 +13,7 @@ class CountsPageVC: UIViewController, ServiceProvider {
     var visits: [Int] { return [] }
 
     private enum Layout {
-        static let headerHeight = CGFloat(32)
+        static let lineHeight = CGFloat(32)
         static let margin = CGFloat(8)
         static let collectionInsets = UIEdgeInsets(top: 0,
                                                    left: margin,
@@ -23,7 +23,6 @@ class CountsPageVC: UIViewController, ServiceProvider {
                                                 left: 0,
                                                 bottom: margin,
                                                 right: 0)
-        static let cellHeight = CGFloat(51)
         static let cellSpacing = CGFloat(0)
     }
 
@@ -37,15 +36,15 @@ class CountsPageVC: UIViewController, ServiceProvider {
         collectionView.backgroundView = UIView { $0.backgroundColor = .clear }
 
         collectionView.register(
-            CountToggleCell.self,
-            forCellWithReuseIdentifier: CountToggleCell.reuseIdentifier)
+            CountCellItem.self,
+            forCellWithReuseIdentifier: CountCellItem.reuseIdentifier)
         collectionView.register(
-            CountGroupCell.self,
-            forCellWithReuseIdentifier: CountGroupCell.reuseIdentifier)
+            CountCellGroup.self,
+            forCellWithReuseIdentifier: CountCellGroup.reuseIdentifier)
         collectionView.register(
-            CountHeader.self,
+            CountSectionHeader.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: CountHeader.reuseIdentifier)
+            withReuseIdentifier: CountSectionHeader.reuseIdentifier)
 
         return collectionView
     }()
@@ -112,14 +111,14 @@ extension CountsPageVC: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.frame.width,
-                      height: Layout.headerHeight)
+                      height: Layout.lineHeight)
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.bounds.width,
-                      height: Layout.cellHeight)
+                      height: Layout.lineHeight)
     }
 }
 
@@ -132,10 +131,10 @@ extension CountsPageVC: UICollectionViewDataSource {
                         at indexPath: IndexPath) -> UICollectionReusableView {
         let view = collectionView.dequeueReusableSupplementaryView(
             ofKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: CountHeader.reuseIdentifier,
+            withReuseIdentifier: CountSectionHeader.reuseIdentifier,
             for: indexPath)
 
-        if let header = view as? CountHeader {
+        if let header = view as? CountSectionHeader {
             header.delegate = self
             let key = regions[indexPath.section]
 
@@ -146,10 +145,14 @@ extension CountsPageVC: UICollectionViewDataSource {
             } else {
                 count = regionsPlaces[key]?.count ?? 0
             }
-            header.set(key: key,
-                       visited: isEditable ? regionsVisited[key, default: 0] : nil,
-                       count: count,
-                       isExpanded: regionsExpanded[key, default: false])
+
+            let model = CountSectionModel(
+                key: key,
+                visited: isEditable ? regionsVisited[key, default: 0] : nil,
+                count: count,
+                isExpanded: regionsExpanded[key, default: false]
+            )
+            header.set(model: model)
         }
 
         return view
@@ -192,28 +195,31 @@ extension CountsPageVC: UICollectionViewDataSource {
             for: indexPath)
 
         switch cell {
-        case let counter as CountToggleCell:
-            if let place = place {
-                let isLast = indexPath.row == self.collectionView(
-                    collectionView,
-                    numberOfItemsInSection: indexPath.section) - 1
-                counter.set(title: place.placeTitle,
-                            subtitle: list.isSubtitled ? place.placeCountry : "",
-                            list: list,
-                            id: place.placeId,
-                            parentId: place.placeParent?.placeId,
-                            visitable: isEditable,
-                            isLast: isLast)
-            }
-        case let grouper as CountGroupCell:
-            if let group = group {
-                let expanded = regionsExpanded[group.key] ?? false
-                let disclose: Disclosure = expanded ? .close : .expand
-                grouper.set(key: group.key,
-                            visited: isEditable ? group.visited : nil,
-                            count: group.count,
-                            disclose: disclose)
-            }
+        case let counter as CountCellItem:
+            guard let place = place else { break }
+            let isLast = indexPath.row == self.collectionView(
+                collectionView,
+                numberOfItemsInSection: indexPath.section) - 1
+            let model = CountItemModel(
+                title: place.placeTitle,
+                subtitle: list.isSubtitled ? place.placeCountry : "",
+                list: list,
+                id: place.placeId,
+                parentId: place.placeParent?.placeId,
+                isVisitable: isEditable,
+                isLast: isLast
+            )
+            counter.set(model: model)
+        case let grouper as CountCellGroup:
+            guard let group = group else { break }
+            let expanded = regionsExpanded[group.key] ?? false
+            let model = CountGroupModel(
+                key: group.key,
+                visited: isEditable ? group.visited : nil,
+                count: group.count,
+                disclose: expanded ? .close : .expand
+            )
+            grouper.set(model: model)
         default:
             break
         }
@@ -251,7 +257,7 @@ private extension CountsPageVC {
             return countryModel(of: indexPath)
         } else {
             let regionPlaces = regionsPlaces[regions[indexPath.section]] ?? []
-            return (CountToggleCell.reuseIdentifier, regionPlaces[indexPath.row], nil)
+            return (CountCellItem.reuseIdentifier, regionPlaces[indexPath.row], nil)
         }
     }
 
@@ -266,27 +272,27 @@ private extension CountsPageVC {
             if countdown == 0 {
                 let visited = countriesVisited[key]?[country] ?? 0
                 let model = (country, countryParents.count, visited)
-                return (CountGroupCell.reuseIdentifier, nil, model)
+                return (CountCellGroup.reuseIdentifier, nil, model)
             }
             countdown -= 1
 
             for place in countryParents {
                 if countdown == 0 {
-                    return (CountToggleCell.reuseIdentifier, place, nil)
+                    return (CountCellItem.reuseIdentifier, place, nil)
                 }
                 countdown -= 1
 
                 let placeChildren = countryChildren[place.placeId] ?? []
                 for child in placeChildren {
                     if countdown == 0 {
-                        return (CountToggleCell.reuseIdentifier, child, nil)
+                        return (CountCellItem.reuseIdentifier, child, nil)
                     }
                     countdown -= 1
                 }
             }
         }
         log.error("Failed to find childrenModel \(indexPath)")
-        return (CountGroupCell.reuseIdentifier, nil, nil)
+        return (CountCellGroup.reuseIdentifier, nil, nil)
     }
 
     func countryModel(of indexPath: IndexPath) -> CellModel {
@@ -299,19 +305,19 @@ private extension CountsPageVC {
             if countdown == 0 {
                 let visited = countriesVisited[key]?[country] ?? 0
                 let model = (country, countryPlaces.count, visited)
-                return (CountGroupCell.reuseIdentifier, nil, model)
+                return (CountCellGroup.reuseIdentifier, nil, model)
             }
             countdown -= 1
 
             for place in countryPlaces {
                 if countdown == 0 {
-                    return (CountToggleCell.reuseIdentifier, place, nil)
+                    return (CountCellItem.reuseIdentifier, place, nil)
                 }
                 countdown -= 1
             }
         }
         log.error("Failed to find countryModel \(indexPath)")
-        return (CountGroupCell.reuseIdentifier, nil, nil)
+        return (CountCellGroup.reuseIdentifier, nil, nil)
     }
 
     func count(places: [PlaceInfo],
