@@ -20,6 +20,8 @@ final class LocationVC: UIViewController, ServiceProvider {
 
     private var userObserver: Observer?
 
+    var headerObservation: NSKeyValueObservation?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -58,6 +60,14 @@ final class LocationVC: UIViewController, ServiceProvider {
             log.debug("unexpected segue: \(segue.name)")
         }
     }
+
+    override func viewWillTransition(to size: CGSize,
+                                     with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        coordinator.animate(alongsideTransition: nil) { _ in
+            self.setupHeaderView()
+        }
+    }
 }
 
 private extension LocationVC {
@@ -67,7 +77,15 @@ private extension LocationVC {
     }
 
     func setupHeaderView() {
-        headerView?.round(corners: [.topLeft, .topRight], by: 5)
+        guard let header = headerView else { return }
+
+        header.round(corners: [.topLeft, .topRight], by: 5)
+
+        if headerObservation == nil {
+            headerObservation = header.layer.observe(\.bounds) { [weak self] _, _ in
+                self?.setupHeaderView()
+            }
+        }
     }
 
     func setupPagesHolder() {

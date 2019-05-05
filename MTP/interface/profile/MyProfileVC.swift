@@ -18,6 +18,8 @@ final class MyProfileVC: UIViewController, ServiceProvider {
 
     private var userObserver: Observer?
 
+    var headerObservation: NSKeyValueObservation?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -62,7 +64,15 @@ private extension MyProfileVC {
     }
 
     func setupHeaderView() {
-        headerView?.round(corners: [.topLeft, .topRight], by: 5)
+        guard let header = headerView else { return }
+
+        header.round(corners: [.topLeft, .topRight], by: 5)
+
+        if headerObservation == nil {
+            headerObservation = header.layer.observe(\.bounds) { [weak self] _, _ in
+                self?.setupHeaderView()
+            }
+        }
     }
 
     func setupPagesHolder() {

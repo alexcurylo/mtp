@@ -9,29 +9,72 @@ protocol FaqCellDelegate: AnyObject {
 
 final class FaqVC: UITableViewController, ServiceProvider {
 
-    typealias Faq = (question: String, answer: String)
     private typealias Segues = R.segue.faqVC
 
     @IBOutlet private var backgroundView: UIView?
 
-    private let faqs: [Faq] = [
-        (Localized.question0(), Localized.answer0()),
-        (Localized.question1(), Localized.answer1()),
-        (Localized.question2(), Localized.answer2()),
-        (Localized.question3(), Localized.answer3()),
-        (Localized.question4(), Localized.answer4()),
-        (Localized.question5(), Localized.answer5()),
-        (Localized.question6(), Localized.answer6()),
-        (Localized.question7(), Localized.answer7()),
-        (Localized.question8(), Localized.answer8()),
-        (Localized.question9(), Localized.answer9()),
-        (Localized.question10(), Localized.answer10()),
-        (Localized.question11(), Localized.answer11()),
-        (Localized.question12(), Localized.answer12()),
-        (Localized.question13(), Localized.answer13()),
-        (Localized.question14(), Localized.answer14())
+    private var faqs: [FaqCellModel] = [
+        FaqCellModel(index: 0,
+                     question: Localized.question0(),
+                     answer: Localized.answer0(),
+                     isExpanded: false),
+        FaqCellModel(index: 1,
+                     question: Localized.question1(),
+                     answer: Localized.answer1(),
+                     isExpanded: false),
+        FaqCellModel(index: 2,
+                     question: Localized.question2(),
+                     answer: Localized.answer2(),
+                     isExpanded: false),
+        FaqCellModel(index: 3,
+                     question: Localized.question3(),
+                     answer: Localized.answer3(),
+                     isExpanded: false),
+        FaqCellModel(index: 4,
+                     question: Localized.question4(),
+                     answer: Localized.answer4(),
+                     isExpanded: false),
+        FaqCellModel(index: 5,
+                     question: Localized.question5(),
+                     answer: Localized.answer5(),
+                     isExpanded: false),
+        FaqCellModel(index: 6,
+                     question: Localized.question6(),
+                     answer: Localized.answer6(),
+                     isExpanded: false),
+        FaqCellModel(index: 7,
+                     question: Localized.question7(),
+                     answer: Localized.answer7(),
+                     isExpanded: false),
+        FaqCellModel(index: 8,
+                     question: Localized.question8(),
+                     answer: Localized.answer8(),
+                     isExpanded: false),
+        FaqCellModel(index: 9,
+                     question: Localized.question9(),
+                     answer: Localized.answer9(),
+                     isExpanded: false),
+        FaqCellModel(index: 10,
+                     question: Localized.question10(),
+                     answer: Localized.answer10(),
+                     isExpanded: false),
+        FaqCellModel(index: 11,
+                     question: Localized.question11(),
+                     answer: Localized.answer11(),
+                     isExpanded: false),
+        FaqCellModel(index: 12,
+                     question: Localized.question12(),
+                     answer: Localized.answer12(),
+                     isExpanded: false),
+        FaqCellModel(index: 13,
+                     question: Localized.question13(),
+                     answer: Localized.answer13(),
+                     isExpanded: false),
+        FaqCellModel(index: 14,
+                     question: Localized.question14(),
+                     answer: Localized.answer14(),
+                     isExpanded: false)
     ]
-    private var expanded = [Bool] (repeating: false, count: 15)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,10 +130,7 @@ extension FaqVC {
             withIdentifier: R.reuseIdentifier.faqCell,
             for: indexPath) ?? FaqCell()
 
-        let index = indexPath.row
-        cell.set(faq: faqs[index],
-                 index: index,
-                 expanded: expanded[index],
+        cell.set(model: faqs[indexPath.row],
                  delegate: self)
 
         return cell
@@ -132,13 +172,21 @@ extension FaqVC: Injectable {
 extension FaqVC: FaqCellDelegate {
 
     func set(faq: Int, answer visible: Bool) {
-        expanded[faq] = visible
+        faqs[faq].isExpanded = visible
         // suppress animation to kill white flicker
         UIView.setAnimationsEnabled(false)
         tableView.beginUpdates()
         tableView.endUpdates()
         UIView.setAnimationsEnabled(true)
     }
+}
+
+struct FaqCellModel {
+
+    let index: Int
+    let question: String
+    let answer: String
+    var isExpanded: Bool
 }
 
 final class FaqCell: UITableViewCell {
@@ -155,6 +203,10 @@ final class FaqCell: UITableViewCell {
         super.awakeFromNib()
 
         setAnswerShown()
+
+        let tap = UITapGestureRecognizer(target: self,
+                                         action: #selector(toggleTapped))
+        addGestureRecognizer(tap)
     }
 
     override func prepareForReuse() {
@@ -168,15 +220,13 @@ final class FaqCell: UITableViewCell {
         super.prepareForReuse()
     }
 
-    func set(faq: FaqVC.Faq,
-             index: Int,
-             expanded: Bool,
+    func set(model: FaqCellModel,
              delegate: FaqCellDelegate) {
-        self.index = index
+        self.index = model.index
         self.delegate = delegate
-        questionLabel?.text = faq.question
-        answerLabel?.text = faq.answer
-        toggleButton?.isSelected = expanded
+        questionLabel?.text = model.question
+        answerLabel?.text = model.answer
+        toggleButton?.isSelected = model.isExpanded
         setAnswerShown()
     }
 }
@@ -184,10 +234,12 @@ final class FaqCell: UITableViewCell {
 private extension FaqCell {
 
     @IBAction func toggleTapped(_ sender: UIButton) {
-        sender.isSelected.toggle()
+        guard let button = toggleButton else { return }
+
+        button.isSelected.toggle()
         if setAnswerShown() {
             delegate?.set(faq: self.index,
-                          answer: sender.isSelected)
+                          answer: button.isSelected)
         }
     }
 

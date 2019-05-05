@@ -8,7 +8,7 @@ final class MyPostsVC: UICollectionViewController, ServiceProvider {
         static let cellHeight = CGFloat(100)
     }
 
-    private var posts: [MyPostCellModel] = []
+    private var posts: [PostCellModel] = []
 
     private let dateFormatter = DateFormatter {
         $0.dateStyle = .long
@@ -56,17 +56,18 @@ extension MyPostsVC {
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: R.reuseIdentifier.myPostCell,
+            withReuseIdentifier: R.reuseIdentifier.postCell,
             for: indexPath)
 
         if let postCell = cell,
            let flow = flow {
             postCell.set(model: posts[indexPath.row],
+                         delegate: self,
                          width: collectionView.frame.width - flow.sectionInset.horizontal)
             return postCell
         }
 
-        return MyPostCell()
+        return PostCell()
     }
 }
 
@@ -88,20 +89,38 @@ extension MyPostsVC: UICollectionViewDelegateFlowLayout {
     }
 }
 
+extension MyPostsVC: PostCellDelegate {
+
+    func toggle(index: Int) {
+        guard index < posts.count else { return }
+
+        posts[index].isExpanded.toggle()
+        collectionView.collectionViewLayout.invalidateLayout()
+        collectionView.setNeedsLayout()
+        collectionView.reloadData()
+    }
+}
+
 // MARK: Data management
 
 private extension MyPostsVC {
 
     func update() {
+        var index = -1
         posts = data.posts.map { post in
-            let photos = data.get(user: nil, photos: post.locationId)
+            // Where is the picture?
+            // https://gitlab.com/bitmads/mtp/issues/238
+            let photo: Photo? = nil
             let location = data.get(location: post.locationId)
-            return MyPostCellModel(
-                photo: photos.first,
+            index += 1
+            return PostCellModel(
+                index: index,
+                photo: photo,
                 location: location,
                 date: dateFormatter.string(from: post.updatedAt).uppercased(),
                 title: location?.placeTitle ?? Localized.unknown(),
-                body: post.post
+                body: post.post,
+                isExpanded: false
             )
         }
 
@@ -130,61 +149,5 @@ extension MyPostsVC: Injectable {
     }
 
     func requireInjections() {
-    }
-}
-
-struct MyPostCellModel {
-
-    let photo: Photo?
-    let location: Location?
-    let date: String
-    let title: String
-    let body: String
-}
-
-final class MyPostCell: UICollectionViewCell {
-
-    @IBOutlet private var imageView: UIImageView?
-    @IBOutlet private var imageViewWidthConstraint: NSLayoutConstraint?
-
-    @IBOutlet private var dateLabel: UILabel?
-    @IBOutlet private var titleLabel: UILabel?
-    @IBOutlet private var bodyLabel: UILabel?
-
-    private var widthConstraint: NSLayoutConstraint?
-
-    let imageWidth = (displayed: CGFloat(100),
-                     empty: CGFloat(0))
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-
-        contentView.centerAnchors == centerAnchors
-        widthConstraint = contentView.widthAnchor == 0
-    }
-
-    fileprivate func set(model: MyPostCellModel,
-                         width: CGFloat) {
-        if let photo = model.photo {
-            imageView?.set(thumbnail: photo)
-            imageViewWidthConstraint?.constant = imageWidth.displayed
-        } else {
-            imageView?.image = nil
-            imageViewWidthConstraint?.constant = imageWidth.empty
-        }
-        dateLabel?.text = model.date
-        titleLabel?.text = model.title
-        bodyLabel?.text = model.body
-
-        widthConstraint?.constant = width
-    }
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
-
-        imageView?.prepareForReuse()
-        dateLabel?.text = nil
-        titleLabel?.text = nil
-        bodyLabel?.text = nil
     }
 }

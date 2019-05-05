@@ -34,6 +34,75 @@ extension String {
     var isValidPassword: Bool {
         return count >= 6 // as per signup.blade.php
     }
+
+    var html2Attributed: NSMutableAttributedString? {
+        guard let data = data(using: String.Encoding.utf8) else { return nil }
+
+        return try? NSMutableAttributedString(
+            data: data,
+            options: [.documentType: NSAttributedString.DocumentType.html,
+                      .characterEncoding: String.Encoding.utf8.rawValue],
+            documentAttributes: nil
+        )
+    }
+
+    var htmlAttributes: (NSAttributedString?, NSDictionary?) {
+        guard let data = data(using: String.Encoding.utf8) else {
+            return (nil, nil)
+        }
+
+        var dict: NSDictionary?
+        dict = NSMutableDictionary()
+
+        let string = try? NSAttributedString(
+            data: data,
+            options: [.documentType: NSAttributedString.DocumentType.html,
+                      .characterEncoding: String.Encoding.utf8.rawValue],
+            documentAttributes: &dict
+        )
+        return (string, dict)
+    }
+
+    func htmlAttributed(using font: UIFont,
+                        color: UIColor) -> NSAttributedString? {
+        let htmlCSSString = "<style>" +
+            "html *" +
+            "{" +
+            "font-size: \(font.pointSize)pt !important;" +
+            "color: #\(color.hexString) !important;" +
+            "font-family: \(font.familyName), Helvetica !important;" +
+        "}</style> \(self)"
+
+        guard let data = htmlCSSString.data(using: String.Encoding.utf8) else { return nil }
+
+        return try? NSAttributedString(
+            data: data,
+            options: [.documentType: NSAttributedString.DocumentType.html,
+                      .characterEncoding: String.Encoding.utf8.rawValue],
+            documentAttributes: nil
+        )
+    }
+
+    func htmlAttributed(family: String?,
+                        size: CGFloat,
+                        color: UIColor) -> NSAttributedString? {
+        let htmlCSSString = "<style>" +
+            "html *" +
+            "{" +
+            "font-size: \(size)pt !important;" +
+            "color: #\(color.hexString) !important;" +
+            "font-family: \(family ?? "Helvetica"), Helvetica !important;" +
+        "}</style> \(self)"
+
+        guard let data = htmlCSSString.data(using: String.Encoding.utf8) else { return nil }
+
+        return try? NSAttributedString(
+            data: data,
+            options: [.documentType: NSAttributedString.DocumentType.html,
+                      .characterEncoding: String.Encoding.utf8.rawValue],
+            documentAttributes: nil
+        )
+    }
 }
 
 extension String: LocalizedError {
@@ -74,11 +143,36 @@ extension NSAttributedString {
 
         return attributes
     }
+
+    var fullRange: NSRange {
+        return NSRange(string.startIndex..<string.endIndex, in: string)
+    }
 }
 
 extension UIFont {
 
     var attributes: NSAttributedString.Attributes {
         return [NSAttributedString.Key.font: self]
+    }
+}
+
+extension UIColor {
+
+    // swiftlint:disable:next large_tuple
+    var rgba: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+        getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        return (red, green, blue, alpha)
+    }
+
+    var hexString: String {
+        let components = rgba
+        return String(format: "%02X%02X%02X",
+                      (Int)(components.red * 255),
+                      (Int)(components.green * 255),
+                      (Int)(components.blue * 255))
     }
 }
