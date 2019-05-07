@@ -35,15 +35,33 @@ extension String {
         return count >= 6 // as per signup.blade.php
     }
 
-    var html2Attributed: NSMutableAttributedString? {
+    func attributed(font: UIFont,
+                    color: UIColor) -> NSAttributedString {
+        let attributes = NSAttributedString.attributes(
+            color: color,
+            font: font
+        )
+        return NSAttributedString(string: self, attributes: attributes)
+    }
+
+    func html2Attributed(font: UIFont,
+                         color: UIColor) -> NSMutableAttributedString? {
         guard let data = data(using: String.Encoding.utf8) else { return nil }
 
-        return try? NSMutableAttributedString(
+        guard let attributed = try? NSMutableAttributedString(
             data: data,
             options: [.documentType: NSAttributedString.DocumentType.html,
                       .characterEncoding: String.Encoding.utf8.rawValue],
             documentAttributes: nil
+        ) else { return nil }
+
+        let attributes = NSAttributedString.attributes(
+            color: color,
+            font: font
         )
+        attributed.addAttributes(attributes, range: attributed.fullRange)
+
+        return attributed
     }
 
     var htmlAttributes: (NSAttributedString?, NSDictionary?) {
@@ -174,5 +192,20 @@ extension UIColor {
                       (Int)(components.red * 255),
                       (Int)(components.green * 255),
                       (Int)(components.blue * 255))
+    }
+}
+
+extension StringProtocol {
+
+    subscript(bounds: CountableClosedRange<Int>) -> SubSequence {
+        let start = index(startIndex, offsetBy: bounds.lowerBound)
+        let end = index(start, offsetBy: bounds.count)
+        return self[start..<end]
+    }
+
+    subscript(bounds: CountableRange<Int>) -> SubSequence {
+        let start = index(startIndex, offsetBy: bounds.lowerBound)
+        let end = index(start, offsetBy: bounds.count)
+        return self[start..<end]
     }
 }

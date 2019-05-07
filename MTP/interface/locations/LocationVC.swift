@@ -20,7 +20,7 @@ final class LocationVC: UIViewController, ServiceProvider {
 
     private var userObserver: Observer?
 
-    var headerObservation: NSKeyValueObservation?
+    private var headerObservation: NSKeyValueObservation?
 
     override func viewDidLoad() {
         super.viewDidLoad()

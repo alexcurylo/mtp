@@ -4,9 +4,13 @@ import Anchorage
 
 final class MyPostsVC: UICollectionViewController, ServiceProvider {
 
-    private enum Layout {
-        static let cellHeight = CGFloat(100)
+    @IBOutlet private var layout: UICollectionViewFlowLayout? {
+        didSet {
+            layout?.itemSize = UICollectionViewFlowLayout.automaticSize
+            layout?.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        }
     }
+    private var cellWidth: CGFloat = 0
 
     private var posts: [PostCellModel] = []
 
@@ -16,13 +20,11 @@ final class MyPostsVC: UICollectionViewController, ServiceProvider {
     }
 
     private var postsObserver: Observer?
+    private var viewObservation: NSKeyValueObservation?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
-
-        flow?.itemSize = UICollectionViewFlowLayout.automaticSize
-        flow?.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
 
         update()
         observe()
@@ -59,11 +61,10 @@ extension MyPostsVC {
             withReuseIdentifier: R.reuseIdentifier.postCell,
             for: indexPath)
 
-        if let postCell = cell,
-           let flow = flow {
+        if let postCell = cell {
             postCell.set(model: posts[indexPath.row],
                          delegate: self,
-                         width: collectionView.frame.width - flow.sectionInset.horizontal)
+                         width: cellWidth)
             return postCell
         }
 
@@ -71,23 +72,7 @@ extension MyPostsVC {
     }
 }
 
-// MARK: UICollectionViewDelegateFlowLayout
-
-extension MyPostsVC: UICollectionViewDelegateFlowLayout {
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let insets: CGFloat
-        if let flow = collectionViewLayout as? UICollectionViewFlowLayout {
-            insets = flow.sectionInset.horizontal
-        } else {
-            insets = 0
-        }
-        return CGSize(width: collectionView.bounds.width - insets,
-                      height: Layout.cellHeight)
-    }
-}
+// MARK: PostCellDelegate
 
 extension MyPostsVC: PostCellDelegate {
 
@@ -106,37 +91,50 @@ extension MyPostsVC: PostCellDelegate {
 private extension MyPostsVC {
 
     func update() {
-        var index = -1
+        var index = 0
         posts = data.posts.map { post in
-            // Where is the picture?
-            // https://gitlab.com/bitmads/mtp/issues/238
-            let photo: Photo? = nil
             let location = data.get(location: post.locationId)
-            index += 1
-            return PostCellModel(
+            let model = PostCellModel(
                 index: index,
-                photo: photo,
                 location: location,
                 date: dateFormatter.string(from: post.updatedAt).uppercased(),
                 title: location?.placeTitle ?? Localized.unknown(),
                 body: post.post,
                 isExpanded: false
             )
+            index += 1
+            return model
         }
 
         collectionView.reloadData()
     }
 
     func observe() {
-        guard postsObserver == nil else { return }
+        if postsObserver == nil {
+            postsObserver = data.observer(of: .posts) { [weak self] _ in
+                self?.update()
+            }
+        }
 
-        postsObserver = data.observer(of: .posts) { [weak self] _ in
-            self?.update()
+        if viewObservation == nil,
+           let view = collectionView {
+            cellWidth = layoutWidth
+            viewObservation = view.layer.observe(\.bounds) { [weak self] _, _ in
+                guard let self = self else { return }
+
+                let newWidth = self.layoutWidth
+                if self.cellWidth != newWidth {
+                    self.cellWidth = newWidth
+                    self.collectionView.collectionViewLayout.invalidateLayout()
+                    self.collectionView.setNeedsLayout()
+                    self.collectionView.reloadData()
+                }
+            }
         }
     }
 
-    var flow: UICollectionViewFlowLayout? {
-        return collectionView.collectionViewLayout as? UICollectionViewFlowLayout
+    var layoutWidth: CGFloat {
+        return collectionView.bounds.width - (layout?.sectionInset.horizontal ?? 0)
     }
 }
 
@@ -149,5 +147,6 @@ extension MyPostsVC: Injectable {
     }
 
     func requireInjections() {
+        layout.require()
     }
 }
