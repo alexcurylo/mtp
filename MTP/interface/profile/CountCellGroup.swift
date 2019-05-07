@@ -26,6 +26,7 @@ protocol CountCellGroupDelegate: AnyObject {
 }
 
 struct CountGroupModel {
+
     var region: String
     var country: String
     var visited: Int?

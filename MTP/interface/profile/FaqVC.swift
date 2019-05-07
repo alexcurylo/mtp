@@ -158,7 +158,7 @@ extension FaqVC: Injectable {
 
     typealias Model = ()
 
-    @discardableResult func inject(model: Model) -> FaqVC {
+    @discardableResult func inject(model: Model) -> Self {
         return self
     }
 

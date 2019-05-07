@@ -98,7 +98,7 @@ extension UserProfilePagingVC: Injectable {
 
     typealias Model = (list: Checklist, user: User)
 
-    @discardableResult func inject(model: Model) -> UserProfilePagingVC {
+    @discardableResult func inject(model: Model) -> Self {
         return self
     }
 

@@ -141,7 +141,7 @@ extension MyPhotosVC: Injectable {
 
     typealias Model = ()
 
-    @discardableResult func inject(model: Model) -> MyPhotosVC {
+    @discardableResult func inject(model: Model) -> Self {
         return self
     }
 

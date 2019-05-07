@@ -526,7 +526,7 @@ extension LocationsVC: Injectable {
 
     typealias Model = ()
 
-    @discardableResult func inject(model: Model) -> LocationsVC {
+    @discardableResult func inject(model: Model) -> Self {
         return self
     }
 

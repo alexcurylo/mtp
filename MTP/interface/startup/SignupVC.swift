@@ -542,7 +542,7 @@ extension SignupVC: Injectable {
 
     typealias Model = ()
 
-    @discardableResult func inject(model: Model) -> SignupVC {
+    @discardableResult func inject(model: Model) -> Self {
         return self
     }
 

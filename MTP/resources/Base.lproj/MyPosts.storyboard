@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -24,78 +23,7 @@
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="8" minY="15" maxX="8" maxY="15"/>
                         </collectionViewFlowLayout>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PostCell" id="DgP-Fa-YoL" customClass="PostCell" customModule="MTP" customModuleProvider="target">
-                                <rect key="frame" x="37.5" y="15" width="300" height="150"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                    <rect key="frame" x="0.0" y="0.0" width="300" height="150"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5mq-D9-tiS">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="150"/>
-                                            <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c0m-9G-oAq">
-                                                    <rect key="frame" x="0.0" y="0.0" width="300" height="150"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <attributedString key="attributedText">
-                                                        <fragment content="Lorem ipsum dolor sit er elit lamet">
-                                                            <attributes>
-                                                                <font key="NSFont" metaFont="system" size="14"/>
-                                                            </attributes>
-                                                        </fragment>
-                                                    </attributedString>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                </textView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oZR-EZ-Ofc">
-                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                                    <color key="backgroundColor" name="dustyGray"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="100" id="aGL-lP-rMC"/>
-                                                        <constraint firstAttribute="height" constant="100" id="otF-Yw-bEO"/>
-                                                    </constraints>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                            <real key="value" value="4"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
-                                                </imageView>
-                                            </subviews>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <constraints>
-                                                <constraint firstItem="c0m-9G-oAq" firstAttribute="leading" secondItem="5mq-D9-tiS" secondAttribute="leading" id="0dV-Cq-AJf"/>
-                                                <constraint firstItem="oZR-EZ-Ofc" firstAttribute="leading" secondItem="5mq-D9-tiS" secondAttribute="leading" id="5QV-EP-zMm"/>
-                                                <constraint firstItem="oZR-EZ-Ofc" firstAttribute="top" secondItem="5mq-D9-tiS" secondAttribute="top" id="CHi-11-0U8"/>
-                                                <constraint firstAttribute="width" constant="300" id="b48-Xy-9Tr"/>
-                                                <constraint firstItem="c0m-9G-oAq" firstAttribute="top" secondItem="5mq-D9-tiS" secondAttribute="top" id="gtz-PS-gQj"/>
-                                                <constraint firstAttribute="height" constant="150" id="kcs-vY-HWT"/>
-                                                <constraint firstAttribute="bottom" secondItem="c0m-9G-oAq" secondAttribute="bottom" id="pBW-bk-VZ0"/>
-                                                <constraint firstAttribute="trailing" secondItem="c0m-9G-oAq" secondAttribute="trailing" id="vcK-Ns-g0g"/>
-                                            </constraints>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                    <real key="value" value="4"/>
-                                                </userDefinedRuntimeAttribute>
-                                            </userDefinedRuntimeAttributes>
-                                        </view>
-                                    </subviews>
-                                </view>
-                                <color key="backgroundColor" name="frenchPass"/>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="5mq-D9-tiS" secondAttribute="bottom" id="5oX-xr-zDu"/>
-                                    <constraint firstAttribute="trailing" secondItem="5mq-D9-tiS" secondAttribute="trailing" id="ITu-Ps-6VC"/>
-                                    <constraint firstItem="5mq-D9-tiS" firstAttribute="top" secondItem="DgP-Fa-YoL" secondAttribute="top" id="Qml-XG-9gg"/>
-                                    <constraint firstItem="5mq-D9-tiS" firstAttribute="leading" secondItem="DgP-Fa-YoL" secondAttribute="leading" id="cDt-wp-XH4"/>
-                                </constraints>
-                                <connections>
-                                    <outlet property="holder" destination="5mq-D9-tiS" id="hT6-eU-8ge"/>
-                                    <outlet property="holderHeight" destination="kcs-vY-HWT" id="hoD-vU-x7e"/>
-                                    <outlet property="holderWidth" destination="b48-Xy-9Tr" id="t4e-sE-jwI"/>
-                                    <outlet property="imageView" destination="oZR-EZ-Ofc" id="gYB-Jq-KcK"/>
-                                    <outlet property="textView" destination="c0m-9G-oAq" id="EWX-Fa-NVK"/>
-                                </connections>
-                            </collectionViewCell>
-                        </cells>
+                        <cells/>
                         <connections>
                             <outlet property="dataSource" destination="l04-3w-3EZ" id="ZKy-gu-gHl"/>
                             <outlet property="delegate" destination="l04-3w-3EZ" id="h5Y-6w-83t"/>
@@ -109,15 +37,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AHj-Lp-mcj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-946" y="8"/>
+            <point key="canvasLocation" x="-1442" y="-224"/>
         </scene>
     </scenes>
-    <resources>
-        <namedColor name="dustyGray">
-            <color red="0.61176470588235299" green="0.61176470588235299" blue="0.61176470588235299" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="frenchPass">
-            <color red="0.81960784313725488" green="0.94509803921568625" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-    </resources>
 </document>

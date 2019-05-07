@@ -35,6 +35,7 @@
 		8C617975223F2E1E000827D6 /* LocationsFilter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C617973223F2E1E000827D6 /* LocationsFilter.storyboard */; };
 		8C76D5DC22028874005CF4CD /* ServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C76D5DB22028874005CF4CD /* ServiceProvider.swift */; };
 		8C76D8EC2207CD36005CF4CD /* RankingsPageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C76D8EB2207CD36005CF4CD /* RankingsPageInfo.swift */; };
+		8C8DB38122817B6800B2BBD3 /* PostsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8DB38022817B6800B2BBD3 /* PostsVC.swift */; };
 		8C91D293222CBFE20063C587 /* SignupFailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D292222CBFE20063C587 /* SignupFailVC.swift */; };
 		8C9DD8CE2245034E00D5EAFB /* Injectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9DD8CD2245034D00D5EAFB /* Injectable.swift */; };
 		8CAE30592239DA7D00E31647 /* world-map.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 8CAE30572239DA7C00E31647 /* world-map.geojson */; };
@@ -209,6 +210,7 @@
 		8C617974223F2E1E000827D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LocationsFilter.storyboard; sourceTree = "<group>"; };
 		8C76D5DB22028874005CF4CD /* ServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProvider.swift; sourceTree = "<group>"; };
 		8C76D8EB2207CD36005CF4CD /* RankingsPageInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsPageInfo.swift; sourceTree = "<group>"; };
+		8C8DB38022817B6800B2BBD3 /* PostsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsVC.swift; sourceTree = "<group>"; };
 		8C91D292222CBFE20063C587 /* SignupFailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupFailVC.swift; sourceTree = "<group>"; };
 		8C9DD8CD2245034D00D5EAFB /* Injectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Injectable.swift; sourceTree = "<group>"; };
 		8CAE30572239DA7C00E31647 /* world-map.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "world-map.geojson"; sourceTree = "<group>"; };
@@ -505,6 +507,7 @@
 				FA74574C210CA5730010F4F4 /* MyProfileVC.swift */,
 				FA99615E2136CF3100C85FBC /* MyProfilePagingVC.swift */,
 				FAEB87A0227ED26300858898 /* PostCell.swift */,
+				8C8DB38022817B6800B2BBD3 /* PostsVC.swift */,
 				FA46377D210DE1E60007382D /* SettingsVC.swift */,
 			);
 			path = profile;
@@ -1179,6 +1182,7 @@
 				FA5AC0B821FD4A160080F84F /* PlaceClusterAnnotationView.swift in Sources */,
 				FAF1853120FA0C8600CC5D83 /* RootVC.swift in Sources */,
 				FA7C2012221C2F20002C6DAB /* Photo.swift in Sources */,
+				8C8DB38122817B6800B2BBD3 /* PostsVC.swift in Sources */,
 				8C0127F9223202FA00EA2095 /* ServiceHandler.swift in Sources */,
 				FAFEDA5421296F6D00DA3DB8 /* MainTBC.swift in Sources */,
 				FA2E718521ED535B00E6AB73 /* WHS.swift in Sources */,

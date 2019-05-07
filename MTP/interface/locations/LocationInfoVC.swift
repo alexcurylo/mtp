@@ -75,7 +75,7 @@ extension LocationInfoVC: Injectable {
 
     typealias Model = PlaceAnnotation
 
-    @discardableResult func inject(model: Model) -> LocationInfoVC {
+    @discardableResult func inject(model: Model) -> Self {
         place = model
         return self
     }

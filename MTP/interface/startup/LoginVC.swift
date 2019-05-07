@@ -260,7 +260,7 @@ extension LoginVC: Injectable {
 
     typealias Model = ()
 
-    @discardableResult func inject(model: Model) -> LoginVC {
+    @discardableResult func inject(model: Model) -> Self {
         return self
     }
 
