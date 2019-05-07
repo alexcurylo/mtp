@@ -21,10 +21,7 @@ class PostsVC: UICollectionViewController, ServiceProvider {
         fatalError("source has not been overridden")
     }
 
-    private let dateFormatter = DateFormatter {
-        $0.dateStyle = .long
-        $0.timeStyle = .none
-    }
+    private let dateFormatter = DateFormatter(mtp: .long)
 
     private var postsObserver: Observer?
     private var viewObservation: NSKeyValueObservation?

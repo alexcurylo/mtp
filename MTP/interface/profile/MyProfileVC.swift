@@ -101,9 +101,7 @@ private extension MyProfileVC {
         fullNameLabel?.text = user.fullName
         countryLabel?.text = user.location.description
 
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
+        let dateFormatter = DateFormatter(mtp: .medium)
         birthdayLabel?.text = dateFormatter.string(from: user.birthday)
 
         #if FOLLOWERS_IMPLEMENTED
