@@ -87,6 +87,7 @@ extension LocationJSON: CustomDebugStringConvertible {
     dynamic var lat: Double = 0
     dynamic var locationName: String = ""
     dynamic var lon: Double = 0
+    dynamic var placeVisitors: Int = 0
     dynamic var regionName: String = ""
 
     override static func primaryKey() -> String? {
@@ -111,6 +112,7 @@ extension LocationJSON: CustomDebugStringConvertible {
         lat = from.lat ?? 0
         locationName = from.locationName
         lon = from.lon ?? 0
+        placeVisitors = from.visitors
         regionName = from.regionName
   }
 

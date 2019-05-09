@@ -8,14 +8,15 @@ protocol PlaceInfo {
     var placeCoordinate: CLLocationCoordinate2D { get }
     var placeCountry: String { get }
     var placeId: Int { get }
+    var placeImage: String { get }
+    var placeIsCountry: Bool { get }
     var placeIsMappable: Bool { get }
     var placeLocation: Location? { get }
     var placeParent: PlaceInfo? { get }
     var placeRegion: String { get }
     var placeSubtitle: String { get }
     var placeTitle: String { get }
-    var placeImage: String { get }
-    var placeIsCountry: Bool { get }
+    var placeVisitors: Int { get }
 }
 
 // swiftlint:disable:next static_operator
@@ -23,9 +24,11 @@ func == (lhs: PlaceInfo, rhs: PlaceInfo) -> Bool {
     return lhs.placeCoordinate == rhs.placeCoordinate &&
            lhs.placeCountry == rhs.placeCountry &&
            lhs.placeId == rhs.placeId &&
+           lhs.placeImage == rhs.placeImage &&
            lhs.placeRegion == rhs.placeRegion &&
            lhs.placeSubtitle == rhs.placeSubtitle &&
-           lhs.placeTitle == rhs.placeTitle
+           lhs.placeTitle == rhs.placeTitle &&
+           lhs.placeVisitors == rhs.placeVisitors
 }
 
 extension PlaceInfo {
@@ -43,6 +46,7 @@ extension PlaceInfo {
     }
 
     var placeImage: String {
+        //log.todo("fix placeImage")
         return placeLocation?.featuredImg ?? ""
     }
 
@@ -106,9 +110,10 @@ extension PlaceJSON: CustomDebugStringConvertible {
     dynamic var id: Int = 0
     dynamic var lat: Double = 0
     dynamic var long: Double = 0
+    dynamic var placeLocation: Location?
+    dynamic var placeVisitors: Int = 0
     dynamic var regionName: String = ""
     dynamic var title: String = ""
-    dynamic var placeLocation: Location?
 
     override static func primaryKey() -> String? {
         return "id"
@@ -121,11 +126,12 @@ extension PlaceJSON: CustomDebugStringConvertible {
         }
         self.init()
 
-        placeLocation = controller.location(id: from.location.id)
         countryName = placeLocation?.countryName ?? Localized.unknown()
         id = from.id
         lat = from.lat
         long = from.long
+        placeLocation = controller.location(id: from.location.id)
+        placeVisitors = from.visitors
         regionName = placeLocation?.regionName ?? Localized.unknown()
         title = from.title
     }
@@ -167,9 +173,10 @@ extension Beach: PlaceInfo {
     dynamic var id: Int = 0
     dynamic var lat: Double = 0
     dynamic var long: Double = 0
+    dynamic var placeLocation: Location?
+    dynamic var placeVisitors: Int = 0
     dynamic var regionName: String = ""
     dynamic var title: String = ""
-    dynamic var placeLocation: Location?
 
     override static func primaryKey() -> String? {
         return "id"
@@ -182,11 +189,12 @@ extension Beach: PlaceInfo {
         }
         self.init()
 
-        placeLocation = controller.location(id: from.location.id)
         countryName = placeLocation?.countryName ?? Localized.unknown()
         id = from.id
         lat = from.lat
         long = from.long
+        placeLocation = controller.location(id: from.location.id)
+        placeVisitors = from.visitors
         regionName = placeLocation?.regionName ?? Localized.unknown()
         title = from.title
     }
@@ -228,9 +236,10 @@ extension DiveSite: PlaceInfo {
     dynamic var id: Int = 0
     dynamic var lat: Double = 0
     dynamic var long: Double = 0
+    dynamic var placeLocation: Location?
+    dynamic var placeVisitors: Int = 0
     dynamic var regionName: String = ""
     dynamic var title: String = ""
-    dynamic var placeLocation: Location?
 
     override static func primaryKey() -> String? {
         return "id"
@@ -243,11 +252,12 @@ extension DiveSite: PlaceInfo {
         }
         self.init()
 
-        placeLocation = controller.location(id: from.location.id)
         countryName = placeLocation?.countryName ?? Localized.unknown()
         id = from.id
         lat = from.lat
         long = from.long
+        placeLocation = controller.location(id: from.location.id)
+        placeVisitors = from.visitors
         regionName = placeLocation?.regionName ?? Localized.unknown()
         title = from.title
     }

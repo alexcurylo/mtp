@@ -9,10 +9,14 @@ protocol PlaceAnnotationDelegate: AnyObject {
 
 final class PlaceAnnotation: NSObject, MKAnnotation {
 
+    // MKAnnotation -- suppress callout title
     @objc dynamic var coordinate: CLLocationCoordinate2D
-    var title: String?
-    var subtitle: String?
-    var image: String?
+    let title: String? = nil
+    let subtitle: String?
+
+    let image: String?
+    let country: String?
+    let visitors: Int
 
     let type: Checklist
     let id: Int
@@ -27,7 +31,8 @@ final class PlaceAnnotation: NSObject, MKAnnotation {
           coordinate: CLLocationCoordinate2D,
           delegate: PlaceAnnotationDelegate,
           title: String,
-          subtitle: String,
+          country: String,
+          visitors: Int,
           image: String) {
         guard !coordinate.isZero else { return nil }
 
@@ -35,8 +40,9 @@ final class PlaceAnnotation: NSObject, MKAnnotation {
         self.id = id
         self.coordinate = coordinate
         self.delegate = delegate
-        self.title = title
-        self.subtitle = subtitle
+        self.subtitle = title
+        self.country = country
+        self.visitors = visitors
         self.image = image
 
         super.init()
@@ -53,8 +59,8 @@ final class PlaceAnnotation: NSObject, MKAnnotation {
         return type == other.type &&
                id == other.id &&
                coordinate == other.coordinate &&
-               title == other.title &&
                subtitle == other.subtitle &&
+               country == other.country &&
                image == other.image
     }
 

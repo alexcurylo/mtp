@@ -53,9 +53,10 @@ extension WHSJSON: CustomDebugStringConvertible {
     dynamic var lat: Double = 0
     dynamic var long: Double = 0
     dynamic var parentId: Int = 0
+    dynamic var placeLocation: Location?
+    dynamic var placeVisitors: Int = 0
     dynamic var regionName: String = ""
     dynamic var title: String = ""
-    dynamic var placeLocation: Location?
 
     override static func primaryKey() -> String? {
         return "id"
@@ -75,6 +76,7 @@ extension WHSJSON: CustomDebugStringConvertible {
         lat = from.lat
         long = from.long
         parentId = from.parentId ?? 0
+        placeVisitors = from.visitors
         regionName = placeLocation?.regionName ?? Localized.unknown()
         title = from.title
     }

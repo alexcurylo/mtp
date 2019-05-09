@@ -27,6 +27,16 @@
 
 // LocationsVC
 
+"location" = "MTP Location";
+"uncountry" = "UN Country";
+"whs" = "World Heritage Site";
+"beach" = "Beach";
+"golfcourse" = "Golf Course";
+"divesite" = "Dive Site";
+"restaurant" = "Restaurant";
+
+"visitors" = "MTP Visitors: %@";
+
 "showMore" = "Show More";
 
 // LocationTracker

@@ -13,6 +13,7 @@ struct ChecklistFlags: Codable, Equatable {
     var whss: Bool = true
 }
 
+// swiftlint:disable:next type_body_length
 enum Checklist: String, Codable, CaseIterable, ServiceProvider {
 
     case locations
@@ -194,6 +195,25 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
             return Localized.divesites()
         case .restaurants:
             return Localized.restaurants()
+        }
+    }
+
+    var category: String {
+        switch self {
+        case .locations:
+            return Localized.location()
+        case .uncountries:
+            return Localized.uncountry()
+        case .whss:
+            return Localized.whs()
+        case .beaches:
+            return Localized.beach()
+        case .golfcourses:
+            return Localized.golfcourse()
+        case .divesites:
+            return Localized.divesite()
+        case .restaurants:
+            return Localized.restaurant()
         }
     }
 

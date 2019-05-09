@@ -258,7 +258,8 @@ private extension LocationsVC {
                 coordinate: coordinate,
                 delegate: self,
                 title: place.placeTitle,
-                subtitle: place.placeSubtitle,
+                country: place.placeSubtitle,
+                visitors: place.placeVisitors,
                 image: place.placeImage
             )
         })
