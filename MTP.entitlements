@@ -5,7 +5,6 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>mtp.travel</string>
-		<string>aws.mtp.travel</string>
 	</array>
 </dict>
 </plist>

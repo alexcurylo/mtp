@@ -1470,9 +1470,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAF12300215652AE0099B772 /* MTP_Debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 556343DW3U;
-				PROVISIONING_PROFILE_SPECIFIER = "MTP-Development";
 			};
 			name = Debug;
 		};
@@ -1480,10 +1477,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAF122FC215652AE0099B772 /* MTP_Release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 556343DW3U;
-				PROVISIONING_PROFILE_SPECIFIER = "MTP-AdHoc";
 			};
 			name = Release;
 		};
@@ -1491,10 +1484,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAF122FB215652AE0099B772 /* MTPTests_Debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 556343DW3U;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -1502,10 +1491,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAF122FE215652AE0099B772 /* MTPTests_Release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 556343DW3U;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -1513,10 +1498,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAF12301215652AE0099B772 /* MTPUITests_Debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 556343DW3U;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -1524,10 +1505,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAF122FF215652AE0099B772 /* MTPUITests_Release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 556343DW3U;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
