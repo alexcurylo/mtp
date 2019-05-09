@@ -3,7 +3,7 @@
 import CoreLocation
 import UIKit
 
-enum Permission {
+enum PermissionTrigger {
     case ask
     case dontAsk
 }
@@ -17,7 +17,7 @@ protocol LocationTracker: CLLocationManagerDelegate, ServiceProvider {
 
 extension LocationTracker {
 
-    @discardableResult func start(tracking ask: Permission) -> CLAuthorizationStatus {
+    @discardableResult func start(tracking ask: PermissionTrigger) -> CLAuthorizationStatus {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
 

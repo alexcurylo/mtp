@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import FacebookCore
+import FBSDKCoreKit
 import UIKit
 
 struct ActionHandler: AppHandler { }
@@ -21,9 +21,10 @@ extension ActionHandler {
     func handleFacebookURL(app: UIApplication,
                            open url: URL,
                            options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {
-        return SDKApplicationDelegate.shared.application(
+        return FBSDKCoreKit.ApplicationDelegate.shared.application(
             app,
             open: url,
-            options: options)
+            options: options
+        )
     }
 }

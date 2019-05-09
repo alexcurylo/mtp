@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import FacebookCore
+import FBSDKCoreKit
 import UIKit
 
 struct StateHandler: AppHandler, ServiceProvider { }
@@ -31,6 +31,6 @@ extension StateHandler: AppStateHandler {
 extension StateHandler {
 
     func logFacebookActivate() {
-        AppEventsLogger.activate()
+        AppEvents.activateApp()
     }
 }

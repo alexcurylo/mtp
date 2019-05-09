@@ -2,6 +2,10 @@
 
 import FacebookCore
 import FacebookLogin
+import FacebookShare
+import FBSDKCoreKit
+import FBSDKLoginKit
+import FBSDKShareKit
 
 // https://developers.facebook.com/docs/facebook-login/ios/advanced/#custom-login-button
 
@@ -22,9 +26,12 @@ final class FacebookButton: UIButton, ServiceProvider {
         setup()
     }
 
-    func login(then: @escaping (RegistrationInfo?) -> Void) {
-        let info: [ReadPermission] = [ .publicProfile, .email, .userBirthday, .userGender ]
-        LoginManager().logIn(readPermissions: info) { [weak self] result in
+    func login(vc: UIViewController,
+               then: @escaping (RegistrationInfo?) -> Void) {
+        LoginManager().logIn(
+            permissions: [ .publicProfile, .email, .userBirthday, .userGender ],
+            viewController: vc
+        ) { [weak self] result in
             switch result {
             // swiftlint:disable:next pattern_matching_keywords
             case .success(let granted, let declined, _):
@@ -53,42 +60,23 @@ private extension FacebookButton {
     }
 
     func requestInfo(then: @escaping (RegistrationInfo?) -> Void) {
-        let connection = GraphRequestConnection()
-        connection.add(InfoRequest()) { [weak self] _, result in
+        let request = GraphRequest(graphPath: "/me",
+                                   parameters: ["fields": "birthday,email,first_name,gender,last_name"],
+                                   httpMethod: .get)
+        request.start { [weak self] _, result, error in
             let info: RegistrationInfo?
-            switch result {
-            case .success(let fbInfo):
-                info = fbInfo.info
-            case .failed(let error):
+            switch (result, error) {
+            case let (result?, nil):
+                let response = result as? [String: Any] ?? [:]
+                info = RegistrationInfo(facebook: response)
+            case let (nil, error?):
                 self?.log.verbose("Facebook login failed: \(error)")
+                info = nil
+            default:
+                self?.log.verbose("Facebook login failed: unknown error")
                 info = nil
             }
             then(info)
         }
-        connection.start()
     }
-}
-
-private struct InfoRequest: GraphRequestProtocol {
-
-    struct Response: GraphResponseProtocol {
-
-        let info: RegistrationInfo?
-
-        init(rawResponse: Any?) {
-            guard let response = rawResponse as? [String: Any] else {
-                info = nil
-                return
-            }
-
-            info = RegistrationInfo(facebook: response)
-        }
-    }
-
-    var graphPath = "/me"
-    // swiftlint:disable:next discouraged_optional_collection
-    var parameters: [String: Any]? = ["fields": "birthday,email,first_name,gender,last_name"]
-    var accessToken = AccessToken.current
-    var httpMethod: GraphRequestHTTPMethod = .GET
-    var apiVersion: GraphAPIVersion = .defaultVersion
 }

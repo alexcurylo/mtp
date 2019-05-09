@@ -205,7 +205,7 @@ private extension SignupVC {
 
     @IBAction func facebookTapped(_ sender: FacebookButton) {
         view.endEditing(true)
-        sender.login { [weak self] info in
+        sender.login(vc: self) { [weak self] info in
             guard let self = self else { return }
             guard let info = info else {
                 self.errorMessage = Localized.facebookFailed()

@@ -186,7 +186,7 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
                        .map { $0.application(application,
                                              willFinishLaunchingWithOptions: launchOptions)
                        }
-                       .reduce(true) { $0 && $1 }
+                       .allSatisfy { $0 }
     }
 
     public func application(_ application: UIApplication,
@@ -197,7 +197,7 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
                        .map { $0.application(application,
                                              didFinishLaunchingWithOptions: launchOptions)
                        }
-                       .reduce(true) { $0 && $1 }
+                       .allSatisfy { $0 }
     }
 
     public func applicationWillEnterForeground(_ application: UIApplication) {
@@ -233,7 +233,7 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
                                           open: url,
                                           options: options)
                     }
-                    .reduce(false) { $0 || $1 }
+                    .contains { $0 }
     }
 
     public func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
@@ -397,7 +397,7 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
                        .map { $0.application(application,
                                              shouldAllowExtensionPointIdentifier: extensionPointIdentifier)
                        }
-                       .reduce(true) { $0 && $1 }
+                       .allSatisfy { $0 }
     }
 
     public func application(_ application: UIApplication,
@@ -418,7 +418,7 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
                        .map { $0.application(application,
                                              shouldSaveApplicationState: coder)
                        }
-                       .reduce(false) { $0 || $1 }
+                       .contains { $0 }
     }
 
     public func application(_ application: UIApplication,
@@ -427,7 +427,7 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
                        .map { $0.application(application,
                                              shouldRestoreApplicationState: coder)
                        }
-                       .reduce(false) { $0 || $1 }
+                       .contains { $0 }
     }
 
     public func application(_ application: UIApplication,
@@ -452,7 +452,7 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
                        .map { $0.application(application,
                                              willContinueUserActivityWithType: userActivityType)
                        }
-                       .reduce(false) { $0 || $1 }
+                       .contains { $0 }
     }
 
     public func application(_ application: UIApplication,
@@ -464,7 +464,7 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
                                              continue: userActivity,
                                              restorationHandler: restorationHandler)
                        }
-                       .reduce(false) { $0 || $1 }
+                       .contains { $0 }
     }
 
     public func application(_ application: UIApplication,

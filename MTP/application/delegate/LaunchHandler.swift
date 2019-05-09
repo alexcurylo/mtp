@@ -1,10 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import AppCenter
-import AppCenterAnalytics
-import AppCenterCrashes
-import AppCenterDistribute
-import FacebookCore
+import FBSDKCoreKit
 import SwiftyBeaver
 
 struct LaunchHandler: AppHandler, ServiceProvider { }
@@ -21,8 +17,6 @@ extension LaunchHandler: AppLaunchHandler {
                      // swiftlint:disable:next discouraged_optional_collection
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         configureLogging()
-
-        configureAppCenter()
 
         configureSettingsDisplay()
 
@@ -42,37 +36,6 @@ private extension LaunchHandler {
     func configureAppearance() {
         style.standard.styleAppearance()
     }
-}
-
-// MARK: - AppCenter
-
-// https://docs.microsoft.com/en-us/appcenter/
-
-extension LaunchHandler {
-
-    func configureAppCenter() {
-        guard !UIApplication.isTesting else { return }
-
-        MSAppCenter.start("20cb945f-58b9-4544-a059-424aa3b86820",
-                          withServices: [MSAnalytics.self,
-                                         MSCrashes.self,
-                                         MSDistribute.self])
-        log.verbose("MSAppCenter started")
-    }
-
-    #if PUSH_NOTIFICATIONS
-    func onboardPush() {
-        MSAppCenter.startService(MSPush.self)
-        MSPush.setEnabled(true)
-        center.requestAuthorization(options: [.alert, .badge, .carPlay, .sound]) { granted, err in
-            if granted {
-                log.verbose("push authorization granted")
-            } else {
-                log.verbose("push authorization failed: \(err)")
-            }
-        }
-    }
-    #endif
 }
 
 // MARK: - SwiftyBeaver
@@ -132,8 +95,9 @@ extension LaunchHandler {
 
     func configureFacebook(app: UIApplication,
                            options: [UIApplication.LaunchOptionsKey: Any]) {
-        SDKApplicationDelegate.shared.application(
+        ApplicationDelegate.shared.application(
             app,
-            didFinishLaunchingWithOptions: options)
+            didFinishLaunchingWithOptions: options
+        )
     }
 }

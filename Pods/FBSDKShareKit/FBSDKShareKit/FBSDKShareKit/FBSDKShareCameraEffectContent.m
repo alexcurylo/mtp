@@ -63,29 +63,23 @@ static NSString *const kFBSDKShareCameraEffectContentUUIDKey = @"uuid";
 
 #pragma mark - FBSDKSharingContent
 
-- (void)addToParameters:(NSMutableDictionary<NSString *, id> *)parameters
-          bridgeOptions:(FBSDKShareBridgeOptions)bridgeOptions
-{
-  [parameters addEntriesFromDictionary:[self addParameters:parameters bridgeOptions:bridgeOptions]];
-}
-
 - (NSDictionary<NSString *, id> *)addParameters:(NSDictionary<NSString *, id> *)existingParameters
                                   bridgeOptions:(FBSDKShareBridgeOptions)bridgeOptions
 {
   NSMutableDictionary<NSString *, id> *updatedParameters = [NSMutableDictionary dictionaryWithDictionary:existingParameters];
-  [FBSDKInternalUtility dictionary:updatedParameters
-                         setObject:_effectID
-                            forKey:@"effect_id"];
+  [FBSDKBasicUtility dictionary:updatedParameters
+                      setObject:_effectID
+                         forKey:@"effect_id"];
 
   NSString *effectArgumentsJSON;
   if (_effectArguments) {
-    effectArgumentsJSON = [FBSDKInternalUtility JSONStringForObject:[_effectArguments allArguments]
-                                                              error:NULL
-                                               invalidObjectHandler:NULL];
+    effectArgumentsJSON = [FBSDKBasicUtility JSONStringForObject:[_effectArguments allArguments]
+                                                           error:NULL
+                                            invalidObjectHandler:NULL];
   }
-  [FBSDKInternalUtility dictionary:updatedParameters
-                         setObject:effectArgumentsJSON
-                            forKey:@"effect_arguments"];
+  [FBSDKBasicUtility dictionary:updatedParameters
+                      setObject:effectArgumentsJSON
+                         forKey:@"effect_arguments"];
 
   NSData *effectTexturesData;
   if (_effectTextures) {
@@ -102,9 +96,9 @@ static NSString *const kFBSDKShareCameraEffectContentUUIDKey = @"uuid";
     }];
     effectTexturesData = [NSKeyedArchiver archivedDataWithRootObject:texturesDataDict];
   }
-  [FBSDKInternalUtility dictionary:updatedParameters
-                         setObject:effectTexturesData
-                            forKey:@"effect_textures"];
+  [FBSDKBasicUtility dictionary:updatedParameters
+                      setObject:effectTexturesData
+                         forKey:@"effect_textures"];
 
   return updatedParameters;
 }

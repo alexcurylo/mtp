@@ -10,17 +10,9 @@
 #endif
 #endif
 
+#import "FBSDKBasicUtility.h"
 #import "FBSDKAccessToken.h"
-#import "FBSDKAppEvents.h"
 #import "FBSDKApplicationDelegate.h"
-#import "FBSDKAppLink.h"
-#import "FBSDKAppLinkNavigation.h"
-#import "FBSDKAppLinkResolver.h"
-#import "FBSDKAppLinkResolving.h"
-#import "FBSDKAppLinkReturnToRefererController.h"
-#import "FBSDKAppLinkReturnToRefererView.h"
-#import "FBSDKAppLinkTarget.h"
-#import "FBSDKAppLinkUtility.h"
 #import "FBSDKButton.h"
 #import "FBSDKConstants.h"
 #import "FBSDKCopying.h"
@@ -29,7 +21,6 @@
 #import "FBSDKGraphRequest.h"
 #import "FBSDKGraphRequestConnection.h"
 #import "FBSDKGraphRequestDataAttachment.h"
-#import "FBSDKMacros.h"
 #import "FBSDKMeasurementEvent.h"
 #import "FBSDKMutableCopying.h"
 #import "FBSDKProfile.h"
@@ -38,6 +29,15 @@
 #import "FBSDKTestUsersManager.h"
 #import "FBSDKURL.h"
 #import "FBSDKUtility.h"
+#import "FBSDKAppEvents.h"
+#import "FBSDKAppLink.h"
+#import "FBSDKAppLinkNavigation.h"
+#import "FBSDKAppLinkResolver.h"
+#import "FBSDKAppLinkResolving.h"
+#import "FBSDKAppLinkReturnToRefererController.h"
+#import "FBSDKAppLinkReturnToRefererView.h"
+#import "FBSDKAppLinkTarget.h"
+#import "FBSDKAppLinkUtility.h"
 #import "FBSDKWebViewAppLinkResolver.h"
 
 FOUNDATION_EXPORT double FBSDKCoreKitVersionNumber;
