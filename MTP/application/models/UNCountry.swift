@@ -7,6 +7,7 @@ import RealmSwift
 
     dynamic var country: String = ""
     dynamic var id: Int = 0
+    dynamic var placeImage: String = ""
     dynamic var placeLocation: Location?
     dynamic var placeVisitors: Int = 0
     dynamic var region: String = ""

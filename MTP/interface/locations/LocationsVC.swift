@@ -113,9 +113,13 @@ final class LocationsVC: UIViewController {
 
 extension LocationsVC: PlaceAnnotationDelegate {
 
+    func close(callout: PlaceAnnotation) {
+        mapView?.deselectAnnotation(callout, animated: true)
+    }
+
     func show(location: PlaceAnnotation) {
         selected = location
-        mapView?.deselectAnnotation(location, animated: true)
+        close(callout: location)
         performSegue(withIdentifier: Segues.showLocation, sender: self)
     }
 }
@@ -398,21 +402,28 @@ extension LocationsVC: MKMapViewDelegate {
             return nil
         }
     }
+
     func mapView(_ mapView: MKMapView,
                  didAdd views: [MKAnnotationView]) {
     }
+
     func mapView(_ mapView: MKMapView,
                  annotationView view: MKAnnotationView,
                  calloutAccessoryControlTapped control: UIControl) {
         guard !(control is UISwitch) else { return }
         log.verbose(#function)
     }
+
     func mapView(_ mapView: MKMapView,
                  didSelect view: MKAnnotationView) {
+        guard let place = view as? PlaceAnnotationView else { return }
+        place.prepareForCallout()
     }
+
     func mapView(_ mapView: MKMapView,
                  didDeselect view: MKAnnotationView) {
     }
+
     func mapView(_ mapView: MKMapView,
                  annotationView view: MKAnnotationView,
                  didChange newState: MKAnnotationView.DragState,
@@ -424,6 +435,7 @@ extension LocationsVC: MKMapViewDelegate {
         log.verbose(#function)
         return MKOverlayRenderer(overlay: overlay)
     }
+
     func mapView(_ mapView: MKMapView,
                  didAdd renderers: [MKOverlayRenderer]) {
         log.verbose(#function)

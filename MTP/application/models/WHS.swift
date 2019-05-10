@@ -53,6 +53,7 @@ extension WHSJSON: CustomDebugStringConvertible {
     dynamic var lat: Double = 0
     dynamic var long: Double = 0
     dynamic var parentId: Int = 0
+    dynamic var placeImage: String = ""
     dynamic var placeLocation: Location?
     dynamic var placeVisitors: Int = 0
     dynamic var regionName: String = ""
@@ -76,6 +77,8 @@ extension WHSJSON: CustomDebugStringConvertible {
         lat = from.lat
         long = from.long
         parentId = from.parentId ?? 0
+        // log.todo("Where is place image?")
+        placeImage = ""
         placeVisitors = from.visitors
         regionName = placeLocation?.regionName ?? Localized.unknown()
         title = from.title

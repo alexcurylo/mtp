@@ -45,11 +45,6 @@ extension PlaceInfo {
         return placeLocation?.description ?? ""
     }
 
-    var placeImage: String {
-        //log.todo("fix placeImage")
-        return placeLocation?.featuredImg ?? ""
-    }
-
     var placeIsCountry: Bool {
         return false
     }
@@ -110,6 +105,7 @@ extension PlaceJSON: CustomDebugStringConvertible {
     dynamic var id: Int = 0
     dynamic var lat: Double = 0
     dynamic var long: Double = 0
+    dynamic var placeImage: String = ""
     dynamic var placeLocation: Location?
     dynamic var placeVisitors: Int = 0
     dynamic var regionName: String = ""
@@ -130,6 +126,7 @@ extension PlaceJSON: CustomDebugStringConvertible {
         id = from.id
         lat = from.lat
         long = from.long
+        placeImage = from.img ?? ""
         placeLocation = controller.location(id: from.location.id)
         placeVisitors = from.visitors
         regionName = placeLocation?.regionName ?? Localized.unknown()
@@ -173,6 +170,7 @@ extension Beach: PlaceInfo {
     dynamic var id: Int = 0
     dynamic var lat: Double = 0
     dynamic var long: Double = 0
+    dynamic var placeImage: String = ""
     dynamic var placeLocation: Location?
     dynamic var placeVisitors: Int = 0
     dynamic var regionName: String = ""
@@ -193,6 +191,7 @@ extension Beach: PlaceInfo {
         id = from.id
         lat = from.lat
         long = from.long
+        placeImage = from.img ?? ""
         placeLocation = controller.location(id: from.location.id)
         placeVisitors = from.visitors
         regionName = placeLocation?.regionName ?? Localized.unknown()
@@ -236,6 +235,7 @@ extension DiveSite: PlaceInfo {
     dynamic var id: Int = 0
     dynamic var lat: Double = 0
     dynamic var long: Double = 0
+    dynamic var placeImage: String = ""
     dynamic var placeLocation: Location?
     dynamic var placeVisitors: Int = 0
     dynamic var regionName: String = ""
@@ -256,6 +256,7 @@ extension DiveSite: PlaceInfo {
         id = from.id
         lat = from.lat
         long = from.long
+        placeImage = from.img ?? ""
         placeLocation = controller.location(id: from.location.id)
         placeVisitors = from.visitors
         regionName = placeLocation?.regionName ?? Localized.unknown()

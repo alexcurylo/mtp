@@ -44,9 +44,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>MTP needs your location to show you nearby places to visit. With "Always" access, MTP can notify you when you approach places.</string>
+	<string>MTP needs your location to show you nearby places to visit. With &quot;Always&quot; access, MTP can notify you when you approach places.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>With "Always" access, MTP can notify you when you approach places.</string>
+	<string>With &quot;Always&quot; access, MTP can notify you when you approach places.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>MTP needs your location to show you nearby places to visit.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
@@ -82,5 +82,10 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

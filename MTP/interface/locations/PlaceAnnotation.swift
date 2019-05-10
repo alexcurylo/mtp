@@ -4,6 +4,7 @@ import MapKit
 
 protocol PlaceAnnotationDelegate: AnyObject {
 
+    func close(callout: PlaceAnnotation)
     func show(location: PlaceAnnotation)
 }
 
@@ -17,7 +18,6 @@ final class PlaceAnnotation: NSObject, MKAnnotation {
     let image: String?
     let country: String?
     let visitors: Int
-
     let type: Checklist
     let id: Int
     var identifier: String {
@@ -36,11 +36,12 @@ final class PlaceAnnotation: NSObject, MKAnnotation {
           image: String) {
         guard !coordinate.isZero else { return nil }
 
+        self.coordinate = coordinate
+        self.subtitle = title
+
         self.type = type
         self.id = id
-        self.coordinate = coordinate
         self.delegate = delegate
-        self.subtitle = title
         self.country = country
         self.visitors = visitors
         self.image = image
@@ -88,8 +89,13 @@ final class PlaceAnnotation: NSObject, MKAnnotation {
     }
 
     var imageUrl: URL? {
-        guard let uuid = image, !uuid.isEmpty else { return nil }
-        let target = MTP.picture(uuid: uuid, size: .any)
-        return target.requestUrl
+        guard let image = image, !image.isEmpty else { return nil }
+
+        if image.hasPrefix("http") {
+            return URL(string: image)
+        } else {
+            let target = MTP.picture(uuid: image, size: .any)
+            return target.requestUrl
+        }
     }
 }

@@ -8,6 +8,7 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
     enum Layout {
         static let width = CGFloat(260)
         static let imageSize = CGSize(width: width, height: 150)
+        static let closeOutset = CGFloat(6)
     }
 
     let featuredImage = UIImageView {
@@ -77,7 +78,7 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         glyphImage = place.listImage
         glyphText = nil
 
-        featuredImage.set(thumbnail: place)
+        // this is called at startup, don't set image here
         category.text = place.type.category.uppercased()
         name.text = place.subtitle
         country.text = place.country
@@ -85,6 +86,13 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
 
         detailCalloutAccessoryView = detailView(place: place)
    }
+
+    func prepareForCallout() {
+        guard let place = annotation as? PlaceAnnotation,
+              featuredImage.image == nil else { return }
+
+        featuredImage.set(thumbnail: place)
+    }
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -113,18 +121,33 @@ private extension PlaceAnnotationView {
         place.show()
     }
 
+    @objc func closeTapped(_ sender: UIButton) {
+        guard let place = annotation as? PlaceAnnotation else { return }
+
+        place.delegate?.close(callout: place)
+    }
+
     func detailView(place: PlaceAnnotation) -> UIView {
 
-        log.todo("add close button?")
-        /*
         let holder = UIView {
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.addSubview(featuredImage)
-            $0.horizontalAnchors == featuredImage.horizontalAnchors
-            $0.bottomAnchor == featuredImage.bottomAnchor + 10
-            $0.heightAnchor == 150
+            $0.heightAnchor == Layout.imageSize.height + Layout.closeOutset
+            $0.widthAnchor == Layout.imageSize.width
+            featuredImage.centerXAnchor == $0.centerXAnchor
+            featuredImage.bottomAnchor == $0.bottomAnchor
         }
-         */
+
+        _ = UIButton {
+            $0.setImage(R.image.buttonCloseOutlined(), for: .normal)
+            holder.addSubview($0)
+            $0.topAnchor == holder.topAnchor
+            $0.trailingAnchor == holder.trailingAnchor + Layout.closeOutset
+            $0.addTarget(self,
+                         action: #selector(closeTapped),
+                         for: .touchUpInside)
+        }
+
         let nameStack = UIStackView(arrangedSubviews: [category,
                                                        name])
         nameStack.axis = .vertical
@@ -144,7 +167,7 @@ private extension PlaceAnnotationView {
                            action: #selector(showMoreTapped),
                            for: .touchUpInside)
 
-        let stack = UIStackView(arrangedSubviews: [featuredImage, //holder,
+        let stack = UIStackView(arrangedSubviews: [holder,
                                                    nameStack,
                                                    detailStack,
                                                    showMore,
