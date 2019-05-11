@@ -77,8 +77,8 @@ extension WHSJSON: CustomDebugStringConvertible {
         lat = from.lat
         long = from.long
         parentId = from.parentId ?? 0
-        // log.todo("Where is place image?")
-        placeImage = ""
+        let format = "https://whc.unesco.org/uploads/sites/gallery/original/site_%04d_0001.jpg"
+        placeImage = String(format: format, from.id)
         placeVisitors = from.visitors
         regionName = placeLocation?.regionName ?? Localized.unknown()
         title = from.title

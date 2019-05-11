@@ -132,7 +132,7 @@ final class LocationPhotoCell: UICollectionViewCell {
     }
 
     fileprivate func set(photo: Photo?) {
-        imageView?.set(thumbnail: photo)
+        imageView?.load(image: photo)
     }
 
     override func prepareForReuse() {

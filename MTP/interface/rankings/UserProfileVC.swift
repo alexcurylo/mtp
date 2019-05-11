@@ -94,7 +94,7 @@ private extension UserProfileVC {
     func configure() {
         guard let user = user else { return }
 
-        avatarImageView?.set(thumbnail: user)
+        avatarImageView?.load(image: user)
         fullNameLabel?.text = user.fullName
         countryLabel?.text = user.locationName
     }

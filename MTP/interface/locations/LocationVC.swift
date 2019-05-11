@@ -111,7 +111,7 @@ private extension LocationVC {
     func configure() {
         guard let place = place else { return }
 
-        avatarImageView?.set(thumbnail: place)
+        avatarImageView?.load(image: place)
         fullNameLabel?.text = place.title
         countryLabel?.text = place.subtitle
 

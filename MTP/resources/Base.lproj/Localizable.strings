@@ -29,7 +29,7 @@
 
 "location" = "MTP Location";
 "uncountry" = "UN Country";
-"whs" = "World Heritage Site";
+"whs" = "Heritage Site";
 "beach" = "Beach";
 "golfcourse" = "Golf Course";
 "divesite" = "Dive Site";
@@ -37,6 +37,8 @@
 
 "visitors" = "MTP Visitors: %@";
 
+"visited" = "Visited";
+"notVisited" = "Not Visited";
 "showMore" = "Show More";
 
 // LocationTracker
@@ -58,8 +60,8 @@
 "following" = "%@ Following";
 
 "ranking" = "MTP ranking: %@";
-"visited" = "Visited: %ld";
-"remaining" = "Remaining: %ld";
+"visitedCount" = "Visited: %ld";
+"remainingCount" = "Remaining: %ld";
 
 "locationCount" = "%@ (%ld)";
 "locationVisitedCount" = "%@ (%ld/%ld)";

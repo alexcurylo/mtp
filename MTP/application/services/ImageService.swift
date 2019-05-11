@@ -12,75 +12,27 @@ extension UIImageView {
         isHidden = false
     }
 
-    func set(thumbnail location: Location?) {
-        let placeholder = R.image.placeholderThumb()
-        guard let url = location?.imageUrl else {
-            image = placeholder
-            return
-        }
+    func load(image location: Location?) {
+        load(image: location?.imageUrl)
+    }
 
-        Nuke.loadImage(
-            with: url,
-            options: ImageLoadingOptions(
-                placeholder: placeholder,
-                transition: .fadeIn(duration: 0.2)
-            ),
-            into: self
+    func load(image place: PlaceAnnotation?) {
+        load(image: place?.imageUrl,
+             placeholder: R.image.placeholderMedium()
         )
     }
 
-    func set(thumbnail place: PlaceAnnotation?) {
-        let placeholder = R.image.placeholderThumb()
-        guard let url = place?.imageUrl else {
-            image = placeholder
-            return
-        }
+    func load(image photo: Photo?) {
+        load(image: photo?.imageUrl)
+    }
 
-        Nuke.loadImage(
-            with: url,
-            options: ImageLoadingOptions(
-                placeholder: placeholder,
-                transition: .fadeIn(duration: 0.2)
-            ),
-            into: self
+    func load(image user: UserAvatar) {
+        load(image: user.imageUrl,
+             placeholder: user.placeholder
         )
     }
 
-    func set(thumbnail photo: Photo?) {
-        let placeholder = R.image.placeholderThumb()
-        guard let url = photo?.imageUrl else {
-            image = placeholder
-            return
-        }
-
-        Nuke.loadImage(
-            with: url,
-            options: ImageLoadingOptions(
-                placeholder: placeholder,
-                transition: .fadeIn(duration: 0.2)
-            ),
-            into: self
-        )
-    }
-
-    func set(thumbnail user: UserAvatar) {
-        let placeholder = user.placeholder
-        guard let url = user.imageUrl else {
-            image = placeholder
-            return
-        }
-
-        Nuke.loadImage(
-            with: url,
-            options: ImageLoadingOptions(
-                placeholder: placeholder,
-                transition: .fadeIn(duration: 0.2)
-            ),
-            into: self
-        )
-    }
-
-    func set(thumbnail html: String) -> Bool {
+    func load(image html: String) -> Bool {
         // example pattern, 30 characters prefix and 1 character suffix:
         // src="/api/files/preview?uuid=7FgX3ruwM4j5heCyrAAaq8"
         guard let range = html.range(
@@ -94,12 +46,19 @@ extension UIImageView {
         let match = String(html[range])
         let uuid = String(match[29...match.count - 2])
         let target = MTP.picture(uuid: uuid, size: .thumb)
-        guard let url = target.requestUrl else {
-            image = nil
+
+        return load(image: target.requestUrl)
+    }
+
+    @discardableResult private func load(
+        image url: URL?,
+        placeholder: UIImage? = R.image.placeholderThumb()
+    ) -> Bool {
+        guard let url = url else {
+            image = placeholder
             return false
         }
 
-        let placeholder = R.image.placeholderThumb()
         Nuke.loadImage(
             with: url,
             options: ImageLoadingOptions(

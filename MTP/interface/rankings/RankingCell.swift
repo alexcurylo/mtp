@@ -93,17 +93,17 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
             return
         }
 
-        avatarImageView.set(thumbnail: user)
+        avatarImageView.load(image: user)
 
         let order = list.order(of: user)
         rankLabel.text = order > 0 ? order.grouped : Localized.deceased()
 
         let status = list.status(of: user)
         visitedButton.isHidden = false
-        let visited = Localized.visited(status.visited)
+        let visited = Localized.visitedCount(status.visited)
         visitedButton.setTitle(visited, for: .normal)
         remainingButton.isHidden = false
-        let remaining = Localized.remaining(status.remaining)
+        let remaining = Localized.remainingCount(status.remaining)
         remainingButton.setTitle(remaining, for: .normal)
     }
 

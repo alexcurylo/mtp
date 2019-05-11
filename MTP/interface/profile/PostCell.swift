@@ -129,7 +129,7 @@ private extension PostCell {
     }
 
     func setImage(html: String) {
-        if imageView.set(thumbnail: html) {
+        if imageView.load(image: html) {
             imageView.isHidden = false
             let exclude = imageView.frame.insetBy(dx: -layout.padding, dy: 0)
             let imagePath = UIBezierPath(rect: exclude)

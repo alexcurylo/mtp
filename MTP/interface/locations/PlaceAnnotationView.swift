@@ -11,7 +11,7 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         static let closeOutset = CGFloat(6)
     }
 
-    let featuredImage = UIImageView {
+    let placeImage = UIImageView {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.contentMode = .scaleAspectFill
         $0.sizeAnchors == Layout.imageSize
@@ -20,20 +20,35 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
 
     let category = UILabel {
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
         $0.font = Avenir.medium.of(size: 13)
         $0.textColor = .darkText
+    }
+
+    let visitedLabel = UILabel {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.setContentHuggingPriority(.required, for: .horizontal)
+        $0.font = Avenir.medium.of(size: 13)
+        $0.textColor = .darkText
+    }
+
+    let visitSwitch = UISwitch {
+        $0.styleAsFilter()
+        $0.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
     }
 
     let name = UILabel {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = Avenir.heavy.of(size: 18)
         $0.textColor = .darkText
+        $0.numberOfLines = 0
     }
 
     let country = UILabel {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.font = Avenir.heavy.of(size: 15)
+        $0.font = Avenir.heavy.of(size: 14)
         $0.textColor = .darkText
+        $0.numberOfLines = 0
     }
 
     let visitors = UILabel {
@@ -63,6 +78,13 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         canShowCallout = true
         titleVisibility = .hidden
         subtitleVisibility = .visible
+
+        visitSwitch.addTarget(self,
+                              action: #selector(toggleVisit),
+                              for: .valueChanged)
+        showMore.addTarget(self,
+                           action: #selector(showMoreTapped),
+                           for: .touchUpInside)
     }
 
     @available(*, unavailable)
@@ -80,6 +102,7 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
 
         // this is called at startup, don't set image here
         category.text = place.type.category.uppercased()
+        show(visited: place.isVisited)
         name.text = place.subtitle
         country.text = place.country
         visitors.text = Localized.visitors(place.visitors.grouped)
@@ -89,15 +112,15 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
 
     func prepareForCallout() {
         guard let place = annotation as? PlaceAnnotation,
-              featuredImage.image == nil else { return }
+              placeImage.image == nil else { return }
 
-        featuredImage.set(thumbnail: place)
+        placeImage.load(image: place)
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        featuredImage.prepareForReuse()
+        placeImage.prepareForReuse()
         markerTintColor = nil
         glyphText = nil
         glyphImage = nil
@@ -113,7 +136,10 @@ private extension PlaceAnnotationView {
 
     @objc func toggleVisit(_ sender: UISwitch) {
         guard let place = annotation as? PlaceAnnotation else { return }
-        place.visited = sender.isOn
+
+        let isVisited = sender.isOn
+        place.isVisited = isVisited
+        show(visited: isVisited)
     }
 
     @objc func showMoreTapped(_ sender: GradientButton) {
@@ -127,15 +153,39 @@ private extension PlaceAnnotationView {
         place.delegate?.close(callout: place)
     }
 
+    func show(visited: Bool) {
+        visitedLabel.text = (visited ? Localized.visited() : Localized.notVisited()).uppercased()
+        visitSwitch.isOn = visited
+    }
+
     func detailView(place: PlaceAnnotation) -> UIView {
 
+        let bottomSpacer = UIView {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.heightAnchor == 2
+        }
+
+        let stack = UIStackView(arrangedSubviews: [topView,
+                                                   categoryStack,
+                                                   detailStack,
+                                                   showMore,
+                                                   bottomSpacer
+                                                   ])
+        stack.axis = .vertical
+        stack.spacing = 4
+        stack.widthAnchor == Layout.width
+
+        return stack
+    }
+
+    var topView: UIView {
         let holder = UIView {
             $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.addSubview(featuredImage)
+            $0.addSubview(placeImage)
             $0.heightAnchor == Layout.imageSize.height + Layout.closeOutset
             $0.widthAnchor == Layout.imageSize.width
-            featuredImage.centerXAnchor == $0.centerXAnchor
-            featuredImage.bottomAnchor == $0.bottomAnchor
+            placeImage.centerXAnchor == $0.centerXAnchor
+            placeImage.bottomAnchor == $0.bottomAnchor
         }
 
         _ = UIButton {
@@ -148,35 +198,25 @@ private extension PlaceAnnotationView {
                          for: .touchUpInside)
         }
 
-        let nameStack = UIStackView(arrangedSubviews: [category,
-                                                       name])
-        nameStack.axis = .vertical
-        nameStack.spacing = 0
+        return holder
+    }
 
-        let detailStack = UIStackView(arrangedSubviews: [country,
+    var categoryStack: UIStackView {
+        let categoryStack = UIStackView(arrangedSubviews: [category,
+                                                           visitedLabel,
+                                                           visitSwitch])
+        categoryStack.alignment = .center
+
+        return categoryStack
+    }
+
+    var detailStack: UIStackView {
+        let detailStack = UIStackView(arrangedSubviews: [name,
+                                                         country,
                                                          visitors])
         detailStack.axis = .vertical
         detailStack.spacing = 0
 
-        let bottomSpacer = UIView {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.heightAnchor == 2
-        }
-
-        showMore.addTarget(self,
-                           action: #selector(showMoreTapped),
-                           for: .touchUpInside)
-
-        let stack = UIStackView(arrangedSubviews: [holder,
-                                                   nameStack,
-                                                   detailStack,
-                                                   showMore,
-                                                   bottomSpacer
-                                                   ])
-        stack.axis = .vertical
-        stack.spacing = 4
-        stack.widthAnchor == Layout.width
-
-        return stack
+        return detailStack
     }
 }

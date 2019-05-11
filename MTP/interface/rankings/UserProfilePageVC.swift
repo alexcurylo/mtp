@@ -82,9 +82,9 @@ extension UserProfileVC.Tab {
     func title(status: Checklist.Status) -> String {
         switch self {
         case .visited:
-            return Localized.visited(status.visited)
+            return Localized.visitedCount(status.visited)
         case .remaining:
-            return Localized.remaining(status.remaining)
+            return Localized.remainingCount(status.remaining)
        }
     }
 
@@ -100,9 +100,9 @@ extension UserProfileVC.Tab {
     func title(scorecard: Scorecard) -> String {
         switch self {
         case .visited:
-            return Localized.visited(scorecard.visited)
+            return Localized.visitedCount(scorecard.visited)
         case .remaining:
-            return Localized.remaining(scorecard.remaining)
+            return Localized.remainingCount(scorecard.remaining)
         }
     }
 

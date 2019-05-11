@@ -71,7 +71,7 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
             lines?.insertArrangedSubview(rankView, at: 0)
         }
 
-        avatarImageView.set(thumbnail: user)
+        avatarImageView.load(image: user)
 
         let status = list.status(of: user)
         let visitedText = status.visited.grouped

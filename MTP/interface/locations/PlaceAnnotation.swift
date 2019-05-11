@@ -73,7 +73,7 @@ final class PlaceAnnotation: NSObject, MKAnnotation {
         return type.image
     }
 
-    var visited: Bool {
+    var isVisited: Bool {
         get {
             return type.isVisited(id: id)
         }
