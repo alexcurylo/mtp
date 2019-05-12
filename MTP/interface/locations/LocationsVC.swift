@@ -75,8 +75,21 @@ final class LocationsVC: UIViewController {
         switch segue.identifier {
         case Segues.showFilter.identifier:
             break
-        case Segues.showList.identifier:
-            log.todo("implement locations list")
+        case Segues.showNearby.identifier:
+            let nearby = Segues.showNearby(segue: segue)?.destination
+            let center: CLLocationCoordinate2D
+            if let mapView = mapView {
+                center = mapView.userLocation.location?.coordinate ?? mapView.centerCoordinate
+            } else {
+                center = .zero
+            }
+            let sets = [beachesAnnotations,
+                        divesitesAnnotations,
+                        golfcoursesAnnotations,
+                        locationsAnnotations,
+                        restaurantsAnnotations,
+                        whssAnnotations]
+            nearby?.inject(model: (center: center, annotations: sets))
         case Segues.showLocation.identifier:
             if let location = Segues.showLocation(segue: segue)?.destination,
                let selected = selected {
@@ -102,24 +115,28 @@ final class LocationsVC: UIViewController {
         navigationController?.popToRootViewController(animated: false)
         zoom(to: coordinate, device: false)
     }
-
-    func reveal(place: PlaceAnnotation?) {
-        guard let coordinate = place?.coordinate else { return }
-
-        navigationController?.popToRootViewController(animated: false)
-        zoom(to: coordinate, device: false)
-    }
 }
 
 extension LocationsVC: PlaceAnnotationDelegate {
 
-    func close(callout: PlaceAnnotation) {
-        mapView?.deselectAnnotation(callout, animated: true)
+    func close(place: PlaceAnnotation) {
+        mapView?.deselectAnnotation(place, animated: true)
     }
 
-    func show(location: PlaceAnnotation) {
-        selected = location
-        close(callout: location)
+    func reveal(place: PlaceAnnotation?,
+                callout: Bool) {
+        guard let place = place else { return }
+
+        navigationController?.popToRootViewController(animated: false)
+        zoom(to: place.coordinate, device: false)
+        if callout {
+            mapView?.selectAnnotation(place, animated: false)
+        }
+    }
+
+    func show(place: PlaceAnnotation) {
+        selected = place
+        close(place: place)
         performSegue(withIdentifier: Segues.showLocation, sender: self)
     }
 }
@@ -387,7 +404,7 @@ extension LocationsVC: MKMapViewDelegate {
         switch annotation {
         case let place as PlaceAnnotation:
             return mapView.dequeueReusableAnnotationView(
-                withIdentifier: place.identifier,
+                withIdentifier: place.reuseIdentifier,
                 for: place
             )
         case let cluster as MKClusterAnnotation:

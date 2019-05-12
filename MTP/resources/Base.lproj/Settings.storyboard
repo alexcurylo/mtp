@@ -374,7 +374,6 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <outlet property="answerLabel" destination="z98-9n-jxS" id="3YD-Wt-Lzf"/>
-                                    <outlet property="contentStack" destination="rLG-Xl-Ge0" id="5B9-Hl-ijU"/>
                                     <outlet property="questionLabel" destination="y9l-jw-oTv" id="Mhp-12-1eZ"/>
                                     <outlet property="toggleButton" destination="MhB-W6-P9E" id="Uzi-Sj-Fch"/>
                                 </connections>

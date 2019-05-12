@@ -83,7 +83,7 @@ final class FaqVC: UITableViewController, ServiceProvider {
         tableView.backgroundView = backgroundView
         tableView.tableFooterView = UIView()
 
-        tableView.estimatedRowHeight = 88
+        tableView.estimatedRowHeight = UITableView.automaticDimension
         tableView.rowHeight = UITableView.automaticDimension
     }
 
@@ -191,7 +191,6 @@ struct FaqCellModel {
 
 final class FaqCell: UITableViewCell {
 
-    @IBOutlet private var contentStack: UIStackView?
     @IBOutlet private var questionLabel: UILabel?
     @IBOutlet private var answerLabel: UILabel?
     @IBOutlet private var toggleButton: UIButton?
@@ -210,14 +209,14 @@ final class FaqCell: UITableViewCell {
     }
 
     override func prepareForReuse() {
+        super.prepareForReuse()
+
         index = 0
         delegate = nil
         questionLabel?.text = nil
         answerLabel?.text = nil
         toggleButton?.isSelected = false
         setAnswerShown()
-
-        super.prepareForReuse()
     }
 
     func set(model: FaqCellModel,

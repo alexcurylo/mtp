@@ -117,6 +117,7 @@
 		FA7C2012221C2F20002C6DAB /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7C2011221C2F20002C6DAB /* Photo.swift */; };
 		FA7C2014222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7C2013222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift */; };
 		FA81361220E8F64500313AB9 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FA81361120E8F64500313AB9 /* Settings.bundle */; };
+		FA815B712286D138004B91C8 /* NearbyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA815B702286D138004B91C8 /* NearbyVC.swift */; };
 		FA835D34210EAC110098C270 /* Styler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA835D33210EAC110098C270 /* Styler.swift */; };
 		FA835D36210F054F0098C270 /* ReplaceTopSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */; };
 		FA8833E12209BF570037C796 /* RealmSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8833E02209BF570037C796 /* RealmSearchViewController.swift */; };
@@ -311,6 +312,7 @@
 		FA7C2013222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate2D+Equatable.swift"; sourceTree = "<group>"; };
 		FA81361120E8F64500313AB9 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		FA81361320E8FD4E00313AB9 /* script_build_end.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = script_build_end.sh; sourceTree = "<group>"; };
+		FA815B702286D138004B91C8 /* NearbyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyVC.swift; sourceTree = "<group>"; };
 		FA835D33210EAC110098C270 /* Styler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styler.swift; sourceTree = "<group>"; };
 		FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplaceTopSegue.swift; sourceTree = "<group>"; };
 		FA8833E02209BF570037C796 /* RealmSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmSearchViewController.swift; sourceTree = "<group>"; };
@@ -651,6 +653,7 @@
 				FA392BBC20DF69F30026C828 /* LocationsVC.swift */,
 				FAA818FD22447EAB00BB9F92 /* LocationVC.swift */,
 				8C617971223F2D79000827D6 /* LocationsFilterVC.swift */,
+				FA815B702286D138004B91C8 /* NearbyVC.swift */,
 				FA5AC0B321FC49860080F84F /* PlaceAnnotation.swift */,
 				FA5AC0B521FC4EBE0080F84F /* PlaceAnnotationView.swift */,
 				FA5AC0B721FD4A160080F84F /* PlaceClusterAnnotationView.swift */,
@@ -1205,6 +1208,7 @@
 				FA392BBB20DF69F30026C828 /* ActionHandler.swift in Sources */,
 				FAD2B51C21F4A675009FFDD7 /* Restaurant.swift in Sources */,
 				FA463780210DE94C0007382D /* EditProfileVC.swift in Sources */,
+				FA815B712286D138004B91C8 /* NearbyVC.swift in Sources */,
 				FA254DCB21685D6800FC9360 /* Withable.swift in Sources */,
 				FAD2B51321F45796009FFDD7 /* PlaceLocation.swift in Sources */,
 				FA99615F2136CF3100C85FBC /* MyProfilePagingVC.swift in Sources */,

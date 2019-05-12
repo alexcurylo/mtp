@@ -18,7 +18,7 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         $0.clipsToBounds = true
     }
 
-    let category = UILabel {
+    let categoryLabel = UILabel {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
         $0.font = Avenir.medium.of(size: 13)
@@ -37,27 +37,27 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         $0.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
     }
 
-    let name = UILabel {
+    let nameLabel = UILabel {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = Avenir.heavy.of(size: 18)
         $0.textColor = .darkText
         $0.numberOfLines = 0
     }
 
-    let country = UILabel {
+    let countryLabel = UILabel {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = Avenir.heavy.of(size: 14)
         $0.textColor = .darkText
         $0.numberOfLines = 0
     }
 
-    let visitors = UILabel {
+    let visitorsLabel = UILabel {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = Avenir.medium.of(size: 13)
         $0.textColor = .darkText
     }
 
-    let showMore = GradientButton {
+    let showMoreButton = GradientButton {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.orientation = GradientOrientation.horizontal.rawValue
         $0.startColor = .dodgerBlue
@@ -82,9 +82,9 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         visitSwitch.addTarget(self,
                               action: #selector(toggleVisit),
                               for: .valueChanged)
-        showMore.addTarget(self,
-                           action: #selector(showMoreTapped),
-                           for: .touchUpInside)
+        showMoreButton.addTarget(self,
+                                 action: #selector(showMoreTapped),
+                                 for: .touchUpInside)
     }
 
     @available(*, unavailable)
@@ -101,11 +101,11 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         glyphText = nil
 
         // this is called at startup, don't set image here
-        category.text = place.type.category.uppercased()
+        categoryLabel.text = place.type.category.uppercased()
         show(visited: place.isVisited)
-        name.text = place.subtitle
-        country.text = place.country
-        visitors.text = Localized.visitors(place.visitors.grouped)
+        nameLabel.text = place.subtitle
+        countryLabel.text = place.country
+        visitorsLabel.text = Localized.visitors(place.visitors.grouped)
 
         detailCalloutAccessoryView = detailView(place: place)
    }
@@ -150,7 +150,7 @@ private extension PlaceAnnotationView {
     @objc func closeTapped(_ sender: UIButton) {
         guard let place = annotation as? PlaceAnnotation else { return }
 
-        place.delegate?.close(callout: place)
+        place.delegate?.close(place: place)
     }
 
     func show(visited: Bool) {
@@ -168,7 +168,7 @@ private extension PlaceAnnotationView {
         let stack = UIStackView(arrangedSubviews: [topView,
                                                    categoryStack,
                                                    detailStack,
-                                                   showMore,
+                                                   showMoreButton,
                                                    bottomSpacer
                                                    ])
         stack.axis = .vertical
@@ -202,7 +202,7 @@ private extension PlaceAnnotationView {
     }
 
     var categoryStack: UIStackView {
-        let categoryStack = UIStackView(arrangedSubviews: [category,
+        let categoryStack = UIStackView(arrangedSubviews: [categoryLabel,
                                                            visitedLabel,
                                                            visitSwitch])
         categoryStack.alignment = .center
@@ -211,9 +211,9 @@ private extension PlaceAnnotationView {
     }
 
     var detailStack: UIStackView {
-        let detailStack = UIStackView(arrangedSubviews: [name,
-                                                         country,
-                                                         visitors])
+        let detailStack = UIStackView(arrangedSubviews: [nameLabel,
+                                                         countryLabel,
+                                                         visitorsLabel])
         detailStack.axis = .vertical
         detailStack.spacing = 0
 

@@ -4,8 +4,10 @@ import MapKit
 
 protocol PlaceAnnotationDelegate: AnyObject {
 
-    func close(callout: PlaceAnnotation)
-    func show(location: PlaceAnnotation)
+    func close(place: PlaceAnnotation)
+    func reveal(place: PlaceAnnotation?,
+                callout: Bool)
+    func show(place: PlaceAnnotation)
 }
 
 final class PlaceAnnotation: NSObject, MKAnnotation {
@@ -14,15 +16,19 @@ final class PlaceAnnotation: NSObject, MKAnnotation {
     @objc dynamic var coordinate: CLLocationCoordinate2D
     let title: String? = nil
     let subtitle: String?
+    // MKAnnotationView
+    var reuseIdentifier: String {
+        return type.rawValue
+    }
 
     let image: String?
     let country: String?
     let visitors: Int
     let type: Checklist
     let id: Int
-    var identifier: String {
-        return type.rawValue
-    }
+
+    // only valid when displayed on NearbyVC
+    var distance: CLLocationDistance = 0
 
     weak var delegate: PlaceAnnotationDelegate?
 
@@ -50,7 +56,7 @@ final class PlaceAnnotation: NSObject, MKAnnotation {
     }
 
     override var hash: Int {
-        return title.hashValue ^ identifier.hashValue
+        return title.hashValue ^ reuseIdentifier.hashValue
     }
 
     override func isEqual(_ object: Any?) -> Bool {
@@ -84,8 +90,12 @@ final class PlaceAnnotation: NSObject, MKAnnotation {
         }
     }
 
+    func reveal(callout: Bool) {
+        delegate?.reveal(place: self, callout: callout)
+    }
+
     func show() {
-        delegate?.show(location: self)
+        delegate?.show(place: self)
     }
 
     var imageUrl: URL? {
@@ -97,5 +107,23 @@ final class PlaceAnnotation: NSObject, MKAnnotation {
             let target = MTP.picture(uuid: image, size: .any)
             return target.requestUrl
         }
+    }
+
+    func setDistance(from: CLLocationCoordinate2D) {
+        distance = coordinate.distance(from: from)
+    }
+
+    var formattedDistance: String {
+        let km = distance / 1_000
+        let formatted: String
+        switch km {
+        case ..<1:
+            formatted = String(format: "%.2f", km)
+        case ..<10:
+            formatted = String(format: "%.1f", km)
+        default:
+            formatted = Int(km).grouped
+        }
+        return Localized.km(formatted)
     }
 }
