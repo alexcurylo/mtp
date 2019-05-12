@@ -28,7 +28,8 @@ final class MTPDelegate: RoutingAppDelegate {
             ServiceHandler(),
             LaunchHandler(),
             StateHandler(),
-            ActionHandler()
+            ActionHandler(),
+            NotificationsHandler()
         ]
     }
 }

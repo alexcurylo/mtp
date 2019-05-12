@@ -428,7 +428,6 @@ extension SignupVC: UITextFieldDelegate {
         return true
     }
 
-    // swiftlint:disable:next cyclomatic_complexity
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case emailTextField:

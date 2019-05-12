@@ -1,5 +1,6 @@
 // @copyright Trollwerks Inc.
 
+import CoreLocation
 import UIKit
 
 struct ChecklistFlags: Codable, Equatable {
@@ -97,8 +98,12 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         }
     }
 
+    func isTriggered(id: Int) -> Bool {
+        return triggered.contains(id)
+    }
+
     func isVisited(id: Int) -> Bool {
-        return visits.contains(id)
+        return visited.contains(id)
     }
 
     var places: [PlaceInfo] {
@@ -123,13 +128,25 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
     }
 
     func set(id: Int,
+             triggered: Bool) {
+        guard isTriggered(id: id) != triggered else { return }
+
+        if data.triggered == nil {
+            data.triggered = Checked()
+        }
+        data.triggered?.set(list: self,
+                            id: id,
+                            triggered: triggered)
+    }
+
+    func set(id: Int,
              visited: Bool) {
         guard self != .uncountries,
               isVisited(id: id) != visited else { return }
 
-        data.checklists?.set(list: self,
-                             id: id,
-                             visited: visited)
+        data.visited?.set(list: self,
+                          id: id,
+                          visited: visited)
     }
 
     func rank(of user: UserJSON? = nil) -> Int {
@@ -175,7 +192,7 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         case .restaurants:
             total = data.restaurants.count
         }
-        let complete = visited(of: user)
+        let complete = visits(of: user)
         return (complete, total - complete)
     }
 
@@ -217,7 +234,7 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         }
     }
 
-    func visited(of user: UserInfo) -> Int {
+    func visits(of user: UserInfo) -> Int {
         switch self {
         case .locations:
             return user.visitLocations
@@ -255,24 +272,64 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         }
     }
 
-    var visits: [Int] {
-        guard let checklists = data.checklists else { return [] }
+    var visited: [Int] {
+        guard let visited = data.visited else { return [] }
 
         switch self {
         case .locations:
-            return checklists.locations
+            return visited.locations
         case .uncountries:
-            return checklists.uncountries
+            return visited.uncountries
         case .whss:
-            return checklists.whss
+            return visited.whss
         case .beaches:
-            return checklists.beaches
+            return visited.beaches
         case .golfcourses:
-            return checklists.golfcourses
+            return visited.golfcourses
         case .divesites:
-            return checklists.divesites
+            return visited.divesites
         case .restaurants:
-            return checklists.restaurants
+            return visited.restaurants
+        }
+    }
+
+    var triggerDistance: CLLocationDistance {
+        switch self {
+        case .locations:
+            return 1_600
+        case .uncountries:
+            return 0
+        case .whss:
+            return 1_600
+        case .beaches:
+            return 1_600
+        case .golfcourses:
+            return 1_600
+        case .divesites:
+            return 1_600
+        case .restaurants:
+            return 20
+        }
+    }
+
+    var triggered: [Int] {
+        guard let triggered = data.triggered else { return [] }
+
+        switch self {
+        case .locations:
+            return triggered.locations
+        case .uncountries:
+            return triggered.uncountries
+        case .whss:
+            return triggered.whss
+        case .beaches:
+            return triggered.beaches
+        case .golfcourses:
+            return triggered.golfcourses
+        case .divesites:
+            return triggered.divesites
+        case .restaurants:
+            return triggered.restaurants
         }
     }
 }

@@ -96,12 +96,14 @@ extension NearbyVC {
 
 extension NearbyVC: Injectable {
 
-    typealias Model = (center: CLLocationCoordinate2D,
+    typealias Model = (center: CLLocation?,
                        annotations: [Set<PlaceAnnotation>])
 
     @discardableResult func inject(model: Model) -> Self {
         places = model.annotations.flatMap { Array($0) }
-        places.forEach { $0.setDistance(from: model.center) }
+        if let center = model.center {
+            places.forEach { $0.setDistance(from: center, trigger: false) }
+        }
         places.sort { $0.distance < $1.distance }
 
         return self
@@ -163,7 +165,7 @@ final class NearbyCell: UITableViewCell {
 
         placeImage?.load(image: place)
         distanceLabel?.text = place.formattedDistance
-        categoryLabel?.text = place.type.category.uppercased()
+        categoryLabel?.text = place.list.category.uppercased()
         nameLabel?.text = place.subtitle
         countryLabel?.text = place.country
         visitorsLabel?.text = Localized.visitors(place.visitors.grouped)

@@ -111,7 +111,7 @@ struct WorldMap: ServiceProvider {
         context.setLineWidth(outline ? 1 / UIScreen.main.scale : 1)
         UIColor.white.setStroke()
 
-        let visits = data.checklists?.locations ?? []
+        let visits = data.visited?.locations ?? []
         locations.forEach { location in
             guard let path = location.path(at: origin) else { return }
             path.apply(scaleTransform)

@@ -23,15 +23,15 @@ final class UserProfilePageVC: CountsPageVC {
 
         let showVisited = tab == .visited
         let places = list.places
-        let visited = visits
-        guard !visited.isEmpty else { return showVisited ? [] : places }
+        let visits = visited
+        guard !visits.isEmpty else { return showVisited ? [] : places }
 
         return places.compactMap {
             let isVisited = visited.contains($0.placeId)
             return isVisited == showVisited ? $0 : nil
         }
     }
-    override var visits: [Int] {
+    override var visited: [Int] {
         if let scorecard = dataSource?.scorecard {
             return Array(scorecard.visits)
         } else {

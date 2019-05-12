@@ -24,11 +24,14 @@ extension LaunchHandler: AppLaunchHandler {
 
         configureAppearance()
 
+        configureNotifications()
+
         return true
     }
 }
 
 private extension LaunchHandler {
+
     func configureSettingsDisplay() {
         StringKey.infoDictionarySettingsKeys.copyToUserDefaults()
     }

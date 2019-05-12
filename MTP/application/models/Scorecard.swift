@@ -186,7 +186,7 @@ struct ScorecardJSON: Codable {
     let ageLevel: AgeLevel
     let labelPairs: LabelPairs
     let rank: RanksWrapper
-    let remainingByUser: UncertainValue<[Int: ScorecardLocationJSON], [Int]> // [] if empty
+    let remainingByUser: UncertainValue<[Int: ScorecardLocationJSON], [ScorecardLocationJSON]> // usually array if 1...2
     let scoreBeaches: Int?
     let scoreDivesites: Int?
     let scoreGolfcourses: Int?
@@ -198,7 +198,7 @@ struct ScorecardJSON: Codable {
     let user: ScorecardUserJSON
     let userId: String
     //let usersByRank: ScorecardRankedUsersWrapper
-    let visitedByUser: [Int: ScorecardLocationJSON]
+    let visitedByUser: UncertainValue<[Int: ScorecardLocationJSON], [ScorecardLocationJSON]> // usually array if 1...2
 }
 
 extension ScorecardJSON: CustomStringConvertible {
@@ -257,9 +257,22 @@ extension ScorecardJSON: CustomDebugStringConvertible {
 
         userId = Int(from.data.userId) ?? 0
         type = from.data.type
-        visited = from.data.visitedByUser.count
-        from.data.visitedByUser.forEach { visits.append($0.1.id) }
-        remaining = from.data.remainingByUser.tValue?.count ?? 0
+        if let visitedDict = from.data.visitedByUser.tValue {
+            visited = visitedDict.count
+            visitedDict.forEach { visits.append($0.1.id) }
+        } else if let visitedArray = from.data.visitedByUser.uValue {
+            visited = visitedArray.count
+            visitedArray.forEach { visits.append($0.id) }
+        } else {
+            visited = 0
+        }
+        if let remainingDict = from.data.remainingByUser.tValue {
+            remaining = remainingDict.count
+        } else if let remainingArray = from.data.remainingByUser.uValue {
+            remaining = remainingArray.count
+        } else {
+            remaining = 0
+        }
 
         age = from.data.ageLevel.min
         countryId = from.data.user.location.countryId ?? 0

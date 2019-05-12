@@ -12,7 +12,7 @@ class CountsPageVC: UIViewController, ServiceProvider {
     let list: Checklist
     var isEditable: Bool { return false }
     var places: [PlaceInfo] { return [] }
-    var visits: [Int] { return [] }
+    var visited: [Int] { return [] }
 
     private enum Layout {
         static let lineHeight = CGFloat(32)
@@ -99,7 +99,7 @@ class CountsPageVC: UIViewController, ServiceProvider {
     }
 
     func update() {
-        count(places: places, visits: visits)
+        count(places: places, visited: visited)
         collectionView.reloadData()
     }
 
@@ -384,7 +384,7 @@ private extension CountsPageVC {
     }
 
     func count(places: [PlaceInfo],
-               visits: [Int]) {
+               visited: [Int]) {
         let groupCountries = !list.isSubtitled
         regionsVisited = [:]
         countries = [:]
@@ -399,7 +399,7 @@ private extension CountsPageVC {
             regionsPlaces[region] = regionPlaces
 
             let regionVisited = regionPlaces.reduce(0) {
-                let parentVisit = $1.placeParent == nil && visits.contains($1.placeId)
+                let parentVisit = $1.placeParent == nil && visited.contains($1.placeId)
                 return $0 + (parentVisit ? 1 : 0)
             }
             regionsVisited[region] = regionVisited
@@ -415,7 +415,7 @@ private extension CountsPageVC {
             var countryVisits: [CountryKey: Int] = [:]
             for (country, subplaces) in parentPlaces {
                 let countryVisited = subplaces.reduce(0) {
-                    $0 + (visits.contains($1.placeId) ? 1 : 0)
+                    $0 + (visited.contains($1.placeId) ? 1 : 0)
                 }
                 countryVisits[country] = countryVisited
             }

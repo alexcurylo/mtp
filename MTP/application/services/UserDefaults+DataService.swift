@@ -4,29 +4,7 @@ import Foundation
 
 extension UserDefaults: ServiceProvider {
 
-    var checklists: Checklists? {
-        get {
-            do {
-                return try get(objectType: Checklists.self, forKey: #function)
-            } catch {
-                log.error("decoding checklists value: \(error)")
-                return nil
-            }
-        }
-        set {
-            guard let newValue = newValue else {
-                set(nil, forKey: #function)
-                return
-            }
-            do {
-                try set(object: newValue, forKey: #function)
-            } catch {
-                log.error("encoding checklists newValue: \(error)")
-            }
-        }
-    }
-
-    var email: String {
+     var email: String {
         get { return string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }
     }
@@ -98,6 +76,28 @@ extension UserDefaults: ServiceProvider {
         set { set(newValue, forKey: #function) }
     }
 
+    var triggered: Checked? {
+        get {
+            do {
+                return try get(objectType: Checked.self, forKey: #function)
+            } catch {
+                log.error("decoding visited value: \(error)")
+                return nil
+            }
+        }
+        set {
+            guard let newValue = newValue else {
+                set(nil, forKey: #function)
+                return
+            }
+            do {
+                try set(object: newValue, forKey: #function)
+            } catch {
+                log.error("encoding visited newValue: \(error)")
+            }
+        }
+    }
+
     var user: UserJSON? {
         get {
             do {
@@ -116,6 +116,28 @@ extension UserDefaults: ServiceProvider {
                 try set(object: newValue, forKey: #function)
             } catch {
                 log.error("encoding user newValue: \(error)")
+            }
+        }
+    }
+
+    var visited: Checked? {
+        get {
+            do {
+                return try get(objectType: Checked.self, forKey: #function)
+            } catch {
+                log.error("decoding visited value: \(error)")
+                return nil
+            }
+        }
+        set {
+            guard let newValue = newValue else {
+                set(nil, forKey: #function)
+                return
+            }
+            do {
+                try set(object: newValue, forKey: #function)
+            } catch {
+                log.error("encoding visited newValue: \(error)")
             }
         }
     }

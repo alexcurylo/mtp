@@ -417,7 +417,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadChecklists(then: @escaping MTPResult<Checklists> = { _ in }) {
+    func loadChecklists(then: @escaping MTPResult<Checked> = { _ in }) {
         guard data.isLoggedIn else {
             log.verbose("load checklists attempt invalid: not logged in")
             return then(.failure(.parameter))
@@ -437,11 +437,10 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.failure(.notModified))
                 }
                 do {
-                    let checklists = try result.map(Checklists.self,
-                                                    using: JSONDecoder.mtp)
-                    self.log.verbose("checklists: succeeded")
-                    self.data.checklists = checklists
-                    return then(.success(checklists))
+                    let visited = try result.map(Checked.self,
+                                                 using: JSONDecoder.mtp)
+                    self.data.visited = visited
+                    return then(.success(visited))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))

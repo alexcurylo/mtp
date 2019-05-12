@@ -5,6 +5,7 @@
 import Anchorage
 import MapKit
 import RealmSwift
+import UserNotifications
 
 final class LocationsVC: UIViewController {
 
@@ -34,8 +35,17 @@ final class LocationsVC: UIViewController {
     private var locationsAnnotations: Set<PlaceAnnotation> = []
     private var restaurantsAnnotations: Set<PlaceAnnotation> = []
     private var whssAnnotations: Set<PlaceAnnotation> = []
+    private var allAnnotations: [Set<PlaceAnnotation>] {
+        return [beachesAnnotations,
+                divesitesAnnotations,
+                golfcoursesAnnotations,
+                locationsAnnotations,
+                restaurantsAnnotations,
+                whssAnnotations]
+    }
 
     private var selected: PlaceAnnotation?
+    private var lastUserLocation: CLLocation?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,19 +87,13 @@ final class LocationsVC: UIViewController {
             break
         case Segues.showNearby.identifier:
             let nearby = Segues.showNearby(segue: segue)?.destination
-            let center: CLLocationCoordinate2D
-            if let mapView = mapView {
-                center = mapView.userLocation.location?.coordinate ?? mapView.centerCoordinate
+            let center: CLLocation?
+            if lastUserLocation?.coordinate != nil {
+                center = nil
             } else {
-                center = .zero
+                center = (mapView?.centerCoordinate ?? .zero).location
             }
-            let sets = [beachesAnnotations,
-                        divesitesAnnotations,
-                        golfcoursesAnnotations,
-                        locationsAnnotations,
-                        restaurantsAnnotations,
-                        whssAnnotations]
-            nearby?.inject(model: (center: center, annotations: sets))
+            nearby?.inject(model: (center: center, annotations: allAnnotations))
         case Segues.showLocation.identifier:
             if let location = Segues.showLocation(segue: segue)?.destination,
                let selected = selected {
@@ -121,6 +125,11 @@ extension LocationsVC: PlaceAnnotationDelegate {
 
     func close(place: PlaceAnnotation) {
         mapView?.deselectAnnotation(place, animated: true)
+    }
+
+    func notify(place: PlaceAnnotation) {
+        notifyForeground(place: place)
+        notifyBackground(place: place)
     }
 
     func reveal(place: PlaceAnnotation?,
@@ -274,7 +283,7 @@ private extension LocationsVC {
             }
 
             return PlaceAnnotation(
-                type: list,
+                list: list,
                 id: place.placeId,
                 coordinate: coordinate,
                 delegate: self,
@@ -356,6 +365,38 @@ private extension LocationsVC {
         let added = new.subtracting(whssAnnotations)
         mapView?.addAnnotations(Array(added))
         whssAnnotations.formUnion(added)
+    }
+
+    func notifyForeground(place: PlaceAnnotation) {
+        log.todo("foreground notification")
+    }
+
+    func notifyBackground(place: PlaceAnnotation) {
+        UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
+            switch settings.authorizationStatus {
+            case .authorized:
+                DispatchQueue.main.async { [weak self] in
+                    self?.postLocalNotification(place: place)
+                }
+            default:
+                break
+            }
+        }
+    }
+
+    func postLocalNotification(place: PlaceAnnotation) {
+        let content = UNMutableNotificationContent()
+        content.title = Localized.checkinTitle(place.list.category)
+        content.body = Localized.checkinMessage(place.subtitle ?? Localized.unknown())
+        content.categoryIdentifier = NotificationsHandler.visitCategory
+        content.userInfo = [NotificationsHandler.visitList: place.list.rawValue,
+                            NotificationsHandler.visitId: place.id]
+        content.sound = UNNotificationSound.default
+
+        let request = UNNotificationRequest(identifier: UUID().uuidString,
+                                            content: content,
+                                            trigger: nil)
+        UNUserNotificationCenter.current().add(request)
     }
 }
 
@@ -468,7 +509,16 @@ extension LocationsVC: LocationTracker {
 
     func locationManager(_ manager: CLLocationManager,
                          didUpdateLocations locations: [CLLocation]) {
+        guard let user = locations.last else { return }
+
+        lastUserLocation = user
+        allAnnotations.forEach {
+            $0.forEach {
+                $0.setDistance(from: user, trigger: true)
+            }
+        }
     }
+
     func locationManager(_ manager: CLLocationManager,
                          didUpdateHeading newHeading: CLHeading) {
     }

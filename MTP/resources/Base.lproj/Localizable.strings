@@ -42,6 +42,11 @@
 "notVisited" = "Not Visited";
 "showMore" = "Show More";
 
+"checkinTitle" = "%@ Checkin Available";
+"checkinMessage" = "You are near %@. Do you want to check in?";
+"checkinAction" = "Check in";
+"dismissAction" = "Dismiss";
+
 // LocationTracker
 
 "needLocationAccess" = "Need Location Access";

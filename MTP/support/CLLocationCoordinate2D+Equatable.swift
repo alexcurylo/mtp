@@ -42,4 +42,8 @@ extension CLLocationCoordinate2D {
     func distance(from: CLLocationCoordinate2D) -> CLLocationDistance {
         return location.distance(from: from.location)
     }
+
+    func distance(from: CLLocation) -> CLLocationDistance {
+        return location.distance(from: from)
+    }
 }

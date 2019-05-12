@@ -2,6 +2,7 @@
 
 import CoreLocation
 import UIKit
+import UserNotifications
 
 enum PermissionTrigger {
     case ask
@@ -19,6 +20,7 @@ extension LocationTracker {
 
     @discardableResult func start(tracking ask: PermissionTrigger) -> CLAuthorizationStatus {
         locationManager.delegate = self
+        locationManager.distanceFilter = 10
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
 
         let status = CLLocationManager.authorizationStatus()
@@ -26,6 +28,10 @@ extension LocationTracker {
         case .authorizedAlways:
             if CLLocationManager.locationServicesEnabled() {
                 locationManager.startUpdatingLocation()
+                locationManager.allowsBackgroundLocationUpdates = true
+            }
+            if ask == .ask {
+                authorizeNotifications { _ in }
             }
         case .authorizedWhenInUse:
             if CLLocationManager.locationServicesEnabled() {
@@ -46,6 +52,13 @@ extension LocationTracker {
             log.error("handle authorization status \(status)!")
         }
         return status
+    }
+
+    func authorizeNotifications(then: @escaping (Bool) -> Void) {
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .badge, .sound]) { granted, _ in
+            then(granted)
+        }
     }
 }
 
