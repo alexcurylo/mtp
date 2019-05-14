@@ -112,7 +112,7 @@ final class RoutingAppDelegateTests: XCTestCase {
         XCTAssertEqual(handler.callCountDidChangeStatusBarFrame, 1)
     }
 
-    func testAppNotificationHandlerManagement() throws {
+    func testAppNotificationsHandlerManagement() throws {
         let mock = MockActualDelegate()
 
         mock.application(liveApp,
@@ -124,7 +124,7 @@ final class RoutingAppDelegateTests: XCTestCase {
 
         XCTAssertEqual(mock.totalCalls, 3)
 
-        let handler = try unwrap(mock.handlers.firstOf(type: MockAppNotificationHandler.self))
+        let handler = try unwrap(mock.handlers.firstOf(type: MockAppNotificationsHandler.self))
         XCTAssertEqual(handler.callCountDidRegisterForRemoteNotificationsWithDeviceToken, 1)
         XCTAssertEqual(handler.callCountDidFailToRegisterForRemoteNotificationsWithError, 1)
         XCTAssertEqual(handler.callCountDidReceiveRemoteNotificationWithFetch, 1)
@@ -289,7 +289,7 @@ private class MockActualDelegate: RoutingAppDelegate {
         MockAppMemoryHandler(),
         MockAppTimeChangeHandler(),
         MockAppStatusBarHandler(),
-        MockAppNotificationHandler(),
+        MockAppNotificationsHandler(),
         MockAppBackgroundFetchHandler(),
         MockAppBackgroundURLSessionHandler(),
         MockAppShortcutHandler(),
@@ -434,13 +434,14 @@ private class MockAppStatusBarHandler: MockAppHandler, AppStatusBarHandler {
     }
 }
 
-private class MockAppNotificationHandler: MockAppHandler, AppNotificationHandler {
+private class MockAppNotificationsHandler: MockAppHandler, AppNotificationsHandler {
 
-    var callCountDidRegister: Int = 0
     var callCountDidRegisterForRemoteNotificationsWithDeviceToken: Int = 0
     var callCountDidFailToRegisterForRemoteNotificationsWithError: Int = 0
     var callCountDidReceiveRemoteNotification: Int = 0
-    var callCountDidReceiveLocalNotification: Int = 0
+    var callCountDidReceiveResponse: Int = 0
+    var callCountWillPresentNotification: Int = 0
+    var callCountOpenSettingsForNotification: Int = 0
     var callCountHandleActionWithIdentifierForLocal: Int = 0
     var callCountHandleActionWithIdentifierForRemoteWithResponseInfo: Int = 0
     var callCountHandleActionWithIdentifierForRemote: Int = 0
@@ -468,7 +469,19 @@ private class MockAppNotificationHandler: MockAppHandler, AppNotificationHandler
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         callCount += 1
-        callCountDidReceiveRemoteNotificationWithCompletion += 1
+        callCountDidReceiveResponse += 1
+    }
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                // swiftlint:disable:next line_length
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        callCount += 1
+        callCountWillPresentNotification += 1
+    }
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                openSettingsFor notification: UNNotification?) {
+        callCount += 1
+        callCountOpenSettingsForNotification += 1
     }
 }
 

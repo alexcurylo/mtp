@@ -15,26 +15,6 @@ final class SpyDataService: DataService {
         invokedBeachesGetterCount += 1
         return stubbedBeaches
     }
-    var invokedChecklistsSetter = false
-    var invokedChecklistsSetterCount = 0
-    var invokedChecklists: Checklists?
-    var invokedChecklistsList = [Checklists?]()
-    var invokedChecklistsGetter = false
-    var invokedChecklistsGetterCount = 0
-    var stubbedChecklists: Checklists!
-    var checklists: Checklists? {
-        set {
-            invokedChecklistsSetter = true
-            invokedChecklistsSetterCount += 1
-            invokedChecklists = newValue
-            invokedChecklistsList.append(newValue)
-        }
-        get {
-            invokedChecklistsGetter = true
-            invokedChecklistsGetterCount += 1
-            return stubbedChecklists
-        }
-    }
     var invokedCountriesGetter = false
     var invokedCountriesGetterCount = 0
     var stubbedCountries: [Country]! = []
@@ -183,6 +163,26 @@ final class SpyDataService: DataService {
             return stubbedToken
         }
     }
+    var invokedTriggeredSetter = false
+    var invokedTriggeredSetterCount = 0
+    var invokedTriggered: Checked?
+    var invokedTriggeredList = [Checked?]()
+    var invokedTriggeredGetter = false
+    var invokedTriggeredGetterCount = 0
+    var stubbedTriggered: Checked!
+    var triggered: Checked? {
+        set {
+            invokedTriggeredSetter = true
+            invokedTriggeredSetterCount += 1
+            invokedTriggered = newValue
+            invokedTriggeredList.append(newValue)
+        }
+        get {
+            invokedTriggeredGetter = true
+            invokedTriggeredGetterCount += 1
+            return stubbedTriggered
+        }
+    }
     var invokedUncountriesGetter = false
     var invokedUncountriesGetterCount = 0
     var stubbedUncountries: [UNCountry]! = []
@@ -209,6 +209,26 @@ final class SpyDataService: DataService {
             invokedUserGetter = true
             invokedUserGetterCount += 1
             return stubbedUser
+        }
+    }
+    var invokedVisitedSetter = false
+    var invokedVisitedSetterCount = 0
+    var invokedVisited: Checked?
+    var invokedVisitedList = [Checked?]()
+    var invokedVisitedGetter = false
+    var invokedVisitedGetterCount = 0
+    var stubbedVisited: Checked!
+    var visited: Checked? {
+        set {
+            invokedVisitedSetter = true
+            invokedVisitedSetterCount += 1
+            invokedVisited = newValue
+            invokedVisitedList.append(newValue)
+        }
+        get {
+            invokedVisitedGetter = true
+            invokedVisitedGetterCount += 1
+            return stubbedVisited
         }
     }
     var invokedWhssGetter = false

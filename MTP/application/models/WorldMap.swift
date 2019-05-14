@@ -158,8 +158,7 @@ struct WorldMap: ServiceProvider {
 fileprivate extension GeoJSON.Feature {
 
     func contains(coordinate test: CLLocationCoordinate2D) -> Bool {
-        guard let path = path(at: .zero),
-              let points = geometry.coordinates.first else { return false }
+        guard let path = path(at: .zero) else { return false }
 
         let point = CGPoint(x: test.longitude,
                             y: test.latitude)
