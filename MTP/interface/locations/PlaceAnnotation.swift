@@ -11,7 +11,7 @@ protocol PlaceAnnotationDelegate: AnyObject {
     func show(place: PlaceAnnotation)
 }
 
-final class PlaceAnnotation: NSObject, MKAnnotation {
+final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
 
     // MKAnnotation -- suppress callout title
     @objc dynamic var coordinate: CLLocationCoordinate2D
@@ -115,11 +115,21 @@ final class PlaceAnnotation: NSObject, MKAnnotation {
     func setDistance(from: CLLocation, trigger: Bool) {
         distance = coordinate.distance(from: from)
         guard trigger,
-              distance < list.triggerDistance,
               !isVisited,
               !isTriggered else { return }
 
-        isTriggered = true
+        let triggered: Bool
+        switch list {
+        case .locations:
+            // log.todo("figure out worldMap projection")
+            //triggered = data.worldMap.contains(coordinate: from.coordinate,location: id)
+            triggered = false
+        default:
+            triggered = distance < list.triggerDistance
+        }
+        if triggered {
+            isTriggered = true
+        }
     }
 
     var formattedDistance: String {

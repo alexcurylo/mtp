@@ -15,7 +15,8 @@ struct GeoJSON: Codable {
 
             func validate() throws {
                 guard type == "Polygon" else { throw "wrong geometry type" }
-                guard !coordinates.isEmpty else { throw "invalid coordinates" }
+                guard !coordinates.isEmpty else { throw "empty coordinates" }
+                guard coordinates.count == 1 else { throw ">1 coordinates" }
             }
         }
 
@@ -58,13 +59,13 @@ struct GeoJSON: Codable {
 
 struct WorldMap: ServiceProvider {
 
-    let locations: [GeoJSON.Feature]
+    private let locations: [GeoJSON.Feature]
 
-    typealias Bounds = (west: Double, north: Double, east: Double, south: Double)
+    private typealias Bounds = (west: Double, north: Double, east: Double, south: Double)
 
-    let mapBox: Bounds = (west: -182, north: 84, east: 184, south: -91 )
+    private let mapBox: Bounds = (west: -182, north: 84, east: 184, south: -91 )
     #if RECALCULATE_MAPBOX
-    static var calcBox: Bounds = (0, 0, 0, 0)
+    private static var calcBox: Bounds = (0, 0, 0, 0)
     #endif
 
     init() {
@@ -131,7 +132,20 @@ struct WorldMap: ServiceProvider {
         return image
     }
 
-    func validate() {
+    func contains(coordinate: CLLocationCoordinate2D,
+                  location id: Int) -> Bool {
+        var successes = 0
+        for location in locations {
+            guard location.properties.locid == id else { continue }
+
+            if location.contains(coordinate: coordinate) {
+                successes += 1
+            }
+        }
+        return successes > 0
+    }
+
+    private func validate() {
         #if RECALCULATE_MAPBOX
         assert(mapBox.west == WorldMap.calcBox.west.rounded(.down))
         assert(mapBox.north == WorldMap.calcBox.north.rounded(.up))
@@ -141,10 +155,44 @@ struct WorldMap: ServiceProvider {
     }
 }
 
-extension GeoJSON.Feature {
+fileprivate extension GeoJSON.Feature {
+
+    func contains(coordinate test: CLLocationCoordinate2D) -> Bool {
+        guard let path = path(at: .zero),
+              let points = geometry.coordinates.first else { return false }
+
+        let point = CGPoint(x: test.longitude,
+                            y: test.latitude)
+        let bounds = path.bounds
+        if !bounds.contains(point) {
+            return false
+        }
+        let contains = path.contains(point)
+        return contains
+    }
+
+    func containsQuickly(coordinate test: CLLocationCoordinate2D) -> Bool {
+        for coordinates in geometry.coordinates {
+            guard var pJ = coordinates.last else { continue }
+            var contains = false
+            for pI in coordinates {
+                if ((pI.latitude >= test.latitude) != (pJ.latitude >= test.latitude)) &&
+                   (test.longitude <= (pJ.longitude - pI.longitude) *
+                                      (test.latitude - pI.latitude) /
+                                      (pJ.latitude - pI.latitude) +
+                                      pI.longitude) {
+                    contains.toggle()
+                }
+                pJ = pI
+            }
+            if contains {
+                return true
+            }
+        }
+        return false
+    }
 
     func path(at origin: CLLocationCoordinate2D) -> UIBezierPath? {
-
         let path = UIBezierPath()
         geometry.coordinates.first?.forEach { coordinate in
             #if RECALCULATE_MAPBOX
