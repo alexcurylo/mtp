@@ -121,9 +121,8 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
         let triggered: Bool
         switch list {
         case .locations:
-            // log.todo("figure out worldMap projection")
-            //triggered = data.worldMap.contains(coordinate: from.coordinate,location: id)
-            triggered = false
+            triggered = data.worldMap.contains(coordinate: from.coordinate,
+                                               location: id)
         default:
             triggered = distance < list.triggerDistance
         }

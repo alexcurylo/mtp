@@ -47,6 +47,11 @@ final class LocationsVC: UIViewController {
     private var selected: PlaceAnnotation?
     private var lastUserLocation: CLLocation?
 
+    private let constants = (
+        filterTrigger: CLLocationDistance(20),
+        filterNearby: CLLocationDistance(20)
+    )
+
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -88,10 +93,14 @@ final class LocationsVC: UIViewController {
         case Segues.showNearby.identifier:
             let nearby = Segues.showNearby(segue: segue)?.destination
             let center: CLLocation?
-            if lastUserLocation?.coordinate != nil {
+            switch (lastUserLocation?.coordinate, mapView?.centerCoordinate) {
+            case (nil, let map?):
+                center = map.location
+            case let (user?, map?):
+                let distance = user.distance(from: map)
+                center = distance < constants.filterNearby ? nil : map.location
+            default:
                 center = nil
-            } else {
-                center = (mapView?.centerCoordinate ?? .zero).location
             }
             nearby?.inject(model: (center: center, annotations: allAnnotations))
         case Segues.showLocation.identifier:
@@ -509,12 +518,17 @@ extension LocationsVC: LocationTracker {
 
     func locationManager(_ manager: CLLocationManager,
                          didUpdateLocations locations: [CLLocation]) {
-        guard let user = locations.last else { return }
+        guard let newUser = locations.last else { return }
 
-        lastUserLocation = user
+        if let lastUser = lastUserLocation,
+           lastUser.distance(from: newUser) < constants.filterTrigger {
+            return
+        }
+
+        lastUserLocation = newUser
         allAnnotations.forEach {
             $0.forEach {
-                $0.setDistance(from: user, trigger: true)
+                $0.setDistance(from: newUser, trigger: true)
             }
         }
     }

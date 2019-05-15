@@ -98,7 +98,6 @@ struct WorldMap: ServiceProvider {
         }
         let origin = CLLocationCoordinate2D(latitude: mapBox.north + offset,
                                             longitude: mapBox.west + offset)
-
         let boxWidth = mapBox.east - mapBox.west
         let scale = width / CGFloat(boxWidth)
         let scaleTransform = CGAffineTransform(scaleX: scale, y: scale)
@@ -134,15 +133,14 @@ struct WorldMap: ServiceProvider {
 
     func contains(coordinate: CLLocationCoordinate2D,
                   location id: Int) -> Bool {
-        var successes = 0
         for location in locations {
             guard location.properties.locid == id else { continue }
 
             if location.contains(coordinate: coordinate) {
-                successes += 1
+                return true
             }
         }
-        return successes > 0
+        return false
     }
 
     private func validate() {
@@ -158,19 +156,6 @@ struct WorldMap: ServiceProvider {
 fileprivate extension GeoJSON.Feature {
 
     func contains(coordinate test: CLLocationCoordinate2D) -> Bool {
-        guard let path = path(at: .zero) else { return false }
-
-        let point = CGPoint(x: test.longitude,
-                            y: test.latitude)
-        let bounds = path.bounds
-        if !bounds.contains(point) {
-            return false
-        }
-        let contains = path.contains(point)
-        return contains
-    }
-
-    func containsQuickly(coordinate test: CLLocationCoordinate2D) -> Bool {
         for coordinates in geometry.coordinates {
             guard var pJ = coordinates.last else { continue }
             var contains = false

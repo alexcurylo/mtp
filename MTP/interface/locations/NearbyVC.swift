@@ -130,6 +130,13 @@ final class NearbyCell: UITableViewCell {
     @IBOutlet private var distanceLabel: UILabel?
 
     @IBOutlet private var categoryLabel: UILabel?
+    @IBOutlet private var visitedLabel: UILabel?
+    @IBOutlet private var visitSwitch: UISwitch? {
+        didSet {
+            visitSwitch?.styleAsFilter()
+            visitSwitch?.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        }
+    }
     @IBOutlet private var nameLabel: UILabel?
     @IBOutlet private var countryLabel: UILabel?
     @IBOutlet private var visitorsLabel: UILabel?
@@ -166,15 +173,29 @@ final class NearbyCell: UITableViewCell {
         placeImage?.load(image: place)
         distanceLabel?.text = place.formattedDistance
         categoryLabel?.text = place.list.category.uppercased()
+        show(visited: place.isVisited)
         nameLabel?.text = place.subtitle
         countryLabel?.text = place.country
         visitorsLabel?.text = Localized.visitors(place.visitors.grouped)
     }
-}
+ }
 
 private extension NearbyCell {
 
     @IBAction func cellTapped(_ sender: UIButton) {
         place?.reveal(callout: true)
+    }
+
+    @IBAction func toggleVisit(_ sender: UISwitch) {
+        guard let place = place else { return }
+
+        let isVisited = sender.isOn
+        place.isVisited = isVisited
+        show(visited: isVisited)
+    }
+
+    func show(visited: Bool) {
+        visitedLabel?.text = (visited ? Localized.visited() :            Localized.notVisited()).uppercased()
+        visitSwitch?.isOn = visited
     }
 }

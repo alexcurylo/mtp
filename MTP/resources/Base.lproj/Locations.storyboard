@@ -271,8 +271,8 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f5m-Ue-wuG">
                                             <rect key="frame" x="8" y="4" width="359" height="162"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="8qU-4Q-XdS" userLabel="Info Stack">
-                                                    <rect key="frame" x="8" y="8" width="343" height="150"/>
+                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="8qU-4Q-XdS" userLabel="Info Stack">
+                                                    <rect key="frame" x="8" y="8" width="351" height="150"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="2BF-rn-dmU">
                                                             <rect key="frame" x="0.0" y="33" width="66" height="84.5"/>
@@ -300,31 +300,49 @@
                                                             </subviews>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="plC-sf-upK" userLabel="Name Stack">
-                                                            <rect key="frame" x="74" y="35" width="269" height="80.5"/>
+                                                            <rect key="frame" x="71" y="28.5" width="280" height="93.5"/>
                                                             <subviews>
-                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="scaleToFill" verticalHuggingPriority="999" text="HERITAGE SITE" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="9ZF-Nb-yJK">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="269" height="18"/>
-                                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="13"/>
-                                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="FaN-pN-X2r">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="280" height="31"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="scaleToFill" verticalHuggingPriority="999" text="HERITAGE SITE" lineBreakMode="tailTruncation" minimumFontSize="10" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9ZF-Nb-yJK">
+                                                                            <rect key="frame" x="0.0" y="6.5" width="151" height="18"/>
+                                                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="13"/>
+                                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="999" text="NOT VISITED" lineBreakMode="tailTruncation" minimumFontSize="10" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wOq-2O-cTR">
+                                                                            <rect key="frame" x="151" y="6.5" width="80" height="18"/>
+                                                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="13"/>
+                                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PN5-RQ-aUC">
+                                                                            <rect key="frame" x="231" y="0.0" width="51" height="31"/>
+                                                                            <connections>
+                                                                                <action selector="toggleVisit:" destination="0Me-W7-byF" eventType="valueChanged" id="E2g-nZ-bMU"/>
+                                                                            </connections>
+                                                                        </switch>
+                                                                    </subviews>
+                                                                </stackView>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="scaleToFill" verticalHuggingPriority="1000" text="Australian Fossil Mammal" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="KD3-Ep-z9p">
-                                                                    <rect key="frame" x="0.0" y="18" width="269" height="25"/>
+                                                                    <rect key="frame" x="0.0" y="31" width="280" height="25"/>
                                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
                                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="scaleToFill" verticalHuggingPriority="1000" text="Australia" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="u8l-cu-qVU">
-                                                                    <rect key="frame" x="0.0" y="43" width="269" height="19.5"/>
+                                                                    <rect key="frame" x="0.0" y="56" width="280" height="19.5"/>
                                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="14"/>
                                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="scaleToFill" verticalHuggingPriority="999" text="MTP Visitors : 39" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="5cc-oT-Bjf">
-                                                                    <rect key="frame" x="0.0" y="62.5" width="269" height="18"/>
+                                                                    <rect key="frame" x="0.0" y="75.5" width="280" height="18"/>
                                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="13"/>
                                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -337,7 +355,7 @@
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="8qU-4Q-XdS" secondAttribute="trailing" constant="8" id="1CE-zF-yB8"/>
+                                                <constraint firstAttribute="trailing" secondItem="8qU-4Q-XdS" secondAttribute="trailing" id="1CE-zF-yB8"/>
                                                 <constraint firstItem="8qU-4Q-XdS" firstAttribute="leading" secondItem="f5m-Ue-wuG" secondAttribute="leading" constant="8" id="CaM-SH-awl"/>
                                                 <constraint firstAttribute="bottom" secondItem="8qU-4Q-XdS" secondAttribute="bottom" constant="4" id="VlI-u4-UQr"/>
                                                 <constraint firstItem="8qU-4Q-XdS" firstAttribute="top" secondItem="f5m-Ue-wuG" secondAttribute="top" constant="8" id="dDi-jW-oFy"/>
@@ -364,6 +382,8 @@
                                     <outlet property="distanceLabel" destination="Ien-Ba-cR2" id="J9h-QI-mZc"/>
                                     <outlet property="nameLabel" destination="KD3-Ep-z9p" id="oQP-FY-MpQ"/>
                                     <outlet property="placeImage" destination="12N-Q5-RGq" id="7Ez-rs-qbE"/>
+                                    <outlet property="visitSwitch" destination="PN5-RQ-aUC" id="hK3-6G-f7H"/>
+                                    <outlet property="visitedLabel" destination="wOq-2O-cTR" id="7JK-a5-rQQ"/>
                                     <outlet property="visitorsLabel" destination="5cc-oT-Bjf" id="lOz-px-nu3"/>
                                 </connections>
                             </tableViewCell>
