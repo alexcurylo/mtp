@@ -14,6 +14,7 @@ protocol LocationTracker: CLLocationManagerDelegate, ServiceProvider {
     var locationManager: CLLocationManager { get }
 
     func alertLocationAccessNeeded()
+    func accessRefused()
 }
 
 extension LocationTracker {
@@ -75,10 +76,11 @@ extension LocationTracker where Self: UIViewController {
         )
 
         alert.addAction(UIAlertAction(title: Localized.cancel(),
-                                      style: .default,
-                                      handler: nil))
+                                      style: .cancel) { _ in
+            self.accessRefused()
+        })
         alert.addAction(UIAlertAction(title: Localized.allowLocationAccess(),
-                                      style: .cancel) { _ -> Void in
+                                      style: .default) { _ in
             self.app.open(settingsAppURL)
         })
 

@@ -18,6 +18,8 @@ final class LocationsVC: UIViewController {
     let locationManager = CLLocationManager()
     private var trackingButton: MKUserTrackingButton?
     private var mapCentered = false
+    private var mapLoaded = false
+    private var shownRect = MKMapRect.null
 
     private var mapDisplay = ChecklistFlags()
 
@@ -43,6 +45,7 @@ final class LocationsVC: UIViewController {
                 restaurantsAnnotations,
                 whssAnnotations]
     }
+    private var annotationsSet = false
 
     private var selected: PlaceAnnotation?
     private var lastUserLocation: CLLocation?
@@ -59,7 +62,6 @@ final class LocationsVC: UIViewController {
         mapDisplay = data.mapDisplay
         setupCompass()
         setupTracking()
-        setupAnnotations()
         trackingButton?.set(visibility: start(tracking: .dontAsk))
     }
 
@@ -223,17 +225,35 @@ private extension LocationsVC {
                                             latitudinalMeters: meters,
                                             longitudinalMeters: meters)
         DispatchQueue.main.async { [weak self] in
-            self?.mapView?.setRegion(viewRegion, animated: true)
+            MKMapView.animate(
+                withDuration: 1,
+                animations: {
+                    self?.mapView?.setRegion(viewRegion, animated: true)
+                },
+                completion: { _ in
+                    self?.setupAnnotations()
+                }
+            )
         }
     }
 
     func setupAnnotations() {
+        guard !annotationsSet, mapCentered, mapLoaded else { return }
+
+        annotationsSet = true
         registerAnnotationViews()
+        updateAnnotations()
         observe()
+    }
+
+    func updateAnnotations() {
+        shownRect = mapView?.visibleMapRect ?? .null
         showAnnotations()
     }
 
     func showAnnotations() {
+        guard annotationsSet else { return }
+
         showBeaches()
         showDiveSites()
         showGolfCourses()
@@ -278,18 +298,17 @@ private extension LocationsVC {
 
     func annotations(list: Checklist,
                      shown: Bool) -> Set<PlaceAnnotation> {
-        guard shown else { return [] }
+        guard shown, !shownRect.isNull else { return [] }
 
         return Set<PlaceAnnotation>(list.places.compactMap { place in
-            guard place.placeIsMappable else {
-                return nil
-            }
+            guard place.placeIsMappable else { return nil }
 
             let coordinate = place.placeCoordinate
             guard !coordinate.isZero else {
                 log.warning("Coordinates missing: \(list) \(place.placeId), \(place.placeTitle)")
                 return nil
             }
+            guard shownRect.contains(MKMapPoint(coordinate)) else { return nil }
 
             return PlaceAnnotation(
                 list: list,
@@ -305,6 +324,7 @@ private extension LocationsVC {
     }
 
     func showBeaches() {
+        guard annotationsSet else { return }
         let new = annotations(list: .beaches, shown: mapDisplay.beaches)
 
         let subtracted = beachesAnnotations.subtracting(new)
@@ -317,6 +337,7 @@ private extension LocationsVC {
     }
 
     func showDiveSites() {
+        guard annotationsSet else { return }
         let new = annotations(list: .divesites, shown: mapDisplay.divesites)
 
         let subtracted = divesitesAnnotations.subtracting(new)
@@ -329,6 +350,7 @@ private extension LocationsVC {
     }
 
     func showGolfCourses() {
+        guard annotationsSet else { return }
         let new = annotations(list: .golfcourses, shown: mapDisplay.golfcourses)
 
         let subtracted = golfcoursesAnnotations.subtracting(new)
@@ -341,6 +363,7 @@ private extension LocationsVC {
     }
 
     func showLocations() {
+        guard annotationsSet else { return }
         let new = annotations(list: .locations, shown: mapDisplay.locations)
 
         let subtracted = locationsAnnotations.subtracting(new)
@@ -353,6 +376,7 @@ private extension LocationsVC {
     }
 
     func showRestaurants() {
+        guard annotationsSet else { return }
         let new = annotations(list: .restaurants, shown: mapDisplay.restaurants)
 
         let subtracted = restaurantsAnnotations.subtracting(new)
@@ -365,6 +389,7 @@ private extension LocationsVC {
     }
 
     func showWHSs() {
+        guard annotationsSet else { return }
         let new = annotations(list: .whss, shown: mapDisplay.whss)
 
         let subtracted = whssAnnotations.subtracting(new)
@@ -416,6 +441,7 @@ extension LocationsVC: MKMapViewDelegate {
     }
     func mapView(_ mapView: MKMapView,
                  regionDidChangeAnimated: Bool) {
+        updateAnnotations()
     }
 
     func mapViewWillStartLoadingMap(_ mapView: MKMapView) {
@@ -430,6 +456,8 @@ extension LocationsVC: MKMapViewDelegate {
     }
     func mapViewDidFinishRenderingMap(_ mapView: MKMapView,
                                       fullyRendered: Bool) {
+        mapLoaded = true
+        setupAnnotations()
     }
 
     func mapViewWillStartLocatingUser(_ mapView: MKMapView) {
@@ -515,6 +543,11 @@ extension LocationsVC: MKMapViewDelegate {
 }
 
 extension LocationsVC: LocationTracker {
+
+    func accessRefused() {
+        mapCentered = true
+        setupAnnotations()
+    }
 
     func locationManager(_ manager: CLLocationManager,
                          didUpdateLocations locations: [CLLocation]) {
