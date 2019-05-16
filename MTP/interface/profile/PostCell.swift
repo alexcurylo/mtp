@@ -17,26 +17,13 @@ struct PostCellModel {
     var isExpanded: Bool
 }
 
-final class PostCell: UICollectionViewCell, ServiceProvider {
+final class PostCell: UITableViewCell, ServiceProvider {
 
-    static let reuseIdentifier = NSStringFromClass(PostCell.self)
+    @IBOutlet private var holder: UIView?
 
-    private let holder = UIView()
-    private var holderHeight: NSLayoutConstraint?
-    private var holderWidth: NSLayoutConstraint? {
-        didSet {
-            holderWidth?.isActive = false
-        }
+    private let postImageView = UIImageView {
+        $0.cornerRadius = 5
     }
-    private var maxWidth: CGFloat? = nil {
-        didSet {
-            guard let maxWidth = maxWidth else { return }
-            holderWidth?.isActive = true
-            holderWidth?.constant = maxWidth
-        }
-    }
-
-    private let imageView = UIImageView()
 
     private let textView = UITextView {
         $0.isEditable = false
@@ -46,9 +33,8 @@ final class PostCell: UICollectionViewCell, ServiceProvider {
         $0.textContainer.lineFragmentPadding = 0
     }
 
-    private weak var delegate: PostCellDelegate?
-
     private var model: PostCellModel?
+    private weak var delegate: PostCellDelegate?
 
     private let layout = (
         height: (cell: CGFloat(100),
@@ -64,64 +50,49 @@ final class PostCell: UICollectionViewCell, ServiceProvider {
                       color: UIColor.darkGray))
     )
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override func awakeFromNib() {
+        super.awakeFromNib()
 
-        enableSelfSizing()
         configure()
     }
 
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
     func set(model: PostCellModel,
-             delegate: PostCellDelegate,
-             width: CGFloat) {
+             delegate: PostCellDelegate) {
         self.model = model
         self.delegate = delegate
-        maxWidth = width
 
         setImage(html: model.body)
         setText(title: model.title,
                 date: model.date,
                 html: model.body)
-        set(expanded: model.isExpanded)
+        setExpanded()
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        delegate = nil
         model = nil
-        imageView.prepareForReuse()
+        delegate = nil
+        postImageView.prepareForReuse()
         textView.text = nil
-        set(expanded: true)
+        setExpanded()
     }
 }
 
 private extension PostCell {
 
-    func enableSelfSizing() {
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.edgeAnchors == edgeAnchors
-    }
-
     func configure() {
-        contentView.addSubview(holder)
-        holder.edgeAnchors == contentView.edgeAnchors
-        holderWidth = holder.widthAnchor == 300
-        holderHeight = holder.heightAnchor == layout.height.cell
+        let container = holder.require()
+        container.addSubview(textView)
+        textView.edgeAnchors == container.edgeAnchors + layout.padding
 
-        holder.addSubview(textView)
-        textView.edgeAnchors == holder.edgeAnchors
+        container.addSubview(postImageView)
+        postImageView.topAnchor == container.topAnchor + layout.padding
+        postImageView.leftAnchor == container.leftAnchor + layout.padding
+        postImageView.sizeAnchors == CGSize(width: layout.height.image,
+                                            height: layout.height.image)
 
-        holder.addSubview(imageView)
-        imageView.topAnchor == holder.topAnchor
-        imageView.leftAnchor == holder.leftAnchor
-        imageView.sizeAnchors == CGSize(width: layout.height.image,
-                                        height: layout.height.image)
+        setExpanded()
 
         let tap = UITapGestureRecognizer(target: self,
                                          action: #selector(tapped))
@@ -129,13 +100,13 @@ private extension PostCell {
     }
 
     func setImage(html: String) {
-        if imageView.load(image: html) {
-            imageView.isHidden = false
-            let exclude = imageView.frame.insetBy(dx: -layout.padding, dy: 0)
+        if postImageView.load(image: html) {
+            postImageView.isHidden = false
+            let exclude = postImageView.frame.insetBy(dx: -layout.padding, dy: 0)
             let imagePath = UIBezierPath(rect: exclude)
             textView.textContainer.exclusionPaths = [imagePath]
         } else {
-            imageView.isHidden = true
+            postImageView.isHidden = true
             textView.textContainer.exclusionPaths = []
         }
     }
@@ -171,21 +142,27 @@ private extension PostCell {
         textView.attributedText = text
     }
 
+    @objc func tapped(_ sender: UIGestureRecognizer) {
+        model?.isExpanded.toggle()
+        guard let model = model else { return }
+
+        setExpanded()
+        delegate?.toggle(index: model.index)
+    }
+
+    func setExpanded() {
+        let expanded = model?.isExpanded ?? false
+        set(expanded: expanded)
+    }
+
     func set(expanded: Bool) {
         if expanded {
             textView.textContainer.maximumNumberOfLines = layout.text.lines.expanded
             textView.textContainer.lineBreakMode = .byWordWrapping
-            holderHeight?.isActive = false
         } else {
             textView.textContainer.maximumNumberOfLines = layout.text.lines.compressed
             textView.textContainer.lineBreakMode = .byTruncatingTail
-            holderHeight?.isActive = true
         }
-    }
-
-    @objc func tapped(_ sender: UIGestureRecognizer) {
-        guard let model = model else { return }
-
-        delegate?.toggle(index: model.index)
+        //textView.sizeToFit()
     }
 }

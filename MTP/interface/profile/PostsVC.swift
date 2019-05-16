@@ -2,16 +2,9 @@
 
 import Anchorage
 
-class PostsVC: UICollectionViewController, ServiceProvider {
+class PostsVC: UITableViewController, ServiceProvider {
 
-    @IBOutlet private var layout: UICollectionViewFlowLayout? {
-        didSet {
-            layout?.itemSize = UICollectionViewFlowLayout.automaticSize
-            layout?.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        }
-    }
-    private var cellWidth: CGFloat = 0
-    private var shouldInvalidateLayout = true
+    @IBOutlet private var backgroundView: UIView?
 
     private var models: [PostCellModel] = []
     var posts: [Post] {
@@ -28,10 +21,14 @@ class PostsVC: UICollectionViewController, ServiceProvider {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        layout.require()
 
-        collectionView.register(PostCell.self,
-                                forCellWithReuseIdentifier: PostCell.reuseIdentifier)
+        #if GRADIENT_BACKGROUND
+        tableView.backgroundView = backgroundView
+        #endif
+        tableView.tableFooterView = UIView()
+
+        tableView.estimatedRowHeight = UITableView.automaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
 
         update()
         observe()
@@ -46,51 +43,52 @@ class PostsVC: UICollectionViewController, ServiceProvider {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
-        shouldInvalidateLayout = false
     }
 
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-
-        // swiftlint:disable:next line_length
-        // https://stackoverflow.com/questions/51375566/in-ios-12-when-does-the-uicollectionview-layout-cells-use-autolayout-in-nib
-        if shouldInvalidateLayout {
-            layout?.invalidateLayout()
-        }
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.verbose("prepare for \(segue.name)")
-        switch segue.identifier {
-        default:
-            log.debug("unexpected segue: \(segue.name)")
-        }
+    override func didReceiveMemoryWarning() {
+        log.warning("didReceiveMemoryWarning: \(type(of: self))")
+        super.didReceiveMemoryWarning()
     }
 }
 
-// MARK: UICollectionViewDataSource
+// MARK: UITableViewControllerDataSource
 
 extension PostsVC {
 
-    override func collectionView(_ collectionView: UICollectionView,
-                                 numberOfItemsInSection section: Int) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+
+    override func tableView(_ tableView: UITableView,
+                            numberOfRowsInSection section: Int) -> Int {
         return models.count
     }
 
-    override func collectionView(_ collectionView: UICollectionView,
-                                 cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: PostCell.reuseIdentifier,
-            for: indexPath)
+    override func tableView(_ tableView: UITableView,
+                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: R.reuseIdentifier.postCell,
+            for: indexPath) ?? PostCell()
 
-        if let postCell = cell as? PostCell {
-            postCell.set(model: models[indexPath.row],
-                         delegate: self,
-                         width: cellWidth)
-        }
+        cell.set(model: models[indexPath.row],
+                 delegate: self)
 
         return cell
+    }
+}
+
+// MARK: - UITableViewDelegate
+
+extension PostsVC {
+
+    override func tableView(_ tableView: UITableView,
+                            heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+
+    override func tableView(_ tableView: UITableView,
+                            estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
     }
 }
 
@@ -102,10 +100,13 @@ extension PostsVC: PostCellDelegate {
         guard index < models.count else { return }
 
         models[index].isExpanded.toggle()
-        // other cells go blank?
-        //let path = IndexPath(row: index, section: 0)
-        //collectionView.reloadItems(at: [path])
-        collectionView.reloadData()
+        let path = IndexPath(row: index, section: 0)
+        // suppress animation to kill white flicker
+        UIView.setAnimationsEnabled(false)
+        tableView.beginUpdates()
+        tableView.reloadRows(at: [path], with: .none)
+        tableView.endUpdates()
+        UIView.setAnimationsEnabled(true)
     }
 }
 
@@ -129,7 +130,7 @@ private extension PostsVC {
             return model
         }
         models = cellModels
-        collectionView.reloadData()
+        tableView.reloadData()
     }
 
     func observe() {
@@ -138,25 +139,5 @@ private extension PostsVC {
                 self?.update()
             }
         }
-
-        if viewObservation == nil,
-            let view = collectionView {
-            cellWidth = layoutWidth
-            viewObservation = view.layer.observe(\.bounds) { [weak self] _, _ in
-                guard let self = self else { return }
-
-                let newWidth = self.layoutWidth
-                if self.cellWidth != newWidth {
-                    self.cellWidth = newWidth
-                    self.collectionView.collectionViewLayout.invalidateLayout()
-                    self.collectionView.setNeedsLayout()
-                    self.collectionView.reloadData()
-                }
-            }
-        }
-    }
-
-    var layoutWidth: CGFloat {
-        return collectionView.bounds.width - (layout?.sectionInset.horizontal ?? 0)
     }
 }

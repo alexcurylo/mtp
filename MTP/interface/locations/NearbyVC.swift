@@ -61,11 +61,13 @@ extension NearbyVC {
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView,
+                            numberOfRowsInSection section: Int) -> Int {
         return places.count
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView,
+                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: R.reuseIdentifier.nearbyCell,
             for: indexPath) ?? NearbyCell()
@@ -141,8 +143,8 @@ final class NearbyCell: UITableViewCell {
     @IBOutlet private var countryLabel: UILabel?
     @IBOutlet private var visitorsLabel: UILabel?
 
-    private weak var delegate: NearbyCellDelegate?
     private var place: PlaceAnnotation?
+    private weak var delegate: NearbyCellDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -155,8 +157,9 @@ final class NearbyCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        delegate = nil
         place = nil
+        delegate = nil
+
         placeImage?.prepareForReuse()
         distanceLabel?.text = nil
         categoryLabel?.text = nil
@@ -167,8 +170,8 @@ final class NearbyCell: UITableViewCell {
 
     func set(model place: PlaceAnnotation,
              delegate: NearbyCellDelegate) {
-        self.delegate = delegate
         self.place = place
+        self.delegate = delegate
 
         placeImage?.load(image: place)
         distanceLabel?.text = place.formattedDistance
