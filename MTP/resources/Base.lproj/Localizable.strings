@@ -43,7 +43,8 @@
 "showMore" = "Show More";
 
 "checkinTitle" = "%@ Checkin Available";
-"checkinMessage" = "You are near %@. Do you want to check in?";
+"checkinInside" = "You are in %@. Do you want to check in?";
+"checkinNear" = "You are near %@. Do you want to check in?";
 "checkinAction" = "Check in";
 "dismissAction" = "Dismiss";
 

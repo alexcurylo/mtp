@@ -5,9 +5,10 @@
 import Anchorage
 import MapKit
 import RealmSwift
+import SwiftEntryKit
 import UserNotifications
 
-final class LocationsVC: UIViewController {
+final class LocationsVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.locationsVC
 
@@ -104,6 +105,7 @@ final class LocationsVC: UIViewController {
             default:
                 center = nil
             }
+            // log.todo("handle non-annotated places")
             nearby?.inject(model: (center: center, annotations: allAnnotations))
         case Segues.showLocation.identifier:
             if let location = Segues.showLocation(segue: segue)?.destination,
@@ -139,8 +141,8 @@ extension LocationsVC: PlaceAnnotationDelegate {
     }
 
     func notify(place: PlaceAnnotation) {
-        notifyForeground(place: place)
-        notifyBackground(place: place)
+        notify(list: place.list,
+               info: place.info)
     }
 
     func reveal(place: PlaceAnnotation?,
@@ -312,13 +314,8 @@ private extension LocationsVC {
 
             return PlaceAnnotation(
                 list: list,
-                id: place.placeId,
-                coordinate: coordinate,
-                delegate: self,
-                title: place.placeTitle,
-                country: place.placeSubtitle,
-                visitors: place.placeVisitors,
-                image: place.placeImage
+                info: place,
+                delegate: self
             )
         })
     }
@@ -401,16 +398,166 @@ private extension LocationsVC {
         whssAnnotations.formUnion(added)
     }
 
-    func notifyForeground(place: PlaceAnnotation) {
-        log.todo("foreground notification")
+    func updateDistances() {
+        guard let location = lastUserLocation else { return }
+
+        allAnnotations.forEach {
+            $0.forEach {
+                $0.setDistance(from: location, trigger: true)
+            }
+        }
+
+        let list = Checklist.locations
+        for place in list.places {
+            guard place.placeIsMappable,
+                  !list.isVisited(id: place.placeId),
+                  !list.isTriggered(id: place.placeId),
+                  data.worldMap.contains(
+                      coordinate: location.coordinate,
+                      location: place.placeId) else { continue }
+
+            list.set(id: place.placeId, triggered: true)
+            notify(list: list, info: place)
+        }
     }
 
-    func notifyBackground(place: PlaceAnnotation) {
+    func notify(list: Checklist,
+                info: PlaceInfo) {
+        notifyForeground(list: list, info: info)
+        notifyBackground(list: list, info: info)
+    }
+
+    // swiftlint:disable:next function_body_length
+    func notifyForeground(list: Checklist,
+                          info: PlaceInfo) {
+        let visitId = info.placeId
+
+        let dimmedLightBackground = UIColor(white: 100.0 / 255.0, alpha: 0.3)
+        var attributes = EKAttributes.bottomFloat
+        attributes.hapticFeedbackType = .success
+        attributes.displayDuration = .infinity
+        attributes.entryBackground = .color(color: .white)
+        attributes.screenBackground = .color(color: dimmedLightBackground)
+        attributes.shadow = .active(with: .init(color: .black, opacity: 0.3, radius: 8))
+        attributes.screenInteraction = .dismiss
+        attributes.entryInteraction = .absorbTouches
+        attributes.scroll = .enabled(swipeable: true, pullbackAnimation: .jolt)
+        attributes.roundCorners = .all(radius: 4)
+        attributes.entranceAnimation = .init(
+            translate: .init(duration: 0.7,
+                             spring: .init(damping: 1, initialVelocity: 0)),
+            scale: .init(from: 1.05, to: 1, duration: 0.4,
+                         spring: .init(damping: 1, initialVelocity: 0)))
+        attributes.exitAnimation = .init(translate: .init(duration: 0.2))
+        attributes.popBehavior = .animated(animation: .init(translate: .init(duration: 0.2)))
+        attributes.positionConstraints.verticalOffset = 10
+        attributes.positionConstraints.size = .init(width: .offset(value: 20), height: .intrinsic)
+        attributes.positionConstraints.maxSize = .init(
+            width: .constant(value: UIScreen.main.bounds.minEdge),
+            height: .intrinsic)
+        attributes.statusBar = .dark
+
+        attributes.hapticFeedbackType = .success
+        attributes.screenInteraction = .dismiss
+        attributes.entryInteraction = .absorbTouches
+        attributes.scroll = .enabled(swipeable: true, pullbackAnimation: .jolt)
+        attributes.screenBackground = .color(color: dimmedLightBackground)
+        attributes.entryBackground = .color(color: .white)
+        attributes.entranceAnimation = .init(
+            translate: .init(duration: 0.7,
+                             spring: .init(damping: 1, initialVelocity: 0)),
+            scale: .init(from: 0.6, to: 1, duration: 0.7),
+            fade: .init(from: 0.8, to: 1, duration: 0.3))
+        attributes.exitAnimation = .init(
+            scale: .init(from: 1, to: 0.7, duration: 0.3),
+            fade: .init(from: 1, to: 0, duration: 0.3))
+        attributes.displayDuration = .infinity
+        attributes.border = .value(color: .black, width: 0.5)
+        attributes.shadow = .active(with: .init(color: .black, opacity: 0.5, radius: 5))
+        attributes.statusBar = .dark
+        attributes.positionConstraints.maxSize = .init(
+            width: .constant(value: UIScreen.main.bounds.minEdge),
+            height: .intrinsic)
+
+        // Message
+        let contentTitle = Localized.checkinTitle(list.category)
+        let contentMessage: String
+        switch list {
+        case .locations:
+            contentMessage = Localized.checkinInside(info.placeTitle)
+        default:
+            contentMessage = Localized.checkinNear(info.placeTitle)
+        }
+        let title = EKProperty.LabelContent(
+            text: contentTitle,
+            style: .init(font: Avenir.medium.of(size: 15),
+                         color: .black))
+        let description = EKProperty.LabelContent(
+            text: contentMessage,
+            style: .init(font: Avenir.light.of(size: 13),
+                         color: .black))
+        //let image = EKProperty.ImageContent(
+            //image: list.image,
+            //size: CGSize(width: 20, height: 20),
+            //contentMode: .scaleAspectFit)
+        let simpleMessage = EKSimpleMessage(image: nil, title: title, description: description)
+
+        // Dismiss
+        let buttonFont = Avenir.heavy.of(size: 16)
+        let dismissColor = UIColor(rgb: 0xD0021B)
+        let closeButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: dismissColor)
+        let closeButtonLabel = EKProperty.LabelContent(
+            text: Localized.dismissAction(),
+            style: closeButtonLabelStyle)
+        let closeButton = EKProperty.ButtonContent(
+            label: closeButtonLabel,
+            backgroundColor: .clear,
+            highlightedBackgroundColor: dismissColor.withAlphaComponent(0.05)) {
+            SwiftEntryKit.dismiss()
+        }
+
+        // Checkin
+        let checkinColor = UIColor(rgb: 0x028DFF)
+        let okButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: checkinColor)
+        let okButtonLabel = EKProperty.LabelContent(
+            text: Localized.checkinAction(),
+            style: okButtonLabelStyle)
+        let okButton = EKProperty.ButtonContent(
+            label: okButtonLabel,
+            backgroundColor: .clear,
+            highlightedBackgroundColor: checkinColor.withAlphaComponent(0.05)) { [list, visitId] in
+                list.set(id: visitId, visited: true)
+                SwiftEntryKit.dismiss()
+        }
+        let grayLight = UIColor(white: 230.0 / 255.0, alpha: 1)
+        let buttonsBarContent = EKProperty.ButtonBarContent(
+            with: closeButton,
+            okButton,
+            separatorColor: grayLight,
+            buttonHeight: 60,
+            expandAnimatedly: true)
+
+        // Generate
+        let alertMessage = EKAlertMessage(
+            simpleMessage: simpleMessage,
+            imagePosition: .left,
+            buttonBarContent: buttonsBarContent)
+
+        let contentView = EKAlertMessageView(with: alertMessage)
+
+        SwiftEntryKit.display(entry: contentView, using: attributes)
+    }
+
+    func notifyBackground(list: Checklist,
+                          info: PlaceInfo) {
+        guard UIApplication.shared.applicationState == .background else { return }
+
         UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
             switch settings.authorizationStatus {
             case .authorized:
                 DispatchQueue.main.async { [weak self] in
-                    self?.postLocalNotification(place: place)
+                    self?.postLocalNotification(list: list,
+                                                info: info)
                 }
             default:
                 break
@@ -418,13 +565,19 @@ private extension LocationsVC {
         }
     }
 
-    func postLocalNotification(place: PlaceAnnotation) {
+    func postLocalNotification(list: Checklist,
+                               info: PlaceInfo) {
         let content = UNMutableNotificationContent()
-        content.title = Localized.checkinTitle(place.list.category)
-        content.body = Localized.checkinMessage(place.subtitle ?? Localized.unknown())
+        content.title = Localized.checkinTitle(list.category)
+        switch list {
+        case .locations:
+            content.body = Localized.checkinInside(info.placeTitle)
+        default:
+            content.body = Localized.checkinNear(info.placeTitle)
+        }
         content.categoryIdentifier = NotificationsHandler.visitCategory
-        content.userInfo = [NotificationsHandler.visitList: place.list.rawValue,
-                            NotificationsHandler.visitId: place.id]
+        content.userInfo = [NotificationsHandler.visitList: list.rawValue,
+                            NotificationsHandler.visitId: info.placeId]
         content.sound = UNNotificationSound.default
 
         let request = UNNotificationRequest(identifier: UUID().uuidString,
@@ -559,11 +712,7 @@ extension LocationsVC: LocationTracker {
         }
 
         lastUserLocation = newUser
-        allAnnotations.forEach {
-            $0.forEach {
-                $0.setDistance(from: newUser, trigger: true)
-            }
-        }
+        updateDistances()
     }
 
     func locationManager(_ manager: CLLocationManager,

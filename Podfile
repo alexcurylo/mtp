@@ -22,6 +22,7 @@ target 'MTP' do
   pod 'RealmSwift'
   pod 'R.swift', :inhibit_warnings => true
   pod 'R.swift.Library', :inhibit_warnings => true
+  pod 'SwiftEntryKit', :inhibit_warnings => true
   pod 'SwiftLint'
   pod 'SwiftyBeaver', :inhibit_warnings => true
 

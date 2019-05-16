@@ -38,6 +38,7 @@ PODS:
     - Result (~> 4.1)
   - Nuke (7.6.3)
   - Parchment (1.6.0)
+  - QuickLayout (3.0.0)
   - R.swift (5.0.3):
     - R.swift.Library (~> 5.0.0)
   - R.swift.Library (5.0.1)
@@ -47,6 +48,8 @@ PODS:
   - RealmSwift (3.15.0):
     - Realm (= 3.15.0)
   - Result (4.1.0)
+  - SwiftEntryKit (1.0.1):
+    - QuickLayout (= 3.0.0)
   - SwiftLint (0.32.0)
   - SwiftyBeaver (1.7.0)
 
@@ -68,6 +71,7 @@ DEPENDENCIES:
   - R.swift.Library
   - Realm
   - RealmSwift
+  - SwiftEntryKit
   - SwiftLint
   - SwiftyBeaver
 
@@ -88,11 +92,13 @@ SPEC REPOS:
     - Moya
     - Nuke
     - Parchment
+    - QuickLayout
     - R.swift
     - R.swift.Library
     - Realm
     - RealmSwift
     - Result
+    - SwiftEntryKit
     - SwiftLint
     - SwiftyBeaver
 
@@ -112,14 +118,16 @@ SPEC CHECKSUMS:
   Moya: f4a4b80ff2f8a4ffc208dfb31cd91636622fee6e
   Nuke: 44130e95e09463f8773ae4b96b90de1eba6b3350
   Parchment: d3a7b367c529fa6ef51aa43f5717a7ff36d4b1f5
+  QuickLayout: 07b45a72b10083fee3f095990cfed1c1e7b27f0a
   R.swift: f5a87643b91ea569d23d6afb3eee9c743edde239
   R.swift.Library: cfe85d569d9bae6cb262922db130e7c3a7a5fad1
   Realm: 9b834e1be6062f544805252c812348872dc5d4ed
   RealmSwift: 8a41886f8ab6efef9eb8df97de2f2bb911561a79
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
+  SwiftEntryKit: 3f55c0b8e676afe24a3703237bcac68372891c56
   SwiftLint: 009a898ef2a1c851f45e1b59349bf6ff2ddc990d
   SwiftyBeaver: 4cc0080d2e23f980652e28978db11a5c9da39165
 
-PODFILE CHECKSUM: 0613719d8d05faa3a4e3c12ac3c4039ffc32c724
+PODFILE CHECKSUM: 11efdb85aff075d6cf3c2db66f49c4505bf26194
 
 COCOAPODS: 1.6.1

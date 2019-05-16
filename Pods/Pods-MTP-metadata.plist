@@ -685,6 +685,49 @@ SOFTWARE.
 		<dict>
 			<key>authors</key>
 			<dict>
+				<key>Daniel Huri</key>
+				<string>huri000@gmail.com</string>
+			</dict>
+			<key>description</key>
+			<string>&lt;p&gt;QuickLayout offers an additional way to easily the layout constraints using only code. You can harness the power of QuickLayout to align your interface programmatically without even creating any constraints explicitly.&lt;/p&gt;
+</string>
+			<key>homepage</key>
+			<string>https://github.com/huri000/QuickLayout</string>
+			<key>licenseText</key>
+			<string>Copyright (c) 2017 huri000@gmail.com &lt;huri000@gmail.com&gt;
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+</string>
+			<key>licenseType</key>
+			<string>MIT</string>
+			<key>name</key>
+			<string>QuickLayout</string>
+			<key>socialMediaURL</key>
+			<string></string>
+			<key>summary</key>
+			<string>Written in pure Swift, QuickLayout offers a neat way to manage Auto Layout in code.</string>
+			<key>version</key>
+			<string>3.0.0</string>
+		</dict>
+		<dict>
+			<key>authors</key>
+			<dict>
 				<key>Mathijs Kadijk</key>
 				<string>mkadijk@gmail.com</string>
 			</dict>
@@ -1370,6 +1413,51 @@ SOFTWARE.</string>
 			<string>Swift type modelling the success/failure of arbitrary operations</string>
 			<key>version</key>
 			<string>4.1.0</string>
+		</dict>
+		<dict>
+			<key>authors</key>
+			<dict>
+				<key>Daniel Huri</key>
+				<string>huri000@gmail.com</string>
+			</dict>
+			<key>description</key>
+			<string>&lt;p&gt;SwiftEntryKit is a banner presenter library for iOS. It can be used to easily display pop-ups and notification-like views within your iOS apps. SwiftEntryKit is highly customizable but also offers a bunch of beautiful presets that can be themed with your app fonts and colors.&lt;/p&gt;
+</string>
+			<key>homepage</key>
+			<string>https://github.com/huri000/SwiftEntryKit</string>
+			<key>licenseText</key>
+			<string>MIT License
+
+Copyright (c) 2018 Daniel Huri, huri000@gmail.com
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+</string>
+			<key>licenseType</key>
+			<string>MIT</string>
+			<key>name</key>
+			<string>SwiftEntryKit</string>
+			<key>socialMediaURL</key>
+			<string></string>
+			<key>summary</key>
+			<string>A simple banner and pop-up displayer for iOS. Written in Swift.</string>
+			<key>version</key>
+			<string>1.0.1</string>
 		</dict>
 		<dict>
 			<key>authors</key>

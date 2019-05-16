@@ -22,36 +22,29 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
         return list.rawValue
     }
 
-    let image: String?
-    let country: String?
-    let visitors: Int
     let list: Checklist
-    let id: Int
+    let info: PlaceInfo
+    weak var delegate: PlaceAnnotationDelegate?
+
+    var id: Int { return info.placeId }
+    var country: String { return info.placeSubtitle }
+    var visitors: Int { return info.placeVisitors }
 
     // updated with user position or when NearbyVC displayed
     var distance: CLLocationDistance = 0
 
-    weak var delegate: PlaceAnnotationDelegate?
-
     init?(list: Checklist,
-          id: Int,
-          coordinate: CLLocationCoordinate2D,
-          delegate: PlaceAnnotationDelegate,
-          title: String,
-          country: String,
-          visitors: Int,
-          image: String) {
-        guard !coordinate.isZero else { return nil }
+          info: PlaceInfo,
+          delegate: PlaceAnnotationDelegate) {
+        let placeCoordinate = info.placeCoordinate
+        guard !placeCoordinate.isZero else { return nil }
 
-        self.coordinate = coordinate
-        self.subtitle = title
+        self.coordinate = placeCoordinate
+        self.subtitle = info.placeTitle
 
         self.list = list
-        self.id = id
+        self.info = info
         self.delegate = delegate
-        self.country = country
-        self.visitors = visitors
-        self.image = image
 
         super.init()
     }
@@ -65,11 +58,7 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
         guard other !== self else { return true }
 
         return list == other.list &&
-               id == other.id &&
-               coordinate == other.coordinate &&
-               subtitle == other.subtitle &&
-               country == other.country &&
-               image == other.image
+               info == other.info
     }
 
     var background: UIColor {
@@ -102,7 +91,8 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
     }
 
     var imageUrl: URL? {
-        guard let image = image, !image.isEmpty else { return nil }
+        let image = info.placeImage
+        guard !image.isEmpty else { return nil }
 
         if image.hasPrefix("http") {
             return URL(string: image)
@@ -148,8 +138,7 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
     override var description: String {
         return """
         PlaceAnnotation: \(list) - \
-        \(subtitle ?? "?"), \
-        \(country ?? "?"))
+        \(subtitle ?? "?")
         """
     }
 }

@@ -61,6 +61,7 @@ Requirements
 - [R.swift](https://github.com/mac-cain13/R.swift/) for typed resource identifiers
 - [Realm](https://github.com/realm/realm-cocoa) for data management
 - [Result](https://github.com/antitypical/Result) for operation result modelling
+- [SwiftEntryKit](https://github.com/huri000/SwiftEntryKit) for popup management
 
 Usage
 -----
