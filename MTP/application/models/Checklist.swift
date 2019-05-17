@@ -1,5 +1,6 @@
 // @copyright Trollwerks Inc.
 
+import CoreLocation
 import UIKit
 
 struct ChecklistFlags: Codable, Equatable {
@@ -13,6 +14,7 @@ struct ChecklistFlags: Codable, Equatable {
     var whss: Bool = true
 }
 
+// swiftlint:disable:next type_body_length
 enum Checklist: String, Codable, CaseIterable, ServiceProvider {
 
     case locations
@@ -96,8 +98,12 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         }
     }
 
+    func isTriggered(id: Int) -> Bool {
+        return triggered.contains(id)
+    }
+
     func isVisited(id: Int) -> Bool {
-        return visits.contains(id)
+        return visited.contains(id)
     }
 
     var places: [PlaceInfo] {
@@ -122,13 +128,25 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
     }
 
     func set(id: Int,
+             triggered: Bool) {
+        guard isTriggered(id: id) != triggered else { return }
+
+        if data.triggered == nil {
+            data.triggered = Checked()
+        }
+        data.triggered?.set(list: self,
+                            id: id,
+                            triggered: triggered)
+    }
+
+    func set(id: Int,
              visited: Bool) {
         guard self != .uncountries,
               isVisited(id: id) != visited else { return }
 
-        data.checklists?.set(list: self,
-                             id: id,
-                             visited: visited)
+        data.visited?.set(list: self,
+                          id: id,
+                          visited: visited)
     }
 
     func rank(of user: UserJSON? = nil) -> Int {
@@ -174,7 +192,7 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         case .restaurants:
             total = data.restaurants.count
         }
-        let complete = visited(of: user)
+        let complete = visits(of: user)
         return (complete, total - complete)
     }
 
@@ -197,7 +215,26 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         }
     }
 
-    func visited(of user: UserInfo) -> Int {
+    var category: String {
+        switch self {
+        case .locations:
+            return Localized.location()
+        case .uncountries:
+            return Localized.uncountry()
+        case .whss:
+            return Localized.whs()
+        case .beaches:
+            return Localized.beach()
+        case .golfcourses:
+            return Localized.golfcourse()
+        case .divesites:
+            return Localized.divesite()
+        case .restaurants:
+            return Localized.restaurant()
+        }
+    }
+
+    func visits(of user: UserInfo) -> Int {
         switch self {
         case .locations:
             return user.visitLocations
@@ -216,61 +253,95 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         }
     }
 
-    var visits: [Int] {
-        guard let checklists = data.checklists else { return [] }
+    func order(of user: UserInfo) -> Int {
+        switch self {
+        case .locations:
+            return user.orderLocations
+        case .uncountries:
+            return user.orderUncountries
+        case .whss:
+            return user.orderWhss
+        case .beaches:
+            return user.orderBeaches
+        case .golfcourses:
+            return user.orderGolfcourses
+        case .divesites:
+            return user.orderDivesites
+        case .restaurants:
+            return user.orderRestaurants
+        }
+    }
+
+    var visited: [Int] {
+        guard let visited = data.visited else { return [] }
 
         switch self {
         case .locations:
-            return checklists.locations
+            return visited.locations
         case .uncountries:
-            return checklists.uncountries
+            return visited.uncountries
         case .whss:
-            return checklists.whss
+            return visited.whss
         case .beaches:
-            return checklists.beaches
+            return visited.beaches
         case .golfcourses:
-            return checklists.golfcourses
+            return visited.golfcourses
         case .divesites:
-            return checklists.divesites
+            return visited.divesites
         case .restaurants:
-            return checklists.restaurants
+            return visited.restaurants
+        }
+    }
+
+    var triggerDistance: CLLocationDistance {
+        switch self {
+        case .locations:
+            return 1_600
+        case .uncountries:
+            return 0
+        case .whss:
+            return 1_600
+        case .beaches:
+            return 1_600
+        case .golfcourses:
+            return 1_600
+        case .divesites:
+            return 1_600
+        case .restaurants:
+            return 20
+        }
+    }
+
+    var triggered: [Int] {
+        guard let triggered = data.triggered else { return [] }
+
+        switch self {
+        case .locations:
+            return triggered.locations
+        case .uncountries:
+            return triggered.uncountries
+        case .whss:
+            return triggered.whss
+        case .beaches:
+            return triggered.beaches
+        case .golfcourses:
+            return triggered.golfcourses
+        case .divesites:
+            return triggered.divesites
+        case .restaurants:
+            return triggered.restaurants
         }
     }
 }
 
 enum Hierarchy {
-    case country
     case parent
     case region
     case regionSubgrouped // region/country if 1 else region/country/locations
     case regionSubtitled
 
-    var isGrouped: Bool {
-        return self == .country
-    }
-
-    var isShowingChildren: Bool {
-        return self == .parent
-    }
-
-    var isSubgrouped: Bool {
-        return self == .regionSubgrouped
-    }
-
     var isSubtitled: Bool {
         return self == .regionSubtitled
-    }
-
-    var isShowingCountries: Bool {
-        switch self {
-        case .country,
-             .parent,
-             .regionSubgrouped:
-            return true
-        case .region,
-             .regionSubtitled:
-            return false
-        }
     }
 }
 
@@ -295,23 +366,7 @@ extension Checklist {
         }
     }
 
-    var isGrouped: Bool {
-        return hierarchy.isGrouped
-    }
-
-    var isShowingChildren: Bool {
-        return hierarchy.isShowingChildren
-    }
-
-    var isSubgrouped: Bool {
-        return hierarchy.isSubgrouped
-    }
-
     var isSubtitled: Bool {
         return hierarchy.isSubtitled
-    }
-
-    var isShowingCountries: Bool {
-        return hierarchy.isShowingCountries
     }
 }

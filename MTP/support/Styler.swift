@@ -104,6 +104,14 @@ extension UIColor {
         return R.color.regalBlue()!
     }
 
+    static var switchOff: UIColor { // #9B9B9B
+        return R.color.switchOff()!
+    }
+
+    static var switchOn: UIColor { // #7ED321
+        return R.color.switchOn()!
+    }
+
     // swiftlint:enable force_unwrapping
 }
 
@@ -119,5 +127,14 @@ extension DispatchTime {
 
     static var long: DispatchTime {
         return now() + 8
+    }
+}
+
+extension UISwitch {
+
+    func styleAsFilter() {
+        backgroundColor = .switchOff
+        onTintColor = .switchOn
+        cornerRadius = 16
     }
 }

@@ -6,8 +6,6 @@ platform :ios, $iosVersion
 target 'MTP' do
 
   pod 'Anchorage'
-  pod 'AppCenter'
-  pod 'AppCenter/Distribute'
   pod 'Bolts', :modular_headers => true, :inhibit_warnings => true
   pod 'FacebookCore', :inhibit_warnings => true
   pod 'FacebookLogin'
@@ -20,10 +18,11 @@ target 'MTP' do
   pod 'Moya', :inhibit_warnings => true
   pod 'Nuke', :inhibit_warnings => true
   pod 'Parchment', :inhibit_warnings => true
-  pod 'Realm', '~> 3.14.1', :modular_headers => true
-  pod 'RealmSwift', '~> 3.14.1'
+  pod 'Realm', :modular_headers => true
+  pod 'RealmSwift'
   pod 'R.swift', :inhibit_warnings => true
   pod 'R.swift.Library', :inhibit_warnings => true
+  pod 'SwiftEntryKit', :inhibit_warnings => true
   pod 'SwiftLint'
   pod 'SwiftyBeaver', :inhibit_warnings => true
 

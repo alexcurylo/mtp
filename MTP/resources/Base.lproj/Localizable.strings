@@ -27,7 +27,26 @@
 
 // LocationsVC
 
+"location" = "MTP Location";
+"uncountry" = "UN Country";
+"whs" = "Heritage Site";
+"beach" = "Beach";
+"golfcourse" = "Golf Course";
+"divesite" = "Dive Site";
+"restaurant" = "Restaurant";
+
+"visitors" = "MTP Visitors: %@";
+"km" = "%@ km";
+
+"visited" = "Visited";
+"notVisited" = "Not Visited";
 "showMore" = "Show More";
+
+"checkinTitle" = "%@ Checkin Available";
+"checkinInside" = "You are in %@. Do you want to check in?";
+"checkinNear" = "You are near %@. Do you want to check in?";
+"checkinAction" = "Check in";
+"dismissAction" = "Dismiss";
 
 // LocationTracker
 
@@ -48,8 +67,8 @@
 "following" = "%@ Following";
 
 "ranking" = "MTP ranking: %@";
-"visited" = "Visited: %ld";
-"remaining" = "Remaining: %ld";
+"visitedCount" = "Visited: %ld";
+"remainingCount" = "Remaining: %ld";
 
 "locationCount" = "%@ (%ld)";
 "locationVisitedCount" = "%@ (%ld/%ld)";
@@ -72,6 +91,7 @@
 "scoreFraction" = "%@/%@";
 "topTravelers" = "Top Travelers:";
 
+"deceased" = "*";
 "join" = ", ";
 "allCountries" = "All countries";
 "allLocations" = "All locations";

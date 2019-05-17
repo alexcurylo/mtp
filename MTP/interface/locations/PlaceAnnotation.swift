@@ -4,86 +4,141 @@ import MapKit
 
 protocol PlaceAnnotationDelegate: AnyObject {
 
-    func show(location: PlaceAnnotation)
+    func close(place: PlaceAnnotation)
+    func notify(place: PlaceAnnotation)
+    func reveal(place: PlaceAnnotation?,
+                callout: Bool)
+    func show(place: PlaceAnnotation)
 }
 
-final class PlaceAnnotation: NSObject, MKAnnotation {
+final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
 
+    // MKAnnotation -- suppress callout title
     @objc dynamic var coordinate: CLLocationCoordinate2D
-    var title: String?
-    var subtitle: String?
-    var image: String?
-
-    let type: Checklist
-    let id: Int
-    var identifier: String {
-        return type.rawValue
+    let title: String? = nil
+    let subtitle: String?
+    // MKAnnotationView
+    var reuseIdentifier: String {
+        return list.rawValue
     }
 
+    let list: Checklist
+    let info: PlaceInfo
     weak var delegate: PlaceAnnotationDelegate?
 
-    init?(type: Checklist,
-          id: Int,
-          coordinate: CLLocationCoordinate2D,
-          delegate: PlaceAnnotationDelegate,
-          title: String,
-          subtitle: String,
-          image: String) {
-        guard !coordinate.isZero else { return nil }
+    var id: Int { return info.placeId }
+    var country: String { return info.placeSubtitle }
+    var visitors: Int { return info.placeVisitors }
 
-        self.type = type
-        self.id = id
-        self.coordinate = coordinate
+    // updated with user position or when NearbyVC displayed
+    var distance: CLLocationDistance = 0
+
+    init?(list: Checklist,
+          info: PlaceInfo,
+          delegate: PlaceAnnotationDelegate) {
+        let placeCoordinate = info.placeCoordinate
+        guard !placeCoordinate.isZero else { return nil }
+
+        self.coordinate = placeCoordinate
+        self.subtitle = info.placeTitle
+
+        self.list = list
+        self.info = info
         self.delegate = delegate
-        self.title = title
-        self.subtitle = subtitle
-        self.image = image
 
         super.init()
     }
 
     override var hash: Int {
-        return title.hashValue ^ identifier.hashValue
+        return title.hashValue ^ reuseIdentifier.hashValue
     }
 
     override func isEqual(_ object: Any?) -> Bool {
         guard let other = object as? PlaceAnnotation else { return false }
         guard other !== self else { return true }
 
-        return type == other.type &&
-               id == other.id &&
-               coordinate == other.coordinate &&
-               title == other.title &&
-               subtitle == other.subtitle &&
-               image == other.image
+        return list == other.list &&
+               info == other.info
     }
 
     var background: UIColor {
-        return type.background
+        return list.background
     }
 
     var listImage: UIImage {
-        return type.image
+        return list.image
     }
 
-    var visited: Bool {
-        get {
-            return type.isVisited(id: id)
-        }
+    var isTriggered: Bool {
+        get { return list.isTriggered(id: id) }
         set {
-            if type != .uncountries {
-                type.set(id: id, visited: newValue)
-            }
+            list.set(id: id, triggered: newValue)
+            delegate?.notify(place: self)
         }
+    }
+
+    var isVisited: Bool {
+        get { return list.isVisited(id: id) }
+        set { list.set(id: id, visited: newValue) }
+    }
+
+    func reveal(callout: Bool) {
+        delegate?.reveal(place: self, callout: callout)
     }
 
     func show() {
-        delegate?.show(location: self)
+        delegate?.show(place: self)
     }
 
     var imageUrl: URL? {
-        guard let uuid = image, !uuid.isEmpty else { return nil }
-        let target = MTP.picture(uuid: uuid, size: .any)
-        return target.requestUrl
+        let image = info.placeImage
+        guard !image.isEmpty else { return nil }
+
+        if image.hasPrefix("http") {
+            return URL(string: image)
+        } else {
+            let target = MTP.picture(uuid: image, size: .any)
+            return target.requestUrl
+        }
+    }
+
+    func setDistance(from: CLLocation, trigger: Bool) {
+        distance = coordinate.distance(from: from)
+        guard trigger,
+              !isVisited,
+              !isTriggered else { return }
+
+        let triggered: Bool
+        switch list {
+        case .locations:
+            triggered = data.worldMap.contains(coordinate: from.coordinate,
+                                               location: id)
+        default:
+            triggered = distance < list.triggerDistance
+        }
+        if triggered {
+            isTriggered = true
+        }
+    }
+
+    var formattedDistance: String {
+        let km = distance / 1_000
+        let formatted: String
+        switch km {
+        case ..<1:
+            formatted = String(format: "%.2f", km)
+        case ..<10:
+            formatted = String(format: "%.1f", km)
+        default:
+            formatted = Int(km).grouped
+        }
+        return Localized.km(formatted)
+    }
+
+    override var description: String {
+        return """
+        PlaceAnnotation: \(list) - \
+        \(subtitle ?? "?")
+        """
     }
 }

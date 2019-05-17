@@ -18,6 +18,8 @@ final class MyProfileVC: UIViewController, ServiceProvider {
 
     private var userObserver: Observer?
 
+    private var headerObservation: NSKeyValueObservation?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -62,7 +64,15 @@ private extension MyProfileVC {
     }
 
     func setupHeaderView() {
-        headerView?.round(corners: [.topLeft, .topRight], by: 5)
+        guard let header = headerView else { return }
+
+        header.round(corners: [.topLeft, .topRight], by: 5)
+
+        if headerObservation == nil {
+            headerObservation = header.layer.observe(\.bounds) { [weak self] _, _ in
+                self?.setupHeaderView()
+            }
+        }
     }
 
     func setupPagesHolder() {
@@ -87,13 +97,11 @@ private extension MyProfileVC {
     func configure() {
         guard let user = data.user else { return }
 
-        avatarImageView?.set(thumbnail: user)
+        avatarImageView?.load(image: user)
         fullNameLabel?.text = user.fullName
         countryLabel?.text = user.location.description
 
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
+        let dateFormatter = DateFormatter(mtp: .medium)
         birthdayLabel?.text = dateFormatter.string(from: user.birthday)
 
         #if FOLLOWERS_IMPLEMENTED
@@ -111,7 +119,7 @@ extension MyProfileVC: Injectable {
 
     typealias Model = ()
 
-    @discardableResult func inject(model: Model) -> MyProfileVC {
+    @discardableResult func inject(model: Model) -> Self {
         return self
     }
 

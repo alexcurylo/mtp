@@ -417,7 +417,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadChecklists(then: @escaping MTPResult<Checklists> = { _ in }) {
+    func loadChecklists(then: @escaping MTPResult<Checked> = { _ in }) {
         guard data.isLoggedIn else {
             log.verbose("load checklists attempt invalid: not logged in")
             return then(.failure(.parameter))
@@ -437,11 +437,10 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.failure(.notModified))
                 }
                 do {
-                    let checklists = try result.map(Checklists.self,
-                                                    using: JSONDecoder.mtp)
-                    self.log.verbose("checklists: succeeded")
-                    self.data.checklists = checklists
-                    return then(.success(checklists))
+                    let visited = try result.map(Checked.self,
+                                                 using: JSONDecoder.mtp)
+                    self.data.visited = visited
+                    return then(.success(visited))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
@@ -1058,7 +1057,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 log.verbose("logged in user: " + user.debugDescription)
                 data.token = token
                 data.user = user
-                refresh(info: user)
+                refreshUserInfo()
                 return then(.success(user))
             } catch {
                 log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
@@ -1234,20 +1233,19 @@ private extension MoyaMTPNetworkService {
     func refreshUser() {
         guard data.isLoggedIn else { return }
 
-        userGetByToken { result in
-            guard case .success(let user) = result else { return }
-            self.refresh(info: user)
+        userGetByToken { _ in
+            self.refreshUserInfo()
         }
     }
 
-    func refresh(info user: UserJSON) {
-        guard data.isLoggedIn else { return }
+    func refreshUserInfo() {
+        guard let user = data.user else { return }
 
-        self.loadChecklists()
-        self.loadUserPosts()
-        self.loadPhotos(user: nil, page: 1)
+        loadChecklists()
+        loadUserPosts()
+        loadPhotos(user: nil, page: 1)
         Checklist.allCases.forEach { list in
-            self.loadScorecard(list: list, user: user.id)
+            loadScorecard(list: list, user: user.id)
         }
     }
 }

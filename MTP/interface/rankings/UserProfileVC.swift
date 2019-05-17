@@ -94,7 +94,7 @@ private extension UserProfileVC {
     func configure() {
         guard let user = user else { return }
 
-        avatarImageView?.set(thumbnail: user)
+        avatarImageView?.load(image: user)
         fullNameLabel?.text = user.fullName
         countryLabel?.text = user.locationName
     }
@@ -104,7 +104,7 @@ extension UserProfileVC: Injectable {
 
     typealias Model = (list: Checklist, user: User, tab: Tab)
 
-    @discardableResult func inject(model: Model) -> UserProfileVC {
+    @discardableResult func inject(model: Model) -> Self {
         list = model.list
         user = model.user
         selected = model.tab

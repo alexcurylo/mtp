@@ -7,8 +7,10 @@ import RealmSwift
 
     dynamic var country: String = ""
     dynamic var id: Int = 0
-    dynamic var region: String = ""
+    dynamic var placeImage: String = ""
     dynamic var placeLocation: Location?
+    dynamic var placeVisitors: Int = 0
+    dynamic var region: String = ""
 
     override static func primaryKey() -> String? {
         return "id"
@@ -23,6 +25,7 @@ import RealmSwift
         id = from.id
         // all match except country Swaziland, location eSwatini (Swaziland)
         country = from.countryName
+        placeVisitors = from.visitors
         region = from.regionName
     }
 }

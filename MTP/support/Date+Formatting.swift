@@ -39,6 +39,13 @@ extension DateFormatter {
         $0.timeZone = TimeZone(secondsFromGMT: 0)
         $0.locale = Locale(identifier: "en_US_POSIX")
     }
+
+    convenience init(mtp style: DateFormatter.Style) {
+        self.init()
+        dateStyle = style
+        timeStyle = .none
+        timeZone = TimeZone(secondsFromGMT: 0)
+    }
 }
 
 extension JSONDecoder {

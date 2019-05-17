@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import  UIKit
+import UIKit
 
 struct ServiceHandler: AppHandler { }
 

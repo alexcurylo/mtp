@@ -113,7 +113,7 @@ extension LocationPhotosVC: Injectable {
 
     typealias Model = PlaceAnnotation
 
-    @discardableResult func inject(model: Model) -> LocationPhotosVC {
+    @discardableResult func inject(model: Model) -> Self {
         place = model
         return self
     }
@@ -132,7 +132,7 @@ final class LocationPhotoCell: UICollectionViewCell {
     }
 
     fileprivate func set(photo: Photo?) {
-        imageView?.set(thumbnail: photo)
+        imageView?.load(image: photo)
     }
 
     override func prepareForReuse() {

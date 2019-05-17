@@ -33,4 +33,17 @@ extension CLLocationCoordinate2D {
     var isZero: Bool {
         return self == .zero
     }
+
+    var location: CLLocation {
+        return CLLocation(latitude: latitude,
+                          longitude: longitude)
+    }
+
+    func distance(from: CLLocationCoordinate2D) -> CLLocationDistance {
+        return location.distance(from: from.location)
+    }
+
+    func distance(from: CLLocation) -> CLLocationDistance {
+        return location.distance(from: from)
+    }
 }

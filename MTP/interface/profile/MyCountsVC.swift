@@ -131,7 +131,7 @@ extension MyCountsVC: Injectable {
 
     typealias Model = ()
 
-    @discardableResult func inject(model: Model) -> MyCountsVC {
+    @discardableResult func inject(model: Model) -> Self {
         return self
     }
 

@@ -13,9 +13,9 @@ final class MyCountsPageVC: CountsPageVC {
 
     override var isEditable: Bool { return true }
     override var places: [PlaceInfo] { return list.places }
-    override var visits: [Int] { return list.visits }
+    override var visited: [Int] { return list.visited }
 
-    private var checklistsObserver: Observer?
+    private var visitedObserver: Observer?
     private var placesObserver: Observer?
 
     init(model: Model) {
@@ -30,9 +30,9 @@ final class MyCountsPageVC: CountsPageVC {
             self?.update()
         }
 
-        guard checklistsObserver == nil else { return }
+        guard visitedObserver == nil else { return }
 
-        checklistsObserver = data.observer(of: .checklists) { [weak self] _ in
+        visitedObserver = data.observer(of: .visited) { [weak self] _ in
             self?.update()
         }
     }
@@ -51,7 +51,7 @@ extension MyCountsPageVC: Injectable {
 
     typealias Model = (list: Checklist, delegate: MyCountsPageVCDelegate)
 
-    @discardableResult func inject(model: Model) -> MyCountsPageVC {
+    @discardableResult func inject(model: Model) -> Self {
         return self
     }
 

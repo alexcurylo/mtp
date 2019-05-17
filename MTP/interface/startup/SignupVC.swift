@@ -205,7 +205,7 @@ private extension SignupVC {
 
     @IBAction func facebookTapped(_ sender: FacebookButton) {
         view.endEditing(true)
-        sender.login { [weak self] info in
+        sender.login(vc: self) { [weak self] info in
             guard let self = self else { return }
             guard let info = info else {
                 self.errorMessage = Localized.facebookFailed()
@@ -428,7 +428,6 @@ extension SignupVC: UITextFieldDelegate {
         return true
     }
 
-    // swiftlint:disable:next cyclomatic_complexity
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case emailTextField:
@@ -542,7 +541,7 @@ extension SignupVC: Injectable {
 
     typealias Model = ()
 
-    @discardableResult func inject(model: Model) -> SignupVC {
+    @discardableResult func inject(model: Model) -> Self {
         return self
     }
 

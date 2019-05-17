@@ -127,7 +127,7 @@ extension LocationsFilterVC: Injectable {
 
     typealias Model = ()
 
-    @discardableResult func inject(model: Model) -> LocationsFilterVC {
+    @discardableResult func inject(model: Model) -> Self {
         return self
     }
 

@@ -2,8 +2,9 @@
 
 import CoreLocation
 import UIKit
+import UserNotifications
 
-enum Permission {
+enum PermissionTrigger {
     case ask
     case dontAsk
 }
@@ -13,12 +14,14 @@ protocol LocationTracker: CLLocationManagerDelegate, ServiceProvider {
     var locationManager: CLLocationManager { get }
 
     func alertLocationAccessNeeded()
+    func accessRefused()
 }
 
 extension LocationTracker {
 
-    @discardableResult func start(tracking ask: Permission) -> CLAuthorizationStatus {
+    @discardableResult func start(tracking ask: PermissionTrigger) -> CLAuthorizationStatus {
         locationManager.delegate = self
+        locationManager.distanceFilter = 10
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
 
         let status = CLLocationManager.authorizationStatus()
@@ -26,6 +29,10 @@ extension LocationTracker {
         case .authorizedAlways:
             if CLLocationManager.locationServicesEnabled() {
                 locationManager.startUpdatingLocation()
+                locationManager.allowsBackgroundLocationUpdates = true
+            }
+            if ask == .ask {
+                authorizeNotifications { _ in }
             }
         case .authorizedWhenInUse:
             if CLLocationManager.locationServicesEnabled() {
@@ -47,6 +54,13 @@ extension LocationTracker {
         }
         return status
     }
+
+    func authorizeNotifications(then: @escaping (Bool) -> Void) {
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .badge, .sound]) { granted, _ in
+            then(granted)
+        }
+    }
 }
 
 extension LocationTracker where Self: UIViewController {
@@ -62,10 +76,11 @@ extension LocationTracker where Self: UIViewController {
         )
 
         alert.addAction(UIAlertAction(title: Localized.cancel(),
-                                      style: .default,
-                                      handler: nil))
+                                      style: .cancel) { _ in
+            self.accessRefused()
+        })
         alert.addAction(UIAlertAction(title: Localized.allowLocationAccess(),
-                                      style: .cancel) { _ -> Void in
+                                      style: .default) { _ in
             self.app.open(settingsAppURL)
         })
 

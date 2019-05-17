@@ -37,7 +37,7 @@ LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/Frameworks @loader_path/
 // the hyphen (`-`). This value is used as the `CFBundleIdentifier` in the `Info.plist`
 // of the built bundle.
 
-PRODUCT_BUNDLE_IDENTIFIER = com.trollwerks.MTPUITests
+PRODUCT_BUNDLE_IDENTIFIER = com.mosttraveledpeople.MTPUITests
 
 
 

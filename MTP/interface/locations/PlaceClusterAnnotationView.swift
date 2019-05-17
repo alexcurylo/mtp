@@ -136,7 +136,7 @@ private extension MKClusterAnnotation {
     func count(places: Checklist) -> Int {
         return memberAnnotations.filter { member -> Bool in
             guard let place = member as? PlaceAnnotation else { return false }
-            return place.type == places
+            return place.list == places
         }.count
     }
 }

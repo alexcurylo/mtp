@@ -226,16 +226,6 @@ CLANG_WARN_UNREACHABLE_CODE = YES
 
 
 
-// Code Signing Identity
-// 
-// The name, also known as the *common name*, of a valid code-signing certificate in a
-// keychain within your keychain path. A missing or invalid certificate will cause a
-// build error.
-
-CODE_SIGN_IDENTITY = iPhone Developer
-
-
-
 // Strip Debug Symbols During Copy
 // 
 // Specifies whether binary files that are copied during the build, such as in a Copy
@@ -267,7 +257,7 @@ DEBUG_INFORMATION_FORMAT = dwarf-with-dsym
 // The team ID of a development team to use for signing certificates and provisioning
 // profiles.
 
-DEVELOPMENT_TEAM = 556343DW3U
+DEVELOPMENT_TEAM = 37L8D8MJWV
 
 
 

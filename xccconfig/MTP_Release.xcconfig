@@ -9,6 +9,4 @@
 
 #include "Pods/Target Support Files/Pods-MTP/Pods-MTP.release.xcconfig"
 
-//********************************************//
-//* Currently no build settings in this file *//
-//********************************************//
+PROVISIONING_PROFILE_SPECIFIER = MTP-AdHoc

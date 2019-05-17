@@ -1,68 +1,60 @@
 PODS:
-  - Alamofire (4.8.1)
+  - Alamofire (4.8.2)
   - Anchorage (4.3)
-  - AppCenter (1.13.2):
-    - AppCenter/Analytics (= 1.13.2)
-    - AppCenter/Crashes (= 1.13.2)
-  - AppCenter/Analytics (1.13.2):
-    - AppCenter/Core
-  - AppCenter/Core (1.13.2)
-  - AppCenter/Crashes (1.13.2):
-    - AppCenter/Core
-  - AppCenter/Distribute (1.13.2):
-    - AppCenter/Core
   - Bolts (1.9.0):
     - Bolts/AppLinks (= 1.9.0)
     - Bolts/Tasks (= 1.9.0)
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
-  - FacebookCore (0.5.0):
-    - Bolts (~> 1.9)
-    - FBSDKCoreKit (~> 4.37)
-  - FacebookLogin (0.5.0):
-    - Bolts (~> 1.9)
-    - FacebookCore (~> 0.5)
-    - FBSDKCoreKit (~> 4.37)
-    - FBSDKLoginKit (~> 4.37)
-  - FacebookShare (0.5.0):
-    - Bolts (~> 1.9)
-    - FacebookCore (~> 0.5)
-    - FBSDKCoreKit (~> 4.37)
-    - FBSDKShareKit (~> 4.37)
-  - FBSDKCoreKit (4.40.0):
-    - Bolts (~> 1.9)
-  - FBSDKLoginKit (4.40.0):
-    - FBSDKCoreKit
-  - FBSDKShareKit (4.40.0):
-    - FBSDKCoreKit
-  - JWTDecode (2.2.0)
-  - KRActivityIndicatorView (3.0.0)
-  - KRProgressHUD (3.4.0):
-    - KRActivityIndicatorView (= 3.0.0)
-  - Moya (12.0.1):
-    - Moya/Core (= 12.0.1)
-  - Moya/Core (12.0.1):
+  - FacebookCore (0.7.0):
+    - FBSDKCoreKit (~> 5.0)
+  - FacebookLogin (0.7.0):
+    - FacebookCore (~> 0.7)
+    - FBSDKCoreKit (~> 5.0)
+    - FBSDKLoginKit (~> 5.0)
+  - FacebookShare (0.7.0):
+    - FacebookCore (~> 0.7)
+    - FBSDKCoreKit (~> 5.0)
+    - FBSDKShareKit (~> 5.0)
+  - FBSDKCoreKit (5.0.0):
+    - FBSDKCoreKit/Basics (= 5.0.0)
+    - FBSDKCoreKit/Core (= 5.0.0)
+  - FBSDKCoreKit/Basics (5.0.0)
+  - FBSDKCoreKit/Core (5.0.0):
+    - FBSDKCoreKit/Basics
+  - FBSDKLoginKit (5.0.0):
+    - FBSDKCoreKit (= 5.0.0)
+  - FBSDKShareKit (5.0.0):
+    - FBSDKCoreKit (= 5.0.0)
+  - JWTDecode (2.3.0)
+  - KRActivityIndicatorView (3.0.2)
+  - KRProgressHUD (3.4.1):
+    - KRActivityIndicatorView (= 3.0.2)
+  - Moya (13.0.1):
+    - Moya/Core (= 13.0.1)
+  - Moya/Core (13.0.1):
     - Alamofire (~> 4.1)
-    - Result (~> 4.0)
-  - Nuke (7.5.2)
+    - Result (~> 4.1)
+  - Nuke (7.6.3)
   - Parchment (1.6.0)
-  - R.swift (5.0.2):
+  - QuickLayout (3.0.0)
+  - R.swift (5.0.3):
     - R.swift.Library (~> 5.0.0)
-  - R.swift.Library (5.0.0)
-  - Realm (3.14.1):
-    - Realm/Headers (= 3.14.1)
-  - Realm/Headers (3.14.1)
-  - RealmSwift (3.14.1):
-    - Realm (= 3.14.1)
+  - R.swift.Library (5.0.1)
+  - Realm (3.15.0):
+    - Realm/Headers (= 3.15.0)
+  - Realm/Headers (3.15.0)
+  - RealmSwift (3.15.0):
+    - Realm (= 3.15.0)
   - Result (4.1.0)
-  - SwiftLint (0.31.0)
+  - SwiftEntryKit (1.0.1):
+    - QuickLayout (= 3.0.0)
+  - SwiftLint (0.32.0)
   - SwiftyBeaver (1.7.0)
 
 DEPENDENCIES:
   - Anchorage
-  - AppCenter
-  - AppCenter/Distribute
   - Bolts
   - FacebookCore
   - FacebookLogin
@@ -77,8 +69,9 @@ DEPENDENCIES:
   - Parchment
   - R.swift
   - R.swift.Library
-  - Realm (~> 3.14.1)
-  - RealmSwift (~> 3.14.1)
+  - Realm
+  - RealmSwift
+  - SwiftEntryKit
   - SwiftLint
   - SwiftyBeaver
 
@@ -86,7 +79,6 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
     - Anchorage
-    - AppCenter
     - Bolts
     - FacebookCore
     - FacebookLogin
@@ -100,39 +92,42 @@ SPEC REPOS:
     - Moya
     - Nuke
     - Parchment
+    - QuickLayout
     - R.swift
     - R.swift.Library
     - Realm
     - RealmSwift
     - Result
+    - SwiftEntryKit
     - SwiftLint
     - SwiftyBeaver
 
 SPEC CHECKSUMS:
-  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
+  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   Anchorage: 21a98675245188427f0bcea21404d42a824a766f
-  AppCenter: bce7fe1098e8e8aeb70aaae1898600534069f549
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
-  FacebookCore: 74288d0add931d361b1596beae787ab72c438249
-  FacebookLogin: ebcf34714a1cb9f0759d9f071cfb01ed500996cf
-  FacebookShare: 963b4bb1124a64a395b1e428163d70b5774116e8
-  FBSDKCoreKit: ae214474b25033399c131dc81d258e412582a2ba
-  FBSDKLoginKit: 7a1e411d46acc8834588eca437daf34de42e1d52
-  FBSDKShareKit: 0e45916f4150da485928ae2a17ca021950b194f5
-  JWTDecode: 85a405ab16d5473e99bd89ded1d535090ebd6a0e
-  KRActivityIndicatorView: c414000730a6f4969eeb354bee4f2aebc89c2c2e
-  KRProgressHUD: 79c8703f82179fe34b3602f10b30726f887983fa
-  Moya: cf730b3cd9e005401ef37a85143aa141a12fd38f
-  Nuke: 0350d346a688426e8f2331253ef28dc2fc4f6178
+  FacebookCore: 4eee98476cb37a485af5d337eb21f8cd5b3c7e6c
+  FacebookLogin: 94cdad6850e86a2b04704dedfe7674a7af8148eb
+  FacebookShare: dd4954712db61e078aea483bdf89e1b2ae3574b5
+  FBSDKCoreKit: ba361d4a9d4dc29ff218822b849b22d4f869c7bb
+  FBSDKLoginKit: c6d0dc187bd076e370dffa10f7fc8a3562a6892c
+  FBSDKShareKit: edf3450bf82ce0c626b31943f370d3729082746d
+  JWTDecode: fb77675c8049c1a7e9433c7cf448c3ce33ee4ac7
+  KRActivityIndicatorView: a2022d5d3e366207d2690f6bcc550f83aa91241b
+  KRProgressHUD: 115363b48feb530ab1f36c4146ed22e779e0f5aa
+  Moya: f4a4b80ff2f8a4ffc208dfb31cd91636622fee6e
+  Nuke: 44130e95e09463f8773ae4b96b90de1eba6b3350
   Parchment: d3a7b367c529fa6ef51aa43f5717a7ff36d4b1f5
-  R.swift: 81455d81467763cbd3f4d79d938d05f4ac4c0228
-  R.swift.Library: 0bf390e729bc10bb2c9e4fb78bd043164a7be4ff
-  Realm: e12c9c2387d05c5bba3a9c394838f5870e85763b
-  RealmSwift: a82eab9b04c3e1616082c7e17aa300740847769c
+  QuickLayout: 07b45a72b10083fee3f095990cfed1c1e7b27f0a
+  R.swift: f5a87643b91ea569d23d6afb3eee9c743edde239
+  R.swift.Library: cfe85d569d9bae6cb262922db130e7c3a7a5fad1
+  Realm: 9b834e1be6062f544805252c812348872dc5d4ed
+  RealmSwift: 8a41886f8ab6efef9eb8df97de2f2bb911561a79
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
-  SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
+  SwiftEntryKit: 3f55c0b8e676afe24a3703237bcac68372891c56
+  SwiftLint: 009a898ef2a1c851f45e1b59349bf6ff2ddc990d
   SwiftyBeaver: 4cc0080d2e23f980652e28978db11a5c9da39165
 
-PODFILE CHECKSUM: 0755994ba1f1ca58b6fefcb4de36dbbce849f473
+PODFILE CHECKSUM: 11efdb85aff075d6cf3c2db66f49c4505bf26194
 
 COCOAPODS: 1.6.1

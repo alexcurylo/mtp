@@ -100,7 +100,7 @@ extension RootVC: Injectable {
 
     typealias Model = ()
 
-    @discardableResult func inject(model: Model) -> RootVC {
+    @discardableResult func inject(model: Model) -> Self {
         return self
     }
 

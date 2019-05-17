@@ -114,9 +114,9 @@ private extension MyAboutVC {
         rankingLabel?.text = ranking
 
         let status = list.status(of: user)
-        let visited = Localized.visited(status.visited)
+        let visited = Localized.visitedCount(status.visited)
         visitedButton?.setTitle(visited, for: .normal)
-        let remaining = Localized.remaining(status.remaining)
+        let remaining = Localized.remainingCount(status.remaining)
         remainingButton?.setTitle(remaining, for: .normal)
 
         bioTextView?.text = user.bio
@@ -176,7 +176,7 @@ extension MyAboutVC: Injectable {
 
     typealias Model = ()
 
-    @discardableResult func inject(model: Model) -> MyAboutVC {
+    @discardableResult func inject(model: Model) -> Self {
         return self
     }
 

@@ -36,7 +36,7 @@ struct PostJSON: Codable {
     let id: Int
     let location: PlaceLocation // LocationJSON in user endpoint
     let locationId: Int
-    let post: String
+    let post: String?
     let status: String
     let updatedAt: Date
     let owner: OwnerJSON // UserJSON in user endpoint
@@ -59,7 +59,7 @@ extension PostJSON: CustomDebugStringConvertible {
         id: \(id)
         location: \(location)
         locationId: \(locationId)
-        post: \(post)
+        post: \(String(describing: post))
         status: \(status)
         updatedAt: \(updatedAt)
         owner: \(owner)
@@ -81,12 +81,18 @@ extension PostJSON: CustomDebugStringConvertible {
         return "id"
     }
 
-    convenience init(from: PostJSON) {
+    convenience init?(from: PostJSON) {
+        guard let text = from.post,
+              !text.isEmpty,
+              from.status == MTP.Status.published.rawValue else {
+            return nil
+        }
+
         self.init()
 
+        post = text
         id = from.id
         locationId = from.locationId
-        post = from.post
         updatedAt = from.updatedAt
         userId = from.userId
     }

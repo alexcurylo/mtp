@@ -141,7 +141,7 @@ extension MyPhotosVC: Injectable {
 
     typealias Model = ()
 
-    @discardableResult func inject(model: Model) -> MyPhotosVC {
+    @discardableResult func inject(model: Model) -> Self {
         return self
     }
 
@@ -158,7 +158,7 @@ final class MyPhotoCell: UICollectionViewCell {
     }
 
     fileprivate func set(photo: Photo?) {
-        imageView?.set(thumbnail: photo)
+        imageView?.load(image: photo)
     }
 
     override func prepareForReuse() {

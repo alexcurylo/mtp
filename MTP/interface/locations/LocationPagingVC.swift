@@ -70,7 +70,7 @@ extension LocationPagingVC: Injectable {
 
     typealias Model = PlaceAnnotation
 
-    @discardableResult func inject(model: Model) -> LocationPagingVC {
+    @discardableResult func inject(model: Model) -> Self {
         return self
     }
 

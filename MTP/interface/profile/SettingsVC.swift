@@ -72,7 +72,7 @@ extension SettingsVC: Injectable {
 
     typealias Model = ()
 
-    @discardableResult func inject(model: Model) -> SettingsVC {
+    @discardableResult func inject(model: Model) -> Self {
         return self
     }
 

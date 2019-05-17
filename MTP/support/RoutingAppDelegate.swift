@@ -55,35 +55,40 @@ protocol AppStatusBarHandler: AppHandler {
                      didChangeStatusBarFrame oldStatusBarFrame: CGRect)
 }
 
-protocol AppNotificationHandler: AppHandler {
+protocol AppNotificationsHandler: AppHandler {
     func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data)
     func application(_ application: UIApplication,
                      didFailToRegisterForRemoteNotificationsWithError error: Error)
     func application(_ application: UIApplication,
                      didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Swift.Void)
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void)
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void)
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                // swiftlint:disable:next line_length
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                openSettingsFor notification: UNNotification?)
 }
 
 protocol AppBackgroundFetchHandler: AppHandler {
     func application(_ application: UIApplication,
-                     // swiftlint:disable:next line_length
-                     performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Swift.Void)
+                     performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void)
 }
 
 protocol AppBackgroundURLSessionHandler: AppHandler {
     func application(_ application: UIApplication,
                      handleEventsForBackgroundURLSession identifier: String,
-                     completionHandler: @escaping () -> Swift.Void)
+                     completionHandler: @escaping () -> Void)
 }
 
 protocol AppShortcutHandler: AppHandler {
     func application(_ application: UIApplication,
                      performActionFor shortcutItem: UIApplicationShortcutItem,
-                     completionHandler: @escaping (Bool) -> Swift.Void)
+                     completionHandler: @escaping (Bool) -> Void)
 }
 
 protocol AppWatchHandler: AppHandler {
@@ -91,7 +96,7 @@ protocol AppWatchHandler: AppHandler {
                      // swiftlint:disable:next discouraged_optional_collection
                      handleWatchKitExtensionRequest userInfo: [AnyHashable: Any]?,
                      // swiftlint:disable:next discouraged_optional_collection
-                     reply: @escaping ([AnyHashable: Any]?) -> Swift.Void)
+                     reply: @escaping ([AnyHashable: Any]?) -> Void)
 }
 
 protocol AppHealthHandler: AppHandler {
@@ -135,7 +140,7 @@ protocol AppContinuityHandler: AppHandler {
     func application(_ application: UIApplication,
                      continue userActivity: NSUserActivity,
                      // swiftlint:disable:next discouraged_optional_collection
-                     restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Swift.Void) -> Bool
+                     restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool
     func application(_ application: UIApplication,
                      didFailToContinueUserActivityWithType userActivityType: String,
                      error: Error)
@@ -186,7 +191,7 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
                        .map { $0.application(application,
                                              willFinishLaunchingWithOptions: launchOptions)
                        }
-                       .reduce(true) { $0 && $1 }
+                       .allSatisfy { $0 }
     }
 
     public func application(_ application: UIApplication,
@@ -197,7 +202,7 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
                        .map { $0.application(application,
                                              didFinishLaunchingWithOptions: launchOptions)
                        }
-                       .reduce(true) { $0 && $1 }
+                       .allSatisfy { $0 }
     }
 
     public func applicationWillEnterForeground(_ application: UIApplication) {
@@ -233,7 +238,7 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
                                           open: url,
                                           options: options)
                     }
-                    .reduce(false) { $0 || $1 }
+                    .contains { $0 }
     }
 
     public func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
@@ -282,7 +287,7 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
 
     public func application(_ application: UIApplication,
                             didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        handlers.of(type: AppNotificationHandler.self)
+        handlers.of(type: AppNotificationsHandler.self)
                 .forEach { $0.application(application,
                                           didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
                 }
@@ -290,7 +295,7 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
 
     public func application(_ application: UIApplication,
                             didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        handlers.of(type: AppNotificationHandler.self)
+        handlers.of(type: AppNotificationsHandler.self)
                 .forEach { $0.application(application,
                                           didFailToRegisterForRemoteNotificationsWithError: error)
                 }
@@ -298,9 +303,8 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
 
     public func application(_ application: UIApplication,
                             didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-                            // swiftlint:disable:next line_length
-                            fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Swift.Void) {
-        handlers.of(type: AppNotificationHandler.self)
+                            fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        handlers.of(type: AppNotificationsHandler.self)
                  .forEach { $0.application(application,
                                            didReceiveRemoteNotification: userInfo,
                                            fetchCompletionHandler: completionHandler)
@@ -310,16 +314,35 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
     public func userNotificationCenter(_ center: UNUserNotificationCenter,
                                        didReceive response: UNNotificationResponse,
                                        withCompletionHandler completionHandler: @escaping () -> Void) {
-        handlers.of(type: AppNotificationHandler.self)
+        handlers.of(type: AppNotificationsHandler.self)
                 .forEach { $0.userNotificationCenter(center,
                                                      didReceive: response,
                                                      withCompletionHandler: completionHandler)
                 }
     }
 
+    public func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                       willPresent notification: UNNotification,
+                                       // swiftlint:disable:next line_length
+                                       withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        handlers.of(type: AppNotificationsHandler.self)
+                .forEach { $0.userNotificationCenter(center,
+                                                     willPresent: notification,
+                                                     withCompletionHandler: completionHandler)
+                }
+    }
+
+    public func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                       openSettingsFor notification: UNNotification?) {
+        handlers.of(type: AppNotificationsHandler.self)
+                .forEach { $0.userNotificationCenter(center,
+                                                     openSettingsFor: notification)
+                }
+    }
+
     public func application(_ application: UIApplication,
                             // swiftlint:disable:next line_length
-                            performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Swift.Void) {
+                            performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         handlers.of(type: AppBackgroundFetchHandler.self)
                 .forEach { $0.application(application,
                                           performFetchWithCompletionHandler: completionHandler)
@@ -328,7 +351,7 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
 
     public func application(_ application: UIApplication,
                             handleEventsForBackgroundURLSession identifier: String,
-                            completionHandler: @escaping () -> Swift.Void) {
+                            completionHandler: @escaping () -> Void) {
         handlers.of(type: AppBackgroundURLSessionHandler.self)
                 .forEach { $0.application(application,
                                           handleEventsForBackgroundURLSession: identifier,
@@ -338,7 +361,7 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
 
     public func application(_ application: UIApplication,
                             performActionFor shortcutItem: UIApplicationShortcutItem,
-                            completionHandler: @escaping (Bool) -> Swift.Void) {
+                            completionHandler: @escaping (Bool) -> Void) {
         handlers.of(type: AppShortcutHandler.self)
                 .forEach { $0.application(application,
                                           performActionFor: shortcutItem,
@@ -350,7 +373,7 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
                             // swiftlint:disable:next discouraged_optional_collection
                             handleWatchKitExtensionRequest userInfo: [AnyHashable: Any]?,
                             // swiftlint:disable:next discouraged_optional_collection
-                            reply: @escaping ([AnyHashable: Any]?) -> Swift.Void) {
+                            reply: @escaping ([AnyHashable: Any]?) -> Void) {
         handlers.of(type: AppWatchHandler.self)
                 .forEach { $0.application(application,
                                           handleWatchKitExtensionRequest: userInfo,
@@ -397,7 +420,7 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
                        .map { $0.application(application,
                                              shouldAllowExtensionPointIdentifier: extensionPointIdentifier)
                        }
-                       .reduce(true) { $0 && $1 }
+                       .allSatisfy { $0 }
     }
 
     public func application(_ application: UIApplication,
@@ -418,7 +441,7 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
                        .map { $0.application(application,
                                              shouldSaveApplicationState: coder)
                        }
-                       .reduce(false) { $0 || $1 }
+                       .contains { $0 }
     }
 
     public func application(_ application: UIApplication,
@@ -427,7 +450,7 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
                        .map { $0.application(application,
                                              shouldRestoreApplicationState: coder)
                        }
-                       .reduce(false) { $0 || $1 }
+                       .contains { $0 }
     }
 
     public func application(_ application: UIApplication,
@@ -452,7 +475,7 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
                        .map { $0.application(application,
                                              willContinueUserActivityWithType: userActivityType)
                        }
-                       .reduce(false) { $0 || $1 }
+                       .contains { $0 }
     }
 
     public func application(_ application: UIApplication,
@@ -464,7 +487,7 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
                                              continue: userActivity,
                                              restorationHandler: restorationHandler)
                        }
-                       .reduce(false) { $0 || $1 }
+                       .contains { $0 }
     }
 
     public func application(_ application: UIApplication,

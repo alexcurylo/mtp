@@ -45,7 +45,7 @@ extension WelcomeVC: Injectable {
 
     typealias Model = ()
 
-    @discardableResult func inject(model: Model) -> WelcomeVC {
+    @discardableResult func inject(model: Model) -> Self {
         return self
     }
 

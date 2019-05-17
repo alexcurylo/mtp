@@ -1,7 +1,7 @@
 # references:
 # https://github.com/realm/SwiftLint#configuration
 #
-# `swiftlint rules` last updated version 0.31
+# `swiftlint rules` last updated version 0.32.0
 #
 # Disable an individual warning with [next|previous]:
 # // swiftlint:disable:previous line_length
@@ -37,6 +37,7 @@ opt_in_rules:
   - fatal_error_message
   - file_header
   - file_name
+#- file_types_order
   - first_where
   - force_unwrapping
   - function_default_parameter_at_end
@@ -61,6 +62,7 @@ opt_in_rules:
 #- no_extension_access_modifier
 #- no_grouping_extension
   - nslocalizedstring_key
+  - nslocalizedstring_require_bundle
   - number_separator
 #- object_literal
   - operator_usage_whitespace
@@ -75,6 +77,7 @@ opt_in_rules:
   - quick_discouraged_call
   - quick_discouraged_focused_test
   - quick_discouraged_pending_test
+  - reduce_into
   - redundant_nil_coalescing
   - redundant_type_annotation
   - required_enum_case
@@ -88,6 +91,7 @@ opt_in_rules:
 #- switch_case_on_newline
   - toggle_bool
   - trailing_closure
+#- type_contents_order
   - unavailable_function
   - unneeded_parentheses_in_closure_argument
   - untyped_error_in_catch
@@ -115,3 +119,6 @@ file_header:
                     \/\/ @copyright Trollwerks Inc.
 
 function_parameter_count: 6
+
+cyclomatic_complexity:
+  ignores_case_statements: true

@@ -8,7 +8,6 @@ import RealmSwift
 protocol DataService: AnyObject, Observable, ServiceProvider {
 
     var beaches: [Beach] { get }
-    var checklists: Checklists? { get set }
     var countries: [Country] { get }
     var divesites: [DiveSite] { get }
     var email: String { get set }
@@ -20,8 +19,10 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var posts: [Post] { get }
     var restaurants: [Restaurant] { get }
     var token: String { get set }
+    var triggered: Checked? { get set }
     var uncountries: [UNCountry] { get }
     var user: UserJSON? { get set }
+    var visited: Checked? { get set }
     var whss: [WHS] { get }
     var worldMap: WorldMap { get }
 
@@ -87,7 +88,8 @@ extension DataService {
         FacebookButton.logOut()
         MTP.unthrottle()
 
-        checklists = nil
+        triggered = nil
+        visited = nil
         email = ""
         etags = [:]
         deleteUserPhotos()
@@ -114,14 +116,6 @@ final class DataServiceImpl: DataService {
     func set(beaches: [PlaceJSON]) {
         realm.set(beaches: beaches)
         notify(change: .beaches)
-    }
-
-    var checklists: Checklists? {
-        get { return defaults.checklists }
-        set {
-            defaults.checklists = newValue
-            notify(change: .checklists)
-        }
     }
 
     var countries: [Country] {
@@ -295,6 +289,14 @@ final class DataServiceImpl: DataService {
         }
     }
 
+    var triggered: Checked? {
+        get { return defaults.triggered }
+        set {
+            defaults.triggered = newValue
+            notify(change: .triggered)
+        }
+    }
+
     var uncountries: [UNCountry] {
         return realm.uncountries
     }
@@ -319,6 +321,14 @@ final class DataServiceImpl: DataService {
         return realm.user(id: id) ?? User()
     }
 
+    var visited: Checked? {
+        get { return defaults.visited }
+        set {
+            defaults.visited = newValue
+            notify(change: .visited)
+        }
+    }
+
     func get(whs id: Int) -> WHS? {
         return realm.whs(id: id)
     }
@@ -329,7 +339,7 @@ final class DataServiceImpl: DataService {
 
     func hasVisitedChildren(whs id: Int) -> Bool {
         let children = realm.whss.filter { $0.parentId == id }
-        let visits = checklists?.whss ?? []
+        let visits = visited?.whss ?? []
         for child in children {
             if visits.contains(child.id) {
                 return true
@@ -360,7 +370,6 @@ final class DataServiceImpl: DataService {
 enum DataServiceChange: String {
 
     case beaches
-    case checklists
     case divesites
     case golfcourses
     case locationPhotos
@@ -371,9 +380,11 @@ enum DataServiceChange: String {
     case rankings
     case restaurants
     case scorecard
+    case triggered
     case uncountries
     case user
     case userId
+    case visited
     case whss
 }
 

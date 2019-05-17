@@ -156,7 +156,7 @@ extension RankingsVC: Injectable {
 
     typealias Model = ()
 
-    @discardableResult func inject(model: Model) -> RankingsVC {
+    @discardableResult func inject(model: Model) -> Self {
         return self
     }
 

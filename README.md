@@ -1,6 +1,5 @@
 # [mtp](https://github.com/alexcurylo/mtp)
 [![Travis](https://travis-ci.org/alexcurylo/mtp.svg?branch=develop)](https://travis-ci.org/alexcurylo/mtp)
-[![AppCenter](https://build.appcenter.ms/v0.1/apps/ac2fc09b-92be-47cb-b23c-3e523b23bced/branches/develop/badge)](https://appcenter.ms)
 [![codebeat](https://codebeat.co/badges/321a44b1-ff7b-48fd-b8e2-42a5a8d19568)](https://codebeat.co/projects/github-com-alexcurylo-mtp-develop)
 [![Coverage](https://coveralls.io/repos/github/alexcurylo/mtp/badge.svg?branch=develop)](https://coveralls.io/github/alexcurylo/mtp?branch=develop)
 [![docs](https://alexcurylo.github.io/mtp/badge.svg)](https://alexcurylo.github.io/mtp)
@@ -37,7 +36,6 @@ Requirements
 
 ### Tools:
 
-- [AppCenter](https://appcenter.ms/) for distribution management
 - [Bundler](https://bundler.io/) for Ruby dependency management
 - [CocoaPods](https://cocoapods.org/) for iOS dependency management
 - [codebeat](https://codebeat.co/projects/github-com-alexcurylo-mtp-develop) for automated code review
@@ -61,8 +59,9 @@ Requirements
 - [Nuke](https://github.com/kean/Nuke) for networked image loading
 - [Parchment](https://github.com/rechsteiner/Parchment) for view paging
 - [R.swift](https://github.com/mac-cain13/R.swift/) for typed resource identifiers
-- [Realm Swift](https://github.com/realm/realm-cocoa) for data management
+- [Realm](https://github.com/realm/realm-cocoa) for data management
 - [Result](https://github.com/antitypical/Result) for operation result modelling
+- [SwiftEntryKit](https://github.com/huri000/SwiftEntryKit) for popup management
 
 Usage
 -----

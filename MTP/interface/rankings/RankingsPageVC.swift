@@ -38,7 +38,7 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
     private var filterDescription = ""
     private var filterRank: Int?
 
-    private var checklistsObserver: Observer?
+    private var visitedObserver: Observer?
     private var rankingsObserver: Observer?
     private var scorecardObserver: Observer?
 
@@ -169,9 +169,9 @@ extension RankingsPageVC: UICollectionViewDataSource {
 private extension RankingsPageVC {
 
     func observe() {
-        guard checklistsObserver == nil else { return }
+        guard visitedObserver == nil else { return }
 
-        checklistsObserver = data.observer(of: .checklists) { [weak self] _ in
+        visitedObserver = data.observer(of: .visited) { [weak self] _ in
             self?.collectionView.reloadData()
         }
 

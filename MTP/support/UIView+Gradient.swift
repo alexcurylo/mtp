@@ -286,3 +286,10 @@ extension UIEdgeInsets {
         return top + bottom
     }
 }
+
+extension CGRect {
+
+    var minEdge: CGFloat {
+        return min(width, height)
+    }
+}

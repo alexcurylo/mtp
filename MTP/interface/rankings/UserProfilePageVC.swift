@@ -23,15 +23,15 @@ final class UserProfilePageVC: CountsPageVC {
 
         let showVisited = tab == .visited
         let places = list.places
-        let visited = visits
-        guard !visited.isEmpty else { return showVisited ? [] : places }
+        let visits = visited
+        guard !visits.isEmpty else { return showVisited ? [] : places }
 
         return places.compactMap {
             let isVisited = visited.contains($0.placeId)
             return isVisited == showVisited ? $0 : nil
         }
     }
-    override var visits: [Int] {
+    override var visited: [Int] {
         if let scorecard = dataSource?.scorecard {
             return Array(scorecard.visits)
         } else {
@@ -69,7 +69,7 @@ extension UserProfilePageVC: Injectable {
                        user: User,
                        tab: UserProfileVC.Tab)
 
-    @discardableResult func inject(model: Model) -> UserProfilePageVC {
+    @discardableResult func inject(model: Model) -> Self {
         return self
     }
 
@@ -82,9 +82,9 @@ extension UserProfileVC.Tab {
     func title(status: Checklist.Status) -> String {
         switch self {
         case .visited:
-            return Localized.visited(status.visited)
+            return Localized.visitedCount(status.visited)
         case .remaining:
-            return Localized.remaining(status.remaining)
+            return Localized.remainingCount(status.remaining)
        }
     }
 
@@ -100,9 +100,9 @@ extension UserProfileVC.Tab {
     func title(scorecard: Scorecard) -> String {
         switch self {
         case .visited:
-            return Localized.visited(scorecard.visited)
+            return Localized.visitedCount(scorecard.visited)
         case .remaining:
-            return Localized.remaining(scorecard.remaining)
+            return Localized.remainingCount(scorecard.remaining)
         }
     }
 

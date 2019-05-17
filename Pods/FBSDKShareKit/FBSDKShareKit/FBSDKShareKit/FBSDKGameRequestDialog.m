@@ -45,11 +45,17 @@ static FBSDKGameRequestFrictionlessRecipientCache *_recipientCache = nil;
   }
 }
 
-+ (instancetype)showWithContent:(FBSDKGameRequestContent *)content delegate:(id<FBSDKGameRequestDialogDelegate>)delegate
++ (instancetype)dialogWithContent:(FBSDKGameRequestContent *)content delegate:(id<FBSDKGameRequestDialogDelegate>)delegate
 {
   FBSDKGameRequestDialog *dialog = [[self alloc] init];
   dialog.content = content;
   dialog.delegate = delegate;
+  return dialog;
+}
+
++ (instancetype)showWithContent:(FBSDKGameRequestContent *)content delegate:(id<FBSDKGameRequestDialogDelegate>)delegate
+{
+  FBSDKGameRequestDialog *dialog = [self dialogWithContent:content delegate:delegate];
   [dialog show];
   return dialog;
 }
@@ -100,14 +106,14 @@ static FBSDKGameRequestFrictionlessRecipientCache *_recipientCache = nil;
   }
 
   NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-  [FBSDKInternalUtility dictionary:parameters setObject:[content.recipients componentsJoinedByString:@","] forKey:@"to"];
-  [FBSDKInternalUtility dictionary:parameters setObject:content.message forKey:@"message"];
-  [FBSDKInternalUtility dictionary:parameters setObject:[self _actionTypeNameForActionType:content.actionType] forKey:@"action_type"];
-  [FBSDKInternalUtility dictionary:parameters setObject:content.objectID forKey:@"object_id"];
-  [FBSDKInternalUtility dictionary:parameters setObject:[self _filtersNameForFilters:content.filters] forKey:@"filters"];
-  [FBSDKInternalUtility dictionary:parameters setObject:[content.recipientSuggestions componentsJoinedByString:@","] forKey:@"suggestions"];
-  [FBSDKInternalUtility dictionary:parameters setObject:content.data forKey:@"data"];
-  [FBSDKInternalUtility dictionary:parameters setObject:content.title forKey:@"title"];
+  [FBSDKBasicUtility dictionary:parameters setObject:[content.recipients componentsJoinedByString:@","] forKey:@"to"];
+  [FBSDKBasicUtility dictionary:parameters setObject:content.message forKey:@"message"];
+  [FBSDKBasicUtility dictionary:parameters setObject:[self _actionTypeNameForActionType:content.actionType] forKey:@"action_type"];
+  [FBSDKBasicUtility dictionary:parameters setObject:content.objectID forKey:@"object_id"];
+  [FBSDKBasicUtility dictionary:parameters setObject:[self _filtersNameForFilters:content.filters] forKey:@"filters"];
+  [FBSDKBasicUtility dictionary:parameters setObject:[content.recipientSuggestions componentsJoinedByString:@","] forKey:@"suggestions"];
+  [FBSDKBasicUtility dictionary:parameters setObject:content.data forKey:@"data"];
+  [FBSDKBasicUtility dictionary:parameters setObject:content.title forKey:@"title"];
 
   // check if we are sending to a specific set of recipients.  if we are and they are all frictionless recipients, we
   // can perform this action without displaying the web dialog
