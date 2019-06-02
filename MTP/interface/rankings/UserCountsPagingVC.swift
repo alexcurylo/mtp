@@ -2,26 +2,26 @@
 
 import Parchment
 
-final class UserProfilePagingVC: FixedPagingViewController, UserProfilePageDataSource, ServiceProvider {
+final class UserCountsPagingVC: FixedPagingViewController, UserCountsPageDataSource, ServiceProvider {
 
     var scorecard: Scorecard?
     var contentState: ContentState = .loading
 
     private let model: Model
 
-    static func profile(model: Model) -> UserProfilePagingVC {
+    static func profile(model: Model) -> UserCountsPagingVC {
 
-        let controllers: [UserProfilePageVC] = [
-            UserProfilePageVC(model: (model.list, model.user, .visited)),
-            UserProfilePageVC(model: (model.list, model.user, .remaining))
+        let controllers: [UserCountsPageVC] = [
+            UserCountsPageVC(model: (model.list, model.user, .visited)),
+            UserCountsPageVC(model: (model.list, model.user, .remaining))
         ]
 
-        return UserProfilePagingVC(model: model,
-                                   viewControllers: controllers)
+        return UserCountsPagingVC(model: model,
+                                  viewControllers: controllers)
     }
 
     init(model: Model,
-         viewControllers: [UserProfilePageVC]) {
+         viewControllers: [UserCountsPageVC]) {
         self.model = model
         super.init(viewControllers: viewControllers)
 
@@ -57,7 +57,7 @@ final class UserProfilePagingVC: FixedPagingViewController, UserProfilePageDataS
     }
 }
 
-private extension UserProfilePagingVC {
+private extension UserCountsPagingVC {
 
     func setupLayout() {
         menuItemSize = .sizeToFit(minWidth: 50, height: 38)
@@ -89,12 +89,12 @@ private extension UserProfilePagingVC {
         scorecard = data.get(scorecard: model.list, user: model.user.id)
         contentState = scorecard != nil ? .data : state
         viewControllers.forEach {
-            ($0 as? UserProfilePageVC)?.update()
+            ($0 as? UserCountsPageVC)?.refresh()
         }
     }
 }
 
-extension UserProfilePagingVC: Injectable {
+extension UserCountsPagingVC: Injectable {
 
     typealias Model = (list: Checklist, user: User)
 

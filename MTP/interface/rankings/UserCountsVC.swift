@@ -3,14 +3,14 @@
 import Anchorage
 import Parchment
 
-final class UserProfileVC: UIViewController, ServiceProvider {
+final class UserCountsVC: UIViewController, ServiceProvider {
 
     enum Tab: Int {
         case visited = 0
         case remaining
     }
 
-    private typealias Segues = R.segue.userProfileVC
+    private typealias Segues = R.segue.userCountsVC
 
     @IBOutlet private var headerView: UIView?
     @IBOutlet private var avatarImageView: UIImageView?
@@ -50,7 +50,7 @@ final class UserProfileVC: UIViewController, ServiceProvider {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
-        case Segues.dismissUserProfile.identifier:
+        case Segues.dismissUserCounts.identifier:
             break
         default:
             log.debug("unexpected segue: \(segue.name)")
@@ -58,7 +58,7 @@ final class UserProfileVC: UIViewController, ServiceProvider {
     }
 }
 
-private extension UserProfileVC {
+private extension UserCountsVC {
 
     @IBAction func mapButtonTapped(_ sender: UIButton) {
         let tabController = presentingViewController as? MainTBC
@@ -71,7 +71,7 @@ private extension UserProfileVC {
         guard let holder = pagesHolder,
               let user = user else { return }
 
-        let pagesVC = UserProfilePagingVC.profile(model: (list, user))
+        let pagesVC = UserCountsPagingVC.profile(model: (list, user))
         addChild(pagesVC)
         holder.addSubview(pagesVC.view)
         pagesVC.view.edgeAnchors == holder.edgeAnchors
@@ -100,7 +100,7 @@ private extension UserProfileVC {
     }
 }
 
-extension UserProfileVC: Injectable {
+extension UserCountsVC: Injectable {
 
     typealias Model = (list: Checklist, user: User, tab: Tab)
 

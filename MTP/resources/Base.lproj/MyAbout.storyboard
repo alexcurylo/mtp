@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="KFZ-Ed-5Fv">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="KFZ-Ed-5Fv">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -66,6 +66,9 @@
                                                                             <integer key="value" value="2"/>
                                                                         </userDefinedRuntimeAttribute>
                                                                     </userDefinedRuntimeAttributes>
+                                                                    <connections>
+                                                                        <action selector="visitedTapped:" destination="KFZ-Ed-5Fv" eventType="touchUpInside" id="0nR-Ss-laV"/>
+                                                                    </connections>
                                                                 </button>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fmt-4L-dqB" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
                                                                     <rect key="frame" x="119" y="5" width="119" height="35"/>
@@ -91,6 +94,9 @@
                                                                             <integer key="value" value="2"/>
                                                                         </userDefinedRuntimeAttribute>
                                                                     </userDefinedRuntimeAttributes>
+                                                                    <connections>
+                                                                        <action selector="remainingTapped:" destination="KFZ-Ed-5Fv" eventType="touchUpInside" id="7cU-bL-TfV"/>
+                                                                    </connections>
                                                                 </button>
                                                             </subviews>
                                                         </stackView>
@@ -201,11 +207,20 @@
                         <outlet property="rankingLabel" destination="w2b-1h-YQV" id="Aq4-c6-zF6"/>
                         <outlet property="remainingButton" destination="fmt-4L-dqB" id="eJW-DS-ktp"/>
                         <outlet property="visitedButton" destination="ZvC-yq-DMt" id="cbB-a0-lJw"/>
+                        <segue destination="sMg-0I-6E6" kind="custom" identifier="showUserCounts" customClass="TabPresentSegue" customModule="MTP" customModuleProvider="target" id="Mhx-fv-RJ8"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hMf-V5-FQj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-255.19999999999999" y="98.050974512743636"/>
+        </scene>
+        <!--UserCounts-->
+        <scene sceneID="pdo-yD-ogE">
+            <objects>
+                <viewControllerPlaceholder storyboardName="UserCounts" id="sMg-0I-6E6" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6tA-nr-fTN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="597" y="97"/>
         </scene>
     </scenes>
     <resources>

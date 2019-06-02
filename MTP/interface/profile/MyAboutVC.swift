@@ -4,6 +4,8 @@ import UIKit
 
 final class MyAboutVC: UITableViewController, ServiceProvider {
 
+    private typealias Segues = R.segue.myAboutVC
+
     @IBOutlet private var rankingLabel: UILabel?
     @IBOutlet private var mapImageView: UIImageView?
     @IBOutlet private var visitedButton: GradientButton?
@@ -16,6 +18,8 @@ final class MyAboutVC: UITableViewController, ServiceProvider {
 
     private var locationsObserver: Observer?
     private var userObserver: Observer?
+
+    private var countsModel: UserCountsVC.Model?
 
     private var mapWidth: CGFloat = 0
 
@@ -53,6 +57,11 @@ final class MyAboutVC: UITableViewController, ServiceProvider {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
+        case Segues.showUserCounts.identifier:
+            if let profile = Segues.showUserCounts(segue: segue)?.destination,
+                let countsModel = countsModel {
+                profile.inject(model: countsModel)
+            }
         default:
             log.debug("unexpected segue: \(segue.name)")
         }
@@ -157,18 +166,32 @@ private extension MyAboutVC {
                 $0.setTitle(title, for: .normal)
                 $0.titleLabel?.font = Avenir.heavy.of(size: 13)
                 $0.accessibilityIdentifier = link.url
-                $0.addTarget(self, action: #selector(tapLink), for: .touchUpInside)
+                $0.addTarget(self, action: #selector(linkTapped), for: .touchUpInside)
             }
             linksStack?.addArrangedSubview(label)
             linksStack?.addArrangedSubview(button)
         }
     }
 
-    @IBAction func tapLink(_ sender: GradientButton) {
+    @IBAction func linkTapped(_ sender: GradientButton) {
         if let link = sender.accessibilityIdentifier,
            let url = URL(string: link) {
             app.open(url)
         }
+    }
+
+    @IBAction func visitedTapped(_ sender: GradientButton) {
+        guard let user = data.user else { return }
+
+        countsModel = (.locations, User(from: user), .visited)
+        performSegue(withIdentifier: Segues.showUserCounts, sender: self)
+    }
+
+    @IBAction func remainingTapped(_ sender: GradientButton) {
+        guard let user = data.user else { return }
+
+        countsModel = (.locations, User(from: user), .remaining)
+        performSegue(withIdentifier: Segues.showUserCounts, sender: self)
     }
 }
 

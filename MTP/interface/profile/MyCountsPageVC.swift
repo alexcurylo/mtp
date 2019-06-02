@@ -12,14 +12,19 @@ final class MyCountsPageVC: CountsPageVC {
     private weak var delegate: MyCountsPageVCDelegate?
 
     override var isEditable: Bool { return true }
-    override var places: [PlaceInfo] { return list.places }
-    override var visited: [Int] { return list.visited }
+    override var places: [PlaceInfo] { return listPlaces }
+    override var visited: [Int] { return listVisited }
+
+    private let listPlaces: [PlaceInfo]
+    private let listVisited: [Int]
 
     private var visitedObserver: Observer?
     private var placesObserver: Observer?
 
     init(model: Model) {
         delegate = model.delegate
+        listPlaces = model.list.places
+        listVisited = model.list.visited
         super.init(model: model.list)
     }
 

@@ -2,42 +2,26 @@
 
 import UIKit
 
-protocol UserProfilePageDataSource: AnyObject {
+protocol UserCountsPageDataSource: AnyObject {
 
     var scorecard: Scorecard? { get }
     var contentState: ContentState { get }
 }
 
-final class UserProfilePageVC: CountsPageVC {
+final class UserCountsPageVC: CountsPageVC {
 
-    weak var dataSource: UserProfilePageDataSource? {
-        didSet { update() }
+    weak var dataSource: UserCountsPageDataSource? {
+        didSet { refresh() }
     }
 
-    private var tab: UserProfileVC.Tab
-    private var user: User
-    private var status: Checklist.Status
+    override var places: [PlaceInfo] { return listPlaces }
+    override var visited: [Int] { return listVisited }
 
-    override var places: [PlaceInfo] {
-        guard dataSource?.contentState == .data else { return [] }
-
-        let showVisited = tab == .visited
-        let places = list.places
-        let visits = visited
-        guard !visits.isEmpty else { return showVisited ? [] : places }
-
-        return places.compactMap {
-            let isVisited = visited.contains($0.placeId)
-            return isVisited == showVisited ? $0 : nil
-        }
-    }
-    override var visited: [Int] {
-        if let scorecard = dataSource?.scorecard {
-            return Array(scorecard.visits)
-        } else {
-            return []
-        }
-    }
+    private var listPlaces: [PlaceInfo] = []
+    private var listVisited: [Int] = []
+    private let tab: UserCountsVC.Tab
+    private let user: User
+    private let status: Checklist.Status
 
     init(model: Model) {
         tab = model.tab
@@ -45,6 +29,11 @@ final class UserProfilePageVC: CountsPageVC {
         status = model.list.status(of: user)
 
         super.init(model: model.list)
+    }
+
+    func  refresh() {
+        cache()
+        update()
     }
 
     override func update() {
@@ -63,11 +52,38 @@ final class UserProfilePageVC: CountsPageVC {
     }
 }
 
-extension UserProfilePageVC: Injectable {
+private extension UserCountsPageVC {
+
+    func cache() {
+        if let scorecard = dataSource?.scorecard {
+            listVisited = Array(scorecard.visits)
+        } else {
+            listVisited = []
+        }
+
+        guard dataSource?.contentState == .data else {
+            listPlaces = []
+            return
+        }
+
+        let showVisited = tab == .visited
+        let places = list.places
+        guard !listVisited.isEmpty else {
+            listPlaces = showVisited ? [] : places
+            return
+        }
+
+        listPlaces = places.filter {
+            showVisited == listVisited.contains($0.placeId)
+        }
+    }
+}
+
+extension UserCountsPageVC: Injectable {
 
     typealias Model = (list: Checklist,
                        user: User,
-                       tab: UserProfileVC.Tab)
+                       tab: UserCountsVC.Tab)
 
     @discardableResult func inject(model: Model) -> Self {
         return self
@@ -77,7 +93,7 @@ extension UserProfilePageVC: Injectable {
     }
 }
 
-extension UserProfileVC.Tab {
+extension UserCountsVC.Tab {
 
     func title(status: Checklist.Status) -> String {
         switch self {

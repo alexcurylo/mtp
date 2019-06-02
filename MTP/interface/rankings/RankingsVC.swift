@@ -12,7 +12,7 @@ final class RankingsVC: UIViewController, ServiceProvider {
     private let pagingVC = RankingsPagingVC()
     private let pages = ListPagingItem.pages
 
-    private var model: UserProfileVC.Model?
+    private var countsModel: UserCountsVC.Model?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,10 +43,10 @@ final class RankingsVC: UIViewController, ServiceProvider {
              break
         case Segues.showSearch.identifier:
             log.todo("implement rankings search")
-        case Segues.showUserProfile.identifier:
-            if let profile = Segues.showUserProfile(segue: segue)?.destination,
-               let model = model {
-                profile.inject(model: model)
+        case Segues.showUserCounts.identifier:
+            if let profile = Segues.showUserCounts(segue: segue)?.destination,
+               let countsModel = countsModel {
+                profile.inject(model: countsModel)
             }
         default:
             log.debug("unexpected segue: \(segue.name)")
@@ -124,13 +124,13 @@ extension RankingsVC: RankingsPageVCDelegate {
     }
 
     func tapped(visited user: User, list: Checklist) {
-        model = (list, user, .visited)
-        performSegue(withIdentifier: Segues.showUserProfile, sender: self)
+        countsModel = (list, user, .visited)
+        performSegue(withIdentifier: Segues.showUserCounts, sender: self)
     }
 
     func tapped(remaining user: User, list: Checklist) {
-        model = (list, user, .remaining)
-        performSegue(withIdentifier: Segues.showUserProfile, sender: self)
+        countsModel = (list, user, .remaining)
+        performSegue(withIdentifier: Segues.showUserCounts, sender: self)
     }
 }
 
