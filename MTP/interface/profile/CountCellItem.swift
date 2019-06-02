@@ -148,11 +148,11 @@ private extension CountCellItem {
         guard let id = model?.id,
               let list = model?.list else { return }
 
-        list.set(id: id, visited: sender.isOn)
+        list.set(visited: sender.isOn, id: id)
 
         guard let parentId = model?.parentId  else { return }
 
         let parentVisited = list.hasVisitedChildren(id: parentId)
-        list.set(id: parentId, visited: parentVisited)
+        list.set(visited: parentVisited, id: parentId)
     }
 }

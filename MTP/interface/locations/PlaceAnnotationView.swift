@@ -5,59 +5,59 @@ import MapKit
 
 final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
 
-    enum Layout {
+    private enum Layout {
         static let width = CGFloat(260)
         static let imageSize = CGSize(width: width, height: 150)
         static let closeOutset = CGFloat(6)
     }
 
-    let placeImage = UIImageView {
+    private let placeImage = UIImageView {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.contentMode = .scaleAspectFill
         $0.sizeAnchors == Layout.imageSize
         $0.clipsToBounds = true
     }
 
-    let categoryLabel = UILabel {
+    private let categoryLabel = UILabel {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
         $0.font = Avenir.medium.of(size: 13)
         $0.textColor = .darkText
     }
 
-    let visitedLabel = UILabel {
+    private let visitedLabel = UILabel {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setContentHuggingPriority(.required, for: .horizontal)
         $0.font = Avenir.medium.of(size: 13)
         $0.textColor = .darkText
     }
 
-    let visitSwitch = UISwitch {
+    private let visitSwitch = UISwitch {
         $0.styleAsFilter()
         $0.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
     }
 
-    let nameLabel = UILabel {
+    private let nameLabel = UILabel {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = Avenir.heavy.of(size: 18)
         $0.textColor = .darkText
         $0.numberOfLines = 0
     }
 
-    let countryLabel = UILabel {
+    private let countryLabel = UILabel {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = Avenir.heavy.of(size: 14)
         $0.textColor = .darkText
         $0.numberOfLines = 0
     }
 
-    let visitorsLabel = UILabel {
+    private let visitorsLabel = UILabel {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = Avenir.medium.of(size: 13)
         $0.textColor = .darkText
     }
 
-    let showMoreButton = GradientButton {
+    private let showMoreButton = GradientButton {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.orientation = GradientOrientation.horizontal.rawValue
         $0.startColor = .dodgerBlue
@@ -68,6 +68,8 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         $0.setTitle(title, for: .normal)
         $0.titleLabel?.font = Avenir.heavy.of(size: 18)
     }
+
+    private var visitedObserver: Observer?
 
     override init(annotation: MKAnnotation?,
                   reuseIdentifier: String?) {
@@ -85,6 +87,8 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         showMoreButton.addTarget(self,
                                  action: #selector(showMoreTapped),
                                  for: .touchUpInside)
+
+        observe()
     }
 
     @available(*, unavailable)
@@ -94,7 +98,7 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
 
     override func prepareForDisplay() {
         super.prepareForDisplay()
-        guard let place = annotation as? PlaceAnnotation else { return }
+        guard let place = place else { return }
 
         markerTintColor = place.background
         glyphImage = place.listImage
@@ -111,7 +115,7 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
    }
 
     func prepareForCallout() {
-        guard let place = annotation as? PlaceAnnotation,
+        guard let place = place,
               placeImage.image == nil else { return }
 
         placeImage.load(image: place)
@@ -134,8 +138,18 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
 
 private extension PlaceAnnotationView {
 
+    var place: PlaceAnnotation? {
+        return annotation as? PlaceAnnotation
+    }
+
+    func observe() {
+        visitedObserver = data.observer(of: .visited) { [weak self] _ in
+            self?.show(visited: self?.place?.isVisited ?? false)
+        }
+    }
+
     @objc func toggleVisit(_ sender: UISwitch) {
-        guard let place = annotation as? PlaceAnnotation else { return }
+        guard let place = place else { return }
 
         let isVisited = sender.isOn
         place.isVisited = isVisited
@@ -143,12 +157,11 @@ private extension PlaceAnnotationView {
     }
 
     @objc func showMoreTapped(_ sender: GradientButton) {
-        guard let place = annotation as? PlaceAnnotation else { return }
-        place.show()
+        place?.show()
     }
 
     @objc func closeTapped(_ sender: UIButton) {
-        guard let place = annotation as? PlaceAnnotation else { return }
+        guard let place = place else { return }
 
         place.delegate?.close(place: place)
     }

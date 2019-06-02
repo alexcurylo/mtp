@@ -16,15 +16,17 @@ extension LaunchHandler: AppLaunchHandler {
     func application(_ application: UIApplication,
                      // swiftlint:disable:next discouraged_optional_collection
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        let options = launchOptions ?? [:]
+
         configureLogging()
 
         configureSettingsDisplay()
 
-        configureFacebook(app: application, options: launchOptions ?? [:])
+        configureFacebook(app: application, options: options)
 
         configureAppearance()
 
-        configureNotifications()
+        configureNotifications(options: options)
 
         return true
     }

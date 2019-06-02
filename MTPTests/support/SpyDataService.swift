@@ -23,6 +23,26 @@ final class SpyDataService: DataService {
         invokedCountriesGetterCount += 1
         return stubbedCountries
     }
+    var invokedDismissedSetter = false
+    var invokedDismissedSetterCount = 0
+    var invokedDismissed: Checked?
+    var invokedDismissedList = [Checked?]()
+    var invokedDismissedGetter = false
+    var invokedDismissedGetterCount = 0
+    var stubbedDismissed: Checked!
+    var dismissed: Checked? {
+        set {
+            invokedDismissedSetter = true
+            invokedDismissedSetterCount += 1
+            invokedDismissed = newValue
+            invokedDismissedList.append(newValue)
+        }
+        get {
+            invokedDismissedGetter = true
+            invokedDismissedGetterCount += 1
+            return stubbedDismissed
+        }
+    }
     var invokedDivesitesGetter = false
     var invokedDivesitesGetterCount = 0
     var stubbedDivesites: [DiveSite]! = []

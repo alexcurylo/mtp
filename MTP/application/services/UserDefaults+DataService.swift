@@ -4,7 +4,29 @@ import Foundation
 
 extension UserDefaults: ServiceProvider {
 
-     var email: String {
+    var dismissed: Checked? {
+        get {
+            do {
+                return try get(objectType: Checked.self, forKey: #function)
+            } catch {
+                log.error("decoding dismissed value: \(error)")
+                return nil
+            }
+        }
+        set {
+            guard let newValue = newValue else {
+                set(nil, forKey: #function)
+                return
+            }
+            do {
+                try set(object: newValue, forKey: #function)
+            } catch {
+                log.error("encoding dismissed newValue: \(error)")
+            }
+        }
+    }
+
+    var email: String {
         get { return string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }
     }
@@ -81,7 +103,7 @@ extension UserDefaults: ServiceProvider {
             do {
                 return try get(objectType: Checked.self, forKey: #function)
             } catch {
-                log.error("decoding visited value: \(error)")
+                log.error("decoding triggered value: \(error)")
                 return nil
             }
         }
@@ -93,7 +115,7 @@ extension UserDefaults: ServiceProvider {
             do {
                 try set(object: newValue, forKey: #function)
             } catch {
-                log.error("encoding visited newValue: \(error)")
+                log.error("encoding triggered newValue: \(error)")
             }
         }
     }

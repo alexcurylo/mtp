@@ -33,18 +33,19 @@ extension NotificationsHandler: AppNotificationsHandler {
         didReceive response: UNNotificationResponse,
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
+        let userInfo = response.notification.request.content.userInfo
+        guard let visitList = userInfo[NotificationsHandler.visitList] as? String,
+            let list = Checklist(rawValue: visitList),
+            let visitId = userInfo[NotificationsHandler.visitId] as? Int else { return }
+
         switch response.actionIdentifier {
-        case Localized.dismissAction(),
-             UNNotificationDefaultActionIdentifier,
-             UNNotificationDismissActionIdentifier:
-            break
+        case Localized.dismissAction():
+            list.set(triggered: true, id: visitId)
         case Localized.checkinAction():
-            let userInfo = response.notification.request.content.userInfo
-            if let visitList = userInfo[NotificationsHandler.visitList] as? String,
-               let list = Checklist(rawValue: visitList),
-               let visitId = userInfo[NotificationsHandler.visitId] as? Int {
-                list.set(id: visitId, visited: true)
-            }
+            list.set(visited: true, id: visitId)
+        case UNNotificationDefaultActionIdentifier,
+            UNNotificationDismissActionIdentifier:
+            break
         default:
             log.error("unexpected notification: \(response.actionIdentifier)")
         }
@@ -68,7 +69,7 @@ extension NotificationsHandler: AppNotificationsHandler {
 
 extension LaunchHandler {
 
-    func configureNotifications() {
+    func configureNotifications(options: [UIApplication.LaunchOptionsKey: Any]) {
         let checkin = UNNotificationAction(
             identifier: Localized.checkinAction(),
             title: Localized.checkinAction(),

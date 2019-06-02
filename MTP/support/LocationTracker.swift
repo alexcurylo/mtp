@@ -21,8 +21,8 @@ extension LocationTracker {
 
     @discardableResult func start(tracking ask: PermissionTrigger) -> CLAuthorizationStatus {
         locationManager.delegate = self
-        locationManager.distanceFilter = 10
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.distanceFilter = 15
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
 
         let status = CLLocationManager.authorizationStatus()
         switch status {
@@ -30,6 +30,10 @@ extension LocationTracker {
             if CLLocationManager.locationServicesEnabled() {
                 locationManager.startUpdatingLocation()
                 locationManager.allowsBackgroundLocationUpdates = true
+                locationManager.pausesLocationUpdatesAutomatically = false
+                if CLLocationManager.significantLocationChangeMonitoringAvailable() {
+                    locationManager.startMonitoringSignificantLocationChanges()
+                }
             }
             if ask == .ask {
                 authorizeNotifications { _ in }

@@ -10,17 +10,42 @@ struct Checked: Codable, ServiceProvider {
     var uncountries: [Int] = []
     var whss: [Int] = []
 
+    subscript(list: Checklist) -> [Int] {
+        switch list {
+        case .beaches:
+            return beaches
+        case .divesites:
+            return divesites
+        case .golfcourses:
+            return golfcourses
+        case .locations:
+            return locations
+        case .restaurants:
+            return restaurants
+        case .uncountries:
+            return uncountries
+        case .whss:
+            return whss
+        }
+    }
+
     mutating func set(list: Checklist,
                       id: Int,
-                      visited: Bool) {
-        set(list: list, id: id, checked: visited)
-        mtp.check(list: list, id: id, visited: visited) { _ in }
+                      dismissed: Bool) {
+        set(list: list, id: id, checked: dismissed)
     }
 
     mutating func set(list: Checklist,
                       id: Int,
                       triggered: Bool) {
         set(list: list, id: id, checked: triggered)
+    }
+
+    mutating func set(list: Checklist,
+                      id: Int,
+                      visited: Bool) {
+        set(list: list, id: id, checked: visited)
+        mtp.check(list: list, id: id, visited: visited) { _ in }
     }
 }
 

@@ -407,17 +407,34 @@ private extension LocationsVC {
             }
         }
 
+        guard data.isVisitsLoaded else { return }
+
         let list = Checklist.locations
         for place in list.places {
             guard place.placeIsMappable,
                   !list.isVisited(id: place.placeId),
                   !list.isTriggered(id: place.placeId),
+                  !list.isDismissed(id: place.placeId),
                   data.worldMap.contains(
                       coordinate: location.coordinate,
                       location: place.placeId) else { continue }
 
-            list.set(id: place.placeId, triggered: true)
+            list.set(triggered: true, id: place.placeId)
             notify(list: list, info: place)
+        }
+    }
+
+    func checkTriggered() {
+        for list in Checklist.allCases {
+            for next in data.triggered?[list] ?? [] {
+                if list.isVisited(id: next) ||
+                   list.isDismissed(id: next) {
+                    list.set(triggered: false, id: next)
+                } else if let info = list.place(id: next) {
+                    notify(list: list, info: info)
+                    return
+                }
+            }
         }
     }
 
@@ -512,8 +529,11 @@ private extension LocationsVC {
         let closeButton = EKProperty.ButtonContent(
             label: closeButtonLabel,
             backgroundColor: .clear,
-            highlightedBackgroundColor: dismissColor.withAlphaComponent(0.05)) {
-            SwiftEntryKit.dismiss()
+            highlightedBackgroundColor: dismissColor.withAlphaComponent(0.05)) { [list, visitId] in
+                list.set(dismissed: true, id: visitId)
+                SwiftEntryKit.dismiss { [weak self] in
+                    self?.checkTriggered()
+                }
         }
 
         // Checkin
@@ -526,8 +546,10 @@ private extension LocationsVC {
             label: okButtonLabel,
             backgroundColor: .clear,
             highlightedBackgroundColor: checkinColor.withAlphaComponent(0.05)) { [list, visitId] in
-                list.set(id: visitId, visited: true)
-                SwiftEntryKit.dismiss()
+                list.set(visited: true, id: visitId)
+                SwiftEntryKit.dismiss { [weak self] in
+                    self?.checkTriggered()
+                }
         }
         let grayLight = UIColor(white: 230.0 / 255.0, alpha: 1)
         let buttonsBarContent = EKProperty.ButtonBarContent(

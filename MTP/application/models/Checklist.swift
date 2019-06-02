@@ -3,6 +3,8 @@
 import CoreLocation
 import UIKit
 
+// swiftlint:disable file_length
+
 struct ChecklistFlags: Codable, Equatable {
 
     var beaches: Bool = true
@@ -47,6 +49,27 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         }
         // swiftlint:disable:next force_unwrapping
         return background!
+    }
+
+    var dismissed: [Int] {
+        guard let dismissed = data.dismissed else { return [] }
+
+        switch self {
+        case .locations:
+            return dismissed.locations
+        case .uncountries:
+            return dismissed.uncountries
+        case .whss:
+            return dismissed.whss
+        case .beaches:
+            return dismissed.beaches
+        case .golfcourses:
+            return dismissed.golfcourses
+        case .divesites:
+            return dismissed.divesites
+        case .restaurants:
+            return dismissed.restaurants
+        }
     }
 
     var image: UIImage {
@@ -98,12 +121,20 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         }
     }
 
+    func isDismissed(id: Int) -> Bool {
+        return dismissed.contains(id)
+    }
+
     func isTriggered(id: Int) -> Bool {
         return triggered.contains(id)
     }
 
     func isVisited(id: Int) -> Bool {
         return visited.contains(id)
+    }
+
+    func place(id: Int) -> PlaceInfo? {
+        return places.first { $0.placeId == id }
     }
 
     var places: [PlaceInfo] {
@@ -127,8 +158,21 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         return places
     }
 
-    func set(id: Int,
-             triggered: Bool) {
+    func set(dismissed: Bool,
+             id: Int) {
+        guard isDismissed(id: id) != dismissed else { return }
+
+        if data.dismissed == nil {
+            data.dismissed = Checked()
+        }
+        data.dismissed?.set(list: self,
+                            id: id,
+                            dismissed: dismissed)
+        set(triggered: false, id: id)
+    }
+
+    func set(triggered: Bool,
+             id: Int) {
         guard isTriggered(id: id) != triggered else { return }
 
         if data.triggered == nil {
@@ -139,14 +183,16 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
                             triggered: triggered)
     }
 
-    func set(id: Int,
-             visited: Bool) {
+    func set(visited: Bool,
+             id: Int) {
         guard self != .uncountries,
               isVisited(id: id) != visited else { return }
 
         data.visited?.set(list: self,
                           id: id,
                           visited: visited)
+        set(dismissed: false, id: id)
+        set(triggered: false, id: id)
     }
 
     func rank(of user: UserJSON? = nil) -> Int {

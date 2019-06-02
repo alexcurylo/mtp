@@ -10,6 +10,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var beaches: [Beach] { get }
     var countries: [Country] { get }
     var divesites: [DiveSite] { get }
+    var dismissed: Checked? { get set }
     var email: String { get set }
     var etags: [String: String] { get set }
     var golfcourses: [GolfCourse] { get }
@@ -37,9 +38,9 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
              photos location: Int?) -> [Photo]
     func get(rankings query: RankingsQuery) -> Results<RankingsPageInfo>
     func get(scorecard list: Checklist, user id: Int?) -> Scorecard?
-
     func get(user id: Int) -> User
     func get(whs id: Int) -> WHS?
+
     func hasChildren(whs id: Int) -> Bool
     func hasVisitedChildren(whs id: Int) -> Bool
 
@@ -84,19 +85,24 @@ extension DataService {
         return true
     }
 
+    var isVisitsLoaded: Bool {
+        return visited != nil
+    }
+
     func logOut() {
         FacebookButton.logOut()
         MTP.unthrottle()
 
-        triggered = nil
-        visited = nil
+        deleteUserPhotos()
+        dismissed = nil
         email = ""
         etags = [:]
-        deleteUserPhotos()
         lastRankingsQuery = RankingsQuery()
         set(posts: [])
         token = ""
+        triggered = nil
         user = nil
+        visited = nil
     }
 }
 
@@ -137,6 +143,14 @@ final class DataServiceImpl: DataService {
     func set(divesites: [PlaceJSON]) {
         realm.set(divesites: divesites)
         notify(change: .divesites)
+    }
+
+    var dismissed: Checked? {
+        get { return defaults.dismissed }
+        set {
+            defaults.dismissed = newValue
+            notify(change: .dismissed)
+        }
     }
 
     var email: String {
@@ -370,6 +384,7 @@ final class DataServiceImpl: DataService {
 enum DataServiceChange: String {
 
     case beaches
+    case dismissed
     case divesites
     case golfcourses
     case locationPhotos

@@ -69,17 +69,19 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
         return list.image
     }
 
+    var isDismissed: Bool {
+        get { return list.isDismissed(id: id) }
+        set { list.set(dismissed: newValue, id: id) }
+    }
+
     var isTriggered: Bool {
         get { return list.isTriggered(id: id) }
-        set {
-            list.set(id: id, triggered: newValue)
-            delegate?.notify(place: self)
-        }
+        set { list.set(triggered: newValue, id: id) }
     }
 
     var isVisited: Bool {
         get { return list.isVisited(id: id) }
-        set { list.set(id: id, visited: newValue) }
+        set { list.set(visited: newValue, id: id) }
     }
 
     func reveal(callout: Bool) {
@@ -105,8 +107,9 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
     func setDistance(from: CLLocation, trigger: Bool) {
         distance = coordinate.distance(from: from)
         guard trigger,
-              !isVisited,
-              !isTriggered else { return }
+              !isDismissed,
+              !isTriggered,
+              !isVisited else { return }
 
         let triggered: Bool
         switch list {
@@ -118,6 +121,7 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
         }
         if triggered {
             isTriggered = true
+            delegate?.notify(place: self)
         }
     }
 
