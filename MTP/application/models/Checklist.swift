@@ -216,6 +216,25 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         }
     }
 
+    func rank(of user: User) -> Int {
+        switch self {
+        case .locations:
+            return user.orderLocations
+        case .uncountries:
+            return user.orderUncountries
+        case .whss:
+            return user.orderWhss
+        case .beaches:
+            return user.orderBeaches
+        case .golfcourses:
+            return user.orderGolfcourses
+        case .divesites:
+            return user.orderDivesites
+        case .restaurants:
+            return user.orderRestaurants
+        }
+    }
+
     func remaining(of user: UserInfo) -> Int {
         return status(of: user).remaining
     }

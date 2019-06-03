@@ -13,7 +13,7 @@
         <!--Posts-->
         <scene sceneID="LHG-d1-pXr">
             <objects>
-                <tableViewController storyboardIdentifier="MyPosts" title="Posts" useStoryboardIdentifierAsRestorationIdentifier="YES" id="heg-gh-VET" customClass="MyPostsVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="Posts" title="Posts" useStoryboardIdentifierAsRestorationIdentifier="YES" id="heg-gh-VET" customClass="ProfilePostsVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="iZI-bO-6ES">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

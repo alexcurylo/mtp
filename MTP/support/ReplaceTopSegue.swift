@@ -46,7 +46,11 @@ final class SwitchAlertSegue: UIStoryboardSegue {
 final class TabPresentSegue: UIStoryboardSegue {
 
     override func perform() {
-        source.tabBarController?.present(destination, animated: true)
+        if let tabBar = source.tabBarController {
+            tabBar.present(destination, animated: true)
+        } else {
+            source.present(destination, animated: true)
+        }
     }
 }
 

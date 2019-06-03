@@ -12,7 +12,7 @@
         <!--About-->
         <scene sceneID="ccH-n8-ZhD">
             <objects>
-                <tableViewController storyboardIdentifier="MyAbout" title="About" useStoryboardIdentifierAsRestorationIdentifier="YES" id="KFZ-Ed-5Fv" customClass="MyAboutVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="About" title="About" useStoryboardIdentifierAsRestorationIdentifier="YES" id="KFZ-Ed-5Fv" customClass="ProfileAboutVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="sLt-rE-Y9f">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="1000"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -103,7 +103,7 @@
                                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="249" verticalCompressionResistancePriority="1000" scrollEnabled="NO" editable="NO" text="Lorem ipsum dolor sit er elit lamet " textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="5bw-M2-IHq">
                                                             <rect key="frame" x="0.0" y="248.5" width="359" height="41"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            <color key="textColor" red="0.39995324611663818" green="0.40002685785293579" blue="0.39994865655899048" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
                                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                         </textView>

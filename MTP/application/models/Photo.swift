@@ -155,7 +155,6 @@ extension PhotoJSON: CustomDebugStringConvertible {
     dynamic var userId: Int = 0
 
     dynamic var dbKey: String = ""
-    dynamic var queryKey: String = ""
 
     let photoIds = List<Int>()
 
@@ -163,25 +162,16 @@ extension PhotoJSON: CustomDebugStringConvertible {
         return "dbKey"
     }
 
-    static func key(user id: Int?) -> String {
-        if let id = id {
-            return "\(id)"
-        } else {
-            return "me"
-        }
-    }
-
-    convenience init(user id: Int?,
+    convenience init(user id: Int,
                      info: PhotosPageInfoJSON) {
         self.init()
 
-        userId = id ?? 0
+        userId = id
         page = info.paging.currentPage
         lastPage = info.paging.lastPage
         total = info.paging.total
 
-        queryKey = PhotosPageInfo.key(user: id)
-        dbKey = "userId=\(queryKey)?page=\(page)"
+        dbKey = "userId=\(userId)?page=\(page)"
 
         info.data.forEach { photoIds.append($0.id) }
     }

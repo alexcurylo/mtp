@@ -218,6 +218,8 @@ extension UserAvatar {
 
 @objcMembers final class User: Object, UserInfo {
 
+    dynamic var airport: String = ""
+    dynamic var bio: String = ""
     dynamic var fullName: String = ""
     dynamic var gender: String = ""
     dynamic var id: Int = 0
@@ -237,6 +239,9 @@ extension UserAvatar {
     dynamic var visitRestaurants: Int = 0
     dynamic var visitUncountries: Int = 0
     dynamic var visitWhss: Int = 0
+
+    let linkTexts = List<String>()
+    let linkUrls = List<String>()
 
     override static func primaryKey() -> String? {
         return "id"
@@ -270,6 +275,8 @@ extension UserAvatar {
     convenience init(from: UserJSON) {
         self.init()
 
+        airport = from.airport ?? ""
+        bio = from.bio ?? ""
         fullName = from.fullName
         gender = from.gender
         id = from.id
@@ -289,12 +296,19 @@ extension UserAvatar {
         visitRestaurants = from.scoreRestaurants ?? 0
         visitUncountries = from.scoreUncountries ?? 0
         visitWhss = from.scoreWhss ?? 0
+
+        from.links?.forEach {
+            linkTexts.append($0.text)
+            linkUrls.append($0.url)
+        }
     }
 
     override func isEqual(_ object: Any?) -> Bool {
         guard let other = object as? User else { return false }
         guard !isSameObject(as: other) else { return true }
-        return fullName == other.fullName &&
+        return airport == other.airport &&
+               bio == other.bio &&
+               fullName == other.fullName &&
                gender == other.gender &&
                id == other.id &&
                locationName == other.locationName &&
@@ -305,6 +319,8 @@ extension UserAvatar {
                visitLocations == other.visitLocations &&
                visitRestaurants == other.visitRestaurants &&
                visitUncountries == other.visitUncountries &&
-               visitWhss == other.visitWhss
+               visitWhss == other.visitWhss &&
+               linkTexts == other.linkTexts &&
+               linkUrls == other.linkUrls
     }
 }

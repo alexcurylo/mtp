@@ -3,7 +3,7 @@
 import Photos
 import RealmSwift
 
-final class MyPhotosVC: UICollectionViewController, ServiceProvider {
+final class ProfilePhotosVC: UICollectionViewController, UserInjectable, ServiceProvider {
 
     private enum Layout {
         static let minItemSize = CGFloat(100)
@@ -12,11 +12,16 @@ final class MyPhotosVC: UICollectionViewController, ServiceProvider {
     private var photosPages: Results<PhotosPageInfo>?
     private var devicePhotos: PHFetchResult<PHAsset>?
 
+    private var contentState: ContentState = .loading
     private var pagesObserver: Observer?
+
+    private var user: User?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
+
+        collectionView.backgroundView = UIView { $0.backgroundColor = .clear }
 
         update()
         observe()
@@ -42,11 +47,11 @@ final class MyPhotosVC: UICollectionViewController, ServiceProvider {
 
 // MARK: UICollectionViewDataSource
 
-extension MyPhotosVC {
+extension ProfilePhotosVC {
 
     override func collectionView(_ collectionView: UICollectionView,
                                  numberOfItemsInSection section: Int) -> Int {
-        return photosPages?.first?.total ?? 0
+        return photoCount
     }
 
     override func collectionView(_ collectionView: UICollectionView,
@@ -66,7 +71,7 @@ extension MyPhotosVC {
 
 // MARK: UICollectionViewDelegateFlowLayout
 
-extension MyPhotosVC: UICollectionViewDelegateFlowLayout {
+extension ProfilePhotosVC: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -85,11 +90,25 @@ extension MyPhotosVC: UICollectionViewDelegateFlowLayout {
 
 // MARK: Data management
 
-private extension MyPhotosVC {
+private extension ProfilePhotosVC {
+
+    var photoCount: Int {
+        return photosPages?.first?.total ?? 0
+    }
 
     func update() {
-        photosPages = data.getPhotosPages(user: nil)
+        guard let user = user else { return }
+
+        let pages = data.getPhotosPages(user: user.id)
+        photosPages = pages
         collectionView.reloadData()
+
+        if pages.isEmpty {
+            contentState = .loading
+        } else {
+            contentState = photoCount == 0 ? .empty : .data
+        }
+        collectionView.set(message: contentState, color: .darkText)
     }
 
     func observe() {
@@ -101,11 +120,13 @@ private extension MyPhotosVC {
     }
 
     func photo(at index: Int) -> Photo {
+        guard let user = user else { return Photo() }
+
         let pageIndex = (index / PhotosPageInfo.perPage) + 1
         let photoIndex = index % PhotosPageInfo.perPage
         // swiftlint:disable:next first_where
         guard let page = photosPages?.filter("page = \(pageIndex)").first else {
-            mtp.loadPhotos(user: nil,
+            mtp.loadPhotos(user: user.id,
                            page: pageIndex) { _ in }
             return Photo()
         }
@@ -137,15 +158,21 @@ private extension MyPhotosVC {
     }
 }
 
-extension MyPhotosVC: Injectable {
+extension ProfilePhotosVC: Injectable {
 
-    typealias Model = ()
+    typealias Model = User
 
     @discardableResult func inject(model: Model) -> Self {
+        user = model
+
+        mtp.loadPhotos(user: model.id,
+                       page: 1) { _ in }
+
         return self
     }
 
     func requireInjections() {
+        user.require()
     }
 }
 

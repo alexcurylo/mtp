@@ -4,8 +4,9 @@ import Anchorage
 
 protocol RankingCellDelegate: AnyObject {
 
-    func tapped(visited user: User, list: Checklist)
+    func tapped(profile user: User)
     func tapped(remaining user: User, list: Checklist)
+    func tapped(visited user: User, list: Checklist)
 }
 
 final class RankingCell: UICollectionViewCell, ServiceProvider {
@@ -42,6 +43,7 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         $0.font = Avenir.heavy.of(size: 18)
         $0.numberOfLines = 2
         $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        $0.isUserInteractionEnabled = true
     }
     private let countryLabel = UILabel {
         $0.font = Avenir.medium.of(size: 15)
@@ -143,8 +145,10 @@ private extension RankingCell {
         contentView.backgroundColor = .white
         contentView.cornerRadius = Layout.cornerRadius
 
-        visitedButton.addTarget(self, action: #selector(visitedTapped), for: .touchUpInside)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(profileTapped))
+        nameLabel.addGestureRecognizer(tap)
         remainingButton.addTarget(self, action: #selector(remainingTapped), for: .touchUpInside)
+        visitedButton.addTarget(self, action: #selector(visitedTapped), for: .touchUpInside)
 
         let badges = UIStackView(arrangedSubviews: [avatarImageView, rankLabel])
         badges.axis = .vertical
@@ -171,17 +175,23 @@ private extension RankingCell {
         infos.edgeAnchors == contentView.edgeAnchors + Layout.margin
     }
 
-    @IBAction func visitedTapped(_ sender: GradientButton) {
-        if let user = user,
-           let list = list {
-            delegate?.tapped(visited: user, list: list)
+    @IBAction func profileTapped(_ sender: UIGestureRecognizer) {
+        if let user = user {
+            delegate?.tapped(profile: user)
         }
     }
 
     @IBAction func remainingTapped(_ sender: GradientButton) {
         if let user = user,
-           let list = list {
+            let list = list {
             delegate?.tapped(remaining: user, list: list)
+        }
+    }
+
+    @IBAction func visitedTapped(_ sender: GradientButton) {
+        if let user = user,
+           let list = list {
+            delegate?.tapped(visited: user, list: list)
         }
     }
 }

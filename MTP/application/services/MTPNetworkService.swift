@@ -57,7 +57,7 @@ enum MTP: Hashable {
     case user(id: Int)
     case userDelete(id: Int)
     case userGetByToken
-    case userLocationPosts
+    case userPosts(id: Int)
     case userLogin(email: String, password: String)
     case userRegister(info: RegistrationInfo)
     case whs
@@ -119,8 +119,8 @@ extension MTP: TargetType {
         case .user(let id),
              .userDelete(let id):
             return "user/\(id)"
-        case .userLocationPosts:
-            return "users/me/location-posts"
+        case .userPosts(let id):
+            return "users/\(id)/location-posts"
         case .userLogin:
             return "user/login"
         case .userRegister:
@@ -152,7 +152,7 @@ extension MTP: TargetType {
              .unCountry,
              .user,
              .userGetByToken,
-             .userLocationPosts,
+             .userPosts,
              .whs:
             return .get
         case .checkIn,
@@ -213,7 +213,7 @@ extension MTP: TargetType {
              .user,
              .userDelete,
              .userGetByToken,
-             .userLocationPosts,
+             .userPosts,
              .whs:
             if preventCache {
                 return .requestParameters(parameters: ["preventCache": "1"],
@@ -257,8 +257,7 @@ extension MTP: AccessTokenAuthorizable {
              .photos,
              .rankings,
              .userDelete,
-             .userGetByToken,
-             .userLocationPosts:
+             .userGetByToken:
             return .bearer
         case .beach,
              .countriesSearch,
@@ -275,6 +274,7 @@ extension MTP: AccessTokenAuthorizable {
              .unCountry,
              .user,
              .userLogin,
+             .userPosts,
              .userRegister,
              .whs:
             return .none
@@ -299,10 +299,12 @@ protocol MTPNetworkService {
                then: @escaping MTPResult<Bool>)
     func loadPhotos(location id: Int,
                     then: @escaping MTPResult<PhotosInfoJSON>)
-    func loadPhotos(user id: Int?,
+    func loadPhotos(user id: Int,
                     page: Int,
                     then: @escaping MTPResult<PhotosPageInfoJSON>)
     func loadPosts(location id: Int,
+                   then: @escaping MTPResult<PostsJSON>)
+    func loadPosts(user id: Int,
                    then: @escaping MTPResult<PostsJSON>)
     func loadRankings(query: RankingsQuery,
                       then: @escaping MTPResult<RankingsPageInfoJSON>)
@@ -589,7 +591,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadPhotos(user id: Int?,
+    func loadPhotos(user id: Int,
                     page: Int,
                     then: @escaping MTPResult<PhotosPageInfoJSON> = { _ in }) {
         guard data.isLoggedIn else {
@@ -664,7 +666,8 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadUserPosts(then: @escaping MTPResult<PostsJSON> = { _ in }) {
+    func loadPosts(user id: Int,
+                   then: @escaping MTPResult<PostsJSON> = { _ in }) {
         guard data.isLoggedIn else {
             log.verbose("load posts attempt invalid: not logged in")
             return then(.failure(.parameter))
@@ -672,7 +675,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
 
         let auth = AccessTokenPlugin { self.data.token }
         let provider = MoyaProvider<MTP>(plugins: [auth])
-        let endpoint = MTP.userLocationPosts
+        let endpoint = MTP.userPosts(id: id)
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
@@ -1242,8 +1245,8 @@ private extension MoyaMTPNetworkService {
         guard let user = data.user else { return }
 
         loadChecklists()
-        loadUserPosts()
-        loadPhotos(user: nil, page: 1)
+        loadPosts(user: user.id)
+        loadPhotos(user: user.id, page: 1)
         Checklist.allCases.forEach { list in
             loadScorecard(list: list, user: user.id)
         }

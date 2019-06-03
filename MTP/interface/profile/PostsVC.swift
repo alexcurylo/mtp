@@ -14,8 +14,7 @@ class PostsVC: UITableViewController, ServiceProvider {
         fatalError("source has not been overridden")
     }
 
-    private let dateFormatter = DateFormatter(mtp: .long)
-
+    private var contentState: ContentState = .loading
     private var postsObserver: Observer?
     private var viewObservation: NSKeyValueObservation?
 
@@ -24,6 +23,8 @@ class PostsVC: UITableViewController, ServiceProvider {
 
         #if GRADIENT_BACKGROUND
         tableView.backgroundView = backgroundView
+        #else
+        tableView.backgroundView = UIView { $0.backgroundColor = .clear }
         #endif
         tableView.tableFooterView = UIView()
 
@@ -114,14 +115,14 @@ extension PostsVC: PostCellDelegate {
 
 private extension PostsVC {
 
-    func update() {
+    func cellModels(from posts: [Post]) -> [PostCellModel] {
         var index = 0
         let cellModels: [PostCellModel] = posts.map { post in
             let location = data.get(location: post.locationId)
             let model = PostCellModel(
                 index: index,
                 location: location,
-                date: dateFormatter.string(from: post.updatedAt).uppercased(),
+                date: DateFormatter.mtpPost.string(from: post.updatedAt).uppercased(),
                 title: location?.placeTitle ?? Localized.unknown(),
                 body: post.post,
                 isExpanded: false
@@ -129,8 +130,27 @@ private extension PostsVC {
             index += 1
             return model
         }
-        models = cellModels
+        return cellModels
+    }
+
+    func update() {
+        #if HAVE_LOADING_STATE
+        let newModels: [PostCellModel]
+        if let posts = posts {
+            newModels = cellModels(from: posts)
+            contentState = newModels.isEmpty ? .empty : .data
+        } else {
+            newModels = []
+            contentState = .loading
+        }
+        models = newModels
+        #else
+        models = cellModels(from: posts)
+        contentState = models.isEmpty ? .empty : .data
+        #endif
+
         tableView.reloadData()
+        tableView.set(message: contentState, color: .darkText)
     }
 
     func observe() {

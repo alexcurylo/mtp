@@ -5,6 +5,9 @@ import RealmSwift
 // https://realm.io/docs/swift/latest
 // https://realm.io/docs/data-model
 
+// for RealmStudio:
+// po Realm.Configuration.defaultConfiguration.fileURL
+
 // swiftlint:disable:next type_body_length
 final class RealmController: ServiceProvider {
 
@@ -173,10 +176,10 @@ final class RealmController: ServiceProvider {
     }
 
     func set(photos page: Int,
-             user: Int?,
+             user id: Int,
              info: PhotosPageInfoJSON) {
         do {
-            let page = PhotosPageInfo(user: user, info: info)
+            let page = PhotosPageInfo(user: id, info: info)
             let photos = info.data.map { Photo(from: $0) }
             try realm.write {
                 realm.add(page, update: true)
@@ -187,26 +190,24 @@ final class RealmController: ServiceProvider {
         }
     }
 
-    func photosPages(user id: Int?) -> Results<PhotosPageInfo> {
-        let queryKey = PhotosPageInfo.key(user: id)
-        let filter = "queryKey = '\(queryKey)'"
+    func photosPages(user id: Int) -> Results<PhotosPageInfo> {
+        let filter = "userId = \(id)"
         let results = realm.objects(PhotosPageInfo.self)
                            .filter(filter)
                            .sorted(byKeyPath: "page")
         return results
     }
 
-    func deleteUserPhotos() {
+    func deletePhotos(user id: Int) {
         do {
-            let queryKey = PhotosPageInfo.key(user: nil)
-            let filter = "queryKey = '\(queryKey)'"
+            let filter = "userId = \(id)"
             let results = realm.objects(PhotosPageInfo.self)
-                .filter(filter)
+                               .filter(filter)
             try realm.write {
                 realm.delete(results)
             }
         } catch {
-            log.error("deleteUserPhotos: \(error)")
+            log.error("deletePhotos: \(error)")
         }
     }
 

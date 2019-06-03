@@ -378,9 +378,9 @@ final class SpyDataService: DataService {
     var invokedGetPhotosPages = false
     var invokedGetPhotosPagesCount = 0
     var invokedGetPhotosPagesParameters: (id: Int?, Void)?
-    var invokedGetPhotosPagesParametersList = [(id: Int?, Void)]()
+    var invokedGetPhotosPagesParametersList = [(id: Int, Void)]()
     var stubbedGetPhotosPagesResult: Results<PhotosPageInfo>!
-    func getPhotosPages(user id: Int?) -> Results<PhotosPageInfo> {
+    func getPhotosPages(user id: Int) -> Results<PhotosPageInfo> {
         invokedGetPhotosPages = true
         invokedGetPhotosPagesCount += 1
         invokedGetPhotosPagesParameters = (id, ())
@@ -402,15 +402,27 @@ final class SpyDataService: DataService {
     var invokedGetUserPhotos = false
     var invokedGetUserPhotosCount = 0
     var invokedGetUserPhotosParameters: (id: Int?, location: Int?)?
-    var invokedGetUserPhotosParametersList = [(id: Int?, location: Int?)]()
+    var invokedGetUserPhotosParametersList = [(id: Int, location: Int?)]()
     var stubbedGetUserPhotosResult: [Photo]! = []
-    func get(user id: Int?,
+    func get(user id: Int,
              photos location: Int?) -> [Photo] {
         invokedGetUserPhotos = true
         invokedGetUserPhotosCount += 1
         invokedGetUserPhotosParameters = (id, location)
         invokedGetUserPhotosParametersList.append((id, location))
         return stubbedGetUserPhotosResult
+    }
+    var invokedGetPosts = false
+    var invokedGetPostsCount = 0
+    var invokedGetPostsParameters: (id: Int, Void)?
+    var invokedGetPostsParametersList = [(id: Int, Void)]()
+    var stubbedGetPostsResult: [Post]! = []
+    func getPosts(user id: Int) -> [Post] {
+        invokedGetPosts = true
+        invokedGetPostsCount += 1
+        invokedGetPostsParameters = (id, ())
+        invokedGetPostsParametersList.append((id, ()))
+        return stubbedGetPostsResult
     }
     var invokedGetRankings = false
     var invokedGetRankingsCount = 0
@@ -548,9 +560,9 @@ final class SpyDataService: DataService {
     var invokedSetPhotos = false
     var invokedSetPhotosCount = 0
     var invokedSetPhotosParameters: (page: Int, id: Int?, info: PhotosPageInfoJSON)?
-    var invokedSetPhotosParametersList = [(page: Int, id: Int?, info: PhotosPageInfoJSON)]()
+    var invokedSetPhotosParametersList = [(page: Int, id: Int, info: PhotosPageInfoJSON)]()
     func set(photos page: Int,
-             user id: Int?,
+             user id: Int,
              info: PhotosPageInfoJSON) {
         invokedSetPhotos = true
         invokedSetPhotosCount += 1
@@ -639,11 +651,15 @@ final class SpyDataService: DataService {
         invokedSetWhssParameters = (whss, ())
         invokedSetWhssParametersList.append((whss, ()))
     }
-    var invokedDeleteUserPhotos = false
-    var invokedDeleteUserPhotosCount = 0
-    func deleteUserPhotos() {
-        invokedDeleteUserPhotos = true
-        invokedDeleteUserPhotosCount += 1
+    var invokedDeletePhotos = false
+    var invokedDeletePhotosCount = 0
+    var invokedDeletePhotosParameters: (id: Int?, Void)?
+    var invokedDeletePhotosParametersList = [(id: Int, Void)]()
+    func deletePhotos(user id: Int) {
+        invokedDeletePhotos = true
+        invokedDeletePhotosCount += 1
+        invokedDeletePhotosParameters = (id, ())
+        invokedDeletePhotosParametersList.append((id, ()))
     }
     var invokedNotify = false
     var invokedNotifyCount = 0

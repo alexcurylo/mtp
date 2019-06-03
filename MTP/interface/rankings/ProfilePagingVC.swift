@@ -2,18 +2,7 @@
 
 import Parchment
 
-final class MyProfilePagingVC: FixedPagingViewController, ServiceProvider {
-
-    static var profile: MyProfilePagingVC {
-        let controllers = [
-            R.storyboard.myAbout.myAbout(),
-            R.storyboard.myCounts.myCounts(),
-            R.storyboard.myPhotos.myPhotos(),
-            R.storyboard.myPosts.myPosts()
-        ].compactMap { $0 }
-
-        return MyProfilePagingVC(viewControllers: controllers)
-    }
+final class ProfilePagingVC: FixedPagingViewController, ServiceProvider {
 
     override init(viewControllers: [UIViewController]) {
         super.init(viewControllers: viewControllers)
@@ -46,7 +35,7 @@ final class MyProfilePagingVC: FixedPagingViewController, ServiceProvider {
     }
 }
 
-private extension MyProfilePagingVC {
+private extension ProfilePagingVC {
 
     func configure() {
         menuItemSize = .sizeToFit(minWidth: 50, height: 38)

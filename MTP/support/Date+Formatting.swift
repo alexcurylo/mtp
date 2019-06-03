@@ -40,6 +40,10 @@ extension DateFormatter {
         $0.locale = Locale(identifier: "en_US_POSIX")
     }
 
+    static let mtpBirthday = DateFormatter(mtp: .medium)
+
+    static let mtpPost = DateFormatter(mtp: .long)
+
     convenience init(mtp style: DateFormatter.Style) {
         self.init()
         dateStyle = style

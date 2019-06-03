@@ -11,7 +11,8 @@ enum ContentState {
 
 protocol ContentStateMessaging {
 
-    func set(message state: ContentState)
+    func set(message state: ContentState,
+             color: UIColor)
 }
 
 protocol ContentStateMessagingView: ContentStateMessaging where Self: UIView {
@@ -28,26 +29,28 @@ extension ContentStateMessagingView {
         return backgroundView?.subviews.first
     }
 
-    func set(message state: ContentState) {
+    func set(message state: ContentState,
+             color: UIColor = .white) {
         switch state {
         case .data:
             setMessageNone()
         case .empty:
-            set(message: Localized.emptyState())
+            set(message: Localized.emptyState(), color: color)
         case .error:
-            set(message: Localized.errorState())
+            set(message: Localized.errorState(), color: color)
         case .loading:
-            set(message: Localized.loading())
+            set(message: Localized.loading(), color: color)
         }
     }
 
-    func set(message: String) {
+    func set(message: String,
+             color: UIColor) {
         guard let backgroundView = backgroundView else { return }
         setMessageNone()
 
         let label = UILabel {
             $0.font = Avenir.mediumOblique.of(size: 14)
-            $0.textColor = .white
+            $0.textColor = color
             $0.text = message
         }
 

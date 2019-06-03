@@ -17,7 +17,6 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var lastRankingsQuery: RankingsQuery { get set }
     var locations: [Location] { get }
     var mapDisplay: ChecklistFlags { get set }
-    var posts: [Post] { get }
     var restaurants: [Restaurant] { get }
     var token: String { get set }
     var triggered: Checked? { get set }
@@ -32,9 +31,10 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func get(locationPhotos id: Int) -> [Photo]
     func get(locationPosts id: Int) -> [Post]
     func get(locations filter: String) -> [Location]
-    func getPhotosPages(user id: Int?) -> Results<PhotosPageInfo>
+    func getPhotosPages(user id: Int) -> Results<PhotosPageInfo>
     func get(photo: Int) -> Photo
-    func get(user id: Int?,
+    func getPosts(user id: Int) -> [Post]
+    func get(user id: Int,
              photos location: Int?) -> [Photo]
     func get(rankings query: RankingsQuery) -> Results<RankingsPageInfo>
     func get(scorecard list: Checklist, user id: Int?) -> Scorecard?
@@ -54,7 +54,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func set(location id: Int,
              posts: [PostJSON])
     func set(photos page: Int,
-             user id: Int?,
+             user id: Int,
              info: PhotosPageInfoJSON)
     func set(posts: [PostJSON])
     func set(restaurants: [RestaurantJSON])
@@ -65,7 +65,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func set(user data: UserJSON)
     func set(whss: [WHSJSON])
 
-    func deleteUserPhotos()
+    func deletePhotos(user id: Int)
 }
 
 // MARK: - User state
@@ -93,7 +93,9 @@ extension DataService {
         FacebookButton.logOut()
         MTP.unthrottle()
 
-        deleteUserPhotos()
+        if let id = user?.id {
+            deletePhotos(user: id)
+        }
         dismissed = nil
         email = ""
         etags = [:]
@@ -111,8 +113,8 @@ final class DataServiceImpl: DataService {
     private let defaults = UserDefaults.standard
     private let realm = RealmController()
 
-    func deleteUserPhotos() {
-        realm.deleteUserPhotos()
+    func deletePhotos(user id: Int) {
+        realm.deletePhotos(user: id)
     }
 
     var beaches: [Beach] {
@@ -215,7 +217,7 @@ final class DataServiceImpl: DataService {
         }
     }
 
-    func getPhotosPages(user id: Int?) -> Results<PhotosPageInfo> {
+    func getPhotosPages(user id: Int) -> Results<PhotosPageInfo> {
         return realm.photosPages(user: id)
     }
 
@@ -223,12 +225,11 @@ final class DataServiceImpl: DataService {
         return realm.photo(id: photo) ?? Photo()
     }
 
-    func get(user id: Int?,
+    func get(user id: Int,
              photos location: Int?) -> [Photo] {
-        guard let userId = id ?? user?.id,
-              let location = location else { return [] }
+        guard let location = location else { return [] }
 
-        return realm.photos(user: userId, location: location)
+        return realm.photos(user: id, location: location)
     }
 
     func set(location id: Int,
@@ -244,7 +245,7 @@ final class DataServiceImpl: DataService {
     }
 
     func set(photos page: Int,
-             user id: Int?,
+             user id: Int,
              info: PhotosPageInfoJSON) {
         if info.paging.perPage != PhotosPageInfo.perPage {
             log.warning("expect 25 users per page not \(info.paging.perPage)")
@@ -254,8 +255,8 @@ final class DataServiceImpl: DataService {
         notify(change: .photoPages, object: page)
     }
 
-    var posts: [Post] {
-        return realm.posts(user: user?.id ?? 0)
+    func getPosts(user id: Int) -> [Post] {
+        return realm.posts(user: id)
     }
 
     func set(posts: [PostJSON]) {
