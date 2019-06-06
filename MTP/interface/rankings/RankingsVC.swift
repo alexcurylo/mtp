@@ -54,7 +54,6 @@ final class RankingsVC: UIViewController, ServiceProvider {
                 let profileModel = profileModel {
                 profile.inject(model: profileModel)
             }
-            log.todo("implement showUserProfile")
         default:
             log.debug("unexpected segue: \(segue.name)")
         }

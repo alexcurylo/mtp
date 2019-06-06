@@ -48,6 +48,18 @@ final class LocationsVC: UIViewController, ServiceProvider {
     }
     private var annotationsSet = false
 
+    func shown(list: Checklist) -> Set<PlaceAnnotation> {
+        switch list {
+        case .beaches: return beachesAnnotations
+        case .divesites: return divesitesAnnotations
+        case .golfcourses: return golfcoursesAnnotations
+        case .locations: return locationsAnnotations
+        case .restaurants: return restaurantsAnnotations
+        case .uncountries: return []
+        case .whss: return whssAnnotations
+        }
+    }
+
     private var selected: PlaceAnnotation?
     private var lastUserLocation: CLLocation?
 
@@ -130,7 +142,7 @@ final class LocationsVC: UIViewController, ServiceProvider {
         guard let coordinate = place?.placeCoordinate else { return }
 
         navigationController?.popToRootViewController(animated: false)
-        zoom(to: coordinate, device: false)
+        zoom(annotation: coordinate)
     }
 }
 
@@ -150,7 +162,7 @@ extension LocationsVC: PlaceAnnotationDelegate {
         guard let place = place else { return }
 
         navigationController?.popToRootViewController(animated: false)
-        zoom(to: place.coordinate, device: false)
+        zoom(annotation: place.coordinate)
         if callout {
             mapView?.selectAnnotation(place, animated: false)
         }
@@ -214,23 +226,39 @@ private extension LocationsVC {
         guard !mapCentered,
               let here = locationManager.location?.coordinate else { return }
 
-        zoom(to: here, device: true)
+        zoom(to: here, span: 160_000)
     }
 
-    func zoom(to center: CLLocationCoordinate2D?,
-              device: Bool) {
-        guard let center = center else { return }
+    func zoom(annotation center: CLLocationCoordinate2D) {
+        zoom(to: center, span: 1_600)
+    }
 
+    func zoom(to center: CLLocationCoordinate2D,
+              span meters: CLLocationDistance) {
         mapCentered = true
-        let meters: CLLocationDistance = device ? 160_000 : 1_600
-        let viewRegion = MKCoordinateRegion(center: center,
-                                            latitudinalMeters: meters,
-                                            longitudinalMeters: meters)
+        let region = MKCoordinateRegion(center: center,
+                                        latitudinalMeters: meters,
+                                        longitudinalMeters: meters)
+        zoom(region: region)
+    }
+
+    func zoom(cluster annotation: MKClusterAnnotation?) {
+        guard let center = annotation?.coordinate,
+            var region = mapView?.region else { return }
+
+        // log.todo("smart zoom to split annotations?")
+        region.center = center
+        region.span.latitudeDelta *= 0.5
+        region.span.longitudeDelta *= 0.5
+        zoom(region: region)
+    }
+
+    func zoom(region: MKCoordinateRegion) {
         DispatchQueue.main.async { [weak self] in
             MKMapView.animate(
                 withDuration: 1,
                 animations: {
-                    self?.mapView?.setRegion(viewRegion, animated: true)
+                    self?.mapView?.setRegion(region, animated: true)
                 },
                 completion: { _ in
                     self?.setupAnnotations()
@@ -449,54 +477,6 @@ private extension LocationsVC {
                           info: PlaceInfo) {
         let visitId = info.placeId
 
-        let dimmedLightBackground = UIColor(white: 100.0 / 255.0, alpha: 0.3)
-        var attributes = EKAttributes.bottomFloat
-        attributes.hapticFeedbackType = .success
-        attributes.displayDuration = .infinity
-        attributes.entryBackground = .color(color: .white)
-        attributes.screenBackground = .color(color: dimmedLightBackground)
-        attributes.shadow = .active(with: .init(color: .black, opacity: 0.3, radius: 8))
-        attributes.screenInteraction = .dismiss
-        attributes.entryInteraction = .absorbTouches
-        attributes.scroll = .enabled(swipeable: true, pullbackAnimation: .jolt)
-        attributes.roundCorners = .all(radius: 4)
-        attributes.entranceAnimation = .init(
-            translate: .init(duration: 0.7,
-                             spring: .init(damping: 1, initialVelocity: 0)),
-            scale: .init(from: 1.05, to: 1, duration: 0.4,
-                         spring: .init(damping: 1, initialVelocity: 0)))
-        attributes.exitAnimation = .init(translate: .init(duration: 0.2))
-        attributes.popBehavior = .animated(animation: .init(translate: .init(duration: 0.2)))
-        attributes.positionConstraints.verticalOffset = 10
-        attributes.positionConstraints.size = .init(width: .offset(value: 20), height: .intrinsic)
-        attributes.positionConstraints.maxSize = .init(
-            width: .constant(value: UIScreen.main.bounds.minEdge),
-            height: .intrinsic)
-        attributes.statusBar = .dark
-
-        attributes.hapticFeedbackType = .success
-        attributes.screenInteraction = .dismiss
-        attributes.entryInteraction = .absorbTouches
-        attributes.scroll = .enabled(swipeable: true, pullbackAnimation: .jolt)
-        attributes.screenBackground = .color(color: dimmedLightBackground)
-        attributes.entryBackground = .color(color: .white)
-        attributes.entranceAnimation = .init(
-            translate: .init(duration: 0.7,
-                             spring: .init(damping: 1, initialVelocity: 0)),
-            scale: .init(from: 0.6, to: 1, duration: 0.7),
-            fade: .init(from: 0.8, to: 1, duration: 0.3))
-        attributes.exitAnimation = .init(
-            scale: .init(from: 1, to: 0.7, duration: 0.3),
-            fade: .init(from: 1, to: 0, duration: 0.3))
-        attributes.displayDuration = .infinity
-        attributes.border = .value(color: .black, width: 0.5)
-        attributes.shadow = .active(with: .init(color: .black, opacity: 0.5, radius: 5))
-        attributes.statusBar = .dark
-        attributes.positionConstraints.maxSize = .init(
-            width: .constant(value: UIScreen.main.bounds.minEdge),
-            height: .intrinsic)
-
-        // Message
         let contentTitle = Localized.checkinTitle(list.category)
         let contentMessage: String
         switch list {
@@ -505,19 +485,8 @@ private extension LocationsVC {
         default:
             contentMessage = Localized.checkinNear(info.placeTitle)
         }
-        let title = EKProperty.LabelContent(
-            text: contentTitle,
-            style: .init(font: Avenir.medium.of(size: 15),
-                         color: .black))
-        let description = EKProperty.LabelContent(
-            text: contentMessage,
-            style: .init(font: Avenir.light.of(size: 13),
-                         color: .black))
-        //let image = EKProperty.ImageContent(
-            //image: list.image,
-            //size: CGSize(width: 20, height: 20),
-            //contentMode: .scaleAspectFit)
-        let simpleMessage = EKSimpleMessage(image: nil, title: title, description: description)
+        let simpleMessage = notifyMessage(contentTitle: contentTitle,
+                                          contentMessage: contentMessage)
 
         // Dismiss
         let buttonFont = Avenir.heavy.of(size: 16)
@@ -548,13 +517,13 @@ private extension LocationsVC {
             highlightedBackgroundColor: checkinColor.withAlphaComponent(0.05)) { [list, visitId] in
                 list.set(visited: true, id: visitId)
                 SwiftEntryKit.dismiss { [weak self] in
-                    self?.checkTriggered()
+                    self?.congratulate(list: list, id: visitId)
                 }
         }
         let grayLight = UIColor(white: 230.0 / 255.0, alpha: 1)
         let buttonsBarContent = EKProperty.ButtonBarContent(
-            with: closeButton,
-            okButton,
+            // swiftlint:disable:next multiline_arguments
+            with: closeButton, okButton,
             separatorColor: grayLight,
             buttonHeight: 60,
             expandAnimatedly: true)
@@ -564,10 +533,139 @@ private extension LocationsVC {
             simpleMessage: simpleMessage,
             imagePosition: .left,
             buttonBarContent: buttonsBarContent)
-
         let contentView = EKAlertMessageView(with: alertMessage)
+        SwiftEntryKit.display(entry: contentView,
+                              using: notifyAttributes(priority: .min))
+    }
 
-        SwiftEntryKit.display(entry: contentView, using: attributes)
+    // swiftlint:disable:next function_body_length
+    func congratulate(list: Checklist, id: Int) {
+        log.todo("go to not shown annotations too")
+        if let user = data.user,
+           let annotation = shown(list: list)
+                            .first(where: { $0.id == id }) {
+            mainTBC?.route(to: annotation)
+
+            let contentTitle = Localized.congratulations(annotation.info.placeTitle)
+
+            let (single, plural) = list.names
+            let (visited, remaining) = list.status(of: user)
+            let contentVisited = Localized.status(visited, plural, remaining)
+
+            let contentMilestone = list.milestone(visited: visited)
+
+            let contentNearest: String
+            if remaining > 0,
+                let place = nearest(place: annotation) {
+                contentNearest = Localized.nearest(single, place)
+            } else {
+                contentNearest = ""
+            }
+
+            let contentMessage = contentMilestone + contentVisited + contentNearest
+
+            let simpleMessage = notifyMessage(contentTitle: contentTitle,
+                                              contentMessage: contentMessage)
+
+            // OK
+            let buttonFont = Avenir.heavy.of(size: 16)
+            let checkinColor = UIColor(rgb: 0x028DFF)
+            let okButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: checkinColor)
+            let okButtonLabel = EKProperty.LabelContent(
+                text: Localized.ok(),
+                style: okButtonLabelStyle)
+            let okButton = EKProperty.ButtonContent(
+                label: okButtonLabel,
+                backgroundColor: .clear,
+                highlightedBackgroundColor: checkinColor.withAlphaComponent(0.05)) {
+                    SwiftEntryKit.dismiss { [weak self] in
+                        self?.checkTriggered()
+                    }
+            }
+            let grayLight = UIColor(white: 230.0 / 255.0, alpha: 1)
+            let buttonsBarContent = EKProperty.ButtonBarContent(
+                with: okButton,
+                separatorColor: grayLight,
+                buttonHeight: 60,
+                expandAnimatedly: true)
+
+            // Generate
+            let alertMessage = EKAlertMessage(
+                simpleMessage: simpleMessage,
+                imagePosition: .left,
+                buttonBarContent: buttonsBarContent)
+            let contentView = EKAlertMessageView(with: alertMessage)
+            SwiftEntryKit.display(entry: contentView,
+                                  using: notifyAttributes(priority: .max))
+        } else {
+            checkTriggered()
+        }
+    }
+
+    func nearest(place: PlaceAnnotation) -> String? {
+        var distance: CLLocationDistance = 99_999
+        var nearest: String?
+        for other in shown(list: place.list) {
+            guard other.id != place.id,
+                  !other.isVisited else { continue }
+
+            let otherDistance = other.coordinate.distance(from: place.coordinate)
+            if otherDistance < distance {
+                nearest = other.info.placeTitle
+                distance = otherDistance
+            }
+        }
+        return nearest
+    }
+
+    func notifyAttributes(priority: EKAttributes.Precedence.Priority) -> EKAttributes {
+        var attributes = EKAttributes.bottomFloat
+
+        let dimmedLightBackground = UIColor(white: 100.0 / 255.0, alpha: 0.3)
+        attributes.screenBackground = .color(color: dimmedLightBackground)
+        attributes.hapticFeedbackType = .success
+        attributes.displayDuration = .infinity
+        attributes.entryBackground = .color(color: .white)
+        attributes.shadow = .active(with: .init(color: .black, opacity: 0.3, radius: 8))
+        attributes.roundCorners = .all(radius: 4)
+        attributes.popBehavior = .animated(animation: .init(translate: .init(duration: 0.2)))
+        attributes.positionConstraints.verticalOffset = 10
+        attributes.positionConstraints.size = .init(width: .offset(value: 20), height: .intrinsic)
+        attributes.positionConstraints.maxSize = .init(
+            width: .constant(value: UIScreen.main.bounds.minEdge),
+            height: .intrinsic)
+        attributes.statusBar = .dark
+        attributes.border = .value(color: .black, width: 0.5)
+        attributes.shadow = .active(with: .init(color: .black, opacity: 0.5, radius: 5))
+        attributes.scroll = .enabled(swipeable: true, pullbackAnimation: .jolt)
+        attributes.exitAnimation = .init(translate: .init(duration: 0.2))
+        attributes.entranceAnimation = .init(
+            translate: .init(duration: 0.7,
+                             spring: .init(damping: 1, initialVelocity: 0)),
+            scale: .init(from: 0.6, to: 1, duration: 0.7),
+            fade: .init(from: 0.8, to: 1, duration: 0.3))
+        attributes.exitAnimation = .init(translate: .init(duration: 0.2))
+        attributes.screenInteraction = .absorbTouches
+        attributes.entryInteraction = .absorbTouches
+        attributes.precedence = .enqueue(priority: priority)
+
+        return attributes
+    }
+
+    func notifyMessage(contentTitle: String,
+                       contentMessage: String) -> EKSimpleMessage {
+        let title = EKProperty.LabelContent(
+            text: contentTitle,
+            style: .init(font: Avenir.medium.of(size: 15),
+                         color: .black))
+        let description = EKProperty.LabelContent(
+            text: contentMessage,
+            style: .init(font: Avenir.light.of(size: 13),
+                         color: .black))
+        let simpleMessage = EKSimpleMessage(image: nil,
+                                            title: title,
+                                            description: description)
+        return simpleMessage
     }
 
     func notifyBackground(list: Checklist,
@@ -686,8 +784,15 @@ extension LocationsVC: MKMapViewDelegate {
 
     func mapView(_ mapView: MKMapView,
                  didSelect view: MKAnnotationView) {
-        guard let place = view as? PlaceAnnotationView else { return }
-        place.prepareForCallout()
+        switch view {
+        case let place as PlaceAnnotationView:
+            place.prepareForCallout()
+        case let cluster as PlaceClusterAnnotationView:
+            zoom(cluster: cluster.annotation as? MKClusterAnnotation)
+            mapView.deselectAnnotation(cluster.annotation, animated: false)
+        default:
+            break
+        }
     }
 
     func mapView(_ mapView: MKMapView,

@@ -163,6 +163,26 @@ final class SpyDataService: DataService {
         invokedRestaurantsGetterCount += 1
         return stubbedRestaurants
     }
+    var invokedSettingsSetter = false
+    var invokedSettingsSetterCount = 0
+    var invokedSettings: SettingsJSON?
+    var invokedSettingsList = [SettingsJSON?]()
+    var invokedSettingsGetter = false
+    var invokedSettingsGetterCount = 0
+    var stubbedSettings: SettingsJSON!
+    var settings: SettingsJSON? {
+        set {
+            invokedSettingsSetter = true
+            invokedSettingsSetterCount += 1
+            invokedSettings = newValue
+            invokedSettingsList.append(newValue)
+        }
+        get {
+            invokedSettingsGetter = true
+            invokedSettingsGetterCount += 1
+            return stubbedSettings
+        }
+    }
     var invokedTokenSetter = false
     var invokedTokenSetterCount = 0
     var invokedToken: String?

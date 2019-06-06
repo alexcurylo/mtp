@@ -80,6 +80,51 @@ struct UserJSON: Codable {
     let token: String? // found only in login + signup responses
     let updatedAt: Date
     let username: String
+
+    // swiftlint:disable:next function_body_length
+    func updated(visited: Checked) -> UserJSON {
+        return UserJSON(airport: airport,
+                        bio: bio,
+                        birthday: birthday,
+                        country: country,
+                        countryId: countryId,
+                        createdAt: createdAt,
+                        email: email,
+                        facebookEmail: facebookEmail,
+                        facebookId: facebookId,
+                        facebookUserToken: facebookUserToken,
+                        favoritePlaces: favoritePlaces,
+                        firstName: firstName,
+                        fullName: fullName,
+                        gender: gender,
+                        id: id,
+                        lastLogIn: lastLogIn,
+                        lastName: lastName,
+                        links: links,
+                        location: location,
+                        locationId: locationId,
+                        picture: picture,
+                        rankBeaches: rankBeaches,
+                        rankDivesites: rankDivesites,
+                        rankGolfcourses: rankGolfcourses,
+                        rankLocations: rankLocations,
+                        rankRestaurants: rankRestaurants,
+                        rankUncountries: rankUncountries,
+                        rankWhss: rankWhss,
+                        role: role,
+                        score: score,
+                        scoreBeaches: visited.beaches.count,
+                        scoreDivesites: visited.divesites.count,
+                        scoreGolfcourses: visited.golfcourses.count,
+                        scoreLocations: visited.locations.count,
+                        scoreRestaurants: visited.restaurants.count,
+                        scoreUncountries: visited.uncountries.count,
+                        scoreWhss: visited.whss.count,
+                        status: status,
+                        token: token,
+                        updatedAt: updatedAt,
+                        username: username)
+    }
 }
 
 extension UserJSON: CustomStringConvertible {

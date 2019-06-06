@@ -50,7 +50,14 @@ final class MainTBC: UITabBarController, ServiceProvider {
     }
 
     func route(to user: User?) {
+        dismiss(presentations: self)
         locations?.reveal(user: user)
+        selectedIndex = Route.locations.rawValue
+    }
+
+    func route(to annotation: PlaceAnnotation) {
+        dismiss(presentations: self)
+        locations?.reveal(place: annotation, callout: true)
         selectedIndex = Route.locations.rawValue
     }
 }
@@ -98,5 +105,25 @@ extension MainTBC: Injectable {
 
     func requireInjections() {
         destination.require()
+    }
+}
+
+extension UIViewController {
+
+    var mainTBC: MainTBC? {
+        if let tbc = tabBarController as? MainTBC {
+            return tbc
+        } else if let tbc = presentingViewController as? MainTBC {
+            return tbc
+        } else {
+            return presentingViewController?.mainTBC
+        }
+    }
+
+    func dismiss(presentations from: UIViewController) {
+        if let presented = from.presentedViewController {
+            dismiss(presentations: presented)
+            dismiss(animated: false)
+        }
     }
 }

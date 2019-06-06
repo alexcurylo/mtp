@@ -61,10 +61,7 @@ final class UserCountsVC: UIViewController, ServiceProvider {
 private extension UserCountsVC {
 
     @IBAction func mapButtonTapped(_ sender: UIButton) {
-        let tabController = presentingViewController as? MainTBC
-        tabController?.dismiss(animated: false) { [user] in
-            tabController?.route(to: user)
-        }
+        mainTBC?.route(to: user)
     }
 
     func setupPagesHolder() {

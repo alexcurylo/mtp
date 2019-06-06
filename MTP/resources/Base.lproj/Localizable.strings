@@ -47,6 +47,11 @@
 "checkinNear" = "You are near %@. Do you want to check in?";
 "checkinAction" = "Check in";
 "dismissAction" = "Dismiss";
+"ok" = "OK";
+"congratulations" = "Congratulations on visiting %@!";
+"status" = "You have now visited %ld %@ and have %ld remaining.";
+"milestone" = " You have reached the %@ milestone!";
+"nearest" = " The nearest %@ you haven't visited yet is %@.";
 
 // LocationTracker
 
@@ -77,7 +82,7 @@
 
 // RankingPage
 
-"locations" = "All MTP Locations";
+"locations" = "MTP Locations";
 "uncountries" = "UN Countries";
 "whss" = "WHS";
 "beaches" = "Beaches";

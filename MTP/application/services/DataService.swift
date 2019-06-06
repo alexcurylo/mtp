@@ -18,6 +18,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var locations: [Location] { get }
     var mapDisplay: ChecklistFlags { get set }
     var restaurants: [Restaurant] { get }
+    var settings: SettingsJSON? { get set }
     var token: String { get set }
     var triggered: Checked? { get set }
     var uncountries: [UNCountry] { get }
@@ -297,6 +298,14 @@ final class DataServiceImpl: DataService {
         notify(change: .scorecard)
     }
 
+    var settings: SettingsJSON? {
+        get { return defaults.settings }
+        set {
+            defaults.settings = newValue
+            notify(change: .settings)
+        }
+    }
+
     var token: String {
         get { return defaults.token }
         set {
@@ -340,6 +349,10 @@ final class DataServiceImpl: DataService {
         get { return defaults.visited }
         set {
             defaults.visited = newValue
+            if let oldUser = user,
+               let visited = newValue {
+                user = oldUser.updated(visited: visited)
+            }
             notify(change: .visited)
         }
     }
@@ -396,6 +409,7 @@ enum DataServiceChange: String {
     case rankings
     case restaurants
     case scorecard
+    case settings
     case triggered
     case uncountries
     case user

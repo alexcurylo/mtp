@@ -53,6 +53,7 @@ enum MTP: Hashable {
     case rankings(query: RankingsQuery)
     case restaurant
     case scorecard(list: Checklist, user: Int)
+    case settings
     case unCountry
     case user(id: Int)
     case userDelete(id: Int)
@@ -112,6 +113,8 @@ extension MTP: TargetType {
             return "restaurant"
         case let .scorecard(list, user):
             return "users/\(user)/scorecard/\(list.rawValue)"
+        case .settings:
+            return "settings"
         case .unCountry:
             return "un-country"
         case .userGetByToken:
@@ -149,6 +152,7 @@ extension MTP: TargetType {
              .rankings,
              .restaurant,
              .scorecard,
+             .settings,
              .unCountry,
              .user,
              .userGetByToken,
@@ -209,6 +213,7 @@ extension MTP: TargetType {
              .locationPhotos, // &page=1&orderBy=-created_at&limit=6
              .restaurant,
              .scorecard,
+             .settings,
              .unCountry,
              .user,
              .userDelete,
@@ -271,6 +276,7 @@ extension MTP: AccessTokenAuthorizable {
              .picture,
              .restaurant,
              .scorecard,
+             .settings,
              .unCountry,
              .user,
              .userLogin,
@@ -806,6 +812,39 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
+    func loadSettings(then: @escaping MTPResult<SettingsJSON> = { _ in }) {
+        let provider = MoyaProvider<MTP>()
+        let endpoint = MTP.settings
+        guard !endpoint.isThrottled else {
+            return then(.failure(.throttle))
+        }
+        provider.request(endpoint) { response in
+            endpoint.markResponded()
+            switch response {
+            case .success(let result):
+                guard result.modified(from: endpoint) else {
+                    return then(.failure(.notModified))
+                }
+                do {
+                    let settings = try result.map(SettingsJSON.self,
+                                                  using: JSONDecoder.mtp)
+                    self.data.settings = settings
+                    return then(.success(settings))
+                } catch {
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    return then(.failure(.results))
+                }
+            case .failure(let error):
+                guard error.modified(from: endpoint) else {
+                    return then(.failure(.notModified))
+                }
+                let message = error.errorDescription ?? Localized.unknown()
+                self.log.error("failure: \(endpoint.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
     func loadUNCountries(then: @escaping MTPResult<[LocationJSON]> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.unCountry
@@ -1216,6 +1255,7 @@ extension MoyaMTPNetworkService {
 private extension MoyaMTPNetworkService {
 
     func refreshData() {
+        loadSettings()
         searchCountries { _ in
             self.loadLocations { _ in
                 self.refreshPlaces()

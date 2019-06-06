@@ -16,7 +16,7 @@ final class MyCountsPageVC: CountsPageVC {
     override var visited: [Int] { return listVisited }
 
     private let listPlaces: [PlaceInfo]
-    private let listVisited: [Int]
+    private var listVisited: [Int]
 
     private var visitedObserver: Observer?
     private var placesObserver: Observer?
@@ -38,7 +38,10 @@ final class MyCountsPageVC: CountsPageVC {
         guard visitedObserver == nil else { return }
 
         visitedObserver = data.observer(of: .visited) { [weak self] _ in
-            self?.update()
+            guard let self = self else { return }
+
+            self.listVisited = self.list.visited
+            self.update()
         }
     }
 }

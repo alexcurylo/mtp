@@ -397,6 +397,30 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
             return triggered.restaurants
         }
     }
+
+    var names: (single: String, plural: String) {
+        switch self {
+        case .locations:
+            return (Localized.location(), Localized.locations())
+        case .uncountries:
+            return (Localized.uncountry(), Localized.uncountries())
+        case .whss:
+            return (Localized.whs(), Localized.whss())
+        case .beaches:
+            return (Localized.beach(), Localized.beaches())
+        case .golfcourses:
+            return (Localized.golfcourse(), Localized.golfcourses())
+        case .divesites:
+            return (Localized.divesite(), Localized.divesites())
+        case .restaurants:
+            return (Localized.restaurant(), Localized.restaurants())
+        }
+    }
+
+    func milestone(visited: Int) -> String {
+        guard let settings = data.settings else { return "" }
+        return settings.milestone(list: self, count: visited)
+    }
 }
 
 enum Hierarchy {
