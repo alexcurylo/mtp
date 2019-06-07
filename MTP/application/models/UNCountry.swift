@@ -32,6 +32,10 @@ import RealmSwift
 
 extension UNCountry: PlaceInfo {
 
+    var placeIsMappable: Bool {
+        return false
+    }
+
     var placeCoordinate: CLLocationCoordinate2D {
         return .zero
     }

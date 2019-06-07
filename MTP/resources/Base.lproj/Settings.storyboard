@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -40,6 +41,7 @@
                                                             </state>
                                                             <connections>
                                                                 <action selector="aboutTapped:" destination="TAt-iI-ucV" eventType="touchUpInside" id="kd7-IB-JoW"/>
+                                                                <segue destination="i2Y-2E-uEl" kind="show" identifier="showAbout" id="rnF-1o-8En"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>
@@ -113,8 +115,54 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="70" id="a1y-ch-oFq">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="70" id="ihG-mn-lLy">
                                         <rect key="frame" x="0.0" y="140" width="414" height="70"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ihG-mn-lLy" id="FQ6-mf-oP6">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="70"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YrC-VQ-OtD">
+                                                    <rect key="frame" x="12" y="8" width="390" height="54"/>
+                                                    <subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ONF-ER-NzK">
+                                                            <rect key="frame" x="0.0" y="0.0" width="390" height="54"/>
+                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
+                                                            <inset key="titleEdgeInsets" minX="12" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                            <state key="normal" title="Review The App">
+                                                                <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="rateTapped:" destination="TAt-iI-ucV" eventType="touchUpInside" id="WBf-C6-whk"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstItem="ONF-ER-NzK" firstAttribute="leading" secondItem="YrC-VQ-OtD" secondAttribute="leading" id="mUf-Zn-ruQ"/>
+                                                        <constraint firstAttribute="bottom" secondItem="ONF-ER-NzK" secondAttribute="bottom" id="qZg-J3-3O0"/>
+                                                        <constraint firstItem="ONF-ER-NzK" firstAttribute="top" secondItem="YrC-VQ-OtD" secondAttribute="top" id="xcP-pX-Bes"/>
+                                                        <constraint firstAttribute="trailing" secondItem="ONF-ER-NzK" secondAttribute="trailing" id="zSX-lU-hox"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                            <real key="value" value="5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstItem="YrC-VQ-OtD" firstAttribute="top" secondItem="FQ6-mf-oP6" secondAttribute="top" constant="8" id="Eda-gt-Hr1"/>
+                                                <constraint firstAttribute="bottom" secondItem="YrC-VQ-OtD" secondAttribute="bottom" constant="8" id="PeA-Dx-d2W"/>
+                                                <constraint firstAttribute="trailing" secondItem="YrC-VQ-OtD" secondAttribute="trailing" constant="12" id="p7h-R2-r1q"/>
+                                                <constraint firstItem="YrC-VQ-OtD" firstAttribute="leading" secondItem="FQ6-mf-oP6" secondAttribute="leading" constant="12" id="w9J-DX-DHb"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="70" id="a1y-ch-oFq">
+                                        <rect key="frame" x="0.0" y="210" width="414" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="a1y-ch-oFq" id="JAC-Tz-ne1">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="70"/>
@@ -156,52 +204,6 @@
                                                 <constraint firstItem="WR8-Gm-ZUK" firstAttribute="leading" secondItem="JAC-Tz-ne1" secondAttribute="leading" constant="12" id="aTS-XU-MZ0"/>
                                                 <constraint firstAttribute="trailing" secondItem="WR8-Gm-ZUK" secondAttribute="trailing" constant="12" id="aya-Ef-y2Z"/>
                                                 <constraint firstAttribute="bottom" secondItem="WR8-Gm-ZUK" secondAttribute="bottom" constant="8" id="ufu-rY-OF8"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="70" id="ihG-mn-lLy">
-                                        <rect key="frame" x="0.0" y="210" width="414" height="70"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ihG-mn-lLy" id="FQ6-mf-oP6">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="70"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YrC-VQ-OtD">
-                                                    <rect key="frame" x="12" y="8" width="390" height="54"/>
-                                                    <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ONF-ER-NzK">
-                                                            <rect key="frame" x="0.0" y="0.0" width="390" height="54"/>
-                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
-                                                            <inset key="titleEdgeInsets" minX="12" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                            <state key="normal" title="Members">
-                                                                <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="membersTapped:" destination="TAt-iI-ucV" eventType="touchUpInside" id="WBf-C6-whk"/>
-                                                            </connections>
-                                                        </button>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <constraints>
-                                                        <constraint firstItem="ONF-ER-NzK" firstAttribute="leading" secondItem="YrC-VQ-OtD" secondAttribute="leading" id="mUf-Zn-ruQ"/>
-                                                        <constraint firstAttribute="bottom" secondItem="ONF-ER-NzK" secondAttribute="bottom" id="qZg-J3-3O0"/>
-                                                        <constraint firstItem="ONF-ER-NzK" firstAttribute="top" secondItem="YrC-VQ-OtD" secondAttribute="top" id="xcP-pX-Bes"/>
-                                                        <constraint firstAttribute="trailing" secondItem="ONF-ER-NzK" secondAttribute="trailing" id="zSX-lU-hox"/>
-                                                    </constraints>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                            <real key="value" value="5"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
-                                                </view>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <constraints>
-                                                <constraint firstItem="YrC-VQ-OtD" firstAttribute="top" secondItem="FQ6-mf-oP6" secondAttribute="top" constant="8" id="Eda-gt-Hr1"/>
-                                                <constraint firstAttribute="bottom" secondItem="YrC-VQ-OtD" secondAttribute="bottom" constant="8" id="PeA-Dx-d2W"/>
-                                                <constraint firstAttribute="trailing" secondItem="YrC-VQ-OtD" secondAttribute="trailing" constant="12" id="p7h-R2-r1q"/>
-                                                <constraint firstItem="YrC-VQ-OtD" firstAttribute="leading" secondItem="FQ6-mf-oP6" secondAttribute="leading" constant="12" id="w9J-DX-DHb"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -278,10 +280,10 @@
                     <viewLayoutGuide key="safeArea" id="FdO-Av-RbZ"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="color" keyPath="startColor">
-                            <color key="value" red="0.098039215686274508" green="0.75294117647058822" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="value" name="dodgerBlue"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="color" keyPath="endColor">
-                            <color key="value" red="0.0078431372549019607" green="0.55294117647058827" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="value" name="azureRadiance"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="orientation">
                             <integer key="value" value="1"/>
@@ -291,6 +293,88 @@
                 <exit id="t7Q-h3-tON" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3839" y="602"/>
+        </scene>
+        <!--About-->
+        <scene sceneID="Z8T-R1-NVe">
+            <objects>
+                <viewController title="About" id="i2Y-2E-uEl" customClass="AppAboutVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wzp-i6-2vU" customClass="GradientView" customModule="MTP" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ykb-30-epf">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <attributedString key="attributedText">
+                                    <fragment>
+                                        <mutableString key="content">What is MTP?
+MTP (Most Traveled People) is a club for travelers who aspire to go "everywhere."
+ 
+Where is "everywhere?"
+MTP voting members decide how to divide up the land area of the world into distinct areas. Currently, the MTP Master List is 891 items long. These items are UN countries, territories, dependencies, states or provinces of large countries, island groups, isolated islands, or enclaves and exclaves.
+ 
+Why was MTP founded?
+MTP was founded in 2005 to create a community and standards body for extreme travelers. A lack of standards had existed since the year 2000, when Guinness declared itself unable to continue to judge the Most Traveled category. Guinness requested that a legitimate 3rd party organization pick up this task, so MTP was born.
+ 
+How was MTP's original Master List developed?
+MTP's original Master List of 573 countries and territories began by rationalizing the 4 most commonly-used existing lists (TCC, Guinness, DXCC, and John Todd lists) into a single, more detailed list. Each of those previous 4 lists accounted for certain areas differently, resulting in confusion, and many competing claims. Since then, MTP voters and Charles Veley have added 300 items to the list, mostly by voting to divide large countries into their constituent states or provinces.
+ 
+Why isn't Cancun (or Las Vegas, or London, etc.) on the list?
+MTP's Master List is a division of all land area on Earth into geographically or politically separate areas. Every destination fits into one of those areas. E.g. Cancun is in the state of Quintana Roo, Mexico. Las Vegas is in Nevada, USA. London is in England. Quintana Roo, Nevada, and England are the relevant MTP list items.
+ 
+</mutableString>
+                                        <attributes>
+                                            <color key="NSColor" red="0.12941" green="0.14510000000000001" blue="0.16078000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="16" name="Helvetica"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                            <color key="NSStrokeColor" red="0.12941" green="0.14510000000000001" blue="0.16078000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="pFm-Ur-JnI" firstAttribute="trailing" secondItem="Ykb-30-epf" secondAttribute="trailing" id="N2w-0b-Rva"/>
+                            <constraint firstItem="Ykb-30-epf" firstAttribute="top" secondItem="pFm-Ur-JnI" secondAttribute="top" id="dTA-AM-MnJ"/>
+                            <constraint firstItem="pFm-Ur-JnI" firstAttribute="bottom" secondItem="Ykb-30-epf" secondAttribute="bottom" id="iSz-Cr-O7K"/>
+                            <constraint firstItem="Ykb-30-epf" firstAttribute="leading" secondItem="pFm-Ur-JnI" secondAttribute="leading" id="ubF-Hs-Oi9"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="pFm-Ur-JnI"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                <color key="value" name="dodgerBlue"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                <color key="value" name="azureRadiance"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="orientation">
+                                <integer key="value" value="1"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="About" id="gYW-8c-vKr">
+                        <barButtonItem key="leftBarButtonItem" image="navBackWhiteArrow" id="vmw-Ik-OqB">
+                            <connections>
+                                <segue destination="vUL-Eb-3ik" kind="unwind" identifier="unwindFromAbout" unwindAction="unwindToSettingsWithSegue:" id="NTV-wn-2tR"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="aboutTextView" destination="Ykb-30-epf" id="IIR-dE-TmZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8Fu-Yf-A9r" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="vUL-Eb-3ik" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="4858" y="358"/>
         </scene>
         <!--FAQ-->
         <scene sceneID="9jT-iY-5GU">
@@ -403,10 +487,10 @@
                     <viewLayoutGuide key="safeArea" id="AAF-ph-3dw"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="color" keyPath="startColor">
-                            <color key="value" red="0.098039215690000001" green="0.75294117650000003" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="value" name="dodgerBlue"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="color" keyPath="endColor">
-                            <color key="value" red="0.0078431372550000003" green="0.55294117649999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="value" name="azureRadiance"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="orientation">
                             <integer key="value" value="1"/>
@@ -414,13 +498,20 @@
                     </userDefinedRuntimeAttributes>
                 </view>
                 <exit id="T9L-sK-txI" userLabel="Exit" sceneMemberID="exit"/>
+                <barButtonItem image="navBackWhiteArrow" id="Ga6-Bi-rCE"/>
             </objects>
-            <point key="canvasLocation" x="4659" y="601"/>
+            <point key="canvasLocation" x="4859" y="1027"/>
         </scene>
     </scenes>
     <resources>
         <image name="arrowDown" width="17" height="10"/>
         <image name="arrowUp" width="17" height="10"/>
         <image name="navBackWhiteArrow" width="16" height="16"/>
+        <namedColor name="azureRadiance">
+            <color red="0.0078431372549019607" green="0.55294117647058827" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="dodgerBlue">
+            <color red="0.098039215686274508" green="0.75294117647058822" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

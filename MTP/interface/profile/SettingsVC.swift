@@ -1,6 +1,7 @@
 // @copyright Trollwerks Inc.
 
-import UIKit
+import MessageUI
+//import StoreKit
 
 final class SettingsVC: UITableViewController, ServiceProvider {
 
@@ -48,23 +49,57 @@ private extension SettingsVC {
         log.verbose(segue.name)
     }
 
+    var productUrl: URL? {
+        //let posesLink = "https://itunes.apple.com/app/id357099619"
+        let mtpLink = "https://itunes.apple.com/app/id1463245184"
+        return URL(string: mtpLink)
+    }
+
     @IBAction func aboutTapped(_ sender: UIButton) {
-        log.todo("aboutTapped")
+        // storyboard segue showAbout
     }
 
     @IBAction func shareTapped(_ sender: UIButton) {
-        log.todo("shareTapped")
+        guard let url = productUrl else { return }
+
+        let activityViewController = UIActivityViewController(
+            activityItems: [url],
+            applicationActivities: nil)
+        present(activityViewController, animated: true)
+    }
+
+    @IBAction func rateTapped(_ sender: UIButton) {
+        //SKStoreReviewController.requestReview()
+        guard let url = productUrl else { return }
+
+        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        components?.queryItems = [ URLQueryItem(name: "action", value: "write-review") ]
+        guard let writeReviewURL = components?.url else { return }
+        app.open(writeReviewURL)
     }
 
     @IBAction func faqTapped(_ sender: UIButton) {
-    }
-
-    @IBAction func membersTapped(_ sender: UIButton) {
-        log.todo("membersTapped")
+        // storyboard segue showFAQ
     }
 
     @IBAction func contactTapped(_ sender: UIButton) {
-        log.todo("contactTapped")
+        guard MFMailComposeViewController.canSendMail() else { return }
+
+        let composeVC = MFMailComposeViewController {
+            $0.mailComposeDelegate = self
+            $0.setToRecipients([Localized.contactAddress()])
+            $0.setSubject(Localized.contactSubject())
+        }
+        present(composeVC, animated: true, completion: nil)
+    }
+}
+
+extension SettingsVC: MFMailComposeViewControllerDelegate {
+
+    func mailComposeController(_ controller: MFMailComposeViewController,
+                               didFinishWith result: MFMailComposeResult,
+                               error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
     }
 }
 

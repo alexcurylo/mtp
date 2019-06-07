@@ -96,7 +96,7 @@ final class LocationsVC: UIViewController, ServiceProvider {
 
             dropdown.anchorView = searchBar
             dropdown.bottomOffset = CGPoint(x: 0, y: searchBar.bounds.height)
-            let inset: CGFloat = 12.0
+            //let inset: CGFloat = 12.0
             //dropdown.topOffset = CGPoint(x: inset, y: 0)
             //dropdown.width = UIScreen.main.bounds.width - (2 * inset)
             dropdown.selectionAction = { [weak self] (index: Int, item: String) in
@@ -743,26 +743,28 @@ extension LocationsVC: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar,
                    textDidChange searchText: String) {
-        guard !searchText.isEmpty  else {
-            dropdown.dataSource = []
-            dropdown.hide()
-            searchBar.setShowsCancelButton(true, animated: true)
-           return
-        }
+        if searchText.isEmpty {
+            dropdownItems = []
+        } else {
+            dropdownItems = Checklist.allCases.flatMap { list in
+                list.places.compactMap { place in
+                    guard place.placeIsMappable else { return nil }
 
-        dropdownItems = Checklist.allCases.flatMap { list in
-            list.places.compactMap { place in
-                guard place.placeIsMappable else { return nil }
-
-                let name = place.placeTitle
-                let match = name.range(of: searchText, options: .caseInsensitive) != nil
-                return match ? name : nil
+                    let name = place.placeTitle
+                    let match = name.range(of: searchText, options: .caseInsensitive) != nil
+                    return match ? name : nil
+                }
             }
         }
 
         dropdown.dataSource = dropdownItems
-        searchBar.showsCancelButton = false
-        dropdown.show()
+        if dropdownItems.isEmpty {
+            dropdown.hide()
+            searchBar.setShowsCancelButton(true, animated: true)
+        } else {
+            searchBar.showsCancelButton = false
+            dropdown.show()
+        }
     }
 
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {

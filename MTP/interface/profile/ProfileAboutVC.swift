@@ -96,10 +96,12 @@ private extension ProfileAboutVC {
     func update() {
         guard let user = user else { return }
 
+        tableView.beginUpdates()
         update(map: mapWidth)
         update(ranking: user)
         update(airport: user)
         update(links: user)
+        tableView.endUpdates()
     }
 
     func observe() {
@@ -155,12 +157,26 @@ private extension ProfileAboutVC {
     }
 
     func update(airport user: User) {
-        airportLabel?.text = user.airport
+        guard let label = airportLabel else { return }
+
+        if user.airport.isEmpty {
+            label.text = Localized.unknown()
+            label.font = Avenir.bookOblique.of(size: 12)
+            label.alpha = 0.7
+        } else {
+            label.text = user.airport.uppercased()
+            label.font = Avenir.book.of(size: 16)
+            label.alpha = 1
+        }
     }
 
     func update(links user: User) {
-        guard let views = linksStack?.arrangedSubviews else { return }
-        (2..<views.count).forEach { index in
+        guard let stack = linksStack else { return }
+
+        let headerViewCount = 2
+        let views = stack.arrangedSubviews
+        (headerViewCount..<views.count).forEach { index in
+            stack.removeArrangedSubview(views[index])
             views[index].removeFromSuperview()
         }
 
@@ -195,8 +211,17 @@ private extension ProfileAboutVC {
                 }
                 $0.addTarget(self, action: #selector(linkTapped), for: .touchUpInside)
             }
-            linksStack?.addArrangedSubview(label)
-            linksStack?.addArrangedSubview(button)
+            stack.addArrangedSubview(label)
+            stack.addArrangedSubview(button)
+        }
+
+        if stack.arrangedSubviews.count <= headerViewCount {
+            let label = UILabel {
+                $0.text = Localized.emptyState()
+                $0.font = Avenir.bookOblique.of(size: 12)
+                $0.alpha = 0.7
+            }
+            stack.addArrangedSubview(label)
         }
     }
 

@@ -49,8 +49,8 @@
 "dismissAction" = "Dismiss";
 "ok" = "OK";
 "congratulations" = "Congratulations on visiting %@!";
+"milestone" = "You have reached the %@ milestone! ";
 "status" = "You have now visited %ld %@ and have %ld remaining.";
-"milestone" = " You have reached the %@ milestone!";
 "nearest" = " The nearest %@ you haven't visited yet is %@.";
 
 // LocationTracker
@@ -110,6 +110,11 @@
 "ageRange" = "%ld-%ld";
 "under20" = "Under 20";
 "over79" = "Over 79";
+
+// SettingsVC
+
+"contactAddress" = "admin@mtp.travel";
+"contactSubject" = "Hello from The App!";
 
 // SignupVC
 

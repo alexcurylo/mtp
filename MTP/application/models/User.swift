@@ -296,6 +296,8 @@ extension UserAvatar {
                      with existing: User?) {
         self.init()
 
+        airport = existing?.airport ?? ""
+        bio = existing?.bio ?? ""
         fullName = from.fullName
         gender = from.gender
         id = from.id
@@ -315,6 +317,9 @@ extension UserAvatar {
         visitRestaurants = from.scoreRestaurants ?? existing?.visitRestaurants ?? 0
         visitUncountries = from.scoreUncountries ?? existing?.visitUncountries ?? 0
         visitWhss = from.scoreWhss ?? existing?.visitWhss ?? 0
+
+        existing?.linkTexts.forEach { linkTexts.append($0) }
+        existing?.linkUrls.forEach { linkUrls.append($0) }
     }
 
     convenience init(from: UserJSON) {

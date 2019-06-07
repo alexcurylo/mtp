@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -40,6 +40,7 @@
 		8C9DD8CE2245034E00D5EAFB /* Injectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9DD8CD2245034D00D5EAFB /* Injectable.swift */; };
 		8CAE30592239DA7D00E31647 /* world-map.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 8CAE30572239DA7C00E31647 /* world-map.geojson */; };
 		8CAE30642239F4F100E31647 /* WorldMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CAE30632239F4F100E31647 /* WorldMap.swift */; };
+		8CCA5A7322AA6BBB00853903 /* AppAboutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCA5A7222AA6BBB00853903 /* AppAboutVC.swift */; };
 		8CE3FC2C222389B600B94EAA /* Scorecard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE3FC2B222389B600B94EAA /* Scorecard.swift */; };
 		8CE6F46B224B029500B24410 /* ContentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6F46A224B029400B24410 /* ContentState.swift */; };
 		8CE6FC56224C6C1B00B24410 /* LocationPhotos.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CE6FC58224C6C1B00B24410 /* LocationPhotos.storyboard */; };
@@ -221,6 +222,7 @@
 		8C9DD8CD2245034D00D5EAFB /* Injectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Injectable.swift; sourceTree = "<group>"; };
 		8CAE30572239DA7C00E31647 /* world-map.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "world-map.geojson"; sourceTree = "<group>"; };
 		8CAE30632239F4F100E31647 /* WorldMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldMap.swift; sourceTree = "<group>"; };
+		8CCA5A7222AA6BBB00853903 /* AppAboutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAboutVC.swift; sourceTree = "<group>"; };
 		8CE3FC2B222389B600B94EAA /* Scorecard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scorecard.swift; sourceTree = "<group>"; };
 		8CE6F46A224B029400B24410 /* ContentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentState.swift; sourceTree = "<group>"; };
 		8CE6FC57224C6C1B00B24410 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LocationPhotos.storyboard; sourceTree = "<group>"; };
@@ -510,6 +512,7 @@
 		FA390137213B7D490016A362 /* profile */ = {
 			isa = PBXGroup;
 			children = (
+				8CCA5A7222AA6BBB00853903 /* AppAboutVC.swift */,
 				FA5AC0C621FDD8AA0080F84F /* CountCellItem.swift */,
 				8C5ECE9D21FEE6F800322ABF /* CountCellGroup.swift */,
 				FA5AC0C421FDD7C00080F84F /* CountSectionHeader.swift */,
@@ -1210,6 +1213,7 @@
 				8C0127F9223202FA00EA2095 /* ServiceHandler.swift in Sources */,
 				FAFEDA5421296F6D00DA3DB8 /* MainTBC.swift in Sources */,
 				FA2E718521ED535B00E6AB73 /* WHS.swift in Sources */,
+				8CCA5A7322AA6BBB00853903 /* AppAboutVC.swift in Sources */,
 				FAAE29BF20EE51A700B43BA9 /* UIApplication+Environment.swift in Sources */,
 				FA32CC762100C34E004C1329 /* LoginVC.swift in Sources */,
 				FA46533021157784005B5A0A /* FacebookButton.swift in Sources */,
