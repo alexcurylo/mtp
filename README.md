@@ -52,6 +52,7 @@ Requirements
 
 - [Alamofire](https://github.com/Alamofire/Alamofire) for HTTP networking
 - [Anchorage](https://github.com/Raizlabs/Anchorage) for fluent layout declarations
+- [DropDown](https://github.com/AssistoLab/DropDown) for live search results
 - [Facebook SDK in Swift](https://github.com/facebook/facebook-sdk-swift)  for Facebook support
 - [JWTDecode](https://github.com/auth0/JWTDecode.swift) for [JSON Web Token](https://jwt.io) management
 - [KRProgressHUD](https://github.com/krimpedance/KRProgressHUD) for progress management
@@ -61,7 +62,7 @@ Requirements
 - [R.swift](https://github.com/mac-cain13/R.swift/) for typed resource identifiers
 - [Realm](https://github.com/realm/realm-cocoa) for data management
 - [Result](https://github.com/antitypical/Result) for operation result modelling
-- [SwiftEntryKit](https://github.com/huri000/SwiftEntryKit) for popup management
+- [SwiftEntryKit](https://github.com/huri000/SwiftEntryKit) for notification management
 
 Usage
 -----

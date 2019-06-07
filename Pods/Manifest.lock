@@ -7,6 +7,7 @@ PODS:
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
+  - DropDown (2.3.13)
   - FacebookCore (0.7.0):
     - FBSDKCoreKit (~> 5.0)
   - FacebookLogin (0.7.0):
@@ -56,6 +57,7 @@ PODS:
 DEPENDENCIES:
   - Anchorage
   - Bolts
+  - DropDown
   - FacebookCore
   - FacebookLogin
   - FacebookShare
@@ -80,6 +82,7 @@ SPEC REPOS:
     - Alamofire
     - Anchorage
     - Bolts
+    - DropDown
     - FacebookCore
     - FacebookLogin
     - FacebookShare
@@ -106,6 +109,7 @@ SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   Anchorage: 21a98675245188427f0bcea21404d42a824a766f
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
+  DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   FacebookCore: 4eee98476cb37a485af5d337eb21f8cd5b3c7e6c
   FacebookLogin: 94cdad6850e86a2b04704dedfe7674a7af8148eb
   FacebookShare: dd4954712db61e078aea483bdf89e1b2ae3574b5
@@ -128,6 +132,6 @@ SPEC CHECKSUMS:
   SwiftLint: 009a898ef2a1c851f45e1b59349bf6ff2ddc990d
   SwiftyBeaver: 4cc0080d2e23f980652e28978db11a5c9da39165
 
-PODFILE CHECKSUM: 11efdb85aff075d6cf3c2db66f49c4505bf26194
+PODFILE CHECKSUM: f7e4618465563ff7f5f8769f709ee6df49c69546
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.7.1

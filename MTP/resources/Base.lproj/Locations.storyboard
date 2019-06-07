@@ -61,10 +61,13 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
-                <searchBar contentMode="redraw" placeholder="My location" id="oqm-4d-uVj">
+                <searchBar contentMode="redraw" placeholder="Search for a place" id="oqm-4d-uVj">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                    <textInputTraits key="textInputTraits"/>
+                    <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="alphabet" returnKeyType="done"/>
+                    <connections>
+                        <outlet property="delegate" destination="9pv-A4-QxB" id="gds-KO-YLE"/>
+                    </connections>
                 </searchBar>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="5oL-Dh-oDr">
                     <rect key="frame" x="0.0" y="0.0" width="46" height="30"/>

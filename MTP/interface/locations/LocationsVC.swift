@@ -3,6 +3,7 @@
 // swiftlint:disable file_length
 
 import Anchorage
+import DropDown
 import MapKit
 import RealmSwift
 import SwiftEntryKit
@@ -15,6 +16,23 @@ final class LocationsVC: UIViewController, ServiceProvider {
     @IBOutlet private var mapView: MKMapView?
     @IBOutlet private var searchBar: UISearchBar?
     @IBOutlet private var showMoreButton: UIButton?
+
+    let dropdown = DropDown {
+        $0.dismissMode = .manual
+        $0.backgroundColor = .white
+        $0.selectionBackgroundColor = UIColor(red: 0.649, green: 0.815, blue: 1.0, alpha: 0.2)
+        $0.separatorColor = UIColor(white: 0.7, alpha: 0.8)
+        $0.direction = .bottom
+        $0.cellHeight = 30
+        $0.setupCornerRadius(10)
+        $0.shadowColor = UIColor(white: 0.6, alpha: 1)
+        $0.shadowOpacity = 0.9
+        $0.shadowRadius = 25
+        $0.animationduration = 0.25
+        $0.textColor = .darkGray
+        $0.textFont = Avenir.book.of(size: 14)
+    }
+    var dropdownItems: [String] = []
 
     let locationManager = CLLocationManager()
     private var trackingButton: MKUserTrackingButton?
@@ -71,6 +89,20 @@ final class LocationsVC: UIViewController, ServiceProvider {
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
+
+        if let searchBar = searchBar {
+            let searchBarStyle = searchBar.value(forKey: "searchField") as? UITextField
+            searchBarStyle?.clearButtonMode = .never
+
+            dropdown.anchorView = searchBar
+            dropdown.bottomOffset = CGPoint(x: 0, y: searchBar.bounds.height)
+            let inset: CGFloat = 12.0
+            //dropdown.topOffset = CGPoint(x: inset, y: 0)
+            //dropdown.width = UIScreen.main.bounds.width - (2 * inset)
+            dropdown.selectionAction = { [weak self] (index: Int, item: String) in
+                self?.dropdown(selected: index)
+            }
+        }
 
         mapDisplay = data.mapDisplay
         setupCompass()
@@ -704,6 +736,58 @@ private extension LocationsVC {
                                             content: content,
                                             trigger: nil)
         UNUserNotificationCenter.current().add(request)
+    }
+}
+
+extension LocationsVC: UISearchBarDelegate {
+
+    func searchBar(_ searchBar: UISearchBar,
+                   textDidChange searchText: String) {
+        guard !searchText.isEmpty  else {
+            dropdown.dataSource = []
+            dropdown.hide()
+            searchBar.setShowsCancelButton(true, animated: true)
+           return
+        }
+
+        dropdownItems = Checklist.allCases.flatMap { list in
+            list.places.compactMap { place in
+                guard place.placeIsMappable else { return nil }
+
+                let name = place.placeTitle
+                let match = name.range(of: searchText, options: .caseInsensitive) != nil
+                return match ? name : nil
+            }
+        }
+
+        dropdown.dataSource = dropdownItems
+        searchBar.showsCancelButton = false
+        dropdown.show()
+    }
+
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(true, animated: true)
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBarCancelButtonClicked(searchBar)
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        dropdown.hide()
+        searchBar.resignFirstResponder()
+    }
+
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+    }
+
+    func dropdown(selected index: Int) {
+        if let searchBar = searchBar {
+            searchBarCancelButtonClicked(searchBar)
+        }
+        log.todo("Selected item at index: \(index)")
     }
 }
 
