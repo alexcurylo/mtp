@@ -147,6 +147,11 @@
 		FAC159A221EB68AA00564E2D /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC159A121EB68AA00564E2D /* Location.swift */; };
 		FAC3BCB8216A225900E1507E /* TagButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC3BCB5216A225900E1507E /* TagButton.swift */; };
 		FAC3BCB9216A225900E1507E /* TagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC3BCB6216A225900E1507E /* TagsView.swift */; };
+		FAC8465922AB493E004F57EC /* LocationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8465822AB493E004F57EC /* LocationHandler.swift */; };
+		FAC8465B22AB55B6004F57EC /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8465A22AB55B6004F57EC /* NotificationService.swift */; };
+		FAC8465D22AB6C2A004F57EC /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8465C22AB6C2A004F57EC /* LocationService.swift */; };
+		FAC8465F22AB78FC004F57EC /* SpyLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8465E22AB78FC004F57EC /* SpyLocationService.swift */; };
+		FAC8466122AB79AA004F57EC /* SpyNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8466022AB79AA004F57EC /* SpyNotificationService.swift */; };
 		FAD2B51321F45796009FFDD7 /* PlaceLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51221F45796009FFDD7 /* PlaceLocation.swift */; };
 		FAD2B51621F46913009FFDD7 /* Checked.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51521F46913009FFDD7 /* Checked.swift */; };
 		FAD2B51821F48AB8009FFDD7 /* PlaceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51721F48AB8009FFDD7 /* PlaceInfo.swift */; };
@@ -359,6 +364,11 @@
 		FAC7A77621FF400300DCED01 /* .codebeatignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .codebeatignore; sourceTree = "<group>"; };
 		FAC7A77721FF43F900DCED01 /* .codebeatsettings */ = {isa = PBXFileReference; lastKnownFileType = text; path = .codebeatsettings; sourceTree = "<group>"; };
 		FAC7A77821FF452500DCED01 /* .swift-version */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".swift-version"; sourceTree = "<group>"; };
+		FAC8465822AB493E004F57EC /* LocationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationHandler.swift; sourceTree = "<group>"; };
+		FAC8465A22AB55B6004F57EC /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		FAC8465C22AB6C2A004F57EC /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		FAC8465E22AB78FC004F57EC /* SpyLocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyLocationService.swift; sourceTree = "<group>"; };
+		FAC8466022AB79AA004F57EC /* SpyNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyNotificationService.swift; sourceTree = "<group>"; };
 		FAD2B51221F45796009FFDD7 /* PlaceLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceLocation.swift; sourceTree = "<group>"; };
 		FAD2B51521F46913009FFDD7 /* Checked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checked.swift; sourceTree = "<group>"; };
 		FAD2B51721F48AB8009FFDD7 /* PlaceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfo.swift; sourceTree = "<group>"; };
@@ -436,6 +446,7 @@
 				8C3EAB892230FD2800CB4886 /* MTPDelegate.swift */,
 				FA392BBA20DF69F30026C828 /* ActionHandler.swift */,
 				FA9A71DE20F1D3FA005F6A57 /* LaunchHandler.swift */,
+				FAC8465822AB493E004F57EC /* LocationHandler.swift */,
 				FA3CC5CC2288456E00925A05 /* NotificationsHandler.swift */,
 				8C0127F8223202FA00EA2095 /* ServiceHandler.swift */,
 				FA62BAE422471780009FDC4E /* StateHandler.swift */,
@@ -737,8 +748,10 @@
 				FA46532F21157784005B5A0A /* FacebookButton.swift */,
 				8C9DD8CD2245034D00D5EAFB /* Injectable.swift */,
 				8C3EAA1B2230BFA500CB4886 /* InsetTextField.swift */,
+				FAC8465C22AB6C2A004F57EC /* LocationService.swift */,
 				FAE1F11D2143B29F0002CAB2 /* LocationTracker.swift */,
 				FA463784210E06230007382D /* LoggingService.swift */,
+				FAC8465A22AB55B6004F57EC /* NotificationService.swift */,
 				FA6A188521EFEF920092C56C /* Observable.swift */,
 				FA8833E02209BF570037C796 /* RealmSearchViewController.swift */,
 				FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */,
@@ -796,8 +809,10 @@
 				8C0127FA2232054E00EA2095 /* SpyServiceHandler+AppLaunchHandler.swift */,
 				8C0127FC2232084600EA2095 /* SpyApplicationService.swift */,
 				8C012800223208CC00EA2095 /* SpyDataService.swift */,
+				FAC8465E22AB78FC004F57EC /* SpyLocationService.swift */,
 				8C0127FE2232089100EA2095 /* SpyLoggingService.swift */,
 				8C012802223208FB00EA2095 /* SpyMTPNetworkService.swift */,
+				FAC8466022AB79AA004F57EC /* SpyNotificationService.swift */,
 				FAE1F11B21437F860002CAB2 /* String+Assert.swift */,
 				8C3EAB912231249E00CB4886 /* XCTestCase+Unwrap.swift */,
 			);
@@ -1175,6 +1190,7 @@
 				8CAE30642239F4F100E31647 /* WorldMap.swift in Sources */,
 				FADC1ABA2144FAD70011EE49 /* Date+Formatting.swift in Sources */,
 				FA8833E12209BF570037C796 /* RealmSearchViewController.swift in Sources */,
+				FAC8465D22AB6C2A004F57EC /* LocationService.swift in Sources */,
 				FAE1F11E2143B29F0002CAB2 /* LocationTracker.swift in Sources */,
 				8C0F242B22432076005BD5DC /* UserCountsVC.swift in Sources */,
 				FAEB87A1227ED26300858898 /* PostCell.swift in Sources */,
@@ -1193,6 +1209,7 @@
 				8CE6FC64224C6CB600B24410 /* LocationInfoVC.swift in Sources */,
 				FA6A188621EFEF920092C56C /* Observable.swift in Sources */,
 				FA3CC5CD2288456E00925A05 /* NotificationsHandler.swift in Sources */,
+				FAC8465B22AB55B6004F57EC /* NotificationService.swift in Sources */,
 				FA74C111211BBF490013A840 /* String+Formatting.swift in Sources */,
 				FA8833E7220CE8260037C796 /* UNCountry.swift in Sources */,
 				FA3BD1D2215F7FCD007EAF75 /* ProfilePostsVC.swift in Sources */,
@@ -1254,6 +1271,7 @@
 				FA254DCD2169A2A400FC9360 /* ProfileAboutVC.swift in Sources */,
 				FA32CC782100C360004C1329 /* SignupVC.swift in Sources */,
 				FA25ACE6217B54A8000AE26D /* RankingCell.swift in Sources */,
+				FAC8465922AB493E004F57EC /* LocationHandler.swift in Sources */,
 				FA36FBED22059E6B00616CDE /* ApplicationService.swift in Sources */,
 				FAAE29C520F05A9600B43BA9 /* UserDefaults+TypeSafety.swift in Sources */,
 				FA5AC0C121FDCCDE0080F84F /* ListPagingItem.swift in Sources */,
@@ -1275,10 +1293,12 @@
 				8C012801223208CC00EA2095 /* SpyDataService.swift in Sources */,
 				FAE1F11C21437F860002CAB2 /* String+Assert.swift in Sources */,
 				FA3BD2292160D6BC007EAF75 /* WithableTests.swift in Sources */,
+				FAC8465F22AB78FC004F57EC /* SpyLocationService.swift in Sources */,
 				8C0127FF2232089100EA2095 /* SpyLoggingService.swift in Sources */,
 				8C012803223208FB00EA2095 /* SpyMTPNetworkService.swift in Sources */,
 				FA74C113211C61580013A840 /* StringTests.swift in Sources */,
 				8C0127FB2232054E00EA2095 /* SpyServiceHandler+AppLaunchHandler.swift in Sources */,
+				FAC8466122AB79AA004F57EC /* SpyNotificationService.swift in Sources */,
 				FA0BE96C210C5F3300797224 /* ViewTests.swift in Sources */,
 				8C0127FD2232084600EA2095 /* SpyApplicationService.swift in Sources */,
 			);

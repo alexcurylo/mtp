@@ -3,6 +3,7 @@
 import UIKit
 
 public enum LoggingLevel: Int {
+
     case verbose = 0
     case debug = 1
     case info = 2

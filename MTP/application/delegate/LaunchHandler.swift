@@ -5,6 +5,8 @@ import SwiftyBeaver
 
 struct LaunchHandler: AppHandler, ServiceProvider { }
 
+// MARK: - AppLaunchHandler
+
 extension LaunchHandler: AppLaunchHandler {
 
     func application(_ application: UIApplication,
@@ -26,11 +28,11 @@ extension LaunchHandler: AppLaunchHandler {
 
         configureAppearance()
 
-        configureNotifications(options: options)
-
         return true
     }
 }
+
+// MARK: - Private
 
 private extension LaunchHandler {
 

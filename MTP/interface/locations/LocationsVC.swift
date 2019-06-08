@@ -7,7 +7,6 @@ import DropDown
 import MapKit
 import RealmSwift
 import SwiftEntryKit
-import UserNotifications
 
 final class LocationsVC: UIViewController, ServiceProvider {
 
@@ -34,7 +33,6 @@ final class LocationsVC: UIViewController, ServiceProvider {
     }
     var dropdownItems: [String] = []
 
-    let locationManager = CLLocationManager()
     private var trackingButton: MKUserTrackingButton?
     private var mapCentered = false
     private var mapLoaded = false
@@ -79,12 +77,10 @@ final class LocationsVC: UIViewController, ServiceProvider {
     }
 
     private var selected: PlaceAnnotation?
-    private var lastUserLocation: CLLocation?
 
-    private let constants = (
-        filterTrigger: CLLocationDistance(20),
-        filterNearby: CLLocationDistance(20)
-    )
+    deinit {
+        loc.remove(tracker: self)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,6 +104,7 @@ final class LocationsVC: UIViewController, ServiceProvider {
         setupCompass()
         setupTracking()
         trackingButton?.set(visibility: start(tracking: .dontAsk))
+        loc.insert(tracker: self)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -140,12 +137,13 @@ final class LocationsVC: UIViewController, ServiceProvider {
         case Segues.showNearby.identifier:
             let nearby = Segues.showNearby(segue: segue)?.destination
             let center: CLLocation?
-            switch (lastUserLocation?.coordinate, mapView?.centerCoordinate) {
+            switch (loc.here, mapView?.centerCoordinate) {
             case (nil, let map?):
                 center = map.location
-            case let (user?, map?):
-                let distance = user.distance(from: map)
-                center = distance < constants.filterNearby ? nil : map.location
+            case let (device?, map?):
+                let distance = device.distance(from: map)
+                let distanceFilter = CLLocationDistance(100)
+                center = distance < distanceFilter ? nil : map.location
             default:
                 center = nil
             }
@@ -178,6 +176,8 @@ final class LocationsVC: UIViewController, ServiceProvider {
     }
 }
 
+// MARK: - PlaceAnnotationDelegate
+
 extension LocationsVC: PlaceAnnotationDelegate {
 
     func close(place: PlaceAnnotation) {
@@ -206,6 +206,27 @@ extension LocationsVC: PlaceAnnotationDelegate {
         performSegue(withIdentifier: Segues.showLocation, sender: self)
     }
 }
+
+// MARK: - LocationTracker
+
+extension LocationsVC: LocationTracker {
+
+    func accessRefused() {
+        mapCentered = true
+        setupAnnotations()
+    }
+
+    func authorization(changed: CLAuthorizationStatus) {
+        trackingButton?.set(visibility: start(tracking: .ask))
+        centerOnDevice()
+    }
+
+    func location(changed: CLLocation) {
+        update(distances: changed)
+    }
+}
+
+// MARK: - Private
 
 private extension LocationsVC {
 
@@ -256,7 +277,7 @@ private extension LocationsVC {
 
     func centerOnDevice() {
         guard !mapCentered,
-              let here = locationManager.location?.coordinate else { return }
+              let here = loc.here else { return }
 
         zoom(to: here, span: 160_000)
     }
@@ -458,12 +479,10 @@ private extension LocationsVC {
         whssAnnotations.formUnion(added)
     }
 
-    func updateDistances() {
-        guard let location = lastUserLocation else { return }
-
+    func update(distances from: CLLocation) {
         allAnnotations.forEach {
             $0.forEach {
-                $0.setDistance(from: location, trigger: true)
+                $0.setDistance(from: from.coordinate, trigger: true)
             }
         }
 
@@ -476,7 +495,7 @@ private extension LocationsVC {
                   !list.isTriggered(id: place.placeId),
                   !list.isDismissed(id: place.placeId),
                   data.worldMap.contains(
-                      coordinate: location.coordinate,
+                      coordinate: from.coordinate,
                       location: place.placeId) else { continue }
 
             list.set(triggered: true, id: place.placeId)
@@ -702,42 +721,32 @@ private extension LocationsVC {
 
     func notifyBackground(list: Checklist,
                           info: PlaceInfo) {
-        guard UIApplication.shared.applicationState == .background else { return }
-
-        UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
-            switch settings.authorizationStatus {
-            case .authorized:
-                DispatchQueue.main.async { [weak self] in
-                    self?.postLocalNotification(list: list,
-                                                info: info)
-                }
-            default:
-                break
-            }
+        note.background { [weak self] in
+            self?.postLocalNotification(list: list,
+                                        info: info)
         }
     }
 
     func postLocalNotification(list: Checklist,
                                info: PlaceInfo) {
-        let content = UNMutableNotificationContent()
-        content.title = Localized.checkinTitle(list.category)
+        let title = Localized.checkinTitle(list.category)
+        let body: String
         switch list {
         case .locations:
-            content.body = Localized.checkinInside(info.placeTitle)
+            body = Localized.checkinInside(info.placeTitle)
         default:
-            content.body = Localized.checkinNear(info.placeTitle)
+            body = Localized.checkinNear(info.placeTitle)
         }
-        content.categoryIdentifier = NotificationsHandler.visitCategory
-        content.userInfo = [NotificationsHandler.visitList: list.rawValue,
-                            NotificationsHandler.visitId: info.placeId]
-        content.sound = UNNotificationSound.default
+        let info: NotificationService.Info = [
+            NotificationsHandler.visitList: list.rawValue,
+            NotificationsHandler.visitId: info.placeId
+        ]
 
-        let request = UNNotificationRequest(identifier: UUID().uuidString,
-                                            content: content,
-                                            trigger: nil)
-        UNUserNotificationCenter.current().add(request)
+        note.visit(title: title, body: body, info: info)
     }
 }
+
+// MARK: - UISearchBarDelegate
 
 extension LocationsVC: UISearchBarDelegate {
 
@@ -792,6 +801,8 @@ extension LocationsVC: UISearchBarDelegate {
         log.todo("Selected item at index: \(index)")
     }
 }
+
+// MARK: - MKMapViewDelegate
 
 extension LocationsVC: MKMapViewDelegate {
 
@@ -908,89 +919,7 @@ extension LocationsVC: MKMapViewDelegate {
     }
 }
 
-extension LocationsVC: LocationTracker {
-
-    func accessRefused() {
-        mapCentered = true
-        setupAnnotations()
-    }
-
-    func locationManager(_ manager: CLLocationManager,
-                         didUpdateLocations locations: [CLLocation]) {
-        guard let newUser = locations.last else { return }
-
-        if let lastUser = lastUserLocation,
-           lastUser.distance(from: newUser) < constants.filterTrigger {
-            return
-        }
-
-        lastUserLocation = newUser
-        updateDistances()
-    }
-
-    func locationManager(_ manager: CLLocationManager,
-                         didUpdateHeading newHeading: CLHeading) {
-    }
-    func locationManagerShouldDisplayHeadingCalibration(_ manager: CLLocationManager) -> Bool {
-        return true
-    }
-
-    func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
-    }
-    func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) {
-    }
-
-    func locationManager(_ manager: CLLocationManager,
-                         didDetermineState state: CLRegionState,
-                         for region: CLRegion) {
-    }
-    func locationManager(_ manager: CLLocationManager,
-                         didEnterRegion region: CLRegion) {
-    }
-    func locationManager(_ manager: CLLocationManager,
-                         didExitRegion region: CLRegion) {
-    }
-    func locationManager(_ manager: CLLocationManager,
-                         didRangeBeacons beacons: [CLBeacon],
-                         in region: CLBeaconRegion) {
-    }
-    func locationManager(_ manager: CLLocationManager,
-                         rangingBeaconsDidFailFor region: CLBeaconRegion,
-                         withError error: Error) {
-    }
-
-    func locationManager(_ manager: CLLocationManager,
-                         didFailWithError error: Error) {
-        log.error(#function)
-    }
-
-    func locationManager(_ manager: CLLocationManager,
-                         didStartMonitoringFor region: CLRegion) {
-    }
-    func locationManager(_ manager: CLLocationManager,
-                         monitoringDidFailFor region: CLRegion?,
-                         withError error: Error) {
-        log.error(#function)
-    }
-
-    func locationManager(_ manager: CLLocationManager,
-                         didChangeAuthorization status: CLAuthorizationStatus) {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.trackingButton?.set(visibility: self.start(tracking: .ask))
-            self.centerOnDevice()
-        }
-    }
-
-    func locationManager(_ manager: CLLocationManager,
-                         didFinishDeferredUpdatesWithError error: Error?) {
-        log.error(#function)
-    }
-
-    func locationManager(_ manager: CLLocationManager,
-                         didVisit visit: CLVisit) {
-    }
-}
+// MARK: - MKUserTrackingButton
 
 private extension MKUserTrackingButton {
 
@@ -1010,6 +939,8 @@ private extension MKUserTrackingButton {
         isHidden = !authorized
     }
 }
+
+// MARK: - Injectable
 
 extension LocationsVC: Injectable {
 

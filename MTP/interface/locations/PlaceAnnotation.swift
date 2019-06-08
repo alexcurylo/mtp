@@ -104,7 +104,7 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
         }
     }
 
-    func setDistance(from: CLLocation, trigger: Bool) {
+    func setDistance(from: CLLocationCoordinate2D, trigger: Bool) {
         distance = coordinate.distance(from: from)
         guard trigger,
               !isDismissed,
@@ -114,7 +114,7 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
         let triggered: Bool
         switch list {
         case .locations:
-            triggered = data.worldMap.contains(coordinate: from.coordinate,
+            triggered = data.worldMap.contains(coordinate: from,
                                                location: id)
         default:
             triggered = distance < list.triggerDistance

@@ -70,6 +70,8 @@ final class LocationVC: UIViewController, ServiceProvider {
     }
 }
 
+// MARK: - Private
+
 private extension LocationVC {
 
     @IBAction func unwindToLocation(segue: UIStoryboardSegue) {
@@ -118,6 +120,8 @@ private extension LocationVC {
         birthdayLabel?.text = ""
     }
 }
+
+// MARK: - Injectable
 
 extension LocationVC: Injectable {
 

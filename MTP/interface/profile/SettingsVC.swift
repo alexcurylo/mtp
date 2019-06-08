@@ -34,7 +34,8 @@ final class SettingsVC: UITableViewController, ServiceProvider {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
-        case Segues.showFAQ.identifier,
+        case Segues.showAbout.identifier,
+             Segues.showFAQ.identifier,
              Segues.unwindFromSettings.identifier:
             break
         default:

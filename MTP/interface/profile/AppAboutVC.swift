@@ -6,16 +6,13 @@ final class AppAboutVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.appAboutVC
 
-    @IBOutlet private var aboutTextView: UITextView?
+    @IBOutlet private var aboutTextView: UITopLoadingTextView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
 
         aboutTextView?.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 0, right: 8)
-        // fix not loading at top
-        aboutTextView?.layoutIfNeeded()
-        aboutTextView?.setContentOffset(.zero, animated: false)
     }
 
     override func viewWillAppear(_ animated: Bool) {

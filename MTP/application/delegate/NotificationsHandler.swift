@@ -3,12 +3,62 @@
 import UIKit
 import UserNotifications
 
-struct NotificationsHandler: AppHandler, ServiceProvider {
+final class NotificationsHandler: NSObject, AppHandler, ServiceProvider {
 
+    static let debugCategory = "debug"
     static let visitCategory = "visit"
     static let visitList = "list"
     static let visitId = "id"
 }
+
+// MARK: - AppLaunchHandler
+
+extension NotificationsHandler: AppLaunchHandler {
+
+    func application(_ application: UIApplication,
+                     // swiftlint:disable:next discouraged_optional_collection
+                     willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        return true
+    }
+
+    func application(_ application: UIApplication,
+                     // swiftlint:disable:next discouraged_optional_collection
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        let debug = UNNotificationCategory(
+            identifier: NotificationsHandler.debugCategory,
+            actions: [],
+            intentIdentifiers: [],
+            options: []
+        )
+
+        let checkin = UNNotificationAction(
+            identifier: Localized.checkinAction(),
+            title: Localized.checkinAction(),
+            options: []
+        )
+        let dismiss = UNNotificationAction(
+            identifier: Localized.dismissAction(),
+            title: Localized.dismissAction(),
+            options: []
+        )
+        let visit = UNNotificationCategory(
+            identifier: NotificationsHandler.visitCategory,
+            actions: [checkin, dismiss],
+            intentIdentifiers: [],
+            options: []
+        )
+
+        UNUserNotificationCenter.current().setNotificationCategories([
+            debug,
+            visit
+        ])
+        UNUserNotificationCenter.current().delegate = self
+
+        return true
+    }
+}
+
+// MARK: - AppNotificationsHandler
 
 extension NotificationsHandler: AppNotificationsHandler {
 
@@ -27,6 +77,11 @@ extension NotificationsHandler: AppNotificationsHandler {
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         log.error(#function)
     }
+}
+
+// MARK: - UNUserNotificationCenterDelegate
+
+extension NotificationsHandler: UNUserNotificationCenterDelegate {
 
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
@@ -64,30 +119,5 @@ extension NotificationsHandler: AppNotificationsHandler {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 openSettingsFor notification: UNNotification?) {
         log.error(#function)
-    }
-}
-
-extension LaunchHandler {
-
-    func configureNotifications(options: [UIApplication.LaunchOptionsKey: Any]) {
-        let checkin = UNNotificationAction(
-            identifier: Localized.checkinAction(),
-            title: Localized.checkinAction(),
-            options: []
-        )
-        let dismiss = UNNotificationAction(
-            identifier: Localized.dismissAction(),
-            title: Localized.dismissAction(),
-            options: []
-        )
-
-        let category = UNNotificationCategory(
-            identifier: NotificationsHandler.visitCategory,
-            actions: [checkin, dismiss],
-            intentIdentifiers: [],
-            options: []
-        )
-
-        UNUserNotificationCenter.current().setNotificationCategories([category])
     }
 }

@@ -103,7 +103,7 @@ extension NearbyVC: Injectable {
 
     @discardableResult func inject(model: Model) -> Self {
         places = model.annotations.flatMap { Array($0) }
-        if let center = model.center {
+        if let center = model.center?.coordinate {
             places.forEach { $0.setDistance(from: center, trigger: false) }
         }
         places.sort { $0.distance < $1.distance }
