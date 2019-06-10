@@ -31,7 +31,7 @@ extension LocationTracker where Self: UIViewController {
         })
         alert.addAction(UIAlertAction(title: Localized.allowLocationAccess(),
                                       style: .default) { _ in
-            self.app.open(url)
+            self.app.launch(url: url)
         })
 
         present(alert, animated: true, completion: nil)

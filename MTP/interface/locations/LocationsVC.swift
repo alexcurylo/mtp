@@ -85,6 +85,7 @@ final class LocationsVC: UIViewController, ServiceProvider {
         super.viewDidAppear(animated)
 
         updateTracking()
+        checkTriggered()
     }
 
     override func viewDidDisappear(_ animated: Bool) {

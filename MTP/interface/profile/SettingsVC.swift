@@ -74,7 +74,7 @@ private extension SettingsVC {
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
         components?.queryItems = [ URLQueryItem(name: "action", value: "write-review") ]
         guard let writeReviewURL = components?.url else { return }
-        app.open(writeReviewURL)
+        app.launch(url: writeReviewURL)
     }
 
     @IBAction func faqTapped(_ sender: UIButton) {

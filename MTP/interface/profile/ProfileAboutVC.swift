@@ -231,7 +231,7 @@ private extension ProfileAboutVC {
     @IBAction func linkTapped(_ sender: GradientButton) {
         if let link = sender.accessibilityIdentifier,
            let url = URL(string: link) {
-            app.open(url)
+            app.launch(url: url)
         }
     }
 

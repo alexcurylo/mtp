@@ -104,16 +104,16 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
         }
     }
 
-    func setDistance(from: CLLocationCoordinate2D, trigger: Bool) {
+    @discardableResult func setDistance(from: CLLocationCoordinate2D, trigger: Bool) -> Bool {
         distance = coordinate.distance(from: from)
-        if trigger { check(trigger: from) }
+        return trigger ? check(trigger: from) : false
     }
 
     var canTrigger: Bool {
         return !isDismissed && !isTriggered && !isVisited
     }
 
-    func check(trigger: CLLocationCoordinate2D) {
+    func check(trigger: CLLocationCoordinate2D) -> Bool {
         let triggered: Bool
         switch list {
         case .locations:
@@ -127,6 +127,7 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
             isTriggered = true
             delegate?.notify(place: self)
         }
+        return triggered
     }
 
     var formattedDistance: String {

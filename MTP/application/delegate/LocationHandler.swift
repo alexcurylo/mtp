@@ -4,6 +4,8 @@ import CoreLocation
 import RealmSwift
 import UIKit
 
+// swiftlint:disable file_length
+
 final class LocationHandler: NSObject, AppHandler, ServiceProvider {
 
     let locationManager = CLLocationManager {
@@ -61,15 +63,22 @@ final class LocationHandler: NSObject, AppHandler, ServiceProvider {
 
     private var queue = OperationQueue {
         $0.name = "annotations"
-        //$0.maxConcurrentOperationCount = 1
+        $0.maxConcurrentOperationCount = OperationQueue.defaultMaxConcurrentOperationCount
         $0.qualityOfService = .userInteractive
     }
+    private var distanceUpdate: UpdateDistanceOperation?
+    private var distancesUpdating: Int = 0 {
+        didSet { checkDistanceUpdate() }
+    }
+    private var placesUpdating: Int = 0 {
+        didSet { checkDistanceUpdate() }
+    }
 
-    private var isBackgroundLaunch = false
+    var isBackgroundLaunch = false
 
     // log.todo("adjust to half of minimum unvisited?")
     //private let minFilter = CLLocationDistance(20)
-    var updateFilter = CLLocationDistance(20)
+    private var updateFilter = CLLocationDistance(20)
 }
 
 // MARK: - AppLaunchHandler
@@ -79,6 +88,7 @@ extension LocationHandler: AppLaunchHandler {
     func application(_ application: UIApplication,
                      // swiftlint:disable:next discouraged_optional_collection
                      willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        isBackgroundLaunch = application.applicationState == .background
         locationManager.delegate = self
         loc.inject(handler: self)
         observe()
@@ -89,11 +99,8 @@ extension LocationHandler: AppLaunchHandler {
     func application(_ application: UIApplication,
                      // swiftlint:disable:next discouraged_optional_collection
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let options = launchOptions ?? [:]
-
-        if options.keys.contains(.location) {
-            isBackgroundLaunch = true
-        }
+        //let options = launchOptions ?? [:]
+        //if options.keys.contains(.location) { }
 
         return true
     }
@@ -213,13 +220,36 @@ private extension LocationHandler {
 
     func update(distances from: CLLocation) {
         let trigger = data.isVisitsLoaded
-        guard !queue.contains(distance: trigger) else { return }
-
+        guard distanceUpdate == nil else { return }
 
         let update = UpdateDistanceOperation(trigger: trigger,
                                              handler: self)
-        queue.addOperation(update)
-   }
+        update.completionBlock = {
+            DispatchQueue.main.async {
+                self.distancesUpdating -= 1
+            }
+        }
+
+        if placesUpdating > 0 || distancesUpdating > 0 {
+            distanceUpdate = update
+        } else {
+            start(distance: update)
+        }
+    }
+
+    func checkDistanceUpdate() {
+        if let update = distanceUpdate,
+           placesUpdating == 0,
+           distancesUpdating == 0 {
+            start(distance: update)
+        }
+    }
+
+    func start(distance: UpdateDistanceOperation) {
+        distanceUpdate = nil
+        distancesUpdating += 1
+        queue.addOperation(distance)
+    }
 
     func update(list: Checklist) {
         guard !queue.contains(list: list) else { return }
@@ -230,8 +260,10 @@ private extension LocationHandler {
         update.completionBlock = {
             DispatchQueue.main.async {
                 self.updated(list: list, new: update.annotations)
+                self.placesUpdating -= 1
             }
         }
+        placesUpdating += 1
         queue.addOperation(update)
     }
 
@@ -246,6 +278,7 @@ private extension LocationHandler {
         case .uncountries: break
         case .whss: updated(list: list, set: &whss, new: new)
         }
+    }
 
     func updated(list: Checklist,
                  set: inout Set<PlaceAnnotation>,

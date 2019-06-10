@@ -4,12 +4,12 @@ import UIKit
 
 protocol ApplicationService {
 
-    func open(_ url: URL)
+    func launch(url: URL)
 }
 
 extension UIApplication: ApplicationService {
 
-    func open(_ url: URL) {
+    func launch(url: URL) {
         open(url, options: [:], completionHandler: nil)
     }
 }
