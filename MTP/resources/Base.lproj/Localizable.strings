@@ -41,6 +41,7 @@
 "visited" = "Visited";
 "notVisited" = "Not Visited";
 "showMore" = "Show More";
+"directions" = "Directions";
 
 "checkinTitle" = "%@ Checkin Available";
 "checkinInside" = "You are in %@. Do you want to check in?";

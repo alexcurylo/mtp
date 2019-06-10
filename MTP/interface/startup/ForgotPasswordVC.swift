@@ -40,7 +40,6 @@ final class ForgotPasswordVC: UIViewController, ServiceProvider {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
         case Segues.dismissForgotPassword.identifier:
             presentingViewController?.show(navBar: true)

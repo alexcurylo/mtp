@@ -16,35 +16,36 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
     // MKAnnotation -- suppress callout title
     @objc dynamic var coordinate: CLLocationCoordinate2D
     let title: String? = nil
-    let subtitle: String?
+    var subtitle: String? { return name }
     // MKAnnotationView
     var reuseIdentifier: String {
         return list.rawValue
     }
 
     let list: Checklist
-    let info: PlaceInfo
     weak var delegate: PlaceAnnotationDelegate?
+    let id: Int
+    let name: String
+    let country: String
+    let visitors: Int
+    let image: String
 
-    var id: Int { return info.placeId }
-    var country: String { return info.placeSubtitle }
-    var visitors: Int { return info.placeVisitors }
-
-    // updated with user position or when NearbyVC displayed
     var distance: CLLocationDistance = 0
 
     init?(list: Checklist,
           info: PlaceInfo,
+          coordinate: CLLocationCoordinate2D,
           delegate: PlaceAnnotationDelegate) {
-        let placeCoordinate = info.placeCoordinate
-        guard !placeCoordinate.isZero else { return nil }
-
-        self.coordinate = placeCoordinate
-        self.subtitle = info.placeTitle
+        guard !coordinate.isZero else { return nil }
 
         self.list = list
-        self.info = info
         self.delegate = delegate
+        self.coordinate = coordinate
+        self.id = info.placeId
+        self.name = info.placeTitle
+        self.country = info.placeSubtitle
+        self.visitors = info.placeVisitors
+        self.image = info.placeImage
 
         super.init()
     }
@@ -58,7 +59,7 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
         guard other !== self else { return true }
 
         return list == other.list &&
-               info == other.info
+               id == other.id
     }
 
     var background: UIColor {
@@ -93,7 +94,6 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
     }
 
     var imageUrl: URL? {
-        let image = info.placeImage
         guard !image.isEmpty else { return nil }
 
         if image.hasPrefix("http") {
@@ -106,18 +106,22 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
 
     func setDistance(from: CLLocationCoordinate2D, trigger: Bool) {
         distance = coordinate.distance(from: from)
-        guard trigger,
-              !isDismissed,
-              !isTriggered,
-              !isVisited else { return }
+        if trigger { check(trigger: from) }
+    }
 
+    var canTrigger: Bool {
+        return !isDismissed && !isTriggered && !isVisited
+    }
+
+    func check(trigger: CLLocationCoordinate2D) {
         let triggered: Bool
         switch list {
         case .locations:
-            triggered = data.worldMap.contains(coordinate: from,
+            triggered = canTrigger &&
+                        data.worldMap.contains(coordinate: trigger,
                                                location: id)
         default:
-            triggered = distance < list.triggerDistance
+            triggered = distance < list.triggerDistance && canTrigger
         }
         if triggered {
             isTriggered = true

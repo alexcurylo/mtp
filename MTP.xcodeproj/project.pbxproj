@@ -152,6 +152,7 @@
 		FAC8465D22AB6C2A004F57EC /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8465C22AB6C2A004F57EC /* LocationService.swift */; };
 		FAC8465F22AB78FC004F57EC /* SpyLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8465E22AB78FC004F57EC /* SpyLocationService.swift */; };
 		FAC8466122AB79AA004F57EC /* SpyNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8466022AB79AA004F57EC /* SpyNotificationService.swift */; };
+		FAC8466322AC6D18004F57EC /* KVNOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8466222AC6D18004F57EC /* KVNOperation.swift */; };
 		FAD2B51321F45796009FFDD7 /* PlaceLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51221F45796009FFDD7 /* PlaceLocation.swift */; };
 		FAD2B51621F46913009FFDD7 /* Checked.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51521F46913009FFDD7 /* Checked.swift */; };
 		FAD2B51821F48AB8009FFDD7 /* PlaceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51721F48AB8009FFDD7 /* PlaceInfo.swift */; };
@@ -369,6 +370,7 @@
 		FAC8465C22AB6C2A004F57EC /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		FAC8465E22AB78FC004F57EC /* SpyLocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyLocationService.swift; sourceTree = "<group>"; };
 		FAC8466022AB79AA004F57EC /* SpyNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyNotificationService.swift; sourceTree = "<group>"; };
+		FAC8466222AC6D18004F57EC /* KVNOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVNOperation.swift; sourceTree = "<group>"; };
 		FAD2B51221F45796009FFDD7 /* PlaceLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceLocation.swift; sourceTree = "<group>"; };
 		FAD2B51521F46913009FFDD7 /* Checked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checked.swift; sourceTree = "<group>"; };
 		FAD2B51721F48AB8009FFDD7 /* PlaceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfo.swift; sourceTree = "<group>"; };
@@ -748,6 +750,7 @@
 				FA46532F21157784005B5A0A /* FacebookButton.swift */,
 				8C9DD8CD2245034D00D5EAFB /* Injectable.swift */,
 				8C3EAA1B2230BFA500CB4886 /* InsetTextField.swift */,
+				FAC8466222AC6D18004F57EC /* KVNOperation.swift */,
 				FAC8465C22AB6C2A004F57EC /* LocationService.swift */,
 				FAE1F11D2143B29F0002CAB2 /* LocationTracker.swift */,
 				FA463784210E06230007382D /* LoggingService.swift */,
@@ -1213,6 +1216,7 @@
 				FA74C111211BBF490013A840 /* String+Formatting.swift in Sources */,
 				FA8833E7220CE8260037C796 /* UNCountry.swift in Sources */,
 				FA3BD1D2215F7FCD007EAF75 /* ProfilePostsVC.swift in Sources */,
+				FAC8466322AC6D18004F57EC /* KVNOperation.swift in Sources */,
 				8C3EAA1C2230BFA500CB4886 /* InsetTextField.swift in Sources */,
 				FA75562E22A4FFCF0006EFC3 /* ProfileVC.swift in Sources */,
 				FA8833E5220CE7350037C796 /* Country.swift in Sources */,

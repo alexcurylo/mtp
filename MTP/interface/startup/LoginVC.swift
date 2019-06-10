@@ -71,7 +71,6 @@ final class LoginVC: UIViewController, ServiceProvider {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.verbose("prepare for \(segue.name)")
         view.endEditing(true)
         switch segue.identifier {
         case Segues.presentLoginFail.identifier:

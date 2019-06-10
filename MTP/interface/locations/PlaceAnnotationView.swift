@@ -57,6 +57,18 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         $0.textColor = .darkText
     }
 
+    private let directionsButton = GradientButton {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.orientation = GradientOrientation.horizontal.rawValue
+        $0.startColor = .dodgerBlue
+        $0.endColor = .azureRadiance
+        $0.cornerRadius = 4
+
+        let title = Localized.directions()
+        $0.setTitle(title, for: .normal)
+        $0.titleLabel?.font = Avenir.heavy.of(size: 18)
+    }
+
     private let showMoreButton = GradientButton {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.orientation = GradientOrientation.horizontal.rawValue
@@ -84,6 +96,9 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         visitSwitch.addTarget(self,
                               action: #selector(toggleVisit),
                               for: .valueChanged)
+        directionsButton.addTarget(self,
+                                   action: #selector(directionsTapped),
+                                   for: .touchUpInside)
         showMoreButton.addTarget(self,
                                  action: #selector(showMoreTapped),
                                  for: .touchUpInside)
@@ -156,6 +171,20 @@ private extension PlaceAnnotationView {
         show(visited: isVisited)
     }
 
+    var mapItem: MKMapItem? {
+        guard let coordinate = annotation?.coordinate else { return nil }
+
+        let placemark = MKPlacemark(coordinate: coordinate)
+        let item = MKMapItem(placemark: placemark)
+        item.name = nameLabel.text
+        return item
+    }
+
+    @objc func directionsTapped(_ sender: GradientButton) {
+        let options = [ MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving ]
+        mapItem?.openInMaps(launchOptions: options)
+    }
+
     @objc func showMoreTapped(_ sender: GradientButton) {
         place?.show()
     }
@@ -178,10 +207,16 @@ private extension PlaceAnnotationView {
             $0.heightAnchor == 2
         }
 
+        let buttons = UIStackView(arrangedSubviews: [directionsButton,
+                                                     showMoreButton
+                                                     ])
+        buttons.spacing = 8
+        buttons.distribution = .fillEqually
+
         let stack = UIStackView(arrangedSubviews: [topView,
                                                    categoryStack,
                                                    detailStack,
-                                                   showMoreButton,
+                                                   buttons,
                                                    bottomSpacer
                                                    ])
         stack.axis = .vertical

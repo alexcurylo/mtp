@@ -38,7 +38,6 @@ final class RankingsVC: UIViewController, ServiceProvider {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
         case Segues.showFilter.identifier:
              break
@@ -68,7 +67,6 @@ final class RankingsVC: UIViewController, ServiceProvider {
 private extension RankingsVC {
 
     @IBAction func unwindToRankings(segue: UIStoryboardSegue) {
-        log.verbose(segue.name)
     }
 
     func configurePagesHolder() {

@@ -14,6 +14,28 @@ struct ChecklistFlags: Codable, Equatable {
     var restaurants: Bool = true
     var uncountries: Bool = true
     var whss: Bool = true
+
+    init(flagged: Bool = true) {
+        beaches = flagged
+        divesites = flagged
+        golfcourses = flagged
+        locations = flagged
+        restaurants = flagged
+        uncountries = flagged
+        whss = flagged
+    }
+
+    func display(list: Checklist) -> Bool {
+        switch list {
+        case .beaches: return beaches
+        case .divesites: return divesites
+        case .golfcourses: return golfcourses
+        case .locations: return locations
+        case .restaurants: return restaurants
+        case .uncountries: return uncountries
+        case .whss: return whss
+        }
+    }
 }
 
 // swiftlint:disable:next type_body_length
@@ -420,6 +442,13 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
     func milestone(visited: Int) -> String {
         guard let settings = data.settings else { return "" }
         return settings.milestone(list: self, count: visited)
+    }
+
+    var isMappable: Bool {
+        switch self {
+        case .uncountries: return false
+        default: return true
+        }
     }
 }
 

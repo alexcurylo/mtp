@@ -50,12 +50,7 @@ final class LocationVC: UIViewController, ServiceProvider {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
-        //case Segues.directEdit.identifier,
-             //Segues.showEditProfile.identifier,
-             //Segues.showSettings.identifier:
-            //break
         default:
             log.debug("unexpected segue: \(segue.name)")
         }
@@ -75,7 +70,6 @@ final class LocationVC: UIViewController, ServiceProvider {
 private extension LocationVC {
 
     @IBAction func unwindToLocation(segue: UIStoryboardSegue) {
-        log.verbose(segue.name)
     }
 
     func setupHeaderView() {
