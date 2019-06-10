@@ -5,6 +5,7 @@ platform :ios, $iosVersion
 
 target 'MTP' do
 
+  pod 'AlamofireNetworkActivityIndicator'
   pod 'Anchorage'
   pod 'Bolts', :modular_headers => true, :inhibit_warnings => true
   pod 'DropDown'

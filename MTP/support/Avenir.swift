@@ -32,4 +32,12 @@ extension UISearchBar {
         let proxy = UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self])
         proxy.font = Avenir.book.of(size: 15)
     }
+
+    var searchField: UITextField? {
+        return value(forKey: "searchField") as? UITextField
+    }
+
+    func removeClearButton() {
+        searchField?.clearButtonMode = .never
+    }
 }

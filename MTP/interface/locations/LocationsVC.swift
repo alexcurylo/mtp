@@ -28,8 +28,7 @@ final class LocationsVC: UIViewController, ServiceProvider {
     }
     @IBOutlet private var searchBar: UISearchBar? {
         didSet {
-            let searchBarStyle = searchBar?.value(forKey: "searchField") as? UITextField
-            searchBarStyle?.clearButtonMode = .never
+            searchBar?.removeClearButton()
         }
     }
     @IBOutlet private var showMoreButton: UIButton?
@@ -70,20 +69,10 @@ final class LocationsVC: UIViewController, ServiceProvider {
         super.viewDidLoad()
         requireInjections()
 
-        if let searchBar = searchBar {
-            dropdown.anchorView = searchBar
-            dropdown.bottomOffset = CGPoint(x: 0, y: searchBar.bounds.height)
-            //let inset: CGFloat = 12.0
-            //dropdown.topOffset = CGPoint(x: inset, y: 0)
-            //dropdown.width = UIScreen.main.bounds.width - (2 * inset)
-            dropdown.selectionAction = { [weak self] (index: Int, item: String) in
-                self?.dropdown(selected: index)
-            }
-        }
-
         displayed = data.mapDisplay
         setupCompass()
         setupTracking()
+        configureSearchBar()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -244,6 +233,15 @@ private extension LocationsVC {
         stack.trailingAnchor == view.trailingAnchor - Layout.margin
 
         loc.insert(tracker: self)
+    }
+
+    func configureSearchBar() {
+        guard let searchBar = searchBar else { return }
+        dropdown.anchorView = searchBar
+        dropdown.bottomOffset = CGPoint(x: 0, y: searchBar.bounds.height)
+        dropdown.selectionAction = { [weak self] (index: Int, item: String) in
+            self?.dropdown(selected: index)
+        }
     }
 
     func updateTracking() {

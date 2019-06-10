@@ -353,6 +353,13 @@ extension UserAvatar {
         }
     }
 
+    convenience init(from: SearchResultItemJSON) {
+        self.init()
+
+        fullName = from.label
+        id = from.id
+   }
+
     override func isEqual(_ object: Any?) -> Bool {
         guard let other = object as? User else { return false }
         guard !isSameObject(as: other) else { return true }

@@ -53,6 +53,7 @@ enum MTP: Hashable {
     case rankings(query: RankingsQuery)
     case restaurant
     case scorecard(list: Checklist, user: Int)
+    case search(query: String?)
     case settings
     case unCountry
     case user(id: Int)
@@ -69,10 +70,8 @@ enum MTP: Hashable {
 
 extension MTP: TargetType {
 
-    private var stagingURL: URL? { return URL(string: "https://aws.mtp.travel/api/") }
-    private var productionURL: URL? { return URL(string: "https://mtp.travel/api/") }
     // swiftlint:disable:next force_unwrapping
-    public var baseURL: URL { return productionURL! }
+    public var baseURL: URL { return URL(string: "https://mtp.travel/api/")! }
 
     public var preventCache: Bool { return false }
 
@@ -113,6 +112,8 @@ extension MTP: TargetType {
             return "restaurant"
         case let .scorecard(list, user):
             return "users/\(user)/scorecard/\(list.rawValue)"
+        case .search:
+            return "search"
         case .settings:
             return "settings"
         case .unCountry:
@@ -152,6 +153,7 @@ extension MTP: TargetType {
              .rankings,
              .restaurant,
              .scorecard,
+             .search,
              .settings,
              .unCountry,
              .user,
@@ -197,6 +199,9 @@ extension MTP: TargetType {
         case .rankings(let query):
             return .requestParameters(parameters: query.parameters,
                                       encoding: URLEncoding.default)
+        case let .search(query?):
+            return .requestParameters(parameters: ["query": query],
+                                      encoding: URLEncoding.default)
         case let .userLogin(email, password):
             return .requestParameters(parameters: ["email": email,
                                                    "password": password],
@@ -213,6 +218,7 @@ extension MTP: TargetType {
              .locationPhotos, // &page=1&orderBy=-created_at&limit=6
              .restaurant,
              .scorecard,
+             .search,
              .settings,
              .unCountry,
              .user,
@@ -276,6 +282,7 @@ extension MTP: AccessTokenAuthorizable {
              .picture,
              .restaurant,
              .scorecard,
+             .search,
              .settings,
              .unCountry,
              .user,
@@ -319,6 +326,8 @@ protocol MTPNetworkService {
                        then: @escaping MTPResult<ScorecardJSON>)
     func loadUser(id: Int,
                   then: @escaping MTPResult<UserJSON>)
+    func search(query: String,
+                then: @escaping MTPResult<SearchResultJSON>)
     func userDeleteAccount(then: @escaping MTPResult<String>)
     func userForgotPassword(email: String,
                             then: @escaping MTPResult<String>)
@@ -958,6 +967,30 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                                                    using: JSONDecoder.mtp)
                     self.data.set(countries: countries)
                     return then(.success(countries))
+                } catch {
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    return then(.failure(.results))
+                }
+            case .failure(let error):
+                let message = error.errorDescription ?? Localized.unknown()
+                self.log.error("failure: \(endpoint.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
+    func search(query: String,
+                then: @escaping MTPResult<SearchResultJSON>) {
+        let provider = MoyaProvider<MTP>()
+        let queryParam = query.isEmpty ? nil : query
+        let endpoint = MTP.search(query: queryParam)
+        provider.request(endpoint) { response in
+            switch response {
+            case .success(let result):
+                do {
+                    let results = try result.map(SearchResultJSON.self,
+                                                 using: JSONDecoder.mtp)
+                    return then(.success(results))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))

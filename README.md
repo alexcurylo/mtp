@@ -50,7 +50,7 @@ Requirements
 
 ### Libraries:
 
-- [Alamofire](https://github.com/Alamofire/Alamofire) for HTTP networking
+- [Alamofire](https://github.com/Alamofire/Alamofire) and [AlamofireNetworkActivityIndicator](https://github.com/Alamofire/AlamofireNetworkActivityIndicator) for HTTP networking
 - [Anchorage](https://github.com/Raizlabs/Anchorage) for fluent layout declarations
 - [DropDown](https://github.com/AssistoLab/DropDown) for live search results
 - [Facebook SDK in Swift](https://github.com/facebook/facebook-sdk-swift)  for Facebook support
@@ -61,7 +61,6 @@ Requirements
 - [Parchment](https://github.com/rechsteiner/Parchment) for view paging
 - [R.swift](https://github.com/mac-cain13/R.swift/) for typed resource identifiers
 - [Realm](https://github.com/realm/realm-cocoa) for data management
-- [Result](https://github.com/antitypical/Result) for operation result modelling
 - [SwiftEntryKit](https://github.com/huri000/SwiftEntryKit) for notification management
 
 Usage

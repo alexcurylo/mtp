@@ -39,7 +39,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
              photos location: Int?) -> [Photo]
     func get(rankings query: RankingsQuery) -> Results<RankingsPageInfo>
     func get(scorecard list: Checklist, user id: Int?) -> Scorecard?
-    func get(user id: Int) -> User
+    func get(user id: Int) -> User?
     func get(whs id: Int) -> WHS?
 
     func hasChildren(whs id: Int) -> Bool
@@ -341,8 +341,8 @@ final class DataServiceImpl: DataService {
         }
     }
 
-    func get(user id: Int) -> User {
-        return realm.user(id: id) ?? User()
+    func get(user id: Int) -> User? {
+        return realm.user(id: id)
     }
 
     var visited: Checked? {

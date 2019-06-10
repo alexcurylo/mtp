@@ -154,7 +154,7 @@ extension RankingsPageVC: UICollectionViewDataSource {
 
         if let cell = cell as? RankingCell {
             let rank = indexPath.row + 1
-            cell.set(user: user(at: rank),
+            cell.set(user: user(at: rank) ?? User(),
                      for: rank,
                      in: filter.checklistType,
                      delegate: delegate)
@@ -210,7 +210,7 @@ private extension RankingsPageVC {
         }
     }
 
-    func user(at rank: Int) -> User {
+    func user(at rank: Int) -> User? {
         let pageIndex = ((rank - 1) / RankingsPageInfo.perPage) + 1
         let userIndex = (rank - 1) % RankingsPageInfo.perPage
         // swiftlint:disable:next first_where

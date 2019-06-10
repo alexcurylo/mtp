@@ -48,7 +48,7 @@
                         <rightBarButtonItems>
                             <barButtonItem title="navSearch" image="navSearch" id="dbl-tA-izr">
                                 <connections>
-                                    <segue destination="LSI-3B-1qW" kind="show" identifier="showSearch" id="pyl-Ss-0cD"/>
+                                    <action selector="searchTapped:" destination="8rJ-Kc-sve" id="aJd-GO-RKn"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="navFilterWhite" image="navFilterWhite" id="7ts-AP-fBQ">
@@ -61,52 +61,22 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="pagesHolder" destination="m9S-7g-1LD" id="Sq6-Xa-yhU"/>
+                        <outlet property="searchBar" destination="Ir8-ev-07f" id="jWx-q3-Zpc"/>
                         <segue destination="5QJ-vG-I2d" kind="custom" identifier="showUserCounts" customClass="TabPresentSegue" customModule="MTP" customModuleProvider="target" id="hwV-qy-OXL"/>
                         <segue destination="hKQ-UB-UNy" kind="custom" identifier="showUserProfile" customClass="TabPresentSegue" customModule="MTP" customModuleProvider="target" id="K3A-db-5HT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
+                <searchBar contentMode="redraw" placeholder="Search travellers" id="Ir8-ev-07f">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="alphabet" returnKeyType="done"/>
+                    <connections>
+                        <outlet property="delegate" destination="8rJ-Kc-sve" id="fdq-xq-IlN"/>
+                    </connections>
+                </searchBar>
             </objects>
             <point key="canvasLocation" x="2063.1999999999998" y="-8.5457271364317844"/>
-        </scene>
-        <!--Search-->
-        <scene sceneID="Hp5-cz-UTx">
-            <objects>
-                <viewController title="Search" id="LSI-3B-1qW" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="mae-P4-0i5" customClass="GradientView" customModule="MTP" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L6U-xg-7vV">
-                                <rect key="frame" x="160.5" y="323" width="54" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="L6U-xg-7vV" firstAttribute="centerY" secondItem="mae-P4-0i5" secondAttribute="centerY" id="2h3-5H-6QS"/>
-                            <constraint firstItem="L6U-xg-7vV" firstAttribute="centerX" secondItem="mae-P4-0i5" secondAttribute="centerX" id="UMf-J5-6LJ"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="r6g-u2-RNI"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
-                                <color key="value" red="0.098039215690000001" green="0.75294117650000003" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
-                                <color key="value" red="0.0078431372550000003" green="0.55294117649999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="number" keyPath="orientation">
-                                <integer key="value" value="1"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
-                    </view>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="qMW-Mh-aeC" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2956" y="378"/>
         </scene>
         <!--Rankings-->
         <scene sceneID="a7j-15-th1">
@@ -134,7 +104,7 @@
                 <viewControllerPlaceholder storyboardName="RankingsFilter" id="9hP-FM-Thd" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ykR-Xr-gmL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2762" y="-9"/>
+            <point key="canvasLocation" x="2752" y="216"/>
         </scene>
         <!--UserCounts-->
         <scene sceneID="f8s-67-bmd">
@@ -142,7 +112,7 @@
                 <viewControllerPlaceholder storyboardName="UserCounts" id="5QJ-vG-I2d" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="koh-Uo-g04" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2749" y="-53"/>
+            <point key="canvasLocation" x="2739" y="143"/>
         </scene>
         <!--User Profile-->
         <scene sceneID="318-MK-z9j">
@@ -293,7 +263,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eTa-Ji-rE4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2956" y="-411"/>
+            <point key="canvasLocation" x="2956" y="-241"/>
         </scene>
     </scenes>
     <resources>

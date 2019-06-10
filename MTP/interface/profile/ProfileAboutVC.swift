@@ -48,7 +48,6 @@ final class ProfileAboutVC: UITableViewController, UserInjectable, ServiceProvid
         super.viewWillAppear(animated)
 
         update()
-        observe()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -118,7 +117,12 @@ private extension ProfileAboutVC {
             }
         } else {
             userIdObserver = data.observer(of: .userId) { [weak self] _ in
-                self?.update()
+                guard let self = self,
+                      let userId = self.user?.id,
+                      let new = self.data.get(user: userId) else { return }
+
+                self.user = new
+                self.update()
             }
         }
     }
@@ -253,27 +257,33 @@ extension ProfileAboutVC: Injectable {
     @discardableResult func inject(model: Model) -> Self {
         user = model
         isSelf = model.id == data.user?.id
+        observe()
+
         if isSelf {
             visits = data.visited?.locations ?? []
         } else {
-            mtp.loadUser(id: model.id) { _ in }
-
-            if let scorecard = data.get(scorecard: .locations, user: model.id) {
-                visits = Array(scorecard.visits)
-            } else {
-                visits = []
-                mtp.loadScorecard(list: .locations,
-                                  user: model.id) { [weak self] _ in
-                    guard let self = self else { return }
-                    if let scorecard = self.data.get(scorecard: .locations, user: model.id) {
-                        self.visits = Array(scorecard.visits)
-                        self.update(map: self.mapWidth)
-                    }
-                }
-            }
+            fetch(id: model.id)
        }
 
         return self
+    }
+
+    func fetch(id: Int) {
+        mtp.loadUser(id: id) { _ in }
+
+        if let scorecard = data.get(scorecard: .locations, user: id) {
+            visits = Array(scorecard.visits)
+        } else {
+            visits = []
+            mtp.loadScorecard(list: .locations,
+                              user: id) { [weak self] _ in
+                guard let self = self else { return }
+                if let scorecard = self.data.get(scorecard: .locations, user: id) {
+                    self.visits = Array(scorecard.visits)
+                    self.update(map: self.mapWidth)
+                }
+            }
+        }
     }
 
     func requireInjections() {
