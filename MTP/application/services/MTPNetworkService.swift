@@ -42,6 +42,7 @@ enum MTP: Hashable {
     case checkOut(list: Checklist, id: Int)
     case countriesSearch(query: String?)
     case divesite
+    case faq
     case geoJson(map: Map)
     case golfcourse
     case location
@@ -88,6 +89,8 @@ extension MTP: TargetType {
             return "countries/search"
         case .divesite:
             return "divesite"
+        case .faq:
+            return "article/faq"
         case .geoJson(let map):
             return "geojson-files/\(map.rawValue)-map"
         case .golfcourse:
@@ -143,6 +146,7 @@ extension MTP: TargetType {
              .checklists,
              .countriesSearch,
              .divesite,
+             .faq,
              .geoJson,
              .golfcourse,
              .location,
@@ -212,6 +216,7 @@ extension MTP: TargetType {
              .checklists,
              .countriesSearch,
              .divesite,
+             .faq,
              .geoJson,
              .golfcourse,
              .location,
@@ -273,6 +278,7 @@ extension MTP: AccessTokenAuthorizable {
         case .beach,
              .countriesSearch,
              .divesite,
+             .faq,
              .geoJson,
              .golfcourse,
              .location,
@@ -491,6 +497,39 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                                                    using: JSONDecoder.mtp)
                     self.data.set(divesites: divesites)
                     return then(.success(divesites))
+                } catch {
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    return then(.failure(.results))
+                }
+            case .failure(let error):
+                guard error.modified(from: endpoint) else {
+                    return then(.failure(.notModified))
+                }
+                let message = error.errorDescription ?? Localized.unknown()
+                self.log.error("failure: \(endpoint.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
+    func loadFaq(then: @escaping MTPResult<FaqJSON> = { _ in }) {
+        let provider = MoyaProvider<MTP>()
+        let endpoint = MTP.faq
+        guard !endpoint.isThrottled else {
+            return then(.failure(.throttle))
+        }
+        provider.request(endpoint) { response in
+            endpoint.markResponded()
+            switch response {
+            case .success(let result):
+                guard result.modified(from: endpoint) else {
+                    return then(.failure(.notModified))
+                }
+                do {
+                    let faq = try result.map(FaqJSON.self,
+                                             using: JSONDecoder.mtp)
+                    //self.data.faq = settings
+                    return then(.success(faq))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.results))
@@ -1293,6 +1332,7 @@ private extension MoyaMTPNetworkService {
             self.loadLocations { _ in
                 self.refreshPlaces()
                 self.refreshRankings()
+                //self.loadFaq()
             }
         }
     }
