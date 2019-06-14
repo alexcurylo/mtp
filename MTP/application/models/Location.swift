@@ -8,7 +8,7 @@ enum AdminLevel: Int {
     case location = 4
 }
 
-struct LocationJSON: Codable {
+struct LocationJSON: Codable, Equatable {
 
     let active: String
     let adminLevel: Int

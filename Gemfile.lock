@@ -308,6 +308,7 @@ DEPENDENCIES
   danger-swiftlint
   danger-xcode_summary
   danger-xcov
+  fastlane
   jazzy
   slather
   xcpretty

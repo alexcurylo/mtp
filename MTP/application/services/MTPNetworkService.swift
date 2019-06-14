@@ -57,10 +57,11 @@ enum MTP: Hashable {
     case search(query: String?)
     case settings
     case unCountry
-    case user(id: Int)
     case userDelete(id: Int)
+    case userGet(id: Int)
     case userGetByToken
     case userPosts(id: Int)
+    case userPut(info: UserUpdate)
     case userLogin(email: String, password: String)
     case userRegister(info: RegistrationInfo)
     case whs
@@ -123,9 +124,11 @@ extension MTP: TargetType {
             return "un-country"
         case .userGetByToken:
             return "user/getByToken"
-        case .user(let id),
-             .userDelete(let id):
+        case .userDelete(let id),
+             .userGet(let id):
             return "user/\(id)"
+        case .userPut(let info):
+            return "user/\(info.id)"
         case .userPosts(let id):
             return "users/\(id)/location-posts"
         case .userLogin:
@@ -160,7 +163,7 @@ extension MTP: TargetType {
              .search,
              .settings,
              .unCountry,
-             .user,
+             .userGet,
              .userGetByToken,
              .userPosts,
              .whs:
@@ -170,6 +173,8 @@ extension MTP: TargetType {
              .userLogin,
              .userRegister:
             return .post
+        case .userPut:
+            return .put
         }
     }
 
@@ -210,6 +215,8 @@ extension MTP: TargetType {
             return .requestParameters(parameters: ["email": email,
                                                    "password": password],
                                       encoding: JSONEncoding.default)
+        case .userPut(let info):
+            return .requestJSONEncodable(info)
         case .userRegister(let info):
             return .requestJSONEncodable(info)
         case .beach,
@@ -226,8 +233,8 @@ extension MTP: TargetType {
              .search,
              .settings,
              .unCountry,
-             .user,
              .userDelete,
+             .userGet,
              .userGetByToken,
              .userPosts,
              .whs:
@@ -273,7 +280,8 @@ extension MTP: AccessTokenAuthorizable {
              .photos,
              .rankings,
              .userDelete,
-             .userGetByToken:
+             .userGetByToken,
+             .userPut:
             return .bearer
         case .beach,
              .countriesSearch,
@@ -291,7 +299,7 @@ extension MTP: AccessTokenAuthorizable {
              .search,
              .settings,
              .unCountry,
-             .user,
+             .userGet,
              .userLogin,
              .userPosts,
              .userRegister,
@@ -342,6 +350,8 @@ protocol MTPNetworkService {
                    then: @escaping MTPResult<UserJSON>)
     func userRegister(info: RegistrationInfo,
                       then: @escaping MTPResult<UserJSON>)
+    func userUpdate(info: UserJSON,
+                    then: @escaping MTPResult<UserJSON>)
 
     func refreshEverything()
     func refreshRankings()
@@ -929,7 +939,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     func loadUser(id: Int,
                   then: @escaping MTPResult<UserJSON> = { _ in }) {
         let provider = MoyaProvider<MTP>()
-        let endpoint = MTP.user(id: id)
+        let endpoint = MTP.userGet(id: id)
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
@@ -1241,6 +1251,37 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
             case .success(let result):
                 return parse(result: result)
             case .failure(let error):
+                let message = error.errorDescription ?? Localized.unknown()
+                self.log.error("failure: \(endpoint.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
+    func userUpdate(info: UserJSON,
+                    then: @escaping MTPResult<UserJSON>) {
+        let auth = AccessTokenPlugin { self.data.token }
+        let provider = MoyaProvider<MTP>(plugins: [auth])
+        let endpoint = MTP.userPut(info: UserUpdate(from: info))
+        provider.request(endpoint) { response in
+            switch response {
+            case .success(let result):
+                do {
+                    let info = try result.map(UserUpdateInfo.self,
+                                              using: JSONDecoder.mtp)
+                    if info.isSuccess {
+                        return then(.success(info.user))
+                    } else {
+                        return then(.failure(.message(info.message)))
+                    }
+                } catch {
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    return then(.failure(.results))
+                }
+            case .failure(let error):
+                guard error.modified(from: endpoint) else {
+                    return then(.failure(.notModified))
+                }
                 let message = error.errorDescription ?? Localized.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))

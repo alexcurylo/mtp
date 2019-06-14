@@ -335,8 +335,6 @@ private extension LocationsVC {
                             removed: Set<PlaceAnnotation>) {
         guard mapAnnotated, let map = mapView else { return }
 
-        let start = Date()
-
         if !removed.isEmpty {
             map.removeAnnotations(Array(removed))
         }

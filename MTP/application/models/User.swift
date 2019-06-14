@@ -26,7 +26,7 @@ protocol UserInfo: UserAvatar {
     var visitWhss: Int { get }
 }
 
-struct UserJSON: Codable {
+struct UserJSON: Codable, Equatable {
 
     enum Status: String {
 
@@ -203,7 +203,7 @@ extension UserJSON: UserInfo {
     var visitWhss: Int { return scoreWhss ?? 0 }
 }
 
-struct FavoritePlace: Codable {
+struct FavoritePlace: Codable, Hashable {
 
     let id: String?
     let type: String?
@@ -224,7 +224,7 @@ extension FavoritePlace: CustomStringConvertible, CustomDebugStringConvertible {
     }
 }
 
-struct Link: Codable {
+struct Link: Codable, Hashable {
 
     let text: String
     let url: String

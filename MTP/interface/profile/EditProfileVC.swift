@@ -29,6 +29,9 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
     @IBOutlet private var contactDontDisplayButton: UIButton?
     @IBOutlet private var contactNoneButton: UIButton?
 
+    private var original: UserJSON?
+    private var current: UserJSON?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -88,15 +91,24 @@ extension EditProfileVC {
 private extension EditProfileVC {
 
     func configure() {
+        let user = data.user
+        original = user
+        current = user
         saveButton?.isEnabled = false
     }
 
     func updateSave() {
-        //saveButton?.isEnabled = original != current
+        saveButton?.isEnabled = original != current
     }
 
     func saveEdits() {
-        log.todo("implement saveEdits")
+        guard let original = original,
+              let current = current,
+              current != original else { return }
+
+        data.user = current
+        // log.todo("handle update feedback")
+        mtp.userUpdate(info: current) { _ in }
     }
 
     @IBAction func avatarTapped(_ sender: UIButton) {

@@ -42,6 +42,7 @@
 		8C9DD8CE2245034E00D5EAFB /* Injectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9DD8CD2245034D00D5EAFB /* Injectable.swift */; };
 		8CAE30592239DA7D00E31647 /* world-map.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 8CAE30572239DA7C00E31647 /* world-map.geojson */; };
 		8CAE30642239F4F100E31647 /* WorldMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CAE30632239F4F100E31647 /* WorldMap.swift */; };
+		8CCA21F822B3AB5D00C1D13B /* UserUpdateInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCA21F722B3AB5D00C1D13B /* UserUpdateInfo.swift */; };
 		8CCA5A7322AA6BBB00853903 /* AppAboutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCA5A7222AA6BBB00853903 /* AppAboutVC.swift */; };
 		8CE3FC2C222389B600B94EAA /* Scorecard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE3FC2B222389B600B94EAA /* Scorecard.swift */; };
 		8CE6F46B224B029500B24410 /* ContentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6F46A224B029400B24410 /* ContentState.swift */; };
@@ -232,6 +233,8 @@
 		8C9DD8CD2245034D00D5EAFB /* Injectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Injectable.swift; sourceTree = "<group>"; };
 		8CAE30572239DA7C00E31647 /* world-map.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "world-map.geojson"; sourceTree = "<group>"; };
 		8CAE30632239F4F100E31647 /* WorldMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldMap.swift; sourceTree = "<group>"; };
+		8CCA21F622B381A600C1D13B /* fastlane */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fastlane; sourceTree = "<group>"; };
+		8CCA21F722B3AB5D00C1D13B /* UserUpdateInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserUpdateInfo.swift; sourceTree = "<group>"; };
 		8CCA5A7222AA6BBB00853903 /* AppAboutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAboutVC.swift; sourceTree = "<group>"; };
 		8CE3FC2B222389B600B94EAA /* Scorecard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scorecard.swift; sourceTree = "<group>"; };
 		8CE6F46A224B029400B24410 /* ContentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentState.swift; sourceTree = "<group>"; };
@@ -661,6 +664,7 @@
 				FAB53F8520DFCC03007A80A7 /* .travis.yml */,
 				FA4B7FE121E38BF3006AF8E2 /* apple-app-site-association */,
 				FAB53F8320DFCB40007A80A7 /* Dangerfile */,
+				8CCA21F622B381A600C1D13B /* fastlane */,
 				FA4F1C5E20DFA74500B8A1ED /* Gemfile */,
 				FA9A71E020F1DD60005F6A57 /* Gemfile.lock */,
 				FA3E366F20DFC0E3002AF4EE /* IDETemplateMacros.plist */,
@@ -802,6 +806,7 @@
 				FAFBB0CC22A6A5C4001EDB80 /* SettingsJSON.swift */,
 				FA8833E6220CE8260037C796 /* UNCountry.swift */,
 				FA76D9742131278900EF8E25 /* User.swift */,
+				8CCA21F722B3AB5D00C1D13B /* UserUpdateInfo.swift */,
 				FA2E718421ED535B00E6AB73 /* WHS.swift */,
 				8CAE30632239F4F100E31647 /* WorldMap.swift */,
 			);
@@ -1249,6 +1254,7 @@
 				FA745757210DBD910010F4F4 /* UINavigationBar+Transparent.swift in Sources */,
 				FA21FBA122A4157000190B71 /* UserProfileVC.swift in Sources */,
 				8C76D5DC22028874005CF4CD /* ServiceProvider.swift in Sources */,
+				8CCA21F822B3AB5D00C1D13B /* UserUpdateInfo.swift in Sources */,
 				FAD2B51821F48AB8009FFDD7 /* PlaceInfo.swift in Sources */,
 				FA392BBF20DF69F30026C828 /* RankingsVC.swift in Sources */,
 				FA5AC0C321FDCE200080F84F /* MyCountsPageVC.swift in Sources */,

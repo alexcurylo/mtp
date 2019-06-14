@@ -153,6 +153,17 @@ final class SpyMTPNetworkService: MTPNetworkService {
         invokedUserRegisterParameters = (info, then)
         invokedUserRegisterParametersList.append((info, then))
     }
+    var invokedUserUpdate = false
+    var invokedUserUpdateCount = 0
+    var invokedUserUpdateParameters: (info: UserJSON, then: MTPResult<UserJSON>)?
+    var invokedUserUpdateParametersList = [(info: UserJSON, then: MTPResult<UserJSON>)]()
+    func userUpdate(info: UserJSON,
+    then: @escaping MTPResult<UserJSON>) {
+        invokedUserUpdate = true
+        invokedUserUpdateCount += 1
+        invokedUserUpdateParameters = (info, then)
+        invokedUserUpdateParametersList.append((info, then))
+    }
     var invokedRefreshEverything = false
     var invokedRefreshEverythingCount = 0
     func refreshEverything() {
