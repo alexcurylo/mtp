@@ -1,7 +1,7 @@
 # references:
 # https://github.com/realm/SwiftLint#configuration
 #
-# `swiftlint rules` last updated version 0.32.0
+# `swiftlint rules` last updated version 0.33.0
 #
 # Disable an individual warning with [next|previous]:
 # // swiftlint:disable:previous line_length
@@ -23,6 +23,7 @@ opt_in_rules:
   - discouraged_object_literal
   - discouraged_optional_boolean
   - discouraged_optional_collection
+  - duplicate_enum_cases
   - empty_count
   - empty_string
   - empty_xctest_method
@@ -46,6 +47,7 @@ opt_in_rules:
   - implicitly_unwrapped_optional
   - joined_default_parameter
   - last_where
+  - legacy_multiple
   - legacy_random
   - let_var_whitespace
   - literal_expression_end_indentation
@@ -94,6 +96,7 @@ opt_in_rules:
 #- type_contents_order
   - unavailable_function
   - unneeded_parentheses_in_closure_argument
+  - unowned_variable_capture
   - untyped_error_in_catch
   - unused_import
   - unused_private_declaration

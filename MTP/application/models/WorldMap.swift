@@ -88,7 +88,7 @@ struct WorldMap {
         let offset: Double
         if outline {
             let center: Double
-            if Int(UIScreen.main.scale) % 2 == 0 {
+            if Int(UIScreen.main.scale).isMultiple(of: 2) {
                 center = 1 / Double(UIScreen.main.scale * 2)
             } else {
                 center = 0

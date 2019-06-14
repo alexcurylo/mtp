@@ -120,44 +120,13 @@ typedef NS_ENUM(NSUInteger, FBSDKInternalUtilityVersionShift)
   // version 3.3 and above encode the parameters in the fragment;
   // merge them together with fragment taking priority.
   NSMutableDictionary *params = [NSMutableDictionary dictionary];
-  [params addEntriesFromDictionary:[self dictionaryWithQueryString:url.query]];
+  [params addEntriesFromDictionary:[FBSDKBasicUtility dictionaryWithQueryString:url.query]];
 
   // Only get the params from the fragment if it has authorize as the host
   if ([url.host isEqualToString:@"authorize"]) {
-    [params addEntriesFromDictionary:[self dictionaryWithQueryString:url.fragment]];
+    [params addEntriesFromDictionary:[FBSDKBasicUtility dictionaryWithQueryString:url.fragment]];
   }
   return params;
-}
-
-+ (NSDictionary<NSString *, NSString *> *)dictionaryWithQueryString:(NSString *)queryString
-{
-  NSMutableDictionary<NSString *, NSString *> *result = [[NSMutableDictionary alloc] init];
-  NSArray<NSString *> *parts = [queryString componentsSeparatedByString:@"&"];
-
-  for (NSString *part in parts) {
-    if (part.length == 0) {
-      continue;
-    }
-
-    NSRange index = [part rangeOfString:@"="];
-    NSString *key;
-    NSString *value;
-
-    if (index.location == NSNotFound) {
-      key = part;
-      value = @"";
-    } else {
-      key = [part substringToIndex:index.location];
-      value = [part substringFromIndex:index.location + index.length];
-    }
-
-    key = [self URLDecode:key];
-    value = [self URLDecode:value];
-    if (key && value) {
-      result[key] = value;
-    }
-  }
-  return result;
 }
 
 + (NSBundle *)bundleForStrings
@@ -171,16 +140,6 @@ typedef NS_ENUM(NSUInteger, FBSDKInternalUtilityVersionShift)
     bundle = [NSBundle bundleWithPath:stringsBundlePath] ?: [NSBundle mainBundle];
   });
   return bundle;
-}
-
-+ (id)convertRequestValue:(id)value
-{
-  if ([value isKindOfClass:[NSNumber class]]) {
-    value = ((NSNumber *)value).stringValue;
-  } else if ([value isKindOfClass:[NSURL class]]) {
-    value = ((NSURL *)value).absoluteString;
-  }
-  return value;
 }
 
 + (uint64_t)currentTimeInMilliseconds
@@ -340,18 +299,6 @@ typedef NS_ENUM(NSUInteger, FBSDKInternalUtilityVersionShift)
   return [object isEqual:other];
 }
 
-+ (id)objectForJSONString:(NSString *)string error:(NSError *__autoreleasing *)errorRef
-{
-  NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
-  if (!data) {
-    if (errorRef != NULL) {
-      *errorRef = nil;
-    }
-    return nil;
-  }
-  return [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:errorRef];
-}
-
 + (NSOperatingSystemVersion)operatingSystemVersion
 {
   static NSOperatingSystemVersion operatingSystemVersion = {
@@ -385,70 +332,6 @@ typedef NS_ENUM(NSUInteger, FBSDKInternalUtilityVersionShift)
   return operatingSystemVersion;
 }
 
-+ (NSString *)queryStringWithDictionary:(NSDictionary *)dictionary
-                                  error:(NSError *__autoreleasing *)errorRef
-                   invalidObjectHandler:(FBSDKInvalidObjectHandler)invalidObjectHandler
-{
-  NSMutableString *queryString = [[NSMutableString alloc] init];
-  __block BOOL hasParameters = NO;
-  if (dictionary) {
-    NSMutableArray<NSString *> *keys = [dictionary.allKeys mutableCopy];
-    // remove non-string keys, as they are not valid
-    [keys filterUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-      return [evaluatedObject isKindOfClass:[NSString class]];
-    }]];
-    // sort the keys so that the query string order is deterministic
-    [keys sortUsingSelector:@selector(compare:)];
-    BOOL stop = NO;
-    for (NSString *key in keys) {
-      id value = [self convertRequestValue:dictionary[key]];
-      if ([value isKindOfClass:[NSString class]]) {
-        value = [self URLEncode:value];
-      }
-      if (invalidObjectHandler && ![value isKindOfClass:[NSString class]]) {
-        value = invalidObjectHandler(value, &stop);
-        if (stop) {
-          break;
-        }
-      }
-      if (value) {
-        if (hasParameters) {
-          [queryString appendString:@"&"];
-        }
-        [queryString appendFormat:@"%@=%@", key, value];
-        hasParameters = YES;
-      }
-    }
-  }
-  if (errorRef != NULL) {
-    *errorRef = nil;
-  }
-  return (queryString.length ? [queryString copy] : nil);
-}
-
-+ (NSString *)URLDecode:(NSString *)value
-{
-  value = [value stringByReplacingOccurrencesOfString:@"+" withString:@" "];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-  value = [value stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-#pragma clang diagnostic pop
-  return value;
-}
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-+ (NSString *)URLEncode:(NSString *)value
-{
-  return (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,
-                                                                               (CFStringRef)value,
-                                                                               NULL, // characters to leave unescaped
-                                                                               CFSTR(":!*();@/&?+$,='"),
-                                                                               kCFStringEncodingUTF8);
-}
-
-#pragma clang diagnostic pop
-
 + (BOOL)shouldManuallyAdjustOrientation
 {
   return (![self isUIKitLinkTimeVersionAtLeast:FBSDKUIKitVersion_8_0] ||
@@ -468,9 +351,9 @@ typedef NS_ENUM(NSUInteger, FBSDKInternalUtilityVersionShift)
   NSString *queryString = nil;
   if (queryParameters.count) {
     NSError *queryStringError;
-    queryString = [@"?" stringByAppendingString:[self queryStringWithDictionary:queryParameters
-                                                                          error:&queryStringError
-                                                           invalidObjectHandler:NULL]];
+    queryString = [@"?" stringByAppendingString:[FBSDKBasicUtility queryStringWithDictionary:queryParameters
+                                                                                       error:&queryStringError
+                                                                        invalidObjectHandler:NULL]];
     if (!queryString) {
       if (errorRef != NULL) {
         *errorRef = [NSError fbInvalidArgumentErrorWithName:@"queryParameters"
@@ -758,26 +641,6 @@ static NSMapTable *_transientObjects;
   [permission isEqualToString:@"ads_management"] ||
   [permission isEqualToString:@"create_event"] ||
   [permission isEqualToString:@"rsvp_event"];
-}
-
-+ (BOOL)areAllPermissionsReadPermissions:(NSSet *)permissions
-{
-  for (NSString *permission in permissions) {
-    if ([[self class] isPublishPermission:permission]) {
-      return NO;
-    }
-  }
-  return YES;
-}
-
-+ (BOOL)areAllPermissionsPublishPermissions:(NSSet *)permissions
-{
-  for (NSString *permission in permissions) {
-    if (![[self class] isPublishPermission:permission]) {
-      return NO;
-    }
-  }
-  return YES;
 }
 
 + (BOOL)isUnity

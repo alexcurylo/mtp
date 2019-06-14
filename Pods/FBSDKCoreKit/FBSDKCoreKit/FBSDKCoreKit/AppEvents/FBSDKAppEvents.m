@@ -33,6 +33,7 @@
 #import "FBSDKGraphRequest+Internal.h"
 #import "FBSDKInternalUtility.h"
 #import "FBSDKLogger.h"
+#import "FBSDKRestrictiveDataFilterManager.h"
 #import "FBSDKPaymentObserver.h"
 #import "FBSDKServerConfiguration.h"
 #import "FBSDKServerConfigurationManager.h"
@@ -318,7 +319,6 @@ NSString *const FBSDKAppEventsWKWebViewMessagesEventKey = @"event";
 NSString *const FBSDKAppEventsWKWebViewMessagesParamsKey = @"params";
 NSString *const FBSDKAPPEventsWKWebViewMessagesProtocolKey = @"fbmq-0.1";
 
-
 #define NUM_LOG_EVENTS_TO_TRY_TO_FLUSH_AFTER 100
 #define FLUSH_PERIOD_IN_SECONDS 15
 #define USER_ID_USER_DEFAULTS_KEY @"com.facebook.sdk.appevents.userid"
@@ -358,6 +358,7 @@ static NSString *g_overrideAppID = nil;
 {
   if (self == [FBSDKAppEvents class]) {
     g_overrideAppID = [[[NSBundle mainBundle] objectForInfoDictionaryKey:FBSDKAppEventsOverrideAppIDBundleKey] copy];
+    [FBSDKAppEventsUtility anonymousID];
   }
 }
 
@@ -1115,7 +1116,30 @@ static NSString *g_overrideAppID = nil;
     return;
   }
 
-  NSMutableDictionary *eventDictionary = [NSMutableDictionary dictionaryWithDictionary:parameters];
+  NSMutableDictionary<NSString *, id> *params = [NSMutableDictionary dictionary];
+  NSMutableDictionary<NSString *, NSString *> *restrictedParams = [NSMutableDictionary dictionary];
+
+  if (parameters) {
+    for (NSString *key in [parameters keyEnumerator]) {
+      NSString *type = [FBSDKRestrictiveDataFilterManager getMatchedDataTypeWithEventName:eventName
+                                                                                 paramKey:key
+                                                                               paramValue:parameters[key]];
+      if (type) {
+        [restrictedParams setObject:type forKey:key];
+      } else {
+        [params setObject:parameters[key] forKey:key];
+      }
+    }
+  }
+
+  if ([[restrictedParams allKeys] count] > 0) {
+    NSString *restrictedParamsJSONString = [FBSDKBasicUtility JSONStringForObject:restrictedParams
+                                                                            error:NULL
+                                                             invalidObjectHandler:NULL];
+    [FBSDKBasicUtility dictionary:params setObject:restrictedParamsJSONString forKey:@"_restrictedParams"];
+  }
+
+  NSMutableDictionary<NSString *, id> *eventDictionary = [NSMutableDictionary dictionaryWithDictionary:params];
   eventDictionary[FBSDKAppEventParameterEventName] = eventName;
   if (!eventDictionary[FBSDKAppEventParameterLogTime]) {
     eventDictionary[FBSDKAppEventParameterLogTime] = @([FBSDKAppEventsUtility unixTimeNow]);

@@ -92,17 +92,17 @@ THE SOFTWARE.
 			<key>authors</key>
 			<dict>
 				<key>Rob Visentin</key>
-				<string>rob.visentin@raizlabs.com</string>
+				<string>jvisenti@gmail.com</string>
 			</dict>
 			<key>description</key>
 			<string>&lt;p&gt;Create constraints using intuitive operators built directly on top of the NSLayoutAnchor API. Layout has never been simpler!&lt;/p&gt;
 </string>
 			<key>homepage</key>
-			<string>https://github.com/Raizlabs/Anchorage</string>
+			<string>https://github.com/Rightpoint/Anchorage</string>
 			<key>licenseText</key>
 			<string>The MIT License (MIT)
 
-Copyright (c) 2016 Raizlabs
+Copyright (c) 2016 Rightpoint
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -131,7 +131,7 @@ SOFTWARE.
 			<key>summary</key>
 			<string>A collection of operators and utilities that simplify iOS layout code.</string>
 			<key>version</key>
-			<string>4.3</string>
+			<string>4.3.1</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -274,7 +274,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			<key>summary</key>
 			<string>Official Facebook SDK for iOS to access Facebook Platform core features</string>
 			<key>version</key>
-			<string>5.0.0</string>
+			<string>5.0.2</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -318,7 +318,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			<key>summary</key>
 			<string>Official Facebook SDK for iOS to access Facebook Platform with features like Login, Share and Message Dialog, App Links, and Graph API</string>
 			<key>version</key>
-			<string>5.0.0</string>
+			<string>5.0.2</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -362,7 +362,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			<key>summary</key>
 			<string>Official Facebook SDK for iOS to access Facebook Platform Sharing Features</string>
 			<key>version</key>
-			<string>5.0.0</string>
+			<string>5.0.2</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -1181,7 +1181,7 @@ regulations.
 			<key>summary</key>
 			<string>Realm is a modern data framework &amp; database for iOS, macOS, tvOS &amp; watchOS.</string>
 			<key>version</key>
-			<string>3.15.0</string>
+			<string>3.16.1</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -1455,7 +1455,7 @@ regulations.
 			<key>summary</key>
 			<string>Realm is a modern data framework &amp; database for iOS, macOS, tvOS &amp; watchOS.</string>
 			<key>version</key>
-			<string>3.15.0</string>
+			<string>3.16.1</string>
 		</dict>
 		<dict>
 			<key>authors</key>
