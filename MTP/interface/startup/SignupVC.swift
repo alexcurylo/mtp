@@ -1,7 +1,7 @@
 // @copyright Trollwerks Inc.
 
-import KRProgressHUD
 import RealmSwift
+import UIKit
 
 // swiftlint:disable file_length
 
@@ -378,13 +378,13 @@ private extension SignupVC {
     }
 
     func register(info: RegistrationInfo) {
-        KRProgressHUD.show(withMessage: Localized.signingUp())
-        mtp.userRegister(info: info) { [weak self] result in
+        note.modal(info: Localized.signingUp())
+        mtp.userRegister(info: info) { [weak self, note] result in
             switch result {
             case .success:
-                KRProgressHUD.showSuccess(withMessage: Localized.success())
+                note.modal(success: Localized.success())
                 DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
-                    KRProgressHUD.dismiss()
+                    note.dismissModal()
                     self?.performSegue(withIdentifier: Segues.showWelcome, sender: self)
                 }
                 return
@@ -398,7 +398,7 @@ private extension SignupVC {
             default:
                 self?.errorMessage = Localized.unexpectedError()
             }
-            KRProgressHUD.dismiss()
+            note.dismissModal()
             self?.performSegue(withIdentifier: Segues.presentSignupFail, sender: self)
         }
     }

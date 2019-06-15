@@ -37,6 +37,12 @@ struct Checked: Codable, ServiceProvider {
 
     mutating func set(list: Checklist,
                       id: Int,
+                      notified: Bool) {
+        set(list: list, id: id, checked: notified)
+    }
+
+    mutating func set(list: Checklist,
+                      id: Int,
                       triggered: Bool) {
         set(list: list, id: id, checked: triggered)
     }

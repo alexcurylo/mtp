@@ -74,11 +74,11 @@ final class LocationHandler: NSObject, AppHandler, ServiceProvider {
         didSet { checkDistanceUpdate() }
     }
 
-    var isBackgroundLaunch = false
-
-    // log.todo("adjust to half of minimum unvisited?")
+    // log.todo("adjust to half of minimum unvisited? Separate for countries?")
     //private let minFilter = CLLocationDistance(20)
-    private var updateFilter = CLLocationDistance(20)
+    private var distanceFilter = CLLocationDistance(20)
+    private var timeFilter = TimeInterval(5)
+    private var lastFilter: Date?
 }
 
 // MARK: - AppLaunchHandler
@@ -88,7 +88,6 @@ extension LocationHandler: AppLaunchHandler {
     func application(_ application: UIApplication,
                      // swiftlint:disable:next discouraged_optional_collection
                      willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        isBackgroundLaunch = application.applicationState == .background
         locationManager.delegate = self
         loc.inject(handler: self)
         observe()
@@ -114,13 +113,18 @@ extension LocationHandler: CLLocationManagerDelegate {
                          didUpdateLocations locations: [CLLocation]) {
         guard let now = locations.last else { return }
         if let last = last,
-           last.distance(from: now) < updateFilter {
+           last.distance(from: now) < distanceFilter {
+            return
+        }
+        if let lastFilter = lastFilter,
+            -lastFilter.timeIntervalSinceNow < timeFilter {
             return
         }
 
         last = now
         broadcast { $0.location(changed: now) }
         update(distances: now)
+        lastFilter = Date()
     }
 
     func locationManager(_ manager: CLLocationManager,
@@ -223,10 +227,12 @@ private extension LocationHandler {
         guard distanceUpdate == nil else { return }
 
         let update = UpdateDistanceOperation(trigger: trigger,
-                                             handler: self)
+                                             handler: self,
+                                             map: data.worldMap)
         update.completionBlock = {
             DispatchQueue.main.async {
                 self.distancesUpdating -= 1
+                self.note.checkTriggered()
             }
         }
 
@@ -368,7 +374,7 @@ private class UpdateListOperation: KVNOperation, ServiceProvider {
                 delegate: delegate
                 ) else { return nil }
             if !here.isZero {
-                annotation.setDistance(from: here, trigger: trigger)
+                annotation.setDistance(from: here)
             }
 
             return annotation
@@ -380,19 +386,40 @@ private class UpdateDistanceOperation: KVNOperation {
 
     let trigger: Bool
     let handler: LocationHandler
+    let map: WorldMap
 
     init(trigger: Bool,
-         handler: LocationHandler) {
+         handler: LocationHandler,
+         map: WorldMap) {
         self.trigger = trigger
         self.handler = handler
+        self.map = map
     }
 
     override func operate() {
         guard let here = handler.last?.coordinate else { return }
+
+        #if INSTRUMENT_DISTANCE
+        let start = Date()
+        #endif
         let annotations = handler.annotations(list: nil)
         annotations.forEach {
-            $0.setDistance(from: here, trigger: trigger)
+            $0.setDistance(from: here)
+            guard trigger else { return }
+
+            switch $0.list {
+            case .locations:
+                $0.trigger(contains: here, map: map)
+            default:
+                $0.triggerDistance()
+            }
         }
+        #if INSTRUMENT_DISTANCE
+        let time = -start.timeIntervalSinceNow
+        let title = "Distances: \(annotations.count) in \(Int(time * 1_000)) ms"
+        let body = ""
+        handler.note.infoBackground(title: title, body: body)
+        #endif
     }
 }
 

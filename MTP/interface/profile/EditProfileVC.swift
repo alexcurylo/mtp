@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import KRProgressHUD
+import UIKit
 
 final class EditProfileVC: UITableViewController, ServiceProvider {
 
@@ -136,14 +136,14 @@ private extension EditProfileVC {
     }
 
     @IBAction func deleteAccount(segue: UIStoryboardSegue) {
-        KRProgressHUD.show(withMessage: Localized.deletingAccount())
-        mtp.userDeleteAccount { [weak self] result in
+        note.modal(info: Localized.deletingAccount())
+        mtp.userDeleteAccount { [weak self, note] result in
             let errorMessage: String
             switch result {
             case .success:
-                KRProgressHUD.showSuccess(withMessage: Localized.success())
+                note.modal(success: Localized.success())
                 DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
-                    KRProgressHUD.dismiss()
+                    note.dismissModal()
                     self?.performSegue(withIdentifier: Segues.unwindFromEditProfile, sender: self)
                 }
                 return
@@ -157,9 +157,9 @@ private extension EditProfileVC {
             default:
                 errorMessage = Localized.unexpectedError()
             }
-            KRProgressHUD.showError(withMessage: errorMessage)
+            note.modal(error: errorMessage)
             DispatchQueue.main.asyncAfter(deadline: .medium) {
-                KRProgressHUD.dismiss()
+                note.dismissModal()
             }
         }
     }

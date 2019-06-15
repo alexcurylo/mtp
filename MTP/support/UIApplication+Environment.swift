@@ -4,6 +4,13 @@ import UIKit
 
 extension UIApplication {
 
+    var isBackground: Bool {
+        return applicationState == .background
+    }
+    var isForeground: Bool {
+        return applicationState != .background
+    }
+
     static var isUnitTesting: Bool {
         let isUnitTesting = NSClassFromString("XCTestCase") != nil
         return isUnitTesting

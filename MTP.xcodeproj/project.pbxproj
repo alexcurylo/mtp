@@ -466,9 +466,13 @@
 		8C3EAB90223119ED00CB4886 /* services */ = {
 			isa = PBXGroup;
 			children = (
+				FA36FBEC22059E6B00616CDE /* ApplicationService.swift */,
 				FA3CEC552132579300791195 /* DataService.swift */,
 				FA4653332115ADC6005B5A0A /* MTPNetworkService.swift */,
 				8CFEE458221FA2120061614B /* ImageService.swift */,
+				FAC8465C22AB6C2A004F57EC /* LocationService.swift */,
+				FA463784210E06230007382D /* LoggingService.swift */,
+				FAC8465A22AB55B6004F57EC /* NotificationService.swift */,
 				FA36FBEE2206461F00616CDE /* RealmController.swift */,
 				8C76D5DB22028874005CF4CD /* ServiceProvider.swift */,
 				FA4653312115A250005B5A0A /* UserDefaults+DataService.swift */,
@@ -749,7 +753,6 @@
 		FAAE29C320F0570000B43BA9 /* support */ = {
 			isa = PBXGroup;
 			children = (
-				FA36FBEC22059E6B00616CDE /* ApplicationService.swift */,
 				8C3EAB8B2231100400CB4886 /* Array+Type.swift */,
 				FAE1F118214354A80002CAB2 /* Avenir.swift */,
 				FA7C2013222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift */,
@@ -759,10 +762,7 @@
 				8C9DD8CD2245034D00D5EAFB /* Injectable.swift */,
 				8C3EAA1B2230BFA500CB4886 /* InsetTextField.swift */,
 				FAC8466222AC6D18004F57EC /* KVNOperation.swift */,
-				FAC8465C22AB6C2A004F57EC /* LocationService.swift */,
 				FAE1F11D2143B29F0002CAB2 /* LocationTracker.swift */,
-				FA463784210E06230007382D /* LoggingService.swift */,
-				FAC8465A22AB55B6004F57EC /* NotificationService.swift */,
 				FA6A188521EFEF920092C56C /* Observable.swift */,
 				FA8833E02209BF570037C796 /* RealmSearchViewController.swift */,
 				FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */,

@@ -147,6 +147,26 @@ final class SpyDataService: DataService {
             return stubbedMapDisplay
         }
     }
+    var invokedNotifiedSetter = false
+    var invokedNotifiedSetterCount = 0
+    var invokedNotified: Checked?
+    var invokedNotifiedList = [Checked?]()
+    var invokedNotifiedGetter = false
+    var invokedNotifiedGetterCount = 0
+    var stubbedNotified: Checked!
+    var notified: Checked? {
+        set {
+            invokedNotifiedSetter = true
+            invokedNotifiedSetterCount += 1
+            invokedNotified = newValue
+            invokedNotifiedList.append(newValue)
+        }
+        get {
+            invokedNotifiedGetter = true
+            invokedNotifiedGetterCount += 1
+            return stubbedNotified
+        }
+    }
     var invokedRestaurantsGetter = false
     var invokedRestaurantsGetterCount = 0
     var stubbedRestaurants: [Restaurant]! = []

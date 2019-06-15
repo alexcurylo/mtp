@@ -63,6 +63,20 @@ final class SpyLocationService: LocationService {
         invokedNoteGetterCount += 1
         return stubbedNote
     }
+    var invokedNearest = false
+    var invokedNearestCount = 0
+    var invokedNearestParameters: (list: Checklist, id: Int, coordinate: CLLocationCoordinate2D)?
+    var invokedNearestParametersList = [(list: Checklist, id: Int, coordinate: CLLocationCoordinate2D)]()
+    var stubbedNearestResult: PlaceAnnotation!
+    func nearest(list: Checklist,
+    id: Int,
+    to coordinate: CLLocationCoordinate2D) -> PlaceAnnotation? {
+        invokedNearest = true
+        invokedNearestCount += 1
+        invokedNearestParameters = (list, id, coordinate)
+        invokedNearestParametersList.append((list, id, coordinate))
+        return stubbedNearestResult
+    }
     var invokedAnnotations = false
     var invokedAnnotationsCount = 0
     var stubbedAnnotationsResult: Set<PlaceAnnotation>! = []

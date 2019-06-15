@@ -52,16 +52,16 @@ final class ForgotPasswordVC: UIViewController, ServiceProvider {
 private extension ForgotPasswordVC {
 
     @IBAction func continueTapped(_ sender: GradientButton) {
-        KRProgressHUD.show(withMessage: Localized.resettingPassword())
+        note.modal(info: Localized.resettingPassword())
 
         // swiftlint:disable:next closure_body_length
-        mtp.userForgotPassword(email: email) { [weak self] result in
+        mtp.userForgotPassword(email: email) { [weak self, note] result in
             let errorMessage: String
             switch result {
             case .success(let message):
                 KRProgressHUD.showSuccess(withMessage: message)
                 DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
-                    KRProgressHUD.dismiss()
+                    note.dismissModal()
                     self?.performSegue(withIdentifier: Segues.dismissForgotPassword, sender: self)
                 }
                 return
@@ -79,7 +79,7 @@ private extension ForgotPasswordVC {
             }
             KRProgressHUD.showError(withMessage: errorMessage)
             DispatchQueue.main.asyncAfter(deadline: .medium) {
-                KRProgressHUD.dismiss()
+                note.dismissModal()
                 self?.performSegue(withIdentifier: Segues.dismissForgotPassword, sender: self)
             }
         }

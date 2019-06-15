@@ -6,29 +6,6 @@
 // swiftlint:disable all
 
 final class SpyNotificationService: NotificationService {
-    var invokedDebug = false
-    var invokedDebugCount = 0
-    var invokedDebugParameters: (title: String?, body: String?)?
-    var invokedDebugParametersList = [(title: String?, body: String?)]()
-    func debug(title: String?,
-    body: String?) {
-        invokedDebug = true
-        invokedDebugCount += 1
-        invokedDebugParameters = (title, body)
-        invokedDebugParametersList.append((title, body))
-    }
-    var invokedVisit = false
-    var invokedVisitCount = 0
-    var invokedVisitParameters: (title: String, body: String, info: Info)?
-    var invokedVisitParametersList = [(title: String, body: String, info: Info)]()
-    func visit(title: String,
-    body: String,
-    info: Info) {
-        invokedVisit = true
-        invokedVisitCount += 1
-        invokedVisitParameters = (title, body, info)
-        invokedVisitParametersList.append((title, body, info))
-    }
     var invokedAuthorizeNotifications = false
     var invokedAuthorizeNotificationsCount = 0
     var stubbedAuthorizeNotificationsThenResult: (Bool, Void)?
@@ -38,6 +15,68 @@ final class SpyNotificationService: NotificationService {
         if let result = stubbedAuthorizeNotificationsThenResult {
             then(result.0)
         }
+    }
+    var invokedCheckTriggered = false
+    var invokedCheckTriggeredCount = 0
+    func checkTriggered() {
+        invokedCheckTriggered = true
+        invokedCheckTriggeredCount += 1
+    }
+    var invokedNotifyListId = false
+    var invokedNotifyListIdCount = 0
+    var invokedNotifyListIdParameters: (list: Checklist, id: Int)?
+    var invokedNotifyListIdParametersList = [(list: Checklist, id: Int)]()
+    func notify(list: Checklist,
+    id: Int) {
+        invokedNotifyListId = true
+        invokedNotifyListIdCount += 1
+        invokedNotifyListIdParameters = (list, id)
+        invokedNotifyListIdParametersList.append((list, id))
+    }
+    var invokedNotifyListInfo = false
+    var invokedNotifyListInfoCount = 0
+    var invokedNotifyListInfoParameters: (list: Checklist, info: PlaceInfo)?
+    var invokedNotifyListInfoParametersList = [(list: Checklist, info: PlaceInfo)]()
+    func notify(list: Checklist,
+    info: PlaceInfo) {
+        invokedNotifyListInfo = true
+        invokedNotifyListInfoCount += 1
+        invokedNotifyListInfoParameters = (list, info)
+        invokedNotifyListInfoParametersList.append((list, info))
+    }
+    var invokedCongratulate = false
+    var invokedCongratulateCount = 0
+    var invokedCongratulateParameters: (list: Checklist, id: Int)?
+    var invokedCongratulateParametersList = [(list: Checklist, id: Int)]()
+    func congratulate(list: Checklist,
+    id: Int) {
+        invokedCongratulate = true
+        invokedCongratulateCount += 1
+        invokedCongratulateParameters = (list, id)
+        invokedCongratulateParametersList.append((list, id))
+    }
+    var invokedInfoBackground = false
+    var invokedInfoBackgroundCount = 0
+    var invokedInfoBackgroundParameters: (title: String?, body: String?)?
+    var invokedInfoBackgroundParametersList = [(title: String?, body: String?)]()
+    func infoBackground(title: String?,
+    body: String?) {
+        invokedInfoBackground = true
+        invokedInfoBackgroundCount += 1
+        invokedInfoBackgroundParameters = (title, body)
+        invokedInfoBackgroundParametersList.append((title, body))
+    }
+    var invokedVisitBackground = false
+    var invokedVisitBackgroundCount = 0
+    var invokedVisitBackgroundParameters: (title: String, body: String, info: Info)?
+    var invokedVisitBackgroundParametersList = [(title: String, body: String, info: Info)]()
+    func visitBackground(title: String,
+    body: String,
+    info: Info) {
+        invokedVisitBackground = true
+        invokedVisitBackgroundCount += 1
+        invokedVisitBackgroundParameters = (title, body, info)
+        invokedVisitBackgroundParametersList.append((title, body, info))
     }
     var invokedBackground = false
     var invokedBackgroundCount = 0
@@ -62,5 +101,41 @@ final class SpyNotificationService: NotificationService {
         invokedPostCount += 1
         invokedPostParameters = (title, subtitle, body, category, info)
         invokedPostParametersList.append((title, subtitle, body, category, info))
+    }
+    var invokedModalError = false
+    var invokedModalErrorCount = 0
+    var invokedModalErrorParameters: (error: String, Void)?
+    var invokedModalErrorParametersList = [(error: String, Void)]()
+    func modal(error: String) {
+        invokedModalError = true
+        invokedModalErrorCount += 1
+        invokedModalErrorParameters = (error, ())
+        invokedModalErrorParametersList.append((error, ()))
+    }
+    var invokedModalInfo = false
+    var invokedModalInfoCount = 0
+    var invokedModalInfoParameters: (info: String, Void)?
+    var invokedModalInfoParametersList = [(info: String, Void)]()
+    func modal(info: String) {
+        invokedModalInfo = true
+        invokedModalInfoCount += 1
+        invokedModalInfoParameters = (info, ())
+        invokedModalInfoParametersList.append((info, ()))
+    }
+    var invokedModalSuccess = false
+    var invokedModalSuccessCount = 0
+    var invokedModalSuccessParameters: (success: String, Void)?
+    var invokedModalSuccessParametersList = [(success: String, Void)]()
+    func modal(success: String) {
+        invokedModalSuccess = true
+        invokedModalSuccessCount += 1
+        invokedModalSuccessParameters = (success, ())
+        invokedModalSuccessParametersList.append((success, ()))
+    }
+    var invokedDismissModal = false
+    var invokedDismissModalCount = 0
+    func dismissModal() {
+        invokedDismissModal = true
+        invokedDismissModalCount += 1
     }
 }

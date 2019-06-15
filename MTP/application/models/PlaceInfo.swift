@@ -9,6 +9,7 @@ protocol PlaceInfo {
     var placeCountry: String { get }
     var placeId: Int { get }
     var placeImage: String { get }
+    var placeImageUrl: URL? { get }
     var placeIsCountry: Bool { get }
     var placeIsMappable: Bool { get }
     var placeLocation: Location? { get }
@@ -35,6 +36,10 @@ extension PlaceInfo {
 
     var placeIsMappable: Bool {
         return true
+    }
+
+    var placeImageUrl: URL? {
+        return placeImage.mtpImageUrl
     }
 
     var placeParent: PlaceInfo? {
@@ -291,5 +296,19 @@ extension GolfCourse: PlaceInfo {
 
     var placeTitle: String {
         return title
+    }
+}
+
+private extension String {
+
+    var mtpImageUrl: URL? {
+        guard !isEmpty else { return nil }
+
+        if hasPrefix("http") {
+            return URL(string: self)
+        } else {
+            let target = MTP.picture(uuid: self, size: .any)
+            return target.requestUrl
+        }
     }
 }

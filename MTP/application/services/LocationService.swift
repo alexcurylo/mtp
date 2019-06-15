@@ -16,6 +16,10 @@ protocol LocationService: ServiceProvider {
 
     var here: CLLocationCoordinate2D? { get }
 
+    func nearest(list: Checklist,
+                 id: Int,
+                 to coordinate: CLLocationCoordinate2D) -> PlaceAnnotation?
+
     func annotations() -> Set<PlaceAnnotation>
     func annotations(list: Checklist) -> Set<PlaceAnnotation>
 
@@ -80,6 +84,25 @@ final class LocationServiceImpl: LocationService {
 
     func annotations(list: Checklist) -> Set<PlaceAnnotation> {
         return handler?.annotations(list: list) ?? []
+    }
+
+    func nearest(list: Checklist,
+                 id: Int,
+                 to coordinate: CLLocationCoordinate2D) -> PlaceAnnotation? {
+        var distance: CLLocationDistance = 99_999
+        let visited = list.visited
+        var nearest: PlaceAnnotation?
+        for other in annotations(list: list) {
+            guard !visited.contains(other.id),
+                  other.id != id else { continue }
+
+            let otherDistance = other.coordinate.distance(from: coordinate)
+            if otherDistance < distance {
+                nearest = other
+                distance = otherDistance
+            }
+        }
+        return nearest
     }
 
     func insert<T>(tracker: T) where T: LocationTracker, T: Hashable {

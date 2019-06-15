@@ -93,6 +93,28 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
+    var notified: Checked? {
+        get {
+            do {
+                return try get(objectType: Checked.self, forKey: #function)
+            } catch {
+                log.error("decoding notified value: \(error)")
+                return nil
+            }
+        }
+        set {
+            guard let newValue = newValue else {
+                set(nil, forKey: #function)
+                return
+            }
+            do {
+                try set(object: newValue, forKey: #function)
+            } catch {
+                log.error("encoding notified newValue: \(error)")
+            }
+        }
+    }
+
     var settings: SettingsJSON? {
         get {
             do {

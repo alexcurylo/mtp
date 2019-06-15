@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import KRProgressHUD
+import UIKit
 
 final class LoginVC: UIViewController, ServiceProvider {
 
@@ -170,14 +170,14 @@ private extension LoginVC {
     }
 
     func login(email: String, password: String) {
-        KRProgressHUD.show(withMessage: Localized.loggingIn())
+        note.modal(info: Localized.loggingIn())
         mtp.userLogin(email: email,
-                      password: password) { [weak self] result in
+                      password: password) { [weak self, note] result in
             switch result {
             case .success:
-                KRProgressHUD.showSuccess(withMessage: Localized.success())
+                note.modal(success: Localized.success())
                 DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
-                    KRProgressHUD.dismiss()
+                    note.dismissModal()
                     self?.performSegue(withIdentifier: Segues.showMain, sender: self)
                 }
                 return
@@ -191,7 +191,7 @@ private extension LoginVC {
             default:
                 self?.errorMessage = Localized.unexpectedError()
             }
-            KRProgressHUD.dismiss()
+            note.dismissModal()
             self?.performSegue(withIdentifier: Segues.presentLoginFail, sender: self)
         }
     }

@@ -147,6 +147,10 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         return dismissed.contains(id)
     }
 
+    func isNotified(id: Int) -> Bool {
+        return notified.contains(id)
+    }
+
     func isTriggered(id: Int) -> Bool {
         return triggered.contains(id)
     }
@@ -157,6 +161,27 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
 
     func place(id: Int) -> PlaceInfo? {
         return places.first { $0.placeId == id }
+    }
+
+    var notified: [Int] {
+        guard let notified = data.notified else { return [] }
+
+        switch self {
+        case .locations:
+            return notified.locations
+        case .uncountries:
+            return notified.uncountries
+        case .whss:
+            return notified.whss
+        case .beaches:
+            return notified.beaches
+        case .golfcourses:
+            return notified.golfcourses
+        case .divesites:
+            return notified.divesites
+        case .restaurants:
+            return notified.restaurants
+        }
     }
 
     var places: [PlaceInfo] {
@@ -193,6 +218,18 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         set(triggered: false, id: id)
     }
 
+    func set(notified: Bool,
+             id: Int) {
+        guard isNotified(id: id) != notified else { return }
+
+        if data.notified == nil {
+            data.notified = Checked()
+        }
+        data.notified?.set(list: self,
+                           id: id,
+                           notified: notified)
+    }
+
     func set(triggered: Bool,
              id: Int) {
         guard isTriggered(id: id) != triggered else { return }
@@ -214,6 +251,7 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
                           id: id,
                           visited: visited)
         set(dismissed: false, id: id)
+        set(notified: false, id: id)
         set(triggered: false, id: id)
     }
 
@@ -383,7 +421,7 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
     var triggerDistance: CLLocationDistance {
         switch self {
         case .locations:
-            return 1_600
+            return 0
         case .uncountries:
             return 0
         case .whss:

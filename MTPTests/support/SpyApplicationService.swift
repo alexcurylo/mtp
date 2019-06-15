@@ -16,4 +16,24 @@ final class SpyApplicationService: ApplicationService {
         invokedLaunchParameters = (url, ())
         invokedLaunchParametersList.append((url, ()))
     }
+    var invokedRouteToPlaceAnnotation = false
+    var invokedRouteToPlaceAnnotationCount = 0
+    var invokedRouteToPlaceAnnotationParameters: (annotation: PlaceAnnotation, Void)?
+    var invokedRouteToPlaceAnnotationParametersList = [(annotation: PlaceAnnotation, Void)]()
+    func route(to annotation: PlaceAnnotation) {
+        invokedRouteToPlaceAnnotation = true
+        invokedRouteToPlaceAnnotationCount += 1
+        invokedRouteToPlaceAnnotationParameters = (annotation, ())
+        invokedRouteToPlaceAnnotationParametersList.append((annotation, ()))
+    }
+    var invokedRouteToUser = false
+    var invokedRouteToUserCount = 0
+    var invokedRouteToUserParameters: (user: User?, Void)?
+    var invokedRouteToUserParametersList = [(user: User?, Void)]()
+    func route(to user: User?) {
+        invokedRouteToUser = true
+        invokedRouteToUserCount += 1
+        invokedRouteToUserParameters = (user, ())
+        invokedRouteToUserParametersList.append((user, ()))
+    }
 }

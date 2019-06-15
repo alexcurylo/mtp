@@ -190,9 +190,7 @@ private extension PlaceAnnotationView {
     }
 
     @objc func closeTapped(_ sender: UIButton) {
-        guard let place = place else { return }
-
-        place.delegate?.close(place: place)
+        place?.close()
     }
 
     func show(visited: Bool) {

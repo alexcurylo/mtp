@@ -168,7 +168,7 @@ final class NearbyCell: UITableViewCell {
         self.delegate = delegate
 
         placeImage?.load(image: place)
-        distanceLabel?.text = place.formattedDistance
+        distanceLabel?.text = place.distance.formatted
         categoryLabel?.text = place.list.category.uppercased()
         show(visited: place.isVisited)
         nameLabel?.text = place.subtitle

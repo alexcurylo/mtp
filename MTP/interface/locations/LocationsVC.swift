@@ -6,7 +6,6 @@ import Anchorage
 import DropDown
 import MapKit
 import RealmSwift
-import SwiftEntryKit
 
 final class LocationsVC: UIViewController, ServiceProvider {
 
@@ -85,7 +84,7 @@ final class LocationsVC: UIViewController, ServiceProvider {
         super.viewDidAppear(animated)
 
         updateTracking()
-        checkTriggered()
+        note.checkTriggered()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -127,7 +126,7 @@ final class LocationsVC: UIViewController, ServiceProvider {
         guard let coordinate = place?.placeCoordinate else { return }
 
         navigationController?.popToRootViewController(animated: false)
-        zoom(annotation: coordinate)
+        zoom(annotation: coordinate, then: nil)
     }
 }
 
@@ -140,16 +139,17 @@ extension LocationsVC: PlaceAnnotationDelegate {
     }
 
     func notify(place: PlaceAnnotation) {
-        notify(list: place.list, id: place.id)
+        note.notify(list: place.list, id: place.id)
     }
 
     func reveal(place: PlaceAnnotation?, callout: Bool) {
         guard let place = place else { return }
 
         navigationController?.popToRootViewController(animated: false)
-        zoom(annotation: place.coordinate)
-        if callout {
-            mapView?.selectAnnotation(place, animated: false)
+        zoom(annotation: place.coordinate) { [weak self] in
+            if callout {
+                self?.mapView?.selectAnnotation(place, animated: false)
+            }
         }
     }
 
@@ -255,34 +255,44 @@ private extension LocationsVC {
         guard !mapCentered,
               let here = loc.here else { return }
 
-        zoom(to: here, span: 160_000)
+        zoom(to: here, span: 160_000, then: nil)
     }
 
-    func zoom(annotation center: CLLocationCoordinate2D) {
-        zoom(to: center, span: 1_600)
+    func zoom(annotation center: CLLocationCoordinate2D,
+              then: (() -> Void)?) {
+        let span = CLLocationDistance(500)
+        //let centerOffset = span / 3
+        //let metersToDegrees = CLLocationDistance(111_111)
+        //let offset = CLLocationCoordinate2D(
+            //latitude: center.latitude - (centerOffset / metersToDegrees),
+            //longitude: center.longitude)
+        zoom(to: center, span: span) { then?() }
     }
 
     func zoom(to center: CLLocationCoordinate2D,
-              span meters: CLLocationDistance) {
+              span meters: CLLocationDistance,
+              then: (() -> Void)?) {
         mapCentered = true
         let region = MKCoordinateRegion(center: center,
                                         latitudinalMeters: meters,
                                         longitudinalMeters: meters)
-        zoom(region: region)
+        zoom(region: region) { then?() }
     }
 
-    func zoom(cluster annotation: MKClusterAnnotation?) {
-        guard let center = annotation?.coordinate,
-            var region = mapView?.region else { return }
+    func zoom(cluster: MKClusterAnnotation?) {
+        guard let cluster = cluster,
+              var region = mapView?.region else { return }
 
-        // log.todo("smart zoom to split annotations?")
-        region.center = center
-        region.span.latitudeDelta *= 0.5
-        region.span.longitudeDelta *= 0.5
-        zoom(region: region)
+        let clustered = cluster.region
+
+        region.center = cluster.coordinate
+        region.span.latitudeDelta = clustered.maxDelta * 1.3
+        region.span.longitudeDelta = clustered.maxDelta * 1.3
+        zoom(region: region, then: nil)
     }
 
-    func zoom(region: MKCoordinateRegion) {
+    func zoom(region: MKCoordinateRegion,
+              then: (() -> Void)?) {
         DispatchQueue.main.async { [weak self] in
             MKMapView.animate(
                 withDuration: 1,
@@ -291,6 +301,7 @@ private extension LocationsVC {
                 },
                 completion: { _ in
                     self?.annotate()
+                    then?()
                 }
             )
         }
@@ -341,252 +352,6 @@ private extension LocationsVC {
         if !added.isEmpty {
             map.addAnnotations(Array(added))
         }
-    }
-
-    func checkTriggered() {
-        for list in Checklist.allCases {
-            for next in data.triggered?[list] ?? [] {
-                if list.isVisited(id: next) ||
-                   list.isDismissed(id: next) {
-                    list.set(triggered: false, id: next)
-                } else {
-                    notify(list: list, id: next)
-                    return
-                }
-            }
-        }
-    }
-
-    func notify(list: Checklist, id: Int) {
-        if let info = list.place(id: id) {
-            notify(list: list, info: info)
-        }
-    }
-
-    func notify(list: Checklist, info: PlaceInfo) {
-        notifyForeground(list: list, info: info)
-        notifyBackground(list: list, info: info)
-    }
-
-    // swiftlint:disable:next function_body_length
-    func notifyForeground(list: Checklist,
-                          info: PlaceInfo) {
-        let visitId = info.placeId
-
-        let contentTitle = Localized.checkinTitle(list.category)
-        let contentMessage: String
-        switch list {
-        case .locations:
-            contentMessage = Localized.checkinInside(info.placeTitle)
-        default:
-            contentMessage = Localized.checkinNear(info.placeTitle)
-        }
-        let simpleMessage = notifyMessage(contentTitle: contentTitle,
-                                          contentMessage: contentMessage)
-
-        // Dismiss
-        let buttonFont = Avenir.heavy.of(size: 16)
-        let dismissColor = UIColor(rgb: 0xD0021B)
-        let closeButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: dismissColor)
-        let closeButtonLabel = EKProperty.LabelContent(
-            text: Localized.dismissAction(),
-            style: closeButtonLabelStyle)
-        let closeButton = EKProperty.ButtonContent(
-            label: closeButtonLabel,
-            backgroundColor: .clear,
-            highlightedBackgroundColor: dismissColor.withAlphaComponent(0.05)) { [list, visitId] in
-                list.set(dismissed: true, id: visitId)
-                SwiftEntryKit.dismiss { [weak self] in
-                    self?.checkTriggered()
-                }
-        }
-
-        // Checkin
-        let checkinColor = UIColor(rgb: 0x028DFF)
-        let okButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: checkinColor)
-        let okButtonLabel = EKProperty.LabelContent(
-            text: Localized.checkinAction(),
-            style: okButtonLabelStyle)
-        let okButton = EKProperty.ButtonContent(
-            label: okButtonLabel,
-            backgroundColor: .clear,
-            highlightedBackgroundColor: checkinColor.withAlphaComponent(0.05)) { [list, visitId] in
-                list.set(visited: true, id: visitId)
-                SwiftEntryKit.dismiss { [weak self] in
-                    self?.congratulate(list: list, id: visitId)
-                }
-        }
-        let grayLight = UIColor(white: 230.0 / 255.0, alpha: 1)
-        let buttonsBarContent = EKProperty.ButtonBarContent(
-            // swiftlint:disable:next multiline_arguments
-            with: closeButton, okButton,
-            separatorColor: grayLight,
-            buttonHeight: 60,
-            expandAnimatedly: true)
-
-        // Generate
-        let alertMessage = EKAlertMessage(
-            simpleMessage: simpleMessage,
-            imagePosition: .left,
-            buttonBarContent: buttonsBarContent)
-        let contentView = EKAlertMessageView(with: alertMessage)
-        SwiftEntryKit.display(entry: contentView,
-                              using: notifyAttributes(priority: .min))
-    }
-
-    // swiftlint:disable:next function_body_length
-    func congratulate(list: Checklist, id: Int) {
-        if let user = data.user,
-           let annotation = loc.annotations(list: list)
-                            .first(where: { $0.id == id }) {
-            mainTBC?.route(to: annotation)
-
-            let contentTitle = Localized.congratulations(annotation.name)
-
-            let (single, plural) = list.names
-            let (visited, remaining) = list.status(of: user)
-            let contentVisited = Localized.status(visited, plural, remaining)
-
-            let contentMilestone = list.milestone(visited: visited)
-
-            let contentNearest: String
-            if remaining > 0,
-                let place = nearest(place: annotation) {
-                contentNearest = Localized.nearest(single, place)
-            } else {
-                contentNearest = ""
-            }
-
-            let contentMessage = contentMilestone + contentVisited + contentNearest
-
-            let simpleMessage = notifyMessage(contentTitle: contentTitle,
-                                              contentMessage: contentMessage)
-
-            // OK
-            let buttonFont = Avenir.heavy.of(size: 16)
-            let checkinColor = UIColor(rgb: 0x028DFF)
-            let okButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: checkinColor)
-            let okButtonLabel = EKProperty.LabelContent(
-                text: Localized.ok(),
-                style: okButtonLabelStyle)
-            let okButton = EKProperty.ButtonContent(
-                label: okButtonLabel,
-                backgroundColor: .clear,
-                highlightedBackgroundColor: checkinColor.withAlphaComponent(0.05)) {
-                    SwiftEntryKit.dismiss { [weak self] in
-                        self?.checkTriggered()
-                    }
-            }
-            let grayLight = UIColor(white: 230.0 / 255.0, alpha: 1)
-            let buttonsBarContent = EKProperty.ButtonBarContent(
-                with: okButton,
-                separatorColor: grayLight,
-                buttonHeight: 60,
-                expandAnimatedly: true)
-
-            // Generate
-            let alertMessage = EKAlertMessage(
-                simpleMessage: simpleMessage,
-                imagePosition: .left,
-                buttonBarContent: buttonsBarContent)
-            let contentView = EKAlertMessageView(with: alertMessage)
-            SwiftEntryKit.display(entry: contentView,
-                                  using: notifyAttributes(priority: .max))
-        } else {
-            checkTriggered()
-        }
-    }
-
-    func nearest(place: PlaceAnnotation) -> String? {
-        var distance: CLLocationDistance = 99_999
-        var nearest: String?
-        for other in loc.annotations(list: place.list) {
-            guard other.id != place.id,
-                  !other.isVisited else { continue }
-
-            let otherDistance = other.coordinate.distance(from: place.coordinate)
-            if otherDistance < distance {
-                nearest = other.name
-                distance = otherDistance
-            }
-        }
-        return nearest
-    }
-
-    func notifyAttributes(priority: EKAttributes.Precedence.Priority) -> EKAttributes {
-        var attributes = EKAttributes.bottomFloat
-
-        let dimmedLightBackground = UIColor(white: 100.0 / 255.0, alpha: 0.3)
-        attributes.screenBackground = .color(color: dimmedLightBackground)
-        attributes.hapticFeedbackType = .success
-        attributes.displayDuration = .infinity
-        attributes.entryBackground = .color(color: .white)
-        attributes.shadow = .active(with: .init(color: .black, opacity: 0.3, radius: 8))
-        attributes.roundCorners = .all(radius: 4)
-        attributes.popBehavior = .animated(animation: .init(translate: .init(duration: 0.2)))
-        attributes.positionConstraints.verticalOffset = 10
-        attributes.positionConstraints.size = .init(width: .offset(value: 20), height: .intrinsic)
-        attributes.positionConstraints.maxSize = .init(
-            width: .constant(value: UIScreen.main.bounds.minEdge),
-            height: .intrinsic)
-        attributes.statusBar = .dark
-        attributes.border = .value(color: .black, width: 0.5)
-        attributes.shadow = .active(with: .init(color: .black, opacity: 0.5, radius: 5))
-        attributes.scroll = .enabled(swipeable: true, pullbackAnimation: .jolt)
-        attributes.exitAnimation = .init(translate: .init(duration: 0.2))
-        attributes.entranceAnimation = .init(
-            translate: .init(duration: 0.7,
-                             spring: .init(damping: 1, initialVelocity: 0)),
-            scale: .init(from: 0.6, to: 1, duration: 0.7),
-            fade: .init(from: 0.8, to: 1, duration: 0.3))
-        attributes.exitAnimation = .init(translate: .init(duration: 0.2))
-        attributes.screenInteraction = .absorbTouches
-        attributes.entryInteraction = .absorbTouches
-        attributes.precedence = .enqueue(priority: priority)
-
-        return attributes
-    }
-
-    func notifyMessage(contentTitle: String,
-                       contentMessage: String) -> EKSimpleMessage {
-        let title = EKProperty.LabelContent(
-            text: contentTitle,
-            style: .init(font: Avenir.medium.of(size: 15),
-                         color: .black))
-        let description = EKProperty.LabelContent(
-            text: contentMessage,
-            style: .init(font: Avenir.light.of(size: 13),
-                         color: .black))
-        let simpleMessage = EKSimpleMessage(image: nil,
-                                            title: title,
-                                            description: description)
-        return simpleMessage
-    }
-
-    func notifyBackground(list: Checklist,
-                          info: PlaceInfo) {
-        note.background { [weak self] in
-            self?.postLocalNotification(list: list,
-                                        info: info)
-        }
-    }
-
-    func postLocalNotification(list: Checklist,
-                               info: PlaceInfo) {
-        let title = Localized.checkinTitle(list.category)
-        let body: String
-        switch list {
-        case .locations:
-            body = Localized.checkinInside(info.placeTitle)
-        default:
-            body = Localized.checkinNear(info.placeTitle)
-        }
-        let info: NotificationService.Info = [
-            NotificationsHandler.visitList: list.rawValue,
-            NotificationsHandler.visitId: info.placeId
-        ]
-
-        note.visit(title: title, body: body, info: info)
     }
 }
 

@@ -17,6 +17,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var lastRankingsQuery: RankingsQuery { get set }
     var locations: [Location] { get }
     var mapDisplay: ChecklistFlags { get set }
+    var notified: Checked? { get set }
     var restaurants: [Restaurant] { get }
     var settings: SettingsJSON? { get set }
     var token: String { get set }
@@ -101,6 +102,7 @@ extension DataService {
         email = ""
         etags = [:]
         lastRankingsQuery = RankingsQuery()
+        notified = nil
         set(posts: [])
         token = ""
         triggered = nil
@@ -215,6 +217,14 @@ final class DataServiceImpl: DataService {
         get { return defaults.mapDisplay ?? ChecklistFlags() }
         set {
             defaults.mapDisplay = newValue
+        }
+    }
+
+    var notified: Checked? {
+        get { return defaults.notified }
+        set {
+            defaults.notified = newValue
+            notify(change: .notified)
         }
     }
 
@@ -404,6 +414,7 @@ enum DataServiceChange: String {
     case locationPhotos
     case locationPosts
     case locations
+    case notified
     case photoPages
     case posts
     case rankings

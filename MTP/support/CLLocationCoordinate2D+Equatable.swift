@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import CoreLocation
+import MapKit
 
 extension CLLocationCoordinate2D: Codable {
 
@@ -45,5 +45,62 @@ extension CLLocationCoordinate2D {
 
     func distance(from: CLLocation) -> CLLocationDistance {
         return location.distance(from: from)
+    }
+}
+
+extension CLLocationDistance {
+
+    var formatted: String {
+        let km = self / 1_000
+        let formatted: String
+        switch km {
+        case ..<1:
+            formatted = String(format: "%.2f", km)
+        case ..<10:
+            formatted = String(format: "%.1f", km)
+        default:
+            formatted = Int(km).grouped
+        }
+        return Localized.km(formatted)
+    }
+}
+
+struct ClusterRegion {
+
+    var left: CLLocationDegrees = 0
+    var top: CLLocationDegrees = 0
+    var right: CLLocationDegrees = 0
+    var bottom: CLLocationDegrees = 0
+
+    var latitudeDelta: CLLocationDegrees {
+        return (bottom + 90) - (top + 90)
+    }
+    var longitudeDelta: CLLocationDegrees {
+        return (right + 180) - (left + 180)
+    }
+    var maxDelta: CLLocationDegrees {
+        return max(latitudeDelta, longitudeDelta)
+    }
+
+    init(cluster: MKClusterAnnotation) {
+        if let first = cluster.memberAnnotations.first?.coordinate {
+            left = first.longitude
+            top = first.latitude
+            right = first.longitude
+            bottom = first.latitude
+        }
+        for next in cluster.memberAnnotations.dropFirst() {
+            left = min(left, next.coordinate.longitude)
+            top = min(top, next.coordinate.latitude)
+            right = max(right, next.coordinate.longitude)
+            bottom = max(bottom, next.coordinate.latitude)
+        }
+    }
+}
+
+extension MKClusterAnnotation {
+
+    var region: ClusterRegion {
+        return ClusterRegion(cluster: self)
     }
 }
