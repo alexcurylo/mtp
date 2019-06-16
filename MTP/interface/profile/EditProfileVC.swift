@@ -122,6 +122,8 @@ extension EditProfileVC {
 extension EditProfileVC: UITextFieldDelegate {
 
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        let linkTextFields = linksStack?.linkTextFields ?? []
+
         switch textField {
         case firstNameTextField:
             toolbarBackButton?.isEnabled = false
@@ -132,18 +134,22 @@ extension EditProfileVC: UITextFieldDelegate {
         case locationTextField:
             performSegue(withIdentifier: Segues.showLocation, sender: self)
             return false
+        case airportTextField:
+            toolbarBackButton?.isEnabled = true
+            toolbarNextButton?.isEnabled = !linkTextFields.isEmpty
+        case linkTextFields.last:
+            toolbarBackButton?.isEnabled = true
+            toolbarNextButton?.isEnabled = false
         case lastNameTextField,
              birthdayTextField,
              genderTextField,
-             emailTextField:
+             emailTextField,
+             _ where linkTextFields.contains(textField):
             toolbarBackButton?.isEnabled = true
             toolbarNextButton?.isEnabled = true
-        case airportTextField:
-            toolbarBackButton?.isEnabled = true
-            toolbarNextButton?.isEnabled = false
         default:
-            toolbarBackButton?.isEnabled = true
-            toolbarNextButton?.isEnabled = true
+            toolbarBackButton?.isEnabled = false
+            toolbarNextButton?.isEnabled = false
         }
         return true
     }
@@ -151,6 +157,19 @@ extension EditProfileVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         updateSave(showError: false)
         return true
+    }
+}
+
+// MARK: - UITextViewDelegate
+
+extension EditProfileVC: UITextViewDelegate {
+
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        toolbarBackButton?.isEnabled = true
+        toolbarNextButton?.isEnabled = true
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
     }
 }
 
@@ -303,7 +322,10 @@ private extension EditProfileVC {
         }
     }
 
-    @IBAction func toolbarBackTapped(_ sender: UIBarButtonItem) {
+    //swiftlint:disable:next cyclomatic_complexity
+   @IBAction func toolbarBackTapped(_ sender: UIBarButtonItem) {
+        let linkTextFields = linksStack?.linkTextFields ?? []
+
         if firstNameTextField?.isEditing ?? false {
             firstNameTextField?.resignFirstResponder()
             updateSave(showError: false)
@@ -327,11 +349,22 @@ private extension EditProfileVC {
             emailTextField?.becomeFirstResponder()
         } else if airportTextField?.isEditing ?? false {
             aboutTextView?.becomeFirstResponder()
+        } else if linkTextFields.first?.isEditing ?? false {
+            airportTextField?.becomeFirstResponder()
         } else {
+            for (index, field) in linkTextFields.enumerated() where field.isEditing {
+                let prevIndex = index - 1
+                if prevIndex >= 0 {
+                    linkTextFields[prevIndex].becomeFirstResponder()
+                }
+            }
         }
     }
 
+    //swiftlint:disable:next cyclomatic_complexity
     @IBAction func toolbarNextTapped(_ sender: UIBarButtonItem) {
+        let linkTextFields = linksStack?.linkTextFields ?? []
+
         if firstNameTextField?.isEditing ?? false {
             lastNameTextField?.becomeFirstResponder()
         } else if lastNameTextField?.isEditing ?? false {
@@ -353,9 +386,24 @@ private extension EditProfileVC {
         } else if aboutTextView?.isFirstResponder ?? false {
             airportTextField?.becomeFirstResponder()
        } else if airportTextField?.isEditing ?? false {
-            view.endEditing(true)
-            updateSave(showError: false)
-       }
+            if let next = linkTextFields.first {
+                next.becomeFirstResponder()
+            } else {
+                view.endEditing(true)
+                updateSave(showError: false)
+            }
+        } else {
+            for (index, field) in linkTextFields.enumerated() where field.isEditing {
+                let nextIndex = index + 1
+                if nextIndex < linkTextFields.count {
+                    linkTextFields[nextIndex].becomeFirstResponder()
+                } else {
+                    view.endEditing(true)
+                    updateSave(showError: false)
+                }
+                return
+            }
+        }
     }
 
     @IBAction func toolbarDoneTapped(_ sender: UIBarButtonItem) {
@@ -385,6 +433,7 @@ private extension EditProfileVC {
         current.email = emailTextField?.text ?? ""
         current.bio = aboutTextView?.text ?? ""
         current.airport = airportTextField?.text ?? ""
+        let linksValid = updateLinks()
 
         let errorMessage: String
         if current.first_name.isEmpty {
@@ -405,6 +454,8 @@ private extension EditProfileVC {
             errorMessage = Localized.fixBio()
         } else if current.airport?.isEmpty ?? true {
             errorMessage = Localized.fixAirport()
+        } else if !linksValid {
+            errorMessage = Localized.fixLinks()
         } else {
             errorMessage = ""
         }
@@ -421,6 +472,22 @@ private extension EditProfileVC {
             saveButton?.isEnabled = true
             return valid
         }
+    }
+
+    func updateLinks() -> Bool {
+        guard let links = current.links,
+              let views = linksStack?.arrangedSubviews,
+              links.count == views.count else { return false }
+
+        var valid = true
+        for (index, view) in views.enumerated() {
+            let link = Link(text: view.linkDescription,
+                            url: view.linkUrl)
+            current.links?[index] = link
+            valid = valid && !link.text.isEmpty && !link.url.isEmpty
+        }
+
+        return valid
     }
 
     func upload(edits: UserUpdate) {
@@ -473,10 +540,7 @@ private extension EditProfileVC {
             view.removeFromSuperview()
 
             for (index, link) in stack.arrangedSubviews.enumerated() {
-                if let url = (link as? UIStackView)?.arrangedSubviews.last,
-                    let button = url.subviews.first(where: { $0 is UIButton }) {
-                    button.tag = index
-                }
+                link.linkDeleteButton?.tag = index
             }
         }
 
@@ -648,5 +712,47 @@ private extension InsetTextField {
             font = Avenir.roman.of(size: 16)
             placeholder = Localized.linkTitle()
         }
+    }
+}
+
+private extension UIStackView {
+
+    var linkTextFields: [UITextField] {
+        return arrangedSubviews.flatMap {
+            [$0.linkDescriptionField,
+             $0.linkUrlField].compactMap { $0 }
+        }
+    }
+}
+
+private extension UIView {
+
+    var linkViews: [UIView] {
+        return (self as? UIStackView)?.arrangedSubviews ?? []
+    }
+
+    var linkDescriptionField: UITextField? {
+        return linkViews.first as? UITextField
+    }
+
+    var linkUrlView: UIView? {
+        return linkViews.last
+    }
+
+    var linkDescription: String {
+        return linkDescriptionField?.text ?? ""
+    }
+
+    var linkUrlField: UITextField? {
+        return linkUrlView?.subviews.first { $0 is UITextField } as? UITextField
+    }
+
+    var linkUrl: String {
+        return linkUrlField?.text ?? ""
+    }
+
+    var linkDeleteButton: UIButton? {
+        let button = linkUrlView?.subviews.first { $0 is UIButton }
+        return button as? UIButton
     }
 }
