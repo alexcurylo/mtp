@@ -2,15 +2,9 @@
 
 import Nuke
 
-protocol ImageService {}
+protocol ImageService: ImageDisplaying { }
 
-extension UIImageView {
-
-    func prepareForReuse() {
-        Nuke.cancelRequest(for: self)
-        image = nil
-        isHidden = false
-    }
+extension ImageService where Self: UIView {
 
     func load(image location: Location?) {
         load(image: location?.imageUrl)
@@ -38,9 +32,9 @@ extension UIImageView {
         guard let range = html.range(
             of: #"src="\/api\/files\/preview\?uuid=[A-Za-z0-9+\/=]+\""#,
             options: .regularExpression
-        ) else {
-            image = nil
-            return false
+            ) else {
+                display(image: nil)
+                return false
         }
 
         let match = String(html[range])
@@ -50,12 +44,12 @@ extension UIImageView {
         return load(image: target.requestUrl)
     }
 
-    @discardableResult private func load(
+    @discardableResult func load(
         image url: URL?,
         placeholder: UIImage? = R.image.placeholderThumb()
     ) -> Bool {
         guard let url = url else {
-            image = placeholder
+            display(image: placeholder)
             return false
         }
 
@@ -68,5 +62,21 @@ extension UIImageView {
             into: self
         )
         return true
+    }
+}
+
+extension UIImageView: ImageService {
+
+    func prepareForReuse() {
+        Nuke.cancelRequest(for: self)
+        image = nil
+        isHidden = false
+    }
+}
+
+extension UIButton: ImageService {
+
+    open func display(image: Image?) {
+        setBackgroundImage(image, for: .normal)
     }
 }

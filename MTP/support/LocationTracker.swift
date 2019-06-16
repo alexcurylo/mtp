@@ -2,76 +2,22 @@
 
 import CoreLocation
 import UIKit
-import UserNotifications
 
-enum PermissionTrigger {
-    case ask
-    case dontAsk
-}
+protocol LocationTracker: PlaceAnnotationDelegate, ServiceProvider {
 
-protocol LocationTracker: CLLocationManagerDelegate, ServiceProvider {
-
-    var locationManager: CLLocationManager { get }
-
-    func alertLocationAccessNeeded()
     func accessRefused()
-}
-
-extension LocationTracker {
-
-    @discardableResult func start(tracking ask: PermissionTrigger) -> CLAuthorizationStatus {
-        locationManager.delegate = self
-        locationManager.distanceFilter = 15
-        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-
-        let status = CLLocationManager.authorizationStatus()
-        switch status {
-        case .authorizedAlways:
-            if CLLocationManager.locationServicesEnabled() {
-                locationManager.startUpdatingLocation()
-                locationManager.allowsBackgroundLocationUpdates = true
-                locationManager.pausesLocationUpdatesAutomatically = false
-                if CLLocationManager.significantLocationChangeMonitoringAvailable() {
-                    locationManager.startMonitoringSignificantLocationChanges()
-                }
-            }
-            if ask == .ask {
-                authorizeNotifications { _ in }
-            }
-        case .authorizedWhenInUse:
-            if CLLocationManager.locationServicesEnabled() {
-                locationManager.startUpdatingLocation()
-            }
-            if ask == .ask {
-                locationManager.requestAlwaysAuthorization()
-            }
-        case .denied, .restricted:
-            if ask == .ask {
-                alertLocationAccessNeeded()
-            }
-        case .notDetermined:
-            if ask == .ask {
-                locationManager.requestWhenInUseAuthorization()
-            }
-        @unknown default:
-            log.error("handle authorization status \(status)!")
-        }
-        return status
-    }
-
-    func authorizeNotifications(then: @escaping (Bool) -> Void) {
-        let center = UNUserNotificationCenter.current()
-        center.requestAuthorization(options: [.alert, .badge, .sound]) { granted, _ in
-            then(granted)
-        }
-    }
+    func alertLocationAccessNeeded()
+    func annotations(changed list: Checklist,
+                     added: Set<PlaceAnnotation>,
+                     removed: Set<PlaceAnnotation>)
+    func authorization(changed: CLAuthorizationStatus)
+    func location(changed: CLLocation)
 }
 
 extension LocationTracker where Self: UIViewController {
 
     func alertLocationAccessNeeded() {
-        //swiftlint:disable:next force_unwrapping
-        let settingsAppURL = URL(string: UIApplication.openSettingsURLString)!
+        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
 
         let alert = UIAlertController(
             title: Localized.needLocationAccess(),
@@ -85,7 +31,7 @@ extension LocationTracker where Self: UIViewController {
         })
         alert.addAction(UIAlertAction(title: Localized.allowLocationAccess(),
                                       style: .default) { _ in
-            self.app.open(settingsAppURL)
+            self.app.launch(url: url)
         })
 
         present(alert, animated: true, completion: nil)

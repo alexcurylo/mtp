@@ -102,12 +102,9 @@ extension PostsVC: PostCellDelegate {
 
         models[index].isExpanded.toggle()
         let path = IndexPath(row: index, section: 0)
-        // suppress animation to kill white flicker
-        UIView.setAnimationsEnabled(false)
-        tableView.beginUpdates()
-        tableView.reloadRows(at: [path], with: .none)
-        tableView.endUpdates()
-        UIView.setAnimationsEnabled(true)
+        tableView.update {
+            tableView.reloadRows(at: [path], with: .none)
+        }
     }
 }
 

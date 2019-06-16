@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import KRProgressHUD
+import UIKit
 
 let style = Styler.self
 
@@ -12,7 +12,6 @@ enum Styler {
     func styleAppearance() {
         styleAppearanceNavBar()
         styleAppearanceSearchBar()
-        styleAppearanceProgress()
     }
 
     func styleAppearanceNavBar() {
@@ -25,13 +24,6 @@ enum Styler {
     func styleAppearanceSearchBar() {
         UISearchBar.styleAppearance()
      }
-
-    func styleAppearanceProgress() {
-        KRProgressHUD.set(maskType: .custom(color: UIColor(white: 0, alpha: 0.8)))
-        KRProgressHUD.set(style: .black)
-        KRProgressHUD.set(activityIndicatorViewColors: [.white, UIColor(white: 0.7, alpha: 1)])
-        KRProgressHUD.set(duration: 10)
-    }
 
     var barTint: UIColor {
         switch self {
@@ -63,6 +55,10 @@ extension UIColor {
     // http://chir.ag/projects/name-that-color/#FFFFFF
 
     // swiftlint:disable force_unwrapping
+
+    static var alto: UIColor { // #DBDBDB
+        return R.color.alto()!
+    }
 
     static var azureRadiance: UIColor { // #028DFF
         return R.color.azureRadiance()!

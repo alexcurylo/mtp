@@ -43,7 +43,6 @@ final class NearbyVC: UITableViewController, ServiceProvider {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
         case Segues.unwindFromNearby.identifier:
             break
@@ -98,15 +97,10 @@ extension NearbyVC {
 
 extension NearbyVC: Injectable {
 
-    typealias Model = (center: CLLocation?,
-                       annotations: [Set<PlaceAnnotation>])
+    typealias Model = Set<PlaceAnnotation>
 
     @discardableResult func inject(model: Model) -> Self {
-        places = model.annotations.flatMap { Array($0) }
-        if let center = model.center {
-            places.forEach { $0.setDistance(from: center, trigger: false) }
-        }
-        places.sort { $0.distance < $1.distance }
+        places = Array(model).sorted { $0.distance < $1.distance }
 
         return self
     }
@@ -174,7 +168,7 @@ final class NearbyCell: UITableViewCell {
         self.delegate = delegate
 
         placeImage?.load(image: place)
-        distanceLabel?.text = place.formattedDistance
+        distanceLabel?.text = place.distance.formatted
         categoryLabel?.text = place.list.category.uppercased()
         show(visited: place.isVisited)
         nameLabel?.text = place.subtitle

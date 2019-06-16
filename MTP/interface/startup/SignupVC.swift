@@ -1,7 +1,7 @@
 // @copyright Trollwerks Inc.
 
-import KRProgressHUD
 import RealmSwift
+import UIKit
 
 // swiftlint:disable file_length
 
@@ -77,7 +77,6 @@ final class SignupVC: UIViewController, ServiceProvider {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.verbose("prepare for \(segue.name)")
         view.endEditing(true)
         switch segue.identifier {
         case Segues.presentSignupFail.identifier:
@@ -108,10 +107,14 @@ final class SignupVC: UIViewController, ServiceProvider {
     }
 }
 
+// MARK: - KeyboardListener
+
 extension SignupVC: KeyboardListener {
 
     var keyboardScrollee: UIScrollView? { return scrollView }
 }
+
+// MARK: - SignupVC
 
 private extension SignupVC {
 
@@ -379,13 +382,13 @@ private extension SignupVC {
     }
 
     func register(info: RegistrationInfo) {
-        KRProgressHUD.show(withMessage: Localized.signingUp())
-        mtp.userRegister(info: info) { [weak self] result in
+        note.modal(info: Localized.signingUp())
+        mtp.userRegister(info: info) { [weak self, note] result in
             switch result {
             case .success:
-                KRProgressHUD.showSuccess(withMessage: Localized.success())
+                note.modal(success: Localized.success())
                 DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
-                    KRProgressHUD.dismiss()
+                    note.dismissModal()
                     self?.performSegue(withIdentifier: Segues.showWelcome, sender: self)
                 }
                 return
@@ -399,11 +402,13 @@ private extension SignupVC {
             default:
                 self?.errorMessage = Localized.unexpectedError()
             }
-            KRProgressHUD.dismiss()
+            note.dismissModal()
             self?.performSegue(withIdentifier: Segues.presentSignupFail, sender: self)
         }
     }
 }
+
+// MARK: - UITextFieldDelegate
 
 extension SignupVC: UITextFieldDelegate {
 
@@ -460,6 +465,8 @@ extension SignupVC: UITextFieldDelegate {
     }
 }
 
+// MARK: - UINavigationControllerDelegate
+
 extension SignupVC: UINavigationControllerDelegate {
 
     func navigationController(
@@ -473,6 +480,8 @@ extension SignupVC: UINavigationControllerDelegate {
         return nil
     }
 }
+
+// MARK: - LocationSearchDelegate
 
 extension SignupVC: LocationSearchDelegate {
 
@@ -496,6 +505,8 @@ extension SignupVC: LocationSearchDelegate {
     }
 }
 
+// MARK: - UIViewControllerTransitioningDelegate
+
 extension SignupVC: UIViewControllerTransitioningDelegate {
 
     func animationController(forPresented presented: UIViewController,
@@ -509,6 +520,8 @@ extension SignupVC: UIViewControllerTransitioningDelegate {
     }
 }
 
+// MARK: - UIPickerViewDataSource
+
 extension SignupVC: UIPickerViewDataSource {
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -519,6 +532,8 @@ extension SignupVC: UIPickerViewDataSource {
         return genders.count
     }
 }
+
+// MARK: - UIPickerViewDelegate
 
 extension SignupVC: UIPickerViewDelegate {
 
@@ -536,6 +551,8 @@ extension SignupVC: UIPickerViewDelegate {
         genderTextField?.resignFirstResponder()
     }
 }
+
+// MARK: - Injectable
 
 extension SignupVC: Injectable {
 

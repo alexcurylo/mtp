@@ -32,7 +32,6 @@ final class LocationInfoVC: UITableViewController, ServiceProvider {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
         default:
             log.debug("unexpected segue: \(segue.name)")

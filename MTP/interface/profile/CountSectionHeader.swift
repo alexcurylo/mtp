@@ -34,8 +34,9 @@ final class CountSectionHeader: UICollectionReusableView {
             label.text = Localized.locationCount(model.region, model.count)
         }
 
-        let corners: UIRectCorner = model.isExpanded ? [.topLeft, .topRight] : .allCorners
-        round(corners: corners, by: Layout.cornerRadius)
+        let rounded: ViewCorners = model.isExpanded ? .top(radius: Layout.cornerRadius)
+                                                    : .all(radius: Layout.cornerRadius)
+        round(corners: rounded)
     }
 
     private enum Layout {

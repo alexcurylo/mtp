@@ -1,6 +1,9 @@
 // @copyright Trollwerks Inc.
 
-import KRProgressHUD
+import Anchorage
+import RealmSwift
+
+// swiftlint:disable file_length
 
 final class EditProfileVC: UITableViewController, ServiceProvider {
 
@@ -10,24 +13,37 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
 
     @IBOutlet private var backgroundView: UIView?
 
+    @IBOutlet private var infoStack: UIStackView?
     @IBOutlet private var avatarButton: UIButton?
     @IBOutlet private var firstNameTextField: UITextField?
     @IBOutlet private var lastNameTextField: UITextField?
     @IBOutlet private var birthdayTextField: UITextField?
     @IBOutlet private var genderTextField: UITextField?
+    @IBOutlet private var countryStack: UIStackView?
     @IBOutlet private var countryTextField: UITextField?
+    @IBOutlet private var locationStack: UIStackView?
     @IBOutlet private var locationTextField: UITextField?
     @IBOutlet private var emailTextField: UITextField?
     @IBOutlet private var aboutTextView: UITextView?
     @IBOutlet private var airportTextField: UITextField?
 
     @IBOutlet private var linksStack: UIStackView?
-    @IBOutlet private var linksTitle: UILabel?
     @IBOutlet private var addLinkButton: UIButton?
 
-    @IBOutlet private var contactDisplayButton: UIButton?
-    @IBOutlet private var contactDontDisplayButton: UIButton?
-    @IBOutlet private var contactNoneButton: UIButton?
+    @IBOutlet private var keyboardToolbar: UIToolbar?
+    @IBOutlet private var toolbarBackButton: UIBarButtonItem?
+    @IBOutlet private var toolbarNextButton: UIBarButtonItem?
+
+    enum Layout {
+        static let sectionCornerRadius = CGFloat(5)
+        static let bottomCorners = ViewCorners.bottom(radius: sectionCornerRadius)
+    }
+
+    private var original = UserUpdate()
+    private var current = UserUpdate()
+    private var country: Country?
+    private var location: Location?
+    private let genders = [Localized.selectGender(), Localized.male(), Localized.female()]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,16 +64,33 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
         super.viewDidAppear(animated)
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        addLinkButton?.round(corners: Layout.bottomCorners)
+    }
+
     override func didReceiveMemoryWarning() {
         log.warning("didReceiveMemoryWarning: \(type(of: self))")
         super.didReceiveMemoryWarning()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.verbose("prepare for \(segue.name)")
+        view.endEditing(true)
         switch segue.identifier {
-        case Segues.saveEdits.identifier:
-            saveEdits()
+        case Segues.showCountry.identifier:
+            if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
+                destination.set(list: .country,
+                                styler: .standard,
+                                delegate: self)
+            }
+        case Segues.showLocation.identifier:
+            if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC {
+                let countryId = country?.countryId
+                destination.set(list: .location(country: countryId),
+                                styler: .standard,
+                                delegate: self)
+            }
         case Segues.unwindFromEditProfile.identifier:
             data.logOut()
         case Segues.cancelEdits.identifier,
@@ -84,55 +117,393 @@ extension EditProfileVC {
     }
 }
 
+// MARK: - UITextFieldDelegate
+
+extension EditProfileVC: UITextFieldDelegate {
+
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        switch textField {
+        case firstNameTextField:
+            toolbarBackButton?.isEnabled = false
+            toolbarNextButton?.isEnabled = true
+        case countryTextField:
+            performSegue(withIdentifier: Segues.showCountry, sender: self)
+            return false
+        case locationTextField:
+            performSegue(withIdentifier: Segues.showLocation, sender: self)
+            return false
+        case lastNameTextField,
+             birthdayTextField,
+             genderTextField,
+             emailTextField:
+            toolbarBackButton?.isEnabled = true
+            toolbarNextButton?.isEnabled = true
+        case airportTextField:
+            toolbarBackButton?.isEnabled = true
+            toolbarNextButton?.isEnabled = false
+        default:
+            toolbarBackButton?.isEnabled = true
+            toolbarNextButton?.isEnabled = true
+        }
+        return true
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        updateSave(showError: false)
+        return true
+    }
+}
+
 // MARK: - Private
 
 private extension EditProfileVC {
 
+    // swiftlint:disable:next function_body_length
     func configure() {
-        saveButton?.isEnabled = false
+        guard let user = data.user else { return }
+
+        let update = UserUpdate(from: user)
+        original = update
+        country = data.get(country: update.country_id)
+        location = data.get(location: update.location_id)
+        current = original
+
+        avatarButton?.load(image: update)
+
+        firstNameTextField?.inputAccessoryView = keyboardToolbar
+        firstNameTextField?.text = update.first_name
+
+        lastNameTextField?.inputAccessoryView = keyboardToolbar
+        lastNameTextField?.text = update.last_name
+
+        birthdayTextField?.inputAccessoryView = keyboardToolbar
+        birthdayTextField?.inputView = UIDatePicker {
+            $0.datePickerMode = .date
+            $0.maximumDate = Date()
+            $0.minimumDate = Calendar.current.date(byAdding: .year, value: -120, to: Date())
+            $0.addTarget(self,
+                         action: #selector(birthdayChanged(_:)),
+                         for: .valueChanged)
+        }
+       birthdayTextField?.text = update.birthday
+
+        genderTextField?.inputView = UIPickerView {
+            $0.dataSource = self
+            $0.delegate = self
+        }
+        genderTextField?.inputAccessoryView = keyboardToolbar
+        let gender: String
+        switch update.gender {
+        case "M": gender = Localized.male()
+        case "F": gender = Localized.female()
+        default: gender = ""
+        }
+        genderTextField?.text = gender
+
+        countryTextField?.inputAccessoryView = keyboardToolbar
+        countryTextField?.text = country?.countryName
+
+        locationTextField?.inputAccessoryView = keyboardToolbar
+        locationTextField?.text = location?.locationName
+        show(location: update.country_id != update.location_id)
+
+        emailTextField?.inputAccessoryView = keyboardToolbar
+        emailTextField?.text = update.email
+
+        airportTextField?.inputAccessoryView = keyboardToolbar
+        airportTextField?.text = update.airport?.uppercased()
+
+        aboutTextView?.inputAccessoryView = keyboardToolbar
+        aboutTextView?.text = update.bio
+
+        configureLinks()
+
+        updateSave(showError: false)
     }
 
-    func updateSave() {
-        //saveButton?.isEnabled = original != current
+    func configureLinks() {
+        guard let originals = original.links,
+              !originals.isEmpty else { return }
+
+        let backwards = originals.enumerated().reversed()
+        for (index, link) in backwards where link.isEmpty {
+            current.links?.remove(at: index)
+        }
+
+        guard let links = current.links,
+              !links.isEmpty else { return }
+
+        for link in links {
+            display(link: link)
+       }
     }
 
-    func saveEdits() {
-        log.todo("implement saveEdits")
+    func display(link: Link) {
+        guard let stack = linksStack else { return }
+
+        let text = InsetTextField {
+            $0.styleForEditProfile()
+            $0.text = link.text
+            $0.inputAccessoryView = keyboardToolbar
+            $0.delegate = self
+        }
+
+        let holder = UIView {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+        let url = InsetTextFieldGradient {
+            holder.addSubview($0)
+            $0.edgeAnchors == holder.edgeAnchors
+            $0.styleForEditProfile()
+            $0.text = link.url
+            $0.inputAccessoryView = keyboardToolbar
+            $0.delegate = self
+        }
+        _ = UIButton {
+            $0.setImage(R.image.tagDelete(), for: .normal)
+            holder.addSubview($0)
+            $0.heightAnchor == url.cornerRadius * 2
+            $0.widthAnchor == url.cornerRadius * 2
+            $0.centerYAnchor == holder.centerYAnchor
+            $0.trailingAnchor == holder.trailingAnchor
+            $0.addTarget(self,
+                         action: #selector(deleteLinkTapped),
+                         for: .touchUpInside)
+            $0.tag = stack.arrangedSubviews.count
+        }
+
+        let linkStack = UIStackView(arrangedSubviews: [text, holder])
+        linkStack.axis = .vertical
+        linkStack.spacing = 4
+
+        stack.addArrangedSubview(linkStack)
+    }
+
+    var isLocationVisible: Bool {
+        return locationStack?.superview != nil
+    }
+
+    func show(location visible: Bool) {
+        guard let info = infoStack,
+              let location = locationStack,
+              let country = countryStack,
+              visible != isLocationVisible else { return }
+
+        tableView.update {
+            switch (visible, isLocationVisible) {
+            case (true, false):
+                let after = info.arrangedSubviews.firstIndex(of: country) ?? 0
+                info.insertArrangedSubview(location, at: after + 1)
+            case (false, true):
+                info.removeArrangedSubview(location)
+                location.removeFromSuperview()
+            default:
+                break
+            }
+        }
+    }
+
+    @IBAction func toolbarBackTapped(_ sender: UIBarButtonItem) {
+        if firstNameTextField?.isEditing ?? false {
+            firstNameTextField?.resignFirstResponder()
+            updateSave(showError: false)
+        } else if lastNameTextField?.isEditing ?? false {
+            firstNameTextField?.becomeFirstResponder()
+        } else if birthdayTextField?.isEditing ?? false {
+            lastNameTextField?.becomeFirstResponder()
+        } else if genderTextField?.isEditing ?? false {
+            birthdayTextField?.becomeFirstResponder()
+        } else if countryTextField?.isEditing ?? false {
+            genderTextField?.becomeFirstResponder()
+        } else if locationTextField?.isEditing ?? false {
+            countryTextField?.becomeFirstResponder()
+        } else if emailTextField?.isEditing ?? false {
+            if isLocationVisible {
+                locationTextField?.becomeFirstResponder()
+            } else {
+                countryTextField?.becomeFirstResponder()
+            }
+        } else if aboutTextView?.isFirstResponder ?? false {
+            emailTextField?.becomeFirstResponder()
+        } else if airportTextField?.isEditing ?? false {
+            aboutTextView?.becomeFirstResponder()
+        } else {
+        }
+    }
+
+    @IBAction func toolbarNextTapped(_ sender: UIBarButtonItem) {
+        if firstNameTextField?.isEditing ?? false {
+            lastNameTextField?.becomeFirstResponder()
+        } else if lastNameTextField?.isEditing ?? false {
+            birthdayTextField?.becomeFirstResponder()
+        } else if birthdayTextField?.isEditing ?? false {
+            genderTextField?.becomeFirstResponder()
+        } else if genderTextField?.isEditing ?? false {
+            countryTextField?.becomeFirstResponder()
+        } else if countryTextField?.isEditing ?? false {
+            if isLocationVisible {
+                locationTextField?.becomeFirstResponder()
+            } else {
+                emailTextField?.becomeFirstResponder()
+            }
+        } else if locationTextField?.isEditing ?? false {
+            emailTextField?.becomeFirstResponder()
+        } else if emailTextField?.isEditing ?? false {
+            aboutTextView?.becomeFirstResponder()
+        } else if aboutTextView?.isFirstResponder ?? false {
+            airportTextField?.becomeFirstResponder()
+       } else if airportTextField?.isEditing ?? false {
+            view.endEditing(true)
+            updateSave(showError: false)
+       }
+    }
+
+    @IBAction func toolbarDoneTapped(_ sender: UIBarButtonItem) {
+        view.endEditing(true)
+        updateSave(showError: false)
+    }
+
+    @IBAction func birthdayChanged(_ sender: UIDatePicker) {
+        let birthday = DateFormatter.mtpDay.string(from: sender.date)
+        birthdayTextField?.text = birthday
+        current.birthday = birthday
+        updateSave(showError: false)
+    }
+
+    @IBAction func saveTapped(_ sender: UIBarButtonItem) {
+        view.endEditing(true)
+        guard updateSave(showError: true) else { return }
+
+        upload(edits: current)
+    }
+
+    // swiftlint:disable:next cyclomatic_complexity
+    @discardableResult func updateSave(showError: Bool) -> Bool {
+        current.first_name = firstNameTextField?.text ?? ""
+        current.last_name = lastNameTextField?.text ?? ""
+        // birthday, gender, country, location expected set here
+        current.email = emailTextField?.text ?? ""
+        current.bio = aboutTextView?.text ?? ""
+        current.airport = airportTextField?.text ?? ""
+
+        let errorMessage: String
+        if current.first_name.isEmpty {
+            errorMessage = Localized.fixFirstName()
+        } else if current.last_name.isEmpty {
+            errorMessage = Localized.fixLastName()
+        } else if current.birthday.isEmpty {
+            errorMessage = Localized.fixBirthday()
+        } else if current.gender.isEmpty {
+            errorMessage = Localized.fixGender()
+        } else if current.country_id == 0 {
+            errorMessage = Localized.fixCountry()
+        } else if current.location_id == 0 {
+            errorMessage = Localized.fixLocation()
+        } else if !current.email.isValidEmail {
+            errorMessage = Localized.fixEmail()
+        } else if current.bio?.isEmpty ?? true {
+            errorMessage = Localized.fixBio()
+        } else if current.airport?.isEmpty ?? true {
+            errorMessage = Localized.fixAirport()
+        } else {
+            errorMessage = ""
+        }
+        let valid = errorMessage.isEmpty
+
+        if showError && !valid {
+            note.message(error: errorMessage)
+        }
+
+        if original == current {
+            saveButton?.isEnabled = false
+            return false
+        } else {
+            saveButton?.isEnabled = true
+            return valid
+        }
+    }
+
+    func upload(edits: UserUpdate) {
+        log.todo("verify integrity of upload(edits:)")
+        return note.unimplemented()
+
+        note.modal(info: Localized.updatingAccount())
+        mtp.userUpdate(info: edits) { [weak self, note] result in
+            let errorMessage: String
+            switch result {
+            case .success:
+                note.modal(success: Localized.success())
+                DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
+                    note.dismissModal()
+                    self?.performSegue(withIdentifier: Segues.cancelEdits, sender: self)
+                }
+                return
+            case .failure(.status),
+                 .failure(.results):
+                errorMessage = Localized.resultError()
+            case .failure(.message(let message)):
+                errorMessage = message
+            case .failure(.network(let message)):
+                errorMessage = Localized.networkError(message)
+            default:
+                errorMessage = Localized.unexpectedError()
+            }
+            note.modal(error: errorMessage)
+            DispatchQueue.main.asyncAfter(deadline: .medium) {
+                note.dismissModal()
+            }
+        }
     }
 
     @IBAction func avatarTapped(_ sender: UIButton) {
         log.todo("avatarTapped")
+        note.unimplemented()
     }
 
     @IBAction func deleteLinkTapped(_ sender: UIButton) {
-        log.todo("deleteLinkTapped")
+        view.endEditing(true)
+        let remove = sender.tag
+        current.links?.remove(at: remove)
+
+        tableView.update {
+            guard let stack = linksStack else { return }
+
+            let view = stack.arrangedSubviews[remove]
+            stack.removeArrangedSubview(view)
+            view.removeFromSuperview()
+
+            for (index, link) in stack.arrangedSubviews.enumerated() {
+                if let url = (link as? UIStackView)?.arrangedSubviews.last,
+                    let button = url.subviews.first(where: { $0 is UIButton }) {
+                    button.tag = index
+                }
+            }
+        }
+
+        updateSave(showError: false)
     }
 
     @IBAction func addLinkTapped(_ sender: UIButton) {
-        log.todo("addLinkTapped")
-    }
+        view.endEditing(true)
+        let link = Link()
+        current.links?.append(link)
 
-    @IBAction func contactDisplayTapped(_ sender: UIButton) {
-        log.todo("contactDisplayTapped")
-    }
+        tableView.update {
+            display(link: link)
+        }
 
-    @IBAction func contactDontDisplayTapped(_ sender: UIButton) {
-        log.todo("contactDontDisplayTapped")
-    }
-
-    @IBAction func contactNoneTapped(_ sender: UIButton) {
-        log.todo("contactNoneTapped")
+        updateSave(showError: false)
     }
 
     @IBAction func deleteAccount(segue: UIStoryboardSegue) {
-        KRProgressHUD.show(withMessage: Localized.deletingAccount())
-        mtp.userDeleteAccount { [weak self] result in
+        note.modal(info: Localized.deletingAccount())
+        mtp.userDeleteAccount { [weak self, note] result in
             let errorMessage: String
             switch result {
             case .success:
-                KRProgressHUD.showSuccess(withMessage: Localized.success())
+                note.modal(success: Localized.success())
                 DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
-                    KRProgressHUD.dismiss()
+                    note.dismissModal()
                     self?.performSegue(withIdentifier: Segues.unwindFromEditProfile, sender: self)
                 }
                 return
@@ -146,13 +517,85 @@ private extension EditProfileVC {
             default:
                 errorMessage = Localized.unexpectedError()
             }
-            KRProgressHUD.showError(withMessage: errorMessage)
+            note.modal(error: errorMessage)
             DispatchQueue.main.asyncAfter(deadline: .medium) {
-                KRProgressHUD.dismiss()
+                note.dismissModal()
             }
         }
     }
 }
+
+// MARK: - LocationSearchDelegate
+
+extension EditProfileVC: LocationSearchDelegate {
+
+    func locationSearch(controller: RealmSearchViewController,
+                        didSelect item: Object) {
+        switch item {
+        case let countryItem as Country:
+            guard country != countryItem else { return }
+            country = countryItem
+            countryTextField?.text = countryItem.countryName
+            location = nil
+            locationTextField?.text = nil
+            current.country_id = countryItem.countryId
+            current.location_id = countryItem.countryId
+            show(location: countryItem.hasChildren)
+        case let locationItem as Location:
+            guard location != locationItem else { return }
+            location = locationItem
+            locationTextField?.text = locationItem.locationName
+            current.country_id = locationItem.countryId
+            current.location_id = locationItem.id
+        default:
+            log.error("unknown item type selected")
+        }
+        updateSave(showError: false)
+    }
+}
+
+// MARK: - UIPickerViewDataSource
+
+extension EditProfileVC: UIPickerViewDataSource {
+
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return genders.count
+    }
+}
+
+// MARK: - UIPickerViewDelegate
+
+extension EditProfileVC: UIPickerViewDelegate {
+
+    public func pickerView(_ pickerView: UIPickerView,
+                           titleForRow row: Int,
+                           forComponent component: Int) -> String? {
+        return genders[row]
+    }
+
+    public func pickerView(_ pickerView: UIPickerView,
+                           didSelectRow row: Int,
+                           inComponent component: Int) {
+        guard row > 0 else { return }
+
+        genderTextField?.text = genders[row]
+        let gender: String
+        if let first = genderTextField?.text?.first {
+            gender = String(first)
+        } else {
+            gender = ""
+        }
+        current.gender = gender
+        genderTextField?.resignFirstResponder()
+        updateSave(showError: false)
+    }
+}
+
+// MARK: - Injectable
 
 extension EditProfileVC: Injectable {
 
@@ -165,20 +608,45 @@ extension EditProfileVC: Injectable {
     func requireInjections() {
         saveButton.require()
         backgroundView.require()
+        infoStack.require()
+        avatarButton.require()
         firstNameTextField.require()
         lastNameTextField.require()
         birthdayTextField.require()
         genderTextField.require()
+        countryStack.require()
         countryTextField.require()
+        locationStack.require()
         locationTextField.require()
         emailTextField.require()
         aboutTextView.require()
         airportTextField.require()
         linksStack.require()
-        linksTitle.require()
         addLinkButton.require()
-        contactDisplayButton.require()
-        contactDontDisplayButton.require()
-        contactNoneButton.require()
+        keyboardToolbar.require()
+        toolbarBackButton.require()
+        toolbarNextButton.require()
+    }
+}
+
+private extension InsetTextField {
+
+    func styleForEditProfile() {
+        hInset = 8
+        vInset = 4
+        borderStyle = .none
+
+        if self is InsetTextFieldGradient {
+            cornerRadius = 15
+            textColor = .white
+            font = Avenir.medium.of(size: 16)
+            placeholder = Localized.linkUrl()
+        } else {
+            cornerRadius = 3
+            borderWidth = 1
+            borderColor = .alto
+            font = Avenir.roman.of(size: 16)
+            placeholder = Localized.linkTitle()
+        }
     }
 }

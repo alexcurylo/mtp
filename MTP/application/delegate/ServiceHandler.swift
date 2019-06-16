@@ -11,10 +11,14 @@ extension ServiceHandler: AppLaunchHandler {
         // swiftlint:disable:next discouraged_optional_collection
         willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
+        // other services may log
         ServiceProviderInstances.logServiceInstance = SwiftyBeaverLoggingService()
+
         ServiceProviderInstances.appServiceInstance = UIApplication.shared
         ServiceProviderInstances.dataServiceInstance = DataServiceImpl()
+        ServiceProviderInstances.locServiceInstance = LocationServiceImpl()
         ServiceProviderInstances.mtpServiceInstance = MoyaMTPNetworkService()
+        ServiceProviderInstances.noteServiceInstance = NotificationServiceImpl()
 
         return true
     }

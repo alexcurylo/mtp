@@ -1,9 +1,12 @@
 // @copyright Trollwerks Inc.
 
+import AlamofireNetworkActivityIndicator
 import FBSDKCoreKit
 import SwiftyBeaver
 
 struct LaunchHandler: AppHandler, ServiceProvider { }
+
+// MARK: - AppLaunchHandler
 
 extension LaunchHandler: AppLaunchHandler {
 
@@ -20,19 +23,27 @@ extension LaunchHandler: AppLaunchHandler {
 
         configureLogging()
 
+        configureNetworking()
+
         configureSettingsDisplay()
 
         configureFacebook(app: application, options: options)
 
         configureAppearance()
 
-        configureNotifications(options: options)
-
         return true
     }
 }
 
+// MARK: - Private
+
 private extension LaunchHandler {
+
+    func configureNetworking() {
+        NetworkActivityIndicatorManager.shared.isEnabled = true
+        NetworkActivityIndicatorManager.shared.startDelay = 0.8
+        NetworkActivityIndicatorManager.shared.completionDelay = 0.3
+    }
 
     func configureSettingsDisplay() {
         StringKey.infoDictionarySettingsKeys.copyToUserDefaults()

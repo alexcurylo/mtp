@@ -17,6 +17,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var lastRankingsQuery: RankingsQuery { get set }
     var locations: [Location] { get }
     var mapDisplay: ChecklistFlags { get set }
+    var notified: Checked? { get set }
     var restaurants: [Restaurant] { get }
     var settings: SettingsJSON? { get set }
     var token: String { get set }
@@ -39,7 +40,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
              photos location: Int?) -> [Photo]
     func get(rankings query: RankingsQuery) -> Results<RankingsPageInfo>
     func get(scorecard list: Checklist, user id: Int?) -> Scorecard?
-    func get(user id: Int) -> User
+    func get(user id: Int) -> User?
     func get(whs id: Int) -> WHS?
 
     func hasChildren(whs id: Int) -> Bool
@@ -101,6 +102,7 @@ extension DataService {
         email = ""
         etags = [:]
         lastRankingsQuery = RankingsQuery()
+        notified = nil
         set(posts: [])
         token = ""
         triggered = nil
@@ -215,6 +217,14 @@ final class DataServiceImpl: DataService {
         get { return defaults.mapDisplay ?? ChecklistFlags() }
         set {
             defaults.mapDisplay = newValue
+        }
+    }
+
+    var notified: Checked? {
+        get { return defaults.notified }
+        set {
+            defaults.notified = newValue
+            notify(change: .notified)
         }
     }
 
@@ -341,8 +351,8 @@ final class DataServiceImpl: DataService {
         }
     }
 
-    func get(user id: Int) -> User {
-        return realm.user(id: id) ?? User()
+    func get(user id: Int) -> User? {
+        return realm.user(id: id)
     }
 
     var visited: Checked? {
@@ -404,6 +414,7 @@ enum DataServiceChange: String {
     case locationPhotos
     case locationPosts
     case locations
+    case notified
     case photoPages
     case posts
     case rankings

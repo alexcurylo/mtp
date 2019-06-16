@@ -25,7 +25,8 @@ final class MTPDelegateTests: XCTestCase {
             String(describing: LaunchHandler.self),
             String(describing: StateHandler.self),
             String(describing: ActionHandler.self),
-            String(describing: NotificationsHandler.self)
+            String(describing: NotificationsHandler.self),
+            String(describing: LocationHandler.self)
         ]
         let actual = MTPDelegate.runtimeHandlers(for: .production)
                                 .map { String(describing: type(of: $0)) }

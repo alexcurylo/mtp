@@ -47,7 +47,6 @@ final class RootVC: UIViewController, ServiceProvider {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
         case Segues.showMain.identifier:
             let main = Segues.showMain(segue: segue)
@@ -75,7 +74,6 @@ private extension RootVC {
     }
 
     @IBAction func unwindToRoot(segue: UIStoryboardSegue) {
-        log.verbose(segue.name)
     }
 
     func revealCredentials() {

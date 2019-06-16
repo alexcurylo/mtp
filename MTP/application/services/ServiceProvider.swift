@@ -8,8 +8,10 @@ protocol ServiceProvider {
 
     var app: ApplicationService { get }
     var data: DataService { get }
+    var loc: LocationService { get }
     var log: LoggingService { get }
     var mtp: MTPNetworkService { get }
+    var note: NotificationService { get }
 }
 
 extension ServiceProvider {
@@ -25,12 +27,20 @@ extension ServiceProvider {
         return ServiceProviderInstances.dataServiceInstance
     }
 
+    var loc: LocationService {
+        return ServiceProviderInstances.locServiceInstance
+    }
+
     var log: LoggingService {
         return ServiceProviderInstances.logServiceInstance
     }
 
     var mtp: MTPNetworkService {
         return ServiceProviderInstances.mtpServiceInstance
+    }
+
+    var note: NotificationService {
+        return ServiceProviderInstances.noteServiceInstance
     }
 }
 
@@ -39,6 +49,8 @@ enum ServiceProviderInstances {
     // swiftlint:disable implicitly_unwrapped_optional
     static var appServiceInstance: ApplicationService!
     static var dataServiceInstance: DataService!
+    static var locServiceInstance: LocationService!
     static var logServiceInstance: LoggingService!
     static var mtpServiceInstance: MTPNetworkService!
+    static var noteServiceInstance: NotificationService!
 }

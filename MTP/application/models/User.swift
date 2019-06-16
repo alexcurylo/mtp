@@ -26,7 +26,7 @@ protocol UserInfo: UserAvatar {
     var visitWhss: Int { get }
 }
 
-struct UserJSON: Codable {
+struct UserJSON: Codable, Equatable {
 
     enum Status: String {
 
@@ -203,7 +203,7 @@ extension UserJSON: UserInfo {
     var visitWhss: Int { return scoreWhss ?? 0 }
 }
 
-struct FavoritePlace: Codable {
+struct FavoritePlace: Codable, Hashable {
 
     let id: String?
     let type: String?
@@ -224,10 +224,20 @@ extension FavoritePlace: CustomStringConvertible, CustomDebugStringConvertible {
     }
 }
 
-struct Link: Codable {
+struct Link: Codable, Hashable {
 
     let text: String
     let url: String
+
+    var isEmpty: Bool {
+        return text.isEmpty && url.isEmpty
+    }
+
+    init(text: String = "",
+         url: String = "") {
+        self.text = text
+        self.url = url
+    }
 }
 
 extension Link: CustomStringConvertible, CustomDebugStringConvertible {
@@ -352,6 +362,13 @@ extension UserAvatar {
             linkUrls.append($0.url)
         }
     }
+
+    convenience init(from: SearchResultItemJSON) {
+        self.init()
+
+        fullName = from.label
+        id = from.id
+   }
 
     override func isEqual(_ object: Any?) -> Bool {
         guard let other = object as? User else { return false }

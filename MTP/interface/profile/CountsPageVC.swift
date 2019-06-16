@@ -14,7 +14,7 @@ class CountsPageVC: UIViewController, ServiceProvider {
     var places: [PlaceInfo] { return [] }
     var visited: [Int] { return [] }
 
-    private enum Layout {
+    enum Layout {
         static let lineHeight = CGFloat(32)
         static let margin = CGFloat(8)
         static let collectionInsets = UIEdgeInsets(top: 0,
@@ -26,6 +26,7 @@ class CountsPageVC: UIViewController, ServiceProvider {
                                                 bottom: margin,
                                                 right: 0)
         static let cellSpacing = CGFloat(0)
+        static let cellCornerRadius = CGFloat(4)
     }
 
     let collectionView: UICollectionView = {
@@ -170,6 +171,10 @@ extension CountsPageVC: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
+        return numberOfItems(section: section)
+    }
+
+    func numberOfItems(section: Int) -> Int {
         let region = regions[section]
         guard let isExpanded = regionsExpanded[region],
               isExpanded == true,
@@ -219,13 +224,12 @@ extension CountsPageVC: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: identifier,
             for: indexPath)
+        let itemCount = numberOfItems(section: indexPath.section)
+        let isLast = indexPath.row == itemCount - 1
 
         switch cell {
         case let counter as CountCellItem:
             guard let place = place else { break }
-            let isLast = indexPath.row == self.collectionView(
-                collectionView,
-                numberOfItemsInSection: indexPath.section) - 1
             let model = CountItemModel(
                 title: place.placeTitle,
                 subtitle: list.isSubtitled ? place.placeCountry : "",
@@ -246,7 +250,8 @@ extension CountsPageVC: UICollectionViewDataSource {
                 country: group.country,
                 visited: isEditable ? group.visited : nil,
                 count: group.count,
-                disclose: expanded ? .close : .expand
+                disclose: expanded ? .close : .expand,
+                isLast: isLast
             )
             grouper.set(model: model)
         default:

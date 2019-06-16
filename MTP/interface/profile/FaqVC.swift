@@ -103,7 +103,6 @@ final class FaqVC: UITableViewController, ServiceProvider {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
         case Segues.unwindFromFaq.identifier:
             break
@@ -173,11 +172,8 @@ extension FaqVC: FaqCellDelegate {
 
     func set(faq: Int, answer visible: Bool) {
         faqs[faq].isExpanded = visible
-        // suppress animation to kill white flicker
-        UIView.setAnimationsEnabled(false)
-        tableView.beginUpdates()
-        tableView.endUpdates()
-        UIView.setAnimationsEnabled(true)
+
+        tableView.update()
     }
 }
 

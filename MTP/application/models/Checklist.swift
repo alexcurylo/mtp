@@ -14,6 +14,28 @@ struct ChecklistFlags: Codable, Equatable {
     var restaurants: Bool = true
     var uncountries: Bool = true
     var whss: Bool = true
+
+    init(flagged: Bool = true) {
+        beaches = flagged
+        divesites = flagged
+        golfcourses = flagged
+        locations = flagged
+        restaurants = flagged
+        uncountries = flagged
+        whss = flagged
+    }
+
+    func display(list: Checklist) -> Bool {
+        switch list {
+        case .beaches: return beaches
+        case .divesites: return divesites
+        case .golfcourses: return golfcourses
+        case .locations: return locations
+        case .restaurants: return restaurants
+        case .uncountries: return uncountries
+        case .whss: return whss
+        }
+    }
 }
 
 // swiftlint:disable:next type_body_length
@@ -125,6 +147,10 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         return dismissed.contains(id)
     }
 
+    func isNotified(id: Int) -> Bool {
+        return notified.contains(id)
+    }
+
     func isTriggered(id: Int) -> Bool {
         return triggered.contains(id)
     }
@@ -135,6 +161,27 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
 
     func place(id: Int) -> PlaceInfo? {
         return places.first { $0.placeId == id }
+    }
+
+    var notified: [Int] {
+        guard let notified = data.notified else { return [] }
+
+        switch self {
+        case .locations:
+            return notified.locations
+        case .uncountries:
+            return notified.uncountries
+        case .whss:
+            return notified.whss
+        case .beaches:
+            return notified.beaches
+        case .golfcourses:
+            return notified.golfcourses
+        case .divesites:
+            return notified.divesites
+        case .restaurants:
+            return notified.restaurants
+        }
     }
 
     var places: [PlaceInfo] {
@@ -171,6 +218,18 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         set(triggered: false, id: id)
     }
 
+    func set(notified: Bool,
+             id: Int) {
+        guard isNotified(id: id) != notified else { return }
+
+        if data.notified == nil {
+            data.notified = Checked()
+        }
+        data.notified?.set(list: self,
+                           id: id,
+                           notified: notified)
+    }
+
     func set(triggered: Bool,
              id: Int) {
         guard isTriggered(id: id) != triggered else { return }
@@ -192,6 +251,7 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
                           id: id,
                           visited: visited)
         set(dismissed: false, id: id)
+        set(notified: false, id: id)
         set(triggered: false, id: id)
     }
 
@@ -361,7 +421,7 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
     var triggerDistance: CLLocationDistance {
         switch self {
         case .locations:
-            return 1_600
+            return 0
         case .uncountries:
             return 0
         case .whss:
@@ -420,6 +480,13 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
     func milestone(visited: Int) -> String {
         guard let settings = data.settings else { return "" }
         return settings.milestone(list: self, count: visited)
+    }
+
+    var isMappable: Bool {
+        switch self {
+        case .uncountries: return false
+        default: return true
+        }
     }
 }
 

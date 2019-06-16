@@ -165,7 +165,7 @@ class RealmSearchViewController: UITableViewController,
             tableView.tableHeaderView = searchBar
             searchBar.sizeToFit()
         } else {
-            if let searchField = searchBar.value(forKey: "searchField") as? UITextField {
+            if let searchField = searchBar.searchField {
                 searchField.backgroundColor = .white
                 searchField.borderStyle = .none
                 searchBar.searchTextPositionAdjustment = UIOffset(horizontal: 8, vertical: 0)

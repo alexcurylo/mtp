@@ -68,12 +68,9 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
         // without this background randomly goes gray?
         visit.styleAsFilter()
 
-        if model.isLast {
-            round(corners: [.bottomLeft, .bottomRight],
-                  by: Layout.cornerRadius)
-        } else {
-            layer.mask = nil
-        }
+        let rounded: ViewCorners = model.isLast ? .bottom(radius: CountsPageVC.Layout.cellCornerRadius)
+                                                : .square
+        round(corners: rounded)
     }
 
     private enum Layout {
@@ -83,7 +80,6 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
         static let parentIndent = CGFloat(16)
         static let childIndent = CGFloat(20)
         static let spacing = CGFloat(4)
-        static let cornerRadius = CGFloat(4)
         static let titleHeavyFont = Avenir.heavy.of(size: 17)
         static let titleMediumFont = Avenir.medium.of(size: 16)
         static let titleObliqueFont = Avenir.oblique.of(size: 16)

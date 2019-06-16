@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import KRProgressHUD
+import UIKit
 
 final class LoginVC: UIViewController, ServiceProvider {
 
@@ -71,7 +71,6 @@ final class LoginVC: UIViewController, ServiceProvider {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.verbose("prepare for \(segue.name)")
         view.endEditing(true)
         switch segue.identifier {
         case Segues.presentLoginFail.identifier:
@@ -93,6 +92,8 @@ final class LoginVC: UIViewController, ServiceProvider {
         }
     }
 }
+
+// MARK: - Private
 
 private extension LoginVC {
 
@@ -171,14 +172,14 @@ private extension LoginVC {
     }
 
     func login(email: String, password: String) {
-        KRProgressHUD.show(withMessage: Localized.loggingIn())
+        note.modal(info: Localized.loggingIn())
         mtp.userLogin(email: email,
-                      password: password) { [weak self] result in
+                      password: password) { [weak self, note] result in
             switch result {
             case .success:
-                KRProgressHUD.showSuccess(withMessage: Localized.success())
+                note.modal(success: Localized.success())
                 DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
-                    KRProgressHUD.dismiss()
+                    note.dismissModal()
                     self?.performSegue(withIdentifier: Segues.showMain, sender: self)
                 }
                 return
@@ -192,11 +193,13 @@ private extension LoginVC {
             default:
                 self?.errorMessage = Localized.unexpectedError()
             }
-            KRProgressHUD.dismiss()
+            note.dismissModal()
             self?.performSegue(withIdentifier: Segues.presentLoginFail, sender: self)
         }
     }
 }
+
+// MARK: - UITextFieldDelegate
 
 extension LoginVC: UITextFieldDelegate {
 
@@ -229,6 +232,8 @@ extension LoginVC: UITextFieldDelegate {
     }
 }
 
+// MARK: - UINavigationControllerDelegate
+
 extension LoginVC: UINavigationControllerDelegate {
 
     func navigationController(
@@ -243,6 +248,8 @@ extension LoginVC: UINavigationControllerDelegate {
     }
 }
 
+// MARK: - UIViewControllerTransitioningDelegate
+
 extension LoginVC: UIViewControllerTransitioningDelegate {
 
     func animationController(forPresented presented: UIViewController,
@@ -255,6 +262,8 @@ extension LoginVC: UIViewControllerTransitioningDelegate {
         return nil
     }
 }
+
+// MARK: - Injectable
 
 extension LoginVC: Injectable {
 

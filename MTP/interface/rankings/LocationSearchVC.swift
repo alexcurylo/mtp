@@ -64,7 +64,6 @@ final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
         case Segues.pop.identifier:
             break

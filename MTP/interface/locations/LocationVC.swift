@@ -50,12 +50,7 @@ final class LocationVC: UIViewController, ServiceProvider {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
-        //case Segues.directEdit.identifier,
-             //Segues.showEditProfile.identifier,
-             //Segues.showSettings.identifier:
-            //break
         default:
             log.debug("unexpected segue: \(segue.name)")
         }
@@ -70,16 +65,17 @@ final class LocationVC: UIViewController, ServiceProvider {
     }
 }
 
+// MARK: - Private
+
 private extension LocationVC {
 
     @IBAction func unwindToLocation(segue: UIStoryboardSegue) {
-        log.verbose(segue.name)
     }
 
     func setupHeaderView() {
         guard let header = headerView else { return }
 
-        header.round(corners: [.topLeft, .topRight], by: 5)
+        header.round(corners: .top(radius: 5))
 
         if headerObservation == nil {
             headerObservation = header.layer.observe(\.bounds) { [weak self] _, _ in
@@ -118,6 +114,8 @@ private extension LocationVC {
         birthdayLabel?.text = ""
     }
 }
+
+// MARK: - Injectable
 
 extension LocationVC: Injectable {
 

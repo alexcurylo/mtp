@@ -32,6 +32,7 @@ struct CountGroupModel {
     var visited: Int?
     var count: Int
     var disclose: Disclosure
+    var isLast: Bool
 }
 
 final class CountCellGroup: UICollectionViewCell {
@@ -51,6 +52,10 @@ final class CountCellGroup: UICollectionViewCell {
             label.text = Localized.locationCount(model.country, model.count)
         }
         disclosure.image = model.disclose.image
+
+        let rounded: ViewCorners = model.isLast ? .bottom(radius: CountsPageVC.Layout.cellCornerRadius)
+                                                : .square
+        round(corners: rounded)
     }
 
     private enum Layout {

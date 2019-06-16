@@ -88,7 +88,7 @@ struct WorldMap {
         let offset: Double
         if outline {
             let center: Double
-            if Int(UIScreen.main.scale) % 2 == 0 {
+            if Int(UIScreen.main.scale).isMultiple(of: 2) {
                 center = 1 / Double(UIScreen.main.scale * 2)
             } else {
                 center = 0
@@ -133,6 +133,7 @@ struct WorldMap {
 
     func contains(coordinate: CLLocationCoordinate2D,
                   location id: Int) -> Bool {
+        //log.todo("precalc bounding boxes?")
         for location in locations {
             guard location.properties.locid == id else { continue }
 

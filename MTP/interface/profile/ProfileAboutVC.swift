@@ -48,7 +48,6 @@ final class ProfileAboutVC: UITableViewController, UserInjectable, ServiceProvid
         super.viewWillAppear(animated)
 
         update()
-        observe()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -61,7 +60,6 @@ final class ProfileAboutVC: UITableViewController, UserInjectable, ServiceProvid
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
         case Segues.showUserCounts.identifier:
             if let profile = Segues.showUserCounts(segue: segue)?.destination,
@@ -96,12 +94,12 @@ private extension ProfileAboutVC {
     func update() {
         guard let user = user else { return }
 
-        tableView.beginUpdates()
-        update(map: mapWidth)
-        update(ranking: user)
-        update(airport: user)
-        update(links: user)
-        tableView.endUpdates()
+        tableView.update {
+            update(map: mapWidth)
+            update(ranking: user)
+            update(airport: user)
+            update(links: user)
+        }
     }
 
     func observe() {
@@ -119,7 +117,12 @@ private extension ProfileAboutVC {
             }
         } else {
             userIdObserver = data.observer(of: .userId) { [weak self] _ in
-                self?.update()
+                guard let self = self,
+                      let userId = self.user?.id,
+                      let new = self.data.get(user: userId) else { return }
+
+                self.user = new
+                self.update()
             }
         }
     }
@@ -228,7 +231,7 @@ private extension ProfileAboutVC {
     @IBAction func linkTapped(_ sender: GradientButton) {
         if let link = sender.accessibilityIdentifier,
            let url = URL(string: link) {
-            app.open(url)
+            app.launch(url: url)
         }
     }
 
@@ -254,27 +257,33 @@ extension ProfileAboutVC: Injectable {
     @discardableResult func inject(model: Model) -> Self {
         user = model
         isSelf = model.id == data.user?.id
+        observe()
+
         if isSelf {
             visits = data.visited?.locations ?? []
         } else {
-            mtp.loadUser(id: model.id) { _ in }
-
-            if let scorecard = data.get(scorecard: .locations, user: model.id) {
-                visits = Array(scorecard.visits)
-            } else {
-                visits = []
-                mtp.loadScorecard(list: .locations,
-                                  user: model.id) { [weak self] _ in
-                    guard let self = self else { return }
-                    if let scorecard = self.data.get(scorecard: .locations, user: model.id) {
-                        self.visits = Array(scorecard.visits)
-                        self.update(map: self.mapWidth)
-                    }
-                }
-            }
+            fetch(id: model.id)
        }
 
         return self
+    }
+
+    func fetch(id: Int) {
+        mtp.loadUser(id: id) { _ in }
+
+        if let scorecard = data.get(scorecard: .locations, user: id) {
+            visits = Array(scorecard.visits)
+        } else {
+            visits = []
+            mtp.loadScorecard(list: .locations,
+                              user: id) { [weak self] _ in
+                guard let self = self else { return }
+                if let scorecard = self.data.get(scorecard: .locations, user: id) {
+                    self.visits = Array(scorecard.visits)
+                    self.update(map: self.mapWidth)
+                }
+            }
+        }
     }
 
     func requireInjections() {

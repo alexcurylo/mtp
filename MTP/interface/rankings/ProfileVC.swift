@@ -62,7 +62,7 @@ private extension ProfileVC {
     func setupHeaderView() {
         guard let header = headerView else { return }
 
-        header.round(corners: [.topLeft, .topRight], by: 5)
+        header.round(corners: .top(radius: 5))
 
         if headerObservation == nil {
             headerObservation = header.layer.observe(\.bounds) { [weak self] _, _ in

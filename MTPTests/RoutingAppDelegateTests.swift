@@ -4,7 +4,6 @@
 
 import CloudKit
 @testable import MTP
-import UserNotifications
 import XCTest
 
 final class RoutingAppDelegateTests: XCTestCase {
@@ -439,13 +438,6 @@ private class MockAppNotificationsHandler: MockAppHandler, AppNotificationsHandl
     var callCountDidRegisterForRemoteNotificationsWithDeviceToken: Int = 0
     var callCountDidFailToRegisterForRemoteNotificationsWithError: Int = 0
     var callCountDidReceiveRemoteNotification: Int = 0
-    var callCountDidReceiveResponse: Int = 0
-    var callCountWillPresentNotification: Int = 0
-    var callCountOpenSettingsForNotification: Int = 0
-    var callCountHandleActionWithIdentifierForLocal: Int = 0
-    var callCountHandleActionWithIdentifierForRemoteWithResponseInfo: Int = 0
-    var callCountHandleActionWithIdentifierForRemote: Int = 0
-    var callCountHandleActionWithIdentifierForLocalWithResponseInfo: Int = 0
     var callCountDidReceiveRemoteNotificationWithFetch: Int = 0
     var callCountDidReceiveRemoteNotificationWithCompletion: Int = 0
 
@@ -464,24 +456,6 @@ private class MockAppNotificationsHandler: MockAppHandler, AppNotificationsHandl
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Swift.Void) {
         callCount += 1
         callCountDidReceiveRemoteNotificationWithFetch += 1
-    }
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                didReceive response: UNNotificationResponse,
-                                withCompletionHandler completionHandler: @escaping () -> Void) {
-        callCount += 1
-        callCountDidReceiveResponse += 1
-    }
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                willPresent notification: UNNotification,
-                                // swiftlint:disable:next line_length
-                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        callCount += 1
-        callCountWillPresentNotification += 1
-    }
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                openSettingsFor notification: UNNotification?) {
-        callCount += 1
-        callCountOpenSettingsForNotification += 1
     }
 }
 

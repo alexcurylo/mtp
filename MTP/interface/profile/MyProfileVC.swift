@@ -28,7 +28,6 @@ final class MyProfileVC: ProfileVC {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
         case Segues.directEdit.identifier,
              Segues.showEditProfile.identifier,

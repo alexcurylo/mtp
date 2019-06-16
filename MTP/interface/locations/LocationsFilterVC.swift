@@ -42,7 +42,6 @@ final class LocationsFilterVC: UITableViewController, ServiceProvider {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
         case Segues.saveEdits.identifier:
             saveEdits(notifying: Segues.saveEdits(segue: segue)?.destination)
@@ -59,7 +58,6 @@ final class LocationsFilterVC: UITableViewController, ServiceProvider {
 private extension LocationsFilterVC {
 
     @IBAction func unwindToLocations(segue: UIStoryboardSegue) {
-        log.verbose(segue.name)
     }
 
     func configure() {

@@ -6,21 +6,15 @@ final class MainTBC: UITabBarController, ServiceProvider {
 
     private typealias Segues = R.segue.myProfileVC
 
-    enum Route: Int {
-        // tabs
-        case locations = 0
-        case rankings = 1
-        case myProfile = 2
-        // presentations
-        case editProfile
-    }
-
     private var destination: Route?
+
+    static var current: MainTBC?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
 
+        MainTBC.current = self
         checkDestination()
     }
 
@@ -42,22 +36,21 @@ final class MainTBC: UITabBarController, ServiceProvider {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
         default:
             log.debug("unexpected segue: \(segue.name)")
         }
     }
 
-    func route(to user: User?) {
-        dismiss(presentations: self)
-        locations?.reveal(user: user)
-        selectedIndex = Route.locations.rawValue
-    }
-
     func route(to annotation: PlaceAnnotation) {
         dismiss(presentations: self)
         locations?.reveal(place: annotation, callout: true)
+        selectedIndex = Route.locations.rawValue
+    }
+
+    func route(to user: User?) {
+        dismiss(presentations: self)
+        locations?.reveal(user: user)
         selectedIndex = Route.locations.rawValue
     }
 }

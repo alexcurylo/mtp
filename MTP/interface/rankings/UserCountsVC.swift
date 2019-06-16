@@ -48,7 +48,6 @@ final class UserCountsVC: UIViewController, ServiceProvider {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
         case Segues.dismissUserCounts.identifier:
             break

@@ -27,7 +27,6 @@ final class WelcomeVC: UIViewController, ServiceProvider {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
         case Segues.showSettings.identifier:
             let settings = Segues.showSettings(segue: segue)

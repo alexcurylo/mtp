@@ -16,37 +16,45 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
     // MKAnnotation -- suppress callout title
     @objc dynamic var coordinate: CLLocationCoordinate2D
     let title: String? = nil
-    let subtitle: String?
+    var subtitle: String? { return name }
     // MKAnnotationView
     var reuseIdentifier: String {
         return list.rawValue
     }
 
+    let id: Int
     let list: Checklist
-    let info: PlaceInfo
-    weak var delegate: PlaceAnnotationDelegate?
+    let name: String
+    let country: String
+    let imageUrl: URL?
+    let visitors: Int
 
-    var id: Int { return info.placeId }
-    var country: String { return info.placeSubtitle }
-    var visitors: Int { return info.placeVisitors }
+    private weak var delegate: PlaceAnnotationDelegate?
 
-    // updated with user position or when NearbyVC displayed
     var distance: CLLocationDistance = 0
 
     init?(list: Checklist,
           info: PlaceInfo,
+          coordinate: CLLocationCoordinate2D,
           delegate: PlaceAnnotationDelegate) {
-        let placeCoordinate = info.placeCoordinate
-        guard !placeCoordinate.isZero else { return nil }
-
-        self.coordinate = placeCoordinate
-        self.subtitle = info.placeTitle
+        guard !coordinate.isZero else { return nil }
 
         self.list = list
-        self.info = info
         self.delegate = delegate
+        self.coordinate = coordinate
+        self.id = info.placeId
+        self.name = info.placeTitle
+        self.country = info.placeSubtitle
+        self.visitors = info.placeVisitors
+        self.imageUrl = info.placeImageUrl
 
         super.init()
+    }
+
+    var nearest: PlaceAnnotation? {
+        return loc.nearest(list: list,
+                           id: id,
+                           to: coordinate)
     }
 
     override var hash: Int {
@@ -58,7 +66,18 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
         guard other !== self else { return true }
 
         return list == other.list &&
-               info == other.info
+               id == other.id
+    }
+
+    override var description: String {
+        return "\(list) \(name)"
+    }
+
+    override var debugDescription: String {
+        return """
+        PlaceAnnotation: \(list) \(id) - \
+        \(subtitle ?? "?")
+        """
     }
 
     var background: UIColor {
@@ -67,16 +86,6 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
 
     var listImage: UIImage {
         return list.image
-    }
-
-    var isDismissed: Bool {
-        get { return list.isDismissed(id: id) }
-        set { list.set(dismissed: newValue, id: id) }
-    }
-
-    var isTriggered: Bool {
-        get { return list.isTriggered(id: id) }
-        set { list.set(triggered: newValue, id: id) }
     }
 
     var isVisited: Bool {
@@ -88,61 +97,55 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
         delegate?.reveal(place: self, callout: callout)
     }
 
+    func close() {
+        delegate?.close(place: self)
+    }
+
     func show() {
         delegate?.show(place: self)
     }
 
-    var imageUrl: URL? {
-        let image = info.placeImage
-        guard !image.isEmpty else { return nil }
-
-        if image.hasPrefix("http") {
-            return URL(string: image)
-        } else {
-            let target = MTP.picture(uuid: image, size: .any)
-            return target.requestUrl
-        }
+    func setDistance(from: CLLocationCoordinate2D) {
+        distance = coordinate.distance(from: from)
     }
 
-    func setDistance(from: CLLocation, trigger: Bool) {
-        distance = coordinate.distance(from: from)
-        guard trigger,
-              !isDismissed,
-              !isTriggered,
-              !isVisited else { return }
+    func triggerDistance() {
+        guard list.triggerDistance > 0 else { return }
 
-        let triggered: Bool
-        switch list {
-        case .locations:
-            triggered = data.worldMap.contains(coordinate: from.coordinate,
-                                               location: id)
-        default:
-            triggered = distance < list.triggerDistance
-        }
-        if triggered {
+        let triggered = distance < list.triggerDistance
+        update(triggered: triggered)
+    }
+
+    func trigger(contains: CLLocationCoordinate2D,
+                 map: WorldMap) {
+        guard list == .locations else { return }
+
+        let triggered = map.contains(coordinate: contains,
+                                     location: id)
+        update(triggered: triggered)
+    }
+}
+
+private extension PlaceAnnotation {
+
+    var isDismissed: Bool {
+        get { return list.isDismissed(id: id) }
+        set { list.set(dismissed: newValue, id: id) }
+    }
+
+    var isTriggered: Bool {
+        get { return list.isTriggered(id: id) }
+        set { list.set(triggered: newValue, id: id) }
+    }
+
+    var canTrigger: Bool {
+        return !isDismissed && !isTriggered && !isVisited
+    }
+
+    func update(triggered: Bool) {
+        if triggered && canTrigger {
             isTriggered = true
             delegate?.notify(place: self)
         }
-    }
-
-    var formattedDistance: String {
-        let km = distance / 1_000
-        let formatted: String
-        switch km {
-        case ..<1:
-            formatted = String(format: "%.2f", km)
-        case ..<10:
-            formatted = String(format: "%.1f", km)
-        default:
-            formatted = Int(km).grouped
-        }
-        return Localized.km(formatted)
-    }
-
-    override var description: String {
-        return """
-        PlaceAnnotation: \(list) - \
-        \(subtitle ?? "?")
-        """
     }
 }

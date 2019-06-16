@@ -302,12 +302,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ykb-30-epf">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ykb-30-epf" customClass="UITopLoadingTextView" customModule="MTP" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <attributedString key="attributedText">
                                     <fragment>
-                                        <mutableString key="content">What is MTP?
+                                        <string key="content">What is MTP?
 MTP (Most Traveled People) is a club for travelers who aspire to go "everywhere."
  
 Where is "everywhere?"
@@ -322,7 +322,7 @@ MTP's original Master List of 573 countries and territories began by rationalizi
 Why isn't Cancun (or Las Vegas, or London, etc.) on the list?
 MTP's Master List is a division of all land area on Earth into geographically or politically separate areas. Every destination fits into one of those areas. E.g. Cancun is in the state of Quintana Roo, Mexico. Las Vegas is in Nevada, USA. London is in England. Quintana Roo, Nevada, and England are the relevant MTP list items.
  
-</mutableString>
+</string>
                                         <attributes>
                                             <color key="NSColor" red="0.12941" green="0.14510000000000001" blue="0.16078000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <font key="NSFont" size="16" name="Helvetica"/>

@@ -26,22 +26,22 @@
 
 + (NSDictionary *)dictionaryWithQueryString:(NSString *)queryString
 {
-  return [FBSDKInternalUtility dictionaryWithQueryString:queryString];
+  return [FBSDKBasicUtility dictionaryWithQueryString:queryString];
 }
 
 + (NSString *)queryStringWithDictionary:(NSDictionary<NSString *, id> *)dictionary error:(NSError **)errorRef
 {
-  return [FBSDKInternalUtility queryStringWithDictionary:dictionary error:errorRef invalidObjectHandler:NULL];
+  return [FBSDKBasicUtility queryStringWithDictionary:dictionary error:errorRef invalidObjectHandler:NULL];
 }
 
 + (NSString *)URLDecode:(NSString *)value
 {
-  return [FBSDKInternalUtility URLDecode:value];
+  return [FBSDKBasicUtility URLDecode:value];
 }
 
 + (NSString *)URLEncode:(NSString *)value
 {
-  return [FBSDKInternalUtility URLEncode:value];
+  return [FBSDKBasicUtility URLEncode:value];
 }
 
 + (dispatch_source_t)startGCDTimerWithInterval:(double)interval block:(dispatch_block_t)block

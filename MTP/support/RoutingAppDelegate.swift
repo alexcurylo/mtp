@@ -3,7 +3,6 @@
 import CloudKit
 import Intents
 import UIKit
-import UserNotifications
 
 // swiftlint:disable file_length
 
@@ -63,15 +62,6 @@ protocol AppNotificationsHandler: AppHandler {
     func application(_ application: UIApplication,
                      didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void)
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                didReceive response: UNNotificationResponse,
-                                withCompletionHandler completionHandler: @escaping () -> Void)
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                willPresent notification: UNNotification,
-                                // swiftlint:disable:next line_length
-                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                openSettingsFor notification: UNNotification?)
 }
 
 protocol AppBackgroundFetchHandler: AppHandler {
@@ -156,7 +146,7 @@ protocol AppCloudKitHandler: AppHandler {
 // Override `RoutingAppDelegate` to return app's list of `handlers`
 
 // swiftlint:disable:next type_body_length
-open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+open class RoutingAppDelegate: UIResponder, UIApplicationDelegate {
 
     typealias Handlers = [AppHandler]
 
@@ -171,7 +161,7 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
         fatalError("Incorrect RoutingAppDelegate usage: subclass and override `handlers`")
     }
 
-    func handler<T>(type: T.Type) -> T? {
+    static func handler<T>(type: T.Type) -> T? {
         return RoutingAppDelegate.shared.handlers.firstOf(type: T.self)
     }
 
@@ -197,7 +187,6 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
     public func application(_ application: UIApplication,
                             // swiftlint:disable:next discouraged_optional_collection line_length
                             didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-        UNUserNotificationCenter.current().delegate = self
         return handlers.of(type: AppLaunchHandler.self)
                        .map { $0.application(application,
                                              didFinishLaunchingWithOptions: launchOptions)
@@ -309,35 +298,6 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate, UNUserNotific
                                            didReceiveRemoteNotification: userInfo,
                                            fetchCompletionHandler: completionHandler)
                  }
-    }
-
-    public func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                       didReceive response: UNNotificationResponse,
-                                       withCompletionHandler completionHandler: @escaping () -> Void) {
-        handlers.of(type: AppNotificationsHandler.self)
-                .forEach { $0.userNotificationCenter(center,
-                                                     didReceive: response,
-                                                     withCompletionHandler: completionHandler)
-                }
-    }
-
-    public func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                       willPresent notification: UNNotification,
-                                       // swiftlint:disable:next line_length
-                                       withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        handlers.of(type: AppNotificationsHandler.self)
-                .forEach { $0.userNotificationCenter(center,
-                                                     willPresent: notification,
-                                                     withCompletionHandler: completionHandler)
-                }
-    }
-
-    public func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                       openSettingsFor notification: UNNotification?) {
-        handlers.of(type: AppNotificationsHandler.self)
-                .forEach { $0.userNotificationCenter(center,
-                                                     openSettingsFor: notification)
-                }
     }
 
     public func application(_ application: UIApplication,

@@ -46,7 +46,7 @@ final class RealmController: ServiceProvider {
         do {
             let objects = beaches.compactMap { Beach(from: $0, with: self) }
             try realm.write {
-                realm.add(objects, update: true)
+                realm.add(objects, update: .modified)
             }
         } catch {
             log.error("set beaches: \(error)")
@@ -69,8 +69,8 @@ final class RealmController: ServiceProvider {
         do {
             let objects = countries.map { Country(from: $0) }
             try realm.write {
-                realm.add(Country.all, update: true)
-                realm.add(objects, update: true)
+                realm.add(Country.all, update: .modified)
+                realm.add(objects, update: .modified)
             }
         } catch {
             log.error("set countries: \(error)")
@@ -86,7 +86,7 @@ final class RealmController: ServiceProvider {
         do {
             let objects = divesites.compactMap { DiveSite(from: $0, with: self) }
             try realm.write {
-                realm.add(objects, update: true)
+                realm.add(objects, update: .modified)
             }
         } catch {
             log.error("set divesites: \(error)")
@@ -102,7 +102,7 @@ final class RealmController: ServiceProvider {
         do {
             let objects = golfcourses.compactMap { GolfCourse(from: $0, with: self) }
             try realm.write {
-                realm.add(objects, update: true)
+                realm.add(objects, update: .modified)
             }
         } catch {
             log.error("set golfcourses: \(error)")
@@ -131,8 +131,8 @@ final class RealmController: ServiceProvider {
         do {
             let objects = locations.compactMap { Location(from: $0) }
             try realm.write {
-                realm.add(Location.all, update: true)
-                realm.add(objects, update: true)
+                realm.add(Location.all, update: .modified)
+                realm.add(objects, update: .modified)
             }
         } catch {
             log.error("set locations: \(error)")
@@ -168,7 +168,7 @@ final class RealmController: ServiceProvider {
         do {
             let photos = info.data.map { Photo(from: $0) }
             try realm.write {
-                realm.add(photos, update: true)
+                realm.add(photos, update: .modified)
             }
         } catch {
             log.error("update locationPhotos: \(error)")
@@ -182,8 +182,8 @@ final class RealmController: ServiceProvider {
             let page = PhotosPageInfo(user: id, info: info)
             let photos = info.data.map { Photo(from: $0) }
             try realm.write {
-                realm.add(page, update: true)
-                realm.add(photos, update: true)
+                realm.add(page, update: .modified)
+                realm.add(photos, update: .modified)
             }
         } catch {
             log.error("update photos:page: \(error)")
@@ -231,7 +231,7 @@ final class RealmController: ServiceProvider {
         do {
             let objects = posts.compactMap { Post(from: $0) }
             try realm.write {
-                realm.add(objects, update: true)
+                realm.add(objects, update: .modified)
             }
         } catch {
             log.error("set posts: \(error)")
@@ -252,8 +252,8 @@ final class RealmController: ServiceProvider {
             let page = RankingsPageInfo(query: query, info: info)
             let users = info.users.data.map { User(from: $0, with: user(id: $0.id)) }
             try realm.write {
-                realm.add(page, update: true)
-                realm.add(users, update: true)
+                realm.add(page, update: .modified)
+                realm.add(users, update: .modified)
             }
         } catch {
             log.error("update query:page: \(error)")
@@ -269,7 +269,7 @@ final class RealmController: ServiceProvider {
         do {
             let objects = restaurants.compactMap { Restaurant(from: $0, with: self) }
             try realm.write {
-                realm.add(objects, update: true)
+                realm.add(objects, update: .modified)
             }
         } catch {
             log.error("set restaurants: \(error)")
@@ -287,7 +287,7 @@ final class RealmController: ServiceProvider {
         do {
             let object = Scorecard(from: scorecard)
             try realm.write {
-                realm.add(object, update: true)
+                realm.add(object, update: .modified)
             }
         } catch {
             log.error("set scorecard: \(error)")
@@ -303,7 +303,7 @@ final class RealmController: ServiceProvider {
         do {
             let objects = uncountries.compactMap { UNCountry(from: $0) }
             try realm.write {
-                realm.add(objects, update: true)
+                realm.add(objects, update: .modified)
             }
         } catch {
             log.error("set uncountries: \(error)")
@@ -320,7 +320,7 @@ final class RealmController: ServiceProvider {
         do {
             let object = User(from: data)
             try realm.write {
-                realm.add(object, update: true)
+                realm.add(object, update: .modified)
             }
         } catch {
             log.error("set userIds: \(error)")
@@ -342,7 +342,7 @@ final class RealmController: ServiceProvider {
         do {
             let objects = whss.compactMap { WHS(from: $0, with: self) }
             try realm.write {
-                realm.add(objects, update: true)
+                realm.add(objects, update: .modified)
             }
         } catch {
             log.error("set whss: \(error)")

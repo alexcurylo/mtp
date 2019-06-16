@@ -284,13 +284,13 @@ static UIApplicationState _applicationState;
   if (!url) {
     return;
   }
-  NSDictionary<NSString *, NSString *> *params = [FBSDKInternalUtility dictionaryWithQueryString:url.query];
+  NSDictionary<NSString *, NSString *> *params = [FBSDKBasicUtility dictionaryWithQueryString:url.query];
   NSString *applinkDataString = params[@"al_applink_data"];
   if (!applinkDataString) {
     return;
   }
 
-  NSDictionary *applinkData = [FBSDKInternalUtility objectForJSONString:applinkDataString error:NULL];
+  NSDictionary<id, id> *applinkData = [FBSDKBasicUtility objectForJSONString:applinkDataString error:NULL];
   if (!applinkData) {
     return;
   }
@@ -355,7 +355,7 @@ static UIApplicationState _applicationState;
 
 + (BOOL)isSDKInitialized
 {
-  return g_isSDKInitialized;
+  return [FBSDKSettings isAutoInitEnabled] || g_isSDKInitialized;
 }
 
 // Wrapping this makes it mockable and enables testability

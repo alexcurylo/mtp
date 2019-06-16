@@ -1,6 +1,7 @@
 // @copyright Trollwerks Inc.
 
 import Anchorage
+import DropDown
 import Parchment
 
 final class RankingsVC: UIViewController, ServiceProvider {
@@ -8,6 +9,11 @@ final class RankingsVC: UIViewController, ServiceProvider {
     private typealias Segues = R.segue.rankingsVC
 
     @IBOutlet private var pagesHolder: UIView?
+    @IBOutlet private var searchBar: UISearchBar? {
+        didSet {
+            searchBar?.removeClearButton()
+        }
+    }
 
     private let pagingVC = RankingsPagingVC()
     private let pages = ListPagingItem.pages
@@ -15,11 +21,32 @@ final class RankingsVC: UIViewController, ServiceProvider {
     private var countsModel: UserCountsVC.Model?
     private var profileModel: UserProfileVC.Model?
 
+    private let dropdown = DropDown {
+        $0.dismissMode = .manual
+        $0.backgroundColor = .white
+        $0.selectionBackgroundColor = UIColor(red: 0.649, green: 0.815, blue: 1.0, alpha: 0.2)
+        $0.separatorColor = UIColor(white: 0.7, alpha: 0.8)
+        $0.direction = .bottom
+        $0.cellHeight = 30
+        $0.setupCornerRadius(10)
+        $0.shadowColor = UIColor(white: 0.6, alpha: 1)
+        $0.shadowOpacity = 0.9
+        $0.shadowRadius = 25
+        $0.animationduration = 0.25
+        $0.textColor = .darkGray
+        $0.textFont = Avenir.book.of(size: 14)
+    }
+    private var dropdownPeople: [String] = []
+
+    private var searchResults: [String: [SearchResultItemJSON]] = [:]
+    private var searchKey: String = ""
+
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
 
         configurePagesHolder()
+        configureSearchBar()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -38,12 +65,9 @@ final class RankingsVC: UIViewController, ServiceProvider {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        log.verbose("prepare for \(segue.name)")
         switch segue.identifier {
         case Segues.showFilter.identifier:
              break
-        case Segues.showSearch.identifier:
-            log.todo("implement rankings search")
         case Segues.showUserCounts.identifier:
             if let counts = Segues.showUserCounts(segue: segue)?.destination,
                let countsModel = countsModel {
@@ -65,10 +89,11 @@ final class RankingsVC: UIViewController, ServiceProvider {
     }
 }
 
+// MARK: - Private
+
 private extension RankingsVC {
 
     @IBAction func unwindToRankings(segue: UIStoryboardSegue) {
-        log.verbose(segue.name)
     }
 
     func configurePagesHolder() {
@@ -86,10 +111,32 @@ private extension RankingsVC {
         pagingVC.select(pagingItem: ListPagingItem.pages[0])
     }
 
+    func configureSearchBar() {
+        guard let searchBar = searchBar else { return }
+        dropdown.anchorView = searchBar
+        dropdown.bottomOffset = CGPoint(x: 0, y: searchBar.bounds.height)
+        dropdown.selectionAction = { [weak self] (index: Int, item: String) in
+            self?.dropdown(selected: index)
+        }
+    }
+
     func update(menu height: CGFloat) {
         pagingVC.update(menu: height)
     }
+
+    @IBAction func searchTapped(_ sender: UIBarButtonItem) {
+        guard let searchBar = searchBar  else { return }
+
+        if navigationItem.titleView == nil {
+            navigationItem.titleView = searchBar
+            searchBar.becomeFirstResponder()
+        } else {
+            searchBarCancelButtonClicked(searchBar)
+        }
+    }
 }
+
+// MARK: - PagingViewControllerDataSource
 
 extension RankingsVC: PagingViewControllerDataSource {
 
@@ -122,6 +169,8 @@ extension RankingsVC: PagingViewControllerDataSource {
     }
 }
 
+// MARK: - RankingsPageVCDelegate
+
 extension RankingsVC: RankingsPageVCDelegate {
 
     func didScroll(rankingsPageVC: RankingsPageVC) {
@@ -145,6 +194,8 @@ extension RankingsVC: RankingsPageVCDelegate {
     }
 }
 
+// MARK: - PagingViewControllerDelegate
+
 extension RankingsVC: PagingViewControllerDelegate {
 
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
@@ -163,6 +214,82 @@ extension RankingsVC: PagingViewControllerDelegate {
     }
 }
 
+// MARK: - UISearchBarDelegate
+
+extension RankingsVC: UISearchBarDelegate {
+
+    func searchBar(_ searchBar: UISearchBar,
+                   textDidChange searchText: String) {
+        searchKey = searchText
+        if searchKey.isEmpty {
+            dropdownPeople = []
+        } else {
+            if let items = searchResults[searchKey] {
+                display(names: items.map { $0.label })
+            } else {
+                search(query: searchText)
+            }
+        }
+    }
+
+    func display(names: [String]) {
+        dropdown.dataSource = names
+        if names.isEmpty {
+            dropdown.hide()
+            searchBar?.setShowsCancelButton(true, animated: true)
+        } else {
+            searchBar?.showsCancelButton = false
+            dropdown.show()
+        }
+    }
+
+    func search(query: String) {
+        mtp.search(query: query) { [weak self] result in
+            guard case let .success(results) = result,
+                  let self = self else { return }
+
+            let key = results.request.query
+            let items = results.data.filter { $0.isUser }
+            self.searchResults[key] = items
+            if key == self.searchKey {
+                self.display(names: items.map { $0.label })
+            }
+        }
+    }
+
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(true, animated: true)
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBarCancelButtonClicked(searchBar)
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        dropdown.hide()
+        searchBar.resignFirstResponder()
+        navigationItem.titleView = nil
+    }
+
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+    }
+
+    func dropdown(selected index: Int) {
+        let info = searchResults[searchKey]?[index]
+        if let searchBar = searchBar {
+            searchBarCancelButtonClicked(searchBar)
+        }
+
+        guard let person = info else { return }
+        profileModel = data.get(user: person.id) ?? User(from: person)
+        performSegue(withIdentifier: Segues.showUserProfile, sender: self)
+    }
+}
+
+// MARK: - Injectable
+
 extension RankingsVC: Injectable {
 
     typealias Model = ()
@@ -173,5 +300,6 @@ extension RankingsVC: Injectable {
 
     func requireInjections() {
         pagesHolder.require()
+        searchBar.require()
     }
 }

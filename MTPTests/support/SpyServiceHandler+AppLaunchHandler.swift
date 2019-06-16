@@ -9,10 +9,12 @@ extension SpyServiceHandler: AppLaunchHandler {
         // swiftlint:disable:next discouraged_optional_collection
         willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        ServiceProviderInstances.logServiceInstance = SpyLoggingService()
         ServiceProviderInstances.appServiceInstance = SpyApplicationService()
         ServiceProviderInstances.dataServiceInstance = SpyDataService()
+        ServiceProviderInstances.locServiceInstance = SpyLocationService()
+        ServiceProviderInstances.logServiceInstance = SpyLoggingService()
         ServiceProviderInstances.mtpServiceInstance = SpyMTPNetworkService()
+        ServiceProviderInstances.noteServiceInstance = SpyNotificationService()
 
         return true
     }
