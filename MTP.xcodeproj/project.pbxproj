@@ -89,6 +89,9 @@
 		FA3CEC562132579300791195 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3CEC552132579300791195 /* DataService.swift */; };
 		FA40F752225B06010056182E /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA40F750225B06010056182E /* Settings.storyboard */; };
 		FA40F754225B06D50056182E /* FaqVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA40F753225B06D50056182E /* FaqVC.swift */; };
+		FA44CDF422B5A13F00F33D34 /* UIView+Shadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA44CDF322B5A13F00F33D34 /* UIView+Shadow.swift */; };
+		FA44CDF622B5B3F800F33D34 /* UIView+Corner.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA44CDF522B5B3F800F33D34 /* UIView+Corner.swift */; };
+		FA44CDF822B5CBFC00F33D34 /* UITableView+Updating.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA44CDF722B5CBFC00F33D34 /* UITableView+Updating.swift */; };
 		FA46377E210DE1E60007382D /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA46377D210DE1E60007382D /* SettingsVC.swift */; };
 		FA463780210DE94C0007382D /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA46377F210DE94C0007382D /* EditProfileVC.swift */; };
 		FA463783210E00E60007382D /* EditProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA463781210E00E60007382D /* EditProfile.storyboard */; };
@@ -293,6 +296,9 @@
 		FA3E366F20DFC0E3002AF4EE /* IDETemplateMacros.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = IDETemplateMacros.plist; path = MTP.xcodeproj/xcshareddata/IDETemplateMacros.plist; sourceTree = "<group>"; };
 		FA40F751225B06010056182E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Settings.storyboard; sourceTree = "<group>"; };
 		FA40F753225B06D50056182E /* FaqVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaqVC.swift; sourceTree = "<group>"; };
+		FA44CDF322B5A13F00F33D34 /* UIView+Shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Shadow.swift"; sourceTree = "<group>"; };
+		FA44CDF522B5B3F800F33D34 /* UIView+Corner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Corner.swift"; sourceTree = "<group>"; };
+		FA44CDF722B5CBFC00F33D34 /* UITableView+Updating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Updating.swift"; sourceTree = "<group>"; };
 		FA46377D210DE1E60007382D /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		FA46377F210DE94C0007382D /* EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
 		FA463782210E00E60007382D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/EditProfile.storyboard; sourceTree = "<group>"; };
@@ -774,8 +780,11 @@
 				FAC3BCB5216A225900E1507E /* TagButton.swift */,
 				FAC3BCB6216A225900E1507E /* TagsView.swift */,
 				FA88395622351C30002F324F /* UIImage+Color.swift */,
+				FA44CDF722B5CBFC00F33D34 /* UITableView+Updating.swift */,
 				8C3EA812222F64F100CB4886 /* UITopLoadingTextView.swift */,
+				FA44CDF522B5B3F800F33D34 /* UIView+Corner.swift */,
 				FA32CC7320FB6E67004C1329 /* UIView+Gradient.swift */,
+				FA44CDF322B5A13F00F33D34 /* UIView+Shadow.swift */,
 				8C50B16B22374C650013BD34 /* UIViewController+Keyboard.swift */,
 				FAD2B51921F492B3009FFDD7 /* UncertainValue.swift */,
 				FAAE29C420F05A9600B43BA9 /* UserDefaults+TypeSafety.swift */,
@@ -1232,6 +1241,7 @@
 				FAC8466322AC6D18004F57EC /* KVNOperation.swift in Sources */,
 				8C3EAA1C2230BFA500CB4886 /* InsetTextField.swift in Sources */,
 				FA75562E22A4FFCF0006EFC3 /* ProfileVC.swift in Sources */,
+				FA44CDF622B5B3F800F33D34 /* UIView+Corner.swift in Sources */,
 				FA8833E5220CE7350037C796 /* Country.swift in Sources */,
 				FAFEDA522129602800DA3DB8 /* WelcomeVC.swift in Sources */,
 				8C3EAB8C2231100400CB4886 /* Array+Type.swift in Sources */,
@@ -1270,6 +1280,7 @@
 				FA74C0F02117C60B0013A840 /* ForgotPasswordVC.swift in Sources */,
 				FA392BBB20DF69F30026C828 /* ActionHandler.swift in Sources */,
 				FAD2B51C21F4A675009FFDD7 /* Restaurant.swift in Sources */,
+				FA44CDF422B5A13F00F33D34 /* UIView+Shadow.swift in Sources */,
 				FA463780210DE94C0007382D /* EditProfileVC.swift in Sources */,
 				FA815B712286D138004B91C8 /* NearbyVC.swift in Sources */,
 				FA254DCB21685D6800FC9360 /* Withable.swift in Sources */,
@@ -1293,6 +1304,7 @@
 				FA36FBED22059E6B00616CDE /* ApplicationService.swift in Sources */,
 				FAAE29C520F05A9600B43BA9 /* UserDefaults+TypeSafety.swift in Sources */,
 				FA5AC0C121FDCCDE0080F84F /* ListPagingItem.swift in Sources */,
+				FA44CDF822B5CBFC00F33D34 /* UITableView+Updating.swift in Sources */,
 				FA46377E210DE1E60007382D /* SettingsVC.swift in Sources */,
 				FA62BAEB2247A9A0009FDC4E /* CountsPageVC.swift in Sources */,
 			);

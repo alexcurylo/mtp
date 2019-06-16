@@ -59,16 +59,6 @@ extension UIView {
         apply.endPoint = points.end
     }
 
-    @IBInspectable var cornerRadius: CGFloat {
-        get {
-            return layer.cornerRadius
-        }
-        set {
-            layer.cornerRadius = newValue
-            layer.masksToBounds = newValue > 0
-        }
-    }
-
     @IBInspectable var borderWidth: CGFloat {
         get {
             return layer.borderWidth
@@ -88,18 +78,6 @@ extension UIView {
         set {
             layer.borderColor = newValue?.cgColor
         }
-    }
-
-    func apply(shadow color: UIColor = .black,
-               offset: CGSize = .zero,
-               blur: CGFloat = 10,
-               opacity: Float = 1) {
-        layer.shadowColor = color.cgColor
-        layer.shadowOffset = offset
-        layer.shadowRadius = blur
-        layer.shadowOpacity = opacity
-        layer.shadowPath = UIBezierPath(rect: bounds).cgPath
-        layer.masksToBounds = false
     }
 
     func animate(gradient colors: [UIColor],
@@ -129,15 +107,6 @@ extension UIView {
             endCenter: center,
             endRadius: endRadius,
             options: .drawsBeforeStartLocation)
-    }
-
-    func round(corners: UIRectCorner, by radius: CGFloat) {
-        let path = UIBezierPath(roundedRect: bounds,
-                                byRoundingCorners: corners,
-                                cornerRadii: CGSize(width: radius, height: radius))
-        let mask = CAShapeLayer()
-        mask.path = path.cgPath
-        layer.mask = mask
     }
 }
 

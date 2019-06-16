@@ -172,11 +172,8 @@ extension FaqVC: FaqCellDelegate {
 
     func set(faq: Int, answer visible: Bool) {
         faqs[faq].isExpanded = visible
-        // suppress animation to kill white flicker
-        UIView.setAnimationsEnabled(false)
-        tableView.beginUpdates()
-        tableView.endUpdates()
-        UIView.setAnimationsEnabled(true)
+
+        tableView.update()
     }
 }
 

@@ -2,7 +2,7 @@
 
 import UIKit
 
-@IBDesignable final class InsetTextField: UITextField {
+@IBDesignable class InsetTextField: UITextField {
 
     @IBInspectable var hInset: CGFloat = 0
     @IBInspectable var vInset: CGFloat = 0
@@ -41,5 +41,46 @@ import UIKit
             isEnabled = false
             alpha = 0.8
         }
+    }
+}
+
+final class InsetTextFieldGradient: InsetTextField {
+
+    var startColor: UIColor = .dodgerBlue {
+        didSet {
+            setup()
+        }
+    }
+
+    @IBInspectable var endColor: UIColor = .azureRadiance {
+        didSet {
+            setup()
+        }
+    }
+
+    @IBInspectable var orientation: Int = 2 {
+        didSet {
+            setup()
+        }
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+    }
+
+    func setup() {
+        apply(gradient: [startColor, endColor],
+              orientation: GradientOrientation(rawValue: orientation))
+    }
+
+    override func layoutSublayers(of layer: CALayer) {
+        super.layoutSublayers(of: layer)
+        gradient?.frame = bounds
     }
 }

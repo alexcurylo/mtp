@@ -107,10 +107,14 @@ final class SignupVC: UIViewController, ServiceProvider {
     }
 }
 
+// MARK: - KeyboardListener
+
 extension SignupVC: KeyboardListener {
 
     var keyboardScrollee: UIScrollView? { return scrollView }
 }
+
+// MARK: - SignupVC
 
 private extension SignupVC {
 
@@ -404,6 +408,8 @@ private extension SignupVC {
     }
 }
 
+// MARK: - UITextFieldDelegate
+
 extension SignupVC: UITextFieldDelegate {
 
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -459,6 +465,8 @@ extension SignupVC: UITextFieldDelegate {
     }
 }
 
+// MARK: - UINavigationControllerDelegate
+
 extension SignupVC: UINavigationControllerDelegate {
 
     func navigationController(
@@ -472,6 +480,8 @@ extension SignupVC: UINavigationControllerDelegate {
         return nil
     }
 }
+
+// MARK: - LocationSearchDelegate
 
 extension SignupVC: LocationSearchDelegate {
 
@@ -495,6 +505,8 @@ extension SignupVC: LocationSearchDelegate {
     }
 }
 
+// MARK: - UIViewControllerTransitioningDelegate
+
 extension SignupVC: UIViewControllerTransitioningDelegate {
 
     func animationController(forPresented presented: UIViewController,
@@ -508,6 +520,8 @@ extension SignupVC: UIViewControllerTransitioningDelegate {
     }
 }
 
+// MARK: - UIPickerViewDataSource
+
 extension SignupVC: UIPickerViewDataSource {
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -518,6 +532,8 @@ extension SignupVC: UIPickerViewDataSource {
         return genders.count
     }
 }
+
+// MARK: - UIPickerViewDelegate
 
 extension SignupVC: UIPickerViewDelegate {
 
@@ -535,6 +551,8 @@ extension SignupVC: UIPickerViewDelegate {
         genderTextField?.resignFirstResponder()
     }
 }
+
+// MARK: - Injectable
 
 extension SignupVC: Injectable {
 

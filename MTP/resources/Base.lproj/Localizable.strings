@@ -1,5 +1,11 @@
 // @copyright Trollwerks Inc.
 
+// notifications
+
+"cancel" = "Cancel";
+"ok" = "OK";
+"unimplemented" = "Not implemented yet!";
+
 // networking handling
 
 "unknown" = "unknown";
@@ -17,6 +23,12 @@
 
 // EditProfileVC
 
+"linkTitle" = "Title";
+"linkUrl" = "URL";
+"fixBio" = "Please tell us about yourself!";
+"fixAirport" = "Please enter your home airport!";
+"fixLinks" = "Please enter a title and URL for all your links!";
+"updatingAccount" = "Updating account…";
 "deletingAccount" = "Deleting account…";
 
 // ForgotPasswordVC
@@ -48,7 +60,6 @@
 "checkinNear" = "You are near %@. Do you want to check in?";
 "checkinAction" = "Check in";
 "dismissAction" = "Dismiss";
-"ok" = "OK";
 "congratulations" = "Congratulations on visiting %@!";
 "milestone" = "You have reached the %@ milestone! ";
 "status" = "You have now visited %ld %@ and have %ld remaining.";
@@ -58,7 +69,6 @@
 
 "needLocationAccess" = "Need Location Access";
 "locationAccessRequired" = "Location access is required for displaying nearby places.";
-"cancel" = "Cancel";
 "allowLocationAccess" = "Allow Location Access";
 
 // LoginVC

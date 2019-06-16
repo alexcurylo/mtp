@@ -228,6 +228,16 @@ struct Link: Codable, Hashable {
 
     let text: String
     let url: String
+
+    var isEmpty: Bool {
+        return text.isEmpty && url.isEmpty
+    }
+
+    init(text: String = "",
+         url: String = "") {
+        self.text = text
+        self.url = url
+    }
 }
 
 extension Link: CustomStringConvertible, CustomDebugStringConvertible {

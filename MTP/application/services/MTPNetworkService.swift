@@ -350,7 +350,7 @@ protocol MTPNetworkService {
                    then: @escaping MTPResult<UserJSON>)
     func userRegister(info: RegistrationInfo,
                       then: @escaping MTPResult<UserJSON>)
-    func userUpdate(info: UserJSON,
+    func userUpdate(info: UserUpdate,
                     then: @escaping MTPResult<UserJSON>)
 
     func refreshEverything()
@@ -1258,21 +1258,22 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func userUpdate(info: UserJSON,
+    func userUpdate(info: UserUpdate,
                     then: @escaping MTPResult<UserJSON>) {
         let auth = AccessTokenPlugin { self.data.token }
         let provider = MoyaProvider<MTP>(plugins: [auth])
-        let endpoint = MTP.userPut(info: UserUpdate(from: info))
+        let endpoint = MTP.userPut(info: info)
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
                 do {
-                    let info = try result.map(UserUpdateInfo.self,
-                                              using: JSONDecoder.mtp)
-                    if info.isSuccess {
-                        return then(.success(info.user))
+                    let updateInfo = try result.map(UserUpdateInfo.self,
+                                                    using: JSONDecoder.mtp)
+                    if updateInfo.isSuccess {
+                        self.data.user = updateInfo.user
+                        return then(.success(updateInfo.user))
                     } else {
-                        return then(.failure(.message(info.message)))
+                        return then(.failure(.message(updateInfo.message)))
                     }
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")

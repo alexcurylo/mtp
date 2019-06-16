@@ -14,88 +14,89 @@ struct UserUpdateInfo: Codable {
 }
 
 // expect everything in UserJSON except country, location structs
-struct UserUpdate: Codable, Hashable {
+struct UserUpdate: Codable, Hashable, UserAvatar {
 
-    let airport: String?
-    let bio: String?
-    let birthday: Date
-    let countryId: Int
-    let createdAt: Date
-    let email: String
-    let facebookEmail: String?
-    let facebookId: Int?
-    let facebookUserToken: String?
+    var airport: String?
+    var bio: String?
+    var birthday: String = ""
+    var country_id: Int = 0
+    var created_at: String = ""
+    var email: String = ""
+    var facebook_email: String?
+    var facebook_id: Int?
+    var facebook_user_token: String?
     // swiftlint:disable:next discouraged_optional_collection
-    let favoritePlaces: [FavoritePlace]?
-    let firstName: String
-    let fullName: String
-    let gender: String
-    let id: Int
-    let lastLogIn: String?
-    let lastName: String
+    var favorite_places: [FavoritePlace]?
+    var first_name: String = ""
+    var full_name: String = ""
+    var gender: String = ""
+    var id: Int = 0
+    var last_log_in: String?
+    var last_name: String = ""
     // swiftlint:disable:next discouraged_optional_collection
-    let links: [Link]?
-    let locationId: Int
-    let picture: String?
-    let rankBeaches: Int?
-    let rankDivesites: Int?
-    let rankGolfcourses: Int?
-    let rankLocations: Int?
-    let rankRestaurants: Int?
-    let rankUncountries: Int?
-    let rankWhss: Int?
-    let role: Int
-    let score: Int?
-    let scoreBeaches: Int?
-    let scoreDivesites: Int?
-    let scoreGolfcourses: Int?
-    let scoreLocations: Int?
-    let scoreRestaurants: Int?
-    let scoreUncountries: Int?
-    let scoreWhss: Int?
-    let status: String
-    let updatedAt: Date
-    let username: String
+    var links: [Link]?
+    var location_id: Int = 0
+    var picture: String?
+    var rank_beaches: Int?
+    var rank_divesites: Int?
+    var rank_golfcourses: Int?
+    var rank_locations: Int?
+    var rank_restaurants: Int?
+    var rank_uncountries: Int?
+    var rank_whss: Int?
+    var role: Int = 0
+    var score: Int?
+    var score_beaches: Int?
+    var score_divesites: Int?
+    var score_golfcourses: Int?
+    var score_locations: Int?
+    var score_restaurants: Int?
+    var score_uncountries: Int?
+    var score_whss: Int?
+    var status: String = ""
+    var updated_at: String = ""
+    var username: String = ""
+
+    init() { }
 
     init(from: UserJSON) {
-        // log.todo("sort actual names")
         airport = from.airport
         bio = from.bio
-        birthday = from.birthday
-        countryId = from.countryId
-        createdAt = from.createdAt
+        birthday = DateFormatter.mtpDay.string(from: from.birthday)
+        country_id = from.countryId
+        created_at = DateFormatter.mtpTime.string(from: from.createdAt)
         email = from.email
-        facebookEmail = from.facebookEmail
-        facebookId = from.facebookId
-        facebookUserToken = from.facebookUserToken
-        favoritePlaces = from.favoritePlaces
-        firstName = from.firstName
-        fullName = from.fullName
+        facebook_email = from.facebookEmail
+        facebook_id = from.facebookId
+        facebook_user_token = from.facebookUserToken
+        favorite_places = from.favoritePlaces
+        first_name = from.firstName
+        full_name = from.fullName
         gender = from.gender
         id = from.id
-        lastLogIn = from.lastLogIn
-        lastName = from.lastName
+        last_log_in = from.lastLogIn
+        last_name = from.lastName
         links = from.links
-        locationId = from.locationId
+        location_id = from.locationId
         picture = from.picture
-        rankBeaches = from.rankBeaches
-        rankDivesites = from.rankDivesites
-        rankGolfcourses = from.rankGolfcourses
-        rankLocations = from.rankLocations
-        rankRestaurants = from.rankRestaurants
-        rankUncountries = from.rankUncountries
-        rankWhss = from.rankWhss
+        rank_beaches = from.rankBeaches
+        rank_divesites = from.rankDivesites
+        rank_golfcourses = from.rankGolfcourses
+        rank_locations = from.rankLocations
+        rank_restaurants = from.rankRestaurants
+        rank_uncountries = from.rankUncountries
+        rank_whss = from.rankWhss
         role = from.role
         score = from.score
-        scoreBeaches = from.scoreBeaches
-        scoreDivesites = from.scoreDivesites
-        scoreGolfcourses = from.scoreGolfcourses
-        scoreLocations = from.scoreLocations
-        scoreRestaurants = from.scoreRestaurants
-        scoreUncountries = from.scoreUncountries
-        scoreWhss = from.scoreWhss
+        score_beaches = from.scoreBeaches
+        score_divesites = from.scoreDivesites
+        score_golfcourses = from.scoreGolfcourses
+        score_locations = from.scoreLocations
+        score_restaurants = from.scoreRestaurants
+        score_uncountries = from.scoreUncountries
+        score_whss = from.scoreWhss
         status = from.status
-        updatedAt = from.updatedAt
+        updated_at = DateFormatter.mtpTime.string(from: from.updatedAt)
         username = from.username
     }
 }

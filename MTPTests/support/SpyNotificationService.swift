@@ -138,4 +138,20 @@ final class SpyNotificationService: NotificationService {
         invokedDismissModal = true
         invokedDismissModalCount += 1
     }
+    var invokedMessage = false
+    var invokedMessageCount = 0
+    var invokedMessageParameters: (error: String, Void)?
+    var invokedMessageParametersList = [(error: String, Void)]()
+    func message(error: String) {
+        invokedMessage = true
+        invokedMessageCount += 1
+        invokedMessageParameters = (error, ())
+        invokedMessageParametersList.append((error, ()))
+    }
+    var invokedUnimplemented = false
+    var invokedUnimplementedCount = 0
+    func unimplemented() {
+        invokedUnimplemented = true
+        invokedUnimplementedCount += 1
+    }
 }

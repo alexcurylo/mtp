@@ -93,6 +93,8 @@ final class LoginVC: UIViewController, ServiceProvider {
     }
 }
 
+// MARK: - Private
+
 private extension LoginVC {
 
     @IBAction func visibilityTapped(_ sender: UIButton) {
@@ -197,6 +199,8 @@ private extension LoginVC {
     }
 }
 
+// MARK: - UITextFieldDelegate
+
 extension LoginVC: UITextFieldDelegate {
 
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -228,6 +232,8 @@ extension LoginVC: UITextFieldDelegate {
     }
 }
 
+// MARK: - UINavigationControllerDelegate
+
 extension LoginVC: UINavigationControllerDelegate {
 
     func navigationController(
@@ -242,6 +248,8 @@ extension LoginVC: UINavigationControllerDelegate {
     }
 }
 
+// MARK: - UIViewControllerTransitioningDelegate
+
 extension LoginVC: UIViewControllerTransitioningDelegate {
 
     func animationController(forPresented presented: UIViewController,
@@ -254,6 +262,8 @@ extension LoginVC: UIViewControllerTransitioningDelegate {
         return nil
     }
 }
+
+// MARK: - Injectable
 
 extension LoginVC: Injectable {
 

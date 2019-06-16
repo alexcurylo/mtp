@@ -155,9 +155,9 @@ final class SpyMTPNetworkService: MTPNetworkService {
     }
     var invokedUserUpdate = false
     var invokedUserUpdateCount = 0
-    var invokedUserUpdateParameters: (info: UserJSON, then: MTPResult<UserJSON>)?
-    var invokedUserUpdateParametersList = [(info: UserJSON, then: MTPResult<UserJSON>)]()
-    func userUpdate(info: UserJSON,
+    var invokedUserUpdateParameters: (info: UserUpdate, then: MTPResult<UserJSON>)?
+    var invokedUserUpdateParametersList = [(info: UserUpdate, then: MTPResult<UserJSON>)]()
+    func userUpdate(info: UserUpdate,
     then: @escaping MTPResult<UserJSON>) {
         invokedUserUpdate = true
         invokedUserUpdateCount += 1

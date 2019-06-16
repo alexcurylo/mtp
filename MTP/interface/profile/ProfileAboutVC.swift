@@ -94,12 +94,12 @@ private extension ProfileAboutVC {
     func update() {
         guard let user = user else { return }
 
-        tableView.beginUpdates()
-        update(map: mapWidth)
-        update(ranking: user)
-        update(airport: user)
-        update(links: user)
-        tableView.endUpdates()
+        tableView.update {
+            update(map: mapWidth)
+            update(ranking: user)
+            update(airport: user)
+            update(links: user)
+        }
     }
 
     func observe() {

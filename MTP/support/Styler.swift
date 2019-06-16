@@ -56,6 +56,10 @@ extension UIColor {
 
     // swiftlint:disable force_unwrapping
 
+    static var alto: UIColor { // #DBDBDB
+        return R.color.alto()!
+    }
+
     static var azureRadiance: UIColor { // #028DFF
         return R.color.azureRadiance()!
     }

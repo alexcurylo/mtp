@@ -76,6 +76,9 @@ protocol NotificationService {
     func modal(info: String)
     func modal(success: String)
     func dismissModal()
+
+    func message(error: String)
+    func unimplemented()
 }
 
 extension NotificationService {
@@ -104,6 +107,10 @@ extension NotificationService {
              category: Note.Category.visit.identifier,
              info: info)
     }
+
+    func unimplemented() {
+        message(error: Localized.unimplemented())
+    }
 }
 
 final class NotificationServiceImpl: NotificationService, ServiceProvider {
@@ -111,6 +118,7 @@ final class NotificationServiceImpl: NotificationService, ServiceProvider {
     private var notifying: PlaceInfo?
     private var congratulating: PlaceAnnotation?
     private var showingModal = false
+    private var alerting = false
 
     private var center: UNUserNotificationCenter {
         return UNUserNotificationCenter.current()
@@ -193,6 +201,13 @@ final class NotificationServiceImpl: NotificationService, ServiceProvider {
             }
         }
     }
+
+    func message(error: String) {
+        let note = Note(title: error,
+                        message: "",
+                        category: .error)
+        alert(foreground: note) { }
+    }
 }
 
 // MARK: - UserNotifications: background
@@ -251,6 +266,7 @@ private extension NotificationServiceImpl {
     var canNotifyForeground: Bool {
         return UIApplication.shared.isForeground &&
                showingModal == false &&
+               alerting == false &&
                notifying == nil &&
                congratulating == nil
     }
@@ -332,6 +348,15 @@ private extension NotificationServiceImpl {
         congratulating = annotation
         app.route(to: annotation)
 
+        alert(foreground: note) {
+            self.congratulating = nil
+            self.checkTriggered()
+        }
+    }
+
+    func alert(foreground note: Note,
+               then: @escaping () -> Void) {
+        alerting = true
         let simpleMessage = notifyMessage(contentTitle: note.title,
                                           contentMessage: note.message)
 
@@ -347,8 +372,8 @@ private extension NotificationServiceImpl {
             backgroundColor: .clear,
             highlightedBackgroundColor: checkinColor.withAlphaComponent(0.05)) {
                 SwiftEntryKit.dismiss {
-                    self.congratulating = nil
-                    self.checkTriggered()
+                    self.alerting = false
+                    then()
                 }
         }
         let grayLight = UIColor(white: 230.0 / 255.0, alpha: 1)
@@ -365,7 +390,7 @@ private extension NotificationServiceImpl {
             buttonBarContent: buttonsBarContent)
         let contentView = EKAlertMessageView(with: alertMessage)
         SwiftEntryKit.display(entry: contentView,
-                              using: EKAttributes(note: .congratulate))
+                              using: EKAttributes(note: note.category))
     }
 
     func congratulations(for annotation: PlaceAnnotation) -> Note? {
