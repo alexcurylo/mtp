@@ -49,8 +49,8 @@ private extension SettingsVC {
     }
 
     var productUrl: URL? {
-        //let posesLink = "https://itunes.apple.com/app/id357099619"
-        let mtpLink = "https://itunes.apple.com/app/id1463245184"
+        //let posesLink = "https://apps.apple.com/app/id357099619"
+        let mtpLink = "https://apps.apple.com/app/id1463245184"
         return URL(string: mtpLink)
     }
 
@@ -68,7 +68,7 @@ private extension SettingsVC {
     }
 
     @IBAction func rateTapped(_ sender: UIButton) {
-        //SKStoreReviewController.requestReview()
+        //log.todo("SKStoreReviewController.requestReview somewhere?")
         guard let url = productUrl else { return }
 
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)

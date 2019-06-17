@@ -47,8 +47,7 @@ struct UserJSON: Codable, Equatable {
     let facebookEmail: String?
     let facebookId: Int?
     let facebookUserToken: String?
-    // swiftlint:disable:next discouraged_optional_collection
-    let favoritePlaces: [FavoritePlace]? // not in signup
+    //let favoritePlaces: [FavoritePlace]? // not in signup
     let firstName: String
     let fullName: String
     let gender: String
@@ -81,7 +80,6 @@ struct UserJSON: Codable, Equatable {
     let updatedAt: Date
     let username: String
 
-    // swiftlint:disable:next function_body_length
     func updated(visited: Checked) -> UserJSON {
         return UserJSON(airport: airport,
                         bio: bio,
@@ -93,7 +91,7 @@ struct UserJSON: Codable, Equatable {
                         facebookEmail: facebookEmail,
                         facebookId: facebookId,
                         facebookUserToken: facebookUserToken,
-                        favoritePlaces: favoritePlaces,
+                        //favoritePlaces: favoritePlaces,
                         firstName: firstName,
                         fullName: fullName,
                         gender: gender,
@@ -149,7 +147,6 @@ extension UserJSON: CustomDebugStringConvertible {
             facebook_email: \(String(describing: facebookEmail))
             facebook_id: \(String(describing: facebookId))
             facebook_user_token: \(String(describing: facebookUserToken))
-            favorite_places: \(favoritePlaces.debugDescription)
             first_name: \(firstName)
             full_name: \(fullName)
             gender: \(gender)

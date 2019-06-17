@@ -5,7 +5,7 @@ import Foundation
 struct SettingsJSON: Codable {
 
     private enum CodingKeys: String, CodingKey {
-        case accident = "fill-it-later-accedintal-added-by-pitt"
+        //case accident = "fill-it-later-accedintal-added-by-pitt"
         case defaultEmails = "default-emails"
         case locationMap = "location-map"
         case milestoneThresholds = "milestone-thresholds"
@@ -13,7 +13,7 @@ struct SettingsJSON: Codable {
         case worldMap = "world-map"
     }
 
-    let accident: String?
+    //let accident: String?
     let defaultEmails: DefaultEmailsJSON
     let locationMap: MapRenderJSON
     let milestoneThresholds: MilestonesJSON

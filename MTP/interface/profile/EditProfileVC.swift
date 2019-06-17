@@ -155,8 +155,9 @@ extension EditProfileVC: UITextFieldDelegate {
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
         updateSave(showError: false)
-        return true
+        return false
     }
 }
 
@@ -491,9 +492,6 @@ private extension EditProfileVC {
     }
 
     func upload(edits: UserUpdate) {
-        log.todo("verify integrity of upload(edits:)")
-        return note.unimplemented()
-
         note.modal(info: Localized.updatingAccount())
         mtp.userUpdate(info: edits) { [weak self, note] result in
             let errorMessage: String
@@ -699,17 +697,23 @@ private extension InsetTextField {
         hInset = 8
         vInset = 4
         borderStyle = .none
+        returnKeyType = .done
 
         if self is InsetTextFieldGradient {
             cornerRadius = 15
             textColor = .white
             font = Avenir.medium.of(size: 16)
             placeholder = Localized.linkUrl()
+            keyboardType = .URL
+            textContentType = .URL
+            autocapitalizationType = .none
+            autocorrectionType = .no
+            spellCheckingType = .no
         } else {
             cornerRadius = 3
             borderWidth = 1
             borderColor = .alto
-            font = Avenir.roman.of(size: 16)
+            font = Avenir.book.of(size: 16)
             placeholder = Localized.linkTitle()
         }
     }
