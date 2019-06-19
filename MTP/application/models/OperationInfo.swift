@@ -56,3 +56,20 @@ extension PasswordResetInfo: CustomDebugStringConvertible {
         """
     }
 }
+
+struct UploadImageInfo: Codable {
+
+    let code: Int
+    let message: String
+
+    var isSuccess: Bool {
+        return code == 200
+    }
+}
+
+extension UploadImageInfo: CustomStringConvertible {
+
+    public var description: String {
+        return "code \(code): \(message)"
+    }
+}

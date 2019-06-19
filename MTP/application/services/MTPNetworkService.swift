@@ -57,6 +57,7 @@ enum MTP: Hashable {
     case search(query: String?)
     case settings
     case unCountry
+    case upload(image: UIImage, location: Location?, caption: String)
     case userDelete(id: Int)
     case userGet(id: Int)
     case userGetByToken
@@ -122,6 +123,8 @@ extension MTP: TargetType {
             return "settings"
         case .unCountry:
             return "un-country"
+        case .upload:
+            return "files/upload"
         case .userGetByToken:
             return "user/getByToken"
         case .userDelete(let id),
@@ -170,6 +173,7 @@ extension MTP: TargetType {
             return .get
         case .checkIn,
              .passwordReset,
+             .upload,
              .userLogin,
              .userRegister:
             return .post
@@ -211,6 +215,11 @@ extension MTP: TargetType {
         case let .search(query?):
             return .requestParameters(parameters: ["query": query],
                                       encoding: URLEncoding.default)
+        case let .upload(image: image, location: _, caption: _):
+            if let imageData = image.jpegData(compressionQuality: 1.0) {
+                log.todo("handle upload of \(imageData.count)")
+            }
+            return .requestPlain
         case let .userLogin(email, password):
             return .requestParameters(parameters: ["email": email,
                                                    "password": password],
@@ -279,6 +288,7 @@ extension MTP: AccessTokenAuthorizable {
              .checkOut,
              .photos,
              .rankings,
+             .upload,
              .userDelete,
              .userGetByToken,
              .userPut:
@@ -342,6 +352,10 @@ protocol MTPNetworkService {
                   then: @escaping MTPResult<UserJSON>)
     func search(query: String,
                 then: @escaping MTPResult<SearchResultJSON>)
+    func upload(image: UIImage,
+                location: Location?,
+                caption: String,
+                then: @escaping MTPResult<String>)
     func userDeleteAccount(then: @escaping MTPResult<String>)
     func userForgotPassword(email: String,
                             then: @escaping MTPResult<String>)
@@ -375,7 +389,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                  id: Int,
                  then: @escaping MTPResult<Bool> = { _ in }) {
         guard data.isLoggedIn else {
-            log.verbose("checkIn attempt invalid: not logged in")
             return then(.failure(.parameter))
         }
 
@@ -398,7 +411,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                   id: Int,
                   then: @escaping MTPResult<Bool> = { _ in }) {
         guard data.isLoggedIn else {
-            log.verbose("checkOut attempt invalid: not logged in")
             return then(.failure(.parameter))
         }
 
@@ -452,7 +464,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
 
     func loadChecklists(then: @escaping MTPResult<Checked> = { _ in }) {
         guard data.isLoggedIn else {
-            log.verbose("load checklists attempt invalid: not logged in")
             return then(.failure(.parameter))
         }
 
@@ -659,7 +670,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     page: Int,
                     then: @escaping MTPResult<PhotosPageInfoJSON> = { _ in }) {
         guard data.isLoggedIn else {
-            log.verbose("load photos attempt invalid: not logged in")
             return then(.failure(.parameter))
         }
 
@@ -733,7 +743,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     func loadPosts(user id: Int,
                    then: @escaping MTPResult<PostsJSON> = { _ in }) {
         guard data.isLoggedIn else {
-            log.verbose("load posts attempt invalid: not logged in")
             return then(.failure(.parameter))
         }
 
@@ -1052,9 +1061,49 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
+    func upload(image: UIImage,
+                location: Location?,
+                caption: String,
+                then: @escaping MTPResult<String>) {
+        guard data.isLoggedIn else {
+            log.verbose("upload attempt invalid: not logged in")
+            return then(.failure(.parameter))
+        }
+
+        let auth = AccessTokenPlugin { self.data.token }
+        let provider = MoyaProvider<MTP>(plugins: [auth])
+        let endpoint = MTP.upload(image: image,
+                                  location: location,
+                                  caption: caption)
+        provider.request(endpoint) { response in
+            switch response {
+            case .success(let result):
+                do {
+                    let info = try result.map(UploadImageInfo.self,
+                                              using: JSONDecoder.mtp)
+                    self.log.verbose("upload image: " + info.description)
+                    if info.isSuccess {
+                        return then(.success(info.message))
+                    } else {
+                        return then(.failure(.message(info.message)))
+                    }
+                } catch {
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    return then(.failure(.results))
+                }
+            case .failure(.underlying(AFError.responseValidationFailed, _)):
+                self.log.error("API rejection: \(endpoint.path)")
+                return then(.failure(.status))
+            case .failure(let error):
+                let message = error.errorDescription ?? Localized.unknown()
+                self.log.error("failure: \(endpoint.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
     func userDeleteAccount(then: @escaping MTPResult<String>) {
         guard let userId = data.user?.id else {
-            log.verbose("userDeleteAccount attempt invalid: not logged in")
             return then(.failure(.parameter))
         }
 
@@ -1090,7 +1139,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     func userForgotPassword(email: String,
                             then: @escaping MTPResult<String>) {
         guard !email.isEmpty else {
-            log.verbose("forgotPassword attempt invalid: email `\(email)`")
             return then(.failure(.parameter))
         }
 
@@ -1102,7 +1150,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 do {
                     let info = try result.map(PasswordResetInfo.self,
                                               using: JSONDecoder.mtp)
-                    self.log.verbose("reset password: " + info.debugDescription)
                     if info.isSuccess {
                         return then(.success(info.message))
                     } else {
@@ -1125,7 +1172,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
 
     func userGetByToken(then: @escaping MTPResult<UserJSON> = { _ in }) {
         guard data.isLoggedIn else {
-            log.verbose("userGetByToken attempt invalid: not logged in")
             return then(.failure(.parameter))
         }
 
@@ -1166,7 +1212,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                    password: String,
                    then: @escaping MTPResult<UserJSON>) {
         guard !email.isEmpty && !password.isEmpty else {
-            log.verbose("userLogin attempt invalid: email `\(email)` password `\(password)`")
             return then(.failure(.parameter))
         }
 
@@ -1178,7 +1223,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 let user = try response.map(UserJSON.self,
                                             using: JSONDecoder.mtp)
                 guard let token = user.token else { throw MTPNetworkError.token }
-                log.verbose("logged in user: " + user.debugDescription)
                 data.token = token
                 data.user = user
                 refreshUserInfo()
@@ -1221,7 +1265,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     func userRegister(info: RegistrationInfo,
                       then: @escaping MTPResult<UserJSON>) {
         guard info.isValid else {
-            log.verbose("register attempt invalid: \(info)")
             return then(.failure(.parameter))
         }
 
@@ -1233,8 +1276,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 let user = try result.map(UserJSON.self,
                                           using: JSONDecoder.mtp)
                 guard let token = user.token else { throw MTPNetworkError.token }
-                log.verbose("registered user: " + user.debugDescription)
-                log.verbose("from result: " + result.toString)
                 data.token = token
                 data.user = user
                 userGetByToken { _ in
