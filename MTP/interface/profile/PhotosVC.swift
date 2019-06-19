@@ -98,7 +98,8 @@ private extension PhotosVC {
     }
 
     @IBAction func addTapped(_ sender: GradientButton) {
-        fatalError("implement")
+        log.todo("implement addTapped")
+        note.unimplemented()
     }
 }
 

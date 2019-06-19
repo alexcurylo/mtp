@@ -172,8 +172,11 @@ private extension LoginVC {
     }
 
     func login(email: String, password: String) {
+        let operation = Localized.logIn()
         note.modal(info: Localized.loggingIn())
+
         mtp.userLogin(email: email,
+                      // swiftlint:disable:next closure_body_length
                       password: password) { [weak self, note] result in
             switch result {
             case .success:
@@ -183,15 +186,20 @@ private extension LoginVC {
                     self?.performSegue(withIdentifier: Segues.showMain, sender: self)
                 }
                 return
-            case .failure(.status),
-                 .failure(.results):
-                self?.errorMessage = Localized.resultError()
+            case .failure(.deviceOffline):
+                self?.errorMessage = Localized.deviceOfflineError(operation)
+            case .failure(.serverOffline):
+                self?.errorMessage = Localized.serverOfflineError(operation)
+            case .failure(.decoding),
+                 .failure(.result),
+                 .failure(.status):
+                self?.errorMessage = Localized.resultsError(operation)
             case .failure(.message(let message)):
                 self?.errorMessage = message
             case .failure(.network(let message)):
-                self?.errorMessage = Localized.networkError(message)
+                self?.errorMessage = Localized.networkError(operation, message)
             default:
-                self?.errorMessage = Localized.unexpectedError()
+                self?.errorMessage = Localized.unexpectedError(operation)
             }
             note.dismissModal()
             self?.performSegue(withIdentifier: Segues.presentLoginFail, sender: self)

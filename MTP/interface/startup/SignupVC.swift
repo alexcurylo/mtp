@@ -359,7 +359,8 @@ private extension SignupVC {
               errorMessage.isEmpty else {
             if showError {
                 if errorMessage.isEmpty {
-                    errorMessage = Localized.unexpectedError()
+                    let operation = Localized.signUp()
+                    errorMessage = Localized.unexpectedError(operation)
                 }
                 performSegue(withIdentifier: Segues.presentSignupFail, sender: self)
             }
@@ -382,7 +383,10 @@ private extension SignupVC {
     }
 
     func register(info: RegistrationInfo) {
+        let operation = Localized.signUp()
         note.modal(info: Localized.signingUp())
+
+        // swiftlint:disable:next closure_body_length
         mtp.userRegister(info: info) { [weak self, note] result in
             switch result {
             case .success:
@@ -392,15 +396,20 @@ private extension SignupVC {
                     self?.performSegue(withIdentifier: Segues.showWelcome, sender: self)
                 }
                 return
-            case .failure(.status),
-                 .failure(.results):
-                self?.errorMessage = Localized.resultError()
+            case .failure(.deviceOffline):
+                self?.errorMessage = Localized.deviceOfflineError(operation)
+            case .failure(.serverOffline):
+                self?.errorMessage = Localized.serverOfflineError(operation)
+            case .failure(.decoding),
+                 .failure(.result),
+                 .failure(.status):
+                self?.errorMessage = Localized.resultsError(operation)
             case .failure(.message(let message)):
                 self?.errorMessage = message
             case .failure(.network(let message)):
-                self?.errorMessage = Localized.networkError(message)
+                self?.errorMessage = Localized.networkError(operation, message)
             default:
-                self?.errorMessage = Localized.unexpectedError()
+                self?.errorMessage = Localized.unexpectedError(operation)
             }
             note.dismissModal()
             self?.performSegue(withIdentifier: Segues.presentSignupFail, sender: self)

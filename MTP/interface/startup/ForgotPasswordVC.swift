@@ -52,6 +52,7 @@ final class ForgotPasswordVC: UIViewController, ServiceProvider {
 private extension ForgotPasswordVC {
 
     @IBAction func continueTapped(_ sender: GradientButton) {
+        let operation = Localized.resetPassword()
         note.modal(info: Localized.resettingPassword())
 
         // swiftlint:disable:next closure_body_length
@@ -65,17 +66,22 @@ private extension ForgotPasswordVC {
                     self?.performSegue(withIdentifier: Segues.dismissForgotPassword, sender: self)
                 }
                 return
+            case .failure(.deviceOffline):
+                errorMessage = Localized.deviceOfflineError(operation)
+            case .failure(.serverOffline):
+                errorMessage = Localized.serverOfflineError(operation)
             case .failure(.status),
                  .failure(.parameter):
                 errorMessage = Localized.emailError()
-            case .failure(.results):
-                errorMessage = Localized.resultError()
+            case .failure(.decoding),
+                 .failure(.result):
+                errorMessage = Localized.resultsErrorReport(operation)
             case .failure(.message(let message)):
                 errorMessage = message
             case .failure(.network(let message)):
-                errorMessage = Localized.networkError(message)
+                errorMessage = Localized.networkError(operation, message)
             default:
-                errorMessage = Localized.unexpectedError()
+                errorMessage = Localized.unexpectedErrorReport(operation)
             }
             KRProgressHUD.showError(withMessage: errorMessage)
             DispatchQueue.main.asyncAfter(deadline: .medium) {

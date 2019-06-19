@@ -503,7 +503,10 @@ private extension EditProfileVC {
     }
 
     func upload(edits: UserUpdate) {
-        note.modal(info: Localized.updatingAccount())
+        let operation = Localized.updateProfile()
+        note.modal(info: Localized.updatingProfile())
+
+        // swiftlint:disable:next closure_body_length
         mtp.userUpdate(info: edits) { [weak self, note] result in
             let errorMessage: String
             switch result {
@@ -514,15 +517,20 @@ private extension EditProfileVC {
                     self?.performSegue(withIdentifier: Segues.cancelEdits, sender: self)
                 }
                 return
-            case .failure(.status),
-                 .failure(.results):
-                errorMessage = Localized.resultError()
+            case .failure(.deviceOffline):
+                errorMessage = Localized.deviceOfflineError(operation)
+            case .failure(.serverOffline):
+                errorMessage = Localized.serverOfflineError(operation)
+            case .failure(.decoding),
+                 .failure(.result),
+                 .failure(.status):
+                errorMessage = Localized.resultsErrorReport(operation)
             case .failure(.message(let message)):
                 errorMessage = message
             case .failure(.network(let message)):
-                errorMessage = Localized.networkError(message)
+                errorMessage = Localized.networkError(operation, message)
             default:
-                errorMessage = Localized.unexpectedError()
+                errorMessage = Localized.unexpectedErrorReport(operation)
             }
             note.modal(error: errorMessage)
             DispatchQueue.main.asyncAfter(deadline: .medium) {
@@ -568,7 +576,10 @@ private extension EditProfileVC {
     }
 
     @IBAction func deleteAccount(segue: UIStoryboardSegue) {
+        let operation = Localized.deleteAccount()
         note.modal(info: Localized.deletingAccount())
+
+        // swiftlint:disable:next closure_body_length
         mtp.userDeleteAccount { [weak self, note] result in
             let errorMessage: String
             switch result {
@@ -579,15 +590,20 @@ private extension EditProfileVC {
                     self?.performSegue(withIdentifier: Segues.unwindFromEditProfile, sender: self)
                 }
                 return
-            case .failure(.status),
-                 .failure(.results):
-                errorMessage = Localized.resultError()
+            case .failure(.deviceOffline):
+                errorMessage = Localized.deviceOfflineError(operation)
+            case .failure(.serverOffline):
+                errorMessage = Localized.serverOfflineError(operation)
+            case .failure(.decoding),
+                 .failure(.result),
+                 .failure(.status):
+                errorMessage = Localized.resultsErrorReport(operation)
             case .failure(.message(let message)):
                 errorMessage = message
             case .failure(.network(let message)):
-                errorMessage = Localized.networkError(message)
+                errorMessage = Localized.networkError(operation, message)
             default:
-                errorMessage = Localized.unexpectedError()
+                errorMessage = Localized.unexpectedErrorReport(operation)
             }
             note.modal(error: errorMessage)
             DispatchQueue.main.asyncAfter(deadline: .medium) {
