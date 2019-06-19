@@ -69,7 +69,7 @@ struct UserUpdate: Codable, Hashable, UserAvatar {
         facebook_email = from.facebookEmail
         facebook_id = from.facebookId
         facebook_user_token = from.facebookUserToken
-        favorite_places = from.favoritePlaces
+        //favorite_places = from.favoritePlaces
         first_name = from.firstName
         full_name = from.fullName
         gender = from.gender

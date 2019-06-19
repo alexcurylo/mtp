@@ -110,10 +110,10 @@ private extension ProfileAboutVC {
         }
         if isSelf {
             userObserver = data.observer(of: .user) { [weak self] _ in
-                self?.update()
+                self?.refreshUser()
             }
             visitedObserver = data.observer(of: .visited) { [weak self] _ in
-                self?.update()
+                self?.refreshVisits()
             }
         } else {
             userIdObserver = data.observer(of: .userId) { [weak self] _ in
@@ -125,6 +125,18 @@ private extension ProfileAboutVC {
                 self.update()
             }
         }
+    }
+
+    func refreshUser() {
+        if let new = data.user {
+            user = User(from: new)
+            update()
+        }
+    }
+
+    func refreshVisits() {
+        visits = data.visited?.locations ?? []
+        update()
     }
 
     func update(map width: CGFloat) {
@@ -260,7 +272,7 @@ extension ProfileAboutVC: Injectable {
         observe()
 
         if isSelf {
-            visits = data.visited?.locations ?? []
+            refreshVisits()
         } else {
             fetch(id: model.id)
        }

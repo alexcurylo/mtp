@@ -185,7 +185,7 @@ struct ScorecardJSON: Codable {
 
     let ageLevel: AgeLevel
     let labelPairs: LabelPairs
-    let rank: RanksWrapper
+    let rank: RanksWrapper?
     let remainingByUser: UncertainValue<[Int: ScorecardLocationJSON], [ScorecardLocationJSON]> // usually array if 1...2
     let scoreBeaches: Int?
     let scoreDivesites: Int?
@@ -279,7 +279,7 @@ extension ScorecardJSON: CustomDebugStringConvertible {
         locationId = from.data.user.location.id
         gender = from.data.user.gender
 
-        if let ranks = from.data.rank.ranks {
+        if let ranks = from.data.rank?.ranks {
             ageAndCountry = ranks.ageAndCountry
             ageAndGenderAndCountry = ranks.ageAndGenderAndCountry
             country = ranks.country

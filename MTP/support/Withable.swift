@@ -2,8 +2,6 @@
 
 import UIKit
 
-// https://gist.github.com/nicklockwood/9b4aac87e7f88c80e932ba3c843252df
-
 /// Streamline configuration closures/functions
 protocol Withable {
     init()

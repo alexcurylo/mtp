@@ -127,6 +127,7 @@
 		FA7C2010221BA0A1002C6DAB /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7C200F221BA0A1002C6DAB /* Post.swift */; };
 		FA7C2012221C2F20002C6DAB /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7C2011221C2F20002C6DAB /* Photo.swift */; };
 		FA7C2014222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7C2013222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift */; };
+		FA7CCAEF22B848EE0092A95E /* PhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7CCAEE22B848EE0092A95E /* PhotosVC.swift */; };
 		FA81361220E8F64500313AB9 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FA81361120E8F64500313AB9 /* Settings.bundle */; };
 		FA815B712286D138004B91C8 /* NearbyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA815B702286D138004B91C8 /* NearbyVC.swift */; };
 		FA835D34210EAC110098C270 /* Styler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA835D33210EAC110098C270 /* Styler.swift */; };
@@ -340,6 +341,7 @@
 		FA7C200F221BA0A1002C6DAB /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		FA7C2011221C2F20002C6DAB /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		FA7C2013222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate2D+Equatable.swift"; sourceTree = "<group>"; };
+		FA7CCAEE22B848EE0092A95E /* PhotosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosVC.swift; sourceTree = "<group>"; };
 		FA81361120E8F64500313AB9 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		FA81361320E8FD4E00313AB9 /* script_build_end.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = script_build_end.sh; sourceTree = "<group>"; };
 		FA815B702286D138004B91C8 /* NearbyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyVC.swift; sourceTree = "<group>"; };
@@ -506,11 +508,6 @@
 			isa = PBXGroup;
 			children = (
 				FA5AC0C021FDCCDE0080F84F /* ListPagingItem.swift */,
-				FA8833E22209BF810037C796 /* LocationSearchVC.swift */,
-				FA99615E2136CF3100C85FBC /* ProfilePagingVC.swift */,
-				FADC1ABD2145E9760011EE49 /* ProfilePhotosVC.swift */,
-				FA3BD1D1215F7FCD007EAF75 /* ProfilePostsVC.swift */,
-				FA75562D22A4FFCF0006EFC3 /* ProfileVC.swift */,
 				FA25ACE5217B54A8000AE26D /* RankingCell.swift */,
 				FA25ACE7217C87ED000AE26D /* RankingHeader.swift */,
 				FA291FD4217ECBC8004140BD /* RankingsFilterVC.swift */,
@@ -549,13 +546,19 @@
 				FA62BAEA2247A9A0009FDC4E /* CountsPageVC.swift */,
 				FA46377F210DE94C0007382D /* EditProfileVC.swift */,
 				FA40F753225B06D50056182E /* FaqVC.swift */,
-				FA254DCC2169A2A400FC9360 /* ProfileAboutVC.swift */,
+				FA8833E22209BF810037C796 /* LocationSearchVC.swift */,
 				FA5AC0C221FDCE200080F84F /* MyCountsPageVC.swift */,
 				FA5AC0BE21FDCB9D0080F84F /* MyCountsPagingVC.swift */,
 				FA5AC0BC21FDC80A0080F84F /* MyCountsVC.swift */,
 				FA74574C210CA5730010F4F4 /* MyProfileVC.swift */,
 				FAEB87A0227ED26300858898 /* PostCell.swift */,
 				8C8DB38022817B6800B2BBD3 /* PostsVC.swift */,
+				FA7CCAEE22B848EE0092A95E /* PhotosVC.swift */,
+				FA254DCC2169A2A400FC9360 /* ProfileAboutVC.swift */,
+				FA99615E2136CF3100C85FBC /* ProfilePagingVC.swift */,
+				FADC1ABD2145E9760011EE49 /* ProfilePhotosVC.swift */,
+				FA3BD1D1215F7FCD007EAF75 /* ProfilePostsVC.swift */,
+				FA75562D22A4FFCF0006EFC3 /* ProfileVC.swift */,
 				FA46377D210DE1E60007382D /* SettingsVC.swift */,
 			);
 			path = profile;
@@ -1276,6 +1279,7 @@
 				FA12D682213B963C0053E9BF /* RankingsPageVC.swift in Sources */,
 				FA4653322115A250005B5A0A /* UserDefaults+DataService.swift in Sources */,
 				FAA818FE22447EAB00BB9F92 /* LocationVC.swift in Sources */,
+				FA7CCAEF22B848EE0092A95E /* PhotosVC.swift in Sources */,
 				FA7C2014222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift in Sources */,
 				FA74C0F02117C60B0013A840 /* ForgotPasswordVC.swift in Sources */,
 				FA392BBB20DF69F30026C828 /* ActionHandler.swift in Sources */,

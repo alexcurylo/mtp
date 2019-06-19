@@ -8,11 +8,14 @@ import enum Result.Result
 
 enum MTPNetworkError: Swift.Error {
     case unknown
+    case decoding
+    case deviceOffline
     case message(String)
     case network(String)
     case notModified
     case parameter
-    case results
+    case result
+    case serverOffline
     case status
     case throttle
     case token
@@ -57,6 +60,7 @@ enum MTP: Hashable {
     case search(query: String?)
     case settings
     case unCountry
+    case upload(image: UIImage, location: Location?, caption: String)
     case userDelete(id: Int)
     case userGet(id: Int)
     case userGetByToken
@@ -122,6 +126,8 @@ extension MTP: TargetType {
             return "settings"
         case .unCountry:
             return "un-country"
+        case .upload:
+            return "files/upload"
         case .userGetByToken:
             return "user/getByToken"
         case .userDelete(let id),
@@ -170,6 +176,7 @@ extension MTP: TargetType {
             return .get
         case .checkIn,
              .passwordReset,
+             .upload,
              .userLogin,
              .userRegister:
             return .post
@@ -211,6 +218,11 @@ extension MTP: TargetType {
         case let .search(query?):
             return .requestParameters(parameters: ["query": query],
                                       encoding: URLEncoding.default)
+        case let .upload(image: image, location: _, caption: _):
+            if let imageData = image.jpegData(compressionQuality: 1.0) {
+                log.todo("handle upload of \(imageData.count)")
+            }
+            return .requestPlain
         case let .userLogin(email, password):
             return .requestParameters(parameters: ["email": email,
                                                    "password": password],
@@ -279,6 +291,7 @@ extension MTP: AccessTokenAuthorizable {
              .checkOut,
              .photos,
              .rankings,
+             .upload,
              .userDelete,
              .userGetByToken,
              .userPut:
@@ -342,6 +355,10 @@ protocol MTPNetworkService {
                   then: @escaping MTPResult<UserJSON>)
     func search(query: String,
                 then: @escaping MTPResult<SearchResultJSON>)
+    func upload(image: UIImage,
+                location: Location?,
+                caption: String,
+                then: @escaping MTPResult<String>)
     func userDeleteAccount(then: @escaping MTPResult<String>)
     func userForgotPassword(email: String,
                             then: @escaping MTPResult<String>)
@@ -375,7 +392,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                  id: Int,
                  then: @escaping MTPResult<Bool> = { _ in }) {
         guard data.isLoggedIn else {
-            log.verbose("checkIn attempt invalid: not logged in")
             return then(.failure(.parameter))
         }
 
@@ -386,6 +402,9 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
             switch response {
             case .success:
                 return then(.success(true))
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
@@ -398,7 +417,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                   id: Int,
                   then: @escaping MTPResult<Bool> = { _ in }) {
         guard data.isLoggedIn else {
-            log.verbose("checkOut attempt invalid: not logged in")
             return then(.failure(.parameter))
         }
 
@@ -409,6 +427,9 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
             switch response {
             case .success:
                 return then(.success(true))
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
@@ -423,6 +444,8 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
+
+        //swiftlint:disable:next closure_body_length
         provider.request(endpoint) { response in
             endpoint.markResponded()
             switch response {
@@ -437,8 +460,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.success(beaches))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
+                    return then(.failure(.decoding))
                 }
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
@@ -452,7 +478,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
 
     func loadChecklists(then: @escaping MTPResult<Checked> = { _ in }) {
         guard data.isLoggedIn else {
-            log.verbose("load checklists attempt invalid: not logged in")
             return then(.failure(.parameter))
         }
 
@@ -462,6 +487,8 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
+
+        //swiftlint:disable:next closure_body_length
         provider.request(endpoint) { response in
             endpoint.markResponded()
             switch response {
@@ -476,8 +503,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.success(visited))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
+                    return then(.failure(.decoding))
                 }
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
@@ -495,6 +525,8 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
+
+        //swiftlint:disable:next closure_body_length
         provider.request(endpoint) { response in
             endpoint.markResponded()
             switch response {
@@ -509,8 +541,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.success(divesites))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
+                    return then(.failure(.decoding))
                 }
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
@@ -528,6 +563,8 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
+
+        //swiftlint:disable:next closure_body_length
         provider.request(endpoint) { response in
             endpoint.markResponded()
             switch response {
@@ -542,8 +579,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.success(faq))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
+                    return then(.failure(.decoding))
                 }
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
@@ -561,6 +601,8 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
+
+        //swiftlint:disable:next closure_body_length
         provider.request(endpoint) { response in
             endpoint.markResponded()
             switch response {
@@ -575,8 +617,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.success(golfcourses))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
+                    return then(.failure(.decoding))
                 }
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
@@ -594,6 +639,8 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
+
+        //swiftlint:disable:next closure_body_length
         provider.request(endpoint) { response in
             endpoint.markResponded()
             switch response {
@@ -608,8 +655,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.success(locations))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
+                    return then(.failure(.decoding))
                 }
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
@@ -628,6 +678,8 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
+
+        //swiftlint:disable:next closure_body_length
         provider.request(endpoint) { response in
             endpoint.markResponded()
             switch response {
@@ -642,8 +694,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.success(photos))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
+                    return then(.failure(.decoding))
                 }
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
@@ -659,7 +714,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     page: Int,
                     then: @escaping MTPResult<PhotosPageInfoJSON> = { _ in }) {
         guard data.isLoggedIn else {
-            log.verbose("load photos attempt invalid: not logged in")
             return then(.failure(.parameter))
         }
 
@@ -669,6 +723,8 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
+
+        //swiftlint:disable:next closure_body_length
         provider.request(endpoint) { response in
             endpoint.markResponded()
             switch response {
@@ -683,8 +739,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.success(info))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
+                    return then(.failure(.decoding))
                 }
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
@@ -703,6 +762,8 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
+
+        //swiftlint:disable:next closure_body_length
         provider.request(endpoint) { response in
             endpoint.markResponded()
             switch response {
@@ -717,8 +778,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.success(posts))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
+                    return then(.failure(.decoding))
                 }
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
@@ -733,7 +797,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     func loadPosts(user id: Int,
                    then: @escaping MTPResult<PostsJSON> = { _ in }) {
         guard data.isLoggedIn else {
-            log.verbose("load posts attempt invalid: not logged in")
             return then(.failure(.parameter))
         }
 
@@ -743,6 +806,8 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
+
+        //swiftlint:disable:next closure_body_length
         provider.request(endpoint) { response in
             endpoint.markResponded()
             switch response {
@@ -757,8 +822,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.success(posts))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
+                    return then(.failure(.decoding))
                 }
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
@@ -780,6 +848,8 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
             provider = MoyaProvider<MTP>()
         }
         let endpoint = MTP.rankings(query: query)
+
+        //swiftlint:disable:next closure_body_length
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
@@ -793,8 +863,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.success(info))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
+                    return then(.failure(.decoding))
                 }
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
@@ -812,6 +885,8 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
+
+        //swiftlint:disable:next closure_body_length
         provider.request(endpoint) { response in
             endpoint.markResponded()
             switch response {
@@ -826,8 +901,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.success(restaurants))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
+                    return then(.failure(.decoding))
                 }
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
@@ -844,6 +922,8 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                        then: @escaping MTPResult<ScorecardJSON> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.scorecard(list: list, user: id)
+
+        //swiftlint:disable:next closure_body_length
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
@@ -857,8 +937,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.success(scorecard.data))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
+                    return then(.failure(.decoding))
                 }
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
@@ -876,6 +959,8 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
+
+        //swiftlint:disable:next closure_body_length
         provider.request(endpoint) { response in
             endpoint.markResponded()
             switch response {
@@ -890,8 +975,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.success(settings))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
+                    return then(.failure(.decoding))
                 }
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
@@ -909,6 +997,8 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
+
+        //swiftlint:disable:next closure_body_length
         provider.request(endpoint) { response in
             endpoint.markResponded()
             switch response {
@@ -923,8 +1013,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.success(uncountries))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
+                    return then(.failure(.decoding))
                 }
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
@@ -943,6 +1036,8 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
+
+        //swiftlint:disable:next closure_body_length
         provider.request(endpoint) { response in
             endpoint.markResponded()
             switch response {
@@ -957,8 +1052,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.success(user))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
+                    return then(.failure(.decoding))
                 }
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
@@ -976,6 +1074,8 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
+
+        //swiftlint:disable:next closure_body_length
         provider.request(endpoint) { response in
             endpoint.markResponded()
             switch response {
@@ -990,8 +1090,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.success(whss))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
+                    return then(.failure(.decoding))
                 }
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
@@ -1018,8 +1121,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.success(countries))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
+                    return then(.failure(.decoding))
                 }
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
@@ -1042,8 +1148,57 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.success(results))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
+                    return then(.failure(.decoding))
                 }
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
+            case .failure(let error):
+                let message = error.errorDescription ?? Localized.unknown()
+                self.log.error("failure: \(endpoint.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
+    func upload(image: UIImage,
+                location: Location?,
+                caption: String,
+                then: @escaping MTPResult<String>) {
+        guard data.isLoggedIn else {
+            log.verbose("upload attempt invalid: not logged in")
+            return then(.failure(.parameter))
+        }
+
+        let auth = AccessTokenPlugin { self.data.token }
+        let provider = MoyaProvider<MTP>(plugins: [auth])
+        let endpoint = MTP.upload(image: image,
+                                  location: location,
+                                  caption: caption)
+
+        //swiftlint:disable:next closure_body_length
+        provider.request(endpoint) { response in
+            switch response {
+            case .success(let result):
+                do {
+                    let info = try result.map(UploadImageInfo.self,
+                                              using: JSONDecoder.mtp)
+                    self.log.verbose("upload image: " + info.description)
+                    if info.isSuccess {
+                        return then(.success(info.message))
+                    } else {
+                        return then(.failure(.message(info.message)))
+                    }
+                } catch {
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    return then(.failure(.decoding))
+                }
+            case .failure(.underlying(AFError.responseValidationFailed, _)):
+                self.log.error("API rejection: \(endpoint.path)")
+                return then(.failure(.status))
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
@@ -1054,13 +1209,14 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
 
     func userDeleteAccount(then: @escaping MTPResult<String>) {
         guard let userId = data.user?.id else {
-            log.verbose("userDeleteAccount attempt invalid: not logged in")
             return then(.failure(.parameter))
         }
 
         let auth = AccessTokenPlugin { self.data.token }
         let provider = MoyaProvider<MTP>(plugins: [auth])
         let endpoint = MTP.userDelete(id: userId)
+
+        //swiftlint:disable:next closure_body_length
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
@@ -1074,11 +1230,14 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     }
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
+                    return then(.failure(.decoding))
                 }
             case .failure(.underlying(AFError.responseValidationFailed, _)):
                 self.log.error("API rejection: \(endpoint.path)")
                 return then(.failure(.status))
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
@@ -1090,19 +1249,19 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     func userForgotPassword(email: String,
                             then: @escaping MTPResult<String>) {
         guard !email.isEmpty else {
-            log.verbose("forgotPassword attempt invalid: email `\(email)`")
             return then(.failure(.parameter))
         }
 
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.passwordReset(email: email)
+
+        //swiftlint:disable:next closure_body_length
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
                 do {
                     let info = try result.map(PasswordResetInfo.self,
                                               using: JSONDecoder.mtp)
-                    self.log.verbose("reset password: " + info.debugDescription)
                     if info.isSuccess {
                         return then(.success(info.message))
                     } else {
@@ -1110,11 +1269,14 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     }
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
+                    return then(.failure(.decoding))
                 }
             case .failure(.underlying(AFError.responseValidationFailed, _)):
                 self.log.error("API rejection: \(endpoint.path)")
                 return then(.failure(.status))
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
@@ -1125,7 +1287,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
 
     func userGetByToken(then: @escaping MTPResult<UserJSON> = { _ in }) {
         guard data.isLoggedIn else {
-            log.verbose("userGetByToken attempt invalid: not logged in")
             return then(.failure(.parameter))
         }
 
@@ -1135,6 +1296,8 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
+
+        //swiftlint:disable:next closure_body_length
         provider.request(endpoint) { response in
             endpoint.markResponded()
             switch response {
@@ -1149,8 +1312,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     return then(.success(user))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
+                    return then(.failure(.decoding))
                 }
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
@@ -1166,7 +1332,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                    password: String,
                    then: @escaping MTPResult<UserJSON>) {
         guard !email.isEmpty && !password.isEmpty else {
-            log.verbose("userLogin attempt invalid: email `\(email)` password `\(password)`")
             return then(.failure(.parameter))
         }
 
@@ -1178,29 +1343,13 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 let user = try response.map(UserJSON.self,
                                             using: JSONDecoder.mtp)
                 guard let token = user.token else { throw MTPNetworkError.token }
-                log.verbose("logged in user: " + user.debugDescription)
                 data.token = token
                 data.user = user
                 refreshUserInfo()
                 return then(.success(user))
             } catch {
                 log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                return then(.failure(.results))
-            }
-        }
-
-        func parse(error response: Response?) {
-            guard let response = response else {
-                return then(.failure(.results))
-            }
-
-            do {
-                let info = try response.map(OperationInfo.self,
-                                            using: JSONDecoder.mtp)
-                return then(.failure(.message(info.message)))
-            } catch {
-                self.log.error("decoding error response: \(error)\n-\n\(response.toString)")
-                return then(.failure(.results))
+                return then(.failure(.decoding))
             }
         }
 
@@ -1208,8 +1357,9 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
             switch result {
             case .success(let response):
                 return parse(success: response)
-            case .failure(.underlying(_, let response)):
-                return parse(error: response)
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
                 self.log.error("failure: \(endpoint.path) \(message) \(error)")
@@ -1221,7 +1371,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     func userRegister(info: RegistrationInfo,
                       then: @escaping MTPResult<UserJSON>) {
         guard info.isValid else {
-            log.verbose("register attempt invalid: \(info)")
             return then(.failure(.parameter))
         }
 
@@ -1233,8 +1382,6 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 let user = try result.map(UserJSON.self,
                                           using: JSONDecoder.mtp)
                 guard let token = user.token else { throw MTPNetworkError.token }
-                log.verbose("registered user: " + user.debugDescription)
-                log.verbose("from result: " + result.toString)
                 data.token = token
                 data.user = user
                 userGetByToken { _ in
@@ -1242,7 +1389,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 }
             } catch {
                 log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                return then(.failure(.results))
+                return then(.failure(.decoding))
             }
         }
 
@@ -1250,6 +1397,9 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
             switch response {
             case .success(let result):
                 return parse(result: result)
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 let message = error.errorDescription ?? Localized.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
@@ -1263,6 +1413,8 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         let auth = AccessTokenPlugin { self.data.token }
         let provider = MoyaProvider<MTP>(plugins: [auth])
         let endpoint = MTP.userPut(info: info)
+
+        //swiftlint:disable:next closure_body_length
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
@@ -1277,8 +1429,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                     }
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.results))
+                    return then(.failure(.decoding))
                 }
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
             case .failure(let error):
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
@@ -1291,7 +1446,9 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     }
 }
 
-extension MoyaError {
+// MARK: - Support
+
+private extension MoyaError {
 
     func modified(from endpoint: MTP) -> Bool {
         guard let response = response,
@@ -1334,7 +1491,7 @@ extension Response: ServiceProvider {
     }
 }
 
-extension HTTPURLResponse {
+private extension HTTPURLResponse {
 
     func find(header: String) -> String? {
         let keyValues = allHeaderFields.map {
@@ -1347,8 +1504,6 @@ extension HTTPURLResponse {
         return nil
     }
 }
-
-// MARK: - Support
 
 extension MoyaMTPNetworkService {
 
@@ -1404,6 +1559,29 @@ private extension MoyaMTPNetworkService {
         loadPhotos(user: user.id, page: 1)
         Checklist.allCases.forEach { list in
             loadScorecard(list: list, user: user.id)
+        }
+    }
+
+    func parse(error: Error?,
+               response: Response?) -> MTPNetworkError {
+        if let error = error as NSError?,
+            error.domain == NSURLErrorDomain,
+            // swiftlint:disable:next number_separator
+            error.code == -1009 {
+            return .deviceOffline
+        }
+
+        guard let response = response else {
+            return .serverOffline
+        }
+
+        do {
+            let info = try response.map(OperationInfo.self,
+                                        using: JSONDecoder.mtp)
+            return .message(info.message)
+        } catch {
+            self.log.error("decoding error response: \(error)\n-\n\(response.toString)")
+            return .result
         }
     }
 }

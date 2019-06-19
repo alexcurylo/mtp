@@ -10,10 +10,18 @@
 
 "unknown" = "unknown";
 "success" = "Success!";
-"error" = "Error";
-"networkError" = "A network failure occurred: %@";
-"resultError" = "Unexpected results were received. Please update to the latest app version.";
-"unexpectedError" = "An unexpected error occurred. Please update to the latest app version.";
+"networkError" = "Could not %1$@ - a network failure occurred: %2$@";
+"deviceOfflineError" = "Could not %@ - your device appears to be offline. Please connect to the Internet.";
+"serverOfflineError" = "Could not %@ - the MTP.travel website appears to be offline.";
+"resultsError" = "Could not %@ - unexpected results were received.";
+"unexpectedError" = "Could not %@ - an unexpected error occurred.";
+"resultsErrorReport" = "Could not %@ - unexpected results were received. Please report the problem with ‘Contact Us’ on the ‘Settings’ page.";
+"unexpectedErrorReport" = "Could not %@ - an unexpected error occurred. Please report the problem with ‘Contact Us’ on the ‘Settings’ page.";
+"deleteAccount" = "delete account";
+"logIn" = "log in";
+"resetPassword" = "reset password";
+"signUp" = "sign up";
+"updateProfile" = "update profile";
 
 // list state handling
 
@@ -28,7 +36,7 @@
 "fixBio" = "Please tell us about yourself!";
 "fixAirport" = "Please enter your home airport!";
 "fixLinks" = "Please enter a title and URL for all your links!";
-"updatingAccount" = "Updating account…";
+"updatingProfile" = "Updating profile…";
 "deletingAccount" = "Deleting account…";
 
 // ForgotPasswordVC

@@ -91,6 +91,14 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
                                 styler: .standard,
                                 delegate: self)
             }
+        case Segues.showPhotos.identifier:
+            if let photos = Segues.showPhotos(segue: segue)?.destination,
+               let user = data.user {
+                photos.inject(model: User(from: user))
+                photos.set(mode: .picker,
+                           selection: current.picture ?? "",
+                           delegate: self)
+            }
         case Segues.unwindFromEditProfile.identifier:
             data.logOut()
         case Segues.cancelEdits.identifier,
@@ -122,6 +130,8 @@ extension EditProfileVC {
 extension EditProfileVC: UITextFieldDelegate {
 
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        let linkTextFields = linksStack?.linkTextFields ?? []
+
         switch textField {
         case firstNameTextField:
             toolbarBackButton?.isEnabled = false
@@ -132,31 +142,52 @@ extension EditProfileVC: UITextFieldDelegate {
         case locationTextField:
             performSegue(withIdentifier: Segues.showLocation, sender: self)
             return false
+        case airportTextField:
+            toolbarBackButton?.isEnabled = true
+            toolbarNextButton?.isEnabled = !linkTextFields.isEmpty
+        case linkTextFields.last:
+            toolbarBackButton?.isEnabled = true
+            toolbarNextButton?.isEnabled = false
         case lastNameTextField,
              birthdayTextField,
              genderTextField,
-             emailTextField:
+             emailTextField,
+             _ where linkTextFields.contains(textField):
             toolbarBackButton?.isEnabled = true
             toolbarNextButton?.isEnabled = true
-        case airportTextField:
-            toolbarBackButton?.isEnabled = true
-            toolbarNextButton?.isEnabled = false
         default:
-            toolbarBackButton?.isEnabled = true
-            toolbarNextButton?.isEnabled = true
+            toolbarBackButton?.isEnabled = false
+            toolbarNextButton?.isEnabled = false
         }
         return true
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
         updateSave(showError: false)
-        return true
+        return false
+    }
+}
+
+// MARK: - UITextViewDelegate
+
+extension EditProfileVC: UITextViewDelegate {
+
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        toolbarBackButton?.isEnabled = true
+        toolbarNextButton?.isEnabled = true
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
     }
 }
 
 // MARK: - Private
 
 private extension EditProfileVC {
+
+    @IBAction func unwindToEditProfile(segue: UIStoryboardSegue) {
+    }
 
     // swiftlint:disable:next function_body_length
     func configure() {
@@ -303,7 +334,10 @@ private extension EditProfileVC {
         }
     }
 
-    @IBAction func toolbarBackTapped(_ sender: UIBarButtonItem) {
+    //swiftlint:disable:next cyclomatic_complexity
+   @IBAction func toolbarBackTapped(_ sender: UIBarButtonItem) {
+        let linkTextFields = linksStack?.linkTextFields ?? []
+
         if firstNameTextField?.isEditing ?? false {
             firstNameTextField?.resignFirstResponder()
             updateSave(showError: false)
@@ -327,11 +361,22 @@ private extension EditProfileVC {
             emailTextField?.becomeFirstResponder()
         } else if airportTextField?.isEditing ?? false {
             aboutTextView?.becomeFirstResponder()
+        } else if linkTextFields.first?.isEditing ?? false {
+            airportTextField?.becomeFirstResponder()
         } else {
+            for (index, field) in linkTextFields.enumerated() where field.isEditing {
+                let prevIndex = index - 1
+                if prevIndex >= 0 {
+                    linkTextFields[prevIndex].becomeFirstResponder()
+                }
+            }
         }
     }
 
+    //swiftlint:disable:next cyclomatic_complexity
     @IBAction func toolbarNextTapped(_ sender: UIBarButtonItem) {
+        let linkTextFields = linksStack?.linkTextFields ?? []
+
         if firstNameTextField?.isEditing ?? false {
             lastNameTextField?.becomeFirstResponder()
         } else if lastNameTextField?.isEditing ?? false {
@@ -353,9 +398,24 @@ private extension EditProfileVC {
         } else if aboutTextView?.isFirstResponder ?? false {
             airportTextField?.becomeFirstResponder()
        } else if airportTextField?.isEditing ?? false {
-            view.endEditing(true)
-            updateSave(showError: false)
-       }
+            if let next = linkTextFields.first {
+                next.becomeFirstResponder()
+            } else {
+                view.endEditing(true)
+                updateSave(showError: false)
+            }
+        } else {
+            for (index, field) in linkTextFields.enumerated() where field.isEditing {
+                let nextIndex = index + 1
+                if nextIndex < linkTextFields.count {
+                    linkTextFields[nextIndex].becomeFirstResponder()
+                } else {
+                    view.endEditing(true)
+                    updateSave(showError: false)
+                }
+                return
+            }
+        }
     }
 
     @IBAction func toolbarDoneTapped(_ sender: UIBarButtonItem) {
@@ -385,6 +445,7 @@ private extension EditProfileVC {
         current.email = emailTextField?.text ?? ""
         current.bio = aboutTextView?.text ?? ""
         current.airport = airportTextField?.text ?? ""
+        let linksValid = updateLinks()
 
         let errorMessage: String
         if current.first_name.isEmpty {
@@ -405,6 +466,8 @@ private extension EditProfileVC {
             errorMessage = Localized.fixBio()
         } else if current.airport?.isEmpty ?? true {
             errorMessage = Localized.fixAirport()
+        } else if !linksValid {
+            errorMessage = Localized.fixLinks()
         } else {
             errorMessage = ""
         }
@@ -423,11 +486,27 @@ private extension EditProfileVC {
         }
     }
 
-    func upload(edits: UserUpdate) {
-        log.todo("verify integrity of upload(edits:)")
-        return note.unimplemented()
+    func updateLinks() -> Bool {
+        guard let links = current.links,
+              let views = linksStack?.arrangedSubviews,
+              links.count == views.count else { return false }
 
-        note.modal(info: Localized.updatingAccount())
+        var valid = true
+        for (index, view) in views.enumerated() {
+            let link = Link(text: view.linkDescription,
+                            url: view.linkUrl)
+            current.links?[index] = link
+            valid = valid && !link.text.isEmpty && !link.url.isEmpty
+        }
+
+        return valid
+    }
+
+    func upload(edits: UserUpdate) {
+        let operation = Localized.updateProfile()
+        note.modal(info: Localized.updatingProfile())
+
+        // swiftlint:disable:next closure_body_length
         mtp.userUpdate(info: edits) { [weak self, note] result in
             let errorMessage: String
             switch result {
@@ -438,15 +517,20 @@ private extension EditProfileVC {
                     self?.performSegue(withIdentifier: Segues.cancelEdits, sender: self)
                 }
                 return
-            case .failure(.status),
-                 .failure(.results):
-                errorMessage = Localized.resultError()
+            case .failure(.deviceOffline):
+                errorMessage = Localized.deviceOfflineError(operation)
+            case .failure(.serverOffline):
+                errorMessage = Localized.serverOfflineError(operation)
+            case .failure(.decoding),
+                 .failure(.result),
+                 .failure(.status):
+                errorMessage = Localized.resultsErrorReport(operation)
             case .failure(.message(let message)):
                 errorMessage = message
             case .failure(.network(let message)):
-                errorMessage = Localized.networkError(message)
+                errorMessage = Localized.networkError(operation, message)
             default:
-                errorMessage = Localized.unexpectedError()
+                errorMessage = Localized.unexpectedErrorReport(operation)
             }
             note.modal(error: errorMessage)
             DispatchQueue.main.asyncAfter(deadline: .medium) {
@@ -456,8 +540,7 @@ private extension EditProfileVC {
     }
 
     @IBAction func avatarTapped(_ sender: UIButton) {
-        log.todo("avatarTapped")
-        note.unimplemented()
+        // push segue to Profile Photos in storyboard
     }
 
     @IBAction func deleteLinkTapped(_ sender: UIButton) {
@@ -473,10 +556,7 @@ private extension EditProfileVC {
             view.removeFromSuperview()
 
             for (index, link) in stack.arrangedSubviews.enumerated() {
-                if let url = (link as? UIStackView)?.arrangedSubviews.last,
-                    let button = url.subviews.first(where: { $0 is UIButton }) {
-                    button.tag = index
-                }
+                link.linkDeleteButton?.tag = index
             }
         }
 
@@ -496,7 +576,10 @@ private extension EditProfileVC {
     }
 
     @IBAction func deleteAccount(segue: UIStoryboardSegue) {
+        let operation = Localized.deleteAccount()
         note.modal(info: Localized.deletingAccount())
+
+        // swiftlint:disable:next closure_body_length
         mtp.userDeleteAccount { [weak self, note] result in
             let errorMessage: String
             switch result {
@@ -507,21 +590,37 @@ private extension EditProfileVC {
                     self?.performSegue(withIdentifier: Segues.unwindFromEditProfile, sender: self)
                 }
                 return
-            case .failure(.status),
-                 .failure(.results):
-                errorMessage = Localized.resultError()
+            case .failure(.deviceOffline):
+                errorMessage = Localized.deviceOfflineError(operation)
+            case .failure(.serverOffline):
+                errorMessage = Localized.serverOfflineError(operation)
+            case .failure(.decoding),
+                 .failure(.result),
+                 .failure(.status):
+                errorMessage = Localized.resultsErrorReport(operation)
             case .failure(.message(let message)):
                 errorMessage = message
             case .failure(.network(let message)):
-                errorMessage = Localized.networkError(message)
+                errorMessage = Localized.networkError(operation, message)
             default:
-                errorMessage = Localized.unexpectedError()
+                errorMessage = Localized.unexpectedErrorReport(operation)
             }
             note.modal(error: errorMessage)
             DispatchQueue.main.asyncAfter(deadline: .medium) {
                 note.dismissModal()
             }
         }
+    }
+}
+
+// MARK: - PhotoSelectionDelegate
+
+extension EditProfileVC: PhotoSelectionDelegate {
+
+    func selected(picture: String) {
+        current.picture = picture
+        avatarButton?.load(image: current)
+        updateSave(showError: false)
     }
 }
 
@@ -635,18 +734,66 @@ private extension InsetTextField {
         hInset = 8
         vInset = 4
         borderStyle = .none
+        returnKeyType = .done
 
         if self is InsetTextFieldGradient {
             cornerRadius = 15
             textColor = .white
             font = Avenir.medium.of(size: 16)
             placeholder = Localized.linkUrl()
+            keyboardType = .URL
+            textContentType = .URL
+            autocapitalizationType = .none
+            autocorrectionType = .no
+            spellCheckingType = .no
         } else {
             cornerRadius = 3
             borderWidth = 1
             borderColor = .alto
-            font = Avenir.roman.of(size: 16)
+            font = Avenir.book.of(size: 16)
             placeholder = Localized.linkTitle()
         }
+    }
+}
+
+private extension UIStackView {
+
+    var linkTextFields: [UITextField] {
+        return arrangedSubviews.flatMap {
+            [$0.linkDescriptionField,
+             $0.linkUrlField].compactMap { $0 }
+        }
+    }
+}
+
+private extension UIView {
+
+    var linkViews: [UIView] {
+        return (self as? UIStackView)?.arrangedSubviews ?? []
+    }
+
+    var linkDescriptionField: UITextField? {
+        return linkViews.first as? UITextField
+    }
+
+    var linkUrlView: UIView? {
+        return linkViews.last
+    }
+
+    var linkDescription: String {
+        return linkDescriptionField?.text ?? ""
+    }
+
+    var linkUrlField: UITextField? {
+        return linkUrlView?.subviews.first { $0 is UITextField } as? UITextField
+    }
+
+    var linkUrl: String {
+        return linkUrlField?.text ?? ""
+    }
+
+    var linkDeleteButton: UIButton? {
+        let button = linkUrlView?.subviews.first { $0 is UIButton }
+        return button as? UIButton
     }
 }
