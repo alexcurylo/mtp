@@ -78,6 +78,8 @@ final class CountSectionHeader: UICollectionReusableView {
     }
 }
 
+// MARK: - Private
+
 private extension CountSectionHeader {
 
     func configure() {

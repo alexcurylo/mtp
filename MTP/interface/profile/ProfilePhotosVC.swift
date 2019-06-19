@@ -9,6 +9,11 @@ final class ProfilePhotosVC: PhotosVC {
     private var pagesObserver: Observer?
 
     private var user: User?
+    private var isSelf: Bool = false
+
+    override var canCreate: Bool {
+        return isSelf
+    }
 
     override var photoCount: Int {
         return photosPages?.first?.total ?? 0
@@ -33,8 +38,6 @@ final class ProfilePhotosVC: PhotosVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
-
-        collectionView.backgroundView = UIView { $0.backgroundColor = .clear }
 
         update()
         observe()
@@ -101,6 +104,7 @@ extension ProfilePhotosVC: UserInjectable {
 
     @discardableResult func inject(model: Model) -> Self {
         user = model
+        isSelf = model.id == data.user?.id
 
         mtp.loadPhotos(user: model.id,
                        page: 1) { _ in }

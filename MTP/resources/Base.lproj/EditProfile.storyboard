@@ -16,7 +16,7 @@
             <objects>
                 <tableViewController id="Aga-YF-c3F" customClass="EditProfileVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="jc0-q8-DQp">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <sections>
@@ -52,7 +52,7 @@
                                                                                 </userDefinedRuntimeAttribute>
                                                                             </userDefinedRuntimeAttributes>
                                                                             <connections>
-                                                                                <action selector="avatarTapped:" destination="Aga-YF-c3F" eventType="touchUpInside" id="n1w-tb-y0p"/>
+                                                                                <segue destination="dlU-js-xxP" kind="show" identifier="showPhotos" id="myx-op-jE2"/>
                                                                             </connections>
                                                                         </button>
                                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="1Jw-Ew-YOm">
@@ -465,7 +465,7 @@
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j16-UJ-CJ3" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
                                                                     <rect key="frame" x="0.0" y="62" width="390" height="42"/>
                                                                     <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
-                                                                    <state key="normal" title="+ Add new link">
+                                                                    <state key="normal" title="＋ Add new link">
                                                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     </state>
                                                                     <userDefinedRuntimeAttributes>
@@ -689,19 +689,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud1" translatesAutoresizingMaskIntoConstraints="NO" id="dkn-Nb-1TC">
-                                <rect key="frame" x="16" y="263" width="97" height="58"/>
+                                <rect key="frame" x="97" y="305" width="16" height="16"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud1" translatesAutoresizingMaskIntoConstraints="NO" id="wwH-cb-Pnj">
-                                <rect key="frame" x="-42" y="138.33333333333334" width="97" height="58"/>
+                                <rect key="frame" x="39" y="180.33333333333334" width="16" height="16"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud2" translatesAutoresizingMaskIntoConstraints="NO" id="h5P-4b-P6e">
-                                <rect key="frame" x="327" y="285" width="101" height="55"/>
+                                <rect key="frame" x="327" y="324" width="16" height="16"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud3" translatesAutoresizingMaskIntoConstraints="NO" id="liG-t7-Xp1">
-                                <rect key="frame" x="32" y="456" width="112" height="69"/>
+                                <rect key="frame" x="128" y="456" width="16" height="16"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud4" translatesAutoresizingMaskIntoConstraints="NO" id="aJz-Gi-R1g">
-                                <rect key="frame" x="288" y="431" width="104" height="68"/>
+                                <rect key="frame" x="288" y="431" width="16" height="16"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="48" translatesAutoresizingMaskIntoConstraints="NO" id="tT5-jP-ET1" userLabel="Message Stack">
                                 <rect key="frame" x="32" y="178.66666666666666" width="350" height="269.66666666666674"/>
@@ -780,7 +780,7 @@
                                 </subviews>
                             </stackView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud4" translatesAutoresizingMaskIntoConstraints="NO" id="T2k-QS-12r">
-                                <rect key="frame" x="355" y="128.33333333333334" width="104" height="68"/>
+                                <rect key="frame" x="355" y="180.33333333333334" width="16" height="16"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -824,7 +824,15 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lV3-Gr-X46" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="WwF-Sl-Go6" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="4235" y="37"/>
+            <point key="canvasLocation" x="4167" y="-77"/>
+        </scene>
+        <!--ProfilePhotos-->
+        <scene sceneID="Gza-xY-I6T">
+            <objects>
+                <viewControllerPlaceholder storyboardName="ProfilePhotos" id="dlU-js-xxP" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MFT-bM-Hew" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3949" y="285"/>
         </scene>
         <!--LocationSearch-->
         <scene sceneID="s4X-57-rKL">
@@ -832,7 +840,7 @@
                 <viewControllerPlaceholder storyboardName="LocationSearch" id="adc-Rf-7Hd" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TbU-Lw-eIF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4025" y="443"/>
+            <point key="canvasLocation" x="3957" y="440"/>
         </scene>
     </scenes>
     <resources>

@@ -1,7 +1,5 @@
 // @copyright Trollwerks Inc.
 
-import RealmSwift
-
 final class LocationPhotosVC: PhotosVC {
 
     private var place: PlaceAnnotation?
@@ -9,6 +7,10 @@ final class LocationPhotosVC: PhotosVC {
 
     private var photosObserver: Observer?
     private var updated = false
+
+    override var canCreate: Bool {
+        return true
+    }
 
     override var photoCount: Int {
         return photos.count
@@ -24,6 +26,7 @@ final class LocationPhotosVC: PhotosVC {
 
         observe()
         update()
+
         if let place = place {
             mtp.loadPhotos(location: place.id) { [weak self] _ in
                 guard let self = self,

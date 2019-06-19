@@ -91,6 +91,14 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
                                 styler: .standard,
                                 delegate: self)
             }
+        case Segues.showPhotos.identifier:
+            if let photos = Segues.showPhotos(segue: segue)?.destination,
+               let user = data.user {
+                photos.inject(model: User(from: user))
+                photos.set(mode: .picker,
+                           selection: current.picture ?? "",
+                           delegate: self)
+            }
         case Segues.unwindFromEditProfile.identifier:
             data.logOut()
         case Segues.cancelEdits.identifier,
@@ -177,6 +185,9 @@ extension EditProfileVC: UITextViewDelegate {
 // MARK: - Private
 
 private extension EditProfileVC {
+
+    @IBAction func unwindToEditProfile(segue: UIStoryboardSegue) {
+    }
 
     // swiftlint:disable:next function_body_length
     func configure() {
@@ -521,8 +532,7 @@ private extension EditProfileVC {
     }
 
     @IBAction func avatarTapped(_ sender: UIButton) {
-        log.todo("avatarTapped")
-        note.unimplemented()
+        // push segue to Profile Photos in storyboard
     }
 
     @IBAction func deleteLinkTapped(_ sender: UIButton) {
@@ -584,6 +594,17 @@ private extension EditProfileVC {
                 note.dismissModal()
             }
         }
+    }
+}
+
+// MARK: - PhotoSelectionDelegate
+
+extension EditProfileVC: PhotoSelectionDelegate {
+
+    func selected(picture: String) {
+        current.picture = picture
+        avatarButton?.load(image: current)
+        updateSave(showError: false)
     }
 }
 

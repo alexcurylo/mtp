@@ -20,13 +20,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="15" minimumInteritemSpacing="15" id="1jX-xg-TOV">
                             <size key="itemSize" width="100" height="100"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="headerReferenceSize" width="50" height="50"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="8" minY="15" maxX="8" maxY="15"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoCell" id="GKv-yp-VNW" customClass="PhotoCell" customModule="MTP" customModuleProvider="target">
-                                <rect key="frame" x="8" y="15" width="100" height="100"/>
+                                <rect key="frame" x="8" y="65" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                     <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
@@ -55,20 +55,79 @@
                                 </connections>
                             </collectionViewCell>
                         </cells>
+                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="PhotosHeader" id="LOp-d9-EOa" customClass="PhotosHeader" customModule="MTP" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9V9-Ac-ZjW" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
+                                    <rect key="frame" x="8" y="8" width="359" height="42"/>
+                                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                    <state key="normal" title="＋Add new photo">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                            <color key="value" name="dodgerBlue"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                            <color key="value" name="azureRadiance"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="orientation">
+                                            <integer key="value" value="2"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                            <real key="value" value="4"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="addTapped:" destination="I89-Ov-fSa" eventType="touchUpInside" id="OF7-3O-FFi"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="9V9-Ac-ZjW" firstAttribute="leading" secondItem="LOp-d9-EOa" secondAttribute="leading" constant="8" id="1xx-fp-K29"/>
+                                <constraint firstAttribute="bottom" secondItem="9V9-Ac-ZjW" secondAttribute="bottom" id="6Qw-7q-r0d"/>
+                                <constraint firstItem="9V9-Ac-ZjW" firstAttribute="top" secondItem="LOp-d9-EOa" secondAttribute="top" constant="8" id="B0N-d8-Qzo"/>
+                                <constraint firstAttribute="trailing" secondItem="9V9-Ac-ZjW" secondAttribute="trailing" constant="8" id="YHM-Tz-nK6"/>
+                            </constraints>
+                        </collectionReusableView>
                         <connections>
                             <outlet property="dataSource" destination="I89-Ov-fSa" id="bud-Eo-q0Y"/>
                             <outlet property="delegate" destination="I89-Ov-fSa" id="0Ja-Xc-6Gs"/>
                         </connections>
                     </collectionView>
-                    <nil key="simulatedTopBarMetrics"/>
+                    <navigationItem key="navigationItem" title="Choose Photo" id="XUq-uh-2zk">
+                        <barButtonItem key="leftBarButtonItem" image="navClose" id="Cl9-yh-jit">
+                            <connections>
+                                <segue destination="G6y-rs-hWL" kind="unwind" identifier="cancelChoose" unwindAction="unwindToEditProfileWithSegue:" id="T3L-GT-qML"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="gJs-eF-TNa">
+                            <connections>
+                                <action selector="saveTapped:" destination="I89-Ov-fSa" id="SHT-Wg-NmA"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="saveButton" destination="gJs-eF-TNa" id="Onh-nP-O0p"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ti4-er-OrK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="G6y-rs-hWL" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-165.59999999999999" y="-97.601199400299862"/>
         </scene>
     </scenes>
     <resources>
+        <image name="navClose" width="16" height="16"/>
+        <namedColor name="azureRadiance">
+            <color red="0.0078431372549019607" green="0.55294117647058827" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="dodgerBlue">
+            <color red="0.098039215686274508" green="0.75294117647058822" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="dustyGray">
             <color red="0.61176470588235299" green="0.61176470588235299" blue="0.61176470588235299" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
