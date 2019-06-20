@@ -15,6 +15,11 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
     }
 
     private var user: User?
+    private var isSelf: Bool = false
+
+    override var canCreate: Bool {
+        return isSelf
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +33,7 @@ extension ProfilePostsVC: Injectable {
 
     @discardableResult func inject(model: Model) -> Self {
         user = model
+        isSelf = model.id == data.user?.id
 
         mtp.loadPosts(user: model.id) { _ in }
 

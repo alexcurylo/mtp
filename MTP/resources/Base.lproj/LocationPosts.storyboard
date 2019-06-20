@@ -6,21 +6,22 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Reviews-->
+        <!--Posts-->
         <scene sceneID="5ku-0A-E44">
             <objects>
-                <tableViewController storyboardIdentifier="LocationReviews" title="Reviews" useStoryboardIdentifierAsRestorationIdentifier="YES" id="fGz-KU-k2z" customClass="LocationReviewsVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="3ns-xU-TMs">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                <tableViewController storyboardIdentifier="LocationPosts" title="Posts" useStoryboardIdentifierAsRestorationIdentifier="YES" id="fGz-KU-k2z" customClass="LocationPostsVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="3ns-xU-TMs">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PostCell" rowHeight="170" id="dWA-Z1-8u3" customClass="PostCell" customModule="MTP" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="170"/>
+                                <rect key="frame" x="0.0" y="55.5" width="375" height="170"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dWA-Z1-8u3" id="5Xd-8Z-iHp">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="170"/>
@@ -56,7 +57,9 @@
                             <outlet property="delegate" destination="fGz-KU-k2z" id="C6D-GD-O5p"/>
                         </connections>
                     </tableView>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
+                        <outlet property="addHeader" destination="Ofo-hM-A9U" id="ehZ-BU-QdK"/>
                         <outlet property="backgroundView" destination="N0u-34-Ts7" id="7sP-R6-LUo"/>
                     </connections>
                 </tableViewController>
@@ -77,8 +80,54 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>
+                <view contentMode="scaleToFill" id="Ofo-hM-A9U">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gjF-Z6-GPX" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                            <state key="normal" title="＋Add new review">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                    <color key="value" name="dodgerBlue"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                    <color key="value" name="azureRadiance"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="orientation">
+                                    <integer key="value" value="2"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                    <real key="value" value="4"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="addTapped:" destination="fGz-KU-k2z" eventType="touchUpInside" id="5i7-1l-Cah"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="gjF-Z6-GPX" secondAttribute="bottom" id="Kcd-3m-w2c"/>
+                        <constraint firstItem="gjF-Z6-GPX" firstAttribute="leading" secondItem="Ofo-hM-A9U" secondAttribute="leading" id="fnK-8M-yiy"/>
+                        <constraint firstAttribute="trailing" secondItem="gjF-Z6-GPX" secondAttribute="trailing" id="mut-9A-3y1"/>
+                        <constraint firstItem="gjF-Z6-GPX" firstAttribute="top" secondItem="Ofo-hM-A9U" secondAttribute="top" id="tbK-3O-HDp"/>
+                    </constraints>
+                    <viewLayoutGuide key="safeArea" id="LCv-G9-cdi"/>
+                </view>
             </objects>
             <point key="canvasLocation" x="2586" y="39"/>
         </scene>
     </scenes>
+    <resources>
+        <namedColor name="azureRadiance">
+            <color red="0.0078431372549019607" green="0.55294117647058827" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="dodgerBlue">
+            <color red="0.098039215686274508" green="0.75294117647058822" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
 </document>

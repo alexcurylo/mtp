@@ -125,9 +125,10 @@ extension FaqVC {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(
+        //swiftlint:disable:next implicitly_unwrapped_optional
+        let cell: FaqCell! = tableView.dequeueReusableCell(
             withIdentifier: R.reuseIdentifier.faqCell,
-            for: indexPath) ?? FaqCell()
+            for: indexPath)
 
         cell.set(model: faqs[indexPath.row],
                  delegate: self)

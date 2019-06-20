@@ -5,15 +5,21 @@ import Anchorage
 class PostsVC: UITableViewController, ServiceProvider {
 
     @IBOutlet private var backgroundView: UIView?
+    @IBOutlet private var addHeader: UIView? //PostHeader?
 
-    private var models: [PostCellModel] = []
+    var canCreate: Bool {
+        return false
+    }
+
     var posts: [Post] {
         fatalError("posts has not been overridden")
     }
+
     var source: DataServiceChange {
         fatalError("source has not been overridden")
     }
 
+    private var models: [PostCellModel] = []
     private var contentState: ContentState = .loading
     private var postsObserver: Observer?
     private var viewObservation: NSKeyValueObservation?
@@ -27,9 +33,15 @@ class PostsVC: UITableViewController, ServiceProvider {
         tableView.backgroundView = UIView { $0.backgroundColor = .clear }
         #endif
         tableView.tableFooterView = UIView()
-
-        tableView.estimatedRowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedSectionHeaderHeight = 50
+        tableView.sectionHeaderHeight = UITableView.automaticDimension
+
+        tableView.register(
+            PostHeader.self,
+            forHeaderFooterViewReuseIdentifier: PostHeader.reuseIdentifier
+        )
 
         update()
         observe()
@@ -52,7 +64,7 @@ class PostsVC: UITableViewController, ServiceProvider {
     }
 }
 
-// MARK: UITableViewControllerDataSource
+// MARK: - UITableViewControllerDataSource
 
 extension PostsVC {
 
@@ -65,11 +77,26 @@ extension PostsVC {
         return models.count
     }
 
+    ///*
+    override func tableView(_ tableView: UITableView,
+                            viewForHeaderInSection section: Int) -> UIView? {
+        guard canCreate else { return nil }
+
+        let header = tableView.dequeueReusableHeaderFooterView(
+            withIdentifier: PostHeader.reuseIdentifier) as? PostHeader
+
+        header?.delegate = self
+
+        return header
+     }
+     //
+
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(
+        //swiftlint:disable:next implicitly_unwrapped_optional
+        let cell: PostCell! = tableView.dequeueReusableCell(
             withIdentifier: R.reuseIdentifier.postCell,
-            for: indexPath) ?? PostCell()
+            for: indexPath)
 
         cell.set(model: models[indexPath.row],
                  delegate: self)
@@ -91,9 +118,19 @@ extension PostsVC {
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
+
+    override func tableView(_ tableView: UITableView,
+                            heightForHeaderInSection section: Int) -> CGFloat {
+        return canCreate ? UITableView.automaticDimension : 0
+    }
+
+    override func tableView(_ tableView: UITableView,
+                            estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        return canCreate ? 80 : 0
+    }
 }
 
-// MARK: PostCellDelegate
+// MARK: - PostCellDelegate
 
 extension PostsVC: PostCellDelegate {
 
@@ -108,9 +145,14 @@ extension PostsVC: PostCellDelegate {
     }
 }
 
-// MARK: Data management
+// MARK: - Private
 
 private extension PostsVC {
+
+    @IBAction func addTapped(_ sender: GradientButton) {
+        log.todo("implement addTapped")
+        note.unimplemented()
+    }
 
     func cellModels(from posts: [Post]) -> [PostCellModel] {
         var index = 0
@@ -156,5 +198,55 @@ private extension PostsVC {
                 self?.update()
             }
         }
+    }
+}
+
+final class PostHeader: UITableViewHeaderFooterView {
+
+    static let reuseIdentifier = NSStringFromClass(PostHeader.self)
+
+    private let button = GradientButton {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.orientation = GradientOrientation.horizontal.rawValue
+        $0.startColor = .dodgerBlue
+        $0.endColor = .azureRadiance
+        $0.cornerRadius = 4
+        $0.heightAnchor == 30
+
+        let title = Localized.addPost()
+        $0.setTitle(title, for: .normal)
+        $0.titleLabel?.font = Avenir.medium.of(size: 15)
+    }
+
+    var delegate: PostsVC? {
+        didSet {
+            if let delegate = delegate {
+                button.addTarget(delegate,
+                                 action: #selector(delegate.addTapped),
+                                 for: .touchUpInside)
+            } else {
+                button.removeTarget(nil,
+                                    action: nil,
+                                    for: .touchUpInside)
+            }
+        }
+    }
+
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
+
+        contentView.addSubview(button)
+        button.edgeAnchors == edgeAnchors + 8
+    }
+
+    @available(*, unavailable)
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        delegate = nil
     }
 }

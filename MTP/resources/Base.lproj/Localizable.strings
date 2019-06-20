@@ -99,6 +99,10 @@
 
 "locationDescription" = "%@, %@";
 
+// PostsVC
+
+"addPost" = "＋Add new post";
+
 // RankingPage
 
 "locations" = "MTP Locations";

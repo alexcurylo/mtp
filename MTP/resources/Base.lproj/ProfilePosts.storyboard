@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -14,13 +15,13 @@
         <scene sceneID="LHG-d1-pXr">
             <objects>
                 <tableViewController storyboardIdentifier="Posts" title="Posts" useStoryboardIdentifierAsRestorationIdentifier="YES" id="heg-gh-VET" customClass="ProfilePostsVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="iZI-bO-6ES">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="iZI-bO-6ES">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PostCell" rowHeight="170" id="df0-E7-H1f" customClass="PostCell" customModule="MTP" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="170"/>
+                                <rect key="frame" x="0.0" y="55.5" width="375" height="170"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="df0-E7-H1f" id="n9y-k0-ZbJ">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="170"/>
@@ -56,7 +57,9 @@
                             <outlet property="delegate" destination="heg-gh-VET" id="fAH-4q-Tvw"/>
                         </connections>
                     </tableView>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
+                        <outlet property="addHeader" destination="3Vd-xp-Ac6" id="iD5-am-8RK"/>
                         <outlet property="backgroundView" destination="JOC-lB-Jvj" id="OuT-qy-VYJ"/>
                     </connections>
                 </tableViewController>
@@ -77,8 +80,54 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>
+                <view contentMode="scaleToFill" id="3Vd-xp-Ac6">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xvI-og-gyd" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                            <state key="normal" title="＋Add new post">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                    <color key="value" name="dodgerBlue"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                    <color key="value" name="azureRadiance"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="orientation">
+                                    <integer key="value" value="2"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                    <real key="value" value="4"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="addTapped:" destination="heg-gh-VET" eventType="touchUpInside" id="Gmm-mW-UiU"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="xvI-og-gyd" secondAttribute="bottom" id="Hye-Lh-H8B"/>
+                        <constraint firstAttribute="trailing" secondItem="xvI-og-gyd" secondAttribute="trailing" id="aOC-88-VjM"/>
+                        <constraint firstItem="xvI-og-gyd" firstAttribute="leading" secondItem="3Vd-xp-Ac6" secondAttribute="leading" id="lsc-cN-PHA"/>
+                        <constraint firstItem="xvI-og-gyd" firstAttribute="top" secondItem="3Vd-xp-Ac6" secondAttribute="top" id="xV6-4I-wlt"/>
+                    </constraints>
+                    <viewLayoutGuide key="safeArea" id="pFL-bf-6v0"/>
+                </view>
             </objects>
             <point key="canvasLocation" x="2586" y="39"/>
         </scene>
     </scenes>
+    <resources>
+        <namedColor name="azureRadiance">
+            <color red="0.0078431372549019607" green="0.55294117647058827" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="dodgerBlue">
+            <color red="0.098039215686274508" green="0.75294117647058822" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
 </document>

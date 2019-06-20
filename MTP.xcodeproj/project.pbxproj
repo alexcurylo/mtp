@@ -48,10 +48,10 @@
 		8CE6F46B224B029500B24410 /* ContentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6F46A224B029400B24410 /* ContentState.swift */; };
 		8CE6FC56224C6C1B00B24410 /* LocationPhotos.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CE6FC58224C6C1B00B24410 /* LocationPhotos.storyboard */; };
 		8CE6FC59224C6C2200B24410 /* LocationInfo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CE6FC5B224C6C2200B24410 /* LocationInfo.storyboard */; };
-		8CE6FC5E224C6C4000B24410 /* LocationReviews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CE6FC60224C6C4000B24410 /* LocationReviews.storyboard */; };
+		8CE6FC5E224C6C4000B24410 /* LocationPosts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CE6FC60224C6C4000B24410 /* LocationPosts.storyboard */; };
 		8CE6FC64224C6CB600B24410 /* LocationInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6FC61224C6CB500B24410 /* LocationInfoVC.swift */; };
 		8CE6FC65224C6CB600B24410 /* LocationPhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6FC62224C6CB600B24410 /* LocationPhotosVC.swift */; };
-		8CE6FC66224C6CB600B24410 /* LocationReviewsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6FC63224C6CB600B24410 /* LocationReviewsVC.swift */; };
+		8CE6FC66224C6CB600B24410 /* LocationPostsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6FC63224C6CB600B24410 /* LocationPostsVC.swift */; };
 		8CFEE459221FA2120061614B /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFEE458221FA2120061614B /* ImageService.swift */; };
 		C1D9A04EB6208ED844515108 /* libPods-MTP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA7B8EF0C9A37C87525A9855 /* libPods-MTP.a */; };
 		F5352AD2AEBF0C3A5C6191CE /* Pods-MTP-settings-metadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E2C18C122B275F3B40CDCDA /* Pods-MTP-settings-metadata.plist */; };
@@ -244,10 +244,10 @@
 		8CE6F46A224B029400B24410 /* ContentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentState.swift; sourceTree = "<group>"; };
 		8CE6FC57224C6C1B00B24410 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LocationPhotos.storyboard; sourceTree = "<group>"; };
 		8CE6FC5A224C6C2200B24410 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LocationInfo.storyboard; sourceTree = "<group>"; };
-		8CE6FC5F224C6C4000B24410 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LocationReviews.storyboard; sourceTree = "<group>"; };
+		8CE6FC5F224C6C4000B24410 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LocationPosts.storyboard; sourceTree = "<group>"; };
 		8CE6FC61224C6CB500B24410 /* LocationInfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationInfoVC.swift; sourceTree = "<group>"; };
 		8CE6FC62224C6CB600B24410 /* LocationPhotosVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationPhotosVC.swift; sourceTree = "<group>"; };
-		8CE6FC63224C6CB600B24410 /* LocationReviewsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationReviewsVC.swift; sourceTree = "<group>"; };
+		8CE6FC63224C6CB600B24410 /* LocationPostsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationPostsVC.swift; sourceTree = "<group>"; };
 		8CFEE458221FA2120061614B /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		B1C0AF3F035BC227379ED6DE /* libPods-MTPUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MTPUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B988D22396864AC3181C1EA5 /* Pods-MTP-metadata.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "Pods-MTP-metadata.plist"; path = "Pods/Pods-MTP-metadata.plist"; sourceTree = "<group>"; };
@@ -699,7 +699,7 @@
 				8CE6FC61224C6CB500B24410 /* LocationInfoVC.swift */,
 				FAA818FF2244814900BB9F92 /* LocationPagingVC.swift */,
 				8CE6FC62224C6CB600B24410 /* LocationPhotosVC.swift */,
-				8CE6FC63224C6CB600B24410 /* LocationReviewsVC.swift */,
+				8CE6FC63224C6CB600B24410 /* LocationPostsVC.swift */,
 				FA392BBC20DF69F30026C828 /* LocationsVC.swift */,
 				FAA818FD22447EAB00BB9F92 /* LocationVC.swift */,
 				8C617971223F2D79000827D6 /* LocationsFilterVC.swift */,
@@ -716,7 +716,7 @@
 			children = (
 				8CE6FC5B224C6C2200B24410 /* LocationInfo.storyboard */,
 				8CE6FC58224C6C1B00B24410 /* LocationPhotos.storyboard */,
-				8CE6FC60224C6C4000B24410 /* LocationReviews.storyboard */,
+				8CE6FC60224C6C4000B24410 /* LocationPosts.storyboard */,
 				FAE1F115213BFBA80002CAB2 /* Locations.storyboard */,
 				8C617973223F2E1E000827D6 /* LocationsFilter.storyboard */,
 			);
@@ -991,7 +991,7 @@
 			files = (
 				8CE6FC59224C6C2200B24410 /* LocationInfo.storyboard in Resources */,
 				FAE1F117213BFBA80002CAB2 /* Locations.storyboard in Resources */,
-				8CE6FC5E224C6C4000B24410 /* LocationReviews.storyboard in Resources */,
+				8CE6FC5E224C6C4000B24410 /* LocationPosts.storyboard in Resources */,
 				FA392BC720DF69F50026C828 /* LaunchScreen.storyboard in Resources */,
 				FA74C10F211BB8F00013A840 /* Localizable.strings in Resources */,
 				FA5AC0BB21FDC1060080F84F /* MyCounts.storyboard in Resources */,
@@ -1249,7 +1249,7 @@
 				FAFEDA522129602800DA3DB8 /* WelcomeVC.swift in Sources */,
 				8C3EAB8C2231100400CB4886 /* Array+Type.swift in Sources */,
 				FA9A71DF20F1D3FA005F6A57 /* LaunchHandler.swift in Sources */,
-				8CE6FC66224C6CB600B24410 /* LocationReviewsVC.swift in Sources */,
+				8CE6FC66224C6CB600B24410 /* LocationPostsVC.swift in Sources */,
 				FA40F754225B06D50056182E /* FaqVC.swift in Sources */,
 				FA36FBEF2206461F00616CDE /* RealmController.swift in Sources */,
 				FA32CC7420FB6E67004C1329 /* UIView+Gradient.swift in Sources */,
@@ -1388,12 +1388,12 @@
 			name = LocationInfo.storyboard;
 			sourceTree = "<group>";
 		};
-		8CE6FC60224C6C4000B24410 /* LocationReviews.storyboard */ = {
+		8CE6FC60224C6C4000B24410 /* LocationPosts.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				8CE6FC5F224C6C4000B24410 /* Base */,
 			);
-			name = LocationReviews.storyboard;
+			name = LocationPosts.storyboard;
 			sourceTree = "<group>";
 		};
 		FA21FB9D22A3F25400190B71 /* UserCounts.storyboard */ = {

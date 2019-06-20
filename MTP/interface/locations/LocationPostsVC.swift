@@ -2,7 +2,11 @@
 
 import UIKit
 
-final class LocationReviewsVC: PostsVC {
+final class LocationPostsVC: PostsVC {
+
+    override var canCreate: Bool {
+        return true
+    }
 
     override var posts: [Post] {
         guard let place = place else { return [] }
@@ -26,7 +30,7 @@ final class LocationReviewsVC: PostsVC {
     }
 }
 
-extension LocationReviewsVC: Injectable {
+extension LocationPostsVC: Injectable {
 
     typealias Model = PlaceAnnotation
 
