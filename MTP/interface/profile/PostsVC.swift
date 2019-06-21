@@ -4,9 +4,6 @@ import Anchorage
 
 class PostsVC: UITableViewController, ServiceProvider {
 
-    @IBOutlet private var backgroundView: UIView?
-    @IBOutlet private var addHeader: UIView? //PostHeader?
-
     var canCreate: Bool {
         return false
     }
@@ -24,24 +21,25 @@ class PostsVC: UITableViewController, ServiceProvider {
     private var postsObserver: Observer?
     private var viewObservation: NSKeyValueObservation?
 
+    private let layout = (row: CGFloat(100),
+                          header: CGFloat(50))
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        #if GRADIENT_BACKGROUND
-        tableView.backgroundView = backgroundView
-        #else
         tableView.backgroundView = UIView { $0.backgroundColor = .clear }
-        #endif
         tableView.tableFooterView = UIView()
-        tableView.estimatedRowHeight = 100
+        tableView.estimatedRowHeight = layout.row
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedSectionHeaderHeight = 50
-        tableView.sectionHeaderHeight = UITableView.automaticDimension
+        if canCreate {
+            tableView.estimatedSectionHeaderHeight = layout.header
+            tableView.sectionHeaderHeight = UITableView.automaticDimension
 
-        tableView.register(
-            PostHeader.self,
-            forHeaderFooterViewReuseIdentifier: PostHeader.reuseIdentifier
-        )
+            tableView.register(
+                PostHeader.self,
+                forHeaderFooterViewReuseIdentifier: PostHeader.reuseIdentifier
+            )
+        }
 
         update()
         observe()
@@ -77,7 +75,6 @@ extension PostsVC {
         return models.count
     }
 
-    ///*
     override func tableView(_ tableView: UITableView,
                             viewForHeaderInSection section: Int) -> UIView? {
         guard canCreate else { return nil }
@@ -89,7 +86,6 @@ extension PostsVC {
 
         return header
      }
-     //
 
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -121,12 +117,12 @@ extension PostsVC {
 
     override func tableView(_ tableView: UITableView,
                             heightForHeaderInSection section: Int) -> CGFloat {
-        return canCreate ? UITableView.automaticDimension : 0
+        return canCreate ? layout.header : 0
     }
 
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        return canCreate ? 80 : 0
+        return layout.header
     }
 }
 
@@ -211,7 +207,6 @@ final class PostHeader: UITableViewHeaderFooterView {
         $0.startColor = .dodgerBlue
         $0.endColor = .azureRadiance
         $0.cornerRadius = 4
-        $0.heightAnchor == 30
 
         let title = Localized.addPost()
         $0.setTitle(title, for: .normal)
@@ -236,7 +231,10 @@ final class PostHeader: UITableViewHeaderFooterView {
         super.init(reuseIdentifier: reuseIdentifier)
 
         contentView.addSubview(button)
-        button.edgeAnchors == edgeAnchors + 8
+        button.edgeAnchors == edgeAnchors + EdgeInsets(top: 8,
+                                                       left: 8,
+                                                       bottom: 0,
+                                                       right: 8)
     }
 
     @available(*, unavailable)
