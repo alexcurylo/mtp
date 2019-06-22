@@ -5,6 +5,19 @@ import MapKit
 
 final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
 
+    private var _overlays: [PlaceOverlay] = []
+    private var createdOverlays = false
+    var overlays: [PlaceOverlay] {
+        if !createdOverlays {
+            _overlays = createOverlays()
+        }
+        return _overlays
+    }
+
+    func shows(annotation: PlaceAnnotation) -> Bool {
+        return annotation.id == place?.id ?? 0
+    }
+
     private enum Layout {
         static let width = CGFloat(260)
         static let imageSize = CGSize(width: width, height: 150)
@@ -148,6 +161,8 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         detailCalloutAccessoryView = nil
         annotation = nil
         image = nil
+        _overlays = []
+        createdOverlays = false
     }
 }
 
@@ -155,6 +170,17 @@ private extension PlaceAnnotationView {
 
     var place: PlaceAnnotation? {
         return annotation as? PlaceAnnotation
+    }
+
+    func createOverlays() -> [PlaceOverlay] {
+        createdOverlays = true
+        guard let place = place,
+              place.list == .locations else { return [] }
+
+        return data.worldMap.coordinates(location: place.id).map {
+            PlaceOverlay.create(place: place,
+                                coordinates: $0)
+        }
     }
 
     func observe() {
