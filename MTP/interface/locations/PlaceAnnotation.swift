@@ -9,6 +9,7 @@ protocol PlaceAnnotationDelegate: AnyObject {
     func reveal(place: PlaceAnnotation?,
                 callout: Bool)
     func show(place: PlaceAnnotation)
+    func update(place: PlaceAnnotation)
 }
 
 final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
@@ -80,17 +81,25 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
         """
     }
 
-    var background: UIColor {
-        return list.background
+    var marker: UIColor {
+        return visited ? .visited : list.marker
     }
 
     var listImage: UIImage {
         return list.image
     }
 
+    private lazy var visited: Bool = {
+        list.isVisited(id: id)
+    }()
+
     var isVisited: Bool {
-        get { return list.isVisited(id: id) }
-        set { list.set(visited: newValue, id: id) }
+        get { return visited }
+        set {
+            visited = newValue
+            list.set(visited: newValue, id: id)
+            delegate?.update(place: self)
+        }
     }
 
     func reveal(callout: Bool) {

@@ -390,7 +390,6 @@ private extension CountsPageVC {
 
     func count(places: [PlaceInfo],
                visited: [Int]) {
-        let groupCountries = !list.isSubtitled
         regionsVisited = [:]
         countries = [:]
         countriesPlaces = [:]
@@ -400,32 +399,46 @@ private extension CountsPageVC {
         regionsPlaces = Dictionary(grouping: places) { $0.placeRegion }
         regions = regionsPlaces.keys.filter { $0 != Location.all.regionName }.sorted()
         for (region, places) in regionsPlaces {
-            let regionPlaces = places.sorted { $0.placeTitle < $1.placeTitle }
-            regionsPlaces[region] = regionPlaces
-
-            let regionVisited = regionPlaces.reduce(0) {
-                let parentVisit = $1.placeParent == nil && visited.contains($1.placeId)
-                return $0 + (parentVisit ? 1 : 0)
-            }
-            regionsVisited[region] = regionVisited
-
-            if !groupCountries { continue }
-
-            let childPlaces = Dictionary(grouping: regionPlaces) { $0.placeCountry }
-            let (parentPlaces, parentFamilies) = groupChildren(countries: childPlaces)
-            countriesPlaces[region] = parentPlaces
-            countriesFamilies[region] = parentFamilies
-            countries[region] = parentPlaces.keys.sorted()
-
-            var countryVisits: [CountryKey: Int] = [:]
-            for (country, subplaces) in parentPlaces {
-                let countryVisited = subplaces.reduce(0) {
-                    $0 + (visited.contains($1.placeId) ? 1 : 0)
-                }
-                countryVisits[country] = countryVisited
-            }
-            countriesVisited[region] = countryVisits
+            count(region: region,
+                  places: places,
+                  visited: visited)
         }
+    }
+
+    func count(region: String,
+               places: [PlaceInfo],
+               visited: [Int]) {
+        let groupCountries = !list.isSubtitled
+
+        let regionPlaces = places.sorted {
+            $0.placeTitle.uppercased() < $1.placeTitle.uppercased()
+        }
+        regionsPlaces[region] = regionPlaces
+
+        let regionVisited = regionPlaces.reduce(0) {
+            let parentVisit = $1.placeParent == nil && visited.contains($1.placeId)
+            return $0 + (parentVisit ? 1 : 0)
+        }
+        regionsVisited[region] = regionVisited
+
+        guard groupCountries else { return }
+
+        let childPlaces = Dictionary(grouping: regionPlaces) { $0.placeCountry }
+        let (parentPlaces, parentFamilies) = groupChildren(countries: childPlaces)
+        countriesPlaces[region] = parentPlaces
+        countriesFamilies[region] = parentFamilies
+        countries[region] = parentPlaces.keys.sorted {
+            $0.uppercased() < $1.uppercased()
+        }
+
+        var countryVisits: [CountryKey: Int] = [:]
+        for (country, subplaces) in parentPlaces {
+            let countryVisited = subplaces.reduce(0) {
+                $0 + (visited.contains($1.placeId) ? 1 : 0)
+            }
+            countryVisits[country] = countryVisited
+        }
+        countriesVisited[region] = countryVisits
     }
 
     func groupChildren(countries: CountryPlaces) -> (CountryPlaces, CountryFamilies?) {

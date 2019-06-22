@@ -108,6 +108,10 @@ extension UIColor {
         return R.color.switchOn()!
     }
 
+    static var visited: UIColor { // #08B815
+        return R.color.visited()!
+    }
+
     // swiftlint:enable force_unwrapping
 }
 

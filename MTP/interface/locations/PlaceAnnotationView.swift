@@ -115,7 +115,7 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         super.prepareForDisplay()
         guard let place = place else { return }
 
-        markerTintColor = place.background
+        markerTintColor = place.marker
         glyphImage = place.listImage
         glyphText = nil
 

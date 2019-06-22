@@ -158,6 +158,13 @@ extension LocationsVC: PlaceAnnotationDelegate {
         close(place: place)
         performSegue(withIdentifier: Segues.showLocation, sender: self)
     }
+
+    func update(place: PlaceAnnotation) {
+        guard let map = mapView else { return }
+
+        map.removeAnnotation(place)
+        map.addAnnotation(place)
+    }
 }
 
 // MARK: - LocationTracker
