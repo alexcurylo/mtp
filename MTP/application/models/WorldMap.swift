@@ -144,6 +144,13 @@ struct WorldMap {
         return false
     }
 
+    func coordinates(location id: Int) -> [[CLLocationCoordinate2D]] {
+        return locations.compactMap {
+            guard $0.properties.locid == id else { return nil }
+            return $0.geometry.coordinates.first
+        }
+    }
+
     private func validate() {
         #if RECALCULATE_MAPBOX
         assert(mapBox.west == WorldMap.calcBox.west.rounded(.down))

@@ -158,6 +158,13 @@ extension LocationsVC: PlaceAnnotationDelegate {
         close(place: place)
         performSegue(withIdentifier: Segues.showLocation, sender: self)
     }
+
+    func update(place: PlaceAnnotation) {
+        guard let map = mapView else { return }
+
+        map.removeAnnotation(place)
+        map.addAnnotation(place)
+    }
 }
 
 // MARK: - LocationTracker
@@ -353,6 +360,22 @@ private extension LocationsVC {
             map.addAnnotations(Array(added))
         }
     }
+
+    func update(overlays place: PlaceAnnotationView) {
+        guard let map = mapView else { return }
+
+        let current = map.overlays.filter { $0 is PlaceOverlay }
+        if let first = current.first as? PlaceOverlay,
+           first.shows(view: place) {
+                return
+        }
+
+        map.removeOverlays(current)
+        let overlays = place.overlays
+        if !overlays.isEmpty {
+            map.addOverlays(overlays)
+        }
+    }
 }
 
 // MARK: - UISearchBarDelegate
@@ -508,6 +531,7 @@ extension LocationsVC: MKMapViewDelegate {
         switch view {
         case let place as PlaceAnnotationView:
             place.prepareForCallout()
+            update(overlays: place)
         case let cluster as PlaceClusterAnnotationView:
             zoom(cluster: cluster.annotation as? MKClusterAnnotation)
             mapView.deselectAnnotation(cluster.annotation, animated: false)
@@ -528,13 +552,20 @@ extension LocationsVC: MKMapViewDelegate {
 
     func mapView(_ mapView: MKMapView,
                  rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        log.verbose(#function)
-        return MKOverlayRenderer(overlay: overlay)
+        switch overlay {
+        case let place as PlaceOverlay:
+            let renderer = MKPolygonRenderer(polygon: place)
+            renderer.fillColor = place.color.withAlphaComponent(0.25)
+            renderer.strokeColor = place.color.withAlphaComponent(0.5)
+            renderer.lineWidth = 1
+            return renderer
+        default:
+            return MKOverlayRenderer(overlay: overlay)
+        }
     }
 
     func mapView(_ mapView: MKMapView,
                  didAdd renderers: [MKOverlayRenderer]) {
-        log.verbose(#function)
     }
 
     func mapView(_ mapView: MKMapView,

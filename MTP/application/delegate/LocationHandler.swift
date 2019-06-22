@@ -207,6 +207,10 @@ extension LocationHandler: PlaceAnnotationDelegate {
     func show(place: PlaceAnnotation) {
         broadcast { $0.show(place: place) }
     }
+
+    func update(place: PlaceAnnotation) {
+        broadcast { $0.update(place: place) }
+    }
 }
 
 // MARK: - Private

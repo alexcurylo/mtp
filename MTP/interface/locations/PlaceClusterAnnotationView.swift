@@ -126,17 +126,33 @@ private extension MKClusterAnnotation {
     }
 
     func slice() -> [Slice] {
-        return Checklist.allCases.compactMap { list in
-            let places = count(places: list)
-            guard places > 0 else { return nil }
-            return (list.background, CGFloat(places))
+        var visits = CGFloat(0)
+        let lists: [Slice] = Checklist.allCases.compactMap { list in
+            let (visited, unvisited) = count(places: list)
+            visits += CGFloat(visited)
+            guard unvisited > 0 else { return nil }
+            return (list.marker, CGFloat(unvisited))
+        }
+        if visits > 0 {
+            let visited: [Slice] = [(.visited, visits)]
+            return visited + lists
+        } else {
+            return lists
         }
     }
 
-    func count(places: Checklist) -> Int {
-        return memberAnnotations.filter { member -> Bool in
-            guard let place = member as? PlaceAnnotation else { return false }
-            return place.list == places
-        }.count
+    func count(places: Checklist) -> (Int, Int) {
+        var counts: (visited: Int, unvisited: Int) = (0, 0)
+        memberAnnotations.forEach {
+            guard let place = $0 as? PlaceAnnotation,
+                  place.list == places else { return }
+
+            if place.isVisited {
+                counts.visited += 1
+            } else {
+                counts.unvisited += 1
+            }
+        }
+        return counts
     }
 }

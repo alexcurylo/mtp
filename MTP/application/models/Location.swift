@@ -190,7 +190,14 @@ extension Location: PlaceInfo {
     }
 
     var placeIsCountry: Bool {
-        return isCountry
+        switch id {
+        case 301, // Netherlands (mainland)
+             305, // Portugal (mainland)
+             325: // Turkish Thrace (Turkey in Europe)
+            return true
+        default:
+            return isCountry
+        }
     }
 }
 

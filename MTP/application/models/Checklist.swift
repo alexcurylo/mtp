@@ -51,26 +51,26 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
 
     typealias Status = (visited: Int, remaining: Int)
 
-    var background: UIColor {
-        let background: UIColor?
+    var marker: UIColor {
+        let marker: UIColor?
         switch self {
         case .locations:
-            background = R.color.locations()
+            marker = R.color.locations()
         case .uncountries:
-            background = R.color.uncountries()
+            marker = R.color.uncountries()
         case .whss:
-            background = R.color.whss()
+            marker = R.color.whss()
         case .beaches:
-            background = R.color.beaches()
+            marker = R.color.beaches()
         case .golfcourses:
-            background = R.color.golfcourses()
+            marker = R.color.golfcourses()
         case .divesites:
-            background = R.color.divesites()
+            marker = R.color.divesites()
         case .restaurants:
-            background = R.color.restaurants()
+            marker = R.color.restaurants()
         }
         // swiftlint:disable:next force_unwrapping
-        return background!
+        return marker!
     }
 
     var dismissed: [Int] {
