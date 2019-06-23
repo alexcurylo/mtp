@@ -77,7 +77,6 @@ static BOOL _requeryFinishedForAppStart;
         _gateKeepers[appID] = gatekeeper;
       }
     }
-
     // Query the server when the requery is not finished for app start or the timestamp is not valid
     if (![self _gateKeeperIsValid]) {
       if (!_loadingGateKeepers) {

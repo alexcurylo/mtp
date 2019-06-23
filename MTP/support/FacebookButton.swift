@@ -1,11 +1,7 @@
 // @copyright Trollwerks Inc.
 
-import FacebookCore
 import FacebookLogin
-import FacebookShare
-import FBSDKCoreKit
 import FBSDKLoginKit
-import FBSDKShareKit
 
 // https://developers.facebook.com/docs/facebook-login/ios/advanced/#custom-login-button
 
