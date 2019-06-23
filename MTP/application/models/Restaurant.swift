@@ -71,6 +71,7 @@ extension RestaurantJSON: CustomDebugStringConvertible {
     dynamic var placeVisitors: Int = 0
     dynamic var regionName: String = ""
     dynamic var title: String = ""
+    dynamic var website: String = ""
 
     override static func primaryKey() -> String? {
         return "id"
@@ -93,6 +94,7 @@ extension RestaurantJSON: CustomDebugStringConvertible {
         placeVisitors = from.visitors
         regionName = placeLocation?.regionName ?? Localized.unknown()
         title = from.title
+        website = from.url
     }
 
     override var description: String {
@@ -123,5 +125,9 @@ extension Restaurant: PlaceInfo {
 
     var placeTitle: String {
         return title
+    }
+
+    var placeWebUrl: URL? {
+        return website.mtpWebsiteUrl
     }
 }

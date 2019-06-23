@@ -29,7 +29,11 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
     let country: String
     let countryId: Int
     let imageUrl: URL?
+    let webUrl: URL?
     let visitors: Int
+    var canPost: Bool {
+        return list == .locations
+    }
 
     private weak var delegate: PlaceAnnotationDelegate?
 
@@ -50,6 +54,7 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
         self.countryId = info.placeCountryId
         self.visitors = info.placeVisitors
         self.imageUrl = info.placeImageUrl
+        self.webUrl = info.placeWebUrl
 
         super.init()
     }

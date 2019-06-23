@@ -75,6 +75,8 @@
 "visited" = "Visited";
 "notVisited" = "Not Visited";
 "showMore" = "Show More";
+"website" = "Website";
+"noWebsite" = "Sorry, no website is available.";
 "directions" = "Directions";
 
 "checkinTitle" = "%@ Checkin Available";

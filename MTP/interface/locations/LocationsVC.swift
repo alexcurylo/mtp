@@ -156,7 +156,15 @@ extension LocationsVC: PlaceAnnotationDelegate {
     func show(place: PlaceAnnotation) {
         selected = place
         close(place: place)
-        performSegue(withIdentifier: Segues.showLocation, sender: self)
+
+        if place.canPost {
+            performSegue(withIdentifier: Segues.showLocation,
+                         sender: self)
+        } else if let url = place.webUrl {
+            app.launch(url: url)
+        } else {
+            note.message(error: Localized.noWebsite())
+        }
     }
 
     func update(place: PlaceAnnotation) {

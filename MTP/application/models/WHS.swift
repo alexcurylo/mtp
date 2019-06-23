@@ -131,6 +131,11 @@ extension WHS: PlaceInfo {
     var placeTitle: String {
         return title
     }
+
+    var placeWebUrl: URL? {
+        let link = "https://whc.unesco.org/en/list/\(id)"
+        return URL(string: link)
+    }
 }
 
 extension WHS {

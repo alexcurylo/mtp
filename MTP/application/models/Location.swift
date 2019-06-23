@@ -203,6 +203,11 @@ extension Location: PlaceInfo {
             return isCountry
         }
     }
+
+    var placeWebUrl: URL? {
+        let link = "https://mtp.travel/locations/\(id)"
+        return URL(string: link)
+    }
 }
 
 extension Location {

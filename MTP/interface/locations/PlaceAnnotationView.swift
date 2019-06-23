@@ -139,6 +139,9 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         countryLabel.text = place.country
         visitorsLabel.text = Localized.visitors(place.visitors.grouped)
 
+        let more = place.canPost ? Localized.showMore() : Localized.website()
+        showMoreButton.setTitle(more, for: .normal)
+
         detailCalloutAccessoryView = detailView(place: place)
    }
 

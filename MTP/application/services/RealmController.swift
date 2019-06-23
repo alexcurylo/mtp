@@ -11,23 +11,7 @@ import RealmSwift
 // swiftlint:disable:next type_body_length
 final class RealmController: ServiceProvider {
 
-    private lazy var realm: Realm = {
-        do {
-            let folder = fileURL.deletingLastPathComponent().path
-            let noLocking = [FileAttributeKey.protectionKey: FileProtectionType.none]
-            try FileManager.default.setAttributes(noLocking, ofItemAtPath: folder)
-            return try Realm()
-        } catch(let error as NSError) where error.code == 10 {
-            // for now, reset instead of migrating
-            deleteDatabaseFiles()
-            // swiftlint:disable:next force_try
-            return try! Realm()
-        } catch {
-            let message = "creating realm: \(error)"
-            log.error(message)
-            fatalError(message)
-        }
-    }()
+    private lazy var realm: Realm = createRealm()
 
     init() {
         #if DEBUG
@@ -352,6 +336,37 @@ final class RealmController: ServiceProvider {
 
 private extension RealmController {
 
+    func createRealm() -> Realm {
+        // swiftlint:disable:next trailing_closure
+        let config = Realm.Configuration(
+            schemaVersion: 1,
+            migrationBlock: { migration, oldSchemaVersion in
+                switch oldSchemaVersion {
+                case 0:
+                    migration.migrate0to1()
+                default:
+                    break
+                }
+            }
+        )
+        Realm.Configuration.defaultConfiguration = config
+
+        do {
+            let folder = fileURL.deletingLastPathComponent().path
+            let noLocking = [FileAttributeKey.protectionKey: FileProtectionType.none]
+            try FileManager.default.setAttributes(noLocking, ofItemAtPath: folder)
+            return try Realm()
+        } catch (let error as NSError) where error.code == 10 {
+            deleteDatabaseFiles()
+            // swiftlint:disable:next force_try
+            return try! Realm()
+        } catch {
+            let message = "creating realm: \(error)"
+            log.error(message)
+            fatalError(message)
+        }
+    }
+
     var fileURL: URL {
         // swiftlint:disable:next force_unwrapping
         return Realm.Configuration.defaultConfiguration.fileURL!
@@ -375,6 +390,25 @@ private extension RealmController {
             try realm.write { realm.deleteAll() }
         } catch {
             log.error("emptying realm: \(error)")
+        }
+    }
+}
+
+private extension Migration {
+
+    func migrate0to1() {
+        // apply new defaults: https://github.com/realm/realm-cocoa/issues/1793
+        enumerateObjects(ofType: Beach.className()) { old, new in
+            new?["website"] = ""
+        }
+        enumerateObjects(ofType: DiveSite.className()) { old, new in
+            new?["website"] = ""
+        }
+        enumerateObjects(ofType: GolfCourse.className()) { old, new in
+            new?["website"] = ""
+        }
+        enumerateObjects(ofType: Restaurant.className()) { old, new in
+            new?["website"] = ""
         }
     }
 }
