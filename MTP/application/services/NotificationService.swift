@@ -109,7 +109,7 @@ extension NotificationService {
     }
 
     func unimplemented() {
-        message(error: Localized.unimplemented())
+        message(error: L.unimplemented())
     }
 }
 
@@ -228,13 +228,13 @@ private extension NotificationServiceImpl {
 
         list.set(notified: true, id: info.placeId)
 
-        let title = Localized.checkinTitle(list.category)
+        let title = L.checkinTitle(list.category)
         let body: String
         switch list {
         case .locations:
-            body = Localized.checkinInside(info.placeTitle)
+            body = L.checkinInside(info.placeTitle)
         default:
-            body = Localized.checkinNear(info.placeTitle)
+            body = L.checkinNear(info.placeTitle)
         }
         let info: NotificationService.Info = [
             Note.Info.list.key: list.rawValue,
@@ -279,13 +279,13 @@ private extension NotificationServiceImpl {
         notifying = info
 
         let visitId = info.placeId
-        let contentTitle = Localized.checkinTitle(list.category)
+        let contentTitle = L.checkinTitle(list.category)
         let contentMessage: String
         switch list {
         case .locations:
-            contentMessage = Localized.checkinInside(info.placeTitle)
+            contentMessage = L.checkinInside(info.placeTitle)
         default:
-            contentMessage = Localized.checkinNear(info.placeTitle)
+            contentMessage = L.checkinNear(info.placeTitle)
         }
         let simpleMessage = notifyMessage(contentTitle: contentTitle,
                                           contentMessage: contentMessage)
@@ -295,7 +295,7 @@ private extension NotificationServiceImpl {
         let dismissColor = UIColor(rgb: 0xD0021B)
         let closeButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: dismissColor)
         let closeButtonLabel = EKProperty.LabelContent(
-            text: Localized.dismissAction(),
+            text: L.dismissAction(),
             style: closeButtonLabelStyle)
         let closeButton = EKProperty.ButtonContent(
             label: closeButtonLabel,
@@ -312,7 +312,7 @@ private extension NotificationServiceImpl {
         let checkinColor = UIColor(rgb: 0x028DFF)
         let okButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: checkinColor)
         let okButtonLabel = EKProperty.LabelContent(
-            text: Localized.checkinAction(),
+            text: L.checkinAction(),
             style: okButtonLabelStyle)
         let okButton = EKProperty.ButtonContent(
             label: okButtonLabel,
@@ -365,7 +365,7 @@ private extension NotificationServiceImpl {
         let checkinColor = UIColor(rgb: 0x028DFF)
         let okButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: checkinColor)
         let okButtonLabel = EKProperty.LabelContent(
-            text: Localized.ok(),
+            text: L.ok(),
             style: okButtonLabelStyle)
         let okButton = EKProperty.ButtonContent(
             label: okButtonLabel,
@@ -395,18 +395,18 @@ private extension NotificationServiceImpl {
 
     func congratulations(for annotation: PlaceAnnotation) -> Note? {
         guard let user = data.user else { return nil }
-        let title = Localized.congratulations(annotation.name)
+        let title = L.congratulations(annotation.name)
 
         let (single, plural) = annotation.list.names
         let (visited, remaining) = annotation.list.status(of: user)
-        let contentVisited = Localized.status(visited, plural, remaining)
+        let contentVisited = L.status(visited, plural, remaining)
 
         let contentMilestone = annotation.list.milestone(visited: visited)
 
         let contentNearest: String
         if remaining > 0,
             let place = annotation.nearest?.name {
-            contentNearest = Localized.nearest(single, place)
+            contentNearest = L.nearest(single, place)
         } else {
             contentNearest = ""
         }

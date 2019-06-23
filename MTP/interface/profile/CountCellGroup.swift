@@ -47,9 +47,9 @@ final class CountCellGroup: UICollectionViewCell {
         self.model = model
 
         if let visited = model.visited {
-            label.text = Localized.locationVisitedCount(model.country, visited, model.count)
+            label.text = L.locationVisitedCount(model.country, visited, model.count)
         } else {
-            label.text = Localized.locationCount(model.country, model.count)
+            label.text = L.locationCount(model.country, model.count)
         }
         disclosure.image = model.disclose.image
 

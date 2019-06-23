@@ -16,19 +16,13 @@ PODS:
     - FacebookCore (~> 0.7)
     - FBSDKCoreKit (~> 5.0)
     - FBSDKLoginKit (~> 5.0)
-  - FacebookShare (0.7.0):
-    - FacebookCore (~> 0.7)
-    - FBSDKCoreKit (~> 5.0)
-    - FBSDKShareKit (~> 5.0)
-  - FBSDKCoreKit (5.0.2):
-    - FBSDKCoreKit/Basics (= 5.0.2)
-    - FBSDKCoreKit/Core (= 5.0.2)
-  - FBSDKCoreKit/Basics (5.0.2)
-  - FBSDKCoreKit/Core (5.0.2):
+  - FBSDKCoreKit (5.1.1):
+    - FBSDKCoreKit/Basics (= 5.1.1)
+    - FBSDKCoreKit/Core (= 5.1.1)
+  - FBSDKCoreKit/Basics (5.1.1)
+  - FBSDKCoreKit/Core (5.1.1):
     - FBSDKCoreKit/Basics
-  - FBSDKLoginKit (5.0.2):
-    - FBSDKCoreKit (~> 5.0)
-  - FBSDKShareKit (5.0.2):
+  - FBSDKLoginKit (5.1.1):
     - FBSDKCoreKit (~> 5.0)
   - JWTDecode (2.3.0)
   - KRActivityIndicatorView (3.0.2)
@@ -45,13 +39,13 @@ PODS:
   - R.swift (5.0.3):
     - R.swift.Library (~> 5.0.0)
   - R.swift.Library (5.0.1)
-  - Realm (3.16.1):
-    - Realm/Headers (= 3.16.1)
-  - Realm/Headers (3.16.1)
-  - RealmSwift (3.16.1):
-    - Realm (= 3.16.1)
+  - Realm (3.16.2):
+    - Realm/Headers (= 3.16.2)
+  - Realm/Headers (3.16.2)
+  - RealmSwift (3.16.2):
+    - Realm (= 3.16.2)
   - Result (4.1.0)
-  - SwiftEntryKit (1.0.1):
+  - SwiftEntryKit (1.0.2):
     - QuickLayout (= 3.0.0)
   - SwiftLint (0.33.0)
   - SwiftyBeaver (1.7.0)
@@ -63,10 +57,8 @@ DEPENDENCIES:
   - DropDown
   - FacebookCore
   - FacebookLogin
-  - FacebookShare
   - FBSDKCoreKit
   - FBSDKLoginKit
-  - FBSDKShareKit
   - JWTDecode
   - KRProgressHUD
   - Moya
@@ -81,7 +73,7 @@ DEPENDENCIES:
   - SwiftyBeaver
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://cdn.cocoapods.org/:
     - Alamofire
     - AlamofireNetworkActivityIndicator
     - Anchorage
@@ -89,10 +81,8 @@ SPEC REPOS:
     - DropDown
     - FacebookCore
     - FacebookLogin
-    - FacebookShare
     - FBSDKCoreKit
     - FBSDKLoginKit
-    - FBSDKShareKit
     - JWTDecode
     - KRActivityIndicatorView
     - KRProgressHUD
@@ -117,10 +107,8 @@ SPEC CHECKSUMS:
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   FacebookCore: 4eee98476cb37a485af5d337eb21f8cd5b3c7e6c
   FacebookLogin: 94cdad6850e86a2b04704dedfe7674a7af8148eb
-  FacebookShare: dd4954712db61e078aea483bdf89e1b2ae3574b5
-  FBSDKCoreKit: 3e41c402eb64ea7799c71833ff9e5690f27b9c42
-  FBSDKLoginKit: a88f36da648e4c5d60eb261c63eac067abb97130
-  FBSDKShareKit: 8695bbb97c18a381bbf2851a3f24f95a59121b82
+  FBSDKCoreKit: c29b6b65f6a171ca0a317960a622cff62c9ee269
+  FBSDKLoginKit: fdaf402766755e1175ed5c0382f25e2e7dab3c2a
   JWTDecode: fb77675c8049c1a7e9433c7cf448c3ce33ee4ac7
   KRActivityIndicatorView: a2022d5d3e366207d2690f6bcc550f83aa91241b
   KRProgressHUD: 115363b48feb530ab1f36c4146ed22e779e0f5aa
@@ -130,13 +118,13 @@ SPEC CHECKSUMS:
   QuickLayout: 07b45a72b10083fee3f095990cfed1c1e7b27f0a
   R.swift: f5a87643b91ea569d23d6afb3eee9c743edde239
   R.swift.Library: cfe85d569d9bae6cb262922db130e7c3a7a5fad1
-  Realm: 601cacc51d8be3b17a377ef787be0f6ee0e76cf1
-  RealmSwift: 486f2e09d5a8ccff63ed66e48d0846b111deb5e5
+  Realm: 0e73b4edeb5b6a90da3d83206883b2e34e00eb38
+  RealmSwift: a81e650171ef0a5f999df1ed8d39ba8d6fce88a4
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
-  SwiftEntryKit: 3f55c0b8e676afe24a3703237bcac68372891c56
+  SwiftEntryKit: 7bcd42b3dbff59c431d60d6513129fd3679e4aaf
   SwiftLint: fed9c66336e41fc74dc48a73678380718f0c8b0e
   SwiftyBeaver: 4cc0080d2e23f980652e28978db11a5c9da39165
 
-PODFILE CHECKSUM: 064d221d90ed96bac8ecf609ecbe8a64ca90b037
+PODFILE CHECKSUM: 5f7645085c9f330902a6e8577981a52fd5d5c168
 
 COCOAPODS: 1.7.2

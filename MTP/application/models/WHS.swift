@@ -72,7 +72,7 @@ extension WHSJSON: CustomDebugStringConvertible {
 
         let locationId = from.location?.id ?? from.locationId
         placeLocation = controller.location(id: locationId)
-        countryName = placeLocation?.countryName ?? Localized.unknown()
+        countryName = placeLocation?.countryName ?? L.unknown()
         id = from.id
         lat = from.lat
         long = from.long
@@ -80,7 +80,7 @@ extension WHSJSON: CustomDebugStringConvertible {
         let format = "https://whc.unesco.org/uploads/sites/gallery/original/site_%04d_0001.jpg"
         placeImage = String(format: format, from.id)
         placeVisitors = from.visitors
-        regionName = placeLocation?.regionName ?? Localized.unknown()
+        regionName = placeLocation?.regionName ?? L.unknown()
         title = from.title
     }
 
@@ -130,6 +130,11 @@ extension WHS: PlaceInfo {
 
     var placeTitle: String {
         return title
+    }
+
+    var placeWebUrl: URL? {
+        let link = "https://whc.unesco.org/en/list/\(id)"
+        return URL(string: link)
     }
 }
 

@@ -11,8 +11,8 @@ enum Gender: String, Codable, CustomStringConvertible {
     var description: String {
         switch self {
         case .all: return "all"
-        case .female: return Localized.female()
-        case .male: return Localized.male()
+        case .female: return L.female()
+        case .male: return L.male()
         }
     }
 }
@@ -31,15 +31,15 @@ enum Age: Int, CaseIterable, Codable, CustomStringConvertible {
 
     var description: String {
         switch self {
-        case .all: return Localized.allAges()
-        case .under20: return Localized.under20()
-        case .from20to29: return Localized.ageRange(20, 29)
-        case .from30to39: return Localized.ageRange(30, 39)
-        case .from40to49: return Localized.ageRange(40, 49)
-        case .from50to59: return Localized.ageRange(50, 59)
-        case .from60to69: return Localized.ageRange(60, 69)
-        case .from70to79: return Localized.ageRange(70, 79)
-        case .over79: return Localized.over79()
+        case .all: return L.allAges()
+        case .under20: return L.under20()
+        case .from20to29: return L.ageRange(20, 29)
+        case .from30to39: return L.ageRange(30, 39)
+        case .from40to49: return L.ageRange(40, 49)
+        case .from50to59: return L.ageRange(50, 59)
+        case .from60to69: return L.ageRange(60, 69)
+        case .from70to79: return L.ageRange(70, 79)
+        case .over79: return L.over79()
         }
     }
 
@@ -89,7 +89,7 @@ extension RankingsQuery: CustomStringConvertible {
             ageDescription,
             facebookDescription
         ].compactMap { $0 }.filter { !$0.isEmpty }
-        return components.joined(separator: Localized.join())
+        return components.joined(separator: L.join())
     }
 
     private var ageDescription: String? {
@@ -97,7 +97,7 @@ extension RankingsQuery: CustomStringConvertible {
     }
 
     private var facebookDescription: String? {
-        return facebookConnected ? Localized.facebookFriends() : nil
+        return facebookConnected ? L.facebookFriends() : nil
     }
 
     private var genderDescription: String? {
@@ -111,7 +111,7 @@ extension RankingsQuery: CustomStringConvertible {
         case (let country?, _):
             return country
         default:
-            return Localized.allCountries()
+            return L.allCountries()
         }
     }
 }

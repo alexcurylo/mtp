@@ -86,8 +86,8 @@ private extension SettingsVC {
 
         let composeVC = MFMailComposeViewController {
             $0.mailComposeDelegate = self
-            $0.setToRecipients([Localized.contactAddress()])
-            $0.setSubject(Localized.contactSubject())
+            $0.setToRecipients([L.contactAddress()])
+            $0.setSubject(L.contactSubject())
         }
         present(composeVC, animated: true, completion: nil)
     }

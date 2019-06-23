@@ -8,6 +8,8 @@ protocol ApplicationService {
 
     func route(to annotation: PlaceAnnotation)
     func route(to user: User?)
+
+    func endEditing()
 }
 
 enum Route: Int {
@@ -31,5 +33,13 @@ extension UIApplication: ApplicationService {
 
     func route(to user: User?) {
         MainTBC.current?.route(to: user)
+    }
+
+    func endEditing() {
+        UIApplication.shared.sendAction(
+            #selector(UIApplication.resignFirstResponder),
+            to: nil,
+            from: nil,
+            for: nil)
     }
 }

@@ -114,18 +114,17 @@ extension RankingsPageVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
-        let view = collectionView.dequeueReusableSupplementaryView(
+        //swiftlint:disable:next implicitly_unwrapped_optional
+        let header: RankingHeader! = collectionView.dequeueReusableSupplementaryView(
             ofKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: RankingHeader.reuseIdentifier,
-            for: indexPath)
+            for: indexPath) as? RankingHeader
 
-        if let header = view as? RankingHeader {
-            header.set(rank: filterRank,
-                       list: filter.checklistType,
-                       filter: filterDescription)
-        }
+        header.set(rank: filterRank,
+                   list: filter.checklistType,
+                   filter: filterDescription)
 
-        return view
+        return header
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -148,17 +147,16 @@ extension RankingsPageVC: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
+        //swiftlint:disable:next implicitly_unwrapped_optional
+        let cell: RankingCell! = collectionView.dequeueReusableCell(
             withReuseIdentifier: RankingCell.reuseIdentifier,
-            for: indexPath)
+            for: indexPath) as? RankingCell
 
-        if let cell = cell as? RankingCell {
-            let rank = indexPath.row + 1
-            cell.set(user: user(at: rank) ?? User(),
-                     for: rank,
-                     in: filter.checklistType,
-                     delegate: delegate)
-        }
+        let rank = indexPath.row + 1
+        cell.set(user: user(at: rank) ?? User(),
+                 for: rank,
+                 in: filter.checklistType,
+                 delegate: delegate)
 
         return cell
     }

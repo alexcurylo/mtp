@@ -4,6 +4,8 @@ import RealmSwift
 
 final class ProfilePhotosVC: PhotosVC {
 
+    private typealias Segues = R.segue.profilePhotosVC
+
     private var photosPages: Results<PhotosPageInfo>?
 
     private var pagesObserver: Observer?
@@ -35,12 +37,27 @@ final class ProfilePhotosVC: PhotosVC {
         return data.get(photo: photoId)
     }
 
+    override func createPhoto() {
+        performSegue(withIdentifier: Segues.addPhoto,
+                     sender: self)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
 
         update()
         observe()
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case Segues.cancelChoose.identifier,
+             Segues.addPhoto.identifier:
+            break
+        default:
+            log.debug("unexpected segue: \(segue.name)")
+        }
     }
 }
 
@@ -96,6 +113,11 @@ private extension ProfilePhotosVC {
         }
     }
     #endif
+
+    @IBAction func saveTapped(_ sender: UIBarButtonItem) {
+        broadcastSelection()
+        performSegue(withIdentifier: Segues.cancelChoose.identifier, sender: self)
+    }
 }
 
 extension ProfilePhotosVC: UserInjectable {

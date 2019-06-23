@@ -7,6 +7,7 @@ protocol PlaceInfo {
 
     var placeCoordinate: CLLocationCoordinate2D { get }
     var placeCountry: String { get }
+    var placeCountryId: Int { get }
     var placeId: Int { get }
     var placeImage: String { get }
     var placeImageUrl: URL? { get }
@@ -18,6 +19,7 @@ protocol PlaceInfo {
     var placeSubtitle: String { get }
     var placeTitle: String { get }
     var placeVisitors: Int { get }
+    var placeWebUrl: URL? { get }
 }
 
 // swiftlint:disable:next static_operator
@@ -52,6 +54,10 @@ extension PlaceInfo {
 
     var placeIsCountry: Bool {
         return false
+    }
+
+    var placeCountryId: Int {
+        return 0
     }
 }
 
@@ -115,6 +121,7 @@ extension PlaceJSON: CustomDebugStringConvertible {
     dynamic var placeVisitors: Int = 0
     dynamic var regionName: String = ""
     dynamic var title: String = ""
+    dynamic var website: String = ""
 
     override static func primaryKey() -> String? {
         return "id"
@@ -127,15 +134,16 @@ extension PlaceJSON: CustomDebugStringConvertible {
         }
         self.init()
 
-        countryName = placeLocation?.countryName ?? Localized.unknown()
+        countryName = placeLocation?.countryName ?? L.unknown()
         id = from.id
         lat = from.lat
         long = from.long
         placeImage = from.img ?? ""
         placeLocation = controller.location(id: from.location.id)
         placeVisitors = from.visitors
-        regionName = placeLocation?.regionName ?? Localized.unknown()
+        regionName = placeLocation?.regionName ?? L.unknown()
         title = from.title
+        website = from.url
     }
 
     override var description: String {
@@ -167,6 +175,10 @@ extension Beach: PlaceInfo {
     var placeTitle: String {
         return title
     }
+
+    var placeWebUrl: URL? {
+        return website.mtpWebsiteUrl
+    }
 }
 
 @objcMembers final class DiveSite: Object {
@@ -180,6 +192,7 @@ extension Beach: PlaceInfo {
     dynamic var placeVisitors: Int = 0
     dynamic var regionName: String = ""
     dynamic var title: String = ""
+    dynamic var website: String = ""
 
     override static func primaryKey() -> String? {
         return "id"
@@ -192,15 +205,16 @@ extension Beach: PlaceInfo {
         }
         self.init()
 
-        countryName = placeLocation?.countryName ?? Localized.unknown()
+        countryName = placeLocation?.countryName ?? L.unknown()
         id = from.id
         lat = from.lat
         long = from.long
         placeImage = from.img ?? ""
         placeLocation = controller.location(id: from.location.id)
         placeVisitors = from.visitors
-        regionName = placeLocation?.regionName ?? Localized.unknown()
+        regionName = placeLocation?.regionName ?? L.unknown()
         title = from.title
+        website = from.url
     }
 
     override var description: String {
@@ -232,6 +246,10 @@ extension DiveSite: PlaceInfo {
     var placeTitle: String {
         return title
     }
+
+    var placeWebUrl: URL? {
+        return website.mtpWebsiteUrl
+    }
 }
 
 @objcMembers final class GolfCourse: Object {
@@ -245,6 +263,7 @@ extension DiveSite: PlaceInfo {
     dynamic var placeVisitors: Int = 0
     dynamic var regionName: String = ""
     dynamic var title: String = ""
+    dynamic var website: String = ""
 
     override static func primaryKey() -> String? {
         return "id"
@@ -257,15 +276,16 @@ extension DiveSite: PlaceInfo {
         }
         self.init()
 
-        countryName = placeLocation?.countryName ?? Localized.unknown()
+        countryName = placeLocation?.countryName ?? L.unknown()
         id = from.id
         lat = from.lat
         long = from.long
         placeImage = from.img ?? ""
         placeLocation = controller.location(id: from.location.id)
         placeVisitors = from.visitors
-        regionName = placeLocation?.regionName ?? Localized.unknown()
+        regionName = placeLocation?.regionName ?? L.unknown()
         title = from.title
+        website = from.url
     }
 
     override var description: String {
@@ -297,9 +317,13 @@ extension GolfCourse: PlaceInfo {
     var placeTitle: String {
         return title
     }
+
+    var placeWebUrl: URL? {
+        return website.mtpWebsiteUrl
+    }
 }
 
-private extension String {
+extension String {
 
     var mtpImageUrl: URL? {
         guard !isEmpty else { return nil }
@@ -309,6 +333,16 @@ private extension String {
         } else {
             let target = MTP.picture(uuid: self, size: .any)
             return target.requestUrl
+        }
+    }
+
+    var mtpWebsiteUrl: URL? {
+        guard !isEmpty else { return nil }
+
+        if hasPrefix("http") {
+            return URL(string: self)
+        } else {
+            return URL(string: "http://\(self)")
         }
     }
 }

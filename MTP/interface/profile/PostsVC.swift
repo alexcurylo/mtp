@@ -4,32 +4,50 @@ import Anchorage
 
 class PostsVC: UITableViewController, ServiceProvider {
 
-    @IBOutlet private var backgroundView: UIView?
+    var canCreate: Bool {
+        return false
+    }
 
-    private var models: [PostCellModel] = []
     var posts: [Post] {
         fatalError("posts has not been overridden")
     }
+
     var source: DataServiceChange {
         fatalError("source has not been overridden")
     }
 
+    //swiftlint:disable:next unavailable_function
+    func createPost() {
+        fatalError("createPost has not been overridden")
+    }
+
+    private var models: [PostCellModel] = []
     private var contentState: ContentState = .loading
     private var postsObserver: Observer?
     private var viewObservation: NSKeyValueObservation?
 
+    private let layout = (row: CGFloat(100),
+                          header: CGFloat(50))
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        #if GRADIENT_BACKGROUND
-        tableView.backgroundView = backgroundView
-        #else
         tableView.backgroundView = UIView { $0.backgroundColor = .clear }
-        #endif
         tableView.tableFooterView = UIView()
-
-        tableView.estimatedRowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = layout.row
         tableView.rowHeight = UITableView.automaticDimension
+        if canCreate {
+            tableView.estimatedSectionHeaderHeight = layout.header
+            tableView.sectionHeaderHeight = UITableView.automaticDimension
+
+            tableView.register(
+                PostHeader.self,
+                forHeaderFooterViewReuseIdentifier: PostHeader.reuseIdentifier
+            )
+        } else {
+            tableView.estimatedSectionHeaderHeight = 1
+            tableView.sectionHeaderHeight = 1
+        }
 
         update()
         observe()
@@ -52,7 +70,7 @@ class PostsVC: UITableViewController, ServiceProvider {
     }
 }
 
-// MARK: UITableViewControllerDataSource
+// MARK: - UITableViewControllerDataSource
 
 extension PostsVC {
 
@@ -66,10 +84,23 @@ extension PostsVC {
     }
 
     override func tableView(_ tableView: UITableView,
+                            viewForHeaderInSection section: Int) -> UIView? {
+        guard canCreate else { return UIView() }
+
+        let header = tableView.dequeueReusableHeaderFooterView(
+            withIdentifier: PostHeader.reuseIdentifier) as? PostHeader
+
+        header?.delegate = self
+
+        return header
+     }
+
+    override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(
+        //swiftlint:disable:next implicitly_unwrapped_optional
+        let cell: PostCell! = tableView.dequeueReusableCell(
             withIdentifier: R.reuseIdentifier.postCell,
-            for: indexPath) ?? PostCell()
+            for: indexPath)
 
         cell.set(model: models[indexPath.row],
                  delegate: self)
@@ -91,9 +122,19 @@ extension PostsVC {
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
+
+    override func tableView(_ tableView: UITableView,
+                            heightForHeaderInSection section: Int) -> CGFloat {
+        return canCreate ? layout.header : 1
+    }
+
+    override func tableView(_ tableView: UITableView,
+                            estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        return canCreate ? layout.header : 1
+    }
 }
 
-// MARK: PostCellDelegate
+// MARK: - PostCellDelegate
 
 extension PostsVC: PostCellDelegate {
 
@@ -108,9 +149,13 @@ extension PostsVC: PostCellDelegate {
     }
 }
 
-// MARK: Data management
+// MARK: - Private
 
 private extension PostsVC {
+
+    @IBAction func addTapped(_ sender: GradientButton) {
+        createPost()
+    }
 
     func cellModels(from posts: [Post]) -> [PostCellModel] {
         var index = 0
@@ -120,7 +165,7 @@ private extension PostsVC {
                 index: index,
                 location: location,
                 date: DateFormatter.mtpPost.string(from: post.updatedAt).uppercased(),
-                title: location?.placeTitle ?? Localized.unknown(),
+                title: location?.placeTitle ?? L.unknown(),
                 body: post.post,
                 isExpanded: false
             )
@@ -156,5 +201,57 @@ private extension PostsVC {
                 self?.update()
             }
         }
+    }
+}
+
+final class PostHeader: UITableViewHeaderFooterView {
+
+    static let reuseIdentifier = NSStringFromClass(PostHeader.self)
+
+    private let button = GradientButton {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.orientation = GradientOrientation.horizontal.rawValue
+        $0.startColor = .dodgerBlue
+        $0.endColor = .azureRadiance
+        $0.cornerRadius = 4
+
+        let title = L.addPost()
+        $0.setTitle(title, for: .normal)
+        $0.titleLabel?.font = Avenir.medium.of(size: 15)
+    }
+
+    var delegate: PostsVC? {
+        didSet {
+            if let delegate = delegate {
+                button.addTarget(delegate,
+                                 action: #selector(delegate.addTapped),
+                                 for: .touchUpInside)
+            } else {
+                button.removeTarget(nil,
+                                    action: nil,
+                                    for: .touchUpInside)
+            }
+        }
+    }
+
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
+
+        contentView.addSubview(button)
+        button.edgeAnchors == edgeAnchors + EdgeInsets(top: 8,
+                                                       left: 8,
+                                                       bottom: 0,
+                                                       right: 8)
+    }
+
+    @available(*, unavailable)
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        delegate = nil
     }
 }

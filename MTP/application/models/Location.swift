@@ -118,9 +118,9 @@ extension LocationJSON: CustomDebugStringConvertible {
 
     static var all: Location = {
         let all = Location()
-        all.countryName = "(\(Localized.allCountries()))"
-        all.locationName = "(\(Localized.allLocations()))"
-        all.regionName = "(\(Localized.allRegions()))"
+        all.countryName = "(\(L.allCountries()))"
+        all.locationName = "(\(L.allLocations()))"
+        all.regionName = "(\(L.allRegions()))"
         return all
     }()
 
@@ -128,7 +128,7 @@ extension LocationJSON: CustomDebugStringConvertible {
         if !countryName.isEmpty
            && !locationName.isEmpty
            && countryName != locationName {
-            return Localized.locationDescription(locationName, countryName)
+            return L.locationDescription(locationName, countryName)
         }
         return locationName.isEmpty ? countryName : locationName
     }
@@ -159,6 +159,10 @@ extension Location: PlaceInfo {
 
     var placeCountry: String {
         return countryName
+    }
+
+    var placeCountryId: Int {
+        return countryId
     }
 
     var placeId: Int {
@@ -198,6 +202,11 @@ extension Location: PlaceInfo {
         default:
             return isCountry
         }
+    }
+
+    var placeWebUrl: URL? {
+        let link = "https://mtp.travel/locations/\(id)"
+        return URL(string: link)
     }
 }
 

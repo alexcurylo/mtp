@@ -61,7 +61,7 @@ extension CLLocationDistance {
         default:
             formatted = Int(km).grouped
         }
-        return Localized.km(formatted)
+        return L.km(formatted)
     }
 }
 

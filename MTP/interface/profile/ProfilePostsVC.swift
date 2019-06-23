@@ -4,6 +4,8 @@ import UIKit
 
 final class ProfilePostsVC: PostsVC, UserInjectable {
 
+    private typealias Segues = R.segue.profilePostsVC
+
     override var posts: [Post] {
         guard let id = user?.id else { return [] }
 
@@ -15,10 +17,29 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
     }
 
     private var user: User?
+    private var isSelf: Bool = false
+
+    override var canCreate: Bool {
+        return isSelf
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case Segues.addPost.identifier:
+            break
+        default:
+            log.debug("unexpected segue: \(segue.name)")
+        }
+    }
+
+    override func createPost() {
+        performSegue(withIdentifier: Segues.addPost,
+                     sender: self)
     }
 }
 
@@ -28,6 +49,7 @@ extension ProfilePostsVC: Injectable {
 
     @discardableResult func inject(model: Model) -> Self {
         user = model
+        isSelf = model.id == data.user?.id
 
         mtp.loadPosts(user: model.id) { _ in }
 

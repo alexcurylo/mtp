@@ -77,7 +77,7 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         $0.endColor = .azureRadiance
         $0.cornerRadius = 4
 
-        let title = Localized.directions()
+        let title = L.directions()
         $0.setTitle(title, for: .normal)
         $0.titleLabel?.font = Avenir.heavy.of(size: 18)
     }
@@ -89,7 +89,7 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         $0.endColor = .azureRadiance
         $0.cornerRadius = 4
 
-        let title = Localized.showMore()
+        let title = L.showMore()
         $0.setTitle(title, for: .normal)
         $0.titleLabel?.font = Avenir.heavy.of(size: 18)
     }
@@ -137,7 +137,10 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         show(visited: place.isVisited)
         nameLabel.text = place.subtitle
         countryLabel.text = place.country
-        visitorsLabel.text = Localized.visitors(place.visitors.grouped)
+        visitorsLabel.text = L.visitors(place.visitors.grouped)
+
+        let more = place.canPost ? L.showMore() : L.website()
+        showMoreButton.setTitle(more, for: .normal)
 
         detailCalloutAccessoryView = detailView(place: place)
    }
@@ -220,7 +223,7 @@ private extension PlaceAnnotationView {
     }
 
     func show(visited: Bool) {
-        visitedLabel.text = (visited ? Localized.visited() : Localized.notVisited()).uppercased()
+        visitedLabel.text = (visited ? L.visited() : L.notVisited()).uppercased()
         visitSwitch.isOn = visited
     }
 

@@ -48,6 +48,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>MTP needs to access the camera to let you take a photo.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>MTP needs your location to show you nearby places to visit. With "Always" access, MTP can notify you when you approach places.</string>
 	<key>NSLocationAlwaysUsageDescription</key>

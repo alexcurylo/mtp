@@ -152,13 +152,13 @@ private extension ProfileAboutVC {
         let list = Checklist.locations
 
         let rank = list.rank(of: user)
-        let ranking = Localized.ranking(rank.grouped)
+        let ranking = L.ranking(rank.grouped)
         rankingLabel?.text = ranking
 
         let status = list.status(of: user)
-        let visited = Localized.visitedCount(status.visited)
+        let visited = L.visitedCount(status.visited)
         visitedButton?.setTitle(visited, for: .normal)
-        let remaining = Localized.remainingCount(status.remaining)
+        let remaining = L.remainingCount(status.remaining)
         remainingButton?.setTitle(remaining, for: .normal)
 
         if let attributed = user.bio.html2Attributed(
@@ -175,7 +175,7 @@ private extension ProfileAboutVC {
         guard let label = airportLabel else { return }
 
         if user.airport.isEmpty {
-            label.text = Localized.unknown()
+            label.text = L.unknown()
             label.font = Avenir.bookOblique.of(size: 12)
             label.alpha = 0.7
         } else {
@@ -232,7 +232,7 @@ private extension ProfileAboutVC {
 
         if stack.arrangedSubviews.count <= headerViewCount {
             let label = UILabel {
-                $0.text = Localized.emptyState()
+                $0.text = L.emptyState()
                 $0.font = Avenir.bookOblique.of(size: 12)
                 $0.alpha = 0.7
             }

@@ -29,9 +29,9 @@ final class CountSectionHeader: UICollectionReusableView {
         disclosure.image = disclose.image
 
         if let visited = model.visited {
-            label.text = Localized.locationVisitedCount(model.region, visited, model.count)
+            label.text = L.locationVisitedCount(model.region, visited, model.count)
         } else {
-            label.text = Localized.locationCount(model.region, model.count)
+            label.text = L.locationCount(model.region, model.count)
         }
 
         let rounded: ViewCorners = model.isExpanded ? .top(radius: Layout.cornerRadius)

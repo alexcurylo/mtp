@@ -78,11 +78,11 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
         let totalText = (status.visited + status.remaining).grouped
         if let rank = rank {
             let rankText = rank.grouped
-            rankTitle.text = Localized.myRanking()
-            rankLabel.text = Localized.rankScoreFraction(rankText, visitedText, totalText)
+            rankTitle.text = L.myRanking()
+            rankLabel.text = L.rankScoreFraction(rankText, visitedText, totalText)
         } else {
-            rankTitle.text = Localized.myScore()
-            rankLabel.text = Localized.scoreFraction(visitedText, totalText)
+            rankTitle.text = L.myScore()
+            rankLabel.text = L.scoreFraction(visitedText, totalText)
         }
     }
 
@@ -110,7 +110,7 @@ private extension RankingHeader {
 
         let filterTitle = UILabel {
             $0.font = Avenir.black.of(size: 18)
-            $0.text = Localized.topTravelers()
+            $0.text = L.topTravelers()
             $0.textColor = .white
             $0.setContentHuggingPriority(.required, for: .horizontal)
         }

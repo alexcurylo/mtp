@@ -44,6 +44,10 @@ extension UNCountry: PlaceInfo {
         return country
     }
 
+    var placeCountryId: Int {
+        return id
+    }
+
     var placeId: Int {
         return id
     }
@@ -54,5 +58,10 @@ extension UNCountry: PlaceInfo {
 
     var placeTitle: String {
         return country
+    }
+
+    var placeWebUrl: URL? {
+        let link = "https://mtp.travel/locations/\(id)"
+        return URL(string: link)
     }
 }

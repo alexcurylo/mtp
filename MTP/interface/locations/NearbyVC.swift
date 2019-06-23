@@ -67,9 +67,10 @@ extension NearbyVC {
 
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(
+        //swiftlint:disable:next implicitly_unwrapped_optional
+        let cell: NearbyCell! = tableView.dequeueReusableCell(
             withIdentifier: R.reuseIdentifier.nearbyCell,
-            for: indexPath) ?? NearbyCell()
+            for: indexPath)
 
         cell.set(model: places[indexPath.row],
                  delegate: self)
@@ -173,7 +174,7 @@ final class NearbyCell: UITableViewCell {
         show(visited: place.isVisited)
         nameLabel?.text = place.subtitle
         countryLabel?.text = place.country
-        visitorsLabel?.text = Localized.visitors(place.visitors.grouped)
+        visitorsLabel?.text = L.visitors(place.visitors.grouped)
     }
  }
 
@@ -192,7 +193,7 @@ private extension NearbyCell {
     }
 
     func show(visited: Bool) {
-        visitedLabel?.text = (visited ? Localized.visited() :            Localized.notVisited()).uppercased()
+        visitedLabel?.text = (visited ? L.visited() : L.notVisited()).uppercased()
         visitSwitch?.isOn = visited
     }
 }
