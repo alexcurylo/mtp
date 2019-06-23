@@ -359,6 +359,9 @@ protocol MTPNetworkService {
                 location: Location?,
                 caption: String,
                 then: @escaping MTPResult<String>)
+    func upload(post: String,
+                location id: Int,
+                then: @escaping MTPResult<String>)
     func userDeleteAccount(then: @escaping MTPResult<String>)
     func userForgotPassword(email: String,
                             then: @escaping MTPResult<String>)
@@ -1205,6 +1208,13 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 return then(.failure(.network(message)))
             }
         }
+    }
+
+    func upload(post: String,
+                location id: Int,
+                then: @escaping MTPResult<String>) {
+        log.todo("upload(post: current)")
+        return then(.failure(.message(Localized.unimplemented())))
     }
 
     func userDeleteAccount(then: @escaping MTPResult<String>) {

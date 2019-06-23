@@ -19,6 +19,8 @@
 "unexpectedErrorReport" = "Could not %@ - an unexpected error occurred. Please report the problem with ‘Contact Us’ on the ‘Settings’ page.";
 "deleteAccount" = "delete account";
 "logIn" = "log in";
+"publishPhoto" = "publish photo";
+"publishPost" = "publish post";
 "resetPassword" = "reset password";
 "signUp" = "sign up";
 "updateProfile" = "update profile";
@@ -29,6 +31,12 @@
 "errorState" = "Error loading data!";
 "loading" = "Loading…";
 
+// EditPostVC
+
+"postLong" = "Post:";
+"postShort" = "Post (%ld characters needed):";
+"fixLength" = "Please enter at least %ld characters!";
+
 // EditProfileVC
 
 "linkTitle" = "Title";
@@ -36,6 +44,8 @@
 "fixBio" = "Please tell us about yourself!";
 "fixAirport" = "Please enter your home airport!";
 "fixLinks" = "Please enter a title and URL for all your links!";
+"publishingPhoto" = "Publishing photo…";
+"publishingPost" = "Publishing post…";
 "updatingProfile" = "Updating profile…";
 "deletingAccount" = "Deleting account…";
 

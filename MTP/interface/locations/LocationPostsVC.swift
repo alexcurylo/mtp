@@ -4,6 +4,8 @@ import UIKit
 
 final class LocationPostsVC: PostsVC {
 
+    private typealias Segues = R.segue.locationPostsVC
+
     override var canCreate: Bool {
         return true
     }
@@ -18,15 +20,30 @@ final class LocationPostsVC: PostsVC {
         return .locationPosts
     }
 
-    private var place: PlaceAnnotation?
+    //swiftlint:disable:next implicitly_unwrapped_optional
+    private var place: PlaceAnnotation!
 
      override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
 
-        if let place = place {
-            mtp.loadPosts(location: place.id) { _ in }
+        mtp.loadPosts(location: place.id) { _ in }
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case Segues.addPost.identifier:
+            if let edit = Segues.addPost(segue: segue)?.destination {
+                edit.inject(model: place)
+            }
+        default:
+            log.debug("unexpected segue: \(segue.name)")
         }
+    }
+
+    override func createPost() {
+        performSegue(withIdentifier: Segues.addPost,
+                     sender: self)
     }
 }
 

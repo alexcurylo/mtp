@@ -36,4 +36,10 @@ final class SpyApplicationService: ApplicationService {
         invokedRouteToUserParameters = (user, ())
         invokedRouteToUserParametersList.append((user, ()))
     }
+    var invokedEndEditing = false
+    var invokedEndEditingCount = 0
+    func endEditing() {
+        invokedEndEditing = true
+        invokedEndEditingCount += 1
+    }
 }

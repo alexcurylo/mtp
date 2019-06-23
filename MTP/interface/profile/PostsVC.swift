@@ -16,6 +16,11 @@ class PostsVC: UITableViewController, ServiceProvider {
         fatalError("source has not been overridden")
     }
 
+    //swiftlint:disable:next unavailable_function
+    func createPost() {
+        fatalError("createPost has not been overridden")
+    }
+
     private var models: [PostCellModel] = []
     private var contentState: ContentState = .loading
     private var postsObserver: Observer?
@@ -39,6 +44,9 @@ class PostsVC: UITableViewController, ServiceProvider {
                 PostHeader.self,
                 forHeaderFooterViewReuseIdentifier: PostHeader.reuseIdentifier
             )
+        } else {
+            tableView.estimatedSectionHeaderHeight = 1
+            tableView.sectionHeaderHeight = 1
         }
 
         update()
@@ -77,7 +85,7 @@ extension PostsVC {
 
     override func tableView(_ tableView: UITableView,
                             viewForHeaderInSection section: Int) -> UIView? {
-        guard canCreate else { return nil }
+        guard canCreate else { return UIView() }
 
         let header = tableView.dequeueReusableHeaderFooterView(
             withIdentifier: PostHeader.reuseIdentifier) as? PostHeader
@@ -117,12 +125,12 @@ extension PostsVC {
 
     override func tableView(_ tableView: UITableView,
                             heightForHeaderInSection section: Int) -> CGFloat {
-        return canCreate ? layout.header : 0
+        return canCreate ? layout.header : 1
     }
 
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        return layout.header
+        return canCreate ? layout.header : 1
     }
 }
 
@@ -146,8 +154,7 @@ extension PostsVC: PostCellDelegate {
 private extension PostsVC {
 
     @IBAction func addTapped(_ sender: GradientButton) {
-        log.todo("implement addTapped")
-        note.unimplemented()
+        createPost()
     }
 
     func cellModels(from posts: [Post]) -> [PostCellModel] {

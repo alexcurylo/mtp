@@ -109,18 +109,30 @@ final class SpyMTPNetworkService: MTPNetworkService {
         invokedSearchParameters = (query, then)
         invokedSearchParametersList.append((query, then))
     }
-    var invokedUpload = false
-    var invokedUploadCount = 0
-    var invokedUploadParameters: (image: UIImage, location: Location?, caption: String, then: MTPResult<String>)?
-    var invokedUploadParametersList = [(image: UIImage, location: Location?, caption: String, then: MTPResult<String>)]()
+    var invokedUploadImage = false
+    var invokedUploadImageCount = 0
+    var invokedUploadImageParameters: (image: UIImage, location: Location?, caption: String, then: MTPResult<String>)?
+    var invokedUploadImageParametersList = [(image: UIImage, location: Location?, caption: String, then: MTPResult<String>)]()
     func upload(image: UIImage,
     location: Location?,
     caption: String,
     then: @escaping MTPResult<String>) {
+        invokedUploadImage = true
+        invokedUploadImageCount += 1
+        invokedUploadImageParameters = (image, location, caption, then)
+        invokedUploadImageParametersList.append((image, location, caption, then))
+    }
+    var invokedUpload = false
+    var invokedUploadCount = 0
+    var invokedUploadParameters: (post: String, id: Int, then: MTPResult<String>)?
+    var invokedUploadParametersList = [(post: String, id: Int, then: MTPResult<String>)]()
+    func upload(post: String,
+    location id: Int,
+    then: @escaping MTPResult<String>) {
         invokedUpload = true
         invokedUploadCount += 1
-        invokedUploadParameters = (image, location, caption, then)
-        invokedUploadParametersList.append((image, location, caption, then))
+        invokedUploadParameters = (post, id, then)
+        invokedUploadParametersList.append((post, id, then))
     }
     var invokedUserDeleteAccount = false
     var invokedUserDeleteAccountCount = 0

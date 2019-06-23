@@ -13,7 +13,7 @@
         <scene sceneID="LHG-d1-pXr">
             <objects>
                 <tableViewController storyboardIdentifier="Posts" title="Posts" useStoryboardIdentifierAsRestorationIdentifier="YES" id="heg-gh-VET" customClass="ProfilePostsVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" id="iZI-bO-6ES">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" estimatedSectionHeaderHeight="1" sectionFooterHeight="18" id="iZI-bO-6ES">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -55,10 +55,21 @@
                             <outlet property="delegate" destination="heg-gh-VET" id="fAH-4q-Tvw"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="bQF-Ud-clT" kind="show" identifier="addPost" id="mU4-Vs-jtV"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xm4-yo-lfg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2586" y="39"/>
+            <point key="canvasLocation" x="2561" y="52"/>
+        </scene>
+        <!--AddPost-->
+        <scene sceneID="tUe-AV-Kuq">
+            <objects>
+                <viewControllerPlaceholder storyboardName="AddPost" id="bQF-Ud-clT" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1uH-MV-Yhh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3117" y="51"/>
         </scene>
     </scenes>
 </document>

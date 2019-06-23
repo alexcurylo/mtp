@@ -161,6 +161,10 @@ extension Location: PlaceInfo {
         return countryName
     }
 
+    var placeCountryId: Int {
+        return countryId
+    }
+
     var placeId: Int {
         return id
     }

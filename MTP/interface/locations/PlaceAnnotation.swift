@@ -27,6 +27,7 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
     let list: Checklist
     let name: String
     let country: String
+    let countryId: Int
     let imageUrl: URL?
     let visitors: Int
 
@@ -46,6 +47,7 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
         self.id = info.placeId
         self.name = info.placeTitle
         self.country = info.placeSubtitle
+        self.countryId = info.placeCountryId
         self.visitors = info.placeVisitors
         self.imageUrl = info.placeImageUrl
 

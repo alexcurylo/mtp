@@ -7,6 +7,7 @@ protocol PlaceInfo {
 
     var placeCoordinate: CLLocationCoordinate2D { get }
     var placeCountry: String { get }
+    var placeCountryId: Int { get }
     var placeId: Int { get }
     var placeImage: String { get }
     var placeImageUrl: URL? { get }
@@ -52,6 +53,10 @@ extension PlaceInfo {
 
     var placeIsCountry: Bool {
         return false
+    }
+
+    var placeCountryId: Int {
+        return 0
     }
 }
 

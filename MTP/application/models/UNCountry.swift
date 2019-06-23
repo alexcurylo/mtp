@@ -44,6 +44,10 @@ extension UNCountry: PlaceInfo {
         return country
     }
 
+    var placeCountryId: Int {
+        return id
+    }
+
     var placeId: Int {
         return id
     }
