@@ -53,7 +53,7 @@ extension CountryJSON: CustomDebugStringConvertible {
 
     static var all: Country = {
         let all = Country()
-        all.countryName = "(\(Localized.allCountries()))"
+        all.countryName = "(\(L.allCountries()))"
         return all
     }()
 

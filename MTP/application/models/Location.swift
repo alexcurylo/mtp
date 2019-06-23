@@ -118,9 +118,9 @@ extension LocationJSON: CustomDebugStringConvertible {
 
     static var all: Location = {
         let all = Location()
-        all.countryName = "(\(Localized.allCountries()))"
-        all.locationName = "(\(Localized.allLocations()))"
-        all.regionName = "(\(Localized.allRegions()))"
+        all.countryName = "(\(L.allCountries()))"
+        all.locationName = "(\(L.allLocations()))"
+        all.regionName = "(\(L.allRegions()))"
         return all
     }()
 
@@ -128,7 +128,7 @@ extension LocationJSON: CustomDebugStringConvertible {
         if !countryName.isEmpty
            && !locationName.isEmpty
            && countryName != locationName {
-            return Localized.locationDescription(locationName, countryName)
+            return L.locationDescription(locationName, countryName)
         }
         return locationName.isEmpty ? countryName : locationName
     }

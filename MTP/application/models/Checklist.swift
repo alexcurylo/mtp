@@ -324,38 +324,38 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
     var title: String {
         switch self {
         case .locations:
-            return Localized.locations()
+            return L.locations()
         case .uncountries:
-            return Localized.uncountries()
+            return L.uncountries()
         case .whss:
-            return Localized.whss()
+            return L.whss()
         case .beaches:
-            return Localized.beaches()
+            return L.beaches()
         case .golfcourses:
-            return Localized.golfcourses()
+            return L.golfcourses()
         case .divesites:
-            return Localized.divesites()
+            return L.divesites()
         case .restaurants:
-            return Localized.restaurants()
+            return L.restaurants()
         }
     }
 
     var category: String {
         switch self {
         case .locations:
-            return Localized.location()
+            return L.location()
         case .uncountries:
-            return Localized.uncountry()
+            return L.uncountry()
         case .whss:
-            return Localized.whs()
+            return L.whs()
         case .beaches:
-            return Localized.beach()
+            return L.beach()
         case .golfcourses:
-            return Localized.golfcourse()
+            return L.golfcourse()
         case .divesites:
-            return Localized.divesite()
+            return L.divesite()
         case .restaurants:
-            return Localized.restaurant()
+            return L.restaurant()
         }
     }
 
@@ -461,19 +461,19 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
     var names: (single: String, plural: String) {
         switch self {
         case .locations:
-            return (Localized.location(), Localized.locations())
+            return (L.location(), L.locations())
         case .uncountries:
-            return (Localized.uncountry(), Localized.uncountries())
+            return (L.uncountry(), L.uncountries())
         case .whss:
-            return (Localized.whs(), Localized.whss())
+            return (L.whs(), L.whss())
         case .beaches:
-            return (Localized.beach(), Localized.beaches())
+            return (L.beach(), L.beaches())
         case .golfcourses:
-            return (Localized.golfcourse(), Localized.golfcourses())
+            return (L.golfcourse(), L.golfcourses())
         case .divesites:
-            return (Localized.divesite(), Localized.divesites())
+            return (L.divesite(), L.divesites())
         case .restaurants:
-            return (Localized.restaurant(), Localized.restaurants())
+            return (L.restaurant(), L.restaurants())
         }
     }
 

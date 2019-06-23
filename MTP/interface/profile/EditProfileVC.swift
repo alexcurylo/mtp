@@ -43,7 +43,7 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
     private var current = UserUpdate()
     private var country: Country?
     private var location: Location?
-    private let genders = [Localized.selectGender(), Localized.male(), Localized.female()]
+    private let genders = [L.selectGender(), L.male(), L.female()]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -225,8 +225,8 @@ private extension EditProfileVC {
         genderTextField?.inputAccessoryView = keyboardToolbar
         let gender: String
         switch update.gender {
-        case "M": gender = Localized.male()
-        case "F": gender = Localized.female()
+        case "M": gender = L.male()
+        case "F": gender = L.female()
         default: gender = ""
         }
         genderTextField?.text = gender
@@ -449,25 +449,25 @@ private extension EditProfileVC {
 
         let errorMessage: String
         if current.first_name.isEmpty {
-            errorMessage = Localized.fixFirstName()
+            errorMessage = L.fixFirstName()
         } else if current.last_name.isEmpty {
-            errorMessage = Localized.fixLastName()
+            errorMessage = L.fixLastName()
         } else if current.birthday.isEmpty {
-            errorMessage = Localized.fixBirthday()
+            errorMessage = L.fixBirthday()
         } else if current.gender.isEmpty {
-            errorMessage = Localized.fixGender()
+            errorMessage = L.fixGender()
         } else if current.country_id == 0 {
-            errorMessage = Localized.fixCountry()
+            errorMessage = L.fixCountry()
         } else if current.location_id == 0 {
-            errorMessage = Localized.fixLocation()
+            errorMessage = L.fixLocation()
         } else if !current.email.isValidEmail {
-            errorMessage = Localized.fixEmail()
+            errorMessage = L.fixEmail()
         } else if current.bio?.isEmpty ?? true {
-            errorMessage = Localized.fixBio()
+            errorMessage = L.fixBio()
         } else if current.airport?.isEmpty ?? true {
-            errorMessage = Localized.fixAirport()
+            errorMessage = L.fixAirport()
         } else if !linksValid {
-            errorMessage = Localized.fixLinks()
+            errorMessage = L.fixLinks()
         } else {
             errorMessage = ""
         }
@@ -503,34 +503,34 @@ private extension EditProfileVC {
     }
 
     func upload(edits: UserUpdate) {
-        let operation = Localized.updateProfile()
-        note.modal(info: Localized.updatingProfile())
+        let operation = L.updateProfile()
+        note.modal(info: L.updatingProfile())
 
         // swiftlint:disable:next closure_body_length
         mtp.userUpdate(info: edits) { [weak self, note] result in
             let errorMessage: String
             switch result {
             case .success:
-                note.modal(success: Localized.success())
+                note.modal(success: L.success())
                 DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
                     note.dismissModal()
                     self?.performSegue(withIdentifier: Segues.cancelEdits, sender: self)
                 }
                 return
             case .failure(.deviceOffline):
-                errorMessage = Localized.deviceOfflineError(operation)
+                errorMessage = L.deviceOfflineError(operation)
             case .failure(.serverOffline):
-                errorMessage = Localized.serverOfflineError(operation)
+                errorMessage = L.serverOfflineError(operation)
             case .failure(.decoding),
                  .failure(.result),
                  .failure(.status):
-                errorMessage = Localized.resultsErrorReport(operation)
+                errorMessage = L.resultsErrorReport(operation)
             case .failure(.message(let message)):
                 errorMessage = message
             case .failure(.network(let message)):
-                errorMessage = Localized.networkError(operation, message)
+                errorMessage = L.networkError(operation, message)
             default:
-                errorMessage = Localized.unexpectedErrorReport(operation)
+                errorMessage = L.unexpectedErrorReport(operation)
             }
             note.modal(error: errorMessage)
             DispatchQueue.main.asyncAfter(deadline: .medium) {
@@ -576,34 +576,34 @@ private extension EditProfileVC {
     }
 
     @IBAction func deleteAccount(segue: UIStoryboardSegue) {
-        let operation = Localized.deleteAccount()
-        note.modal(info: Localized.deletingAccount())
+        let operation = L.deleteAccount()
+        note.modal(info: L.deletingAccount())
 
         // swiftlint:disable:next closure_body_length
         mtp.userDeleteAccount { [weak self, note] result in
             let errorMessage: String
             switch result {
             case .success:
-                note.modal(success: Localized.success())
+                note.modal(success: L.success())
                 DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
                     note.dismissModal()
                     self?.performSegue(withIdentifier: Segues.unwindFromEditProfile, sender: self)
                 }
                 return
             case .failure(.deviceOffline):
-                errorMessage = Localized.deviceOfflineError(operation)
+                errorMessage = L.deviceOfflineError(operation)
             case .failure(.serverOffline):
-                errorMessage = Localized.serverOfflineError(operation)
+                errorMessage = L.serverOfflineError(operation)
             case .failure(.decoding),
                  .failure(.result),
                  .failure(.status):
-                errorMessage = Localized.resultsErrorReport(operation)
+                errorMessage = L.resultsErrorReport(operation)
             case .failure(.message(let message)):
                 errorMessage = message
             case .failure(.network(let message)):
-                errorMessage = Localized.networkError(operation, message)
+                errorMessage = L.networkError(operation, message)
             default:
-                errorMessage = Localized.unexpectedErrorReport(operation)
+                errorMessage = L.unexpectedErrorReport(operation)
             }
             note.modal(error: errorMessage)
             DispatchQueue.main.asyncAfter(deadline: .medium) {
@@ -740,7 +740,7 @@ private extension InsetTextField {
             cornerRadius = 15
             textColor = .white
             font = Avenir.medium.of(size: 16)
-            placeholder = Localized.linkUrl()
+            placeholder = L.linkUrl()
             keyboardType = .URL
             textContentType = .URL
             autocapitalizationType = .none
@@ -751,7 +751,7 @@ private extension InsetTextField {
             borderWidth = 1
             borderColor = .alto
             font = Avenir.book.of(size: 16)
-            placeholder = Localized.linkTitle()
+            placeholder = L.linkTitle()
         }
     }
 }

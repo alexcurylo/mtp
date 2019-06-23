@@ -35,11 +35,11 @@ extension ContentStateMessagingView {
         case .data:
             setMessageNone()
         case .empty:
-            set(message: Localized.emptyState(), color: color)
+            set(message: L.emptyState(), color: color)
         case .error:
-            set(message: Localized.errorState(), color: color)
+            set(message: L.errorState(), color: color)
         case .loading:
-            set(message: Localized.loading(), color: color)
+            set(message: L.loading(), color: color)
         }
     }
 

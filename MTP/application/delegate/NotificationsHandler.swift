@@ -34,13 +34,13 @@ extension NotificationsHandler: AppLaunchHandler {
         )
 
         let checkin = UNNotificationAction(
-            identifier: Localized.checkinAction(),
-            title: Localized.checkinAction(),
+            identifier: L.checkinAction(),
+            title: L.checkinAction(),
             options: []
         )
         let dismiss = UNNotificationAction(
-            identifier: Localized.dismissAction(),
-            title: Localized.dismissAction(),
+            identifier: L.dismissAction(),
+            title: L.dismissAction(),
             options: []
         )
         let visit = UNNotificationCategory(
@@ -97,9 +97,9 @@ extension NotificationsHandler: UNUserNotificationCenterDelegate {
             let visitId = userInfo[Note.Info.id.key] as? Int else { return }
 
         switch response.actionIdentifier {
-        case Localized.dismissAction():
+        case L.dismissAction():
             list.set(dismissed: true, id: visitId)
-        case Localized.checkinAction():
+        case L.checkinAction():
             list.set(visited: true, id: visitId)
             note.congratulate(list: list, id: visitId)
         case UNNotificationDefaultActionIdentifier,

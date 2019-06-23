@@ -87,7 +87,7 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         countryLabel.text = user.locationName
 
         guard user.id != 0 else {
-            nameLabel.text = Localized.loading()
+            nameLabel.text = L.loading()
             avatarImageView.image = nil
             visitedButton.isHidden = true
             remainingButton.isHidden = true
@@ -98,14 +98,14 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         avatarImageView.load(image: user)
 
         let order = list.order(of: user)
-        rankLabel.text = order > 0 ? order.grouped : Localized.deceased()
+        rankLabel.text = order > 0 ? order.grouped : L.deceased()
 
         let status = list.status(of: user)
         visitedButton.isHidden = false
-        let visited = Localized.visitedCount(status.visited)
+        let visited = L.visitedCount(status.visited)
         visitedButton.setTitle(visited, for: .normal)
         remainingButton.isHidden = false
-        let remaining = Localized.remainingCount(status.remaining)
+        let remaining = L.remainingCount(status.remaining)
         remainingButton.setTitle(remaining, for: .normal)
     }
 

@@ -35,7 +35,7 @@ final class SignupVC: UIViewController, ServiceProvider {
     private var country: Country?
     private var location: Location?
 
-    private let genders = [Localized.selectGender(), Localized.male(), Localized.female()]
+    private let genders = [L.selectGender(), L.male(), L.female()]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -211,7 +211,7 @@ private extension SignupVC {
         sender.login(vc: self) { [weak self] info in
             guard let self = self else { return }
             guard let info = info else {
-                self.errorMessage = Localized.facebookFailed()
+                self.errorMessage = L.facebookFailed()
                 self.performSegue(withIdentifier: Segues.presentSignupFail, sender: self)
                 return
             }
@@ -292,8 +292,8 @@ private extension SignupVC {
 
         let gender: String
         switch info.gender {
-        case "M": gender = Localized.male()
-        case "F": gender = Localized.female()
+        case "M": gender = L.male()
+        case "F": gender = L.female()
         default: gender = ""
         }
         genderTextField?.disable(text: gender)
@@ -329,27 +329,27 @@ private extension SignupVC {
         let passwordConfirmation = confirmPasswordTextField?.text ?? ""
 
         if !email.isValidEmail {
-            errorMessage = Localized.fixEmail()
+            errorMessage = L.fixEmail()
         } else if firstName.isEmpty {
-            errorMessage = Localized.fixFirstName()
+            errorMessage = L.fixFirstName()
         } else if lastName.isEmpty {
-            errorMessage = Localized.fixLastName()
+            errorMessage = L.fixLastName()
         } else if gender.isEmpty {
-            errorMessage = Localized.fixGender()
+            errorMessage = L.fixGender()
         } else if country == nil {
-            errorMessage = Localized.fixCountry()
+            errorMessage = L.fixCountry()
         } else if location == nil {
             if isLocationVisible {
-                errorMessage = Localized.fixLocation()
+                errorMessage = L.fixLocation()
             } else {
                 location = data.get(location: country?.countryId ?? 0)
             }
         } else if birthdayDate == nil {
-            errorMessage = Localized.fixBirthday()
+            errorMessage = L.fixBirthday()
         } else if !password.isValidPassword {
-            errorMessage = Localized.fixPassword()
+            errorMessage = L.fixPassword()
         } else if password != passwordConfirmation {
-            errorMessage = Localized.fixConfirmPassword()
+            errorMessage = L.fixConfirmPassword()
         } else {
             errorMessage = ""
         }
@@ -359,8 +359,8 @@ private extension SignupVC {
               errorMessage.isEmpty else {
             if showError {
                 if errorMessage.isEmpty {
-                    let operation = Localized.signUp()
-                    errorMessage = Localized.unexpectedError(operation)
+                    let operation = L.signUp()
+                    errorMessage = L.unexpectedError(operation)
                 }
                 performSegue(withIdentifier: Segues.presentSignupFail, sender: self)
             }
@@ -383,33 +383,33 @@ private extension SignupVC {
     }
 
     func register(info: RegistrationInfo) {
-        let operation = Localized.signUp()
-        note.modal(info: Localized.signingUp())
+        let operation = L.signUp()
+        note.modal(info: L.signingUp())
 
         // swiftlint:disable:next closure_body_length
         mtp.userRegister(info: info) { [weak self, note] result in
             switch result {
             case .success:
-                note.modal(success: Localized.success())
+                note.modal(success: L.success())
                 DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
                     note.dismissModal()
                     self?.performSegue(withIdentifier: Segues.showWelcome, sender: self)
                 }
                 return
             case .failure(.deviceOffline):
-                self?.errorMessage = Localized.deviceOfflineError(operation)
+                self?.errorMessage = L.deviceOfflineError(operation)
             case .failure(.serverOffline):
-                self?.errorMessage = Localized.serverOfflineError(operation)
+                self?.errorMessage = L.serverOfflineError(operation)
             case .failure(.decoding),
                  .failure(.result),
                  .failure(.status):
-                self?.errorMessage = Localized.resultsError(operation)
+                self?.errorMessage = L.resultsError(operation)
             case .failure(.message(let message)):
                 self?.errorMessage = message
             case .failure(.network(let message)):
-                self?.errorMessage = Localized.networkError(operation, message)
+                self?.errorMessage = L.networkError(operation, message)
             default:
-                self?.errorMessage = Localized.unexpectedError(operation)
+                self?.errorMessage = L.unexpectedError(operation)
             }
             note.dismissModal()
             self?.performSegue(withIdentifier: Segues.presentSignupFail, sender: self)

@@ -409,7 +409,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 let problem = self.parse(error: error, response: response)
                 return then(.failure(problem))
             case .failure(let error):
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -434,7 +434,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 let problem = self.parse(error: error, response: response)
                 return then(.failure(problem))
             case .failure(let error):
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -472,7 +472,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -515,7 +515,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -553,7 +553,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -591,7 +591,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -629,7 +629,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -667,7 +667,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -706,7 +706,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -751,7 +751,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -790,7 +790,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -834,7 +834,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -875,7 +875,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -913,7 +913,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -949,7 +949,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -987,7 +987,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -1025,7 +1025,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -1064,7 +1064,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -1102,7 +1102,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -1130,7 +1130,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 let problem = self.parse(error: error, response: response)
                 return then(.failure(problem))
             case .failure(let error):
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -1157,7 +1157,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 let problem = self.parse(error: error, response: response)
                 return then(.failure(problem))
             case .failure(let error):
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -1174,7 +1174,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
 
         log.todo("upload(image:)")
-        return then(.failure(.message(Localized.unimplemented())))
+        return then(.failure(.message(L.unimplemented())))
 
         let auth = AccessTokenPlugin { self.data.token }
         let provider = MoyaProvider<MTP>(plugins: [auth])
@@ -1206,7 +1206,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 let problem = self.parse(error: error, response: response)
                 return then(.failure(problem))
             case .failure(let error):
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -1217,7 +1217,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 location id: Int,
                 then: @escaping MTPResult<String>) {
         log.todo("upload(post:)")
-        return then(.failure(.message(Localized.unimplemented())))
+        return then(.failure(.message(L.unimplemented())))
     }
 
     func userDeleteAccount(then: @escaping MTPResult<String>) {
@@ -1252,7 +1252,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 let problem = self.parse(error: error, response: response)
                 return then(.failure(problem))
             case .failure(let error):
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -1291,7 +1291,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 let problem = self.parse(error: error, response: response)
                 return then(.failure(problem))
             case .failure(let error):
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -1334,7 +1334,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -1374,7 +1374,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 let problem = self.parse(error: error, response: response)
                 return then(.failure(problem))
             case .failure(let error):
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message) \(error)")
                 return then(.failure(.network(message)))
             }
@@ -1414,7 +1414,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 let problem = self.parse(error: error, response: response)
                 return then(.failure(problem))
             case .failure(let error):
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }
@@ -1451,7 +1451,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
-                let message = error.errorDescription ?? Localized.unknown()
+                let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))
             }

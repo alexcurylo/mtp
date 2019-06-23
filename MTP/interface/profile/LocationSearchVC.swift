@@ -113,28 +113,28 @@ private extension LocationSearchVC {
             entityName = "Country"
             basePredicate = nil
 
-            title = Localized.selectCountry()
+            title = L.selectCountry()
         case .country:
             searchPropertyKeyPath = "countryName"
             sortPropertyKey = "countryName"
             entityName = "Country"
             basePredicate = NSPredicate(format: "countryId > 0")
 
-            title = Localized.selectCountry()
+            title = L.selectCountry()
         case let .location(country?):
             entityName = "Location"
             searchPropertyKeyPath = "locationName"
             sortPropertyKey = "locationName"
             basePredicate = NSPredicate(format: "countryId = \(country)")
 
-            title = Localized.selectLocation()
+            title = L.selectLocation()
         case .location:
             entityName = "Location"
             searchPropertyKeyPath = "locationName"
             sortPropertyKey = "locationName"
             basePredicate = NSPredicate(format: "countryId > 0")
 
-            title = Localized.selectLocation()
+            title = L.selectLocation()
         case let .locations(country?):
             entityName = "Location"
             searchPropertyKeyPath = "locationName"
@@ -145,13 +145,13 @@ private extension LocationSearchVC {
                 type: .or,
                 subpredicates: [isChild, isAll])
 
-            title = Localized.selectLocation()
+            title = L.selectLocation()
         case .locations:
             entityName = "Location"
             searchPropertyKeyPath = "locationName"
             sortPropertyKey = "locationName"
 
-            title = Localized.selectLocation()
+            title = L.selectLocation()
         }
     }
 }
@@ -192,16 +192,16 @@ final class LocationSearchTableViewCell: UITableViewCell {
         let text: String?
         switch list {
         case .countries:
-            text = named(orNot: Localized.selectCountryAll())
+            text = named(orNot: L.selectCountryAll())
         case .countryOrNot:
-            text = named(orNot: Localized.selectCountryNone())
+            text = named(orNot: L.selectCountryNone())
         case .country:
             text = countryName
         case .location,
              .locations:
             text = (item as? Location)?.locationName
         }
-        locationLabel?.text = text ?? Localized.unknown()
+        locationLabel?.text = text ?? L.unknown()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

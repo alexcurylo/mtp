@@ -86,13 +86,13 @@ extension RestaurantJSON: CustomDebugStringConvertible {
 
         let locationId = from.location?.id ?? from.locationId
         placeLocation = controller.location(id: locationId)
-        countryName = placeLocation?.countryName ?? Localized.unknown()
+        countryName = placeLocation?.countryName ?? L.unknown()
         id = from.id
         lat = from.lat
         long = from.long
         placeImage = from.img
         placeVisitors = from.visitors
-        regionName = placeLocation?.regionName ?? Localized.unknown()
+        regionName = placeLocation?.regionName ?? L.unknown()
         title = from.title
         website = from.url
     }

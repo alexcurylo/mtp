@@ -2,7 +2,8 @@
 
 import UIKit
 
-typealias Localized = R.string.localizable
+//swiftlint:disable:next type_name
+typealias L = R.string.localizable
 
 extension String {
 

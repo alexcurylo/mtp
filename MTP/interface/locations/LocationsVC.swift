@@ -163,7 +163,7 @@ extension LocationsVC: PlaceAnnotationDelegate {
         } else if let url = place.webUrl {
             app.launch(url: url)
         } else {
-            note.message(error: Localized.noWebsite())
+            note.message(error: L.noWebsite())
         }
     }
 

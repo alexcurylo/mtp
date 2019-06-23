@@ -174,7 +174,7 @@ final class NearbyCell: UITableViewCell {
         show(visited: place.isVisited)
         nameLabel?.text = place.subtitle
         countryLabel?.text = place.country
-        visitorsLabel?.text = Localized.visitors(place.visitors.grouped)
+        visitorsLabel?.text = L.visitors(place.visitors.grouped)
     }
  }
 
@@ -193,7 +193,7 @@ private extension NearbyCell {
     }
 
     func show(visited: Bool) {
-        visitedLabel?.text = (visited ? Localized.visited() :            Localized.notVisited()).uppercased()
+        visitedLabel?.text = (visited ? L.visited() : L.notVisited()).uppercased()
         visitSwitch?.isOn = visited
     }
 }

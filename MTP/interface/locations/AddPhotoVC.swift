@@ -101,13 +101,13 @@ private extension AddPhotoVC {
 
     func configureLocation() {
         let country = countryId > 0 ? data.get(country: countryId) : nil
-        countryLabel?.text = country?.countryName ?? Localized.selectCountryOptional()
+        countryLabel?.text = country?.countryName ?? L.selectCountryOptional()
 
         let location = locationId > 0 ? data.get(location: locationId) : nil
 
         guard let locationLine = locationLine else { return }
         if let country = country, country.hasChildren {
-            locationLabel?.text = location?.locationName ?? Localized.selectLocation()
+            locationLabel?.text = location?.locationName ?? L.selectLocation()
 
             locationStack?.addArrangedSubview(locationLine)
         } else {
@@ -139,9 +139,9 @@ private extension AddPhotoVC {
 
         let errorMessage: String
         if countryId != 0 && locationId == 0 {
-            errorMessage = Localized.fixLocation()
+            errorMessage = L.fixLocation()
         } else if image == nil {
-            errorMessage = Localized.fixPhoto()
+            errorMessage = L.fixPhoto()
         } else {
             errorMessage = ""
         }
@@ -158,8 +158,8 @@ private extension AddPhotoVC {
     func upload(image: UIImage,
                 caption: String,
                 location id: Int) {
-        let operation = Localized.publishPost()
-        note.modal(info: Localized.publishingPost())
+        let operation = L.publishPost()
+        note.modal(info: L.publishingPost())
 
         mtp.upload(image: image,
                    caption: caption,
@@ -168,26 +168,26 @@ private extension AddPhotoVC {
             let errorMessage: String
             switch result {
             case .success:
-                note.modal(success: Localized.success())
+                note.modal(success: L.success())
                 DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
                     note.dismissModal()
                     self?.performSegue(withIdentifier: Segues.pop, sender: self)
                 }
                 return
             case .failure(.deviceOffline):
-                errorMessage = Localized.deviceOfflineError(operation)
+                errorMessage = L.deviceOfflineError(operation)
             case .failure(.serverOffline):
-                errorMessage = Localized.serverOfflineError(operation)
+                errorMessage = L.serverOfflineError(operation)
             case .failure(.decoding),
                  .failure(.result),
                  .failure(.status):
-                errorMessage = Localized.resultsErrorReport(operation)
+                errorMessage = L.resultsErrorReport(operation)
             case .failure(.message(let message)):
                 errorMessage = message
             case .failure(.network(let message)):
-                errorMessage = Localized.networkError(operation, message)
+                errorMessage = L.networkError(operation, message)
             default:
-                errorMessage = Localized.unexpectedErrorReport(operation)
+                errorMessage = L.unexpectedErrorReport(operation)
             }
             note.modal(error: errorMessage)
             DispatchQueue.main.asyncAfter(deadline: .medium) {

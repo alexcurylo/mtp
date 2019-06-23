@@ -165,7 +165,7 @@ private extension PostsVC {
                 index: index,
                 location: location,
                 date: DateFormatter.mtpPost.string(from: post.updatedAt).uppercased(),
-                title: location?.placeTitle ?? Localized.unknown(),
+                title: location?.placeTitle ?? L.unknown(),
                 body: post.post,
                 isExpanded: false
             )
@@ -215,7 +215,7 @@ final class PostHeader: UITableViewHeaderFooterView {
         $0.endColor = .azureRadiance
         $0.cornerRadius = 4
 
-        let title = Localized.addPost()
+        let title = L.addPost()
         $0.setTitle(title, for: .normal)
         $0.titleLabel?.font = Avenir.medium.of(size: 15)
     }

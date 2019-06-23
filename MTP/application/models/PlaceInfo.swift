@@ -134,14 +134,14 @@ extension PlaceJSON: CustomDebugStringConvertible {
         }
         self.init()
 
-        countryName = placeLocation?.countryName ?? Localized.unknown()
+        countryName = placeLocation?.countryName ?? L.unknown()
         id = from.id
         lat = from.lat
         long = from.long
         placeImage = from.img ?? ""
         placeLocation = controller.location(id: from.location.id)
         placeVisitors = from.visitors
-        regionName = placeLocation?.regionName ?? Localized.unknown()
+        regionName = placeLocation?.regionName ?? L.unknown()
         title = from.title
         website = from.url
     }
@@ -205,14 +205,14 @@ extension Beach: PlaceInfo {
         }
         self.init()
 
-        countryName = placeLocation?.countryName ?? Localized.unknown()
+        countryName = placeLocation?.countryName ?? L.unknown()
         id = from.id
         lat = from.lat
         long = from.long
         placeImage = from.img ?? ""
         placeLocation = controller.location(id: from.location.id)
         placeVisitors = from.visitors
-        regionName = placeLocation?.regionName ?? Localized.unknown()
+        regionName = placeLocation?.regionName ?? L.unknown()
         title = from.title
         website = from.url
     }
@@ -276,14 +276,14 @@ extension DiveSite: PlaceInfo {
         }
         self.init()
 
-        countryName = placeLocation?.countryName ?? Localized.unknown()
+        countryName = placeLocation?.countryName ?? L.unknown()
         id = from.id
         lat = from.lat
         long = from.long
         placeImage = from.img ?? ""
         placeLocation = controller.location(id: from.location.id)
         placeVisitors = from.visitors
-        regionName = placeLocation?.regionName ?? Localized.unknown()
+        regionName = placeLocation?.regionName ?? L.unknown()
         title = from.title
         website = from.url
     }

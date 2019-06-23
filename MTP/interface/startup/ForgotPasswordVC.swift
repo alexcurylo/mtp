@@ -18,7 +18,7 @@ final class ForgotPasswordVC: UIViewController, ServiceProvider {
         requireInjections()
 
         email = data.email
-        let message = Localized.sendLink(email.hiddenName)
+        let message = L.sendLink(email.hiddenName)
         messageLabel?.text = message
     }
 
@@ -52,8 +52,8 @@ final class ForgotPasswordVC: UIViewController, ServiceProvider {
 private extension ForgotPasswordVC {
 
     @IBAction func continueTapped(_ sender: GradientButton) {
-        let operation = Localized.resetPassword()
-        note.modal(info: Localized.resettingPassword())
+        let operation = L.resetPassword()
+        note.modal(info: L.resettingPassword())
 
         // swiftlint:disable:next closure_body_length
         mtp.userForgotPassword(email: email) { [weak self, note] result in
@@ -67,21 +67,21 @@ private extension ForgotPasswordVC {
                 }
                 return
             case .failure(.deviceOffline):
-                errorMessage = Localized.deviceOfflineError(operation)
+                errorMessage = L.deviceOfflineError(operation)
             case .failure(.serverOffline):
-                errorMessage = Localized.serverOfflineError(operation)
+                errorMessage = L.serverOfflineError(operation)
             case .failure(.status),
                  .failure(.parameter):
-                errorMessage = Localized.emailError()
+                errorMessage = L.emailError()
             case .failure(.decoding),
                  .failure(.result):
-                errorMessage = Localized.resultsErrorReport(operation)
+                errorMessage = L.resultsErrorReport(operation)
             case .failure(.message(let message)):
                 errorMessage = message
             case .failure(.network(let message)):
-                errorMessage = Localized.networkError(operation, message)
+                errorMessage = L.networkError(operation, message)
             default:
-                errorMessage = Localized.unexpectedErrorReport(operation)
+                errorMessage = L.unexpectedErrorReport(operation)
             }
             KRProgressHUD.showError(withMessage: errorMessage)
             DispatchQueue.main.asyncAfter(deadline: .medium) {

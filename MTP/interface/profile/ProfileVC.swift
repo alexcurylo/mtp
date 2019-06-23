@@ -95,10 +95,10 @@ private extension ProfileVC {
 
         #if FOLLOWERS_IMPLEMENTED
         let followersCount = 9_999
-        let followers = Localized.followers(followersCount.grouped)
+        let followers = L.followers(followersCount.grouped)
         followersLabel?.text = followers
         let followingCount = 9_999
-        let following = Localized.following(followingCount.grouped)
+        let following = L.following(followingCount.grouped)
         followingLabel?.text = following
         #endif
     }

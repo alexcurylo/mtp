@@ -20,16 +20,16 @@ extension LocationTracker where Self: UIViewController {
         guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
 
         let alert = UIAlertController(
-            title: Localized.needLocationAccess(),
-            message: Localized.locationAccessRequired(),
+            title: L.needLocationAccess(),
+            message: L.locationAccessRequired(),
             preferredStyle: .alert
         )
 
-        alert.addAction(UIAlertAction(title: Localized.cancel(),
+        alert.addAction(UIAlertAction(title: L.cancel(),
                                       style: .cancel) { _ in
             self.accessRefused()
         })
-        alert.addAction(UIAlertAction(title: Localized.allowLocationAccess(),
+        alert.addAction(UIAlertAction(title: L.allowLocationAccess(),
                                       style: .default) { _ in
             self.app.launch(url: url)
         })

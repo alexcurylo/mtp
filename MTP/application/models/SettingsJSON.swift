@@ -196,7 +196,7 @@ struct MilestonesJSON: Codable {
                         .first { $0.min == count }?
                         .name
         if let threshold = threshold {
-            return Localized.milestone(threshold)
+            return L.milestone(threshold)
         }
         return ""
     }

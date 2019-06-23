@@ -60,7 +60,7 @@ final class LoginVC: UIViewController, ServiceProvider {
         switch identifier {
         case Segues.presentForgotPassword.identifier:
             guard let email = emailTextField?.text, email.isValidEmail else {
-                errorMessage = Localized.fixEmail()
+                errorMessage = L.fixEmail()
                 performSegue(withIdentifier: Segues.presentLoginFail, sender: self)
                 return false
             }
@@ -156,9 +156,9 @@ private extension LoginVC {
         let email = emailTextField?.text ?? ""
         let password = passwordTextField?.text ?? ""
         if !email.isValidEmail {
-            errorMessage = Localized.fixEmail()
+            errorMessage = L.fixEmail()
         } else if password.isEmpty {
-            errorMessage = Localized.enterPassword()
+            errorMessage = L.enterPassword()
         } else {
             errorMessage = ""
         }
@@ -172,34 +172,34 @@ private extension LoginVC {
     }
 
     func login(email: String, password: String) {
-        let operation = Localized.logIn()
-        note.modal(info: Localized.loggingIn())
+        let operation = L.logIn()
+        note.modal(info: L.loggingIn())
 
         mtp.userLogin(email: email,
                       // swiftlint:disable:next closure_body_length
                       password: password) { [weak self, note] result in
             switch result {
             case .success:
-                note.modal(success: Localized.success())
+                note.modal(success: L.success())
                 DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
                     note.dismissModal()
                     self?.performSegue(withIdentifier: Segues.showMain, sender: self)
                 }
                 return
             case .failure(.deviceOffline):
-                self?.errorMessage = Localized.deviceOfflineError(operation)
+                self?.errorMessage = L.deviceOfflineError(operation)
             case .failure(.serverOffline):
-                self?.errorMessage = Localized.serverOfflineError(operation)
+                self?.errorMessage = L.serverOfflineError(operation)
             case .failure(.decoding),
                  .failure(.result),
                  .failure(.status):
-                self?.errorMessage = Localized.resultsError(operation)
+                self?.errorMessage = L.resultsError(operation)
             case .failure(.message(let message)):
                 self?.errorMessage = message
             case .failure(.network(let message)):
-                self?.errorMessage = Localized.networkError(operation, message)
+                self?.errorMessage = L.networkError(operation, message)
             default:
-                self?.errorMessage = Localized.unexpectedError(operation)
+                self?.errorMessage = L.unexpectedError(operation)
             }
             note.dismissModal()
             self?.performSegue(withIdentifier: Segues.presentLoginFail, sender: self)
