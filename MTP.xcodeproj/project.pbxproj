@@ -56,6 +56,8 @@
 		C1D9A04EB6208ED844515108 /* libPods-MTP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA7B8EF0C9A37C87525A9855 /* libPods-MTP.a */; };
 		F5352AD2AEBF0C3A5C6191CE /* Pods-MTP-settings-metadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E2C18C122B275F3B40CDCDA /* Pods-MTP-settings-metadata.plist */; };
 		FA0BE96C210C5F3300797224 /* ViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0BE96B210C5F3300797224 /* ViewTests.swift */; };
+		FA0F816422BF1CA700C00898 /* AddPhotoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0F816322BF1CA700C00898 /* AddPhotoVC.swift */; };
+		FA0F816722BF1D1400C00898 /* AddPhoto.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA0F816522BF1D1400C00898 /* AddPhoto.storyboard */; };
 		FA12D682213B963C0053E9BF /* RankingsPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12D681213B963C0053E9BF /* RankingsPageVC.swift */; };
 		FA2172D822BE038C00CE4F40 /* PlaceOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2172D722BE038C00CE4F40 /* PlaceOverlay.swift */; };
 		FA21FB9F22A3F25400190B71 /* UserCounts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA21FB9D22A3F25400190B71 /* UserCounts.storyboard */; };
@@ -258,6 +260,8 @@
 		E03793369993AA49FE17B339 /* Pods-MTP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MTP.release.xcconfig"; path = "Pods/Target Support Files/Pods-MTP/Pods-MTP.release.xcconfig"; sourceTree = "<group>"; };
 		EA7B8EF0C9A37C87525A9855 /* libPods-MTP.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MTP.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA0BE96B210C5F3300797224 /* ViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTests.swift; sourceTree = "<group>"; };
+		FA0F816322BF1CA700C00898 /* AddPhotoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoVC.swift; sourceTree = "<group>"; };
+		FA0F816622BF1D1400C00898 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/AddPhoto.storyboard; sourceTree = "<group>"; };
 		FA12D681213B963C0053E9BF /* RankingsPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsPageVC.swift; sourceTree = "<group>"; };
 		FA2172D722BE038C00CE4F40 /* PlaceOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceOverlay.swift; sourceTree = "<group>"; };
 		FA21FB9E22A3F25400190B71 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/UserCounts.storyboard; sourceTree = "<group>"; };
@@ -702,6 +706,7 @@
 		FA5AC0B121FC38790080F84F /* locations */ = {
 			isa = PBXGroup;
 			children = (
+				FA0F816322BF1CA700C00898 /* AddPhotoVC.swift */,
 				FA9656CE22BE32D500DA050F /* AddPostVC.swift */,
 				8CE6FC61224C6CB500B24410 /* LocationInfoVC.swift */,
 				FAA818FF2244814900BB9F92 /* LocationPagingVC.swift */,
@@ -722,6 +727,7 @@
 		FA5AC0B221FC389D0080F84F /* locations */ = {
 			isa = PBXGroup;
 			children = (
+				FA0F816522BF1D1400C00898 /* AddPhoto.storyboard */,
 				FAB5E73722BE4F58002B24C8 /* AddPost.storyboard */,
 				8CE6FC5B224C6C2200B24410 /* LocationInfo.storyboard */,
 				8CE6FC58224C6C1B00B24410 /* LocationPhotos.storyboard */,
@@ -1026,6 +1032,7 @@
 				FA32CC892100CC6B004C1329 /* Login.storyboard in Resources */,
 				8CE6FC56224C6C1B00B24410 /* LocationPhotos.storyboard in Resources */,
 				FA8A65AF217ED3BA00BC0DFE /* RankingsFilter.storyboard in Resources */,
+				FA0F816722BF1D1400C00898 /* AddPhoto.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1239,6 +1246,7 @@
 				FAC159A221EB68AA00564E2D /* Location.swift in Sources */,
 				FA7C200E221820FA002C6DAB /* OperationInfo.swift in Sources */,
 				FA5AC0B621FC4EBE0080F84F /* PlaceAnnotationView.swift in Sources */,
+				FA0F816422BF1CA700C00898 /* AddPhotoVC.swift in Sources */,
 				8CFEE459221FA2120061614B /* ImageService.swift in Sources */,
 				FA8833E32209BF810037C796 /* LocationSearchVC.swift in Sources */,
 				FA76D9752131278900EF8E25 /* User.swift in Sources */,
@@ -1406,6 +1414,14 @@
 				8CE6FC5F224C6C4000B24410 /* Base */,
 			);
 			name = LocationPosts.storyboard;
+			sourceTree = "<group>";
+		};
+		FA0F816522BF1D1400C00898 /* AddPhoto.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA0F816622BF1D1400C00898 /* Base */,
+			);
+			name = AddPhoto.storyboard;
 			sourceTree = "<group>";
 		};
 		FA21FB9D22A3F25400190B71 /* UserCounts.storyboard */ = {

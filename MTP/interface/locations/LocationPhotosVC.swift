@@ -1,6 +1,10 @@
 // @copyright Trollwerks Inc.
 
+import UIKit
+
 final class LocationPhotosVC: PhotosVC {
+
+    private typealias Segues = R.segue.locationPhotosVC
 
     private var place: PlaceAnnotation?
     private var photos: [Photo] = []
@@ -20,6 +24,11 @@ final class LocationPhotosVC: PhotosVC {
         return photos[index]
     }
 
+    override func createPhoto() {
+        performSegue(withIdentifier: Segues.addPhoto,
+                     sender: self)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -35,6 +44,18 @@ final class LocationPhotosVC: PhotosVC {
                 self.updated = true
                 self.update()
             }
+        }
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case Segues.addPhoto.identifier:
+            if let edit = Segues.addPhoto(segue: segue)?.destination,
+               let place = place {
+                edit.inject(model: place)
+            }
+        default:
+            log.debug("unexpected segue: \(segue.name)")
         }
     }
 }

@@ -9,8 +9,6 @@ protocol PhotoSelectionDelegate: AnyObject {
 
 class PhotosVC: UICollectionViewController, ServiceProvider {
 
-    private typealias Segues = R.segue.profilePhotosVC
-
     @IBOutlet private var saveButton: UIBarButtonItem?
 
     enum Mode {
@@ -39,6 +37,11 @@ class PhotosVC: UICollectionViewController, ServiceProvider {
     //swiftlint:disable:next unavailable_function
     func photo(at index: Int) -> Photo {
         fatalError("photo(at:) has not been overridden")
+    }
+
+    //swiftlint:disable:next unavailable_function
+    func createPhoto() {
+        fatalError("createPhoto has not been overridden")
     }
 
     func set(mode: Mode,
@@ -78,13 +81,8 @@ class PhotosVC: UICollectionViewController, ServiceProvider {
         super.didReceiveMemoryWarning()
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.cancelChoose.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
-        }
+    func broadcastSelection() {
+        delegate?.selected(picture: current)
     }
 }
 
@@ -92,14 +90,8 @@ class PhotosVC: UICollectionViewController, ServiceProvider {
 
 private extension PhotosVC {
 
-    @IBAction func saveTapped(_ sender: UIBarButtonItem) {
-        delegate?.selected(picture: current)
-        performSegue(withIdentifier: Segues.cancelChoose.identifier, sender: self)
-    }
-
     @IBAction func addTapped(_ sender: GradientButton) {
-        log.todo("implement addTapped")
-        note.unimplemented()
+        createPhoto()
     }
 }
 

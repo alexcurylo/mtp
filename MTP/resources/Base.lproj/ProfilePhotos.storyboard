@@ -112,12 +112,21 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="saveButton" destination="gJs-eF-TNa" id="Onh-nP-O0p"/>
+                        <segue destination="Xvg-dZ-WZV" kind="show" identifier="addPhoto" id="127-G9-XBo"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ti4-er-OrK" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="G6y-rs-hWL" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-165.59999999999999" y="-97.601199400299862"/>
+        </scene>
+        <!--AddPhoto-->
+        <scene sceneID="0Bo-mG-jTI">
+            <objects>
+                <viewControllerPlaceholder storyboardName="AddPhoto" id="Xvg-dZ-WZV" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="11R-Ku-qwt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="434" y="-98"/>
         </scene>
     </scenes>
     <resources>

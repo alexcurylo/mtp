@@ -60,7 +60,7 @@ enum MTP: Hashable {
     case search(query: String?)
     case settings
     case unCountry
-    case upload(image: UIImage, location: Location?, caption: String)
+    case upload(image: UIImage, caption: String, location: Int?)
     case userDelete(id: Int)
     case userGet(id: Int)
     case userGetByToken
@@ -218,7 +218,7 @@ extension MTP: TargetType {
         case let .search(query?):
             return .requestParameters(parameters: ["query": query],
                                       encoding: URLEncoding.default)
-        case let .upload(image: image, location: _, caption: _):
+        case let .upload(image: image, caption: _, location: _):
             if let imageData = image.jpegData(compressionQuality: 1.0) {
                 log.todo("handle upload of \(imageData.count)")
             }
@@ -356,8 +356,8 @@ protocol MTPNetworkService {
     func search(query: String,
                 then: @escaping MTPResult<SearchResultJSON>)
     func upload(image: UIImage,
-                location: Location?,
                 caption: String,
+                location id: Int?,
                 then: @escaping MTPResult<String>)
     func upload(post: String,
                 location id: Int,
@@ -1165,19 +1165,22 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     }
 
     func upload(image: UIImage,
-                location: Location?,
                 caption: String,
+                location id: Int?,
                 then: @escaping MTPResult<String>) {
         guard data.isLoggedIn else {
             log.verbose("upload attempt invalid: not logged in")
             return then(.failure(.parameter))
         }
 
+        log.todo("upload(image:)")
+        return then(.failure(.message(Localized.unimplemented())))
+
         let auth = AccessTokenPlugin { self.data.token }
         let provider = MoyaProvider<MTP>(plugins: [auth])
         let endpoint = MTP.upload(image: image,
-                                  location: location,
-                                  caption: caption)
+                                  caption: caption,
+                                  location: id)
 
         //swiftlint:disable:next closure_body_length
         provider.request(endpoint) { response in
@@ -1213,7 +1216,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     func upload(post: String,
                 location id: Int,
                 then: @escaping MTPResult<String>) {
-        log.todo("upload(post: current)")
+        log.todo("upload(post:)")
         return then(.failure(.message(Localized.unimplemented())))
     }
 

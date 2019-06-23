@@ -15,6 +15,7 @@ final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
     enum List {
         case countries
         case country
+        case countryOrNot
         case location(country: Int?)
         case locations(country: Int?)
     }
@@ -106,7 +107,7 @@ private extension LocationSearchVC {
 
     func configureSearch() {
         switch list {
-        case .countries:
+        case .countries, .countryOrNot:
             searchPropertyKeyPath = "countryName"
             sortPropertyKey = "countryName"
             entityName = "Country"
@@ -177,14 +178,28 @@ final class LocationSearchTableViewCell: UITableViewCell {
 
     func set(list: LocationSearchVC.List,
              item: Object?) {
+
+        var countryName: String? {
+            return (item as? Country)?.countryName
+        }
+
+        func named(orNot: String) -> String? {
+            guard let country = item as? Country else { return nil }
+            guard country.countryId > 0 else { return orNot }
+            return country.countryName
+        }
+
         let text: String?
         switch list {
-        case .countries,
-             .country:
-            text = (item as? Country)?.countryName ?? Localized.unknown()
+        case .countries:
+            text = named(orNot: Localized.selectCountryAll())
+        case .countryOrNot:
+            text = named(orNot: Localized.selectCountryNone())
+        case .country:
+            text = countryName
         case .location,
              .locations:
-            text = (item as? Location)?.locationName ?? Localized.unknown()
+            text = (item as? Location)?.locationName
         }
         locationLabel?.text = text ?? Localized.unknown()
     }

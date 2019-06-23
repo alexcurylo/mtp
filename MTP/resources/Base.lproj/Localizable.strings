@@ -31,6 +31,10 @@
 "errorState" = "Error loading data!";
 "loading" = "Loading…";
 
+// AddPhotoVC
+
+"fixPhoto" = "Please select a photo!";
+
 // EditPostVC
 
 "postLong" = "Post:";
@@ -135,6 +139,9 @@
 "allLocations" = "All locations";
 "allRegions" = "All regions";
 "selectCountry" = "Select Country";
+"selectCountryAll" = "(All countries)";
+"selectCountryNone" = "(No country)";
+"selectCountryOptional" = "Select Country (optional)";
 "selectLocation" = "Select Location";
 "male" = "Male";
 "female" = "Female";
