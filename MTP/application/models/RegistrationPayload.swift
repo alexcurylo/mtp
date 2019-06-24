@@ -2,62 +2,16 @@
 
 import Foundation
 
-struct RegistrationInfo: Codable, Hashable {
-
-    struct CountryInfo: Codable, Hashable {
-        let admin_level: Int
-        let country_id: Int
-        let country_name: String
-        let has_children: Bool
-        let is_mtp_location: Int
-
-        var isValid: Bool {
-            return country_id > 0 &&
-                   !country_name.isEmpty
-        }
-
-        init(country: Country) {
-            admin_level = AdminLevel.country.rawValue
-            country_id = country.countryId
-            country_name = country.countryName
-            has_children = country.hasChildren
-            is_mtp_location = has_children ? 0 : 1
-        }
-    }
-
-    struct LocationInfo: Codable, Hashable {
-        let admin_level: Int
-        let country_id: Int
-        let country_name: String
-        let id: Int
-        let is_mtp_location: Int
-        let location_name: String
-
-        var isValid: Bool {
-            return country_id > 0 &&
-                   !country_name.isEmpty &&
-                   id > 0 &&
-                   !location_name.isEmpty
-       }
-
-        init(location: Location) {
-            admin_level = location.adminLevel.rawValue
-            country_id = location.countryId
-            country_name = location.countryName
-            id = location.id
-            is_mtp_location = 1
-            location_name = location.locationName
-        }
-    }
+struct RegistrationPayload: Codable, Hashable {
 
     let birthday: Date
-    let country: CountryInfo
+    let country: CountryPayload
     let country_id: Int
     let email: String
     let first_name: String
     let gender: String
     let last_name: String
-    let location: LocationInfo
+    let location: LocationPayload
     let location_id: Int
     let password: String
     let passwordConfirmation: String
@@ -86,13 +40,13 @@ struct RegistrationInfo: Codable, Hashable {
          password: String,
          passwordConfirmation: String) {
         self.birthday = birthday
-        self.country = CountryInfo(country: country)
+        self.country = CountryPayload(country: country)
         country_id = country.countryId
         self.email = email
         first_name = firstName
         self.gender = gender
         last_name = lastName
-        self.location = LocationInfo(location: location)
+        self.location = LocationPayload(location: location)
         location_id = location.id
         self.password = password
         self.passwordConfirmation = passwordConfirmation
@@ -114,11 +68,77 @@ struct RegistrationInfo: Codable, Hashable {
         }
         last_name = response["last_name"] as? String ?? ""
 
-        country = CountryInfo(country: Country())
+        country = CountryPayload(country: Country())
         country_id = 0
-        location = LocationInfo(location: Location())
+        location = LocationPayload(location: Location())
         location_id = 0
         password = ""
         passwordConfirmation = ""
+    }
+}
+
+struct CountryPayload: Codable, Hashable {
+
+    let admin_level: Int
+    let country_id: Int
+    let country_name: String
+    let has_children: Bool
+    let is_mtp_location: Int
+
+    var isValid: Bool {
+        return country_id > 0 &&
+            !country_name.isEmpty
+    }
+
+    init(country: Country) {
+        admin_level = AdminLevel.country.rawValue
+        country_id = country.countryId
+        country_name = country.countryName
+        has_children = country.hasChildren
+        is_mtp_location = has_children ? 0 : 1
+    }
+}
+
+struct LocationPayload: Codable, Hashable {
+
+    let admin_level: Int
+    let country_id: Int
+    let country_name: String
+    let id: Int
+    let is_mtp_location: Int
+    let location_name: String
+
+    var isValid: Bool {
+        return country_id > 0 &&
+            !country_name.isEmpty &&
+            id > 0 &&
+            !location_name.isEmpty
+    }
+
+    init() {
+        admin_level = 0
+        country_id = 0
+        country_name = ""
+        id = 0
+        is_mtp_location = 0
+        location_name = ""
+    }
+
+    init(country: Country) {
+        admin_level = AdminLevel.country.rawValue
+        country_id = country.countryId
+        country_name = country.countryName
+        id = country.countryId
+        is_mtp_location = country.hasChildren ? 0 : 1
+        location_name = country.countryName
+    }
+
+    init(location: Location) {
+        admin_level = location.adminLevel.rawValue
+        country_id = location.countryId
+        country_name = location.countryName
+        id = location.id
+        is_mtp_location = 1
+        location_name = location.locationName
     }
 }

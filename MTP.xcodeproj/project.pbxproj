@@ -42,8 +42,9 @@
 		8C9DD8CE2245034E00D5EAFB /* Injectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9DD8CD2245034D00D5EAFB /* Injectable.swift */; };
 		8CAE30592239DA7D00E31647 /* world-map.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 8CAE30572239DA7C00E31647 /* world-map.geojson */; };
 		8CAE30642239F4F100E31647 /* WorldMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CAE30632239F4F100E31647 /* WorldMap.swift */; };
-		8CCA21F822B3AB5D00C1D13B /* UserUpdateInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCA21F722B3AB5D00C1D13B /* UserUpdateInfo.swift */; };
+		8CCA21F822B3AB5D00C1D13B /* UserUpdatePayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCA21F722B3AB5D00C1D13B /* UserUpdatePayload.swift */; };
 		8CCA5A7322AA6BBB00853903 /* AppAboutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCA5A7222AA6BBB00853903 /* AppAboutVC.swift */; };
+		8CDBE5EE22C08AD5005A6C18 /* PostPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDBE5ED22C08AD5005A6C18 /* PostPayload.swift */; };
 		8CE3FC2C222389B600B94EAA /* Scorecard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE3FC2B222389B600B94EAA /* Scorecard.swift */; };
 		8CE6F46B224B029500B24410 /* ContentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6F46A224B029400B24410 /* ContentState.swift */; };
 		8CE6FC56224C6C1B00B24410 /* LocationPhotos.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CE6FC58224C6C1B00B24410 /* LocationPhotos.storyboard */; };
@@ -112,7 +113,7 @@
 		FA5AC0C321FDCE200080F84F /* MyCountsPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C221FDCE200080F84F /* MyCountsPageVC.swift */; };
 		FA5AC0C521FDD7C00080F84F /* CountSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C421FDD7C00080F84F /* CountSectionHeader.swift */; };
 		FA5AC0C721FDD8AA0080F84F /* CountCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C621FDD8AA0080F84F /* CountCellItem.swift */; };
-		FA5DBFA8222FF9E300639148 /* RegistrationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5DBFA7222FF9E300639148 /* RegistrationInfo.swift */; };
+		FA5DBFA8222FF9E300639148 /* RegistrationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5DBFA7222FF9E300639148 /* RegistrationPayload.swift */; };
 		FA62BAE522471780009FDC4E /* StateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA62BAE422471780009FDC4E /* StateHandler.swift */; };
 		FA62BAE922478A6D009FDC4E /* UserCountsPagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA62BAE822478A6D009FDC4E /* UserCountsPagingVC.swift */; };
 		FA62BAEB2247A9A0009FDC4E /* CountsPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA62BAEA2247A9A0009FDC4E /* CountsPageVC.swift */; };
@@ -126,7 +127,7 @@
 		FA74C113211C61580013A840 /* StringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74C112211C61580013A840 /* StringTests.swift */; };
 		FA75562E22A4FFCF0006EFC3 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA75562D22A4FFCF0006EFC3 /* ProfileVC.swift */; };
 		FA76D9752131278900EF8E25 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA76D9742131278900EF8E25 /* User.swift */; };
-		FA7C200E221820FA002C6DAB /* OperationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7C200D221820FA002C6DAB /* OperationInfo.swift */; };
+		FA7C200E221820FA002C6DAB /* OperationReply.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7C200D221820FA002C6DAB /* OperationReply.swift */; };
 		FA7C2010221BA0A1002C6DAB /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7C200F221BA0A1002C6DAB /* Post.swift */; };
 		FA7C2012221C2F20002C6DAB /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7C2011221C2F20002C6DAB /* Photo.swift */; };
 		FA7C2014222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7C2013222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift */; };
@@ -243,8 +244,9 @@
 		8CAE30572239DA7C00E31647 /* world-map.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "world-map.geojson"; sourceTree = "<group>"; };
 		8CAE30632239F4F100E31647 /* WorldMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldMap.swift; sourceTree = "<group>"; };
 		8CCA21F622B381A600C1D13B /* fastlane */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fastlane; sourceTree = "<group>"; };
-		8CCA21F722B3AB5D00C1D13B /* UserUpdateInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserUpdateInfo.swift; sourceTree = "<group>"; };
+		8CCA21F722B3AB5D00C1D13B /* UserUpdatePayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserUpdatePayload.swift; sourceTree = "<group>"; };
 		8CCA5A7222AA6BBB00853903 /* AppAboutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAboutVC.swift; sourceTree = "<group>"; };
+		8CDBE5ED22C08AD5005A6C18 /* PostPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPayload.swift; sourceTree = "<group>"; };
 		8CE3FC2B222389B600B94EAA /* Scorecard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scorecard.swift; sourceTree = "<group>"; };
 		8CE6F46A224B029400B24410 /* ContentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentState.swift; sourceTree = "<group>"; };
 		8CE6FC57224C6C1B00B24410 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LocationPhotos.storyboard; sourceTree = "<group>"; };
@@ -331,7 +333,7 @@
 		FA5AC0C221FDCE200080F84F /* MyCountsPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCountsPageVC.swift; sourceTree = "<group>"; };
 		FA5AC0C421FDD7C00080F84F /* CountSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountSectionHeader.swift; sourceTree = "<group>"; };
 		FA5AC0C621FDD8AA0080F84F /* CountCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountCellItem.swift; sourceTree = "<group>"; };
-		FA5DBFA7222FF9E300639148 /* RegistrationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationInfo.swift; sourceTree = "<group>"; };
+		FA5DBFA7222FF9E300639148 /* RegistrationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationPayload.swift; sourceTree = "<group>"; };
 		FA62BAE422471780009FDC4E /* StateHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateHandler.swift; sourceTree = "<group>"; };
 		FA62BAE822478A6D009FDC4E /* UserCountsPagingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCountsPagingVC.swift; sourceTree = "<group>"; };
 		FA62BAEA2247A9A0009FDC4E /* CountsPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountsPageVC.swift; sourceTree = "<group>"; };
@@ -345,7 +347,7 @@
 		FA74C112211C61580013A840 /* StringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringTests.swift; sourceTree = "<group>"; };
 		FA75562D22A4FFCF0006EFC3 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		FA76D9742131278900EF8E25 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		FA7C200D221820FA002C6DAB /* OperationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationInfo.swift; sourceTree = "<group>"; };
+		FA7C200D221820FA002C6DAB /* OperationReply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationReply.swift; sourceTree = "<group>"; };
 		FA7C200F221BA0A1002C6DAB /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		FA7C2011221C2F20002C6DAB /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		FA7C2013222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate2D+Equatable.swift"; sourceTree = "<group>"; };
@@ -819,21 +821,22 @@
 				FA8833E4220CE7350037C796 /* Country.swift */,
 				8C8DC74C22AF4343002EA1CD /* FaqJSON.swift */,
 				FAC159A121EB68AA00564E2D /* Location.swift */,
-				FA7C200D221820FA002C6DAB /* OperationInfo.swift */,
+				FA7C200D221820FA002C6DAB /* OperationReply.swift */,
 				FA7C2011221C2F20002C6DAB /* Photo.swift */,
 				FAD2B51721F48AB8009FFDD7 /* PlaceInfo.swift */,
 				FAD2B51221F45796009FFDD7 /* PlaceLocation.swift */,
 				FA7C200F221BA0A1002C6DAB /* Post.swift */,
+				8CDBE5ED22C08AD5005A6C18 /* PostPayload.swift */,
 				8C5ECF3921FFE49800322ABF /* RankingsQuery.swift */,
 				8C76D8EB2207CD36005CF4CD /* RankingsPageInfo.swift */,
-				FA5DBFA7222FF9E300639148 /* RegistrationInfo.swift */,
+				FA5DBFA7222FF9E300639148 /* RegistrationPayload.swift */,
 				FAD2B51B21F4A675009FFDD7 /* Restaurant.swift */,
 				8CE3FC2B222389B600B94EAA /* Scorecard.swift */,
 				8C1A267D22AE019400DAFC7B /* SearchResultJSON.swift */,
 				FAFBB0CC22A6A5C4001EDB80 /* SettingsJSON.swift */,
 				FA8833E6220CE8260037C796 /* UNCountry.swift */,
 				FA76D9742131278900EF8E25 /* User.swift */,
-				8CCA21F722B3AB5D00C1D13B /* UserUpdateInfo.swift */,
+				8CCA21F722B3AB5D00C1D13B /* UserUpdatePayload.swift */,
 				FA2E718421ED535B00E6AB73 /* WHS.swift */,
 				8CAE30632239F4F100E31647 /* WorldMap.swift */,
 			);
@@ -1244,7 +1247,7 @@
 				8C4A6FAF224859A500B33DB9 /* UserCountsPageVC.swift in Sources */,
 				FA88395722351C30002F324F /* UIImage+Color.swift in Sources */,
 				FAC159A221EB68AA00564E2D /* Location.swift in Sources */,
-				FA7C200E221820FA002C6DAB /* OperationInfo.swift in Sources */,
+				FA7C200E221820FA002C6DAB /* OperationReply.swift in Sources */,
 				FA5AC0B621FC4EBE0080F84F /* PlaceAnnotationView.swift in Sources */,
 				FA0F816422BF1CA700C00898 /* AddPhotoVC.swift in Sources */,
 				8CFEE459221FA2120061614B /* ImageService.swift in Sources */,
@@ -1279,6 +1282,7 @@
 				8C0127F9223202FA00EA2095 /* ServiceHandler.swift in Sources */,
 				FAFEDA5421296F6D00DA3DB8 /* MainTBC.swift in Sources */,
 				FA2E718521ED535B00E6AB73 /* WHS.swift in Sources */,
+				8CDBE5EE22C08AD5005A6C18 /* PostPayload.swift in Sources */,
 				8CCA5A7322AA6BBB00853903 /* AppAboutVC.swift in Sources */,
 				FAAE29BF20EE51A700B43BA9 /* UIApplication+Environment.swift in Sources */,
 				FA32CC762100C34E004C1329 /* LoginVC.swift in Sources */,
@@ -1286,7 +1290,7 @@
 				FA745757210DBD910010F4F4 /* UINavigationBar+Transparent.swift in Sources */,
 				FA21FBA122A4157000190B71 /* UserProfileVC.swift in Sources */,
 				8C76D5DC22028874005CF4CD /* ServiceProvider.swift in Sources */,
-				8CCA21F822B3AB5D00C1D13B /* UserUpdateInfo.swift in Sources */,
+				8CCA21F822B3AB5D00C1D13B /* UserUpdatePayload.swift in Sources */,
 				FAD2B51821F48AB8009FFDD7 /* PlaceInfo.swift in Sources */,
 				FA392BBF20DF69F30026C828 /* RankingsVC.swift in Sources */,
 				FA5AC0C321FDCE200080F84F /* MyCountsPageVC.swift in Sources */,
@@ -1319,7 +1323,7 @@
 				FAD2B51A21F492B3009FFDD7 /* UncertainValue.swift in Sources */,
 				FAE1F119214354A80002CAB2 /* Avenir.swift in Sources */,
 				FA62BAE922478A6D009FDC4E /* UserCountsPagingVC.swift in Sources */,
-				FA5DBFA8222FF9E300639148 /* RegistrationInfo.swift in Sources */,
+				FA5DBFA8222FF9E300639148 /* RegistrationPayload.swift in Sources */,
 				FA254DCD2169A2A400FC9360 /* ProfileAboutVC.swift in Sources */,
 				FA32CC782100C360004C1329 /* SignupVC.swift in Sources */,
 				FA25ACE6217B54A8000AE26D /* RankingCell.swift in Sources */,

@@ -58,6 +58,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func set(photos page: Int,
              user id: Int,
              info: PhotosPageInfoJSON)
+    func set(post: PostReply)
     func set(posts: [PostJSON])
     func set(restaurants: [RestaurantJSON])
     func set(rankings query: RankingsQuery,
@@ -268,6 +269,11 @@ final class DataServiceImpl: DataService {
 
     func getPosts(user id: Int) -> [Post] {
         return realm.posts(user: id)
+    }
+
+    func set(post: PostReply) {
+        realm.set(post: post)
+        notify(change: .posts)
     }
 
     func set(posts: [PostJSON]) {

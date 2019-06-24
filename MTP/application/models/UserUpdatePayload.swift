@@ -2,7 +2,7 @@
 
 import Foundation
 
-struct UserUpdateInfo: Codable {
+struct UserUpdateReply: Codable {
 
     let code: Int
     let message: String
@@ -14,7 +14,7 @@ struct UserUpdateInfo: Codable {
 }
 
 // expect everything in UserJSON except country, location structs
-struct UserUpdate: Codable, Hashable, UserAvatar {
+struct UserUpdatePayload: Codable, Hashable, UserAvatar {
 
     var airport: String?
     var bio: String?

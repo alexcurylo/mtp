@@ -285,23 +285,23 @@ private extension SignupVC {
         prepareRegister(showError: false)
     }
 
-    func populate(with info: RegistrationInfo) {
-        emailTextField?.disable(text: info.email)
+    func populate(with payload: RegistrationPayload) {
+        emailTextField?.disable(text: payload.email)
 
-        firstNameTextField?.disable(text: info.first_name)
+        firstNameTextField?.disable(text: payload.first_name)
 
         let gender: String
-        switch info.gender {
+        switch payload.gender {
         case "M": gender = L.male()
         case "F": gender = L.female()
         default: gender = ""
         }
         genderTextField?.disable(text: gender)
 
-        lastNameTextField?.disable(text: info.last_name)
+        lastNameTextField?.disable(text: payload.last_name)
 
-        if info.birthday != Date.distantFuture {
-            let birthday = DateFormatter.mtpDay.string(from: info.birthday)
+        if payload.birthday != Date.distantFuture {
+            let birthday = DateFormatter.mtpDay.string(from: payload.birthday)
             birthdayTextField?.disable(text: birthday)
         }
 
@@ -367,7 +367,7 @@ private extension SignupVC {
             return
         }
 
-        let info = RegistrationInfo(
+        let payload = RegistrationPayload(
             birthday: birthday,
             country: country,
             firstName: firstName,
@@ -379,15 +379,15 @@ private extension SignupVC {
             passwordConfirmation: passwordConfirmation
         )
 
-        register(info: info)
+        register(payload: payload)
     }
 
-    func register(info: RegistrationInfo) {
+    func register(payload: RegistrationPayload) {
         let operation = L.signUp()
         note.modal(info: L.signingUp())
 
         // swiftlint:disable:next closure_body_length
-        mtp.userRegister(info: info) { [weak self, note] result in
+        mtp.userRegister(payload: payload) { [weak self, note] result in
             switch result {
             case .success:
                 note.modal(success: L.success())

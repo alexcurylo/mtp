@@ -23,7 +23,7 @@ final class FacebookButton: UIButton, ServiceProvider {
     }
 
     func login(vc: UIViewController,
-               then: @escaping (RegistrationInfo?) -> Void) {
+               then: @escaping (RegistrationPayload?) -> Void) {
         LoginManager().logIn(
             permissions: [ .publicProfile, .email, .userBirthday, .userGender ],
             viewController: vc
@@ -55,16 +55,16 @@ private extension FacebookButton {
         imageView?.contentMode = .scaleAspectFit
     }
 
-    func requestInfo(then: @escaping (RegistrationInfo?) -> Void) {
+    func requestInfo(then: @escaping (RegistrationPayload?) -> Void) {
         let request = GraphRequest(graphPath: "/me",
                                    parameters: ["fields": "birthday,email,first_name,gender,last_name"],
                                    httpMethod: .get)
         request.start { [weak self] _, result, error in
-            let info: RegistrationInfo?
+            let info: RegistrationPayload?
             switch (result, error) {
             case let (result?, nil):
                 let response = result as? [String: Any] ?? [:]
-                info = RegistrationInfo(facebook: response)
+                info = RegistrationPayload(facebook: response)
             case let (nil, error?):
                 self?.log.verbose("Facebook login failed: \(error)")
                 info = nil

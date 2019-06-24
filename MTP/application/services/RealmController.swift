@@ -2,6 +2,8 @@
 
 import RealmSwift
 
+// swiftlint:disable file_length
+
 // https://realm.io/docs/swift/latest
 // https://realm.io/docs/data-model
 
@@ -211,6 +213,17 @@ final class RealmController: ServiceProvider {
         return Array(results)
     }
 
+    func set(post: PostReply) {
+        do {
+            guard let new = Post(from: post) else { return }
+            try realm.write {
+                realm.add(new, update: .modified)
+            }
+        } catch {
+            log.error("set post: \(error)")
+        }
+    }
+
     func set(posts: [PostJSON]) {
         do {
             let objects = posts.compactMap { Post(from: $0) }
@@ -398,16 +411,16 @@ private extension Migration {
 
     func migrate0to1() {
         // apply new defaults: https://github.com/realm/realm-cocoa/issues/1793
-        enumerateObjects(ofType: Beach.className()) { old, new in
+        enumerateObjects(ofType: Beach.className()) { _, new in
             new?["website"] = ""
         }
-        enumerateObjects(ofType: DiveSite.className()) { old, new in
+        enumerateObjects(ofType: DiveSite.className()) { _, new in
             new?["website"] = ""
         }
-        enumerateObjects(ofType: GolfCourse.className()) { old, new in
+        enumerateObjects(ofType: GolfCourse.className()) { _, new in
             new?["website"] = ""
         }
-        enumerateObjects(ofType: Restaurant.className()) { old, new in
+        enumerateObjects(ofType: Restaurant.className()) { _, new in
             new?["website"] = ""
         }
     }

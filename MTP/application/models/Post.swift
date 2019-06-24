@@ -90,10 +90,19 @@ extension PostJSON: CustomDebugStringConvertible {
 
         self.init()
 
-        post = text
         id = from.id
         locationId = from.locationId
+        post = text
         updatedAt = from.updatedAt
+        userId = from.userId
+    }
+
+    convenience init?(from: PostReply) {
+        self.init()
+
+        id = from.id
+        locationId = from.locationId
+        post = from.post
         userId = from.userId
     }
 }

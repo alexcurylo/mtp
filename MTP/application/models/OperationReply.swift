@@ -2,7 +2,7 @@
 
 import Foundation
 
-struct OperationInfo: Codable {
+struct OperationReply: Codable {
 
     let code: Int
     let message: String
@@ -12,7 +12,7 @@ struct OperationInfo: Codable {
     }
 }
 
-extension OperationInfo: CustomStringConvertible {
+extension OperationReply: CustomStringConvertible {
 
     public var description: String {
         return "code \(code): \(message)"
@@ -24,7 +24,7 @@ enum MessageType: String {
     case success
 }
 
-struct PasswordResetInfo: Codable {
+struct PasswordResetReply: Codable {
 
     let code: Int
     let data: String?
@@ -36,28 +36,28 @@ struct PasswordResetInfo: Codable {
     }
 }
 
-extension PasswordResetInfo: CustomStringConvertible {
+extension PasswordResetReply: CustomStringConvertible {
 
     public var description: String {
         return "code \(code): \(message)"
     }
 }
 
-extension PasswordResetInfo: CustomDebugStringConvertible {
+extension PasswordResetReply: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
-        < PasswordResetInfo: \(description):
+        < PasswordResetReply: \(description):
         code: \(code)
         data: \(String(describing: data))
         message: \(message)
         messageType: \(messageType)
-        /PasswordResetInfo >
+        /PasswordResetReply >
         """
     }
 }
 
-struct UploadImageInfo: Codable {
+struct UploadImageReply: Codable {
 
     let code: Int
     let message: String
@@ -67,7 +67,7 @@ struct UploadImageInfo: Codable {
     }
 }
 
-extension UploadImageInfo: CustomStringConvertible {
+extension UploadImageReply: CustomStringConvertible {
 
     public var description: String {
         return "code \(code): \(message)"
