@@ -109,30 +109,29 @@ final class SpyMTPNetworkService: MTPNetworkService {
         invokedSearchParameters = (query, then)
         invokedSearchParametersList.append((query, then))
     }
-    var invokedUploadImage = false
-    var invokedUploadImageCount = 0
-    var invokedUploadImageParameters: (image: UIImage, caption: String, id: Int?, then: MTPResult<String>)?
-    var invokedUploadImageParametersList = [(image: UIImage, caption: String, id: Int?, then: MTPResult<String>)]()
+    var invokedUpload = false
+    var invokedUploadCount = 0
+    var invokedUploadParameters: (image: UIImage, caption: String, id: Int?, then: MTPResult<String>)?
+    var invokedUploadParametersList = [(image: UIImage, caption: String, id: Int?, then: MTPResult<String>)]()
     func upload(image: UIImage,
     caption: String,
     location id: Int?,
     then: @escaping MTPResult<String>) {
-        invokedUploadImage = true
-        invokedUploadImageCount += 1
-        invokedUploadImageParameters = (image, caption, id, then)
-        invokedUploadImageParametersList.append((image, caption, id, then))
-    }
-    var invokedUpload = false
-    var invokedUploadCount = 0
-    var invokedUploadParameters: (post: String, id: Int, then: MTPResult<String>)?
-    var invokedUploadParametersList = [(post: String, id: Int, then: MTPResult<String>)]()
-    func upload(post: String,
-    location id: Int,
-    then: @escaping MTPResult<String>) {
         invokedUpload = true
         invokedUploadCount += 1
-        invokedUploadParameters = (post, id, then)
-        invokedUploadParametersList.append((post, id, then))
+        invokedUploadParameters = (image, caption, id, then)
+        invokedUploadParametersList.append((image, caption, id, then))
+    }
+    var invokedPostPublish = false
+    var invokedPostPublishCount = 0
+    var invokedPostPublishParameters: (payload: PostPayload, then: MTPResult<PostReply>)?
+    var invokedPostPublishParametersList = [(payload: PostPayload, then: MTPResult<PostReply>)]()
+    func postPublish(payload: PostPayload,
+    then: @escaping MTPResult<PostReply>) {
+        invokedPostPublish = true
+        invokedPostPublishCount += 1
+        invokedPostPublishParameters = (payload, then)
+        invokedPostPublishParametersList.append((payload, then))
     }
     var invokedUserDeleteAccount = false
     var invokedUserDeleteAccountCount = 0
@@ -169,25 +168,25 @@ final class SpyMTPNetworkService: MTPNetworkService {
     }
     var invokedUserRegister = false
     var invokedUserRegisterCount = 0
-    var invokedUserRegisterParameters: (info: RegistrationInfo, then: MTPResult<UserJSON>)?
-    var invokedUserRegisterParametersList = [(info: RegistrationInfo, then: MTPResult<UserJSON>)]()
-    func userRegister(info: RegistrationInfo,
+    var invokedUserRegisterParameters: (payload: RegistrationPayload, then: MTPResult<UserJSON>)?
+    var invokedUserRegisterParametersList = [(payload: RegistrationPayload, then: MTPResult<UserJSON>)]()
+    func userRegister(payload: RegistrationPayload,
     then: @escaping MTPResult<UserJSON>) {
         invokedUserRegister = true
         invokedUserRegisterCount += 1
-        invokedUserRegisterParameters = (info, then)
-        invokedUserRegisterParametersList.append((info, then))
+        invokedUserRegisterParameters = (payload, then)
+        invokedUserRegisterParametersList.append((payload, then))
     }
     var invokedUserUpdate = false
     var invokedUserUpdateCount = 0
-    var invokedUserUpdateParameters: (info: UserUpdate, then: MTPResult<UserJSON>)?
-    var invokedUserUpdateParametersList = [(info: UserUpdate, then: MTPResult<UserJSON>)]()
-    func userUpdate(info: UserUpdate,
+    var invokedUserUpdateParameters: (payload: UserUpdatePayload, then: MTPResult<UserJSON>)?
+    var invokedUserUpdateParametersList = [(payload: UserUpdatePayload, then: MTPResult<UserJSON>)]()
+    func userUpdate(payload: UserUpdatePayload,
     then: @escaping MTPResult<UserJSON>) {
         invokedUserUpdate = true
         invokedUserUpdateCount += 1
-        invokedUserUpdateParameters = (info, then)
-        invokedUserUpdateParametersList.append((info, then))
+        invokedUserUpdateParameters = (payload, then)
+        invokedUserUpdateParametersList.append((payload, then))
     }
     var invokedRefreshEverything = false
     var invokedRefreshEverythingCount = 0

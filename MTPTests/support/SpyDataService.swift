@@ -628,6 +628,16 @@ final class SpyDataService: DataService {
         invokedSetPhotosParameters = (page, id, info)
         invokedSetPhotosParametersList.append((page, id, info))
     }
+    var invokedSetPost = false
+    var invokedSetPostCount = 0
+    var invokedSetPostParameters: (post: PostReply, Void)?
+    var invokedSetPostParametersList = [(post: PostReply, Void)]()
+    func set(post: PostReply) {
+        invokedSetPost = true
+        invokedSetPostCount += 1
+        invokedSetPostParameters = (post, ())
+        invokedSetPostParametersList.append((post, ()))
+    }
     var invokedSetPosts = false
     var invokedSetPostsCount = 0
     var invokedSetPostsParameters: (posts: [PostJSON], Void)?

@@ -5,8 +5,17 @@ import Parchment
 final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
 
     static func profile(model: Model) -> LocationPagingVC {
+
+        var first: UIViewController? {
+            if model.canPost {
+                return R.storyboard.locationInfo.locationInfo()?.inject(model: model)
+            } else {
+                return LocationWebsiteVC(place: model)
+            }
+        }
+
         let controllers = [
-            R.storyboard.locationInfo.locationInfo()?.inject(model: model),
+            first,
             R.storyboard.locationPhotos.locationPhotos()?.inject(model: model),
             R.storyboard.locationPosts.locationPosts()?.inject(model: model)
         ].compactMap { $0 }

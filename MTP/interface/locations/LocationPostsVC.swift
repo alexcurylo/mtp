@@ -7,11 +7,12 @@ final class LocationPostsVC: PostsVC {
     private typealias Segues = R.segue.locationPostsVC
 
     override var canCreate: Bool {
-        return true
+        return place?.list == .locations
     }
 
     override var posts: [Post] {
-        guard let place = place else { return [] }
+        guard let place = place,
+              place.list == .locations else { return [] }
 
         return data.get(locationPosts: place.id)
     }
@@ -27,7 +28,9 @@ final class LocationPostsVC: PostsVC {
         super.viewDidLoad()
         requireInjections()
 
-        mtp.loadPosts(location: place.id) { _ in }
+        if place.list == .locations {
+            mtp.loadPosts(location: place.id) { _ in }
+        }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -21,8 +21,8 @@ class PostsVC: UITableViewController, ServiceProvider {
         fatalError("createPost has not been overridden")
     }
 
+    var contentState: ContentState = .loading
     private var models: [PostCellModel] = []
-    private var contentState: ContentState = .loading
     private var postsObserver: Observer?
     private var viewObservation: NSKeyValueObservation?
 

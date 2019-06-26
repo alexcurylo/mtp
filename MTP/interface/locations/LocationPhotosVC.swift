@@ -13,7 +13,7 @@ final class LocationPhotosVC: PhotosVC {
     private var updated = false
 
     override var canCreate: Bool {
-        return true
+        return place?.list == .locations
     }
 
     override var photoCount: Int {
@@ -36,7 +36,8 @@ final class LocationPhotosVC: PhotosVC {
         observe()
         update()
 
-        if let place = place {
+        if let place = place,
+           place.list == .locations {
             mtp.loadPhotos(location: place.id) { [weak self] _ in
                 guard let self = self,
                       !self.updated else { return }
@@ -67,11 +68,15 @@ private extension LocationPhotosVC {
     func update() {
         guard let place = place else { return }
 
-        photos = data.get(locationPhotos: place.id)
+        if place.list == .locations {
+            photos = data.get(locationPhotos: place.id)
+        }
         collectionView.reloadData()
 
         if photoCount > 0 {
             contentState = .data
+        } else if place.list != .locations {
+            contentState = .unimplemented
         } else {
             contentState = updated ? .empty : .loading
         }

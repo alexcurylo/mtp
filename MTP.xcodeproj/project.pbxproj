@@ -39,6 +39,8 @@
 		8C8DB38122817B6800B2BBD3 /* PostsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8DB38022817B6800B2BBD3 /* PostsVC.swift */; };
 		8C8DC74D22AF4343002EA1CD /* FaqJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8DC74C22AF4343002EA1CD /* FaqJSON.swift */; };
 		8C91D293222CBFE20063C587 /* SignupFailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D292222CBFE20063C587 /* SignupFailVC.swift */; };
+		8C9C4E2E22C3030300F3E423 /* LocationWebsiteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9C4E2D22C3030300F3E423 /* LocationWebsiteVC.swift */; };
+		8C9C4E3022C3049500F3E423 /* WKWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9C4E2F22C3049500F3E423 /* WKWebViewController.swift */; };
 		8C9DD8CE2245034E00D5EAFB /* Injectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9DD8CD2245034D00D5EAFB /* Injectable.swift */; };
 		8CAE30592239DA7D00E31647 /* world-map.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 8CAE30572239DA7C00E31647 /* world-map.geojson */; };
 		8CAE30642239F4F100E31647 /* WorldMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CAE30632239F4F100E31647 /* WorldMap.swift */; };
@@ -240,6 +242,8 @@
 		8C8DB38022817B6800B2BBD3 /* PostsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsVC.swift; sourceTree = "<group>"; };
 		8C8DC74C22AF4343002EA1CD /* FaqJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaqJSON.swift; sourceTree = "<group>"; };
 		8C91D292222CBFE20063C587 /* SignupFailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupFailVC.swift; sourceTree = "<group>"; };
+		8C9C4E2D22C3030300F3E423 /* LocationWebsiteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationWebsiteVC.swift; sourceTree = "<group>"; };
+		8C9C4E2F22C3049500F3E423 /* WKWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WKWebViewController.swift; path = "../../../../../Downloads/WKWebViewController-master/WKWebViewController/WKWebViewController.swift"; sourceTree = "<group>"; };
 		8C9DD8CD2245034D00D5EAFB /* Injectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Injectable.swift; sourceTree = "<group>"; };
 		8CAE30572239DA7C00E31647 /* world-map.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "world-map.geojson"; sourceTree = "<group>"; };
 		8CAE30632239F4F100E31647 /* WorldMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldMap.swift; sourceTree = "<group>"; };
@@ -716,6 +720,7 @@
 				8CE6FC63224C6CB600B24410 /* LocationPostsVC.swift */,
 				FA392BBC20DF69F30026C828 /* LocationsVC.swift */,
 				FAA818FD22447EAB00BB9F92 /* LocationVC.swift */,
+				8C9C4E2D22C3030300F3E423 /* LocationWebsiteVC.swift */,
 				8C617971223F2D79000827D6 /* LocationsFilterVC.swift */,
 				FA815B702286D138004B91C8 /* NearbyVC.swift */,
 				FA5AC0B321FC49860080F84F /* PlaceAnnotation.swift */,
@@ -808,6 +813,7 @@
 				8C50B16B22374C650013BD34 /* UIViewController+Keyboard.swift */,
 				FAD2B51921F492B3009FFDD7 /* UncertainValue.swift */,
 				FAAE29C420F05A9600B43BA9 /* UserDefaults+TypeSafety.swift */,
+				8C9C4E2F22C3049500F3E423 /* WKWebViewController.swift */,
 				FA254DCA21685D6800FC9360 /* Withable.swift */,
 			);
 			path = support;
@@ -1279,6 +1285,7 @@
 				FA7C2012221C2F20002C6DAB /* Photo.swift in Sources */,
 				FA9656CF22BE32D500DA050F /* AddPostVC.swift in Sources */,
 				8C8DB38122817B6800B2BBD3 /* PostsVC.swift in Sources */,
+				8C9C4E2E22C3030300F3E423 /* LocationWebsiteVC.swift in Sources */,
 				8C0127F9223202FA00EA2095 /* ServiceHandler.swift in Sources */,
 				FAFEDA5421296F6D00DA3DB8 /* MainTBC.swift in Sources */,
 				FA2E718521ED535B00E6AB73 /* WHS.swift in Sources */,
@@ -1303,6 +1310,7 @@
 				FA4653322115A250005B5A0A /* UserDefaults+DataService.swift in Sources */,
 				FAA818FE22447EAB00BB9F92 /* LocationVC.swift in Sources */,
 				FA7CCAEF22B848EE0092A95E /* PhotosVC.swift in Sources */,
+				8C9C4E3022C3049500F3E423 /* WKWebViewController.swift in Sources */,
 				FA7C2014222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift in Sources */,
 				FA74C0F02117C60B0013A840 /* ForgotPasswordVC.swift in Sources */,
 				FA392BBB20DF69F30026C828 /* ActionHandler.swift in Sources */,
