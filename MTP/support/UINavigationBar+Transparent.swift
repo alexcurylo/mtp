@@ -41,22 +41,24 @@ extension UIViewController {
 extension UINavigationBar {
 
     func set(style: Styler) {
-        tintColor = style.barTint
+        tintColor = style.itemColor
         let attributes = NSAttributedString.attributes(
-            color: style.barColor,
-            font: style.barFont)
+            color: style.titleColor,
+            font: style.titleFont)
         titleTextAttributes = attributes
     }
 
     static func styleAppearance(transparency: Transparency? = nil,
-                                tint: UIColor? = nil,
-                                color: UIColor? = nil,
-                                font: UIFont? = nil) {
+                                titleFont: UIFont? = nil,
+                                titleColor: UIColor? = nil,
+                                itemColor: UIColor? = nil,
+                                backgroundColor: UIColor? = nil) {
         let proxy = UINavigationBar.appearance()
 
-        proxy.tintColor = tint ?? color
-        let attributes = NSAttributedString.attributes(color: color,
-                                                       font: font)
+        proxy.tintColor = itemColor
+        proxy.barTintColor = backgroundColor
+        let attributes = NSAttributedString.attributes(color: titleColor,
+                                                       font: titleFont)
         proxy.titleTextAttributes = attributes
 
         switch transparency {
