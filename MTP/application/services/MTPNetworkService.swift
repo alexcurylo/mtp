@@ -369,9 +369,14 @@ protocol MTPNetworkService {
                visited: Bool,
                then: @escaping MTPResult<Bool>)
     func loadPhotos(location id: Int,
+                    reload: Bool,
                     then: @escaping MTPResult<PhotosInfoJSON>)
-    func loadPhotos(user id: Int,
+    func loadPhotos(page: Int,
+                    reload: Bool,
+                    then: @escaping MTPResult<PhotosPageInfoJSON>)
+    func loadPhotos(profile id: Int,
                     page: Int,
+                    reload: Bool,
                     then: @escaping MTPResult<PhotosPageInfoJSON>)
     func loadPosts(location id: Int,
                    then: @escaping MTPResult<PostsJSON>)
@@ -705,10 +710,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     }
 
     func loadPhotos(location id: Int,
+                    reload: Bool,
                     then: @escaping MTPResult<PhotosInfoJSON> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.locationPhotos(location: id)
-        guard !endpoint.isThrottled else {
+        guard reload || !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
 
@@ -743,9 +749,29 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadPhotos(user id: Int,
-                    page: Int,
+    func loadPhotos(page: Int,
+                    reload: Bool,
                     then: @escaping MTPResult<PhotosPageInfoJSON> = { _ in }) {
+        loadPhotos(id: nil,
+                   page: page,
+                   reload: reload,
+                   then: then)
+    }
+
+    func loadPhotos(profile id: Int,
+                    page: Int,
+                    reload: Bool,
+                    then: @escaping MTPResult<PhotosPageInfoJSON> = { _ in }) {
+        loadPhotos(id: id,
+                   page: page,
+                   reload: reload,
+                   then: then)
+    }
+
+    func loadPhotos(id: Int?,
+                    page: Int,
+                    reload: Bool,
+                    then: @escaping MTPResult<PhotosPageInfoJSON>) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
         }
@@ -753,7 +779,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         let auth = AccessTokenPlugin { self.data.token }
         let provider = MoyaProvider<MTP>(plugins: [auth])
         let endpoint = MTP.photos(user: id, page: page)
-        guard !endpoint.isThrottled else {
+        guard reload || !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
 
@@ -768,7 +794,11 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 do {
                     let info = try result.map(PhotosPageInfoJSON.self,
                                               using: JSONDecoder.mtp)
-                    self.data.set(photos: page, user: id, info: info)
+                    if let id = id {
+                        self.data.set(photos: page, user: id, info: info)
+                    } else if let userId = self.data.user?.id {
+                        self.data.set(photos: page, user: userId, info: info)
+                    }
                     return then(.success(info))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -1621,7 +1651,7 @@ private extension MoyaMTPNetworkService {
 
         loadChecklists()
         loadPosts(user: user.id)
-        loadPhotos(user: user.id, page: 1)
+        loadPhotos(page: 1, reload: false)
         Checklist.allCases.forEach { list in
             loadScorecard(list: list, user: user.id)
         }
@@ -1672,7 +1702,7 @@ extension MTP {
         }
         active.update(with: self)
 
-        let throttle = TimeInterval(60 * 5)
+        let throttle = TimeInterval(10)
         if let last = received[self] {
             let next = last.addingTimeInterval(throttle)
             let now = Date().toUTC

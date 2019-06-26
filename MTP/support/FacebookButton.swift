@@ -43,7 +43,7 @@ final class FacebookButton: UIButton, ServiceProvider {
         }
     }
 
-    static func logOut () {
+    static func logOut() {
         LoginManager().logOut()
     }
 }

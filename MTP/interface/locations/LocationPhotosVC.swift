@@ -36,7 +36,7 @@ final class LocationPhotosVC: PhotosVC {
         observe()
         update()
 
-        refresh()
+        refresh(reload: false)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -57,7 +57,7 @@ extension LocationPhotosVC: AddPhotoDelegate {
 
     func addPhoto(controller: AddPhotoVC,
                   didAdd reply: PhotoReply) {
-        refresh()
+        refresh(reload: true)
     }
 }
 
@@ -65,11 +65,12 @@ extension LocationPhotosVC: AddPhotoDelegate {
 
 private extension LocationPhotosVC {
 
-    func refresh() {
+    func refresh(reload: Bool) {
         guard let place = place,
               place.list == .locations else { return }
 
-        mtp.loadPhotos(location: place.id) { [weak self] _ in
+        mtp.loadPhotos(location: place.id,
+                       reload: reload) { [weak self] _ in
             guard let self = self,
                 !self.updated else { return }
 

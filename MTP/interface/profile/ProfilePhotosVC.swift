@@ -22,14 +22,11 @@ final class ProfilePhotosVC: PhotosVC {
     }
 
     override func photo(at index: Int) -> Photo {
-        guard let user = user else { return Photo() }
-
         let pageIndex = (index / PhotosPageInfo.perPage) + 1
         let photoIndex = index % PhotosPageInfo.perPage
         // swiftlint:disable:next first_where
         guard let page = photosPages?.filter("page = \(pageIndex)").first else {
-            mtp.loadPhotos(user: user.id,
-                           page: pageIndex) { _ in }
+            refresh(page: pageIndex, reload: true)
             return Photo()
         }
 
@@ -70,7 +67,7 @@ extension ProfilePhotosVC: AddPhotoDelegate {
 
     func addPhoto(controller: AddPhotoVC,
                   didAdd reply: PhotoReply) {
-        refresh()
+        refresh(page: 1, reload: true)
     }
 }
 
@@ -78,11 +75,15 @@ extension ProfilePhotosVC: AddPhotoDelegate {
 
 private extension ProfilePhotosVC {
 
-    func refresh() {
-        guard let user = user else { return }
-
-        mtp.loadPhotos(user: user.id,
-                       page: 1) { _ in }
+    func refresh(page: Int, reload: Bool) {
+        if isSelf {
+            mtp.loadPhotos(page: page,
+                           reload: reload) { _ in }
+        } else if let user = user {
+            mtp.loadPhotos(profile: user.id,
+                           page: page,
+                           reload: reload) { _ in }
+        }
     }
 
     func update() {
@@ -148,7 +149,7 @@ extension ProfilePhotosVC: UserInjectable {
         user = model
         isSelf = model.id == data.user?.id
 
-        refresh()
+        refresh(page: 1, reload: false)
 
         return self
     }
