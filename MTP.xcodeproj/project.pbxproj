@@ -26,7 +26,7 @@
 		8C3EAB8A2230FD2800CB4886 /* MTPDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EAB892230FD2800CB4886 /* MTPDelegate.swift */; };
 		8C3EAB8C2231100400CB4886 /* Array+Type.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EAB8B2231100400CB4886 /* Array+Type.swift */; };
 		8C3EAB8E2231100B00CB4886 /* ArrayTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EAB8D2231100B00CB4886 /* ArrayTypeTests.swift */; };
-		8C3EAB922231249E00CB4886 /* XCTestCase+Unwrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EAB912231249E00CB4886 /* XCTestCase+Unwrap.swift */; };
+		8C3EAB922231249E00CB4886 /* UnwrapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EAB912231249E00CB4886 /* UnwrapTests.swift */; };
 		8C4A6FAF224859A500B33DB9 /* UserCountsPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4A6FAE224859A500B33DB9 /* UserCountsPageVC.swift */; };
 		8C50B16C22374C650013BD34 /* UIViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C50B16B22374C650013BD34 /* UIViewController+Keyboard.swift */; };
 		8C5ECE0221FE9B3600322ABF /* Checklist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5ECE0121FE9B3600322ABF /* Checklist.swift */; };
@@ -229,7 +229,7 @@
 		8C3EAB892230FD2800CB4886 /* MTPDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPDelegate.swift; sourceTree = "<group>"; };
 		8C3EAB8B2231100400CB4886 /* Array+Type.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Type.swift"; sourceTree = "<group>"; };
 		8C3EAB8D2231100B00CB4886 /* ArrayTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayTypeTests.swift; sourceTree = "<group>"; };
-		8C3EAB912231249E00CB4886 /* XCTestCase+Unwrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Unwrap.swift"; sourceTree = "<group>"; };
+		8C3EAB912231249E00CB4886 /* UnwrapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnwrapTests.swift; sourceTree = "<group>"; };
 		8C4A6FAE224859A500B33DB9 /* UserCountsPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCountsPageVC.swift; sourceTree = "<group>"; };
 		8C50B16B22374C650013BD34 /* UIViewController+Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Keyboard.swift"; sourceTree = "<group>"; };
 		8C5ECE0121FE9B3600322ABF /* Checklist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checklist.swift; sourceTree = "<group>"; };
@@ -622,6 +622,7 @@
 				FA392BD120DF69F50026C828 /* MTPTests.swift */,
 				8C3EAB852230FCEE00CB4886 /* RoutingAppDelegateTests.swift */,
 				FA74C112211C61580013A840 /* StringTests.swift */,
+				8C3EAB912231249E00CB4886 /* UnwrapTests.swift */,
 				FA0BE96B210C5F3300797224 /* ViewTests.swift */,
 				FA3BD2282160D6BC007EAF75 /* WithableTests.swift */,
 				FAE1F11A21437F2E0002CAB2 /* support */,
@@ -864,7 +865,6 @@
 				8C012802223208FB00EA2095 /* SpyMTPNetworkService.swift */,
 				FAC8466022AB79AA004F57EC /* SpyNotificationService.swift */,
 				FAE1F11B21437F860002CAB2 /* String+Assert.swift */,
-				8C3EAB912231249E00CB4886 /* XCTestCase+Unwrap.swift */,
 			);
 			path = support;
 			sourceTree = "<group>";
@@ -1355,7 +1355,7 @@
 				FA392BD220DF69F50026C828 /* MTPTests.swift in Sources */,
 				8C3EAB882230FD1300CB4886 /* MTPDelegateTests.swift in Sources */,
 				FAB53F8B20DFD618007A80A7 /* MemoryWarner.m in Sources */,
-				8C3EAB922231249E00CB4886 /* XCTestCase+Unwrap.swift in Sources */,
+				8C3EAB922231249E00CB4886 /* UnwrapTests.swift in Sources */,
 				8C012801223208CC00EA2095 /* SpyDataService.swift in Sources */,
 				FAE1F11C21437F860002CAB2 /* String+Assert.swift in Sources */,
 				FA3BD2292160D6BC007EAF75 /* WithableTests.swift in Sources */,

@@ -52,8 +52,11 @@ final class ProfilePhotosVC: PhotosVC {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
-        case Segues.cancelChoose.identifier,
-             Segues.addPhoto.identifier:
+        case Segues.addPhoto.identifier:
+            if let add = Segues.addPhoto(segue: segue)?.destination {
+                add.inject(model: (place: nil, delegate: self))
+            }
+        case Segues.cancelChoose.identifier:
             break
         default:
             log.debug("unexpected segue: \(segue.name)")
@@ -61,9 +64,26 @@ final class ProfilePhotosVC: PhotosVC {
     }
 }
 
+// MARK: AddPhotoDelegate
+
+extension ProfilePhotosVC: AddPhotoDelegate {
+
+    func addPhoto(controller: AddPhotoVC,
+                  didAdd reply: PhotoReply) {
+        refresh()
+    }
+}
+
 // MARK: Private
 
 private extension ProfilePhotosVC {
+
+    func refresh() {
+        guard let user = user else { return }
+
+        mtp.loadPhotos(user: user.id,
+                       page: 1) { _ in }
+    }
 
     func update() {
         guard let user = user else { return }
@@ -128,8 +148,7 @@ extension ProfilePhotosVC: UserInjectable {
         user = model
         isSelf = model.id == data.user?.id
 
-        mtp.loadPhotos(user: model.id,
-                       page: 1) { _ in }
+        refresh()
 
         return self
     }

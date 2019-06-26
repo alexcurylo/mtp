@@ -57,19 +57,45 @@ extension PasswordResetReply: CustomDebugStringConvertible {
     }
 }
 
-struct UploadImageReply: Codable {
+struct PhotoReply: Codable {
 
-    let code: Int
-    let message: String
+    let desc: String?
+    let id: Int
+    let location: LocationJSON?
+    let locationId: Int?
+    let mime: String
+    let name: String
+    let type: String
+    let uploaded: Int
+    let url: String
+    let userId: Int
+    let uuid: String
+}
 
-    var isSuccess: Bool {
-        return code == 200
+extension PhotoReply: CustomStringConvertible {
+
+    public var description: String {
+        return "photo \(id) - \(uuid): \(String(describing: desc))"
     }
 }
 
-extension UploadImageReply: CustomStringConvertible {
+extension PhotoReply: CustomDebugStringConvertible {
 
-    public var description: String {
-        return "code \(code): \(message)"
+    var debugDescription: String {
+        return """
+        < PhotoReply: \(description):
+        desc: \(String(describing: desc))
+        id: \(id)
+        location: \(String(describing: location))
+        locationId: \(String(describing: locationId))
+        mime: \(mime)
+        name: \(name)
+        type: \(type)
+        uploaded: \(uploaded)
+        url: \(url)
+        userId: \(userId)
+        uuid: \(uuid)
+        /PhotoReply >
+        """
     }
 }

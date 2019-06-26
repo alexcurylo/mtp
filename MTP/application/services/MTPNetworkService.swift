@@ -61,7 +61,7 @@ enum MTP: Hashable {
     case search(query: String?)
     case settings
     case unCountry
-    case upload(image: UIImage, caption: String, location: Int?)
+    case upload(photo: Data, caption: String?, location: Int?)
     case userDelete(id: Int)
     case userGet(id: Int)
     case userGetByToken
@@ -222,11 +222,27 @@ extension MTP: TargetType {
         case let .search(query?):
             return .requestParameters(parameters: ["query": query],
                                       encoding: URLEncoding.default)
-        case let .upload(image: image, caption: _, location: _):
-            if let imageData = image.jpegData(compressionQuality: 1.0) {
-                log.todo("handle upload of \(imageData.count)")
+        case let .upload(photo: photo, caption: caption, location: location):
+            let filePart = MultipartFormData(provider: .data(photo),
+                                             name: "files[0]",
+                                             fileName: "photo.jpeg",
+                                             mimeType: "iimage/jpeg")
+            var parts = [filePart]
+            if let caption = caption,
+               !caption.isEmpty,
+               let captionData = caption.data(using: .utf8) {
+                let captionPart = MultipartFormData(provider: .data(captionData),
+                                                    name: "args[0][desc]")
+                parts.append(captionPart)
             }
-            return .requestPlain
+            if let location = location,
+                location > 0,
+                let locationData = "\(location)".data(using: .utf8) {
+                let locationPart = MultipartFormData(provider: .data(locationData),
+                                                     name: "args[0][location_id]")
+                parts.append(locationPart)
+            }
+            return .uploadMultipart(parts)
         case let .userLogin(email, password):
             return .requestParameters(parameters: ["email": email,
                                                    "password": password],
@@ -270,11 +286,19 @@ extension MTP: TargetType {
 
     // swiftlint:disable:next discouraged_optional_collection
     var headers: [String: String]? {
-        var headers = ["Content-Type": "application/json; charset=utf-8",
-                       "Accept": "application/json; charset=utf-8"]
-        if !etag.isEmpty {
-            headers["If-None-Match"] = etag
+        var headers: [String: String] = [:]
+        headers["Accept"] = "application/json; charset=utf-8"
+
+        switch self {
+        case .upload:
+            headers["Content-Type"] = "multipart/form-data"
+        default:
+            headers["Content-Type"] = "application/json; charset=utf-8"
+            if !etag.isEmpty {
+                headers["If-None-Match"] = etag
+            }
         }
+
         return headers
     }
 
@@ -362,10 +386,10 @@ protocol MTPNetworkService {
                   then: @escaping MTPResult<UserJSON>)
     func search(query: String,
                 then: @escaping MTPResult<SearchResultJSON>)
-    func upload(image: UIImage,
-                caption: String,
+    func upload(photo: Data,
+                caption: String?,
                 location id: Int?,
-                then: @escaping MTPResult<String>)
+                then: @escaping MTPResult<PhotoReply>)
     func postPublish(payload: PostPayload,
                      then: @escaping MTPResult<PostReply>)
     func userDeleteAccount(then: @escaping MTPResult<String>)
@@ -1206,20 +1230,17 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func upload(image: UIImage,
-                caption: String,
+    func upload(photo: Data,
+                caption: String?,
                 location id: Int?,
-                then: @escaping MTPResult<String>) {
+                then: @escaping MTPResult<PhotoReply>) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
         }
 
-        log.todo("upload(image:)")
-        return then(.failure(.message(L.unimplemented())))
-
         let auth = AccessTokenPlugin { self.data.token }
         let provider = MoyaProvider<MTP>(plugins: [auth])
-        let endpoint = MTP.upload(image: image,
+        let endpoint = MTP.upload(photo: photo,
                                   caption: caption,
                                   location: id)
 
@@ -1227,15 +1248,12 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         provider.request(endpoint) { response in
             switch response {
             case .success(let result):
-                do {
-                    let reply = try result.map(UploadImageReply.self,
-                                               using: JSONDecoder.mtp)
-                    self.log.verbose("upload image: " + reply.description)
-                    if reply.isSuccess {
-                        return then(.success(reply.message))
-                    } else {
-                        return then(.failure(.message(reply.message)))
-                    }
+              do {
+                    let replies = try result.map([PhotoReply].self,
+                                                 using: JSONDecoder.mtp)
+                    let reply = try unwrap(replies.first)
+                    self.data.set(photo: reply)
+                    return then(.success(reply))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.decoding))

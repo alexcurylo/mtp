@@ -111,16 +111,16 @@ final class SpyMTPNetworkService: MTPNetworkService {
     }
     var invokedUpload = false
     var invokedUploadCount = 0
-    var invokedUploadParameters: (image: UIImage, caption: String, id: Int?, then: MTPResult<String>)?
-    var invokedUploadParametersList = [(image: UIImage, caption: String, id: Int?, then: MTPResult<String>)]()
-    func upload(image: UIImage,
-    caption: String,
+    var invokedUploadParameters: (photo: Data, caption: String?, id: Int?, then: MTPResult<PhotoReply>)?
+    var invokedUploadParametersList = [(photo: Data, caption: String?, id: Int?, then: MTPResult<PhotoReply>)]()
+    func upload(photo: Data,
+    caption: String?,
     location id: Int?,
-    then: @escaping MTPResult<String>) {
+    then: @escaping MTPResult<PhotoReply>) {
         invokedUpload = true
         invokedUploadCount += 1
-        invokedUploadParameters = (image, caption, id, then)
-        invokedUploadParametersList.append((image, caption, id, then))
+        invokedUploadParameters = (photo, caption, id, then)
+        invokedUploadParametersList.append((photo, caption, id, then))
     }
     var invokedPostPublish = false
     var invokedPostPublishCount = 0

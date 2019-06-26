@@ -161,6 +161,17 @@ final class RealmController: ServiceProvider {
         }
     }
 
+    func set(photo: PhotoReply) {
+        do {
+            let new = Photo(from: photo)
+            try realm.write {
+                realm.add(new, update: .modified)
+            }
+        } catch {
+            log.error("set photo: \(error)")
+        }
+    }
+
     func set(photos page: Int,
              user id: Int,
              info: PhotosPageInfoJSON) {
@@ -352,11 +363,15 @@ private extension RealmController {
     func createRealm() -> Realm {
         // swiftlint:disable:next trailing_closure
         let config = Realm.Configuration(
-            schemaVersion: 1,
+            schemaVersion: 2,
             migrationBlock: { migration, oldSchemaVersion in
                 switch oldSchemaVersion {
                 case 0:
                     migration.migrate0to1()
+                    // swiftlint:disable:next fallthrough
+                    fallthrough
+                case 1:
+                    migration.migrate1to2()
                 default:
                     break
                 }
@@ -422,6 +437,12 @@ private extension Migration {
         }
         enumerateObjects(ofType: Restaurant.className()) { _, new in
             new?["website"] = ""
+        }
+    }
+
+    func migrate1to2() {
+        enumerateObjects(ofType: Photo.className()) { _, new in
+            new?["desc"] = ""
         }
     }
 }
