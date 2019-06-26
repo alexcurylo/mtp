@@ -36,24 +36,14 @@ final class LocationPhotosVC: PhotosVC {
         observe()
         update()
 
-        if let place = place,
-           place.list == .locations {
-            mtp.loadPhotos(location: place.id) { [weak self] _ in
-                guard let self = self,
-                      !self.updated else { return }
-
-                self.updated = true
-                self.update()
-            }
-        }
+        refresh()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.addPhoto.identifier:
-            if let edit = Segues.addPhoto(segue: segue)?.destination,
-               let place = place {
-                edit.inject(model: place)
+            if let add = Segues.addPhoto(segue: segue)?.destination {
+                add.inject(model: (place: place, delegate: self))
             }
         default:
             log.debug("unexpected segue: \(segue.name)")
@@ -61,9 +51,32 @@ final class LocationPhotosVC: PhotosVC {
     }
 }
 
+// MARK: AddPhotoDelegate
+
+extension LocationPhotosVC: AddPhotoDelegate {
+
+    func addPhoto(controller: AddPhotoVC,
+                  didAdd reply: PhotoReply) {
+        refresh()
+    }
+}
+
 // MARK: Private
 
 private extension LocationPhotosVC {
+
+    func refresh() {
+        guard let place = place,
+              place.list == .locations else { return }
+
+        mtp.loadPhotos(location: place.id) { [weak self] _ in
+            guard let self = self,
+                !self.updated else { return }
+
+            self.updated = true
+            self.update()
+        }
+    }
 
     func update() {
         guard let place = place else { return }

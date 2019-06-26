@@ -1,27 +1,7 @@
 // @copyright Trollwerks Inc.
 
+@testable import MTP
 import XCTest
-
-extension XCTestCase {
-
-    struct UnwrapError<T>: LocalizedError {
-
-        let file: StaticString
-        let line: UInt
-        var errorDescription: String? {
-            return "failed to unwrap \(T.self) at line \(line) in file \(file)."
-        }
-    }
-
-    func unwrap<T>(_ optional: @autoclosure () -> T?,
-                   file: StaticString = #file,
-                   line: UInt = #line) throws -> T {
-        guard let value = optional() else {
-            throw UnwrapError<T>(file: file, line: line)
-        }
-        return value
-    }
-}
 
 final class UnwrapTests: XCTestCase {
 

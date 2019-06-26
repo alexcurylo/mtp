@@ -55,6 +55,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
              photos: PhotosInfoJSON)
     func set(location id: Int,
              posts: [PostJSON])
+    func set(photo: PhotoReply)
     func set(photos page: Int,
              user id: Int,
              info: PhotosPageInfoJSON)
@@ -254,6 +255,11 @@ final class DataServiceImpl: DataService {
              posts: [PostJSON]) {
         realm.set(posts: posts)
         notify(change: .locationPosts, object: id)
+    }
+
+    func set(photo: PhotoReply) {
+        realm.set(photo: photo)
+        notify(change: .photoPages)
     }
 
     func set(photos page: Int,
