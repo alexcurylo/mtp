@@ -70,9 +70,6 @@ extension WHSJSON: CustomDebugStringConvertible {
         }
         self.init()
 
-        let locationId = from.location?.id ?? from.locationId
-        placeLocation = controller.location(id: locationId)
-        countryName = placeLocation?.countryName ?? L.unknown()
         id = from.id
         lat = from.lat
         long = from.long
@@ -80,8 +77,22 @@ extension WHSJSON: CustomDebugStringConvertible {
         let format = "https://whc.unesco.org/uploads/sites/gallery/original/site_%04d_0001.jpg"
         placeImage = String(format: format, from.id)
         placeVisitors = from.visitors
-        regionName = placeLocation?.regionName ?? L.unknown()
         title = from.title
+
+        let locationId = from.location?.id ?? from.locationId
+        if let location = controller.location(id: locationId) {
+            countryName = location.countryName
+            regionName = location.regionName
+        } else if let country = controller.country(id: locationId) {
+            log.error("placed in country: WHS \(id)")
+            countryName = country.countryName
+            // patch "Swiss Alps Jungfrau-Aletsch" for now
+            regionName = "Europe"
+        } else {
+            log.error("missing location: WHS \(id)")
+            countryName = L.unknown()
+            regionName = L.unknown()
+        }
     }
 
     override var description: String {
