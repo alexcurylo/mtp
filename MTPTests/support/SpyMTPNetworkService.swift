@@ -19,28 +19,42 @@ final class SpyMTPNetworkService: MTPNetworkService {
         invokedCheckParameters = (list, id, visited, then)
         invokedCheckParametersList.append((list, id, visited, then))
     }
-    var invokedLoadPhotos = false
-    var invokedLoadPhotosCount = 0
-    var invokedLoadPhotosParameters: (id: Int, then: MTPResult<PhotosInfoJSON>)?
-    var invokedLoadPhotosParametersList = [(id: Int, then: MTPResult<PhotosInfoJSON>)]()
+    var invokedLoadPhotosLocation = false
+    var invokedLoadPhotosLocationCount = 0
+    var invokedLoadPhotosLocationParameters: (id: Int, reload: Bool, then: MTPResult<PhotosInfoJSON>)?
+    var invokedLoadPhotosLocationParametersList = [(id: Int, reload: Bool, then: MTPResult<PhotosInfoJSON>)]()
     func loadPhotos(location id: Int,
+    reload: Bool,
     then: @escaping MTPResult<PhotosInfoJSON>) {
-        invokedLoadPhotos = true
-        invokedLoadPhotosCount += 1
-        invokedLoadPhotosParameters = (id, then)
-        invokedLoadPhotosParametersList.append((id, then))
+        invokedLoadPhotosLocation = true
+        invokedLoadPhotosLocationCount += 1
+        invokedLoadPhotosLocationParameters = (id, reload, then)
+        invokedLoadPhotosLocationParametersList.append((id, reload, then))
     }
-    var invokedLoadPhotosUser = false
-    var invokedLoadPhotosUserCount = 0
-    var invokedLoadPhotosUserParameters: (id: Int, page: Int, then: MTPResult<PhotosPageInfoJSON>)?
-    var invokedLoadPhotosUserParametersList = [(id: Int, page: Int, then: MTPResult<PhotosPageInfoJSON>)]()
-    func loadPhotos(user id: Int,
-    page: Int,
+    var invokedLoadPhotosPage = false
+    var invokedLoadPhotosPageCount = 0
+    var invokedLoadPhotosPageParameters: (page: Int, reload: Bool, then: MTPResult<PhotosPageInfoJSON>)?
+    var invokedLoadPhotosPageParametersList = [(page: Int, reload: Bool, then: MTPResult<PhotosPageInfoJSON>)]()
+    func loadPhotos(page: Int,
+    reload: Bool,
     then: @escaping MTPResult<PhotosPageInfoJSON>) {
-        invokedLoadPhotosUser = true
-        invokedLoadPhotosUserCount += 1
-        invokedLoadPhotosUserParameters = (id, page, then)
-        invokedLoadPhotosUserParametersList.append((id, page, then))
+        invokedLoadPhotosPage = true
+        invokedLoadPhotosPageCount += 1
+        invokedLoadPhotosPageParameters = (page, reload, then)
+        invokedLoadPhotosPageParametersList.append((page, reload, then))
+    }
+    var invokedLoadPhotosProfile = false
+    var invokedLoadPhotosProfileCount = 0
+    var invokedLoadPhotosProfileParameters: (id: Int, page: Int, reload: Bool, then: MTPResult<PhotosPageInfoJSON>)?
+    var invokedLoadPhotosProfileParametersList = [(id: Int, page: Int, reload: Bool, then: MTPResult<PhotosPageInfoJSON>)]()
+    func loadPhotos(profile id: Int,
+    page: Int,
+    reload: Bool,
+    then: @escaping MTPResult<PhotosPageInfoJSON>) {
+        invokedLoadPhotosProfile = true
+        invokedLoadPhotosProfileCount += 1
+        invokedLoadPhotosProfileParameters = (id, page, reload, then)
+        invokedLoadPhotosProfileParametersList.append((id, page, reload, then))
     }
     var invokedLoadPostsLocation = false
     var invokedLoadPostsLocationCount = 0
