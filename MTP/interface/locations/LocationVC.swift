@@ -4,40 +4,32 @@ import Anchorage
 
 final class LocationVC: UIViewController, ServiceProvider {
 
-    //private typealias Segues = R.segue.locationVC
+    private typealias Segues = R.segue.locationVC
 
     @IBOutlet private var headerView: UIView?
-    @IBOutlet private var avatarImageView: UIImageView?
-    @IBOutlet private var fullNameLabel: UILabel?
-    @IBOutlet private var countryLabel: UILabel?
-    @IBOutlet private var birthdayLabel: UILabel?
+    @IBOutlet private var placeImageView: UIImageView?
+    @IBOutlet private var categoryLabel: UILabel?
+    @IBOutlet private var nameLabel: UILabel?
+    @IBOutlet private var distanceLabel: UILabel?
     @IBOutlet private var followersLabel: UILabel?
     @IBOutlet private var followingLabel: UILabel?
 
     @IBOutlet private var pagesHolder: UIView?
 
-    private var place: PlaceAnnotation?
-
-    private var userObserver: Observer?
-
-    private var headerObservation: NSKeyValueObservation?
+    // swiftlint:disable:next implicitly_unwrapped_optional
+    private var place: PlaceAnnotation!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
 
-        log.todo("implement LocationVC")
-
-        title = place?.title
-        setupHeaderView()
-        setupPagesHolder()
+        configure()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .standard)
-        observe()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -51,16 +43,10 @@ final class LocationVC: UIViewController, ServiceProvider {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
+        case Segues.pop.identifier:
+            break
         default:
             log.debug("unexpected segue: \(segue.name)")
-        }
-    }
-
-    override func viewWillTransition(to size: CGSize,
-                                     with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        coordinator.animate(alongsideTransition: nil) { _ in
-            self.setupHeaderView()
         }
     }
 }
@@ -69,49 +55,29 @@ final class LocationVC: UIViewController, ServiceProvider {
 
 private extension LocationVC {
 
-    @IBAction func unwindToLocation(segue: UIStoryboardSegue) {
+    @IBAction func mapButtonTapped(_ sender: UIBarButtonItem) {
+        place.reveal(callout: true)
     }
 
-    func setupHeaderView() {
-        guard let header = headerView else { return }
+    func configure() {
+        guard let place = place else { return }
 
-        header.round(corners: .top(radius: 5))
+        placeImageView?.load(image: place)
+        categoryLabel?.text = place.list.category.uppercased()
+        nameLabel?.text = place.subtitle
+        distanceLabel?.text = L.away(place.distance.formatted)
 
-        if headerObservation == nil {
-            headerObservation = header.layer.observe(\.bounds) { [weak self] _, _ in
-                self?.setupHeaderView()
-            }
-        }
+        setupPagesHolder()
     }
 
     func setupPagesHolder() {
-        guard let holder = pagesHolder,
-              let place = place else { return }
+        guard let holder = pagesHolder else { return }
 
         let pagesVC = LocationPagingVC.profile(model: place)
         addChild(pagesVC)
         holder.addSubview(pagesVC.view)
         pagesVC.view.edgeAnchors == holder.edgeAnchors
         pagesVC.didMove(toParent: self)
-    }
-
-    func observe() {
-        guard userObserver == nil else { return }
-
-        configure()
-        userObserver = data.observer(of: .user) { [weak self] _ in
-            self?.configure()
-        }
-    }
-
-    func configure() {
-        guard let place = place else { return }
-
-        avatarImageView?.load(image: place)
-        fullNameLabel?.text = place.title
-        countryLabel?.text = place.subtitle
-
-        birthdayLabel?.text = ""
     }
 }
 
@@ -129,8 +95,11 @@ extension LocationVC: Injectable {
     func requireInjections() {
         place.require()
 
-        avatarImageView.require()
-        fullNameLabel.require()
-        countryLabel.require()
+        headerView.require()
+        placeImageView.require()
+        categoryLabel.require()
+        nameLabel.require()
+        distanceLabel.require()
+        pagesHolder.require()
     }
 }

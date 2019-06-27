@@ -70,7 +70,9 @@
 "restaurant" = "Restaurant";
 
 "visitors" = "MTP Visitors: %@";
-"km" = "%@ km";
+"kilometers" = "%@ km";
+"meters" = "%@ m";
+"away" = "%@ away";
 
 "visited" = "Visited";
 "notVisited" = "Not Visited";
