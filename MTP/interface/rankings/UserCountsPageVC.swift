@@ -21,7 +21,7 @@ final class UserCountsPageVC: CountsPageVC {
     private var listVisited: [Int] = []
     private let tab: UserCountsVC.Tab
     private let user: User
-    private let status: Checklist.Status
+    private var status: Checklist.Status
 
     init(model: Model) {
         tab = model.tab
@@ -39,16 +39,17 @@ final class UserCountsPageVC: CountsPageVC {
     override func update() {
         super.update()
 
+        status = list.status(of: user)
+        title = tab.title(status: status)
+
+        let state: ContentState
         if let scorecard = dataSource?.scorecard {
-            title = tab.title(scorecard: scorecard)
             let isEmpty = tab.score(scorecard: scorecard) == 0
-            let state: ContentState = isEmpty ? .empty : .data
-            collectionView.set(message: state)
+            state = isEmpty ? .empty : .data
         } else {
-            title = tab.title(status: status)
-            let state = dataSource?.contentState ?? .loading
-            collectionView.set(message: state)
+            state = dataSource?.contentState ?? .loading
         }
+        collectionView.set(message: state)
     }
 }
 
