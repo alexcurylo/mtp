@@ -11,6 +11,7 @@ target 'MTP' do
 
   pod 'AlamofireNetworkActivityIndicator'
   pod 'Anchorage'
+  pod 'AppCenter'
   pod 'Bolts', :modular_headers => true, :inhibit_warnings => true
   pod 'DropDown'
   pod 'FacebookCore'

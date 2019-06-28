@@ -1,6 +1,9 @@
 // @copyright Trollwerks Inc.
 
 import AlamofireNetworkActivityIndicator
+import AppCenter
+import AppCenterAnalytics
+import AppCenterCrashes
 import FBSDKCoreKit
 import SwiftyBeaver
 
@@ -22,6 +25,8 @@ extension LaunchHandler: AppLaunchHandler {
         let options = launchOptions ?? [:]
 
         configureLogging()
+
+        configureAppCenter()
 
         configureNetworking()
 
@@ -100,6 +105,37 @@ extension LaunchHandler {
             swiftyBeaver.addDestination(platform)
         }
     }
+}
+
+// MARK: - AppCenter
+
+// https://docs.microsoft.com/en-us/appcenter/
+// https://docs.microsoft.com/en-us/appcenter/sdk/crashes/ios
+// https://docs.microsoft.com/en-us/appcenter/sdk/analytics/ios
+
+extension LaunchHandler {
+
+    func configureAppCenter() {
+        guard !UIApplication.isTesting else { return }
+
+        MSAppCenter.start("20cb945f-58b9-4544-a059-424aa3b86820",
+                          withServices: [MSAnalytics.self,
+                                         MSCrashes.self])
+    }
+
+    #if PUSH_NOTIFICATIONS
+    func onboardPush() {
+        MSAppCenter.startService(MSPush.self)
+        MSPush.setEnabled(true)
+        center.requestAuthorization(options: [.alert, .badge, .carPlay, .sound]) { granted, err in
+            if granted {
+                log.verbose("push authorization granted")
+            } else {
+                log.verbose("push authorization failed: \(err)")
+            }
+        }
+    }
+    #endif
 }
 
 // MARK: - Facebook
