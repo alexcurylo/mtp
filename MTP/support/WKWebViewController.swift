@@ -163,8 +163,9 @@ class WKWebViewController: UIViewController, ServiceProvider {
     fileprivate var webView: WKWebView?
     fileprivate var progressView: UIProgressView?
 
-    fileprivate var previousNavigationBarState: (tintColor: UIColor, hidden: Bool) = (.black, false)
-    fileprivate var previousToolbarState: (tintColor: UIColor, hidden: Bool) = (.black, false)
+    typealias PreviousState = (tintColor: UIColor, hidden: Bool)
+    fileprivate var previousNavigationBarState: PreviousState?
+    fileprivate var previousToolbarState: PreviousState?
 
     fileprivate lazy var originalUserAgent = UIWebView().stringByEvaluatingJavaScript(from: "navigator.userAgent")
 
@@ -563,11 +564,16 @@ fileprivate extension WKWebViewController {
     func rollbackState() {
         progressView?.progress = 0
 
-        navigationController?.navigationBar.tintColor = previousNavigationBarState.tintColor
-        navigationController?.toolbar.tintColor = previousToolbarState.tintColor
+        guard let nav = navigationController else { return }
 
-        navigationController?.setToolbarHidden(previousToolbarState.hidden, animated: true)
-        navigationController?.setNavigationBarHidden(previousNavigationBarState.hidden, animated: true)
+        if let prevToolbar = previousToolbarState {
+            nav.toolbar.tintColor = prevToolbar.tintColor
+            nav.setToolbarHidden(prevToolbar.hidden, animated: true)
+        }
+        if let prevNavbar = previousNavigationBarState {
+            nav.navigationBar.tintColor = prevNavbar.tintColor
+            nav.setNavigationBarHidden(prevNavbar.hidden, animated: true)
+        }
     }
 
     func checkRequestCookies(_ request: URLRequest, cookies: [HTTPCookie]) -> Bool {

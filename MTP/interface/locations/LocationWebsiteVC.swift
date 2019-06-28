@@ -32,6 +32,6 @@ private extension LocationWebsiteVC {
     func configure() {
         title = L.website()
         websiteTitleInNavigationBar = false
-        toolbarItemTypes = [.back, .forward]
+        toolbarItemTypes = []
     }
 }

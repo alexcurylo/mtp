@@ -6,13 +6,10 @@ final class LocationVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.locationVC
 
-    @IBOutlet private var headerView: UIView?
     @IBOutlet private var placeImageView: UIImageView?
     @IBOutlet private var categoryLabel: UILabel?
-    @IBOutlet private var nameLabel: UILabel?
     @IBOutlet private var distanceLabel: UILabel?
-    @IBOutlet private var followersLabel: UILabel?
-    @IBOutlet private var followingLabel: UILabel?
+    @IBOutlet private var nameLabel: UILabel?
 
     @IBOutlet private var pagesHolder: UIView?
 
@@ -64,8 +61,8 @@ private extension LocationVC {
 
         placeImageView?.load(image: place)
         categoryLabel?.text = place.list.category.uppercased()
+        distanceLabel?.text = L.away(place.distance.formatted).uppercased()
         nameLabel?.text = place.subtitle
-        distanceLabel?.text = L.away(place.distance.formatted)
 
         setupPagesHolder()
     }
@@ -95,11 +92,10 @@ extension LocationVC: Injectable {
     func requireInjections() {
         place.require()
 
-        headerView.require()
         placeImageView.require()
         categoryLabel.require()
-        nameLabel.require()
         distanceLabel.require()
+        nameLabel.require()
         pagesHolder.require()
     }
 }
