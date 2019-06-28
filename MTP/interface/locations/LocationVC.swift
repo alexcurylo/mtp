@@ -60,7 +60,7 @@ private extension LocationVC {
         guard let place = place else { return }
 
         placeImageView?.load(image: place)
-        categoryLabel?.text = place.list.category.uppercased()
+        categoryLabel?.text = place.list.category(full: true).uppercased()
         distanceLabel?.text = L.away(place.distance.formatted).uppercased()
         nameLabel?.text = place.subtitle
 

@@ -25,13 +25,7 @@ final class PostCell: UITableViewCell, ServiceProvider {
         $0.cornerRadius = 5
     }
 
-    private let textView = UITextView {
-        $0.isEditable = false
-        $0.isSelectable = false
-        $0.isScrollEnabled = false
-        $0.textContainerInset = .zero
-        $0.textContainer.lineFragmentPadding = 0
-    }
+    private let textView = LinkTappableTextView()
 
     private var model: PostCellModel?
     private weak var delegate: PostCellDelegate?

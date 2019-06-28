@@ -150,8 +150,8 @@ class WKWebViewController: UIViewController, ServiceProvider {
 
     var websiteTitleInNavigationBar = true
     var doneBarButtonItemPosition: NavigationBarPosition = .right
-    var leftNavigaionBarItemTypes: [BarButtonItemType] = []
-    var rightNavigaionBarItemTypes: [BarButtonItemType] = []
+    var leftNavigationBarItemTypes: [BarButtonItemType] = []
+    var rightNavigationBarItemTypes: [BarButtonItemType] = []
     var toolbarItemTypes: [BarButtonItemType] = [.back, .forward, .reload, .activity]
 
     var backBarButtonItemImage: UIImage?
@@ -164,6 +164,7 @@ class WKWebViewController: UIViewController, ServiceProvider {
     fileprivate var progressView: UIProgressView?
 
     typealias PreviousState = (tintColor: UIColor, hidden: Bool)
+
     fileprivate var previousNavigationBarState: PreviousState?
     fileprivate var previousToolbarState: PreviousState?
 
@@ -469,7 +470,7 @@ fileprivate extension WKWebViewController {
         if presentingViewController != nil {
             switch doneBarButtonItemPosition {
             case .left:
-                if !leftNavigaionBarItemTypes.contains(where: { type in
+                if !leftNavigationBarItemTypes.contains(where: { type in
                     switch type {
                     case .done:
                         return true
@@ -477,10 +478,10 @@ fileprivate extension WKWebViewController {
                         return false
                     }
                 }) {
-                    leftNavigaionBarItemTypes.insert(.done, at: 0)
+                    leftNavigationBarItemTypes.insert(.done, at: 0)
                 }
             case .right:
-                if !rightNavigaionBarItemTypes.contains(where: { type in
+                if !rightNavigationBarItemTypes.contains(where: { type in
                     switch type {
                     case .done:
                         return true
@@ -488,21 +489,21 @@ fileprivate extension WKWebViewController {
                         return false
                     }
                 }) {
-                    rightNavigaionBarItemTypes.insert(.done, at: 0)
+                    rightNavigationBarItemTypes.insert(.done, at: 0)
                 }
             case .none:
                 break
             }
         }
 
-        navigationItem.leftBarButtonItems = leftNavigaionBarItemTypes.map { barButtonItemType in
+        navigationItem.leftBarButtonItems = leftNavigationBarItemTypes.map { barButtonItemType in
             if let barButtonItem = barButtonItem(barButtonItemType) {
                 return barButtonItem
             }
             return UIBarButtonItem()
         }
 
-        navigationItem.rightBarButtonItems = rightNavigaionBarItemTypes.map { barButtonItemType in
+        navigationItem.rightBarButtonItems = rightNavigationBarItemTypes.map { barButtonItemType in
             if let barButtonItem = barButtonItem(barButtonItemType) {
                 return barButtonItem
             }

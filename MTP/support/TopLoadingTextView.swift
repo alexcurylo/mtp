@@ -4,7 +4,7 @@ import UIKit
 
 // works around issue where text in storyboard loads not at top
 
-final class UITopLoadingTextView: UITextView {
+final class TopLoadingTextView: UITextView {
 
     var shouldEnableScroll = false
 

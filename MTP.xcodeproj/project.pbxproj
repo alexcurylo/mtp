@@ -18,7 +18,7 @@
 		8C012803223208FB00EA2095 /* SpyMTPNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C012802223208FB00EA2095 /* SpyMTPNetworkService.swift */; };
 		8C0F242B22432076005BD5DC /* UserCountsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0F242A22432076005BD5DC /* UserCountsVC.swift */; };
 		8C1A267E22AE019400DAFC7B /* SearchResultJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1A267D22AE019400DAFC7B /* SearchResultJSON.swift */; };
-		8C3EA813222F64F100CB4886 /* UITopLoadingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EA812222F64F100CB4886 /* UITopLoadingTextView.swift */; };
+		8C3EA813222F64F100CB4886 /* TopLoadingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */; };
 		8C3EAA1C2230BFA500CB4886 /* InsetTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EAA1B2230BFA500CB4886 /* InsetTextField.swift */; };
 		8C3EAB842230FCC200CB4886 /* RoutingAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EAB832230FCC200CB4886 /* RoutingAppDelegate.swift */; };
 		8C3EAB862230FCEE00CB4886 /* RoutingAppDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EAB852230FCEE00CB4886 /* RoutingAppDelegateTests.swift */; };
@@ -62,6 +62,7 @@
 		FA0BE96C210C5F3300797224 /* ViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0BE96B210C5F3300797224 /* ViewTests.swift */; };
 		FA0F816422BF1CA700C00898 /* AddPhotoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0F816322BF1CA700C00898 /* AddPhotoVC.swift */; };
 		FA0F816722BF1D1400C00898 /* AddPhoto.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA0F816522BF1D1400C00898 /* AddPhoto.storyboard */; };
+		FA12AB5722C6D68700105545 /* LinkTappableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12AB5622C6D68700105545 /* LinkTappableTextView.swift */; };
 		FA12D682213B963C0053E9BF /* RankingsPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12D681213B963C0053E9BF /* RankingsPageVC.swift */; };
 		FA2172D822BE038C00CE4F40 /* PlaceOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2172D722BE038C00CE4F40 /* PlaceOverlay.swift */; };
 		FA21FB9F22A3F25400190B71 /* UserCounts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA21FB9D22A3F25400190B71 /* UserCounts.storyboard */; };
@@ -222,7 +223,7 @@
 		8C012802223208FB00EA2095 /* SpyMTPNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyMTPNetworkService.swift; sourceTree = "<group>"; };
 		8C0F242A22432076005BD5DC /* UserCountsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCountsVC.swift; sourceTree = "<group>"; };
 		8C1A267D22AE019400DAFC7B /* SearchResultJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultJSON.swift; sourceTree = "<group>"; };
-		8C3EA812222F64F100CB4886 /* UITopLoadingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITopLoadingTextView.swift; sourceTree = "<group>"; };
+		8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLoadingTextView.swift; sourceTree = "<group>"; };
 		8C3EAA1B2230BFA500CB4886 /* InsetTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetTextField.swift; sourceTree = "<group>"; };
 		8C3EAB832230FCC200CB4886 /* RoutingAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutingAppDelegate.swift; sourceTree = "<group>"; };
 		8C3EAB852230FCEE00CB4886 /* RoutingAppDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingAppDelegateTests.swift; sourceTree = "<group>"; };
@@ -270,6 +271,7 @@
 		FA0BE96B210C5F3300797224 /* ViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTests.swift; sourceTree = "<group>"; };
 		FA0F816322BF1CA700C00898 /* AddPhotoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoVC.swift; sourceTree = "<group>"; };
 		FA0F816622BF1D1400C00898 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/AddPhoto.storyboard; sourceTree = "<group>"; };
+		FA12AB5622C6D68700105545 /* LinkTappableTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkTappableTextView.swift; sourceTree = "<group>"; };
 		FA12D681213B963C0053E9BF /* RankingsPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsPageVC.swift; sourceTree = "<group>"; };
 		FA2172D722BE038C00CE4F40 /* PlaceOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceOverlay.swift; sourceTree = "<group>"; };
 		FA21FB9E22A3F25400190B71 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/UserCounts.storyboard; sourceTree = "<group>"; };
@@ -797,28 +799,29 @@
 				8C9DD8CD2245034D00D5EAFB /* Injectable.swift */,
 				8C3EAA1B2230BFA500CB4886 /* InsetTextField.swift */,
 				FAC8466222AC6D18004F57EC /* KVNOperation.swift */,
+				FA12AB5622C6D68700105545 /* LinkTappableTextView.swift */,
 				FAE1F11D2143B29F0002CAB2 /* LocationTracker.swift */,
 				FA6A188521EFEF920092C56C /* Observable.swift */,
 				FA8833E02209BF570037C796 /* RealmSearchViewController.swift */,
 				FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */,
 				8C3EAB832230FCC200CB4886 /* RoutingAppDelegate.swift */,
 				FA835D33210EAC110098C270 /* Styler.swift */,
-				FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */,
-				FA745756210DBD910010F4F4 /* UINavigationBar+Transparent.swift */,
 				FA74C110211BBF490013A840 /* String+Formatting.swift */,
 				FAC3BCB5216A225900E1507E /* TagButton.swift */,
 				FAC3BCB6216A225900E1507E /* TagsView.swift */,
+				8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */,
+				FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */,
 				FA88395622351C30002F324F /* UIImage+Color.swift */,
+				FA745756210DBD910010F4F4 /* UINavigationBar+Transparent.swift */,
 				FA44CDF722B5CBFC00F33D34 /* UITableView+Updating.swift */,
-				8C3EA812222F64F100CB4886 /* UITopLoadingTextView.swift */,
 				FA44CDF522B5B3F800F33D34 /* UIView+Corner.swift */,
 				FA32CC7320FB6E67004C1329 /* UIView+Gradient.swift */,
 				FA44CDF322B5A13F00F33D34 /* UIView+Shadow.swift */,
 				8C50B16B22374C650013BD34 /* UIViewController+Keyboard.swift */,
 				FAD2B51921F492B3009FFDD7 /* UncertainValue.swift */,
 				FAAE29C420F05A9600B43BA9 /* UserDefaults+TypeSafety.swift */,
-				8CA1ECE622C4434300C3B40B /* WKWebViewController.swift */,
 				FA254DCA21685D6800FC9360 /* Withable.swift */,
+				8CA1ECE622C4434300C3B40B /* WKWebViewController.swift */,
 			);
 			path = support;
 			sourceTree = "<group>";
@@ -1240,7 +1243,7 @@
 				FAA819002244814900BB9F92 /* LocationPagingVC.swift in Sources */,
 				FA5AC0B421FC49860080F84F /* PlaceAnnotation.swift in Sources */,
 				FA390139213B84B40016A362 /* RankingsPagingVC.swift in Sources */,
-				8C3EA813222F64F100CB4886 /* UITopLoadingTextView.swift in Sources */,
+				8C3EA813222F64F100CB4886 /* TopLoadingTextView.swift in Sources */,
 				8CE6F46B224B029500B24410 /* ContentState.swift in Sources */,
 				8C8DC74D22AF4343002EA1CD /* FaqJSON.swift in Sources */,
 				FA5AC0BF21FDCB9D0080F84F /* MyCountsPagingVC.swift in Sources */,
@@ -1328,6 +1331,7 @@
 				FA99615F2136CF3100C85FBC /* ProfilePagingVC.swift in Sources */,
 				FA5AC0BD21FDC80A0080F84F /* MyCountsVC.swift in Sources */,
 				8C3EAB8A2230FD2800CB4886 /* MTPDelegate.swift in Sources */,
+				FA12AB5722C6D68700105545 /* LinkTappableTextView.swift in Sources */,
 				FADC1ABE2145E9760011EE49 /* ProfilePhotosVC.swift in Sources */,
 				FA835D34210EAC110098C270 /* Styler.swift in Sources */,
 				FA392BBD20DF69F30026C828 /* LocationsVC.swift in Sources */,

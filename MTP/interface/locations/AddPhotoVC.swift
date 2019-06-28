@@ -19,7 +19,7 @@ final class AddPhotoVC: UIViewController, ServiceProvider {
     @IBOutlet private var countryLabel: UILabel?
     @IBOutlet private var locationLabel: UILabel?
 
-    @IBOutlet private var captionTextView: UITopLoadingTextView?
+    @IBOutlet private var captionTextView: TopLoadingTextView?
 
     @IBOutlet private var imageButton: UIButton?
     @IBOutlet private var imageView: UIImageView?

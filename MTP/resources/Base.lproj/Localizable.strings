@@ -63,7 +63,8 @@
 
 "location" = "MTP Location";
 "uncountry" = "UN Country";
-"whs" = "Heritage Site";
+"whsFull" = "World Heritage Site";
+"whsShort" = "WHS";
 "beach" = "Beach";
 "golfcourse" = "Golf Course";
 "divesite" = "Dive Site";

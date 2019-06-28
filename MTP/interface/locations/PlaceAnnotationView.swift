@@ -133,7 +133,7 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         glyphText = nil
 
         // this is called at startup, don't set image here
-        categoryLabel.text = place.list.category.uppercased()
+        categoryLabel.text = place.list.category(full: false).uppercased()
         show(visited: place.isVisited)
         nameLabel.text = place.subtitle
         countryLabel.text = place.country

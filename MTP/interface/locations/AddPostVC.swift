@@ -14,7 +14,7 @@ final class AddPostVC: UIViewController, ServiceProvider {
     @IBOutlet private var locationLabel: UILabel?
 
     @IBOutlet private var postTitle: UILabel?
-    @IBOutlet private var postTextView: UITopLoadingTextView?
+    @IBOutlet private var postTextView: TopLoadingTextView?
 
     private var country: Country? {
         didSet {
