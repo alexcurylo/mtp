@@ -303,10 +303,11 @@ private extension EditProfileVC {
             $0.tag = stack.arrangedSubviews.count
         }
 
-        let linkStack = UIStackView(arrangedSubviews: [text, holder])
-        linkStack.axis = .vertical
-        linkStack.spacing = 4
-
+        let linkStack = UIStackView(arrangedSubviews: [text,
+                                                       holder]).with {
+            $0.axis = .vertical
+            $0.spacing = 4
+        }
         stack.addArrangedSubview(linkStack)
     }
 

@@ -18,4 +18,15 @@ final class TopLoadingTextView: UITextView {
         super.layoutSubviews()
         isScrollEnabled = shouldEnableScroll
     }
+
+    func exclude(rect: CGRect?) {
+        guard let rect = rect else {
+            textContainer.exclusionPaths = []
+            return
+        }
+
+        let exclude = rect.insetBy(dx: 2, dy: 0)
+        let imagePath = UIBezierPath(rect: exclude)
+        textContainer.exclusionPaths = [imagePath]
+    }
 }

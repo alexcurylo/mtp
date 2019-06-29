@@ -100,9 +100,11 @@ private extension CountCellGroup {
     func configure() {
         contentView.backgroundColor = .white
 
-        let stack = UIStackView(arrangedSubviews: [disclosure, label])
-        stack.alignment = .center
-        stack.spacing = 5
+        let stack = UIStackView(arrangedSubviews: [disclosure,
+                                                   label]).with {
+            $0.alignment = .center
+            $0.spacing = 5
+        }
         contentView.addSubview(stack)
         stack.edgeAnchors == contentView.edgeAnchors + Layout.insets
 

@@ -238,8 +238,14 @@ final class RealmController: ServiceProvider {
     func set(posts: [PostJSON]) {
         do {
             let objects = posts.compactMap { Post(from: $0) }
+            let users = posts.compactMap { User(from: $0.owner, with: user(id: $0.userId)) }
             try realm.write {
-                realm.add(objects, update: .modified)
+                if !objects.isEmpty {
+                    realm.add(objects, update: .modified)
+                }
+                if !users.isEmpty {
+                    realm.add(users, update: .modified)
+                }
             }
         } catch {
             log.error("set posts: \(error)")

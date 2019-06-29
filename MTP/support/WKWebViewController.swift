@@ -16,23 +16,23 @@ enum WKWebSource: Equatable {
 
     var url: URL? {
         switch self {
-        case .remote(let u): return u
-        case .file(let u, access: _): return u
+        case .remote(let url): return url
+        case .file(let url, _): return url
         default: return nil
         }
     }
 
     var remoteURL: URL? {
         switch self {
-        case .remote(let u): return u
+        case .remote(let url): return url
         default: return nil
         }
     }
 
     var absoluteString: String? {
         switch self {
-        case .remote(let u): return u.absoluteString
-        case .file(let u, access: _): return u.absoluteString
+        case .remote(let url): return url.absoluteString
+        case .file(let url, _): return url.absoluteString
         default: return nil
         }
     }
@@ -125,26 +125,21 @@ class WKWebViewController: UIViewController, ServiceProvider {
     var headers: [String: String] = [:]
     var customUserAgent: String? {
         didSet {
-            guard let agent = userAgent else {
-                return
-            }
-            webView?.customUserAgent = agent
+            guard let agent = userAgent else { return }
+            webView.customUserAgent = agent
         }
     }
     var userAgent: String? {
         didSet {
-            guard let originalUserAgent = originalUserAgent, let userAgent = userAgent else {
-                return
-            }
-            webView?.customUserAgent = [originalUserAgent, userAgent].joined(separator: " ")
+            guard let originalUserAgent = originalUserAgent,
+                  let userAgent = userAgent else { return }
+            webView.customUserAgent = [originalUserAgent, userAgent].joined(separator: " ")
         }
     }
     var pureUserAgent: String? {
         didSet {
-            guard let agent = pureUserAgent else {
-                return
-            }
-            webView?.customUserAgent = agent
+            guard let agent = pureUserAgent else { return }
+            webView.customUserAgent = agent
         }
     }
 
@@ -160,8 +155,11 @@ class WKWebViewController: UIViewController, ServiceProvider {
     var stopBarButtonItemImage: UIImage?
     var activityBarButtonItemImage: UIImage?
 
-    fileprivate var webView: WKWebView?
-    fileprivate var progressView: UIProgressView?
+    private let webView = WKWebView(frame: .zero,
+                                    configuration: WKWebViewConfiguration())
+    private let progressView = UIProgressView(progressViewStyle: .default).with {
+        $0.trackTintColor = UIColor(white: 1, alpha: 0)
+    }
 
     typealias PreviousState = (tintColor: UIColor, hidden: Bool)
 
@@ -237,22 +235,19 @@ class WKWebViewController: UIViewController, ServiceProvider {
     }()
 
     deinit {
-        webView?.removeObserver(self, forKeyPath: estimatedProgressKeyPath)
+        webView.removeObserver(self, forKeyPath: estimatedProgressKeyPath)
         if websiteTitleInNavigationBar {
-            webView?.removeObserver(self, forKeyPath: titleKeyPath)
+            webView.removeObserver(self, forKeyPath: titleKeyPath)
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.white
 
-        self.extendedLayoutIncludesOpaqueBars = true
-        self.edgesForExtendedLayout = [.bottom]
-
-        let webConfiguration = WKWebViewConfiguration()
-        let webView = WKWebView(frame: .zero, configuration: webConfiguration)
+        extendedLayoutIncludesOpaqueBars = true
+        edgesForExtendedLayout = [.bottom]
 
         webView.uiDelegate = self
         webView.navigationDelegate = self
@@ -265,10 +260,7 @@ class WKWebViewController: UIViewController, ServiceProvider {
             webView.addObserver(self, forKeyPath: titleKeyPath, options: .new, context: nil)
         }
 
-        //        view = webView
-        self.webView = webView
-
-        self.webView?.customUserAgent = self.customUserAgent ?? self.userAgent ?? self.originalUserAgent
+        webView.customUserAgent = self.customUserAgent ?? self.userAgent ?? self.originalUserAgent
 
         self.navigationItem.title = self.navigationItem.title ?? self.source?.absoluteString
 
@@ -277,7 +269,6 @@ class WKWebViewController: UIViewController, ServiceProvider {
             self.previousToolbarState = (navigation.toolbar.tintColor, navigation.toolbar.isHidden)
         }
 
-        self.setUpProgressView()
         self.setUpConstraints()
         self.addBarButtonItems()
 
@@ -313,24 +304,22 @@ class WKWebViewController: UIViewController, ServiceProvider {
                                context: UnsafeMutableRawPointer?) {
         switch keyPath {
         case estimatedProgressKeyPath?:
-            guard let estimatedProgress = self.webView?.estimatedProgress else {
-                return
-            }
-            self.progressView?.alpha = 1
-            self.progressView?.setProgress(Float(estimatedProgress), animated: true)
+            let estimatedProgress = webView.estimatedProgress
+            progressView.alpha = 1
+            progressView.setProgress(Float(estimatedProgress), animated: true)
 
             if estimatedProgress >= 1.0 {
                 UIView.animate(withDuration: 0.3,
                                delay: 0.3,
                                options: .curveEaseOut,
                                animations: {
-                    self.progressView?.alpha = 0
+                                self.progressView.alpha = 0
                 }, completion: { _ in
-                    self.progressView?.setProgress(0, animated: false)
+                    self.progressView.setProgress(0, animated: false)
                 })
             }
         case titleKeyPath?:
-            navigationItem.title = webView?.title
+            navigationItem.title = webView.title
         default:
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
@@ -353,20 +342,20 @@ extension WKWebViewController {
     }
 
     func load(remote: URL) {
-        webView?.load(createRequest(url: remote))
+        webView.load(createRequest(url: remote))
     }
 
     func load(file: URL, access: URL) {
-        webView?.loadFileURL(file, allowingReadAccessTo: access)
+        webView.loadFileURL(file, allowingReadAccessTo: access)
     }
 
     func load(string: String, base: URL? = nil) {
-        webView?.loadHTMLString(string, baseURL: base)
+        webView.loadHTMLString(string, baseURL: base)
     }
 
     func goBackToFirstPage() {
-        if let firstPageItem = webView?.backForwardList.backList.first {
-            webView?.go(to: firstPageItem)
+        if let firstPageItem = webView.backForwardList.backList.first {
+            webView.go(to: firstPageItem)
         }
     }
 }
@@ -410,25 +399,13 @@ fileprivate extension WKWebViewController {
         return request
     }
 
-    func setUpProgressView() {
-        let progress = UIProgressView(progressViewStyle: .default)
-        progress.trackTintColor = UIColor(white: 1, alpha: 0)
-        progressView = progress
-        // updateProgressViewFrame()
-    }
-
     func setUpConstraints() {
-        if let progress = progressView,
-           let web = webView {
-            view.addSubview(progress)
-            progress.horizontalAnchors == view.horizontalAnchors
-            progress.topAnchor == view.topAnchor
+        view.addSubview(webView)
+        webView.edgeAnchors == view.edgeAnchors
 
-            view.addSubview(web)
-            web.horizontalAnchors == view.horizontalAnchors
-            web.topAnchor == progress.bottomAnchor
-            web.bottomAnchor == view.bottomAnchor
-        }
+        view.addSubview(progressView)
+        progressView.horizontalAnchors == view.horizontalAnchors
+        progressView.topAnchor == view.topAnchor
     }
 
     // swiftlint:disable:next function_body_length
@@ -525,8 +502,8 @@ fileprivate extension WKWebViewController {
     }
 
     func updateBarButtonItems() {
-        backBarButtonItem.isEnabled = webView?.canGoBack ?? false
-        forwardBarButtonItem.isEnabled = webView?.canGoForward ?? false
+        backBarButtonItem.isEnabled = webView.canGoBack
+        forwardBarButtonItem.isEnabled = webView.canGoForward
 
         let updateReloadBarButtonItem: (UIBarButtonItem, Bool) -> UIBarButtonItem = {
             [weak self] barButtonItem, isLoading in
@@ -539,7 +516,7 @@ fileprivate extension WKWebViewController {
             }
         }
 
-        let isLoading = webView?.isLoading ?? false
+        let isLoading = webView.isLoading
         toolbarItems = toolbarItems?.map {
             updateReloadBarButtonItem($0, isLoading)
         }
@@ -556,14 +533,14 @@ fileprivate extension WKWebViewController {
         navigationController?.setToolbarHidden(toolbarItemTypes.isEmpty, animated: true)
 
         if let tintColor = tintColor {
-            progressView?.progressTintColor = tintColor
+            progressView.progressTintColor = tintColor
             navigationController?.navigationBar.tintColor = tintColor
             navigationController?.toolbar.tintColor = tintColor
         }
     }
 
     func rollbackState() {
-        progressView?.progress = 0
+        progressView.progress = 0
 
         guard let nav = navigationController else { return }
 
@@ -626,24 +603,24 @@ fileprivate extension WKWebViewController {
     }
 
     @objc func backDidClick(sender: AnyObject) {
-        webView?.goBack()
+        webView.goBack()
     }
 
     @objc func forwardDidClick(sender: AnyObject) {
-        webView?.goForward()
+        webView.goForward()
     }
 
     @objc func reloadDidClick(sender: AnyObject) {
-        webView?.stopLoading()
-        if webView?.url != nil {
-            webView?.reload()
+        webView.stopLoading()
+        if webView.url != nil {
+            webView.reload()
         } else if let s = self.source {
             self.load(source: s)
         }
     }
 
     @objc func stopDidClick(sender: AnyObject) {
-        webView?.stopLoading()
+        webView.stopLoading()
     }
 
     @objc func activityDidClick(sender: AnyObject) {
@@ -692,7 +669,7 @@ extension WKWebViewController: WKNavigationDelegate {
     // swiftlint:disable:next implicitly_unwrapped_optional
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         updateBarButtonItems()
-        self.progressView?.progress = 0
+        progressView.progress = 0
         if let u = webView.url {
             self.url = u
             delegate?.webView?(controller: self, didStart: u)
@@ -702,7 +679,7 @@ extension WKWebViewController: WKNavigationDelegate {
     // swiftlint:disable:next implicitly_unwrapped_optional
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         updateBarButtonItems()
-        self.progressView?.progress = 0
+        progressView.progress = 0
         if let url = webView.url {
             self.url = url
             delegate?.webView?(controller: self, didFinish: url)
@@ -712,7 +689,7 @@ extension WKWebViewController: WKNavigationDelegate {
     // swiftlint:disable:next implicitly_unwrapped_optional
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         updateBarButtonItems()
-        self.progressView?.progress = 0
+        progressView.progress = 0
         if let url = webView.url {
             self.url = url
             delegate?.webView?(controller: self, didFail: url, withError: error)
@@ -722,7 +699,7 @@ extension WKWebViewController: WKNavigationDelegate {
     // swiftlint:disable:next implicitly_unwrapped_optional
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         updateBarButtonItems()
-        self.progressView?.progress = 0
+        progressView.progress = 0
         if let url = webView.url {
             self.url = url
             delegate?.webView?(controller: self, didFail: url, withError: error)
@@ -773,7 +750,9 @@ extension WKWebViewController: WKNavigationDelegate {
         }
 
         if let navigationType = NavigationType(rawValue: navigationAction.navigationType.rawValue),
-           let result = delegate?.webView?(controller: self, decidePolicy: u, navigationType: navigationType) {
+           let result = delegate?.webView?(controller: self,
+                                           decidePolicy: u,
+                                           navigationType: navigationType) {
             actionPolicy = result ? .allow : .cancel
         }
     }

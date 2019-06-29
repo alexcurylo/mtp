@@ -219,12 +219,13 @@ private extension LocationsVC {
     func setupTracking() {
         mapView?.showsUserLocation = true
 
-        let tracker = MKUserTrackingButton(mapView: mapView)
-        tracker.layer.backgroundColor = UIColor(white: 1, alpha: 0.8).cgColor
-        tracker.layer.borderColor = UIColor.white.cgColor
-        tracker.layer.borderWidth = 1
-        tracker.layer.cornerRadius = 5
-        tracker.isHidden = true
+        let tracker = MKUserTrackingButton(mapView: mapView).with {
+            $0.layer.backgroundColor = UIColor(white: 1, alpha: 0.8).cgColor
+            $0.layer.borderColor = UIColor.white.cgColor
+            $0.layer.borderWidth = 1
+            $0.layer.cornerRadius = 5
+            $0.isHidden = true
+        }
         view.addSubview(tracker)
         trackingButton = tracker
 
@@ -232,11 +233,12 @@ private extension LocationsVC {
         scale.legendAlignment = .trailing
         view.addSubview(scale)
 
-        let stack = UIStackView(arrangedSubviews: [scale, tracker])
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.axis = .horizontal
-        stack.alignment = .center
-        stack.spacing = 10
+        let stack = UIStackView(arrangedSubviews: [scale,
+                                                   tracker]).with {
+            $0.axis = .horizontal
+            $0.alignment = .center
+            $0.spacing = 10
+        }
         view.addSubview(stack)
 
         stack.bottomAnchor == view.safeAreaLayoutGuide.bottomAnchor - Layout.margin

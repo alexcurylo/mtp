@@ -233,19 +233,21 @@ private extension PlaceAnnotationView {
 
         let buttons = UIStackView(arrangedSubviews: [directionsButton,
                                                      showMoreButton
-                                                     ])
-        buttons.spacing = 8
-        buttons.distribution = .fillEqually
+                                                     ]).with {
+            $0.spacing = 8
+            $0.distribution = .fillEqually
+        }
 
         let stack = UIStackView(arrangedSubviews: [topView,
                                                    categoryStack,
                                                    detailStack,
                                                    buttons,
                                                    bottomSpacer
-                                                   ])
-        stack.axis = .vertical
-        stack.spacing = 4
-        stack.widthAnchor == Layout.width
+                                                   ]).with {
+            $0.axis = .vertical
+            $0.spacing = 4
+            $0.widthAnchor == Layout.width
+        }
 
         return stack
     }
@@ -274,21 +276,23 @@ private extension PlaceAnnotationView {
     }
 
     var categoryStack: UIStackView {
-        let categoryStack = UIStackView(arrangedSubviews: [categoryLabel,
-                                                           visitedLabel,
-                                                           visitSwitch])
-        categoryStack.alignment = .center
+        let stack = UIStackView(arrangedSubviews: [categoryLabel,
+                                                   visitedLabel,
+                                                   visitSwitch]).with {
+            $0.alignment = .center
+        }
 
-        return categoryStack
+        return stack
     }
 
     var detailStack: UIStackView {
-        let detailStack = UIStackView(arrangedSubviews: [nameLabel,
-                                                         countryLabel,
-                                                         visitorsLabel])
-        detailStack.axis = .vertical
-        detailStack.spacing = 0
+        let stack = UIStackView(arrangedSubviews: [nameLabel,
+                                                   countryLabel,
+                                                   visitorsLabel]).with {
+            $0.axis = .vertical
+            $0.spacing = 0
+        }
 
-        return detailStack
+        return stack
     }
 }

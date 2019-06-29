@@ -13,8 +13,14 @@ final class LocationPostsVC: PostsVC {
         return place?.list == .locations
     }
 
+    override var presenter: Presenter {
+        return .location
+    }
+
     private var postsObserver: Observer?
     private var updated = false
+
+    private var profileModel: UserProfileVC.Model?
 
     //swiftlint:disable:next implicitly_unwrapped_optional
     private var place: PlaceAnnotation!
@@ -32,6 +38,11 @@ final class LocationPostsVC: PostsVC {
             if let edit = Segues.addPost(segue: segue)?.destination {
                 edit.inject(model: place)
             }
+        case Segues.showUserProfile.identifier:
+            if let profile = Segues.showUserProfile(segue: segue)?.destination,
+                let profileModel = profileModel {
+                profile.inject(model: profileModel)
+            }
         default:
             log.debug("unexpected segue: \(segue.name)")
         }
@@ -40,6 +51,11 @@ final class LocationPostsVC: PostsVC {
     override func createPost() {
         performSegue(withIdentifier: Segues.addPost,
                      sender: self)
+    }
+
+    override func show(user: User) {
+        profileModel = user
+        performSegue(withIdentifier: Segues.showUserProfile, sender: self)
     }
 }
 

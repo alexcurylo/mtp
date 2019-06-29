@@ -63,6 +63,7 @@
 		FA0F816422BF1CA700C00898 /* AddPhotoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0F816322BF1CA700C00898 /* AddPhotoVC.swift */; };
 		FA0F816722BF1D1400C00898 /* AddPhoto.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA0F816522BF1D1400C00898 /* AddPhoto.storyboard */; };
 		FA12AB5722C6D68700105545 /* LinkTappableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12AB5622C6D68700105545 /* LinkTappableTextView.swift */; };
+		FA12AB5A22C75FAA00105545 /* UserProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA12AB5822C75FAA00105545 /* UserProfile.storyboard */; };
 		FA12D682213B963C0053E9BF /* RankingsPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12D681213B963C0053E9BF /* RankingsPageVC.swift */; };
 		FA2172D822BE038C00CE4F40 /* PlaceOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2172D722BE038C00CE4F40 /* PlaceOverlay.swift */; };
 		FA21FB9F22A3F25400190B71 /* UserCounts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA21FB9D22A3F25400190B71 /* UserCounts.storyboard */; };
@@ -272,6 +273,7 @@
 		FA0F816322BF1CA700C00898 /* AddPhotoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoVC.swift; sourceTree = "<group>"; };
 		FA0F816622BF1D1400C00898 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/AddPhoto.storyboard; sourceTree = "<group>"; };
 		FA12AB5622C6D68700105545 /* LinkTappableTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkTappableTextView.swift; sourceTree = "<group>"; };
+		FA12AB5922C75FAA00105545 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/UserProfile.storyboard; sourceTree = "<group>"; };
 		FA12D681213B963C0053E9BF /* RankingsPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsPageVC.swift; sourceTree = "<group>"; };
 		FA2172D722BE038C00CE4F40 /* PlaceOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceOverlay.swift; sourceTree = "<group>"; };
 		FA21FB9E22A3F25400190B71 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/UserCounts.storyboard; sourceTree = "<group>"; };
@@ -765,6 +767,7 @@
 		FA8A65B1217ED4F200BC0DFE /* rankings */ = {
 			isa = PBXGroup;
 			children = (
+				FA12AB5822C75FAA00105545 /* UserProfile.storyboard */,
 				FA8839532234BDC9002F324F /* LocationSearch.storyboard */,
 				FABA740B213A29CD0059ACCA /* ProfileAbout.storyboard */,
 				FABA740E213A359C0059ACCA /* ProfilePhotos.storyboard */,
@@ -1033,6 +1036,7 @@
 				FA40F752225B06010056182E /* Settings.storyboard in Resources */,
 				FABA7413213A374F0059ACCA /* ProfilePosts.storyboard in Resources */,
 				FA390132213AB4A90016A362 /* Rankings.storyboard in Resources */,
+				FA12AB5A22C75FAA00105545 /* UserProfile.storyboard in Resources */,
 				8C617975223F2E1E000827D6 /* LocationsFilter.storyboard in Resources */,
 				8CA1ECEA22C45A8600C3B40B /* Location.storyboard in Resources */,
 				FA392BC220DF69F30026C828 /* Main.storyboard in Resources */,
@@ -1450,6 +1454,14 @@
 				FA0F816622BF1D1400C00898 /* Base */,
 			);
 			name = AddPhoto.storyboard;
+			sourceTree = "<group>";
+		};
+		FA12AB5822C75FAA00105545 /* UserProfile.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA12AB5922C75FAA00105545 /* Base */,
+			);
+			name = UserProfile.storyboard;
 			sourceTree = "<group>";
 		};
 		FA21FB9D22A3F25400190B71 /* UserCounts.storyboard */ = {

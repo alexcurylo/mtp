@@ -85,12 +85,12 @@ extension PhotosPageJSON: CustomDebugStringConvertible {
 }
 
 struct OwnerJSON: Codable {
-    //let country: String? // UserJSON in user endpoint
+    //let country: String? // UserJSON in user endpoints, null in location
     let firstName: String
     let fullName: String
     let id: Int
     let lastName: String
-    //let location: String? // LocationJSON in user endpoint
+    //let location: String? // LocationJSON in user endpoint, null in location
     let role: Int
 }
 

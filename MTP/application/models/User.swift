@@ -365,7 +365,17 @@ extension UserAvatar {
 
         fullName = from.label
         id = from.id
-   }
+    }
+
+    convenience init?(from: OwnerJSON,
+                      with existing: User?) {
+        guard existing == nil else { return nil }
+
+        self.init()
+
+        fullName = from.fullName
+        id = from.id
+    }
 
     override func isEqual(_ object: Any?) -> Bool {
         guard let other = object as? User else { return false }

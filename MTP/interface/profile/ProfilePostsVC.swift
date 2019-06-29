@@ -16,6 +16,10 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
         return isSelf
     }
 
+    override var presenter: Presenter {
+        return .user
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()

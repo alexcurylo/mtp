@@ -8,9 +8,17 @@ class PostsVC: UITableViewController, ServiceProvider {
         return false
     }
 
+    var presenter: Presenter {
+        fatalError("presenter has not been overridden")
+    }
+
     //swiftlint:disable:next unavailable_function
     func createPost() {
         fatalError("createPost has not been overridden")
+    }
+
+    func show(user: User) {
+        // override to implement
     }
 
     var contentState: ContentState = .loading
@@ -57,12 +65,22 @@ class PostsVC: UITableViewController, ServiceProvider {
         var index = 0
         let cellModels: [PostCellModel] = posts.map { post in
             let location = data.get(location: post.locationId)
+            let user = data.get(user: post.userId)
+            let title: String
+            switch presenter {
+            case .location:
+                title = user?.fullName ?? L.loading()
+            case .user:
+                title = location?.placeTitle ?? L.unknown()
+            }
             let model = PostCellModel(
                 index: index,
-                location: location,
                 date: DateFormatter.mtpPost.string(from: post.updatedAt).uppercased(),
-                title: location?.placeTitle ?? L.unknown(),
+                title: title,
                 body: post.post,
+                presenter: presenter,
+                location: location,
+                user: user,
                 isExpanded: false
             )
             index += 1
@@ -140,11 +158,15 @@ extension PostsVC {
 
 extension PostsVC: PostCellDelegate {
 
-    func toggle(index: Int) {
-        guard index < models.count else { return }
+    func tapped(profile user: User) {
+        show(user: user)
+    }
 
-        models[index].isExpanded.toggle()
-        let path = IndexPath(row: index, section: 0)
+    func tapped(toggle: Int) {
+        guard toggle < models.count else { return }
+
+        models[toggle].isExpanded.toggle()
+        let path = IndexPath(row: toggle, section: 0)
         tableView.update {
             tableView.reloadRows(at: [path], with: .none)
         }

@@ -128,9 +128,11 @@ private extension CountCellItem {
     func configure() {
         contentView.backgroundColor = .white
 
-        let infos = UIStackView(arrangedSubviews: [titleLabel, visit])
-        infos.spacing = Layout.spacing
-        infos.alignment = .center
+        let infos = UIStackView(arrangedSubviews: [titleLabel,
+                                                   visit]).with {
+            $0.spacing = Layout.spacing
+            $0.alignment = .center
+        }
         contentView.addSubview(infos)
         infos.centerYAnchor == contentView.centerYAnchor
         labelsIndent = infos.leadingAnchor == contentView.leadingAnchor + Layout.parentIndent

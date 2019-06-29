@@ -150,27 +150,36 @@ private extension RankingCell {
         remainingButton.addTarget(self, action: #selector(remainingTapped), for: .touchUpInside)
         visitedButton.addTarget(self, action: #selector(visitedTapped), for: .touchUpInside)
 
-        let badges = UIStackView(arrangedSubviews: [avatarImageView, rankLabel])
-        badges.axis = .vertical
-        badges.alignment = .center
-        badges.spacing = Layout.overlap
-        badges.setContentHuggingPriority(.required, for: .horizontal)
+        let badges = UIStackView(arrangedSubviews: [avatarImageView,
+                                                    rankLabel]).with {
+            $0.axis = .vertical
+            $0.alignment = .center
+            $0.spacing = Layout.overlap
+            $0.setContentHuggingPriority(.required, for: .horizontal)
+        }
 
-        let labels = UIStackView(arrangedSubviews: [nameLabel, countryLabel])
-        labels.axis = .vertical
-        labels.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        let labels = UIStackView(arrangedSubviews: [nameLabel,
+                                                    countryLabel]).with {
+            $0.axis = .vertical
+            $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        }
 
-        let buttons = UIStackView(arrangedSubviews: [visitedButton, remainingButton])
-        buttons.axis = .vertical
-        buttons.distribution = .fillEqually
-        buttons.alignment = .trailing
-        buttons.spacing = Layout.spacing.height
-        buttons.setContentHuggingPriority(.required, for: .horizontal)
+        let buttons = UIStackView(arrangedSubviews: [visitedButton,
+                                                     remainingButton]).with {
+            $0.axis = .vertical
+            $0.distribution = .fillEqually
+            $0.alignment = .trailing
+            $0.spacing = Layout.spacing.height
+            $0.setContentHuggingPriority(.required, for: .horizontal)
+        }
 
-        let infos = UIStackView(arrangedSubviews: [badges, labels, buttons])
-        infos.spacing = Layout.spacing.width
-        infos.alignment = .center
-        infos.distribution = .fill
+        let infos = UIStackView(arrangedSubviews: [badges,
+                                                   labels,
+                                                   buttons]).with {
+            $0.spacing = Layout.spacing.width
+            $0.alignment = .center
+            $0.distribution = .fill
+        }
         contentView.addSubview(infos)
         infos.edgeAnchors == contentView.edgeAnchors + Layout.margin
     }
