@@ -9,6 +9,7 @@ final class ProfilePhotosVC: PhotosVC {
     private var photosPages: Results<PhotosPageInfo>?
 
     private var pagesObserver: Observer?
+    private var updated = false
 
     private var user: User?
     private var isSelf: Bool = false
@@ -44,7 +45,6 @@ final class ProfilePhotosVC: PhotosVC {
         requireInjections()
 
         update()
-        observe()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -75,14 +75,24 @@ extension ProfilePhotosVC: AddPhotoDelegate {
 
 private extension ProfilePhotosVC {
 
+    func loaded() {
+        updated = true
+        update()
+        observe()
+    }
+
     func refresh(page: Int, reload: Bool) {
         if isSelf {
             mtp.loadPhotos(page: page,
-                           reload: reload) { _ in }
+                           reload: reload) { [weak self] _ in
+                self?.loaded()
+            }
         } else if let user = user {
             mtp.loadPhotos(profile: user.id,
                            page: page,
-                           reload: reload) { _ in }
+                           reload: reload) { [weak self] _ in
+                self?.loaded()
+            }
         }
     }
 
@@ -93,10 +103,10 @@ private extension ProfilePhotosVC {
         photosPages = pages
         collectionView.reloadData()
 
-        if pages.isEmpty {
-            contentState = .loading
+        if photoCount > 0 {
+            contentState = .data
         } else {
-            contentState = photoCount == 0 ? .empty : .data
+            contentState = updated ? .empty : .loading
         }
         collectionView.set(message: contentState, color: .darkText)
     }
@@ -108,32 +118,6 @@ private extension ProfilePhotosVC {
             self?.update()
         }
     }
-
-    #if BROWSE_DEVICE_PHOTOS
-    private var devicePhotos: PHFetchResult<PHAsset>?
-
-    func refreshDevicePhotos() {
-        let options = PHFetchOptions()
-        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-        devicePhotos = PHAsset.fetchAssets(with: options)
-    }
-
-    func setDevicePhoto(cell: PhotoCell, indexPath: IndexPath) {
-        guard let photo = devicePhotos?[indexPath.item] else { return }
-
-        let size = self.collectionView(
-            collectionView,
-            layout: collectionView.collectionViewLayout,
-            sizeForItemAt: indexPath)
-        PHImageManager.default().requestImage(
-            for: photo,
-            targetSize: size,
-            contentMode: .aspectFill,
-            options: nil) { result, _ in
-                cell.set(image: result)
-        }
-    }
-    #endif
 
     @IBAction func saveTapped(_ sender: UIBarButtonItem) {
         broadcastSelection()

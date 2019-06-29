@@ -7,19 +7,14 @@ final class LocationPostsVC: PostsVC {
     private typealias Segues = R.segue.locationPostsVC
 
     override var canCreate: Bool {
+        return isImplemented
+    }
+    private var isImplemented: Bool {
         return place?.list == .locations
     }
 
-    override var posts: [Post] {
-        guard let place = place,
-              place.list == .locations else { return [] }
-
-        return data.get(locationPosts: place.id)
-    }
-
-    override var source: DataServiceChange {
-        return .locationPosts
-    }
+    private var postsObserver: Observer?
+    private var updated = false
 
     //swiftlint:disable:next implicitly_unwrapped_optional
     private var place: PlaceAnnotation!
@@ -28,10 +23,8 @@ final class LocationPostsVC: PostsVC {
         super.viewDidLoad()
         requireInjections()
 
-        if place.list == .locations {
-            mtp.loadPosts(location: place.id) { _ in }
-        }
-    }
+        update()
+   }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
@@ -50,12 +43,60 @@ final class LocationPostsVC: PostsVC {
     }
 }
 
+private extension LocationPostsVC {
+
+    func loaded() {
+        updated = true
+        update()
+        observe()
+    }
+
+    func update() {
+        guard let place = place else { return }
+
+        guard isImplemented else {
+            contentState = .unimplemented
+            tableView.set(message: contentState, color: .darkText)
+            return
+        }
+
+        let posts = data.get(locationPosts: place.id)
+        models = cellModels(from: posts)
+        tableView.reloadData()
+
+        if !models.isEmpty {
+            contentState = .data
+        } else if !isImplemented {
+            contentState = .unimplemented
+        } else {
+            contentState = updated ? .empty : .loading
+        }
+        tableView.set(message: contentState, color: .darkText)
+    }
+
+    func observe() {
+        guard postsObserver == nil else { return }
+
+        postsObserver = data.observer(of: .locationPosts) { [weak self] _ in
+            self?.update()
+        }
+    }
+}
+
 extension LocationPostsVC: Injectable {
 
     typealias Model = PlaceAnnotation
 
     @discardableResult func inject(model: Model) -> Self {
         place = model
+
+        log.todo("implement non-MTP location posting")
+        if isImplemented {
+            mtp.loadPosts(location: place.id) { [weak self] _ in
+                self?.loaded()
+            }
+        }
+
         return self
     }
 

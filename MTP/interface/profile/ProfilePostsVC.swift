@@ -6,15 +6,8 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
 
     private typealias Segues = R.segue.profilePostsVC
 
-    override var posts: [Post] {
-        guard let id = user?.id else { return [] }
-
-        return data.getPosts(user: id)
-    }
-
-    override var source: DataServiceChange {
-        return .posts
-    }
+    private var postsObserver: Observer?
+    private var isLoading = true
 
     private var user: User?
     private var isSelf: Bool = false
@@ -26,6 +19,8 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
+
+        update()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -43,6 +38,38 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
     }
 }
 
+private extension ProfilePostsVC {
+
+    func loaded() {
+        isLoading = false
+        update()
+        observe()
+    }
+
+    func update() {
+        guard let user = user else { return }
+
+        let posts = data.getPosts(user: user.id)
+        models = cellModels(from: posts)
+        tableView.reloadData()
+
+        if !models.isEmpty {
+            contentState = .data
+        } else {
+            contentState = isLoading ? .loading : .empty
+        }
+        tableView.set(message: contentState, color: .darkText)
+    }
+
+    func observe() {
+        guard postsObserver == nil else { return }
+
+        postsObserver = data.observer(of: .posts) { [weak self] _ in
+            self?.update()
+        }
+    }
+}
+
 extension ProfilePostsVC: Injectable {
 
     typealias Model = User
@@ -51,7 +78,9 @@ extension ProfilePostsVC: Injectable {
         user = model
         isSelf = model.id == data.user?.id
 
-        mtp.loadPosts(user: model.id) { _ in }
+        mtp.loadPosts(user: model.id) { [weak self] _ in
+            self?.loaded()
+        }
 
         return self
     }

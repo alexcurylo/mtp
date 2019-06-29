@@ -68,7 +68,6 @@ private extension SettingsVC {
     }
 
     @IBAction func rateTapped(_ sender: UIButton) {
-        //log.todo("SKStoreReviewController.requestReview somewhere?")
         guard let url = productUrl else { return }
 
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)

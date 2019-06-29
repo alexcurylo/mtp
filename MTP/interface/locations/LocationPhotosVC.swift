@@ -13,6 +13,9 @@ final class LocationPhotosVC: PhotosVC {
     private var updated = false
 
     override var canCreate: Bool {
+        return isImplemented
+    }
+    private var isImplemented: Bool {
         return place?.list == .locations
     }
 
@@ -33,10 +36,7 @@ final class LocationPhotosVC: PhotosVC {
         super.viewDidLoad()
         requireInjections()
 
-        observe()
         update()
-
-        refresh(reload: false)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -65,31 +65,33 @@ extension LocationPhotosVC: AddPhotoDelegate {
 
 private extension LocationPhotosVC {
 
-    func refresh(reload: Bool) {
-        guard let place = place,
-              place.list == .locations else { return }
+    func loaded() {
+        updated = true
+        update()
+        observe()
+    }
 
+    func refresh(reload: Bool) {
+        guard let place = place, isImplemented else { return }
+
+        log.todo("implement non-MTP location photos")
         mtp.loadPhotos(location: place.id,
                        reload: reload) { [weak self] _ in
-            guard let self = self,
-                !self.updated else { return }
-
-            self.updated = true
-            self.update()
+            self?.loaded()
         }
     }
 
     func update() {
         guard let place = place else { return }
 
-        if place.list == .locations {
+        if isImplemented {
             photos = data.get(locationPhotos: place.id)
         }
         collectionView.reloadData()
 
         if photoCount > 0 {
             contentState = .data
-        } else if place.list != .locations {
+        } else if !isImplemented {
             contentState = .unimplemented
         } else {
             contentState = updated ? .empty : .loading
@@ -117,6 +119,9 @@ extension LocationPhotosVC: Injectable {
 
     @discardableResult func inject(model: Model) -> Self {
         place = model
+
+        refresh(reload: false)
+
         return self
     }
 
