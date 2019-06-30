@@ -281,7 +281,12 @@ extension MTP: TargetType {
     }
 
     var validationType: ValidationType {
-        return .successCodes
+        switch self {
+        case .userLogin:
+            return .none // expect 401 with wrong password message
+        default:
+            return .successCodes
+        }
     }
 
     // swiftlint:disable:next discouraged_optional_collection
@@ -1443,8 +1448,14 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                 refreshUserInfo()
                 return then(.success(user))
             } catch {
-                log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                return then(.failure(.decoding))
+                do {
+                    let reply = try response.map(OperationReply.self,
+                                                 using: JSONDecoder.mtp)
+                    return then(.failure(.message(reply.message)))
+                } catch {
+                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                    return then(.failure(.decoding))
+                }
             }
         }
 

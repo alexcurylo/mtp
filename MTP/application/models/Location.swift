@@ -38,8 +38,8 @@ extension LocationJSON: CustomStringConvertible {
 
     public var description: String {
         if !countryName.isEmpty
-            && !locationName.isEmpty
-            && countryName != locationName {
+           && !locationName.isEmpty
+           && countryName != locationName {
             return "\(locationName), \(countryName)"
         }
         return locationName.isEmpty ? countryName : locationName
@@ -80,6 +80,7 @@ extension LocationJSON: CustomDebugStringConvertible {
 
 @objcMembers final class Location: Object, ServiceProvider {
 
+    dynamic var airports: String = ""
     dynamic var countryId: Int = 0
     dynamic var countryName: String = ""
     dynamic var featuredImg: String?
@@ -88,7 +89,10 @@ extension LocationJSON: CustomDebugStringConvertible {
     dynamic var locationName: String = ""
     dynamic var lon: Double = 0
     dynamic var placeVisitors: Int = 0
+    dynamic var rank: Int = 0
+    dynamic var rankUn: Int = 0
     dynamic var regionName: String = ""
+    dynamic var weatherhist: String = ""
 
     override static func primaryKey() -> String? {
         return "id"
@@ -105,6 +109,7 @@ extension LocationJSON: CustomDebugStringConvertible {
             return nil
         }
 
+        airports = from.airports ?? ""
         countryId = country
         countryName = from.countryName
         featuredImg = from.featuredImg
@@ -113,8 +118,11 @@ extension LocationJSON: CustomDebugStringConvertible {
         locationName = from.locationName
         lon = from.lon ?? 0
         placeVisitors = from.visitors
+        rank = from.rank
+        rankUn = from.rankUn
         regionName = from.regionName
-  }
+        weatherhist = from.weatherhist ?? ""
+    }
 
     static var all: Location = {
         let all = Location()

@@ -59,6 +59,10 @@
 "resettingPassword" = "Resetting password…";
 "emailError" = "Sorry, that email was not found.";
 
+// LocationInfoVC
+
+"none" = "none";
+
 // LocationsVC
 
 "location" = "MTP Location";

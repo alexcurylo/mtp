@@ -450,5 +450,11 @@ private extension Migration {
         enumerateObjects(ofType: Photo.className()) { _, new in
             new?["desc"] = ""
         }
+        enumerateObjects(ofType: Location.className()) { _, new in
+            new?["airports"] = ""
+            new?["rank"] = 0
+            new?["rankUn"] = 0
+            new?["weatherhist"] = ""
+        }
     }
 }

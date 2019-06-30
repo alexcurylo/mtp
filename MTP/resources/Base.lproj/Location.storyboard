@@ -20,29 +20,29 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ppS-Lj-BD6">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="235"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="167"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mFZ-yB-P64">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="235"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="167"/>
                                         <color key="backgroundColor" name="mercury"/>
                                     </imageView>
                                     <view alpha="0.84999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kYs-p9-Rr9" userLabel="Header View">
-                                        <rect key="frame" x="8" y="100" width="359" height="127"/>
+                                        <rect key="frame" x="8" y="100" width="359" height="59"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="UNE-Im-m0D" userLabel="Name Stack">
-                                                <rect key="frame" x="24" y="24" width="327" height="111"/>
+                                                <rect key="frame" x="16" y="8" width="327" height="43"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lPb-vy-9A3">
-                                                        <rect key="frame" x="0.0" y="0.0" width="327" height="43"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="327" height="18"/>
                                                         <subviews>
                                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" text="WORLD HERITAGE" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="2Ug-kF-zMU">
-                                                                <rect key="frame" x="0.0" y="0.0" width="327" height="18"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="272" height="18"/>
                                                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="13"/>
                                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="999" text="Far Away" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Fa2-gC-vee">
-                                                                <rect key="frame" x="0.0" y="-13" width="327" height="68"/>
+                                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="999" text="Far Away" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Fa2-gC-vee">
+                                                                <rect key="frame" x="272" y="0.0" width="55" height="18"/>
                                                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="13"/>
                                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -50,7 +50,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="scaleToFill" verticalHuggingPriority="1000" text="Greater Blue Mountains Area" lineBreakMode="wordWrap" numberOfLines="0" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SJO-aU-00l">
-                                                        <rect key="frame" x="0.0" y="43" width="327" height="25"/>
+                                                        <rect key="frame" x="0.0" y="18" width="327" height="25"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="18"/>
                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -66,6 +66,11 @@
                                             <constraint firstItem="UNE-Im-m0D" firstAttribute="top" secondItem="kYs-p9-Rr9" secondAttribute="top" constant="8" id="Iio-sk-amc"/>
                                             <constraint firstAttribute="trailing" secondItem="UNE-Im-m0D" secondAttribute="trailing" constant="16" id="ejR-oP-fsx"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" name="alto"/>
@@ -80,7 +85,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tVF-2D-1go" customClass="GradientView" customModule="MTP" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="235" width="375" height="383"/>
+                                <rect key="frame" x="0.0" y="167" width="375" height="451"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="startColor">
