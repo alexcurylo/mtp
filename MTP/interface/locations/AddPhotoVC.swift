@@ -2,6 +2,12 @@
 
 import RealmSwift
 
+protocol AddPhotoDelegate: AnyObject {
+
+    func addPhoto(controller: AddPhotoVC,
+                  didAdd reply: PhotoReply)
+}
+
 final class AddPhotoVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.addPhotoVC
@@ -13,7 +19,7 @@ final class AddPhotoVC: UIViewController, ServiceProvider {
     @IBOutlet private var countryLabel: UILabel?
     @IBOutlet private var locationLabel: UILabel?
 
-    @IBOutlet private var captionTextView: UITopLoadingTextView?
+    @IBOutlet private var captionTextView: TopLoadingTextView?
 
     @IBOutlet private var imageButton: UIButton?
     @IBOutlet private var imageView: UIImageView?
@@ -27,15 +33,17 @@ final class AddPhotoVC: UIViewController, ServiceProvider {
         $0.navigationBar.barTintColor = .dodgerBlue
     }
 
+    private weak var delegate: AddPhotoDelegate?
+
     private var countryId = 0
     private var locationId = 0
 
     private var captionText: String = ""
 
-    private var image: UIImage? {
+    private var photo: UIImage? {
         didSet {
-            imageView?.image = image
-            let back: UIColor = image == nil ? .dustyGray : .clear
+            imageView?.image = photo
+            let back: UIColor = photo == nil ? .dustyGray : .clear
             imageButton?.backgroundColor = back
         }
     }
@@ -127,11 +135,11 @@ private extension AddPhotoVC {
     @IBAction func saveTapped(_ sender: UIBarButtonItem) {
         view.endEditing(true)
         guard updateSave(showError: true),
-              let image = image else { return }
+            let data = photo?.jpegData(compressionQuality: 1.0) else { return }
 
-        upload(image: image,
-               caption: captionText,
-               location: locationId)
+        upload(photo: data,
+               caption: captionText.isEmpty ? nil : captionText,
+               location: locationId == 0 ? nil: locationId)
     }
 
     @discardableResult func updateSave(showError: Bool) -> Bool {
@@ -140,7 +148,7 @@ private extension AddPhotoVC {
         let errorMessage: String
         if countryId != 0 && locationId == 0 {
             errorMessage = L.fixLocation()
-        } else if image == nil {
+        } else if photo == nil {
             errorMessage = L.fixPhoto()
         } else {
             errorMessage = ""
@@ -155,20 +163,24 @@ private extension AddPhotoVC {
         return valid
     }
 
-    func upload(image: UIImage,
-                caption: String,
-                location id: Int) {
-        let operation = L.publishPost()
-        note.modal(info: L.publishingPost())
+    func upload(photo: Data,
+                caption: String?,
+                location id: Int?) {
+        let operation = L.publishPhoto()
+        note.modal(info: L.publishingPhoto())
 
-        mtp.upload(image: image,
+        mtp.upload(photo: photo,
                    caption: caption,
                    // swiftlint:disable:next closure_body_length
                    location: id) { [weak self, note] result in
             let errorMessage: String
             switch result {
-            case .success:
+            case .success(let reply):
                 note.modal(success: L.success())
+                if let self = self {
+                    self.delegate?.addPhoto(controller: self,
+                                            didAdd: reply)
+                }
                 DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
                     note.dismissModal()
                     self?.performSegue(withIdentifier: Segues.pop, sender: self)
@@ -247,10 +259,10 @@ extension AddPhotoVC: UIImagePickerControllerDelegate {
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
-        if let possibleImage = info[.editedImage] as? UIImage {
-            image = possibleImage
-        } else if let possibleImage = info[.originalImage] as? UIImage {
-            image = possibleImage
+        if let possiblePhoto = info[.editedImage] as? UIImage {
+            photo = possiblePhoto
+        } else if let possiblePhoto = info[.originalImage] as? UIImage {
+            photo = possiblePhoto
         }
 
         updateSave(showError: false)
@@ -271,11 +283,12 @@ extension AddPhotoVC: UINavigationControllerDelegate {
 
 extension AddPhotoVC: Injectable {
 
-    typealias Model = PlaceAnnotation
+    typealias Model = (place: PlaceAnnotation?, delegate: AddPhotoDelegate)
 
     @discardableResult func inject(model: Model) -> Self {
-        countryId = model.countryId
-        locationId = model.id
+        countryId = model.place?.countryId ?? 0
+        locationId = model.place?.id ?? 0
+        delegate = model.delegate
         return self
     }
 
@@ -288,5 +301,6 @@ extension AddPhotoVC: Injectable {
         captionTextView.require()
         imageButton.require()
         imageView.require()
+        delegate.require()
     }
 }

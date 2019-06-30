@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -63,7 +62,7 @@
                         <outlet property="pagesHolder" destination="m9S-7g-1LD" id="Sq6-Xa-yhU"/>
                         <outlet property="searchBar" destination="Ir8-ev-07f" id="jWx-q3-Zpc"/>
                         <segue destination="5QJ-vG-I2d" kind="custom" identifier="showUserCounts" customClass="TabPresentSegue" customModule="MTP" customModuleProvider="target" id="hwV-qy-OXL"/>
-                        <segue destination="hKQ-UB-UNy" kind="custom" identifier="showUserProfile" customClass="TabPresentSegue" customModule="MTP" customModuleProvider="target" id="K3A-db-5HT"/>
+                        <segue destination="f8e-a6-gwc" kind="custom" identifier="showUserProfile" customClass="TabPresentSegue" customModule="MTP" customModuleProvider="target" id="K3A-db-5HT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
@@ -104,7 +103,7 @@
                 <viewControllerPlaceholder storyboardName="RankingsFilter" id="9hP-FM-Thd" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ykR-Xr-gmL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2752" y="216"/>
+            <point key="canvasLocation" x="2723" y="59"/>
         </scene>
         <!--UserCounts-->
         <scene sceneID="f8s-67-bmd">
@@ -112,173 +111,20 @@
                 <viewControllerPlaceholder storyboardName="UserCounts" id="5QJ-vG-I2d" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="koh-Uo-g04" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2739" y="143"/>
+            <point key="canvasLocation" x="2710" y="-33"/>
         </scene>
-        <!--User Profile-->
-        <scene sceneID="318-MK-z9j">
+        <!--UserProfile-->
+        <scene sceneID="Gfr-WF-0wI">
             <objects>
-                <viewController title="User Profile" id="hKQ-UB-UNy" customClass="UserProfileVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="bnF-5N-fyR" customClass="GradientView" customModule="MTP" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zjr-zl-bxv" userLabel="Header View">
-                                <rect key="frame" x="8" y="72" width="359" height="118"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="center" horizontalHuggingPriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R4t-Kj-q56">
-                                        <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="NbF-IW-uja"/>
-                                            <constraint firstAttribute="width" constant="40" id="Wpr-Dc-sNq"/>
-                                        </constraints>
-                                        <state key="normal" image="navCloseBlue"/>
-                                        <connections>
-                                            <segue destination="hKQ-UB-UNy" kind="custom" identifier="dismissUserProfile" customClass="DismissSegue" customModule="MTP" customModuleProvider="target" id="PkR-0m-J4M"/>
-                                        </connections>
-                                    </button>
-                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="p6n-TU-G9s" userLabel="Info Stack">
-                                        <rect key="frame" x="32" y="24" width="303" height="70"/>
-                                        <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Dnf-ez-HZd">
-                                                <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
-                                                <color key="backgroundColor" name="mercury"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="70" id="DwK-uW-pUI"/>
-                                                    <constraint firstAttribute="width" constant="70" id="i5n-pI-4WI"/>
-                                                </constraints>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <integer key="value" value="35"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                            </imageView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="tGZ-4X-CUk" userLabel="Name Stack">
-                                                <rect key="frame" x="78" y="11.5" width="225" height="47"/>
-                                                <subviews>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="scaleToFill" verticalHuggingPriority="1000" text="Nikola Trstenjak" lineBreakMode="wordWrap" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="kCf-pd-GsQ">
-                                                        <rect key="frame" x="0.0" y="0.0" width="225" height="25"/>
-                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="18"/>
-                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="scaleToFill" verticalHuggingPriority="1000" text="Croatia" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="v6I-Kk-9dQ">
-                                                        <rect key="frame" x="0.0" y="25" width="225" height="22"/>
-                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
-                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="l6L-DQ-bRf" userLabel="Followers Stack">
-                                                        <rect key="frame" x="0.0" y="47" width="225" height="0.0"/>
-                                                        <subviews>
-                                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="1000" text="121 Followers" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="JlY-3X-BRu">
-                                                                <rect key="frame" x="0.0" y="0.0" width="88.5" height="0.0"/>
-                                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="14"/>
-                                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="003-7G-9lp">
-                                                                <rect key="frame" x="96.5" y="0.0" width="1" height="0.0"/>
-                                                                <color key="backgroundColor" name="mercury"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="width" constant="1" id="zXz-d2-Ivu"/>
-                                                                </constraints>
-                                                            </view>
-                                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="scaleToFill" verticalHuggingPriority="1000" text="42 Following" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="SN6-Of-nOz">
-                                                                <rect key="frame" x="105.5" y="0.0" width="119.5" height="0.0"/>
-                                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="14"/>
-                                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                        </subviews>
-                                                    </stackView>
-                                                </subviews>
-                                            </stackView>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstItem="p6n-TU-G9s" firstAttribute="leading" secondItem="Zjr-zl-bxv" secondAttribute="leadingMargin" constant="24" id="7dg-hL-rlY"/>
-                                    <constraint firstItem="R4t-Kj-q56" firstAttribute="leading" secondItem="Zjr-zl-bxv" secondAttribute="leading" id="DZ7-7n-6IK"/>
-                                    <constraint firstItem="R4t-Kj-q56" firstAttribute="top" secondItem="Zjr-zl-bxv" secondAttribute="top" id="VTr-By-u5p"/>
-                                    <constraint firstItem="p6n-TU-G9s" firstAttribute="top" secondItem="Zjr-zl-bxv" secondAttribute="topMargin" constant="16" id="YxB-8A-5qr"/>
-                                    <constraint firstAttribute="bottomMargin" secondItem="p6n-TU-G9s" secondAttribute="bottom" constant="16" id="g5J-bC-7sX"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="p6n-TU-G9s" secondAttribute="trailing" constant="16" id="ncD-hO-4Gl"/>
-                                </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6NC-yI-EOP" customClass="GradientView" customModule="MTP" customModuleProvider="target">
-                                <rect key="frame" x="8" y="190" width="359" height="428"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="startColor">
-                                        <color key="value" name="dodgerBlue"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="endColor">
-                                        <color key="value" name="azureRadiance"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="orientation">
-                                        <integer key="value" value="2"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="6NC-yI-EOP" firstAttribute="top" secondItem="Zjr-zl-bxv" secondAttribute="bottom" id="8Ve-OD-rK5"/>
-                            <constraint firstItem="RMR-iq-bUg" firstAttribute="trailing" secondItem="Zjr-zl-bxv" secondAttribute="trailing" constant="8" id="GxN-SO-Q9l"/>
-                            <constraint firstItem="6NC-yI-EOP" firstAttribute="leading" secondItem="RMR-iq-bUg" secondAttribute="leading" constant="8" id="HpY-gQ-RaU"/>
-                            <constraint firstItem="Zjr-zl-bxv" firstAttribute="leading" secondItem="RMR-iq-bUg" secondAttribute="leading" constant="8" id="SPo-Ub-Iko"/>
-                            <constraint firstItem="Zjr-zl-bxv" firstAttribute="top" secondItem="RMR-iq-bUg" secondAttribute="top" constant="8" id="oa9-DF-fF7"/>
-                            <constraint firstItem="6NC-yI-EOP" firstAttribute="bottom" secondItem="RMR-iq-bUg" secondAttribute="bottom" id="sIx-aa-vx9"/>
-                            <constraint firstItem="RMR-iq-bUg" firstAttribute="trailing" secondItem="6NC-yI-EOP" secondAttribute="trailing" constant="8" id="vhU-ak-kqx"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="RMR-iq-bUg"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
-                                <color key="value" red="0.098039215690000001" green="0.75294117650000003" blue="0.99215686270000003" alpha="1" colorSpace="deviceRGB"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
-                                <color key="value" red="0.0078431372550000003" green="0.54901960780000003" blue="1" alpha="1" colorSpace="deviceRGB"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="number" keyPath="orientation">
-                                <integer key="value" value="1"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
-                    </view>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
-                    <connections>
-                        <outlet property="avatarImageView" destination="Dnf-ez-HZd" id="fYb-rx-4Fe"/>
-                        <outlet property="countryLabel" destination="v6I-Kk-9dQ" id="WjI-ns-Wt7"/>
-                        <outlet property="followersLabel" destination="JlY-3X-BRu" id="8Vv-gt-y2B"/>
-                        <outlet property="followingLabel" destination="SN6-Of-nOz" id="ezf-Xp-6rR"/>
-                        <outlet property="fullNameLabel" destination="kCf-pd-GsQ" id="9K5-ao-Rdv"/>
-                        <outlet property="headerView" destination="Zjr-zl-bxv" id="8MP-w8-LkV"/>
-                        <outlet property="pagesHolder" destination="6NC-yI-EOP" id="BYd-yd-pmf"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="eTa-Ji-rE4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardName="UserProfile" id="f8e-a6-gwc" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="l4t-j1-Jen" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2956" y="-241"/>
+            <point key="canvasLocation" x="2708" y="-179"/>
         </scene>
     </scenes>
     <resources>
-        <image name="navCloseBlue" width="16" height="16"/>
         <image name="navFilterWhite" width="30" height="31"/>
         <image name="navSearch" width="30" height="30"/>
         <image name="tabRankings" width="19" height="16"/>
-        <namedColor name="azureRadiance">
-            <color red="0.0078431372549019607" green="0.55294117647058827" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="dodgerBlue">
-            <color red="0.098039215686274508" green="0.75294117647058822" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="mercury">
-            <color red="0.9137254901960784" green="0.9137254901960784" blue="0.9137254901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
     </resources>
 </document>

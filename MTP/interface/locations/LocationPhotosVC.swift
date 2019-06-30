@@ -13,7 +13,10 @@ final class LocationPhotosVC: PhotosVC {
     private var updated = false
 
     override var canCreate: Bool {
-        return true
+        return isImplemented
+    }
+    private var isImplemented: Bool {
+        return place?.list == .locations
     }
 
     override var photoCount: Int {
@@ -33,26 +36,14 @@ final class LocationPhotosVC: PhotosVC {
         super.viewDidLoad()
         requireInjections()
 
-        observe()
         update()
-
-        if let place = place {
-            mtp.loadPhotos(location: place.id) { [weak self] _ in
-                guard let self = self,
-                      !self.updated else { return }
-
-                self.updated = true
-                self.update()
-            }
-        }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.addPhoto.identifier:
-            if let edit = Segues.addPhoto(segue: segue)?.destination,
-               let place = place {
-                edit.inject(model: place)
+            if let add = Segues.addPhoto(segue: segue)?.destination {
+                add.inject(model: (place: place, delegate: self))
             }
         default:
             log.debug("unexpected segue: \(segue.name)")
@@ -60,18 +51,48 @@ final class LocationPhotosVC: PhotosVC {
     }
 }
 
+// MARK: AddPhotoDelegate
+
+extension LocationPhotosVC: AddPhotoDelegate {
+
+    func addPhoto(controller: AddPhotoVC,
+                  didAdd reply: PhotoReply) {
+        refresh(reload: true)
+    }
+}
+
 // MARK: Private
 
 private extension LocationPhotosVC {
 
+    func loaded() {
+        updated = true
+        update()
+        observe()
+    }
+
+    func refresh(reload: Bool) {
+        guard let place = place, isImplemented else { return }
+
+        log.todo("implement non-MTP location photos")
+        mtp.loadPhotos(location: place.id,
+                       reload: reload) { [weak self] _ in
+            self?.loaded()
+        }
+    }
+
     func update() {
         guard let place = place else { return }
 
-        photos = data.get(locationPhotos: place.id)
+        if isImplemented {
+            photos = data.get(locationPhotos: place.id)
+        }
         collectionView.reloadData()
 
         if photoCount > 0 {
             contentState = .data
+        } else if !isImplemented {
+            contentState = .unimplemented
         } else {
             contentState = updated ? .empty : .loading
         }
@@ -98,6 +119,9 @@ extension LocationPhotosVC: Injectable {
 
     @discardableResult func inject(model: Model) -> Self {
         place = model
+
+        refresh(reload: false)
+
         return self
     }
 

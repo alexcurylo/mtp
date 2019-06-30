@@ -39,8 +39,8 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
         static let bottomCorners = ViewCorners.bottom(radius: sectionCornerRadius)
     }
 
-    private var original = UserUpdate()
-    private var current = UserUpdate()
+    private var original = UserUpdatePayload()
+    private var current = UserUpdatePayload()
     private var country: Country?
     private var location: Location?
     private let genders = [L.selectGender(), L.male(), L.female()]
@@ -193,7 +193,7 @@ private extension EditProfileVC {
     func configure() {
         guard let user = data.user else { return }
 
-        let update = UserUpdate(from: user)
+        let update = UserUpdatePayload(from: user)
         original = update
         country = data.get(country: update.country_id)
         location = data.get(location: update.location_id)
@@ -303,10 +303,11 @@ private extension EditProfileVC {
             $0.tag = stack.arrangedSubviews.count
         }
 
-        let linkStack = UIStackView(arrangedSubviews: [text, holder])
-        linkStack.axis = .vertical
-        linkStack.spacing = 4
-
+        let linkStack = UIStackView(arrangedSubviews: [text,
+                                                       holder]).with {
+            $0.axis = .vertical
+            $0.spacing = 4
+        }
         stack.addArrangedSubview(linkStack)
     }
 
@@ -434,7 +435,7 @@ private extension EditProfileVC {
         view.endEditing(true)
         guard updateSave(showError: true) else { return }
 
-        upload(edits: current)
+        upload(payload: current)
     }
 
     // swiftlint:disable:next cyclomatic_complexity
@@ -502,12 +503,12 @@ private extension EditProfileVC {
         return valid
     }
 
-    func upload(edits: UserUpdate) {
+    func upload(payload: UserUpdatePayload) {
         let operation = L.updateProfile()
         note.modal(info: L.updatingProfile())
 
         // swiftlint:disable:next closure_body_length
-        mtp.userUpdate(info: edits) { [weak self, note] result in
+        mtp.userUpdate(payload: payload) { [weak self, note] result in
             let errorMessage: String
             switch result {
             case .success:

@@ -68,7 +68,6 @@ private extension SettingsVC {
     }
 
     @IBAction func rateTapped(_ sender: UIButton) {
-        //log.todo("SKStoreReviewController.requestReview somewhere?")
         guard let url = productUrl else { return }
 
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
@@ -84,11 +83,14 @@ private extension SettingsVC {
     @IBAction func contactTapped(_ sender: UIButton) {
         guard MFMailComposeViewController.canSendMail() else { return }
 
+        style.system.styleAppearanceNavBar()
         let composeVC = MFMailComposeViewController {
             $0.mailComposeDelegate = self
             $0.setToRecipients([L.contactAddress()])
             $0.setSubject(L.contactSubject())
         }
+        composeVC.navigationBar.set(style: .system)
+
         present(composeVC, animated: true, completion: nil)
     }
 }
@@ -98,6 +100,7 @@ extension SettingsVC: MFMailComposeViewControllerDelegate {
     func mailComposeController(_ controller: MFMailComposeViewController,
                                didFinishWith result: MFMailComposeResult,
                                error: Error?) {
+        style.standard.styleAppearanceNavBar()
         controller.dismiss(animated: true, completion: nil)
     }
 }
@@ -112,5 +115,15 @@ extension SettingsVC: Injectable {
 
     func requireInjections() {
         backgroundView.require()
+    }
+}
+
+extension MFMailComposeViewController {
+
+    // swiftlint:disable:next override_in_extension
+    override open func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        show(navBar: animated, style: .system)
     }
 }

@@ -14,13 +14,25 @@ final class AddPostVC: UIViewController, ServiceProvider {
     @IBOutlet private var locationLabel: UILabel?
 
     @IBOutlet private var postTitle: UILabel?
-    @IBOutlet private var postTextView: UITopLoadingTextView?
+    @IBOutlet private var postTextView: TopLoadingTextView?
 
-    private var countryId = 0
-    private var locationId = 0
+    private var country: Country? {
+        didSet {
+            if country?.hasChildren ?? true {
+                location = nil
+            } else {
+                payload.set(country: country)
+            }
+        }
+    }
+    private var location: Location? {
+        didSet {
+            payload.set(location: location)
+        }
+    }
 
     private let minCharacters = 140
-    private var postText: String = ""
+    private var payload = PostPayload()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +69,8 @@ final class AddPostVC: UIViewController, ServiceProvider {
                                 delegate: self)
             }
         case Segues.showLocation.identifier:
-            if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC {
+            if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC,
+               let countryId = country?.countryId {
                 destination.set(list: .location(country: countryId),
                                 styler: .standard,
                                 delegate: self)
@@ -80,19 +93,14 @@ private extension AddPostVC {
     }
 
     func configureLocation() {
-        let country = countryId > 0 ? data.get(country: countryId) : nil
         countryLabel?.text = country?.countryName ?? L.selectCountry()
-
-        let location = locationId > 0 ? data.get(location: locationId) : nil
 
         guard let locationLine = locationLine else { return }
         if let country = country, country.hasChildren {
             locationLabel?.text = location?.locationName ?? L.selectLocation()
-
             locationStack?.addArrangedSubview(locationLine)
         } else {
             locationLabel?.text = countryLabel?.text
-
             locationStack?.removeArrangedSubview(locationLine)
             locationLine.removeFromSuperview()
         }
@@ -102,16 +110,16 @@ private extension AddPostVC {
         view.endEditing(true)
         guard updateSave(showError: true) else { return }
 
-        upload(post: postText, location: locationId)
+        upload(payload: payload)
     }
 
     @discardableResult func updateSave(showError: Bool) -> Bool {
-        postText = postTextView?.text ?? ""
+        payload.post = postTextView?.text ?? ""
 
         let errorMessage: String
-        if postText.count < minCharacters {
+        if payload.post.count < minCharacters {
             errorMessage = L.fixLength(minCharacters)
-        } else if locationId == 0 {
+        } else if !payload.location.isValid {
             errorMessage = L.fixLocation()
         } else {
             errorMessage = ""
@@ -122,18 +130,16 @@ private extension AddPostVC {
             note.message(error: errorMessage)
         }
 
-        saveButton?.isEnabled = !postText.isEmpty
+        saveButton?.isEnabled = !payload.post.isEmpty
         return valid
     }
 
-    func upload(post: String,
-                location id: Int) {
+    func upload(payload: PostPayload) {
         let operation = L.publishPost()
         note.modal(info: L.publishingPost())
 
-        mtp.upload(post: post,
-                   // swiftlint:disable:next closure_body_length
-                   location: id) { [weak self, note] result in
+        // swiftlint:disable:next closure_body_length
+        mtp.postPublish(payload: payload) { [weak self, note] result in
             let errorMessage: String
             switch result {
             case .success:
@@ -174,11 +180,9 @@ extension AddPostVC: LocationSearchDelegate {
                         didSelect item: Object) {
         switch item {
         case let countryItem as Country:
-            countryId = countryItem.countryId
-            locationId = countryItem.hasChildren ? 0 : countryId
+            country = countryItem
         case let locationItem as Location:
-            countryId = locationItem.countryId
-            locationId = locationItem.id
+            location = locationItem
         default:
             log.error("unknown item type selected")
         }
@@ -195,7 +199,7 @@ extension AddPostVC: UITextViewDelegate {
 
     func textViewDidChange(_ textView: UITextView) {
         updateSave(showError: false)
-        let remaining = max(0, minCharacters - postText.count)
+        let remaining = max(0, minCharacters - payload.post.count)
         if remaining > 0 {
             postTitle?.text = L.postShort(remaining)
         } else {
@@ -221,8 +225,8 @@ extension AddPostVC: Injectable {
     typealias Model = PlaceAnnotation
 
     @discardableResult func inject(model: Model) -> Self {
-        countryId = model.countryId
-        locationId = model.id
+        country = data.get(country: model.countryId)
+        location = data.get(location: model.id)
         return self
     }
 

@@ -9,6 +9,7 @@ final class ProfilePhotosVC: PhotosVC {
     private var photosPages: Results<PhotosPageInfo>?
 
     private var pagesObserver: Observer?
+    private var updated = false
 
     private var user: User?
     private var isSelf: Bool = false
@@ -22,14 +23,11 @@ final class ProfilePhotosVC: PhotosVC {
     }
 
     override func photo(at index: Int) -> Photo {
-        guard let user = user else { return Photo() }
-
         let pageIndex = (index / PhotosPageInfo.perPage) + 1
         let photoIndex = index % PhotosPageInfo.perPage
         // swiftlint:disable:next first_where
         guard let page = photosPages?.filter("page = \(pageIndex)").first else {
-            mtp.loadPhotos(user: user.id,
-                           page: pageIndex) { _ in }
+            refresh(page: pageIndex, reload: true)
             return Photo()
         }
 
@@ -47,13 +45,15 @@ final class ProfilePhotosVC: PhotosVC {
         requireInjections()
 
         update()
-        observe()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
-        case Segues.cancelChoose.identifier,
-             Segues.addPhoto.identifier:
+        case Segues.addPhoto.identifier:
+            if let add = Segues.addPhoto(segue: segue)?.destination {
+                add.inject(model: (place: nil, delegate: self))
+            }
+        case Segues.cancelChoose.identifier:
             break
         default:
             log.debug("unexpected segue: \(segue.name)")
@@ -61,9 +61,40 @@ final class ProfilePhotosVC: PhotosVC {
     }
 }
 
+// MARK: AddPhotoDelegate
+
+extension ProfilePhotosVC: AddPhotoDelegate {
+
+    func addPhoto(controller: AddPhotoVC,
+                  didAdd reply: PhotoReply) {
+        refresh(page: 1, reload: true)
+    }
+}
+
 // MARK: Private
 
 private extension ProfilePhotosVC {
+
+    func loaded() {
+        updated = true
+        update()
+        observe()
+    }
+
+    func refresh(page: Int, reload: Bool) {
+        if isSelf {
+            mtp.loadPhotos(page: page,
+                           reload: reload) { [weak self] _ in
+                self?.loaded()
+            }
+        } else if let user = user {
+            mtp.loadPhotos(profile: user.id,
+                           page: page,
+                           reload: reload) { [weak self] _ in
+                self?.loaded()
+            }
+        }
+    }
 
     func update() {
         guard let user = user else { return }
@@ -72,10 +103,10 @@ private extension ProfilePhotosVC {
         photosPages = pages
         collectionView.reloadData()
 
-        if pages.isEmpty {
-            contentState = .loading
+        if photoCount > 0 {
+            contentState = .data
         } else {
-            contentState = photoCount == 0 ? .empty : .data
+            contentState = updated ? .empty : .loading
         }
         collectionView.set(message: contentState, color: .darkText)
     }
@@ -87,32 +118,6 @@ private extension ProfilePhotosVC {
             self?.update()
         }
     }
-
-    #if BROWSE_DEVICE_PHOTOS
-    private var devicePhotos: PHFetchResult<PHAsset>?
-
-    func refreshDevicePhotos() {
-        let options = PHFetchOptions()
-        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-        devicePhotos = PHAsset.fetchAssets(with: options)
-    }
-
-    func setDevicePhoto(cell: PhotoCell, indexPath: IndexPath) {
-        guard let photo = devicePhotos?[indexPath.item] else { return }
-
-        let size = self.collectionView(
-            collectionView,
-            layout: collectionView.collectionViewLayout,
-            sizeForItemAt: indexPath)
-        PHImageManager.default().requestImage(
-            for: photo,
-            targetSize: size,
-            contentMode: .aspectFill,
-            options: nil) { result, _ in
-                cell.set(image: result)
-        }
-    }
-    #endif
 
     @IBAction func saveTapped(_ sender: UIBarButtonItem) {
         broadcastSelection()
@@ -128,8 +133,7 @@ extension ProfilePhotosVC: UserInjectable {
         user = model
         isSelf = model.id == data.user?.id
 
-        mtp.loadPhotos(user: model.id,
-                       page: 1) { _ in }
+        refresh(page: 1, reload: false)
 
         return self
     }

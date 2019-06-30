@@ -133,14 +133,11 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         glyphText = nil
 
         // this is called at startup, don't set image here
-        categoryLabel.text = place.list.category.uppercased()
+        categoryLabel.text = place.list.category(full: false).uppercased()
         show(visited: place.isVisited)
         nameLabel.text = place.subtitle
         countryLabel.text = place.country
         visitorsLabel.text = L.visitors(place.visitors.grouped)
-
-        let more = place.canPost ? L.showMore() : L.website()
-        showMoreButton.setTitle(more, for: .normal)
 
         detailCalloutAccessoryView = detailView(place: place)
    }
@@ -236,19 +233,21 @@ private extension PlaceAnnotationView {
 
         let buttons = UIStackView(arrangedSubviews: [directionsButton,
                                                      showMoreButton
-                                                     ])
-        buttons.spacing = 8
-        buttons.distribution = .fillEqually
+                                                     ]).with {
+            $0.spacing = 8
+            $0.distribution = .fillEqually
+        }
 
         let stack = UIStackView(arrangedSubviews: [topView,
                                                    categoryStack,
                                                    detailStack,
                                                    buttons,
                                                    bottomSpacer
-                                                   ])
-        stack.axis = .vertical
-        stack.spacing = 4
-        stack.widthAnchor == Layout.width
+                                                   ]).with {
+            $0.axis = .vertical
+            $0.spacing = 4
+            $0.widthAnchor == Layout.width
+        }
 
         return stack
     }
@@ -277,21 +276,23 @@ private extension PlaceAnnotationView {
     }
 
     var categoryStack: UIStackView {
-        let categoryStack = UIStackView(arrangedSubviews: [categoryLabel,
-                                                           visitedLabel,
-                                                           visitSwitch])
-        categoryStack.alignment = .center
+        let stack = UIStackView(arrangedSubviews: [categoryLabel,
+                                                   visitedLabel,
+                                                   visitSwitch]).with {
+            $0.alignment = .center
+        }
 
-        return categoryStack
+        return stack
     }
 
     var detailStack: UIStackView {
-        let detailStack = UIStackView(arrangedSubviews: [nameLabel,
-                                                         countryLabel,
-                                                         visitorsLabel])
-        detailStack.axis = .vertical
-        detailStack.spacing = 0
+        let stack = UIStackView(arrangedSubviews: [nameLabel,
+                                                   countryLabel,
+                                                   visitorsLabel]).with {
+            $0.axis = .vertical
+            $0.spacing = 0
+        }
 
-        return detailStack
+        return stack
     }
 }

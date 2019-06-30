@@ -36,6 +36,7 @@ Requirements
 
 ### Tools:
 
+- [AppCenter](https://appcenter.ms/) for crash reporting
 - [Bundler](https://bundler.io/) for Ruby dependency management
 - [CocoaPods](https://cocoapods.org/) for iOS dependency management
 - [codebeat](https://codebeat.co/projects/github-com-alexcurylo-mtp-develop) for automated code review

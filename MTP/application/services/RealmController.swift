@@ -2,6 +2,8 @@
 
 import RealmSwift
 
+// swiftlint:disable file_length
+
 // https://realm.io/docs/swift/latest
 // https://realm.io/docs/data-model
 
@@ -159,6 +161,17 @@ final class RealmController: ServiceProvider {
         }
     }
 
+    func set(photo: PhotoReply) {
+        do {
+            let new = Photo(from: photo)
+            try realm.write {
+                realm.add(new, update: .modified)
+            }
+        } catch {
+            log.error("set photo: \(error)")
+        }
+    }
+
     func set(photos page: Int,
              user id: Int,
              info: PhotosPageInfoJSON) {
@@ -211,11 +224,28 @@ final class RealmController: ServiceProvider {
         return Array(results)
     }
 
+    func set(post: PostReply) {
+        do {
+            guard let new = Post(from: post) else { return }
+            try realm.write {
+                realm.add(new, update: .modified)
+            }
+        } catch {
+            log.error("set post: \(error)")
+        }
+    }
+
     func set(posts: [PostJSON]) {
         do {
             let objects = posts.compactMap { Post(from: $0) }
+            let users = posts.compactMap { User(from: $0.owner, with: user(id: $0.userId)) }
             try realm.write {
-                realm.add(objects, update: .modified)
+                if !objects.isEmpty {
+                    realm.add(objects, update: .modified)
+                }
+                if !users.isEmpty {
+                    realm.add(users, update: .modified)
+                }
             }
         } catch {
             log.error("set posts: \(error)")
@@ -339,11 +369,15 @@ private extension RealmController {
     func createRealm() -> Realm {
         // swiftlint:disable:next trailing_closure
         let config = Realm.Configuration(
-            schemaVersion: 1,
+            schemaVersion: 2,
             migrationBlock: { migration, oldSchemaVersion in
                 switch oldSchemaVersion {
                 case 0:
                     migration.migrate0to1()
+                    // swiftlint:disable:next fallthrough
+                    fallthrough
+                case 1:
+                    migration.migrate1to2()
                 default:
                     break
                 }
@@ -398,17 +432,29 @@ private extension Migration {
 
     func migrate0to1() {
         // apply new defaults: https://github.com/realm/realm-cocoa/issues/1793
-        enumerateObjects(ofType: Beach.className()) { old, new in
+        enumerateObjects(ofType: Beach.className()) { _, new in
             new?["website"] = ""
         }
-        enumerateObjects(ofType: DiveSite.className()) { old, new in
+        enumerateObjects(ofType: DiveSite.className()) { _, new in
             new?["website"] = ""
         }
-        enumerateObjects(ofType: GolfCourse.className()) { old, new in
+        enumerateObjects(ofType: GolfCourse.className()) { _, new in
             new?["website"] = ""
         }
-        enumerateObjects(ofType: Restaurant.className()) { old, new in
+        enumerateObjects(ofType: Restaurant.className()) { _, new in
             new?["website"] = ""
+        }
+    }
+
+    func migrate1to2() {
+        enumerateObjects(ofType: Photo.className()) { _, new in
+            new?["desc"] = ""
+        }
+        enumerateObjects(ofType: Location.className()) { _, new in
+            new?["airports"] = ""
+            new?["rank"] = 0
+            new?["rankUn"] = 0
+            new?["weatherhist"] = ""
         }
     }
 }

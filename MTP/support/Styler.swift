@@ -8,6 +8,7 @@ enum Styler {
     case login
     case map
     case standard
+    case system
 
     func styleAppearance() {
         styleAppearanceNavBar()
@@ -16,37 +17,41 @@ enum Styler {
 
     func styleAppearanceNavBar() {
         UINavigationBar.styleAppearance(transparency: .transparent,
-                                        tint: barTint,
-                                        color: barColor,
-                                        font: barFont)
+                                        titleFont: titleFont,
+                                        titleColor: titleColor,
+                                        itemColor: itemColor,
+                                        backgroundColor: nil)
     }
 
     func styleAppearanceSearchBar() {
         UISearchBar.styleAppearance()
      }
 
-    var barTint: UIColor {
+    var itemColor: UIColor {
         switch self {
         case .login: return .azureRadiance
         case .map: return .azureRadiance
         case .standard: return .white
+        case .system: return .azureRadiance
         }
     }
 
-    var barColor: UIColor {
+    var titleColor: UIColor {
         switch self {
         case .login: return .regalBlue
         case .map: return .azureRadiance
         case .standard: return .white
-        }
+        case .system: return .black
+       }
     }
 
-    var barFont: UIFont {
+    var titleFont: UIFont {
         switch self {
         case .login: return Avenir.heavy.of(size: 18)
         case .map: return Avenir.heavy.of(size: 18)
         case .standard: return Avenir.black.of(size: 18)
-        }
+        case .system: return Avenir.medium.of(size: 18)
+       }
     }
 }
 

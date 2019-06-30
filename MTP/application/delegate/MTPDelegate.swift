@@ -34,3 +34,24 @@ final class MTPDelegate: RoutingAppDelegate {
         ]
     }
 }
+
+#if PUSH_NOTIFICATIONS
+func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    MSPush.didRegisterForRemoteNotifications(withDeviceToken: deviceToken)
+}
+
+func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    MSPush.didFailToRegisterForRemoteNotificationsWithError(error)
+}
+
+func application(_ application: UIApplication,
+                 didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                 fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    let result: Bool = MSPush.didReceiveRemoteNotification(userInfo)
+    if result {
+        completionHandler(.newData)
+    } else {
+        completionHandler(.noData)
+    }
+}
+#endif

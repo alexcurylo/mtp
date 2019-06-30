@@ -8,12 +8,8 @@ class PostsVC: UITableViewController, ServiceProvider {
         return false
     }
 
-    var posts: [Post] {
-        fatalError("posts has not been overridden")
-    }
-
-    var source: DataServiceChange {
-        fatalError("source has not been overridden")
+    var presenter: Presenter {
+        fatalError("presenter has not been overridden")
     }
 
     //swiftlint:disable:next unavailable_function
@@ -21,10 +17,12 @@ class PostsVC: UITableViewController, ServiceProvider {
         fatalError("createPost has not been overridden")
     }
 
-    private var models: [PostCellModel] = []
-    private var contentState: ContentState = .loading
-    private var postsObserver: Observer?
-    private var viewObservation: NSKeyValueObservation?
+    func show(user: User) {
+        // override to implement
+    }
+
+    var contentState: ContentState = .loading
+    var models: [PostCellModel] = []
 
     private let layout = (row: CGFloat(100),
                           header: CGFloat(50))
@@ -48,16 +46,10 @@ class PostsVC: UITableViewController, ServiceProvider {
             tableView.estimatedSectionHeaderHeight = 1
             tableView.sectionHeaderHeight = 1
         }
-
-        update()
-        observe()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        update()
-        observe()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -67,6 +59,34 @@ class PostsVC: UITableViewController, ServiceProvider {
     override func didReceiveMemoryWarning() {
         log.warning("didReceiveMemoryWarning: \(type(of: self))")
         super.didReceiveMemoryWarning()
+    }
+
+    func cellModels(from posts: [Post]) -> [PostCellModel] {
+        var index = 0
+        let cellModels: [PostCellModel] = posts.map { post in
+            let location = data.get(location: post.locationId)
+            let user = data.get(user: post.userId)
+            let title: String
+            switch presenter {
+            case .location:
+                title = user?.fullName ?? L.loading()
+            case .user:
+                title = location?.placeTitle ?? L.unknown()
+            }
+            let model = PostCellModel(
+                index: index,
+                date: DateFormatter.mtpPost.string(from: post.updatedAt).uppercased(),
+                title: title,
+                body: post.post,
+                presenter: presenter,
+                location: location,
+                user: user,
+                isExpanded: false
+            )
+            index += 1
+            return model
+        }
+        return cellModels
     }
 }
 
@@ -138,11 +158,15 @@ extension PostsVC {
 
 extension PostsVC: PostCellDelegate {
 
-    func toggle(index: Int) {
-        guard index < models.count else { return }
+    func tapped(profile user: User) {
+        show(user: user)
+    }
 
-        models[index].isExpanded.toggle()
-        let path = IndexPath(row: index, section: 0)
+    func tapped(toggle: Int) {
+        guard toggle < models.count else { return }
+
+        models[toggle].isExpanded.toggle()
+        let path = IndexPath(row: toggle, section: 0)
         tableView.update {
             tableView.reloadRows(at: [path], with: .none)
         }
@@ -155,52 +179,6 @@ private extension PostsVC {
 
     @IBAction func addTapped(_ sender: GradientButton) {
         createPost()
-    }
-
-    func cellModels(from posts: [Post]) -> [PostCellModel] {
-        var index = 0
-        let cellModels: [PostCellModel] = posts.map { post in
-            let location = data.get(location: post.locationId)
-            let model = PostCellModel(
-                index: index,
-                location: location,
-                date: DateFormatter.mtpPost.string(from: post.updatedAt).uppercased(),
-                title: location?.placeTitle ?? L.unknown(),
-                body: post.post,
-                isExpanded: false
-            )
-            index += 1
-            return model
-        }
-        return cellModels
-    }
-
-    func update() {
-        #if HAVE_LOADING_STATE
-        let newModels: [PostCellModel]
-        if let posts = posts {
-            newModels = cellModels(from: posts)
-            contentState = newModels.isEmpty ? .empty : .data
-        } else {
-            newModels = []
-            contentState = .loading
-        }
-        models = newModels
-        #else
-        models = cellModels(from: posts)
-        contentState = models.isEmpty ? .empty : .data
-        #endif
-
-        tableView.reloadData()
-        tableView.set(message: contentState, color: .darkText)
-    }
-
-    func observe() {
-        if postsObserver == nil {
-            postsObserver = data.observer(of: source) { [weak self] _ in
-                self?.update()
-            }
-        }
     }
 }
 

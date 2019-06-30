@@ -190,7 +190,7 @@ extension UIColor {
         case .login:
             set(gradient: [.frenchPass, .white],
                 orientation: .vertical)
-        case .map:
+        case .map, .system:
             break
         case .standard:
             set(gradient: [.dodgerBlue, .azureRadiance],

@@ -7,6 +7,7 @@ enum ContentState {
     case empty
     case error
     case loading
+    case unimplemented
 }
 
 protocol ContentStateMessaging {
@@ -40,6 +41,8 @@ extension ContentStateMessagingView {
             set(message: L.errorState(), color: color)
         case .loading:
             set(message: L.loading(), color: color)
+        case .unimplemented:
+            set(message: L.unimplemented(), color: color)
         }
     }
 

@@ -170,7 +170,7 @@ final class NearbyCell: UITableViewCell {
 
         placeImage?.load(image: place)
         distanceLabel?.text = place.distance.formatted
-        categoryLabel?.text = place.list.category.uppercased()
+        categoryLabel?.text = place.list.category(full: false).uppercased()
         show(visited: place.isVisited)
         nameLabel?.text = place.subtitle
         countryLabel?.text = place.country

@@ -59,18 +59,25 @@
 "resettingPassword" = "Resetting password…";
 "emailError" = "Sorry, that email was not found.";
 
+// LocationInfoVC
+
+"none" = "none";
+
 // LocationsVC
 
 "location" = "MTP Location";
 "uncountry" = "UN Country";
-"whs" = "Heritage Site";
+"whsFull" = "World Heritage Site";
+"whsShort" = "WHS";
 "beach" = "Beach";
 "golfcourse" = "Golf Course";
 "divesite" = "Dive Site";
 "restaurant" = "Restaurant";
 
 "visitors" = "MTP Visitors: %@";
-"km" = "%@ km";
+"kilometers" = "%@ km";
+"meters" = "%@ m";
+"away" = "%@ away";
 
 "visited" = "Visited";
 "notVisited" = "Not Visited";

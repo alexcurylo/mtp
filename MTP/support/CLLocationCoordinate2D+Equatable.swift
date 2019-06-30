@@ -55,13 +55,16 @@ extension CLLocationDistance {
         let formatted: String
         switch km {
         case ..<1:
-            formatted = String(format: "%.2f", km)
+            let grouped = Int(self).grouped
+            formatted = L.meters(grouped)
         case ..<10:
-            formatted = String(format: "%.1f", km)
+            let tenths = String(format: "%.1f", km)
+            formatted = L.kilometers(tenths)
         default:
-            formatted = Int(km).grouped
+            let grouped = Int(km).grouped
+            formatted = L.kilometers(grouped)
         }
-        return L.km(formatted)
+        return formatted
     }
 }
 

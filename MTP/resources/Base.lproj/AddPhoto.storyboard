@@ -16,11 +16,11 @@
             <objects>
                 <viewController title="Add Photo" id="ySF-3Z-TpY" customClass="AddPhotoVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="j9d-hs-scq" customClass="GradientView" customModule="MTP" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="1eG-wN-HQL">
-                                <rect key="frame" x="8" y="96" width="398" height="564"/>
+                                <rect key="frame" x="8" y="96" width="398" height="528"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Um9-Uf-nYZ">
                                         <rect key="frame" x="0.0" y="0.0" width="398" height="68"/>
@@ -96,19 +96,19 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BlG-cy-0Eh">
-                                        <rect key="frame" x="0.0" y="76" width="398" height="153"/>
+                                        <rect key="frame" x="0.0" y="76" width="398" height="117"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="GqL-1c-hSv">
-                                                <rect key="frame" x="16" y="8" width="366" height="137"/>
+                                                <rect key="frame" x="16" y="8" width="366" height="101"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Caption (optional):" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eq8-rP-xDV">
-                                                        <rect key="frame" x="0.0" y="0.0" width="366" height="100"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="366" height="64"/>
                                                         <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="17"/>
                                                         <color key="textColor" name="azureRadiance"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="aUt-Dk-5Bh" customClass="UITopLoadingTextView" customModule="MTP" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="105" width="366" height="32"/>
+                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="aUt-Dk-5Bh" customClass="TopLoadingTextView" customModule="MTP" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="69" width="366" height="32"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="32" id="2tb-Z5-zlA"/>
@@ -148,7 +148,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gQk-so-HC4">
-                                        <rect key="frame" x="0.0" y="237" width="398" height="327"/>
+                                        <rect key="frame" x="0.0" y="201" width="398" height="327"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="h2Y-kd-4lR">
                                                 <rect key="frame" x="16" y="8" width="366" height="311"/>

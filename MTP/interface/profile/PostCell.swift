@@ -4,48 +4,60 @@ import Anchorage
 
 protocol PostCellDelegate: AnyObject {
 
-    func toggle(index: Int)
+    func tapped(profile user: User)
+    func tapped(toggle: Int)
+}
+
+enum Presenter {
+
+    case location
+    case user
 }
 
 struct PostCellModel {
 
     let index: Int
-    let location: Location?
     let date: String
     let title: String
     let body: String
+    let presenter: Presenter
+    let location: Location?
+    let user: User?
     var isExpanded: Bool
 }
 
 final class PostCell: UITableViewCell, ServiceProvider {
 
     @IBOutlet private var holder: UIView?
-
-    private let postImageView = UIImageView {
-        $0.cornerRadius = 5
+    private let postImageView = UIImageView()
+    private let dateLabel = UILabel {
+        $0.font = Avenir.medium.of(size: 13)
+        $0.textColor = .darkGray
+        $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
-
-    private let textView = UITextView {
-        $0.isEditable = false
-        $0.isSelectable = false
-        $0.isScrollEnabled = false
-        $0.textContainerInset = .zero
-        $0.textContainer.lineFragmentPadding = 0
+    private let titleLabel = UILabel {
+        $0.font = Avenir.heavy.of(size: 18)
+        $0.textColor = .darkGray
+        $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
+    private let button = UIButton {
+        $0.setImage(R.image.buttonAirplane(), for: .normal)
+        $0.setContentHuggingPriority(.required, for: .horizontal)
+    }
+    private var headerStack: UIStackView?
+    private let textView = LinkTappableTextView()
 
     private var model: PostCellModel?
     private weak var delegate: PostCellDelegate?
 
     private let layout = (
         height: (cell: CGFloat(100),
-                 image: CGFloat(96)),
+                 image: CGFloat(40)),
+        rounding: (user: CGFloat(20),
+                   post: CGFloat(4)),
         padding: CGFloat(6),
-        text: (lines: (compressed: 5,
+        text: (lines: (compressed: 3,
                        expanded: 0),
-               date: (font: Avenir.medium.of(size: 13),
-                      color: UIColor.darkGray),
-               title: (font: Avenir.heavy.of(size: 18),
-                       color: UIColor.darkGray),
                body: (font: Avenir.medium.of(size: 14),
                       color: UIColor.darkGray))
     )
@@ -61,10 +73,43 @@ final class PostCell: UITableViewCell, ServiceProvider {
         self.model = model
         self.delegate = delegate
 
-        setImage(html: model.body)
-        setText(title: model.title,
-                date: model.date,
-                html: model.body)
+        let hasImage: Bool
+        let canLink: Bool
+        switch (model.presenter, model.user) {
+        case (.location, let user?):
+            hasImage = true
+            canLink = true
+            setImage(user: user)
+            postImageView.cornerRadius = layout.rounding.user
+        case (.location, _):
+            hasImage = false
+            canLink = false
+        case (.user, _):
+            hasImage = postImageView.load(image: model.body)
+            postImageView.cornerRadius = layout.rounding.post
+            canLink = false
+        }
+        if hasImage {
+            headerStack?.insertArrangedSubview(postImageView, at: 0)
+        } else {
+           postImageView.image = nil
+           headerStack?.removeArrangedSubview(postImageView)
+           postImageView.removeFromSuperview()
+        }
+
+        if canLink {
+            headerStack?.addArrangedSubview(button)
+        } else {
+            headerStack?.removeArrangedSubview(button)
+            button.removeFromSuperview()
+        }
+
+        dateLabel.text = model.date
+
+        titleLabel.text = model.title
+
+        setText(html: model.body)
+
         setExpanded()
     }
 
@@ -74,6 +119,8 @@ final class PostCell: UITableViewCell, ServiceProvider {
         model = nil
         delegate = nil
         postImageView.prepareForReuse()
+        dateLabel.text = nil
+        titleLabel.text = nil
         textView.text = nil
         setExpanded()
     }
@@ -83,49 +130,75 @@ private extension PostCell {
 
     func configure() {
         let container = holder.require()
-        container.addSubview(textView)
-        textView.edgeAnchors == container.edgeAnchors + layout.padding
 
-        container.addSubview(postImageView)
-        postImageView.topAnchor == container.topAnchor + layout.padding
-        postImageView.leftAnchor == container.leftAnchor + layout.padding
-        postImageView.sizeAnchors == CGSize(width: layout.height.image,
-                                            height: layout.height.image)
+        let contents = configureContents()
+        container.addSubview(contents)
+        contents.edgeAnchors == container.edgeAnchors + layout.padding
 
         setExpanded()
 
         let tap = UITapGestureRecognizer(target: self,
-                                         action: #selector(tapped))
+                                         action: #selector(toggleTapped))
         addGestureRecognizer(tap)
     }
 
-    func setImage(html: String) {
-        if postImageView.load(image: html) {
-            postImageView.isHidden = false
-            let exclude = postImageView.frame.insetBy(dx: -layout.padding, dy: 0)
-            let imagePath = UIBezierPath(rect: exclude)
-            textView.textContainer.exclusionPaths = [imagePath]
+    func configureContents() -> UIStackView {
+        let header = configureHeader()
+        headerStack = header
+        let contents = UIStackView(arrangedSubviews: [header,
+                                                      textView]).with {
+            $0.axis = .vertical
+            $0.spacing = 0
+        }
+
+        return contents
+    }
+
+    func configureHeader() -> UIStackView {
+        postImageView.sizeAnchors == CGSize(width: layout.height.image,
+                                            height: layout.height.image)
+        let texts = configureTexts()
+        button.addTarget(self,
+                         action: #selector(airplaneTapped),
+                         for: .touchUpInside)
+
+        let header = UIStackView(arrangedSubviews: [postImageView,
+                                                    texts,
+                                                    button]).with {
+            $0.axis = .horizontal
+            $0.alignment = .top
+            $0.spacing = layout.padding
+            $0.setContentHuggingPriority(.required, for: .vertical)
+        }
+
+        return header
+    }
+
+    func configureTexts() -> UIStackView {
+        let texts = UIStackView(arrangedSubviews: [dateLabel,
+                                                   titleLabel]).with {
+            $0.axis = .vertical
+            $0.spacing = 0
+            $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        }
+        return texts
+    }
+
+    func setImage(user: User) {
+        if user.imageUrl != nil {
+            postImageView.load(image: user)
         } else {
-            postImageView.isHidden = true
-            textView.textContainer.exclusionPaths = []
+            postImageView.image = user.placeholder
+            mtp.loadUser(id: user.id) { [weak self] result in
+                if case let .success(update) = result {
+                    self?.postImageView.load(image: update)
+                }
+            }
         }
     }
 
-    func setText(title: String,
-                 date: String,
-                 html: String) {
+    func setText(html: String) {
         let text = NSMutableAttributedString()
-        text.append("\(date)\n".attributed(
-                font: layout.text.date.font,
-                color: layout.text.date.color
-            )
-        )
-        text.append("\(title)\n".attributed(
-            font: layout.text.title.font,
-            color: layout.text.title.color
-            )
-        )
-
         if let body = html.html2Attributed(
             font: layout.text.body.font,
             color: layout.text.body.color
@@ -138,16 +211,20 @@ private extension PostCell {
                 )
             )
         }
-
         textView.attributedText = text
     }
 
-    @objc func tapped(_ sender: UIGestureRecognizer) {
+    @objc func airplaneTapped(_ sender: UIButton) {
+        if let user = model?.user {
+            delegate?.tapped(profile: user)
+        }
+    }
+
+    @objc func toggleTapped(_ sender: UIGestureRecognizer) {
         model?.isExpanded.toggle()
         guard let model = model else { return }
 
-        setExpanded()
-        delegate?.toggle(index: model.index)
+        delegate?.tapped(toggle: model.index)
     }
 
     func setExpanded() {
@@ -163,6 +240,5 @@ private extension PostCell {
             textView.textContainer.maximumNumberOfLines = layout.text.lines.compressed
             textView.textContainer.lineBreakMode = .byTruncatingTail
         }
-        //textView.sizeToFit()
     }
 }

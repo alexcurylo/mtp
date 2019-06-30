@@ -6,7 +6,7 @@ final class AppAboutVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.appAboutVC
 
-    @IBOutlet private var aboutTextView: UITopLoadingTextView?
+    @IBOutlet private var aboutTextView: TopLoadingTextView?
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -4,22 +4,30 @@ import UIKit
 
 final class LocationInfoVC: UITableViewController, ServiceProvider {
 
-    private var place: PlaceAnnotation?
+    @IBOutlet private var infoStack: UIStackView?
+    @IBOutlet private var regionLabel: UILabel?
+    @IBOutlet private var countryLabel: UILabel?
+    @IBOutlet private var mtpVisitorsLabel: UILabel?
+    @IBOutlet private var mtpRankingLabel: UILabel?
+    @IBOutlet private var unRankingLabel: UILabel?
+    @IBOutlet private var weatherLabel: UILabel?
 
-    private var locationsObserver: Observer?
+    @IBOutlet private var airportsLabel: UILabel?
+
+    @IBOutlet private var linksStack: UIStackView?
+
+    //swiftlint:disable:next implicitly_unwrapped_optional
+    private var location: Location!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
 
-        log.todo("implement LocationInfoVC")
+        configure()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        update()
-        observe()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -58,14 +66,44 @@ extension LocationInfoVC {
 
 private extension LocationInfoVC {
 
-    func update() {
-    }
+    func configure() {
+        regionLabel?.text = "Region: \(location.regionName)"
+        mtpVisitorsLabel?.text = "MTP Visitors: \(location.placeVisitors)"
+        mtpRankingLabel?.text = "MTP Ranking: \(location.rank)"
+        weatherLabel?.text = "Weather: \(location.weatherhist)"
+        if location.isCountry {
+            unRankingLabel?.text = "UN Ranking: \(location.rankUn)"
+            if let countryLabel = countryLabel {
+                infoStack?.removeArrangedSubview(countryLabel)
+                countryLabel.removeFromSuperview()
+            }
+        } else {
+           countryLabel?.text = "Country: \(location.countryName)"
+            if let unRankingLabel = unRankingLabel {
+                infoStack?.removeArrangedSubview(unRankingLabel)
+                unRankingLabel.removeFromSuperview()
+            }
+        }
 
-    func observe() {
-        guard locationsObserver == nil else { return }
+        if location.airports.isEmpty {
+            airportsLabel?.text = L.none()
+        } else {
+            airportsLabel?.text = location.airports
+        }
 
-        locationsObserver = Checklist.locations.observer { [weak self] _ in
-            self?.update()
+        log.todo("sort out links as on site info page")
+        let linkNames = ["When To Go",
+                         "Current Weather",
+                         "Wikitravel",
+                         "Wikimapia",
+                         "Wikipedia"]
+        for link in linkNames {
+            let label = UILabel {
+                $0.text = link
+                $0.font = Avenir.heavyOblique.of(size: 15)
+                $0.alpha = 0.7
+            }
+            linksStack?.addArrangedSubview(label)
         }
     }
 }
@@ -75,11 +113,13 @@ extension LocationInfoVC: Injectable {
     typealias Model = PlaceAnnotation
 
     @discardableResult func inject(model: Model) -> Self {
-        place = model
+        if model.list == .locations {
+            location = data.get(location: model.id)
+        }
         return self
     }
 
     func requireInjections() {
-        place.require()
+        location.require()
     }
 }

@@ -302,7 +302,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ykb-30-epf" customClass="UITopLoadingTextView" customModule="MTP" customModuleProvider="target">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ykb-30-epf" customClass="TopLoadingTextView" customModule="MTP" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <string key="text">MTP is the first mobile app for members of Most Traveled People, the world's largest competitive travel community. MTP members on the web have long enjoyed the ability to measure their lifetime travel accomplishments against their peers, and challenge themselves towards new travel accomplishments. The MTP mobile app imbues all of the features of MTP on the web with geo-awareness, enabling a whole new level of immersive interaction.

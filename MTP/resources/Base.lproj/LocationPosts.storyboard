@@ -57,6 +57,7 @@
                     </tableView>
                     <connections>
                         <segue destination="q98-6v-QP4" kind="show" identifier="addPost" id="JDp-NO-xvF"/>
+                        <segue destination="c9W-Bz-FlD" kind="custom" identifier="showUserProfile" customClass="TabPresentSegue" customModule="MTP" customModuleProvider="target" id="6BF-hq-aBp"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z8f-rF-Hio" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -69,7 +70,15 @@
                 <viewControllerPlaceholder storyboardName="AddPost" id="q98-6v-QP4" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WDp-a1-rSn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3098" y="38"/>
+            <point key="canvasLocation" x="3190" y="38"/>
+        </scene>
+        <!--UserProfile-->
+        <scene sceneID="fii-ER-5TY">
+            <objects>
+                <viewControllerPlaceholder storyboardName="UserProfile" id="c9W-Bz-FlD" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bVP-rY-nKa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3204" y="-88"/>
         </scene>
     </scenes>
 </document>

@@ -228,7 +228,7 @@ private extension NotificationServiceImpl {
 
         list.set(notified: true, id: info.placeId)
 
-        let title = L.checkinTitle(list.category)
+        let title = L.checkinTitle(list.category(full: true))
         let body: String
         switch list {
         case .locations:
@@ -279,7 +279,7 @@ private extension NotificationServiceImpl {
         notifying = info
 
         let visitId = info.placeId
-        let contentTitle = L.checkinTitle(list.category)
+        let contentTitle = L.checkinTitle(list.category(full: true))
         let contentMessage: String
         switch list {
         case .locations:
@@ -397,7 +397,7 @@ private extension NotificationServiceImpl {
         guard let user = data.user else { return nil }
         let title = L.congratulations(annotation.name)
 
-        let (single, plural) = annotation.list.names
+        let (single, plural) = annotation.list.names(full: true)
         let (visited, remaining) = annotation.list.status(of: user)
         let contentVisited = L.status(visited, plural, remaining)
 

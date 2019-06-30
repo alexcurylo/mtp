@@ -100,9 +100,12 @@ private extension RankingHeader {
     func configure() {
         backgroundColor = .clear
 
-        let rankLine = UIStackView(arrangedSubviews: [avatarImageView, rankTitle, rankLabel])
-        rankLine.spacing = Layout.spacing
-        rankLine.alignment = .center
+        let rankLine = UIStackView(arrangedSubviews: [avatarImageView,
+                                                      rankTitle,
+                                                      rankLabel]).with {
+            $0.spacing = Layout.spacing
+            $0.alignment = .center
+        }
 
         rankView.addSubview(rankLine)
         rankLine.leadingAnchor == rankView.leadingAnchor + Layout.spacing
@@ -115,15 +118,19 @@ private extension RankingHeader {
             $0.setContentHuggingPriority(.required, for: .horizontal)
         }
 
-        let filterLine = UIStackView(arrangedSubviews: [filterTitle, filterLabel])
-        filterLine.spacing = Layout.spacing
-        filterLine.alignment = .firstBaseline
-        filterLine.layoutMargins = Layout.filterMargins
-        filterLine.isLayoutMarginsRelativeArrangement = true
+        let filterLine = UIStackView(arrangedSubviews: [filterTitle,
+                                                        filterLabel]).with {
+            $0.spacing = Layout.spacing
+            $0.alignment = .firstBaseline
+            $0.layoutMargins = Layout.filterMargins
+            $0.isLayoutMarginsRelativeArrangement = true
+        }
 
-        let stack = UIStackView(arrangedSubviews: [rankView, filterLine])
-        stack.axis = .vertical
-        stack.distribution = .fillEqually
+        let stack = UIStackView(arrangedSubviews: [rankView,
+                                                   filterLine]).with {
+            $0.axis = .vertical
+            $0.distribution = .fillEqually
+        }
         addSubview(stack)
         stack.edgeAnchors == edgeAnchors + Layout.insets
         lines = stack

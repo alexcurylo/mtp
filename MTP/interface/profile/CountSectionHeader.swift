@@ -85,9 +85,11 @@ private extension CountSectionHeader {
     func configure() {
         backgroundColor = .white
 
-        let stack = UIStackView(arrangedSubviews: [disclosure, label])
-        stack.alignment = .center
-        stack.spacing = 5
+        let stack = UIStackView(arrangedSubviews: [disclosure,
+                                                   label]).with {
+            $0.alignment = .center
+            $0.spacing = 5
+        }
         addSubview(stack)
         stack.edgeAnchors == edgeAnchors + Layout.insets
 

@@ -85,12 +85,12 @@ extension PhotosPageJSON: CustomDebugStringConvertible {
 }
 
 struct OwnerJSON: Codable {
-    //let country: String? // UserJSON in user endpoint
+    //let country: String? // UserJSON in user endpoints, null in location
     let firstName: String
     let fullName: String
     let id: Int
     let lastName: String
-    //let location: String? // LocationJSON in user endpoint
+    //let location: String? // LocationJSON in user endpoint, null in location
     let role: Int
 }
 
@@ -179,6 +179,7 @@ extension PhotoJSON: CustomDebugStringConvertible {
 
 @objcMembers final class Photo: Object {
 
+    dynamic var desc: String = ""
     dynamic var id: Int = 0
     dynamic var locationId: Int = 0
     dynamic var updatedAt = Date()
@@ -192,9 +193,20 @@ extension PhotoJSON: CustomDebugStringConvertible {
     convenience init(from: PhotoJSON) {
         self.init()
 
+        desc = from.desc ?? ""
         id = from.id
         locationId = from.locationId ?? 0
         updatedAt = from.updatedAt
+        userId = from.userId
+        uuid = from.uuid
+    }
+
+    convenience init(from: PhotoReply) {
+        self.init()
+
+        desc = from.desc ?? ""
+        id = from.id
+        locationId = from.locationId ?? 0
         userId = from.userId
         uuid = from.uuid
     }

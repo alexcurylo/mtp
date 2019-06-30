@@ -340,14 +340,14 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         }
     }
 
-    var category: String {
+    func category(full: Bool) -> String {
         switch self {
         case .locations:
             return L.location()
         case .uncountries:
             return L.uncountry()
         case .whss:
-            return L.whs()
+            return full ? L.whsFull() : L.whsShort()
         case .beaches:
             return L.beach()
         case .golfcourses:
@@ -458,14 +458,14 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         }
     }
 
-    var names: (single: String, plural: String) {
+    func names(full: Bool) -> (single: String, plural: String) {
         switch self {
         case .locations:
             return (L.location(), L.locations())
         case .uncountries:
             return (L.uncountry(), L.uncountries())
         case .whss:
-            return (L.whs(), L.whss())
+            return (full ? L.whsFull() : L.whsShort(), L.whss())
         case .beaches:
             return (L.beach(), L.beaches())
         case .golfcourses:
