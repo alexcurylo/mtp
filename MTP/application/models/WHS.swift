@@ -58,6 +58,7 @@ extension WHSJSON: CustomDebugStringConvertible {
     dynamic var placeVisitors: Int = 0
     dynamic var regionName: String = ""
     dynamic var title: String = ""
+    dynamic var unescoId: Int = 0
 
     override static func primaryKey() -> String? {
         return "id"
@@ -65,9 +66,7 @@ extension WHSJSON: CustomDebugStringConvertible {
 
     convenience init?(from: WHSJSON,
                       with controller: RealmController) {
-        guard from.active == "Y" else {
-            return nil
-        }
+        guard from.active == "Y" else { return nil }
         self.init()
 
         id = from.id
@@ -78,6 +77,7 @@ extension WHSJSON: CustomDebugStringConvertible {
         placeImage = String(format: format, from.id)
         placeVisitors = from.visitors
         title = from.title
+        unescoId = from.unescoId
 
         let locationId = from.location?.id ?? from.locationId
         if let location = controller.location(id: locationId) {
@@ -144,7 +144,7 @@ extension WHS: PlaceInfo {
     }
 
     var placeWebUrl: URL? {
-        let link = "https://whc.unesco.org/en/list/\(id)"
+        let link = "https://whc.unesco.org/en/list/\(unescoId)"
         return URL(string: link)
     }
 }

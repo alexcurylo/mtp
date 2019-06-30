@@ -369,7 +369,7 @@ private extension RealmController {
     func createRealm() -> Realm {
         // swiftlint:disable:next trailing_closure
         let config = Realm.Configuration(
-            schemaVersion: 2,
+            schemaVersion: 3,
             migrationBlock: { migration, oldSchemaVersion in
                 switch oldSchemaVersion {
                 case 0:
@@ -378,6 +378,10 @@ private extension RealmController {
                     fallthrough
                 case 1:
                     migration.migrate1to2()
+                    // swiftlint:disable:next fallthrough
+                    fallthrough
+                case 2:
+                    migration.migrate2to3()
                 default:
                     break
                 }
@@ -455,6 +459,12 @@ private extension Migration {
             new?["rank"] = 0
             new?["rankUn"] = 0
             new?["weatherhist"] = ""
+        }
+    }
+
+    func migrate2to3() {
+        enumerateObjects(ofType: WHS.className()) { _, new in
+            new?["unescoId"] = 0
         }
     }
 }
