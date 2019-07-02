@@ -136,8 +136,8 @@
 "divesites" = "Dive Sites";
 "restaurants" = "Restaurants";
 
-"myRanking" = "My ranking:";
-"myScore" = "My score:";
+"myRanking" = "My Ranking:";
+"myScore" = "My Score:";
 "rankScoreFraction" = "%@ (%@/%@)";
 "scoreFraction" = "%@/%@";
 "topTravelers" = "Top Travelers:";

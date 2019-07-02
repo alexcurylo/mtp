@@ -171,6 +171,7 @@
 		FAC8465F22AB78FC004F57EC /* SpyLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8465E22AB78FC004F57EC /* SpyLocationService.swift */; };
 		FAC8466122AB79AA004F57EC /* SpyNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8466022AB79AA004F57EC /* SpyNotificationService.swift */; };
 		FAC8466322AC6D18004F57EC /* KVNOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8466222AC6D18004F57EC /* KVNOperation.swift */; };
+		FAC9057322CB8E9A001296DE /* CountInfoHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC9057222CB8E9A001296DE /* CountInfoHeader.swift */; };
 		FAD2B51321F45796009FFDD7 /* PlaceLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51221F45796009FFDD7 /* PlaceLocation.swift */; };
 		FAD2B51621F46913009FFDD7 /* Checked.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51521F46913009FFDD7 /* Checked.swift */; };
 		FAD2B51821F48AB8009FFDD7 /* PlaceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51721F48AB8009FFDD7 /* PlaceInfo.swift */; };
@@ -408,6 +409,7 @@
 		FAC8465E22AB78FC004F57EC /* SpyLocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyLocationService.swift; sourceTree = "<group>"; };
 		FAC8466022AB79AA004F57EC /* SpyNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyNotificationService.swift; sourceTree = "<group>"; };
 		FAC8466222AC6D18004F57EC /* KVNOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVNOperation.swift; sourceTree = "<group>"; };
+		FAC9057222CB8E9A001296DE /* CountInfoHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountInfoHeader.swift; sourceTree = "<group>"; };
 		FAD2B51221F45796009FFDD7 /* PlaceLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceLocation.swift; sourceTree = "<group>"; };
 		FAD2B51521F46913009FFDD7 /* Checked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checked.swift; sourceTree = "<group>"; };
 		FAD2B51721F48AB8009FFDD7 /* PlaceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfo.swift; sourceTree = "<group>"; };
@@ -564,6 +566,7 @@
 				8CCA5A7222AA6BBB00853903 /* AppAboutVC.swift */,
 				FA5AC0C621FDD8AA0080F84F /* CountCellItem.swift */,
 				8C5ECE9D21FEE6F800322ABF /* CountCellGroup.swift */,
+				FAC9057222CB8E9A001296DE /* CountInfoHeader.swift */,
 				FA5AC0C421FDD7C00080F84F /* CountSectionHeader.swift */,
 				FA62BAEA2247A9A0009FDC4E /* CountsPageVC.swift */,
 				FA46377F210DE94C0007382D /* EditProfileVC.swift */,
@@ -1243,6 +1246,7 @@
 				FA5AC0C521FDD7C00080F84F /* CountSectionHeader.swift in Sources */,
 				8C5ECF3A21FFE49800322ABF /* RankingsQuery.swift in Sources */,
 				8CE3FC2C222389B600B94EAA /* Scorecard.swift in Sources */,
+				FAC9057322CB8E9A001296DE /* CountInfoHeader.swift in Sources */,
 				FA4653342115ADC6005B5A0A /* MTPNetworkService.swift in Sources */,
 				FAA819002244814900BB9F92 /* LocationPagingVC.swift in Sources */,
 				FA5AC0B421FC49860080F84F /* PlaceAnnotation.swift in Sources */,

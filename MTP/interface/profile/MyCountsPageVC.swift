@@ -55,6 +55,13 @@ extension MyCountsPageVC {
     }
 }
 
+// MARK: - Private
+
+private extension MyCountsPageVC {
+}
+
+// MARK: - Injectable
+
 extension MyCountsPageVC: Injectable {
 
     typealias Model = (list: Checklist, delegate: MyCountsPageVCDelegate)

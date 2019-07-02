@@ -122,7 +122,8 @@ extension RankingsPageVC: UICollectionViewDataSource {
 
         header.set(rank: filterRank,
                    list: filter.checklistType,
-                   filter: filterDescription)
+                   filter: filterDescription,
+                   delegate: self)
 
         return header
     }
@@ -162,9 +163,46 @@ extension RankingsPageVC: UICollectionViewDataSource {
     }
 }
 
+// MARK: - RankingHeaderDelegate
+
+extension RankingsPageVC: RankingHeaderDelegate {
+
+    func tapped(header: RankingHeader) {
+        guard let index = myIndex else { return }
+
+        let path = IndexPath(row: index, section: 0)
+        collectionView.scrollToItem(at: path,
+                                    at: .centeredVertically,
+                                    animated: true)
+    }
+}
+
 // MARK: - Private
 
 private extension RankingsPageVC {
+
+    var myIndex: Int? {
+        #if RAW_INDEX_PROVIDED
+        guard filterRank != nil,
+              let rankings = rankings,
+              let first = rankings.first,
+              let userId = data.user?.id else { return nil }
+
+        var pagedCount = 0
+        for pageIndex in 1...first.lastPage {
+            //swiftlint:disable:next last_where
+            if let page = rankings.filter("page = \(pageIndex)").last {
+                if let pageIndex = page.userIds.index(of: userId) {
+                    return pagedCount + pageIndex - 1
+                }
+            }
+            pagedCount += RankingsPageInfo.perPage
+         }
+        #else
+        // Getting a user cell index on demand is currently impractical
+        return nil
+        #endif
+    }
 
     func observe() {
         guard visitedObserver == nil else { return }
