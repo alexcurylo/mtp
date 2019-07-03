@@ -21,7 +21,7 @@ final class MTPDelegate: RoutingAppDelegate {
 
     static func runtimeHandlers(for runtime: Runtime) -> Handlers {
         guard runtime == .production else {
-            return [SpyServiceHandler()]
+            return [ServiceHandlerSpy()]
         }
 
         return [

@@ -11,11 +11,11 @@
 		122BA726DE2ED1EC0C4144BB /* libPods-MTPUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C0AF3F035BC227379ED6DE /* libPods-MTPUITests.a */; };
 		529054A21D10AD8DB1855DB5 /* libPods-MTPTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 848B6781D80D51E75A14ECF6 /* libPods-MTPTests.a */; };
 		8C0127F9223202FA00EA2095 /* ServiceHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127F8223202FA00EA2095 /* ServiceHandler.swift */; };
-		8C0127FB2232054E00EA2095 /* SpyServiceHandler+AppLaunchHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127FA2232054E00EA2095 /* SpyServiceHandler+AppLaunchHandler.swift */; };
-		8C0127FD2232084600EA2095 /* SpyApplicationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127FC2232084600EA2095 /* SpyApplicationService.swift */; };
-		8C0127FF2232089100EA2095 /* SpyLoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127FE2232089100EA2095 /* SpyLoggingService.swift */; };
-		8C012801223208CC00EA2095 /* SpyDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C012800223208CC00EA2095 /* SpyDataService.swift */; };
-		8C012803223208FB00EA2095 /* SpyMTPNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C012802223208FB00EA2095 /* SpyMTPNetworkService.swift */; };
+		8C0127FB2232054E00EA2095 /* ServiceHandlerSpy+AppLaunchHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127FA2232054E00EA2095 /* ServiceHandlerSpy+AppLaunchHandler.swift */; };
+		8C0127FD2232084600EA2095 /* ApplicationServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127FC2232084600EA2095 /* ApplicationServiceSpy.swift */; };
+		8C0127FF2232089100EA2095 /* LoggingServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127FE2232089100EA2095 /* LoggingServiceSpy.swift */; };
+		8C012801223208CC00EA2095 /* DataServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C012800223208CC00EA2095 /* DataServiceSpy.swift */; };
+		8C012803223208FB00EA2095 /* MTPNetworkServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C012802223208FB00EA2095 /* MTPNetworkServiceSpy.swift */; };
 		8C0F242B22432076005BD5DC /* UserCountsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0F242A22432076005BD5DC /* UserCountsVC.swift */; };
 		8C1A267E22AE019400DAFC7B /* SearchResultJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1A267D22AE019400DAFC7B /* SearchResultJSON.swift */; };
 		8C3EA813222F64F100CB4886 /* TopLoadingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */; };
@@ -168,8 +168,8 @@
 		FAC8465922AB493E004F57EC /* LocationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8465822AB493E004F57EC /* LocationHandler.swift */; };
 		FAC8465B22AB55B6004F57EC /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8465A22AB55B6004F57EC /* NotificationService.swift */; };
 		FAC8465D22AB6C2A004F57EC /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8465C22AB6C2A004F57EC /* LocationService.swift */; };
-		FAC8465F22AB78FC004F57EC /* SpyLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8465E22AB78FC004F57EC /* SpyLocationService.swift */; };
-		FAC8466122AB79AA004F57EC /* SpyNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8466022AB79AA004F57EC /* SpyNotificationService.swift */; };
+		FAC8465F22AB78FC004F57EC /* LocationServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8465E22AB78FC004F57EC /* LocationServiceSpy.swift */; };
+		FAC8466122AB79AA004F57EC /* NotificationServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8466022AB79AA004F57EC /* NotificationServiceSpy.swift */; };
 		FAC8466322AC6D18004F57EC /* KVNOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8466222AC6D18004F57EC /* KVNOperation.swift */; };
 		FAC9057322CB8E9A001296DE /* CountInfoHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC9057222CB8E9A001296DE /* CountInfoHeader.swift */; };
 		FAD2B51321F45796009FFDD7 /* PlaceLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51221F45796009FFDD7 /* PlaceLocation.swift */; };
@@ -218,11 +218,11 @@
 		7E2C18C122B275F3B40CDCDA /* Pods-MTP-settings-metadata.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "Pods-MTP-settings-metadata.plist"; path = "MTP/resources/Settings.bundle/Pods-MTP-settings-metadata.plist"; sourceTree = "<group>"; };
 		848B6781D80D51E75A14ECF6 /* libPods-MTPTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MTPTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C0127F8223202FA00EA2095 /* ServiceHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceHandler.swift; sourceTree = "<group>"; };
-		8C0127FA2232054E00EA2095 /* SpyServiceHandler+AppLaunchHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SpyServiceHandler+AppLaunchHandler.swift"; sourceTree = "<group>"; };
-		8C0127FC2232084600EA2095 /* SpyApplicationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyApplicationService.swift; sourceTree = "<group>"; };
-		8C0127FE2232089100EA2095 /* SpyLoggingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyLoggingService.swift; sourceTree = "<group>"; };
-		8C012800223208CC00EA2095 /* SpyDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyDataService.swift; sourceTree = "<group>"; };
-		8C012802223208FB00EA2095 /* SpyMTPNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyMTPNetworkService.swift; sourceTree = "<group>"; };
+		8C0127FA2232054E00EA2095 /* ServiceHandlerSpy+AppLaunchHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ServiceHandlerSpy+AppLaunchHandler.swift"; sourceTree = "<group>"; };
+		8C0127FC2232084600EA2095 /* ApplicationServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationServiceSpy.swift; sourceTree = "<group>"; };
+		8C0127FE2232089100EA2095 /* LoggingServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingServiceSpy.swift; sourceTree = "<group>"; };
+		8C012800223208CC00EA2095 /* DataServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataServiceSpy.swift; sourceTree = "<group>"; };
+		8C012802223208FB00EA2095 /* MTPNetworkServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPNetworkServiceSpy.swift; sourceTree = "<group>"; };
 		8C0F242A22432076005BD5DC /* UserCountsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCountsVC.swift; sourceTree = "<group>"; };
 		8C1A267D22AE019400DAFC7B /* SearchResultJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultJSON.swift; sourceTree = "<group>"; };
 		8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLoadingTextView.swift; sourceTree = "<group>"; };
@@ -406,8 +406,8 @@
 		FAC8465822AB493E004F57EC /* LocationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationHandler.swift; sourceTree = "<group>"; };
 		FAC8465A22AB55B6004F57EC /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		FAC8465C22AB6C2A004F57EC /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
-		FAC8465E22AB78FC004F57EC /* SpyLocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyLocationService.swift; sourceTree = "<group>"; };
-		FAC8466022AB79AA004F57EC /* SpyNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyNotificationService.swift; sourceTree = "<group>"; };
+		FAC8465E22AB78FC004F57EC /* LocationServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceSpy.swift; sourceTree = "<group>"; };
+		FAC8466022AB79AA004F57EC /* NotificationServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServiceSpy.swift; sourceTree = "<group>"; };
 		FAC8466222AC6D18004F57EC /* KVNOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVNOperation.swift; sourceTree = "<group>"; };
 		FAC9057222CB8E9A001296DE /* CountInfoHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountInfoHeader.swift; sourceTree = "<group>"; };
 		FAD2B51221F45796009FFDD7 /* PlaceLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceLocation.swift; sourceTree = "<group>"; };
@@ -510,6 +510,19 @@
 				FA4653312115A250005B5A0A /* UserDefaults+DataService.swift */,
 			);
 			path = services;
+			sourceTree = "<group>";
+		};
+		8C442D3D22CC2E05004A6717 /* mocks */ = {
+			isa = PBXGroup;
+			children = (
+				8C0127FC2232084600EA2095 /* ApplicationServiceSpy.swift */,
+				8C012800223208CC00EA2095 /* DataServiceSpy.swift */,
+				FAC8465E22AB78FC004F57EC /* LocationServiceSpy.swift */,
+				8C0127FE2232089100EA2095 /* LoggingServiceSpy.swift */,
+				8C012802223208FB00EA2095 /* MTPNetworkServiceSpy.swift */,
+				FAC8466022AB79AA004F57EC /* NotificationServiceSpy.swift */,
+			);
+			path = mocks;
 			sourceTree = "<group>";
 		};
 		AF51EC73BEE12E3A8680F4F4 /* Pods */ = {
@@ -634,6 +647,7 @@
 				8C3EAB912231249E00CB4886 /* UnwrapTests.swift */,
 				FA0BE96B210C5F3300797224 /* ViewTests.swift */,
 				FA3BD2282160D6BC007EAF75 /* WithableTests.swift */,
+				8C442D3D22CC2E05004A6717 /* mocks */,
 				FAE1F11A21437F2E0002CAB2 /* support */,
 			);
 			path = MTPTests;
@@ -869,13 +883,7 @@
 				FAB53F8A20DFD618007A80A7 /* MemoryWarner.m */,
 				FA392BD320DF69F50026C828 /* Info.plist */,
 				FAB53F8720DFD617007A80A7 /* MTPTests-Bridging-Header.h */,
-				8C0127FA2232054E00EA2095 /* SpyServiceHandler+AppLaunchHandler.swift */,
-				8C0127FC2232084600EA2095 /* SpyApplicationService.swift */,
-				8C012800223208CC00EA2095 /* SpyDataService.swift */,
-				FAC8465E22AB78FC004F57EC /* SpyLocationService.swift */,
-				8C0127FE2232089100EA2095 /* SpyLoggingService.swift */,
-				8C012802223208FB00EA2095 /* SpyMTPNetworkService.swift */,
-				FAC8466022AB79AA004F57EC /* SpyNotificationService.swift */,
+				8C0127FA2232054E00EA2095 /* ServiceHandlerSpy+AppLaunchHandler.swift */,
 				FAE1F11B21437F860002CAB2 /* String+Assert.swift */,
 			);
 			path = support;
@@ -1372,17 +1380,17 @@
 				8C3EAB882230FD1300CB4886 /* MTPDelegateTests.swift in Sources */,
 				FAB53F8B20DFD618007A80A7 /* MemoryWarner.m in Sources */,
 				8C3EAB922231249E00CB4886 /* UnwrapTests.swift in Sources */,
-				8C012801223208CC00EA2095 /* SpyDataService.swift in Sources */,
+				8C012801223208CC00EA2095 /* DataServiceSpy.swift in Sources */,
 				FAE1F11C21437F860002CAB2 /* String+Assert.swift in Sources */,
 				FA3BD2292160D6BC007EAF75 /* WithableTests.swift in Sources */,
-				FAC8465F22AB78FC004F57EC /* SpyLocationService.swift in Sources */,
-				8C0127FF2232089100EA2095 /* SpyLoggingService.swift in Sources */,
-				8C012803223208FB00EA2095 /* SpyMTPNetworkService.swift in Sources */,
+				FAC8465F22AB78FC004F57EC /* LocationServiceSpy.swift in Sources */,
+				8C0127FF2232089100EA2095 /* LoggingServiceSpy.swift in Sources */,
+				8C012803223208FB00EA2095 /* MTPNetworkServiceSpy.swift in Sources */,
 				FA74C113211C61580013A840 /* StringTests.swift in Sources */,
-				8C0127FB2232054E00EA2095 /* SpyServiceHandler+AppLaunchHandler.swift in Sources */,
-				FAC8466122AB79AA004F57EC /* SpyNotificationService.swift in Sources */,
+				8C0127FB2232054E00EA2095 /* ServiceHandlerSpy+AppLaunchHandler.swift in Sources */,
+				FAC8466122AB79AA004F57EC /* NotificationServiceSpy.swift in Sources */,
 				FA0BE96C210C5F3300797224 /* ViewTests.swift in Sources */,
-				8C0127FD2232084600EA2095 /* SpyApplicationService.swift in Sources */,
+				8C0127FD2232084600EA2095 /* ApplicationServiceSpy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

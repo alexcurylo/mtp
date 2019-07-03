@@ -220,6 +220,11 @@ extension Location: PlaceInfo {
 
 extension Location {
 
+    var flagUrl: URL? {
+        let link = "https://mtp.travel/flags/\(countryId)"
+        return URL(string: link)
+    }
+
     var imageUrl: URL? {
         guard let uuid = featuredImg, !uuid.isEmpty else { return nil }
         let target = MTP.picture(uuid: uuid, size: .any)

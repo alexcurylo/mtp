@@ -31,6 +31,6 @@ extension ServiceHandler: AppLaunchHandler {
     }
 }
 
-struct SpyServiceHandler: AppHandler { }
+struct ServiceHandlerSpy: AppHandler { }
 
-// SpyServiceHandler+AppLaunchHandler in test target sets spy instances
+// ServiceHandlerSpy+AppLaunchHandler in test target sets spy instances

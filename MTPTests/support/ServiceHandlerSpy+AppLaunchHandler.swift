@@ -2,19 +2,19 @@
 
 @testable import MTP
 
-extension SpyServiceHandler: AppLaunchHandler {
+extension ServiceHandlerSpy: AppLaunchHandler {
 
     public func application(
         _ application: UIApplication,
         // swiftlint:disable:next discouraged_optional_collection
         willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        ServiceProviderInstances.appServiceInstance = SpyApplicationService()
-        ServiceProviderInstances.dataServiceInstance = SpyDataService()
-        ServiceProviderInstances.locServiceInstance = SpyLocationService()
-        ServiceProviderInstances.logServiceInstance = SpyLoggingService()
-        ServiceProviderInstances.mtpServiceInstance = SpyMTPNetworkService()
-        ServiceProviderInstances.noteServiceInstance = SpyNotificationService()
+        ServiceProviderInstances.appServiceInstance = ApplicationServiceSpy()
+        ServiceProviderInstances.dataServiceInstance = DataServiceSpy()
+        ServiceProviderInstances.locServiceInstance = LocationServiceSpy()
+        ServiceProviderInstances.logServiceInstance = LoggingServiceSpy()
+        ServiceProviderInstances.mtpServiceInstance = MTPNetworkServiceSpy()
+        ServiceProviderInstances.noteServiceInstance = NotificationServiceSpy()
 
         return true
     }

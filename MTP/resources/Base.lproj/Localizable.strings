@@ -62,6 +62,21 @@
 // LocationInfoVC
 
 "none" = "none";
+"titleCountry" = "Country:";
+"titleUnRanking" = "UN Ranking:";
+"flightRoute" = "%@ ◀︎▶︎ %@ Flights";
+"flightLink" = "https://www.google.com/flights/#flt=%@.%@.%@*%@.%@.%@;c:%@;e:1;sd:1;t:f";
+"setHomeAirport" = "set Home Airport to see flight routes!";
+"whenToGo" = "When To Go";
+"whenToGoLink" = "https://m.weatherbase.com/weather/weather.php?s=%@";
+"currentWeather" = "Current Weather";
+"currentWeatherLink" = "http://www.wunderground.com/wundermap/?lat=%@&lon=%@&zoom=5";
+"wikitravel" = "Wikitravel";
+"wikitravelLink" = "http://wikitravel.org/en/%@";
+"wikimapia" = "Wikimapia";
+"wikimapiaLink" = "http://wikimapia.org/#lat=%@&lon=%@&z=5";
+"wikipedia" = "Wikipedia";
+"wikipediaLink" = "http://en.wikipedia.org/wiki/%@";
 
 // LocationsVC
 

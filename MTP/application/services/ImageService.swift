@@ -10,6 +10,10 @@ extension ImageService where Self: UIView {
         load(image: location?.imageUrl)
     }
 
+    func load(flag location: Location?) {
+        load(image: location?.flagUrl)
+    }
+
     func load(image place: PlaceAnnotation?) {
         load(image: place?.imageUrl,
              placeholder: R.image.placeholderMedium()

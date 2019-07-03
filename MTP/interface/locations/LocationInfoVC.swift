@@ -4,14 +4,15 @@ import UIKit
 
 final class LocationInfoVC: UITableViewController, ServiceProvider {
 
-    @IBOutlet private var infoStack: UIStackView?
     @IBOutlet private var regionLabel: UILabel?
+    @IBOutlet private var countryTitle: UILabel?
     @IBOutlet private var countryLabel: UILabel?
     @IBOutlet private var mtpVisitorsLabel: UILabel?
     @IBOutlet private var mtpRankingLabel: UILabel?
-    @IBOutlet private var unRankingLabel: UILabel?
-    @IBOutlet private var weatherLabel: UILabel?
 
+    @IBOutlet private var flagImageView: UIImageView?
+
+    @IBOutlet private var airportsStack: UIStackView?
     @IBOutlet private var airportsLabel: UILabel?
 
     @IBOutlet private var linksStack: UIStackView?
@@ -67,44 +68,98 @@ extension LocationInfoVC {
 private extension LocationInfoVC {
 
     func configure() {
-        regionLabel?.text = "Region: \(location.regionName)"
-        mtpVisitorsLabel?.text = "MTP Visitors: \(location.placeVisitors)"
-        mtpRankingLabel?.text = "MTP Ranking: \(location.rank)"
-        weatherLabel?.text = "Weather: \(location.weatherhist)"
+        configureInfo()
+        configureAirports()
+        configureLinks()
+    }
+
+    func configureInfo() {
+        regionLabel?.text = location.regionName
+
         if location.isCountry {
-            unRankingLabel?.text = "UN Ranking: \(location.rankUn)"
-            if let countryLabel = countryLabel {
-                infoStack?.removeArrangedSubview(countryLabel)
-                countryLabel.removeFromSuperview()
-            }
+            countryTitle?.text = L.titleUnRanking()
+            countryLabel?.text = "\(location.rankUn)"
         } else {
-           countryLabel?.text = "Country: \(location.countryName)"
-            if let unRankingLabel = unRankingLabel {
-                infoStack?.removeArrangedSubview(unRankingLabel)
-                unRankingLabel.removeFromSuperview()
-            }
+            countryTitle?.text = L.titleCountry()
+            countryLabel?.text = location.countryName
         }
 
-        if location.airports.isEmpty {
+        mtpVisitorsLabel?.text = location.placeVisitors.grouped
+
+        mtpRankingLabel?.text = "\(location.rank)"
+
+        flagImageView?.load(flag: location)
+    }
+
+    func configureAirports() {
+        guard !location.airports.isEmpty else {
             airportsLabel?.text = L.none()
-        } else {
-            airportsLabel?.text = location.airports
+            return
         }
 
-        log.todo("sort out links as on site info page")
-        let linkNames = ["When To Go",
-                         "Current Weather",
-                         "Wikitravel",
-                         "Wikimapia",
-                         "Wikipedia"]
-        for link in linkNames {
-            let label = UILabel {
-                $0.text = link
-                $0.font = Avenir.heavyOblique.of(size: 15)
-                $0.alpha = 0.7
+        airportsLabel?.text = location.airports
+
+        guard let home = data.user?.airport,
+              !home.isEmpty else {
+            let button = UIButton {
+                $0.setTitle(L.setHomeAirport(), for: .normal)
+                $0.setTitleColor(.regalBlue, for: .normal)
+                $0.titleLabel?.font = Avenir.bookOblique.of(size: 15)
+                $0.addTarget(self,
+                             action: #selector(setHomeTapped),
+                             for: .touchUpInside)
             }
-            linksStack?.addArrangedSubview(label)
+            airportsStack?.addArrangedSubview(button)
+            return
         }
+
+        let today = Date()
+        let nextWeek = Calendar.current.date(byAdding: .weekOfYear, value: 1, to: today) ?? today
+        let now = DateFormatter.mtpLocalDay.string(from: today)
+        let then = DateFormatter.mtpLocalDay.string(from: nextWeek)
+        let currency = Locale.current.currencyCode ?? "USD"
+        for airport in location.airports.components(separatedBy: ", ") {
+            if airport == home || airport.isEmpty { continue }
+
+            let title = L.flightRoute(home, airport)
+            let link = L.flightLink(home, airport, now, airport, home, then, currency)
+            let button = GradientButton.urlButton(title: title, link: link)
+            button.addTarget(self, action: #selector(linkTapped), for: .touchUpInside)
+            airportsStack?.addArrangedSubview(button)
+        }
+    }
+
+    func configureLinks() {
+        let titles = [L.whenToGo(),
+                      L.currentWeather(),
+                      L.wikitravel(),
+                      L.wikimapia(),
+                      L.wikipedia()]
+        let name = location.locationName.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        let station = location.weatherhist
+        let lat = "\(location.lat)"
+        let lon = "\(location.lon)"
+        let links = [L.whenToGoLink(station),
+                     L.currentWeatherLink(lat, lon),
+                     L.wikitravelLink(name),
+                     L.wikimapiaLink(lat, lon),
+                     L.wikipediaLink(name)]
+        for (title, link) in zip(titles, links) {
+            let button = GradientButton.urlButton(title: title, link: link)
+            button.addTarget(self, action: #selector(linkTapped), for: .touchUpInside)
+            linksStack?.addArrangedSubview(button)
+        }
+    }
+
+    @objc func linkTapped(_ sender: GradientButton) {
+        if let link = sender.accessibilityIdentifier,
+            let url = URL(string: link) {
+            app.launch(url: url)
+        }
+    }
+
+    @objc func setHomeTapped(_ sender: UIButton) {
+        app.route(to: .editProfile)
     }
 }
 
@@ -121,5 +176,14 @@ extension LocationInfoVC: Injectable {
 
     func requireInjections() {
         location.require()
+
+        regionLabel.require()
+        mtpVisitorsLabel.require()
+        mtpRankingLabel.require()
+        countryLabel.require()
+        flagImageView.require()
+        airportsStack.require()
+        airportsLabel.require()
+        linksStack.require()
     }
 }

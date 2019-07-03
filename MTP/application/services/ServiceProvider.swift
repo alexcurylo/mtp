@@ -17,7 +17,7 @@ protocol ServiceProvider {
 extension ServiceProvider {
 
     // override to return mocks/stubs
-    // defaults set by ServiceHandler or SpyServiceHandler
+    // defaults set by ServiceHandler or ServiceHandlerSpy
 
     var app: ApplicationService {
         return ServiceProviderInstances.appServiceInstance

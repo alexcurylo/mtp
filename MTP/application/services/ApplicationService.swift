@@ -8,6 +8,7 @@ protocol ApplicationService {
 
     func route(to annotation: PlaceAnnotation)
     func route(to user: User?)
+    func route(to route: Route)
 
     func endEditing()
 }
@@ -33,6 +34,10 @@ extension UIApplication: ApplicationService {
 
     func route(to user: User?) {
         MainTBC.current?.route(to: user)
+    }
+
+    func route(to route: Route) {
+        MainTBC.current?.route(to: route)
     }
 
     func endEditing() {

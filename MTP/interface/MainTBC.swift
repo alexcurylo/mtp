@@ -53,6 +53,12 @@ final class MainTBC: UITabBarController, ServiceProvider {
         locations?.reveal(user: user)
         selectedIndex = Route.locations.rawValue
     }
+
+    func route(to route: Route) {
+        dismiss(presentations: self)
+        destination = route
+        checkDestination()
+    }
 }
 
 private extension MainTBC {

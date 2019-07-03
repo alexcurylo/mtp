@@ -8,7 +8,7 @@ final class MTPDelegateTests: XCTestCase {
     func testTestingHandlerList() throws {
         // given
         let expected: [String] = [
-            String(describing: SpyServiceHandler.self)
+            String(describing: ServiceHandlerSpy.self)
         ]
 
         // when
