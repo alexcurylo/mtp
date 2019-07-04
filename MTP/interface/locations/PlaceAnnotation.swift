@@ -140,6 +140,27 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
                                      location: id)
         update(triggered: triggered)
     }
+
+    #if DEBUG
+    func testTrigger(background: Bool) {
+
+        func trigger() {
+            isTriggered = true
+            delegate?.notify(place: self)
+        }
+
+        if background {
+            UIControl().sendAction(#selector(URLSessionTask.suspend),
+                                   to: UIApplication.shared,
+                                   for: nil)
+            DispatchQueue.main.asyncAfter(deadline: .medium) {
+                trigger()
+            }
+        } else {
+            trigger()
+        }
+    }
+    #endif
 }
 
 private extension PlaceAnnotation {

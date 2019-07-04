@@ -2,6 +2,8 @@
 
 import RealmSwift
 
+// swiftlint:disable file_length
+
 protocol UserAvatar {
 
     var gender: String { get }
@@ -26,7 +28,7 @@ protocol UserInfo: UserAvatar {
     var visitWhss: Int { get }
 }
 
-struct UserJSON: Codable, Equatable {
+struct UserJSON: Codable, Equatable, ServiceProvider {
 
     enum Status: String {
 
@@ -80,7 +82,13 @@ struct UserJSON: Codable, Equatable {
     let updatedAt: Date
     let username: String
 
+    // swiftlint:disable:next function_body_length
     func updated(visited: Checked) -> UserJSON {
+        let whsScore = visited.whss.reduce(0) {
+            let hasParent = data.get(whs: $1)?.hasParent ?? false
+            return $0 + (hasParent ? 0 : 1)
+        }
+
         return UserJSON(airport: airport,
                         bio: bio,
                         birthday: birthday,
@@ -117,7 +125,7 @@ struct UserJSON: Codable, Equatable {
                         scoreLocations: visited.locations.count,
                         scoreRestaurants: visited.restaurants.count,
                         scoreUncountries: visited.uncountries.count,
-                        scoreWhss: visited.whss.count,
+                        scoreWhss: whsScore,
                         status: status,
                         token: token,
                         updatedAt: updatedAt,

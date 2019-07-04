@@ -128,7 +128,7 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
     func hasVisitedChildren(id: Int) -> Bool {
         switch self {
         case .whss:
-            return data.hasVisitedChildren(whs: id)
+            return !data.visitedChildren(whs: id).isEmpty
         default:
             return false
         }
@@ -247,9 +247,45 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         guard self != .uncountries,
               isVisited(id: id) != visited else { return }
 
+        let parentId: Int?
+        let parentVisited: Bool
+        switch self {
+        case .uncountries:
+            return
+        case .whss:
+            if let parent = data.get(whs: id)?.parent {
+                let visitedChildren = data.visitedChildren(whs: parent.id)
+                let otherVisits: Bool
+                if visitedChildren.count == 1,
+                   visitedChildren[0].id == id {
+                    otherVisits = false
+                } else {
+                    otherVisits = !visitedChildren.isEmpty
+                }
+                switch (visited, otherVisits) {
+                case (true, false):
+                    parentId = parent.id
+                    parentVisited = true
+                case (false, false) where parent.visited:
+                    parentId = parent.id
+                    parentVisited = false
+                default:
+                    parentId = nil
+                    parentVisited = visited
+                }
+                break
+            }
+            parentId = nil
+            parentVisited = false
+        case .beaches, .divesites, .golfcourses, .locations, .restaurants:
+            parentId = nil
+            parentVisited = false
+        }
         data.visited?.set(list: self,
                           id: id,
-                          visited: visited)
+                          visited: visited,
+                          parentId: parentId,
+                          parentVisited: parentVisited)
         set(dismissed: false, id: id)
         set(notified: false, id: id)
         set(triggered: false, id: id)

@@ -532,17 +532,17 @@ final class DataServiceSpy: DataService {
         invokedHasChildrenParametersList.append((id, ()))
         return stubbedHasChildrenResult
     }
-    var invokedHasVisitedChildren = false
-    var invokedHasVisitedChildrenCount = 0
-    var invokedHasVisitedChildrenParameters: (id: Int, Void)?
-    var invokedHasVisitedChildrenParametersList = [(id: Int, Void)]()
-    var stubbedHasVisitedChildrenResult: Bool! = false
-    func hasVisitedChildren(whs id: Int) -> Bool {
-        invokedHasVisitedChildren = true
-        invokedHasVisitedChildrenCount += 1
-        invokedHasVisitedChildrenParameters = (id, ())
-        invokedHasVisitedChildrenParametersList.append((id, ()))
-        return stubbedHasVisitedChildrenResult
+    var invokedVisitedChildren = false
+    var invokedVisitedChildrenCount = 0
+    var invokedVisitedChildrenParameters: (id: Int, Void)?
+    var invokedVisitedChildrenParametersList = [(id: Int, Void)]()
+    var stubbedVisitedChildrenResult: [WHS]! = []
+    func visitedChildren(whs id: Int) -> [WHS] {
+        invokedVisitedChildren = true
+        invokedVisitedChildrenCount += 1
+        invokedVisitedChildrenParameters = (id, ())
+        invokedVisitedChildrenParametersList.append((id, ()))
+        return stubbedVisitedChildrenResult
     }
     var invokedSetBeaches = false
     var invokedSetBeachesCount = 0

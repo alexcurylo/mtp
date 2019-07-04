@@ -129,10 +129,7 @@ extension WHS: PlaceInfo {
     }
 
     var placeParent: PlaceInfo? {
-        if hasParent {
-            return data.get(whs: parentId)
-        }
-        return nil
+        return parent
     }
 
     var placeRegion: String {
@@ -153,5 +150,16 @@ extension WHS {
 
     var hasParent: Bool {
         return parentId != 0
+    }
+
+    var parent: WHS? {
+        if hasParent {
+            return data.get(whs: parentId)
+        }
+        return nil
+    }
+
+    var visited: Bool {
+        return Checklist.whss.isVisited(id: id)
     }
 }

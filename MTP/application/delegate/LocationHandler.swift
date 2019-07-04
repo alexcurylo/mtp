@@ -414,6 +414,10 @@ private class UpdateDistanceOperation: KVNOperation {
             switch $0.list {
             case .locations:
                 $0.trigger(contains: here, map: map)
+            #if TEST_TRIGGER_ON_LOCATION
+            case .whss where $0.id == 1595: // Tornea
+                $0.testTrigger(background: false)
+            #endif
             default:
                 $0.triggerDistance()
             }

@@ -272,11 +272,13 @@ private extension LocationsVC {
     func zoom(annotation center: CLLocationCoordinate2D,
               then: (() -> Void)?) {
         let span = CLLocationDistance(500)
-        //let centerOffset = span / 3
-        //let metersToDegrees = CLLocationDistance(111_111)
-        //let offset = CLLocationCoordinate2D(
-            //latitude: center.latitude - (centerOffset / metersToDegrees),
-            //longitude: center.longitude)
+        #if OFFCENTER_ORIGIN
+        let centerOffset = span / 3
+        let metersToDegrees = CLLocationDistance(111_111)
+        let offset = CLLocationCoordinate2D(
+            latitude: center.latitude - (centerOffset / metersToDegrees),
+            longitude: center.longitude)
+        #endif
         zoom(to: center, span: span) { then?() }
     }
 
@@ -536,6 +538,9 @@ extension LocationsVC: MKMapViewDelegate {
         case let place as PlaceAnnotationView:
             place.prepareForCallout()
             update(overlays: place)
+            #if TEST_TRIGGER_ON_SELECTION
+            (place.annotation as? PlaceAnnotation)?.testTrigger(background: false)
+            #endif
         case let cluster as PlaceClusterAnnotationView:
             zoom(cluster: cluster.annotation as? MKClusterAnnotation)
             mapView.deselectAnnotation(cluster.annotation, animated: false)
