@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import UIKit
+import AXPhotoViewer
 
 protocol PhotoSelectionDelegate: AnyObject {
 
@@ -93,6 +93,16 @@ private extension PhotosVC {
     @IBAction func addTapped(_ sender: GradientButton) {
         createPhoto()
     }
+
+    func present(fullscreen item: Int) {
+        let model = photo(at: item)
+        let photos = [
+            AXPhoto(url: model.imageUrl)
+        ]
+        let dataSource = AXPhotosDataSource(photos: photos)
+        let photosViewController = AXPhotosViewController(dataSource: dataSource)
+        self.present(photosViewController, animated: true)
+    }
 }
 
 // MARK: UICollectionViewDataSource
@@ -145,7 +155,13 @@ extension PhotosVC {
 
     override func collectionView(_ collectionView: UICollectionView,
                                  shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return mode == .picker
+        switch mode {
+        case .browser:
+            present(fullscreen: indexPath.item)
+            return false
+        case .picker:
+            return true
+        }
     }
 
     override func collectionView(_ collectionView: UICollectionView,

@@ -4,6 +4,9 @@ source 'https://cdn.cocoapods.org/'
 # http://blog.cocoapods.org/CocoaPods-1.7.0-beta/
 #install! 'cocoapods', :generate_multiple_pod_projects => true
 
+# "Ignoring duplicated output file..."
+# https://github.com/CocoaPods/CocoaPods/issues/8122
+
 $iosVersion = '11.0'
 platform :ios, $iosVersion
 
@@ -12,12 +15,15 @@ target 'MTP' do
   pod 'AlamofireNetworkActivityIndicator'
   pod 'Anchorage'
   pod 'AppCenter'
+  pod 'AXPhotoViewer/Nuke'
+  pod 'AXStateButton', :modular_headers => true
   pod 'Bolts', :modular_headers => true, :inhibit_warnings => true
   pod 'DropDown'
   pod 'FacebookCore'
   pod 'FacebookLogin'
   pod 'FBSDKCoreKit', :modular_headers => true
   pod 'FBSDKLoginKit', :modular_headers => true
+  pod 'FLAnimatedImage', :modular_headers => true, :inhibit_warnings => true
   pod 'JWTDecode'
   pod 'KRProgressHUD'
   pod 'Moya'

@@ -1,14 +1,13 @@
 # [mtp](https://github.com/alexcurylo/mtp)
 [![Travis](https://travis-ci.org/alexcurylo/mtp.svg?branch=develop)](https://travis-ci.org/alexcurylo/mtp)
-[![codebeat](https://codebeat.co/badges/321a44b1-ff7b-48fd-b8e2-42a5a8d19568)](https://codebeat.co/projects/github-com-alexcurylo-mtp-develop)
-[![Coverage](https://coveralls.io/repos/github/alexcurylo/mtp/badge.svg?branch=develop)](https://coveralls.io/github/alexcurylo/mtp?branch=develop)
-[![docs](https://alexcurylo.github.io/mtp/badge.svg)](https://alexcurylo.github.io/mtp)
+[![Issues](https://img.shields.io/github/issues/alexcurylo/mtp.svg)](https://github.com/alexcurylo/mtp/issues)
 [![Swift](https://img.shields.io/badge/Swift-5.0-orange.svg)](https://swift.org)
 [![Xcode](https://img.shields.io/badge/Xcode-10.2-blue.svg)](https://developer.apple.com/xcode)
 [![MIT](https://img.shields.io/badge/License-MIT-red.svg)](https://opensource.org/licenses/MIT)
 
-[![Issues](https://img.shields.io/github/issues/alexcurylo/mtp.svg)](https://github.com/alexcurylo/mtp/issues)
-[![Waffle](https://badge.waffle.io/alexcurylo/mtp.svg?columns=all)](https://waffle.io/alexcurylo/mtp)
+[![codebeat](https://codebeat.co/badges/321a44b1-ff7b-48fd-b8e2-42a5a8d19568)](https://codebeat.co/projects/github-com-alexcurylo-mtp-develop)
+[![Coverage](https://coveralls.io/repos/github/alexcurylo/mtp/badge.svg?branch=develop)](https://coveralls.io/github/alexcurylo/mtp?branch=develop)
+[![docs](https://alexcurylo.github.io/mtp/badge.svg)](https://alexcurylo.github.io/mtp)
 [![Join the chat at https://gitter.im/alexcurylo/mtp](https://badges.gitter.im/alexcurylo/mtp.svg)](https://gitter.im/alexcurylo/mtp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
 
 
@@ -39,7 +38,7 @@ Requirements
 - [AppCenter](https://appcenter.ms/) for crash reporting
 - [Bundler](https://bundler.io/) for Ruby dependency management
 - [CocoaPods](https://cocoapods.org/) for iOS dependency management
-- [codebeat](https://codebeat.co/projects/github-com-alexcurylo-mtp-develop) for automated code review
+- [Codebeat](https://codebeat.co/projects/github-com-alexcurylo-mtp-develop) for automated code review
 - [Coveralls](https://coveralls.io/github/alexcurylo/mtp?branch=develop) for test coverage statistics
 - [Danger](http://danger.systems/ruby/) for automated code review
 - [Gitter](https://gitter.im/alexcurylo/mtp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) for chat
@@ -48,12 +47,12 @@ Requirements
 - [SwiftMockGeneratorForXcode](https://github.com/seanhenry/SwiftMockGeneratorForXcode) for generating mocks
 - [SwiftyBeaver](https://github.com/SwiftyBeaver/SwiftyBeaver) for logging
 - [Travis-CI](https://travis-ci.org/alexcurylo/mtp) for test builds
-- [Waffle](https://waffle.io/alexcurylo/mtp) for project management
 
 ### Libraries:
 
 - [Alamofire](https://github.com/Alamofire/Alamofire) and [AlamofireNetworkActivityIndicator](https://github.com/Alamofire/AlamofireNetworkActivityIndicator) for HTTP networking
 - [Anchorage](https://github.com/Raizlabs/Anchorage) for fluent layout declarations
+- [AXPhotoViewer](https://github.com/alexhillc/AXPhotoViewer) for photo lightboxing
 - [DropDown](https://github.com/AssistoLab/DropDown) for live search results
 - [Facebook SDK in Swift](https://github.com/facebook/facebook-sdk-swift)  for Facebook support
 - [JWTDecode](https://github.com/auth0/JWTDecode.swift) for [JSON Web Token](https://jwt.io) management

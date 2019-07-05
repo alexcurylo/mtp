@@ -140,19 +140,19 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="LwM-32-bLL">
-                                                    <rect key="frame" x="157" y="23" width="61.5" height="88"/>
+                                                    <rect key="frame" x="144" y="23" width="87" height="88"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profileAirport" translatesAutoresizingMaskIntoConstraints="NO" id="Fdz-ik-hsi">
-                                                            <rect key="frame" x="22.5" y="0.0" width="16" height="28"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="87" height="28"/>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" text="Airports" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2xi-Zd-TOp">
-                                                            <rect key="frame" x="0.0" y="36" width="61.5" height="22"/>
+                                                            <rect key="frame" x="13" y="36" width="61.5" height="22"/>
                                                             <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="16"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" text="none" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tcX-eD-kdj">
-                                                            <rect key="frame" x="12.5" y="66" width="36.5" height="22"/>
+                                                            <rect key="frame" x="25.5" y="66" width="36.5" height="22"/>
                                                             <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -178,7 +178,7 @@
                                                     <rect key="frame" x="169" y="23" width="37.5" height="64"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" image="profileLink" translatesAutoresizingMaskIntoConstraints="NO" id="4wN-k2-aeq">
-                                                            <rect key="frame" x="10.5" y="0.0" width="16" height="30"/>
+                                                            <rect key="frame" x="3.5" y="0.0" width="30" height="30"/>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" text="Links" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="arX-VH-ldI">
                                                             <rect key="frame" x="0.0" y="42" width="37.5" height="22"/>
