@@ -106,7 +106,6 @@ extension LocationPostsVC: Injectable {
     @discardableResult func inject(model: Model) -> Self {
         place = model
 
-        log.todo("implement non-MTP location posting")
         if isImplemented {
             mtp.loadPosts(location: place.id) { [weak self] _ in
                 self?.loaded()

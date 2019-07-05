@@ -9,11 +9,12 @@ import UIKit
 final class LocationHandler: NSObject, AppHandler, ServiceProvider {
 
     let locationManager = CLLocationManager {
-        $0.distanceFilter = 10
-        $0.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        $0.distanceFilter = 50
+        $0.desiredAccuracy = kCLLocationAccuracyHundredMeters
     }
 
-    var last: CLLocation?
+    var lastCoordinate: CLLocation?
+    var lastInside: Int?
 
     private var trackers: Set<AnyHashable> = []
 
@@ -112,7 +113,7 @@ extension LocationHandler: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager,
                          didUpdateLocations locations: [CLLocation]) {
         guard let now = locations.last else { return }
-        if let last = last,
+        if let last = lastCoordinate,
            last.distance(from: now) < distanceFilter {
             return
         }
@@ -121,7 +122,7 @@ extension LocationHandler: CLLocationManagerDelegate {
             return
         }
 
-        last = now
+        lastCoordinate = now
         broadcast { $0.location(changed: now) }
         update(distances: now)
         lastFilter = Date()
@@ -350,7 +351,7 @@ private class UpdateListOperation: KVNOperation, ServiceProvider {
         self.list = list
         self.delegate = delegate
         self.trigger = trigger
-        here = delegate.last?.coordinate ?? .zero
+        here = delegate.lastCoordinate?.coordinate ?? .zero
         places = list.places.compactMap {
             guard let object = $0 as? Object else { return nil }
             return ThreadSafeReference(to: object)
@@ -401,7 +402,7 @@ private class UpdateDistanceOperation: KVNOperation {
     }
 
     override func operate() {
-        guard let here = handler.last?.coordinate else { return }
+        guard let here = handler.lastCoordinate?.coordinate else { return }
 
         #if INSTRUMENT_DISTANCE
         let start = Date()
@@ -413,10 +414,14 @@ private class UpdateDistanceOperation: KVNOperation {
 
             switch $0.list {
             case .locations:
-                $0.trigger(contains: here, map: map)
-            #if TEST_TRIGGER_ON_LOCATION
-            case .whss where $0.id == 1595: // Tornea
-                $0.testTrigger(background: false)
+                if $0.trigger(contains: here, map: map) {
+                    handler.lastInside = $0.id
+                }
+            #if TEST_TRIGGERED_NEARBY
+            case .whss where $0.id == WHS.Children.tornea.rawValue:
+                $0._testTriggeredNearby()
+            case .whss where $0.id == WHS.Singles.angkor.rawValue:
+                $0._testTriggeredNearby()
             #endif
             default:
                 $0.triggerDistance()

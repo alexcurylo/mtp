@@ -469,7 +469,7 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         case .divesites:
             return 1_600
         case .restaurants:
-            return 20
+            return 100
         }
     }
 

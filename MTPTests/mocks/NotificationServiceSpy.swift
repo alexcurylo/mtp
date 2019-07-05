@@ -16,6 +16,21 @@ final class NotificationServiceSpy: NotificationService {
             then(result.0)
         }
     }
+    var invokedAsk = false
+    var invokedAskCount = 0
+    var invokedAskParameters: (question: String, Void)?
+    var invokedAskParametersList = [(question: String, Void)]()
+    var stubbedAskThenResult: (Bool, Void)?
+    func ask(question: String,
+    then: @escaping (Bool) -> Void) {
+        invokedAsk = true
+        invokedAskCount += 1
+        invokedAskParameters = (question, ())
+        invokedAskParametersList.append((question, ()))
+        if let result = stubbedAskThenResult {
+            then(result.0)
+        }
+    }
     var invokedCheckTriggered = false
     var invokedCheckTriggeredCount = 0
     func checkTriggered() {

@@ -133,16 +133,21 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
     }
 
     func trigger(contains: CLLocationCoordinate2D,
-                 map: WorldMap) {
-        guard list == .locations else { return }
+                 map: WorldMap) -> Bool {
+        guard list == .locations else { return false }
 
-        let triggered = map.contains(coordinate: contains,
-                                     location: id)
-        update(triggered: triggered)
+        let contains = map.contains(coordinate: contains,
+                                    location: id)
+        update(triggered: contains)
+        return contains
     }
 
     #if DEBUG
-    func testTrigger(background: Bool) {
+    func _testTriggeredNearby() {
+        update(triggered: true)
+    }
+
+    func _testTrigger(background: Bool) {
 
         func trigger() {
             isTriggered = true

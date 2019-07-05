@@ -2,8 +2,10 @@
 
 // notifications
 
-"cancel" = "Cancel";
 "ok" = "OK";
+"cancel" = "Cancel";
+"yes" = "Yes";
+"no" = "No";
 "unimplemented" = "Not implemented yet!";
 
 // networking handling
@@ -34,6 +36,7 @@
 // AddPhotoVC
 
 "fixPhoto" = "Please select a photo!";
+"tagWithLocation" = "You are currently in %@. Would you like to tag this photo with that location?";
 
 // EditPostVC
 

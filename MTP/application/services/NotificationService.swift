@@ -13,6 +13,7 @@ struct Note {
         case congratulate
         case error
         case information
+        case question
         case success
         case visit
 
@@ -27,6 +28,7 @@ struct Note {
             case .congratulate: return .high
             case .error: return .max
             case .information: return .normal
+            case .question: return .high
             case .success: return .high
             case .visit: return .min
             }
@@ -51,6 +53,9 @@ protocol NotificationService {
     typealias Info = [String: Any]
 
     func authorizeNotifications(then: @escaping (Bool) -> Void)
+
+    func ask(question: String,
+             then: @escaping (Bool) -> Void)
 
     func checkTriggered()
     func notify(list: Checklist,
@@ -119,6 +124,7 @@ final class NotificationServiceImpl: NotificationService, ServiceProvider {
     private var congratulating: PlaceAnnotation?
     private var showingModal = false
     private var alerting = false
+    private var asking = false
 
     private var center: UNUserNotificationCenter {
         return UNUserNotificationCenter.current()
@@ -166,6 +172,11 @@ final class NotificationServiceImpl: NotificationService, ServiceProvider {
                                             content: content,
                                             trigger: nil)
         center.add(request)
+    }
+
+    func ask(question: String,
+             then: @escaping (Bool) -> Void) {
+        askForeground(question: question, then: then)
     }
 
     func notify(list: Checklist, info: PlaceInfo) {
@@ -265,10 +276,68 @@ private extension NotificationServiceImpl {
 
     var canNotifyForeground: Bool {
         return UIApplication.shared.isForeground &&
-               showingModal == false &&
                alerting == false &&
+               asking == false &&
+               congratulating == nil &&
                notifying == nil &&
-               congratulating == nil
+               showingModal == false
+    }
+
+    // swiftlint:disable:next function_body_length
+    func askForeground(question: String,
+                       then: @escaping (Bool) -> Void) {
+        asking = true
+        let simpleMessage = notifyMessage(contentTitle: question,
+                                          contentMessage: "")
+
+        // No
+        let buttonFont = Avenir.heavy.of(size: 16)
+        let noColor = UIColor(rgb: 0xD0021B)
+        let noButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: noColor)
+        let noButtonLabel = EKProperty.LabelContent(
+            text: L.no(),
+            style: noButtonLabelStyle)
+        let noButton = EKProperty.ButtonContent(
+            label: noButtonLabel,
+            backgroundColor: .clear,
+            highlightedBackgroundColor: noColor.withAlphaComponent(0.05)) {
+                SwiftEntryKit.dismiss {
+                    self.asking = false
+                    then(false)
+                }
+        }
+
+        // Yes
+        let yesColor = UIColor(rgb: 0x028DFF)
+        let yesButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: yesColor)
+        let yesButtonLabel = EKProperty.LabelContent(
+            text: L.yes(),
+            style: yesButtonLabelStyle)
+        let yesButton = EKProperty.ButtonContent(
+            label: yesButtonLabel,
+            backgroundColor: .clear,
+            highlightedBackgroundColor: yesColor.withAlphaComponent(0.05)) {
+                SwiftEntryKit.dismiss {
+                    self.asking = false
+                    then(true)
+                }
+        }
+        let grayLight = UIColor(white: 230.0 / 255.0, alpha: 1)
+        let buttonsBarContent = EKProperty.ButtonBarContent(
+            // swiftlint:disable:next multiline_arguments
+            with: noButton, yesButton,
+            separatorColor: grayLight,
+            buttonHeight: 60,
+            expandAnimatedly: true)
+
+        // Generate
+        let alertMessage = EKAlertMessage(
+            simpleMessage: simpleMessage,
+            imagePosition: .left,
+            buttonBarContent: buttonsBarContent)
+        let contentView = EKAlertMessageView(with: alertMessage)
+        SwiftEntryKit.display(entry: contentView,
+                              using: EKAttributes(note: .question))
     }
 
     // swiftlint:disable:next function_body_length

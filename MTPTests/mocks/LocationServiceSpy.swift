@@ -15,6 +15,14 @@ final class LocationServiceSpy: LocationService {
         invokedHereGetterCount += 1
         return stubbedHere
     }
+    var invokedInsideGetter = false
+    var invokedInsideGetterCount = 0
+    var stubbedInside: Location!
+    var inside: Location? {
+        invokedInsideGetter = true
+        invokedInsideGetterCount += 1
+        return stubbedInside
+    }
     var invokedAppGetter = false
     var invokedAppGetterCount = 0
     var stubbedApp: ApplicationService!

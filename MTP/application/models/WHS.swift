@@ -48,6 +48,18 @@ extension WHSJSON: CustomDebugStringConvertible {
 
 @objcMembers final class WHS: Object, ServiceProvider {
 
+    enum Parents: Int {
+        case jesuitMissionsOfTheGuaranis = 275
+        case primevalBeechForestsOfTheCarpathians = 1_133
+        case struveGeodeticArc = 1_187
+    }
+    enum Children: Int {
+        case tornea = 1_595 // Finland - Struve Geodetic Arc
+    }
+    enum Singles: Int {
+        case angkor = 668
+    }
+
     dynamic var countryName: String = ""
     dynamic var id: Int = 0
     dynamic var lat: Double = 0
@@ -119,9 +131,9 @@ extension WHS: PlaceInfo {
 
     var placeIsMappable: Bool {
         switch id {
-        case 275, // Jesuit Missions of the Guaranis
-             1_133, // Primeval Beech Forests of the Carpathians
-             1_187: // Struve Geodetic Arc
+        case Parents.jesuitMissionsOfTheGuaranis.rawValue,
+             Parents.primevalBeechForestsOfTheCarpathians.rawValue,
+             Parents.struveGeodeticArc.rawValue:
             return false
         default:
             return true

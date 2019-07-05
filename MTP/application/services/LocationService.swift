@@ -15,6 +15,7 @@ enum PermissionTrigger {
 protocol LocationService: ServiceProvider {
 
     var here: CLLocationCoordinate2D? { get }
+    var inside: Location? { get }
 
     func nearest(list: Checklist,
                  id: Int,
@@ -75,7 +76,11 @@ final class LocationServiceImpl: LocationService {
     }
 
     var here: CLLocationCoordinate2D? {
-        return handler?.last?.coordinate ?? manager?.location?.coordinate
+        return handler?.lastCoordinate?.coordinate ?? manager?.location?.coordinate
+    }
+
+    var inside: Location? {
+        return data.get(location: handler?.lastInside)
     }
 
     func annotations() -> Set<PlaceAnnotation> {

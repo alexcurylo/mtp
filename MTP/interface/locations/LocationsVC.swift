@@ -539,7 +539,7 @@ extension LocationsVC: MKMapViewDelegate {
             place.prepareForCallout()
             update(overlays: place)
             #if TEST_TRIGGER_ON_SELECTION
-            (place.annotation as? PlaceAnnotation)?.testTrigger(background: false)
+            (place.annotation as? PlaceAnnotation)?._testTrigger(background: false)
             #endif
         case let cluster as PlaceClusterAnnotationView:
             zoom(cluster: cluster.annotation as? MKClusterAnnotation)
