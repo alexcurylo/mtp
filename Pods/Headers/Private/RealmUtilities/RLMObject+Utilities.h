@@ -1,0 +1,1 @@
+../../../RealmUtilities/RLMObject+Utilities.h

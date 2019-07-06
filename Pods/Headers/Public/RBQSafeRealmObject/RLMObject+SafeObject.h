@@ -1,0 +1,1 @@
+../../../RBQSafeRealmObject/RLMObject+SafeObject.h

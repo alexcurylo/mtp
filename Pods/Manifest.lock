@@ -1,4 +1,7 @@
 PODS:
+  - ABFRealmMapView (2.3):
+    - RBQSafeRealmObject
+    - Realm (>= 3.17.0)
   - Alamofire (4.8.2)
   - AlamofireNetworkActivityIndicator (2.4.0):
     - Alamofire (~> 4.8)
@@ -59,11 +62,20 @@ PODS:
   - R.swift (5.0.3):
     - R.swift.Library (~> 5.0.0)
   - R.swift.Library (5.0.1)
+  - RBQSafeRealmObject (1.1):
+    - Realm (>= 0.99.1)
+    - RealmUtilities (>= 0.2.1)
   - Realm (3.17.0):
     - Realm/Headers (= 3.17.0)
   - Realm/Headers (3.17.0)
+  - RealmMapView (2.3):
+    - ABFRealmMapView (>= 2.3)
+    - RBQSafeRealmObject
+    - RealmSwift (>= 3.17.0)
   - RealmSwift (3.17.0):
     - Realm (= 3.17.0)
+  - RealmUtilities (0.4):
+    - Realm (>= 0.95)
   - Result (4.1.0)
   - SwiftEntryKit (1.0.2):
     - QuickLayout (= 3.0.0)
@@ -71,6 +83,7 @@ PODS:
   - SwiftyBeaver (1.7.0)
 
 DEPENDENCIES:
+  - ABFRealmMapView (from `https://github.com/alexcurylo/ABFRealmMapView`, branch `swift5`)
   - AlamofireNetworkActivityIndicator
   - Anchorage
   - AppCenter
@@ -91,7 +104,9 @@ DEPENDENCIES:
   - Parchment
   - R.swift
   - R.swift.Library
+  - RBQSafeRealmObject
   - Realm
+  - RealmMapView (from `https://github.com/alexcurylo/ABFRealmMapView`, branch `swift5`)
   - RealmSwift
   - SwiftEntryKit
   - SwiftLint
@@ -122,14 +137,33 @@ SPEC REPOS:
     - QuickLayout
     - R.swift
     - R.swift.Library
+    - RBQSafeRealmObject
     - Realm
     - RealmSwift
+    - RealmUtilities
     - Result
     - SwiftEntryKit
     - SwiftLint
     - SwiftyBeaver
 
+EXTERNAL SOURCES:
+  ABFRealmMapView:
+    :branch: swift5
+    :git: https://github.com/alexcurylo/ABFRealmMapView
+  RealmMapView:
+    :branch: swift5
+    :git: https://github.com/alexcurylo/ABFRealmMapView
+
+CHECKOUT OPTIONS:
+  ABFRealmMapView:
+    :commit: b260e75ec240051fa4e74e1f71724493022810ab
+    :git: https://github.com/alexcurylo/ABFRealmMapView
+  RealmMapView:
+    :commit: b260e75ec240051fa4e74e1f71724493022810ab
+    :git: https://github.com/alexcurylo/ABFRealmMapView
+
 SPEC CHECKSUMS:
+  ABFRealmMapView: 66a8fd5d82223553259b6a49f00f130e970f30be
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   AlamofireNetworkActivityIndicator: 9acc3de3ca6645bf0efed462396b0df13dd3e7b8
   Anchorage: a187da0bc9b07440637d42c8744b8c82a4490295
@@ -153,13 +187,16 @@ SPEC CHECKSUMS:
   QuickLayout: 07b45a72b10083fee3f095990cfed1c1e7b27f0a
   R.swift: f5a87643b91ea569d23d6afb3eee9c743edde239
   R.swift.Library: cfe85d569d9bae6cb262922db130e7c3a7a5fad1
+  RBQSafeRealmObject: 128e6ece2acceeb7dea9d00b8fa40ba4c489c3fa
   Realm: b30db41ff34fc858ffc25ba8d44a82c164e7ccd0
+  RealmMapView: d0e7480a7eb7c7c15c4e1cf8ae26650675c24ded
   RealmSwift: fe733e459d60dc7b6971d4cbee2eb4854097d12c
+  RealmUtilities: bd4d18141e62a6cdcfa1859f1f090a27ab282628
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
   SwiftEntryKit: 7bcd42b3dbff59c431d60d6513129fd3679e4aaf
   SwiftLint: fed9c66336e41fc74dc48a73678380718f0c8b0e
   SwiftyBeaver: 4cc0080d2e23f980652e28978db11a5c9da39165
 
-PODFILE CHECKSUM: fa73114cfe0d6192e6c0c0069f4d93ea459fc9a7
+PODFILE CHECKSUM: 0260127dde50b59dddb3f61a5a23f6d7b1567425
 
 COCOAPODS: 1.7.3

@@ -1,3 +1,10 @@
+using_bundler = defined? Bundler
+unless using_bundler
+  puts "\nPlease re-run using:".red
+  puts "  bundle exec pod install\n\n"
+  exit(1)
+end
+
 source 'https://cdn.cocoapods.org/'
 
 # Xcode 11 "Multiple commands produce Assets.car" error?
@@ -12,6 +19,10 @@ $iosVersion = '11.0'
 platform :ios, $iosVersion
 
 target 'MTP' do
+
+  pod 'ABFRealmMapView', :git => 'https://github.com/alexcurylo/ABFRealmMapView', branch: 'swift5', :modular_headers => true
+  pod 'RBQSafeRealmObject', :modular_headers => true
+  pod 'RealmMapView', :git => 'https://github.com/alexcurylo/ABFRealmMapView', branch: 'swift5'
 
   pod 'AlamofireNetworkActivityIndicator'
   pod 'Anchorage'
