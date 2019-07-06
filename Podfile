@@ -1,11 +1,12 @@
-#source 'https://github.com/CocoaPods/Specs.git'
 source 'https://cdn.cocoapods.org/'
+
+# Xcode 11 "Multiple commands produce Assets.car" error?
+# Add ${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Assets.car to [CP] Copy Pods Resources phase's input files
+# (blown away on every `pod install`)
+# https://github.com/CocoaPods/CocoaPods/issues/8122
 
 # http://blog.cocoapods.org/CocoaPods-1.7.0-beta/
 #install! 'cocoapods', :generate_multiple_pod_projects => true
-
-# "Ignoring duplicated output file..."
-# https://github.com/CocoaPods/CocoaPods/issues/8122
 
 $iosVersion = '11.0'
 platform :ios, $iosVersion

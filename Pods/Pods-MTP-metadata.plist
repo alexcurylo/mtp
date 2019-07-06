@@ -428,7 +428,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			<key>summary</key>
 			<string>Official Facebook SDK for iOS to access Facebook Platform core features</string>
 			<key>version</key>
-			<string>5.1.1</string>
+			<string>5.2.1</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -472,7 +472,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			<key>summary</key>
 			<string>Official Facebook SDK for iOS to access Facebook Platform with features like Login, Share and Message Dialog, App Links, and Graph API</string>
 			<key>version</key>
-			<string>5.1.1</string>
+			<string>5.2.1</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -1347,7 +1347,7 @@ regulations.
 			<key>summary</key>
 			<string>Realm is a modern data framework &amp; database for iOS, macOS, tvOS &amp; watchOS.</string>
 			<key>version</key>
-			<string>3.16.2</string>
+			<string>3.17.0</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -1621,7 +1621,7 @@ regulations.
 			<key>summary</key>
 			<string>Realm is a modern data framework &amp; database for iOS, macOS, tvOS &amp; watchOS.</string>
 			<key>version</key>
-			<string>3.16.2</string>
+			<string>3.17.0</string>
 		</dict>
 		<dict>
 			<key>authors</key>
