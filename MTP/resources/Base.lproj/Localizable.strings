@@ -15,9 +15,11 @@
 "networkError" = "Could not %1$@ - a network failure occurred: %2$@";
 "deviceOfflineError" = "Could not %@ - your device appears to be offline. Please connect to the Internet.";
 "serverOfflineError" = "Could not %@ - the MTP.travel website appears to be offline.";
-"resultsError" = "Could not %@ - unexpected results were received.";
+"decodingError" = "Could not %@ - results were not understood.";
+"decodingErrorReport" = "Could not %@ - results were not understood. Please report the problem with ‘Contact Us’ on the ‘Settings’ page.";
+"statusError" = "Could not %@ - a status error was received.";
+"statusErrorReport" = "Could not %@ - a status error was received. Please report the problem with ‘Contact Us’ on the ‘Settings’ page.";
 "unexpectedError" = "Could not %@ - an unexpected error occurred.";
-"resultsErrorReport" = "Could not %@ - unexpected results were received. Please report the problem with ‘Contact Us’ on the ‘Settings’ page.";
 "unexpectedErrorReport" = "Could not %@ - an unexpected error occurred. Please report the problem with ‘Contact Us’ on the ‘Settings’ page.";
 "deleteAccount" = "delete account";
 "logIn" = "log in";

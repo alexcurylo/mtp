@@ -190,10 +190,10 @@ private extension LoginVC {
                 self?.errorMessage = L.deviceOfflineError(operation)
             case .failure(.serverOffline):
                 self?.errorMessage = L.serverOfflineError(operation)
-            case .failure(.decoding),
-                 .failure(.result),
-                 .failure(.status):
-                self?.errorMessage = L.resultsError(operation)
+            case .failure(.decoding):
+                self?.errorMessage = L.decodingError(operation)
+            case .failure(.status):
+                self?.errorMessage = L.statusError(operation)
             case .failure(.message(let message)):
                 self?.errorMessage = message
             case .failure(.network(let message)):

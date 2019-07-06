@@ -28,6 +28,7 @@ target 'MTP' do
   pod 'KRProgressHUD'
   pod 'Moya'
   pod 'Nuke'
+  pod 'Nuke-Alamofire-Plugin'
   pod 'Parchment', :inhibit_warnings => true
   pod 'R.swift'
   pod 'R.swift.Library'

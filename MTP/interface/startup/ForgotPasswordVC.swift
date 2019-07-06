@@ -73,9 +73,8 @@ private extension ForgotPasswordVC {
             case .failure(.status),
                  .failure(.parameter):
                 errorMessage = L.emailError()
-            case .failure(.decoding),
-                 .failure(.result):
-                errorMessage = L.resultsErrorReport(operation)
+            case .failure(.decoding):
+                errorMessage = L.decodingErrorReport(operation)
             case .failure(.message(let message)):
                 errorMessage = message
             case .failure(.network(let message)):

@@ -522,10 +522,10 @@ private extension EditProfileVC {
                 errorMessage = L.deviceOfflineError(operation)
             case .failure(.serverOffline):
                 errorMessage = L.serverOfflineError(operation)
-            case .failure(.decoding),
-                 .failure(.result),
-                 .failure(.status):
-                errorMessage = L.resultsErrorReport(operation)
+            case .failure(.decoding):
+                errorMessage = L.decodingErrorReport(operation)
+            case .failure(.status):
+                errorMessage = L.statusErrorReport(operation)
             case .failure(.message(let message)):
                 errorMessage = message
             case .failure(.network(let message)):
@@ -595,10 +595,10 @@ private extension EditProfileVC {
                 errorMessage = L.deviceOfflineError(operation)
             case .failure(.serverOffline):
                 errorMessage = L.serverOfflineError(operation)
-            case .failure(.decoding),
-                 .failure(.result),
-                 .failure(.status):
-                errorMessage = L.resultsErrorReport(operation)
+            case .failure(.decoding):
+                errorMessage = L.decodingErrorReport(operation)
+            case .failure(.status):
+                errorMessage = L.statusErrorReport(operation)
             case .failure(.message(let message)):
                 errorMessage = message
             case .failure(.network(let message)):

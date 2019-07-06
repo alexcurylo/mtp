@@ -216,4 +216,14 @@ extension PhotoJSON: CustomDebugStringConvertible {
         let target = MTP.picture(uuid: uuid, size: .any)
         return target.requestUrl
     }
+
+    var attributedTitle: NSAttributedString? {
+        guard !desc.isEmpty else { return nil }
+        let attributes = NSAttributedString.attributes(
+            color: .white,
+            font: Avenir.heavy.of(size: 16)
+        )
+        return NSAttributedString(string: desc,
+                                  attributes: attributes)
+    }
 }

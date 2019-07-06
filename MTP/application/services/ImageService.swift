@@ -1,6 +1,14 @@
 // @copyright Trollwerks Inc.
 
 import Nuke
+import NukeAlamofirePlugin
+
+private let configureNukeWithAlamofire: Void = {
+    let pipeline = ImagePipeline {
+        $0.dataLoader = AlamofireDataLoader()
+        $0.imageCache = ImageCache.shared
+    }
+}()
 
 protocol ImageService: ImageDisplaying { }
 
@@ -56,6 +64,8 @@ extension ImageService where Self: UIView {
             display(image: placeholder)
             return false
         }
+
+        configureNukeWithAlamofire
 
         Nuke.loadImage(
             with: url,
