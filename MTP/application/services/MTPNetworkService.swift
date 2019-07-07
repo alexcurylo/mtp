@@ -87,7 +87,7 @@ extension MTP: TargetType {
             return "beach"
         case .checkIn(let list, _),
              .checkOut(let list, _):
-            return "me/checklists/\(list.rawValue)"
+            return "me/checklists/\(list.key)"
         case .checklists:
             return "me/checklists"
         case .countriesSearch:
@@ -121,7 +121,7 @@ extension MTP: TargetType {
         case .restaurant:
             return "restaurant"
         case let .scorecard(list, user):
-            return "users/\(user)/scorecard/\(list.rawValue)"
+            return "users/\(user)/scorecard/\(list.key)"
         case .search:
             return "search"
         case .settings:
@@ -1639,7 +1639,7 @@ extension MoyaMTPNetworkService {
     func refreshRankings() {
         var query = data.lastRankingsQuery
         Checklist.allCases.forEach { list in
-            query.checklistType = list
+            query.checklistKey = list.key
             loadRankings(query: query)
         }
     }

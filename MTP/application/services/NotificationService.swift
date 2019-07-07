@@ -121,7 +121,7 @@ extension NotificationService {
 final class NotificationServiceImpl: NotificationService, ServiceProvider {
 
     private var notifying: PlaceInfo?
-    private var congratulating: PlaceAnnotation?
+    private var congratulating: MapInfo?
     private var showingModal = false
     private var alerting = false
     private var asking = false
@@ -185,15 +185,14 @@ final class NotificationServiceImpl: NotificationService, ServiceProvider {
     }
 
     func congratulate(list: Checklist, id: Int) {
-        guard let annotation = loc.annotations(list: list)
-                                  .first(where: { $0.id == id }),
-              let note = congratulations(for: annotation) else { return }
+        guard let mapInfo = data.get(mapInfo: list, id: id),
+              let note = congratulations(for: mapInfo) else { return }
 
-        congratulate(annotation: annotation, note: note)
+        congratulate(mapInfo: mapInfo, note: note)
     }
 
-    func congratulate(annotation: PlaceAnnotation, note: Note) {
-        congratulateForeground(annotation: annotation, note: note)
+    func congratulate(mapInfo: MapInfo, note: Note) {
+        congratulateForeground(mapInfo: mapInfo, note: note)
         congratulateBackground(note: note)
     }
 
@@ -248,7 +247,7 @@ private extension NotificationServiceImpl {
             body = L.checkinNear(info.placeTitle)
         }
         let info: NotificationService.Info = [
-            Note.Info.list.key: list.rawValue,
+            Note.Info.list.key: list.key,
             Note.Info.id.key: info.placeId
         ]
 
@@ -411,11 +410,11 @@ private extension NotificationServiceImpl {
                               using: EKAttributes(note: .visit))
     }
 
-    func congratulateForeground(annotation: PlaceAnnotation, note: Note) {
+    func congratulateForeground(mapInfo: MapInfo, note: Note) {
         guard canNotifyForeground else { return }
 
-        congratulating = annotation
-        app.route(to: annotation)
+        congratulating = mapInfo
+        app.route(to: mapInfo)
 
         alert(foreground: note) {
             self.congratulating = nil
@@ -462,19 +461,19 @@ private extension NotificationServiceImpl {
                               using: EKAttributes(note: note.category))
     }
 
-    func congratulations(for annotation: PlaceAnnotation) -> Note? {
+    func congratulations(for mapInfo: MapInfo) -> Note? {
         guard let user = data.user else { return nil }
-        let title = L.congratulations(annotation.name)
+        let title = L.congratulations(mapInfo.title)
 
-        let (single, plural) = annotation.list.names(full: true)
-        let (visited, remaining) = annotation.list.status(of: user)
+        let (single, plural) = mapInfo.checklist.names(full: true)
+        let (visited, remaining) = mapInfo.checklist.status(of: user)
         let contentVisited = L.status(visited, plural, remaining)
 
-        let contentMilestone = annotation.list.milestone(visited: visited)
+        let contentMilestone = mapInfo.checklist.milestone(visited: visited)
 
         let contentNearest: String
         if remaining > 0,
-            let place = annotation.nearest?.name {
+            let place = mapInfo.nearest?.title {
             contentNearest = L.nearest(single, place)
         } else {
             contentNearest = ""

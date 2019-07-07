@@ -46,7 +46,7 @@ extension WHSJSON: CustomDebugStringConvertible {
     }
 }
 
-@objcMembers final class WHS: Object, ServiceProvider {
+@objcMembers final class WHS: Object, Mappable, ServiceProvider {
 
     enum Parents: Int {
         case jesuitMissionsOfTheGuaranis = 275
@@ -60,77 +60,64 @@ extension WHSJSON: CustomDebugStringConvertible {
         case angkor = 668
     }
 
-    dynamic var countryName: String = ""
-    dynamic var id: Int = 0
-    dynamic var lat: Double = 0
-    dynamic var long: Double = 0
+    dynamic var map: MapInfo?
     dynamic var parentId: Int = 0
-    dynamic var placeImage: String = ""
-    dynamic var placeLocation: Location?
-    dynamic var placeVisitors: Int = 0
-    dynamic var regionName: String = ""
-    dynamic var title: String = ""
+    dynamic var placeId: Int = 0
     dynamic var unescoId: Int = 0
 
     override static func primaryKey() -> String? {
-        return "id"
+        return "placeId"
     }
 
     convenience init?(from: WHSJSON,
-                      with controller: RealmController) {
+                      realm: RealmController) {
         guard from.active == "Y" else { return nil }
         self.init()
 
-        id = from.id
-        lat = from.lat
-        long = from.long
-        parentId = from.parentId ?? 0
-        let format = "https://whc.unesco.org/uploads/sites/gallery/original/site_%04d_0001.jpg"
-        placeImage = String(format: format, from.id)
-        placeVisitors = from.visitors
-        title = from.title
-        unescoId = from.unescoId
-
+        let website = "https://whc.unesco.org/en/list/\(from.unescoId)"
+        let picture = "https://whc.unesco.org/uploads/sites/gallery/original/site_%04d_0001.jpg"
         let locationId = from.location?.id ?? from.locationId
-        if let location = controller.location(id: locationId) {
-            countryName = location.countryName
-            regionName = location.regionName
-        } else if let country = controller.country(id: locationId) {
-            log.error("placed in country: WHS \(id)")
-            countryName = country.countryName
-            // patch "Swiss Alps Jungfrau-Aletsch" for now
-            regionName = "Europe"
+        let location = realm.location(id: locationId)
+        let country: String
+        let region: String
+        if let location = location {
+            country = location.placeCountry
+            region = location.placeRegion
+        } else if let notLocation = realm.country(id: locationId) {
+            log.error("placed in country: WHS \(placeId)")
+            country = notLocation.placeCountry
+            region = L.unknown()
         } else {
-            log.error("missing location: WHS \(id)")
-            countryName = L.unknown()
-            regionName = L.unknown()
+            log.error("missing location: WHS \(placeId)")
+            country = L.unknown()
+            region = L.unknown()
         }
+        map = MapInfo(checklist: .whss,
+                      checklistId: from.id,
+                      country: country,
+                      image: String(format: picture, from.id),
+                      latitude: from.lat,
+                      location: location,
+                      longitude: from.long,
+                      region: region,
+                      subtitle: "",
+                      title: from.title,
+                      visitors: from.visitors,
+                      website: website)
+        parentId = from.parentId ?? 0
+        placeId = from.id
+        unescoId = from.unescoId
     }
 
     override var description: String {
-        return title
+        return placeTitle
     }
 }
 
 extension WHS: PlaceInfo {
 
-    var placeCoordinate: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(
-            latitude: lat,
-            longitude: long
-        )
-    }
-
-    var placeCountry: String {
-        return countryName
-    }
-
-    var placeId: Int {
-        return id
-    }
-
     var placeIsMappable: Bool {
-        switch id {
+        switch placeId {
         case Parents.jesuitMissionsOfTheGuaranis.rawValue,
              Parents.primevalBeechForestsOfTheCarpathians.rawValue,
              Parents.struveGeodeticArc.rawValue:
@@ -142,19 +129,6 @@ extension WHS: PlaceInfo {
 
     var placeParent: PlaceInfo? {
         return parent
-    }
-
-    var placeRegion: String {
-        return regionName
-    }
-
-    var placeTitle: String {
-        return title
-    }
-
-    var placeWebUrl: URL? {
-        let link = "https://whc.unesco.org/en/list/\(unescoId)"
-        return URL(string: link)
     }
 }
 
@@ -172,6 +146,6 @@ extension WHS {
     }
 
     var visited: Bool {
-        return Checklist.whss.isVisited(id: id)
+        return Checklist.whss.isVisited(id: placeId)
     }
 }

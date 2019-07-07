@@ -6,8 +6,7 @@ protocol PlaceAnnotationDelegate: AnyObject {
 
     func close(place: PlaceAnnotation)
     func notify(place: PlaceAnnotation)
-    func reveal(place: PlaceAnnotation?,
-                callout: Bool)
+    func reveal(place: PlaceAnnotation?, callout: Bool)
     func show(place: PlaceAnnotation)
     func update(place: PlaceAnnotation)
 }
@@ -20,7 +19,7 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
     var subtitle: String? { return name }
     // MKAnnotationView
     var reuseIdentifier: String {
-        return list.rawValue
+        return list.key
     }
 
     let id: Int
@@ -57,12 +56,6 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
         self.webUrl = info.placeWebUrl
 
         super.init()
-    }
-
-    var nearest: PlaceAnnotation? {
-        return loc.nearest(list: list,
-                           id: id,
-                           to: coordinate)
     }
 
     override var hash: Int {
@@ -133,11 +126,11 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
     }
 
     func trigger(contains: CLLocationCoordinate2D,
-                 map: WorldMap) -> Bool {
+                 world: WorldMap) -> Bool {
         guard list == .locations else { return false }
 
-        let contains = map.contains(coordinate: contains,
-                                    location: id)
+        let contains = world.contains(coordinate: contains,
+                                      location: id)
         update(triggered: contains)
         return contains
     }
@@ -166,6 +159,10 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
         }
     }
     #endif
+
+    var mapInfo: MapInfo? {
+        return data.get(mapInfo: list, id: id)
+    }
 }
 
 private extension PlaceAnnotation {

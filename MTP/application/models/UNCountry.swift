@@ -5,15 +5,15 @@ import RealmSwift
 
 @objcMembers final class UNCountry: Object, ServiceProvider {
 
-    dynamic var country: String = ""
-    dynamic var id: Int = 0
+    dynamic var placeCountry: String = ""
+    dynamic var placeId: Int = 0
     dynamic var placeImage: String = ""
     dynamic var placeLocation: Location?
     dynamic var placeVisitors: Int = 0
-    dynamic var region: String = ""
+    dynamic var placeRegion: String = ""
 
     override static func primaryKey() -> String? {
-        return "id"
+        return "placeId"
     }
 
     convenience init?(from: LocationJSON) {
@@ -22,11 +22,11 @@ import RealmSwift
         }
         self.init()
 
-        id = from.id
+        placeId = from.id
         // all match except country Swaziland, location eSwatini (Swaziland)
-        country = from.countryName
+        placeCountry = from.countryName
         placeVisitors = from.visitors
-        region = from.regionName
+        placeRegion = from.regionName
     }
 }
 
@@ -40,28 +40,20 @@ extension UNCountry: PlaceInfo {
         return .zero
     }
 
-    var placeCountry: String {
-        return country
-    }
-
     var placeCountryId: Int {
-        return id
+        return placeId
     }
 
-    var placeId: Int {
-        return id
-    }
-
-    var placeRegion: String {
-        return region
+    var placeImageUrl: URL? {
+        return placeImage.mtpImageUrl
     }
 
     var placeTitle: String {
-        return country
+        return placeCountry
     }
 
     var placeWebUrl: URL? {
-        let link = "https://mtp.travel/locations/\(id)"
+        let link = "https://mtp.travel/locations/\(placeId)"
         return URL(string: link)
     }
 }

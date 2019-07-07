@@ -7,9 +7,6 @@ protocol LocationTracker: PlaceAnnotationDelegate, ServiceProvider {
 
     func accessRefused()
     func alertLocationAccessNeeded()
-    func annotations(changed list: Checklist,
-                     added: Set<PlaceAnnotation>,
-                     removed: Set<PlaceAnnotation>)
     func authorization(changed: CLAuthorizationStatus)
     func location(changed: CLLocation)
 }

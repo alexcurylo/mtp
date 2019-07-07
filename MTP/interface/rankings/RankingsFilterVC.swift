@@ -125,14 +125,14 @@ private extension RankingsFilterVC {
     func configureLocation() {
         let countryId = current?.countryId ?? 0
         let country = countryId > 0 ? data.get(country: countryId) : nil
-        countryLabel?.text = country?.countryName ?? L.allCountries()
+        countryLabel?.text = country?.placeCountry ?? L.allCountries()
 
         let locationId = current?.locationId ?? 0
         let location = locationId > 0 ? data.get(location: locationId) : nil
 
         guard let locationLine = locationLine else { return }
         if let country = country, country.hasChildren {
-            locationLabel?.text = location?.locationName ?? L.allLocations()
+            locationLabel?.text = location?.placeTitle ?? L.allLocations()
 
             locationStack?.addArrangedSubview(locationLine)
         } else {

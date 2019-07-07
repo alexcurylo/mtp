@@ -71,14 +71,14 @@ extension PostJSON: CustomDebugStringConvertible {
 
 @objcMembers final class Post: Object {
 
-    dynamic var id: Int = 0
     dynamic var locationId: Int = 0
     dynamic var post: String = ""
+    dynamic var postId: Int = 0
     dynamic var updatedAt = Date()
     dynamic var userId: Int = 0
 
     override static func primaryKey() -> String? {
-        return "id"
+        return "postId"
     }
 
     convenience init?(from: PostJSON) {
@@ -90,9 +90,9 @@ extension PostJSON: CustomDebugStringConvertible {
 
         self.init()
 
-        id = from.id
         locationId = from.locationId
         post = text
+        postId = from.id
         updatedAt = from.updatedAt
         userId = from.userId
     }
@@ -100,9 +100,9 @@ extension PostJSON: CustomDebugStringConvertible {
     convenience init?(from: PostReply) {
         self.init()
 
-        id = from.id
         locationId = from.locationId
         post = from.post
+        postId = from.id
         userId = from.userId
     }
 }

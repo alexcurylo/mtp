@@ -93,8 +93,8 @@ extension NotificationsHandler: UNUserNotificationCenterDelegate {
     ) {
         let userInfo = response.notification.request.content.userInfo
         guard let visitList = userInfo[Note.Info.list.key] as? String,
-            let list = Checklist(rawValue: visitList),
-            let visitId = userInfo[Note.Info.id.key] as? Int else { return }
+             let list = Checklist(key: visitList),
+             let visitId = userInfo[Note.Info.id.key] as? Int else { return }
 
         switch response.actionIdentifier {
         case L.dismissAction():

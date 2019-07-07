@@ -450,7 +450,7 @@ private extension CountsPageVC {
         countriesVisited = [:]
 
         regionsPlaces = Dictionary(grouping: places) { $0.placeRegion }
-        regions = regionsPlaces.keys.filter { $0 != Location.all.regionName }.sorted()
+        regions = regionsPlaces.keys.filter { $0 != Location.all.placeRegion }.sorted()
         for (region, places) in regionsPlaces {
             count(region: region,
                   places: places,

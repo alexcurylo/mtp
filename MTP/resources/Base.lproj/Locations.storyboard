@@ -19,7 +19,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" mapType="standard" showsUserLocation="YES" showsScale="YES" showsTraffic="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wom-tO-qBj">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" mapType="standard" showsUserLocation="YES" showsScale="YES" showsTraffic="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wom-tO-qBj" customClass="MTPMapView" customModule="MTP" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <connections>
                                     <outlet property="delegate" destination="9pv-A4-QxB" id="wGj-EN-Sjl"/>
@@ -55,7 +55,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="mapView" destination="Wom-tO-qBj" id="LM2-jg-PCz"/>
+                        <outlet property="mtpMapView" destination="Wom-tO-qBj" id="j59-om-E0g"/>
                         <outlet property="searchBar" destination="oqm-4d-uVj" id="C6l-Ot-tRj"/>
                         <outlet property="showMoreButton" destination="5oL-Dh-oDr" id="nDc-qv-ynx"/>
                     </connections>
@@ -293,8 +293,8 @@
     </scenes>
     <resources>
         <image name="navBackWhiteArrow" width="16" height="16"/>
-        <image name="navFilterBlue" width="30" height="31"/>
-        <image name="navListBlue" width="30" height="31"/>
+        <image name="navFilterBlue" width="32" height="33"/>
+        <image name="navListBlue" width="32" height="32"/>
         <image name="tabLocations" width="16" height="17"/>
         <namedColor name="mercury">
             <color red="0.9137254901960784" green="0.9137254901960784" blue="0.9137254901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

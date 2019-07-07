@@ -423,6 +423,18 @@ final class DataServiceSpy: DataService {
         invokedGetLocationsParametersList.append((filter, ()))
         return stubbedGetLocationsResult
     }
+    var invokedGetMapInfo = false
+    var invokedGetMapInfoCount = 0
+    var invokedGetMapInfoParameters: (list: Checklist, id: Int)?
+    var invokedGetMapInfoParametersList = [(list: Checklist, id: Int)]()
+    var stubbedGetMapInfoResult: MapInfo!
+    func get(mapInfo list: Checklist, id: Int) -> MapInfo? {
+        invokedGetMapInfo = true
+        invokedGetMapInfoCount += 1
+        invokedGetMapInfoParameters = (list, id)
+        invokedGetMapInfoParametersList.append((list, id))
+        return stubbedGetMapInfoResult
+    }
     var invokedGetPhotosPages = false
     var invokedGetPhotosPagesCount = 0
     var invokedGetPhotosPagesParameters: (id: Int, Void)?

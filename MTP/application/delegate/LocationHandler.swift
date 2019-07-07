@@ -26,7 +26,19 @@ final class LocationHandler: NSObject, AppHandler, ServiceProvider {
         trackers.remove(tracker)
     }
 
-     func annotations(list: Checklist?) -> Set<PlaceAnnotation> {
+    var distances: Distances {
+        log.todo("distances")
+        return [:]
+    }
+
+    var mappables: Set<MapInfo> {
+        return mappables(list: nil)
+    }
+
+    func mappables(list: Checklist?) -> Set<MapInfo> {
+        log.todo("mappables")
+        return []
+        /*
         switch list {
         case .beaches?: return beaches
         case .divesites?: return divesites
@@ -37,16 +49,17 @@ final class LocationHandler: NSObject, AppHandler, ServiceProvider {
         case .whss?: return whss
         case nil: return all
         }
+ */
     }
-
-    private var beaches: Set<PlaceAnnotation> = []
-    private var divesites: Set<PlaceAnnotation> = []
-    private var golfcourses: Set<PlaceAnnotation> = []
-    private var locations: Set<PlaceAnnotation> = []
-    private var restaurants: Set<PlaceAnnotation> = []
-    private var whss: Set<PlaceAnnotation> = []
+/*
+    private var beaches: Set<MapInfo> = []
+    private var divesites: Set<MapInfo> = []
+    private var golfcourses: Set<MapInfo> = []
+    private var locations: Set<MapInfo> = []
+    private var restaurants: Set<MapInfo> = []
+    private var whss: Set<MapInfo> = []
     // UN Countries not mapped
-    private var all: Set<PlaceAnnotation> {
+    private var all: Set<MapInfo> {
         return beaches
             .union(golfcourses)
             .union(divesites)
@@ -54,7 +67,7 @@ final class LocationHandler: NSObject, AppHandler, ServiceProvider {
             .union(restaurants)
             .union(whss)
     }
-
+*/
     private var beachesObserver: Observer?
     private var divesitesObserver: Observer?
     private var golfcoursesObserver: Observer?
@@ -63,7 +76,7 @@ final class LocationHandler: NSObject, AppHandler, ServiceProvider {
     private var whssObserver: Observer?
 
     private var queue = OperationQueue {
-        $0.name = "annotations"
+        $0.name = typeName
         $0.maxConcurrentOperationCount = OperationQueue.defaultMaxConcurrentOperationCount
         $0.qualityOfService = .userInteractive
     }
@@ -75,9 +88,7 @@ final class LocationHandler: NSObject, AppHandler, ServiceProvider {
         didSet { checkDistanceUpdate() }
     }
 
-    // log.todo("adjust to half of minimum unvisited? Separate for countries?")
-    //private let minFilter = CLLocationDistance(20)
-    private var distanceFilter = CLLocationDistance(20)
+    private var distanceFilter = CLLocationDistance(50)
     private var timeFilter = TimeInterval(5)
     private var lastFilter: Date?
 }
@@ -233,7 +244,7 @@ private extension LocationHandler {
 
         let update = UpdateDistanceOperation(trigger: trigger,
                                              handler: self,
-                                             map: data.worldMap)
+                                             world: data.worldMap)
         update.completionBlock = {
             DispatchQueue.main.async {
                 self.distancesUpdating -= 1
@@ -263,6 +274,7 @@ private extension LocationHandler {
     }
 
     func update(list: Checklist) {
+        #if CREATE_ANNOTATIONS
         guard !queue.contains(list: list) else { return }
 
         let update = UpdateListOperation(list: list,
@@ -270,41 +282,16 @@ private extension LocationHandler {
                                          delegate: self)
         update.completionBlock = {
             DispatchQueue.main.async {
-                self.updated(list: list, new: update.annotations)
+                self.updated(list: list, new: update.mappables)
                 self.placesUpdating -= 1
             }
         }
         placesUpdating += 1
         queue.addOperation(update)
-    }
-
-    func updated(list: Checklist,
-                 new: Set<PlaceAnnotation>) {
-        switch list {
-        case .beaches: updated(list: list, set: &beaches, new: new)
-        case .divesites: updated(list: list, set: &divesites, new: new)
-        case .golfcourses: updated(list: list, set: &golfcourses, new: new)
-        case .locations: updated(list: list, set: &locations, new: new)
-        case .restaurants: updated(list: list, set: &restaurants, new: new)
-        case .uncountries: break
-        case .whss: updated(list: list, set: &whss, new: new)
-        }
-    }
-
-    func updated(list: Checklist,
-                 set: inout Set<PlaceAnnotation>,
-                 new: Set<PlaceAnnotation>) {
-        let removed = set.subtracting(new)
-        set.subtract(removed)
-
-        let added = new.subtracting(set)
-        set.formUnion(added)
-
-        broadcast {
-            $0.annotations(changed: list,
-                           added: added,
-                           removed: removed)
-        }
+        #else
+        log.todo("remove UpdateListOperation?")
+        checkDistanceUpdate()
+        #endif
     }
 
     func observe() {
@@ -391,42 +378,50 @@ private class UpdateDistanceOperation: KVNOperation {
 
     let trigger: Bool
     let handler: LocationHandler
-    let map: WorldMap
+    let world: WorldMap
+    let places: [ThreadSafeReference<Object>]
 
     init(trigger: Bool,
          handler: LocationHandler,
-         map: WorldMap) {
+         world: WorldMap) {
         self.trigger = trigger
         self.handler = handler
-        self.map = map
+        self.world = world
+        places = handler.mappables.compactMap {
+            ThreadSafeReference(to: $0)
+        }
     }
 
     override func operate() {
-        guard let here = handler.lastCoordinate?.coordinate else { return }
+        guard let here = handler.lastCoordinate?.coordinate,
+              let realm = try? Realm() else { return }
 
         #if INSTRUMENT_DISTANCE
         let start = Date()
         #endif
-        let annotations = handler.annotations(list: nil)
-        annotations.forEach {
-            $0.setDistance(from: here)
+
+        places.forEach {
+            guard let place = realm.resolve($0) as? MapInfo else { return }
+
+            place.setDistance(from: here)
             guard trigger else { return }
 
-            switch $0.list {
+            switch place.checklist {
             case .locations:
-                if $0.trigger(contains: here, map: map) {
-                    handler.lastInside = $0.id
+                if place.trigger(contains: here, world: world) {
+                    handler.lastInside = place.checklistId
                 }
             #if TEST_TRIGGERED_NEARBY
-            case .whss where $0.id == WHS.Children.tornea.rawValue:
-                $0._testTriggeredNearby()
-            case .whss where $0.id == WHS.Singles.angkor.rawValue:
-                $0._testTriggeredNearby()
+            case .whss where place.checklistId == WHS.Children.tornea.rawValue:
+                place._testTriggeredNearby()
+            case .whss where place.checklistId == WHS.Singles.angkor.rawValue:
+                place._testTriggeredNearby()
             #endif
             default:
-                $0.triggerDistance()
+                place.triggerDistance()
             }
         }
+
         #if INSTRUMENT_DISTANCE
         let time = -start.timeIntervalSinceNow
         let title = "Distances: \(annotations.count) in \(Int(time * 1_000)) ms"

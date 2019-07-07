@@ -12,17 +12,24 @@ enum PermissionTrigger {
     case dontAsk
 }
 
+typealias Distances = [String: CLLocationDistance]
+
 protocol LocationService: ServiceProvider {
 
     var here: CLLocationCoordinate2D? { get }
     var inside: Location? { get }
 
+    func reveal(place: MapInfo?, callout: Bool)
+    func update(place: MapInfo)
+
     func nearest(list: Checklist,
                  id: Int,
-                 to coordinate: CLLocationCoordinate2D) -> PlaceAnnotation?
+                 to coordinate: CLLocationCoordinate2D) -> MapInfo?
 
-    func annotations() -> Set<PlaceAnnotation>
-    func annotations(list: Checklist) -> Set<PlaceAnnotation>
+    var distances: Distances { get }
+    var mappables: Set<MapInfo> { get }
+
+    func mappables(list: Checklist) -> Set<MapInfo>
 
     func insert<T>(tracker: T) where T: LocationTracker, T: Hashable
     func remove<T>(tracker: T) where T: LocationTracker, T: Hashable
@@ -83,23 +90,27 @@ final class LocationServiceImpl: LocationService {
         return data.get(location: handler?.lastInside)
     }
 
-    func annotations() -> Set<PlaceAnnotation> {
-        return handler?.annotations(list: nil) ?? []
+    var distances: Distances {
+        return handler?.distances ?? [:]
     }
 
-    func annotations(list: Checklist) -> Set<PlaceAnnotation> {
-        return handler?.annotations(list: list) ?? []
+    var mappables: Set<MapInfo> {
+        return handler?.mappables(list: nil) ?? []
+    }
+
+    func mappables(list: Checklist) -> Set<MapInfo> {
+        return handler?.mappables(list: list) ?? []
     }
 
     func nearest(list: Checklist,
                  id: Int,
-                 to coordinate: CLLocationCoordinate2D) -> PlaceAnnotation? {
+                 to coordinate: CLLocationCoordinate2D) -> MapInfo? {
         var distance: CLLocationDistance = 99_999
         let visited = list.visited
-        var nearest: PlaceAnnotation?
-        for other in annotations(list: list) {
-            guard !visited.contains(other.id),
-                  other.id != id else { continue }
+        var nearest: MapInfo?
+        for other in mappables(list: list) {
+            guard !visited.contains(other.checklistId),
+                  other.checklistId != id else { continue }
 
             let otherDistance = other.coordinate.distance(from: coordinate)
             if otherDistance < distance {
@@ -145,5 +156,15 @@ final class LocationServiceImpl: LocationService {
         case .whenInUse:
             manager.startUpdatingLocation()
         }
+    }
+
+    func reveal(place: MapInfo?, callout: Bool) {
+        log.todo("sort PlaceAnnnotationDelegate reveal for MapInfos")
+        // see reveal(place: PlaceAnnotation) in LocationHandler
+    }
+
+    func update(place: MapInfo) {
+        log.todo("sort PlaceAnnnotationDelegate update for MapInfos")
+        // see update(place: PlaceAnnotation) in LocationHandler
     }
 }

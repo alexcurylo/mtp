@@ -500,14 +500,14 @@ extension SignupVC: LocationSearchDelegate {
         case let countryItem as Country:
             guard country != countryItem else { return }
             country = countryItem
-            countryTextField?.text = countryItem.countryName
+            countryTextField?.text = countryItem.placeCountry
             location = nil
             locationTextField?.text = nil
             show(location: countryItem.hasChildren)
         case let locationItem as Location:
             guard location != locationItem else { return }
             location = locationItem
-            locationTextField?.text = locationItem.locationName
+            locationTextField?.text = locationItem.placeTitle
         default:
             log.error("unknown item type selected")
         }

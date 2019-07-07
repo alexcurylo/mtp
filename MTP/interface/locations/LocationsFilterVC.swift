@@ -80,13 +80,11 @@ private extension LocationsFilterVC {
     }
 
     func saveEdits(notifying controller: UIViewController?) {
-        if current != original {
-            data.mapDisplay = current
-        }
+        guard current != original else { return }
+
+        data.mapDisplay = current
         if let controller = controller as? LocationsVC {
             controller.updateFilter()
-        } else {
-            log.error("expected to return to Locations tab")
         }
     }
 

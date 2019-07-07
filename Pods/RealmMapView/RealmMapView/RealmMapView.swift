@@ -129,7 +129,8 @@ open class RealmMapView: MKMapView {
         
         let rlmConfig = ObjectiveCSupport.convert(object: self.realmConfiguration)
         
-        if let rlmRealm = try? RLMRealm(configuration: rlmConfig) {
+        do {
+            let rlmRealm = try RLMRealm(configuration: rlmConfig)
             
             let fetchRequest = ABFLocationFetchRequest(entityName: self.entityName!, in: rlmRealm, latitudeKeyPath: self.latitudeKeyPath!, longitudeKeyPath: self.longitudeKeyPath!, for: currentRegion)
             fetchRequest.predicate = NSPredicateForCoordinateRegion(currentRegion, self.latitudeKeyPath!, self.longitudeKeyPath!)
@@ -181,6 +182,8 @@ open class RealmMapView: MKMapView {
             }
             
             self.mapQueue.addOperation(refreshOperation)
+        } catch {
+            print("configuration error: \(error)")
         }
         
         objc_sync_exit(self)
@@ -297,14 +300,13 @@ open class RealmMapView: MKMapView {
             rect = rect.union(MKMapRect(x: point.x, y: point.y, width: 0, height: 0))
         }
         
-        var region = MKCoordinateRegion(rect)
-        
-        region = self.regionThatFits(region)
-        
-        region.span.latitudeDelta *= 1.3
-        region.span.longitudeDelta *= 1.3
-        
-        return region
+        let outset = -0.3
+        let outsetRect = rect.insetBy(dx: rect.width * outset,
+                                      dy: rect.height * outset)
+        let outsetRegion = MKCoordinateRegion(outsetRect)
+        let fittedRegion = regionThatFits(outsetRegion)
+
+        return fittedRegion
     }
 }
 
@@ -395,7 +397,7 @@ extension RealmMapView: MKMapViewDelegate {
     }
     
     public func mapViewWillStartLocatingUser(_ mapView: MKMapView) {
-        self.externalDelegate?.mapViewDidStopLocatingUser?(mapView)
+        self.externalDelegate?.mapViewWillStartLocatingUser?(mapView)
     }
     
     public func mapViewDidStopLocatingUser(_ mapView: MKMapView) {

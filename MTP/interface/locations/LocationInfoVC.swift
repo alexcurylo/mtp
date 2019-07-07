@@ -74,14 +74,14 @@ private extension LocationInfoVC {
     }
 
     func configureInfo() {
-        regionLabel?.text = location.regionName
+        regionLabel?.text = location.placeRegion
 
         if location.isCountry {
             countryTitle?.text = L.titleUnRanking()
             countryLabel?.text = "\(location.rankUn)"
         } else {
             countryTitle?.text = L.titleCountry()
-            countryLabel?.text = location.countryName
+            countryLabel?.text = location.placeCountry
         }
 
         mtpVisitorsLabel?.text = location.placeVisitors.grouped
@@ -135,10 +135,10 @@ private extension LocationInfoVC {
                       L.wikitravel(),
                       L.wikimapia(),
                       L.wikipedia()]
-        let name = location.locationName.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        let name = location.placeTitle.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         let station = location.weatherhist
-        let lat = "\(location.lat)"
-        let lon = "\(location.lon)"
+        let lat = "\(location.latitude)"
+        let lon = "\(location.longitude)"
         let links = [L.whenToGoLink(station),
                      L.currentWeatherLink(lat, lon),
                      L.wikitravelLink(name),

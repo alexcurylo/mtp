@@ -249,7 +249,7 @@ extension ScorecardJSON: CustomDebugStringConvertible {
     }
 
     static func key(list: Checklist, user: Int) -> String {
-        return "'userId=\(user)?type=\(list.rawValue)'"
+        return "'list=\(list.rawValue)?user=\(user)'"
     }
 
     convenience init(from: ScorecardWrapperJSON) {

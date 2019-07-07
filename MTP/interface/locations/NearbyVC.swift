@@ -14,7 +14,8 @@ final class NearbyVC: UITableViewController, ServiceProvider {
 
     @IBOutlet private var backgroundView: UIView?
 
-    private var places: [PlaceAnnotation] = []
+    private var places: [MapInfo] = []
+    private var distances: Distances = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,7 +73,9 @@ extension NearbyVC {
             withIdentifier: R.reuseIdentifier.nearbyCell,
             for: indexPath)
 
-        cell.set(model: places[indexPath.row],
+        let place = places[indexPath.row]
+        cell.set(place: place,
+                 distance: distances[place.dbKey] ?? 0,
                  delegate: self)
 
         return cell
@@ -98,10 +101,13 @@ extension NearbyVC {
 
 extension NearbyVC: Injectable {
 
-    typealias Model = Set<PlaceAnnotation>
+    typealias Model = (places: Set<MapInfo>, distances: Distances)
 
     @discardableResult func inject(model: Model) -> Self {
-        places = Array(model).sorted { $0.distance < $1.distance }
+        distances = model.distances
+        places = Array(model.places).sorted {
+            distances[$0.dbKey] ?? 0 < distances[$1.dbKey] ?? 0
+        }
 
         return self
     }
@@ -138,7 +144,7 @@ final class NearbyCell: UITableViewCell {
     @IBOutlet private var countryLabel: UILabel?
     @IBOutlet private var visitorsLabel: UILabel?
 
-    private var place: PlaceAnnotation?
+    private var place: MapInfo?
     private weak var delegate: NearbyCellDelegate?
 
     override func awakeFromNib() {
@@ -163,14 +169,15 @@ final class NearbyCell: UITableViewCell {
         visitorsLabel?.text = nil
     }
 
-    func set(model place: PlaceAnnotation,
+    func set(place: MapInfo,
+             distance: CLLocationDistance,
              delegate: NearbyCellDelegate) {
         self.place = place
         self.delegate = delegate
 
         placeImage?.load(image: place)
-        distanceLabel?.text = place.distance.formatted
-        categoryLabel?.text = place.list.category(full: false).uppercased()
+        distanceLabel?.text = distance.formatted
+        categoryLabel?.text = place.checklist.category(full: false).uppercased()
         show(visited: place.isVisited)
         nameLabel?.text = place.subtitle
         countryLabel?.text = place.country

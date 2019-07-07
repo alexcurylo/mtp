@@ -93,11 +93,11 @@ private extension AddPostVC {
     }
 
     func configureLocation() {
-        countryLabel?.text = country?.countryName ?? L.selectCountry()
+        countryLabel?.text = country?.placeCountry ?? L.selectCountry()
 
         guard let locationLine = locationLine else { return }
         if let country = country, country.hasChildren {
-            locationLabel?.text = location?.locationName ?? L.selectLocation()
+            locationLabel?.text = location?.placeTitle ?? L.selectLocation()
             locationStack?.addArrangedSubview(locationLine)
         } else {
             locationLabel?.text = countryLabel?.text

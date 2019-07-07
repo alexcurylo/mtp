@@ -33,6 +33,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func get(locationPhotos id: Int) -> [Photo]
     func get(locationPosts id: Int) -> [Post]
     func get(locations filter: String) -> [Location]
+    func get(mapInfo list: Checklist, id: Int) -> MapInfo?
     func getPhotosPages(user id: Int) -> Results<PhotosPageInfo>
     func get(photo: Int) -> Photo
     func getPosts(user id: Int) -> [Post]
@@ -208,6 +209,10 @@ final class DataServiceImpl: DataService {
 
     func get(locations filter: String) -> [Location] {
         return realm.locations(filter: filter)
+    }
+
+    func get(mapInfo list: Checklist, id: Int) -> MapInfo? {
+        return realm.mapInfo(list: list, id: id)
     }
 
     func set(locations: [LocationJSON]) {
@@ -394,7 +399,7 @@ final class DataServiceImpl: DataService {
     func visitedChildren(whs id: Int) -> [WHS] {
         let visits = visited?.whss ?? []
         return children(whs: id).compactMap {
-            visits.contains($0.id) ? $0 : nil
+            visits.contains($0.placeId) ? $0 : nil
         }
     }
 

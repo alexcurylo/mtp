@@ -9,7 +9,6 @@ protocol PlaceInfo {
     var placeCountry: String { get }
     var placeCountryId: Int { get }
     var placeId: Int { get }
-    var placeImage: String { get }
     var placeImageUrl: URL? { get }
     var placeIsCountry: Bool { get }
     var placeIsMappable: Bool { get }
@@ -27,7 +26,6 @@ func == (lhs: PlaceInfo, rhs: PlaceInfo) -> Bool {
     return lhs.placeCoordinate == rhs.placeCoordinate &&
            lhs.placeCountry == rhs.placeCountry &&
            lhs.placeId == rhs.placeId &&
-           lhs.placeImage == rhs.placeImage &&
            lhs.placeRegion == rhs.placeRegion &&
            lhs.placeSubtitle == rhs.placeSubtitle &&
            lhs.placeTitle == rhs.placeTitle &&
@@ -38,10 +36,6 @@ extension PlaceInfo {
 
     var placeIsMappable: Bool {
         return true
-    }
-
-    var placeImageUrl: URL? {
-        return placeImage.mtpImageUrl
     }
 
     var placeParent: PlaceInfo? {
@@ -110,239 +104,77 @@ extension PlaceJSON: CustomDebugStringConvertible {
     }
 }
 
-@objcMembers final class Beach: Object {
+@objcMembers final class Beach: Object, Mappable, PlaceInfo {
 
-    dynamic var countryName: String = ""
-    dynamic var id: Int = 0
-    dynamic var lat: Double = 0
-    dynamic var long: Double = 0
-    dynamic var placeImage: String = ""
-    dynamic var placeLocation: Location?
-    dynamic var placeVisitors: Int = 0
-    dynamic var regionName: String = ""
-    dynamic var title: String = ""
-    dynamic var website: String = ""
+    dynamic var map: MapInfo?
+    dynamic var placeId: Int = 0
 
     override static func primaryKey() -> String? {
-        return "id"
+        return "placeId"
     }
 
     convenience init?(from: PlaceJSON,
-                      with controller: RealmController) {
-        guard from.active == "Y" else {
-            return nil
-        }
+                      realm: RealmController) {
+        guard from.active == "Y" else { return nil }
         self.init()
 
-        countryName = placeLocation?.countryName ?? L.unknown()
-        id = from.id
-        lat = from.lat
-        long = from.long
-        placeImage = from.img ?? ""
-        placeLocation = controller.location(id: from.location.id)
-        placeVisitors = from.visitors
-        regionName = placeLocation?.regionName ?? L.unknown()
-        title = from.title
-        website = from.url
+        map = MapInfo(checklist: .beaches,
+                      place: from,
+                      realm: realm)
+        placeId = from.id
     }
 
     override var description: String {
-        return title
+        return placeTitle
     }
 }
 
-extension Beach: PlaceInfo {
+@objcMembers final class DiveSite: Object, Mappable, PlaceInfo {
 
-    var placeCoordinate: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(
-            latitude: lat,
-            longitude: long
-        )
-    }
-
-    var placeCountry: String {
-        return countryName
-    }
-
-    var placeId: Int {
-        return id
-    }
-
-    var placeRegion: String {
-        return regionName
-    }
-
-    var placeTitle: String {
-        return title
-    }
-
-    var placeWebUrl: URL? {
-        return website.mtpWebsiteUrl
-    }
-}
-
-@objcMembers final class DiveSite: Object {
-
-    dynamic var countryName: String = ""
-    dynamic var id: Int = 0
-    dynamic var lat: Double = 0
-    dynamic var long: Double = 0
-    dynamic var placeImage: String = ""
-    dynamic var placeLocation: Location?
-    dynamic var placeVisitors: Int = 0
-    dynamic var regionName: String = ""
-    dynamic var title: String = ""
-    dynamic var website: String = ""
+    dynamic var map: MapInfo?
+    dynamic var placeId: Int = 0
 
     override static func primaryKey() -> String? {
-        return "id"
+        return "placeId"
     }
 
     convenience init?(from: PlaceJSON,
-                      with controller: RealmController) {
-        guard from.active == "Y" else {
-            return nil
-        }
+                      realm: RealmController) {
+        guard from.active == "Y" else { return nil }
         self.init()
 
-        countryName = placeLocation?.countryName ?? L.unknown()
-        id = from.id
-        lat = from.lat
-        long = from.long
-        placeImage = from.img ?? ""
-        placeLocation = controller.location(id: from.location.id)
-        placeVisitors = from.visitors
-        regionName = placeLocation?.regionName ?? L.unknown()
-        title = from.title
-        website = from.url
+        map = MapInfo(checklist: .divesites,
+                      place: from,
+                      realm: realm)
+        placeId = from.id
     }
 
     override var description: String {
-        return title
+        return placeTitle
     }
 }
 
-extension DiveSite: PlaceInfo {
+@objcMembers final class GolfCourse: Object, Mappable, PlaceInfo {
 
-    var placeCoordinate: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(
-            latitude: lat,
-            longitude: long
-        )
-    }
-
-    var placeCountry: String {
-        return countryName
-    }
-
-    var placeId: Int {
-        return id
-    }
-
-    var placeRegion: String {
-        return regionName
-    }
-
-    var placeTitle: String {
-        return title
-    }
-
-    var placeWebUrl: URL? {
-        return website.mtpWebsiteUrl
-    }
-}
-
-@objcMembers final class GolfCourse: Object {
-
-    dynamic var countryName: String = ""
-    dynamic var id: Int = 0
-    dynamic var lat: Double = 0
-    dynamic var long: Double = 0
-    dynamic var placeImage: String = ""
-    dynamic var placeLocation: Location?
-    dynamic var placeVisitors: Int = 0
-    dynamic var regionName: String = ""
-    dynamic var title: String = ""
-    dynamic var website: String = ""
+    dynamic var map: MapInfo?
+    dynamic var placeId: Int = 0
 
     override static func primaryKey() -> String? {
-        return "id"
+        return "placeId"
     }
 
     convenience init?(from: PlaceJSON,
-                      with controller: RealmController) {
-        guard from.active == "Y" else {
-            return nil
-        }
+                      realm: RealmController) {
+        guard from.active == "Y" else { return nil }
         self.init()
 
-        countryName = placeLocation?.countryName ?? L.unknown()
-        id = from.id
-        lat = from.lat
-        long = from.long
-        placeImage = from.img ?? ""
-        placeLocation = controller.location(id: from.location.id)
-        placeVisitors = from.visitors
-        regionName = placeLocation?.regionName ?? L.unknown()
-        title = from.title
-        website = from.url
+        map = MapInfo(checklist: .golfcourses,
+                      place: from,
+                      realm: realm)
+        placeId = from.id
     }
 
     override var description: String {
-        return title
-    }
-}
-
-extension GolfCourse: PlaceInfo {
-
-    var placeCoordinate: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(
-            latitude: lat,
-            longitude: long
-        )
-    }
-
-    var placeCountry: String {
-        return countryName
-    }
-
-    var placeId: Int {
-        return id
-    }
-
-    var placeRegion: String {
-        return regionName
-    }
-
-    var placeTitle: String {
-        return title
-    }
-
-    var placeWebUrl: URL? {
-        return website.mtpWebsiteUrl
-    }
-}
-
-extension String {
-
-    var mtpImageUrl: URL? {
-        guard !isEmpty else { return nil }
-
-        if hasPrefix("http") {
-            return URL(string: self)
-        } else {
-            let target = MTP.picture(uuid: self, size: .any)
-            return target.requestUrl
-        }
-    }
-
-    var mtpWebsiteUrl: URL? {
-        guard !isEmpty else { return nil }
-
-        if hasPrefix("http") {
-            return URL(string: self)
-        } else {
-            return URL(string: "http://\(self)")
-        }
+        return placeTitle
     }
 }

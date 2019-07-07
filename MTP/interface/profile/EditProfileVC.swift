@@ -232,10 +232,10 @@ private extension EditProfileVC {
         genderTextField?.text = gender
 
         countryTextField?.inputAccessoryView = keyboardToolbar
-        countryTextField?.text = country?.countryName
+        countryTextField?.text = country?.placeCountry
 
         locationTextField?.inputAccessoryView = keyboardToolbar
-        locationTextField?.text = location?.locationName
+        locationTextField?.text = location?.placeTitle
         show(location: update.country_id != update.location_id)
 
         emailTextField?.inputAccessoryView = keyboardToolbar
@@ -635,7 +635,7 @@ extension EditProfileVC: LocationSearchDelegate {
         case let countryItem as Country:
             guard country != countryItem else { return }
             country = countryItem
-            countryTextField?.text = countryItem.countryName
+            countryTextField?.text = countryItem.placeCountry
             location = nil
             locationTextField?.text = nil
             current.country_id = countryItem.countryId
@@ -644,9 +644,9 @@ extension EditProfileVC: LocationSearchDelegate {
         case let locationItem as Location:
             guard location != locationItem else { return }
             location = locationItem
-            locationTextField?.text = locationItem.locationName
+            locationTextField?.text = locationItem.placeTitle
             current.country_id = locationItem.countryId
-            current.location_id = locationItem.id
+            current.location_id = locationItem.placeId
         default:
             log.error("unknown item type selected")
         }

@@ -118,7 +118,7 @@ private extension ProfileAboutVC {
         } else {
             userIdObserver = data.observer(of: .userId) { [weak self] _ in
                 guard let self = self,
-                      let userId = self.user?.id,
+                      let userId = self.user?.userId,
                       let new = self.data.get(user: userId) else { return }
 
                 self.user = new
@@ -257,13 +257,13 @@ extension ProfileAboutVC: Injectable {
 
     @discardableResult func inject(model: Model) -> Self {
         user = model
-        isSelf = model.id == data.user?.id
+        isSelf = model.userId == data.user?.id
         observe()
 
         if isSelf {
             refreshVisits()
         } else {
-            fetch(id: model.id)
+            fetch(id: model.userId)
        }
 
         return self

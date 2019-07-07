@@ -23,6 +23,22 @@ final class LocationServiceSpy: LocationService {
         invokedInsideGetterCount += 1
         return stubbedInside
     }
+    var invokedDistancesGetter = false
+    var invokedDistancesGetterCount = 0
+    var stubbedDistances: Distances!
+    var distances: Distances {
+        invokedDistancesGetter = true
+        invokedDistancesGetterCount += 1
+        return stubbedDistances
+    }
+    var invokedMappablesGetter = false
+    var invokedMappablesGetterCount = 0
+    var stubbedMappables: Set<MapInfo>! = []
+    var mappables: Set<MapInfo> {
+        invokedMappablesGetter = true
+        invokedMappablesGetterCount += 1
+        return stubbedMappables
+    }
     var invokedAppGetter = false
     var invokedAppGetterCount = 0
     var stubbedApp: ApplicationService!
@@ -71,39 +87,51 @@ final class LocationServiceSpy: LocationService {
         invokedNoteGetterCount += 1
         return stubbedNote
     }
+    var invokedReveal = false
+    var invokedRevealCount = 0
+    var invokedRevealParameters: (place: MapInfo?, callout: Bool)?
+    var invokedRevealParametersList = [(place: MapInfo?, callout: Bool)]()
+    func reveal(place: MapInfo?, callout: Bool) {
+        invokedReveal = true
+        invokedRevealCount += 1
+        invokedRevealParameters = (place, callout)
+        invokedRevealParametersList.append((place, callout))
+    }
+    var invokedUpdate = false
+    var invokedUpdateCount = 0
+    var invokedUpdateParameters: (place: MapInfo, Void)?
+    var invokedUpdateParametersList = [(place: MapInfo, Void)]()
+    func update(place: MapInfo) {
+        invokedUpdate = true
+        invokedUpdateCount += 1
+        invokedUpdateParameters = (place, ())
+        invokedUpdateParametersList.append((place, ()))
+    }
     var invokedNearest = false
     var invokedNearestCount = 0
     var invokedNearestParameters: (list: Checklist, id: Int, coordinate: CLLocationCoordinate2D)?
     var invokedNearestParametersList = [(list: Checklist, id: Int, coordinate: CLLocationCoordinate2D)]()
-    var stubbedNearestResult: PlaceAnnotation!
+    var stubbedNearestResult: MapInfo!
     func nearest(list: Checklist,
     id: Int,
-    to coordinate: CLLocationCoordinate2D) -> PlaceAnnotation? {
+    to coordinate: CLLocationCoordinate2D) -> MapInfo? {
         invokedNearest = true
         invokedNearestCount += 1
         invokedNearestParameters = (list, id, coordinate)
         invokedNearestParametersList.append((list, id, coordinate))
         return stubbedNearestResult
     }
-    var invokedAnnotations = false
-    var invokedAnnotationsCount = 0
-    var stubbedAnnotationsResult: Set<PlaceAnnotation>! = []
-    func annotations() -> Set<PlaceAnnotation> {
-        invokedAnnotations = true
-        invokedAnnotationsCount += 1
-        return stubbedAnnotationsResult
-    }
-    var invokedAnnotationsList = false
-    var invokedAnnotationsListCount = 0
-    var invokedAnnotationsListParameters: (list: Checklist, Void)?
-    var invokedAnnotationsListParametersList = [(list: Checklist, Void)]()
-    var stubbedAnnotationsListResult: Set<PlaceAnnotation>! = []
-    func annotations(list: Checklist) -> Set<PlaceAnnotation> {
-        invokedAnnotationsList = true
-        invokedAnnotationsListCount += 1
-        invokedAnnotationsListParameters = (list, ())
-        invokedAnnotationsListParametersList.append((list, ()))
-        return stubbedAnnotationsListResult
+    var invokedMappablesList = false
+    var invokedMappablesListCount = 0
+    var invokedMappablesListParameters: (list: Checklist, Void)?
+    var invokedMappablesListParametersList = [(list: Checklist, Void)]()
+    var stubbedMappablesListResult: Set<MapInfo>! = []
+    func mappables(list: Checklist) -> Set<MapInfo> {
+        invokedMappablesList = true
+        invokedMappablesListCount += 1
+        invokedMappablesListParameters = (list, ())
+        invokedMappablesListParametersList.append((list, ()))
+        return stubbedMappablesListResult
     }
     var invokedInsert = false
     var invokedInsertCount = 0

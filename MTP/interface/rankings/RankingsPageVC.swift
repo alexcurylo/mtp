@@ -71,7 +71,7 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
 
     func set(list: Checklist) {
         filter = data.lastRankingsQuery
-        filter.checklistType = list
+        filter.checklistKey = list.key
         filterDescription = filter.description
 
         updateRankings()
@@ -121,7 +121,7 @@ extension RankingsPageVC: UICollectionViewDataSource {
             for: indexPath) as? RankingHeader
 
         header.set(rank: filterRank,
-                   list: filter.checklistType,
+                   list: filter.checklist,
                    filter: filterDescription,
                    delegate: self)
 
@@ -156,7 +156,7 @@ extension RankingsPageVC: UICollectionViewDataSource {
         let rank = indexPath.row + 1
         cell.set(user: user(at: rank) ?? User(),
                  for: rank,
-                 in: filter.checklistType,
+                 in: filter.checklist,
                  delegate: delegate)
 
         return cell
@@ -232,8 +232,8 @@ private extension RankingsPageVC {
     func updateRank() {
         let newRank: Int?
         if filter.isAllTravelers {
-            newRank = filter.checklistType.rank()
-        } else if let scorecard = data.get(scorecard: filter.checklistType,
+            newRank = filter.checklist.rank()
+        } else if let scorecard = data.get(scorecard: filter.checklist,
                                            user: data.user?.id) {
             newRank = scorecard.rank(filter: filter)
         } else {

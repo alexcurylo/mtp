@@ -79,13 +79,14 @@ private extension UserCountsPagingVC {
     func setupContent() {
         checkScorecard(fail: .loading)
         mtp.loadScorecard(list: model.list,
-                          user: model.user.id) { [weak self] _ in
+                          user: model.user.userId) { [weak self] _ in
             self?.checkScorecard(fail: .error)
         }
     }
 
     func checkScorecard(fail state: ContentState) {
-        scorecard = data.get(scorecard: model.list, user: model.user.id)
+        scorecard = data.get(scorecard: model.list,
+                             user: model.user.userId)
         contentState = scorecard != nil ? .data : state
         viewControllers.forEach {
             ($0 as? UserCountsPageVC)?.refresh()

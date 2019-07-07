@@ -7,6 +7,8 @@ import UIKit
 
 struct ChecklistFlags: Codable, Equatable {
 
+    static let mappableCount = 6
+
     var beaches: Bool = true
     var divesites: Bool = true
     var golfcourses: Bool = true
@@ -39,7 +41,7 @@ struct ChecklistFlags: Codable, Equatable {
 }
 
 // swiftlint:disable:next type_body_length
-enum Checklist: String, Codable, CaseIterable, ServiceProvider {
+enum Checklist: Int, CaseIterable, ServiceProvider {
 
     case locations
     case uncountries
@@ -50,6 +52,31 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
     case restaurants
 
     typealias Status = (visited: Int, remaining: Int)
+
+    init?(key: String) {
+        switch key {
+        case "locations": self = .locations
+        case "uncountries": self = .uncountries
+        case "whss": self = .whss
+        case "beaches": self = .beaches
+        case "golfcourses": self = .golfcourses
+        case "divesites": self = .divesites
+        case "restaurants": self = .restaurants
+        default: return nil
+        }
+    }
+
+    var key: String {
+        switch self {
+        case .locations: return "locations"
+        case .uncountries: return "uncountries"
+        case .whss: return "whss"
+        case .beaches: return "beaches"
+        case .golfcourses: return "golfcourses"
+        case .divesites: return "divesites"
+        case .restaurants: return "restaurants"
+        }
+    }
 
     var marker: UIColor {
         let marker: UIColor?
@@ -254,20 +281,20 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
             return
         case .whss:
             if let parent = data.get(whs: id)?.parent {
-                let visitedChildren = data.visitedChildren(whs: parent.id)
+                let visitedChildren = data.visitedChildren(whs: parent.placeId)
                 let otherVisits: Bool
                 if visitedChildren.count == 1,
-                   visitedChildren[0].id == id {
+                   visitedChildren[0].placeId == id {
                     otherVisits = false
                 } else {
                     otherVisits = !visitedChildren.isEmpty
                 }
                 switch (visited, otherVisits) {
                 case (true, false):
-                    parentId = parent.id
+                    parentId = parent.placeId
                     parentVisited = true
                 case (false, false) where parent.visited:
-                    parentId = parent.id
+                    parentId = parent.placeId
                     parentVisited = false
                 default:
                     parentId = nil
@@ -339,7 +366,7 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         let total: Int
         switch self {
         case .locations:
-            total = data.locations.filter { $0.id > 0 }.count
+            total = data.locations.filter { $0.placeId > 0 }.count
         case .uncountries:
             total = data.uncountries.count
         case .whss:

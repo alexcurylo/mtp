@@ -30,7 +30,7 @@ final class RealmController: ServiceProvider {
 
     func set(beaches: [PlaceJSON]) {
         do {
-            let objects = beaches.compactMap { Beach(from: $0, with: self) }
+            let objects = beaches.compactMap { Beach(from: $0, realm: self) }
             try realm.write {
                 realm.add(objects, update: .modified)
             }
@@ -70,7 +70,7 @@ final class RealmController: ServiceProvider {
 
     func set(divesites: [PlaceJSON]) {
         do {
-            let objects = divesites.compactMap { DiveSite(from: $0, with: self) }
+            let objects = divesites.compactMap { DiveSite(from: $0, realm: self) }
             try realm.write {
                 realm.add(objects, update: .modified)
             }
@@ -86,7 +86,7 @@ final class RealmController: ServiceProvider {
 
     func set(golfcourses: [PlaceJSON]) {
         do {
-            let objects = golfcourses.compactMap { GolfCourse(from: $0, with: self) }
+            let objects = golfcourses.compactMap { GolfCourse(from: $0, realm: self) }
             try realm.write {
                 realm.add(objects, update: .modified)
             }
@@ -109,7 +109,7 @@ final class RealmController: ServiceProvider {
     func location(id: Int?) -> Location? {
         guard let id = id else { return nil }
         let results = realm.objects(Location.self)
-                           .filter("id = \(id)")
+                           .filter("placeId = \(id)")
         return results.first
     }
 
@@ -125,8 +125,15 @@ final class RealmController: ServiceProvider {
         }
     }
 
+    func mapInfo(list: Checklist, id: Int) -> MapInfo? {
+        let key = MapInfo.key(list: list, id: id)
+        let results = realm.objects(MapInfo.self)
+                           .filter("dbKey = \(key)")
+        return results.first
+    }
+
     func photo(id: Int) -> Photo? {
-        let filter = "id = \(id)"
+        let filter = "photoId = \(id)"
         let results = realm.objects(Photo.self)
                            .filter(filter)
         return results.first
@@ -281,7 +288,7 @@ final class RealmController: ServiceProvider {
 
     func set(restaurants: [RestaurantJSON]) {
         do {
-            let objects = restaurants.compactMap { Restaurant(from: $0, with: self) }
+            let objects = restaurants.compactMap { Restaurant(from: $0, realm: self) }
             try realm.write {
                 realm.add(objects, update: .modified)
             }
@@ -326,7 +333,7 @@ final class RealmController: ServiceProvider {
 
     func user(id: Int) -> User? {
         let results = realm.objects(User.self)
-                           .filter("id = \(id)")
+                           .filter("userId = \(id)")
         return results.first
     }
 
@@ -348,13 +355,13 @@ final class RealmController: ServiceProvider {
 
     func whs(id: Int) -> WHS? {
         let results = realm.objects(WHS.self)
-                           .filter("id = \(id)")
+                           .filter("placeId = \(id)")
         return results.first
     }
 
     func set(whss: [WHSJSON]) {
         do {
-            let objects = whss.compactMap { WHS(from: $0, with: self) }
+            let objects = whss.compactMap { WHS(from: $0, realm: self) }
             try realm.write {
                 realm.add(objects, update: .modified)
             }
@@ -367,6 +374,7 @@ final class RealmController: ServiceProvider {
 private extension RealmController {
 
     func createRealm() -> Realm {
+        #if CAN_MIGRATE
         // swiftlint:disable:next trailing_closure
         let config = Realm.Configuration(
             schemaVersion: 3,
@@ -387,6 +395,12 @@ private extension RealmController {
                 }
             }
         )
+        #else
+        // resetting configuration with Mappable addition
+        let config = Realm.Configuration(schemaVersion: 0,
+                                         deleteRealmIfMigrationNeeded: true)
+        #endif
+
         Realm.Configuration.defaultConfiguration = config
 
         do {
@@ -434,6 +448,7 @@ private extension RealmController {
 
 private extension Migration {
 
+    #if CAN_MIGRATE
     func migrate0to1() {
         // apply new defaults: https://github.com/realm/realm-cocoa/issues/1793
         enumerateObjects(ofType: Beach.className()) { _, new in
@@ -467,4 +482,5 @@ private extension Migration {
             new?["unescoId"] = 0
         }
     }
+    #endif
 }

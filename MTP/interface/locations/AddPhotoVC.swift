@@ -120,13 +120,13 @@ private extension AddPhotoVC {
 
     func configureLocation() {
         let country = countryId > 0 ? data.get(country: countryId) : nil
-        countryLabel?.text = country?.countryName ?? L.selectCountryOptional()
+        countryLabel?.text = country?.placeCountry ?? L.selectCountryOptional()
 
         let location = locationId > 0 ? data.get(location: locationId) : nil
 
         guard let locationLine = locationLine else { return }
         if let country = country, country.hasChildren {
-            locationLabel?.text = location?.locationName ?? L.selectLocation()
+            locationLabel?.text = location?.placeTitle ?? L.selectLocation()
 
             locationStack?.addArrangedSubview(locationLine)
         } else {
@@ -148,7 +148,7 @@ private extension AddPhotoVC {
             guard answer, let self = self else { return }
 
             self.countryId = inside.countryId
-            self.locationId = inside.id
+            self.locationId = inside.placeId
             self.configure()
         }
     }
@@ -264,7 +264,7 @@ extension AddPhotoVC: LocationSearchDelegate {
             locationId = countryItem.hasChildren ? 0 : countryId
         case let locationItem as Location:
             countryId = locationItem.countryId
-            locationId = locationItem.id
+            locationId = locationItem.placeId
         default:
             log.error("unknown item type selected")
         }

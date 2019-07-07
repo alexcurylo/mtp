@@ -122,6 +122,9 @@
 		FA62BAE522471780009FDC4E /* StateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA62BAE422471780009FDC4E /* StateHandler.swift */; };
 		FA62BAE922478A6D009FDC4E /* UserCountsPagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA62BAE822478A6D009FDC4E /* UserCountsPagingVC.swift */; };
 		FA62BAEB2247A9A0009FDC4E /* CountsPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA62BAEA2247A9A0009FDC4E /* CountsPageVC.swift */; };
+		FA6386A322D1743E001B4424 /* MTPMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6386A222D1743E001B4424 /* MTPMapView.swift */; };
+		FA6386A522D17EBA001B4424 /* Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6386A422D17EBA001B4424 /* Mappable.swift */; };
+		FA6386A722D181C7001B4424 /* Namable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6386A622D181C7001B4424 /* Namable.swift */; };
 		FA6A188621EFEF920092C56C /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6A188521EFEF920092C56C /* Observable.swift */; };
 		FA74574D210CA5730010F4F4 /* MyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74574C210CA5730010F4F4 /* MyProfileVC.swift */; };
 		FA745753210DA4C60010F4F4 /* MyProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA745755210DA4C60010F4F4 /* MyProfile.storyboard */; };
@@ -348,6 +351,9 @@
 		FA62BAE422471780009FDC4E /* StateHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateHandler.swift; sourceTree = "<group>"; };
 		FA62BAE822478A6D009FDC4E /* UserCountsPagingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCountsPagingVC.swift; sourceTree = "<group>"; };
 		FA62BAEA2247A9A0009FDC4E /* CountsPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountsPageVC.swift; sourceTree = "<group>"; };
+		FA6386A222D1743E001B4424 /* MTPMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPMapView.swift; sourceTree = "<group>"; };
+		FA6386A422D17EBA001B4424 /* Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mappable.swift; sourceTree = "<group>"; };
+		FA6386A622D181C7001B4424 /* Namable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Namable.swift; sourceTree = "<group>"; };
 		FA6A188521EFEF920092C56C /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		FA74574C210CA5730010F4F4 /* MyProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileVC.swift; sourceTree = "<group>"; };
 		FA745754210DA4C60010F4F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyProfile.storyboard; sourceTree = "<group>"; };
@@ -746,6 +752,7 @@
 				FAA818FD22447EAB00BB9F92 /* LocationVC.swift */,
 				8C9C4E2D22C3030300F3E423 /* LocationWebsiteVC.swift */,
 				8C617971223F2D79000827D6 /* LocationsFilterVC.swift */,
+				FA6386A222D1743E001B4424 /* MTPMapView.swift */,
 				FA815B702286D138004B91C8 /* NearbyVC.swift */,
 				FA5AC0B321FC49860080F84F /* PlaceAnnotation.swift */,
 				FA5AC0B521FC4EBE0080F84F /* PlaceAnnotationView.swift */,
@@ -821,6 +828,7 @@
 				FAC8466222AC6D18004F57EC /* KVNOperation.swift */,
 				FA12AB5622C6D68700105545 /* LinkTappableTextView.swift */,
 				FAE1F11D2143B29F0002CAB2 /* LocationTracker.swift */,
+				FA6386A622D181C7001B4424 /* Namable.swift */,
 				FA6A188521EFEF920092C56C /* Observable.swift */,
 				FA8833E02209BF570037C796 /* RealmSearchViewController.swift */,
 				FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */,
@@ -854,6 +862,7 @@
 				FA8833E4220CE7350037C796 /* Country.swift */,
 				8C8DC74C22AF4343002EA1CD /* FaqJSON.swift */,
 				FAC159A121EB68AA00564E2D /* Location.swift */,
+				FA6386A422D17EBA001B4424 /* Mappable.swift */,
 				FA7C200D221820FA002C6DAB /* OperationReply.swift */,
 				FA7C2011221C2F20002C6DAB /* Photo.swift */,
 				FAD2B51721F48AB8009FFDD7 /* PlaceInfo.swift */,
@@ -1258,6 +1267,7 @@
 				8C5ECF3A21FFE49800322ABF /* RankingsQuery.swift in Sources */,
 				8CE3FC2C222389B600B94EAA /* Scorecard.swift in Sources */,
 				FAC9057322CB8E9A001296DE /* CountInfoHeader.swift in Sources */,
+				FA6386A322D1743E001B4424 /* MTPMapView.swift in Sources */,
 				FA4653342115ADC6005B5A0A /* MTPNetworkService.swift in Sources */,
 				FAA819002244814900BB9F92 /* LocationPagingVC.swift in Sources */,
 				FA5AC0B421FC49860080F84F /* PlaceAnnotation.swift in Sources */,
@@ -1355,6 +1365,7 @@
 				FA835D34210EAC110098C270 /* Styler.swift in Sources */,
 				FA392BBD20DF69F30026C828 /* LocationsVC.swift in Sources */,
 				8C50B16C22374C650013BD34 /* UIViewController+Keyboard.swift in Sources */,
+				FA6386A522D17EBA001B4424 /* Mappable.swift in Sources */,
 				FAD2B51A21F492B3009FFDD7 /* UncertainValue.swift in Sources */,
 				FAE1F119214354A80002CAB2 /* Avenir.swift in Sources */,
 				FA62BAE922478A6D009FDC4E /* UserCountsPagingVC.swift in Sources */,
@@ -1367,6 +1378,7 @@
 				FAAE29C520F05A9600B43BA9 /* UserDefaults+TypeSafety.swift in Sources */,
 				FA5AC0C121FDCCDE0080F84F /* ListPagingItem.swift in Sources */,
 				FA2172D822BE038C00CE4F40 /* PlaceOverlay.swift in Sources */,
+				FA6386A722D181C7001B4424 /* Namable.swift in Sources */,
 				FA44CDF822B5CBFC00F33D34 /* UITableView+Updating.swift in Sources */,
 				FA46377E210DE1E60007382D /* SettingsVC.swift in Sources */,
 				FA62BAEB2247A9A0009FDC4E /* CountsPageVC.swift in Sources */,

@@ -282,7 +282,6 @@ extension UserAvatar {
     dynamic var bio: String = ""
     dynamic var fullName: String = ""
     dynamic var gender: String = ""
-    dynamic var id: Int = 0
     dynamic var locationName: String = ""
     dynamic var picture: String?
     dynamic var orderBeaches: Int = 0
@@ -292,6 +291,7 @@ extension UserAvatar {
     dynamic var orderRestaurants: Int = 0
     dynamic var orderUncountries: Int = 0
     dynamic var orderWhss: Int = 0
+    dynamic var userId: Int = 0
     dynamic var visitBeaches: Int = 0
     dynamic var visitDivesites: Int = 0
     dynamic var visitGolfcourses: Int = 0
@@ -304,7 +304,7 @@ extension UserAvatar {
     let linkUrls = List<String>()
 
     override static func primaryKey() -> String? {
-        return "id"
+        return "userId"
     }
 
     convenience init(from: RankedUserJSON,
@@ -315,7 +315,6 @@ extension UserAvatar {
         bio = existing?.bio ?? ""
         fullName = from.fullName
         gender = from.gender
-        id = from.id
         locationName = from.location.description
         picture = from.picture
         orderBeaches = from.rankBeaches ?? existing?.orderBeaches ?? 0
@@ -325,6 +324,7 @@ extension UserAvatar {
         orderRestaurants = from.rankRestaurants ?? existing?.orderRestaurants ?? 0
         orderUncountries = from.rankUncountries ?? existing?.orderUncountries ?? 0
         orderWhss = from.rankWhss ?? existing?.orderWhss ?? 0
+        userId = from.id
         visitBeaches = from.scoreBeaches ?? existing?.visitBeaches ?? 0
         visitDivesites = from.scoreDivesites ?? existing?.visitDivesites ?? 0
         visitGolfcourses = from.scoreGolfcourses ?? existing?.visitGolfcourses ?? 0
@@ -344,7 +344,7 @@ extension UserAvatar {
         bio = from.bio ?? ""
         fullName = from.fullName
         gender = from.gender
-        id = from.id
+        userId = from.id
         locationName = from.location.description
         picture = from.picture
         orderBeaches = from.rankBeaches ?? 0
@@ -372,7 +372,7 @@ extension UserAvatar {
         self.init()
 
         fullName = from.label
-        id = from.id
+        userId = from.id
     }
 
     convenience init?(from: OwnerJSON,
@@ -382,7 +382,7 @@ extension UserAvatar {
         self.init()
 
         fullName = from.fullName
-        id = from.id
+        userId = from.id
     }
 
     override func isEqual(_ object: Any?) -> Bool {
@@ -392,9 +392,9 @@ extension UserAvatar {
                bio == other.bio &&
                fullName == other.fullName &&
                gender == other.gender &&
-               id == other.id &&
                locationName == other.locationName &&
                picture == other.picture &&
+               userId == other.userId &&
                visitBeaches == other.visitBeaches &&
                visitDivesites == other.visitDivesites &&
                visitGolfcourses == other.visitGolfcourses &&

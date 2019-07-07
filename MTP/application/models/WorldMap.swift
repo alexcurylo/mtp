@@ -133,7 +133,6 @@ struct WorldMap {
 
     func contains(coordinate: CLLocationCoordinate2D,
                   location id: Int) -> Bool {
-        //log.todo("precalc bounding boxes?")
         for location in locations {
             guard location.properties.locid == id else { continue }
 

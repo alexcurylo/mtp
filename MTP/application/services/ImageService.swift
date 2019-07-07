@@ -15,11 +15,17 @@ protocol ImageService: ImageDisplaying { }
 extension ImageService where Self: UIView {
 
     func load(image location: Location?) {
-        load(image: location?.imageUrl)
+        load(image: location?.placeImageUrl)
     }
 
     func load(flag location: Location?) {
         load(image: location?.flagUrl)
+    }
+
+    func load(image place: MapInfo?) {
+        load(image: place?.imageUrl,
+             placeholder: R.image.placeholderMedium()
+        )
     }
 
     func load(image place: PlaceAnnotation?) {

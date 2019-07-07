@@ -159,7 +159,7 @@ CHECKOUT OPTIONS:
     :commit: b260e75ec240051fa4e74e1f71724493022810ab
     :git: https://github.com/alexcurylo/ABFRealmMapView
   RealmMapView:
-    :commit: b260e75ec240051fa4e74e1f71724493022810ab
+    :commit: fb95a759debeb3d3c056ef255fcb0b89718c947f
     :git: https://github.com/alexcurylo/ABFRealmMapView
 
 SPEC CHECKSUMS:
