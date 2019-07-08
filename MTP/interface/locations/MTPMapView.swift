@@ -3,6 +3,9 @@
 import MapKit
 import RealmMapView
 
+typealias MappableAnnotation = Annotation
+typealias MappableClusterAnnotationView = ClusterAnnotationView
+
 final class MTPMapView: RealmMapView, ServiceProvider {
 
     var displayed = ChecklistFlags() {
@@ -74,9 +77,12 @@ final class MTPMapView: RealmMapView, ServiceProvider {
                 withDuration: 1,
                 animations: {
                     self?.setRegion(region, animated: true)
+                    // regionWillChange
                 },
                 completion: { _ in
                     then?()
+                    // regionDidChange (refreshMapView called just before)
+                    // ...didAdd from addAnnotationsToMapView completion
                 }
             )
         }
@@ -94,6 +100,14 @@ final class MTPMapView: RealmMapView, ServiceProvider {
         if !overlays.isEmpty {
             addOverlays(overlays)
         }
+    }
+
+    func select(mappable: Mappable) {
+        guard let shown = annotation(mappable: mappable) else {
+            return
+        }
+
+        selectAnnotation(shown, animated: false)
     }
 }
 
@@ -133,5 +147,54 @@ private extension MTPMapView {
             basePredicate = NSPredicate(format: "checklistValue IN %@", show)
         }
         refreshMapView()
+    }
+
+    func annotation(mappable: Mappable) -> MappableAnnotation? {
+        for annotation in annotations {
+            if let annotation = annotation as? MappableAnnotation,
+               annotation.shows(mappable: mappable) {
+                return annotation
+            }
+        }
+
+        log.todo("Mappable to annotation?")
+        note.unimplemented()
+        return nil
+    }
+}
+
+extension MappableAnnotation {
+
+    var only: Mappable? {
+        if safeObjects.count != 1 {
+            return nil
+        } else {
+            return safeObjects.first?.toObject(Mappable.self)
+        }
+    }
+
+    func shows(mappable: Mappable) -> Bool {
+        guard let only = only else {
+            return false
+        }
+
+        let same = only == mappable
+        return same
+    }
+}
+
+extension MappableClusterAnnotationView {
+
+    var objects: [LocationSafeRealmObject] {
+        return MappableClusterAnnotationView.safeObjects(forClusterAnnotationView: self) ?? []
+    }
+
+    var only: Mappable? {
+        let array = objects
+        if array.count != 1 {
+            return nil
+        } else {
+            return array.first?.toObject(Mappable.self)
+        }
     }
 }

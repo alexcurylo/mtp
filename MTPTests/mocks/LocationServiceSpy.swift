@@ -79,36 +79,6 @@ final class LocationServiceSpy: LocationService {
         invokedNoteGetterCount += 1
         return stubbedNote
     }
-    var invokedNotify = false
-    var invokedNotifyCount = 0
-    var invokedNotifyParameters: (mappable: Mappable, Void)?
-    var invokedNotifyParametersList = [(mappable: Mappable, Void)]()
-    func notify(mappable: Mappable) {
-        invokedNotify = true
-        invokedNotifyCount += 1
-        invokedNotifyParameters = (mappable, ())
-        invokedNotifyParametersList.append((mappable, ()))
-    }
-    var invokedReveal = false
-    var invokedRevealCount = 0
-    var invokedRevealParameters: (mappable: Mappable?, callout: Bool)?
-    var invokedRevealParametersList = [(mappable: Mappable?, callout: Bool)]()
-    func reveal(mappable: Mappable?, callout: Bool) {
-        invokedReveal = true
-        invokedRevealCount += 1
-        invokedRevealParameters = (mappable, callout)
-        invokedRevealParametersList.append((mappable, callout))
-    }
-    var invokedUpdate = false
-    var invokedUpdateCount = 0
-    var invokedUpdateParameters: (mappable: Mappable, Void)?
-    var invokedUpdateParametersList = [(mappable: Mappable, Void)]()
-    func update(mappable: Mappable) {
-        invokedUpdate = true
-        invokedUpdateCount += 1
-        invokedUpdateParameters = (mappable, ())
-        invokedUpdateParametersList.append((mappable, ()))
-    }
     var invokedNearest = false
     var invokedNearestCount = 0
     var invokedNearestParameters: (list: Checklist, id: Int, coordinate: CLLocationCoordinate2D)?
@@ -172,5 +142,105 @@ final class LocationServiceSpy: LocationService {
         invokedInjectCount += 1
         invokedInjectParameters = (handler, ())
         invokedInjectParametersList.append((handler, ()))
+    }
+    var invokedCloseMappable = false
+    var invokedCloseMappableCount = 0
+    var invokedCloseMappableParameters: (mappable: Mappable, Void)?
+    var invokedCloseMappableParametersList = [(mappable: Mappable, Void)]()
+    func close(mappable: Mappable) {
+        invokedCloseMappable = true
+        invokedCloseMappableCount += 1
+        invokedCloseMappableParameters = (mappable, ())
+        invokedCloseMappableParametersList.append((mappable, ()))
+    }
+    var invokedNotifyMappable = false
+    var invokedNotifyMappableCount = 0
+    var invokedNotifyMappableParameters: (mappable: Mappable, Void)?
+    var invokedNotifyMappableParametersList = [(mappable: Mappable, Void)]()
+    func notify(mappable: Mappable) {
+        invokedNotifyMappable = true
+        invokedNotifyMappableCount += 1
+        invokedNotifyMappableParameters = (mappable, ())
+        invokedNotifyMappableParametersList.append((mappable, ()))
+    }
+    var invokedRevealMappable = false
+    var invokedRevealMappableCount = 0
+    var invokedRevealMappableParameters: (mappable: Mappable, callout: Bool)?
+    var invokedRevealMappableParametersList = [(mappable: Mappable, callout: Bool)]()
+    func reveal(mappable: Mappable, callout: Bool) {
+        invokedRevealMappable = true
+        invokedRevealMappableCount += 1
+        invokedRevealMappableParameters = (mappable, callout)
+        invokedRevealMappableParametersList.append((mappable, callout))
+    }
+    var invokedShowMappable = false
+    var invokedShowMappableCount = 0
+    var invokedShowMappableParameters: (mappable: Mappable, Void)?
+    var invokedShowMappableParametersList = [(mappable: Mappable, Void)]()
+    func show(mappable: Mappable) {
+        invokedShowMappable = true
+        invokedShowMappableCount += 1
+        invokedShowMappableParameters = (mappable, ())
+        invokedShowMappableParametersList.append((mappable, ()))
+    }
+    var invokedUpdateMappable = false
+    var invokedUpdateMappableCount = 0
+    var invokedUpdateMappableParameters: (mappable: Mappable, Void)?
+    var invokedUpdateMappableParametersList = [(mappable: Mappable, Void)]()
+    func update(mappable: Mappable) {
+        invokedUpdateMappable = true
+        invokedUpdateMappableCount += 1
+        invokedUpdateMappableParameters = (mappable, ())
+        invokedUpdateMappableParametersList.append((mappable, ()))
+    }
+    var invokedClosePlace = false
+    var invokedClosePlaceCount = 0
+    var invokedClosePlaceParameters: (place: PlaceAnnotation, Void)?
+    var invokedClosePlaceParametersList = [(place: PlaceAnnotation, Void)]()
+    func close(place: PlaceAnnotation) {
+        invokedClosePlace = true
+        invokedClosePlaceCount += 1
+        invokedClosePlaceParameters = (place, ())
+        invokedClosePlaceParametersList.append((place, ()))
+    }
+    var invokedNotifyPlace = false
+    var invokedNotifyPlaceCount = 0
+    var invokedNotifyPlaceParameters: (place: PlaceAnnotation, Void)?
+    var invokedNotifyPlaceParametersList = [(place: PlaceAnnotation, Void)]()
+    func notify(place: PlaceAnnotation) {
+        invokedNotifyPlace = true
+        invokedNotifyPlaceCount += 1
+        invokedNotifyPlaceParameters = (place, ())
+        invokedNotifyPlaceParametersList.append((place, ()))
+    }
+    var invokedRevealPlace = false
+    var invokedRevealPlaceCount = 0
+    var invokedRevealPlaceParameters: (place: PlaceAnnotation, callout: Bool)?
+    var invokedRevealPlaceParametersList = [(place: PlaceAnnotation, callout: Bool)]()
+    func reveal(place: PlaceAnnotation, callout: Bool) {
+        invokedRevealPlace = true
+        invokedRevealPlaceCount += 1
+        invokedRevealPlaceParameters = (place, callout)
+        invokedRevealPlaceParametersList.append((place, callout))
+    }
+    var invokedShowPlace = false
+    var invokedShowPlaceCount = 0
+    var invokedShowPlaceParameters: (place: PlaceAnnotation, Void)?
+    var invokedShowPlaceParametersList = [(place: PlaceAnnotation, Void)]()
+    func show(place: PlaceAnnotation) {
+        invokedShowPlace = true
+        invokedShowPlaceCount += 1
+        invokedShowPlaceParameters = (place, ())
+        invokedShowPlaceParametersList.append((place, ()))
+    }
+    var invokedUpdatePlace = false
+    var invokedUpdatePlaceCount = 0
+    var invokedUpdatePlaceParameters: (place: PlaceAnnotation, Void)?
+    var invokedUpdatePlaceParametersList = [(place: PlaceAnnotation, Void)]()
+    func update(place: PlaceAnnotation) {
+        invokedUpdatePlace = true
+        invokedUpdatePlaceCount += 1
+        invokedUpdatePlaceParameters = (place, ())
+        invokedUpdatePlaceParametersList.append((place, ()))
     }
 }

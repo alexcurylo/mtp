@@ -443,17 +443,29 @@ final class DataServiceSpy: DataService {
         invokedGetMappableParametersList.append((list, id))
         return stubbedGetMappableResult
     }
-    var invokedGetMappables = false
-    var invokedGetMappablesCount = 0
-    var invokedGetMappablesParameters: (list: Checklist, Void)?
-    var invokedGetMappablesParametersList = [(list: Checklist, Void)]()
-    var stubbedGetMappablesResult: [Mappable]! = []
+    var invokedGetMappablesChecklist = false
+    var invokedGetMappablesChecklistCount = 0
+    var invokedGetMappablesChecklistParameters: (list: Checklist, Void)?
+    var invokedGetMappablesChecklistParametersList = [(list: Checklist, Void)]()
+    var stubbedGetMappablesChecklistResult: [Mappable]! = []
     func get(mappables list: Checklist) -> [Mappable] {
-        invokedGetMappables = true
-        invokedGetMappablesCount += 1
-        invokedGetMappablesParameters = (list, ())
-        invokedGetMappablesParametersList.append((list, ()))
-        return stubbedGetMappablesResult
+        invokedGetMappablesChecklist = true
+        invokedGetMappablesChecklistCount += 1
+        invokedGetMappablesChecklistParameters = (list, ())
+        invokedGetMappablesChecklistParametersList.append((list, ()))
+        return stubbedGetMappablesChecklistResult
+    }
+    var invokedGetMappablesString = false
+    var invokedGetMappablesStringCount = 0
+    var invokedGetMappablesStringParameters: (matching: String, Void)?
+    var invokedGetMappablesStringParametersList = [(matching: String, Void)]()
+    var stubbedGetMappablesStringResult: [Mappable]! = []
+    func get(mappables matching: String) -> [Mappable] {
+        invokedGetMappablesString = true
+        invokedGetMappablesStringCount += 1
+        invokedGetMappablesStringParameters = (matching, ())
+        invokedGetMappablesStringParametersList.append((matching, ()))
+        return stubbedGetMappablesStringResult
     }
     var invokedGetPhotosPages = false
     var invokedGetPhotosPagesCount = 0

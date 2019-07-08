@@ -5,7 +5,6 @@
 import Anchorage
 import DropDown
 import MapKit
-import RealmMapView
 
 final class LocationsVC: UIViewController, ServiceProvider {
 
@@ -16,6 +15,8 @@ final class LocationsVC: UIViewController, ServiceProvider {
         didSet { searchBar?.removeClearButton() }
     }
     @IBOutlet private var showMoreButton: UIButton?
+
+    private var trackingButton: MKUserTrackingButton?
 
     let dropdown = DropDown {
         $0.dismissMode = .manual
@@ -32,13 +33,11 @@ final class LocationsVC: UIViewController, ServiceProvider {
         $0.textColor = .darkGray
         $0.textFont = Avenir.book.of(size: 14)
     }
-    var dropdownPlaces: [PlaceInfo] = []
-
-    private var trackingButton: MKUserTrackingButton?
+    var matches: [Mappable] = []
 
     private var mapCentered = false
-
-    private var selected: PlaceAnnotation?
+    private var injectPlace: PlaceAnnotation?
+    private var injectMappable: Mappable?
 
     deinit {
         loc.remove(tracker: self)
@@ -85,8 +84,8 @@ final class LocationsVC: UIViewController, ServiceProvider {
             nearby?.inject(model: (data.mappables, loc.distances))
         case Segues.showLocation.identifier:
             if let location = Segues.showLocation(segue: segue)?.destination,
-               let selected = selected {
-                location.inject(model: selected)
+               let inject = injectPlace {
+                location.inject(model: inject)
             }
         default:
             log.debug("unexpected segue: \(segue.name)")
@@ -105,7 +104,7 @@ final class LocationsVC: UIViewController, ServiceProvider {
         guard let coordinate = place?.placeCoordinate else { return }
 
         navigationController?.popToRootViewController(animated: false)
-        zoom(annotation: coordinate, then: nil)
+        zoom(to: coordinate, then: nil)
     }
 }
 
@@ -121,11 +120,9 @@ extension LocationsVC: PlaceAnnotationDelegate {
         note.notify(list: place.list, id: place.id)
     }
 
-    func reveal(place: PlaceAnnotation?, callout: Bool) {
-        guard let place = place else { return }
-
+    func reveal(place: PlaceAnnotation, callout: Bool) {
         navigationController?.popToRootViewController(animated: false)
-        zoom(annotation: place.coordinate) { [weak self] in
+        zoom(to: place.coordinate) { [weak self] in
             if callout {
                 self?.mtpMapView?.selectAnnotation(place, animated: false)
             }
@@ -133,9 +130,8 @@ extension LocationsVC: PlaceAnnotationDelegate {
     }
 
     func show(place: PlaceAnnotation) {
-        selected = place
+        injectPlace = place
         close(place: place)
-
         performSegue(withIdentifier: Segues.showLocation,
                      sender: self)
     }
@@ -145,6 +141,39 @@ extension LocationsVC: PlaceAnnotationDelegate {
 
         map.removeAnnotation(place)
         map.addAnnotation(place)
+    }
+}
+
+// MARK: - Mapper
+
+extension LocationsVC: Mapper {
+
+    func close(mappable: Mappable) {
+        // not called
+        log.todo("sort PlaceAnnnotationDelegate close for Mappables")
+    }
+
+    func notify(mappable: Mappable) {
+        note.notify(list: mappable.checklist, id: mappable.checklistId)
+    }
+
+    func reveal(mappable: Mappable, callout: Bool) {
+        navigationController?.popToRootViewController(animated: false)
+        zoom(to: mappable.coordinate) { [weak self] in
+            if callout {
+                self?.mtpMapView?.select(mappable: mappable)
+            }
+        }
+    }
+
+    func show(mappable: Mappable) {
+        // not called
+        log.todo("sort PlaceAnnnotationDelegate show for Mappables")
+    }
+
+    func update(mappable: Mappable) {
+        // Mappable.isVisited
+        log.todo("sort PlaceAnnnotationDelegate update for Mappables")
     }
 }
 
@@ -161,28 +190,6 @@ extension LocationsVC: LocationTracker {
     }
 
     func location(changed: CLLocation) { }
-
-    func notify(mappable: Mappable) {
-        log.todo("sort PlaceAnnnotationDelegate notify for Mappables")
-        // see notify(place: PlaceAnnotation) in LocationHandler
-    }
-
-    func reveal(mappable: Mappable?, callout: Bool) {
-        guard let mappable = mappable else { return }
-
-        navigationController?.popToRootViewController(animated: false)
-        zoom(annotation: mappable.coordinate) { [weak self] in
-            if callout {
-                self?.log.todo("Mappable to annotation")
-                self?.note.unimplemented()
-            }
-        }
-    }
-
-    func update(mappable: Mappable) {
-        log.todo("sort PlaceAnnnotationDelegate update for Mappables")
-        // see update(place: PlaceAnnotation) in LocationHandler
-    }
 }
 
 // MARK: - Private
@@ -236,7 +243,7 @@ private extension LocationsVC {
         zoom(to: here, span: 160_000, then: nil)
     }
 
-    func zoom(annotation center: CLLocationCoordinate2D,
+    func zoom(to center: CLLocationCoordinate2D,
               then: (() -> Void)?) {
         let span = CLLocationDistance(500)
         #if OFFCENTER_ORIGIN
@@ -266,21 +273,8 @@ extension LocationsVC: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar,
                    textDidChange searchText: String) {
-        if searchText.isEmpty {
-            dropdownPlaces = []
-        } else {
-            dropdownPlaces = Checklist.allCases.flatMap { list in
-                list.places.compactMap { place in
-                    guard place.placeIsMappable else { return nil }
-
-                    let name = place.placeTitle
-                    let match = name.range(of: searchText, options: .caseInsensitive) != nil
-                    return match ? place : nil
-                }
-            }
-        }
-
-        let names = dropdownPlaces.map { $0.placeTitle }
+        matches = data.get(mappables: searchText)
+        let names = matches.map { $0.title }
         dropdown.dataSource = names
         if names.isEmpty {
             dropdown.hide()
@@ -309,25 +303,11 @@ extension LocationsVC: UISearchBarDelegate {
         searchBar.showsCancelButton = false
     }
 
-    func annotation(place: PlaceInfo) -> PlaceAnnotation? {
-        let annotations = mtpMapView?.annotations ?? []
-        for annotation in annotations {
-            if let annotation = annotation as? PlaceAnnotation,
-                   annotation.id == place.placeId,
-                   annotation.name == place.placeTitle {
-                return annotation
-            }
-        }
-        return nil
-    }
-
     func dropdown(selected index: Int) {
         if let searchBar = searchBar {
             searchBarCancelButtonClicked(searchBar)
         }
-        let info = dropdownPlaces[index]
-        let place = annotation(place: info)
-        reveal(place: place, callout: true)
+        reveal(mappable: matches[index], callout: true)
     }
 }
 
@@ -363,8 +343,9 @@ extension LocationsVC: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView,
                  viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         switch annotation {
-        case let realm as Annotation:
-            log.todo("produce annotation view for \(realm)")
+
+        case let mappable as MappableAnnotation:
+            log.todo("produce annotation view for \(mappable)")
             return nil
 
         case let place as PlaceAnnotation:
@@ -398,22 +379,20 @@ extension LocationsVC: MKMapViewDelegate {
                  didSelect view: MKAnnotationView) {
         switch view {
 
-        case let realm as ClusterAnnotationView:
-            log.todo("handle selection for \(realm)")
-            if let safeObjects = ClusterAnnotationView.safeObjects(forClusterAnnotationView: realm),
-                safeObjects.count == 1,
-                let mappable = safeObjects.first?.toObject(Mappable.self) {
-                mtpMapView?.update(overlays: mappable)
-            }
+        case let cluster as MappableClusterAnnotationView:
+            log.todo("handle selection for \(cluster)")
+            guard let mappable = cluster.only else { return }
+
+            mtpMapView?.update(overlays: mappable)
+            #if TEST_TRIGGER_ON_SELECTION
+            mappable._testTrigger(background: false)
+            #endif
 
         case let place as PlaceAnnotationView:
             place.prepareForCallout()
             if let mappable = place.mappable {
                 mtpMapView?.update(overlays: mappable)
             }
-            #if TEST_TRIGGER_ON_SELECTION
-            (place.annotation as? PlaceAnnotation)?._testTrigger(background: false)
-            #endif
         case let cluster as PlaceClusterAnnotationView:
             log.error("MKMapView should not be clustering")
             mtpMapView?.zoom(cluster: cluster.annotation as? MKClusterAnnotation)

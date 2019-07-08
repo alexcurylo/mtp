@@ -44,6 +44,15 @@ extension PlaceMappable {
     }
 }
 
+protocol Mapper {
+
+    func close(mappable: Mappable)
+    func notify(mappable: Mappable)
+    func reveal(mappable: Mappable, callout: Bool)
+    func show(mappable: Mappable)
+    func update(mappable: Mappable)
+}
+
 @objcMembers final class Mappable: Object, ServiceProvider {
 
     dynamic var checklistValue: Int = Checklist.locations.rawValue
@@ -204,6 +213,27 @@ extension PlaceMappable {
                                       location: checklistId)
         update(triggered: contains)
         return contains
+    }
+
+    override func isEqual(_ object: Any?) -> Bool {
+        guard let other = object as? Mappable else { return false }
+        guard !isSameObject(as: other) else { return true }
+
+        let same = dbKey == other.dbKey &&
+                   checklistValue == other.checklistValue &&
+                   checklistId == other.checklistId &&
+                   country == other.country &&
+                   image == other.image &&
+                   image == other.image &&
+                   latitude == other.latitude &&
+                   longitude == other.longitude &&
+                   region == other.region &&
+                   subtitle == other.subtitle &&
+                   title == other.title &&
+                   visitors == other.visitors &&
+                   website == other.website &&
+                   location == other.location
+        return same
     }
 
     #if DEBUG

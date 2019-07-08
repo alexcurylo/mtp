@@ -14,16 +14,10 @@ enum PermissionTrigger {
 
 typealias Distances = [String: CLLocationDistance]
 
-protocol LocationService: ServiceProvider {
+protocol LocationService: Mapper, PlaceAnnotationDelegate, ServiceProvider {
 
     var here: CLLocationCoordinate2D? { get }
     var inside: Location? { get }
-
-    //func close(mappable: Mappable)
-    func notify(mappable: Mappable)
-    func reveal(mappable: Mappable?, callout: Bool)
-    //func show(mappable: Mappable)
-    func update(mappable: Mappable)
 
     func nearest(list: Checklist,
                  id: Int,
@@ -149,19 +143,54 @@ final class LocationServiceImpl: LocationService {
             manager.startUpdatingLocation()
         }
     }
+}
 
-    func notify(mappable: Mappable) {
-        log.todo("sort PlaceAnnnotationDelegate notify for Mappables")
-        // see notify(place: PlaceAnnotation) in LocationHandler
+// MARK: - Mapper
+
+extension LocationServiceImpl: Mapper {
+
+    func close(mappable: Mappable) {
+        handler?.broadcast { $0.close(mappable: mappable) }
     }
 
-    func reveal(mappable: Mappable?, callout: Bool) {
-        log.todo("sort PlaceAnnnotationDelegate reveal for Mappables")
-        // see reveal(place: PlaceAnnotation) in LocationHandler
+    func notify(mappable: Mappable) {
+        handler?.broadcast { $0.notify(mappable: mappable) }
+    }
+
+    func reveal(mappable: Mappable, callout: Bool) {
+        handler?.broadcast { $0.reveal(mappable: mappable, callout: callout) }
+    }
+
+    func show(mappable: Mappable) {
+        handler?.broadcast { $0.show(mappable: mappable) }
     }
 
     func update(mappable: Mappable) {
-        log.todo("sort PlaceAnnnotationDelegate update for Mappables")
-        // see update(place: PlaceAnnotation) in LocationHandler
+        handler?.broadcast { $0.update(mappable: mappable) }
+    }
+}
+
+// MARK: - PlaceAnnotationDelegate
+
+extension LocationServiceImpl: PlaceAnnotationDelegate {
+
+    func close(place: PlaceAnnotation) {
+        handler?.broadcast { $0.close(place: place) }
+    }
+
+    func notify(place: PlaceAnnotation) {
+        handler?.broadcast { $0.notify(place: place) }
+    }
+
+    func reveal(place: PlaceAnnotation, callout: Bool) {
+        handler?.broadcast { $0.reveal(place: place, callout: callout) }
+    }
+
+    func show(place: PlaceAnnotation) {
+        handler?.broadcast { $0.show(place: place) }
+    }
+
+    func update(place: PlaceAnnotation) {
+        handler?.broadcast { $0.update(place: place) }
     }
 }

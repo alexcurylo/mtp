@@ -4,8 +4,6 @@ import CoreLocation
 import RealmSwift
 import UIKit
 
-// swiftlint:disable file_length
-
 final class LocationHandler: NSObject, AppHandler, ServiceProvider {
 
     let locationManager = CLLocationManager {
@@ -44,13 +42,19 @@ final class LocationHandler: NSObject, AppHandler, ServiceProvider {
     private var distancesUpdating: Int = 0 {
         didSet { checkDistanceUpdate() }
     }
-    private var placesUpdating: Int = 0 {
-        didSet { checkDistanceUpdate() }
-    }
 
     private var distanceFilter = CLLocationDistance(50)
     private var timeFilter = TimeInterval(5)
     private var lastFilter: Date?
+
+    func broadcast(then: @escaping (LocationTracker) -> Void) {
+        DispatchQueue.main.async {
+            self.trackers.forEach {
+                guard let tracker = $0 as? LocationTracker else { return }
+                then(tracker)
+            }
+        }
+    }
 }
 
 // MARK: - AppLaunchHandler
@@ -100,49 +104,33 @@ extension LocationHandler: CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager,
-                         didUpdateHeading newHeading: CLHeading) {
-    }
+                         didUpdateHeading newHeading: CLHeading) { }
     func locationManagerShouldDisplayHeadingCalibration(_ manager: CLLocationManager) -> Bool {
         return true
     }
 
-    func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
-    }
-    func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) {
-    }
-
+    func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) { }
+    func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) { }
     func locationManager(_ manager: CLLocationManager,
                          didDetermineState state: CLRegionState,
-                         for region: CLRegion) {
-    }
+                         for region: CLRegion) { }
     func locationManager(_ manager: CLLocationManager,
-                         didEnterRegion region: CLRegion) {
-    }
+                         didEnterRegion region: CLRegion) { }
     func locationManager(_ manager: CLLocationManager,
-                         didExitRegion region: CLRegion) {
-    }
+                         didExitRegion region: CLRegion) { }
     func locationManager(_ manager: CLLocationManager,
                          didRangeBeacons beacons: [CLBeacon],
-                         in region: CLBeaconRegion) {
-    }
+                         in region: CLBeaconRegion) { }
     func locationManager(_ manager: CLLocationManager,
                          rangingBeaconsDidFailFor region: CLBeaconRegion,
-                         withError error: Error) {
-    }
-
+                         withError error: Error) { }
     func locationManager(_ manager: CLLocationManager,
-                         didFailWithError error: Error) {
-        log.error(#function)
-    }
-
+                         didFailWithError error: Error) { }
     func locationManager(_ manager: CLLocationManager,
-                         didStartMonitoringFor region: CLRegion) {
-    }
+                         didStartMonitoringFor region: CLRegion) { }
     func locationManager(_ manager: CLLocationManager,
                          monitoringDidFailFor region: CLRegion?,
-                         withError error: Error) {
-        log.error(#function)
-    }
+                         withError error: Error) { }
 
     func locationManager(_ manager: CLLocationManager,
                          didChangeAuthorization status: CLAuthorizationStatus) {
@@ -150,53 +138,14 @@ extension LocationHandler: CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager,
-                         didFinishDeferredUpdatesWithError error: Error?) {
-        log.error(#function)
-    }
-
+                         didFinishDeferredUpdatesWithError error: Error?) {}
     func locationManager(_ manager: CLLocationManager,
-                         didVisit visit: CLVisit) {
-    }
-}
-
-// MARK: - PlaceAnnotationDelegate
-
-extension LocationHandler: PlaceAnnotationDelegate {
-
-    func close(place: PlaceAnnotation) {
-        broadcast { $0.close(place: place) }
-    }
-
-    func notify(place: PlaceAnnotation) {
-        broadcast { $0.notify(place: place) }
-    }
-
-    func reveal(place: PlaceAnnotation?,
-                callout: Bool) {
-        broadcast { $0.reveal(place: place, callout: callout) }
-    }
-
-    func show(place: PlaceAnnotation) {
-        broadcast { $0.show(place: place) }
-    }
-
-    func update(place: PlaceAnnotation) {
-        broadcast { $0.update(place: place) }
-    }
+                         didVisit visit: CLVisit) { }
 }
 
 // MARK: - Private
 
 private extension LocationHandler {
-
-    func broadcast(then: @escaping (LocationTracker) -> Void) {
-        DispatchQueue.main.async {
-            self.trackers.forEach {
-                guard let tracker = $0 as? LocationTracker else { return }
-                then(tracker)
-            }
-        }
-    }
 
     func update(distances from: CLLocation) {
         let trigger = data.isVisitsLoaded
@@ -214,7 +163,7 @@ private extension LocationHandler {
             }
         }
 
-        if placesUpdating > 0 || distancesUpdating > 0 {
+        if distancesUpdating > 0 {
             distanceUpdate = update
         } else {
             start(distance: update)
@@ -223,7 +172,6 @@ private extension LocationHandler {
 
     func checkDistanceUpdate() {
         if let update = distanceUpdate,
-           placesUpdating == 0,
            distancesUpdating == 0 {
             start(distance: update)
         }
@@ -235,104 +183,25 @@ private extension LocationHandler {
         queue.addOperation(distance)
     }
 
-    func update(list: Checklist) {
-        #if CREATE_ANNOTATIONS
-        guard !queue.contains(list: list) else { return }
-
-        let update = UpdateListOperation(list: list,
-                                         trigger: data.isVisitsLoaded,
-                                         delegate: self)
-        update.completionBlock = {
-            DispatchQueue.main.async {
-                self.updated(list: list, new: update.mappables)
-                self.placesUpdating -= 1
-            }
-        }
-        placesUpdating += 1
-        queue.addOperation(update)
-        #else
-        log.todo("remove UpdateListOperation?")
-        checkDistanceUpdate()
-        #endif
-    }
-
     func observe() {
-        update(list: .beaches)
         beachesObserver = Checklist.beaches.observer { _ in
-            self.update(list: .beaches)
+            self.checkDistanceUpdate()
         }
-        update(list: .divesites)
         divesitesObserver = Checklist.divesites.observer { _ in
-            self.update(list: .divesites)
+            self.checkDistanceUpdate()
         }
-        update(list: .golfcourses)
         golfcoursesObserver = Checklist.golfcourses.observer { _ in
-            self.update(list: .golfcourses)
+            self.checkDistanceUpdate()
         }
-        update(list: .locations)
         locationsObserver = Checklist.locations.observer { _ in
-            self.update(list: .locations)
+            self.checkDistanceUpdate()
         }
-        update(list: .restaurants)
         restaurantsObserver = Checklist.restaurants.observer { _ in
-            self.update(list: .restaurants)
+            self.checkDistanceUpdate()
         }
-        update(list: .whss)
         whssObserver = Checklist.whss.observer { _ in
-            self.update(list: .whss)
+            self.checkDistanceUpdate()
         }
-    }
-}
-
-private class UpdateListOperation: KVNOperation, ServiceProvider {
-
-    let list: Checklist
-    let places: [ThreadSafeReference<Object>]
-    private weak var delegate: LocationHandler?
-    let here: CLLocationCoordinate2D
-    let trigger: Bool
-
-    var annotations: Set<PlaceAnnotation> = []
-
-    init(list: Checklist,
-         trigger: Bool,
-         delegate: LocationHandler) {
-        self.list = list
-        self.delegate = delegate
-        self.trigger = trigger
-        here = delegate.lastCoordinate?.coordinate ?? .zero
-        places = list.places.compactMap {
-            guard let object = $0 as? Object else { return nil }
-            return ThreadSafeReference(to: object)
-        }
-    }
-
-    override func operate() {
-        guard let realm = try? Realm() else { return }
-
-        annotations = Set<PlaceAnnotation>(places.compactMap { placeRef in
-            guard let place = realm.resolve(placeRef) as? PlaceInfo,
-                  place.placeIsMappable,
-                  let delegate = delegate else { return nil }
-
-            let coordinate = place.placeCoordinate
-            guard !coordinate.isZero else {
-                log.warning("Coordinates missing: \(list) \(place.placeId), \(place.placeTitle)")
-                return nil
-            }
-
-            guard let annotation = PlaceAnnotation(
-                list: list,
-                info: place,
-                coordinate: coordinate,
-                delegate: delegate
-                ) else { return nil }
-            if !here.isZero {
-                annotation.setDistance(from: here)
-            }
-
-            return annotation
-        })
     }
 }
 
@@ -341,7 +210,7 @@ private class UpdateDistanceOperation: KVNOperation {
     let trigger: Bool
     let handler: LocationHandler
     let world: WorldMap
-    let places: [ThreadSafeReference<Object>]
+    let mappables: [ThreadSafeReference<Object>]
 
     var distances: Distances = [:]
 
@@ -352,7 +221,7 @@ private class UpdateDistanceOperation: KVNOperation {
         self.trigger = trigger
         self.handler = handler
         self.world = world
-        places = mappables.compactMap {
+        self.mappables = mappables.compactMap {
             ThreadSafeReference(to: $0)
         }
     }
@@ -365,32 +234,32 @@ private class UpdateDistanceOperation: KVNOperation {
         let start = Date()
         #endif
 
-        places.forEach {
-            guard let place = realm.resolve($0) as? Mappable else { return }
+        mappables.forEach {
+            guard let mappable = realm.resolve($0) as? Mappable else { return }
 
-            let distance = place.coordinate.distance(from: here)
-            distances[place.dbKey] = distance
+            let distance = mappable.coordinate.distance(from: here)
+            distances[mappable.dbKey] = distance
             guard trigger else { return }
 
-            switch place.checklist {
+            switch mappable.checklist {
             case .locations:
-                if place.trigger(contains: here, world: world) {
-                    handler.lastInside = place.checklistId
+                if mappable.trigger(contains: here, world: world) {
+                    handler.lastInside = mappable.checklistId
                 }
             #if TEST_TRIGGERED_NEARBY
-            case .whss where place.checklistId == WHS.Children.tornea.rawValue:
-                place._testTriggeredNearby()
-            case .whss where place.checklistId == WHS.Singles.angkor.rawValue:
-                place._testTriggeredNearby()
+            case .whss where mappable.checklistId == WHS.Children.tornea.rawValue:
+                mappable._testTriggeredNearby()
+            case .whss where mappable.checklistId == WHS.Singles.angkor.rawValue:
+                mappable._testTriggeredNearby()
             #endif
             default:
-                place.trigger(distance: distance)
+                mappable.trigger(distance: distance)
             }
         }
 
         #if INSTRUMENT_DISTANCE
         let time = -start.timeIntervalSinceNow
-        let title = "Distances: \(places.count) in \(Int(time * 1_000)) ms"
+        let title = "Distances: \(mappables.count) in \(Int(time * 1_000)) ms"
         let body = ""
         handler.note.infoBackground(title: title, body: body)
         #endif
@@ -398,14 +267,6 @@ private class UpdateDistanceOperation: KVNOperation {
 }
 
 private extension OperationQueue {
-
-    func contains(list: Checklist) -> Bool {
-        for operation in operations {
-            if let update = operation as? UpdateListOperation,
-                update.list == list { return true }
-        }
-        return false
-    }
 
     func contains(distance trigger: Bool) -> Bool {
         for operation in operations {

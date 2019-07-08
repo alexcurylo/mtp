@@ -6,7 +6,7 @@ protocol PlaceAnnotationDelegate: AnyObject {
 
     func close(place: PlaceAnnotation)
     func notify(place: PlaceAnnotation)
-    func reveal(place: PlaceAnnotation?, callout: Bool)
+    func reveal(place: PlaceAnnotation, callout: Bool)
     func show(place: PlaceAnnotation)
     func update(place: PlaceAnnotation)
 }

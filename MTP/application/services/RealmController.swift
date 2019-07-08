@@ -16,7 +16,7 @@ final class RealmController: ServiceProvider {
     private lazy var realm: Realm = createRealm()
 
     init() {
-        #if DEBUG
+        #if INSPECT_DATABASE
         defer {
             log.verbose("realm database: \(fileURL)")
         }
@@ -140,6 +140,15 @@ final class RealmController: ServiceProvider {
        } else {
             results = realm.objects(Mappable.self)
        }
+        return Array(results)
+    }
+
+    func mappables(matching: String) -> [Mappable] {
+        guard !matching.isEmpty else { return [] }
+
+        let filter = "title contains[cd] '\(matching)'"
+        let results = realm.objects(Mappable.self)
+                           .filter(filter)
         return Array(results)
     }
 
