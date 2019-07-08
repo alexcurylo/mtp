@@ -26,48 +26,8 @@ final class LocationHandler: NSObject, AppHandler, ServiceProvider {
         trackers.remove(tracker)
     }
 
-    var distances: Distances {
-        log.todo("distances")
-        return [:]
-    }
+    var distances: Distances = [:]
 
-    var mappables: Set<MapInfo> {
-        return mappables(list: nil)
-    }
-
-    func mappables(list: Checklist?) -> Set<MapInfo> {
-        log.todo("mappables")
-        return []
-        /*
-        switch list {
-        case .beaches?: return beaches
-        case .divesites?: return divesites
-        case .golfcourses?: return golfcourses
-        case .locations?: return locations
-        case .restaurants?: return restaurants
-        case .uncountries?: return []
-        case .whss?: return whss
-        case nil: return all
-        }
- */
-    }
-/*
-    private var beaches: Set<MapInfo> = []
-    private var divesites: Set<MapInfo> = []
-    private var golfcourses: Set<MapInfo> = []
-    private var locations: Set<MapInfo> = []
-    private var restaurants: Set<MapInfo> = []
-    private var whss: Set<MapInfo> = []
-    // UN Countries not mapped
-    private var all: Set<MapInfo> {
-        return beaches
-            .union(golfcourses)
-            .union(divesites)
-            .union(locations)
-            .union(restaurants)
-            .union(whss)
-    }
-*/
     private var beachesObserver: Observer?
     private var divesitesObserver: Observer?
     private var golfcoursesObserver: Observer?
@@ -243,10 +203,12 @@ private extension LocationHandler {
         guard distanceUpdate == nil else { return }
 
         let update = UpdateDistanceOperation(trigger: trigger,
+                                             mappables: data.mappables,
                                              handler: self,
                                              world: data.worldMap)
         update.completionBlock = {
             DispatchQueue.main.async {
+                self.distances = update.distances
                 self.distancesUpdating -= 1
                 self.note.checkTriggered()
             }
@@ -381,13 +343,16 @@ private class UpdateDistanceOperation: KVNOperation {
     let world: WorldMap
     let places: [ThreadSafeReference<Object>]
 
+    var distances: Distances = [:]
+
     init(trigger: Bool,
+         mappables: [Mappable],
          handler: LocationHandler,
          world: WorldMap) {
         self.trigger = trigger
         self.handler = handler
         self.world = world
-        places = handler.mappables.compactMap {
+        places = mappables.compactMap {
             ThreadSafeReference(to: $0)
         }
     }
@@ -401,9 +366,10 @@ private class UpdateDistanceOperation: KVNOperation {
         #endif
 
         places.forEach {
-            guard let place = realm.resolve($0) as? MapInfo else { return }
+            guard let place = realm.resolve($0) as? Mappable else { return }
 
-            place.setDistance(from: here)
+            let distance = place.coordinate.distance(from: here)
+            distances[place.dbKey] = distance
             guard trigger else { return }
 
             switch place.checklist {
@@ -418,13 +384,13 @@ private class UpdateDistanceOperation: KVNOperation {
                 place._testTriggeredNearby()
             #endif
             default:
-                place.triggerDistance()
+                place.trigger(distance: distance)
             }
         }
 
         #if INSTRUMENT_DISTANCE
         let time = -start.timeIntervalSinceNow
-        let title = "Distances: \(annotations.count) in \(Int(time * 1_000)) ms"
+        let title = "Distances: \(places.count) in \(Int(time * 1_000)) ms"
         let body = ""
         handler.note.infoBackground(title: title, body: body)
         #endif

@@ -22,8 +22,8 @@ extension ImageService where Self: UIView {
         load(image: location?.flagUrl)
     }
 
-    func load(image place: MapInfo?) {
-        load(image: place?.imageUrl,
+    func load(image mappable: Mappable?) {
+        load(image: mappable?.imageUrl,
              placeholder: R.image.placeholderMedium()
         )
     }

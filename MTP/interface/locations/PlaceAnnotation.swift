@@ -135,33 +135,8 @@ final class PlaceAnnotation: NSObject, MKAnnotation, ServiceProvider {
         return contains
     }
 
-    #if DEBUG
-    func _testTriggeredNearby() {
-        update(triggered: true)
-    }
-
-    func _testTrigger(background: Bool) {
-
-        func trigger() {
-            isTriggered = true
-            delegate?.notify(place: self)
-        }
-
-        if background {
-            UIControl().sendAction(#selector(URLSessionTask.suspend),
-                                   to: UIApplication.shared,
-                                   for: nil)
-            DispatchQueue.main.asyncAfter(deadline: .medium) {
-                trigger()
-            }
-        } else {
-            trigger()
-        }
-    }
-    #endif
-
-    var mapInfo: MapInfo? {
-        return data.get(mapInfo: list, id: id)
+    var mappable: Mappable? {
+        return data.get(mappable: list, id: id)
     }
 }
 

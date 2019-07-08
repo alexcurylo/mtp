@@ -47,7 +47,7 @@ final class RealmController: ServiceProvider {
     func country(id: Int?) -> Country? {
         guard let id = id else { return nil }
         let results = realm.objects(Country.self)
-            .filter("countryId = \(id)")
+                           .filter("countryId = \(id)")
         return results.first
     }
 
@@ -125,11 +125,22 @@ final class RealmController: ServiceProvider {
         }
     }
 
-    func mapInfo(list: Checklist, id: Int) -> MapInfo? {
-        let key = MapInfo.key(list: list, id: id)
-        let results = realm.objects(MapInfo.self)
+    func mappable(list: Checklist, id: Int) -> Mappable? {
+        let key = Mappable.key(list: list, id: id)
+        let results = realm.objects(Mappable.self)
                            .filter("dbKey = \(key)")
         return results.first
+    }
+
+    func mappables(list: Checklist?) -> [Mappable] {
+        let results: Results<Mappable>
+        if let value = list?.rawValue {
+            results = realm.objects(Mappable.self)
+                           .filter("checklistValue = \(value)")
+       } else {
+            results = realm.objects(Mappable.self)
+       }
+        return Array(results)
     }
 
     func photo(id: Int) -> Photo? {

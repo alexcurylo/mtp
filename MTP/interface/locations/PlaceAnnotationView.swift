@@ -149,8 +149,8 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         image = nil
     }
 
-    var mapInfo: MapInfo? {
-        return place?.mapInfo
+    var mappable: Mappable? {
+        return place?.mappable
     }
 }
 

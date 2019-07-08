@@ -17,6 +17,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var lastRankingsQuery: RankingsQuery { get set }
     var locations: [Location] { get }
     var mapDisplay: ChecklistFlags { get set }
+    var mappables: [Mappable] { get }
     var notified: Checked? { get set }
     var restaurants: [Restaurant] { get }
     var settings: SettingsJSON? { get set }
@@ -33,7 +34,8 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func get(locationPhotos id: Int) -> [Photo]
     func get(locationPosts id: Int) -> [Post]
     func get(locations filter: String) -> [Location]
-    func get(mapInfo list: Checklist, id: Int) -> MapInfo?
+    func get(mappable list: Checklist, id: Int) -> Mappable?
+    func get(mappables list: Checklist) -> [Mappable]
     func getPhotosPages(user id: Int) -> Results<PhotosPageInfo>
     func get(photo: Int) -> Photo
     func getPosts(user id: Int) -> [Post]
@@ -211,8 +213,16 @@ final class DataServiceImpl: DataService {
         return realm.locations(filter: filter)
     }
 
-    func get(mapInfo list: Checklist, id: Int) -> MapInfo? {
-        return realm.mapInfo(list: list, id: id)
+    func get(mappable list: Checklist, id: Int) -> Mappable? {
+        return realm.mappable(list: list, id: id)
+    }
+
+    var mappables: [Mappable] {
+        return realm.mappables(list: nil)
+    }
+
+    func get(mappables list: Checklist) -> [Mappable] {
+        return realm.mappables(list: list)
     }
 
     func set(locations: [LocationJSON]) {

@@ -82,16 +82,15 @@ final class MTPMapView: RealmMapView, ServiceProvider {
         }
     }
 
-    func update(overlays place: MapInfo) {
-        let current = overlays.filter { $0 is PlaceOverlay }
-        if let first = current.first as? PlaceOverlay,
-            first.shows(place: place) {
+    func update(overlays mappable: Mappable) {
+        let current = overlays.filter { $0 is MappableOverlay }
+        if let first = current.first as? MappableOverlay,
+           first.shows(mappable: mappable) {
             return
         }
 
         removeOverlays(current)
-        let overlays = PlaceOverlay.overlays(place: place,
-                                             world: data.worldMap)
+        let overlays = mappable.overlays
         if !overlays.isEmpty {
             addOverlays(overlays)
         }
@@ -103,7 +102,7 @@ final class MTPMapView: RealmMapView, ServiceProvider {
 private extension MTPMapView {
 
     func configure() {
-        MapInfo.configure(map: self)
+        Mappable.configure(map: self)
 
         clusterAnnotations = true
         autoRefresh = true

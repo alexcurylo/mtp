@@ -60,9 +60,9 @@ extension RestaurantJSON: CustomDebugStringConvertible {
     }
 }
 
-@objcMembers final class Restaurant: Object, Mappable, PlaceInfo {
+@objcMembers final class Restaurant: Object, PlaceInfo, PlaceMappable {
 
-    dynamic var map: MapInfo?
+    dynamic var map: Mappable?
     dynamic var placeId: Int = 0
 
     override static func primaryKey() -> String? {
@@ -74,16 +74,16 @@ extension RestaurantJSON: CustomDebugStringConvertible {
         guard from.active == "Y" else { return nil }
         self.init()
 
-        map = MapInfo(checklist: .restaurants,
-                      checklistId: from.id,
-                      image: from.img,
-                      latitude: from.lat,
-                      locationId: from.location?.id ?? from.locationId,
-                      longitude: from.long,
-                      title: from.title,
-                      visitors: from.visitors,
-                      website: from.url,
-                      realm: realm)
+        map = Mappable(checklist: .restaurants,
+                       checklistId: from.id,
+                       image: from.img,
+                       latitude: from.lat,
+                       locationId: from.location?.id ?? from.locationId,
+                       longitude: from.long,
+                       title: from.title,
+                       visitors: from.visitors,
+                       website: from.url,
+                       realm: realm)
         placeId = from.id
     }
 

@@ -48,9 +48,9 @@ final class MainTBC: UITabBarController, ServiceProvider {
         selectedIndex = Route.locations.rawValue
     }
 
-    func route(to mapInfo: MapInfo) {
+    func route(to mappable: Mappable) {
         dismiss(presentations: self)
-        locations?.reveal(place: mapInfo, callout: true)
+        locations?.reveal(mappable: mappable, callout: true)
         selectedIndex = Route.locations.rawValue
     }
 

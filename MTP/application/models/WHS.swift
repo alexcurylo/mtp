@@ -46,7 +46,7 @@ extension WHSJSON: CustomDebugStringConvertible {
     }
 }
 
-@objcMembers final class WHS: Object, Mappable, ServiceProvider {
+@objcMembers final class WHS: Object, PlaceMappable, ServiceProvider {
 
     enum Parents: Int {
         case jesuitMissionsOfTheGuaranis = 275
@@ -60,7 +60,7 @@ extension WHSJSON: CustomDebugStringConvertible {
         case angkor = 668
     }
 
-    dynamic var map: MapInfo?
+    dynamic var map: Mappable?
     dynamic var parentId: Int = 0
     dynamic var placeId: Int = 0
     dynamic var unescoId: Int = 0
@@ -80,30 +80,34 @@ extension WHSJSON: CustomDebugStringConvertible {
         let location = realm.location(id: locationId)
         let country: String
         let region: String
+        let subtitle: String
         if let location = location {
             country = location.placeCountry
             region = location.placeRegion
+            subtitle = location.description
         } else if let notLocation = realm.country(id: locationId) {
             log.error("placed in country: WHS \(placeId)")
             country = notLocation.placeCountry
             region = L.unknown()
+            subtitle = country
         } else {
             log.error("missing location: WHS \(placeId)")
             country = L.unknown()
             region = L.unknown()
+            subtitle = ""
         }
-        map = MapInfo(checklist: .whss,
-                      checklistId: from.id,
-                      country: country,
-                      image: String(format: picture, from.id),
-                      latitude: from.lat,
-                      location: location,
-                      longitude: from.long,
-                      region: region,
-                      subtitle: "",
-                      title: from.title,
-                      visitors: from.visitors,
-                      website: website)
+        map = Mappable(checklist: .whss,
+                       checklistId: from.id,
+                       country: country,
+                       image: String(format: picture, from.id),
+                       latitude: from.lat,
+                       location: location,
+                       longitude: from.long,
+                       region: region,
+                       subtitle: subtitle,
+                       title: from.title,
+                       visitors: from.visitors,
+                       website: website)
         parentId = from.parentId ?? 0
         placeId = from.id
         unescoId = from.unescoId

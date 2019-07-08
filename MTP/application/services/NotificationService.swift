@@ -121,7 +121,7 @@ extension NotificationService {
 final class NotificationServiceImpl: NotificationService, ServiceProvider {
 
     private var notifying: PlaceInfo?
-    private var congratulating: MapInfo?
+    private var congratulating: Mappable?
     private var showingModal = false
     private var alerting = false
     private var asking = false
@@ -185,14 +185,14 @@ final class NotificationServiceImpl: NotificationService, ServiceProvider {
     }
 
     func congratulate(list: Checklist, id: Int) {
-        guard let mapInfo = data.get(mapInfo: list, id: id),
-              let note = congratulations(for: mapInfo) else { return }
+        guard let mappable = data.get(mappable: list, id: id),
+              let note = congratulations(for: mappable) else { return }
 
-        congratulate(mapInfo: mapInfo, note: note)
+        congratulate(mappable: mappable, note: note)
     }
 
-    func congratulate(mapInfo: MapInfo, note: Note) {
-        congratulateForeground(mapInfo: mapInfo, note: note)
+    func congratulate(mappable: Mappable, note: Note) {
+        congratulateForeground(mappable: mappable, note: note)
         congratulateBackground(note: note)
     }
 
@@ -410,11 +410,11 @@ private extension NotificationServiceImpl {
                               using: EKAttributes(note: .visit))
     }
 
-    func congratulateForeground(mapInfo: MapInfo, note: Note) {
+    func congratulateForeground(mappable: Mappable, note: Note) {
         guard canNotifyForeground else { return }
 
-        congratulating = mapInfo
-        app.route(to: mapInfo)
+        congratulating = mappable
+        app.route(to: mappable)
 
         alert(foreground: note) {
             self.congratulating = nil
@@ -461,19 +461,19 @@ private extension NotificationServiceImpl {
                               using: EKAttributes(note: note.category))
     }
 
-    func congratulations(for mapInfo: MapInfo) -> Note? {
+    func congratulations(for mappable: Mappable) -> Note? {
         guard let user = data.user else { return nil }
-        let title = L.congratulations(mapInfo.title)
+        let title = L.congratulations(mappable.title)
 
-        let (single, plural) = mapInfo.checklist.names(full: true)
-        let (visited, remaining) = mapInfo.checklist.status(of: user)
+        let (single, plural) = mappable.checklist.names(full: true)
+        let (visited, remaining) = mappable.checklist.status(of: user)
         let contentVisited = L.status(visited, plural, remaining)
 
-        let contentMilestone = mapInfo.checklist.milestone(visited: visited)
+        let contentMilestone = mappable.checklist.milestone(visited: visited)
 
         let contentNearest: String
         if remaining > 0,
-            let place = mapInfo.nearest?.title {
+            let place = mappable.nearest?.title {
             contentNearest = L.nearest(single, place)
         } else {
             contentNearest = ""

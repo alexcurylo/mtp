@@ -82,7 +82,7 @@ final class LocationsVC: UIViewController, ServiceProvider {
             break
         case Segues.showNearby.identifier:
             let nearby = Segues.showNearby(segue: segue)?.destination
-            nearby?.inject(model: (loc.mappables, loc.distances))
+            nearby?.inject(model: (data.mappables, loc.distances))
         case Segues.showLocation.identifier:
             if let location = Segues.showLocation(segue: segue)?.destination,
                let selected = selected {
@@ -132,18 +132,6 @@ extension LocationsVC: PlaceAnnotationDelegate {
         }
     }
 
-    func reveal(place: MapInfo?, callout: Bool) {
-        guard let place = place else { return }
-
-        navigationController?.popToRootViewController(animated: false)
-        zoom(annotation: place.coordinate) { [weak self] in
-            if callout {
-                self?.log.todo("MapInfo to annotation")
-                self?.note.unimplemented()
-            }
-        }
-    }
-
     func show(place: PlaceAnnotation) {
         selected = place
         close(place: place)
@@ -173,6 +161,28 @@ extension LocationsVC: LocationTracker {
     }
 
     func location(changed: CLLocation) { }
+
+    func notify(mappable: Mappable) {
+        log.todo("sort PlaceAnnnotationDelegate notify for Mappables")
+        // see notify(place: PlaceAnnotation) in LocationHandler
+    }
+
+    func reveal(mappable: Mappable?, callout: Bool) {
+        guard let mappable = mappable else { return }
+
+        navigationController?.popToRootViewController(animated: false)
+        zoom(annotation: mappable.coordinate) { [weak self] in
+            if callout {
+                self?.log.todo("Mappable to annotation")
+                self?.note.unimplemented()
+            }
+        }
+    }
+
+    func update(mappable: Mappable) {
+        log.todo("sort PlaceAnnnotationDelegate update for Mappables")
+        // see update(place: PlaceAnnotation) in LocationHandler
+    }
 }
 
 // MARK: - Private
@@ -392,15 +402,14 @@ extension LocationsVC: MKMapViewDelegate {
             log.todo("handle selection for \(realm)")
             if let safeObjects = ClusterAnnotationView.safeObjects(forClusterAnnotationView: realm),
                 safeObjects.count == 1,
-                let first = safeObjects.first?.toObject(MapInfo.self) {
-
-                mtpMapView?.update(overlays: first)
+                let mappable = safeObjects.first?.toObject(Mappable.self) {
+                mtpMapView?.update(overlays: mappable)
             }
 
         case let place as PlaceAnnotationView:
             place.prepareForCallout()
-            if let mapInfo = place.mapInfo {
-                mtpMapView?.update(overlays: mapInfo)
+            if let mappable = place.mappable {
+                mtpMapView?.update(overlays: mappable)
             }
             #if TEST_TRIGGER_ON_SELECTION
             (place.annotation as? PlaceAnnotation)?._testTrigger(background: false)
@@ -426,12 +435,8 @@ extension LocationsVC: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView,
                  rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         switch overlay {
-        case let place as PlaceOverlay:
-            let renderer = MKPolygonRenderer(polygon: place)
-            renderer.fillColor = place.color.withAlphaComponent(0.25)
-            renderer.strokeColor = place.color.withAlphaComponent(0.5)
-            renderer.lineWidth = 1
-            return renderer
+        case let mappable as MappableOverlay:
+            return mappable.renderer
         default:
             return MKOverlayRenderer(overlay: overlay)
         }

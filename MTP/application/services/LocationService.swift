@@ -19,17 +19,17 @@ protocol LocationService: ServiceProvider {
     var here: CLLocationCoordinate2D? { get }
     var inside: Location? { get }
 
-    func reveal(place: MapInfo?, callout: Bool)
-    func update(place: MapInfo)
+    //func close(mappable: Mappable)
+    func notify(mappable: Mappable)
+    func reveal(mappable: Mappable?, callout: Bool)
+    //func show(mappable: Mappable)
+    func update(mappable: Mappable)
 
     func nearest(list: Checklist,
                  id: Int,
-                 to coordinate: CLLocationCoordinate2D) -> MapInfo?
+                 to coordinate: CLLocationCoordinate2D) -> Mappable?
 
     var distances: Distances { get }
-    var mappables: Set<MapInfo> { get }
-
-    func mappables(list: Checklist) -> Set<MapInfo>
 
     func insert<T>(tracker: T) where T: LocationTracker, T: Hashable
     func remove<T>(tracker: T) where T: LocationTracker, T: Hashable
@@ -94,21 +94,13 @@ final class LocationServiceImpl: LocationService {
         return handler?.distances ?? [:]
     }
 
-    var mappables: Set<MapInfo> {
-        return handler?.mappables(list: nil) ?? []
-    }
-
-    func mappables(list: Checklist) -> Set<MapInfo> {
-        return handler?.mappables(list: list) ?? []
-    }
-
     func nearest(list: Checklist,
                  id: Int,
-                 to coordinate: CLLocationCoordinate2D) -> MapInfo? {
+                 to coordinate: CLLocationCoordinate2D) -> Mappable? {
         var distance: CLLocationDistance = 99_999
         let visited = list.visited
-        var nearest: MapInfo?
-        for other in mappables(list: list) {
+        var nearest: Mappable?
+        for other in data.get(mappables: list) {
             guard !visited.contains(other.checklistId),
                   other.checklistId != id else { continue }
 
@@ -158,13 +150,18 @@ final class LocationServiceImpl: LocationService {
         }
     }
 
-    func reveal(place: MapInfo?, callout: Bool) {
-        log.todo("sort PlaceAnnnotationDelegate reveal for MapInfos")
+    func notify(mappable: Mappable) {
+        log.todo("sort PlaceAnnnotationDelegate notify for Mappables")
+        // see notify(place: PlaceAnnotation) in LocationHandler
+    }
+
+    func reveal(mappable: Mappable?, callout: Bool) {
+        log.todo("sort PlaceAnnnotationDelegate reveal for Mappables")
         // see reveal(place: PlaceAnnotation) in LocationHandler
     }
 
-    func update(place: MapInfo) {
-        log.todo("sort PlaceAnnnotationDelegate update for MapInfos")
+    func update(mappable: Mappable) {
+        log.todo("sort PlaceAnnnotationDelegate update for Mappables")
         // see update(place: PlaceAnnotation) in LocationHandler
     }
 }

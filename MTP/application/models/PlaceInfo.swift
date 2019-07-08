@@ -104,9 +104,9 @@ extension PlaceJSON: CustomDebugStringConvertible {
     }
 }
 
-@objcMembers final class Beach: Object, Mappable, PlaceInfo {
+@objcMembers final class Beach: Object, PlaceInfo, PlaceMappable {
 
-    dynamic var map: MapInfo?
+    dynamic var map: Mappable?
     dynamic var placeId: Int = 0
 
     override static func primaryKey() -> String? {
@@ -118,9 +118,9 @@ extension PlaceJSON: CustomDebugStringConvertible {
         guard from.active == "Y" else { return nil }
         self.init()
 
-        map = MapInfo(checklist: .beaches,
-                      place: from,
-                      realm: realm)
+        map = Mappable(checklist: .beaches,
+                       place: from,
+                       realm: realm)
         placeId = from.id
     }
 
@@ -129,9 +129,9 @@ extension PlaceJSON: CustomDebugStringConvertible {
     }
 }
 
-@objcMembers final class DiveSite: Object, Mappable, PlaceInfo {
+@objcMembers final class DiveSite: Object, PlaceInfo, PlaceMappable {
 
-    dynamic var map: MapInfo?
+    dynamic var map: Mappable?
     dynamic var placeId: Int = 0
 
     override static func primaryKey() -> String? {
@@ -143,9 +143,9 @@ extension PlaceJSON: CustomDebugStringConvertible {
         guard from.active == "Y" else { return nil }
         self.init()
 
-        map = MapInfo(checklist: .divesites,
-                      place: from,
-                      realm: realm)
+        map = Mappable(checklist: .divesites,
+                       place: from,
+                       realm: realm)
         placeId = from.id
     }
 
@@ -154,9 +154,9 @@ extension PlaceJSON: CustomDebugStringConvertible {
     }
 }
 
-@objcMembers final class GolfCourse: Object, Mappable, PlaceInfo {
+@objcMembers final class GolfCourse: Object, PlaceInfo, PlaceMappable {
 
-    dynamic var map: MapInfo?
+    dynamic var map: Mappable?
     dynamic var placeId: Int = 0
 
     override static func primaryKey() -> String? {
@@ -168,9 +168,9 @@ extension PlaceJSON: CustomDebugStringConvertible {
         guard from.active == "Y" else { return nil }
         self.init()
 
-        map = MapInfo(checklist: .golfcourses,
-                      place: from,
-                      realm: realm)
+        map = Mappable(checklist: .golfcourses,
+                       place: from,
+                       realm: realm)
         placeId = from.id
     }
 

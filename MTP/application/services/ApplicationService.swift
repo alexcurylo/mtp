@@ -7,7 +7,7 @@ protocol ApplicationService {
     func launch(url: URL)
 
     func route(to annotation: PlaceAnnotation)
-    func route(to mapInfo: MapInfo)
+    func route(to mappable: Mappable)
     func route(to user: User?)
     func route(to route: Route)
 
@@ -33,8 +33,8 @@ extension UIApplication: ApplicationService {
         MainTBC.current?.route(to: annotation)
     }
 
-    func route(to mapInfo: MapInfo) {
-        MainTBC.current?.route(to: mapInfo)
+    func route(to mappable: Mappable) {
+        MainTBC.current?.route(to: mappable)
     }
 
     func route(to user: User?) {

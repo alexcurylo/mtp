@@ -147,6 +147,14 @@ final class DataServiceSpy: DataService {
             return stubbedMapDisplay
         }
     }
+    var invokedMappablesGetter = false
+    var invokedMappablesGetterCount = 0
+    var stubbedMappables: [Mappable]! = []
+    var mappables: [Mappable] {
+        invokedMappablesGetter = true
+        invokedMappablesGetterCount += 1
+        return stubbedMappables
+    }
     var invokedNotifiedSetter = false
     var invokedNotifiedSetterCount = 0
     var invokedNotified: Checked?
@@ -423,17 +431,29 @@ final class DataServiceSpy: DataService {
         invokedGetLocationsParametersList.append((filter, ()))
         return stubbedGetLocationsResult
     }
-    var invokedGetMapInfo = false
-    var invokedGetMapInfoCount = 0
-    var invokedGetMapInfoParameters: (list: Checklist, id: Int)?
-    var invokedGetMapInfoParametersList = [(list: Checklist, id: Int)]()
-    var stubbedGetMapInfoResult: MapInfo!
-    func get(mapInfo list: Checklist, id: Int) -> MapInfo? {
-        invokedGetMapInfo = true
-        invokedGetMapInfoCount += 1
-        invokedGetMapInfoParameters = (list, id)
-        invokedGetMapInfoParametersList.append((list, id))
-        return stubbedGetMapInfoResult
+    var invokedGetMappable = false
+    var invokedGetMappableCount = 0
+    var invokedGetMappableParameters: (list: Checklist, id: Int)?
+    var invokedGetMappableParametersList = [(list: Checklist, id: Int)]()
+    var stubbedGetMappableResult: Mappable!
+    func get(mappable list: Checklist, id: Int) -> Mappable? {
+        invokedGetMappable = true
+        invokedGetMappableCount += 1
+        invokedGetMappableParameters = (list, id)
+        invokedGetMappableParametersList.append((list, id))
+        return stubbedGetMappableResult
+    }
+    var invokedGetMappables = false
+    var invokedGetMappablesCount = 0
+    var invokedGetMappablesParameters: (list: Checklist, Void)?
+    var invokedGetMappablesParametersList = [(list: Checklist, Void)]()
+    var stubbedGetMappablesResult: [Mappable]! = []
+    func get(mappables list: Checklist) -> [Mappable] {
+        invokedGetMappables = true
+        invokedGetMappablesCount += 1
+        invokedGetMappablesParameters = (list, ())
+        invokedGetMappablesParametersList.append((list, ()))
+        return stubbedGetMappablesResult
     }
     var invokedGetPhotosPages = false
     var invokedGetPhotosPagesCount = 0

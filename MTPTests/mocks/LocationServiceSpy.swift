@@ -31,14 +31,6 @@ final class LocationServiceSpy: LocationService {
         invokedDistancesGetterCount += 1
         return stubbedDistances
     }
-    var invokedMappablesGetter = false
-    var invokedMappablesGetterCount = 0
-    var stubbedMappables: Set<MapInfo>! = []
-    var mappables: Set<MapInfo> {
-        invokedMappablesGetter = true
-        invokedMappablesGetterCount += 1
-        return stubbedMappables
-    }
     var invokedAppGetter = false
     var invokedAppGetterCount = 0
     var stubbedApp: ApplicationService!
@@ -87,51 +79,49 @@ final class LocationServiceSpy: LocationService {
         invokedNoteGetterCount += 1
         return stubbedNote
     }
+    var invokedNotify = false
+    var invokedNotifyCount = 0
+    var invokedNotifyParameters: (mappable: Mappable, Void)?
+    var invokedNotifyParametersList = [(mappable: Mappable, Void)]()
+    func notify(mappable: Mappable) {
+        invokedNotify = true
+        invokedNotifyCount += 1
+        invokedNotifyParameters = (mappable, ())
+        invokedNotifyParametersList.append((mappable, ()))
+    }
     var invokedReveal = false
     var invokedRevealCount = 0
-    var invokedRevealParameters: (place: MapInfo?, callout: Bool)?
-    var invokedRevealParametersList = [(place: MapInfo?, callout: Bool)]()
-    func reveal(place: MapInfo?, callout: Bool) {
+    var invokedRevealParameters: (mappable: Mappable?, callout: Bool)?
+    var invokedRevealParametersList = [(mappable: Mappable?, callout: Bool)]()
+    func reveal(mappable: Mappable?, callout: Bool) {
         invokedReveal = true
         invokedRevealCount += 1
-        invokedRevealParameters = (place, callout)
-        invokedRevealParametersList.append((place, callout))
+        invokedRevealParameters = (mappable, callout)
+        invokedRevealParametersList.append((mappable, callout))
     }
     var invokedUpdate = false
     var invokedUpdateCount = 0
-    var invokedUpdateParameters: (place: MapInfo, Void)?
-    var invokedUpdateParametersList = [(place: MapInfo, Void)]()
-    func update(place: MapInfo) {
+    var invokedUpdateParameters: (mappable: Mappable, Void)?
+    var invokedUpdateParametersList = [(mappable: Mappable, Void)]()
+    func update(mappable: Mappable) {
         invokedUpdate = true
         invokedUpdateCount += 1
-        invokedUpdateParameters = (place, ())
-        invokedUpdateParametersList.append((place, ()))
+        invokedUpdateParameters = (mappable, ())
+        invokedUpdateParametersList.append((mappable, ()))
     }
     var invokedNearest = false
     var invokedNearestCount = 0
     var invokedNearestParameters: (list: Checklist, id: Int, coordinate: CLLocationCoordinate2D)?
     var invokedNearestParametersList = [(list: Checklist, id: Int, coordinate: CLLocationCoordinate2D)]()
-    var stubbedNearestResult: MapInfo!
+    var stubbedNearestResult: Mappable!
     func nearest(list: Checklist,
     id: Int,
-    to coordinate: CLLocationCoordinate2D) -> MapInfo? {
+    to coordinate: CLLocationCoordinate2D) -> Mappable? {
         invokedNearest = true
         invokedNearestCount += 1
         invokedNearestParameters = (list, id, coordinate)
         invokedNearestParametersList.append((list, id, coordinate))
         return stubbedNearestResult
-    }
-    var invokedMappablesList = false
-    var invokedMappablesListCount = 0
-    var invokedMappablesListParameters: (list: Checklist, Void)?
-    var invokedMappablesListParametersList = [(list: Checklist, Void)]()
-    var stubbedMappablesListResult: Set<MapInfo>! = []
-    func mappables(list: Checklist) -> Set<MapInfo> {
-        invokedMappablesList = true
-        invokedMappablesListCount += 1
-        invokedMappablesListParameters = (list, ())
-        invokedMappablesListParametersList.append((list, ()))
-        return stubbedMappablesListResult
     }
     var invokedInsert = false
     var invokedInsertCount = 0

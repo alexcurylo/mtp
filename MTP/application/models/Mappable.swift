@@ -4,12 +4,12 @@ import MapKit
 import RealmMapView
 import RealmSwift
 
-protocol Mappable {
+protocol PlaceMappable {
 
-    var map: MapInfo? { get }
+    var map: Mappable? { get }
 }
 
-extension Mappable {
+extension PlaceMappable {
 
     var placeCoordinate: CLLocationCoordinate2D {
         return map?.coordinate ?? .zero
@@ -44,7 +44,7 @@ extension Mappable {
     }
 }
 
-@objcMembers final class MapInfo: Object, ServiceProvider {
+@objcMembers final class Mappable: Object, ServiceProvider {
 
     dynamic var checklistValue: Int = Checklist.locations.rawValue
     var checklist: Checklist {
@@ -88,20 +88,18 @@ extension Mappable {
     }
 
     var isVisited: Bool {
-        get {
-            return checklist.isVisited(id: checklistId)
-        }
+        get { return checklist.isVisited(id: checklistId) }
         set {
             checklist.set(visited: newValue, id: checklistId)
-            loc.update(place: self)
+            loc.update(mappable: self)
         }
     }
 
     func reveal(callout: Bool) {
-        loc.reveal(place: self, callout: callout)
+        loc.reveal(mappable: self, callout: callout)
     }
 
-    var nearest: MapInfo? {
+    var nearest: Mappable? {
         return loc.nearest(list: checklist,
                            id: checklistId,
                            to: coordinate)
@@ -125,11 +123,7 @@ extension Mappable {
         title = place.title
         visitors = place.visitors
         website = place.url
-        location = realm.location(id: place.location.id)
-        country = location?.placeCountry ?? L.unknown()
-        region = location?.placeRegion ?? L.unknown()
-
-        dbKey = MapInfo.key(list: checklist, id: checklistId)
+        complete(locationId: place.location.id, realm: realm)
     }
 
     convenience init(checklist: Checklist,
@@ -149,15 +143,20 @@ extension Mappable {
         self.image = image
         self.latitude = latitude
         self.longitude = longitude
-        self.subtitle = ""
         self.title = title
         self.visitors = visitors
         self.website = website
+        complete(locationId: locationId, realm: realm)
+    }
+
+    func complete(locationId: Int,
+                  realm: RealmController) {
         location = realm.location(id: locationId)
         country = location?.placeCountry ?? L.unknown()
         region = location?.placeRegion ?? L.unknown()
+        subtitle = location?.description ?? ""
 
-        dbKey = MapInfo.key(list: checklist, id: checklistId)
+        dbKey = Mappable.key(list: checklist, id: checklistId)
     }
 
     convenience init(checklist: Checklist,
@@ -187,7 +186,73 @@ extension Mappable {
         self.visitors = visitors
         self.website = website
 
-        dbKey = MapInfo.key(list: checklist, id: checklistId)
+        dbKey = Mappable.key(list: checklist, id: checklistId)
+    }
+
+    func trigger(distance: CLLocationDistance) {
+        guard checklist.triggerDistance > 0 else { return }
+
+        let triggered = distance < checklist.triggerDistance
+        update(triggered: triggered)
+    }
+
+    func trigger(contains: CLLocationCoordinate2D,
+                 world: WorldMap) -> Bool {
+        guard checklist == .locations else { return false }
+
+        let contains = world.contains(coordinate: contains,
+                                      location: checklistId)
+        update(triggered: contains)
+        return contains
+    }
+
+    #if DEBUG
+    func _testTriggeredNearby() {
+        update(triggered: true)
+    }
+
+    func _testTrigger(background: Bool) {
+
+        func trigger() {
+            isTriggered = true
+            loc.notify(mappable: self)
+        }
+
+        if background {
+            UIControl().sendAction(#selector(URLSessionTask.suspend),
+                                   to: UIApplication.shared,
+                                   for: nil)
+            DispatchQueue.main.asyncAfter(deadline: .medium) {
+                trigger()
+            }
+        } else {
+            trigger()
+        }
+    }
+    #endif
+}
+
+private extension Mappable {
+
+    var isDismissed: Bool {
+        get { return checklist.isDismissed(id: checklistId) }
+        set { checklist.set(dismissed: newValue, id: checklistId) }
+    }
+
+    var isTriggered: Bool {
+        get { return checklist.isTriggered(id: checklistId) }
+        set { checklist.set(triggered: newValue, id: checklistId) }
+    }
+
+    var canTrigger: Bool {
+        return !isDismissed && !isTriggered && !isVisited
+    }
+
+    func update(triggered: Bool) {
+        if triggered && canTrigger {
+            isTriggered = true
+            loc.notify(mappable: self)
+        }
     }
 }
 

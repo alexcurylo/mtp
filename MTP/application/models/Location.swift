@@ -41,7 +41,7 @@ extension LocationJSON: CustomStringConvertible {
         if !countryName.isEmpty
            && !locationName.isEmpty
            && countryName != locationName {
-            return "\(locationName), \(countryName)"
+            return L.locationDescription(locationName, countryName)
         }
         return locationName.isEmpty ? countryName : locationName
     }
@@ -79,9 +79,9 @@ extension LocationJSON: CustomDebugStringConvertible {
     }
 }
 
-@objcMembers final class Location: Object, Mappable, ServiceProvider {
+@objcMembers final class Location: Object, PlaceMappable, ServiceProvider {
 
-    dynamic var map: MapInfo?
+    dynamic var map: Mappable?
 
     dynamic var adminLevel: AdminLevel = .unknown
     dynamic var airports: String = ""
@@ -105,20 +105,20 @@ extension LocationJSON: CustomDebugStringConvertible {
         self.init()
 
         adminLevel = AdminLevel(rawValue: from.adminLevel) ?? .unknown
-        let subtitle = isCountry ? "" : from.countryName
+        let subtitle = isCountry ? from.regionName : from.countryName
         let website = "https://mtp.travel/locations/\(from.id)"
-        map = MapInfo(checklist: .locations,
-                      checklistId: from.id,
-                      country: from.locationName,
-                      image: from.featuredImg ?? "",
-                      latitude: from.lat ?? 0,
-                      location: self,
-                      longitude: from.lon ?? 0,
-                      region: from.regionName,
-                      subtitle: subtitle,
-                      title: from.locationName,
-                      visitors: from.visitors,
-                      website: website)
+        map = Mappable(checklist: .locations,
+                       checklistId: from.id,
+                       country: from.locationName,
+                       image: from.featuredImg ?? "",
+                       latitude: from.lat ?? 0,
+                       location: self,
+                       longitude: from.lon ?? 0,
+                       region: from.regionName,
+                       subtitle: subtitle,
+                       title: from.locationName,
+                       visitors: from.visitors,
+                       website: website)
 
         airports = from.airports ?? ""
         countryId = country

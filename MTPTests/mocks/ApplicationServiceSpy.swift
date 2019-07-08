@@ -26,15 +26,15 @@ final class ApplicationServiceSpy: ApplicationService {
         invokedRouteToPlaceAnnotationParameters = (annotation, ())
         invokedRouteToPlaceAnnotationParametersList.append((annotation, ()))
     }
-    var invokedRouteToMapInfo = false
-    var invokedRouteToMapInfoCount = 0
-    var invokedRouteToMapInfoParameters: (mapInfo: MapInfo, Void)?
-    var invokedRouteToMapInfoParametersList = [(mapInfo: MapInfo, Void)]()
-    func route(to mapInfo: MapInfo) {
-        invokedRouteToMapInfo = true
-        invokedRouteToMapInfoCount += 1
-        invokedRouteToMapInfoParameters = (mapInfo, ())
-        invokedRouteToMapInfoParametersList.append((mapInfo, ()))
+    var invokedRouteToMappable = false
+    var invokedRouteToMappableCount = 0
+    var invokedRouteToMappableParameters: (mappable: Mappable, Void)?
+    var invokedRouteToMappableParametersList = [(mappable: Mappable, Void)]()
+    func route(to mappable: Mappable) {
+        invokedRouteToMappable = true
+        invokedRouteToMappableCount += 1
+        invokedRouteToMappableParameters = (mappable, ())
+        invokedRouteToMappableParametersList.append((mappable, ()))
     }
     var invokedRouteToUser = false
     var invokedRouteToUserCount = 0
