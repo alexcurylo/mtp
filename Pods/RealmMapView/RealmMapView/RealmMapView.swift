@@ -116,14 +116,32 @@ open class RealmMapView: MKMapView {
     /// Use this property to filter items found by the map. This predicate will be included, via AND,
     /// along with the generated predicate for the location bounding box.
     open var basePredicate: NSPredicate?
-    
+
+    /// Provide refreshing state notification entry points
+    open var isRefreshingMap = false {
+        didSet {
+            if isRefreshingMap {
+                willRefreshMap()
+            } else {
+                didRefreshMap()
+            }
+        }
+    }
+    open func willRefreshMap() {
+        // override entry point
+    }
+    open func didRefreshMap() {
+        // override entry point
+    }
+
     // MARK: Functions
     
     /// Performs a fresh fetch for Realm objects based on the current visible map rect
     open func refreshMapView() {
         objc_sync_enter(self)
-        
-        self.mapQueue.cancelAllOperations()
+
+        isRefreshingMap = true
+        mapQueue.cancelAllOperations()
         
         let currentRegion = self.region
         
@@ -160,30 +178,31 @@ open class RealmMapView: MKMapView {
                 let zoomScale = MKZoomScaleForMapView(self)
                 
                 refreshOperation = BlockOperation { [weak self] in
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    strongSelf.fetchedResultsController.performClusteringFetch(forVisibleMapRect: visibleMapRect, zoomScale: zoomScale)
+                    guard let self = self else { return }
+                    self.fetchedResultsController.performClusteringFetch(forVisibleMapRect: visibleMapRect, zoomScale: zoomScale)
                     
-                    let annotations = strongSelf.fetchedResultsController.annotations
-                    strongSelf.addAnnotationsToMapView(annotations)
+                    let annotations = self.fetchedResultsController.annotations
+                    self.addAnnotationsToMapView(annotations)
+                    self.isRefreshingMap = false
                 }
             }
             else {
                 refreshOperation = BlockOperation { [weak self] in
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    strongSelf.fetchedResultsController.performFetch()
+                    guard let self = self else { return }
+                    self.fetchedResultsController.performFetch()
                     
-                    let annotations = strongSelf.fetchedResultsController.annotations
-                    strongSelf.addAnnotationsToMapView(annotations)
+                    let annotations = self.fetchedResultsController.annotations
+                    self.addAnnotationsToMapView(annotations)
+                    self.isRefreshingMap = false
                 }
             }
             
             self.mapQueue.addOperation(refreshOperation)
         } catch {
+            isRefreshingMap = false
+            #if DEBUG
             print("configuration error: \(error)")
+            #endif
         }
         
         objc_sync_exit(self)
@@ -316,6 +335,7 @@ Delegate proxy that allows the controller to trigger auto refresh and then rebro
 :nodoc:
 */
 extension RealmMapView: MKMapViewDelegate {
+
     public func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
         self.externalDelegate?.mapView?(mapView, regionWillChangeAnimated: animated)
     }
@@ -426,6 +446,12 @@ extension RealmMapView: MKMapViewDelegate {
     
     public func mapView(_ mapView: MKMapView, didAdd renderers: [MKOverlayRenderer]) {
         self.externalDelegate?.mapView?(mapView, didAdd: renderers)
+    }
+
+    public func mapView(_ mapView: MKMapView,
+                        clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
+        // Setting clusteringIdentifier with RealmMapView is a usage error
+        return (self.externalDelegate?.mapView?(mapView, clusterAnnotationForMemberAnnotations: memberAnnotations))!
     }
 }
 

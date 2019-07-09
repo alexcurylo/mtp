@@ -35,7 +35,7 @@ final class LocationHandler: NSObject, AppHandler, ServiceProvider {
 
     private var queue = OperationQueue {
         $0.name = typeName
-        $0.maxConcurrentOperationCount = OperationQueue.defaultMaxConcurrentOperationCount
+        $0.maxConcurrentOperationCount = 1
         $0.qualityOfService = .userInteractive
     }
     private var distanceUpdate: UpdateDistanceOperation?

@@ -35,7 +35,6 @@ final class LocationsVC: UIViewController, ServiceProvider {
     }
     var matches: [Mappable] = []
 
-    private var mapCentered = false
     private var injectPlace: PlaceAnnotation?
     private var injectMappable: Mappable?
 
@@ -104,7 +103,7 @@ final class LocationsVC: UIViewController, ServiceProvider {
         guard let coordinate = place?.placeCoordinate else { return }
 
         navigationController?.popToRootViewController(animated: false)
-        zoom(to: coordinate, then: nil)
+        mtpMapView?.zoom(to: coordinate)
     }
 }
 
@@ -122,11 +121,7 @@ extension LocationsVC: PlaceAnnotationDelegate {
 
     func reveal(place: PlaceAnnotation, callout: Bool) {
         navigationController?.popToRootViewController(animated: false)
-        zoom(to: place.coordinate) { [weak self] in
-            if callout {
-                self?.mtpMapView?.selectAnnotation(place, animated: false)
-            }
-        }
+        mtpMapView?.zoom(to: place, callout: callout)
     }
 
     func show(place: PlaceAnnotation) {
@@ -159,11 +154,7 @@ extension LocationsVC: Mapper {
 
     func reveal(mappable: Mappable, callout: Bool) {
         navigationController?.popToRootViewController(animated: false)
-        zoom(to: mappable.coordinate) { [weak self] in
-            if callout {
-                self?.mtpMapView?.select(mappable: mappable)
-            }
-        }
+        mtpMapView?.zoom(to: mappable, callout: callout)
     }
 
     func show(mappable: Mappable) {
@@ -182,7 +173,7 @@ extension LocationsVC: Mapper {
 extension LocationsVC: LocationTracker {
 
     func accessRefused() {
-        mapCentered = true
+        mtpMapView?.isCentered = true
     }
 
     func authorization(changed: CLAuthorizationStatus) {
@@ -233,37 +224,7 @@ private extension LocationsVC {
     func updateTracking() {
         let permission = loc.start(tracker: self)
         trackingButton?.set(visibility: permission)
-        centerOnDevice()
-    }
-
-    func centerOnDevice() {
-        guard !mapCentered,
-              let here = loc.here else { return }
-
-        zoom(to: here, span: 160_000, then: nil)
-    }
-
-    func zoom(to center: CLLocationCoordinate2D,
-              then: (() -> Void)?) {
-        let span = CLLocationDistance(500)
-        #if OFFCENTER_ORIGIN
-        let centerOffset = span / 3
-        let metersToDegrees = CLLocationDistance(111_111)
-        let offset = CLLocationCoordinate2D(
-            latitude: center.latitude - (centerOffset / metersToDegrees),
-            longitude: center.longitude)
-        #endif
-        zoom(to: center, span: span) { then?() }
-    }
-
-    func zoom(to center: CLLocationCoordinate2D,
-              span meters: CLLocationDistance,
-              then: (() -> Void)?) {
-        mapCentered = true
-        let region = MKCoordinateRegion(center: center,
-                                        latitudinalMeters: meters,
-                                        longitudinalMeters: meters)
-        mtpMapView?.zoom(region: region) { then?() }
+        mtpMapView?.centerOnDevice()
     }
 }
 
@@ -332,7 +293,7 @@ extension LocationsVC: MKMapViewDelegate {
     func mapViewDidStopLocatingUser(_ mapView: MKMapView) { }
     func mapView(_ mapView: MKMapView,
                  didUpdate userLocation: MKUserLocation) {
-        centerOnDevice()
+        mtpMapView?.centerOnDevice()
     }
     func mapView(_ mapView: MKMapView,
                  didFailToLocateUserWithError error: Error) { }
@@ -395,7 +356,9 @@ extension LocationsVC: MKMapViewDelegate {
             }
         case let cluster as PlaceClusterAnnotationView:
             log.error("MKMapView should not be clustering")
-            mtpMapView?.zoom(cluster: cluster.annotation as? MKClusterAnnotation)
+            if let annotation = cluster.annotation as? MKClusterAnnotation {
+                mtpMapView?.zoom(to: annotation)
+            }
             mapView.deselectAnnotation(cluster.annotation, animated: false)
 
         default:

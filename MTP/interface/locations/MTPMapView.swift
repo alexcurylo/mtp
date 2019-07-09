@@ -6,7 +6,15 @@ import RealmMapView
 typealias MappableAnnotation = Annotation
 typealias MappableClusterAnnotationView = ClusterAnnotationView
 
+extension CLLocationDistance {
+
+    static let annotationSpan = CLLocationDistance(500)
+    static let deviceSpan = CLLocationDistance(160_000)
+}
+
 final class MTPMapView: RealmMapView, ServiceProvider {
+
+    typealias Completion = () -> Void
 
     var displayed = ChecklistFlags() {
         didSet {
@@ -49,6 +57,10 @@ final class MTPMapView: RealmMapView, ServiceProvider {
         return stack
     }
 
+    var isCentered = false
+
+    var completions: [Completion] = []
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 
@@ -59,33 +71,41 @@ final class MTPMapView: RealmMapView, ServiceProvider {
         register()
     }
 
-    func zoom(cluster: MKClusterAnnotation?) {
-        guard let cluster = cluster else { return }
+    func centerOnDevice() {
+        guard !isCentered, let here = loc.here else { return }
 
+        zoom(center: here,
+             latitudeSpan: .deviceSpan,
+             longitudeSpan: .deviceSpan)
+    }
+
+    func zoom(to center: CLLocationCoordinate2D) {
+        zoom(center: center)
+    }
+
+    func zoom(to place: PlaceAnnotation, callout: Bool) {
+        zoom(center: place.coordinate) { [weak self] in
+            if callout {
+                self?.selectAnnotation(place, animated: false)
+            }
+        }
+    }
+
+    func zoom(to mappable: Mappable, callout: Bool) {
+        zoom(center: mappable.coordinate) { [weak self] in
+            if callout {
+                self?.select(mappable: mappable)
+            }
+        }
+    }
+
+    func zoom(to cluster: MKClusterAnnotation) {
         let clustered = cluster.region
         var newRegion = region
         newRegion.center = cluster.coordinate
         newRegion.span.latitudeDelta = clustered.maxDelta * 1.3
         newRegion.span.longitudeDelta = clustered.maxDelta * 1.3
-        zoom(region: newRegion, then: nil)
-    }
-
-    func zoom(region: MKCoordinateRegion,
-              then: (() -> Void)?) {
-        DispatchQueue.main.async { [weak self] in
-            MKMapView.animate(
-                withDuration: 1,
-                animations: {
-                    self?.setRegion(region, animated: true)
-                    // regionWillChange
-                },
-                completion: { _ in
-                    then?()
-                    // regionDidChange (refreshMapView called just before)
-                    // ...didAdd from addAnnotationsToMapView completion
-                }
-            )
-        }
+        zoom(region: newRegion)
     }
 
     func update(overlays mappable: Mappable) {
@@ -102,12 +122,17 @@ final class MTPMapView: RealmMapView, ServiceProvider {
         }
     }
 
-    func select(mappable: Mappable) {
-        guard let shown = annotation(mappable: mappable) else {
-            return
-        }
+    override func didRefreshMap() {
+        // log.todo("don't trigger until addAnnotationsToMapView completes!")
+        // log.todo("expose mapQueue and BlockOperation this")
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
 
-        selectAnnotation(shown, animated: false)
+            objc_sync_enter(self)
+            self.completions.forEach { $0() }
+            self.completions = []
+            objc_sync_exit(self)
+        }
     }
 }
 
@@ -149,6 +174,12 @@ private extension MTPMapView {
         refreshMapView()
     }
 
+    func select(mappable: Mappable) {
+        guard let shown = annotation(mappable: mappable) else { return }
+
+        selectAnnotation(shown, animated: false)
+    }
+
     func annotation(mappable: Mappable) -> MappableAnnotation? {
         for annotation in annotations {
             if let annotation = annotation as? MappableAnnotation,
@@ -157,9 +188,43 @@ private extension MTPMapView {
             }
         }
 
-        log.todo("Mappable to annotation?")
+        log.error("Could not find annotation for \(mappable)")
         note.unimplemented()
         return nil
+    }
+
+    func zoom(center: CLLocationCoordinate2D,
+              latitudeSpan: CLLocationDistance = .annotationSpan,
+              longitudeSpan: CLLocationDistance = .annotationSpan,
+              then: Completion? = nil) {
+        isCentered = true
+        let region = MKCoordinateRegion(center: center,
+                                        latitudinalMeters: latitudeSpan,
+                                        longitudinalMeters: longitudeSpan)
+        zoom(region: region, then: then)
+    }
+
+    func zoom(region: MKCoordinateRegion,
+              then: Completion? = nil) {
+        DispatchQueue.main.async { [weak self] in
+            MKMapView.animate(
+                withDuration: 1,
+                animations: {
+                    self?.setRegion(region, animated: true)
+                },
+                completion: { _ in
+                    guard let then = then else { return }
+
+                    if let self = self, self.isRefreshingMap {
+                        objc_sync_enter(self)
+                        self.completions.append(then)
+                        objc_sync_exit(self)
+                    } else {
+                        then()
+                    }
+                }
+            )
+        }
     }
 }
 
