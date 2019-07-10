@@ -4,7 +4,6 @@ import MapKit
 import RealmMapView
 
 typealias MappablesAnnotation = Annotation
-typealias MappablesAnnotationView = ClusterAnnotationView
 
 extension CLLocationDistance {
 
@@ -83,14 +82,6 @@ final class MTPMapView: RealmMapView, ServiceProvider {
         zoom(center: center)
     }
 
-    func zoom(to place: PlaceAnnotation, callout: Bool) {
-        zoom(center: place.coordinate) { [weak self] in
-            if callout {
-                self?.selectAnnotation(place, animated: false)
-            }
-        }
-    }
-
     func zoom(to mappable: Mappable, callout: Bool) {
         zoom(center: mappable.coordinate) { [weak self] in
             if callout {
@@ -124,6 +115,7 @@ final class MTPMapView: RealmMapView, ServiceProvider {
     func display(view: MappablesAnnotationView) {
         guard let mappable = view.mappable else { return }
 
+        view.prepareForCallout()
         update(overlays: mappable)
         #if TEST_TRIGGER_ON_SELECTION
         mappable._testTrigger(background: false)
@@ -170,12 +162,7 @@ private extension MTPMapView {
     }
 
     func register() {
-        Checklist.allCases.forEach {
-            register(PlaceAnnotationView.self,
-                     forAnnotationViewWithReuseIdentifier: $0.key)
-        }
-        register(PlaceClusterAnnotationView.self,
-                 forAnnotationViewWithReuseIdentifier: PlaceClusterAnnotationView.identifier)
+        MappablesAnnotationView.register(view: self)
     }
 
     func updateFilter() {
@@ -290,6 +277,9 @@ extension MappablesAnnotation {
     }
     var mappables: [Mappable] {
         return safeObjects.map { $0.toObject(Mappable.self) }
+    }
+    var count: UInt {
+        return UInt(safeObjects.count)
     }
 }
 

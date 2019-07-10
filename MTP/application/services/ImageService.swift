@@ -29,12 +29,6 @@ extension ImageService where Self: UIView {
         )
     }
 
-    func load(image place: PlaceAnnotation?) {
-        load(image: place?.imageUrl,
-             placeholder: R.image.placeholderMedium()
-        )
-    }
-
     func load(image photo: Photo?) {
         load(image: photo?.imageUrl)
     }

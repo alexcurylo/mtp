@@ -16,16 +16,6 @@ final class ApplicationServiceSpy: ApplicationService {
         invokedLaunchParameters = (url, ())
         invokedLaunchParametersList.append((url, ()))
     }
-    var invokedRouteToPlaceAnnotation = false
-    var invokedRouteToPlaceAnnotationCount = 0
-    var invokedRouteToPlaceAnnotationParameters: (annotation: PlaceAnnotation, Void)?
-    var invokedRouteToPlaceAnnotationParametersList = [(annotation: PlaceAnnotation, Void)]()
-    func route(to annotation: PlaceAnnotation) {
-        invokedRouteToPlaceAnnotation = true
-        invokedRouteToPlaceAnnotationCount += 1
-        invokedRouteToPlaceAnnotationParameters = (annotation, ())
-        invokedRouteToPlaceAnnotationParametersList.append((annotation, ()))
-    }
     var invokedRouteToMappable = false
     var invokedRouteToMappableCount = 0
     var invokedRouteToMappableParameters: (mappable: Mappable, Void)?

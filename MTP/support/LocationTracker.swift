@@ -3,7 +3,7 @@
 import CoreLocation
 import UIKit
 
-protocol LocationTracker: Mapper, PlaceAnnotationDelegate, ServiceProvider {
+protocol LocationTracker: Mapper, ServiceProvider {
 
     func accessRefused()
     func alertLocationAccessNeeded()

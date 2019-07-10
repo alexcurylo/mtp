@@ -96,6 +96,14 @@ protocol Mapper {
                                       longitude: longitude)
     }
 
+    var marker: UIColor {
+        return isVisited ? .visited : checklist.marker
+    }
+
+    var listImage: UIImage {
+        return checklist.image
+    }
+
     var isVisited: Bool {
         get { return checklist.isVisited(id: checklistId) }
         set {

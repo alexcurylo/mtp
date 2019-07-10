@@ -1,7 +1,5 @@
 // @copyright Trollwerks Inc.
 
-// swiftlint:disable file_length
-
 import Anchorage
 import DropDown
 import MapKit
@@ -104,38 +102,6 @@ final class LocationsVC: UIViewController, ServiceProvider {
 
         navigationController?.popToRootViewController(animated: false)
         mtpMapView?.zoom(to: coordinate)
-    }
-}
-
-// MARK: - PlaceAnnotationDelegate
-
-extension LocationsVC: PlaceAnnotationDelegate {
-
-    func close(place: PlaceAnnotation) {
-        mtpMapView?.deselectAnnotation(place, animated: false)
-    }
-
-    func notify(place: PlaceAnnotation) {
-        note.notify(list: place.checklist, id: place.checklistId)
-    }
-
-    func reveal(place: PlaceAnnotation, callout: Bool) {
-        navigationController?.popToRootViewController(animated: false)
-        mtpMapView?.zoom(to: place, callout: callout)
-    }
-
-    func show(place: PlaceAnnotation) {
-        injectMappable = place.mappable
-        close(place: place)
-        performSegue(withIdentifier: Segues.showLocation,
-                     sender: self)
-    }
-
-    func update(place: PlaceAnnotation) {
-        guard let map = mtpMapView else { return }
-
-        map.removeAnnotation(place)
-        map.addAnnotation(place)
     }
 }
 
@@ -304,23 +270,8 @@ extension LocationsVC: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView,
                  viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         switch annotation {
-
         case let mappable as MappablesAnnotation:
-            log.todo("produce annotation view for \(mappable)")
-            return nil
-
-        case let place as PlaceAnnotation:
-            return mapView.dequeueReusableAnnotationView(
-                withIdentifier: place.reuseIdentifier,
-                for: place
-            )
-        case let cluster as MKClusterAnnotation:
-            log.error("MKMapView should not be clustering")
-            return mapView.dequeueReusableAnnotationView(
-                withIdentifier: PlaceClusterAnnotationView.identifier,
-                for: cluster
-            )
-
+            return MappablesAnnotationView.view(on: mapView, for: mappable)
         case is MKUserLocation:
             return nil
         default:
@@ -344,21 +295,6 @@ extension LocationsVC: MKMapViewDelegate {
             } else if mappables.isMultiple {
                 mtpMapView?.expand(view: mappables)
             }
-        }
-
-        switch view {
-        case let place as PlaceAnnotationView:
-            place.prepareForCallout()
-            //if let mappable = place.mappable { mtpMapView?.update(overlays: mappable) }
-        case let cluster as PlaceClusterAnnotationView:
-            log.error("MKMapView should not be clustering")
-            if let annotation = cluster.annotation as? MKClusterAnnotation {
-                mtpMapView?.zoom(to: annotation)
-            }
-            mapView.deselectAnnotation(cluster.annotation, animated: false)
-
-        default:
-            break
         }
     }
 

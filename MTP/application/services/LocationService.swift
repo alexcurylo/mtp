@@ -14,7 +14,7 @@ enum PermissionTrigger {
 
 typealias Distances = [String: CLLocationDistance]
 
-protocol LocationService: Mapper, PlaceAnnotationDelegate, ServiceProvider {
+protocol LocationService: Mapper, ServiceProvider {
 
     var here: CLLocationCoordinate2D? { get }
     var inside: Location? { get }
@@ -171,30 +171,5 @@ extension LocationServiceImpl: Mapper {
 
     func update(mappable: Mappable) {
         handler?.broadcast { $0.update(mappable: mappable) }
-    }
-}
-
-// MARK: - PlaceAnnotationDelegate
-
-extension LocationServiceImpl: PlaceAnnotationDelegate {
-
-    func close(place: PlaceAnnotation) {
-        handler?.broadcast { $0.close(place: place) }
-    }
-
-    func notify(place: PlaceAnnotation) {
-        handler?.broadcast { $0.notify(place: place) }
-    }
-
-    func reveal(place: PlaceAnnotation, callout: Bool) {
-        handler?.broadcast { $0.reveal(place: place, callout: callout) }
-    }
-
-    func show(place: PlaceAnnotation) {
-        handler?.broadcast { $0.show(place: place) }
-    }
-
-    func update(place: PlaceAnnotation) {
-        handler?.broadcast { $0.update(place: place) }
     }
 }

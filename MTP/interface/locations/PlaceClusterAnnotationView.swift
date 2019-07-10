@@ -4,7 +4,11 @@ import MapKit
 
 final class PlaceClusterAnnotationView: MKAnnotationView {
 
-    static let identifier = NSStringFromClass(PlaceClusterAnnotationView.self)
+    static var identifier = typeName
+
+    static func register(view: MKMapView) {
+        view.register(self, forAnnotationViewWithReuseIdentifier: identifier)
+    }
 
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
@@ -144,6 +148,7 @@ private extension MKClusterAnnotation {
     func count(places: Checklist) -> (Int, Int) {
         var counts: (visited: Int, unvisited: Int) = (0, 0)
         memberAnnotations.forEach {
+            #if OBSOLETE
             guard let place = $0 as? PlaceAnnotation,
                   place.checklist == places else { return }
 
@@ -152,6 +157,7 @@ private extension MKClusterAnnotation {
             } else {
                 counts.unvisited += 1
             }
+            #endif
         }
         return counts
     }

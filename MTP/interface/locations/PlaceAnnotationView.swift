@@ -5,6 +5,12 @@ import MapKit
 
 final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
 
+    static func register(view: MKMapView) {
+        Checklist.allCases.forEach {
+            view.register(self, forAnnotationViewWithReuseIdentifier: $0.key)
+        }
+    }
+
     private enum Layout {
         static let width = CGFloat(260)
         static let imageSize = CGSize(width: width, height: 150)
@@ -112,7 +118,8 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
 
     override func prepareForDisplay() {
         super.prepareForDisplay()
-        guard let place = place else { return }
+        #if OBSOLETE
+       guard let place = place else { return }
 
         markerTintColor = place.marker
         glyphImage = place.listImage
@@ -126,13 +133,16 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         visitorsLabel.text = L.visitors(place.visitors.grouped)
 
         detailCalloutAccessoryView = detailView(place: place)
+        #endif
    }
 
     func prepareForCallout() {
+        #if OBSOLETE
         guard let place = place,
               placeImage.image == nil else { return }
 
         placeImage.load(image: place)
+        #endif
     }
 
     override func prepareForReuse() {
@@ -149,29 +159,37 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         image = nil
     }
 
+    #if OBSOLETE
     var mappable: Mappable? {
         return place?.mappable
     }
+    #endif
 }
 
 private extension PlaceAnnotationView {
 
+    #if OBSOLETE
     var place: PlaceAnnotation? {
         return annotation as? PlaceAnnotation
     }
+    #endif
 
     func observe() {
         visitedObserver = data.observer(of: .visited) { [weak self] _ in
+            #if OBSOLETE
             self?.show(visited: self?.place?.isVisited ?? false)
+            #endif
         }
     }
 
     @objc func toggleVisit(_ sender: UISwitch) {
+        #if OBSOLETE
         guard let place = place else { return }
 
         let isVisited = sender.isOn
         place.isVisited = isVisited
         show(visited: isVisited)
+        #endif
     }
 
     var mapItem: MKMapItem? {
@@ -189,11 +207,15 @@ private extension PlaceAnnotationView {
     }
 
     @objc func showMoreTapped(_ sender: GradientButton) {
+        #if OBSOLETE
         place?.show()
+        #endif
     }
 
     @objc func closeTapped(_ sender: UIButton) {
+        #if OBSOLETE
         place?.close()
+        #endif
     }
 
     func show(visited: Bool) {
@@ -201,6 +223,7 @@ private extension PlaceAnnotationView {
         visitSwitch.isOn = visited
     }
 
+    #if OBSOLETE
     func detailView(place: PlaceAnnotation) -> UIView {
 
         let bottomSpacer = UIView {
@@ -228,6 +251,7 @@ private extension PlaceAnnotationView {
 
         return stack
     }
+    #endif
 
     var topView: UIView {
         let holder = UIView {
