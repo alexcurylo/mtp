@@ -40,7 +40,7 @@ extension PlaceMappable {
     }
 
     var placeWebUrl: URL? {
-        return map?.website.mtpWebsiteUrl
+        return map?.placeWebUrl
     }
 }
 
@@ -116,6 +116,18 @@ protocol Mapper {
 
     var imageUrl: URL? {
         return image.mtpImageUrl
+    }
+
+    var placeWebUrl: URL? {
+        return website.mtpWebsiteUrl
+    }
+
+    var canPost: Bool {
+        return checklist == .locations
+    }
+
+    var distance: CLLocationDistance {
+        return loc.distance(to: self)
     }
 
     convenience init(checklist: Checklist,

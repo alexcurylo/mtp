@@ -51,7 +51,7 @@ final class ProfilePhotosVC: PhotosVC {
         switch segue.identifier {
         case Segues.addPhoto.identifier:
             if let add = Segues.addPhoto(segue: segue)?.destination {
-                add.inject(model: (place: nil, delegate: self))
+                add.inject(model: (mappable: nil, delegate: self))
             }
         case Segues.cancelChoose.identifier:
             break

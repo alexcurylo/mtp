@@ -165,11 +165,11 @@ private extension LocationInfoVC {
 
 extension LocationInfoVC: Injectable {
 
-    typealias Model = PlaceAnnotation
+    typealias Model = Mappable
 
     @discardableResult func inject(model: Model) -> Self {
-        if model.list == .locations {
-            location = data.get(location: model.id)
+        if model.checklist == .locations {
+            location = data.get(location: model.checklistId)
         }
         return self
     }

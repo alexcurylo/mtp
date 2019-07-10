@@ -35,7 +35,6 @@ final class LocationsVC: UIViewController, ServiceProvider {
     }
     var matches: [Mappable] = []
 
-    private var injectPlace: PlaceAnnotation?
     private var injectMappable: Mappable?
 
     deinit {
@@ -82,9 +81,10 @@ final class LocationsVC: UIViewController, ServiceProvider {
             let nearby = Segues.showNearby(segue: segue)?.destination
             nearby?.inject(model: (data.mappables, loc.distances))
         case Segues.showLocation.identifier:
-            if let location = Segues.showLocation(segue: segue)?.destination,
-               let inject = injectPlace {
-                location.inject(model: inject)
+            guard let show = Segues.showLocation(segue: segue)?.destination else { break }
+            if let inject = injectMappable {
+                show.inject(model: inject)
+                injectMappable = nil
             }
         default:
             log.debug("unexpected segue: \(segue.name)")
@@ -112,11 +112,11 @@ final class LocationsVC: UIViewController, ServiceProvider {
 extension LocationsVC: PlaceAnnotationDelegate {
 
     func close(place: PlaceAnnotation) {
-        mtpMapView?.deselectAnnotation(place, animated: true)
+        mtpMapView?.deselectAnnotation(place, animated: false)
     }
 
     func notify(place: PlaceAnnotation) {
-        note.notify(list: place.list, id: place.id)
+        note.notify(list: place.checklist, id: place.checklistId)
     }
 
     func reveal(place: PlaceAnnotation, callout: Bool) {
@@ -125,7 +125,7 @@ extension LocationsVC: PlaceAnnotationDelegate {
     }
 
     func show(place: PlaceAnnotation) {
-        injectPlace = place
+        injectMappable = place.mappable
         close(place: place)
         performSegue(withIdentifier: Segues.showLocation,
                      sender: self)
@@ -144,8 +144,7 @@ extension LocationsVC: PlaceAnnotationDelegate {
 extension LocationsVC: Mapper {
 
     func close(mappable: Mappable) {
-        // not called
-        log.todo("sort PlaceAnnnotationDelegate close for Mappables")
+        mtpMapView?.close(mappable: mappable)
     }
 
     func notify(mappable: Mappable) {
@@ -158,13 +157,14 @@ extension LocationsVC: Mapper {
     }
 
     func show(mappable: Mappable) {
-        // not called
-        log.todo("sort PlaceAnnnotationDelegate show for Mappables")
+        injectMappable = mappable
+        close(mappable: mappable)
+        performSegue(withIdentifier: Segues.showLocation,
+                     sender: self)
     }
 
     func update(mappable: Mappable) {
-        // Mappable.isVisited
-        log.todo("sort PlaceAnnnotationDelegate update for Mappables")
+        mtpMapView?.update(mappable: mappable)
     }
 }
 
@@ -305,7 +305,7 @@ extension LocationsVC: MKMapViewDelegate {
                  viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         switch annotation {
 
-        case let mappable as MappableAnnotation:
+        case let mappable as MappablesAnnotation:
             log.todo("produce annotation view for \(mappable)")
             return nil
 
@@ -338,22 +338,18 @@ extension LocationsVC: MKMapViewDelegate {
 
     func mapView(_ mapView: MKMapView,
                  didSelect view: MKAnnotationView) {
+        if let mappables = view as? MappablesAnnotationView {
+            if mappables.isSingle {
+                mtpMapView?.display(view: mappables)
+            } else if mappables.isMultiple {
+                mtpMapView?.expand(view: mappables)
+            }
+        }
+
         switch view {
-
-        case let cluster as MappableClusterAnnotationView:
-            log.todo("handle selection for \(cluster)")
-            guard let mappable = cluster.only else { return }
-
-            mtpMapView?.update(overlays: mappable)
-            #if TEST_TRIGGER_ON_SELECTION
-            mappable._testTrigger(background: false)
-            #endif
-
         case let place as PlaceAnnotationView:
             place.prepareForCallout()
-            if let mappable = place.mappable {
-                mtpMapView?.update(overlays: mappable)
-            }
+            //if let mappable = place.mappable { mtpMapView?.update(overlays: mappable) }
         case let cluster as PlaceClusterAnnotationView:
             log.error("MKMapView should not be clustering")
             if let annotation = cluster.annotation as? MKClusterAnnotation {

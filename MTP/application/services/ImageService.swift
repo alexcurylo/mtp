@@ -3,11 +3,12 @@
 import Nuke
 import NukeAlamofirePlugin
 
-private let configureNukeWithAlamofire: Void = {
+private let _dispatchOnceConfigureNukeWithAlamofire: Void = {
     let pipeline = ImagePipeline {
         $0.dataLoader = AlamofireDataLoader()
         $0.imageCache = ImageCache.shared
     }
+    ImagePipeline.shared = pipeline
 }()
 
 protocol ImageService: ImageDisplaying { }
@@ -71,7 +72,7 @@ extension ImageService where Self: UIView {
             return false
         }
 
-        configureNukeWithAlamofire
+        _dispatchOnceConfigureNukeWithAlamofire
 
         Nuke.loadImage(
             with: url,

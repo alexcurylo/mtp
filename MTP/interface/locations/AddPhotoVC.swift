@@ -341,11 +341,11 @@ extension AddPhotoVC: UINavigationControllerDelegate {
 
 extension AddPhotoVC: Injectable {
 
-    typealias Model = (place: PlaceAnnotation?, delegate: AddPhotoDelegate)
+    typealias Model = (mappable: Mappable?, delegate: AddPhotoDelegate)
 
     @discardableResult func inject(model: Model) -> Self {
-        countryId = model.place?.countryId ?? 0
-        locationId = model.place?.id ?? 0
+        countryId = model.mappable?.location?.countryId ?? 0
+        locationId = model.mappable?.location?.placeId ?? 0
         delegate = model.delegate
         return self
     }

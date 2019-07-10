@@ -18,23 +18,27 @@ protocol LocationService: Mapper, PlaceAnnotationDelegate, ServiceProvider {
 
     var here: CLLocationCoordinate2D? { get }
     var inside: Location? { get }
+    var distances: Distances { get }
 
+    func distance(to: Mappable) -> CLLocationDistance
     func nearest(list: Checklist,
                  id: Int,
                  to coordinate: CLLocationCoordinate2D) -> Mappable?
 
-    var distances: Distances { get }
+    func request(permission: LocationPermission)
+    func start(permission: LocationPermission)
 
     func insert<T>(tracker: T) where T: LocationTracker, T: Hashable
     func remove<T>(tracker: T) where T: LocationTracker, T: Hashable
-
-    func request(permission: LocationPermission)
-    func start(permission: LocationPermission)
 
     func inject(handler: LocationHandler)
 }
 
 extension LocationService {
+
+    func distance(to: Mappable) -> CLLocationDistance {
+        return distances[to.dbKey] ?? 0
+    }
 
     @discardableResult func start(tracker: LocationTracker?) -> CLAuthorizationStatus {
         let ask: PermissionTrigger = tracker == nil ? .dontAsk : .ask

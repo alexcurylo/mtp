@@ -3,8 +3,8 @@
 import MapKit
 import RealmMapView
 
-typealias MappableAnnotation = Annotation
-typealias MappableClusterAnnotationView = ClusterAnnotationView
+typealias MappablesAnnotation = Annotation
+typealias MappablesAnnotationView = ClusterAnnotationView
 
 extension CLLocationDistance {
 
@@ -108,18 +108,35 @@ final class MTPMapView: RealmMapView, ServiceProvider {
         zoom(region: newRegion)
     }
 
-    func update(overlays mappable: Mappable) {
-        let current = overlays.filter { $0 is MappableOverlay }
-        if let first = current.first as? MappableOverlay,
-           first.shows(mappable: mappable) {
-            return
-        }
+    func close(mappable: Mappable) {
+        guard let shown = annotation(for: mappable) else { return }
 
-        removeOverlays(current)
-        let overlays = mappable.overlays
-        if !overlays.isEmpty {
-            addOverlays(overlays)
-        }
+        deselectAnnotation(shown, animated: false)
+    }
+
+    func update(mappable: Mappable) {
+        guard let shown = annotation(for: mappable) else { return }
+
+        removeAnnotation(shown)
+        addAnnotation(shown)
+    }
+
+    func display(view: MappablesAnnotationView) {
+        guard let mappable = view.mappable else { return }
+
+        update(overlays: mappable)
+        #if TEST_TRIGGER_ON_SELECTION
+        mappable._testTrigger(background: false)
+        #endif
+    }
+
+    func expand(view: MappablesAnnotationView) {
+        guard let annotation = view.mappablesAnnotation else { return }
+
+        log.todo("implement expand")
+        //zoom(to: annotation)
+        //like zoom(to cluster: MKClusterAnnotation)
+        deselectAnnotation(annotation, animated: false)
     }
 
     override func didUpdateAnnotations() {
@@ -174,15 +191,29 @@ private extension MTPMapView {
     }
 
     func select(mappable: Mappable) {
-        guard let shown = annotation(mappable: mappable) else { return }
+        guard let shown = annotation(for: mappable) else { return }
 
-        selectAnnotation(shown, animated: false)
+        selectAnnotation(shown, animated: true)
     }
 
-    func annotation(mappable: Mappable) -> MappableAnnotation? {
+    func update(overlays mappable: Mappable) {
+        let current = overlays.filter { $0 is MappableOverlay }
+        if let first = current.first as? MappableOverlay,
+            first.shows(mappable: mappable) {
+            return
+        }
+
+        removeOverlays(current)
+        let overlays = mappable.overlays
+        if !overlays.isEmpty {
+            addOverlays(overlays)
+        }
+    }
+
+    func annotation(for mappable: Mappable) -> MappablesAnnotation? {
         for annotation in annotations {
-            if let annotation = annotation as? MappableAnnotation,
-               annotation.shows(mappable: mappable) {
+            if let annotation = annotation as? MappablesAnnotation,
+               annotation.shows(only: mappable) {
                 return annotation
             }
         }
@@ -241,38 +272,44 @@ private extension MTPMapView {
     }
 }
 
-extension MappableAnnotation {
+extension MappablesAnnotation {
 
-    var only: Mappable? {
-        if safeObjects.count != 1 {
-            return nil
-        } else {
-            return safeObjects.first?.toObject(Mappable.self)
-        }
+    var isSingle: Bool {
+        return type == .unique
+    }
+    var isMultiple: Bool {
+        return type == .cluster
     }
 
-    func shows(mappable: Mappable) -> Bool {
-        guard let only = only else {
-            return false
-        }
+    func shows(only: Mappable) -> Bool {
+        return only == mappable
+    }
 
-        let same = only == mappable
-        return same
+    var mappable: Mappable? {
+        return isSingle ? mappables[0] : nil
+    }
+    var mappables: [Mappable] {
+        return safeObjects.map { $0.toObject(Mappable.self) }
     }
 }
 
-extension MappableClusterAnnotationView {
+extension MappablesAnnotationView {
 
-    var objects: [LocationSafeRealmObject] {
-        return MappableClusterAnnotationView.safeObjects(forClusterAnnotationView: self) ?? []
+    var isSingle: Bool {
+        return mappablesAnnotation?.isSingle ?? false
+    }
+    var isMultiple: Bool {
+        return mappablesAnnotation?.isMultiple ?? false
     }
 
-    var only: Mappable? {
-        let array = objects
-        if array.count != 1 {
-            return nil
-        } else {
-            return array.first?.toObject(Mappable.self)
-        }
+    var mappable: Mappable? {
+        return mappablesAnnotation?.mappable
+    }
+    var mappables: [Mappable] {
+        return mappablesAnnotation?.mappables ?? []
+    }
+
+    var mappablesAnnotation: MappablesAnnotation? {
+        return annotation as? MappablesAnnotation
     }
 }

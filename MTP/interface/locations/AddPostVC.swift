@@ -222,11 +222,15 @@ extension AddPostVC: KeyboardListener {
 
 extension AddPostVC: Injectable {
 
-    typealias Model = PlaceAnnotation
+    typealias Model = Mappable
 
     @discardableResult func inject(model: Model) -> Self {
-        country = data.get(country: model.countryId)
-        location = data.get(location: model.id)
+        if let countryId = model.location?.countryId {
+            country = data.get(country: countryId)
+        }
+        if let locationId = model.location?.placeId {
+            location = data.get(location: locationId)
+        }
         return self
     }
 

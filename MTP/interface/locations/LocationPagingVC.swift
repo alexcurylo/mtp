@@ -10,7 +10,7 @@ final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
             if model.canPost {
                 return R.storyboard.locationInfo.locationInfo()?.inject(model: model)
             } else {
-                return LocationWebsiteVC(place: model)
+                return LocationWebsiteVC(mappable: model)
             }
         }
 
@@ -96,7 +96,7 @@ private extension LocationPagingVC {
 
 extension LocationPagingVC: Injectable {
 
-    typealias Model = PlaceAnnotation
+    typealias Model = Mappable
 
     @discardableResult func inject(model: Model) -> Self {
         return self

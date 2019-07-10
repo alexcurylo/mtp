@@ -14,7 +14,7 @@ final class LocationVC: UIViewController, ServiceProvider {
     @IBOutlet private var pagesHolder: UIView?
 
     // swiftlint:disable:next implicitly_unwrapped_optional
-    private var place: PlaceAnnotation!
+    private var mappable: Mappable!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,16 +53,16 @@ final class LocationVC: UIViewController, ServiceProvider {
 private extension LocationVC {
 
     @IBAction func mapButtonTapped(_ sender: UIBarButtonItem) {
-        place.reveal(callout: true)
+        mappable.reveal(callout: true)
     }
 
     func configure() {
-        guard let place = place else { return }
+        guard let mappable = mappable else { return }
 
-        placeImageView?.load(image: place)
-        categoryLabel?.text = place.list.category(full: true).uppercased()
-        distanceLabel?.text = L.away(place.distance.formatted).uppercased()
-        nameLabel?.text = place.subtitle
+        placeImageView?.load(image: mappable)
+        categoryLabel?.text = mappable.checklist.category(full: true).uppercased()
+        distanceLabel?.text = L.away(mappable.distance.formatted).uppercased()
+        nameLabel?.text = mappable.title
 
         setupPagesHolder()
     }
@@ -70,7 +70,7 @@ private extension LocationVC {
     func setupPagesHolder() {
         guard let holder = pagesHolder else { return }
 
-        let pagesVC = LocationPagingVC.profile(model: place)
+        let pagesVC = LocationPagingVC.profile(model: mappable)
         addChild(pagesVC)
         holder.addSubview(pagesVC.view)
         pagesVC.view.edgeAnchors == holder.edgeAnchors
@@ -82,15 +82,15 @@ private extension LocationVC {
 
 extension LocationVC: Injectable {
 
-    typealias Model = PlaceAnnotation
+    typealias Model = Mappable
 
     @discardableResult func inject(model: Model) -> Self {
-        place = model
+        mappable = model
         return self
     }
 
     func requireInjections() {
-        place.require()
+        mappable.require()
 
         placeImageView.require()
         categoryLabel.require()

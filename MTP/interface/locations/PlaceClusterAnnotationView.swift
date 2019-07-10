@@ -145,7 +145,7 @@ private extension MKClusterAnnotation {
         var counts: (visited: Int, unvisited: Int) = (0, 0)
         memberAnnotations.forEach {
             guard let place = $0 as? PlaceAnnotation,
-                  place.list == places else { return }
+                  place.checklist == places else { return }
 
             if place.isVisited {
                 counts.visited += 1
