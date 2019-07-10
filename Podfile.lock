@@ -156,10 +156,10 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   ABFRealmMapView:
-    :commit: 20c6cc52f96391902193c8c3627394c7e881df12
+    :commit: a9eec9f26509b33f048d10a9c100d057da4d3ae4
     :git: https://github.com/alexcurylo/ABFRealmMapView
   RealmMapView:
-    :commit: 20c6cc52f96391902193c8c3627394c7e881df12
+    :commit: a9eec9f26509b33f048d10a9c100d057da4d3ae4
     :git: https://github.com/alexcurylo/ABFRealmMapView
 
 SPEC CHECKSUMS:

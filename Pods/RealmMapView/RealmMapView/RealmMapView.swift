@@ -117,31 +117,41 @@ open class RealmMapView: MKMapView {
     /// along with the generated predicate for the location bounding box.
     open var basePredicate: NSPredicate?
 
-    /// Provide refreshing state notification entry points
-    open var isRefreshingMap = false {
+    /// Provide annotation update state notification entry points
+    public var isChangingRegion = false {
+        didSet { isUpdatingAnnotations = isRefreshingMapCount > 0 || isChangingRegion }
+    }
+    public var isRefreshingMapCount = 0 {
+        didSet { isUpdatingAnnotations = isRefreshingMapCount > 0 || isChangingRegion }
+    }
+    public var isUpdatingAnnotations = false {
         didSet {
-            if isRefreshingMap {
-                willRefreshMap()
-            } else {
-                didRefreshMap()
+            switch (oldValue, isUpdatingAnnotations) {
+            case (false, true):
+                willUpdateAnnotations()
+            case (true, false):
+                didUpdateAnnotations()
+            default:
+                break
             }
         }
     }
-    open func willRefreshMap() {
+    open func willUpdateAnnotations() {
         // override entry point
     }
-    open func didRefreshMap() {
+    open func didUpdateAnnotations() {
         // override entry point
     }
+
+    /// Expose serial work queue for scheduling
+    public var serialWorkQueue: OperationQueue { return mapQueue }
 
     // MARK: Functions
     
     /// Performs a fresh fetch for Realm objects based on the current visible map rect
     open func refreshMapView() {
         objc_sync_enter(self)
-
-        isRefreshingMap = true
-        mapQueue.cancelAllOperations()
+        isRefreshingMapCount += 1
         
         let currentRegion = self.region
         
@@ -183,7 +193,6 @@ open class RealmMapView: MKMapView {
                     
                     let annotations = self.fetchedResultsController.annotations
                     self.addAnnotationsToMapView(annotations)
-                    self.isRefreshingMap = false
                 }
             }
             else {
@@ -193,13 +202,12 @@ open class RealmMapView: MKMapView {
                     
                     let annotations = self.fetchedResultsController.annotations
                     self.addAnnotationsToMapView(annotations)
-                    self.isRefreshingMap = false
                 }
             }
             
             self.mapQueue.addOperation(refreshOperation)
         } catch {
-            isRefreshingMap = false
+            isRefreshingMapCount -= 1
             #if DEBUG
             print("configuration error: \(error)")
             #endif
@@ -238,7 +246,9 @@ open class RealmMapView: MKMapView {
     
     fileprivate let mapQueue: OperationQueue = {
         let queue = OperationQueue()
+        queue.name = "RealmMapView"
         queue.maxConcurrentOperationCount = 1
+        queue.qualityOfService = .userInteractive
         
         return queue
     }()
@@ -248,15 +258,15 @@ open class RealmMapView: MKMapView {
     fileprivate func addAnnotationsToMapView(_ annotations: Set<ABFAnnotation>) {
         let safeObjects = self.fetchedResultsController.safeObjects
         DispatchQueue.main.async { [weak self] in
-            guard let strongSelf = self else {
+            guard let self = self else {
                 return
             }
             
             let currentAnnotations: NSMutableSet
-            if strongSelf.annotations.isEmpty {
+            if self.annotations.isEmpty {
                 currentAnnotations = NSMutableSet()
             } else {
-                currentAnnotations = NSMutableSet(array: strongSelf.annotations)
+                currentAnnotations = NSMutableSet(array: self.annotations)
             }
             
             let newAnnotations = annotations
@@ -273,24 +283,25 @@ open class RealmMapView: MKMapView {
             
             toRemove.minus(newAnnotations)
                 
-            if strongSelf.zoomOnFirstRefresh && safeObjects.count > 0 {
+            if self.zoomOnFirstRefresh && safeObjects.count > 0 {
                 
-                strongSelf.zoomOnFirstRefresh = false
+                self.zoomOnFirstRefresh = false
                 
-                let region = strongSelf.coordinateRegion(safeObjects)
+                let region = self.coordinateRegion(safeObjects)
                 
-                strongSelf.setRegion(region, animated: true)
+                self.setRegion(region, animated: true)
             }
             else {
                 if let addAnnotations = toAdd.allObjects as? [MKAnnotation] {
                     
                     if let removeAnnotations = toRemove.allObjects as? [MKAnnotation] {
                         
-                        strongSelf.addAnnotations(addAnnotations)
-                        strongSelf.removeAnnotations(removeAnnotations)
+                        self.addAnnotations(addAnnotations)
+                        self.removeAnnotations(removeAnnotations)
                     }
                 }
             }
+            self.isRefreshingMapCount -= 1
         }
     }
     
@@ -337,15 +348,17 @@ Delegate proxy that allows the controller to trigger auto refresh and then rebro
 extension RealmMapView: MKMapViewDelegate {
 
     public func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+        isChangingRegion = true
+
         self.externalDelegate?.mapView?(mapView, regionWillChangeAnimated: animated)
     }
     
     public func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        
         if self.autoRefresh {
             self.refreshMapView()
         }
-        
+        isChangingRegion = false
+
         self.externalDelegate?.mapView?(mapView, regionDidChangeAnimated: animated)
     }
     

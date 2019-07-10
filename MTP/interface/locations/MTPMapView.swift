@@ -122,16 +122,15 @@ final class MTPMapView: RealmMapView, ServiceProvider {
         }
     }
 
-    override func didRefreshMap() {
-        // log.todo("don't trigger until addAnnotationsToMapView completes!")
-        // log.todo("expose mapQueue and BlockOperation this")
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+    override func didUpdateAnnotations() {
+        guard !completions.isEmpty else { return }
 
-            objc_sync_enter(self)
-            self.completions.forEach { $0() }
-            self.completions = []
-            objc_sync_exit(self)
+        let pending = completions
+        completions = []
+        serialWorkQueue.addOperation {
+            DispatchQueue.main.async {
+                pending.forEach { $0() }
+            }
         }
     }
 }
@@ -189,7 +188,6 @@ private extension MTPMapView {
         }
 
         log.error("Could not find annotation for \(mappable)")
-        note.unimplemented()
         return nil
     }
 
@@ -207,23 +205,38 @@ private extension MTPMapView {
     func zoom(region: MKCoordinateRegion,
               then: Completion? = nil) {
         DispatchQueue.main.async { [weak self] in
-            MKMapView.animate(
-                withDuration: 1,
-                animations: {
-                    self?.setRegion(region, animated: true)
-                },
-                completion: { _ in
-                    guard let then = then else { return }
+            if let then = then {
+                self?.animateZoom(region: region, then: then)
+            } else {
+                self?.setRegion(region, animated: true)
+            }
+        }
+    }
 
-                    if let self = self, self.isRefreshingMap {
-                        objc_sync_enter(self)
-                        self.completions.append(then)
-                        objc_sync_exit(self)
-                    } else {
-                        then()
-                    }
-                }
-            )
+    func animateZoom(region: MKCoordinateRegion,
+                     then: @escaping Completion) {
+        assert(Thread.isMainThread)
+
+        MKMapView.animate(
+            withDuration: 1,
+            animations: {
+                self.setRegion(region, animated: true)
+            },
+            completion: { [weak self] _ in
+                self?.animated(then: then)
+            }
+        )
+    }
+
+    func animated(then: @escaping Completion) {
+        assert(Thread.isMainThread)
+
+        if isUpdatingAnnotations {
+            objc_sync_enter(self)
+            completions.append(then)
+            objc_sync_exit(self)
+        } else {
+            then()
         }
     }
 }
