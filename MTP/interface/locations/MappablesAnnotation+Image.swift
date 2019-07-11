@@ -2,44 +2,29 @@
 
 import MapKit
 
-final class PlaceClusterAnnotationView: MKAnnotationView {
+extension MappablesAnnotation: ServiceProvider {
 
-    static var identifier = typeName
-
-    static func register(view: MKMapView) {
-        view.register(self, forAnnotationViewWithReuseIdentifier: identifier)
+    func drawSingle() -> UIImage {
+        log.todo("drawSingle - inherit from MKMarkerAnnotationView?")
+        return drawMultiple()
     }
 
-    override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
-        super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
-        collisionMode = .circle
-        centerOffset = CGPoint(x: 0, y: -10)
-    }
-
-    @available(*, unavailable)
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override func prepareForDisplay() {
-        super.prepareForDisplay()
-
-        guard let cluster = annotation as? MKClusterAnnotation  else {
-            return
+    func drawMultiple() -> UIImage {
+        let total = count
+        let slices = slice()
+        let renderer = UIGraphicsImageRenderer(size: Layout.size)
+        return renderer.image { _ in
+            draw(outer: slices[0].color)
+            draw(pie: slices, total: CGFloat(total))
+            draw(inner: .white)
+            draw(total: total)
         }
-
-        image = cluster.draw()
-    }
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
-
-        image = nil
-        annotation = nil
     }
 }
 
-private extension MKClusterAnnotation {
+// MARK: - Multiple
+
+private extension MappablesAnnotation {
 
     typealias Slice = (color: UIColor, count: CGFloat)
 
@@ -55,19 +40,6 @@ private extension MKClusterAnnotation {
                                   width: axis - inset * 2,
                                   height: axis - inset * 2)
         static let fontSize: [CGFloat] = [20, 20, 16, 13, 11, 9]
-    }
-
-    func draw() -> UIImage {
-        let total = memberAnnotations.count
-        let slices = slice()
-
-        let renderer = UIGraphicsImageRenderer(size: Layout.size)
-        return renderer.image { _ in
-            draw(outer: slices[0].color)
-            draw(pie: slices, total: CGFloat(total))
-            draw(inner: .white)
-            draw(total: total)
-        }
     }
 
     func draw(outer: UIColor) {
@@ -132,7 +104,7 @@ private extension MKClusterAnnotation {
     func slice() -> [Slice] {
         var visits = CGFloat(0)
         let lists: [Slice] = Checklist.allCases.compactMap { list in
-            let (visited, unvisited) = count(places: list)
+            let (visited, unvisited) = count(checklist: list)
             visits += CGFloat(visited)
             guard unvisited > 0 else { return nil }
             return (list.marker, CGFloat(unvisited))
@@ -145,19 +117,14 @@ private extension MKClusterAnnotation {
         }
     }
 
-    func count(places: Checklist) -> (Int, Int) {
+    func count(checklist: Checklist) -> (Int, Int) {
         var counts: (visited: Int, unvisited: Int) = (0, 0)
-        memberAnnotations.forEach {
-            #if OBSOLETE
-            guard let place = $0 as? PlaceAnnotation,
-                  place.checklist == places else { return }
-
-            if place.isVisited {
+        mappables.filter { $0.checklist == checklist }.forEach {
+            if $0.isVisited {
                 counts.visited += 1
             } else {
                 counts.unvisited += 1
             }
-            #endif
         }
         return counts
     }

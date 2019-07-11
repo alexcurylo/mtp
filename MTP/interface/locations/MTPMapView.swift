@@ -90,23 +90,14 @@ final class MTPMapView: RealmMapView, ServiceProvider {
         }
     }
 
-    func zoom(to cluster: MKClusterAnnotation) {
-        let clustered = cluster.region
-        var newRegion = region
-        newRegion.center = cluster.coordinate
-        newRegion.span.latitudeDelta = clustered.maxDelta * 1.3
-        newRegion.span.longitudeDelta = clustered.maxDelta * 1.3
-        zoom(region: newRegion)
-    }
-
     func close(mappable: Mappable) {
-        guard let shown = annotation(for: mappable) else { return }
+        guard let shown = shown(for: mappable) else { return }
 
         deselectAnnotation(shown, animated: false)
     }
 
     func update(mappable: Mappable) {
-        guard let shown = annotation(for: mappable) else { return }
+        guard let shown = shown(for: mappable) else { return }
 
         removeAnnotation(shown)
         addAnnotation(shown)
@@ -123,12 +114,10 @@ final class MTPMapView: RealmMapView, ServiceProvider {
     }
 
     func expand(view: MappablesAnnotationView) {
-        guard let annotation = view.mappablesAnnotation else { return }
+        guard let mapped = view.mapped else { return }
 
-        log.todo("implement expand")
-        //zoom(to: annotation)
-        //like zoom(to cluster: MKClusterAnnotation)
-        deselectAnnotation(annotation, animated: false)
+        deselectAnnotation(mapped, animated: false)
+        zoom(into: mapped)
     }
 
     override func didUpdateAnnotations() {
@@ -178,7 +167,7 @@ private extension MTPMapView {
     }
 
     func select(mappable: Mappable) {
-        guard let shown = annotation(for: mappable) else { return }
+        guard let shown = shown(for: mappable) else { return }
 
         selectAnnotation(shown, animated: true)
     }
@@ -197,16 +186,25 @@ private extension MTPMapView {
         }
     }
 
-    func annotation(for mappable: Mappable) -> MappablesAnnotation? {
-        for annotation in annotations {
-            if let annotation = annotation as? MappablesAnnotation,
-               annotation.shows(only: mappable) {
-                return annotation
+    func shown(for mappable: Mappable) -> MappablesAnnotation? {
+        for shown in annotations {
+            if let shown = shown as? MappablesAnnotation,
+               shown.shows(only: mappable) {
+                return shown
             }
         }
 
         log.error("Could not find annotation for \(mappable)")
         return nil
+    }
+
+    func zoom(into shown: MappablesAnnotation) {
+        var zoomed = region
+        let contents = shown.region
+        zoomed.center = shown.coordinate
+        zoomed.span.latitudeDelta = contents.maxDelta * 1.3
+        zoomed.span.longitudeDelta = contents.maxDelta * 1.3
+        zoom(region: zoomed)
     }
 
     func zoom(center: CLLocationCoordinate2D,
@@ -267,9 +265,8 @@ extension MappablesAnnotation {
     var isMultiple: Bool {
         return type == .cluster
     }
-
-    func shows(only: Mappable) -> Bool {
-        return only == mappable
+    var count: Int {
+        return safeObjects.count
     }
 
     var mappable: Mappable? {
@@ -278,28 +275,11 @@ extension MappablesAnnotation {
     var mappables: [Mappable] {
         return safeObjects.map { $0.toObject(Mappable.self) }
     }
-    var count: UInt {
-        return UInt(safeObjects.count)
-    }
-}
-
-extension MappablesAnnotationView {
-
-    var isSingle: Bool {
-        return mappablesAnnotation?.isSingle ?? false
-    }
-    var isMultiple: Bool {
-        return mappablesAnnotation?.isMultiple ?? false
+    var region: ClusterRegion {
+        return ClusterRegion(mappables: self)
     }
 
-    var mappable: Mappable? {
-        return mappablesAnnotation?.mappable
-    }
-    var mappables: [Mappable] {
-        return mappablesAnnotation?.mappables ?? []
-    }
-
-    var mappablesAnnotation: MappablesAnnotation? {
-        return annotation as? MappablesAnnotation
+    func shows(only: Mappable) -> Bool {
+        return only == mappable
     }
 }
