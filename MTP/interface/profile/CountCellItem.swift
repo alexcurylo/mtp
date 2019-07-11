@@ -41,12 +41,12 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
         let font: UIFont
         if model.list.hasChildren(id: model.id) {
             labelsIndent?.constant = Layout.parentIndent
-            font = Layout.titleObliqueFont
+            font = Layout.titleBookFont
             visit.isHidden = true
         } else {
             if model.parentId != nil {
                 labelsIndent?.constant = Layout.childIndent
-                font = Layout.titleMediumFont
+                font = Layout.childFont
             } else if model.isCombined {
                 labelsIndent?.constant = Layout.combinedIndent
                 font = Layout.titleHeavyFont
@@ -78,18 +78,20 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
         static let margin = CGFloat(8)
         static let combinedIndent = CGFloat(12)
         static let parentIndent = CGFloat(16)
-        static let childIndent = CGFloat(20)
+        static let childIndent = CGFloat(24)
         static let spacing = CGFloat(4)
         static let titleHeavyFont = Avenir.heavy.of(size: 17)
         static let titleMediumFont = Avenir.medium.of(size: 16)
-        static let titleObliqueFont = Avenir.oblique.of(size: 16)
+        static let titleBookFont = Avenir.book.of(size: 16)
+        static let childFont = Avenir.oblique.of(size: 15)
         static let subtitleFont = Avenir.oblique.of(size: 14)
     }
 
     private let titleLabel = UILabel {
         $0.allowsDefaultTighteningForTruncation = true
         $0.adjustsFontSizeToFitWidth = true
-        $0.minimumScaleFactor = 0.5
+        $0.minimumScaleFactor = 0.9
+        $0.lineBreakMode = .byTruncatingMiddle
         $0.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
 

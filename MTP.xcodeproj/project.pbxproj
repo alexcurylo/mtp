@@ -109,8 +109,7 @@
 		FA4653322115A250005B5A0A /* UserDefaults+DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653312115A250005B5A0A /* UserDefaults+DataService.swift */; };
 		FA4653342115ADC6005B5A0A /* MTPNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653332115ADC6005B5A0A /* MTPNetworkService.swift */; };
 		FA54272822D62936005DF1CC /* MappablesAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA54272722D62936005DF1CC /* MappablesAnnotationView.swift */; };
-		FA5AC0B621FC4EBE0080F84F /* PlaceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0B521FC4EBE0080F84F /* PlaceAnnotationView.swift */; };
-		FA5AC0B821FD4A160080F84F /* MappablesAnnotation+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0B721FD4A160080F84F /* MappablesAnnotation+Image.swift */; };
+		FA5AC0B621FC4EBE0080F84F /* MappableAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0B521FC4EBE0080F84F /* MappableAnnotationView.swift */; };
 		FA5AC0BB21FDC1060080F84F /* MyCounts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA5AC0B921FDC1050080F84F /* MyCounts.storyboard */; };
 		FA5AC0BD21FDC80A0080F84F /* MyCountsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0BC21FDC80A0080F84F /* MyCountsVC.swift */; };
 		FA5AC0BF21FDCB9D0080F84F /* MyCountsPagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0BE21FDCB9D0080F84F /* MyCountsPagingVC.swift */; };
@@ -338,8 +337,7 @@
 		FA4F1C5D20DFA69000B8A1ED /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		FA4F1C5E20DFA74500B8A1ED /* Gemfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile; sourceTree = "<group>"; };
 		FA54272722D62936005DF1CC /* MappablesAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappablesAnnotationView.swift; sourceTree = "<group>"; };
-		FA5AC0B521FC4EBE0080F84F /* PlaceAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotationView.swift; sourceTree = "<group>"; };
-		FA5AC0B721FD4A160080F84F /* MappablesAnnotation+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MappablesAnnotation+Image.swift"; sourceTree = "<group>"; };
+		FA5AC0B521FC4EBE0080F84F /* MappableAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappableAnnotationView.swift; sourceTree = "<group>"; };
 		FA5AC0BA21FDC1050080F84F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyCounts.storyboard; sourceTree = "<group>"; };
 		FA5AC0BC21FDC80A0080F84F /* MyCountsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCountsVC.swift; sourceTree = "<group>"; };
 		FA5AC0BE21FDCB9D0080F84F /* MyCountsPagingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCountsPagingVC.swift; sourceTree = "<group>"; };
@@ -752,12 +750,11 @@
 				FAA818FD22447EAB00BB9F92 /* LocationVC.swift */,
 				8C9C4E2D22C3030300F3E423 /* LocationWebsiteVC.swift */,
 				8C617971223F2D79000827D6 /* LocationsFilterVC.swift */,
+				FA5AC0B521FC4EBE0080F84F /* MappableAnnotationView.swift */,
 				FA2172D722BE038C00CE4F40 /* MappableOverlay.swift */,
-				FA5AC0B721FD4A160080F84F /* MappablesAnnotation+Image.swift */,
 				FA54272722D62936005DF1CC /* MappablesAnnotationView.swift */,
 				FA6386A222D1743E001B4424 /* MTPMapView.swift */,
 				FA815B702286D138004B91C8 /* NearbyVC.swift */,
-				FA5AC0B521FC4EBE0080F84F /* PlaceAnnotationView.swift */,
 			);
 			path = locations;
 			sourceTree = "<group>";
@@ -1289,7 +1286,7 @@
 				FA88395722351C30002F324F /* UIImage+Color.swift in Sources */,
 				FAC159A221EB68AA00564E2D /* Location.swift in Sources */,
 				FA7C200E221820FA002C6DAB /* OperationReply.swift in Sources */,
-				FA5AC0B621FC4EBE0080F84F /* PlaceAnnotationView.swift in Sources */,
+				FA5AC0B621FC4EBE0080F84F /* MappableAnnotationView.swift in Sources */,
 				FA0F816422BF1CA700C00898 /* AddPhotoVC.swift in Sources */,
 				8CFEE459221FA2120061614B /* ImageService.swift in Sources */,
 				FA8833E32209BF810037C796 /* LocationSearchVC.swift in Sources */,
@@ -1315,7 +1312,6 @@
 				FA40F754225B06D50056182E /* FaqVC.swift in Sources */,
 				FA36FBEF2206461F00616CDE /* RealmController.swift in Sources */,
 				FA32CC7420FB6E67004C1329 /* UIView+Gradient.swift in Sources */,
-				FA5AC0B821FD4A160080F84F /* MappablesAnnotation+Image.swift in Sources */,
 				FAF1853120FA0C8600CC5D83 /* RootVC.swift in Sources */,
 				FA7C2012221C2F20002C6DAB /* Photo.swift in Sources */,
 				FA9656CF22BE32D500DA050F /* AddPostVC.swift in Sources */,

@@ -87,8 +87,10 @@ protocol Mapper {
         map.entityName = typeName
         map.latitudeKeyPath = "latitude"
         map.longitudeKeyPath = "longitude"
-        map.subtitleKeyPath = "subtitle"
-        map.titleKeyPath = "title"
+        // title always shows above our custom callout
+        //map.titleKeyPath = "title"
+        // mark subtitle .visible and set it to title
+        map.subtitleKeyPath = "title"
     }
 
     var coordinate: CLLocationCoordinate2D {

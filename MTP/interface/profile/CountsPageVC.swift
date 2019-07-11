@@ -333,7 +333,7 @@ private extension CountsPageVC {
                 }
                 regionParents += parents.count
                 let families = countriesFamilies[region]?[country] ?? [:]
-                regionChildren += families.count
+                regionChildren += families.values.reduce(0) { $0 + $1.count }
             }
             return regionCountries.count + regionParents + regionChildren
         case .locations:

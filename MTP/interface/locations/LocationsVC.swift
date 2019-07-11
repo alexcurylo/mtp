@@ -270,14 +270,16 @@ extension LocationsVC: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView,
                  viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         switch annotation {
-        case let mappable as MappablesAnnotation:
-            return MappablesAnnotationView.view(on: mapView, for: mappable)
+        case let mappable as MappablesAnnotation where mappable.isSingle:
+            return MappableAnnotationView.view(on: mapView, for: mappable)
+        case let mappables as MappablesAnnotation where mappables.isMultiple:
+            return MappablesAnnotationView.view(on: mapView, for: mappables)
         case is MKUserLocation:
-            return nil
+            break
         default:
             log.debug("unexpected annotation: \(annotation)")
-            return nil
         }
+        return nil
     }
 
     func mapView(_ mapView: MKMapView,
@@ -289,12 +291,14 @@ extension LocationsVC: MKMapViewDelegate {
 
     func mapView(_ mapView: MKMapView,
                  didSelect view: MKAnnotationView) {
-        if let mappables = view as? MappablesAnnotationView {
-            if mappables.isSingle {
-                mtpMapView?.display(view: mappables)
-            } else if mappables.isMultiple {
-                mtpMapView?.expand(view: mappables)
-            }
+        switch view {
+        case let mappable as MappableAnnotationView:
+            mtpMapView?.display(view: mappable)
+        case let mappables as MappablesAnnotationView:
+            mtpMapView?.expand(view: mappables)
+        default:
+            // MKModernUserLocationView for instance
+            break
         }
     }
 

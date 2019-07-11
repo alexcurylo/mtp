@@ -103,7 +103,7 @@ final class MTPMapView: RealmMapView, ServiceProvider {
         addAnnotation(shown)
     }
 
-    func display(view: MappablesAnnotationView) {
+    func display(view: MappableAnnotationView) {
         guard let mappable = view.mappable else { return }
 
         view.prepareForCallout()
@@ -151,6 +151,7 @@ private extension MTPMapView {
     }
 
     func register() {
+        MappableAnnotationView.register(view: self)
         MappablesAnnotationView.register(view: self)
     }
 

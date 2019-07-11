@@ -3,12 +3,25 @@
 import Anchorage
 import MapKit
 
-final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
+final class MappableAnnotationView: MKMarkerAnnotationView, MappingAnnotationView, ServiceProvider {
+
+    static var identifier = typeName
 
     static func register(view: MKMapView) {
-        Checklist.allCases.forEach {
-            view.register(self, forAnnotationViewWithReuseIdentifier: $0.key)
-        }
+        view.register(self, forAnnotationViewWithReuseIdentifier: identifier)
+    }
+
+    static func view(on map: MKMapView,
+                     for annotation: MappablesAnnotation) -> MKAnnotationView {
+        let view = map.dequeueReusableAnnotationView(
+            withIdentifier: MappableAnnotationView.identifier,
+            for: annotation
+        )
+
+        view.annotation = annotation
+        view.canShowCallout = true
+
+        return view
     }
 
     private enum Layout {
@@ -17,7 +30,7 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         static let closeOutset = CGFloat(6)
     }
 
-    private let placeImage = UIImageView {
+    private let headerImageView = UIImageView {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.contentMode = .scaleAspectFill
         $0.sizeAnchors == Layout.imageSize
@@ -50,7 +63,7 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         $0.numberOfLines = 0
     }
 
-    private let countryLabel = UILabel {
+    private let locationLabel = UILabel {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = Avenir.heavy.of(size: 14)
         $0.textColor = .darkText
@@ -95,8 +108,9 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
 
         collisionMode = .circle
         canShowCallout = true
-        titleVisibility = .hidden
+        glyphText = nil
         subtitleVisibility = .visible
+        titleVisibility = .hidden
 
         visitSwitch.addTarget(self,
                               action: #selector(toggleVisit),
@@ -118,37 +132,32 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
 
     override func prepareForDisplay() {
         super.prepareForDisplay()
-        #if OBSOLETE
-       guard let place = place else { return }
+        guard let mappable = mappable else { return }
 
-        markerTintColor = place.marker
-        glyphImage = place.listImage
-        glyphText = nil
+        markerTintColor = mappable.marker
+        glyphImage = mappable.listImage
 
-        // this is called at startup, don't set image here
-        categoryLabel.text = place.checklist.category(full: false).uppercased()
-        show(visited: place.isVisited)
-        nameLabel.text = place.subtitle
-        countryLabel.text = place.country
-        visitorsLabel.text = L.visitors(place.visitors.grouped)
+        // called at creation, don't load image here
+        categoryLabel.text = mappable.checklist.category(full: false).uppercased()
+        show(visited: mappable.isVisited)
+        nameLabel.text = mappable.title
+        locationLabel.text = mappable.subtitle
+        visitorsLabel.text = L.visitors(mappable.visitors.grouped)
 
-        detailCalloutAccessoryView = detailView(place: place)
-        #endif
+        detailCalloutAccessoryView = detailView
    }
 
     func prepareForCallout() {
-        #if OBSOLETE
-        guard let place = place,
-              placeImage.image == nil else { return }
+        guard let mappable = mappable,
+            headerImageView.image == nil else { return }
 
-        placeImage.load(image: place)
-        #endif
+        headerImageView.load(image: mappable)
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        placeImage.prepareForReuse()
+        headerImageView.prepareForReuse()
         markerTintColor = nil
         glyphText = nil
         glyphImage = nil
@@ -158,38 +167,24 @@ final class PlaceAnnotationView: MKMarkerAnnotationView, ServiceProvider {
         annotation = nil
         image = nil
     }
-
-    #if OBSOLETE
-    var mappable: Mappable? {
-        return place?.mappable
-    }
-    #endif
 }
 
-private extension PlaceAnnotationView {
+// MARK: - Private
 
-    #if OBSOLETE
-    var place: PlaceAnnotation? {
-        return annotation as? PlaceAnnotation
-    }
-    #endif
+private extension MappableAnnotationView {
 
     func observe() {
         visitedObserver = data.observer(of: .visited) { [weak self] _ in
-            #if OBSOLETE
-            self?.show(visited: self?.place?.isVisited ?? false)
-            #endif
+            self?.show(visited: self?.mappable?.isVisited ?? false)
         }
     }
 
     @objc func toggleVisit(_ sender: UISwitch) {
-        #if OBSOLETE
-        guard let place = place else { return }
+        guard let mappable = mappable else { return }
 
         let isVisited = sender.isOn
-        place.isVisited = isVisited
+        mappable.isVisited = isVisited
         show(visited: isVisited)
-        #endif
     }
 
     var mapItem: MKMapItem? {
@@ -207,15 +202,15 @@ private extension PlaceAnnotationView {
     }
 
     @objc func showMoreTapped(_ sender: GradientButton) {
-        #if OBSOLETE
-        place?.show()
-        #endif
+        guard let mappable = mappable else { return }
+
+        loc.show(mappable: mappable)
     }
 
     @objc func closeTapped(_ sender: UIButton) {
-        #if OBSOLETE
-        place?.close()
-        #endif
+        guard let mappable = mappable else { return }
+
+        loc.close(mappable: mappable)
     }
 
     func show(visited: Bool) {
@@ -223,8 +218,7 @@ private extension PlaceAnnotationView {
         visitSwitch.isOn = visited
     }
 
-    #if OBSOLETE
-    func detailView(place: PlaceAnnotation) -> UIView {
+    var detailView: UIView {
 
         let bottomSpacer = UIView {
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -251,16 +245,15 @@ private extension PlaceAnnotationView {
 
         return stack
     }
-    #endif
 
     var topView: UIView {
         let holder = UIView {
             $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.addSubview(placeImage)
+            $0.addSubview(headerImageView)
             $0.heightAnchor == Layout.imageSize.height + Layout.closeOutset
             $0.widthAnchor == Layout.imageSize.width
-            placeImage.centerXAnchor == $0.centerXAnchor
-            placeImage.bottomAnchor == $0.bottomAnchor
+            headerImageView.centerXAnchor == $0.centerXAnchor
+            headerImageView.bottomAnchor == $0.bottomAnchor
         }
 
         _ = UIButton {
@@ -288,7 +281,7 @@ private extension PlaceAnnotationView {
 
     var detailStack: UIStackView {
         let stack = UIStackView(arrangedSubviews: [nameLabel,
-                                                   countryLabel,
+                                                   locationLabel,
                                                    visitorsLabel]).with {
             $0.axis = .vertical
             $0.spacing = 0
