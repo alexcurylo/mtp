@@ -23,9 +23,6 @@
   "dependencies": {
     "Realm": [
       ">= 3.17.0"
-    ],
-    "RBQSafeRealmObject": [
-
     ]
   }
 }

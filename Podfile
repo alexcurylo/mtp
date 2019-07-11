@@ -21,7 +21,6 @@ platform :ios, $iosVersion
 target 'MTP' do
 
   pod 'ABFRealmMapView', :git => 'https://github.com/alexcurylo/ABFRealmMapView', branch: 'swift5', :modular_headers => true
-  pod 'RBQSafeRealmObject', :modular_headers => true
   pod 'RealmMapView', :git => 'https://github.com/alexcurylo/ABFRealmMapView', branch: 'swift5'
 
   pod 'AlamofireNetworkActivityIndicator'

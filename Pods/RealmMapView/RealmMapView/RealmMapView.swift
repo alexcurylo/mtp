@@ -8,7 +8,9 @@
 
 import MapKit
 import RealmSwift
+#if canImport(ABFRealmMapView)
 import ABFRealmMapView
+#endif
 
 public typealias ClusterAnnotationView = ABFClusterAnnotationView
 public typealias LocationSafeRealmObject = ABFLocationSafeRealmObject

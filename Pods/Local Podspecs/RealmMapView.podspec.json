@@ -27,9 +27,6 @@
     ],
     "ABFRealmMapView": [
       ">=2.3"
-    ],
-    "RBQSafeRealmObject": [
-
     ]
   },
   "swift_version": "5.0"
