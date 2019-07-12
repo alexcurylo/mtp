@@ -10,7 +10,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var beaches: [Beach] { get }
     var countries: [Country] { get }
     var divesites: [DiveSite] { get }
-    var dismissed: Checked? { get set }
+    var dismissed: Timestamps? { get set }
     var email: String { get set }
     var etags: [String: String] { get set }
     var golfcourses: [GolfCourse] { get }
@@ -18,11 +18,11 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var locations: [Location] { get }
     var mapDisplay: ChecklistFlags { get set }
     var mappables: [Mappable] { get }
-    var notified: Checked? { get set }
+    var notified: Timestamps? { get set }
     var restaurants: [Restaurant] { get }
     var settings: SettingsJSON? { get set }
     var token: String { get set }
-    var triggered: Checked? { get set }
+    var triggered: Timestamps? { get set }
     var uncountries: [UNCountry] { get }
     var user: UserJSON? { get set }
     var visited: Checked? { get set }
@@ -34,7 +34,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func get(locationPhotos id: Int) -> [Photo]
     func get(locationPosts id: Int) -> [Post]
     func get(locations filter: String) -> [Location]
-    func get(mappable list: Checklist, id: Int) -> Mappable?
+    func get(mappable item: Checklist.Item) -> Mappable?
     func get(mappables list: Checklist) -> [Mappable]
     func get(mappables matching: String) -> [Mappable]
     func getPhotosPages(user id: Int) -> Results<PhotosPageInfo>
@@ -156,7 +156,7 @@ final class DataServiceImpl: DataService {
         notify(change: .divesites)
     }
 
-    var dismissed: Checked? {
+    var dismissed: Timestamps? {
         get { return defaults.dismissed }
         set {
             defaults.dismissed = newValue
@@ -214,8 +214,8 @@ final class DataServiceImpl: DataService {
         return realm.locations(filter: filter)
     }
 
-    func get(mappable list: Checklist, id: Int) -> Mappable? {
-        return realm.mappable(list: list, id: id)
+    func get(mappable item: Checklist.Item) -> Mappable? {
+        return realm.mappable(item: item)
     }
 
     var mappables: [Mappable] {
@@ -242,7 +242,7 @@ final class DataServiceImpl: DataService {
         }
     }
 
-    var notified: Checked? {
+    var notified: Timestamps? {
         get { return defaults.notified }
         set {
             defaults.notified = newValue
@@ -355,7 +355,7 @@ final class DataServiceImpl: DataService {
         }
     }
 
-    var triggered: Checked? {
+    var triggered: Timestamps? {
         get { return defaults.triggered }
         set {
             defaults.triggered = newValue

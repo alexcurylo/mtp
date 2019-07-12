@@ -113,8 +113,8 @@ extension LocationsVC: Mapper {
         mtpMapView?.close(mappable: mappable)
     }
 
-    func notify(mappable: Mappable) {
-        note.notify(list: mappable.checklist, id: mappable.checklistId)
+    func notify(mappable: Mappable, triggered: Date) {
+        note.notify(item: mappable.item, triggered: triggered)
     }
 
     func reveal(mappable: Mappable, callout: Bool) {

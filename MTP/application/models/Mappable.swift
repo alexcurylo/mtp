@@ -47,13 +47,15 @@ extension PlaceMappable {
 protocol Mapper {
 
     func close(mappable: Mappable)
-    func notify(mappable: Mappable)
+    func notify(mappable: Mappable, triggered: Date)
     func reveal(mappable: Mappable, callout: Bool)
     func show(mappable: Mappable)
     func update(mappable: Mappable)
 }
 
 @objcMembers final class Mappable: Object, ServiceProvider {
+
+    typealias Key = String
 
     dynamic var checklistValue: Int = Checklist.locations.rawValue
     var checklist: Checklist {
@@ -73,14 +75,14 @@ protocol Mapper {
     dynamic var visitors: Int = 0
     dynamic var website: String = ""
 
-    dynamic var dbKey: String = ""
+    dynamic var dbKey: Key = ""
 
     override static func primaryKey() -> String? {
         return "dbKey"
     }
 
-    static func key(list: Checklist, id: Int) -> String {
-        return "'list=\(list.rawValue)?id=\(id)'"
+    static func key(item: Checklist.Item) -> Key {
+        return Key.key(item: item)
     }
 
     static func configure(map: RealmMapView) {
@@ -91,6 +93,10 @@ protocol Mapper {
         //map.titleKeyPath = "title"
         // mark subtitle .visible and set it to title
         map.subtitleKeyPath = "title"
+    }
+
+    var item: Checklist.Item {
+        return (list: checklist, id: checklistId)
     }
 
     var coordinate: CLLocationCoordinate2D {
@@ -187,7 +193,7 @@ protocol Mapper {
         region = location?.placeRegion ?? L.unknown()
         subtitle = location?.description ?? ""
 
-        dbKey = Mappable.key(list: checklist, id: checklistId)
+        dbKey = Mappable.key(item: item)
     }
 
     convenience init(checklist: Checklist,
@@ -217,7 +223,7 @@ protocol Mapper {
         self.visitors = visitors
         self.website = website
 
-        dbKey = Mappable.key(list: checklist, id: checklistId)
+        dbKey = Mappable.key(item: item)
     }
 
     func trigger(distance: CLLocationDistance) {
@@ -267,7 +273,7 @@ protocol Mapper {
 
         func trigger() {
             isTriggered = true
-            loc.notify(mappable: self)
+            loc.notify(mappable: self, triggered: Date())
         }
 
         if background {
@@ -283,6 +289,8 @@ protocol Mapper {
     }
     #endif
 }
+
+// MARK: - Private
 
 private extension Mappable {
 
@@ -303,8 +311,38 @@ private extension Mappable {
     func update(triggered: Bool) {
         if triggered && canTrigger {
             isTriggered = true
-            loc.notify(mappable: self)
+            loc.notify(mappable: self, triggered: Date())
         }
+    }
+}
+
+extension Mappable.Key: ServiceProvider {
+
+    static func key(item: Checklist.Item) -> Mappable.Key {
+        return "'list=\(item.list.rawValue)?id=\(item.id)'"
+    }
+
+    var item: Checklist.Item {
+        return (list: checklist, id: checklistId)
+    }
+
+    var checklist: Checklist {
+        guard let list = range(of: #"list=[0-9+]"#,
+                               options: .regularExpression) else {
+            log.error("Can't find list in \(self)")
+            return .beaches
+        }
+        let value = Int(String(self[list])) ?? 0
+        return Checklist(rawValue: value) ?? .beaches
+    }
+
+    var checklistId: Int {
+        guard let list = range(of: #"id=[0-9+]"#,
+                               options: .regularExpression) else {
+            log.error("Can't find id in \(self)")
+            return 0
+        }
+        return Int(String(self[list])) ?? 0
     }
 }
 

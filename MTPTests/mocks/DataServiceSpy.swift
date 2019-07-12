@@ -33,12 +33,12 @@ final class DataServiceSpy: DataService {
     }
     var invokedDismissedSetter = false
     var invokedDismissedSetterCount = 0
-    var invokedDismissed: Checked?
-    var invokedDismissedList = [Checked?]()
+    var invokedDismissed: Timestamps?
+    var invokedDismissedList = [Timestamps?]()
     var invokedDismissedGetter = false
     var invokedDismissedGetterCount = 0
-    var stubbedDismissed: Checked!
-    var dismissed: Checked? {
+    var stubbedDismissed: Timestamps!
+    var dismissed: Timestamps? {
         set {
             invokedDismissedSetter = true
             invokedDismissedSetterCount += 1
@@ -157,12 +157,12 @@ final class DataServiceSpy: DataService {
     }
     var invokedNotifiedSetter = false
     var invokedNotifiedSetterCount = 0
-    var invokedNotified: Checked?
-    var invokedNotifiedList = [Checked?]()
+    var invokedNotified: Timestamps?
+    var invokedNotifiedList = [Timestamps?]()
     var invokedNotifiedGetter = false
     var invokedNotifiedGetterCount = 0
-    var stubbedNotified: Checked!
-    var notified: Checked? {
+    var stubbedNotified: Timestamps!
+    var notified: Timestamps? {
         set {
             invokedNotifiedSetter = true
             invokedNotifiedSetterCount += 1
@@ -225,12 +225,12 @@ final class DataServiceSpy: DataService {
     }
     var invokedTriggeredSetter = false
     var invokedTriggeredSetterCount = 0
-    var invokedTriggered: Checked?
-    var invokedTriggeredList = [Checked?]()
+    var invokedTriggered: Timestamps?
+    var invokedTriggeredList = [Timestamps?]()
     var invokedTriggeredGetter = false
     var invokedTriggeredGetterCount = 0
-    var stubbedTriggered: Checked!
-    var triggered: Checked? {
+    var stubbedTriggered: Timestamps!
+    var triggered: Timestamps? {
         set {
             invokedTriggeredSetter = true
             invokedTriggeredSetterCount += 1
@@ -433,14 +433,14 @@ final class DataServiceSpy: DataService {
     }
     var invokedGetMappable = false
     var invokedGetMappableCount = 0
-    var invokedGetMappableParameters: (list: Checklist, id: Int)?
-    var invokedGetMappableParametersList = [(list: Checklist, id: Int)]()
+    var invokedGetMappableParameters: (item: Checklist.Item, Void)?
+    var invokedGetMappableParametersList = [(item: Checklist.Item, Void)]()
     var stubbedGetMappableResult: Mappable!
-    func get(mappable list: Checklist, id: Int) -> Mappable? {
+    func get(mappable item: Checklist.Item) -> Mappable? {
         invokedGetMappable = true
         invokedGetMappableCount += 1
-        invokedGetMappableParameters = (list, id)
-        invokedGetMappableParametersList.append((list, id))
+        invokedGetMappableParameters = (item, ())
+        invokedGetMappableParametersList.append((item, ()))
         return stubbedGetMappableResult
     }
     var invokedGetMappablesChecklist = false

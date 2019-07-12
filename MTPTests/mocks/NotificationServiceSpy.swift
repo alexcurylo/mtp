@@ -37,38 +37,38 @@ final class NotificationServiceSpy: NotificationService {
         invokedCheckTriggered = true
         invokedCheckTriggeredCount += 1
     }
-    var invokedNotifyListId = false
-    var invokedNotifyListIdCount = 0
-    var invokedNotifyListIdParameters: (list: Checklist, id: Int)?
-    var invokedNotifyListIdParametersList = [(list: Checklist, id: Int)]()
-    func notify(list: Checklist,
-    id: Int) {
-        invokedNotifyListId = true
-        invokedNotifyListIdCount += 1
-        invokedNotifyListIdParameters = (list, id)
-        invokedNotifyListIdParametersList.append((list, id))
+    var invokedNotify = false
+    var invokedNotifyCount = 0
+    var invokedNotifyParameters: (item: Checklist.Item, triggered: Date)?
+    var invokedNotifyParametersList = [(item: Checklist.Item, triggered: Date)]()
+    func notify(item: Checklist.Item,
+    triggered: Date) {
+        invokedNotify = true
+        invokedNotifyCount += 1
+        invokedNotifyParameters = (item, triggered)
+        invokedNotifyParametersList.append((item, triggered))
     }
-    var invokedNotifyListInfo = false
-    var invokedNotifyListInfoCount = 0
-    var invokedNotifyListInfoParameters: (list: Checklist, info: PlaceInfo)?
-    var invokedNotifyListInfoParametersList = [(list: Checklist, info: PlaceInfo)]()
+    var invokedNotifyList = false
+    var invokedNotifyListCount = 0
+    var invokedNotifyListParameters: (list: Checklist, info: PlaceInfo, triggered: Date)?
+    var invokedNotifyListParametersList = [(list: Checklist, info: PlaceInfo, triggered: Date)]()
     func notify(list: Checklist,
-    info: PlaceInfo) {
-        invokedNotifyListInfo = true
-        invokedNotifyListInfoCount += 1
-        invokedNotifyListInfoParameters = (list, info)
-        invokedNotifyListInfoParametersList.append((list, info))
+    info: PlaceInfo,
+    triggered: Date) {
+        invokedNotifyList = true
+        invokedNotifyListCount += 1
+        invokedNotifyListParameters = (list, info, triggered)
+        invokedNotifyListParametersList.append((list, info, triggered))
     }
     var invokedCongratulate = false
     var invokedCongratulateCount = 0
-    var invokedCongratulateParameters: (list: Checklist, id: Int)?
-    var invokedCongratulateParametersList = [(list: Checklist, id: Int)]()
-    func congratulate(list: Checklist,
-    id: Int) {
+    var invokedCongratulateParameters: (item: Checklist.Item, Void)?
+    var invokedCongratulateParametersList = [(item: Checklist.Item, Void)]()
+    func congratulate(item: Checklist.Item) {
         invokedCongratulate = true
         invokedCongratulateCount += 1
-        invokedCongratulateParameters = (list, id)
-        invokedCongratulateParametersList.append((list, id))
+        invokedCongratulateParameters = (item, ())
+        invokedCongratulateParametersList.append((item, ()))
     }
     var invokedInfoBackground = false
     var invokedInfoBackgroundCount = 0

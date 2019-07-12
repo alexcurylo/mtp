@@ -58,12 +58,12 @@ protocol NotificationService {
              then: @escaping (Bool) -> Void)
 
     func checkTriggered()
+    func notify(item: Checklist.Item,
+                triggered: Date)
     func notify(list: Checklist,
-                id: Int)
-    func notify(list: Checklist,
-                info: PlaceInfo)
-    func congratulate(list: Checklist,
-                      id: Int)
+                info: PlaceInfo,
+                triggered: Date)
+    func congratulate(item: Checklist.Item)
 
     func infoBackground(title: String?,
                         body: String?)
@@ -88,9 +88,12 @@ protocol NotificationService {
 
 extension NotificationService {
 
-    func notify(list: Checklist, id: Int) {
-        if let info = list.place(id: id) {
-            notify(list: list, info: info)
+    func notify(item: Checklist.Item,
+                triggered: Date) {
+        if let info = item.list.place(id: item.id) {
+            notify(list: item.list,
+                   info: info,
+                   triggered: triggered)
         }
     }
 
@@ -179,13 +182,15 @@ final class NotificationServiceImpl: NotificationService, ServiceProvider {
         askForeground(question: question, then: then)
     }
 
-    func notify(list: Checklist, info: PlaceInfo) {
-        notifyForeground(list: list, info: info)
-        notifyBackground(list: list, info: info)
+    func notify(list: Checklist,
+                info: PlaceInfo,
+                triggered: Date) {
+        notifyForeground(list: list, info: info, triggered: triggered)
+        notifyBackground(list: list, info: info, triggered: triggered)
     }
 
-    func congratulate(list: Checklist, id: Int) {
-        guard let mappable = data.get(mappable: list, id: id),
+    func congratulate(item: Checklist.Item) {
+        guard let mappable = data.get(mappable: item),
               let note = congratulations(for: mappable) else { return }
 
         congratulate(mappable: mappable, note: note)
@@ -197,18 +202,24 @@ final class NotificationServiceImpl: NotificationService, ServiceProvider {
     }
 
     func checkTriggered() {
-        let triggered = data.triggered
-        for list in Checklist.allCases {
-            let listed = triggered?[list] ?? []
-            for next in listed {
-                if list.isVisited(id: next) ||
-                   list.isDismissed(id: next) {
-                    list.set(triggered: false, id: next)
-                } else {
-                    notify(list: list, id: next)
-                    return
-                }
+        let dismissed = data.dismissed ?? Timestamps()
+        let visited = data.visited ?? Checked()
+        var triggered = data.triggered ?? Timestamps()
+        var changed = false
+        for (key, value) in triggered {
+            let item = key.item
+            if visited[item.list].contains(item.id) ||
+               dismissed.isStamped(item: item) {
+                triggered.set(key: key, stamped: false)
+                changed = true
+                break
+            } else {
+                notify(item: item, triggered: value)
+                break
             }
+        }
+        if changed {
+            data.triggered = triggered
         }
     }
 
@@ -225,15 +236,19 @@ final class NotificationServiceImpl: NotificationService, ServiceProvider {
 private extension NotificationServiceImpl {
 
     func notifyBackground(list: Checklist,
-                          info: PlaceInfo) {
+                          info: PlaceInfo,
+                          triggered: Date) {
         background {
             self.postVisit(list: list,
-                           info: info)
+                           info: info,
+                           triggered: triggered)
         }
     }
 
     func postVisit(list: Checklist,
-                   info: PlaceInfo) {
+                   info: PlaceInfo,
+                   triggered: Date) {
+        log.todo("handle triggered")
         guard !list.isNotified(id: info.placeId) else { return }
 
         list.set(notified: true, id: info.placeId)
@@ -341,7 +356,9 @@ private extension NotificationServiceImpl {
 
     // swiftlint:disable:next function_body_length
     func notifyForeground(list: Checklist,
-                          info: PlaceInfo) {
+                          info: PlaceInfo,
+                          triggered: Date) {
+        log.todo("handle triggered")
         guard canNotifyForeground else { return }
 
         notifying = info
@@ -389,7 +406,8 @@ private extension NotificationServiceImpl {
                 list.set(visited: true, id: visitId)
                 SwiftEntryKit.dismiss {
                     self.notifying = nil
-                    self.congratulate(list: list, id: visitId)
+                    let item = (list: list, id: visitId)
+                    self.congratulate(item: item)
                 }
         }
         let grayLight = UIColor(white: 230.0 / 255.0, alpha: 1)

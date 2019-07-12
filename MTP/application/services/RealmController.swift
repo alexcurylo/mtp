@@ -125,8 +125,8 @@ final class RealmController: ServiceProvider {
         }
     }
 
-    func mappable(list: Checklist, id: Int) -> Mappable? {
-        let key = Mappable.key(list: list, id: id)
+    func mappable(item: Checklist.Item) -> Mappable? {
+        let key = Mappable.key(item: item)
         let results = realm.objects(Mappable.self)
                            .filter("dbKey = \(key)")
         return results.first

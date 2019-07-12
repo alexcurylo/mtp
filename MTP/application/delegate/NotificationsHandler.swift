@@ -101,7 +101,8 @@ extension NotificationsHandler: UNUserNotificationCenterDelegate {
             list.set(dismissed: true, id: visitId)
         case L.checkinAction():
             list.set(visited: true, id: visitId)
-            note.congratulate(list: list, id: visitId)
+            let item = (list: list, id: visitId)
+            note.congratulate(item: item)
         case UNNotificationDefaultActionIdentifier,
              UNNotificationDismissActionIdentifier:
             break

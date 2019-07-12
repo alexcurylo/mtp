@@ -157,8 +157,8 @@ extension LocationServiceImpl: Mapper {
         handler?.broadcast { $0.close(mappable: mappable) }
     }
 
-    func notify(mappable: Mappable) {
-        handler?.broadcast { $0.notify(mappable: mappable) }
+    func notify(mappable: Mappable, triggered: Date) {
+        handler?.broadcast { $0.notify(mappable: mappable, triggered: triggered) }
     }
 
     func reveal(mappable: Mappable, callout: Bool) {

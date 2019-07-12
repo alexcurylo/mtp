@@ -167,13 +167,13 @@ final class LocationServiceSpy: LocationService {
     }
     var invokedNotify = false
     var invokedNotifyCount = 0
-    var invokedNotifyParameters: (mappable: Mappable, Void)?
-    var invokedNotifyParametersList = [(mappable: Mappable, Void)]()
-    func notify(mappable: Mappable) {
+    var invokedNotifyParameters: (mappable: Mappable, triggered: Date)?
+    var invokedNotifyParametersList = [(mappable: Mappable, triggered: Date)]()
+    func notify(mappable: Mappable, triggered: Date) {
         invokedNotify = true
         invokedNotifyCount += 1
-        invokedNotifyParameters = (mappable, ())
-        invokedNotifyParametersList.append((mappable, ()))
+        invokedNotifyParameters = (mappable, triggered)
+        invokedNotifyParametersList.append((mappable, triggered))
     }
     var invokedReveal = false
     var invokedRevealCount = 0
