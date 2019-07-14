@@ -7,6 +7,8 @@ import UIKit
 
 struct ChecklistFlags: Codable, Equatable {
 
+    static let mappableCount = 6
+
     var beaches: Bool = true
     var divesites: Bool = true
     var golfcourses: Bool = true
@@ -39,7 +41,7 @@ struct ChecklistFlags: Codable, Equatable {
 }
 
 // swiftlint:disable:next type_body_length
-enum Checklist: String, Codable, CaseIterable, ServiceProvider {
+enum Checklist: Int, CaseIterable, ServiceProvider {
 
     case locations
     case uncountries
@@ -49,7 +51,33 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
     case divesites
     case restaurants
 
+    typealias Item = (list: Checklist, id: Int)
     typealias Status = (visited: Int, remaining: Int)
+
+    init?(key: String) {
+        switch key {
+        case "locations": self = .locations
+        case "uncountries": self = .uncountries
+        case "whss": self = .whss
+        case "beaches": self = .beaches
+        case "golfcourses": self = .golfcourses
+        case "divesites": self = .divesites
+        case "restaurants": self = .restaurants
+        default: return nil
+        }
+    }
+
+    var key: String {
+        switch self {
+        case .locations: return "locations"
+        case .uncountries: return "uncountries"
+        case .whss: return "whss"
+        case .beaches: return "beaches"
+        case .golfcourses: return "golfcourses"
+        case .divesites: return "divesites"
+        case .restaurants: return "restaurants"
+        }
+    }
 
     var marker: UIColor {
         let marker: UIColor?
@@ -71,27 +99,6 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         }
         // swiftlint:disable:next force_unwrapping
         return marker!
-    }
-
-    var dismissed: [Int] {
-        guard let dismissed = data.dismissed else { return [] }
-
-        switch self {
-        case .locations:
-            return dismissed.locations
-        case .uncountries:
-            return dismissed.uncountries
-        case .whss:
-            return dismissed.whss
-        case .beaches:
-            return dismissed.beaches
-        case .golfcourses:
-            return dismissed.golfcourses
-        case .divesites:
-            return dismissed.divesites
-        case .restaurants:
-            return dismissed.restaurants
-        }
     }
 
     var image: UIImage {
@@ -128,7 +135,7 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
     func hasVisitedChildren(id: Int) -> Bool {
         switch self {
         case .whss:
-            return data.hasVisitedChildren(whs: id)
+            return !data.visitedChildren(whs: id).isEmpty
         default:
             return false
         }
@@ -144,15 +151,18 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
     }
 
     func isDismissed(id: Int) -> Bool {
-        return dismissed.contains(id)
+        let item = (list: self, id: id)
+        return data.dismissed?.isStamped(item: item) ?? false
     }
 
     func isNotified(id: Int) -> Bool {
-        return notified.contains(id)
+        let item = (list: self, id: id)
+        return data.notified?.isStamped(item: item) ?? false
     }
 
     func isTriggered(id: Int) -> Bool {
-        return triggered.contains(id)
+        let item = (list: self, id: id)
+        return data.triggered?.isStamped(item: item) ?? false
     }
 
     func isVisited(id: Int) -> Bool {
@@ -161,27 +171,6 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
 
     func place(id: Int) -> PlaceInfo? {
         return places.first { $0.placeId == id }
-    }
-
-    var notified: [Int] {
-        guard let notified = data.notified else { return [] }
-
-        switch self {
-        case .locations:
-            return notified.locations
-        case .uncountries:
-            return notified.uncountries
-        case .whss:
-            return notified.whss
-        case .beaches:
-            return notified.beaches
-        case .golfcourses:
-            return notified.golfcourses
-        case .divesites:
-            return notified.divesites
-        case .restaurants:
-            return notified.restaurants
-        }
     }
 
     var places: [PlaceInfo] {
@@ -205,51 +194,73 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         return places
     }
 
-    func set(dismissed: Bool,
-             id: Int) {
-        guard isDismissed(id: id) != dismissed else { return }
-
-        if data.dismissed == nil {
-            data.dismissed = Checked()
+    func set(dismissed: Bool, id: Int) {
+        let item = (list: self, id: id)
+        var timestamps = data.dismissed ?? Timestamps()
+        timestamps.set(item: item, stamped: dismissed)
+        data.dismissed = timestamps
+        if dismissed {
+            set(triggered: false, id: id)
         }
-        data.dismissed?.set(list: self,
-                            id: id,
-                            dismissed: dismissed)
-        set(triggered: false, id: id)
     }
 
-    func set(notified: Bool,
-             id: Int) {
-        guard isNotified(id: id) != notified else { return }
-
-        if data.notified == nil {
-            data.notified = Checked()
-        }
-        data.notified?.set(list: self,
-                           id: id,
-                           notified: notified)
+    func set(notified: Bool, id: Int) {
+        let item = (list: self, id: id)
+        var timestamps = data.notified ?? Timestamps()
+        timestamps.set(item: item, stamped: notified)
+        data.notified = timestamps
     }
 
-    func set(triggered: Bool,
-             id: Int) {
-        guard isTriggered(id: id) != triggered else { return }
-
-        if data.triggered == nil {
-            data.triggered = Checked()
-        }
-        data.triggered?.set(list: self,
-                            id: id,
-                            triggered: triggered)
+    func set(triggered: Bool, id: Int) {
+        let item = (list: self, id: id)
+        var timestamps = data.triggered ?? Timestamps()
+        timestamps.set(item: item, stamped: triggered)
+        data.triggered = timestamps
     }
 
-    func set(visited: Bool,
-             id: Int) {
+    func set(visited: Bool, id: Int) {
         guard self != .uncountries,
               isVisited(id: id) != visited else { return }
 
+        let parentId: Int?
+        let parentVisited: Bool
+        switch self {
+        case .uncountries:
+            return
+        case .whss:
+            if let parent = data.get(whs: id)?.parent {
+                let visitedChildren = data.visitedChildren(whs: parent.placeId)
+                let otherVisits: Bool
+                if visitedChildren.count == 1,
+                   visitedChildren[0].placeId == id {
+                    otherVisits = false
+                } else {
+                    otherVisits = !visitedChildren.isEmpty
+                }
+                switch (visited, otherVisits) {
+                case (true, false):
+                    parentId = parent.placeId
+                    parentVisited = true
+                case (false, false) where parent.visited:
+                    parentId = parent.placeId
+                    parentVisited = false
+                default:
+                    parentId = nil
+                    parentVisited = visited
+                }
+                break
+            }
+            parentId = nil
+            parentVisited = false
+        case .beaches, .divesites, .golfcourses, .locations, .restaurants:
+            parentId = nil
+            parentVisited = false
+        }
         data.visited?.set(list: self,
                           id: id,
-                          visited: visited)
+                          visited: visited,
+                          parentId: parentId,
+                          parentVisited: parentVisited)
         set(dismissed: false, id: id)
         set(notified: false, id: id)
         set(triggered: false, id: id)
@@ -303,7 +314,7 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         let total: Int
         switch self {
         case .locations:
-            total = data.locations.filter { $0.id > 0 }.count
+            total = data.locations.filter { $0.placeId > 0 }.count
         case .uncountries:
             total = data.uncountries.count
         case .whss:
@@ -433,28 +444,7 @@ enum Checklist: String, Codable, CaseIterable, ServiceProvider {
         case .divesites:
             return 1_600
         case .restaurants:
-            return 20
-        }
-    }
-
-    var triggered: [Int] {
-        guard let triggered = data.triggered else { return [] }
-
-        switch self {
-        case .locations:
-            return triggered.locations
-        case .uncountries:
-            return triggered.uncountries
-        case .whss:
-            return triggered.whss
-        case .beaches:
-            return triggered.beaches
-        case .golfcourses:
-            return triggered.golfcourses
-        case .divesites:
-            return triggered.divesites
-        case .restaurants:
-            return triggered.restaurants
+            return 100
         }
     }
 

@@ -23,6 +23,9 @@ final class AddPhotoVC: UIViewController, ServiceProvider {
 
     @IBOutlet private var imageButton: UIButton?
     @IBOutlet private var imageView: UIImageView?
+    @IBOutlet private var cameraButton: GradientButton?
+    @IBOutlet private var facebookButton: GradientButton?
+    @IBOutlet private var instagramButton: GradientButton?
 
     private let imagePicker = UIImagePickerController {
         $0.allowsEditing = true
@@ -37,6 +40,7 @@ final class AddPhotoVC: UIViewController, ServiceProvider {
 
     private var countryId = 0
     private var locationId = 0
+    private var suggestedLocation = false
 
     private var captionText: String = ""
 
@@ -104,18 +108,25 @@ private extension AddPhotoVC {
 
     func configure() {
         configureLocation()
+
+        if !UIImagePickerController.isSourceTypeAvailable(.camera) {
+            cameraButton?.isHidden = true
+        }
+        facebookButton?.isHidden = true
+        instagramButton?.isHidden = true
+
         updateSave(showError: false)
     }
 
     func configureLocation() {
         let country = countryId > 0 ? data.get(country: countryId) : nil
-        countryLabel?.text = country?.countryName ?? L.selectCountryOptional()
+        countryLabel?.text = country?.placeCountry ?? L.selectCountryOptional()
 
         let location = locationId > 0 ? data.get(location: locationId) : nil
 
         guard let locationLine = locationLine else { return }
         if let country = country, country.hasChildren {
-            locationLabel?.text = location?.locationName ?? L.selectLocation()
+            locationLabel?.text = location?.placeTitle ?? L.selectLocation()
 
             locationStack?.addArrangedSubview(locationLine)
         } else {
@@ -126,10 +137,42 @@ private extension AddPhotoVC {
         }
     }
 
-    @IBAction func importTapped(_ sender: UIButton) {
-        view.endEditing(true)
+    func suggestLocation() {
+        guard !suggestedLocation,
+              locationId == 0,
+              let inside = loc.inside else { return }
 
+        suggestedLocation = true
+        let question = L.tagWithLocation(inside.description)
+        note.ask(question: question) { [weak self] answer in
+            guard answer, let self = self else { return }
+
+            self.countryId = inside.countryId
+            self.locationId = inside.placeId
+            self.configure()
+        }
+    }
+
+    @IBAction func photoLibraryTapped(_ sender: UIButton) {
+        view.endEditing(true)
+        imagePicker.sourceType = .photoLibrary
         present(imagePicker, animated: true, completion: nil)
+    }
+
+    @IBAction func cameraTapped(_ sender: UIButton) {
+        view.endEditing(true)
+        imagePicker.sourceType = .camera
+        present(imagePicker, animated: true, completion: nil)
+    }
+
+    @IBAction func facebookPhotosTapped(_ sender: UIButton) {
+        view.endEditing(true)
+        note.unimplemented()
+    }
+
+    @IBAction func instagramPhotosTapped(_ sender: UIButton) {
+        view.endEditing(true)
+        note.unimplemented()
     }
 
     @IBAction func saveTapped(_ sender: UIBarButtonItem) {
@@ -190,10 +233,10 @@ private extension AddPhotoVC {
                 errorMessage = L.deviceOfflineError(operation)
             case .failure(.serverOffline):
                 errorMessage = L.serverOfflineError(operation)
-            case .failure(.decoding),
-                 .failure(.result),
-                 .failure(.status):
-                errorMessage = L.resultsErrorReport(operation)
+            case .failure(.decoding):
+                errorMessage = L.decodingErrorReport(operation)
+            case .failure(.status):
+                errorMessage = L.statusErrorReport(operation)
             case .failure(.message(let message)):
                 errorMessage = message
             case .failure(.network(let message)):
@@ -221,7 +264,7 @@ extension AddPhotoVC: LocationSearchDelegate {
             locationId = countryItem.hasChildren ? 0 : countryId
         case let locationItem as Location:
             countryId = locationItem.countryId
-            locationId = locationItem.id
+            locationId = locationItem.placeId
         default:
             log.error("unknown item type selected")
         }
@@ -236,11 +279,24 @@ extension AddPhotoVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
     }
 
+    func textView(_ textView: UITextView,
+                  shouldChangeTextIn _: NSRange,
+                  replacementText text: String) -> Bool {
+        let resultRange = text.rangeOfCharacter(from: CharacterSet.newlines,
+                                                options: .backwards)
+        if text.count == 1 && resultRange != nil {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+
     func textViewDidChange(_ textView: UITextView) {
         updateSave(showError: false)
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
+        updateSave(showError: false)
     }
 }
 
@@ -259,14 +315,16 @@ extension AddPhotoVC: UIImagePickerControllerDelegate {
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
-        if let possiblePhoto = info[.editedImage] as? UIImage {
-            photo = possiblePhoto
-        } else if let possiblePhoto = info[.originalImage] as? UIImage {
-            photo = possiblePhoto
+        if let edited = info[.editedImage] as? UIImage {
+            photo = edited
+        } else if let original = info[.originalImage] as? UIImage {
+            photo = original
         }
 
         updateSave(showError: false)
-        dismiss(animated: true)
+        dismiss(animated: true) { [weak self] in
+            self?.suggestLocation()
+        }
     }
 
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -283,11 +341,11 @@ extension AddPhotoVC: UINavigationControllerDelegate {
 
 extension AddPhotoVC: Injectable {
 
-    typealias Model = (place: PlaceAnnotation?, delegate: AddPhotoDelegate)
+    typealias Model = (mappable: Mappable?, delegate: AddPhotoDelegate)
 
     @discardableResult func inject(model: Model) -> Self {
-        countryId = model.place?.countryId ?? 0
-        locationId = model.place?.id ?? 0
+        countryId = model.mappable?.location?.countryId ?? 0
+        locationId = model.mappable?.location?.placeId ?? 0
         delegate = model.delegate
         return self
     }

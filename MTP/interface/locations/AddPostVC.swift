@@ -93,11 +93,11 @@ private extension AddPostVC {
     }
 
     func configureLocation() {
-        countryLabel?.text = country?.countryName ?? L.selectCountry()
+        countryLabel?.text = country?.placeCountry ?? L.selectCountry()
 
         guard let locationLine = locationLine else { return }
         if let country = country, country.hasChildren {
-            locationLabel?.text = location?.locationName ?? L.selectLocation()
+            locationLabel?.text = location?.placeTitle ?? L.selectLocation()
             locationStack?.addArrangedSubview(locationLine)
         } else {
             locationLabel?.text = countryLabel?.text
@@ -153,10 +153,10 @@ private extension AddPostVC {
                 errorMessage = L.deviceOfflineError(operation)
             case .failure(.serverOffline):
                 errorMessage = L.serverOfflineError(operation)
-            case .failure(.decoding),
-                 .failure(.result),
-                 .failure(.status):
-                errorMessage = L.resultsErrorReport(operation)
+            case .failure(.decoding):
+                errorMessage = L.decodingErrorReport(operation)
+            case .failure(.status):
+                errorMessage = L.statusErrorReport(operation)
             case .failure(.message(let message)):
                 errorMessage = message
             case .failure(.network(let message)):
@@ -222,11 +222,15 @@ extension AddPostVC: KeyboardListener {
 
 extension AddPostVC: Injectable {
 
-    typealias Model = PlaceAnnotation
+    typealias Model = Mappable
 
     @discardableResult func inject(model: Model) -> Self {
-        country = data.get(country: model.countryId)
-        location = data.get(location: model.id)
+        if let countryId = model.location?.countryId {
+            country = data.get(country: countryId)
+        }
+        if let locationId = model.location?.placeId {
+            location = data.get(location: locationId)
+        }
         return self
     }
 

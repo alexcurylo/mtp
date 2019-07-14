@@ -36,8 +36,8 @@ extension CountryJSON: CustomDebugStringConvertible {
 @objcMembers final class Country: Object, ServiceProvider {
 
     dynamic var countryId: Int = 0
-    dynamic var countryName: String = ""
     dynamic var hasChildren: Bool = false
+    dynamic var placeCountry: String = ""
 
     override static func primaryKey() -> String? {
         return "countryId"
@@ -47,18 +47,18 @@ extension CountryJSON: CustomDebugStringConvertible {
         self.init()
 
         countryId = from.countryId
-        countryName = from.countryName
         hasChildren = from.hasChildren
+        placeCountry = from.countryName
     }
 
     static var all: Country = {
         let all = Country()
-        all.countryName = "(\(L.allCountries()))"
+        all.placeCountry = "(\(L.allCountries()))"
         return all
     }()
 
     override var description: String {
-        return countryName
+        return placeCountry
     }
 
     var children: [Location] {
@@ -71,7 +71,7 @@ extension CountryJSON: CustomDebugStringConvertible {
         guard !isSameObject(as: other) else { return true }
 
         return countryId == other.countryId &&
-               countryName == other.countryName &&
-               hasChildren == other.hasChildren
+               hasChildren == other.hasChildren &&
+               placeCountry == other.placeCountry
     }
 }

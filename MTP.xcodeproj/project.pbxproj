@@ -11,11 +11,11 @@
 		122BA726DE2ED1EC0C4144BB /* libPods-MTPUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C0AF3F035BC227379ED6DE /* libPods-MTPUITests.a */; };
 		529054A21D10AD8DB1855DB5 /* libPods-MTPTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 848B6781D80D51E75A14ECF6 /* libPods-MTPTests.a */; };
 		8C0127F9223202FA00EA2095 /* ServiceHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127F8223202FA00EA2095 /* ServiceHandler.swift */; };
-		8C0127FB2232054E00EA2095 /* SpyServiceHandler+AppLaunchHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127FA2232054E00EA2095 /* SpyServiceHandler+AppLaunchHandler.swift */; };
-		8C0127FD2232084600EA2095 /* SpyApplicationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127FC2232084600EA2095 /* SpyApplicationService.swift */; };
-		8C0127FF2232089100EA2095 /* SpyLoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127FE2232089100EA2095 /* SpyLoggingService.swift */; };
-		8C012801223208CC00EA2095 /* SpyDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C012800223208CC00EA2095 /* SpyDataService.swift */; };
-		8C012803223208FB00EA2095 /* SpyMTPNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C012802223208FB00EA2095 /* SpyMTPNetworkService.swift */; };
+		8C0127FB2232054E00EA2095 /* ServiceHandlerSpy+AppLaunchHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127FA2232054E00EA2095 /* ServiceHandlerSpy+AppLaunchHandler.swift */; };
+		8C0127FD2232084600EA2095 /* ApplicationServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127FC2232084600EA2095 /* ApplicationServiceSpy.swift */; };
+		8C0127FF2232089100EA2095 /* LoggingServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127FE2232089100EA2095 /* LoggingServiceSpy.swift */; };
+		8C012801223208CC00EA2095 /* DataServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C012800223208CC00EA2095 /* DataServiceSpy.swift */; };
+		8C012803223208FB00EA2095 /* MTPNetworkServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C012802223208FB00EA2095 /* MTPNetworkServiceSpy.swift */; };
 		8C0F242B22432076005BD5DC /* UserCountsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0F242A22432076005BD5DC /* UserCountsVC.swift */; };
 		8C1A267E22AE019400DAFC7B /* SearchResultJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1A267D22AE019400DAFC7B /* SearchResultJSON.swift */; };
 		8C3EA813222F64F100CB4886 /* TopLoadingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */; };
@@ -34,6 +34,7 @@
 		8C5ECF3A21FFE49800322ABF /* RankingsQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5ECF3921FFE49800322ABF /* RankingsQuery.swift */; };
 		8C617972223F2D79000827D6 /* LocationsFilterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C617971223F2D79000827D6 /* LocationsFilterVC.swift */; };
 		8C617975223F2E1E000827D6 /* LocationsFilter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C617973223F2E1E000827D6 /* LocationsFilter.storyboard */; };
+		8C6F7C0722D8079B004565BD /* Timestamps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6F7C0622D8079B004565BD /* Timestamps.swift */; };
 		8C76D5DC22028874005CF4CD /* ServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C76D5DB22028874005CF4CD /* ServiceProvider.swift */; };
 		8C76D8EC2207CD36005CF4CD /* RankingsPageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C76D8EB2207CD36005CF4CD /* RankingsPageInfo.swift */; };
 		8C8DB38122817B6800B2BBD3 /* PostsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8DB38022817B6800B2BBD3 /* PostsVC.swift */; };
@@ -65,7 +66,7 @@
 		FA12AB5722C6D68700105545 /* LinkTappableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12AB5622C6D68700105545 /* LinkTappableTextView.swift */; };
 		FA12AB5A22C75FAA00105545 /* UserProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA12AB5822C75FAA00105545 /* UserProfile.storyboard */; };
 		FA12D682213B963C0053E9BF /* RankingsPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12D681213B963C0053E9BF /* RankingsPageVC.swift */; };
-		FA2172D822BE038C00CE4F40 /* PlaceOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2172D722BE038C00CE4F40 /* PlaceOverlay.swift */; };
+		FA2172D822BE038C00CE4F40 /* MappableOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2172D722BE038C00CE4F40 /* MappableOverlay.swift */; };
 		FA21FB9F22A3F25400190B71 /* UserCounts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA21FB9D22A3F25400190B71 /* UserCounts.storyboard */; };
 		FA21FBA122A4157000190B71 /* UserProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA21FBA022A4157000190B71 /* UserProfileVC.swift */; };
 		FA254DCB21685D6800FC9360 /* Withable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA254DCA21685D6800FC9360 /* Withable.swift */; };
@@ -108,9 +109,9 @@
 		FA46533021157784005B5A0A /* FacebookButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA46532F21157784005B5A0A /* FacebookButton.swift */; };
 		FA4653322115A250005B5A0A /* UserDefaults+DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653312115A250005B5A0A /* UserDefaults+DataService.swift */; };
 		FA4653342115ADC6005B5A0A /* MTPNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653332115ADC6005B5A0A /* MTPNetworkService.swift */; };
-		FA5AC0B421FC49860080F84F /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0B321FC49860080F84F /* PlaceAnnotation.swift */; };
-		FA5AC0B621FC4EBE0080F84F /* PlaceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0B521FC4EBE0080F84F /* PlaceAnnotationView.swift */; };
-		FA5AC0B821FD4A160080F84F /* PlaceClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0B721FD4A160080F84F /* PlaceClusterAnnotationView.swift */; };
+		FA54272822D62936005DF1CC /* MappablesAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA54272722D62936005DF1CC /* MappablesAnnotationView.swift */; };
+		FA54272A22D97476005DF1CC /* Date+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA54272922D97476005DF1CC /* Date+Helper.swift */; };
+		FA5AC0B621FC4EBE0080F84F /* MappableAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0B521FC4EBE0080F84F /* MappableAnnotationView.swift */; };
 		FA5AC0BB21FDC1060080F84F /* MyCounts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA5AC0B921FDC1050080F84F /* MyCounts.storyboard */; };
 		FA5AC0BD21FDC80A0080F84F /* MyCountsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0BC21FDC80A0080F84F /* MyCountsVC.swift */; };
 		FA5AC0BF21FDCB9D0080F84F /* MyCountsPagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0BE21FDCB9D0080F84F /* MyCountsPagingVC.swift */; };
@@ -122,6 +123,9 @@
 		FA62BAE522471780009FDC4E /* StateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA62BAE422471780009FDC4E /* StateHandler.swift */; };
 		FA62BAE922478A6D009FDC4E /* UserCountsPagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA62BAE822478A6D009FDC4E /* UserCountsPagingVC.swift */; };
 		FA62BAEB2247A9A0009FDC4E /* CountsPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA62BAEA2247A9A0009FDC4E /* CountsPageVC.swift */; };
+		FA6386A322D1743E001B4424 /* MTPMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6386A222D1743E001B4424 /* MTPMapView.swift */; };
+		FA6386A522D17EBA001B4424 /* Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6386A422D17EBA001B4424 /* Mappable.swift */; };
+		FA6386A722D181C7001B4424 /* Namable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6386A622D181C7001B4424 /* Namable.swift */; };
 		FA6A188621EFEF920092C56C /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6A188521EFEF920092C56C /* Observable.swift */; };
 		FA74574D210CA5730010F4F4 /* MyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74574C210CA5730010F4F4 /* MyProfileVC.swift */; };
 		FA745753210DA4C60010F4F4 /* MyProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA745755210DA4C60010F4F4 /* MyProfile.storyboard */; };
@@ -168,9 +172,10 @@
 		FAC8465922AB493E004F57EC /* LocationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8465822AB493E004F57EC /* LocationHandler.swift */; };
 		FAC8465B22AB55B6004F57EC /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8465A22AB55B6004F57EC /* NotificationService.swift */; };
 		FAC8465D22AB6C2A004F57EC /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8465C22AB6C2A004F57EC /* LocationService.swift */; };
-		FAC8465F22AB78FC004F57EC /* SpyLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8465E22AB78FC004F57EC /* SpyLocationService.swift */; };
-		FAC8466122AB79AA004F57EC /* SpyNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8466022AB79AA004F57EC /* SpyNotificationService.swift */; };
+		FAC8465F22AB78FC004F57EC /* LocationServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8465E22AB78FC004F57EC /* LocationServiceSpy.swift */; };
+		FAC8466122AB79AA004F57EC /* NotificationServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8466022AB79AA004F57EC /* NotificationServiceSpy.swift */; };
 		FAC8466322AC6D18004F57EC /* KVNOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8466222AC6D18004F57EC /* KVNOperation.swift */; };
+		FAC9057322CB8E9A001296DE /* CountInfoHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC9057222CB8E9A001296DE /* CountInfoHeader.swift */; };
 		FAD2B51321F45796009FFDD7 /* PlaceLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51221F45796009FFDD7 /* PlaceLocation.swift */; };
 		FAD2B51621F46913009FFDD7 /* Checked.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51521F46913009FFDD7 /* Checked.swift */; };
 		FAD2B51821F48AB8009FFDD7 /* PlaceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51721F48AB8009FFDD7 /* PlaceInfo.swift */; };
@@ -217,11 +222,11 @@
 		7E2C18C122B275F3B40CDCDA /* Pods-MTP-settings-metadata.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "Pods-MTP-settings-metadata.plist"; path = "MTP/resources/Settings.bundle/Pods-MTP-settings-metadata.plist"; sourceTree = "<group>"; };
 		848B6781D80D51E75A14ECF6 /* libPods-MTPTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MTPTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C0127F8223202FA00EA2095 /* ServiceHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceHandler.swift; sourceTree = "<group>"; };
-		8C0127FA2232054E00EA2095 /* SpyServiceHandler+AppLaunchHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SpyServiceHandler+AppLaunchHandler.swift"; sourceTree = "<group>"; };
-		8C0127FC2232084600EA2095 /* SpyApplicationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyApplicationService.swift; sourceTree = "<group>"; };
-		8C0127FE2232089100EA2095 /* SpyLoggingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyLoggingService.swift; sourceTree = "<group>"; };
-		8C012800223208CC00EA2095 /* SpyDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyDataService.swift; sourceTree = "<group>"; };
-		8C012802223208FB00EA2095 /* SpyMTPNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyMTPNetworkService.swift; sourceTree = "<group>"; };
+		8C0127FA2232054E00EA2095 /* ServiceHandlerSpy+AppLaunchHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ServiceHandlerSpy+AppLaunchHandler.swift"; sourceTree = "<group>"; };
+		8C0127FC2232084600EA2095 /* ApplicationServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationServiceSpy.swift; sourceTree = "<group>"; };
+		8C0127FE2232089100EA2095 /* LoggingServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingServiceSpy.swift; sourceTree = "<group>"; };
+		8C012800223208CC00EA2095 /* DataServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataServiceSpy.swift; sourceTree = "<group>"; };
+		8C012802223208FB00EA2095 /* MTPNetworkServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPNetworkServiceSpy.swift; sourceTree = "<group>"; };
 		8C0F242A22432076005BD5DC /* UserCountsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCountsVC.swift; sourceTree = "<group>"; };
 		8C1A267D22AE019400DAFC7B /* SearchResultJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultJSON.swift; sourceTree = "<group>"; };
 		8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLoadingTextView.swift; sourceTree = "<group>"; };
@@ -240,6 +245,7 @@
 		8C5ECF3921FFE49800322ABF /* RankingsQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsQuery.swift; sourceTree = "<group>"; };
 		8C617971223F2D79000827D6 /* LocationsFilterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsFilterVC.swift; sourceTree = "<group>"; };
 		8C617974223F2E1E000827D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LocationsFilter.storyboard; sourceTree = "<group>"; };
+		8C6F7C0622D8079B004565BD /* Timestamps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timestamps.swift; sourceTree = "<group>"; };
 		8C76D5DB22028874005CF4CD /* ServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProvider.swift; sourceTree = "<group>"; };
 		8C76D8EB2207CD36005CF4CD /* RankingsPageInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsPageInfo.swift; sourceTree = "<group>"; };
 		8C8DB38022817B6800B2BBD3 /* PostsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsVC.swift; sourceTree = "<group>"; };
@@ -275,7 +281,7 @@
 		FA12AB5622C6D68700105545 /* LinkTappableTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkTappableTextView.swift; sourceTree = "<group>"; };
 		FA12AB5922C75FAA00105545 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/UserProfile.storyboard; sourceTree = "<group>"; };
 		FA12D681213B963C0053E9BF /* RankingsPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsPageVC.swift; sourceTree = "<group>"; };
-		FA2172D722BE038C00CE4F40 /* PlaceOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceOverlay.swift; sourceTree = "<group>"; };
+		FA2172D722BE038C00CE4F40 /* MappableOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappableOverlay.swift; sourceTree = "<group>"; };
 		FA21FB9E22A3F25400190B71 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/UserCounts.storyboard; sourceTree = "<group>"; };
 		FA21FBA022A4157000190B71 /* UserProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileVC.swift; sourceTree = "<group>"; };
 		FA254DCA21685D6800FC9360 /* Withable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Withable.swift; sourceTree = "<group>"; };
@@ -333,9 +339,9 @@
 		FA4F1C5C20DFA67700B8A1ED /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FA4F1C5D20DFA69000B8A1ED /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		FA4F1C5E20DFA74500B8A1ED /* Gemfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile; sourceTree = "<group>"; };
-		FA5AC0B321FC49860080F84F /* PlaceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotation.swift; sourceTree = "<group>"; };
-		FA5AC0B521FC4EBE0080F84F /* PlaceAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotationView.swift; sourceTree = "<group>"; };
-		FA5AC0B721FD4A160080F84F /* PlaceClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceClusterAnnotationView.swift; sourceTree = "<group>"; };
+		FA54272722D62936005DF1CC /* MappablesAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappablesAnnotationView.swift; sourceTree = "<group>"; };
+		FA54272922D97476005DF1CC /* Date+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Helper.swift"; sourceTree = "<group>"; };
+		FA5AC0B521FC4EBE0080F84F /* MappableAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappableAnnotationView.swift; sourceTree = "<group>"; };
 		FA5AC0BA21FDC1050080F84F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyCounts.storyboard; sourceTree = "<group>"; };
 		FA5AC0BC21FDC80A0080F84F /* MyCountsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCountsVC.swift; sourceTree = "<group>"; };
 		FA5AC0BE21FDCB9D0080F84F /* MyCountsPagingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCountsPagingVC.swift; sourceTree = "<group>"; };
@@ -347,6 +353,9 @@
 		FA62BAE422471780009FDC4E /* StateHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateHandler.swift; sourceTree = "<group>"; };
 		FA62BAE822478A6D009FDC4E /* UserCountsPagingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCountsPagingVC.swift; sourceTree = "<group>"; };
 		FA62BAEA2247A9A0009FDC4E /* CountsPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountsPageVC.swift; sourceTree = "<group>"; };
+		FA6386A222D1743E001B4424 /* MTPMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPMapView.swift; sourceTree = "<group>"; };
+		FA6386A422D17EBA001B4424 /* Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mappable.swift; sourceTree = "<group>"; };
+		FA6386A622D181C7001B4424 /* Namable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Namable.swift; sourceTree = "<group>"; };
 		FA6A188521EFEF920092C56C /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		FA74574C210CA5730010F4F4 /* MyProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileVC.swift; sourceTree = "<group>"; };
 		FA745754210DA4C60010F4F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyProfile.storyboard; sourceTree = "<group>"; };
@@ -363,7 +372,6 @@
 		FA7C2013222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate2D+Equatable.swift"; sourceTree = "<group>"; };
 		FA7CCAEE22B848EE0092A95E /* PhotosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosVC.swift; sourceTree = "<group>"; };
 		FA81361120E8F64500313AB9 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
-		FA81361320E8FD4E00313AB9 /* script_build_end.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = script_build_end.sh; sourceTree = "<group>"; };
 		FA815B702286D138004B91C8 /* NearbyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyVC.swift; sourceTree = "<group>"; };
 		FA835D33210EAC110098C270 /* Styler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styler.swift; sourceTree = "<group>"; };
 		FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplaceTopSegue.swift; sourceTree = "<group>"; };
@@ -405,9 +413,11 @@
 		FAC8465822AB493E004F57EC /* LocationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationHandler.swift; sourceTree = "<group>"; };
 		FAC8465A22AB55B6004F57EC /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		FAC8465C22AB6C2A004F57EC /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
-		FAC8465E22AB78FC004F57EC /* SpyLocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyLocationService.swift; sourceTree = "<group>"; };
-		FAC8466022AB79AA004F57EC /* SpyNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyNotificationService.swift; sourceTree = "<group>"; };
+		FAC8465E22AB78FC004F57EC /* LocationServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceSpy.swift; sourceTree = "<group>"; };
+		FAC8466022AB79AA004F57EC /* NotificationServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServiceSpy.swift; sourceTree = "<group>"; };
 		FAC8466222AC6D18004F57EC /* KVNOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVNOperation.swift; sourceTree = "<group>"; };
+		FAC9057222CB8E9A001296DE /* CountInfoHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountInfoHeader.swift; sourceTree = "<group>"; };
+		FAD0DA7622DB29DD0042C328 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		FAD2B51221F45796009FFDD7 /* PlaceLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceLocation.swift; sourceTree = "<group>"; };
 		FAD2B51521F46913009FFDD7 /* Checked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checked.swift; sourceTree = "<group>"; };
 		FAD2B51721F48AB8009FFDD7 /* PlaceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfo.swift; sourceTree = "<group>"; };
@@ -510,6 +520,19 @@
 			path = services;
 			sourceTree = "<group>";
 		};
+		8C442D3D22CC2E05004A6717 /* mocks */ = {
+			isa = PBXGroup;
+			children = (
+				8C0127FC2232084600EA2095 /* ApplicationServiceSpy.swift */,
+				8C012800223208CC00EA2095 /* DataServiceSpy.swift */,
+				FAC8465E22AB78FC004F57EC /* LocationServiceSpy.swift */,
+				8C0127FE2232089100EA2095 /* LoggingServiceSpy.swift */,
+				8C012802223208FB00EA2095 /* MTPNetworkServiceSpy.swift */,
+				FAC8466022AB79AA004F57EC /* NotificationServiceSpy.swift */,
+			);
+			path = mocks;
+			sourceTree = "<group>";
+		};
 		AF51EC73BEE12E3A8680F4F4 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -564,6 +587,7 @@
 				8CCA5A7222AA6BBB00853903 /* AppAboutVC.swift */,
 				FA5AC0C621FDD8AA0080F84F /* CountCellItem.swift */,
 				8C5ECE9D21FEE6F800322ABF /* CountCellGroup.swift */,
+				FAC9057222CB8E9A001296DE /* CountInfoHeader.swift */,
 				FA5AC0C421FDD7C00080F84F /* CountSectionHeader.swift */,
 				FA62BAEA2247A9A0009FDC4E /* CountsPageVC.swift */,
 				FA46377F210DE94C0007382D /* EditProfileVC.swift */,
@@ -631,6 +655,7 @@
 				8C3EAB912231249E00CB4886 /* UnwrapTests.swift */,
 				FA0BE96B210C5F3300797224 /* ViewTests.swift */,
 				FA3BD2282160D6BC007EAF75 /* WithableTests.swift */,
+				8C442D3D22CC2E05004A6717 /* mocks */,
 				FAE1F11A21437F2E0002CAB2 /* support */,
 			);
 			path = MTPTests;
@@ -699,6 +724,7 @@
 				FAC7A77821FF452500DCED01 /* .swift-version */,
 				FAB53F8520DFCC03007A80A7 /* .travis.yml */,
 				FA4B7FE121E38BF3006AF8E2 /* apple-app-site-association */,
+				FAD0DA7622DB29DD0042C328 /* CHANGELOG.md */,
 				FAB53F8320DFCB40007A80A7 /* Dangerfile */,
 				8CCA21F622B381A600C1D13B /* fastlane */,
 				FA4F1C5E20DFA74500B8A1ED /* Gemfile */,
@@ -709,7 +735,6 @@
 				FA3E366A20DFACCD002AF4EE /* Podfile */,
 				FA9A71E120F1DD6C005F6A57 /* Podfile.lock */,
 				FA4F1C5C20DFA67700B8A1ED /* README.md */,
-				FA81361320E8FD4E00313AB9 /* script_build_end.sh */,
 				FAF1853520FA16CE00CC5D83 /* TODO.md */,
 				FAF122F6215652AE0099B772 /* xccconfig */,
 			);
@@ -729,11 +754,11 @@
 				FAA818FD22447EAB00BB9F92 /* LocationVC.swift */,
 				8C9C4E2D22C3030300F3E423 /* LocationWebsiteVC.swift */,
 				8C617971223F2D79000827D6 /* LocationsFilterVC.swift */,
+				FA5AC0B521FC4EBE0080F84F /* MappableAnnotationView.swift */,
+				FA2172D722BE038C00CE4F40 /* MappableOverlay.swift */,
+				FA54272722D62936005DF1CC /* MappablesAnnotationView.swift */,
+				FA6386A222D1743E001B4424 /* MTPMapView.swift */,
 				FA815B702286D138004B91C8 /* NearbyVC.swift */,
-				FA5AC0B321FC49860080F84F /* PlaceAnnotation.swift */,
-				FA5AC0B521FC4EBE0080F84F /* PlaceAnnotationView.swift */,
-				FA5AC0B721FD4A160080F84F /* PlaceClusterAnnotationView.swift */,
-				FA2172D722BE038C00CE4F40 /* PlaceOverlay.swift */,
 			);
 			path = locations;
 			sourceTree = "<group>";
@@ -798,12 +823,14 @@
 				FA7C2013222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift */,
 				8CE6F46A224B029400B24410 /* ContentState.swift */,
 				FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */,
+				FA54272922D97476005DF1CC /* Date+Helper.swift */,
 				FA46532F21157784005B5A0A /* FacebookButton.swift */,
 				8C9DD8CD2245034D00D5EAFB /* Injectable.swift */,
 				8C3EAA1B2230BFA500CB4886 /* InsetTextField.swift */,
 				FAC8466222AC6D18004F57EC /* KVNOperation.swift */,
 				FA12AB5622C6D68700105545 /* LinkTappableTextView.swift */,
 				FAE1F11D2143B29F0002CAB2 /* LocationTracker.swift */,
+				FA6386A622D181C7001B4424 /* Namable.swift */,
 				FA6A188521EFEF920092C56C /* Observable.swift */,
 				FA8833E02209BF570037C796 /* RealmSearchViewController.swift */,
 				FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */,
@@ -837,6 +864,7 @@
 				FA8833E4220CE7350037C796 /* Country.swift */,
 				8C8DC74C22AF4343002EA1CD /* FaqJSON.swift */,
 				FAC159A121EB68AA00564E2D /* Location.swift */,
+				FA6386A422D17EBA001B4424 /* Mappable.swift */,
 				FA7C200D221820FA002C6DAB /* OperationReply.swift */,
 				FA7C2011221C2F20002C6DAB /* Photo.swift */,
 				FAD2B51721F48AB8009FFDD7 /* PlaceInfo.swift */,
@@ -850,6 +878,7 @@
 				8CE3FC2B222389B600B94EAA /* Scorecard.swift */,
 				8C1A267D22AE019400DAFC7B /* SearchResultJSON.swift */,
 				FAFBB0CC22A6A5C4001EDB80 /* SettingsJSON.swift */,
+				8C6F7C0622D8079B004565BD /* Timestamps.swift */,
 				FA8833E6220CE8260037C796 /* UNCountry.swift */,
 				FA76D9742131278900EF8E25 /* User.swift */,
 				8CCA21F722B3AB5D00C1D13B /* UserUpdatePayload.swift */,
@@ -866,13 +895,7 @@
 				FAB53F8A20DFD618007A80A7 /* MemoryWarner.m */,
 				FA392BD320DF69F50026C828 /* Info.plist */,
 				FAB53F8720DFD617007A80A7 /* MTPTests-Bridging-Header.h */,
-				8C0127FA2232054E00EA2095 /* SpyServiceHandler+AppLaunchHandler.swift */,
-				8C0127FC2232084600EA2095 /* SpyApplicationService.swift */,
-				8C012800223208CC00EA2095 /* SpyDataService.swift */,
-				FAC8465E22AB78FC004F57EC /* SpyLocationService.swift */,
-				8C0127FE2232089100EA2095 /* SpyLoggingService.swift */,
-				8C012802223208FB00EA2095 /* SpyMTPNetworkService.swift */,
-				FAC8466022AB79AA004F57EC /* SpyNotificationService.swift */,
+				8C0127FA2232054E00EA2095 /* ServiceHandlerSpy+AppLaunchHandler.swift */,
 				FAE1F11B21437F860002CAB2 /* String+Assert.swift */,
 			);
 			path = support;
@@ -911,7 +934,6 @@
 				FA3BD22A2160DE7A007EAF75 /* SwiftLint */,
 				FA392BB520DF69F30026C828 /* Resources */,
 				6488DCB99249CC3516D4C352 /* [CP] Copy Pods Resources */,
-				FA3E366C20DFBC2F002AF4EE /* Run script_build_end.sh */,
 			);
 			buildRules = (
 			);
@@ -1081,6 +1103,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-MTP/Pods-MTP-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Assets.car",
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-MTP/Pods-MTP-resources-${CONFIGURATION}-output-files.xcfilelist",
@@ -1162,20 +1187,6 @@
 			shellPath = /bin/sh;
 			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
 		};
-		FA3E366C20DFBC2F002AF4EE /* Run script_build_end.sh */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run script_build_end.sh";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "script_file=\"script_build_end.sh\"\n\necho \"Running a custom build phase script: $script_file\"\n. \"${PROJECT_DIR}/${script_file}\"\nscriptExitStatus=$?\n\necho \"DONE with script: ${script_file} (exitStatus=${scriptExitStatus})\"\n\nexit \"${scriptExitStatus}\"\n";
-		};
 		FA3E366D20DFBC61002AF4EE /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1243,9 +1254,10 @@
 				FA5AC0C521FDD7C00080F84F /* CountSectionHeader.swift in Sources */,
 				8C5ECF3A21FFE49800322ABF /* RankingsQuery.swift in Sources */,
 				8CE3FC2C222389B600B94EAA /* Scorecard.swift in Sources */,
+				FAC9057322CB8E9A001296DE /* CountInfoHeader.swift in Sources */,
+				FA6386A322D1743E001B4424 /* MTPMapView.swift in Sources */,
 				FA4653342115ADC6005B5A0A /* MTPNetworkService.swift in Sources */,
 				FAA819002244814900BB9F92 /* LocationPagingVC.swift in Sources */,
-				FA5AC0B421FC49860080F84F /* PlaceAnnotation.swift in Sources */,
 				FA390139213B84B40016A362 /* RankingsPagingVC.swift in Sources */,
 				8C3EA813222F64F100CB4886 /* TopLoadingTextView.swift in Sources */,
 				8CE6F46B224B029500B24410 /* ContentState.swift in Sources */,
@@ -1265,7 +1277,7 @@
 				FA88395722351C30002F324F /* UIImage+Color.swift in Sources */,
 				FAC159A221EB68AA00564E2D /* Location.swift in Sources */,
 				FA7C200E221820FA002C6DAB /* OperationReply.swift in Sources */,
-				FA5AC0B621FC4EBE0080F84F /* PlaceAnnotationView.swift in Sources */,
+				FA5AC0B621FC4EBE0080F84F /* MappableAnnotationView.swift in Sources */,
 				FA0F816422BF1CA700C00898 /* AddPhotoVC.swift in Sources */,
 				8CFEE459221FA2120061614B /* ImageService.swift in Sources */,
 				FA8833E32209BF810037C796 /* LocationSearchVC.swift in Sources */,
@@ -1273,6 +1285,7 @@
 				8C76D8EC2207CD36005CF4CD /* RankingsPageInfo.swift in Sources */,
 				8C5ECE0221FE9B3600322ABF /* Checklist.swift in Sources */,
 				8CE6FC64224C6CB600B24410 /* LocationInfoVC.swift in Sources */,
+				FA54272A22D97476005DF1CC /* Date+Helper.swift in Sources */,
 				FA6A188621EFEF920092C56C /* Observable.swift in Sources */,
 				FA3CC5CD2288456E00925A05 /* NotificationsHandler.swift in Sources */,
 				FAC8465B22AB55B6004F57EC /* NotificationService.swift in Sources */,
@@ -1291,7 +1304,6 @@
 				FA40F754225B06D50056182E /* FaqVC.swift in Sources */,
 				FA36FBEF2206461F00616CDE /* RealmController.swift in Sources */,
 				FA32CC7420FB6E67004C1329 /* UIView+Gradient.swift in Sources */,
-				FA5AC0B821FD4A160080F84F /* PlaceClusterAnnotationView.swift in Sources */,
 				FAF1853120FA0C8600CC5D83 /* RootVC.swift in Sources */,
 				FA7C2012221C2F20002C6DAB /* Photo.swift in Sources */,
 				FA9656CF22BE32D500DA050F /* AddPostVC.swift in Sources */,
@@ -1333,13 +1345,16 @@
 				FAD2B51321F45796009FFDD7 /* PlaceLocation.swift in Sources */,
 				FAFBB0CD22A6A5C4001EDB80 /* SettingsJSON.swift in Sources */,
 				FA99615F2136CF3100C85FBC /* ProfilePagingVC.swift in Sources */,
+				FA54272822D62936005DF1CC /* MappablesAnnotationView.swift in Sources */,
 				FA5AC0BD21FDC80A0080F84F /* MyCountsVC.swift in Sources */,
 				8C3EAB8A2230FD2800CB4886 /* MTPDelegate.swift in Sources */,
 				FA12AB5722C6D68700105545 /* LinkTappableTextView.swift in Sources */,
+				8C6F7C0722D8079B004565BD /* Timestamps.swift in Sources */,
 				FADC1ABE2145E9760011EE49 /* ProfilePhotosVC.swift in Sources */,
 				FA835D34210EAC110098C270 /* Styler.swift in Sources */,
 				FA392BBD20DF69F30026C828 /* LocationsVC.swift in Sources */,
 				8C50B16C22374C650013BD34 /* UIViewController+Keyboard.swift in Sources */,
+				FA6386A522D17EBA001B4424 /* Mappable.swift in Sources */,
 				FAD2B51A21F492B3009FFDD7 /* UncertainValue.swift in Sources */,
 				FAE1F119214354A80002CAB2 /* Avenir.swift in Sources */,
 				FA62BAE922478A6D009FDC4E /* UserCountsPagingVC.swift in Sources */,
@@ -1351,7 +1366,8 @@
 				FA36FBED22059E6B00616CDE /* ApplicationService.swift in Sources */,
 				FAAE29C520F05A9600B43BA9 /* UserDefaults+TypeSafety.swift in Sources */,
 				FA5AC0C121FDCCDE0080F84F /* ListPagingItem.swift in Sources */,
-				FA2172D822BE038C00CE4F40 /* PlaceOverlay.swift in Sources */,
+				FA2172D822BE038C00CE4F40 /* MappableOverlay.swift in Sources */,
+				FA6386A722D181C7001B4424 /* Namable.swift in Sources */,
 				FA44CDF822B5CBFC00F33D34 /* UITableView+Updating.swift in Sources */,
 				FA46377E210DE1E60007382D /* SettingsVC.swift in Sources */,
 				FA62BAEB2247A9A0009FDC4E /* CountsPageVC.swift in Sources */,
@@ -1368,17 +1384,17 @@
 				8C3EAB882230FD1300CB4886 /* MTPDelegateTests.swift in Sources */,
 				FAB53F8B20DFD618007A80A7 /* MemoryWarner.m in Sources */,
 				8C3EAB922231249E00CB4886 /* UnwrapTests.swift in Sources */,
-				8C012801223208CC00EA2095 /* SpyDataService.swift in Sources */,
+				8C012801223208CC00EA2095 /* DataServiceSpy.swift in Sources */,
 				FAE1F11C21437F860002CAB2 /* String+Assert.swift in Sources */,
 				FA3BD2292160D6BC007EAF75 /* WithableTests.swift in Sources */,
-				FAC8465F22AB78FC004F57EC /* SpyLocationService.swift in Sources */,
-				8C0127FF2232089100EA2095 /* SpyLoggingService.swift in Sources */,
-				8C012803223208FB00EA2095 /* SpyMTPNetworkService.swift in Sources */,
+				FAC8465F22AB78FC004F57EC /* LocationServiceSpy.swift in Sources */,
+				8C0127FF2232089100EA2095 /* LoggingServiceSpy.swift in Sources */,
+				8C012803223208FB00EA2095 /* MTPNetworkServiceSpy.swift in Sources */,
 				FA74C113211C61580013A840 /* StringTests.swift in Sources */,
-				8C0127FB2232054E00EA2095 /* SpyServiceHandler+AppLaunchHandler.swift in Sources */,
-				FAC8466122AB79AA004F57EC /* SpyNotificationService.swift in Sources */,
+				8C0127FB2232054E00EA2095 /* ServiceHandlerSpy+AppLaunchHandler.swift in Sources */,
+				FAC8466122AB79AA004F57EC /* NotificationServiceSpy.swift in Sources */,
 				FA0BE96C210C5F3300797224 /* ViewTests.swift in Sources */,
-				8C0127FD2232084600EA2095 /* SpyApplicationService.swift in Sources */,
+				8C0127FD2232084600EA2095 /* ApplicationServiceSpy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1639,6 +1655,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAF12300215652AE0099B772 /* MTP_Debug.xcconfig */;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 630;
+				INFOPLIST_FILE = MTP/resources/Info.plist;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -1646,6 +1665,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAF122FC215652AE0099B772 /* MTP_Release.xcconfig */;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 630;
+				DEVELOPMENT_TEAM = 37L8D8MJWV;
+				INFOPLIST_FILE = MTP/resources/Info.plist;
+				PROVISIONING_PROFILE_SPECIFIER = "MTP-AppStore";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};

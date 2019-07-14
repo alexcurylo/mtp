@@ -16,7 +16,7 @@ final class RealmController: ServiceProvider {
     private lazy var realm: Realm = createRealm()
 
     init() {
-        #if DEBUG
+        #if INSPECT_DATABASE
         defer {
             log.verbose("realm database: \(fileURL)")
         }
@@ -30,7 +30,7 @@ final class RealmController: ServiceProvider {
 
     func set(beaches: [PlaceJSON]) {
         do {
-            let objects = beaches.compactMap { Beach(from: $0, with: self) }
+            let objects = beaches.compactMap { Beach(from: $0, realm: self) }
             try realm.write {
                 realm.add(objects, update: .modified)
             }
@@ -47,7 +47,7 @@ final class RealmController: ServiceProvider {
     func country(id: Int?) -> Country? {
         guard let id = id else { return nil }
         let results = realm.objects(Country.self)
-            .filter("countryId = \(id)")
+                           .filter("countryId = \(id)")
         return results.first
     }
 
@@ -70,7 +70,7 @@ final class RealmController: ServiceProvider {
 
     func set(divesites: [PlaceJSON]) {
         do {
-            let objects = divesites.compactMap { DiveSite(from: $0, with: self) }
+            let objects = divesites.compactMap { DiveSite(from: $0, realm: self) }
             try realm.write {
                 realm.add(objects, update: .modified)
             }
@@ -86,7 +86,7 @@ final class RealmController: ServiceProvider {
 
     func set(golfcourses: [PlaceJSON]) {
         do {
-            let objects = golfcourses.compactMap { GolfCourse(from: $0, with: self) }
+            let objects = golfcourses.compactMap { GolfCourse(from: $0, realm: self) }
             try realm.write {
                 realm.add(objects, update: .modified)
             }
@@ -109,7 +109,7 @@ final class RealmController: ServiceProvider {
     func location(id: Int?) -> Location? {
         guard let id = id else { return nil }
         let results = realm.objects(Location.self)
-                           .filter("id = \(id)")
+                           .filter("placeId = \(id)")
         return results.first
     }
 
@@ -125,8 +125,35 @@ final class RealmController: ServiceProvider {
         }
     }
 
+    func mappable(item: Checklist.Item) -> Mappable? {
+        let key = Mappable.key(item: item)
+        let results = realm.objects(Mappable.self)
+                           .filter("dbKey = '\(key)'")
+        return results.first
+    }
+
+    func mappables(list: Checklist?) -> [Mappable] {
+        let results: Results<Mappable>
+        if let value = list?.rawValue {
+            results = realm.objects(Mappable.self)
+                           .filter("checklistValue = \(value)")
+       } else {
+            results = realm.objects(Mappable.self)
+       }
+        return Array(results)
+    }
+
+    func mappables(matching: String) -> [Mappable] {
+        guard !matching.isEmpty else { return [] }
+
+        let filter = "title contains[cd] '\(matching)'"
+        let results = realm.objects(Mappable.self)
+                           .filter(filter)
+        return Array(results)
+    }
+
     func photo(id: Int) -> Photo? {
-        let filter = "id = \(id)"
+        let filter = "photoId = \(id)"
         let results = realm.objects(Photo.self)
                            .filter(filter)
         return results.first
@@ -281,7 +308,7 @@ final class RealmController: ServiceProvider {
 
     func set(restaurants: [RestaurantJSON]) {
         do {
-            let objects = restaurants.compactMap { Restaurant(from: $0, with: self) }
+            let objects = restaurants.compactMap { Restaurant(from: $0, realm: self) }
             try realm.write {
                 realm.add(objects, update: .modified)
             }
@@ -293,7 +320,7 @@ final class RealmController: ServiceProvider {
     func scorecard(list: Checklist, id: Int) -> Scorecard? {
         let key = Scorecard.key(list: list, user: id)
         let results = realm.objects(Scorecard.self)
-                           .filter("dbKey = \(key)")
+                           .filter("dbKey = '\(key)'")
         return results.first
     }
 
@@ -326,7 +353,7 @@ final class RealmController: ServiceProvider {
 
     func user(id: Int) -> User? {
         let results = realm.objects(User.self)
-                           .filter("id = \(id)")
+                           .filter("userId = \(id)")
         return results.first
     }
 
@@ -348,13 +375,13 @@ final class RealmController: ServiceProvider {
 
     func whs(id: Int) -> WHS? {
         let results = realm.objects(WHS.self)
-                           .filter("id = \(id)")
+                           .filter("placeId = \(id)")
         return results.first
     }
 
     func set(whss: [WHSJSON]) {
         do {
-            let objects = whss.compactMap { WHS(from: $0, with: self) }
+            let objects = whss.compactMap { WHS(from: $0, realm: self) }
             try realm.write {
                 realm.add(objects, update: .modified)
             }
@@ -362,14 +389,19 @@ final class RealmController: ServiceProvider {
             log.error("set whss: \(error)")
         }
     }
+
+    func resolve(reference: Mappable.Reference) -> Mappable? {
+        return realm.resolve(reference)
+    }
 }
 
 private extension RealmController {
 
     func createRealm() -> Realm {
+        #if CAN_MIGRATE
         // swiftlint:disable:next trailing_closure
         let config = Realm.Configuration(
-            schemaVersion: 2,
+            schemaVersion: 3,
             migrationBlock: { migration, oldSchemaVersion in
                 switch oldSchemaVersion {
                 case 0:
@@ -378,11 +410,21 @@ private extension RealmController {
                     fallthrough
                 case 1:
                     migration.migrate1to2()
+                    // swiftlint:disable:next fallthrough
+                    fallthrough
+                case 2:
+                    migration.migrate2to3()
                 default:
                     break
                 }
             }
         )
+        #else
+        // resetting configuration with Mappable addition
+        let config = Realm.Configuration(schemaVersion: 0,
+                                         deleteRealmIfMigrationNeeded: true)
+        #endif
+
         Realm.Configuration.defaultConfiguration = config
 
         do {
@@ -430,6 +472,7 @@ private extension RealmController {
 
 private extension Migration {
 
+    #if CAN_MIGRATE
     func migrate0to1() {
         // apply new defaults: https://github.com/realm/realm-cocoa/issues/1793
         enumerateObjects(ofType: Beach.className()) { _, new in
@@ -457,4 +500,11 @@ private extension Migration {
             new?["weatherhist"] = ""
         }
     }
+
+    func migrate2to3() {
+        enumerateObjects(ofType: WHS.className()) { _, new in
+            new?["unescoId"] = 0
+        }
+    }
+    #endif
 }

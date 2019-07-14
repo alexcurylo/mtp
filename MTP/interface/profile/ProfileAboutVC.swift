@@ -118,7 +118,7 @@ private extension ProfileAboutVC {
         } else {
             userIdObserver = data.observer(of: .userId) { [weak self] _ in
                 guard let self = self,
-                      let userId = self.user?.id,
+                      let userId = self.user?.userId,
                       let new = self.data.get(user: userId) else { return }
 
                 self.user = new
@@ -195,38 +195,27 @@ private extension ProfileAboutVC {
             views[index].removeFromSuperview()
         }
 
-        for link in zip(user.linkTexts, user.linkUrls) {
-            guard !link.0.isEmpty else { continue }
+        for (linkText, linkUrl) in zip(user.linkTexts, user.linkUrls) {
+            guard !linkText.isEmpty else { continue }
 
             let label = UILabel {
-                $0.text = link.0.uppercased()
+                $0.text = linkText.uppercased()
                 $0.font = Avenir.heavy.of(size: 10)
                 $0.alpha = 0.7
             }
-            let button = GradientButton {
-                $0.orientation = GradientOrientation.horizontal.rawValue
-                $0.startColor = .dodgerBlue
-                $0.endColor = .azureRadiance
-                $0.cornerRadius = 4
-                $0.contentEdgeInsets = UIEdgeInsets(
-                    top: 8,
-                    left: 16,
-                    bottom: 8,
-                    right: 16)
-
-                let title = link.1
-                    .replacingOccurrences(of: "http://", with: "")
-                    .replacingOccurrences(of: "https://", with: "")
-                $0.setTitle(title, for: .normal)
-                $0.titleLabel?.font = Avenir.heavy.of(size: 13)
-                if link.1.hasPrefix("http") {
-                    $0.accessibilityIdentifier = link.1
-                } else {
-                    $0.accessibilityIdentifier = "http://" + link.1
-                }
-                $0.addTarget(self, action: #selector(linkTapped), for: .touchUpInside)
-            }
             stack.addArrangedSubview(label)
+
+            let title = linkUrl
+                .replacingOccurrences(of: "http://", with: "")
+                .replacingOccurrences(of: "https://", with: "")
+            let link: String
+            if linkUrl.hasPrefix("http") {
+                link = linkUrl
+            } else {
+                link = "http://" + linkUrl
+            }
+            let button = GradientButton.urlButton(title: title, link: link)
+            button.addTarget(self, action: #selector(linkTapped), for: .touchUpInside)
             stack.addArrangedSubview(button)
         }
 
@@ -268,13 +257,13 @@ extension ProfileAboutVC: Injectable {
 
     @discardableResult func inject(model: Model) -> Self {
         user = model
-        isSelf = model.id == data.user?.id
+        isSelf = model.userId == data.user?.id
         observe()
 
         if isSelf {
             refreshVisits()
         } else {
-            fetch(id: model.id)
+            fetch(id: model.userId)
        }
 
         return self

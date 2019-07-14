@@ -10,14 +10,34 @@ final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
             if model.canPost {
                 return R.storyboard.locationInfo.locationInfo()?.inject(model: model)
             } else {
-                return LocationWebsiteVC(place: model)
+                return LocationWebsiteVC(mappable: model)
             }
         }
 
+        #if NONLOCATIONS_CAN_POST
+        let second = R.storyboard.locationPhotos.locationPhotos()?.inject(model: model)
+        let third = R.storyboard.locationPosts.locationPosts()?.inject(model: model)
+        #else
+        var second: UIViewController? {
+            if model.canPost {
+                return R.storyboard.locationPhotos.locationPhotos()?.inject(model: model)
+            } else {
+                return nil
+            }
+        }
+        var third: UIViewController? {
+            if model.canPost {
+                return R.storyboard.locationPosts.locationPosts()?.inject(model: model)
+            } else {
+                return nil
+            }
+        }
+        #endif
+
         let controllers = [
             first,
-            R.storyboard.locationPhotos.locationPhotos()?.inject(model: model),
-            R.storyboard.locationPosts.locationPosts()?.inject(model: model)
+            second,
+            third
         ].compactMap { $0 }
 
         return LocationPagingVC(viewControllers: controllers)
@@ -76,7 +96,7 @@ private extension LocationPagingVC {
 
 extension LocationPagingVC: Injectable {
 
-    typealias Model = PlaceAnnotation
+    typealias Model = Mappable
 
     @discardableResult func inject(model: Model) -> Self {
         return self

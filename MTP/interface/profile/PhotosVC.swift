@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import UIKit
+import AXPhotoViewer
 
 protocol PhotoSelectionDelegate: AnyObject {
 
@@ -22,6 +22,17 @@ class PhotosVC: UICollectionViewController, ServiceProvider {
 
     var contentState: ContentState = .loading
     private var mode: Mode = .browser
+
+    private var scrollingCells: Set<PhotoCell> = []
+    private var isScrolling = false {
+        didSet {
+            if !isScrolling {
+                scrollingCells.forEach { $0.isScrolling = isScrolling }
+                scrollingCells = []
+            }
+        }
+    }
+
     private var original: String = ""
     private var current: String = ""
     private weak var delegate: PhotoSelectionDelegate?
@@ -93,6 +104,28 @@ private extension PhotosVC {
     @IBAction func addTapped(_ sender: GradientButton) {
         createPhoto()
     }
+
+    func present(fullscreen item: Int) {
+        let source = AXMTPDataSource(source: self, item: item)
+
+        let transition = AXTransitionInfo(
+            interactiveDismissalEnabled: true,
+            startingView: imageView(item: item)
+        ) { [weak self] _, index -> UIImageView? in
+            self?.imageView(item: index)
+        }
+
+        let photosViewController = AXPhotosViewController(dataSource: source,
+                                                          pagingConfig: nil,
+                                                          transitionInfo: transition)
+        self.present(photosViewController, animated: true)
+    }
+
+    func imageView(item: Int) -> UIImageView? {
+        let path = IndexPath(item: item, section: 0)
+        let cell = collectionView.cellForItem(at: path)
+        return (cell as? PhotoCell)?.imageView
+    }
 }
 
 // MARK: UICollectionViewDataSource
@@ -126,7 +159,12 @@ extension PhotosVC {
         )
 
         let model = photo(at: indexPath.item)
-        cell.set(photo: model)
+        cell.set(photo: model, isScrolling: isScrolling)
+        if isScrolling {
+            cell.delegate = self
+            scrollingCells.insert(cell)
+        }
+
         let selected = model.uuid == current && !original.isEmpty
         if selected && !cell.isSelected {
             cell.isSelected = true
@@ -145,13 +183,61 @@ extension PhotosVC {
 
     override func collectionView(_ collectionView: UICollectionView,
                                  shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return mode == .picker
+        switch mode {
+        case .browser:
+            present(fullscreen: indexPath.item)
+            return false
+        case .picker:
+            return true
+        }
     }
 
     override func collectionView(_ collectionView: UICollectionView,
                                  didSelectItemAt indexPath: IndexPath) {
         current = photo(at: indexPath.item).uuid
         saveButton?.isEnabled = original != current
+    }
+}
+
+// MARK: UIScrollViewDelegate
+
+extension PhotosVC {
+
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        isScrolling = true
+    }
+
+    override func scrollViewDidEndDragging(_ scrollView: UIScrollView,
+                                           willDecelerate decelerate: Bool) {
+        if !decelerate {
+            isScrolling = false
+        }
+    }
+
+    override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        isScrolling = false
+    }
+
+    override func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
+        isScrolling = true
+        return true
+    }
+
+    override func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
+        isScrolling = false
+    }
+
+    override func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        isScrolling = false
+    }
+}
+
+// MARK: PhotoCellDelegate
+
+extension PhotosVC: PhotoCellDelegate {
+
+    func prepared(forReuse cell: PhotoCell) {
+        scrollingCells.remove(cell)
     }
 }
 
@@ -185,9 +271,25 @@ extension PhotosVC: UICollectionViewDelegateFlowLayout {
     }
 }
 
+protocol PhotoCellDelegate: AnyObject {
+
+    func prepared(forReuse cell: PhotoCell)
+}
+
 final class PhotoCell: UICollectionViewCell {
 
-    @IBOutlet private var imageView: UIImageView?
+    //swiftlint:disable:next private_outlet
+    @IBOutlet var imageView: UIImageView?
+
+    private var photo: Photo?
+    private var loaded = false
+    var isScrolling = false {
+        didSet {
+            if !isScrolling { load() }
+        }
+    }
+
+    weak var delegate: PhotoCellDelegate?
 
     override var isSelected: Bool {
         didSet {
@@ -196,21 +298,67 @@ final class PhotoCell: UICollectionViewCell {
         }
     }
 
-    fileprivate func set(image: UIImage?) {
-        imageView?.image = image
-    }
-
-    fileprivate func set(photo: Photo?) {
-        imageView?.load(image: photo)
+    fileprivate func set(photo: Photo?,
+                         isScrolling: Bool) {
+        self.photo = photo
+        self.isScrolling = isScrolling
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
 
         imageView?.prepareForReuse()
+        photo = nil
+        loaded = false
+        isScrolling = false
+
+        delegate?.prepared(forReuse: self)
+    }
+
+    private func load() {
+        guard !loaded, let photo = photo else { return }
+
+        loaded = true
+        imageView?.load(image: photo)
     }
 }
 
 final class PhotosHeader: UICollectionReusableView {
     // expect addTapped(_:) hooked up in storyboard
+}
+
+private class AXMTPDataSource: AXPhotosDataSource {
+
+    init(source: PhotosVC, item: Int) {
+        let models = (0..<source.photoCount).map {
+            AXMTPPhoto(source: source, item: $0)
+        }
+        super.init(photos: models,
+                   initialPhotoIndex: item,
+                   prefetchBehavior: .regular)
+    }
+}
+
+private class AXMTPPhoto: NSObject, AXPhotoProtocol {
+
+    private let source: PhotosVC
+    private let item: Int
+
+    var imageData: Data?
+    var image: UIImage?
+    var attributedTitle: NSAttributedString? {
+        return model.attributedTitle
+    }
+    var url: URL? {
+        return model.imageUrl
+    }
+
+    init(source: PhotosVC, item: Int) {
+        self.source = source
+        self.item = item
+    }
+
+    private var model: Photo {
+        return source.photo(at: item)
+    }
 }

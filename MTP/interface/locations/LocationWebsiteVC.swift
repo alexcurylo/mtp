@@ -4,9 +4,9 @@ import Foundation
 
 final class LocationWebsiteVC: WKWebViewController {
 
-    init(place: PlaceAnnotation) {
+    init(mappable: Mappable) {
         let source: WKWebSource?
-        switch place.webUrl {
+        switch mappable.placeWebUrl {
         case let webUrl?:
             source = .remote(webUrl)
         default:

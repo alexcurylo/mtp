@@ -53,7 +53,7 @@ private extension ProfilePostsVC {
     func update() {
         guard let user = user else { return }
 
-        let posts = data.getPosts(user: user.id)
+        let posts = data.getPosts(user: user.userId)
         models = cellModels(from: posts)
         tableView.reloadData()
 
@@ -80,9 +80,9 @@ extension ProfilePostsVC: Injectable {
 
     @discardableResult func inject(model: Model) -> Self {
         user = model
-        isSelf = model.id == data.user?.id
+        isSelf = model.userId == data.user?.id
 
-        mtp.loadPosts(user: model.id) { [weak self] _ in
+        mtp.loadPosts(user: model.userId) { [weak self] _ in
             self?.loaded()
         }
 

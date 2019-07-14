@@ -62,7 +62,7 @@ struct RankingsQuery: Codable, Hashable, ServiceProvider {
 
     static let allLocations = -1
 
-    var checklistType: Checklist
+    var checklistKey: String
     var page: Int = 1
 
     var ageGroup: Age = .all
@@ -121,7 +121,7 @@ extension RankingsQuery: CustomDebugStringConvertible {
     var debugDescription: String {
         return """
         < RankingsQuery: \(description):
-        checklistType: \(checklistType)
+        checklistKey: \(checklistKey)
         page: \(page)
         ageGroup: \(String(describing: ageGroup))
         country: \(String(describing: country))
@@ -138,7 +138,12 @@ extension RankingsQuery: CustomDebugStringConvertible {
 extension RankingsQuery {
 
     init(list: Checklist = .locations) {
-        checklistType = list
+        checklistKey = list.key
+    }
+
+    var checklist: Checklist {
+        // swiftlint:disable:next force_unwrapping
+        return Checklist(key: checklistKey)!
     }
 
     var queryKey: String {
@@ -176,7 +181,7 @@ extension RankingsQuery {
     var parameters: [String: String] {
         var parameters: [String: String] = [:]
 
-        parameters["checklistType"] = checklistType.rawValue
+        parameters["checklistType"] = checklistKey
         parameters["page"] = String(page)
 
         if ageGroup != .all {
@@ -209,18 +214,18 @@ extension RankingsQuery {
             let newId = countryItem.countryId > 0 ? countryItem.countryId : nil
             guard countryId != newId else { break }
             countryId = newId
-            country = newId != nil ? countryItem.countryName : nil
+            country = newId != nil ? countryItem.placeCountry : nil
             locationId = countryItem.hasChildren ? RankingsQuery.allLocations : nil
             location = nil
             return true
         case let locationItem as Location:
-            let newId = locationItem.id > 0 ? locationItem.id : nil
+            let newId = locationItem.placeId > 0 ? locationItem.placeId : nil
             guard locationId != newId else { break }
             locationId = newId ?? RankingsQuery.allLocations
-            location = newId != nil ? locationItem.locationName : nil
+            location = newId != nil ? locationItem.placeTitle : nil
             guard locationItem.countryId > 0 else { return true }
             countryId = locationItem.countryId
-            country = locationItem.countryName
+            country = locationItem.placeCountry
             return true
         default:
             log.error("unknown item type selected")

@@ -47,7 +47,7 @@ struct RegistrationPayload: Codable, Hashable {
         self.gender = gender
         last_name = lastName
         self.location = LocationPayload(location: location)
-        location_id = location.id
+        location_id = location.placeId
         self.password = password
         self.passwordConfirmation = passwordConfirmation
     }
@@ -93,7 +93,7 @@ struct CountryPayload: Codable, Hashable {
     init(country: Country) {
         admin_level = AdminLevel.country.rawValue
         country_id = country.countryId
-        country_name = country.countryName
+        country_name = country.placeCountry
         has_children = country.hasChildren
         is_mtp_location = has_children ? 0 : 1
     }
@@ -127,18 +127,18 @@ struct LocationPayload: Codable, Hashable {
     init(country: Country) {
         admin_level = AdminLevel.country.rawValue
         country_id = country.countryId
-        country_name = country.countryName
+        country_name = country.placeCountry
         id = country.countryId
         is_mtp_location = country.hasChildren ? 0 : 1
-        location_name = country.countryName
+        location_name = country.placeCountry
     }
 
     init(location: Location) {
         admin_level = location.adminLevel.rawValue
         country_id = location.countryId
-        country_name = location.countryName
-        id = location.id
+        country_name = location.placeCountry
+        id = location.placeId
         is_mtp_location = 1
-        location_name = location.locationName
+        location_name = location.placeTitle
     }
 }

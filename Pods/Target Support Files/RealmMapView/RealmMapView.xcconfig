@@ -1,0 +1,12 @@
+CONFIGURATION_BUILD_DIR = ${PODS_CONFIGURATION_BUILD_DIR}/RealmMapView
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/RealmMapView" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Realm"
+OTHER_CFLAGS = $(inherited) -fmodule-map-file="${PODS_CONFIGURATION_BUILD_DIR}/RealmSwift/RealmSwift.modulemap" -fmodule-map-file="${PODS_ROOT}/Headers/Private/Realm/Realm.modulemap" -fmodule-map-file="${PODS_ROOT}/Headers/Public/ABFRealmMapView/ABFRealmMapView.modulemap"
+OTHER_SWIFT_FLAGS = $(inherited) -D COCOAPODS -Xcc -fmodule-map-file="${PODS_CONFIGURATION_BUILD_DIR}/RealmSwift/RealmSwift.modulemap" -Xcc -fmodule-map-file="${PODS_ROOT}/Headers/Private/Realm/Realm.modulemap" -Xcc -fmodule-map-file="${PODS_ROOT}/Headers/Public/ABFRealmMapView/ABFRealmMapView.modulemap" -import-underlying-module -Xcc -fmodule-map-file="${SRCROOT}/${MODULEMAP_FILE}"
+PODS_BUILD_DIR = ${BUILD_DIR}
+PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
+PODS_ROOT = ${SRCROOT}
+PODS_TARGET_SRCROOT = ${PODS_ROOT}/RealmMapView
+PRODUCT_BUNDLE_IDENTIFIER = org.cocoapods.${PRODUCT_NAME:rfc1034identifier}
+SKIP_INSTALL = YES
+SWIFT_INCLUDE_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/RealmSwift"

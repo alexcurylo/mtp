@@ -6,8 +6,9 @@ protocol ApplicationService {
 
     func launch(url: URL)
 
-    func route(to annotation: PlaceAnnotation)
+    func route(to mappable: Mappable)
     func route(to user: User?)
+    func route(to route: Route)
 
     func endEditing()
 }
@@ -27,12 +28,16 @@ extension UIApplication: ApplicationService {
         open(url, options: [:], completionHandler: nil)
     }
 
-    func route(to annotation: PlaceAnnotation) {
-        MainTBC.current?.route(to: annotation)
+    func route(to mappable: Mappable) {
+        MainTBC.current?.route(to: mappable)
     }
 
     func route(to user: User?) {
         MainTBC.current?.route(to: user)
+    }
+
+    func route(to route: Route) {
+        MainTBC.current?.route(to: route)
     }
 
     func endEditing() {

@@ -14,7 +14,6 @@ enum MTPNetworkError: Swift.Error {
     case network(String)
     case notModified
     case parameter
-    case result
     case serverOffline
     case status
     case throttle
@@ -88,7 +87,7 @@ extension MTP: TargetType {
             return "beach"
         case .checkIn(let list, _),
              .checkOut(let list, _):
-            return "me/checklists/\(list.rawValue)"
+            return "me/checklists/\(list.key)"
         case .checklists:
             return "me/checklists"
         case .countriesSearch:
@@ -122,7 +121,7 @@ extension MTP: TargetType {
         case .restaurant:
             return "restaurant"
         case let .scorecard(list, user):
-            return "users/\(user)/scorecard/\(list.rawValue)"
+            return "users/\(user)/scorecard/\(list.key)"
         case .search:
             return "search"
         case .settings:
@@ -1184,18 +1183,28 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         let provider = MoyaProvider<MTP>(plugins: [auth])
         let endpoint = MTP.postPublish(payload: payload)
 
-        provider.request(endpoint) { response in
-            switch response {
-            case .success(let result):
+        func parse(success response: Response) {
+            do {
+                let reply = try response.map(PostReply.self,
+                                             using: JSONDecoder.mtp)
+                self.data.set(post: reply)
+                return then(.success(reply))
+            } catch {
                 do {
-                    let reply = try result.map(PostReply.self,
-                                               using: JSONDecoder.mtp)
-                    self.data.set(post: reply)
-                    return then(.success(reply))
+                    let reply = try response.map(OperationReply.self,
+                                                 using: JSONDecoder.mtp)
+                    return then(.failure(.message(reply.message)))
                 } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
                     return then(.failure(.decoding))
                 }
+            }
+        }
+
+        provider.request(endpoint) { response in
+            switch response {
+            case .success(let response):
+                return parse(success: response)
             case .failure(.underlying(AFError.responseValidationFailed, _)):
                 self.log.error("API rejection: \(endpoint.path)")
                 return then(.failure(.status))
@@ -1279,20 +1288,29 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
                                   caption: caption,
                                   location: id)
 
-        //swiftlint:disable:next closure_body_length
-        provider.request(endpoint) { response in
-            switch response {
-            case .success(let result):
-              do {
-                    let replies = try result.map([PhotoReply].self,
+        func parse(success response: Response) {
+            do {
+                let replies = try response.map([PhotoReply].self,
+                                               using: JSONDecoder.mtp)
+                let reply = try unwrap(replies.first)
+                self.data.set(photo: reply)
+                return then(.success(reply))
+            } catch {
+                do {
+                    let reply = try response.map(OperationReply.self,
                                                  using: JSONDecoder.mtp)
-                    let reply = try unwrap(replies.first)
-                    self.data.set(photo: reply)
-                    return then(.success(reply))
+                    return then(.failure(.message(reply.message)))
                 } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
                     return then(.failure(.decoding))
                 }
+            }
+        }
+
+        provider.request(endpoint) { response in
+            switch response {
+            case .success(let response):
+                return parse(success: response)
             case .failure(.underlying(AFError.responseValidationFailed, _)):
                 self.log.error("API rejection: \(endpoint.path)")
                 return then(.failure(.status))
@@ -1621,7 +1639,7 @@ extension MoyaMTPNetworkService {
     func refreshRankings() {
         var query = data.lastRankingsQuery
         Checklist.allCases.forEach { list in
-            query.checklistType = list
+            query.checklistKey = list.key
             loadRankings(query: query)
         }
     }
@@ -1697,7 +1715,7 @@ private extension MoyaMTPNetworkService {
             return .message(reply.message)
         } catch {
             self.log.error("decoding error response: \(error)\n-\n\(response.toString)")
-            return .result
+            return .decoding
         }
     }
 }

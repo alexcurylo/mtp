@@ -400,10 +400,10 @@ private extension SignupVC {
                 self?.errorMessage = L.deviceOfflineError(operation)
             case .failure(.serverOffline):
                 self?.errorMessage = L.serverOfflineError(operation)
-            case .failure(.decoding),
-                 .failure(.result),
-                 .failure(.status):
-                self?.errorMessage = L.resultsError(operation)
+            case .failure(.decoding):
+                self?.errorMessage = L.decodingError(operation)
+            case .failure(.status):
+                self?.errorMessage = L.statusError(operation)
             case .failure(.message(let message)):
                 self?.errorMessage = message
             case .failure(.network(let message)):
@@ -500,14 +500,14 @@ extension SignupVC: LocationSearchDelegate {
         case let countryItem as Country:
             guard country != countryItem else { return }
             country = countryItem
-            countryTextField?.text = countryItem.countryName
+            countryTextField?.text = countryItem.placeCountry
             location = nil
             locationTextField?.text = nil
             show(location: countryItem.hasChildren)
         case let locationItem as Location:
             guard location != locationItem else { return }
             location = locationItem
-            locationTextField?.text = locationItem.locationName
+            locationTextField?.text = locationItem.placeTitle
         default:
             log.error("unknown item type selected")
         }

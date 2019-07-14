@@ -5,10 +5,10 @@ import UIKit
 extension UIApplication {
 
     var isBackground: Bool {
-        return applicationState == .background
+        return applicationState != .active
     }
     var isForeground: Bool {
-        return applicationState != .background
+        return applicationState == .active
     }
 
     static var isUnitTesting: Bool {

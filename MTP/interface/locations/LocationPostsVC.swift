@@ -10,7 +10,7 @@ final class LocationPostsVC: PostsVC {
         return isImplemented
     }
     private var isImplemented: Bool {
-        return place?.list == .locations
+        return mappable?.checklist == .locations
     }
 
     override var presenter: Presenter {
@@ -23,7 +23,7 @@ final class LocationPostsVC: PostsVC {
     private var profileModel: UserProfileVC.Model?
 
     //swiftlint:disable:next implicitly_unwrapped_optional
-    private var place: PlaceAnnotation!
+    private var mappable: Mappable!
 
      override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +36,7 @@ final class LocationPostsVC: PostsVC {
         switch segue.identifier {
         case Segues.addPost.identifier:
             if let edit = Segues.addPost(segue: segue)?.destination {
-                edit.inject(model: place)
+                edit.inject(model: mappable)
             }
         case Segues.showUserProfile.identifier:
             if let profile = Segues.showUserProfile(segue: segue)?.destination,
@@ -68,7 +68,7 @@ private extension LocationPostsVC {
     }
 
     func update() {
-        guard let place = place else { return }
+        guard let mappable = mappable else { return }
 
         guard isImplemented else {
             contentState = .unimplemented
@@ -76,7 +76,7 @@ private extension LocationPostsVC {
             return
         }
 
-        let posts = data.get(locationPosts: place.id)
+        let posts = data.get(locationPosts: mappable.checklistId)
         models = cellModels(from: posts)
         tableView.reloadData()
 
@@ -101,14 +101,13 @@ private extension LocationPostsVC {
 
 extension LocationPostsVC: Injectable {
 
-    typealias Model = PlaceAnnotation
+    typealias Model = Mappable
 
     @discardableResult func inject(model: Model) -> Self {
-        place = model
+        mappable = model
 
-        log.todo("implement non-MTP location posting")
         if isImplemented {
-            mtp.loadPosts(location: place.id) { [weak self] _ in
+            mtp.loadPosts(location: model.checklistId) { [weak self] _ in
                 self?.loaded()
             }
         }
@@ -117,6 +116,6 @@ extension LocationPostsVC: Injectable {
     }
 
     func requireInjections() {
-        place.require()
+        mappable.require()
     }
 }

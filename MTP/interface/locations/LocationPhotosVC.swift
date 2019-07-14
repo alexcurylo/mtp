@@ -6,7 +6,7 @@ final class LocationPhotosVC: PhotosVC {
 
     private typealias Segues = R.segue.locationPhotosVC
 
-    private var place: PlaceAnnotation?
+    private var mappable: Mappable?
     private var photos: [Photo] = []
 
     private var photosObserver: Observer?
@@ -16,7 +16,7 @@ final class LocationPhotosVC: PhotosVC {
         return isImplemented
     }
     private var isImplemented: Bool {
-        return place?.list == .locations
+        return mappable?.checklist == .locations
     }
 
     override var photoCount: Int {
@@ -43,7 +43,7 @@ final class LocationPhotosVC: PhotosVC {
         switch segue.identifier {
         case Segues.addPhoto.identifier:
             if let add = Segues.addPhoto(segue: segue)?.destination {
-                add.inject(model: (place: place, delegate: self))
+                add.inject(model: (mappable: mappable, delegate: self))
             }
         default:
             log.debug("unexpected segue: \(segue.name)")
@@ -72,20 +72,19 @@ private extension LocationPhotosVC {
     }
 
     func refresh(reload: Bool) {
-        guard let place = place, isImplemented else { return }
+        guard let mappable = mappable, isImplemented else { return }
 
-        log.todo("implement non-MTP location photos")
-        mtp.loadPhotos(location: place.id,
+        mtp.loadPhotos(location: mappable.checklistId,
                        reload: reload) { [weak self] _ in
             self?.loaded()
         }
     }
 
     func update() {
-        guard let place = place else { return }
+        guard let mappable = mappable else { return }
 
         if isImplemented {
-            photos = data.get(locationPhotos: place.id)
+            photos = data.get(locationPhotos: mappable.checklistId)
         }
         collectionView.reloadData()
 
@@ -104,9 +103,9 @@ private extension LocationPhotosVC {
 
         photosObserver = data.observer(of: .locationPhotos) { [weak self] info in
             guard let self = self,
-                  let place = self.place,
+                  let mappable = self.mappable,
                   let updated = info[StatusKey.value.rawValue] as? Int,
-                  updated == place.id else { return }
+                  updated == mappable.checklistId else { return }
             self.updated = true
             self.update()
         }
@@ -115,10 +114,10 @@ private extension LocationPhotosVC {
 
 extension LocationPhotosVC: Injectable {
 
-    typealias Model = PlaceAnnotation
+    typealias Model = Mappable
 
     @discardableResult func inject(model: Model) -> Self {
-        place = model
+        mappable = model
 
         refresh(reload: false)
 
@@ -126,6 +125,6 @@ extension LocationPhotosVC: Injectable {
     }
 
     func requireInjections() {
-        place.require()
+        mappable.require()
     }
 }

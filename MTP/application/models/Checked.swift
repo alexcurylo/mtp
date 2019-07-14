@@ -31,27 +31,15 @@ struct Checked: Codable, ServiceProvider {
 
     mutating func set(list: Checklist,
                       id: Int,
-                      dismissed: Bool) {
-        set(list: list, id: id, checked: dismissed)
-    }
-
-    mutating func set(list: Checklist,
-                      id: Int,
-                      notified: Bool) {
-        set(list: list, id: id, checked: notified)
-    }
-
-    mutating func set(list: Checklist,
-                      id: Int,
-                      triggered: Bool) {
-        set(list: list, id: id, checked: triggered)
-    }
-
-    mutating func set(list: Checklist,
-                      id: Int,
-                      visited: Bool) {
+                      visited: Bool,
+                      parentId: Int?,
+                      parentVisited: Bool) {
         set(list: list, id: id, checked: visited)
         mtp.check(list: list, id: id, visited: visited) { _ in }
+        if let parentId = parentId {
+            set(list: list, id: parentId, checked: parentVisited)
+            mtp.check(list: list, id: parentId, visited: parentVisited) { _ in }
+        }
     }
 }
 

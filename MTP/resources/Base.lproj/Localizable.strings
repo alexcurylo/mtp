@@ -2,8 +2,10 @@
 
 // notifications
 
-"cancel" = "Cancel";
 "ok" = "OK";
+"cancel" = "Cancel";
+"yes" = "Yes";
+"no" = "No";
 "unimplemented" = "Not implemented yet!";
 
 // networking handling
@@ -13,9 +15,11 @@
 "networkError" = "Could not %1$@ - a network failure occurred: %2$@";
 "deviceOfflineError" = "Could not %@ - your device appears to be offline. Please connect to the Internet.";
 "serverOfflineError" = "Could not %@ - the MTP.travel website appears to be offline.";
-"resultsError" = "Could not %@ - unexpected results were received.";
+"decodingError" = "Could not %@ - results were not understood.";
+"decodingErrorReport" = "Could not %@ - results were not understood. Please report the problem with ‘Contact Us’ on the ‘Settings’ page.";
+"statusError" = "Could not %@ - a status error was received.";
+"statusErrorReport" = "Could not %@ - a status error was received. Please report the problem with ‘Contact Us’ on the ‘Settings’ page.";
 "unexpectedError" = "Could not %@ - an unexpected error occurred.";
-"resultsErrorReport" = "Could not %@ - unexpected results were received. Please report the problem with ‘Contact Us’ on the ‘Settings’ page.";
 "unexpectedErrorReport" = "Could not %@ - an unexpected error occurred. Please report the problem with ‘Contact Us’ on the ‘Settings’ page.";
 "deleteAccount" = "delete account";
 "logIn" = "log in";
@@ -34,6 +38,7 @@
 // AddPhotoVC
 
 "fixPhoto" = "Please select a photo!";
+"tagWithLocation" = "You are currently in %@. Would you like to tag this photo with that location?";
 
 // EditPostVC
 
@@ -62,6 +67,21 @@
 // LocationInfoVC
 
 "none" = "none";
+"titleCountry" = "Country:";
+"titleUnRanking" = "UN Ranking:";
+"flightRoute" = "%1$@ ◀︎▶︎ %2$@ Flights";
+"flightLink" = "https://www.google.com/flights/#flt=%1$@.%2$@.%3$@*%4$@.%5$@.%6$@;c:%7$@;e:1;sd:1;t:f";
+"setHomeAirport" = "set Home Airport to see flight routes!";
+"whenToGo" = "When To Go";
+"whenToGoLink" = "https://m.weatherbase.com/weather/weather.php?s=%@";
+"currentWeather" = "Current Weather";
+"currentWeatherLink" = "http://www.wunderground.com/wundermap/?lat=%1$@&lon=%2$@&zoom=5";
+"wikitravel" = "Wikitravel";
+"wikitravelLink" = "http://wikitravel.org/en/%@";
+"wikimapia" = "Wikimapia";
+"wikimapiaLink" = "http://wikimapia.org/#lat=%1$@&lon=%2$@&z=5";
+"wikipedia" = "Wikipedia";
+"wikipediaLink" = "http://en.wikipedia.org/wiki/%@";
 
 // LocationsVC
 
@@ -87,14 +107,16 @@
 "directions" = "Directions";
 
 "checkinTitle" = "%@ Checkin Available";
-"checkinInside" = "You are in %@. Do you want to check in?";
-"checkinNear" = "You are near %@. Do you want to check in?";
+"checkinInsideNow" = "You are in %@. Do you want to check in?";
+"checkinNearNow" = "You are near %@. Do you want to check in?";
+"checkinInsidePast" = "You were in %1$@ %2$@. Do you want to check in?";
+"checkinNearPast" = "You were near %@ %$2@. Do you want to check in?";
 "checkinAction" = "Check in";
 "dismissAction" = "Dismiss";
 "congratulations" = "Congratulations on visiting %@!";
 "milestone" = "You have reached the %@ milestone! ";
-"status" = "You have now visited %ld %@ and have %ld remaining.";
-"nearest" = " The nearest %@ you haven't visited yet is %@.";
+"status" = "You have now visited %1$ld %2$@ and have %3$ld remaining.";
+"nearest" = " The nearest %1$@ you haven't visited yet is %2$@.";
 
 // LocationTracker
 
@@ -117,10 +139,10 @@
 "visitedCount" = "Visited: %ld";
 "remainingCount" = "Remaining: %ld";
 
-"locationCount" = "%@ (%ld)";
-"locationVisitedCount" = "%@ (%ld/%ld)";
+"locationCount" = "%1$@ (%2$ld)";
+"locationVisitedCount" = "%1$@ (%2$ld/%3$ld)";
 
-"locationDescription" = "%@, %@";
+"locationDescription" = "%1$@, %2$@";
 
 // PostsVC
 
@@ -136,10 +158,10 @@
 "divesites" = "Dive Sites";
 "restaurants" = "Restaurants";
 
-"myRanking" = "My ranking:";
-"myScore" = "My score:";
-"rankScoreFraction" = "%@ (%@/%@)";
-"scoreFraction" = "%@/%@";
+"myRanking" = "My Ranking:";
+"myScore" = "My Score:";
+"rankScoreFraction" = "%1$@ (%2$@/%3$@)";
+"scoreFraction" = "%1$@/%2$@";
 "topTravelers" = "Top Travelers:";
 
 "deceased" = "*";
@@ -156,7 +178,7 @@
 "female" = "Female";
 "facebookFriends" = "Friends";
 "allAges" = "All ages";
-"ageRange" = "%ld-%ld";
+"ageRange" = "%1$ld-%2$ld";
 "under20" = "Under 20";
 "over79" = "Over 79";
 
@@ -225,3 +247,63 @@
 
 "question14" = "I have an MTP question, suggestion, or technical problem. What do I do?";
 "answer14" = "Tap ‘Contact Us’ on the previous screen to send email directly to admin@mtp.travel!";
+
+// RelativeTimeStyle
+
+"nowPastRegular" = "just now";
+"nowFutureRegular" = "in a few seconds";
+"secondsPastRegular" = "%.f seconds ago";
+"secondsFutureRegular" = "in %.f seconds";
+"oneMinutePastRegular" = "1 minute ago";
+"oneMinuteFutureRegular" = "in 1 minute";
+"minutesPastRegular" = "%.f minutes ago";
+"minutesFutureRegular" = "in %.f minutes";
+"oneHourPastRegular" = "last hour";
+"oneHourFutureRegular" = "next hour";
+"hoursPastRegular" = "%.f hours ago";
+"hoursFutureRegular" = "in %.f hours";
+"oneDayPastRegular" = "yesterday";
+"oneDayFutureRegular" = "tomorrow";
+"daysPastRegular" = "%.f days ago";
+"daysFutureRegular" = "in %.f days";
+"oneWeekPastRegular" = "last week";
+"oneWeekFutureRegular" = "next week";
+"weeksPastRegular" = "%.f weeks ago";
+"weeksFutureRegular" = "in %.f weeks";
+"oneMonthPastRegular" = "last month";
+"oneMonthFutureRegular" = "next month";
+"monthsPastRegular" = "%.f months ago";
+"monthsFutureRegular" = "in %.f months";
+"oneYearPastRegular" = "last year";
+"oneYearFutureRegular" = "next year";
+"yearsPastRegular" = "%.f years ago";
+"yearsFutureRegular" = "in %.f years";
+
+"nowPastShort" = "now";
+"nowFutureShort" = "now";
+"secondsPastShort" = "%.fs";
+"secondsFutureShort" = "soon";
+"oneMinutePastShort" = "1m";
+"oneMinuteFutureShort" = "in 1m";
+"minutesPastShort" = "%.fm";
+"minutesFutureShort" = "in %.fm";
+"oneHourPastShort" = "1h";
+"oneHourFutureShort" = "in 1h";
+"hoursPastShort" = "%.fh";
+"hoursFutureShort" = "in %.fh";
+"oneDayPastShort" = "1d";
+"oneDayFutureShort" = "in 1d";
+"daysPastShort" = "%.fd";
+"daysFutureShort" = "in %.fd";
+"oneWeekPastShort" = "1w";
+"oneWeekFutureShort" = "in 1w";
+"weeksPastShort" = "%.fw";
+"weeksFutureShort" = "in %.fw";
+"oneMonthPastShort" = "1mo";
+"oneMonthFutureShort" = "in 1mo";
+"monthsPastShort" = "%.fmo";
+"monthsFutureShort" = "in %.fmo";
+"oneYearPastShort" = "1y";
+"oneYearFutureShort" = "in 1y";
+"yearsPastShort" = "%.fy";
+"yearsFutureShort" = "in %.fy";

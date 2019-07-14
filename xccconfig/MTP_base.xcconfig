@@ -23,9 +23,9 @@ ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon
 // Files](https://developer.apple.com/library/content/documentation/MacOSX/Conceptual/BPRuntimeConfig/Articles/ConfigFiles.html#//apple_ref/doc/uid/20002091-CJBJIEDH)
 // in [Runtime Configuration
 // Guidelines](https://developer.apple.com/library/content/documentation/MacOSX/Conceptual/BPRuntimeConfig/000-Introduction/introduction.html).
+// NB. Must be set in target settings for agvtool to work!
 
-INFOPLIST_FILE = $(SRCROOT)/MTP/resources/Info.plist
-
+INFOPLIST_FILE = MTP/resources/Info.plist
 
 
 // Runpath Search Paths

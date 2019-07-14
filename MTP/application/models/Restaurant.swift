@@ -60,74 +60,34 @@ extension RestaurantJSON: CustomDebugStringConvertible {
     }
 }
 
-@objcMembers final class Restaurant: Object {
+@objcMembers final class Restaurant: Object, PlaceInfo, PlaceMappable {
 
-    dynamic var countryName: String = ""
-    dynamic var id: Int = 0
-    dynamic var lat: Double = 0
-    dynamic var long: Double = 0
-    dynamic var placeImage: String = ""
-    dynamic var placeLocation: Location?
-    dynamic var placeVisitors: Int = 0
-    dynamic var regionName: String = ""
-    dynamic var title: String = ""
-    dynamic var website: String = ""
+    dynamic var map: Mappable?
+    dynamic var placeId: Int = 0
 
     override static func primaryKey() -> String? {
-        return "id"
+        return "placeId"
     }
 
     convenience init?(from: RestaurantJSON,
-                      with controller: RealmController) {
-        guard from.active == "Y" else {
-            return nil
-        }
+                      realm: RealmController) {
+        guard from.active == "Y" else { return nil }
         self.init()
 
-        let locationId = from.location?.id ?? from.locationId
-        placeLocation = controller.location(id: locationId)
-        countryName = placeLocation?.countryName ?? L.unknown()
-        id = from.id
-        lat = from.lat
-        long = from.long
-        placeImage = from.img
-        placeVisitors = from.visitors
-        regionName = placeLocation?.regionName ?? L.unknown()
-        title = from.title
-        website = from.url
+        map = Mappable(checklist: .restaurants,
+                       checklistId: from.id,
+                       image: from.img,
+                       latitude: from.lat,
+                       locationId: from.location?.id ?? from.locationId,
+                       longitude: from.long,
+                       title: from.title,
+                       visitors: from.visitors,
+                       website: from.url,
+                       realm: realm)
+        placeId = from.id
     }
 
     override var description: String {
-        return title
-    }
-}
-
-extension Restaurant: PlaceInfo {
-
-    var placeCoordinate: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(
-            latitude: lat,
-            longitude: long
-        )
-    }
-
-    var placeCountry: String {
-        return countryName
-    }
-
-    var placeId: Int {
-        return id
-    }
-
-    var placeRegion: String {
-        return regionName
-    }
-
-    var placeTitle: String {
-        return title
-    }
-
-    var placeWebUrl: URL? {
-        return website.mtpWebsiteUrl
+        return placeTitle
     }
 }

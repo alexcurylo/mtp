@@ -1,17 +1,30 @@
 // @copyright Trollwerks Inc.
 
 import Nuke
+import NukeAlamofirePlugin
+
+private let _dispatchOnceConfigureNukeWithAlamofire: Void = {
+    let pipeline = ImagePipeline {
+        $0.dataLoader = AlamofireDataLoader()
+        $0.imageCache = ImageCache.shared
+    }
+    ImagePipeline.shared = pipeline
+}()
 
 protocol ImageService: ImageDisplaying { }
 
 extension ImageService where Self: UIView {
 
     func load(image location: Location?) {
-        load(image: location?.imageUrl)
+        load(image: location?.placeImageUrl)
     }
 
-    func load(image place: PlaceAnnotation?) {
-        load(image: place?.imageUrl,
+    func load(flag location: Location?) {
+        load(image: location?.flagUrl)
+    }
+
+    func load(image mappable: Mappable?) {
+        load(image: mappable?.imageUrl,
              placeholder: R.image.placeholderMedium()
         )
     }
@@ -30,9 +43,9 @@ extension ImageService where Self: UIView {
         // example pattern, 30 characters prefix and 1 character suffix:
         // src="/api/files/preview?uuid=7FgX3ruwM4j5heCyrAAaq8"
         guard let range = html.range(
-            of: #"src="\/api\/files\/preview\?uuid=[A-Za-z0-9+\/=]+\""#,
-            options: .regularExpression
-            ) else {
+                of: #"src="\/api\/files\/preview\?uuid=[A-Za-z0-9+\/=]+\""#,
+                options: .regularExpression
+             ) else {
                 display(image: nil)
                 return false
         }
@@ -52,6 +65,8 @@ extension ImageService where Self: UIView {
             display(image: placeholder)
             return false
         }
+
+        _dispatchOnceConfigureNukeWithAlamofire
 
         Nuke.loadImage(
             with: url,

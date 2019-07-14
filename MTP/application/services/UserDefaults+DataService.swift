@@ -4,10 +4,10 @@ import Foundation
 
 extension UserDefaults: ServiceProvider {
 
-    var dismissed: Checked? {
+    var dismissed: Timestamps? {
         get {
             do {
-                return try get(objectType: Checked.self, forKey: #function)
+                return try get(objectType: Timestamps.self, forKey: #function)
             } catch {
                 log.error("decoding dismissed value: \(error)")
                 return nil
@@ -93,10 +93,10 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
-    var notified: Checked? {
+    var notified: Timestamps? {
         get {
             do {
-                return try get(objectType: Checked.self, forKey: #function)
+                return try get(objectType: Timestamps.self, forKey: #function)
             } catch {
                 log.error("decoding notified value: \(error)")
                 return nil
@@ -142,10 +142,10 @@ extension UserDefaults: ServiceProvider {
         set { set(newValue, forKey: #function) }
     }
 
-    var triggered: Checked? {
+    var triggered: Timestamps? {
         get {
             do {
-                return try get(objectType: Checked.self, forKey: #function)
+                return try get(objectType: Timestamps.self, forKey: #function)
             } catch {
                 log.error("decoding triggered value: \(error)")
                 return nil

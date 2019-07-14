@@ -14,7 +14,8 @@ final class NearbyVC: UITableViewController, ServiceProvider {
 
     @IBOutlet private var backgroundView: UIView?
 
-    private var places: [PlaceAnnotation] = []
+    private var mappables: [Mappable] = []
+    private var distances: Distances = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +63,7 @@ extension NearbyVC {
 
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
-        return places.count
+        return mappables.count
     }
 
     override func tableView(_ tableView: UITableView,
@@ -72,7 +73,9 @@ extension NearbyVC {
             withIdentifier: R.reuseIdentifier.nearbyCell,
             for: indexPath)
 
-        cell.set(model: places[indexPath.row],
+        let mappable = mappables[indexPath.row]
+        cell.set(mappable: mappable,
+                 distance: distances[mappable.dbKey] ?? 0,
                  delegate: self)
 
         return cell
@@ -98,10 +101,13 @@ extension NearbyVC {
 
 extension NearbyVC: Injectable {
 
-    typealias Model = Set<PlaceAnnotation>
+    typealias Model = (mappables: [Mappable], distances: Distances)
 
     @discardableResult func inject(model: Model) -> Self {
-        places = Array(model).sorted { $0.distance < $1.distance }
+        distances = model.distances
+        mappables = model.mappables.sorted {
+            distances[$0.dbKey] ?? 0 < distances[$1.dbKey] ?? 0
+        }
 
         return self
     }
@@ -138,7 +144,7 @@ final class NearbyCell: UITableViewCell {
     @IBOutlet private var countryLabel: UILabel?
     @IBOutlet private var visitorsLabel: UILabel?
 
-    private var place: PlaceAnnotation?
+    private var mappable: Mappable?
     private weak var delegate: NearbyCellDelegate?
 
     override func awakeFromNib() {
@@ -152,7 +158,7 @@ final class NearbyCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        place = nil
+        mappable = nil
         delegate = nil
 
         placeImage?.prepareForReuse()
@@ -163,32 +169,33 @@ final class NearbyCell: UITableViewCell {
         visitorsLabel?.text = nil
     }
 
-    func set(model place: PlaceAnnotation,
+    func set(mappable: Mappable,
+             distance: CLLocationDistance,
              delegate: NearbyCellDelegate) {
-        self.place = place
+        self.mappable = mappable
         self.delegate = delegate
 
-        placeImage?.load(image: place)
-        distanceLabel?.text = place.distance.formatted
-        categoryLabel?.text = place.list.category(full: false).uppercased()
-        show(visited: place.isVisited)
-        nameLabel?.text = place.subtitle
-        countryLabel?.text = place.country
-        visitorsLabel?.text = L.visitors(place.visitors.grouped)
+        placeImage?.load(image: mappable)
+        distanceLabel?.text = distance.formatted
+        categoryLabel?.text = mappable.checklist.category(full: false).uppercased()
+        show(visited: mappable.isVisited)
+        nameLabel?.text = mappable.title
+        countryLabel?.text = mappable.subtitle
+        visitorsLabel?.text = L.visitors(mappable.visitors.grouped)
     }
  }
 
 private extension NearbyCell {
 
     @IBAction func cellTapped(_ sender: UIButton) {
-        place?.reveal(callout: true)
+        mappable?.reveal(callout: true)
     }
 
     @IBAction func toggleVisit(_ sender: UISwitch) {
-        guard let place = place else { return }
+        guard let mappable = mappable else { return }
 
         let isVisited = sender.isOn
-        place.isVisited = isVisited
+        mappable.isVisited = isVisited
         show(visited: isVisited)
     }
 

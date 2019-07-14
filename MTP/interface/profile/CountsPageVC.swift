@@ -14,10 +14,14 @@ class CountsPageVC: UIViewController, ServiceProvider {
     var places: [PlaceInfo] { return [] }
     var visited: [Int] { return [] }
 
+    private let infoSection = 0
+    private var showsInfo: Bool { return isEditable }
+
     enum Layout {
+        static let headerHeight = CGFloat(25)
         static let lineHeight = CGFloat(32)
         static let margin = CGFloat(8)
-        static let collectionInsets = UIEdgeInsets(top: 0,
+        static let collectionInsets = UIEdgeInsets(top: margin,
                                                    left: margin,
                                                    bottom: 0,
                                                    right: 0)
@@ -29,6 +33,7 @@ class CountsPageVC: UIViewController, ServiceProvider {
         static let cellCornerRadius = CGFloat(4)
     }
 
+    // swiftlint:disable:next closure_body_length
     let collectionView: UICollectionView = {
         let flow = UICollectionViewFlowLayout()
         flow.minimumLineSpacing = Layout.cellSpacing
@@ -48,6 +53,10 @@ class CountsPageVC: UIViewController, ServiceProvider {
             CountSectionHeader.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: CountSectionHeader.reuseIdentifier)
+        collectionView.register(
+            CountInfoHeader.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: CountInfoHeader.reuseIdentifier)
 
         return collectionView
     }()
@@ -116,8 +125,15 @@ extension CountsPageVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         referenceSizeForHeaderInSection section: Int) -> CGSize {
+        let height: CGFloat
+        switch (section, showsInfo) {
+        case (infoSection, true):
+            height = Layout.headerHeight
+        default:
+            height = Layout.lineHeight
+        }
         return CGSize(width: collectionView.frame.width,
-                      height: Layout.lineHeight)
+                      height: height)
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -135,130 +151,49 @@ extension CountsPageVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
-        let view = collectionView.dequeueReusableSupplementaryView(
-            ofKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: CountSectionHeader.reuseIdentifier,
-            for: indexPath)
-
-        if let header = view as? CountSectionHeader {
-            header.delegate = self
-            let region = regions[indexPath.section]
-
-            let count: Int
-            switch list {
-            case .whss:
-                let parents = countriesPlaces[region]?.values.flatMap { $0 }.map { $0.placeId }
-                count = Set<Int>(parents ?? []).count
-            default:
-                count = regionsPlaces[region]?.count ?? 0
-            }
-
-            let model = CountSectionModel(
-                region: region,
-                visited: isEditable ? regionsVisited[region, default: 0] : nil,
-                count: count,
-                isExpanded: regionsExpanded[region, default: false]
-            )
-            header.set(model: model)
+        let modelPath: IndexPath
+        switch (indexPath.section, showsInfo) {
+        case (infoSection, true):
+            return infoHeader(at: indexPath)
+        case (_, true):
+            modelPath = IndexPath(row: indexPath.row,
+                                  section: indexPath.section - 1)
+        default:
+            modelPath = IndexPath(row: indexPath.row,
+                                  section: indexPath.section)
         }
-
-        return view
+        return countHeader(at: indexPath,
+                           model: modelPath)
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return regions.count
+        return regions.count + (showsInfo ? 1 : 0)
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return numberOfItems(section: section)
-    }
-
-    func numberOfItems(section: Int) -> Int {
-        let region = regions[section]
-        guard let isExpanded = regionsExpanded[region],
-              isExpanded == true,
-              let regionPlaces = regionsPlaces[region] else {
-                return 0
-        }
-
-        switch list {
-        case .whss:
-            let regionCountries = countries[region] ?? []
-            var regionParents = 0
-            var regionChildren = 0
-            for country in regionCountries {
-                guard let isExpanded = countriesExpanded[region]?[country],
-                      isExpanded == true,
-                      let parents = countriesPlaces[region]?[country] else {
-                        continue
-                }
-                regionParents += parents.count
-                let families = countriesFamilies[region]?[country] ?? [:]
-                regionChildren += families.count
-            }
-            return regionCountries.count + regionParents + regionChildren
-        case .locations:
-            let regionCountries = countries[region] ?? []
-            var regionChildren = 0
-            for country in regionCountries {
-                guard let isExpanded = countriesExpanded[region]?[country],
-                      isExpanded == true,
-                      let countryPlaces = countriesPlaces[region]?[country] else {
-                    continue
-                }
-                if let place = countryPlaces.first, place.placeIsCountry {
-                    continue
-                }
-                regionChildren += countryPlaces.count
-            }
-            return regionCountries.count + regionChildren
+        switch (section, showsInfo) {
+        case (infoSection, true):
+            return 0
+        case (_, true):
+            return numberOfItems(section: section - 1)
         default:
-            return regionPlaces.count
+            return numberOfItems(section: section)
         }
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let (identifier, place, group) = model(of: indexPath)
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: identifier,
-            for: indexPath)
-        let itemCount = numberOfItems(section: indexPath.section)
-        let isLast = indexPath.row == itemCount - 1
-
-        switch cell {
-        case let counter as CountCellItem:
-            guard let place = place else { break }
-            let model = CountItemModel(
-                title: place.placeTitle,
-                subtitle: list.isSubtitled ? place.placeCountry : "",
-                list: list,
-                id: place.placeId,
-                parentId: place.placeParent?.placeId,
-                isVisitable: isEditable,
-                isLast: isLast,
-                isCombined: list == .locations && place.placeIsCountry
-            )
-            counter.set(model: model)
-        case let grouper as CountCellGroup:
-            guard let group = group else { break }
-            grouper.delegate = self
-            let expanded = countriesExpanded[group.region]?[group.country] ?? false
-            let model = CountGroupModel(
-                region: group.region,
-                country: group.country,
-                visited: isEditable ? group.visited : nil,
-                count: group.count,
-                disclose: expanded ? .close : .expand,
-                isLast: isLast
-            )
-            grouper.set(model: model)
-        default:
-            break
+        let modelPath: IndexPath
+        if showsInfo {
+            modelPath = IndexPath(row: indexPath.row,
+                                  section: indexPath.section - 1)
+        } else {
+            modelPath = indexPath
         }
 
-        return cell
+        return cell(at: indexPath,
+                    model: modelPath)
     }
 }
 
@@ -301,7 +236,139 @@ extension CountsPageVC: CountCellGroupDelegate {
 private extension CountsPageVC {
 
     typealias GroupModel = (region: String, country: String, count: Int, visited: Int)
-    typealias CellModel = (String, PlaceInfo?, GroupModel?)
+    typealias CellModel = (identifier: String, place: PlaceInfo?, group: GroupModel?)
+
+    func infoHeader(at indexPath: IndexPath) -> UICollectionReusableView {
+        let view = collectionView.dequeueReusableSupplementaryView(
+            ofKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: CountInfoHeader.reuseIdentifier,
+            for: indexPath)
+
+        if let header = view as? CountInfoHeader {
+             header.set(list: list)
+        }
+
+        return view
+    }
+
+    func countHeader(at viewPath: IndexPath,
+                     model modelPath: IndexPath) -> UICollectionReusableView {
+        let view = collectionView.dequeueReusableSupplementaryView(
+            ofKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: CountSectionHeader.reuseIdentifier,
+            for: viewPath)
+
+        if let header = view as? CountSectionHeader {
+            header.delegate = self
+            let region = regions[modelPath.section]
+
+            let count: Int
+            switch list {
+            case .whss:
+                let parents = countriesPlaces[region]?.values.flatMap { $0 }.map { $0.placeId }
+                count = Set<Int>(parents ?? []).count
+            default:
+                count = regionsPlaces[region]?.count ?? 0
+            }
+
+            let model = CountSectionModel(
+                region: region,
+                visited: isEditable ? regionsVisited[region, default: 0] : nil,
+                count: count,
+                isExpanded: regionsExpanded[region, default: false]
+            )
+            header.set(model: model)
+        }
+
+        return view
+    }
+
+    func cell(at viewPath: IndexPath,
+              model modelPath: IndexPath) -> UICollectionViewCell {
+        let cellModel = model(of: modelPath)
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: cellModel.identifier,
+            for: viewPath)
+        let itemCount = numberOfItems(section: modelPath.section)
+        let isLast = modelPath.row == itemCount - 1
+
+        switch cell {
+        case let counter as CountCellItem:
+            guard let place = cellModel.place else { break }
+            let model = CountItemModel(
+                title: place.placeTitle,
+                subtitle: list.isSubtitled ? place.placeCountry : "",
+                list: list,
+                id: place.placeId,
+                parentId: place.placeParent?.placeId,
+                isVisitable: isEditable,
+                isLast: isLast,
+                isCombined: list == .locations && place.placeIsCountry
+            )
+            counter.set(model: model)
+        case let grouper as CountCellGroup:
+            guard let group = cellModel.group else { break }
+            grouper.delegate = self
+            let expanded = countriesExpanded[group.region]?[group.country] ?? false
+            let model = CountGroupModel(
+                region: group.region,
+                country: group.country,
+                visited: isEditable ? group.visited : nil,
+                count: group.count,
+                disclose: expanded ? .close : .expand,
+                isLast: isLast
+            )
+            grouper.set(model: model)
+        default:
+            break
+        }
+
+        return cell
+    }
+
+    func numberOfItems(section: Int) -> Int {
+        let region = regions[section]
+        guard let isExpanded = regionsExpanded[region],
+            isExpanded == true,
+            let regionPlaces = regionsPlaces[region] else {
+                return 0
+        }
+
+        switch list {
+        case .whss:
+            let regionCountries = countries[region] ?? []
+            var regionParents = 0
+            var regionChildren = 0
+            for country in regionCountries {
+                guard let isExpanded = countriesExpanded[region]?[country],
+                    isExpanded == true,
+                    let parents = countriesPlaces[region]?[country] else {
+                        continue
+                }
+                regionParents += parents.count
+                let families = countriesFamilies[region]?[country] ?? [:]
+                regionChildren += families.values.reduce(0) { $0 + $1.count }
+            }
+            return regionCountries.count + regionParents + regionChildren
+        case .locations:
+            let regionCountries = countries[region] ?? []
+            var regionChildren = 0
+            for country in regionCountries {
+                guard let isExpanded = countriesExpanded[region]?[country],
+                    isExpanded == true,
+                    let countryPlaces = countriesPlaces[region]?[country] else {
+                        continue
+                }
+                if let place = countryPlaces.first, place.placeIsCountry {
+                    continue
+                }
+                regionChildren += countryPlaces.count
+            }
+            return regionCountries.count + regionChildren
+        default:
+            return regionPlaces.count
+        }
+    }
 
     func model(of indexPath: IndexPath) -> CellModel {
         switch list {
@@ -397,7 +464,7 @@ private extension CountsPageVC {
         countriesVisited = [:]
 
         regionsPlaces = Dictionary(grouping: places) { $0.placeRegion }
-        regions = regionsPlaces.keys.filter { $0 != Location.all.regionName }.sorted()
+        regions = regionsPlaces.keys.filter { $0 != Location.all.placeRegion }.sorted()
         for (region, places) in regionsPlaces {
             count(region: region,
                   places: places,

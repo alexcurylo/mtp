@@ -13,6 +13,7 @@ struct Note {
         case congratulate
         case error
         case information
+        case question
         case success
         case visit
 
@@ -27,16 +28,17 @@ struct Note {
             case .congratulate: return .high
             case .error: return .max
             case .information: return .normal
+            case .question: return .high
             case .success: return .high
             case .visit: return .min
             }
         }
     }
 
-    enum Info: String {
+    enum ChecklistItemInfo: String {
 
-        case id
         case list
+        case id
 
         var key: String { return rawValue }
     }
@@ -52,13 +54,14 @@ protocol NotificationService {
 
     func authorizeNotifications(then: @escaping (Bool) -> Void)
 
+    func ask(question: String,
+             then: @escaping (Bool) -> Void)
+
     func checkTriggered()
-    func notify(list: Checklist,
-                id: Int)
-    func notify(list: Checklist,
-                info: PlaceInfo)
-    func congratulate(list: Checklist,
-                      id: Int)
+    func notify(mappable: Mappable,
+                triggered: Date)
+    func congratulate(item: Checklist.Item)
+    func congratulate(mappable: Mappable)
 
     func infoBackground(title: String?,
                         body: String?)
@@ -82,12 +85,6 @@ protocol NotificationService {
 }
 
 extension NotificationService {
-
-    func notify(list: Checklist, id: Int) {
-        if let info = list.place(id: id) {
-            notify(list: list, info: info)
-        }
-    }
 
     func infoBackground(title: String?,
                         body: String?) {
@@ -115,10 +112,11 @@ extension NotificationService {
 
 final class NotificationServiceImpl: NotificationService, ServiceProvider {
 
-    private var notifying: PlaceInfo?
-    private var congratulating: PlaceAnnotation?
+    private var notifying: Mappable?
+    private var congratulating: Mappable?
     private var showingModal = false
     private var alerting = false
+    private var asking = false
 
     private var center: UNUserNotificationCenter {
         return UNUserNotificationCenter.current()
@@ -168,37 +166,53 @@ final class NotificationServiceImpl: NotificationService, ServiceProvider {
         center.add(request)
     }
 
-    func notify(list: Checklist, info: PlaceInfo) {
-        notifyForeground(list: list, info: info)
-        notifyBackground(list: list, info: info)
+    func ask(question: String,
+             then: @escaping (Bool) -> Void) {
+        askForeground(question: question, then: then)
     }
 
-    func congratulate(list: Checklist, id: Int) {
-        guard let annotation = loc.annotations(list: list)
-                                  .first(where: { $0.id == id }),
-              let note = congratulations(for: annotation) else { return }
-
-        congratulate(annotation: annotation, note: note)
+    func notify(mappable: Mappable,
+                triggered: Date) {
+        notifyForeground(mappable: mappable, triggered: triggered)
+        notifyBackground(mappable: mappable, triggered: triggered)
     }
 
-    func congratulate(annotation: PlaceAnnotation, note: Note) {
-        congratulateForeground(annotation: annotation, note: note)
+    func congratulate(item: Checklist.Item) {
+        guard let mappable = data.get(mappable: item) else { return }
+
+        congratulate(mappable: mappable)
+    }
+
+    func congratulate(mappable: Mappable) {
+        guard let note = congratulations(for: mappable) else { return }
+
+        congratulate(mappable: mappable, note: note)
+    }
+
+    func congratulate(mappable: Mappable, note: Note) {
+        congratulateForeground(mappable: mappable, note: note)
         congratulateBackground(note: note)
     }
 
     func checkTriggered() {
-        let triggered = data.triggered
-        for list in Checklist.allCases {
-            let listed = triggered?[list] ?? []
-            for next in listed {
-                if list.isVisited(id: next) ||
-                   list.isDismissed(id: next) {
-                    list.set(triggered: false, id: next)
-                } else {
-                    notify(list: list, id: next)
-                    return
-                }
+        let dismissed = data.dismissed ?? Timestamps()
+        let visited = data.visited ?? Checked()
+        var triggered = data.triggered ?? Timestamps()
+        var changed = false
+        for (key, value) in triggered {
+            let item = key.item
+            if visited[item.list].contains(item.id) ||
+               dismissed.isStamped(item: item) {
+                triggered.set(key: key, stamped: false)
+                changed = true
+                break
+            } else if let mappable = data.get(mappable: item) {
+                notify(mappable: mappable, triggered: value)
+                break
             }
+        }
+        if changed {
+            data.triggered = triggered
         }
     }
 
@@ -214,34 +228,52 @@ final class NotificationServiceImpl: NotificationService, ServiceProvider {
 
 private extension NotificationServiceImpl {
 
-    func notifyBackground(list: Checklist,
-                          info: PlaceInfo) {
+    func notifyBackground(mappable: Mappable,
+                          triggered: Date) {
         background {
-            self.postVisit(list: list,
-                           info: info)
+            self.postVisit(mappable: mappable,
+                           triggered: triggered)
         }
     }
 
-    func postVisit(list: Checklist,
-                   info: PlaceInfo) {
-        guard !list.isNotified(id: info.placeId) else { return }
+    func checkinStrings(mappable: Mappable,
+                        triggered: Date) -> (String, String) {
+        let title = L.checkinTitle(mappable.checklist.category(full: true))
 
-        list.set(notified: true, id: info.placeId)
-
-        let title = L.checkinTitle(list.category(full: true))
+        let name = mappable.title
         let body: String
-        switch list {
-        case .locations:
-            body = L.checkinInside(info.placeTitle)
-        default:
-            body = L.checkinNear(info.placeTitle)
+        switch (mappable.checklist, mappable.isHere) {
+        case (.locations, true):
+            body = L.checkinInsideNow(name)
+        case (.locations, false):
+            let when = triggered.toStringWithRelativeTime()
+            body = L.checkinInsidePast(name, when)
+        case (_, true):
+            body = L.checkinNearNow(name)
+        case (_, false):
+            let when = triggered.toStringWithRelativeTime()
+            body = L.checkinInsidePast(name, when)
         }
-        let info: NotificationService.Info = [
-            Note.Info.list.key: list.rawValue,
-            Note.Info.id.key: info.placeId
+
+        return (title, body)
+    }
+
+    func postVisit(mappable: Mappable,
+                   triggered: Date) {
+        let list = mappable.checklist
+        let id = mappable.checklistId
+        guard !list.isNotified(id: id) else { return }
+
+        list.set(notified: true, id: id)
+
+        let (title, body) = checkinStrings(mappable: mappable,
+                                           triggered: triggered)
+        let noteInfo: NotificationService.Info = [
+            Note.ChecklistItemInfo.list.key: list.rawValue,
+            Note.ChecklistItemInfo.id.key: id
         ]
 
-        visitBackground(title: title, body: body, info: info)
+        visitBackground(title: title, body: body, info: noteInfo)
     }
 
     func congratulateBackground(note: Note) {
@@ -265,30 +297,80 @@ private extension NotificationServiceImpl {
 
     var canNotifyForeground: Bool {
         return UIApplication.shared.isForeground &&
-               showingModal == false &&
                alerting == false &&
+               asking == false &&
+               congratulating == nil &&
                notifying == nil &&
-               congratulating == nil
+               showingModal == false
     }
 
     // swiftlint:disable:next function_body_length
-    func notifyForeground(list: Checklist,
-                          info: PlaceInfo) {
+    func askForeground(question: String,
+                       then: @escaping (Bool) -> Void) {
+        asking = true
+        let simpleMessage = notifyMessage(contentTitle: question,
+                                          contentMessage: "")
+
+        // No
+        let buttonFont = Avenir.heavy.of(size: 16)
+        let noColor = UIColor(rgb: 0xD0021B)
+        let noButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: noColor)
+        let noButtonLabel = EKProperty.LabelContent(
+            text: L.no(),
+            style: noButtonLabelStyle)
+        let noButton = EKProperty.ButtonContent(
+            label: noButtonLabel,
+            backgroundColor: .clear,
+            highlightedBackgroundColor: noColor.withAlphaComponent(0.05)) {
+                SwiftEntryKit.dismiss {
+                    self.asking = false
+                    then(false)
+                }
+        }
+
+        // Yes
+        let yesColor = UIColor(rgb: 0x028DFF)
+        let yesButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: yesColor)
+        let yesButtonLabel = EKProperty.LabelContent(
+            text: L.yes(),
+            style: yesButtonLabelStyle)
+        let yesButton = EKProperty.ButtonContent(
+            label: yesButtonLabel,
+            backgroundColor: .clear,
+            highlightedBackgroundColor: yesColor.withAlphaComponent(0.05)) {
+                SwiftEntryKit.dismiss {
+                    self.asking = false
+                    then(true)
+                }
+        }
+        let grayLight = UIColor(white: 230.0 / 255.0, alpha: 1)
+        let buttonsBarContent = EKProperty.ButtonBarContent(
+            // swiftlint:disable:next multiline_arguments
+            with: noButton, yesButton,
+            separatorColor: grayLight,
+            buttonHeight: 60,
+            expandAnimatedly: true)
+
+        // Generate
+        let alertMessage = EKAlertMessage(
+            simpleMessage: simpleMessage,
+            imagePosition: .left,
+            buttonBarContent: buttonsBarContent)
+        let contentView = EKAlertMessageView(with: alertMessage)
+        SwiftEntryKit.display(entry: contentView,
+                              using: EKAttributes(note: .question))
+    }
+
+    // swiftlint:disable:next function_body_length
+    func notifyForeground(mappable: Mappable,
+                          triggered: Date) {
         guard canNotifyForeground else { return }
 
-        notifying = info
-
-        let visitId = info.placeId
-        let contentTitle = L.checkinTitle(list.category(full: true))
-        let contentMessage: String
-        switch list {
-        case .locations:
-            contentMessage = L.checkinInside(info.placeTitle)
-        default:
-            contentMessage = L.checkinNear(info.placeTitle)
-        }
-        let simpleMessage = notifyMessage(contentTitle: contentTitle,
-                                          contentMessage: contentMessage)
+        notifying = mappable
+        let (title, body) = checkinStrings(mappable: mappable,
+                                           triggered: triggered)
+        let simpleMessage = notifyMessage(contentTitle: title,
+                                          contentMessage: body)
 
         // Dismiss
         let buttonFont = Avenir.heavy.of(size: 16)
@@ -300,8 +382,8 @@ private extension NotificationServiceImpl {
         let closeButton = EKProperty.ButtonContent(
             label: closeButtonLabel,
             backgroundColor: .clear,
-            highlightedBackgroundColor: dismissColor.withAlphaComponent(0.05)) { [list, visitId] in
-                list.set(dismissed: true, id: visitId)
+            highlightedBackgroundColor: dismissColor.withAlphaComponent(0.05)) { [mappable] in
+                mappable.isDismissed = true
                 SwiftEntryKit.dismiss {
                     self.notifying = nil
                     self.checkTriggered()
@@ -317,11 +399,11 @@ private extension NotificationServiceImpl {
         let okButton = EKProperty.ButtonContent(
             label: okButtonLabel,
             backgroundColor: .clear,
-            highlightedBackgroundColor: checkinColor.withAlphaComponent(0.05)) { [list, visitId] in
-                list.set(visited: true, id: visitId)
+            highlightedBackgroundColor: checkinColor.withAlphaComponent(0.05)) { [mappable] in
+                mappable.isVisited = true
                 SwiftEntryKit.dismiss {
                     self.notifying = nil
-                    self.congratulate(list: list, id: visitId)
+                    self.congratulate(item: mappable.item)
                 }
         }
         let grayLight = UIColor(white: 230.0 / 255.0, alpha: 1)
@@ -342,11 +424,11 @@ private extension NotificationServiceImpl {
                               using: EKAttributes(note: .visit))
     }
 
-    func congratulateForeground(annotation: PlaceAnnotation, note: Note) {
+    func congratulateForeground(mappable: Mappable, note: Note) {
         guard canNotifyForeground else { return }
 
-        congratulating = annotation
-        app.route(to: annotation)
+        congratulating = mappable
+        app.route(to: mappable)
 
         alert(foreground: note) {
             self.congratulating = nil
@@ -393,19 +475,19 @@ private extension NotificationServiceImpl {
                               using: EKAttributes(note: note.category))
     }
 
-    func congratulations(for annotation: PlaceAnnotation) -> Note? {
+    func congratulations(for mappable: Mappable) -> Note? {
         guard let user = data.user else { return nil }
-        let title = L.congratulations(annotation.name)
+        let title = L.congratulations(mappable.title)
 
-        let (single, plural) = annotation.list.names(full: true)
-        let (visited, remaining) = annotation.list.status(of: user)
+        let (single, plural) = mappable.checklist.names(full: true)
+        let (visited, remaining) = mappable.checklist.status(of: user)
         let contentVisited = L.status(visited, plural, remaining)
 
-        let contentMilestone = annotation.list.milestone(visited: visited)
+        let contentMilestone = mappable.checklist.milestone(visited: visited)
 
         let contentNearest: String
         if remaining > 0,
-            let place = annotation.nearest?.name {
+            let place = mappable.nearest?.title {
             contentNearest = L.nearest(single, place)
         } else {
             contentNearest = ""

@@ -180,22 +180,22 @@ extension PhotoJSON: CustomDebugStringConvertible {
 @objcMembers final class Photo: Object {
 
     dynamic var desc: String = ""
-    dynamic var id: Int = 0
     dynamic var locationId: Int = 0
+    dynamic var photoId: Int = 0
     dynamic var updatedAt = Date()
     dynamic var userId: Int = 0
     dynamic var uuid: String = ""
 
     override static func primaryKey() -> String? {
-        return "id"
+        return "photoId"
     }
 
     convenience init(from: PhotoJSON) {
         self.init()
 
         desc = from.desc ?? ""
-        id = from.id
         locationId = from.locationId ?? 0
+        photoId = from.id
         updatedAt = from.updatedAt
         userId = from.userId
         uuid = from.uuid
@@ -205,8 +205,8 @@ extension PhotoJSON: CustomDebugStringConvertible {
         self.init()
 
         desc = from.desc ?? ""
-        id = from.id
         locationId = from.locationId ?? 0
+        photoId = from.id
         userId = from.userId
         uuid = from.uuid
     }
@@ -215,5 +215,15 @@ extension PhotoJSON: CustomDebugStringConvertible {
         guard !uuid.isEmpty else { return nil }
         let target = MTP.picture(uuid: uuid, size: .any)
         return target.requestUrl
+    }
+
+    var attributedTitle: NSAttributedString? {
+        guard !desc.isEmpty else { return nil }
+        let attributes = NSAttributedString.attributes(
+            color: .white,
+            font: Avenir.heavy.of(size: 16)
+        )
+        return NSAttributedString(string: desc,
+                                  attributes: attributes)
     }
 }

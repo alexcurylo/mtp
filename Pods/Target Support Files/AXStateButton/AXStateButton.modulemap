@@ -1,0 +1,6 @@
+module AXStateButton {
+  umbrella header "AXStateButton-umbrella.h"
+
+  export *
+  module * { export * }
+}

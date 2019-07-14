@@ -51,7 +51,7 @@ final class ProfilePhotosVC: PhotosVC {
         switch segue.identifier {
         case Segues.addPhoto.identifier:
             if let add = Segues.addPhoto(segue: segue)?.destination {
-                add.inject(model: (place: nil, delegate: self))
+                add.inject(model: (mappable: nil, delegate: self))
             }
         case Segues.cancelChoose.identifier:
             break
@@ -88,7 +88,7 @@ private extension ProfilePhotosVC {
                 self?.loaded()
             }
         } else if let user = user {
-            mtp.loadPhotos(profile: user.id,
+            mtp.loadPhotos(profile: user.userId,
                            page: page,
                            reload: reload) { [weak self] _ in
                 self?.loaded()
@@ -99,7 +99,7 @@ private extension ProfilePhotosVC {
     func update() {
         guard let user = user else { return }
 
-        let pages = data.getPhotosPages(user: user.id)
+        let pages = data.getPhotosPages(user: user.userId)
         photosPages = pages
         collectionView.reloadData()
 
@@ -131,7 +131,7 @@ extension ProfilePhotosVC: UserInjectable {
 
     @discardableResult func inject(model: Model) -> Self {
         user = model
-        isSelf = model.id == data.user?.id
+        isSelf = model.userId == data.user?.id
 
         refresh(page: 1, reload: false)
 

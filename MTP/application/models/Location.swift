@@ -4,6 +4,7 @@ import CoreLocation
 import RealmSwift
 
 enum AdminLevel: Int {
+    case unknown = 0
     case country = 2
     case location = 4
 }
@@ -40,7 +41,7 @@ extension LocationJSON: CustomStringConvertible {
         if !countryName.isEmpty
            && !locationName.isEmpty
            && countryName != locationName {
-            return "\(locationName), \(countryName)"
+            return L.locationDescription(locationName, countryName)
         }
         return locationName.isEmpty ? countryName : locationName
     }
@@ -78,67 +79,77 @@ extension LocationJSON: CustomDebugStringConvertible {
     }
 }
 
-@objcMembers final class Location: Object, ServiceProvider {
+@objcMembers final class Location: Object, PlaceMappable, ServiceProvider {
 
+    dynamic var map: Mappable?
+
+    dynamic var adminLevel: AdminLevel = .unknown
     dynamic var airports: String = ""
     dynamic var countryId: Int = 0
-    dynamic var countryName: String = ""
-    dynamic var featuredImg: String?
-    dynamic var id: Int = 0
-    dynamic var lat: Double = 0
-    dynamic var locationName: String = ""
-    dynamic var lon: Double = 0
-    dynamic var placeVisitors: Int = 0
+    dynamic var placeCountry: String = ""
+    dynamic var placeId: Int = 0
+    dynamic var placeRegion: String = ""
+    dynamic var placeTitle: String = ""
     dynamic var rank: Int = 0
     dynamic var rankUn: Int = 0
-    dynamic var regionName: String = ""
     dynamic var weatherhist: String = ""
 
     override static func primaryKey() -> String? {
-        return "id"
+        return "placeId"
     }
 
     convenience init?(from: LocationJSON) {
-        guard from.active == "Y" else {
-            return nil
-        }
+        guard from.active == "Y",
+              let country = from.countryId,
+              country > 0 else { return nil }
         self.init()
 
-        guard let country = from.countryId, country > 0 else {
-            log.warning("Unexpected \(from.countryName) countryId: \(String(describing: from.countryId))")
-            return nil
-        }
+        adminLevel = AdminLevel(rawValue: from.adminLevel) ?? .unknown
+        let subtitle = isCountry ? from.regionName : from.countryName
+        let website = "https://mtp.travel/locations/\(from.id)"
+        map = Mappable(checklist: .locations,
+                       checklistId: from.id,
+                       country: from.locationName,
+                       image: from.featuredImg ?? "",
+                       latitude: from.lat ?? 0,
+                       location: self,
+                       longitude: from.lon ?? 0,
+                       region: from.regionName,
+                       subtitle: subtitle,
+                       title: from.locationName,
+                       visitors: from.visitors,
+                       website: website)
 
         airports = from.airports ?? ""
         countryId = country
-        countryName = from.countryName
-        featuredImg = from.featuredImg
-        id = from.id
-        lat = from.lat ?? 0
-        locationName = from.locationName
-        lon = from.lon ?? 0
-        placeVisitors = from.visitors
+        placeCountry = from.countryName
+        placeId = from.id
+        placeRegion = from.regionName
+        placeTitle = from.locationName
         rank = from.rank
         rankUn = from.rankUn
-        regionName = from.regionName
         weatherhist = from.weatherhist ?? ""
     }
 
     static var all: Location = {
         let all = Location()
-        all.countryName = "(\(L.allCountries()))"
-        all.locationName = "(\(L.allLocations()))"
-        all.regionName = "(\(L.allRegions()))"
+        all.placeCountry = L.allCountries()
+        all.placeRegion = L.allRegions()
         return all
     }()
 
     override var description: String {
-        if !countryName.isEmpty
-           && !locationName.isEmpty
-           && countryName != locationName {
-            return L.locationDescription(locationName, countryName)
+        guard map != nil else {
+            return L.allLocations()
         }
-        return locationName.isEmpty ? countryName : locationName
+
+        let placeName = placeTitle
+        if !placeCountry.isEmpty
+           && !placeName.isEmpty
+           && placeCountry != placeName {
+            return L.locationDescription(placeName, placeCountry)
+        }
+        return placeName.isEmpty ? placeCountry : placeName
     }
 
     override func isEqual(_ object: Any?) -> Bool {
@@ -146,39 +157,17 @@ extension LocationJSON: CustomDebugStringConvertible {
         guard !isSameObject(as: other) else { return true }
 
         return countryId == other.countryId &&
-               countryName == other.countryName &&
-               featuredImg == other.featuredImg &&
-               id == other.id &&
-               lat == other.lat &&
-               locationName == other.locationName &&
-               lon == other.lon &&
-               regionName == other.regionName
+               placeCountry == other.placeCountry &&
+               placeId == other.placeId &&
+               placeRegion == other.placeRegion &&
+               placeTitle == other.placeTitle
     }
 }
 
 extension Location: PlaceInfo {
 
-    var placeCoordinate: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(
-            latitude: lat,
-            longitude: lon
-        )
-    }
-
-    var placeCountry: String {
-        return countryName
-    }
-
     var placeCountryId: Int {
         return countryId
-    }
-
-    var placeId: Int {
-        return id
-    }
-
-    var placeImage: String {
-        return featuredImg ?? ""
     }
 
     var placeLocation: Location? {
@@ -186,54 +175,47 @@ extension Location: PlaceInfo {
     }
 
     var placeIsMappable: Bool {
-        return id != 0
-    }
-
-    var placeRegion: String {
-        return regionName
-    }
-
-    var placeTitle: String {
-        return locationName
+        return placeId != 0
     }
 
     var placeSubtitle: String {
-        return isCountry ? "" : countryName
+        return map?.subtitle ?? ""
+    }
+
+    enum Inexpandibles: Int {
+        case netherlandsMainland = 301
+        case portugalMainland = 305
+        case turkishThrace = 325
     }
 
     var placeIsCountry: Bool {
-        switch id {
-        case 301, // Netherlands (mainland)
-             305, // Portugal (mainland)
-             325: // Turkish Thrace (Turkey in Europe)
+        switch placeId {
+        case Inexpandibles.netherlandsMainland.rawValue,
+             Inexpandibles.portugalMainland.rawValue,
+             Inexpandibles.turkishThrace.rawValue:
             return true
         default:
             return isCountry
         }
     }
-
-    var placeWebUrl: URL? {
-        let link = "https://mtp.travel/locations/\(id)"
-        return URL(string: link)
-    }
 }
 
 extension Location {
 
-    var imageUrl: URL? {
-        guard let uuid = featuredImg, !uuid.isEmpty else { return nil }
-        let target = MTP.picture(uuid: uuid, size: .any)
-        return target.requestUrl
+    var flagUrl: URL? {
+        let link = "https://mtp.travel/flags/\(countryId)"
+        return URL(string: link)
     }
 
     var isCountry: Bool {
         return adminLevel == .country
     }
 
-    var adminLevel: AdminLevel {
-        if countryId == id {
-            return .country
-        }
-        return .location
+    var latitude: CLLocationDegrees {
+        return map?.latitude ?? 0
+    }
+
+    var longitude: CLLocationDegrees {
+        return map?.longitude ?? 0
     }
 }

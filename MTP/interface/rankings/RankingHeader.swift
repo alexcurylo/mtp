@@ -2,6 +2,11 @@
 
 import Anchorage
 
+protocol RankingHeaderDelegate: AnyObject {
+
+    func tapped(header: RankingHeader)
+}
+
 final class RankingHeader: UICollectionReusableView, ServiceProvider {
 
     static let reuseIdentifier = NSStringFromClass(RankingHeader.self)
@@ -46,6 +51,8 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
 
     private var lines: UIStackView?
 
+    private weak var delegate: RankingHeaderDelegate?
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -59,7 +66,10 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
 
     func set(rank: Int?,
              list: Checklist,
-             filter: String) {
+             filter: String,
+             delegate: RankingHeaderDelegate) {
+        self.delegate = delegate
+
         filterLabel.text = filter
 
         guard let user = data.user else {
@@ -89,6 +99,7 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
     override func prepareForReuse() {
         super.prepareForReuse()
 
+        delegate = nil
         avatarImageView.prepareForReuse()
         rankLabel.text = nil
         filterLabel.text = nil
@@ -134,5 +145,13 @@ private extension RankingHeader {
         addSubview(stack)
         stack.edgeAnchors == edgeAnchors + Layout.insets
         lines = stack
+
+        let tap = UITapGestureRecognizer(target: self,
+                                         action: #selector(tapped))
+        addGestureRecognizer(tap)
+    }
+
+    @objc func tapped(_ sender: UIGestureRecognizer) {
+        delegate?.tapped(header: self)
     }
 }

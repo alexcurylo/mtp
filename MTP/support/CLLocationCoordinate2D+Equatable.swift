@@ -85,25 +85,28 @@ struct ClusterRegion {
         return max(latitudeDelta, longitudeDelta)
     }
 
-    init(cluster: MKClusterAnnotation) {
-        if let first = cluster.memberAnnotations.first?.coordinate {
+    init(coordinates: [CLLocationCoordinate2D]) {
+        if let first = coordinates.first {
             left = first.longitude
             top = first.latitude
             right = first.longitude
             bottom = first.latitude
         }
-        for next in cluster.memberAnnotations.dropFirst() {
-            left = min(left, next.coordinate.longitude)
-            top = min(top, next.coordinate.latitude)
-            right = max(right, next.coordinate.longitude)
-            bottom = max(bottom, next.coordinate.latitude)
+        for next in coordinates.dropFirst() {
+            left = min(left, next.longitude)
+            top = min(top, next.latitude)
+            right = max(right, next.longitude)
+            bottom = max(bottom, next.latitude)
         }
     }
-}
 
-extension MKClusterAnnotation {
+    init(cluster: MKClusterAnnotation) {
+        let coordinates = cluster.memberAnnotations.map { $0.coordinate }
+        self.init(coordinates: coordinates)
+    }
 
-    var region: ClusterRegion {
-        return ClusterRegion(cluster: self)
+    init(mappables: MappablesAnnotation) {
+        let coordinates = mappables.mappables.map { $0.coordinate }
+        self.init(coordinates: coordinates)
     }
 }

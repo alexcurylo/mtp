@@ -108,37 +108,37 @@ private extension LocationSearchVC {
     func configureSearch() {
         switch list {
         case .countries, .countryOrNot:
-            searchPropertyKeyPath = "countryName"
-            sortPropertyKey = "countryName"
+            searchPropertyKeyPath = "placeCountry"
+            sortPropertyKey = "placeCountry"
             entityName = "Country"
             basePredicate = nil
 
             title = L.selectCountry()
         case .country:
-            searchPropertyKeyPath = "countryName"
-            sortPropertyKey = "countryName"
+            searchPropertyKeyPath = "placeCountry"
+            sortPropertyKey = "placeCountry"
             entityName = "Country"
             basePredicate = NSPredicate(format: "countryId > 0")
 
             title = L.selectCountry()
         case let .location(country?):
             entityName = "Location"
-            searchPropertyKeyPath = "locationName"
-            sortPropertyKey = "locationName"
+            searchPropertyKeyPath = "placeTitle"
+            sortPropertyKey = "placeTitle"
             basePredicate = NSPredicate(format: "countryId = \(country)")
 
             title = L.selectLocation()
         case .location:
             entityName = "Location"
-            searchPropertyKeyPath = "locationName"
-            sortPropertyKey = "locationName"
+            searchPropertyKeyPath = "placeTitle"
+            sortPropertyKey = "placeTitle"
             basePredicate = NSPredicate(format: "countryId > 0")
 
             title = L.selectLocation()
         case let .locations(country?):
             entityName = "Location"
-            searchPropertyKeyPath = "locationName"
-            sortPropertyKey = "locationName"
+            searchPropertyKeyPath = "placeTitle"
+            sortPropertyKey = "placeTitle"
             let isChild = NSPredicate(format: "countryId = \(country)")
             let isAll = NSPredicate(format: "countryId = 0")
             basePredicate = NSCompoundPredicate(
@@ -148,8 +148,8 @@ private extension LocationSearchVC {
             title = L.selectLocation()
         case .locations:
             entityName = "Location"
-            searchPropertyKeyPath = "locationName"
-            sortPropertyKey = "locationName"
+            searchPropertyKeyPath = "placeTitle"
+            sortPropertyKey = "placeTitle"
 
             title = L.selectLocation()
         }
@@ -180,13 +180,13 @@ final class LocationSearchTableViewCell: UITableViewCell {
              item: Object?) {
 
         var countryName: String? {
-            return (item as? Country)?.countryName
+            return (item as? Country)?.placeCountry
         }
 
         func named(orNot: String) -> String? {
             guard let country = item as? Country else { return nil }
             guard country.countryId > 0 else { return orNot }
-            return country.countryName
+            return country.placeCountry
         }
 
         let text: String?
@@ -199,7 +199,7 @@ final class LocationSearchTableViewCell: UITableViewCell {
             text = countryName
         case .location,
              .locations:
-            text = (item as? Location)?.locationName
+            text = (item as? Location)?.placeTitle
         }
         locationLabel?.text = text ?? L.unknown()
     }

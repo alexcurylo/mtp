@@ -12,27 +12,33 @@ enum PermissionTrigger {
     case dontAsk
 }
 
-protocol LocationService: ServiceProvider {
+typealias Distances = [String: CLLocationDistance]
+
+protocol LocationService: Mapper, ServiceProvider {
 
     var here: CLLocationCoordinate2D? { get }
+    var inside: Location? { get }
+    var distances: Distances { get }
 
+    func distance(to: Mappable) -> CLLocationDistance
     func nearest(list: Checklist,
                  id: Int,
-                 to coordinate: CLLocationCoordinate2D) -> PlaceAnnotation?
-
-    func annotations() -> Set<PlaceAnnotation>
-    func annotations(list: Checklist) -> Set<PlaceAnnotation>
-
-    func insert<T>(tracker: T) where T: LocationTracker, T: Hashable
-    func remove<T>(tracker: T) where T: LocationTracker, T: Hashable
+                 to coordinate: CLLocationCoordinate2D) -> Mappable?
 
     func request(permission: LocationPermission)
     func start(permission: LocationPermission)
+
+    func insert<T>(tracker: T) where T: LocationTracker, T: Hashable
+    func remove<T>(tracker: T) where T: LocationTracker, T: Hashable
 
     func inject(handler: LocationHandler)
 }
 
 extension LocationService {
+
+    func distance(to: Mappable) -> CLLocationDistance {
+        return distances[to.dbKey] ?? 0
+    }
 
     @discardableResult func start(tracker: LocationTracker?) -> CLAuthorizationStatus {
         let ask: PermissionTrigger = tracker == nil ? .dontAsk : .ask
@@ -75,26 +81,26 @@ final class LocationServiceImpl: LocationService {
     }
 
     var here: CLLocationCoordinate2D? {
-        return handler?.last?.coordinate ?? manager?.location?.coordinate
+        return handler?.lastCoordinate?.coordinate ?? manager?.location?.coordinate
     }
 
-    func annotations() -> Set<PlaceAnnotation> {
-        return handler?.annotations(list: nil) ?? []
+    var inside: Location? {
+        return data.get(location: handler?.lastInside)
     }
 
-    func annotations(list: Checklist) -> Set<PlaceAnnotation> {
-        return handler?.annotations(list: list) ?? []
+    var distances: Distances {
+        return handler?.distances ?? [:]
     }
 
     func nearest(list: Checklist,
                  id: Int,
-                 to coordinate: CLLocationCoordinate2D) -> PlaceAnnotation? {
+                 to coordinate: CLLocationCoordinate2D) -> Mappable? {
         var distance: CLLocationDistance = 99_999
         let visited = list.visited
-        var nearest: PlaceAnnotation?
-        for other in annotations(list: list) {
-            guard !visited.contains(other.id),
-                  other.id != id else { continue }
+        var nearest: Mappable?
+        for other in data.get(mappables: list) {
+            guard !visited.contains(other.checklistId),
+                  other.checklistId != id else { continue }
 
             let otherDistance = other.coordinate.distance(from: coordinate)
             if otherDistance < distance {
@@ -140,5 +146,30 @@ final class LocationServiceImpl: LocationService {
         case .whenInUse:
             manager.startUpdatingLocation()
         }
+    }
+}
+
+// MARK: - Mapper
+
+extension LocationServiceImpl: Mapper {
+
+    func close(mappable: Mappable) {
+        handler?.broadcast(mappable: mappable) { $0.close(mappable: $1) }
+    }
+
+    func notify(mappable: Mappable, triggered: Date) {
+        handler?.broadcast(mappable: mappable) { $0.notify(mappable: $1, triggered: triggered) }
+    }
+
+    func reveal(mappable: Mappable, callout: Bool) {
+        handler?.broadcast(mappable: mappable) { $0.reveal(mappable: $1, callout: callout) }
+    }
+
+    func show(mappable: Mappable) {
+        handler?.broadcast(mappable: mappable) { $0.show(mappable: $1) }
+    }
+
+    func update(mappable: Mappable) {
+        handler?.broadcast(mappable: mappable) { $0.update(mappable: $1) }
     }
 }

@@ -7,6 +7,140 @@
 		<dict>
 			<key>authors</key>
 			<dict>
+				<key>Adam Fish</key>
+				<string>af@realm.io</string>
+			</dict>
+			<key>description</key>
+			<string>&lt;p&gt;The ABFRealmMapView class creates an interface object that inherits MKMapView and manages fetching and displaying annotations for a Realm object class that contains coordinate data.&lt;/p&gt;
+</string>
+			<key>homepage</key>
+			<string>https://github.com/bigfish24/ABFRealmMapView</string>
+			<key>licenseText</key>
+			<string>The MIT License (MIT)
+
+Copyright (c) 2015 Adam Fish
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+</string>
+			<key>licenseType</key>
+			<string>MIT</string>
+			<key>name</key>
+			<string>ABFRealmMapView</string>
+			<key>socialMediaURL</key>
+			<string></string>
+			<key>summary</key>
+			<string>Drop-in clustering map interface for Realm objects</string>
+			<key>version</key>
+			<string>2.3</string>
+		</dict>
+		<dict>
+			<key>authors</key>
+			<dict>
+				<key>Alex Hill</key>
+				<string>alexhill.c@gmail.com</string>
+			</dict>
+			<key>description</key>
+			<string></string>
+			<key>homepage</key>
+			<string>https://github.com/alexhillc/AXPhotoViewer</string>
+			<key>licenseText</key>
+			<string>MIT License
+
+Copyright (c) 2017 Alex Hill
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+</string>
+			<key>licenseType</key>
+			<string>MIT</string>
+			<key>name</key>
+			<string>AXPhotoViewer</string>
+			<key>socialMediaURL</key>
+			<string></string>
+			<key>summary</key>
+			<string>An iOS/tvOS photo gallery viewer, useful for viewing a large number of photos.</string>
+			<key>version</key>
+			<string>1.7.1</string>
+		</dict>
+		<dict>
+			<key>authors</key>
+			<dict>
+				<key>Alex Hill</key>
+				<string>alexhill.c@gmail.com</string>
+			</dict>
+			<key>description</key>
+			<string></string>
+			<key>homepage</key>
+			<string>https://github.com/alexhillc/AXStateButton</string>
+			<key>licenseText</key>
+			<string>MIT License
+
+Copyright (c) 2017 Alex Hill
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+</string>
+			<key>licenseType</key>
+			<string>MIT</string>
+			<key>name</key>
+			<string>AXStateButton</string>
+			<key>socialMediaURL</key>
+			<string></string>
+			<key>summary</key>
+			<string>A simple UIButton subclass that allows for extensive button state customization.</string>
+			<key>version</key>
+			<string>1.1.4</string>
+		</dict>
+		<dict>
+			<key>authors</key>
+			<dict>
 				<key>Alamofire Software Foundation</key>
 				<string>info@alamofire.org</string>
 			</dict>
@@ -340,7 +474,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			<key>summary</key>
 			<string>Official Facebook SDK for iOS to access Facebook Platform core features</string>
 			<key>version</key>
-			<string>5.1.1</string>
+			<string>5.2.1</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -384,7 +518,60 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			<key>summary</key>
 			<string>Official Facebook SDK for iOS to access Facebook Platform with features like Login, Share and Message Dialog, App Links, and Graph API</string>
 			<key>version</key>
-			<string>5.1.1</string>
+			<string>5.2.1</string>
+		</dict>
+		<dict>
+			<key>authors</key>
+			<dict>
+				<key>Raphael Schaad</key>
+				<string>raphael.schaad@gmail.com</string>
+			</dict>
+			<key>description</key>
+			<string>&lt;ul&gt;
+&lt;li&gt;Plays multiple GIFs simultaneously with a playback speed comparable to desktop browsers&lt;/li&gt;
+&lt;li&gt;Honors variable frame delays&lt;/li&gt;
+&lt;li&gt;Behaves gracefully under memory pressure&lt;/li&gt;
+&lt;li&gt;Eliminates delays or blocking during the first playback loop&lt;/li&gt;
+&lt;li&gt;Interprets the frame delays of fast GIFs the same way modern browsers do&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;It&amp;#39;s a well-tested &lt;a href="http://engineering.flipboard.com/2014/05/animated-gif/"&gt;component that powers all GIFs in Flipboard&lt;/a&gt;.&lt;/p&gt;
+</string>
+			<key>homepage</key>
+			<string>https://github.com/Flipboard/FLAnimatedImage</string>
+			<key>licenseText</key>
+			<string>The MIT License (MIT)
+
+Copyright (c) 2014-2016 Flipboard
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+</string>
+			<key>licenseType</key>
+			<string>MIT</string>
+			<key>name</key>
+			<string>FLAnimatedImage</string>
+			<key>socialMediaURL</key>
+			<string>https://twitter.com/raphaelschaad</string>
+			<key>summary</key>
+			<string>Performant animated GIF engine for iOS</string>
+			<key>version</key>
+			<string>1.0.12</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -702,6 +889,51 @@ SOFTWARE.
 			<string>A powerful image loading and caching system</string>
 			<key>version</key>
 			<string>7.6.3</string>
+		</dict>
+		<dict>
+			<key>authors</key>
+			<dict>
+				<key>Alexander Grebenyuk</key>
+				<string></string>
+			</dict>
+			<key>description</key>
+			<string></string>
+			<key>homepage</key>
+			<string>https://github.com/kean/Nuke-Alamofire-Plugin</string>
+			<key>licenseText</key>
+			<string>The MIT License (MIT)
+
+Copyright (c) 2016 Alexander Grebenyuk
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+</string>
+			<key>licenseType</key>
+			<string>MIT</string>
+			<key>name</key>
+			<string>Nuke-Alamofire-Plugin</string>
+			<key>socialMediaURL</key>
+			<string>https://twitter.com/a_grebenyuk</string>
+			<key>summary</key>
+			<string>Alamofire plugin for Nuke - image loading and caching framework</string>
+			<key>version</key>
+			<string>4.2</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -1161,7 +1393,53 @@ regulations.
 			<key>summary</key>
 			<string>Realm is a modern data framework &amp; database for iOS, macOS, tvOS &amp; watchOS.</string>
 			<key>version</key>
-			<string>3.16.2</string>
+			<string>3.17.0</string>
+		</dict>
+		<dict>
+			<key>authors</key>
+			<dict>
+				<key>Adam Fish</key>
+				<string>af@realm.io</string>
+			</dict>
+			<key>description</key>
+			<string>&lt;p&gt;The RealmMapView class creates an interface object that inherits MKMapView and manages fetching and displaying annotations for a Realm Swift object class that contains coordinate data.&lt;/p&gt;
+</string>
+			<key>homepage</key>
+			<string>https://github.com/bigfish24/ABFRealmMapView</string>
+			<key>licenseText</key>
+			<string>The MIT License (MIT)
+
+Copyright (c) 2015 Adam Fish
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+</string>
+			<key>licenseType</key>
+			<string>MIT</string>
+			<key>name</key>
+			<string>RealmMapView</string>
+			<key>socialMediaURL</key>
+			<string></string>
+			<key>summary</key>
+			<string>Drop-in clustering map interface for Realm Swift objects</string>
+			<key>version</key>
+			<string>2.3</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -1435,7 +1713,7 @@ regulations.
 			<key>summary</key>
 			<string>Realm is a modern data framework &amp; database for iOS, macOS, tvOS &amp; watchOS.</string>
 			<key>version</key>
-			<string>3.16.2</string>
+			<string>3.17.0</string>
 		</dict>
 		<dict>
 			<key>authors</key>

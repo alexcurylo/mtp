@@ -219,6 +219,26 @@ extension UIColor {
          }
     }
 
+    static func urlButton(title: String,
+                          link: String) -> GradientButton {
+        let button = GradientButton {
+            $0.orientation = GradientOrientation.horizontal.rawValue
+            $0.startColor = .dodgerBlue
+            $0.endColor = .azureRadiance
+            $0.cornerRadius = 4
+            $0.contentEdgeInsets = UIEdgeInsets(
+                top: 8,
+                left: 16,
+                bottom: 8,
+                right: 16)
+
+            $0.setTitle(title, for: .normal)
+            $0.titleLabel?.font = Avenir.heavy.of(size: 13)
+            $0.accessibilityIdentifier = link
+        }
+        return button
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()

@@ -10,18 +10,19 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var beaches: [Beach] { get }
     var countries: [Country] { get }
     var divesites: [DiveSite] { get }
-    var dismissed: Checked? { get set }
+    var dismissed: Timestamps? { get set }
     var email: String { get set }
     var etags: [String: String] { get set }
     var golfcourses: [GolfCourse] { get }
     var lastRankingsQuery: RankingsQuery { get set }
     var locations: [Location] { get }
     var mapDisplay: ChecklistFlags { get set }
-    var notified: Checked? { get set }
+    var mappables: [Mappable] { get }
+    var notified: Timestamps? { get set }
     var restaurants: [Restaurant] { get }
     var settings: SettingsJSON? { get set }
     var token: String { get set }
-    var triggered: Checked? { get set }
+    var triggered: Timestamps? { get set }
     var uncountries: [UNCountry] { get }
     var user: UserJSON? { get set }
     var visited: Checked? { get set }
@@ -33,6 +34,9 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func get(locationPhotos id: Int) -> [Photo]
     func get(locationPosts id: Int) -> [Post]
     func get(locations filter: String) -> [Location]
+    func get(mappable item: Checklist.Item) -> Mappable?
+    func get(mappables list: Checklist) -> [Mappable]
+    func get(mappables matching: String) -> [Mappable]
     func getPhotosPages(user id: Int) -> Results<PhotosPageInfo>
     func get(photo: Int) -> Photo
     func getPosts(user id: Int) -> [Post]
@@ -44,7 +48,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func get(whs id: Int) -> WHS?
 
     func hasChildren(whs id: Int) -> Bool
-    func hasVisitedChildren(whs id: Int) -> Bool
+    func visitedChildren(whs id: Int) -> [WHS]
 
     func set(beaches: [PlaceJSON])
     func set(countries: [CountryJSON])
@@ -70,6 +74,8 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func set(whss: [WHSJSON])
 
     func deletePhotos(user id: Int)
+
+    func resolve(reference: Mappable.Reference) -> Mappable?
 }
 
 // MARK: - User state
@@ -152,7 +158,7 @@ final class DataServiceImpl: DataService {
         notify(change: .divesites)
     }
 
-    var dismissed: Checked? {
+    var dismissed: Timestamps? {
         get { return defaults.dismissed }
         set {
             defaults.dismissed = newValue
@@ -210,6 +216,22 @@ final class DataServiceImpl: DataService {
         return realm.locations(filter: filter)
     }
 
+    func get(mappable item: Checklist.Item) -> Mappable? {
+        return realm.mappable(item: item)
+    }
+
+    var mappables: [Mappable] {
+        return realm.mappables(list: nil)
+    }
+
+    func get(mappables list: Checklist) -> [Mappable] {
+        return realm.mappables(list: list)
+    }
+
+    func get(mappables matching: String) -> [Mappable] {
+        return realm.mappables(matching: matching)
+    }
+
     func set(locations: [LocationJSON]) {
         realm.set(locations: locations)
         notify(change: .locations)
@@ -222,7 +244,7 @@ final class DataServiceImpl: DataService {
         }
     }
 
-    var notified: Checked? {
+    var notified: Timestamps? {
         get { return defaults.notified }
         set {
             defaults.notified = newValue
@@ -335,7 +357,7 @@ final class DataServiceImpl: DataService {
         }
     }
 
-    var triggered: Checked? {
+    var triggered: Timestamps? {
         get { return defaults.triggered }
         set {
             defaults.triggered = newValue
@@ -383,19 +405,19 @@ final class DataServiceImpl: DataService {
         return realm.whs(id: id)
     }
 
-    func hasChildren(whs id: Int) -> Bool {
-        return !realm.whss.filter { $0.parentId == id }.isEmpty
+    func children(whs id: Int) -> [WHS] {
+        return realm.whss.filter { $0.parentId == id }
     }
 
-    func hasVisitedChildren(whs id: Int) -> Bool {
-        let children = realm.whss.filter { $0.parentId == id }
+    func hasChildren(whs id: Int) -> Bool {
+        return !children(whs: id).isEmpty
+    }
+
+    func visitedChildren(whs id: Int) -> [WHS] {
         let visits = visited?.whss ?? []
-        for child in children {
-            if visits.contains(child.id) {
-                return true
-            }
+        return children(whs: id).compactMap {
+            visits.contains($0.placeId) ? $0 : nil
         }
-        return false
     }
 
     func set(user data: UserJSON) {
@@ -413,6 +435,10 @@ final class DataServiceImpl: DataService {
     }
 
     var worldMap = WorldMap()
+
+    func resolve(reference: Mappable.Reference) -> Mappable? {
+        return realm.resolve(reference: reference)
+    }
 }
 
 // MARK: - Observable

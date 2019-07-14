@@ -33,6 +33,13 @@ extension DateFormatter {
         $0.locale = Locale(identifier: "en_US_POSIX")
     }
 
+    static let mtpLocalDay = DateFormatter {
+        $0.dateFormat = "yyyy-MM-dd"
+        $0.calendar = Calendar(identifier: .iso8601)
+        $0.timeZone = TimeZone.current
+        $0.locale = Locale(identifier: "en_US_POSIX")
+    }
+
     static let mtpTime = DateFormatter {
         $0.dateFormat = "yyyy-MM-dd HH:mm:ss"
         $0.calendar = Calendar(identifier: .iso8601)

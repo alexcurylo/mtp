@@ -42,9 +42,9 @@ final class MainTBC: UITabBarController, ServiceProvider {
         }
     }
 
-    func route(to annotation: PlaceAnnotation) {
+    func route(to mappable: Mappable) {
         dismiss(presentations: self)
-        locations?.reveal(place: annotation, callout: true)
+        locations?.reveal(mappable: mappable, callout: true)
         selectedIndex = Route.locations.rawValue
     }
 
@@ -52,6 +52,12 @@ final class MainTBC: UITabBarController, ServiceProvider {
         dismiss(presentations: self)
         locations?.reveal(user: user)
         selectedIndex = Route.locations.rawValue
+    }
+
+    func route(to route: Route) {
+        dismiss(presentations: self)
+        destination = route
+        checkDestination()
     }
 }
 

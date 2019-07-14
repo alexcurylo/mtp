@@ -86,7 +86,7 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         nameLabel.text = user.fullName
         countryLabel.text = user.locationName
 
-        guard user.id != 0 else {
+        guard user.userId != 0 else {
             nameLabel.text = L.loading()
             avatarImageView.image = nil
             visitedButton.isHidden = true

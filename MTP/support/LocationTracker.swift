@@ -3,13 +3,10 @@
 import CoreLocation
 import UIKit
 
-protocol LocationTracker: PlaceAnnotationDelegate, ServiceProvider {
+protocol LocationTracker: Mapper, ServiceProvider {
 
     func accessRefused()
     func alertLocationAccessNeeded()
-    func annotations(changed list: Checklist,
-                     added: Set<PlaceAnnotation>,
-                     removed: Set<PlaceAnnotation>)
     func authorization(changed: CLAuthorizationStatus)
     func location(changed: CLLocation)
 }

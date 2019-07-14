@@ -1,36 +1,20 @@
 // @copyright Trollwerks Inc.
 
-// swiftlint:disable file_length
-
 import Anchorage
 import DropDown
 import MapKit
-import RealmSwift
 
 final class LocationsVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.locationsVC
 
-    @IBOutlet private var mapView: MKMapView? {
-        didSet {
-            Checklist.allCases.forEach {
-                mapView?.register(
-                    PlaceAnnotationView.self,
-                    forAnnotationViewWithReuseIdentifier: $0.rawValue
-                )
-            }
-            mapView?.register(
-                PlaceClusterAnnotationView.self,
-                forAnnotationViewWithReuseIdentifier: PlaceClusterAnnotationView.identifier
-            )
-        }
-    }
+    @IBOutlet private var mtpMapView: MTPMapView?
     @IBOutlet private var searchBar: UISearchBar? {
-        didSet {
-            searchBar?.removeClearButton()
-        }
+        didSet { searchBar?.removeClearButton() }
     }
     @IBOutlet private var showMoreButton: UIButton?
+
+    private var trackingButton: MKUserTrackingButton?
 
     let dropdown = DropDown {
         $0.dismissMode = .manual
@@ -47,18 +31,9 @@ final class LocationsVC: UIViewController, ServiceProvider {
         $0.textColor = .darkGray
         $0.textFont = Avenir.book.of(size: 14)
     }
-    var dropdownPlaces: [PlaceInfo] = []
+    var matches: [Mappable] = []
 
-    private var trackingButton: MKUserTrackingButton?
-
-    private var mapCentered = false
-    private var mapLoaded = false
-    private var mapAnnotated = false
-    private var shownRect = MKMapRect.null
-
-    private var displayed = ChecklistFlags()
-
-    private var selected: PlaceAnnotation?
+    private var injectMappable: Mappable?
 
     deinit {
         loc.remove(tracker: self)
@@ -68,7 +43,6 @@ final class LocationsVC: UIViewController, ServiceProvider {
         super.viewDidLoad()
         requireInjections()
 
-        displayed = data.mapDisplay
         setupCompass()
         setupTracking()
         configureSearchBar()
@@ -83,6 +57,7 @@ final class LocationsVC: UIViewController, ServiceProvider {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
+        mtpMapView?.refreshMapView()
         updateTracking()
         note.checkTriggered()
     }
@@ -102,11 +77,12 @@ final class LocationsVC: UIViewController, ServiceProvider {
             break
         case Segues.showNearby.identifier:
             let nearby = Segues.showNearby(segue: segue)?.destination
-            nearby?.inject(model: loc.annotations())
+            nearby?.inject(model: (data.mappables, loc.distances))
         case Segues.showLocation.identifier:
-            if let location = Segues.showLocation(segue: segue)?.destination,
-               let selected = selected {
-                location.inject(model: selected)
+            guard let show = Segues.showLocation(segue: segue)?.destination else { break }
+            if let inject = injectMappable {
+                show.inject(model: inject)
+                injectMappable = nil
             }
         default:
             log.debug("unexpected segue: \(segue.name)")
@@ -114,8 +90,7 @@ final class LocationsVC: UIViewController, ServiceProvider {
     }
 
     func updateFilter() {
-        updateAnnotations(old: displayed, new: data.mapDisplay)
-        displayed = data.mapDisplay
+        mtpMapView?.displayed = data.mapDisplay
     }
 
     func reveal(user: User?) {
@@ -126,46 +101,36 @@ final class LocationsVC: UIViewController, ServiceProvider {
         guard let coordinate = place?.placeCoordinate else { return }
 
         navigationController?.popToRootViewController(animated: false)
-        zoom(annotation: coordinate, then: nil)
+        mtpMapView?.zoom(to: coordinate)
     }
 }
 
-// MARK: - PlaceAnnotationDelegate
+// MARK: - Mapper
 
-extension LocationsVC: PlaceAnnotationDelegate {
+extension LocationsVC: Mapper {
 
-    func close(place: PlaceAnnotation) {
-        mapView?.deselectAnnotation(place, animated: true)
+    func close(mappable: Mappable) {
+        mtpMapView?.close(mappable: mappable)
     }
 
-    func notify(place: PlaceAnnotation) {
-        note.notify(list: place.list, id: place.id)
+    func notify(mappable: Mappable, triggered: Date) {
+        note.notify(mappable: mappable, triggered: triggered)
     }
 
-    func reveal(place: PlaceAnnotation?, callout: Bool) {
-        guard let place = place else { return }
-
+    func reveal(mappable: Mappable, callout: Bool) {
         navigationController?.popToRootViewController(animated: false)
-        zoom(annotation: place.coordinate) { [weak self] in
-            if callout {
-                self?.mapView?.selectAnnotation(place, animated: false)
-            }
-        }
+        mtpMapView?.zoom(to: mappable, callout: callout)
     }
 
-    func show(place: PlaceAnnotation) {
-        selected = place
-        close(place: place)
-
+    func show(mappable: Mappable) {
+        injectMappable = mappable
+        close(mappable: mappable)
         performSegue(withIdentifier: Segues.showLocation,
                      sender: self)
     }
 
-    func update(place: PlaceAnnotation) {
-        guard let map = mapView else { return }
-
-        map.removeAnnotation(place)
-        map.addAnnotation(place)
+    func update(mappable: Mappable) {
+        mtpMapView?.update(mappable: mappable)
     }
 }
 
@@ -174,25 +139,14 @@ extension LocationsVC: PlaceAnnotationDelegate {
 extension LocationsVC: LocationTracker {
 
     func accessRefused() {
-        mapCentered = true
-        annotate()
-    }
-
-    func annotations(changed list: Checklist,
-                     added: Set<PlaceAnnotation>,
-                     removed: Set<PlaceAnnotation>) {
-        guard mapAnnotated,
-              displayed.display(list: list) else { return }
-
-        changedAnnotations(added: added, removed: removed)
+        mtpMapView?.isCentered = true
     }
 
     func authorization(changed: CLAuthorizationStatus) {
         updateTracking()
     }
 
-    func location(changed: CLLocation) {
-    }
+    func location(changed: CLLocation) { }
 }
 
 // MARK: - Private
@@ -203,44 +157,21 @@ private extension LocationsVC {
         static let margin = CGFloat(16)
     }
 
-    @IBAction func unwindToLocations(segue: UIStoryboardSegue) {
-    }
+    @IBAction func unwindToLocations(segue: UIStoryboardSegue) { }
 
     func setupCompass() {
-        guard let map = mapView, map.showsCompass == true else { return }
-        let compass = MKCompassButton(mapView: mapView)
-        compass.compassVisibility = .visible
+        guard let compass = mtpMapView?.compass else { return }
+
         view.addSubview(compass)
         compass.topAnchor == view.safeAreaLayoutGuide.topAnchor + Layout.margin
         compass.trailingAnchor == view.trailingAnchor - Layout.margin
-        map.showsCompass = false
     }
 
     func setupTracking() {
-        mapView?.showsUserLocation = true
+        guard let stack = mtpMapView?.infoStack else { return }
 
-        let tracker = MKUserTrackingButton(mapView: mapView).with {
-            $0.layer.backgroundColor = UIColor(white: 1, alpha: 0.8).cgColor
-            $0.layer.borderColor = UIColor.white.cgColor
-            $0.layer.borderWidth = 1
-            $0.layer.cornerRadius = 5
-            $0.isHidden = true
-        }
-        view.addSubview(tracker)
-        trackingButton = tracker
-
-        let scale = MKScaleView(mapView: mapView)
-        scale.legendAlignment = .trailing
-        view.addSubview(scale)
-
-        let stack = UIStackView(arrangedSubviews: [scale,
-                                                   tracker]).with {
-            $0.axis = .horizontal
-            $0.alignment = .center
-            $0.spacing = 10
-        }
+        trackingButton = stack.arrangedSubviews.first as? MKUserTrackingButton
         view.addSubview(stack)
-
         stack.bottomAnchor == view.safeAreaLayoutGuide.bottomAnchor - Layout.margin
         stack.trailingAnchor == view.trailingAnchor - Layout.margin
 
@@ -259,126 +190,7 @@ private extension LocationsVC {
     func updateTracking() {
         let permission = loc.start(tracker: self)
         trackingButton?.set(visibility: permission)
-        centerOnDevice()
-    }
-
-    func centerOnDevice() {
-        guard !mapCentered,
-              let here = loc.here else { return }
-
-        zoom(to: here, span: 160_000, then: nil)
-    }
-
-    func zoom(annotation center: CLLocationCoordinate2D,
-              then: (() -> Void)?) {
-        let span = CLLocationDistance(500)
-        //let centerOffset = span / 3
-        //let metersToDegrees = CLLocationDistance(111_111)
-        //let offset = CLLocationCoordinate2D(
-            //latitude: center.latitude - (centerOffset / metersToDegrees),
-            //longitude: center.longitude)
-        zoom(to: center, span: span) { then?() }
-    }
-
-    func zoom(to center: CLLocationCoordinate2D,
-              span meters: CLLocationDistance,
-              then: (() -> Void)?) {
-        mapCentered = true
-        let region = MKCoordinateRegion(center: center,
-                                        latitudinalMeters: meters,
-                                        longitudinalMeters: meters)
-        zoom(region: region) { then?() }
-    }
-
-    func zoom(cluster: MKClusterAnnotation?) {
-        guard let cluster = cluster,
-              var region = mapView?.region else { return }
-
-        let clustered = cluster.region
-
-        region.center = cluster.coordinate
-        region.span.latitudeDelta = clustered.maxDelta * 1.3
-        region.span.longitudeDelta = clustered.maxDelta * 1.3
-        zoom(region: region, then: nil)
-    }
-
-    func zoom(region: MKCoordinateRegion,
-              then: (() -> Void)?) {
-        DispatchQueue.main.async { [weak self] in
-            MKMapView.animate(
-                withDuration: 1,
-                animations: {
-                    self?.mapView?.setRegion(region, animated: true)
-                },
-                completion: { _ in
-                    self?.annotate()
-                    then?()
-                }
-            )
-        }
-    }
-
-    func annotate() {
-        guard !mapAnnotated, mapCentered, mapLoaded else { return }
-
-        mapAnnotated = true
-        updateShownRect()
-        updateAnnotations(old: ChecklistFlags(flagged: false),
-                          new: displayed)
-    }
-
-    func updateShownRect() {
-        shownRect = mapView?.visibleMapRect ?? .null
-        // log.todo("filter by shownRect?")
-    }
-
-    func updateAnnotations(old: ChecklistFlags,
-                           new: ChecklistFlags) {
-        guard mapAnnotated else { return }
-
-        var added: Set<PlaceAnnotation> = []
-        var removed: Set<PlaceAnnotation> = []
-        Checklist.allCases.forEach { list in
-            guard list.isMappable else { return }
-
-            switch (old.display(list: list), new.display(list: list)) {
-            case (false, true):
-                added.formUnion(loc.annotations(list: list))
-            case (true, false):
-                removed.formUnion(loc.annotations(list: list))
-            default:
-                break
-            }
-        }
-        changedAnnotations(added: added, removed: removed)
-    }
-
-    func changedAnnotations(added: Set<PlaceAnnotation>,
-                            removed: Set<PlaceAnnotation>) {
-        guard mapAnnotated, let map = mapView else { return }
-
-        if !removed.isEmpty {
-            map.removeAnnotations(Array(removed))
-        }
-        if !added.isEmpty {
-            map.addAnnotations(Array(added))
-        }
-    }
-
-    func update(overlays place: PlaceAnnotationView) {
-        guard let map = mapView else { return }
-
-        let current = map.overlays.filter { $0 is PlaceOverlay }
-        if let first = current.first as? PlaceOverlay,
-           first.shows(view: place) {
-                return
-        }
-
-        map.removeOverlays(current)
-        let overlays = place.overlays
-        if !overlays.isEmpty {
-            map.addOverlays(overlays)
-        }
+        mtpMapView?.centerOnDevice()
     }
 }
 
@@ -388,21 +200,8 @@ extension LocationsVC: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar,
                    textDidChange searchText: String) {
-        if searchText.isEmpty {
-            dropdownPlaces = []
-        } else {
-            dropdownPlaces = Checklist.allCases.flatMap { list in
-                list.places.compactMap { place in
-                    guard place.placeIsMappable else { return nil }
-
-                    let name = place.placeTitle
-                    let match = name.range(of: searchText, options: .caseInsensitive) != nil
-                    return match ? place : nil
-                }
-            }
-        }
-
-        let names = dropdownPlaces.map { $0.placeTitle }
+        matches = data.get(mappables: searchText)
+        let names = matches.map { $0.title }
         dropdown.dataSource = names
         if names.isEmpty {
             dropdown.hide()
@@ -431,25 +230,11 @@ extension LocationsVC: UISearchBarDelegate {
         searchBar.showsCancelButton = false
     }
 
-    func annotation(place: PlaceInfo) -> PlaceAnnotation? {
-        let annotations = mapView?.annotations ?? []
-        for annotation in annotations {
-            if let annotation = annotation as? PlaceAnnotation,
-                   annotation.id == place.placeId,
-                   annotation.name == place.placeTitle {
-                return annotation
-            }
-        }
-        return nil
-    }
-
     func dropdown(selected index: Int) {
         if let searchBar = searchBar {
             searchBarCancelButtonClicked(searchBar)
         }
-        let info = dropdownPlaces[index]
-        let place = annotation(place: info)
-        reveal(place: place, callout: true)
+        reveal(mappable: matches[index], callout: true)
     }
 }
 
@@ -458,122 +243,89 @@ extension LocationsVC: UISearchBarDelegate {
 extension LocationsVC: MKMapViewDelegate {
 
     func mapView(_ mapView: MKMapView,
-                 regionWillChangeAnimated: Bool) {
-    }
+                 regionWillChangeAnimated: Bool) { }
     func mapView(_ mapView: MKMapView,
-                 regionDidChangeAnimated: Bool) {
-        updateShownRect()
-    }
+                 regionDidChangeAnimated: Bool) { }
 
-    func mapViewWillStartLoadingMap(_ mapView: MKMapView) {
-    }
-    func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
-    }
-    func mapViewDidFailLoadingMap(_ mapView: MKMapView) {
-        log.error(#function)
-    }
+    func mapViewWillStartLoadingMap(_ mapView: MKMapView) { }
+    func mapViewDidFinishLoadingMap(_ mapView: MKMapView) { }
+    func mapViewDidFailLoadingMap(_ mapView: MKMapView) { }
 
-    func mapViewWillStartRenderingMap(_ mapView: MKMapView) {
-    }
+    func mapViewWillStartRenderingMap(_ mapView: MKMapView) { }
     func mapViewDidFinishRenderingMap(_ mapView: MKMapView,
-                                      fullyRendered: Bool) {
-        mapLoaded = true
-        annotate()
-    }
+                                      fullyRendered: Bool) { }
 
-    func mapViewWillStartLocatingUser(_ mapView: MKMapView) {
-    }
-    func mapViewDidStopLocatingUser(_ mapView: MKMapView) {
-    }
+    func mapViewWillStartLocatingUser(_ mapView: MKMapView) { }
+    func mapViewDidStopLocatingUser(_ mapView: MKMapView) { }
     func mapView(_ mapView: MKMapView,
                  didUpdate userLocation: MKUserLocation) {
-        centerOnDevice()
+        mtpMapView?.centerOnDevice()
     }
     func mapView(_ mapView: MKMapView,
-                 didFailToLocateUserWithError error: Error) {
-        log.error(#function)
-    }
+                 didFailToLocateUserWithError error: Error) { }
     func mapView(_ mapView: MKMapView,
                  didChange mode: MKUserTrackingMode,
-                 animated: Bool) {
-    }
+                 animated: Bool) { }
 
     func mapView(_ mapView: MKMapView,
                  viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         switch annotation {
-        case let place as PlaceAnnotation:
-            return mapView.dequeueReusableAnnotationView(
-                withIdentifier: place.reuseIdentifier,
-                for: place
-            )
-        case let cluster as MKClusterAnnotation:
-            return mapView.dequeueReusableAnnotationView(
-                withIdentifier: PlaceClusterAnnotationView.identifier,
-                for: cluster
-            )
+        case let mappable as MappablesAnnotation where mappable.isSingle:
+            return MappableAnnotationView.view(on: mapView, for: mappable)
+        case let mappables as MappablesAnnotation where mappables.isMultiple:
+            return MappablesAnnotationView.view(on: mapView, for: mappables)
         case is MKUserLocation:
-            return nil
+            break
         default:
             log.debug("unexpected annotation: \(annotation)")
-            return nil
         }
+        return nil
     }
 
     func mapView(_ mapView: MKMapView,
-                 didAdd views: [MKAnnotationView]) {
-    }
+                 didAdd views: [MKAnnotationView]) { }
 
     func mapView(_ mapView: MKMapView,
                  annotationView view: MKAnnotationView,
-                 calloutAccessoryControlTapped control: UIControl) {
-        guard !(control is UISwitch) else { return }
-        log.verbose(#function)
-    }
+                 calloutAccessoryControlTapped control: UIControl) { }
 
     func mapView(_ mapView: MKMapView,
                  didSelect view: MKAnnotationView) {
         switch view {
-        case let place as PlaceAnnotationView:
-            place.prepareForCallout()
-            update(overlays: place)
-        case let cluster as PlaceClusterAnnotationView:
-            zoom(cluster: cluster.annotation as? MKClusterAnnotation)
-            mapView.deselectAnnotation(cluster.annotation, animated: false)
+        case let mappable as MappableAnnotationView:
+            mtpMapView?.display(view: mappable)
+        case let mappables as MappablesAnnotationView:
+            mtpMapView?.expand(view: mappables)
         default:
+            // MKModernUserLocationView for instance
             break
         }
     }
 
     func mapView(_ mapView: MKMapView,
-                 didDeselect view: MKAnnotationView) {
-    }
+                 didDeselect view: MKAnnotationView) { }
 
     func mapView(_ mapView: MKMapView,
                  annotationView view: MKAnnotationView,
                  didChange newState: MKAnnotationView.DragState,
-                 fromOldState oldState: MKAnnotationView.DragState) {
-    }
+                 fromOldState oldState: MKAnnotationView.DragState) { }
 
     func mapView(_ mapView: MKMapView,
                  rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         switch overlay {
-        case let place as PlaceOverlay:
-            let renderer = MKPolygonRenderer(polygon: place)
-            renderer.fillColor = place.color.withAlphaComponent(0.25)
-            renderer.strokeColor = place.color.withAlphaComponent(0.5)
-            renderer.lineWidth = 1
-            return renderer
+        case let mappable as MappableOverlay:
+            return mappable.renderer
         default:
             return MKOverlayRenderer(overlay: overlay)
         }
     }
 
     func mapView(_ mapView: MKMapView,
-                 didAdd renderers: [MKOverlayRenderer]) {
-    }
+                 didAdd renderers: [MKOverlayRenderer]) { }
 
     func mapView(_ mapView: MKMapView,
                  clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
+        log.error("MKMapView should not be clustering")
         return MKClusterAnnotation(memberAnnotations: memberAnnotations)
     }
 }
@@ -610,7 +362,7 @@ extension LocationsVC: Injectable {
     }
 
     func requireInjections() {
-        mapView.require()
+        mtpMapView.require()
         searchBar.require()
         showMoreButton.require()
     }
