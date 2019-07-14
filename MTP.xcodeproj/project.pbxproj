@@ -372,7 +372,6 @@
 		FA7C2013222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate2D+Equatable.swift"; sourceTree = "<group>"; };
 		FA7CCAEE22B848EE0092A95E /* PhotosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosVC.swift; sourceTree = "<group>"; };
 		FA81361120E8F64500313AB9 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
-		FA81361320E8FD4E00313AB9 /* script_build_end.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = script_build_end.sh; sourceTree = "<group>"; };
 		FA815B702286D138004B91C8 /* NearbyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyVC.swift; sourceTree = "<group>"; };
 		FA835D33210EAC110098C270 /* Styler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styler.swift; sourceTree = "<group>"; };
 		FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplaceTopSegue.swift; sourceTree = "<group>"; };
@@ -418,6 +417,7 @@
 		FAC8466022AB79AA004F57EC /* NotificationServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServiceSpy.swift; sourceTree = "<group>"; };
 		FAC8466222AC6D18004F57EC /* KVNOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVNOperation.swift; sourceTree = "<group>"; };
 		FAC9057222CB8E9A001296DE /* CountInfoHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountInfoHeader.swift; sourceTree = "<group>"; };
+		FAD0DA7622DB29DD0042C328 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		FAD2B51221F45796009FFDD7 /* PlaceLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceLocation.swift; sourceTree = "<group>"; };
 		FAD2B51521F46913009FFDD7 /* Checked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checked.swift; sourceTree = "<group>"; };
 		FAD2B51721F48AB8009FFDD7 /* PlaceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfo.swift; sourceTree = "<group>"; };
@@ -724,6 +724,7 @@
 				FAC7A77821FF452500DCED01 /* .swift-version */,
 				FAB53F8520DFCC03007A80A7 /* .travis.yml */,
 				FA4B7FE121E38BF3006AF8E2 /* apple-app-site-association */,
+				FAD0DA7622DB29DD0042C328 /* CHANGELOG.md */,
 				FAB53F8320DFCB40007A80A7 /* Dangerfile */,
 				8CCA21F622B381A600C1D13B /* fastlane */,
 				FA4F1C5E20DFA74500B8A1ED /* Gemfile */,
@@ -734,7 +735,6 @@
 				FA3E366A20DFACCD002AF4EE /* Podfile */,
 				FA9A71E120F1DD6C005F6A57 /* Podfile.lock */,
 				FA4F1C5C20DFA67700B8A1ED /* README.md */,
-				FA81361320E8FD4E00313AB9 /* script_build_end.sh */,
 				FAF1853520FA16CE00CC5D83 /* TODO.md */,
 				FAF122F6215652AE0099B772 /* xccconfig */,
 			);
@@ -934,7 +934,6 @@
 				FA3BD22A2160DE7A007EAF75 /* SwiftLint */,
 				FA392BB520DF69F30026C828 /* Resources */,
 				6488DCB99249CC3516D4C352 /* [CP] Copy Pods Resources */,
-				FA3E366C20DFBC2F002AF4EE /* Run script_build_end.sh */,
 			);
 			buildRules = (
 			);
@@ -1187,20 +1186,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
-		};
-		FA3E366C20DFBC2F002AF4EE /* Run script_build_end.sh */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run script_build_end.sh";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "script_file=\"script_build_end.sh\"\n\necho \"Running a custom build phase script: $script_file\"\n. \"${PROJECT_DIR}/${script_file}\"\nscriptExitStatus=$?\n\necho \"DONE with script: ${script_file} (exitStatus=${scriptExitStatus})\"\n\nexit \"${scriptExitStatus}\"\n";
 		};
 		FA3E366D20DFBC61002AF4EE /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1670,6 +1655,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAF12300215652AE0099B772 /* MTP_Debug.xcconfig */;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 629;
+				INFOPLIST_FILE = MTP/resources/Info.plist;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -1677,6 +1665,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAF122FC215652AE0099B772 /* MTP_Release.xcconfig */;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 629;
+				DEVELOPMENT_TEAM = 37L8D8MJWV;
+				INFOPLIST_FILE = MTP/resources/Info.plist;
+				PROVISIONING_PROFILE_SPECIFIER = "MTP-AppStore";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};

@@ -10,16 +10,64 @@
 #     https://docs.fastlane.tools/plugins/available-plugins
 #
 
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
-
+fastlane_version "2.127.1"
+#update_fastlane
 default_platform(:ios)
 
-# https://docs.fastlane.tools/getting-started/ios/beta-deployment/
 platform :ios do
+
+  before_all do
+    # ensure_git_status_clean
+    # git_pull
+  end
+
+  desc "Runs all the tests"
+  lane :test do
+    run_tests
+  end
+
   desc "Push a new beta build to TestFlight"
   lane :beta do
-    build_app(workspace: "MTP.xcworkspace", scheme: "MTP")
-    upload_to_testflight
+    increment_build_number
+    build_number = get_build_number
+    version_number = get_version_number
+    changelog = read_changelog
+    # File.write('changelog.txt', changelog)
+
+    # test
+
+    # sync_code_signing(type: "appstore")
+    build_app(export_method: "app-store")
+
+    upload_to_testflight(changelog: changelog)
+
+    stamp_changelog(section_identifier: "Version #{version_number}, Build #{build_number}")
+    clean_build_artifacts
+    commit_version_bump(message: "Release #{version_number} beta #{build_number}", include: "CHANGELOG.md")
+    push_to_git_remote
   end
+
+  desc "Push a new release build to the App Store"
+  lane :release do
+    increment_build_number
+    test
+    screenshots
+    build_app(workspace: "MTP.xcworkspace", scheme: "MTP")
+    # upload_to_app_store(skip_metadata: true, skip_screenshots: true)
+  end
+
+  desc "Generate new localized screenshots"
+  lane :screenshots do
+    capture_screenshots(workspace: "MTP.xcworkspace", scheme: "MTPUITests")
+    # upload_to_app_store(skip_binary_upload: true, skip_metadata: true)
+  end
+
+  after_all do |lane|
+    # slack(message: "success")
+  end
+
+  error do |lane, exception|
+    # slack(message: exception.message, success: false)
+  end
+
 end

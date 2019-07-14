@@ -4,5 +4,10 @@ apple_id("alex@alexcurylo.com") # Your Apple email address
 itc_team_id("120056916") # App Store Connect Team ID
 team_id("37L8D8MJWV") # Developer Portal Team ID
 
+demo_account_required(true)
+demo_account_name("alex@trollwerks.com")
+demo_account_password("asdfgh")
+distribute_external(false)
+
 # For more information about the Appfile, see:
 #     https://docs.fastlane.tools/advanced/#appfile

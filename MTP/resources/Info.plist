@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBuildDate</key>
-	<string>-scripted-</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -31,7 +29,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>629</string>
 	<key>FacebookAppID</key>
 	<string>970945913071007</string>
 	<key>FacebookDisplayName</key>
@@ -53,9 +51,9 @@
 	<key>NSCameraUsageDescription</key>
 	<string>MTP needs to access the camera to let you take a photo.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>MTP needs your location to show you nearby places to visit. With "Always" access, MTP can notify you when you approach places.</string>
+	<string>MTP needs your location to show you nearby places to visit. With “Always” access, MTP can notify you to check in at a place.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>With "Always" access, MTP can notify you when you approach places.</string>
+	<string>With “Always” access, MTP can notify you to check in at a place.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>MTP needs your location to show you nearby places to visit.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

@@ -34,16 +34,6 @@
 		</dict>
 		<dict>
 			<key>Title</key>
-			<string>Build Date</string>
-			<key>Type</key>
-			<string>PSTitleValueSpecifier</string>
-			<key>DefaultValue</key>
-			<string>&lt;not set&gt;</string>
-			<key>Key</key>
-			<string>CFBuildDate</string>
-		</dict>
-		<dict>
-			<key>Title</key>
 			<string>Acknowledgements</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>

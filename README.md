@@ -40,6 +40,7 @@ Requirements
 - [CocoaPods](https://cocoapods.org/) for iOS dependency management
 - [Codebeat](https://codebeat.co/projects/github-com-alexcurylo-mtp-develop) for automated code review
 - [Coveralls](https://coveralls.io/github/alexcurylo/mtp?branch=develop) for test coverage statistics
+- [Fastlane](https://fastlane.tools) for release management
 - [Danger](http://danger.systems/ruby/) for automated code review
 - [Gitter](https://gitter.im/alexcurylo/mtp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) for chat
 - [Slather](https://github.com/SlatherOrg/slather) for test coverage reports
