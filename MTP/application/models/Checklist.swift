@@ -197,20 +197,16 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
     func set(dismissed: Bool, id: Int) {
         let item = (list: self, id: id)
         var timestamps = data.dismissed ?? Timestamps()
-        let isDismissed = timestamps.isStamped(item: item)
-        guard dismissed != isDismissed else { return }
-
         timestamps.set(item: item, stamped: dismissed)
         data.dismissed = timestamps
-        set(triggered: false, id: id)
+        if dismissed {
+            set(triggered: false, id: id)
+        }
     }
 
     func set(notified: Bool, id: Int) {
         let item = (list: self, id: id)
         var timestamps = data.notified ?? Timestamps()
-        let isNotified = timestamps.isStamped(item: item)
-        guard notified != isNotified else { return }
-
         timestamps.set(item: item, stamped: notified)
         data.notified = timestamps
     }
@@ -218,9 +214,6 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
     func set(triggered: Bool, id: Int) {
         let item = (list: self, id: id)
         var timestamps = data.triggered ?? Timestamps()
-        let isTriggered = timestamps.isStamped(item: item)
-        guard triggered != isTriggered else { return }
-
         timestamps.set(item: item, stamped: triggered)
         data.triggered = timestamps
     }

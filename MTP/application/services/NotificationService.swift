@@ -35,10 +35,10 @@ struct Note {
         }
     }
 
-    enum Info: String {
+    enum ChecklistItemInfo: String {
 
-        case id
         case list
+        case id
 
         var key: String { return rawValue }
     }
@@ -58,12 +58,10 @@ protocol NotificationService {
              then: @escaping (Bool) -> Void)
 
     func checkTriggered()
-    func notify(item: Checklist.Item,
-                triggered: Date)
-    func notify(list: Checklist,
-                info: PlaceInfo,
+    func notify(mappable: Mappable,
                 triggered: Date)
     func congratulate(item: Checklist.Item)
+    func congratulate(mappable: Mappable)
 
     func infoBackground(title: String?,
                         body: String?)
@@ -87,15 +85,6 @@ protocol NotificationService {
 }
 
 extension NotificationService {
-
-    func notify(item: Checklist.Item,
-                triggered: Date) {
-        if let info = item.list.place(id: item.id) {
-            notify(list: item.list,
-                   info: info,
-                   triggered: triggered)
-        }
-    }
 
     func infoBackground(title: String?,
                         body: String?) {
@@ -123,7 +112,7 @@ extension NotificationService {
 
 final class NotificationServiceImpl: NotificationService, ServiceProvider {
 
-    private var notifying: PlaceInfo?
+    private var notifying: Mappable?
     private var congratulating: Mappable?
     private var showingModal = false
     private var alerting = false
@@ -182,16 +171,20 @@ final class NotificationServiceImpl: NotificationService, ServiceProvider {
         askForeground(question: question, then: then)
     }
 
-    func notify(list: Checklist,
-                info: PlaceInfo,
+    func notify(mappable: Mappable,
                 triggered: Date) {
-        notifyForeground(list: list, info: info, triggered: triggered)
-        notifyBackground(list: list, info: info, triggered: triggered)
+        notifyForeground(mappable: mappable, triggered: triggered)
+        notifyBackground(mappable: mappable, triggered: triggered)
     }
 
     func congratulate(item: Checklist.Item) {
-        guard let mappable = data.get(mappable: item),
-              let note = congratulations(for: mappable) else { return }
+        guard let mappable = data.get(mappable: item) else { return }
+
+        congratulate(mappable: mappable)
+    }
+
+    func congratulate(mappable: Mappable) {
+        guard let note = congratulations(for: mappable) else { return }
 
         congratulate(mappable: mappable, note: note)
     }
@@ -213,8 +206,8 @@ final class NotificationServiceImpl: NotificationService, ServiceProvider {
                 triggered.set(key: key, stamped: false)
                 changed = true
                 break
-            } else {
-                notify(item: item, triggered: value)
+            } else if let mappable = data.get(mappable: item) {
+                notify(mappable: mappable, triggered: value)
                 break
             }
         }
@@ -235,38 +228,52 @@ final class NotificationServiceImpl: NotificationService, ServiceProvider {
 
 private extension NotificationServiceImpl {
 
-    func notifyBackground(list: Checklist,
-                          info: PlaceInfo,
+    func notifyBackground(mappable: Mappable,
                           triggered: Date) {
         background {
-            self.postVisit(list: list,
-                           info: info,
+            self.postVisit(mappable: mappable,
                            triggered: triggered)
         }
     }
 
-    func postVisit(list: Checklist,
-                   info: PlaceInfo,
-                   triggered: Date) {
-        log.todo("handle triggered")
-        guard !list.isNotified(id: info.placeId) else { return }
+    func checkinStrings(mappable: Mappable,
+                        triggered: Date) -> (String, String) {
+        let title = L.checkinTitle(mappable.checklist.category(full: true))
 
-        list.set(notified: true, id: info.placeId)
-
-        let title = L.checkinTitle(list.category(full: true))
+        let name = mappable.title
         let body: String
-        switch list {
-        case .locations:
-            body = L.checkinInside(info.placeTitle)
-        default:
-            body = L.checkinNear(info.placeTitle)
+        switch (mappable.checklist, mappable.isHere) {
+        case (.locations, true):
+            body = L.checkinInsideNow(name)
+        case (.locations, false):
+            let when = triggered.toStringWithRelativeTime()
+            body = L.checkinInsidePast(name, when)
+        case (_, true):
+            body = L.checkinNearNow(name)
+        case (_, false):
+            let when = triggered.toStringWithRelativeTime()
+            body = L.checkinInsidePast(name, when)
         }
-        let info: NotificationService.Info = [
-            Note.Info.list.key: list.key,
-            Note.Info.id.key: info.placeId
+
+        return (title, body)
+    }
+
+    func postVisit(mappable: Mappable,
+                   triggered: Date) {
+        let list = mappable.checklist
+        let id = mappable.checklistId
+        guard !list.isNotified(id: id) else { return }
+
+        list.set(notified: true, id: id)
+
+        let (title, body) = checkinStrings(mappable: mappable,
+                                           triggered: triggered)
+        let noteInfo: NotificationService.Info = [
+            Note.ChecklistItemInfo.list.key: list.rawValue,
+            Note.ChecklistItemInfo.id.key: id
         ]
 
-        visitBackground(title: title, body: body, info: info)
+        visitBackground(title: title, body: body, info: noteInfo)
     }
 
     func congratulateBackground(note: Note) {
@@ -355,25 +362,15 @@ private extension NotificationServiceImpl {
     }
 
     // swiftlint:disable:next function_body_length
-    func notifyForeground(list: Checklist,
-                          info: PlaceInfo,
+    func notifyForeground(mappable: Mappable,
                           triggered: Date) {
-        log.todo("handle triggered")
         guard canNotifyForeground else { return }
 
-        notifying = info
-
-        let visitId = info.placeId
-        let contentTitle = L.checkinTitle(list.category(full: true))
-        let contentMessage: String
-        switch list {
-        case .locations:
-            contentMessage = L.checkinInside(info.placeTitle)
-        default:
-            contentMessage = L.checkinNear(info.placeTitle)
-        }
-        let simpleMessage = notifyMessage(contentTitle: contentTitle,
-                                          contentMessage: contentMessage)
+        notifying = mappable
+        let (title, body) = checkinStrings(mappable: mappable,
+                                           triggered: triggered)
+        let simpleMessage = notifyMessage(contentTitle: title,
+                                          contentMessage: body)
 
         // Dismiss
         let buttonFont = Avenir.heavy.of(size: 16)
@@ -385,8 +382,8 @@ private extension NotificationServiceImpl {
         let closeButton = EKProperty.ButtonContent(
             label: closeButtonLabel,
             backgroundColor: .clear,
-            highlightedBackgroundColor: dismissColor.withAlphaComponent(0.05)) { [list, visitId] in
-                list.set(dismissed: true, id: visitId)
+            highlightedBackgroundColor: dismissColor.withAlphaComponent(0.05)) { [mappable] in
+                mappable.isDismissed = true
                 SwiftEntryKit.dismiss {
                     self.notifying = nil
                     self.checkTriggered()
@@ -402,12 +399,11 @@ private extension NotificationServiceImpl {
         let okButton = EKProperty.ButtonContent(
             label: okButtonLabel,
             backgroundColor: .clear,
-            highlightedBackgroundColor: checkinColor.withAlphaComponent(0.05)) { [list, visitId] in
-                list.set(visited: true, id: visitId)
+            highlightedBackgroundColor: checkinColor.withAlphaComponent(0.05)) { [mappable] in
+                mappable.isVisited = true
                 SwiftEntryKit.dismiss {
                     self.notifying = nil
-                    let item = (list: list, id: visitId)
-                    self.congratulate(item: item)
+                    self.congratulate(item: mappable.item)
                 }
         }
         let grayLight = UIColor(white: 230.0 / 255.0, alpha: 1)

@@ -43,9 +43,9 @@ extension ImageService where Self: UIView {
         // example pattern, 30 characters prefix and 1 character suffix:
         // src="/api/files/preview?uuid=7FgX3ruwM4j5heCyrAAaq8"
         guard let range = html.range(
-            of: #"src="\/api\/files\/preview\?uuid=[A-Za-z0-9+\/=]+\""#,
-            options: .regularExpression
-            ) else {
+                of: #"src="\/api\/files\/preview\?uuid=[A-Za-z0-9+\/=]+\""#,
+                options: .regularExpression
+             ) else {
                 display(image: nil)
                 return false
         }

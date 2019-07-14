@@ -76,7 +76,7 @@ PODS:
   - SwiftyBeaver (1.7.0)
 
 DEPENDENCIES:
-  - ABFRealmMapView (from `https://github.com/alexcurylo/ABFRealmMapView`, branch `swift5`)
+  - ABFRealmMapView (from `https://github.com/alexcurylo/ABFRealmMapView`)
   - AlamofireNetworkActivityIndicator
   - Anchorage
   - AppCenter
@@ -98,7 +98,7 @@ DEPENDENCIES:
   - R.swift
   - R.swift.Library
   - Realm
-  - RealmMapView (from `https://github.com/alexcurylo/ABFRealmMapView`, branch `swift5`)
+  - RealmMapView (from `https://github.com/alexcurylo/ABFRealmMapView`)
   - RealmSwift
   - SwiftEntryKit
   - SwiftLint
@@ -138,18 +138,16 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   ABFRealmMapView:
-    :branch: swift5
     :git: https://github.com/alexcurylo/ABFRealmMapView
   RealmMapView:
-    :branch: swift5
     :git: https://github.com/alexcurylo/ABFRealmMapView
 
 CHECKOUT OPTIONS:
   ABFRealmMapView:
-    :commit: 78f9b7a1fc8f367dc1157723db8a92256dc351be
+    :commit: d5069ea6495517e6717e29ab9b78778d67a6c7b7
     :git: https://github.com/alexcurylo/ABFRealmMapView
   RealmMapView:
-    :commit: 78f9b7a1fc8f367dc1157723db8a92256dc351be
+    :commit: d5069ea6495517e6717e29ab9b78778d67a6c7b7
     :git: https://github.com/alexcurylo/ABFRealmMapView
 
 SPEC CHECKSUMS:
@@ -185,6 +183,6 @@ SPEC CHECKSUMS:
   SwiftLint: fed9c66336e41fc74dc48a73678380718f0c8b0e
   SwiftyBeaver: 4cc0080d2e23f980652e28978db11a5c9da39165
 
-PODFILE CHECKSUM: 0d21dd66f8a69c78979f24816a54cb72aad97c97
+PODFILE CHECKSUM: 9d04e93867505da9d3ef2abba917dc81a86045be
 
 COCOAPODS: 1.7.3

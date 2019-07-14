@@ -55,6 +55,19 @@ final class LocationHandler: NSObject, AppHandler, ServiceProvider {
             }
         }
     }
+
+    func broadcast(mappable: Mappable,
+                   then: @escaping (LocationTracker, Mappable) -> Void) {
+        let reference = mappable.reference
+        DispatchQueue.main.async {
+            guard let resolved = self.data.resolve(reference: reference) else { return }
+
+            self.trackers.forEach {
+                guard let tracker = $0 as? LocationTracker else { return }
+                then(tracker, resolved)
+            }
+        }
+    }
 }
 
 // MARK: - AppLaunchHandler
@@ -210,7 +223,7 @@ private class UpdateDistanceOperation: KVNOperation {
     let trigger: Bool
     let handler: LocationHandler
     let world: WorldMap
-    let mappables: [ThreadSafeReference<Object>]
+    let references: [Mappable.Reference]
 
     var distances: Distances = [:]
 
@@ -221,9 +234,7 @@ private class UpdateDistanceOperation: KVNOperation {
         self.trigger = trigger
         self.handler = handler
         self.world = world
-        self.mappables = mappables.compactMap {
-            ThreadSafeReference(to: $0)
-        }
+        self.references = mappables.compactMap { $0.reference }
     }
 
     override func operate() {
@@ -234,8 +245,8 @@ private class UpdateDistanceOperation: KVNOperation {
         let start = Date()
         #endif
 
-        mappables.forEach {
-            guard let mappable = realm.resolve($0) as? Mappable else { return }
+        references.forEach {
+            guard let mappable = realm.resolve($0) else { return }
 
             let distance = mappable.coordinate.distance(from: here)
             distances[mappable.dbKey] = distance

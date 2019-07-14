@@ -114,7 +114,7 @@ extension LocationsVC: Mapper {
     }
 
     func notify(mappable: Mappable, triggered: Date) {
-        note.notify(item: mappable.item, triggered: triggered)
+        note.notify(mappable: mappable, triggered: triggered)
     }
 
     func reveal(mappable: Mappable, callout: Bool) {

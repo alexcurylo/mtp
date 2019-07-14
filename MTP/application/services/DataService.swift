@@ -74,6 +74,8 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func set(whss: [WHSJSON])
 
     func deletePhotos(user id: Int)
+
+    func resolve(reference: Mappable.Reference) -> Mappable?
 }
 
 // MARK: - User state
@@ -433,6 +435,10 @@ final class DataServiceImpl: DataService {
     }
 
     var worldMap = WorldMap()
+
+    func resolve(reference: Mappable.Reference) -> Mappable? {
+        return realm.resolve(reference: reference)
+    }
 }
 
 // MARK: - Observable

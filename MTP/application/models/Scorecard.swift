@@ -226,7 +226,12 @@ extension ScorecardJSON: CustomDebugStringConvertible {
 @objcMembers final class Scorecard: Object {
 
     dynamic var userId: Int = 0
-    dynamic var type: String = ""
+    dynamic var checklistValue: Int = Checklist.beaches.rawValue
+    var checklist: Checklist {
+        //swiftlint:disable:next force_unwrapping
+        get { return Checklist(rawValue: checklistValue)! }
+        set { checklistValue = newValue.rawValue }
+    }
     dynamic var visited: Int = 0
     dynamic var remaining: Int = 0
 
@@ -249,14 +254,14 @@ extension ScorecardJSON: CustomDebugStringConvertible {
     }
 
     static func key(list: Checklist, user: Int) -> String {
-        return "'list=\(list.rawValue)?user=\(user)'"
+        return "list=\(list.rawValue)?user=\(user)"
     }
 
     convenience init(from: ScorecardWrapperJSON) {
         self.init()
 
         userId = Int(from.data.userId) ?? 0
-        type = from.data.type
+        checklist = Checklist(key: from.data.type) ?? .beaches
         if let visitedDict = from.data.visitedByUser.tValue {
             visited = visitedDict.count
             visitedDict.forEach { visits.append($0.1.id) }
@@ -286,7 +291,7 @@ extension ScorecardJSON: CustomDebugStringConvertible {
             genderAndCountry = ranks.genderAndCountry
         }
 
-        dbKey = "userId=\(userId)?type=\(type)"
+        dbKey = Scorecard.key(list: checklist, user: userId)
     }
 
     func rank(filter: RankingsQuery) -> Int? {

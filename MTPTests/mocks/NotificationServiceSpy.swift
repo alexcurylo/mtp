@@ -39,36 +39,34 @@ final class NotificationServiceSpy: NotificationService {
     }
     var invokedNotify = false
     var invokedNotifyCount = 0
-    var invokedNotifyParameters: (item: Checklist.Item, triggered: Date)?
-    var invokedNotifyParametersList = [(item: Checklist.Item, triggered: Date)]()
-    func notify(item: Checklist.Item,
+    var invokedNotifyParameters: (mappable: Mappable, triggered: Date)?
+    var invokedNotifyParametersList = [(mappable: Mappable, triggered: Date)]()
+    func notify(mappable: Mappable,
     triggered: Date) {
         invokedNotify = true
         invokedNotifyCount += 1
-        invokedNotifyParameters = (item, triggered)
-        invokedNotifyParametersList.append((item, triggered))
+        invokedNotifyParameters = (mappable, triggered)
+        invokedNotifyParametersList.append((mappable, triggered))
     }
-    var invokedNotifyList = false
-    var invokedNotifyListCount = 0
-    var invokedNotifyListParameters: (list: Checklist, info: PlaceInfo, triggered: Date)?
-    var invokedNotifyListParametersList = [(list: Checklist, info: PlaceInfo, triggered: Date)]()
-    func notify(list: Checklist,
-    info: PlaceInfo,
-    triggered: Date) {
-        invokedNotifyList = true
-        invokedNotifyListCount += 1
-        invokedNotifyListParameters = (list, info, triggered)
-        invokedNotifyListParametersList.append((list, info, triggered))
-    }
-    var invokedCongratulate = false
-    var invokedCongratulateCount = 0
-    var invokedCongratulateParameters: (item: Checklist.Item, Void)?
-    var invokedCongratulateParametersList = [(item: Checklist.Item, Void)]()
+    var invokedCongratulateItem = false
+    var invokedCongratulateItemCount = 0
+    var invokedCongratulateItemParameters: (item: Checklist.Item, Void)?
+    var invokedCongratulateItemParametersList = [(item: Checklist.Item, Void)]()
     func congratulate(item: Checklist.Item) {
-        invokedCongratulate = true
-        invokedCongratulateCount += 1
-        invokedCongratulateParameters = (item, ())
-        invokedCongratulateParametersList.append((item, ()))
+        invokedCongratulateItem = true
+        invokedCongratulateItemCount += 1
+        invokedCongratulateItemParameters = (item, ())
+        invokedCongratulateItemParametersList.append((item, ()))
+    }
+    var invokedCongratulateMappable = false
+    var invokedCongratulateMappableCount = 0
+    var invokedCongratulateMappableParameters: (mappable: Mappable, Void)?
+    var invokedCongratulateMappableParametersList = [(mappable: Mappable, Void)]()
+    func congratulate(mappable: Mappable) {
+        invokedCongratulateMappable = true
+        invokedCongratulateMappableCount += 1
+        invokedCongratulateMappableParameters = (mappable, ())
+        invokedCongratulateMappableParametersList.append((mappable, ()))
     }
     var invokedInfoBackground = false
     var invokedInfoBackgroundCount = 0

@@ -151,19 +151,29 @@ open class RealmMapView: MKMapView {
     // MARK: Functions
     
     /// Performs a fresh fetch for Realm objects based on the current visible map rect
-    open func refreshMapView() {
+    open func refreshMapView(refreshRegion: MKCoordinateRegion? = nil,
+                             refreshMapRect: MKMapRect? = nil) {
         objc_sync_enter(self)
         isRefreshingMapCount += 1
-        
-        let currentRegion = self.region
-        
-        let rlmConfig = ObjectiveCSupport.convert(object: self.realmConfiguration)
-        
+
+        let refreshingRegion = refreshRegion ?? region
+        let refreshingMapRect = refreshMapRect ?? visibleMapRect
+        let rlmConfig = ObjectiveCSupport.convert(object: realmConfiguration)
+
         do {
             let rlmRealm = try RLMRealm(configuration: rlmConfig)
-            
-            let fetchRequest = ABFLocationFetchRequest(entityName: self.entityName!, in: rlmRealm, latitudeKeyPath: self.latitudeKeyPath!, longitudeKeyPath: self.longitudeKeyPath!, for: currentRegion)
-            fetchRequest.predicate = NSPredicateForCoordinateRegion(currentRegion, self.latitudeKeyPath!, self.longitudeKeyPath!)
+            let fetchRequest = ABFLocationFetchRequest(
+                entityName: entityName!,
+                in: rlmRealm,
+                latitudeKeyPath: latitudeKeyPath!,
+                longitudeKeyPath: longitudeKeyPath!,
+                for: refreshingRegion
+            )
+            fetchRequest.predicate = NSPredicateForCoordinateRegion(
+                refreshingRegion,
+                latitudeKeyPath!,
+                longitudeKeyPath!
+            )
 
             var predicates = [NSPredicate]()
             if let basePred = self.basePredicate {
@@ -172,26 +182,23 @@ open class RealmMapView: MKMapView {
             if let fetchPred = fetchRequest.predicate {
                 predicates.append(fetchPred)
             }
-            
             if !predicates.isEmpty {
                 let compPred = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
                 fetchRequest.predicate = compPred
             }
             
             self.fetchedResultsController.update(fetchRequest, titleKeyPath: self.titleKeyPath, subtitleKeyPath: self.subtitleKeyPath)
-            
-            let visibleMapRect = self.visibleMapRect
-            
-            let currentZoomLevel = ABFZoomLevelForVisibleMapRect(visibleMapRect)
+
+            let currentZoomLevel = ABFZoomLevelForVisibleMapRect(refreshingMapRect)
             
             let refreshOperation: BlockOperation
             if self.clusterAnnotations && currentZoomLevel <= self.maxZoomLevelForClustering {
                 
                 let zoomScale = MKZoomScaleForMapView(self)
                 
-                refreshOperation = BlockOperation { [weak self] in
+                refreshOperation = BlockOperation { [weak self, refreshingMapRect] in
                     guard let self = self else { return }
-                    self.fetchedResultsController.performClusteringFetch(forVisibleMapRect: visibleMapRect, zoomScale: zoomScale)
+                    self.fetchedResultsController.performClusteringFetch(forVisibleMapRect: refreshingMapRect, zoomScale: zoomScale)
                     
                     let annotations = self.fetchedResultsController.annotations
                     self.addAnnotationsToMapView(annotations)

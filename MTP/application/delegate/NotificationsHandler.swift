@@ -92,16 +92,16 @@ extension NotificationsHandler: UNUserNotificationCenterDelegate {
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
         let userInfo = response.notification.request.content.userInfo
-        guard let visitList = userInfo[Note.Info.list.key] as? String,
-             let list = Checklist(key: visitList),
-             let visitId = userInfo[Note.Info.id.key] as? Int else { return }
+        guard let listValue = userInfo[Note.ChecklistItemInfo.list.key] as? Int,
+              let list = Checklist(rawValue: listValue),
+              let id = userInfo[Note.ChecklistItemInfo.id.key] as? Int else { return }
 
         switch response.actionIdentifier {
         case L.dismissAction():
-            list.set(dismissed: true, id: visitId)
+            list.set(dismissed: true, id: id)
         case L.checkinAction():
-            list.set(visited: true, id: visitId)
-            let item = (list: list, id: visitId)
+            list.set(visited: true, id: id)
+            let item = (list: list, id: id)
             note.congratulate(item: item)
         case UNNotificationDefaultActionIdentifier,
              UNNotificationDismissActionIdentifier:

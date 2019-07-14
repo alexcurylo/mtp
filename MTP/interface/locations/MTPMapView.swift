@@ -97,10 +97,10 @@ final class MTPMapView: RealmMapView, ServiceProvider {
     }
 
     func update(mappable: Mappable) {
-        guard let shown = shown(for: mappable) else { return }
+        guard let contains = contains(mappable: mappable) else { return }
 
-        removeAnnotation(shown)
-        addAnnotation(shown)
+        removeAnnotation(contains)
+        addAnnotation(contains)
     }
 
     func display(view: MappableAnnotationView) {
@@ -118,6 +118,13 @@ final class MTPMapView: RealmMapView, ServiceProvider {
 
         deselectAnnotation(mapped, animated: false)
         zoom(into: mapped)
+    }
+
+    override func refreshMapView(refreshRegion: MKCoordinateRegion? = nil,
+                                 refreshMapRect: MKMapRect? = nil) {
+        let bigger = refreshRegion ?? region.expanded(by: 1.2)
+        super.refreshMapView(refreshRegion: bigger,
+                             refreshMapRect: refreshMapRect)
     }
 
     override func didUpdateAnnotations() {
@@ -185,6 +192,16 @@ private extension MTPMapView {
         if !overlays.isEmpty {
             addOverlays(overlays)
         }
+    }
+
+    func contains(mappable: Mappable) -> MappablesAnnotation? {
+        for contains in annotations {
+            if let contains = contains as? MappablesAnnotation,
+                contains.contains(mappable: mappable) {
+                return contains
+            }
+        }
+        return nil
     }
 
     func shown(for mappable: Mappable) -> MappablesAnnotation? {
@@ -280,7 +297,23 @@ extension MappablesAnnotation {
         return ClusterRegion(mappables: self)
     }
 
+    func contains(mappable: Mappable) -> Bool {
+        return mappables.contains { $0 == mappable }
+    }
+
     func shows(only: Mappable) -> Bool {
         return only == mappable
+    }
+}
+
+extension MKCoordinateRegion {
+
+    var mapRect: MKMapRect { return MKMapRect() }
+
+    func expanded(by factor: Double) -> MKCoordinateRegion {
+        var expanded = self
+        expanded.span.latitudeDelta *= factor
+        expanded.span.longitudeDelta *= factor
+        return expanded
     }
 }

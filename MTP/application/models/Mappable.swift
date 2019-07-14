@@ -56,8 +56,9 @@ protocol Mapper {
 @objcMembers final class Mappable: Object, ServiceProvider {
 
     typealias Key = String
+    typealias Reference = ThreadSafeReference<Mappable>
 
-    dynamic var checklistValue: Int = Checklist.locations.rawValue
+    dynamic var checklistValue: Int = Checklist.beaches.rawValue
     var checklist: Checklist {
         //swiftlint:disable:next force_unwrapping
         get { return Checklist(rawValue: checklistValue)! }
@@ -120,6 +121,11 @@ protocol Mapper {
         }
     }
 
+    var isDismissed: Bool {
+        get { return checklist.isDismissed(id: checklistId) }
+        set { checklist.set(dismissed: newValue, id: checklistId) }
+    }
+
     func reveal(callout: Bool) {
         loc.reveal(mappable: self, callout: callout)
     }
@@ -144,6 +150,10 @@ protocol Mapper {
 
     var distance: CLLocationDistance {
         return loc.distance(to: self)
+    }
+
+    var reference: Reference {
+        return ThreadSafeReference(to: self)
     }
 
     convenience init(checklist: Checklist,
@@ -226,6 +236,16 @@ protocol Mapper {
         dbKey = Mappable.key(item: item)
     }
 
+    var isHere: Bool {
+        switch checklist {
+        case .locations:
+            return data.worldMap.contains(coordinate: loc.here ?? .zero,
+                                          location: checklistId)
+        default:
+            return distance < checklist.triggerDistance
+        }
+    }
+
     func trigger(distance: CLLocationDistance) {
         guard checklist.triggerDistance > 0 else { return }
 
@@ -294,18 +314,13 @@ protocol Mapper {
 
 private extension Mappable {
 
-    var isDismissed: Bool {
-        get { return checklist.isDismissed(id: checklistId) }
-        set { checklist.set(dismissed: newValue, id: checklistId) }
-    }
-
     var isTriggered: Bool {
         get { return checklist.isTriggered(id: checklistId) }
         set { checklist.set(triggered: newValue, id: checklistId) }
     }
 
     var canTrigger: Bool {
-        return !isDismissed && !isTriggered && !isVisited
+        return !isDismissed && !isVisited
     }
 
     func update(triggered: Bool) {
@@ -319,7 +334,7 @@ private extension Mappable {
 extension Mappable.Key: ServiceProvider {
 
     static func key(item: Checklist.Item) -> Mappable.Key {
-        return "'list=\(item.list.rawValue)?id=\(item.id)'"
+        return "list=\(item.list.rawValue)?id=\(item.id)"
     }
 
     var item: Checklist.Item {
@@ -327,22 +342,28 @@ extension Mappable.Key: ServiceProvider {
     }
 
     var checklist: Checklist {
-        guard let list = range(of: #"list=[0-9+]"#,
-                               options: .regularExpression) else {
+        guard let range = range(of: #"list=[0-9]+"#,
+                                options: .regularExpression) else {
             log.error("Can't find list in \(self)")
             return .beaches
         }
-        let value = Int(String(self[list])) ?? 0
+
+        let match = String(self[range])
+        let number = String(match[5...match.count - 1])
+        let value = Int(number) ?? 0
         return Checklist(rawValue: value) ?? .beaches
     }
 
     var checklistId: Int {
-        guard let list = range(of: #"id=[0-9+]"#,
-                               options: .regularExpression) else {
+        guard let range = range(of: #"id=[0-9]+"#,
+                                options: .regularExpression) else {
             log.error("Can't find id in \(self)")
             return 0
         }
-        return Int(String(self[list])) ?? 0
+
+        let match = String(self[range])
+        let number = String(match[3...match.count - 1])
+        return Int(number) ?? 0
     }
 }
 

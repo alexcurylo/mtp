@@ -18,9 +18,10 @@ class CountsPageVC: UIViewController, ServiceProvider {
     private var showsInfo: Bool { return isEditable }
 
     enum Layout {
+        static let headerHeight = CGFloat(25)
         static let lineHeight = CGFloat(32)
         static let margin = CGFloat(8)
-        static let collectionInsets = UIEdgeInsets(top: 0,
+        static let collectionInsets = UIEdgeInsets(top: margin,
                                                    left: margin,
                                                    bottom: 0,
                                                    right: 0)
@@ -124,8 +125,15 @@ extension CountsPageVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         referenceSizeForHeaderInSection section: Int) -> CGSize {
+        let height: CGFloat
+        switch (section, showsInfo) {
+        case (infoSection, true):
+            height = Layout.headerHeight
+        default:
+            height = Layout.lineHeight
+        }
         return CGSize(width: collectionView.frame.width,
-                      height: Layout.lineHeight)
+                      height: height)
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -143,15 +151,19 @@ extension CountsPageVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
-        switch indexPath.section {
-        case infoSection where showsInfo:
+        let modelPath: IndexPath
+        switch (indexPath.section, showsInfo) {
+        case (infoSection, true):
             return infoHeader(at: indexPath)
+        case (_, true):
+            modelPath = IndexPath(row: indexPath.row,
+                                  section: indexPath.section - 1)
         default:
-            let modelPath = IndexPath(row: indexPath.row,
-                                      section: indexPath.section - 1)
-            return countHeader(at: indexPath,
-                               model: modelPath)
+            modelPath = IndexPath(row: indexPath.row,
+                                  section: indexPath.section)
         }
+        return countHeader(at: indexPath,
+                           model: modelPath)
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -160,11 +172,13 @@ extension CountsPageVC: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        switch section {
-        case infoSection where showsInfo:
+        switch (section, showsInfo) {
+        case (infoSection, true):
             return 0
-        default:
+        case (_, true):
             return numberOfItems(section: section - 1)
+        default:
+            return numberOfItems(section: section)
         }
     }
 

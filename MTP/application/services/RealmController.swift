@@ -128,7 +128,7 @@ final class RealmController: ServiceProvider {
     func mappable(item: Checklist.Item) -> Mappable? {
         let key = Mappable.key(item: item)
         let results = realm.objects(Mappable.self)
-                           .filter("dbKey = \(key)")
+                           .filter("dbKey = '\(key)'")
         return results.first
     }
 
@@ -320,7 +320,7 @@ final class RealmController: ServiceProvider {
     func scorecard(list: Checklist, id: Int) -> Scorecard? {
         let key = Scorecard.key(list: list, user: id)
         let results = realm.objects(Scorecard.self)
-                           .filter("dbKey = \(key)")
+                           .filter("dbKey = '\(key)'")
         return results.first
     }
 
@@ -388,6 +388,10 @@ final class RealmController: ServiceProvider {
         } catch {
             log.error("set whss: \(error)")
         }
+    }
+
+    func resolve(reference: Mappable.Reference) -> Mappable? {
+        return realm.resolve(reference)
     }
 }
 

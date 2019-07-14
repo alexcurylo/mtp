@@ -773,6 +773,18 @@ final class DataServiceSpy: DataService {
         invokedDeletePhotosParameters = (id, ())
         invokedDeletePhotosParametersList.append((id, ()))
     }
+    var invokedResolve = false
+    var invokedResolveCount = 0
+    var invokedResolveParameters: (reference: Mappable.Reference, Void)?
+    var invokedResolveParametersList = [(reference: Mappable.Reference, Void)]()
+    var stubbedResolveResult: Mappable!
+    func resolve(reference: Mappable.Reference) -> Mappable? {
+        invokedResolve = true
+        invokedResolveCount += 1
+        invokedResolveParameters = (reference, ())
+        invokedResolveParametersList.append((reference, ()))
+        return stubbedResolveResult
+    }
     var invokedNotify = false
     var invokedNotifyCount = 0
     var invokedNotifyParameters: (changed: String, info: [AnyHashable: Any])?

@@ -154,22 +154,22 @@ final class LocationServiceImpl: LocationService {
 extension LocationServiceImpl: Mapper {
 
     func close(mappable: Mappable) {
-        handler?.broadcast { $0.close(mappable: mappable) }
+        handler?.broadcast(mappable: mappable) { $0.close(mappable: $1) }
     }
 
     func notify(mappable: Mappable, triggered: Date) {
-        handler?.broadcast { $0.notify(mappable: mappable, triggered: triggered) }
+        handler?.broadcast(mappable: mappable) { $0.notify(mappable: $1, triggered: triggered) }
     }
 
     func reveal(mappable: Mappable, callout: Bool) {
-        handler?.broadcast { $0.reveal(mappable: mappable, callout: callout) }
+        handler?.broadcast(mappable: mappable) { $0.reveal(mappable: $1, callout: callout) }
     }
 
     func show(mappable: Mappable) {
-        handler?.broadcast { $0.show(mappable: mappable) }
+        handler?.broadcast(mappable: mappable) { $0.show(mappable: $1) }
     }
 
     func update(mappable: Mappable) {
-        handler?.broadcast { $0.update(mappable: mappable) }
+        handler?.broadcast(mappable: mappable) { $0.update(mappable: $1) }
     }
 }
