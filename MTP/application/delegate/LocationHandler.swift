@@ -38,7 +38,7 @@ final class LocationHandler: NSObject, AppHandler, ServiceProvider {
         $0.maxConcurrentOperationCount = 1
         $0.qualityOfService = .userInteractive
     }
-    private var distanceUpdate: UpdateDistanceOperation?
+    private var distanceUpdate: DistancesOperation?
     private var distancesUpdating: Int = 0 {
         didSet { checkDistanceUpdate() }
     }
@@ -162,12 +162,13 @@ private extension LocationHandler {
 
     func update(distances from: CLLocation) {
         let trigger = data.isVisitsLoaded
-        guard distanceUpdate == nil else { return }
-
-        let update = UpdateDistanceOperation(trigger: trigger,
-                                             mappables: data.mappables,
-                                             handler: self,
-                                             world: data.worldMap)
+        guard let here = lastCoordinate?.coordinate,
+              distanceUpdate == nil else { return }
+        let update = DistancesOperation(center: here,
+                                        mappables: data.mappables,
+                                        handler: self,
+                                        trigger: trigger,
+                                        world: data.worldMap)
         update.completionBlock = {
             DispatchQueue.main.async {
                 self.distances = update.distances
@@ -190,7 +191,7 @@ private extension LocationHandler {
         }
     }
 
-    func start(distance: UpdateDistanceOperation) {
+    func start(distance: DistancesOperation) {
         distanceUpdate = nil
         distancesUpdating += 1
         queue.addOperation(distance)
@@ -218,28 +219,30 @@ private extension LocationHandler {
     }
 }
 
-private class UpdateDistanceOperation: KVNOperation {
-
-    let trigger: Bool
-    let handler: LocationHandler
-    let world: WorldMap
-    let references: [Mappable.Reference]
+final class DistancesOperation: KVNOperation {
 
     var distances: Distances = [:]
 
-    init(trigger: Bool,
+    private let center: CLLocationCoordinate2D
+    private let handler: LocationHandler?
+    private let trigger: Bool
+    private let references: [Mappable.Reference]
+    private let world: WorldMap
+
+    init(center: CLLocationCoordinate2D,
          mappables: [Mappable],
-         handler: LocationHandler,
+         handler: LocationHandler?,
+         trigger: Bool,
          world: WorldMap) {
-        self.trigger = trigger
+        self.center = center
         self.handler = handler
-        self.world = world
+        self.trigger = trigger
         self.references = mappables.compactMap { $0.reference }
+        self.world = world
     }
 
     override func operate() {
-        guard let here = handler.lastCoordinate?.coordinate,
-              let realm = try? Realm() else { return }
+        guard let realm = try? Realm() else { return }
 
         #if INSTRUMENT_DISTANCE
         let start = Date()
@@ -248,13 +251,13 @@ private class UpdateDistanceOperation: KVNOperation {
         references.forEach {
             guard let mappable = realm.resolve($0) else { return }
 
-            let distance = mappable.coordinate.distance(from: here)
+            let distance = mappable.coordinate.distance(from: center)
             distances[mappable.dbKey] = distance
-            guard trigger else { return }
+            guard trigger, let handler = handler else { return }
 
             switch mappable.checklist {
             case .locations:
-                if mappable.trigger(contains: here, world: world) {
+                if mappable.trigger(contains: center, world: world) {
                     handler.lastInside = mappable.checklistId
                 }
             #if TEST_TRIGGERED_NEARBY
@@ -270,20 +273,10 @@ private class UpdateDistanceOperation: KVNOperation {
 
         #if INSTRUMENT_DISTANCE
         let time = -start.timeIntervalSinceNow
-        let title = "Distances: \(mappables.count) in \(Int(time * 1_000)) ms"
+        let title = "Distances: \(references.count) in \(Int(time * 1_000)) ms"
+        print(title)
         let body = ""
-        handler.note.infoBackground(title: title, body: body)
+        handler?.note.infoBackground(title: title, body: body)
         #endif
-    }
-}
-
-private extension OperationQueue {
-
-    func contains(distance trigger: Bool) -> Bool {
-        for operation in operations {
-            if let update = operation as? UpdateDistanceOperation,
-               update.trigger == trigger { return true }
-        }
-        return false
     }
 }

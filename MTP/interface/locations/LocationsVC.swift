@@ -77,7 +77,8 @@ final class LocationsVC: UIViewController, ServiceProvider {
             break
         case Segues.showNearby.identifier:
             let nearby = Segues.showNearby(segue: segue)?.destination
-            nearby?.inject(model: (data.mappables, loc.distances))
+            nearby?.inject(model: (data.mappables,
+                                   mtpMapView?.centerCoordinate ?? .zero))
         case Segues.showLocation.identifier:
             guard let show = Segues.showLocation(segue: segue)?.destination else { break }
             if let inject = injectMappable {

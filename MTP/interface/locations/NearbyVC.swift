@@ -14,8 +14,14 @@ final class NearbyVC: UITableViewController, ServiceProvider {
 
     @IBOutlet private var backgroundView: UIView?
 
+    private var contentState: ContentState = .loading
     private var mappables: [Mappable] = []
     private var distances: Distances = [:]
+    private var queue = OperationQueue {
+        $0.name = typeName
+        $0.maxConcurrentOperationCount = 1
+        $0.qualityOfService = .userInteractive
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,16 +107,45 @@ extension NearbyVC {
 
 extension NearbyVC: Injectable {
 
-    typealias Model = (mappables: [Mappable], distances: Distances)
+    typealias Model = (mappables: [Mappable], center: CLLocationCoordinate2D)
 
     @discardableResult func inject(model: Model) -> Self {
-        distances = model.distances
-        mappables = model.mappables.sorted {
-            distances[$0.dbKey] ?? 0 < distances[$1.dbKey] ?? 0
+        if let here = loc.here,
+           !loc.distances.isEmpty {
+            guard model.center.distance(from: here) > 10 else {
+                set(mappables: model.mappables,
+                    distances: loc.distances)
+                return self
+            }
         }
 
+        let update = DistancesOperation(center: model.center,
+                                        mappables: model.mappables,
+                                        handler: nil,
+                                        trigger: false,
+                                        world: data.worldMap)
+        update.completionBlock = { [weak self, model, update] in
+            DispatchQueue.main.async { [weak self, model, update] in
+                self?.set(mappables: model.mappables,
+                          distances: update.distances)
+            }
+        }
+        queue.addOperation(update)
+
+        tableView.set(message: contentState)
         return self
     }
+
+    func set(mappables: [Mappable],
+             distances: Distances) {
+        self.distances = distances
+        self.mappables = mappables.sorted {
+            distances[$0.dbKey] ?? 0 < distances[$1.dbKey] ?? 0
+        }
+        contentState = .data
+        tableView.set(message: contentState)
+        tableView.reloadData()
+   }
 
     func requireInjections() {
         backgroundView.require()
