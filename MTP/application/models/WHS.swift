@@ -6,6 +6,7 @@ import RealmSwift
 struct WHSJSON: Codable {
 
     let active: String
+    let featuredImg: String?
     let id: Int
     let lat: Double
     let location: PlaceLocation?
@@ -31,6 +32,7 @@ extension WHSJSON: CustomDebugStringConvertible {
         return """
         < WHSJSON: \(description):
         active: \(active)
+        featuredImg: \(String(describing: featuredImg))
         id: \(id)
         lat: \(lat)
         location: \(String(describing: location))
@@ -69,13 +71,20 @@ extension WHSJSON: CustomDebugStringConvertible {
         return "placeId"
     }
 
+    // swiftlint:disable:next function_body_length
     convenience init?(from: WHSJSON,
                       realm: RealmController) {
         guard from.active == "Y" else { return nil }
         self.init()
 
         let website = "https://whc.unesco.org/en/list/\(from.unescoId)"
-        let picture = "https://whc.unesco.org/uploads/sites/gallery/original/site_%04d_0001.jpg"
+        let image: String
+        if let featured = from.featuredImg, !featured.isEmpty {
+            image = featured
+        } else {
+            let picture = "https://whc.unesco.org/uploads/sites/gallery/original/site_%04d_0001.jpg"
+            image = String(format: picture, from.id)
+        }
         let locationId = from.location?.id ?? from.locationId
         let location = realm.location(id: locationId)
         let country: String
@@ -99,7 +108,7 @@ extension WHSJSON: CustomDebugStringConvertible {
         map = Mappable(checklist: .whss,
                        checklistId: from.id,
                        country: country,
-                       image: String(format: picture, from.id),
+                       image: image,
                        latitude: from.lat,
                        location: location,
                        longitude: from.long,
