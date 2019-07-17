@@ -1,13 +1,13 @@
 // @copyright Trollwerks Inc.
 
-// swiftlint:disable line_length
+import XCTest
+
+#if TRAVIS
 // Travis appears to 100% fail second test with the "Failed to terminate" problem
 // Deleting app between each test is an option presented here
+// swiftlint:disable:next line_length
 // https://stackoverflow.com/questions/33107731/is-there-a-way-to-reset-the-app-between-tests-in-swift-xctest-ui/48715864#48715864
-
-#if FIX_TRAVIS
-
-import XCTest
+#else
 
 final class MTPUITests: XCTestCase {
 
@@ -15,22 +15,23 @@ final class MTPUITests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-
-        continueAfterFailure = false
     }
 
     override func tearDown() {
         super.tearDown()
     }
 
-    func testFirstLaunch() {
-        launch(settings: [.loggedIn(false)])
+    func test_snapshot_01LoginScreen() {
+        launch(arguments: [.takingScreenshots],
+               settings: [.loggedIn(false)])
 
         let tabBar = app.tabBars.element(boundBy: 0)
         XCTAssertFalse(tabBar.waitForExistence(timeout: 5))
+
+        snapshot("01LoginScreen")
     }
 
-    func testTabNavigation() {
+    func disabled_testTabNavigation() {
         launch(settings: [.loggedIn(true)])
 
         let tabBar = app.tabBars.element(boundBy: 0)

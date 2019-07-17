@@ -51,15 +51,26 @@ platform :ios do
   lane :release do
     increment_build_number
     test
+    build_app(export_method: "app-store")
     screenshots
-    build_app(workspace: "MTP.xcworkspace", scheme: "MTP")
     # upload_to_app_store(skip_metadata: true, skip_screenshots: true)
   end
 
   desc "Generate new localized screenshots"
   lane :screenshots do
-    capture_screenshots(workspace: "MTP.xcworkspace", scheme: "MTPUITests")
+    # enable_simulators_keyboard
+    # give_simulators_permissions
+    capture_screenshots
+    # frame_screenshots(white: true)
     # upload_to_app_store(skip_binary_upload: true, skip_metadata: true)
+  end
+
+  desc "Prepare simulators for screenshots"
+  lane :give_simulators_permissions do
+    # https://github.com/wix/AppleSimulatorUtils
+    for dev in test_devices
+      sh("applesimutils --byName '#{dev}' --bundle 'br.com.unicred.Unicred-Debug' --setPermissions 'calendar=YES, camera=YES, contacts=YES, health=YES, homekit=YES, location=inuse, medialibrary=YES, microphone=YES, motion=YES, notifications=YES, photos=YES, reminders=YES, siri=YES, speech=YES'")
+    end
   end
 
   after_all do |lane|

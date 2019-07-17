@@ -18,6 +18,7 @@
 		8C012803223208FB00EA2095 /* MTPNetworkServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C012802223208FB00EA2095 /* MTPNetworkServiceSpy.swift */; };
 		8C0F242B22432076005BD5DC /* UserCountsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0F242A22432076005BD5DC /* UserCountsVC.swift */; };
 		8C1A267E22AE019400DAFC7B /* SearchResultJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1A267D22AE019400DAFC7B /* SearchResultJSON.swift */; };
+		8C3EA1FF22DD540F008DD858 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EA1FE22DD540F008DD858 /* SnapshotHelper.swift */; };
 		8C3EA813222F64F100CB4886 /* TopLoadingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */; };
 		8C3EAA1C2230BFA500CB4886 /* InsetTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EAA1B2230BFA500CB4886 /* InsetTextField.swift */; };
 		8C3EAB842230FCC200CB4886 /* RoutingAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EAB832230FCC200CB4886 /* RoutingAppDelegate.swift */; };
@@ -229,6 +230,7 @@
 		8C012802223208FB00EA2095 /* MTPNetworkServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPNetworkServiceSpy.swift; sourceTree = "<group>"; };
 		8C0F242A22432076005BD5DC /* UserCountsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCountsVC.swift; sourceTree = "<group>"; };
 		8C1A267D22AE019400DAFC7B /* SearchResultJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultJSON.swift; sourceTree = "<group>"; };
+		8C3EA1FE22DD540F008DD858 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
 		8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLoadingTextView.swift; sourceTree = "<group>"; };
 		8C3EAA1B2230BFA500CB4886 /* InsetTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetTextField.swift; sourceTree = "<group>"; };
 		8C3EAB832230FCC200CB4886 /* RoutingAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutingAppDelegate.swift; sourceTree = "<group>"; };
@@ -489,6 +491,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		8C3EA1FD22DD53C0008DD858 /* support */ = {
+			isa = PBXGroup;
+			children = (
+				FA392BDE20DF69F50026C828 /* Info.plist */,
+				8C3EA1FE22DD540F008DD858 /* SnapshotHelper.swift */,
+				FA32CC7120FAC863004C1329 /* XCTestCase+UITest.swift */,
+			);
+			path = support;
+			sourceTree = "<group>";
+		};
 		8C3EAB8F223119CE00CB4886 /* delegate */ = {
 			isa = PBXGroup;
 			children = (
@@ -665,8 +677,7 @@
 			isa = PBXGroup;
 			children = (
 				FA392BDC20DF69F50026C828 /* MTPUITests.swift */,
-				FA32CC7120FAC863004C1329 /* XCTestCase+UITest.swift */,
-				FA392BDE20DF69F50026C828 /* Info.plist */,
+				8C3EA1FD22DD53C0008DD858 /* support */,
 			);
 			path = MTPUITests;
 			sourceTree = "<group>";
@@ -1405,6 +1416,7 @@
 				FAAE29C020EE581900B43BA9 /* UIApplication+Environment.swift in Sources */,
 				FA32CC7220FAC863004C1329 /* XCTestCase+UITest.swift in Sources */,
 				FA392BDD20DF69F50026C828 /* MTPUITests.swift in Sources */,
+				8C3EA1FF22DD540F008DD858 /* SnapshotHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,20 +11,6 @@ extension UIApplication {
         return applicationState == .active
     }
 
-    static var isUnitTesting: Bool {
-        let isUnitTesting = NSClassFromString("XCTestCase") != nil
-        return isUnitTesting
-    }
-
-    static var isUITesting: Bool {
-        let isUITesting = ProcessInfo.arguments(contain: .uiTestingMode)
-        return isUITesting
-    }
-
-    static var isTesting: Bool {
-        return isUITesting || isUnitTesting
-    }
-
     static var isSimulator: Bool {
         #if targetEnvironment(simulator)
         return true
@@ -32,10 +18,31 @@ extension UIApplication {
         return false
         #endif
     }
+
+    static var isTakingScreenshots: Bool {
+        let isUITesting = ProcessInfo.arguments(contain: .takingScreenshots)
+        return isUITesting
+    }
+
+    static var isTesting: Bool {
+        return isUITesting || isUnitTesting
+    }
+
+    static var isUITesting: Bool {
+        let isUITesting = ProcessInfo.arguments(contain: .uiTesting)
+        return isUITesting
+    }
+
+    static var isUnitTesting: Bool {
+        let isUnitTesting = NSClassFromString("XCTestCase") != nil
+        return isUnitTesting
+    }
 }
 
 enum LaunchArgument: String {
-    case uiTestingMode
+
+    case takingScreenshots
+    case uiTesting
 }
 
 enum LaunchSettingKey: String {

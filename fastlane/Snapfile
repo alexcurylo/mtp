@@ -1,44 +1,65 @@
 # Uncomment the lines below you want to change by removing the # in the beginning
 
 # A list of devices you want to take the screenshots from
-# devices([
-#   "iPhone 8",
+devices([
+   "iPhone 8",
 #   "iPhone 8 Plus",
 #   "iPhone SE",
 #   "iPhone X",
 #   "iPad Pro (12.9-inch)",
 #   "iPad Pro (9.7-inch)",
-#   "Apple TV 1080p"
-# ])
+])
 
-# languages([
-#   "en-US",
-#   "de-DE",
-#   "it-IT",
-#   ["pt", "pt_BR"] # Portuguese with Brazilian locale
-# ])
+# A list of languages which should be used
+# Note that final entry is language Simulator will be left in after completion
+languages([
+  "en-US",
+])
+
+# The name of the workspace which contains the UI Tests
+workspace "MTP.xcworkspace"
 
 # The name of the scheme which contains the UI Tests
-# scheme("SchemeName")
+scheme("MTPUITests")
 
 # Where should the resulting screenshots be stored?
 output_directory "./fastlane/screenshots"
 
 # Use multiple Simulators with Xcode 9
-concurrent_simulators true
+# concurrent_simulators true
+
+# The directory for derived data reuse
+# derived_data_path "/tmp/MTPSnapshots/DerivedData"
+# test_without_building(true)
 
 # remove the '#' to clear all previously generated screenshots before creating new ones
-# clear_previous_screenshots(true)
+clear_previous_screenshots true
+
+# configure the Simulator's system language
+# localize_simulator true
+
+# clean Simulator completely
+erase_simulator false
+
+# uninstall the application before running it
+reinstall_app false
+
+# bundle identifier of the app to uninstall (only needed when enabling reinstall_app)
+# app_identifier "com.mosttraveledpeople.mtp"
 
 # Arguments to pass to the app on launch. See https://docs.fastlane.tools/actions/snapshot/#launch-arguments
 # launch_arguments(["-favColor red"])
+
+# save application's logging
+# buildlog_path "/tmp/MTPSnapshots/BuildLog"
+# output_simulator_logs true
 
 # just stop when done
 #skip_open_summary true
 
 # stop immediately on problems
 stop_after_first_error true
-number_of_retries 0
+number_of_retries 2
 
 # For more information about all available options run
 # fastlane action snapshot
