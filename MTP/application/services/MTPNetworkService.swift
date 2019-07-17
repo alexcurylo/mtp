@@ -198,7 +198,7 @@ extension MTP: TargetType {
                                        encoding: URLEncoding(destination: .queryString))
         case .checkOut(_, let id):
             return .requestParameters(parameters: ["id": id],
-                                      encoding: URLEncoding.default)
+                                      encoding: URLEncoding(destination: .queryString))
         case .locationPosts: // &limit=1&page=1&orderBy=-created_at
             return .requestParameters(parameters: ["status": Status.published.rawValue],
                                       encoding: URLEncoding.default)

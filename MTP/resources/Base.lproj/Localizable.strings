@@ -160,10 +160,13 @@
 
 "myRanking" = "My Ranking:";
 "myScore" = "My Score:";
+"rankScore" = "%@";
+"rankFraction" = "(%1$@/%2$@)";
 "rankScoreFraction" = "%1$@ (%2$@/%3$@)";
 "scoreFraction" = "%1$@/%2$@";
 "topTravelers" = "Top Travelers:";
 
+"updating" = "%ldm";
 "deceased" = "*";
 "join" = ", ";
 "allCountries" = "All countries";
