@@ -22,12 +22,21 @@
 "unexpectedError" = "Could not %@ - an unexpected error occurred.";
 "unexpectedErrorReport" = "Could not %@ - an unexpected error occurred. Please report the problem with ‘Contact Us’ on the ‘Settings’ page.";
 "deleteAccount" = "delete account";
+"deletingAccount" = "Deleting account…";
 "logIn" = "log in";
+"loggingIn" = "Logging in…";
 "publishPhoto" = "publish photo";
+"publishingPhoto" = "Publishing photo…";
 "publishPost" = "publish post";
+"publishingPost" = "Publishing post…";
 "resetPassword" = "reset password";
+"resettingPassword" = "Resetting password…";
 "signUp" = "sign up";
+"signingUp" = "Signing up…";
 "updateProfile" = "update profile";
+"updatingProfile" = "Updating profile…";
+"updateVisit" = "update visit";
+"updatingVisit" = "Updating visit…";
 
 // list state handling
 
@@ -53,15 +62,10 @@
 "fixBio" = "Please tell us about yourself!";
 "fixAirport" = "Please enter your home airport!";
 "fixLinks" = "Please enter a title and URL for all your links!";
-"publishingPhoto" = "Publishing photo…";
-"publishingPost" = "Publishing post…";
-"updatingProfile" = "Updating profile…";
-"deletingAccount" = "Deleting account…";
 
 // ForgotPasswordVC
 
 "sendLink" = "We will send a link to your email %@ enabling you to reset your password.";
-"resettingPassword" = "Resetting password…";
 "emailError" = "Sorry, that email was not found.";
 
 // LocationInfoVC
@@ -126,7 +130,6 @@
 
 // LoginVC
 
-"loggingIn" = "Logging in…";
 "fixEmail" = "That does not appear to be a valid email!";
 "enterPassword" = "Please enter a password!";
 
@@ -192,7 +195,6 @@
 
 // SignupVC
 
-"signingUp" = "Signing up…";
 "selectGender" = "Select Gender";
 "facebookFailed" = "Failed to get information from Facebook!";
 "fixFirstName" = "Please enter a first name!";

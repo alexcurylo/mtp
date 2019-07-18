@@ -504,12 +504,9 @@ private extension EditProfileVC {
     }
 
     func upload(payload: UserUpdatePayload) {
-        let operation = L.updateProfile()
         note.modal(info: L.updatingProfile())
 
-        // swiftlint:disable:next closure_body_length
         mtp.userUpdate(payload: payload) { [weak self, note] result in
-            let errorMessage: String
             switch result {
             case .success:
                 note.modal(success: L.success())
@@ -518,24 +515,9 @@ private extension EditProfileVC {
                     self?.performSegue(withIdentifier: Segues.cancelEdits, sender: self)
                 }
                 return
-            case .failure(.deviceOffline):
-                errorMessage = L.deviceOfflineError(operation)
-            case .failure(.serverOffline):
-                errorMessage = L.serverOfflineError(operation)
-            case .failure(.decoding):
-                errorMessage = L.decodingErrorReport(operation)
-            case .failure(.status):
-                errorMessage = L.statusErrorReport(operation)
-            case .failure(.message(let message)):
-                errorMessage = message
-            case .failure(.network(let message)):
-                errorMessage = L.networkError(operation, message)
-            default:
-                errorMessage = L.unexpectedErrorReport(operation)
-            }
-            note.modal(error: errorMessage)
-            DispatchQueue.main.asyncAfter(deadline: .medium) {
-                note.dismissModal()
+            case .failure(let error):
+                note.modal(failure: error,
+                           operation: L.updateProfile())
             }
         }
     }
@@ -577,12 +559,9 @@ private extension EditProfileVC {
     }
 
     @IBAction func deleteAccount(segue: UIStoryboardSegue) {
-        let operation = L.deleteAccount()
         note.modal(info: L.deletingAccount())
 
-        // swiftlint:disable:next closure_body_length
         mtp.userDeleteAccount { [weak self, note] result in
-            let errorMessage: String
             switch result {
             case .success:
                 note.modal(success: L.success())
@@ -591,24 +570,9 @@ private extension EditProfileVC {
                     self?.performSegue(withIdentifier: Segues.unwindFromEditProfile, sender: self)
                 }
                 return
-            case .failure(.deviceOffline):
-                errorMessage = L.deviceOfflineError(operation)
-            case .failure(.serverOffline):
-                errorMessage = L.serverOfflineError(operation)
-            case .failure(.decoding):
-                errorMessage = L.decodingErrorReport(operation)
-            case .failure(.status):
-                errorMessage = L.statusErrorReport(operation)
-            case .failure(.message(let message)):
-                errorMessage = message
-            case .failure(.network(let message)):
-                errorMessage = L.networkError(operation, message)
-            default:
-                errorMessage = L.unexpectedErrorReport(operation)
-            }
-            note.modal(error: errorMessage)
-            DispatchQueue.main.asyncAfter(deadline: .medium) {
-                note.dismissModal()
+            case .failure(let error):
+                note.modal(failure: error,
+                           operation: L.deleteAccount())
             }
         }
     }

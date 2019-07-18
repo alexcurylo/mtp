@@ -209,44 +209,27 @@ private extension AddPhotoVC {
     func upload(photo: Data,
                 caption: String?,
                 location id: Int?) {
-        let operation = L.publishPhoto()
         note.modal(info: L.publishingPhoto())
 
         mtp.upload(photo: photo,
                    caption: caption,
-                   // swiftlint:disable:next closure_body_length
                    location: id) { [weak self, note] result in
-            let errorMessage: String
             switch result {
             case .success(let reply):
                 note.modal(success: L.success())
-                if let self = self {
-                    self.delegate?.addPhoto(controller: self,
-                                            didAdd: reply)
+                DispatchQueue.main.async { [weak self] in
+                    if let self = self {
+                        self.delegate?.addPhoto(controller: self,
+                                                didAdd: reply)
+                    }
                 }
                 DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
                     note.dismissModal()
                     self?.performSegue(withIdentifier: Segues.pop, sender: self)
                 }
-                return
-            case .failure(.deviceOffline):
-                errorMessage = L.deviceOfflineError(operation)
-            case .failure(.serverOffline):
-                errorMessage = L.serverOfflineError(operation)
-            case .failure(.decoding):
-                errorMessage = L.decodingErrorReport(operation)
-            case .failure(.status):
-                errorMessage = L.statusErrorReport(operation)
-            case .failure(.message(let message)):
-                errorMessage = message
-            case .failure(.network(let message)):
-                errorMessage = L.networkError(operation, message)
-            default:
-                errorMessage = L.unexpectedErrorReport(operation)
-            }
-            note.modal(error: errorMessage)
-            DispatchQueue.main.asyncAfter(deadline: .medium) {
-                note.dismissModal()
+            case .failure(let error):
+                note.modal(failure: error,
+                           operation: L.publishPhoto())
             }
         }
     }

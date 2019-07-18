@@ -54,6 +54,13 @@ protocol NotificationService {
 
     func authorizeNotifications(then: @escaping (Bool) -> Void)
 
+    func set(item: Checklist.Item,
+             visited: Bool,
+             congratulate: Bool)
+    func set(items: [Checklist.Item],
+             visited: Bool,
+             congratulate: Bool)
+
     func ask(question: String,
              then: @escaping (Bool) -> Void)
 
@@ -75,9 +82,11 @@ protocol NotificationService {
               category: String,
               info: Info)
 
-    func modal(error: String)
-    func modal(info: String)
     func modal(success: String)
+    func modal(info: String)
+    func modal(error: String)
+    func modal(failure: MTPNetworkError,
+               operation: String)
     func dismissModal()
 
     func message(error: String)
@@ -130,6 +139,43 @@ final class NotificationServiceImpl: NotificationService, ServiceProvider {
         let options: UNAuthorizationOptions = [.alert, .badge, .sound]
         center.requestAuthorization(options: options) { granted, _ in
             then(granted)
+        }
+    }
+
+    func set(item: Checklist.Item,
+             visited: Bool,
+             congratulate: Bool) {
+        let changes = item.list.changes(id: item.id,
+                                        visited: visited)
+        set(items: changes,
+            visited: visited,
+            congratulate: congratulate)
+    }
+
+    func set(items: [Checklist.Item],
+             visited: Bool,
+             congratulate: Bool) {
+        guard let first = items.first else { return }
+
+        modal(info: L.updatingVisit())
+
+        mtp.set(items: items,
+                visited: visited) { result in
+            switch result {
+            case .success:
+                self.modal(success: L.success())
+                DispatchQueue.main.asyncAfter(deadline: .veryShort) {
+                    self.dismissModal()
+                    self.data.set(items: items,
+                                  visited: visited)
+                    if congratulate {
+                        self.congratulate(item: first)
+                    }
+                }
+            case .failure(let error):
+                self.modal(failure: error,
+                           operation: L.updateVisit())
+            }
         }
     }
 
@@ -400,10 +446,11 @@ private extension NotificationServiceImpl {
             label: okButtonLabel,
             backgroundColor: .clear,
             highlightedBackgroundColor: checkinColor.withAlphaComponent(0.05)) { [mappable] in
-                mappable.isVisited = true
                 SwiftEntryKit.dismiss {
                     self.notifying = nil
-                    self.congratulate(item: mappable.item)
+                    self.set(item: mappable.item,
+                             visited: true,
+                             congratulate: true)
                 }
         }
         let grayLight = UIColor(white: 230.0 / 255.0, alpha: 1)
@@ -520,9 +567,9 @@ private extension NotificationServiceImpl {
 
 extension NotificationServiceImpl {
 
-    func modal(error: String) {
+    func modal(success: String) {
         showingModal = true
-        KRProgressHUD.showError(withMessage: error)
+        KRProgressHUD.showSuccess(withMessage: success)
     }
 
     func modal(info: String) {
@@ -530,9 +577,34 @@ extension NotificationServiceImpl {
         KRProgressHUD.show(withMessage: info)
     }
 
-    func modal(success: String) {
+    func modal(error: String) {
         showingModal = true
-        KRProgressHUD.showSuccess(withMessage: success)
+        KRProgressHUD.showError(withMessage: error)
+    }
+
+    func modal(failure: MTPNetworkError,
+               operation: String) {
+        let errorMessage: String
+        switch failure {
+        case .deviceOffline:
+            errorMessage = L.deviceOfflineError(operation)
+        case .serverOffline:
+            errorMessage = L.serverOfflineError(operation)
+        case .decoding:
+            errorMessage = L.decodingErrorReport(operation)
+        case .status:
+            errorMessage = L.statusErrorReport(operation)
+        case .message(let message):
+            errorMessage = message
+        case .network(let message):
+            errorMessage = L.networkError(operation, message)
+        default:
+            errorMessage = L.unexpectedErrorReport(operation)
+        }
+        modal(error: errorMessage)
+        DispatchQueue.main.asyncAfter(deadline: .medium) {
+            self.dismissModal()
+        }
     }
 
     func dismissModal() {

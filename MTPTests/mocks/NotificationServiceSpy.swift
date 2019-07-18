@@ -16,6 +16,30 @@ final class NotificationServiceSpy: NotificationService {
             then(result.0)
         }
     }
+    var invokedSetItem = false
+    var invokedSetItemCount = 0
+    var invokedSetItemParameters: (item: Checklist.Item, visited: Bool, congratulate: Bool)?
+    var invokedSetItemParametersList = [(item: Checklist.Item, visited: Bool, congratulate: Bool)]()
+    func set(item: Checklist.Item,
+    visited: Bool,
+    congratulate: Bool) {
+        invokedSetItem = true
+        invokedSetItemCount += 1
+        invokedSetItemParameters = (item, visited, congratulate)
+        invokedSetItemParametersList.append((item, visited, congratulate))
+    }
+    var invokedSetItems = false
+    var invokedSetItemsCount = 0
+    var invokedSetItemsParameters: (items: [Checklist.Item], visited: Bool, congratulate: Bool)?
+    var invokedSetItemsParametersList = [(items: [Checklist.Item], visited: Bool, congratulate: Bool)]()
+    func set(items: [Checklist.Item],
+    visited: Bool,
+    congratulate: Bool) {
+        invokedSetItems = true
+        invokedSetItemsCount += 1
+        invokedSetItemsParameters = (items, visited, congratulate)
+        invokedSetItemsParametersList.append((items, visited, congratulate))
+    }
     var invokedAsk = false
     var invokedAskCount = 0
     var invokedAskParameters: (question: String, Void)?
@@ -115,15 +139,15 @@ final class NotificationServiceSpy: NotificationService {
         invokedPostParameters = (title, subtitle, body, category, info)
         invokedPostParametersList.append((title, subtitle, body, category, info))
     }
-    var invokedModalError = false
-    var invokedModalErrorCount = 0
-    var invokedModalErrorParameters: (error: String, Void)?
-    var invokedModalErrorParametersList = [(error: String, Void)]()
-    func modal(error: String) {
-        invokedModalError = true
-        invokedModalErrorCount += 1
-        invokedModalErrorParameters = (error, ())
-        invokedModalErrorParametersList.append((error, ()))
+    var invokedModalSuccess = false
+    var invokedModalSuccessCount = 0
+    var invokedModalSuccessParameters: (success: String, Void)?
+    var invokedModalSuccessParametersList = [(success: String, Void)]()
+    func modal(success: String) {
+        invokedModalSuccess = true
+        invokedModalSuccessCount += 1
+        invokedModalSuccessParameters = (success, ())
+        invokedModalSuccessParametersList.append((success, ()))
     }
     var invokedModalInfo = false
     var invokedModalInfoCount = 0
@@ -135,15 +159,26 @@ final class NotificationServiceSpy: NotificationService {
         invokedModalInfoParameters = (info, ())
         invokedModalInfoParametersList.append((info, ()))
     }
-    var invokedModalSuccess = false
-    var invokedModalSuccessCount = 0
-    var invokedModalSuccessParameters: (success: String, Void)?
-    var invokedModalSuccessParametersList = [(success: String, Void)]()
-    func modal(success: String) {
-        invokedModalSuccess = true
-        invokedModalSuccessCount += 1
-        invokedModalSuccessParameters = (success, ())
-        invokedModalSuccessParametersList.append((success, ()))
+    var invokedModalError = false
+    var invokedModalErrorCount = 0
+    var invokedModalErrorParameters: (error: String, Void)?
+    var invokedModalErrorParametersList = [(error: String, Void)]()
+    func modal(error: String) {
+        invokedModalError = true
+        invokedModalErrorCount += 1
+        invokedModalErrorParameters = (error, ())
+        invokedModalErrorParametersList.append((error, ()))
+    }
+    var invokedModalFailure = false
+    var invokedModalFailureCount = 0
+    var invokedModalFailureParameters: (failure: MTPNetworkError, operation: String)?
+    var invokedModalFailureParametersList = [(failure: MTPNetworkError, operation: String)]()
+    func modal(failure: MTPNetworkError,
+    operation: String) {
+        invokedModalFailure = true
+        invokedModalFailureCount += 1
+        invokedModalFailureParameters = (failure, operation)
+        invokedModalFailureParametersList.append((failure, operation))
     }
     var invokedDismissModal = false
     var invokedDismissModalCount = 0

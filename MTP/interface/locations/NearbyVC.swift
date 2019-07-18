@@ -162,7 +162,7 @@ extension NearbyVC: NearbyCellDelegate {
     }
 }
 
-final class NearbyCell: UITableViewCell {
+final class NearbyCell: UITableViewCell, ServiceProvider {
 
     @IBOutlet private var placeImage: UIImageView?
     @IBOutlet private var distanceLabel: UILabel?
@@ -229,9 +229,10 @@ private extension NearbyCell {
     @IBAction func toggleVisit(_ sender: UISwitch) {
         guard let mappable = mappable else { return }
 
-        let isVisited = sender.isOn
-        mappable.isVisited = isVisited
-        show(visited: isVisited)
+        let visited = sender.isOn
+        note.set(item: mappable.item,
+                 visited: visited,
+                 congratulate: false)
     }
 
     func show(visited: Bool) {

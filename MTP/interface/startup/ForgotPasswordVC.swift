@@ -52,12 +52,9 @@ final class ForgotPasswordVC: UIViewController, ServiceProvider {
 private extension ForgotPasswordVC {
 
     @IBAction func continueTapped(_ sender: GradientButton) {
-        let operation = L.resetPassword()
         note.modal(info: L.resettingPassword())
 
-        // swiftlint:disable:next closure_body_length
         mtp.userForgotPassword(email: email) { [weak self, note] result in
-            let errorMessage: String
             switch result {
             case .success(let message):
                 KRProgressHUD.showSuccess(withMessage: message)
@@ -66,26 +63,12 @@ private extension ForgotPasswordVC {
                     self?.performSegue(withIdentifier: Segues.dismissForgotPassword, sender: self)
                 }
                 return
-            case .failure(.deviceOffline):
-                errorMessage = L.deviceOfflineError(operation)
-            case .failure(.serverOffline):
-                errorMessage = L.serverOfflineError(operation)
-            case .failure(.status),
-                 .failure(.parameter):
-                errorMessage = L.emailError()
-            case .failure(.decoding):
-                errorMessage = L.decodingErrorReport(operation)
-            case .failure(.message(let message)):
-                errorMessage = message
-            case .failure(.network(let message)):
-                errorMessage = L.networkError(operation, message)
-            default:
-                errorMessage = L.unexpectedErrorReport(operation)
-            }
-            KRProgressHUD.showError(withMessage: errorMessage)
-            DispatchQueue.main.asyncAfter(deadline: .medium) {
-                note.dismissModal()
-                self?.performSegue(withIdentifier: Segues.dismissForgotPassword, sender: self)
+            case .failure(let error):
+                note.modal(failure: error,
+                           operation: L.resetPassword())
+                DispatchQueue.main.asyncAfter(deadline: .medium) {
+                    self?.performSegue(withIdentifier: Segues.dismissForgotPassword, sender: self)
+                }
             }
         }
     }

@@ -6,19 +6,6 @@
 // swiftlint:disable all
 
 final class MTPNetworkServiceSpy: MTPNetworkService {
-    var invokedCheck = false
-    var invokedCheckCount = 0
-    var invokedCheckParameters: (list: Checklist, id: Int, visited: Bool, then: MTPResult<Bool>)?
-    var invokedCheckParametersList = [(list: Checklist, id: Int, visited: Bool, then: MTPResult<Bool>)]()
-    func check(list: Checklist,
-    id: Int,
-    visited: Bool,
-    then: @escaping MTPResult<Bool>) {
-        invokedCheck = true
-        invokedCheckCount += 1
-        invokedCheckParameters = (list, id, visited, then)
-        invokedCheckParametersList.append((list, id, visited, then))
-    }
     var invokedLoadPhotosLocation = false
     var invokedLoadPhotosLocationCount = 0
     var invokedLoadPhotosLocationParameters: (id: Int, reload: Bool, then: MTPResult<PhotosInfoJSON>)?
@@ -122,6 +109,18 @@ final class MTPNetworkServiceSpy: MTPNetworkService {
         invokedSearchCount += 1
         invokedSearchParameters = (query, then)
         invokedSearchParametersList.append((query, then))
+    }
+    var invokedSet = false
+    var invokedSetCount = 0
+    var invokedSetParameters: (items: [Checklist.Item], visited: Bool, then: MTPResult<Bool>)?
+    var invokedSetParametersList = [(items: [Checklist.Item], visited: Bool, then: MTPResult<Bool>)]()
+    func set(items: [Checklist.Item],
+    visited: Bool,
+    then: @escaping MTPResult<Bool>) {
+        invokedSet = true
+        invokedSetCount += 1
+        invokedSetParameters = (items, visited, then)
+        invokedSetParametersList.append((items, visited, then))
     }
     var invokedUpload = false
     var invokedUploadCount = 0

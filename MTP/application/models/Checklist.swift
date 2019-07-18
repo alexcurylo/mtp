@@ -218,18 +218,6 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         data.triggered = timestamps
     }
 
-    func set(changes: [Item],
-             visited: Bool) {
-        var visits = data.visited ?? Checked()
-        changes.forEach {
-            visits.set(item: $0, visited: visited)
-            set(dismissed: false, id: $0.id)
-            set(notified: false, id: $0.id)
-            set(triggered: false, id: $0.id)
-        }
-        data.visited = visits
-    }
-
     func changes(id: Int,
                  visited: Bool) -> [Item] {
         guard self != .uncountries,

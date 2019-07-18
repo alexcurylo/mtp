@@ -114,11 +114,7 @@ protocol Mapper {
     }
 
     var isVisited: Bool {
-        get { return checklist.isVisited(id: checklistId) }
-        set {
-            checklist.set(visited: newValue, id: checklistId)
-            loc.update(mappable: self)
-        }
+        return checklist.isVisited(id: checklistId)
     }
 
     var isDismissed: Bool {

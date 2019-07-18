@@ -135,12 +135,9 @@ private extension AddPostVC {
     }
 
     func upload(payload: PostPayload) {
-        let operation = L.publishPost()
         note.modal(info: L.publishingPost())
 
-        // swiftlint:disable:next closure_body_length
         mtp.postPublish(payload: payload) { [weak self, note] result in
-            let errorMessage: String
             switch result {
             case .success:
                 note.modal(success: L.success())
@@ -149,24 +146,9 @@ private extension AddPostVC {
                     self?.performSegue(withIdentifier: Segues.pop, sender: self)
                 }
                 return
-            case .failure(.deviceOffline):
-                errorMessage = L.deviceOfflineError(operation)
-            case .failure(.serverOffline):
-                errorMessage = L.serverOfflineError(operation)
-            case .failure(.decoding):
-                errorMessage = L.decodingErrorReport(operation)
-            case .failure(.status):
-                errorMessage = L.statusErrorReport(operation)
-            case .failure(.message(let message)):
-                errorMessage = message
-            case .failure(.network(let message)):
-                errorMessage = L.networkError(operation, message)
-            default:
-                errorMessage = L.unexpectedErrorReport(operation)
-            }
-            note.modal(error: errorMessage)
-            DispatchQueue.main.asyncAfter(deadline: .medium) {
-                note.dismissModal()
+            case .failure(let error):
+                note.modal(failure: error,
+                           operation: L.publishPost())
             }
         }
     }

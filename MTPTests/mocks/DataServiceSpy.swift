@@ -648,6 +648,17 @@ final class DataServiceSpy: DataService {
         invokedSetGolfcoursesParameters = (golfcourses, ())
         invokedSetGolfcoursesParametersList.append((golfcourses, ()))
     }
+    var invokedSetItems = false
+    var invokedSetItemsCount = 0
+    var invokedSetItemsParameters: (items: [Checklist.Item], visited: Bool)?
+    var invokedSetItemsParametersList = [(items: [Checklist.Item], visited: Bool)]()
+    func set(items: [Checklist.Item],
+    visited: Bool) {
+        invokedSetItems = true
+        invokedSetItemsCount += 1
+        invokedSetItemsParameters = (items, visited)
+        invokedSetItemsParametersList.append((items, visited))
+    }
     var invokedSetLocations = false
     var invokedSetLocationsCount = 0
     var invokedSetLocationsParameters: (locations: [LocationJSON], Void)?

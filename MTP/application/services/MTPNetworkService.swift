@@ -368,9 +368,6 @@ protocol MTPNetworkService {
 
     typealias MTPResult<T> = (_ result: Result<T, MTPNetworkError>) -> Void
 
-    func check(items: [Checklist.Item],
-               visited: Bool,
-               then: @escaping MTPResult<Bool>)
     func loadPhotos(location id: Int,
                     reload: Bool,
                     then: @escaping MTPResult<PhotosInfoJSON>)
@@ -394,6 +391,9 @@ protocol MTPNetworkService {
                   then: @escaping MTPResult<UserJSON>)
     func search(query: String,
                 then: @escaping MTPResult<SearchResultJSON>)
+    func set(items: [Checklist.Item],
+             visited: Bool,
+             then: @escaping MTPResult<Bool>)
     func upload(photo: Data,
                 caption: String?,
                 location id: Int?,
@@ -418,9 +418,9 @@ protocol MTPNetworkService {
 // swiftlint:disable:next type_body_length
 struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
 
-    func check(items: [Checklist.Item],
-               visited: Bool,
-               then: @escaping MTPResult<Bool>) {
+    func set(items: [Checklist.Item],
+             visited: Bool,
+             then: @escaping MTPResult<Bool>) {
         guard let item = items.first else {
             then(.success(true))
             return
@@ -430,9 +430,9 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
             checkIn(list: item.list, id: item.id) { result in
                 switch result {
                 case .success:
-                    self.check(items: Array(items.dropFirst()),
-                               visited: visited,
-                               then: then)
+                    self.set(items: Array(items.dropFirst()),
+                             visited: visited,
+                             then: then)
                 default:
                     then(result)
                 }
@@ -441,9 +441,9 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
             checkOut(list: item.list, id: item.id) { result in
                 switch result {
                 case .success:
-                    self.check(items: Array(items.dropFirst()),
-                               visited: visited,
-                                then: then)
+                    self.set(items: Array(items.dropFirst()),
+                             visited: visited,
+                             then: then)
                 default:
                     then(result)
                 }

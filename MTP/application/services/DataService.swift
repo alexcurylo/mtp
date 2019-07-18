@@ -55,6 +55,8 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func set(countries: [CountryJSON])
     func set(divesites: [PlaceJSON])
     func set(golfcourses: [PlaceJSON])
+    func set(items: [Checklist.Item],
+             visited: Bool)
     func set(locations: [LocationJSON])
     func set(location id: Int,
              photos: PhotosInfoJSON)
@@ -232,6 +234,21 @@ final class DataServiceImpl: DataService {
 
     func get(mappables matching: String) -> [Mappable] {
         return realm.mappables(matching: matching)
+    }
+
+    func set(items: [Checklist.Item],
+             visited: Bool) {
+        var visits = self.visited ?? Checked()
+        items.forEach {
+            visits.set(item: $0, visited: visited)
+            $0.list.set(dismissed: false, id: $0.id)
+            $0.list.set(notified: false, id: $0.id)
+            $0.list.set(triggered: false, id: $0.id)
+            if let mappable = get(mappable: $0) {
+                loc.update(mappable: mappable)
+            }
+        }
+        self.visited = visits
     }
 
     func set(locations: [LocationJSON]) {
