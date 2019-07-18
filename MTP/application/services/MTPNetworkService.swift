@@ -368,8 +368,7 @@ protocol MTPNetworkService {
 
     typealias MTPResult<T> = (_ result: Result<T, MTPNetworkError>) -> Void
 
-    func check(list: Checklist,
-               id: Int,
+    func check(items: [Checklist.Item],
                visited: Bool,
                then: @escaping MTPResult<Bool>)
     func loadPhotos(location id: Int,
@@ -419,20 +418,42 @@ protocol MTPNetworkService {
 // swiftlint:disable:next type_body_length
 struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
 
-    func check(list: Checklist,
-               id: Int,
+    func check(items: [Checklist.Item],
                visited: Bool,
-               then: @escaping MTPResult<Bool> = { _ in }) {
+               then: @escaping MTPResult<Bool>) {
+        guard let item = items.first else {
+            then(.success(true))
+            return
+        }
+
         if visited {
-            checkIn(list: list, id: id, then: then)
+            checkIn(list: item.list, id: item.id) { result in
+                switch result {
+                case .success:
+                    self.check(items: Array(items.dropFirst()),
+                               visited: visited,
+                               then: then)
+                default:
+                    then(result)
+                }
+            }
         } else {
-            checkOut(list: list, id: id, then: then)
+            checkOut(list: item.list, id: item.id) { result in
+                switch result {
+                case .success:
+                    self.check(items: Array(items.dropFirst()),
+                               visited: visited,
+                                then: then)
+                default:
+                    then(result)
+                }
+            }
         }
     }
 
     func checkIn(list: Checklist,
                  id: Int,
-                 then: @escaping MTPResult<Bool> = { _ in }) {
+                 then: @escaping MTPResult<Bool>) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
         }
@@ -457,7 +478,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
 
     func checkOut(list: Checklist,
                   id: Int,
-                  then: @escaping MTPResult<Bool> = { _ in }) {
+                  then: @escaping MTPResult<Bool>) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
         }
