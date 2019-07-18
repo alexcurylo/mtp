@@ -21,9 +21,9 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
             return
         }
 
-        let updatingTime = 0
-        if updatingTime > 0 {
-            updatingLabel.text = L.updating(updatingTime)
+        let minutes = list.updateWait
+        if minutes > 0 {
+            updatingLabel.text = L.updateWait(minutes)
             updatingStack?.isHidden = false
             rankLabel.textColor = Layout.updatingColor
             rankLabel.font = Layout.rankFont.updating

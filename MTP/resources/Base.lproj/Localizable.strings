@@ -166,7 +166,7 @@
 "scoreFraction" = "%1$@/%2$@";
 "topTravelers" = "Top Travelers:";
 
-"updating" = "%ldm";
+"updateWait" = "%ldm";
 "deceased" = "*";
 "join" = ", ";
 "allCountries" = "All countries";

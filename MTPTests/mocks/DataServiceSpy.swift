@@ -251,6 +251,26 @@ final class DataServiceSpy: DataService {
         invokedUncountriesGetterCount += 1
         return stubbedUncountries
     }
+    var invokedUpdatedSetter = false
+    var invokedUpdatedSetterCount = 0
+    var invokedUpdated: Timestamps?
+    var invokedUpdatedList = [Timestamps?]()
+    var invokedUpdatedGetter = false
+    var invokedUpdatedGetterCount = 0
+    var stubbedUpdated: Timestamps!
+    var updated: Timestamps? {
+        set {
+            invokedUpdatedSetter = true
+            invokedUpdatedSetterCount += 1
+            invokedUpdated = newValue
+            invokedUpdatedList.append(newValue)
+        }
+        get {
+            invokedUpdatedGetter = true
+            invokedUpdatedGetterCount += 1
+            return stubbedUpdated
+        }
+    }
     var invokedUserSetter = false
     var invokedUserSetterCount = 0
     var invokedUser: UserJSON?

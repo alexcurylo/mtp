@@ -11,11 +11,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 The best way to let us know about any problems or suggestions is in the TestFlight app you use to install the MTP app - a little down from the "Install" button you'll see a "Send Beta Feedback" button. That'll let you send us an email with information about your device attached, which will help us reproduce any problems you describe.
 
 ### Added
-- Rankings are highlighted with a 60 minute countdown timer when you've changed their counts, indicating they may not have been recalculated yet (this happens once an hour on the website currently)
+- Your rank is highlighted with a 60 minute countdown timer when visits change, indicating the rank may not have been updated (this happens once an hour on the website currently)
 
 ### Changed
 - Nearby screen now calculates distances from map center not your position
 - WHS images now loaded from MTP not UNESCO when possible
+- Marking or unmarking visits now enforces synchronization with website
 
 ### Fixed
 - Visited counts display correctly everywhere immediately, both in app and on website

@@ -24,6 +24,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var token: String { get set }
     var triggered: Timestamps? { get set }
     var uncountries: [UNCountry] { get }
+    var updated: Timestamps? { get set }
     var user: UserJSON? { get set }
     var visited: Checked? { get set }
     var whss: [WHS] { get }
@@ -114,6 +115,7 @@ extension DataService {
         set(posts: [])
         token = ""
         triggered = nil
+        updated = nil
         user = nil
         visited = nil
     }
@@ -374,6 +376,14 @@ final class DataServiceImpl: DataService {
         notify(change: .uncountries)
     }
 
+    var updated: Timestamps? {
+        get { return defaults.updated }
+        set {
+            defaults.updated = newValue
+            notify(change: .updated)
+        }
+    }
+
     var user: UserJSON? {
         get { return defaults.user }
         set {
@@ -461,6 +471,7 @@ enum DataServiceChange: String {
     case settings
     case triggered
     case uncountries
+    case updated
     case user
     case userId
     case visited
