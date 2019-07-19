@@ -480,7 +480,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
     var updateWait: Int {
         guard let stamp = data.updated?.stamp(item: listStamp) else { return 0 }
 
-        let minutes = Int(stamp.timeIntervalSinceNow / 60)
+        let minutes = 60 + Int(stamp.timeIntervalSinceNow / 60)
         guard (1...60).contains(minutes) else {
             set(updated: false)
             return 0

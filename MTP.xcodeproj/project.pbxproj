@@ -47,6 +47,7 @@
 		8CA1ECEA22C45A8600C3B40B /* Location.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CA1ECE822C45A8600C3B40B /* Location.storyboard */; };
 		8CAE30592239DA7D00E31647 /* world-map.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 8CAE30572239DA7C00E31647 /* world-map.geojson */; };
 		8CAE30642239F4F100E31647 /* WorldMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CAE30632239F4F100E31647 /* WorldMap.swift */; };
+		8CB2A24322E177C90050E368 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB2A24222E177C90050E368 /* Scheduler.swift */; };
 		8CCA21F822B3AB5D00C1D13B /* UserUpdatePayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCA21F722B3AB5D00C1D13B /* UserUpdatePayload.swift */; };
 		8CCA5A7322AA6BBB00853903 /* AppAboutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCA5A7222AA6BBB00853903 /* AppAboutVC.swift */; };
 		8CDBE5EE22C08AD5005A6C18 /* PostPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDBE5ED22C08AD5005A6C18 /* PostPayload.swift */; };
@@ -259,6 +260,7 @@
 		8CA1ECE922C45A8600C3B40B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Location.storyboard; sourceTree = "<group>"; };
 		8CAE30572239DA7C00E31647 /* world-map.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "world-map.geojson"; sourceTree = "<group>"; };
 		8CAE30632239F4F100E31647 /* WorldMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldMap.swift; sourceTree = "<group>"; };
+		8CB2A24222E177C90050E368 /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = "<group>"; };
 		8CCA21F622B381A600C1D13B /* fastlane */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fastlane; sourceTree = "<group>"; };
 		8CCA21F722B3AB5D00C1D13B /* UserUpdatePayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserUpdatePayload.swift; sourceTree = "<group>"; };
 		8CCA5A7222AA6BBB00853903 /* AppAboutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAboutVC.swift; sourceTree = "<group>"; };
@@ -850,6 +852,7 @@
 				FA74C110211BBF490013A840 /* String+Formatting.swift */,
 				FAC3BCB5216A225900E1507E /* TagButton.swift */,
 				FAC3BCB6216A225900E1507E /* TagsView.swift */,
+				8CB2A24222E177C90050E368 /* Scheduler.swift */,
 				8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */,
 				FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */,
 				FA88395622351C30002F324F /* UIImage+Color.swift */,
@@ -1270,6 +1273,7 @@
 				FA4653342115ADC6005B5A0A /* MTPNetworkService.swift in Sources */,
 				FAA819002244814900BB9F92 /* LocationPagingVC.swift in Sources */,
 				FA390139213B84B40016A362 /* RankingsPagingVC.swift in Sources */,
+				8CB2A24322E177C90050E368 /* Scheduler.swift in Sources */,
 				8C3EA813222F64F100CB4886 /* TopLoadingTextView.swift in Sources */,
 				8CE6F46B224B029500B24410 /* ContentState.swift in Sources */,
 				8C8DC74D22AF4343002EA1CD /* FaqJSON.swift in Sources */,

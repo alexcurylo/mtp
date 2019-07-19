@@ -6,39 +6,6 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
 
     static let reuseIdentifier = NSStringFromClass(CountInfoHeader.self)
 
-    func set(list: Checklist) {
-        guard let user = data.user else { return }
-
-        let status = list.status(of: user)
-        let visitedText = status.visited.grouped
-        let totalText = (status.visited + status.remaining).grouped
-
-        let rank = list.rank(of: user)
-        guard rank > 0 else {
-            rankTitle.text = L.myScore()
-            rankLabel.text = L.scoreFraction(visitedText, totalText)
-            updatingStack?.isHidden = true
-            return
-        }
-
-        let minutes = list.updateWait
-        if minutes > 0 {
-            updatingLabel.text = L.updateWait(minutes)
-            updatingStack?.isHidden = false
-            rankLabel.textColor = Layout.updatingColor
-            rankLabel.font = Layout.rankFont.updating
-        } else {
-            updatingStack?.isHidden = true
-            rankLabel.textColor = .white
-            rankLabel.font = Layout.rankFont.normal
-        }
-
-        let rankText = rank.grouped
-        rankTitle.text = L.myRanking()
-        rankLabel.text = L.rankScore(rankText)
-        fractionLabel.text = L.rankFraction(visitedText, totalText)
-    }
-
     private enum Layout {
         static let updatingSize = CGFloat(15)
         static let spacing = (rank: CGFloat(8),
@@ -89,6 +56,8 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
     }
     private var updatingStack: UIStackView?
 
+    private let scheduler = Scheduler()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -98,6 +67,32 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func set(list: Checklist) {
+        guard let user = data.user else { return }
+
+        let status = list.status(of: user)
+        let visitedText = status.visited.grouped
+        let totalText = (status.visited + status.remaining).grouped
+
+        let rank = list.rank(of: user)
+        guard rank > 0 else {
+            rankTitle.text = L.myScore()
+            rankLabel.text = L.scoreFraction(visitedText, totalText)
+            updatingStack?.isHidden = true
+            return
+        }
+
+        let rankText = rank.grouped
+        rankTitle.text = L.myRanking()
+        rankLabel.text = L.rankScore(rankText)
+        fractionLabel.text = L.rankFraction(visitedText, totalText)
+
+        scheduler.schedule(every: 60) { [weak self, list] in
+            self?.update(timer: list)
+        }
+        scheduler.fire()
     }
 
     override func prepareForReuse() {
@@ -111,6 +106,21 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
 // MARK: - Private
 
 private extension CountInfoHeader {
+
+    func update(timer list: Checklist) {
+        let minutes = list.updateWait
+        if minutes > 0 {
+            updatingLabel.text = L.updateWait(minutes)
+            updatingStack?.isHidden = false
+            rankLabel.textColor = Layout.updatingColor
+            rankLabel.font = Layout.rankFont.updating
+        } else {
+            scheduler.stop()
+            updatingStack?.isHidden = true
+            rankLabel.textColor = .white
+            rankLabel.font = Layout.rankFont.normal
+        }
+    }
 
     func configure() {
         let labels = UIStackView(arrangedSubviews: [rankTitle,

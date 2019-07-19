@@ -123,6 +123,7 @@ extension DataService {
     }
 }
 
+// swiftlint:disable:next type_body_length
 final class DataServiceImpl: DataService {
 
     private let defaults = UserDefaults.standard
@@ -238,16 +239,22 @@ final class DataServiceImpl: DataService {
 
     func set(items: [Checklist.Item],
              visited: Bool) {
+        var dismissals = dismissed ?? Timestamps()
+        var notifications = notified ?? Timestamps()
+        var triggers = triggered ?? Timestamps()
+        var updates = updated ?? Timestamps()
         var visits = self.visited ?? Checked()
-        items.forEach {
-            visits.set(item: $0, visited: visited)
-            $0.list.set(dismissed: false, id: $0.id)
-            $0.list.set(notified: false, id: $0.id)
-            $0.list.set(triggered: false, id: $0.id)
-            if let mappable = get(mappable: $0) {
-                loc.update(mappable: mappable)
-            }
+        items.forEach { item in
+            dismissals.set(item: item, stamped: visited)
+            notifications.set(item: item, stamped: visited)
+            triggers.set(item: item, stamped: visited)
+            updates.set(item: item.list.listStamp, stamped: true)
+            visits.set(item: item, visited: visited)
         }
+        dismissed = dismissals
+        notified = notifications
+        triggered = triggers
+        updated = updates
         self.visited = visits
     }
 

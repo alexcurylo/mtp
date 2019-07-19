@@ -82,6 +82,7 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
     private var lines: UIStackView?
 
     private weak var delegate: RankingHeaderDelegate?
+    private let scheduler = Scheduler()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -123,22 +124,15 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
             return
         }
 
-        let minutes = list.updateWait
-        if minutes > 0 {
-            updatingLabel.text = L.updateWait(minutes)
-            updatingStack?.isHidden = false
-            rankLabel.textColor = Layout.updatingColor
-            rankLabel.font = Layout.rankFont.updating
-       } else {
-            updatingStack?.isHidden = true
-            rankLabel.textColor = nil
-            rankLabel.font = Layout.rankFont.normal
-        }
-
         let rankText = rank.grouped
         rankTitle.text = L.myRanking()
         rankLabel.text = L.rankScore(rankText)
         fractionLabel.text = L.rankFraction(visitedText, totalText)
+
+        scheduler.schedule(every: 60) { [weak self, list] in
+            self?.update(timer: list)
+        }
+        scheduler.fire()
     }
 
     override func prepareForReuse() {
@@ -152,6 +146,21 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
 }
 
 private extension RankingHeader {
+
+    func update(timer list: Checklist) {
+        let minutes = list.updateWait
+        if minutes > 0 {
+            updatingLabel.text = L.updateWait(minutes)
+            updatingStack?.isHidden = false
+            rankLabel.textColor = Layout.updatingColor
+            rankLabel.font = Layout.rankFont.updating
+        } else {
+            scheduler.stop()
+            updatingStack?.isHidden = true
+            rankLabel.textColor = nil
+            rankLabel.font = Layout.rankFont.normal
+        }
+    }
 
     func configure() {
         backgroundColor = .clear
