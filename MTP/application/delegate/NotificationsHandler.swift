@@ -100,10 +100,7 @@ extension NotificationsHandler: UNUserNotificationCenterDelegate {
         case L.dismissAction():
             list.set(dismissed: true, id: id)
         case L.checkinAction():
-            let item = (list: list, id: id)
-            note.set(item: item,
-                     visited: true,
-                     congratulate: true)
+            handle(checkin: (list, id))
         case UNNotificationDefaultActionIdentifier,
              UNNotificationDismissActionIdentifier:
             break
@@ -125,5 +122,20 @@ extension NotificationsHandler: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 openSettingsFor notification: UNNotification?) {
         log.error(#function)
+    }
+}
+
+// MARK: - Private
+
+private extension NotificationsHandler {
+
+    func handle(checkin item: Checklist.Item) {
+        note.set(item: item,
+                 visited: true,
+                 congratulate: true) { result in
+            if case let .failure(message) = result {
+                self.note.post(error: message)
+            }
+        }
     }
 }

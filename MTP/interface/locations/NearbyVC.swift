@@ -232,7 +232,11 @@ private extension NearbyCell {
         let visited = sender.isOn
         note.set(item: mappable.item,
                  visited: visited,
-                 congratulate: false)
+                 congratulate: false) { [weak sender] result in
+            if case .failure = result {
+                sender?.isOn = !visited
+            }
+        }
     }
 
     func show(visited: Bool) {

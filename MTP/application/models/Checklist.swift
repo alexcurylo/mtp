@@ -473,7 +473,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
 
     func set(updated: Bool) {
         var timestamps = data.updated ?? Timestamps()
-        timestamps.set(item: listStamp, stamped: true)
+        timestamps.set(item: listStamp, stamped: updated)
         data.updated = timestamps
     }
 
