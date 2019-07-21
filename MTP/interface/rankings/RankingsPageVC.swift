@@ -35,8 +35,7 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
     private weak var delegate: RankingsPageVCDelegate?
 
     private var contentState: ContentState = .unknown
-    private var loadingFirst = false
-    private var loadingLast = false
+    private var loading: Set<Int> = []
     private var rankings: Results<RankingsPageInfo>?
     private var filter = RankingsQuery()
     private var filterDescription = ""
@@ -85,8 +84,7 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
             filter = newFilter
             filterDescription = filter.description
 
-            loadingFirst = false
-            loadingLast = false
+            loading = []
             contentState = .loading
             update(rankings: false)
             observe()
@@ -185,12 +183,12 @@ private extension RankingsPageVC {
 
     var itemCount: Int {
         guard let first = firstPage else {
-            loadFirst()
+            load(page: 1)
             return 0
         }
 
         if first.expired {
-            loadFirst()
+            load(page: 1)
         }
         guard first.lastPage > 1 else {
             return first.userIds.count
@@ -199,59 +197,42 @@ private extension RankingsPageVC {
         let paged = (first.lastPage - 1) * RankingsPageInfo.perPage
         if let last = lastPage {
             if last.expired {
-                loadLast()
+                load(page: first.lastPage)
             }
             return paged + last.userIds.count
         }
 
-        loadLast()
+        load(page: first.lastPage)
         return paged
     }
 
     var firstPage: RankingsPageInfo? {
-        return rankings?.filter("page = 1").first
+        return page(at: 1)
     }
 
     var lastPage: RankingsPageInfo? {
         return rankings?.filter("page = lastPage").last
     }
 
-    func loadFirst() {
-        guard !loadingFirst else { return }
-
-        loadingFirst = true
-        let firstPageQuery = filter.with(page: 1)
-        net.loadRankings(query: firstPageQuery) { [weak self] result in
-            guard let self = self else { return }
-
-            self.loadingFirst = false
-            DispatchQueue.main.async {
-                switch result {
-                case .success,
-                     .failure(NetworkError.notModified):
-                    self.data.update(stamp: self.firstPage)
-                default:
-                    self.update(rankings: true)
-                }
-            }
-        }
+    func page(at index: Int) -> RankingsPageInfo? {
+        // swiftlint:disable:next first_where
+        return rankings?.filter("page = \(index)").first
     }
 
-    func loadLast() {
-        guard !loadingLast,
-              let first = rankings?.first else { return }
+    func load(page: Int) {
+        guard !loading.contains(page) else { return }
 
-        loadingLast = true
-        let lastPageQuery = filter.with(page: first.lastPage)
-        net.loadRankings(query: lastPageQuery) { [weak self] result in
-            guard let self = self else { return }
+        loading.insert(page)
+        let query = filter.with(page: page)
+        net.loadRankings(query: query) { [weak self] result in
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
 
-            self.loadingLast = false
-            DispatchQueue.main.async {
+                self.loading.remove(page)
                 switch result {
                 case .success,
                      .failure(NetworkError.notModified):
-                    self.data.update(stamp: self.lastPage)
+                    self.data.update(stamp: self.page(at: page))
                 default:
                     self.update(rankings: true)
                 }
@@ -333,13 +314,14 @@ private extension RankingsPageVC {
     func user(at rank: Int) -> User? {
         let pageIndex = ((rank - 1) / RankingsPageInfo.perPage) + 1
         let userIndex = (rank - 1) % RankingsPageInfo.perPage
-        // swiftlint:disable:next first_where
-        guard let page = rankings?.filter("page = \(pageIndex)").first else {
-            let userPageQuery = filter.with(page: pageIndex)
-            net.loadRankings(query: userPageQuery) { _ in }
+        guard let page = page(at: pageIndex) else {
+            load(page: pageIndex)
             return User()
         }
 
+        if page.expired {
+            load(page: pageIndex)
+        }
         let userId = page.userIds[userIndex]
         return data.get(user: userId)
     }

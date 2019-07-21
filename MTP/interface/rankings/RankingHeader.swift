@@ -88,6 +88,10 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
     private let scheduler = Scheduler()
     private var updating = false
 
+    private var list: Checklist = .locations
+    private var rank: Int?
+    private var scorecardObserver: Observer?
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -118,24 +122,14 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
 
         avatarImageView.load(image: user)
 
-        let status = list.visitStatus(of: user)
-        let visitedText = status.visited.grouped
-        let totalText = (status.visited + status.remaining).grouped
-        guard let rank = rank else {
-            rankTitle.text = L.myScore()
-            rankLabel.text = L.scoreFraction(visitedText, totalText)
-            updatingStack?.isHidden = true
-            return
-        }
-
-        let rankText = rank.grouped
-        rankTitle.text = L.myRanking()
-        rankLabel.text = L.rankScore(rankText)
-        fractionLabel.text = L.rankFraction(visitedText, totalText)
+        self.list = list
+        self.rank = rank
+        update(rank: user)
 
         scheduler.fire(every: 60) { [weak self, list] in
             self?.update(timer: list)
         }
+        observe()
     }
 
     override func prepareForReuse() {
@@ -151,6 +145,35 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
 }
 
 private extension RankingHeader {
+
+    func observe() {
+        guard scorecardObserver == nil else { return }
+
+        scorecardObserver = data.observer(of: .scorecard) { [weak self] _ in
+            guard let self = self,
+                  let user = self.data.user else { return }
+
+            self.update(rank: user)
+        }
+    }
+
+    func update(rank user: UserJSON) {
+        rank = list.rank(of: user)
+        let status = list.visitStatus(of: user)
+        let visitedText = status.visited.grouped
+        let totalText = (status.visited + status.remaining).grouped
+        guard let rank = rank else {
+            rankTitle.text = L.myScore()
+            rankLabel.text = L.scoreFraction(visitedText, totalText)
+            updatingStack?.isHidden = true
+            return
+        }
+
+        let rankText = rank.grouped
+        rankTitle.text = L.myRanking()
+        rankLabel.text = L.rankScore(rankText)
+        fractionLabel.text = L.rankFraction(visitedText, totalText)
+    }
 
     func update(timer list: Checklist) {
         let status = list.rankingsStatus
