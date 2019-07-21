@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 The best way to let us know about any problems or suggestions is in the TestFlight app you use to install the MTP app - a little down from the "Install" button you'll see a "Send Beta Feedback" button. That'll let you send us an email with information about your device attached, which will help us reproduce any problems you describe.
 
+### Fixed
+- Swiping the Counts pages will not hide the Profile navigation bar
+
 ## [Version 1.0, Build 631] - 2019-07-21
 
 ### Added

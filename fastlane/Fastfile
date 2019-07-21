@@ -40,6 +40,8 @@ platform :ios do
     build_app(export_method: "app-store")
 
     upload_to_testflight(changelog: changelog,
+                         distribute_external: true,
+                         notify_external_testers: true,
                          demo_account_required: true)
 
     stamp_changelog(section_identifier: "Version #{version_number}, Build #{build_number}")
