@@ -114,7 +114,7 @@ extension PlaceJSON: CustomDebugStringConvertible {
     }
 
     convenience init?(from: PlaceJSON,
-                      realm: RealmController) {
+                      realm: RealmDataController) {
         guard from.active == "Y" else { return nil }
         self.init()
 
@@ -139,7 +139,7 @@ extension PlaceJSON: CustomDebugStringConvertible {
     }
 
     convenience init?(from: PlaceJSON,
-                      realm: RealmController) {
+                      realm: RealmDataController) {
         guard from.active == "Y" else { return nil }
         self.init()
 
@@ -164,7 +164,7 @@ extension PlaceJSON: CustomDebugStringConvertible {
     }
 
     convenience init?(from: PlaceJSON,
-                      realm: RealmController) {
+                      realm: RealmDataController) {
         guard from.active == "Y" else { return nil }
         self.init()
 

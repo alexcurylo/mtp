@@ -17,7 +17,7 @@ extension ServiceHandler: AppLaunchHandler {
         ServiceProviderInstances.appServiceInstance = UIApplication.shared
         ServiceProviderInstances.dataServiceInstance = DataServiceImpl()
         ServiceProviderInstances.locServiceInstance = LocationServiceImpl()
-        ServiceProviderInstances.mtpServiceInstance = MoyaMTPNetworkService()
+        ServiceProviderInstances.netServiceInstance = NetworkServiceImpl()
         ServiceProviderInstances.noteServiceInstance = NotificationServiceImpl()
 
         return true

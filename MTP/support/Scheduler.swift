@@ -9,9 +9,19 @@ final class Scheduler {
     private var timer: Timer?
     private var then: Completion?
 
+    var isActive: Bool {
+        return timer != nil
+    }
+
     deinit {
         stop()
     }
+
+    func fire(every seconds: TimeInterval,
+              then: @escaping Completion) {
+        schedule(every: seconds, then: then)
+        fire()
+   }
 
     func schedule(every seconds: TimeInterval,
                   then: @escaping Completion) {

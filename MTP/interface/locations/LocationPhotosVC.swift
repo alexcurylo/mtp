@@ -74,7 +74,7 @@ private extension LocationPhotosVC {
     func refresh(reload: Bool) {
         guard let mappable = mappable, isImplemented else { return }
 
-        mtp.loadPhotos(location: mappable.checklistId,
+        net.loadPhotos(location: mappable.checklistId,
                        reload: reload) { [weak self] _ in
             self?.loaded()
         }

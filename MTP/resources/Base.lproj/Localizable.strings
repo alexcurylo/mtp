@@ -180,6 +180,7 @@
 "selectCountryNone" = "(No country)";
 "selectCountryOptional" = "Select Country (optional)";
 "selectLocation" = "Select Location";
+"selectLocationAll" = "(All locations)";
 "male" = "Male";
 "female" = "Female";
 "facebookFriends" = "Friends";

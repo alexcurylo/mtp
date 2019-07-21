@@ -80,14 +80,14 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
         switch segue.identifier {
         case Segues.showCountry.identifier:
             if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                destination.set(list: .country,
+                destination.set(search: .country,
                                 styler: .standard,
                                 delegate: self)
             }
         case Segues.showLocation.identifier:
-            if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                let countryId = country?.countryId
-                destination.set(list: .location(country: countryId),
+            if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC,
+               let countryId = country?.countryId {
+                destination.set(search: .location(country: countryId),
                                 styler: .standard,
                                 delegate: self)
             }
@@ -506,7 +506,7 @@ private extension EditProfileVC {
     func upload(payload: UserUpdatePayload) {
         note.modal(info: L.updatingProfile())
 
-        mtp.userUpdate(payload: payload) { [weak self, note] result in
+        net.userUpdate(payload: payload) { [weak self, note] result in
             switch result {
             case .success:
                 note.modal(success: L.success())
@@ -561,7 +561,7 @@ private extension EditProfileVC {
     @IBAction func deleteAccount(segue: UIStoryboardSegue) {
         note.modal(info: L.deletingAccount())
 
-        mtp.userDeleteAccount { [weak self, note] result in
+        net.userDeleteAccount { [weak self, note] result in
             switch result {
             case .success:
                 note.modal(success: L.success())

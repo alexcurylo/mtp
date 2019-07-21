@@ -13,7 +13,7 @@ extension ServiceHandlerSpy: AppLaunchHandler {
         ServiceProviderInstances.dataServiceInstance = DataServiceSpy()
         ServiceProviderInstances.locServiceInstance = LocationServiceSpy()
         ServiceProviderInstances.logServiceInstance = LoggingServiceSpy()
-        ServiceProviderInstances.mtpServiceInstance = MTPNetworkServiceSpy()
+        ServiceProviderInstances.netServiceInstance = NetworkServiceSpy()
         ServiceProviderInstances.noteServiceInstance = NotificationServiceSpy()
 
         return true

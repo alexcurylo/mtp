@@ -57,6 +57,7 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
     private var updatingStack: UIStackView?
 
     private let scheduler = Scheduler()
+    private var updating = false
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -72,7 +73,7 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
     func set(list: Checklist) {
         guard let user = data.user else { return }
 
-        let status = list.status(of: user)
+        let status = list.visitStatus(of: user)
         let visitedText = status.visited.grouped
         let totalText = (status.visited + status.remaining).grouped
 
@@ -89,17 +90,18 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
         rankLabel.text = L.rankScore(rankText)
         fractionLabel.text = L.rankFraction(visitedText, totalText)
 
-        scheduler.schedule(every: 60) { [weak self, list] in
+        scheduler.fire(every: 60) { [weak self, list] in
             self?.update(timer: list)
         }
-        scheduler.fire()
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
 
+        configure(current: true)
         rankTitle.text = nil
         rankLabel.text = nil
+        fractionLabel.text = nil
     }
 }
 
@@ -108,17 +110,35 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
 private extension CountInfoHeader {
 
     func update(timer list: Checklist) {
-        let minutes = list.updateWait
-        if minutes > 0 {
-            updatingLabel.text = L.updateWait(minutes)
-            updatingStack?.isHidden = false
-            rankLabel.textColor = Layout.updatingColor
-            rankLabel.font = Layout.rankFont.updating
-        } else {
+        let status = list.scorecardStatus
+        configure(current: status.isCurrent)
+        guard !status.isCurrent else { return }
+
+        updatingLabel.text = L.updateWait(status.wait)
+        guard status.isPending,
+              scheduler.isActive,
+              !updating else { return }
+
+        updating = true
+        data.update(scorecard: list) { [weak self] updated in
+            guard let self = self, self.updating else { return }
+
+            self.updating = false
+            self.configure(current: updated)
+        }
+    }
+
+    func configure(current: Bool) {
+        if current {
+            updating = false
             scheduler.stop()
             updatingStack?.isHidden = true
             rankLabel.textColor = .white
             rankLabel.font = Layout.rankFont.normal
+        } else {
+            updatingStack?.isHidden = false
+            rankLabel.textColor = Layout.updatingColor
+            rankLabel.font = Layout.rankFont.updating
         }
     }
 

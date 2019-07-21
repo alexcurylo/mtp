@@ -28,11 +28,15 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
         let collectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: flow)
         collectionView.backgroundColor = .clear
+        collectionView.backgroundView = UIView { $0.backgroundColor = .clear }
         return collectionView
     }()
 
-    weak var delegate: RankingsPageVCDelegate?
+    private weak var delegate: RankingsPageVCDelegate?
 
+    private var contentState: ContentState = .unknown
+    private var loadingFirst = false
+    private var loadingLast = false
     private var rankings: Results<RankingsPageInfo>?
     private var filter = RankingsQuery()
     private var filterDescription = ""
@@ -69,13 +73,24 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
         collectionView.collectionViewLayout.invalidateLayout()
     }
 
-    func set(list: Checklist) {
-        filter = data.lastRankingsQuery
-        filter.checklistKey = list.key
-        filterDescription = filter.description
+    func inject(list: Checklist,
+                insets: UIEdgeInsets,
+                delegate: RankingsPageVCDelegate) {
+        collectionView.contentInset = insets
+        collectionView.scrollIndicatorInsets = insets
+        self.delegate = delegate
 
-        updateRankings()
-        observe()
+        let newFilter = data.lastRankingsQuery.with(list: list)
+        if contentState == .unknown || filter != newFilter {
+            filter = newFilter
+            filterDescription = filter.description
+
+            loadingFirst = false
+            loadingLast = false
+            contentState = .loading
+            update(rankings: false)
+            observe()
+        }
     }
 }
 
@@ -130,20 +145,7 @@ extension RankingsPageVC: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        guard let first = rankings?.first else { return 0 }
-        guard first.lastPage > 1 else {
-            return first.userIds.count
-        }
-
-        let paged = (first.lastPage - 1) * RankingsPageInfo.perPage
-        if let last = rankings?.filter("page = lastPage").last {
-            return paged + last.userIds.count
-        }
-
-        let lastPageQuery = filter.with(page: first.lastPage)
-        mtp.loadRankings(query: lastPageQuery) { _ in }
-
-        return paged
+        return itemCount
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -181,6 +183,82 @@ extension RankingsPageVC: RankingHeaderDelegate {
 
 private extension RankingsPageVC {
 
+    var itemCount: Int {
+        guard let first = firstPage else {
+            loadFirst()
+            return 0
+        }
+
+        if first.expired {
+            loadFirst()
+        }
+        guard first.lastPage > 1 else {
+            return first.userIds.count
+        }
+
+        let paged = (first.lastPage - 1) * RankingsPageInfo.perPage
+        if let last = lastPage {
+            if last.expired {
+                loadLast()
+            }
+            return paged + last.userIds.count
+        }
+
+        loadLast()
+        return paged
+    }
+
+    var firstPage: RankingsPageInfo? {
+        return rankings?.filter("page = 1").first
+    }
+
+    var lastPage: RankingsPageInfo? {
+        return rankings?.filter("page = lastPage").last
+    }
+
+    func loadFirst() {
+        guard !loadingFirst else { return }
+
+        loadingFirst = true
+        let firstPageQuery = filter.with(page: 1)
+        net.loadRankings(query: firstPageQuery) { [weak self] result in
+            guard let self = self else { return }
+
+            self.loadingFirst = false
+            DispatchQueue.main.async {
+                switch result {
+                case .success,
+                     .failure(NetworkError.notModified):
+                    self.data.update(stamp: self.firstPage)
+                default:
+                    self.update(rankings: true)
+                }
+            }
+        }
+    }
+
+    func loadLast() {
+        guard !loadingLast,
+              let first = rankings?.first else { return }
+
+        loadingLast = true
+        let lastPageQuery = filter.with(page: first.lastPage)
+        net.loadRankings(query: lastPageQuery) { [weak self] result in
+            guard let self = self else { return }
+
+            self.loadingLast = false
+            DispatchQueue.main.async {
+                switch result {
+                case .success,
+                     .failure(NetworkError.notModified):
+                    self.data.update(stamp: self.lastPage)
+                default:
+                    self.update(rankings: true)
+                }
+            }
+        }
+    }
+
     var myIndex: Int? {
         #if RAW_INDEX_PROVIDED
         guard filterRank != nil,
@@ -215,7 +293,7 @@ private extension RankingsPageVC {
             guard let self = self,
                   let queryValue = info[StatusKey.value.rawValue] as? RankingsQuery,
                   queryValue.queryKey == self.filter.queryKey else { return }
-            self.updateRankings()
+            self.update(rankings: false)
         }
 
         scorecardObserver = data.observer(of: .scorecard) { [weak self] _ in
@@ -223,9 +301,15 @@ private extension RankingsPageVC {
         }
     }
 
-    func updateRankings() {
+    func update(rankings error: Bool) {
         rankings = data.get(rankings: filter)
+        if rankings?.first != nil {
+            contentState = itemCount > 0 ? .data : .empty
+        } else {
+            contentState = error ? .error : .loading
+        }
         updateRank()
+        collectionView.set(message: contentState)
         collectionView.reloadData()
     }
 
@@ -252,7 +336,7 @@ private extension RankingsPageVC {
         // swiftlint:disable:next first_where
         guard let page = rankings?.filter("page = \(pageIndex)").first else {
             let userPageQuery = filter.with(page: pageIndex)
-            mtp.loadRankings(query: userPageQuery) { _ in }
+            net.loadRankings(query: userPageQuery) { _ in }
             return User()
         }
 

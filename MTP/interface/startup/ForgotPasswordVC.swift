@@ -54,7 +54,7 @@ private extension ForgotPasswordVC {
     @IBAction func continueTapped(_ sender: GradientButton) {
         note.modal(info: L.resettingPassword())
 
-        mtp.userForgotPassword(email: email) { [weak self, note] result in
+        net.userForgotPassword(email: email) { [weak self, note] result in
             switch result {
             case .success(let message):
                 KRProgressHUD.showSuccess(withMessage: message)

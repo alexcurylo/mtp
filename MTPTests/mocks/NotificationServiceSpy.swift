@@ -20,25 +20,35 @@ final class NotificationServiceSpy: NotificationService {
     var invokedSetItemCount = 0
     var invokedSetItemParameters: (item: Checklist.Item, visited: Bool, congratulate: Bool)?
     var invokedSetItemParametersList = [(item: Checklist.Item, visited: Bool, congratulate: Bool)]()
+    var stubbedSetItemThenResult: (Result<Bool, String>, Void)?
     func set(item: Checklist.Item,
     visited: Bool,
-    congratulate: Bool) {
+    congratulate: Bool,
+    then: @escaping Completion) {
         invokedSetItem = true
         invokedSetItemCount += 1
         invokedSetItemParameters = (item, visited, congratulate)
         invokedSetItemParametersList.append((item, visited, congratulate))
+        if let result = stubbedSetItemThenResult {
+            then(result.0)
+        }
     }
     var invokedSetItems = false
     var invokedSetItemsCount = 0
     var invokedSetItemsParameters: (items: [Checklist.Item], visited: Bool, congratulate: Bool)?
     var invokedSetItemsParametersList = [(items: [Checklist.Item], visited: Bool, congratulate: Bool)]()
+    var stubbedSetItemsThenResult: (Result<Bool, String>, Void)?
     func set(items: [Checklist.Item],
     visited: Bool,
-    congratulate: Bool) {
+    congratulate: Bool,
+    then: @escaping Completion) {
         invokedSetItems = true
         invokedSetItemsCount += 1
         invokedSetItemsParameters = (items, visited, congratulate)
         invokedSetItemsParametersList.append((items, visited, congratulate))
+        if let result = stubbedSetItemsThenResult {
+            then(result.0)
+        }
     }
     var invokedAsk = false
     var invokedAskCount = 0
@@ -65,12 +75,17 @@ final class NotificationServiceSpy: NotificationService {
     var invokedNotifyCount = 0
     var invokedNotifyParameters: (mappable: Mappable, triggered: Date)?
     var invokedNotifyParametersList = [(mappable: Mappable, triggered: Date)]()
+    var stubbedNotifyThenResult: (Result<Bool, String>, Void)?
     func notify(mappable: Mappable,
-    triggered: Date) {
+    triggered: Date,
+    then: @escaping Completion) {
         invokedNotify = true
         invokedNotifyCount += 1
         invokedNotifyParameters = (mappable, triggered)
         invokedNotifyParametersList.append((mappable, triggered))
+        if let result = stubbedNotifyThenResult {
+            then(result.0)
+        }
     }
     var invokedCongratulateItem = false
     var invokedCongratulateItemCount = 0
@@ -92,28 +107,38 @@ final class NotificationServiceSpy: NotificationService {
         invokedCongratulateMappableParameters = (mappable, ())
         invokedCongratulateMappableParametersList.append((mappable, ()))
     }
-    var invokedInfoBackground = false
-    var invokedInfoBackgroundCount = 0
-    var invokedInfoBackgroundParameters: (title: String?, body: String?)?
-    var invokedInfoBackgroundParametersList = [(title: String?, body: String?)]()
-    func infoBackground(title: String?,
+    var invokedPostInfo = false
+    var invokedPostInfoCount = 0
+    var invokedPostInfoParameters: (title: String?, body: String?)?
+    var invokedPostInfoParametersList = [(title: String?, body: String?)]()
+    func postInfo(title: String?,
     body: String?) {
-        invokedInfoBackground = true
-        invokedInfoBackgroundCount += 1
-        invokedInfoBackgroundParameters = (title, body)
-        invokedInfoBackgroundParametersList.append((title, body))
+        invokedPostInfo = true
+        invokedPostInfoCount += 1
+        invokedPostInfoParameters = (title, body)
+        invokedPostInfoParametersList.append((title, body))
     }
-    var invokedVisitBackground = false
-    var invokedVisitBackgroundCount = 0
-    var invokedVisitBackgroundParameters: (title: String, body: String, info: Info)?
-    var invokedVisitBackgroundParametersList = [(title: String, body: String, info: Info)]()
-    func visitBackground(title: String,
+    var invokedPostVisit = false
+    var invokedPostVisitCount = 0
+    var invokedPostVisitParameters: (title: String, body: String, info: Info)?
+    var invokedPostVisitParametersList = [(title: String, body: String, info: Info)]()
+    func postVisit(title: String,
     body: String,
     info: Info) {
-        invokedVisitBackground = true
-        invokedVisitBackgroundCount += 1
-        invokedVisitBackgroundParameters = (title, body, info)
-        invokedVisitBackgroundParametersList.append((title, body, info))
+        invokedPostVisit = true
+        invokedPostVisitCount += 1
+        invokedPostVisitParameters = (title, body, info)
+        invokedPostVisitParametersList.append((title, body, info))
+    }
+    var invokedPost = false
+    var invokedPostCount = 0
+    var invokedPostParameters: (error: String, Void)?
+    var invokedPostParametersList = [(error: String, Void)]()
+    func post(error: String) {
+        invokedPost = true
+        invokedPostCount += 1
+        invokedPostParameters = (error, ())
+        invokedPostParametersList.append((error, ()))
     }
     var invokedBackground = false
     var invokedBackgroundCount = 0
@@ -125,19 +150,19 @@ final class NotificationServiceSpy: NotificationService {
             then()
         }
     }
-    var invokedPost = false
-    var invokedPostCount = 0
-    var invokedPostParameters: (title: String, subtitle: String, body: String, category: String, info: Info)?
-    var invokedPostParametersList = [(title: String, subtitle: String, body: String, category: String, info: Info)]()
+    var invokedPostTitle = false
+    var invokedPostTitleCount = 0
+    var invokedPostTitleParameters: (title: String, subtitle: String, body: String, category: String, info: Info)?
+    var invokedPostTitleParametersList = [(title: String, subtitle: String, body: String, category: String, info: Info)]()
     func post(title: String,
     subtitle: String,
     body: String,
     category: String,
     info: Info) {
-        invokedPost = true
-        invokedPostCount += 1
-        invokedPostParameters = (title, subtitle, body, category, info)
-        invokedPostParametersList.append((title, subtitle, body, category, info))
+        invokedPostTitle = true
+        invokedPostTitleCount += 1
+        invokedPostTitleParameters = (title, subtitle, body, category, info)
+        invokedPostTitleParametersList.append((title, subtitle, body, category, info))
     }
     var invokedModalSuccess = false
     var invokedModalSuccessCount = 0
@@ -171,14 +196,16 @@ final class NotificationServiceSpy: NotificationService {
     }
     var invokedModalFailure = false
     var invokedModalFailureCount = 0
-    var invokedModalFailureParameters: (failure: MTPNetworkError, operation: String)?
-    var invokedModalFailureParametersList = [(failure: MTPNetworkError, operation: String)]()
-    func modal(failure: MTPNetworkError,
-    operation: String) {
+    var invokedModalFailureParameters: (failure: NetworkError, operation: String)?
+    var invokedModalFailureParametersList = [(failure: NetworkError, operation: String)]()
+    var stubbedModalFailureResult: String! = ""
+    func modal(failure: NetworkError,
+    operation: String) -> String {
         invokedModalFailure = true
         invokedModalFailureCount += 1
         invokedModalFailureParameters = (failure, operation)
         invokedModalFailureParametersList.append((failure, operation))
+        return stubbedModalFailureResult
     }
     var invokedDismissModal = false
     var invokedDismissModalCount = 0

@@ -7,6 +7,8 @@ import RealmSwift
 
 protocol DataService: AnyObject, Observable, ServiceProvider {
 
+    typealias Completion = (Bool) -> Void
+
     var beaches: [Beach] { get }
     var countries: [Country] { get }
     var divesites: [DiveSite] { get }
@@ -79,6 +81,12 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func deletePhotos(user id: Int)
 
     func resolve(reference: Mappable.Reference) -> Mappable?
+
+    func update(rankings: Checklist,
+                then: @escaping Completion)
+    func update(scorecard: Checklist,
+                then: @escaping Completion)
+    func update(stamp: RankingsPageInfo?)
 }
 
 // MARK: - User state
@@ -127,7 +135,7 @@ extension DataService {
 final class DataServiceImpl: DataService {
 
     private let defaults = UserDefaults.standard
-    private let realm = RealmController()
+    private let realm = RealmDataController()
 
     func deletePhotos(user id: Int) {
         realm.deletePhotos(user: id)
@@ -248,7 +256,7 @@ final class DataServiceImpl: DataService {
             dismissals.set(item: item, stamped: visited)
             notifications.set(item: item, stamped: visited)
             triggers.set(item: item, stamped: visited)
-            updates.set(item: item.list.listStamp, stamped: true)
+            updates.set(list: item.list, stamped: true)
             visits.set(item: item, visited: visited)
         }
         dismissed = dismissals
@@ -346,6 +354,11 @@ final class DataServiceImpl: DataService {
         }
 
         realm.set(rankings: query, info: info)
+        if let list = Checklist(key: query.checklistKey),
+           var update = updated,
+           update.clear(rankings: list) {
+            updated = update
+        }
         notify(change: .rankings, object: query)
     }
 
@@ -365,6 +378,10 @@ final class DataServiceImpl: DataService {
 
     func set(scorecard: ScorecardWrapperJSON) {
         realm.set(scorecard: scorecard)
+        if user?.id == Int(scorecard.data.userId),
+           let list = Checklist(key: scorecard.data.type) {
+            clear(updates: list)
+        }
         notify(change: .scorecard)
     }
 
@@ -472,6 +489,62 @@ final class DataServiceImpl: DataService {
 
     func resolve(reference: Mappable.Reference) -> Mappable? {
         return realm.resolve(reference: reference)
+    }
+
+    func update(rankings: Checklist,
+                then: @escaping Completion) {
+        guard let status = updated?.updateStatus(rankings: rankings),
+              status.isPending else {
+                return then(true)
+        }
+
+        let query = lastRankingsQuery.with(list: rankings)
+        net.loadRankings(query: query) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success,
+                     .failure(NetworkError.notModified):
+                    then(true)
+                default:
+                    then(false)
+                }
+            }
+        }
+    }
+
+    func update(scorecard: Checklist,
+                then: @escaping Completion) {
+        guard let status = updated?.updateStatus(scorecard: scorecard),
+              status.isPending,
+              let userId = user?.id else {
+                return then(true)
+        }
+
+        net.loadScorecard(list: scorecard,
+                          user: userId) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success,
+                     .failure(NetworkError.notModified):
+                    self.clear(updates: scorecard)
+                    then(true)
+                default:
+                    then(false)
+                }
+            }
+        }
+    }
+
+    func update(stamp: RankingsPageInfo?) {
+        guard let stamp = stamp else { return }
+        realm.update(stamp: stamp)
+    }
+
+    func clear(updates: Checklist) {
+        if var update = updated,
+           update.clear(scorecard: updates) || update.clear(rankings: updates) {
+            updated = update
+        }
     }
 }
 

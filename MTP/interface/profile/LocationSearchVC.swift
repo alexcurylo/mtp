@@ -12,24 +12,24 @@ final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
 
     private typealias Segues = R.segue.locationSearchVC
 
-    enum List {
-        case countries
+    enum Search {
         case country
-        case countryOrNot
-        case location(country: Int?)
-        case locations(country: Int?)
+        case countryOrAll
+        case countryOrNone
+        case location(country: Int)
+        case locationOrAll(country: Int)
     }
 
-    private var list: List = .countries
+    private var search: Search = .countryOrAll
     private var styler: Styler = .standard
     private weak var delegate: LocationSearchDelegate?
 
     private let backgroundView = GradientView()
 
-    func set(list: List,
+    func set(search: Search,
              styler: Styler,
              delegate: LocationSearchDelegate) {
-        self.list = list
+        self.search = search
         self.styler = styler
         self.delegate = delegate
 
@@ -83,7 +83,7 @@ final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
             withIdentifier: R.reuseIdentifier.locationSearchTableViewCell,
             for: indexPath)
 
-        cell.set(list: list, item: object)
+        cell.set(search: search, item: object)
 
         return cell
     }
@@ -106,36 +106,26 @@ final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
 private extension LocationSearchVC {
 
     func configureSearch() {
-        switch list {
-        case .countries, .countryOrNot:
-            searchPropertyKeyPath = "placeCountry"
-            sortPropertyKey = "placeCountry"
-            entityName = "Country"
-            basePredicate = nil
-
-            title = L.selectCountry()
+        switch search {
         case .country:
             searchPropertyKeyPath = "placeCountry"
             sortPropertyKey = "placeCountry"
             entityName = "Country"
             basePredicate = NSPredicate(format: "countryId > 0")
-
             title = L.selectCountry()
-        case let .location(country?):
+        case .countryOrAll, .countryOrNone:
+            searchPropertyKeyPath = "placeCountry"
+            sortPropertyKey = "placeCountry"
+            entityName = "Country"
+            basePredicate = nil
+            title = L.selectCountry()
+        case .location(let country):
             entityName = "Location"
             searchPropertyKeyPath = "placeTitle"
             sortPropertyKey = "placeTitle"
             basePredicate = NSPredicate(format: "countryId = \(country)")
-
             title = L.selectLocation()
-        case .location:
-            entityName = "Location"
-            searchPropertyKeyPath = "placeTitle"
-            sortPropertyKey = "placeTitle"
-            basePredicate = NSPredicate(format: "countryId > 0")
-
-            title = L.selectLocation()
-        case let .locations(country?):
+        case .locationOrAll(let country):
             entityName = "Location"
             searchPropertyKeyPath = "placeTitle"
             sortPropertyKey = "placeTitle"
@@ -144,13 +134,6 @@ private extension LocationSearchVC {
             basePredicate = NSCompoundPredicate(
                 type: .or,
                 subpredicates: [isChild, isAll])
-
-            title = L.selectLocation()
-        case .locations:
-            entityName = "Location"
-            searchPropertyKeyPath = "placeTitle"
-            sortPropertyKey = "placeTitle"
-
             title = L.selectLocation()
         }
     }
@@ -176,32 +159,40 @@ final class LocationSearchTableViewCell: UITableViewCell {
         super.awakeFromNib()
     }
 
-    func set(list: LocationSearchVC.List,
+    func set(search: LocationSearchVC.Search,
              item: Object?) {
 
-        var countryName: String? {
-            return (item as? Country)?.placeCountry
+        var countryName: String {
+            return (item as? Country)?.placeCountry ?? L.unknown()
         }
 
-        func named(orNot: String) -> String? {
-            guard let country = item as? Country else { return nil }
-            guard country.countryId > 0 else { return orNot }
-            return country.placeCountry
+        func named(orNot: String) -> String {
+            switch item {
+            case let country as Country:
+                guard country.countryId > 0 else { return orNot }
+                return country.placeCountry
+            case let location as Location:
+                guard location.countryId > 0 else { return orNot }
+                return location.placeTitle
+            default:
+                return L.unknown()
+            }
         }
 
-        let text: String?
-        switch list {
-        case .countries:
-            text = named(orNot: L.selectCountryAll())
-        case .countryOrNot:
-            text = named(orNot: L.selectCountryNone())
+        let name: String
+        switch search {
         case .country:
-            text = countryName
-        case .location,
-             .locations:
-            text = (item as? Location)?.placeTitle
+            name = countryName
+        case .countryOrAll:
+            name = named(orNot: L.selectCountryAll())
+        case .countryOrNone:
+            name = named(orNot: L.selectCountryNone())
+        case .location:
+            name = named(orNot: L.unknown())
+        case .locationOrAll:
+            name = named(orNot: L.selectLocationAll())
         }
-        locationLabel?.text = text ?? L.unknown()
+        locationLabel?.text = name.isEmpty ? L.unknown() : name
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

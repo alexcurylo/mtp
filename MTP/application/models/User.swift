@@ -12,6 +12,7 @@ protocol UserAvatar {
 
 protocol UserInfo: UserAvatar {
 
+    var isSelf: Bool { get }
     var orderBeaches: Int { get }
     var orderDivesites: Int { get }
     var orderGolfcourses: Int { get }
@@ -192,6 +193,9 @@ extension UserJSON: CustomDebugStringConvertible {
 
 extension UserJSON: UserInfo {
 
+    var isSelf: Bool {
+        return id == data.user?.id
+    }
     var orderBeaches: Int { return rankBeaches ?? 0 }
     var orderDivesites: Int { return rankDivesites ?? 0 }
     var orderGolfcourses: Int { return rankGolfcourses ?? 0 }
@@ -276,7 +280,7 @@ extension UserAvatar {
     }
 }
 
-@objcMembers final class User: Object, UserInfo {
+@objcMembers final class User: Object, UserInfo, ServiceProvider {
 
     dynamic var airport: String = ""
     dynamic var bio: String = ""
@@ -302,6 +306,10 @@ extension UserAvatar {
 
     let linkTexts = List<String>()
     let linkUrls = List<String>()
+
+    var isSelf: Bool {
+        return userId == data.user?.id
+    }
 
     override static func primaryKey() -> String? {
         return "userId"

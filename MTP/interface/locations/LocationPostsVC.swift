@@ -107,7 +107,7 @@ extension LocationPostsVC: Injectable {
         mappable = model
 
         if isImplemented {
-            mtp.loadPosts(location: model.checklistId) { [weak self] _ in
+            net.loadPosts(location: model.checklistId) { [weak self] _ in
                 self?.loaded()
             }
         }

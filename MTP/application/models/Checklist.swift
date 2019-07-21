@@ -52,7 +52,9 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
     case restaurants
 
     typealias Item = (list: Checklist, id: Int)
-    typealias Status = (visited: Int, remaining: Int)
+    typealias VisitStatus = (visited: Int, remaining: Int)
+
+    static var rankUpdateMinutes = 60
 
     init?(key: String) {
         switch key {
@@ -295,10 +297,10 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
     }
 
     func remaining(of user: UserInfo) -> Int {
-        return status(of: user).remaining
+        return visitStatus(of: user).remaining
     }
 
-    func status(of user: UserInfo) -> Status {
+    func visitStatus(of user: UserInfo) -> VisitStatus {
         let total: Int
         switch self {
         case .locations:
@@ -467,26 +469,26 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         }
     }
 
-    var listStamp: Item {
-        return (self, 0)
+    var rankingsItem: Item {
+        return (self, Timestamps.Info.rankings.rawValue)
     }
 
-    func set(updated: Bool) {
-        var timestamps = data.updated ?? Timestamps()
-        timestamps.set(item: listStamp, stamped: updated)
-        data.updated = timestamps
+    var rankingsStatus: Timestamps.UpdateStatus {
+        guard let updated = data.updated else {
+            return Timestamps.UpdateStatus()
+        }
+        return updated.updateStatus(rankings: self)
     }
 
-    var updateWait: Int {
-        guard let stamp = data.updated?.stamp(item: listStamp) else { return 0 }
+    var scorecardItem: Item {
+        return (self, Timestamps.Info.scorecard.rawValue)
+    }
 
-        let minutes = 60 + Int(stamp.timeIntervalSinceNow / 60)
-        guard (1...60).contains(minutes) else {
-            set(updated: false)
-            return 0
-       }
-
-       return minutes
+    var scorecardStatus: Timestamps.UpdateStatus {
+        guard let updated = data.updated else {
+            return Timestamps.UpdateStatus()
+        }
+        return updated.updateStatus(scorecard: self)
     }
 }
 

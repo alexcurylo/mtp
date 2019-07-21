@@ -70,7 +70,7 @@ extension RestaurantJSON: CustomDebugStringConvertible {
     }
 
     convenience init?(from: RestaurantJSON,
-                      realm: RealmController) {
+                      realm: RealmDataController) {
         guard from.active == "Y" else { return nil }
         self.init()
 

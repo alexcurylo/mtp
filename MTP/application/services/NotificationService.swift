@@ -91,7 +91,7 @@ protocol NotificationService {
     func modal(success: String)
     func modal(info: String)
     func modal(error: String)
-    @discardableResult func modal(failure: MTPNetworkError,
+    @discardableResult func modal(failure: NetworkError,
                                   operation: String) -> String
     func dismissModal()
 
@@ -179,7 +179,7 @@ final class NotificationServiceImpl: NotificationService, ServiceProvider {
 
         modal(info: L.updatingVisit())
 
-        mtp.set(items: items,
+        net.set(items: items,
                 visited: visited) { result in
             switch result {
             case .success:
@@ -558,7 +558,7 @@ private extension NotificationServiceImpl {
         let title = L.congratulations(mappable.title)
 
         let (single, plural) = mappable.checklist.names(full: true)
-        let (visited, remaining) = mappable.checklist.status(of: user)
+        let (visited, remaining) = mappable.checklist.visitStatus(of: user)
         let contentVisited = L.status(visited, plural, remaining)
 
         let contentMilestone = mappable.checklist.milestone(visited: visited)
@@ -613,7 +613,7 @@ extension NotificationServiceImpl {
         KRProgressHUD.showError(withMessage: error)
     }
 
-    @discardableResult func modal(failure: MTPNetworkError,
+    @discardableResult func modal(failure: NetworkError,
                                   operation: String) -> String {
         let errorMessage: String
         switch failure {

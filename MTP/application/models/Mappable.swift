@@ -154,7 +154,7 @@ protocol Mapper {
 
     convenience init(checklist: Checklist,
                      place: PlaceJSON,
-                     realm: RealmController) {
+                     realm: RealmDataController) {
         self.init()
 
         self.checklist = checklist
@@ -178,7 +178,7 @@ protocol Mapper {
                      title: String,
                      visitors: Int,
                      website: String,
-                     realm: RealmController) {
+                     realm: RealmDataController) {
         self.init()
 
         self.checklist = checklist
@@ -193,7 +193,7 @@ protocol Mapper {
     }
 
     func complete(locationId: Int,
-                  realm: RealmController) {
+                  realm: RealmDataController) {
         location = realm.location(id: locationId)
         country = location?.placeCountry ?? L.unknown()
         region = location?.placeRegion ?? L.unknown()

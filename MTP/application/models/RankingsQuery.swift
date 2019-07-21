@@ -73,10 +73,14 @@ struct RankingsQuery: Codable, Hashable, ServiceProvider {
     var location: String?
     var locationId: Int?
 
-    func with(page: Int) -> RankingsQuery {
-        var withPage = self
-        withPage.page = page
-        return withPage
+    func with(list: Checklist? = nil,
+              page: Int = 1) -> RankingsQuery {
+        var withList = self
+        if let list = list {
+            withList.checklistKey = list.key
+        }
+        withList.page = page
+        return withList
     }
 }
 

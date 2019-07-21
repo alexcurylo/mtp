@@ -11,7 +11,7 @@ import RealmSwift
 // po Realm.Configuration.defaultConfiguration.fileURL
 
 // swiftlint:disable:next type_body_length
-final class RealmController: ServiceProvider {
+final class RealmDataController: ServiceProvider {
 
     private lazy var realm: Realm = createRealm()
 
@@ -393,37 +393,39 @@ final class RealmController: ServiceProvider {
     func resolve(reference: Mappable.Reference) -> Mappable? {
         return realm.resolve(reference)
     }
+
+    func update(stamp: RankingsPageInfo) {
+        do {
+            try realm.write {
+                stamp.stamp()
+            }
+        } catch {
+            log.error("update stamp: \(error)")
+        }
+    }
 }
 
-private extension RealmController {
+private extension RealmDataController {
 
     func createRealm() -> Realm {
-        #if CAN_MIGRATE
         // swiftlint:disable:next trailing_closure
         let config = Realm.Configuration(
-            schemaVersion: 3,
+            schemaVersion: 1,
             migrationBlock: { migration, oldSchemaVersion in
+                self.log.verbose("migrating database \(oldSchemaVersion) to 1")
                 switch oldSchemaVersion {
                 case 0:
                     migration.migrate0to1()
                     // swiftlint:disable:next fallthrough
                     fallthrough
-                case 1:
-                    migration.migrate1to2()
-                    // swiftlint:disable:next fallthrough
-                    fallthrough
-                case 2:
-                    migration.migrate2to3()
                 default:
                     break
                 }
             }
         )
-        #else
-        // resetting configuration with Mappable addition
-        let config = Realm.Configuration(schemaVersion: 0,
-                                         deleteRealmIfMigrationNeeded: true)
-        #endif
+        // reset instead of migrating
+        //let config = Realm.Configuration(schemaVersion: 0,
+                                         //deleteRealmIfMigrationNeeded: true)
 
         Realm.Configuration.defaultConfiguration = config
 
@@ -472,39 +474,10 @@ private extension RealmController {
 
 private extension Migration {
 
-    #if CAN_MIGRATE
     func migrate0to1() {
         // apply new defaults: https://github.com/realm/realm-cocoa/issues/1793
-        enumerateObjects(ofType: Beach.className()) { _, new in
-            new?["website"] = ""
-        }
-        enumerateObjects(ofType: DiveSite.className()) { _, new in
-            new?["website"] = ""
-        }
-        enumerateObjects(ofType: GolfCourse.className()) { _, new in
-            new?["website"] = ""
-        }
-        enumerateObjects(ofType: Restaurant.className()) { _, new in
-            new?["website"] = ""
+        enumerateObjects(ofType: RankingsPageInfo.className()) { _, new in
+            new?["timestamp"] = 0
         }
     }
-
-    func migrate1to2() {
-        enumerateObjects(ofType: Photo.className()) { _, new in
-            new?["desc"] = ""
-        }
-        enumerateObjects(ofType: Location.className()) { _, new in
-            new?["airports"] = ""
-            new?["rank"] = 0
-            new?["rankUn"] = 0
-            new?["weatherhist"] = ""
-        }
-    }
-
-    func migrate2to3() {
-        enumerateObjects(ofType: WHS.className()) { _, new in
-            new?["unescoId"] = 0
-        }
-    }
-    #endif
 }

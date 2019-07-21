@@ -73,7 +73,7 @@ extension WHSJSON: CustomDebugStringConvertible {
 
     // swiftlint:disable:next function_body_length
     convenience init?(from: WHSJSON,
-                      realm: RealmController) {
+                      realm: RealmDataController) {
         guard from.active == "Y" else { return nil }
         self.init()
 

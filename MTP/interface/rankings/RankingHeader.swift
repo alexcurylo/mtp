@@ -77,12 +77,16 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
     private let filterLabel = UILabel {
         $0.font = Avenir.medium.of(size: 15)
         $0.textColor = .white
+        $0.allowsDefaultTighteningForTruncation = true
+        $0.adjustsFontSizeToFitWidth = true
+        $0.minimumScaleFactor = 0.9
     }
 
     private var lines: UIStackView?
 
     private weak var delegate: RankingHeaderDelegate?
     private let scheduler = Scheduler()
+    private var updating = false
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -114,7 +118,7 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
 
         avatarImageView.load(image: user)
 
-        let status = list.status(of: user)
+        let status = list.visitStatus(of: user)
         let visitedText = status.visited.grouped
         let totalText = (status.visited + status.remaining).grouped
         guard let rank = rank else {
@@ -129,18 +133,19 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
         rankLabel.text = L.rankScore(rankText)
         fractionLabel.text = L.rankFraction(visitedText, totalText)
 
-        scheduler.schedule(every: 60) { [weak self, list] in
+        scheduler.fire(every: 60) { [weak self, list] in
             self?.update(timer: list)
         }
-        scheduler.fire()
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
 
+        configure(current: true)
         delegate = nil
         avatarImageView.prepareForReuse()
         rankLabel.text = nil
+        fractionLabel.text = nil
         filterLabel.text = nil
     }
 }
@@ -148,17 +153,36 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
 private extension RankingHeader {
 
     func update(timer list: Checklist) {
-        let minutes = list.updateWait
-        if minutes > 0 {
-            updatingLabel.text = L.updateWait(minutes)
-            updatingStack?.isHidden = false
-            rankLabel.textColor = Layout.updatingColor
-            rankLabel.font = Layout.rankFont.updating
-        } else {
+        let status = list.rankingsStatus
+        configure(current: status.isCurrent)
+        guard !status.isCurrent else { return }
+
+        updatingLabel.text = L.updateWait(status.wait)
+        guard status.isPending,
+            scheduler.isActive,
+            !updating else { return }
+
+        updating = true
+        data.update(scorecard: list) { [weak self] updated in
+            guard let self = self, self.updating else { return }
+
+            self.updating = false
+            self.configure(current: updated)
+            self.data.update(rankings: list) { _ in }
+        }
+    }
+
+    func configure(current: Bool) {
+        if current {
+            updating = false
             scheduler.stop()
             updatingStack?.isHidden = true
             rankLabel.textColor = nil
             rankLabel.font = Layout.rankFont.normal
+        } else {
+            updatingStack?.isHidden = false
+            rankLabel.textColor = Layout.updatingColor
+            rankLabel.font = Layout.rankFont.updating
         }
     }
 

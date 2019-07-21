@@ -189,7 +189,7 @@ private extension PostCell {
             postImageView.load(image: user)
         } else {
             postImageView.image = user.placeholder
-            mtp.loadUser(id: user.userId) { [weak self] result in
+            net.loadUser(id: user.userId) { [weak self] result in
                 if case let .success(update) = result {
                     self?.postImageView.load(image: update)
                 }

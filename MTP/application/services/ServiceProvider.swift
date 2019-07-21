@@ -10,7 +10,7 @@ protocol ServiceProvider {
     var data: DataService { get }
     var loc: LocationService { get }
     var log: LoggingService { get }
-    var mtp: MTPNetworkService { get }
+    var net: NetworkService { get }
     var note: NotificationService { get }
 }
 
@@ -35,8 +35,8 @@ extension ServiceProvider {
         return ServiceProviderInstances.logServiceInstance
     }
 
-    var mtp: MTPNetworkService {
-        return ServiceProviderInstances.mtpServiceInstance
+    var net: NetworkService {
+        return ServiceProviderInstances.netServiceInstance
     }
 
     var note: NotificationService {
@@ -51,6 +51,6 @@ enum ServiceProviderInstances {
     static var dataServiceInstance: DataService!
     static var locServiceInstance: LocationService!
     static var logServiceInstance: LoggingService!
-    static var mtpServiceInstance: MTPNetworkService!
+    static var netServiceInstance: NetworkService!
     static var noteServiceInstance: NotificationService!
 }

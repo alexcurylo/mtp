@@ -83,12 +83,12 @@ private extension ProfilePhotosVC {
 
     func refresh(page: Int, reload: Bool) {
         if isSelf {
-            mtp.loadPhotos(page: page,
+            net.loadPhotos(page: page,
                            reload: reload) { [weak self] _ in
                 self?.loaded()
             }
         } else if let user = user {
-            mtp.loadPhotos(profile: user.userId,
+            net.loadPhotos(profile: user.userId,
                            page: page,
                            reload: reload) { [weak self] _ in
                 self?.loaded()
@@ -131,7 +131,7 @@ extension ProfilePhotosVC: UserInjectable {
 
     @discardableResult func inject(model: Model) -> Self {
         user = model
-        isSelf = model.userId == data.user?.id
+        isSelf = model.isSelf
 
         refresh(page: 1, reload: false)
 
