@@ -39,7 +39,10 @@ platform :ios do
     # sync_code_signing(type: "appstore")
     build_app(export_method: "app-store")
 
-    upload_to_testflight(changelog: changelog)
+    upload_to_testflight(changelog: changelog,
+                         demo_account_required: true,
+                         demo_account_name: "alex@trollwerks.com",
+                         demo_account_password: "asdfgh")
 
     stamp_changelog(section_identifier: "Version #{version_number}, Build #{build_number}")
     clean_build_artifacts
@@ -60,9 +63,10 @@ platform :ios do
   lane :screenshots do
     # enable_simulators_keyboard
     # give_simulators_permissions
+    # build_app(derived_data_path: "/tmp/MTPSnapshots/DerivedData")
     capture_screenshots
     # frame_screenshots(white: true)
-    # upload_to_app_store(skip_binary_upload: true, skip_metadata: true)
+    upload_to_app_store(skip_binary_upload: true, skip_metadata: true)
   end
 
   desc "Prepare simulators for screenshots"

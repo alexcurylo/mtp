@@ -36,6 +36,11 @@ Push a new release build to the App Store
 fastlane ios screenshots
 ```
 Generate new localized screenshots
+### ios give_simulators_permissions
+```
+fastlane ios give_simulators_permissions
+```
+Prepare simulators for screenshots
 
 ----
 
