@@ -80,9 +80,9 @@ extension ProfilePostsVC: Injectable {
 
     @discardableResult func inject(model: Model) -> Self {
         user = model
-        isSelf = model.userId == data.user?.id
+        isSelf = model.isSelf
 
-        mtp.loadPosts(user: model.userId) { [weak self] _ in
+        net.loadPosts(user: model.userId) { [weak self] _ in
             self?.loaded()
         }
 

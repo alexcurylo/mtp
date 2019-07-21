@@ -8,6 +8,7 @@ enum ContentState {
     case error
     case loading
     case unimplemented
+    case unknown
 }
 
 protocol ContentStateMessaging {
@@ -33,7 +34,7 @@ extension ContentStateMessagingView {
     func set(message state: ContentState,
              color: UIColor = .white) {
         switch state {
-        case .data:
+        case .data, .unknown:
             setMessageNone()
         case .empty:
             set(message: L.emptyState(), color: color)

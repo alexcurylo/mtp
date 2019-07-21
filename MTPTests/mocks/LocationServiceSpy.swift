@@ -65,8 +65,8 @@ final class LocationServiceSpy: LocationService {
     }
     var invokedMtpGetter = false
     var invokedMtpGetterCount = 0
-    var stubbedMtp: MTPNetworkService!
-    var mtp: MTPNetworkService {
+    var stubbedMtp: NetworkService!
+    var net: NetworkService {
         invokedMtpGetter = true
         invokedMtpGetterCount += 1
         return stubbedMtp

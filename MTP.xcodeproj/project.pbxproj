@@ -15,9 +15,10 @@
 		8C0127FD2232084600EA2095 /* ApplicationServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127FC2232084600EA2095 /* ApplicationServiceSpy.swift */; };
 		8C0127FF2232089100EA2095 /* LoggingServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127FE2232089100EA2095 /* LoggingServiceSpy.swift */; };
 		8C012801223208CC00EA2095 /* DataServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C012800223208CC00EA2095 /* DataServiceSpy.swift */; };
-		8C012803223208FB00EA2095 /* MTPNetworkServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C012802223208FB00EA2095 /* MTPNetworkServiceSpy.swift */; };
+		8C012803223208FB00EA2095 /* NetworkServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C012802223208FB00EA2095 /* NetworkServiceSpy.swift */; };
 		8C0F242B22432076005BD5DC /* UserCountsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0F242A22432076005BD5DC /* UserCountsVC.swift */; };
 		8C1A267E22AE019400DAFC7B /* SearchResultJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1A267D22AE019400DAFC7B /* SearchResultJSON.swift */; };
+		8C3EA1FF22DD540F008DD858 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EA1FE22DD540F008DD858 /* SnapshotHelper.swift */; };
 		8C3EA813222F64F100CB4886 /* TopLoadingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */; };
 		8C3EAA1C2230BFA500CB4886 /* InsetTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EAA1B2230BFA500CB4886 /* InsetTextField.swift */; };
 		8C3EAB842230FCC200CB4886 /* RoutingAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EAB832230FCC200CB4886 /* RoutingAppDelegate.swift */; };
@@ -46,6 +47,7 @@
 		8CA1ECEA22C45A8600C3B40B /* Location.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CA1ECE822C45A8600C3B40B /* Location.storyboard */; };
 		8CAE30592239DA7D00E31647 /* world-map.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 8CAE30572239DA7C00E31647 /* world-map.geojson */; };
 		8CAE30642239F4F100E31647 /* WorldMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CAE30632239F4F100E31647 /* WorldMap.swift */; };
+		8CB2A24322E177C90050E368 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB2A24222E177C90050E368 /* Scheduler.swift */; };
 		8CCA21F822B3AB5D00C1D13B /* UserUpdatePayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCA21F722B3AB5D00C1D13B /* UserUpdatePayload.swift */; };
 		8CCA5A7322AA6BBB00853903 /* AppAboutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCA5A7222AA6BBB00853903 /* AppAboutVC.swift */; };
 		8CDBE5EE22C08AD5005A6C18 /* PostPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDBE5ED22C08AD5005A6C18 /* PostPayload.swift */; };
@@ -66,6 +68,8 @@
 		FA12AB5722C6D68700105545 /* LinkTappableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12AB5622C6D68700105545 /* LinkTappableTextView.swift */; };
 		FA12AB5A22C75FAA00105545 /* UserProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA12AB5822C75FAA00105545 /* UserProfile.storyboard */; };
 		FA12D682213B963C0053E9BF /* RankingsPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12D681213B963C0053E9BF /* RankingsPageVC.swift */; };
+		FA1663AF22E3325B0075DA1A /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1663AE22E3325B0075DA1A /* NetworkService.swift */; };
+		FA1663B122E3354C0075DA1A /* HTTPURLResponse+Headers.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1663B022E3354C0075DA1A /* HTTPURLResponse+Headers.swift */; };
 		FA2172D822BE038C00CE4F40 /* MappableOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2172D722BE038C00CE4F40 /* MappableOverlay.swift */; };
 		FA21FB9F22A3F25400190B71 /* UserCounts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA21FB9D22A3F25400190B71 /* UserCounts.storyboard */; };
 		FA21FBA122A4157000190B71 /* UserProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA21FBA022A4157000190B71 /* UserProfileVC.swift */; };
@@ -82,7 +86,7 @@
 		FA32CC7E2100CB75004C1329 /* Signup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA32CC802100CB75004C1329 /* Signup.storyboard */; };
 		FA32CC892100CC6B004C1329 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA32CC8B2100CC6B004C1329 /* Login.storyboard */; };
 		FA36FBED22059E6B00616CDE /* ApplicationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA36FBEC22059E6B00616CDE /* ApplicationService.swift */; };
-		FA36FBEF2206461F00616CDE /* RealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA36FBEE2206461F00616CDE /* RealmController.swift */; };
+		FA36FBEF2206461F00616CDE /* RealmDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA36FBEE2206461F00616CDE /* RealmDataController.swift */; };
 		FA390132213AB4A90016A362 /* Rankings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA390134213AB4A90016A362 /* Rankings.storyboard */; };
 		FA390139213B84B40016A362 /* RankingsPagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA390138213B84B40016A362 /* RankingsPagingVC.swift */; };
 		FA392BBB20DF69F30026C828 /* ActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA392BBA20DF69F30026C828 /* ActionHandler.swift */; };
@@ -108,7 +112,7 @@
 		FA463785210E06230007382D /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA463784210E06230007382D /* LoggingService.swift */; };
 		FA46533021157784005B5A0A /* FacebookButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA46532F21157784005B5A0A /* FacebookButton.swift */; };
 		FA4653322115A250005B5A0A /* UserDefaults+DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653312115A250005B5A0A /* UserDefaults+DataService.swift */; };
-		FA4653342115ADC6005B5A0A /* MTPNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653332115ADC6005B5A0A /* MTPNetworkService.swift */; };
+		FA4653342115ADC6005B5A0A /* MTPNetworkConroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653332115ADC6005B5A0A /* MTPNetworkConroller.swift */; };
 		FA54272822D62936005DF1CC /* MappablesAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA54272722D62936005DF1CC /* MappablesAnnotationView.swift */; };
 		FA54272A22D97476005DF1CC /* Date+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA54272922D97476005DF1CC /* Date+Helper.swift */; };
 		FA5AC0B621FC4EBE0080F84F /* MappableAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0B521FC4EBE0080F84F /* MappableAnnotationView.swift */; };
@@ -226,9 +230,10 @@
 		8C0127FC2232084600EA2095 /* ApplicationServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationServiceSpy.swift; sourceTree = "<group>"; };
 		8C0127FE2232089100EA2095 /* LoggingServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingServiceSpy.swift; sourceTree = "<group>"; };
 		8C012800223208CC00EA2095 /* DataServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataServiceSpy.swift; sourceTree = "<group>"; };
-		8C012802223208FB00EA2095 /* MTPNetworkServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPNetworkServiceSpy.swift; sourceTree = "<group>"; };
+		8C012802223208FB00EA2095 /* NetworkServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceSpy.swift; sourceTree = "<group>"; };
 		8C0F242A22432076005BD5DC /* UserCountsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCountsVC.swift; sourceTree = "<group>"; };
 		8C1A267D22AE019400DAFC7B /* SearchResultJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultJSON.swift; sourceTree = "<group>"; };
+		8C3EA1FE22DD540F008DD858 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
 		8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLoadingTextView.swift; sourceTree = "<group>"; };
 		8C3EAA1B2230BFA500CB4886 /* InsetTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetTextField.swift; sourceTree = "<group>"; };
 		8C3EAB832230FCC200CB4886 /* RoutingAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutingAppDelegate.swift; sourceTree = "<group>"; };
@@ -257,6 +262,7 @@
 		8CA1ECE922C45A8600C3B40B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Location.storyboard; sourceTree = "<group>"; };
 		8CAE30572239DA7C00E31647 /* world-map.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "world-map.geojson"; sourceTree = "<group>"; };
 		8CAE30632239F4F100E31647 /* WorldMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldMap.swift; sourceTree = "<group>"; };
+		8CB2A24222E177C90050E368 /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = "<group>"; };
 		8CCA21F622B381A600C1D13B /* fastlane */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fastlane; sourceTree = "<group>"; };
 		8CCA21F722B3AB5D00C1D13B /* UserUpdatePayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserUpdatePayload.swift; sourceTree = "<group>"; };
 		8CCA5A7222AA6BBB00853903 /* AppAboutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAboutVC.swift; sourceTree = "<group>"; };
@@ -281,6 +287,8 @@
 		FA12AB5622C6D68700105545 /* LinkTappableTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkTappableTextView.swift; sourceTree = "<group>"; };
 		FA12AB5922C75FAA00105545 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/UserProfile.storyboard; sourceTree = "<group>"; };
 		FA12D681213B963C0053E9BF /* RankingsPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsPageVC.swift; sourceTree = "<group>"; };
+		FA1663AE22E3325B0075DA1A /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		FA1663B022E3354C0075DA1A /* HTTPURLResponse+Headers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPURLResponse+Headers.swift"; sourceTree = "<group>"; };
 		FA2172D722BE038C00CE4F40 /* MappableOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappableOverlay.swift; sourceTree = "<group>"; };
 		FA21FB9E22A3F25400190B71 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/UserCounts.storyboard; sourceTree = "<group>"; };
 		FA21FBA022A4157000190B71 /* UserProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileVC.swift; sourceTree = "<group>"; };
@@ -297,7 +305,7 @@
 		FA32CC7F2100CB75004C1329 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Signup.storyboard; sourceTree = "<group>"; };
 		FA32CC8A2100CC6B004C1329 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Login.storyboard; sourceTree = "<group>"; };
 		FA36FBEC22059E6B00616CDE /* ApplicationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationService.swift; sourceTree = "<group>"; };
-		FA36FBEE2206461F00616CDE /* RealmController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmController.swift; sourceTree = "<group>"; };
+		FA36FBEE2206461F00616CDE /* RealmDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmDataController.swift; sourceTree = "<group>"; };
 		FA390133213AB4A90016A362 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Rankings.storyboard; sourceTree = "<group>"; };
 		FA390138213B84B40016A362 /* RankingsPagingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsPagingVC.swift; sourceTree = "<group>"; };
 		FA392BB720DF69F30026C828 /* MTP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MTP.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -332,7 +340,7 @@
 		FA463784210E06230007382D /* LoggingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingService.swift; sourceTree = "<group>"; };
 		FA46532F21157784005B5A0A /* FacebookButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookButton.swift; sourceTree = "<group>"; };
 		FA4653312115A250005B5A0A /* UserDefaults+DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+DataService.swift"; sourceTree = "<group>"; };
-		FA4653332115ADC6005B5A0A /* MTPNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPNetworkService.swift; sourceTree = "<group>"; };
+		FA4653332115ADC6005B5A0A /* MTPNetworkConroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPNetworkConroller.swift; sourceTree = "<group>"; };
 		FA4B7FE021E38970006AF8E2 /* MTP.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MTP.entitlements; sourceTree = "<group>"; };
 		FA4B7FE121E38BF3006AF8E2 /* apple-app-site-association */ = {isa = PBXFileReference; lastKnownFileType = text; path = "apple-app-site-association"; sourceTree = "<group>"; };
 		FA4F1C5B20DFA67700B8A1ED /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
@@ -489,6 +497,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		8C3EA1FD22DD53C0008DD858 /* support */ = {
+			isa = PBXGroup;
+			children = (
+				FA392BDE20DF69F50026C828 /* Info.plist */,
+				8C3EA1FE22DD540F008DD858 /* SnapshotHelper.swift */,
+				FA32CC7120FAC863004C1329 /* XCTestCase+UITest.swift */,
+			);
+			path = support;
+			sourceTree = "<group>";
+		};
 		8C3EAB8F223119CE00CB4886 /* delegate */ = {
 			isa = PBXGroup;
 			children = (
@@ -508,12 +526,13 @@
 			children = (
 				FA36FBEC22059E6B00616CDE /* ApplicationService.swift */,
 				FA3CEC552132579300791195 /* DataService.swift */,
-				FA4653332115ADC6005B5A0A /* MTPNetworkService.swift */,
+				FA4653332115ADC6005B5A0A /* MTPNetworkConroller.swift */,
+				FA1663AE22E3325B0075DA1A /* NetworkService.swift */,
 				8CFEE458221FA2120061614B /* ImageService.swift */,
 				FAC8465C22AB6C2A004F57EC /* LocationService.swift */,
 				FA463784210E06230007382D /* LoggingService.swift */,
 				FAC8465A22AB55B6004F57EC /* NotificationService.swift */,
-				FA36FBEE2206461F00616CDE /* RealmController.swift */,
+				FA36FBEE2206461F00616CDE /* RealmDataController.swift */,
 				8C76D5DB22028874005CF4CD /* ServiceProvider.swift */,
 				FA4653312115A250005B5A0A /* UserDefaults+DataService.swift */,
 			);
@@ -527,7 +546,7 @@
 				8C012800223208CC00EA2095 /* DataServiceSpy.swift */,
 				FAC8465E22AB78FC004F57EC /* LocationServiceSpy.swift */,
 				8C0127FE2232089100EA2095 /* LoggingServiceSpy.swift */,
-				8C012802223208FB00EA2095 /* MTPNetworkServiceSpy.swift */,
+				8C012802223208FB00EA2095 /* NetworkServiceSpy.swift */,
 				FAC8466022AB79AA004F57EC /* NotificationServiceSpy.swift */,
 			);
 			path = mocks;
@@ -665,8 +684,7 @@
 			isa = PBXGroup;
 			children = (
 				FA392BDC20DF69F50026C828 /* MTPUITests.swift */,
-				FA32CC7120FAC863004C1329 /* XCTestCase+UITest.swift */,
-				FA392BDE20DF69F50026C828 /* Info.plist */,
+				8C3EA1FD22DD53C0008DD858 /* support */,
 			);
 			path = MTPUITests;
 			sourceTree = "<group>";
@@ -825,6 +843,7 @@
 				FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */,
 				FA54272922D97476005DF1CC /* Date+Helper.swift */,
 				FA46532F21157784005B5A0A /* FacebookButton.swift */,
+				FA1663B022E3354C0075DA1A /* HTTPURLResponse+Headers.swift */,
 				8C9DD8CD2245034D00D5EAFB /* Injectable.swift */,
 				8C3EAA1B2230BFA500CB4886 /* InsetTextField.swift */,
 				FAC8466222AC6D18004F57EC /* KVNOperation.swift */,
@@ -839,6 +858,7 @@
 				FA74C110211BBF490013A840 /* String+Formatting.swift */,
 				FAC3BCB5216A225900E1507E /* TagButton.swift */,
 				FAC3BCB6216A225900E1507E /* TagsView.swift */,
+				8CB2A24222E177C90050E368 /* Scheduler.swift */,
 				8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */,
 				FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */,
 				FA88395622351C30002F324F /* UIImage+Color.swift */,
@@ -1256,12 +1276,14 @@
 				8CE3FC2C222389B600B94EAA /* Scorecard.swift in Sources */,
 				FAC9057322CB8E9A001296DE /* CountInfoHeader.swift in Sources */,
 				FA6386A322D1743E001B4424 /* MTPMapView.swift in Sources */,
-				FA4653342115ADC6005B5A0A /* MTPNetworkService.swift in Sources */,
+				FA4653342115ADC6005B5A0A /* MTPNetworkConroller.swift in Sources */,
 				FAA819002244814900BB9F92 /* LocationPagingVC.swift in Sources */,
 				FA390139213B84B40016A362 /* RankingsPagingVC.swift in Sources */,
+				8CB2A24322E177C90050E368 /* Scheduler.swift in Sources */,
 				8C3EA813222F64F100CB4886 /* TopLoadingTextView.swift in Sources */,
 				8CE6F46B224B029500B24410 /* ContentState.swift in Sources */,
 				8C8DC74D22AF4343002EA1CD /* FaqJSON.swift in Sources */,
+				FA1663B122E3354C0075DA1A /* HTTPURLResponse+Headers.swift in Sources */,
 				FA5AC0BF21FDCB9D0080F84F /* MyCountsPagingVC.swift in Sources */,
 				8CAE30642239F4F100E31647 /* WorldMap.swift in Sources */,
 				FADC1ABA2144FAD70011EE49 /* Date+Formatting.swift in Sources */,
@@ -1277,6 +1299,7 @@
 				FA88395722351C30002F324F /* UIImage+Color.swift in Sources */,
 				FAC159A221EB68AA00564E2D /* Location.swift in Sources */,
 				FA7C200E221820FA002C6DAB /* OperationReply.swift in Sources */,
+				FA1663AF22E3325B0075DA1A /* NetworkService.swift in Sources */,
 				FA5AC0B621FC4EBE0080F84F /* MappableAnnotationView.swift in Sources */,
 				FA0F816422BF1CA700C00898 /* AddPhotoVC.swift in Sources */,
 				8CFEE459221FA2120061614B /* ImageService.swift in Sources */,
@@ -1302,7 +1325,7 @@
 				FA9A71DF20F1D3FA005F6A57 /* LaunchHandler.swift in Sources */,
 				8CE6FC66224C6CB600B24410 /* LocationPostsVC.swift in Sources */,
 				FA40F754225B06D50056182E /* FaqVC.swift in Sources */,
-				FA36FBEF2206461F00616CDE /* RealmController.swift in Sources */,
+				FA36FBEF2206461F00616CDE /* RealmDataController.swift in Sources */,
 				FA32CC7420FB6E67004C1329 /* UIView+Gradient.swift in Sources */,
 				FAF1853120FA0C8600CC5D83 /* RootVC.swift in Sources */,
 				FA7C2012221C2F20002C6DAB /* Photo.swift in Sources */,
@@ -1389,7 +1412,7 @@
 				FA3BD2292160D6BC007EAF75 /* WithableTests.swift in Sources */,
 				FAC8465F22AB78FC004F57EC /* LocationServiceSpy.swift in Sources */,
 				8C0127FF2232089100EA2095 /* LoggingServiceSpy.swift in Sources */,
-				8C012803223208FB00EA2095 /* MTPNetworkServiceSpy.swift in Sources */,
+				8C012803223208FB00EA2095 /* NetworkServiceSpy.swift in Sources */,
 				FA74C113211C61580013A840 /* StringTests.swift in Sources */,
 				8C0127FB2232054E00EA2095 /* ServiceHandlerSpy+AppLaunchHandler.swift in Sources */,
 				FAC8466122AB79AA004F57EC /* NotificationServiceSpy.swift in Sources */,
@@ -1405,6 +1428,7 @@
 				FAAE29C020EE581900B43BA9 /* UIApplication+Environment.swift in Sources */,
 				FA32CC7220FAC863004C1329 /* XCTestCase+UITest.swift in Sources */,
 				FA392BDD20DF69F50026C828 /* MTPUITests.swift in Sources */,
+				8C3EA1FF22DD540F008DD858 /* SnapshotHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1655,7 +1679,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAF12300215652AE0099B772 /* MTP_Debug.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 630;
+				CURRENT_PROJECT_VERSION = 631;
 				INFOPLIST_FILE = MTP/resources/Info.plist;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1665,7 +1689,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAF122FC215652AE0099B772 /* MTP_Release.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 630;
+				CURRENT_PROJECT_VERSION = 631;
 				DEVELOPMENT_TEAM = 37L8D8MJWV;
 				INFOPLIST_FILE = MTP/resources/Info.plist;
 				PROVISIONING_PROFILE_SPECIFIER = "MTP-AppStore";

@@ -6,8 +6,6 @@ team_id("37L8D8MJWV") # Developer Portal Team ID
 
 # undefined method `demo_account_required' for #<CredentialsManager::AppfileConfig:0x00007f7f193c0768>
 # demo_account_required(true)
-# demo_account_name("alex@trollwerks.com")
-# demo_account_password("asdfgh")
 # distribute_external(false)
 
 # For more information about the Appfile, see:

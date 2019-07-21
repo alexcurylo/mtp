@@ -84,7 +84,7 @@ final class RankingsVC: UIViewController, ServiceProvider {
     }
 
     func updateFilter() {
-        mtp.refreshRankings()
+        net.refreshRankings()
         pagingVC.reloadData()
     }
 }
@@ -143,15 +143,14 @@ extension RankingsVC: PagingViewControllerDataSource {
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  viewControllerForIndex index: Int) -> UIViewController {
         let viewController = RankingsPageVC(options: pagingViewController.options)
-        viewController.delegate = self
-        viewController.set(list: pages[index].list)
 
         let insets = UIEdgeInsets(top: RankingsPagingVC.Layout.menuHeight,
                                   left: 0,
                                   bottom: 0,
                                   right: 0)
-        viewController.collectionView.contentInset = insets
-        viewController.collectionView.scrollIndicatorInsets = insets
+        viewController.inject(list: pages[index].list,
+                              insets: insets,
+                              delegate: self)
 
         return viewController
     }
@@ -244,7 +243,7 @@ extension RankingsVC: UISearchBarDelegate {
     }
 
     func search(query: String) {
-        mtp.search(query: query) { [weak self] result in
+        net.search(query: query) { [weak self] result in
             guard case let .success(results) = result,
                   let self = self else { return }
 

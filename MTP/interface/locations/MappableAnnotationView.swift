@@ -182,9 +182,14 @@ private extension MappableAnnotationView {
     @objc func toggleVisit(_ sender: UISwitch) {
         guard let mappable = mappable else { return }
 
-        let isVisited = sender.isOn
-        mappable.isVisited = isVisited
-        show(visited: isVisited)
+        let visited = sender.isOn
+        note.set(item: mappable.item,
+                 visited: visited,
+                 congratulate: false) { [weak sender] result in
+            if case .failure = result {
+                sender?.isOn = !visited
+            }
+        }
     }
 
     var mapItem: MKMapItem? {

@@ -21,6 +21,9 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         static let spacing = CGSize(width: 8, height: 4)
         static let cornerRadius = CGFloat(4)
         static let overlap = CGFloat(-8)
+        static let updatingColor = UIColor.carnation
+        static let rankFont = (normal: Avenir.heavy.of(size: 10),
+                               updating: Avenir.heavyOblique.of(size: 10))
     }
 
     private let avatarImageView = UIImageView {
@@ -31,7 +34,7 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         $0.contentMode = .scaleAspectFill
     }
     private let rankLabel = UILabel {
-        $0.font = Avenir.heavy.of(size: 10)
+        $0.font = Layout.rankFont.normal
         $0.heightAnchor == Layout.rankSize
         $0.widthAnchor == Layout.avatarSize - Layout.margin
         $0.cornerRadius = Layout.rankSize / 2
@@ -63,6 +66,8 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
     private var user: User?
     private var list: Checklist?
     private weak var delegate: RankingCellDelegate?
+    private let scheduler = Scheduler()
+    private var updating = false
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -100,18 +105,27 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         let order = list.order(of: user)
         rankLabel.text = order > 0 ? order.grouped : L.deceased()
 
-        let status = list.status(of: user)
+        let status = list.visitStatus(of: user)
         visitedButton.isHidden = false
         let visited = L.visitedCount(status.visited)
         visitedButton.setTitle(visited, for: .normal)
         remainingButton.isHidden = false
         let remaining = L.remainingCount(status.remaining)
         remainingButton.setTitle(remaining, for: .normal)
+
+        if user.isSelf {
+            scheduler.fire(every: 60) { [weak self, list] in
+                self?.update(timer: list)
+            }
+        } else {
+            configure(current: true)
+        }
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
 
+        configure(current: true)
         user = nil
         list = nil
         delegate = nil
@@ -121,10 +135,39 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         countryLabel.text = nil
         visitedButton.setTitle(nil, for: .normal)
         remainingButton.setTitle(nil, for: .normal)
-    }
+   }
 }
 
 private extension RankingCell {
+
+    func update(timer list: Checklist) {
+        let status = list.rankingsStatus
+        configure(current: status.isCurrent)
+        guard status.isPending,
+              scheduler.isActive,
+              !updating else { return }
+
+        updating = true
+        data.update(scorecard: list) { [weak self] updated in
+            guard let self = self, self.updating else { return }
+
+            self.updating = false
+            self.configure(current: updated)
+            self.data.update(rankings: list) { _ in }
+        }
+    }
+
+    func configure(current: Bool) {
+        if current {
+            updating = false
+            scheduler.stop()
+            rankLabel.textColor = nil
+            rankLabel.font = Layout.rankFont.normal
+        } else {
+            rankLabel.textColor = Layout.updatingColor
+            rankLabel.font = Layout.rankFont.updating
+        }
+    }
 
     class func configure(button: GradientButton) {
         button.orientation = GradientOrientation.horizontal.rawValue

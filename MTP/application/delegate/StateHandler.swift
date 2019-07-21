@@ -10,7 +10,7 @@ extension StateHandler: AppStateHandler {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        mtp.refreshEverything()
+        net.refreshEverything()
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

@@ -78,7 +78,7 @@ private extension UserCountsPagingVC {
 
     func setupContent() {
         checkScorecard(fail: .loading)
-        mtp.loadScorecard(list: model.list,
+        net.loadScorecard(list: model.list,
                           user: model.user.userId) { [weak self] _ in
             self?.checkScorecard(fail: .error)
         }

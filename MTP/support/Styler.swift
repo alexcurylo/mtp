@@ -122,6 +122,10 @@ extension UIColor {
 
 extension DispatchTime {
 
+    static var veryShort: DispatchTime {
+        return now() + 0.25
+    }
+
     static var short: DispatchTime {
         return now() + 1
     }

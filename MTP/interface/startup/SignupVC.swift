@@ -85,14 +85,14 @@ final class SignupVC: UIViewController, ServiceProvider {
             hide(navBar: true)
         case Segues.showCountry.identifier:
             if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                destination.set(list: .country,
+                destination.set(search: .country,
                                 styler: .login,
                                 delegate: self)
             }
         case Segues.showLocation.identifier:
             if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                let countryId = country?.countryId
-                destination.set(list: .location(country: countryId),
+                let countryId = country?.countryId ?? 0
+                destination.set(search: .location(country: countryId),
                                 styler: .login,
                                 delegate: self)
             }
@@ -387,7 +387,7 @@ private extension SignupVC {
         note.modal(info: L.signingUp())
 
         // swiftlint:disable:next closure_body_length
-        mtp.userRegister(payload: payload) { [weak self, note] result in
+        net.userRegister(payload: payload) { [weak self, note] result in
             switch result {
             case .success:
                 note.modal(success: L.success())

@@ -155,7 +155,7 @@ private extension ProfileAboutVC {
         let ranking = L.ranking(rank.grouped)
         rankingLabel?.text = ranking
 
-        let status = list.status(of: user)
+        let status = list.visitStatus(of: user)
         let visited = L.visitedCount(status.visited)
         visitedButton?.setTitle(visited, for: .normal)
         let remaining = L.remainingCount(status.remaining)
@@ -257,7 +257,7 @@ extension ProfileAboutVC: Injectable {
 
     @discardableResult func inject(model: Model) -> Self {
         user = model
-        isSelf = model.userId == data.user?.id
+        isSelf = model.isSelf
         observe()
 
         if isSelf {
@@ -270,13 +270,13 @@ extension ProfileAboutVC: Injectable {
     }
 
     func fetch(id: Int) {
-        mtp.loadUser(id: id) { _ in }
+        net.loadUser(id: id) { _ in }
 
         if let scorecard = data.get(scorecard: .locations, user: id) {
             visits = Array(scorecard.visits)
         } else {
             visits = []
-            mtp.loadScorecard(list: .locations,
+            net.loadScorecard(list: .locations,
                               user: id) { [weak self] _ in
                 guard let self = self else { return }
                 if let scorecard = self.data.get(scorecard: .locations, user: id) {

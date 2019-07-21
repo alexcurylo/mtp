@@ -6,20 +6,6 @@ import Alamofire
 import Moya
 import enum Result.Result
 
-enum MTPNetworkError: Swift.Error {
-    case unknown
-    case decoding
-    case deviceOffline
-    case message(String)
-    case network(String)
-    case notModified
-    case parameter
-    case serverOffline
-    case status
-    case throttle
-    case token
-}
-
 enum MTP: Hashable {
 
     enum Map: String {
@@ -198,7 +184,7 @@ extension MTP: TargetType {
                                        encoding: URLEncoding(destination: .queryString))
         case .checkOut(_, let id):
             return .requestParameters(parameters: ["id": id],
-                                      encoding: URLEncoding.default)
+                                      encoding: URLEncoding(destination: .queryString))
         case .locationPosts: // &limit=1&page=1&orderBy=-created_at
             return .requestParameters(parameters: ["status": Status.published.rawValue],
                                       encoding: URLEncoding.default)
@@ -364,75 +350,45 @@ extension MTP: ServiceProvider {
     }
 }
 
-protocol MTPNetworkService {
-
-    typealias MTPResult<T> = (_ result: Result<T, MTPNetworkError>) -> Void
-
-    func check(list: Checklist,
-               id: Int,
-               visited: Bool,
-               then: @escaping MTPResult<Bool>)
-    func loadPhotos(location id: Int,
-                    reload: Bool,
-                    then: @escaping MTPResult<PhotosInfoJSON>)
-    func loadPhotos(page: Int,
-                    reload: Bool,
-                    then: @escaping MTPResult<PhotosPageInfoJSON>)
-    func loadPhotos(profile id: Int,
-                    page: Int,
-                    reload: Bool,
-                    then: @escaping MTPResult<PhotosPageInfoJSON>)
-    func loadPosts(location id: Int,
-                   then: @escaping MTPResult<PostsJSON>)
-    func loadPosts(user id: Int,
-                   then: @escaping MTPResult<PostsJSON>)
-    func loadRankings(query: RankingsQuery,
-                      then: @escaping MTPResult<RankingsPageInfoJSON>)
-    func loadScorecard(list: Checklist,
-                       user id: Int,
-                       then: @escaping MTPResult<ScorecardJSON>)
-    func loadUser(id: Int,
-                  then: @escaping MTPResult<UserJSON>)
-    func search(query: String,
-                then: @escaping MTPResult<SearchResultJSON>)
-    func upload(photo: Data,
-                caption: String?,
-                location id: Int?,
-                then: @escaping MTPResult<PhotoReply>)
-    func postPublish(payload: PostPayload,
-                     then: @escaping MTPResult<PostReply>)
-    func userDeleteAccount(then: @escaping MTPResult<String>)
-    func userForgotPassword(email: String,
-                            then: @escaping MTPResult<String>)
-    func userLogin(email: String,
-                   password: String,
-                   then: @escaping MTPResult<UserJSON>)
-    func userRegister(payload: RegistrationPayload,
-                      then: @escaping MTPResult<UserJSON>)
-    func userUpdate(payload: UserUpdatePayload,
-                    then: @escaping MTPResult<UserJSON>)
-
-    func refreshEverything()
-    func refreshRankings()
-}
-
 // swiftlint:disable:next type_body_length
-struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
+struct MTPNetworkConroller: ServiceProvider {
 
-    func check(list: Checklist,
-               id: Int,
-               visited: Bool,
-               then: @escaping MTPResult<Bool> = { _ in }) {
+    func set(items: [Checklist.Item],
+             visited: Bool,
+             then: @escaping NetworkCompletion<Bool>) {
+        guard let item = items.first else {
+            then(.success(true))
+            return
+        }
+
         if visited {
-            checkIn(list: list, id: id, then: then)
+            checkIn(list: item.list, id: item.id) { result in
+                switch result {
+                case .success:
+                    self.set(items: Array(items.dropFirst()),
+                             visited: visited,
+                             then: then)
+                default:
+                    then(result)
+                }
+            }
         } else {
-            checkOut(list: list, id: id, then: then)
+            checkOut(list: item.list, id: item.id) { result in
+                switch result {
+                case .success:
+                    self.set(items: Array(items.dropFirst()),
+                             visited: visited,
+                             then: then)
+                default:
+                    then(result)
+                }
+            }
         }
     }
 
     func checkIn(list: Checklist,
                  id: Int,
-                 then: @escaping MTPResult<Bool> = { _ in }) {
+                 then: @escaping NetworkCompletion<Bool>) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
         }
@@ -457,7 +413,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
 
     func checkOut(list: Checklist,
                   id: Int,
-                  then: @escaping MTPResult<Bool> = { _ in }) {
+                  then: @escaping NetworkCompletion<Bool>) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
         }
@@ -480,7 +436,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadBeaches(then: @escaping MTPResult<[PlaceJSON]> = { _ in }) {
+    func loadBeaches(then: @escaping NetworkCompletion<[PlaceJSON]> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.beach
         guard !endpoint.isThrottled else {
@@ -518,7 +474,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadChecklists(then: @escaping MTPResult<Checked> = { _ in }) {
+    func loadChecklists(then: @escaping NetworkCompletion<Checked> = { _ in }) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
         }
@@ -561,7 +517,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadDiveSites(then: @escaping MTPResult<[PlaceJSON]> = { _ in }) {
+    func loadDiveSites(then: @escaping NetworkCompletion<[PlaceJSON]> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.divesite
         guard !endpoint.isThrottled else {
@@ -599,7 +555,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadFaq(then: @escaping MTPResult<FaqJSON> = { _ in }) {
+    func loadFaq(then: @escaping NetworkCompletion<FaqJSON> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.faq
         guard !endpoint.isThrottled else {
@@ -637,7 +593,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadGolfCourses(then: @escaping MTPResult<[PlaceJSON]> = { _ in }) {
+    func loadGolfCourses(then: @escaping NetworkCompletion<[PlaceJSON]> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.golfcourse
         guard !endpoint.isThrottled else {
@@ -675,7 +631,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadLocations(then: @escaping MTPResult<[LocationJSON]> = { _ in }) {
+    func loadLocations(then: @escaping NetworkCompletion<[LocationJSON]> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.location
         guard !endpoint.isThrottled else {
@@ -715,7 +671,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
 
     func loadPhotos(location id: Int,
                     reload: Bool,
-                    then: @escaping MTPResult<PhotosInfoJSON> = { _ in }) {
+                    then: @escaping NetworkCompletion<PhotosInfoJSON> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.locationPhotos(location: id)
         guard reload || !endpoint.isThrottled else {
@@ -755,7 +711,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
 
     func loadPhotos(page: Int,
                     reload: Bool,
-                    then: @escaping MTPResult<PhotosPageInfoJSON> = { _ in }) {
+                    then: @escaping NetworkCompletion<PhotosPageInfoJSON> = { _ in }) {
         loadPhotos(id: nil,
                    page: page,
                    reload: reload,
@@ -765,7 +721,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     func loadPhotos(profile id: Int,
                     page: Int,
                     reload: Bool,
-                    then: @escaping MTPResult<PhotosPageInfoJSON> = { _ in }) {
+                    then: @escaping NetworkCompletion<PhotosPageInfoJSON> = { _ in }) {
         loadPhotos(id: id,
                    page: page,
                    reload: reload,
@@ -775,7 +731,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     func loadPhotos(id: Int?,
                     page: Int,
                     reload: Bool,
-                    then: @escaping MTPResult<PhotosPageInfoJSON>) {
+                    then: @escaping NetworkCompletion<PhotosPageInfoJSON>) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
         }
@@ -823,7 +779,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     }
 
     func loadPosts(location id: Int,
-                   then: @escaping MTPResult<PostsJSON> = { _ in }) {
+                   then: @escaping NetworkCompletion<PostsJSON> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.locationPosts(location: id)
         guard !endpoint.isThrottled else {
@@ -862,7 +818,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     }
 
     func loadPosts(user id: Int,
-                   then: @escaping MTPResult<PostsJSON> = { _ in }) {
+                   then: @escaping NetworkCompletion<PostsJSON> = { _ in }) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
         }
@@ -906,7 +862,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     }
 
     func loadRankings(query: RankingsQuery,
-                      then: @escaping MTPResult<RankingsPageInfoJSON> = { _ in }) {
+                      then: @escaping NetworkCompletion<RankingsPageInfoJSON> = { _ in }) {
         let provider: MoyaProvider<MTP>
         if data.isLoggedIn {
             let auth = AccessTokenPlugin { self.data.token }
@@ -946,7 +902,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadRestaurants(then: @escaping MTPResult<[RestaurantJSON]> = { _ in }) {
+    func loadRestaurants(then: @escaping NetworkCompletion<[RestaurantJSON]> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.restaurant
         guard !endpoint.isThrottled else {
@@ -986,7 +942,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
 
     func loadScorecard(list: Checklist,
                        user id: Int,
-                       then: @escaping MTPResult<ScorecardJSON> = { _ in }) {
+                       then: @escaping NetworkCompletion<ScorecardJSON> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.scorecard(list: list, user: id)
 
@@ -1020,7 +976,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadSettings(then: @escaping MTPResult<SettingsJSON> = { _ in }) {
+    func loadSettings(then: @escaping NetworkCompletion<SettingsJSON> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.settings
         guard !endpoint.isThrottled else {
@@ -1058,7 +1014,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadUNCountries(then: @escaping MTPResult<[LocationJSON]> = { _ in }) {
+    func loadUNCountries(then: @escaping NetworkCompletion<[LocationJSON]> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.unCountry
         guard !endpoint.isThrottled else {
@@ -1097,7 +1053,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     }
 
     func loadUser(id: Int,
-                  then: @escaping MTPResult<UserJSON> = { _ in }) {
+                  then: @escaping NetworkCompletion<UserJSON> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.userGet(id: id)
         guard !endpoint.isThrottled else {
@@ -1135,7 +1091,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func loadWHS(then: @escaping MTPResult<[WHSJSON]> = { _ in }) {
+    func loadWHS(then: @escaping NetworkCompletion<[WHSJSON]> = { _ in }) {
         let provider = MoyaProvider<MTP>()
         let endpoint = MTP.whs
         guard !endpoint.isThrottled else {
@@ -1174,7 +1130,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     }
 
     func postPublish(payload: PostPayload,
-                     then: @escaping MTPResult<PostReply>) {
+                     then: @escaping NetworkCompletion<PostReply>) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
         }
@@ -1220,7 +1176,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     }
 
     func searchCountries(query: String = "",
-                         then: @escaping MTPResult<[CountryJSON]>) {
+                         then: @escaping NetworkCompletion<[CountryJSON]>) {
         let provider = MoyaProvider<MTP>()
         let queryParam = query.isEmpty ? nil : query
         let endpoint = MTP.countriesSearch(query: queryParam)
@@ -1248,7 +1204,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     }
 
     func search(query: String,
-                then: @escaping MTPResult<SearchResultJSON>) {
+                then: @escaping NetworkCompletion<SearchResultJSON>) {
         let provider = MoyaProvider<MTP>()
         let queryParam = query.isEmpty ? nil : query
         let endpoint = MTP.search(query: queryParam)
@@ -1277,7 +1233,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     func upload(photo: Data,
                 caption: String?,
                 location id: Int?,
-                then: @escaping MTPResult<PhotoReply>) {
+                then: @escaping NetworkCompletion<PhotoReply>) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
         }
@@ -1325,7 +1281,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func userDeleteAccount(then: @escaping MTPResult<String>) {
+    func userDeleteAccount(then: @escaping NetworkCompletion<String>) {
         guard let userId = data.user?.id else {
             return then(.failure(.parameter))
         }
@@ -1365,7 +1321,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     }
 
     func userForgotPassword(email: String,
-                            then: @escaping MTPResult<String>) {
+                            then: @escaping NetworkCompletion<String>) {
         guard !email.isEmpty else {
             return then(.failure(.parameter))
         }
@@ -1403,7 +1359,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
         }
     }
 
-    func userGetByToken(then: @escaping MTPResult<UserJSON> = { _ in }) {
+    func userGetByToken(then: @escaping NetworkCompletion<UserJSON> = { _ in }) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
         }
@@ -1448,7 +1404,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
 
     func userLogin(email: String,
                    password: String,
-                   then: @escaping MTPResult<UserJSON>) {
+                   then: @escaping NetworkCompletion<UserJSON>) {
         guard !email.isEmpty && !password.isEmpty else {
             return then(.failure(.parameter))
         }
@@ -1460,10 +1416,9 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
             do {
                 let user = try response.map(UserJSON.self,
                                             using: JSONDecoder.mtp)
-                guard let token = user.token else { throw MTPNetworkError.token }
+                guard let token = user.token else { throw NetworkError.token }
                 data.token = token
                 data.user = user
-                refreshUserInfo()
                 return then(.success(user))
             } catch {
                 do {
@@ -1493,7 +1448,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     }
 
     func userRegister(payload: RegistrationPayload,
-                      then: @escaping MTPResult<UserJSON>) {
+                      then: @escaping NetworkCompletion<UserJSON>) {
         guard payload.isValid else {
             return then(.failure(.parameter))
         }
@@ -1505,7 +1460,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
             do {
                 let user = try result.map(UserJSON.self,
                                           using: JSONDecoder.mtp)
-                guard let token = user.token else { throw MTPNetworkError.token }
+                guard let token = user.token else { throw NetworkError.token }
                 data.token = token
                 data.user = user
                 userGetByToken { _ in
@@ -1533,7 +1488,7 @@ struct MoyaMTPNetworkService: MTPNetworkService, ServiceProvider {
     }
 
     func userUpdate(payload: UserUpdatePayload,
-                    then: @escaping MTPResult<UserJSON>) {
+                    then: @escaping NetworkCompletion<UserJSON>) {
         let auth = AccessTokenPlugin { self.data.token }
         let provider = MoyaProvider<MTP>(plugins: [auth])
         let endpoint = MTP.userPut(payload: payload)
@@ -1615,79 +1570,10 @@ extension Response: ServiceProvider {
     }
 }
 
-private extension HTTPURLResponse {
-
-    func find(header: String) -> String? {
-        let keyValues = allHeaderFields.map {
-            (String(describing: $0.key).lowercased(), String(describing: $0.value))
-        }
-
-        if let headerValue = keyValues.first(where: { $0.0 == header.lowercased() }) {
-            return headerValue.1
-        }
-        return nil
-    }
-}
-
-extension MoyaMTPNetworkService {
-
-    func refreshEverything() {
-        refreshUser()
-        refreshData()
-    }
-
-    func refreshRankings() {
-        var query = data.lastRankingsQuery
-        Checklist.allCases.forEach { list in
-            query.checklistKey = list.key
-            loadRankings(query: query)
-        }
-    }
-}
-
-private extension MoyaMTPNetworkService {
-
-    func refreshData() {
-        loadSettings()
-        searchCountries { _ in
-            self.loadLocations { _ in
-                self.refreshPlaces()
-                self.refreshRankings()
-                //self.loadFaq()
-            }
-        }
-    }
-
-    func refreshPlaces() {
-        loadBeaches()
-        loadDiveSites()
-        loadGolfCourses()
-        loadRestaurants()
-        loadUNCountries()
-        loadWHS()
-    }
-
-    func refreshUser() {
-        guard data.isLoggedIn else { return }
-
-        userGetByToken { _ in
-            self.refreshUserInfo()
-        }
-    }
-
-    func refreshUserInfo() {
-        guard let user = data.user else { return }
-
-        loadChecklists()
-        loadPosts(user: user.id)
-        loadPhotos(page: 1, reload: false)
-        Checklist.allCases.forEach { list in
-            loadScorecard(list: list, user: user.id)
-        }
-    }
+private extension MTPNetworkConroller {
 
     func parse(error: Error?,
-               response: Response?) -> MTPNetworkError {
+               response: Response?) -> NetworkError {
         if let aferror = error as? AFError?,
            case let .responseValidationFailed(.unacceptableStatusCode(code))? = aferror {
             switch code {

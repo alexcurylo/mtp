@@ -111,9 +111,11 @@ included:
   - MTP
   - MTPTests
   - MTPUITests
+  - MTPUnhostedTests
 
 excluded:
   - Carthage
+  - fastlane
   - MTP/resources
   - Pods
 

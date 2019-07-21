@@ -164,6 +164,28 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
+    var updated: Timestamps? {
+        get {
+            do {
+                return try get(objectType: Timestamps.self, forKey: #function)
+            } catch {
+                log.error("decoding updated value: \(error)")
+                return nil
+            }
+        }
+        set {
+            guard let newValue = newValue else {
+                set(nil, forKey: #function)
+                return
+            }
+            do {
+                try set(object: newValue, forKey: #function)
+            } catch {
+                log.error("encoding updated newValue: \(error)")
+            }
+        }
+    }
+
     var user: UserJSON? {
         get {
             do {

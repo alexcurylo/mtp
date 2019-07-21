@@ -64,14 +64,14 @@ final class AddPostVC: UIViewController, ServiceProvider {
         switch segue.identifier {
         case Segues.showCountry.identifier:
             if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                destination.set(list: .country,
+                destination.set(search: .country,
                                 styler: .standard,
                                 delegate: self)
             }
         case Segues.showLocation.identifier:
             if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC,
                let countryId = country?.countryId {
-                destination.set(list: .location(country: countryId),
+                destination.set(search: .location(country: countryId),
                                 styler: .standard,
                                 delegate: self)
             }
@@ -135,12 +135,9 @@ private extension AddPostVC {
     }
 
     func upload(payload: PostPayload) {
-        let operation = L.publishPost()
         note.modal(info: L.publishingPost())
 
-        // swiftlint:disable:next closure_body_length
-        mtp.postPublish(payload: payload) { [weak self, note] result in
-            let errorMessage: String
+        net.postPublish(payload: payload) { [weak self, note] result in
             switch result {
             case .success:
                 note.modal(success: L.success())
@@ -149,24 +146,9 @@ private extension AddPostVC {
                     self?.performSegue(withIdentifier: Segues.pop, sender: self)
                 }
                 return
-            case .failure(.deviceOffline):
-                errorMessage = L.deviceOfflineError(operation)
-            case .failure(.serverOffline):
-                errorMessage = L.serverOfflineError(operation)
-            case .failure(.decoding):
-                errorMessage = L.decodingErrorReport(operation)
-            case .failure(.status):
-                errorMessage = L.statusErrorReport(operation)
-            case .failure(.message(let message)):
-                errorMessage = message
-            case .failure(.network(let message)):
-                errorMessage = L.networkError(operation, message)
-            default:
-                errorMessage = L.unexpectedErrorReport(operation)
-            }
-            note.modal(error: errorMessage)
-            DispatchQueue.main.asyncAfter(deadline: .medium) {
-                note.dismissModal()
+            case .failure(let error):
+                note.modal(failure: error,
+                           operation: L.publishPost())
             }
         }
     }

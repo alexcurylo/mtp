@@ -251,6 +251,26 @@ final class DataServiceSpy: DataService {
         invokedUncountriesGetterCount += 1
         return stubbedUncountries
     }
+    var invokedUpdatedSetter = false
+    var invokedUpdatedSetterCount = 0
+    var invokedUpdated: Timestamps?
+    var invokedUpdatedList = [Timestamps?]()
+    var invokedUpdatedGetter = false
+    var invokedUpdatedGetterCount = 0
+    var stubbedUpdated: Timestamps!
+    var updated: Timestamps? {
+        set {
+            invokedUpdatedSetter = true
+            invokedUpdatedSetterCount += 1
+            invokedUpdated = newValue
+            invokedUpdatedList.append(newValue)
+        }
+        get {
+            invokedUpdatedGetter = true
+            invokedUpdatedGetterCount += 1
+            return stubbedUpdated
+        }
+    }
     var invokedUserSetter = false
     var invokedUserSetterCount = 0
     var invokedUser: UserJSON?
@@ -355,13 +375,13 @@ final class DataServiceSpy: DataService {
         invokedLogGetterCount += 1
         return stubbedLog
     }
-    var invokedMtpGetter = false
-    var invokedMtpGetterCount = 0
-    var stubbedMtp: MTPNetworkService!
-    var mtp: MTPNetworkService {
-        invokedMtpGetter = true
-        invokedMtpGetterCount += 1
-        return stubbedMtp
+    var invokedNetGetter = false
+    var invokedNetGetterCount = 0
+    var stubbedNet: NetworkService!
+    var net: NetworkService {
+        invokedNetGetter = true
+        invokedNetGetterCount += 1
+        return stubbedNet
     }
     var invokedNoteGetter = false
     var invokedNoteGetterCount = 0
@@ -628,6 +648,17 @@ final class DataServiceSpy: DataService {
         invokedSetGolfcoursesParameters = (golfcourses, ())
         invokedSetGolfcoursesParametersList.append((golfcourses, ()))
     }
+    var invokedSetItems = false
+    var invokedSetItemsCount = 0
+    var invokedSetItemsParameters: (items: [Checklist.Item], visited: Bool)?
+    var invokedSetItemsParametersList = [(items: [Checklist.Item], visited: Bool)]()
+    func set(items: [Checklist.Item],
+    visited: Bool) {
+        invokedSetItems = true
+        invokedSetItemsCount += 1
+        invokedSetItemsParameters = (items, visited)
+        invokedSetItemsParametersList.append((items, visited))
+    }
     var invokedSetLocations = false
     var invokedSetLocationsCount = 0
     var invokedSetLocationsParameters: (locations: [LocationJSON], Void)?
@@ -784,6 +815,46 @@ final class DataServiceSpy: DataService {
         invokedResolveParameters = (reference, ())
         invokedResolveParametersList.append((reference, ()))
         return stubbedResolveResult
+    }
+    var invokedUpdateRankings = false
+    var invokedUpdateRankingsCount = 0
+    var invokedUpdateRankingsParameters: (rankings: Checklist, Void)?
+    var invokedUpdateRankingsParametersList = [(rankings: Checklist, Void)]()
+    var stubbedUpdateRankingsThenResult: (Bool, Void)?
+    func update(rankings: Checklist,
+    then: @escaping Completion) {
+        invokedUpdateRankings = true
+        invokedUpdateRankingsCount += 1
+        invokedUpdateRankingsParameters = (rankings, ())
+        invokedUpdateRankingsParametersList.append((rankings, ()))
+        if let result = stubbedUpdateRankingsThenResult {
+            then(result.0)
+        }
+    }
+    var invokedUpdateScorecard = false
+    var invokedUpdateScorecardCount = 0
+    var invokedUpdateScorecardParameters: (scorecard: Checklist, Void)?
+    var invokedUpdateScorecardParametersList = [(scorecard: Checklist, Void)]()
+    var stubbedUpdateScorecardThenResult: (Bool, Void)?
+    func update(scorecard: Checklist,
+    then: @escaping Completion) {
+        invokedUpdateScorecard = true
+        invokedUpdateScorecardCount += 1
+        invokedUpdateScorecardParameters = (scorecard, ())
+        invokedUpdateScorecardParametersList.append((scorecard, ()))
+        if let result = stubbedUpdateScorecardThenResult {
+            then(result.0)
+        }
+    }
+    var invokedUpdate = false
+    var invokedUpdateCount = 0
+    var invokedUpdateParameters: (stamp: RankingsPageInfo?, Void)?
+    var invokedUpdateParametersList = [(stamp: RankingsPageInfo?, Void)]()
+    func update(stamp: RankingsPageInfo?) {
+        invokedUpdate = true
+        invokedUpdateCount += 1
+        invokedUpdateParameters = (stamp, ())
+        invokedUpdateParametersList.append((stamp, ()))
     }
     var invokedNotify = false
     var invokedNotifyCount = 0

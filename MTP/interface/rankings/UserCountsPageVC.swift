@@ -21,12 +21,12 @@ final class UserCountsPageVC: CountsPageVC {
     private var listVisited: [Int] = []
     private let tab: UserCountsVC.Tab
     private let user: User
-    private var status: Checklist.Status
+    private var status: Checklist.VisitStatus
 
     init(model: Model) {
         tab = model.tab
         user = model.user
-        status = model.list.status(of: user)
+        status = model.list.visitStatus(of: user)
 
         super.init(model: model.list)
     }
@@ -39,7 +39,7 @@ final class UserCountsPageVC: CountsPageVC {
     override func update() {
         super.update()
 
-        status = list.status(of: user)
+        status = list.visitStatus(of: user)
         title = tab.title(status: status)
 
         let state: ContentState
@@ -96,7 +96,7 @@ extension UserCountsPageVC: Injectable {
 
 extension UserCountsVC.Tab {
 
-    func title(status: Checklist.Status) -> String {
+    func title(status: Checklist.VisitStatus) -> String {
         switch self {
         case .visited:
             return L.visitedCount(status.visited)
@@ -105,7 +105,7 @@ extension UserCountsVC.Tab {
        }
     }
 
-    func score(status: Checklist.Status) -> Int {
+    func score(status: Checklist.VisitStatus) -> Int {
         switch self {
         case .visited:
             return status.visited

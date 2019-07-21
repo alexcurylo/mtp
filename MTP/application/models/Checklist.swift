@@ -52,7 +52,9 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
     case restaurants
 
     typealias Item = (list: Checklist, id: Int)
-    typealias Status = (visited: Int, remaining: Int)
+    typealias VisitStatus = (visited: Int, remaining: Int)
+
+    static var rankUpdateMinutes = 60
 
     init?(key: String) {
         switch key {
@@ -218,15 +220,14 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         data.triggered = timestamps
     }
 
-    func set(visited: Bool, id: Int) {
+    func changes(id: Int,
+                 visited: Bool) -> [Item] {
         guard self != .uncountries,
-              isVisited(id: id) != visited else { return }
+              isVisited(id: id) != visited else { return [] }
 
-        let parentId: Int?
-        let parentVisited: Bool
         switch self {
         case .uncountries:
-            return
+            return []
         case .whss:
             if let parent = data.get(whs: id)?.parent {
                 let visitedChildren = data.visitedChildren(whs: parent.placeId)
@@ -238,32 +239,21 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
                     otherVisits = !visitedChildren.isEmpty
                 }
                 switch (visited, otherVisits) {
-                case (true, false):
-                    parentId = parent.placeId
-                    parentVisited = true
-                case (false, false) where parent.visited:
-                    parentId = parent.placeId
-                    parentVisited = false
+                case (true, false),
+                     (false, false) where parent.visited:
+                    return [(self, id), (self, parent.placeId)]
                 default:
-                    parentId = nil
-                    parentVisited = visited
+                    break
                 }
-                break
             }
-            parentId = nil
-            parentVisited = false
-        case .beaches, .divesites, .golfcourses, .locations, .restaurants:
-            parentId = nil
-            parentVisited = false
+        case .beaches,
+             .divesites,
+             .golfcourses,
+             .locations,
+             .restaurants:
+            break
         }
-        data.visited?.set(list: self,
-                          id: id,
-                          visited: visited,
-                          parentId: parentId,
-                          parentVisited: parentVisited)
-        set(dismissed: false, id: id)
-        set(notified: false, id: id)
-        set(triggered: false, id: id)
+        return [(self, id)]
     }
 
     func rank(of user: UserJSON? = nil) -> Int {
@@ -307,10 +297,10 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
     }
 
     func remaining(of user: UserInfo) -> Int {
-        return status(of: user).remaining
+        return visitStatus(of: user).remaining
     }
 
-    func status(of user: UserInfo) -> Status {
+    func visitStatus(of user: UserInfo) -> VisitStatus {
         let total: Int
         switch self {
         case .locations:
@@ -477,6 +467,28 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         case .uncountries: return false
         default: return true
         }
+    }
+
+    var rankingsItem: Item {
+        return (self, Timestamps.Info.rankings.rawValue)
+    }
+
+    var rankingsStatus: Timestamps.UpdateStatus {
+        guard let updated = data.updated else {
+            return Timestamps.UpdateStatus()
+        }
+        return updated.updateStatus(rankings: self)
+    }
+
+    var scorecardItem: Item {
+        return (self, Timestamps.Info.scorecard.rawValue)
+    }
+
+    var scorecardStatus: Timestamps.UpdateStatus {
+        guard let updated = data.updated else {
+            return Timestamps.UpdateStatus()
+        }
+        return updated.updateStatus(scorecard: self)
     }
 }
 

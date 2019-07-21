@@ -50,24 +50,37 @@ struct Note {
 
 protocol NotificationService {
 
+    typealias Completion = (Result<Bool, String>) -> Void
+
     typealias Info = [String: Any]
 
     func authorizeNotifications(then: @escaping (Bool) -> Void)
+
+    func set(item: Checklist.Item,
+             visited: Bool,
+             congratulate: Bool,
+             then: @escaping Completion)
+    func set(items: [Checklist.Item],
+             visited: Bool,
+             congratulate: Bool,
+             then: @escaping Completion)
 
     func ask(question: String,
              then: @escaping (Bool) -> Void)
 
     func checkTriggered()
     func notify(mappable: Mappable,
-                triggered: Date)
+                triggered: Date,
+                then: @escaping Completion)
     func congratulate(item: Checklist.Item)
     func congratulate(mappable: Mappable)
 
-    func infoBackground(title: String?,
-                        body: String?)
-    func visitBackground(title: String,
-                         body: String,
-                         info: Info)
+    func postInfo(title: String?,
+                  body: String?)
+    func postVisit(title: String,
+                   body: String,
+                   info: Info)
+    func post(error: String)
     func background(then: @escaping () -> Void)
     func post(title: String,
               subtitle: String,
@@ -75,9 +88,11 @@ protocol NotificationService {
               category: String,
               info: Info)
 
-    func modal(error: String)
-    func modal(info: String)
     func modal(success: String)
+    func modal(info: String)
+    func modal(error: String)
+    @discardableResult func modal(failure: NetworkError,
+                                  operation: String) -> String
     func dismissModal()
 
     func message(error: String)
@@ -86,8 +101,8 @@ protocol NotificationService {
 
 extension NotificationService {
 
-    func infoBackground(title: String?,
-                        body: String?) {
+    func postInfo(title: String?,
+                  body: String?) {
         post(title: title ?? "",
              subtitle: "",
              body: body ?? "",
@@ -95,14 +110,22 @@ extension NotificationService {
              info: [:])
     }
 
-    func visitBackground(title: String,
-                         body: String,
-                         info: Info) {
+    func postVisit(title: String,
+                   body: String,
+                   info: Info) {
         post(title: title,
              subtitle: "",
              body: body,
              category: Note.Category.visit.identifier,
              info: info)
+    }
+
+    func post(error: String) {
+        post(title: L.errorState(),
+             subtitle: "",
+             body: error,
+             category: Note.Category.error.identifier,
+             info: [:])
     }
 
     func unimplemented() {
@@ -130,6 +153,53 @@ final class NotificationServiceImpl: NotificationService, ServiceProvider {
         let options: UNAuthorizationOptions = [.alert, .badge, .sound]
         center.requestAuthorization(options: options) { granted, _ in
             then(granted)
+        }
+    }
+
+    func set(item: Checklist.Item,
+             visited: Bool,
+             congratulate: Bool,
+             then: @escaping Completion) {
+        let changes = item.list.changes(id: item.id,
+                                        visited: visited)
+        set(items: changes,
+            visited: visited,
+            congratulate: congratulate,
+            then: then)
+    }
+
+    func set(items: [Checklist.Item],
+             visited: Bool,
+             congratulate: Bool,
+             then: @escaping Completion) {
+        guard let first = items.first else {
+            then(.success(true))
+            return
+        }
+
+        modal(info: L.updatingVisit())
+
+        net.set(items: items,
+                visited: visited) { result in
+            switch result {
+            case .success:
+                self.modal(success: L.success())
+                DispatchQueue.main.asyncAfter(deadline: .veryShort) {
+                    self.dismissModal()
+                    self.data.set(items: items,
+                                  visited: visited)
+                    if congratulate {
+                        self.congratulate(item: first)
+                    }
+                    then(.success(true))
+                }
+            case .failure(let error):
+                let message = self.modal(failure: error,
+                                         operation: L.updateVisit())
+                DispatchQueue.main.async {
+                    then(.failure(message))
+                }
+            }
         }
     }
 
@@ -172,9 +242,13 @@ final class NotificationServiceImpl: NotificationService, ServiceProvider {
     }
 
     func notify(mappable: Mappable,
-                triggered: Date) {
-        notifyForeground(mappable: mappable, triggered: triggered)
-        notifyBackground(mappable: mappable, triggered: triggered)
+                triggered: Date,
+                then: @escaping Completion) {
+        notifyForeground(mappable: mappable,
+                         triggered: triggered,
+                         then: then)
+        notifyBackground(mappable: mappable,
+                         triggered: triggered)
     }
 
     func congratulate(item: Checklist.Item) {
@@ -207,7 +281,8 @@ final class NotificationServiceImpl: NotificationService, ServiceProvider {
                 changed = true
                 break
             } else if let mappable = data.get(mappable: item) {
-                notify(mappable: mappable, triggered: value)
+                notify(mappable: mappable,
+                       triggered: value) { _ in }
                 break
             }
         }
@@ -273,7 +348,7 @@ private extension NotificationServiceImpl {
             Note.ChecklistItemInfo.id.key: id
         ]
 
-        visitBackground(title: title, body: body, info: noteInfo)
+        postVisit(title: title, body: body, info: noteInfo)
     }
 
     func congratulateBackground(note: Note) {
@@ -363,7 +438,8 @@ private extension NotificationServiceImpl {
 
     // swiftlint:disable:next function_body_length
     func notifyForeground(mappable: Mappable,
-                          triggered: Date) {
+                          triggered: Date,
+                          then: @escaping Completion) {
         guard canNotifyForeground else { return }
 
         notifying = mappable
@@ -400,10 +476,12 @@ private extension NotificationServiceImpl {
             label: okButtonLabel,
             backgroundColor: .clear,
             highlightedBackgroundColor: checkinColor.withAlphaComponent(0.05)) { [mappable] in
-                mappable.isVisited = true
                 SwiftEntryKit.dismiss {
                     self.notifying = nil
-                    self.congratulate(item: mappable.item)
+                    self.set(item: mappable.item,
+                             visited: true,
+                             congratulate: true,
+                             then: then)
                 }
         }
         let grayLight = UIColor(white: 230.0 / 255.0, alpha: 1)
@@ -480,7 +558,7 @@ private extension NotificationServiceImpl {
         let title = L.congratulations(mappable.title)
 
         let (single, plural) = mappable.checklist.names(full: true)
-        let (visited, remaining) = mappable.checklist.status(of: user)
+        let (visited, remaining) = mappable.checklist.visitStatus(of: user)
         let contentVisited = L.status(visited, plural, remaining)
 
         let contentMilestone = mappable.checklist.milestone(visited: visited)
@@ -520,9 +598,9 @@ private extension NotificationServiceImpl {
 
 extension NotificationServiceImpl {
 
-    func modal(error: String) {
+    func modal(success: String) {
         showingModal = true
-        KRProgressHUD.showError(withMessage: error)
+        KRProgressHUD.showSuccess(withMessage: success)
     }
 
     func modal(info: String) {
@@ -530,9 +608,35 @@ extension NotificationServiceImpl {
         KRProgressHUD.show(withMessage: info)
     }
 
-    func modal(success: String) {
+    func modal(error: String) {
         showingModal = true
-        KRProgressHUD.showSuccess(withMessage: success)
+        KRProgressHUD.showError(withMessage: error)
+    }
+
+    @discardableResult func modal(failure: NetworkError,
+                                  operation: String) -> String {
+        let errorMessage: String
+        switch failure {
+        case .deviceOffline:
+            errorMessage = L.deviceOfflineError(operation)
+        case .serverOffline:
+            errorMessage = L.serverOfflineError(operation)
+        case .decoding:
+            errorMessage = L.decodingErrorReport(operation)
+        case .status:
+            errorMessage = L.statusErrorReport(operation)
+        case .message(let message):
+            errorMessage = message
+        case .network(let message):
+            errorMessage = L.networkError(operation, message)
+        default:
+            errorMessage = L.unexpectedErrorReport(operation)
+        }
+        modal(error: errorMessage)
+        DispatchQueue.main.asyncAfter(deadline: .medium) {
+            self.dismissModal()
+        }
+        return errorMessage
     }
 
     func dismissModal() {

@@ -158,8 +158,15 @@ extension RankedUserJSON: CustomDebugStringConvertible {
 
     dynamic var dbKey: String = ""
     dynamic var queryKey: String = ""
+    dynamic var timestamp: TimeInterval = Date().timeIntervalSinceReferenceDate
 
     let userIds = List<Int>()
+
+    var expired: Bool {
+        let validTime = TimeInterval(Timestamps.rankUpdateMinutes * 60)
+        let expired = Date().timeIntervalSinceReferenceDate > timestamp + validTime
+        return expired
+    }
 
     override static func primaryKey() -> String? {
         return "dbKey"
@@ -175,5 +182,9 @@ extension RankedUserJSON: CustomDebugStringConvertible {
         page = info.users.currentPage
         lastPage = info.users.lastPage
         info.users.data.forEach { userIds.append($0.id) }
+    }
+
+    func stamp() {
+        timestamp = Date().timeIntervalSinceReferenceDate
     }
  }
