@@ -22,6 +22,8 @@ final class MyProfileVC: ProfileVC {
     override func viewDidLoad() {
         if let user = data.user {
             inject(model: User(from: user))
+        } else if UIApplication.isUITesting {
+            inject(model: User())
         }
 
         super.viewDidLoad()

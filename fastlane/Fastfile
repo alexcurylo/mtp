@@ -33,9 +33,7 @@ platform :ios do
     version_number = get_version_number
     changelog = read_changelog
     # File.write('changelog.txt', changelog)
-
     # test
-
     # sync_code_signing(type: "appstore")
     build_app(export_method: "app-store")
 
@@ -46,17 +44,27 @@ platform :ios do
 
     stamp_changelog(section_identifier: "Version #{version_number}, Build #{build_number}")
     clean_build_artifacts
-    commit_version_bump(message: "Release #{version_number} beta #{build_number}", include: "CHANGELOG.md")
+    commit_version_bump(message: "Version #{version_number} beta #{build_number}", include: "CHANGELOG.md")
     push_to_git_remote
   end
 
   desc "Push a new release build to the App Store"
   lane :release do
     increment_build_number
-    test
+    build_number = get_build_number
+    version_number = get_version_number
+    changelog = read_changelog
+    # File.write('changelog.txt', changelog)
+    # test
     build_app(export_method: "app-store")
-    screenshots
+    # screenshots
+
     # upload_to_app_store(skip_metadata: true, skip_screenshots: true)
+
+    stamp_changelog(section_identifier: "Version #{version_number}, Build #{build_number}")
+    clean_build_artifacts
+    commit_version_bump(message: "Version #{version_number} release #{build_number}", include: "CHANGELOG.md")
+    push_to_git_remote
   end
 
   desc "Generate new localized screenshots"
@@ -66,7 +74,10 @@ platform :ios do
     # build_app(derived_data_path: "/tmp/MTPSnapshots/DerivedData")
     capture_screenshots
     frame_screenshots
-    upload_to_app_store(skip_binary_upload: true, skip_metadata: true)
+    upload_to_app_store(skip_binary_upload: true,
+                        skip_metadata: true,
+                        # https://github.com/fastlane/fastlane/issues/13512
+                        force: true)
   end
 
   desc "Prepare simulators for screenshots"
