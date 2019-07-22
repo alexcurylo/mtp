@@ -65,7 +65,7 @@ platform :ios do
     # give_simulators_permissions
     # build_app(derived_data_path: "/tmp/MTPSnapshots/DerivedData")
     capture_screenshots
-    # frame_screenshots(white: true)
+    frame_screenshots
     upload_to_app_store(skip_binary_upload: true, skip_metadata: true)
   end
 

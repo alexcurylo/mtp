@@ -1,0 +1,62 @@
+{
+  "device_frame_version": "latest",
+
+  "default": {
+    "keyword": {
+      "font": "./fonts/AvenirLTStd-Roman.otf",
+      "color": "#76A43B"
+    },
+    "title": {
+      "font": "./fonts/AvenirLTStd-Roman.otf",
+      "color": "#545454"
+    },
+    "background": "./background.jpg",
+    "padding": 50,
+    //"font_scale_factor": 1,
+    //"interline_spacing": 1,
+    "frame": "BLACK",
+    "stack_title" : true,
+    "show_complete_frame": true,
+    "title_below_image": false
+  },
+
+  "data": [
+    {
+      "filter": "01LoginScreen",
+      "title": {
+          "text": "Welcome to\nMost Traveled People",
+          "padding": 100
+      },
+      "keyword": {
+        "color": "#d21559"
+      }
+    },
+    {
+      "filter": "02LocationsTab",
+      "title": {
+          "text": "This is the\nLocations Tab"
+      },
+      "keyword": {
+        "color": "#feb909"
+      }
+    },
+    {
+      "filter": "03RankingsTab",
+      "title": {
+          "text": "This is the Rankings Tab"
+      },
+      "keyword": {
+        "color": "#aa4dbc"
+      }
+    },
+    {
+      "filter": "04ProfileTab",
+      "title": {
+          "text": "This is the Profile Tab"
+      },
+      "keyword": {
+        "color": "#31bb48"
+      }
+    }
+  ]
+}

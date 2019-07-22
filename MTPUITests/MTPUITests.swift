@@ -31,13 +31,29 @@ final class MTPUITests: XCTestCase {
         snapshot("01LoginScreen")
     }
 
-    func disabled_testTabNavigation() {
-        launch(settings: [.loggedIn(true)])
+    func test_snapshot_02LocationsTab() {
+        launch(arguments: [.takingScreenshots],
+               settings: [.loggedIn(true)])
+
+        let tabBar = app.tabBars.element(boundBy: 0)
+        let first = tabBar.buttons.element(boundBy: 0)
+        //let second = tabBar.buttons.element(boundBy: 1)
+        //let third = tabBar.buttons.element(boundBy: 2)
+
+        XCTAssertTrue(tabBar.waitForExistence(timeout: 5))
+        XCTAssertTrue(first.isSelected, "first tab not selected at startup")
+
+        snapshot("02LocationsTab")
+    }
+
+    func test_snapshot_03RankingsTab() {
+        launch(arguments: [.takingScreenshots],
+               settings: [.loggedIn(true)])
 
         let tabBar = app.tabBars.element(boundBy: 0)
         let first = tabBar.buttons.element(boundBy: 0)
         let second = tabBar.buttons.element(boundBy: 1)
-        let third = tabBar.buttons.element(boundBy: 2)
+        //let third = tabBar.buttons.element(boundBy: 2)
 
         XCTAssertTrue(tabBar.waitForExistence(timeout: 5))
         XCTAssertTrue(first.isSelected, "first tab not selected at startup")
@@ -50,15 +66,30 @@ final class MTPUITests: XCTestCase {
         expectation(for: selectedPredicate, evaluatedWith: second, handler: nil)
         waitForExpectations(timeout: 5, handler: nil)
 
+        snapshot("03RankingsTab")
+    }
+
+    func test_snapshot_04ProfileTab() {
+        launch(arguments: [.takingScreenshots],
+               settings: [.loggedIn(true)])
+
+        let tabBar = app.tabBars.element(boundBy: 0)
+        let first = tabBar.buttons.element(boundBy: 0)
+        //let second = tabBar.buttons.element(boundBy: 1)
+        let third = tabBar.buttons.element(boundBy: 2)
+
+        XCTAssertTrue(tabBar.waitForExistence(timeout: 5))
+        XCTAssertTrue(first.isSelected, "first tab not selected at startup")
+
+        // note foreseeable failure here:
+        // https://openradar.appspot.com/26493495
         third.tap()
 
+        let selectedPredicate = NSPredicate(format: "selected == true")
         expectation(for: selectedPredicate, evaluatedWith: third, handler: nil)
         waitForExpectations(timeout: 5, handler: nil)
 
-        first.tap()
-
-        expectation(for: selectedPredicate, evaluatedWith: first, handler: nil)
-        waitForExpectations(timeout: 5, handler: nil)
+        snapshot("04ProfileTab")
     }
 }
 

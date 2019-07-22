@@ -6,7 +6,8 @@ devices([
   "iPhone 8 Plus", # 5.5" phone
   "iPhone Xs Max", # 6.5" phone
   "iPad Pro (12.9-inch) (2nd generation)",
-  "iPad Pro (12.9-inch) (3rd generation)",
+# https://github.com/fastlane/fastlane/issues/14713
+#  "iPad Pro (12.9-inch) (3rd generation)",
 # optional
 # 5.8" phone
 # 4.7" phone
@@ -66,7 +67,7 @@ reinstall_app(false)
 
 # stop immediately on problems
 stop_after_first_error(true)
-number_of_retries(2)
+number_of_retries(0)
 
 # For more information about all available options run
 # fastlane action snapshot
