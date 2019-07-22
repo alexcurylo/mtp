@@ -2,12 +2,10 @@
 
 import XCTest
 
-#if TRAVIS
-// Travis appears to 100% fail second test with the "Failed to terminate" problem
+// Travis appears to haveissues with the "Failed to terminate" problem
 // Deleting app between each test is an option presented here
 // swiftlint:disable:next line_length
 // https://stackoverflow.com/questions/33107731/is-there-a-way-to-reset-the-app-between-tests-in-swift-xctest-ui/48715864#48715864
-#else
 
 final class MTPUITests: XCTestCase {
 
@@ -92,5 +90,3 @@ final class MTPUITests: XCTestCase {
         snapshot("04ProfileTab")
     }
 }
-
-#endif

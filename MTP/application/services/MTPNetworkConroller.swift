@@ -292,8 +292,25 @@ extension MTP: TargetType {
         return headers
     }
 
+    // https://github.com/Moya/Moya/blob/master/docs/Testing.md
+    // https://github.com/Moya/Moya/issues/998
     public var sampleData: Data {
-        return "{}".data(using: String.Encoding.utf8) ?? Data()
+        let file: String
+        switch self {
+        case .userGetByToken:
+            file = "\(self)"
+        default:
+            log.error("sampleData not provided for \(self)")
+            return "{}".data(using: String.Encoding.utf8) ?? Data()
+        }
+        do {
+            let path = try unwrap(Bundle.main.path(forResource: file, ofType: "json"))
+            let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+            return data
+        } catch {
+            log.error("could not load sampleData for \(self)")
+            return Data()
+        }
     }
 
     var requestUrl: URL? {
