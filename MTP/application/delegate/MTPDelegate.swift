@@ -7,7 +7,8 @@ final class MTPDelegate: RoutingAppDelegate {
 
     enum Runtime {
         case production
-        case testing
+        case uiTesting
+        case unitTesting
     }
 
     override var handlers: Handlers {
@@ -15,23 +16,41 @@ final class MTPDelegate: RoutingAppDelegate {
     }
 
     private var runtimeHandlers: Handlers = {
-        let runtime: Runtime = UIApplication.isUnitTesting ? .testing : .production
+        let runtime: Runtime
+        switch (UIApplication.isUITesting, UIApplication.isUnitTesting) {
+        case (true, _):
+            runtime = .uiTesting
+        case (_, true):
+            runtime = .unitTesting
+        default:
+            runtime = .production
+        }
         return MTPDelegate.runtimeHandlers(for: runtime)
     }()
 
     static func runtimeHandlers(for runtime: Runtime) -> Handlers {
-        guard runtime == .production else {
-            return [ServiceHandlerSpy()]
+        switch runtime {
+        case .production:
+            return [
+                ServiceHandler(),
+                LaunchHandler(),
+                StateHandler(),
+                ActionHandler(),
+                NotificationsHandler(),
+                LocationHandler()
+            ]
+        case .uiTesting:
+            return [
+                ServiceHandlerStub(),
+                LaunchHandler(),
+                StateHandler(),
+                ActionHandler(),
+                NotificationsHandler(),
+                LocationHandler()
+            ]
+        case .unitTesting:
+            return [ ServiceHandlerSpy() ]
         }
-
-        return [
-            ServiceHandler(),
-            LaunchHandler(),
-            StateHandler(),
-            ActionHandler(),
-            NotificationsHandler(),
-            LocationHandler()
-        ]
     }
 }
 

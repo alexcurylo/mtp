@@ -21,7 +21,7 @@ final class RootVC: UIViewController, ServiceProvider {
 
         hide(navBar: animated)
 
-        if isloggedIn {
+        if data.isLoggedIn {
             credentials?.isHidden = true
             credentialsBottom?.constant = 0
             performSegue(withIdentifier: Segues.showMain, sender: self)
@@ -63,18 +63,7 @@ final class RootVC: UIViewController, ServiceProvider {
 
 private extension RootVC {
 
-    var isloggedIn: Bool {
-        if let loggedIn = ProcessInfo.setting(bool: .loggedIn) {
-            return loggedIn
-        } else if UIApplication.isTesting {
-            return false
-        }
-
-        return data.isLoggedIn
-    }
-
-    @IBAction func unwindToRoot(segue: UIStoryboardSegue) {
-    }
+    @IBAction func unwindToRoot(segue: UIStoryboardSegue) { }
 
     func revealCredentials() {
         guard let bottom = credentialsBottom?.constant, bottom < 0 else { return }

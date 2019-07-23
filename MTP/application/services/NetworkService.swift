@@ -1,6 +1,7 @@
 // @copyright Trollwerks Inc.
 
 import Foundation
+import Moya
 
 enum NetworkError: Swift.Error {
     case unknown
@@ -67,9 +68,19 @@ protocol NetworkService: ServiceProvider {
     func refreshEverything()
 }
 
-final class NetworkServiceImpl {
+class NetworkServiceImpl {
 
-    let mtp = MTPNetworkConroller()
+    let mtp = MTPNetworkController()
+
+    // MARK: - Overriden in NetworkServiceStub
+
+    func refreshUser() {
+        guard data.isLoggedIn else { return }
+
+        mtp.userGetByToken { _ in
+            self.refreshUserInfo()
+        }
+    }
 }
 
 // MARK: - NetworkService
@@ -189,14 +200,6 @@ extension NetworkServiceImpl: NetworkService {
 
 private extension NetworkServiceImpl {
 
-    func refreshUser() {
-        guard data.isLoggedIn else { return }
-
-        mtp.userGetByToken { _ in
-            self.refreshUserInfo()
-        }
-    }
-
     func refreshUserInfo() {
         guard let user = data.user else { return }
 
@@ -226,5 +229,14 @@ private extension NetworkServiceImpl {
         mtp.loadRestaurants()
         mtp.loadUNCountries()
         mtp.loadWHS()
+    }
+}
+
+final class NetworkServiceStub: NetworkServiceImpl {
+
+    override func refreshUser() {
+        mtp.userGetByToken(stub: MTPProvider.immediatelyStub) { _ in
+            self.refreshUserInfo()
+        }
     }
 }

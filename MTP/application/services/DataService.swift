@@ -94,6 +94,12 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
 extension DataService {
 
     var isLoggedIn: Bool {
+        if let loggedIn = ProcessInfo.setting(bool: .loggedIn) {
+            return loggedIn
+        } else if UIApplication.isUnitTesting {
+            return false
+        }
+
         guard !token.isEmpty else { return false }
         guard let jwt = try? decode(jwt: token),
               !jwt.expired else {
@@ -101,8 +107,6 @@ extension DataService {
             logOut()
             return false
         }
-        // https://github.com/auth0/JWTDecode.swift/issues/70
-        // let expired = jwt.expiresAt < Date().toUTC?
         return true
     }
 

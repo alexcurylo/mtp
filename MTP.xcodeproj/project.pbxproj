@@ -113,7 +113,7 @@
 		FA463785210E06230007382D /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA463784210E06230007382D /* LoggingService.swift */; };
 		FA46533021157784005B5A0A /* FacebookButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA46532F21157784005B5A0A /* FacebookButton.swift */; };
 		FA4653322115A250005B5A0A /* UserDefaults+DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653312115A250005B5A0A /* UserDefaults+DataService.swift */; };
-		FA4653342115ADC6005B5A0A /* MTPNetworkConroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653332115ADC6005B5A0A /* MTPNetworkConroller.swift */; };
+		FA4653342115ADC6005B5A0A /* MTPNetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653332115ADC6005B5A0A /* MTPNetworkController.swift */; };
 		FA54272822D62936005DF1CC /* MappablesAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA54272722D62936005DF1CC /* MappablesAnnotationView.swift */; };
 		FA54272A22D97476005DF1CC /* Date+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA54272922D97476005DF1CC /* Date+Helper.swift */; };
 		FA5AC0B621FC4EBE0080F84F /* MappableAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0B521FC4EBE0080F84F /* MappableAnnotationView.swift */; };
@@ -342,7 +342,7 @@
 		FA463784210E06230007382D /* LoggingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingService.swift; sourceTree = "<group>"; };
 		FA46532F21157784005B5A0A /* FacebookButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookButton.swift; sourceTree = "<group>"; };
 		FA4653312115A250005B5A0A /* UserDefaults+DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+DataService.swift"; sourceTree = "<group>"; };
-		FA4653332115ADC6005B5A0A /* MTPNetworkConroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPNetworkConroller.swift; sourceTree = "<group>"; };
+		FA4653332115ADC6005B5A0A /* MTPNetworkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPNetworkController.swift; sourceTree = "<group>"; };
 		FA4B7FE021E38970006AF8E2 /* MTP.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MTP.entitlements; sourceTree = "<group>"; };
 		FA4B7FE121E38BF3006AF8E2 /* apple-app-site-association */ = {isa = PBXFileReference; lastKnownFileType = text; path = "apple-app-site-association"; sourceTree = "<group>"; };
 		FA4F1C5B20DFA67700B8A1ED /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
@@ -526,10 +526,10 @@
 		8C3EAB90223119ED00CB4886 /* services */ = {
 			isa = PBXGroup;
 			children = (
-				FA0A7B9222E678AD00D3EF99 /* mocks */,
+				FA0A7B9222E678AD00D3EF99 /* stubs */,
 				FA36FBEC22059E6B00616CDE /* ApplicationService.swift */,
 				FA3CEC552132579300791195 /* DataService.swift */,
-				FA4653332115ADC6005B5A0A /* MTPNetworkConroller.swift */,
+				FA4653332115ADC6005B5A0A /* MTPNetworkController.swift */,
 				FA1663AE22E3325B0075DA1A /* NetworkService.swift */,
 				8CFEE458221FA2120061614B /* ImageService.swift */,
 				FAC8465C22AB6C2A004F57EC /* LocationService.swift */,
@@ -571,12 +571,12 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		FA0A7B9222E678AD00D3EF99 /* mocks */ = {
+		FA0A7B9222E678AD00D3EF99 /* stubs */ = {
 			isa = PBXGroup;
 			children = (
 				FA0A7B9322E6797400D3EF99 /* userGetByToken.json */,
 			);
-			path = mocks;
+			path = stubs;
 			sourceTree = "<group>";
 		};
 		FA390135213B7C5E0016A362 /* rankings */ = {
@@ -1288,7 +1288,7 @@
 				8CE3FC2C222389B600B94EAA /* Scorecard.swift in Sources */,
 				FAC9057322CB8E9A001296DE /* CountInfoHeader.swift in Sources */,
 				FA6386A322D1743E001B4424 /* MTPMapView.swift in Sources */,
-				FA4653342115ADC6005B5A0A /* MTPNetworkConroller.swift in Sources */,
+				FA4653342115ADC6005B5A0A /* MTPNetworkController.swift in Sources */,
 				FAA819002244814900BB9F92 /* LocationPagingVC.swift in Sources */,
 				FA390139213B84B40016A362 /* RankingsPagingVC.swift in Sources */,
 				8CB2A24322E177C90050E368 /* Scheduler.swift in Sources */,

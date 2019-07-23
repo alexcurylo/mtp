@@ -11,6 +11,10 @@ extension UIApplication {
         return applicationState == .active
     }
 
+    static var isProduction: Bool {
+        return !isTesting
+    }
+
     static var isSimulator: Bool {
         #if targetEnvironment(simulator)
         return true
@@ -20,8 +24,7 @@ extension UIApplication {
     }
 
     static var isTakingScreenshots: Bool {
-        let isUITesting = ProcessInfo.arguments(contain: .takingScreenshots)
-        return isUITesting
+        return ProcessInfo.arguments(contain: .takingScreenshots)
     }
 
     static var isTesting: Bool {
@@ -29,13 +32,11 @@ extension UIApplication {
     }
 
     static var isUITesting: Bool {
-        let isUITesting = ProcessInfo.arguments(contain: .uiTesting)
-        return isUITesting
+        return ProcessInfo.arguments(contain: .uiTesting)
     }
 
     static var isUnitTesting: Bool {
-        let isUnitTesting = NSClassFromString("XCTestCase") != nil
-        return isUnitTesting
+        return NSClassFromString("XCTestCase") != nil
     }
 }
 

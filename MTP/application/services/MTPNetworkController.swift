@@ -292,8 +292,6 @@ extension MTP: TargetType {
         return headers
     }
 
-    // https://github.com/Moya/Moya/blob/master/docs/Testing.md
-    // https://github.com/Moya/Moya/issues/998
     public var sampleData: Data {
         let file: String
         switch self {
@@ -367,8 +365,10 @@ extension MTP: ServiceProvider {
     }
 }
 
+typealias MTPProvider = MoyaProvider<MTP>
+
 // swiftlint:disable:next type_body_length
-struct MTPNetworkConroller: ServiceProvider {
+struct MTPNetworkController: ServiceProvider {
 
     func set(items: [Checklist.Item],
              visited: Bool,
@@ -411,7 +411,7 @@ struct MTPNetworkConroller: ServiceProvider {
         }
 
         let auth = AccessTokenPlugin { self.data.token }
-        let provider = MoyaProvider<MTP>(plugins: [auth])
+        let provider = MTPProvider(plugins: [auth])
         let endpoint = MTP.checkIn(list: list, id: id)
         provider.request(endpoint) { response in
             switch response {
@@ -436,7 +436,7 @@ struct MTPNetworkConroller: ServiceProvider {
         }
 
         let auth = AccessTokenPlugin { self.data.token }
-        let provider = MoyaProvider<MTP>(plugins: [auth])
+        let provider = MTPProvider(plugins: [auth])
         let endpoint = MTP.checkOut(list: list, id: id)
         provider.request(endpoint) { response in
             switch response {
@@ -454,7 +454,7 @@ struct MTPNetworkConroller: ServiceProvider {
     }
 
     func loadBeaches(then: @escaping NetworkCompletion<[PlaceJSON]> = { _ in }) {
-        let provider = MoyaProvider<MTP>()
+        let provider = MTPProvider()
         let endpoint = MTP.beach
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
@@ -497,7 +497,7 @@ struct MTPNetworkConroller: ServiceProvider {
         }
 
         let auth = AccessTokenPlugin { self.data.token }
-        let provider = MoyaProvider<MTP>(plugins: [auth])
+        let provider = MTPProvider(plugins: [auth])
         let endpoint = MTP.checklists
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
@@ -535,7 +535,7 @@ struct MTPNetworkConroller: ServiceProvider {
     }
 
     func loadDiveSites(then: @escaping NetworkCompletion<[PlaceJSON]> = { _ in }) {
-        let provider = MoyaProvider<MTP>()
+        let provider = MTPProvider()
         let endpoint = MTP.divesite
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
@@ -573,7 +573,7 @@ struct MTPNetworkConroller: ServiceProvider {
     }
 
     func loadFaq(then: @escaping NetworkCompletion<FaqJSON> = { _ in }) {
-        let provider = MoyaProvider<MTP>()
+        let provider = MTPProvider()
         let endpoint = MTP.faq
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
@@ -611,7 +611,7 @@ struct MTPNetworkConroller: ServiceProvider {
     }
 
     func loadGolfCourses(then: @escaping NetworkCompletion<[PlaceJSON]> = { _ in }) {
-        let provider = MoyaProvider<MTP>()
+        let provider = MTPProvider()
         let endpoint = MTP.golfcourse
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
@@ -649,7 +649,7 @@ struct MTPNetworkConroller: ServiceProvider {
     }
 
     func loadLocations(then: @escaping NetworkCompletion<[LocationJSON]> = { _ in }) {
-        let provider = MoyaProvider<MTP>()
+        let provider = MTPProvider()
         let endpoint = MTP.location
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
@@ -689,7 +689,7 @@ struct MTPNetworkConroller: ServiceProvider {
     func loadPhotos(location id: Int,
                     reload: Bool,
                     then: @escaping NetworkCompletion<PhotosInfoJSON> = { _ in }) {
-        let provider = MoyaProvider<MTP>()
+        let provider = MTPProvider()
         let endpoint = MTP.locationPhotos(location: id)
         guard reload || !endpoint.isThrottled else {
             return then(.failure(.throttle))
@@ -754,7 +754,7 @@ struct MTPNetworkConroller: ServiceProvider {
         }
 
         let auth = AccessTokenPlugin { self.data.token }
-        let provider = MoyaProvider<MTP>(plugins: [auth])
+        let provider = MTPProvider(plugins: [auth])
         let endpoint = MTP.photos(user: id, page: page)
         guard reload || !endpoint.isThrottled else {
             return then(.failure(.throttle))
@@ -797,7 +797,7 @@ struct MTPNetworkConroller: ServiceProvider {
 
     func loadPosts(location id: Int,
                    then: @escaping NetworkCompletion<PostsJSON> = { _ in }) {
-        let provider = MoyaProvider<MTP>()
+        let provider = MTPProvider()
         let endpoint = MTP.locationPosts(location: id)
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
@@ -841,7 +841,7 @@ struct MTPNetworkConroller: ServiceProvider {
         }
 
         let auth = AccessTokenPlugin { self.data.token }
-        let provider = MoyaProvider<MTP>(plugins: [auth])
+        let provider = MTPProvider(plugins: [auth])
         let endpoint = MTP.userPosts(id: id)
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
@@ -880,12 +880,12 @@ struct MTPNetworkConroller: ServiceProvider {
 
     func loadRankings(query: RankingsQuery,
                       then: @escaping NetworkCompletion<RankingsPageInfoJSON> = { _ in }) {
-        let provider: MoyaProvider<MTP>
+        let provider: MTPProvider
         if data.isLoggedIn {
             let auth = AccessTokenPlugin { self.data.token }
-            provider = MoyaProvider<MTP>(plugins: [auth])
+            provider = MTPProvider(plugins: [auth])
         } else {
-            provider = MoyaProvider<MTP>()
+            provider = MTPProvider()
         }
         let endpoint = MTP.rankings(query: query)
 
@@ -920,7 +920,7 @@ struct MTPNetworkConroller: ServiceProvider {
     }
 
     func loadRestaurants(then: @escaping NetworkCompletion<[RestaurantJSON]> = { _ in }) {
-        let provider = MoyaProvider<MTP>()
+        let provider = MTPProvider()
         let endpoint = MTP.restaurant
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
@@ -960,7 +960,7 @@ struct MTPNetworkConroller: ServiceProvider {
     func loadScorecard(list: Checklist,
                        user id: Int,
                        then: @escaping NetworkCompletion<ScorecardJSON> = { _ in }) {
-        let provider = MoyaProvider<MTP>()
+        let provider = MTPProvider()
         let endpoint = MTP.scorecard(list: list, user: id)
 
         //swiftlint:disable:next closure_body_length
@@ -994,7 +994,7 @@ struct MTPNetworkConroller: ServiceProvider {
     }
 
     func loadSettings(then: @escaping NetworkCompletion<SettingsJSON> = { _ in }) {
-        let provider = MoyaProvider<MTP>()
+        let provider = MTPProvider()
         let endpoint = MTP.settings
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
@@ -1032,7 +1032,7 @@ struct MTPNetworkConroller: ServiceProvider {
     }
 
     func loadUNCountries(then: @escaping NetworkCompletion<[LocationJSON]> = { _ in }) {
-        let provider = MoyaProvider<MTP>()
+        let provider = MTPProvider()
         let endpoint = MTP.unCountry
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
@@ -1071,7 +1071,7 @@ struct MTPNetworkConroller: ServiceProvider {
 
     func loadUser(id: Int,
                   then: @escaping NetworkCompletion<UserJSON> = { _ in }) {
-        let provider = MoyaProvider<MTP>()
+        let provider = MTPProvider()
         let endpoint = MTP.userGet(id: id)
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
@@ -1109,7 +1109,7 @@ struct MTPNetworkConroller: ServiceProvider {
     }
 
     func loadWHS(then: @escaping NetworkCompletion<[WHSJSON]> = { _ in }) {
-        let provider = MoyaProvider<MTP>()
+        let provider = MTPProvider()
         let endpoint = MTP.whs
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
@@ -1153,7 +1153,7 @@ struct MTPNetworkConroller: ServiceProvider {
         }
 
         let auth = AccessTokenPlugin { self.data.token }
-        let provider = MoyaProvider<MTP>(plugins: [auth])
+        let provider = MTPProvider(plugins: [auth])
         let endpoint = MTP.postPublish(payload: payload)
 
         func parse(success response: Response) {
@@ -1194,7 +1194,7 @@ struct MTPNetworkConroller: ServiceProvider {
 
     func searchCountries(query: String = "",
                          then: @escaping NetworkCompletion<[CountryJSON]>) {
-        let provider = MoyaProvider<MTP>()
+        let provider = MTPProvider()
         let queryParam = query.isEmpty ? nil : query
         let endpoint = MTP.countriesSearch(query: queryParam)
         provider.request(endpoint) { response in
@@ -1222,7 +1222,7 @@ struct MTPNetworkConroller: ServiceProvider {
 
     func search(query: String,
                 then: @escaping NetworkCompletion<SearchResultJSON>) {
-        let provider = MoyaProvider<MTP>()
+        let provider = MTPProvider()
         let queryParam = query.isEmpty ? nil : query
         let endpoint = MTP.search(query: queryParam)
         provider.request(endpoint) { response in
@@ -1256,7 +1256,7 @@ struct MTPNetworkConroller: ServiceProvider {
         }
 
         let auth = AccessTokenPlugin { self.data.token }
-        let provider = MoyaProvider<MTP>(plugins: [auth])
+        let provider = MTPProvider(plugins: [auth])
         let endpoint = MTP.upload(photo: photo,
                                   caption: caption,
                                   location: id)
@@ -1304,7 +1304,7 @@ struct MTPNetworkConroller: ServiceProvider {
         }
 
         let auth = AccessTokenPlugin { self.data.token }
-        let provider = MoyaProvider<MTP>(plugins: [auth])
+        let provider = MTPProvider(plugins: [auth])
         let endpoint = MTP.userDelete(id: userId)
 
         //swiftlint:disable:next closure_body_length
@@ -1343,7 +1343,7 @@ struct MTPNetworkConroller: ServiceProvider {
             return then(.failure(.parameter))
         }
 
-        let provider = MoyaProvider<MTP>()
+        let provider = MTPProvider()
         let endpoint = MTP.passwordReset(email: email)
 
         //swiftlint:disable:next closure_body_length
@@ -1376,13 +1376,16 @@ struct MTPNetworkConroller: ServiceProvider {
         }
     }
 
-    func userGetByToken(then: @escaping NetworkCompletion<UserJSON> = { _ in }) {
+    func userGetByToken(
+        stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
+        then: @escaping NetworkCompletion<UserJSON>
+    ) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
         }
 
         let auth = AccessTokenPlugin { self.data.token }
-        let provider = MoyaProvider<MTP>(plugins: [auth])
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
         let endpoint = MTP.userGetByToken
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
@@ -1426,7 +1429,7 @@ struct MTPNetworkConroller: ServiceProvider {
             return then(.failure(.parameter))
         }
 
-        let provider = MoyaProvider<MTP>()
+        let provider = MTPProvider()
         let endpoint = MTP.userLogin(email: email, password: password)
 
         func parse(success response: Response) {
@@ -1470,7 +1473,7 @@ struct MTPNetworkConroller: ServiceProvider {
             return then(.failure(.parameter))
         }
 
-        let provider = MoyaProvider<MTP>()
+        let provider = MTPProvider()
         let endpoint = MTP.userRegister(payload: payload)
 
         func parse(result: Response) {
@@ -1507,7 +1510,7 @@ struct MTPNetworkConroller: ServiceProvider {
     func userUpdate(payload: UserUpdatePayload,
                     then: @escaping NetworkCompletion<UserJSON>) {
         let auth = AccessTokenPlugin { self.data.token }
-        let provider = MoyaProvider<MTP>(plugins: [auth])
+        let provider = MTPProvider(plugins: [auth])
         let endpoint = MTP.userPut(payload: payload)
 
         //swiftlint:disable:next closure_body_length
@@ -1559,10 +1562,14 @@ private extension MoyaError {
 extension Response: ServiceProvider {
 
     func modified(from endpoint: MTP) -> Bool {
+        guard let response = response else {
+            // expected in a stubbed response
+            return true
+        }
+
         endpoint.markReceived()
 
-        guard let response = response,
-              response.statusCode != 304 else {
+        guard response.statusCode != 304 else {
                 return false
         }
         if let header = response.find(header: "Not-Modified"),
@@ -1587,7 +1594,7 @@ extension Response: ServiceProvider {
     }
 }
 
-private extension MTPNetworkConroller {
+private extension MTPNetworkController {
 
     func parse(error: Error?,
                response: Response?) -> NetworkError {
