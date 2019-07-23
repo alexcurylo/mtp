@@ -61,10 +61,12 @@ private extension SettingsVC {
     @IBAction func shareTapped(_ sender: UIButton) {
         guard let url = productUrl else { return }
 
-        let activityViewController = UIActivityViewController(
+        let share = UIActivityViewController(
             activityItems: [url],
             applicationActivities: nil)
-        present(activityViewController, animated: true)
+        share.popoverPresentationController?.sourceView = sender
+        share.popoverPresentationController?.sourceRect = sender.bounds
+        present(share, animated: true)
     }
 
     @IBAction func rateTapped(_ sender: UIButton) {

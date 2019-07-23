@@ -28,7 +28,7 @@ languages([
 workspace("MTP.xcworkspace")
 
 # The name of the scheme which contains the UI Tests
-scheme("MTPUITests")
+scheme("MTPScreenshots")
 
 # Where should the resulting screenshots be stored?
 output_directory("./fastlane/screenshots")
@@ -37,7 +37,7 @@ output_directory("./fastlane/screenshots")
 # concurrent_simulators(true)
 
 # The directory for derived data reuse
-# derived_data_path("/tmp/MTPSnapshots/DerivedData")
+# derived_data_path("/tmp/MTPScreenshots/DerivedData")
 # test_without_building(true)
 
 # remove the '#' to clear all previously generated screenshots before creating new ones
@@ -59,7 +59,7 @@ reinstall_app(false)
 # launch_arguments(["-favColor red"])
 
 # save application's logging
-# buildlog_path("/tmp/MTPSnapshots/BuildLog")
+# buildlog_path("/tmp/MTPScreenshots/BuildLog")
 # output_simulator_logs(true)
 
 # just stop when done

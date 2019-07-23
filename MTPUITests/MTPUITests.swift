@@ -19,19 +19,15 @@ final class MTPUITests: XCTestCase {
         super.tearDown()
     }
 
-    func test_snapshot_01LoginScreen() {
-        launch(arguments: [.takingScreenshots],
-               settings: [.loggedIn(false)])
+    func testLoginScreen() {
+        launch(settings: [.loggedIn(false)])
 
         let tabBar = app.tabBars.element(boundBy: 0)
         XCTAssertFalse(tabBar.waitForExistence(timeout: 5))
-
-        snapshot("01LoginScreen")
     }
 
-    func test_snapshot_02LocationsTab() {
-        launch(arguments: [.takingScreenshots],
-               settings: [.loggedIn(true)])
+    func testLocationsTab() {
+        launch(settings: [.loggedIn(true)])
 
         let tabBar = app.tabBars.element(boundBy: 0)
         let first = tabBar.buttons.element(boundBy: 0)
@@ -40,13 +36,10 @@ final class MTPUITests: XCTestCase {
 
         XCTAssertTrue(tabBar.waitForExistence(timeout: 5))
         XCTAssertTrue(first.isSelected, "first tab not selected at startup")
-
-        snapshot("02LocationsTab")
     }
 
-    func test_snapshot_03RankingsTab() {
-        launch(arguments: [.takingScreenshots],
-               settings: [.loggedIn(true)])
+    func testRankingsTab() {
+        launch(settings: [.loggedIn(true)])
 
         let tabBar = app.tabBars.element(boundBy: 0)
         let first = tabBar.buttons.element(boundBy: 0)
@@ -63,13 +56,10 @@ final class MTPUITests: XCTestCase {
         let selectedPredicate = NSPredicate(format: "selected == true")
         expectation(for: selectedPredicate, evaluatedWith: second, handler: nil)
         waitForExpectations(timeout: 5, handler: nil)
-
-        snapshot("03RankingsTab")
     }
 
-    func test_snapshot_04ProfileTab() {
-        launch(arguments: [.takingScreenshots],
-               settings: [.loggedIn(true)])
+    func testProfileTab() {
+        launch(settings: [.loggedIn(true)])
 
         let tabBar = app.tabBars.element(boundBy: 0)
         let first = tabBar.buttons.element(boundBy: 0)
@@ -86,7 +76,5 @@ final class MTPUITests: XCTestCase {
         let selectedPredicate = NSPredicate(format: "selected == true")
         expectation(for: selectedPredicate, evaluatedWith: third, handler: nil)
         waitForExpectations(timeout: 5, handler: nil)
-
-        snapshot("04ProfileTab")
     }
 }

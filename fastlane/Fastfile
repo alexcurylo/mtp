@@ -10,7 +10,7 @@
 #     https://docs.fastlane.tools/plugins/available-plugins
 #
 
-fastlane_version "2.127.1"
+fastlane_version "2.128.0"
 #update_fastlane
 default_platform(:ios)
 
@@ -71,7 +71,7 @@ platform :ios do
   lane :screenshots do
     # enable_simulators_keyboard
     # give_simulators_permissions
-    # build_app(derived_data_path: "/tmp/MTPSnapshots/DerivedData")
+    # build_app(derived_data_path: "/tmp/MTPScreenshots/DerivedData")
     capture_screenshots
     frame_screenshots
     upload_to_app_store(skip_binary_upload: true,

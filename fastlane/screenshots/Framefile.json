@@ -4,11 +4,11 @@
   "default": {
     "keyword": {
       "font": "./fonts/AvenirLTStd-Roman.otf",
-      "color": "#76A43B"
+      "color": "#19C0FD"
     },
     "title": {
       "font": "./fonts/AvenirLTStd-Roman.otf",
-      "color": "#545454"
+      "color": "#004B78"
     },
     "background": "./background.jpg",
     "padding": 50,
@@ -21,42 +21,15 @@
   },
 
   "data": [
-    {
-      "filter": "01LoginScreen",
-      "title": {
-          "text": "Welcome to\nMost Traveled People",
-          "padding": 100
-      },
-      "keyword": {
-        "color": "#d21559"
-      }
-    },
-    {
-      "filter": "02LocationsTab",
-      "title": {
-          "text": "This is the\nLocations Tab"
-      },
-      "keyword": {
-        "color": "#feb909"
-      }
-    },
-    {
-      "filter": "03RankingsTab",
-      "title": {
-          "text": "This is the Rankings Tab"
-      },
-      "keyword": {
-        "color": "#aa4dbc"
-      }
-    },
-    {
-      "filter": "04ProfileTab",
-      "title": {
-          "text": "This is the Profile Tab"
-      },
-      "keyword": {
-        "color": "#31bb48"
-      }
-    }
+    { "filter": "01" },
+    { "filter": "02" },
+    { "filter": "03" },
+    { "filter": "04" },
+    { "filter": "05" },
+    { "filter": "06" },
+    { "filter": "07" },
+    { "filter": "08" },
+    { "filter": "09" },
+    { "filter": "10" }
   ]
 }
