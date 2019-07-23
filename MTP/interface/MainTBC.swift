@@ -13,6 +13,7 @@ final class MainTBC: UITabBarController, ServiceProvider {
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
+        expose()
 
         MainTBC.current = self
         checkDestination()
@@ -90,6 +91,20 @@ private extension MainTBC {
         }
 
         destination = nil
+    }
+
+    func expose() {
+        MainTabBar.bar.expose(item: tabBar)
+        var buttons = [
+            MainTabBar.locations,
+            MainTabBar.rankings,
+            MainTabBar.profile
+        ]
+        for control in tabBar.subviews where control is UIControl {
+            control.expose(id: buttons.first)
+            guard buttons.count > 1 else { return }
+            buttons = Array(buttons.dropFirst())
+        }
     }
 }
 

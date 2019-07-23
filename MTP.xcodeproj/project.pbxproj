@@ -104,6 +104,10 @@
 		FA3CEC562132579300791195 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3CEC552132579300791195 /* DataService.swift */; };
 		FA40F752225B06010056182E /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA40F750225B06010056182E /* Settings.storyboard */; };
 		FA40F754225B06D50056182E /* FaqVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA40F753225B06D50056182E /* FaqVC.swift */; };
+		FA4257E322E7C4AE006CE4AC /* ProcessInfo+Launch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4257E222E7C4AE006CE4AC /* ProcessInfo+Launch.swift */; };
+		FA4257E422E7C531006CE4AC /* ProcessInfo+Launch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4257E222E7C4AE006CE4AC /* ProcessInfo+Launch.swift */; };
+		FA4257E622E7C56D006CE4AC /* Exposable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4257E522E7C56D006CE4AC /* Exposable.swift */; };
+		FA4257E722E7C6AE006CE4AC /* Exposable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4257E522E7C56D006CE4AC /* Exposable.swift */; };
 		FA44CDF422B5A13F00F33D34 /* UIView+Shadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA44CDF322B5A13F00F33D34 /* UIView+Shadow.swift */; };
 		FA44CDF622B5B3F800F33D34 /* UIView+Corner.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA44CDF522B5B3F800F33D34 /* UIView+Corner.swift */; };
 		FA44CDF822B5CBFC00F33D34 /* UITableView+Updating.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA44CDF722B5CBFC00F33D34 /* UITableView+Updating.swift */; };
@@ -164,7 +168,6 @@
 		FAA818FE22447EAB00BB9F92 /* LocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA818FD22447EAB00BB9F92 /* LocationVC.swift */; };
 		FAA819002244814900BB9F92 /* LocationPagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA818FF2244814900BB9F92 /* LocationPagingVC.swift */; };
 		FAAE29BF20EE51A700B43BA9 /* UIApplication+Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */; };
-		FAAE29C020EE581900B43BA9 /* UIApplication+Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */; };
 		FAAE29C220EFADC800B43BA9 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAE29C120EFADC700B43BA9 /* R.generated.swift */; };
 		FAAE29C520F05A9600B43BA9 /* UserDefaults+TypeSafety.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAE29C420F05A9600B43BA9 /* UserDefaults+TypeSafety.swift */; };
 		FAB53F8B20DFD618007A80A7 /* MemoryWarner.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB53F8A20DFD618007A80A7 /* MemoryWarner.m */; };
@@ -334,6 +337,8 @@
 		FA3E366F20DFC0E3002AF4EE /* IDETemplateMacros.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = IDETemplateMacros.plist; path = MTP.xcodeproj/xcshareddata/IDETemplateMacros.plist; sourceTree = "<group>"; };
 		FA40F751225B06010056182E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Settings.storyboard; sourceTree = "<group>"; };
 		FA40F753225B06D50056182E /* FaqVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaqVC.swift; sourceTree = "<group>"; };
+		FA4257E222E7C4AE006CE4AC /* ProcessInfo+Launch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProcessInfo+Launch.swift"; sourceTree = "<group>"; };
+		FA4257E522E7C56D006CE4AC /* Exposable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exposable.swift; sourceTree = "<group>"; };
 		FA44CDF322B5A13F00F33D34 /* UIView+Shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Shadow.swift"; sourceTree = "<group>"; };
 		FA44CDF522B5B3F800F33D34 /* UIView+Corner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Corner.swift"; sourceTree = "<group>"; };
 		FA44CDF722B5CBFC00F33D34 /* UITableView+Updating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Updating.swift"; sourceTree = "<group>"; };
@@ -672,6 +677,7 @@
 				FA392BEC20DFA56B0026C828 /* interface */,
 				FA392BED20DFA5810026C828 /* resources */,
 				FAAE29C320F0570000B43BA9 /* support */,
+				FA4257E122E7C460006CE4AC /* testing */,
 			);
 			path = MTP;
 			sourceTree = "<group>";
@@ -771,6 +777,15 @@
 				FAF122F6215652AE0099B772 /* xccconfig */,
 			);
 			name = metadata;
+			sourceTree = "<group>";
+		};
+		FA4257E122E7C460006CE4AC /* testing */ = {
+			isa = PBXGroup;
+			children = (
+				FA4257E522E7C56D006CE4AC /* Exposable.swift */,
+				FA4257E222E7C4AE006CE4AC /* ProcessInfo+Launch.swift */,
+			);
+			path = testing;
 			sourceTree = "<group>";
 		};
 		FA5AC0B121FC38790080F84F /* locations */ = {
@@ -1306,6 +1321,7 @@
 				FAC8465D22AB6C2A004F57EC /* LocationService.swift in Sources */,
 				FAE1F11E2143B29F0002CAB2 /* LocationTracker.swift in Sources */,
 				8C0F242B22432076005BD5DC /* UserCountsVC.swift in Sources */,
+				FA4257E322E7C4AE006CE4AC /* ProcessInfo+Launch.swift in Sources */,
 				FAEB87A1227ED26300858898 /* PostCell.swift in Sources */,
 				8C91D293222CBFE20063C587 /* SignupFailVC.swift in Sources */,
 				FAC3BCB9216A225900E1507E /* TagsView.swift in Sources */,
@@ -1317,6 +1333,7 @@
 				FA1663AF22E3325B0075DA1A /* NetworkService.swift in Sources */,
 				FA5AC0B621FC4EBE0080F84F /* MappableAnnotationView.swift in Sources */,
 				FA0F816422BF1CA700C00898 /* AddPhotoVC.swift in Sources */,
+				FA4257E622E7C56D006CE4AC /* Exposable.swift in Sources */,
 				8CFEE459221FA2120061614B /* ImageService.swift in Sources */,
 				FA8833E32209BF810037C796 /* LocationSearchVC.swift in Sources */,
 				FA76D9752131278900EF8E25 /* User.swift in Sources */,
@@ -1440,9 +1457,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAAE29C020EE581900B43BA9 /* UIApplication+Environment.swift in Sources */,
+				FA4257E422E7C531006CE4AC /* ProcessInfo+Launch.swift in Sources */,
 				FA32CC7220FAC863004C1329 /* XCTestCase+UITest.swift in Sources */,
 				FA4FBFFB22E7327100FE0902 /* SnapshotTests.swift in Sources */,
+				FA4257E722E7C6AE006CE4AC /* Exposable.swift in Sources */,
 				FA392BDD20DF69F50026C828 /* MTPUITests.swift in Sources */,
 				8C3EA1FF22DD540F008DD858 /* SnapshotHelper.swift in Sources */,
 			);
