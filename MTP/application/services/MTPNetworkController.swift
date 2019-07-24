@@ -301,6 +301,7 @@ extension MTP: TargetType {
             log.error("sampleData not provided for \(self)")
             return "{}".data(using: String.Encoding.utf8) ?? Data()
         }
+
         do {
             let path = try unwrap(Bundle.main.path(forResource: file, ofType: "json"))
             let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)

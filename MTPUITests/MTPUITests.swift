@@ -19,35 +19,38 @@ final class MTPUITests: XCTestCase {
         super.tearDown()
     }
 
-    func testLoginScreen() {
+    func testLogin() {
         launch(settings: [.loggedIn(false)])
 
-        let tabBar = MainTabBar.bar.match
-        XCTAssertFalse(tabBar.waitForExistence(timeout: 5))
+        let tabBar = MainTBCs.bar.match
+        XCTAssertFalse(tabBar.waitForExistence(timeout: 5), "tab bar not found")
+
+        //app.printList(of: .button)
+        //app.printHierarchy()
     }
 
-    func testLocationsTab() {
+    func testLocations() {
         launch(settings: [.loggedIn(true)])
 
-        let tabBar = MainTabBar.bar.match
-        let locations = MainTabBar.locations.match
+        let tabBar = MainTBCs.bar.match
+        XCTAssertTrue(tabBar.waitForExistence(timeout: 5), "tab bar not found")
 
-        XCTAssertTrue(tabBar.waitForExistence(timeout: 5))
+        let locations = MainTBCs.locations.match
         XCTAssertTrue(locations.isSelected, "locations not selected at startup")
     }
 
-    func testRankingsTab() {
+    func testRankings() {
         launch(settings: [.loggedIn(true)])
 
-        let tabBar = MainTabBar.bar.match
-        let locations = MainTabBar.locations.match
-        let rankings = MainTabBar.rankings.match
+        let tabBar = MainTBCs.bar.match
+        XCTAssertTrue(tabBar.waitForExistence(timeout: 5), "tab bar not found")
 
-        XCTAssertTrue(tabBar.waitForExistence(timeout: 5))
+        let locations = MainTBCs.locations.match
         XCTAssertTrue(locations.isSelected, "locations not selected at startup")
 
         // note foreseeable failure here:
         // https://openradar.appspot.com/26493495
+        let rankings = MainTBCs.rankings.match
         rankings.tap()
 
         let selectedPredicate = NSPredicate(format: "selected == true")
@@ -55,22 +58,20 @@ final class MTPUITests: XCTestCase {
         waitForExpectations(timeout: 5, handler: nil)
     }
 
-    func testProfileTab() {
+    func testMyProfile() {
         launch(settings: [.loggedIn(true)])
 
-        let tabBar = MainTabBar.bar.match
-        let locations = MainTabBar.locations.match
-        let profile = MainTabBar.profile.match
+        let tabBar = MainTBCs.bar.match
+        XCTAssertTrue(tabBar.waitForExistence(timeout: 5), "tab bar not found")
 
-        XCTAssertTrue(tabBar.waitForExistence(timeout: 5))
+        let locations = MainTBCs.locations.match
         XCTAssertTrue(locations.isSelected, "locations not selected at startup")
 
-        // note foreseeable failure here:
-        // https://openradar.appspot.com/26493495
-        profile.tap()
+        let myProfile = MainTBCs.myProfile.match
+        myProfile.tap()
 
         let selectedPredicate = NSPredicate(format: "selected == true")
-        expectation(for: selectedPredicate, evaluatedWith: profile, handler: nil)
+        expectation(for: selectedPredicate, evaluatedWith: myProfile, handler: nil)
         waitForExpectations(timeout: 5, handler: nil)
     }
 }

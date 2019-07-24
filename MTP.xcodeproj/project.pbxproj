@@ -539,7 +539,7 @@
 		8C3EAB90223119ED00CB4886 /* services */ = {
 			isa = PBXGroup;
 			children = (
-				FA0A7B9222E678AD00D3EF99 /* stubs */,
+				FA0A7B9222E678AD00D3EF99 /* fixtures */,
 				FA36FBEC22059E6B00616CDE /* ApplicationService.swift */,
 				FA3CEC552132579300791195 /* DataService.swift */,
 				FA4653332115ADC6005B5A0A /* MTPNetworkController.swift */,
@@ -584,12 +584,12 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		FA0A7B9222E678AD00D3EF99 /* stubs */ = {
+		FA0A7B9222E678AD00D3EF99 /* fixtures */ = {
 			isa = PBXGroup;
 			children = (
 				FA0A7B9322E6797400D3EF99 /* userGetByToken.json */,
 			);
-			path = stubs;
+			path = fixtures;
 			sourceTree = "<group>";
 		};
 		FA390135213B7C5E0016A362 /* rankings */ = {

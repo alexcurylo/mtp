@@ -10,8 +10,7 @@ protocol Exposable {
 extension Exposable {
 
     var identifier: String {
-        let reflected = String(reflecting: type(of: self)) + "_\(self)"
-        return reflected.replacingOccurrences(of: "\"", with: "")
+        return "\(String(describing: type(of: self))).\(self)"
     }
 
     func expose(item: UIAccessibilityIdentification?) {
@@ -22,15 +21,21 @@ extension Exposable {
 
 extension UIAccessibilityIdentification {
 
-    func expose(id: Exposable?) {
-        guard let id = id else { return }
-        accessibilityIdentifier = id.identifier
+    func expose(as exposable: Exposable?) {
+        guard let identifier = exposable?.identifier else { return }
+        accessibilityIdentifier = identifier
     }
 }
 
-enum MainTabBar: Exposable {
+enum MainTBCs: Exposable {
     case bar
     case locations
     case rankings
-    case profile
+    case myProfile
+}
+
+enum LocationsVCs: Exposable {
+    case nav
+    case filter
+    case nearby
 }

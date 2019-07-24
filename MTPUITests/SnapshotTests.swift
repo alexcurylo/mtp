@@ -23,28 +23,24 @@ final class SnapshotTests: XCTestCase {
         launch(arguments: [.takingScreenshots],
                settings: [.loggedIn(true)])
 
-        let tabBar = app.tabBars.element(boundBy: 0)
-        let first = tabBar.buttons.element(boundBy: 0)
-        let second = tabBar.buttons.element(boundBy: 1)
-        let third = tabBar.buttons.element(boundBy: 2)
+        let tabBar = MainTBCs.bar.match
+        XCTAssertTrue(tabBar.waitForExistence(timeout: 5), "tab bar not found")
 
-        XCTAssertTrue(tabBar.waitForExistence(timeout: 5))
-        XCTAssertTrue(first.isSelected, "first tab not selected at startup")
+        let locations = MainTBCs.locations.match
+        XCTAssertTrue(locations.isSelected, "first tab not selected at startup")
 
         snapshot("01Locations")
 
-        //app.navigationBars["MTP.LocationsVC"].buttons["navListBlue"].tap()
+        let nearby = LocationsVCs.nearby.match
+        nearby.tap()
 
         //snapshot("02LocationsNearby")
 
-        // note foreseeable failure here:
-        // https://openradar.appspot.com/26493495
-        //let tabBarsQuery = app.tabBars
-        //tabBarsQuery.buttons["Rankings"].tap()
-        second.tap()
+        let rankings = MainTBCs.rankings.match
+        rankings.tap()
 
         let selectedPredicate = NSPredicate(format: "selected == true")
-        expectation(for: selectedPredicate, evaluatedWith: second, handler: nil)
+        expectation(for: selectedPredicate, evaluatedWith: rankings, handler: nil)
         waitForExpectations(timeout: 5, handler: nil)
 
         snapshot("02Rankings")
@@ -53,10 +49,10 @@ final class SnapshotTests: XCTestCase {
 
         //snapshot("04RankingsProfile")
 
-        third.tap()
-        //tabBarsQuery.buttons["My Profile"].tap()
+        let myProfile = MainTBCs.myProfile.match
+        myProfile.tap()
 
-        expectation(for: selectedPredicate, evaluatedWith: third, handler: nil)
+        expectation(for: selectedPredicate, evaluatedWith: myProfile, handler: nil)
         waitForExpectations(timeout: 5, handler: nil)
 
         snapshot("03ProfileAbout")
