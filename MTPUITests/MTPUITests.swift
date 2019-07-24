@@ -22,59 +22,55 @@ final class MTPUITests: XCTestCase {
     func testLoginScreen() {
         launch(settings: [.loggedIn(false)])
 
-        let tabBar = app.tabBars.element(boundBy: 0)
+        let tabBar = MainTabBar.bar.match
         XCTAssertFalse(tabBar.waitForExistence(timeout: 5))
     }
 
     func testLocationsTab() {
         launch(settings: [.loggedIn(true)])
 
-        let tabBar = app.tabBars.element(boundBy: 0)
-        let first = tabBar.buttons.element(boundBy: 0)
-        //let second = tabBar.buttons.element(boundBy: 1)
-        //let third = tabBar.buttons.element(boundBy: 2)
+        let tabBar = MainTabBar.bar.match
+        let locations = MainTabBar.locations.match
 
         XCTAssertTrue(tabBar.waitForExistence(timeout: 5))
-        XCTAssertTrue(first.isSelected, "first tab not selected at startup")
+        XCTAssertTrue(locations.isSelected, "locations not selected at startup")
     }
 
     func testRankingsTab() {
         launch(settings: [.loggedIn(true)])
 
-        let tabBar = app.tabBars.element(boundBy: 0)
-        let first = tabBar.buttons.element(boundBy: 0)
-        let second = tabBar.buttons.element(boundBy: 1)
-        //let third = tabBar.buttons.element(boundBy: 2)
+        let tabBar = MainTabBar.bar.match
+        let locations = MainTabBar.locations.match
+        let rankings = MainTabBar.rankings.match
 
         XCTAssertTrue(tabBar.waitForExistence(timeout: 5))
-        XCTAssertTrue(first.isSelected, "first tab not selected at startup")
+        XCTAssertTrue(locations.isSelected, "locations not selected at startup")
 
         // note foreseeable failure here:
         // https://openradar.appspot.com/26493495
-        second.tap()
+        rankings.tap()
 
         let selectedPredicate = NSPredicate(format: "selected == true")
-        expectation(for: selectedPredicate, evaluatedWith: second, handler: nil)
+        expectation(for: selectedPredicate, evaluatedWith: rankings, handler: nil)
         waitForExpectations(timeout: 5, handler: nil)
     }
 
     func testProfileTab() {
         launch(settings: [.loggedIn(true)])
 
-        let tabBar = app.tabBars.element(boundBy: 0)
-        let first = tabBar.buttons.element(boundBy: 0)
-        //let second = tabBar.buttons.element(boundBy: 1)
-        let third = tabBar.buttons.element(boundBy: 2)
+        let tabBar = MainTabBar.bar.match
+        let locations = MainTabBar.locations.match
+        let profile = MainTabBar.profile.match
 
         XCTAssertTrue(tabBar.waitForExistence(timeout: 5))
-        XCTAssertTrue(first.isSelected, "first tab not selected at startup")
+        XCTAssertTrue(locations.isSelected, "locations not selected at startup")
 
         // note foreseeable failure here:
         // https://openradar.appspot.com/26493495
-        third.tap()
+        profile.tap()
 
         let selectedPredicate = NSPredicate(format: "selected == true")
-        expectation(for: selectedPredicate, evaluatedWith: third, handler: nil)
+        expectation(for: selectedPredicate, evaluatedWith: profile, handler: nil)
         waitForExpectations(timeout: 5, handler: nil)
     }
 }

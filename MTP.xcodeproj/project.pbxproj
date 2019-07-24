@@ -50,6 +50,8 @@
 		8CB2A24322E177C90050E368 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB2A24222E177C90050E368 /* Scheduler.swift */; };
 		8CCA21F822B3AB5D00C1D13B /* UserUpdatePayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCA21F722B3AB5D00C1D13B /* UserUpdatePayload.swift */; };
 		8CCA5A7322AA6BBB00853903 /* AppAboutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCA5A7222AA6BBB00853903 /* AppAboutVC.swift */; };
+		8CD2831722E7DEE800324FDE /* Elemental.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD2831622E7DEE800324FDE /* Elemental.swift */; };
+		8CD2831922E7EC1000324FDE /* XCUIElementTypeQueryProvider+Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD2831822E7EC1000324FDE /* XCUIElementTypeQueryProvider+Query.swift */; };
 		8CDBE5EE22C08AD5005A6C18 /* PostPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDBE5ED22C08AD5005A6C18 /* PostPayload.swift */; };
 		8CE3FC2C222389B600B94EAA /* Scorecard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE3FC2B222389B600B94EAA /* Scorecard.swift */; };
 		8CE6F46B224B029500B24410 /* ContentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6F46A224B029400B24410 /* ContentState.swift */; };
@@ -80,7 +82,7 @@
 		FA25ACE8217C87ED000AE26D /* RankingHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA25ACE7217C87ED000AE26D /* RankingHeader.swift */; };
 		FA291FD5217ECBC8004140BD /* RankingsFilterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA291FD4217ECBC8004140BD /* RankingsFilterVC.swift */; };
 		FA2E718521ED535B00E6AB73 /* WHS.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2E718421ED535B00E6AB73 /* WHS.swift */; };
-		FA32CC7220FAC863004C1329 /* XCTestCase+UITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA32CC7120FAC863004C1329 /* XCTestCase+UITest.swift */; };
+		FA32CC7220FAC863004C1329 /* XCTestCase+Launch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA32CC7120FAC863004C1329 /* XCTestCase+Launch.swift */; };
 		FA32CC7420FB6E67004C1329 /* UIView+Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA32CC7320FB6E67004C1329 /* UIView+Gradient.swift */; };
 		FA32CC762100C34E004C1329 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA32CC752100C34E004C1329 /* LoginVC.swift */; };
 		FA32CC782100C360004C1329 /* SignupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA32CC772100C360004C1329 /* SignupVC.swift */; };
@@ -271,6 +273,8 @@
 		8CCA21F622B381A600C1D13B /* fastlane */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fastlane; sourceTree = "<group>"; };
 		8CCA21F722B3AB5D00C1D13B /* UserUpdatePayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserUpdatePayload.swift; sourceTree = "<group>"; };
 		8CCA5A7222AA6BBB00853903 /* AppAboutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAboutVC.swift; sourceTree = "<group>"; };
+		8CD2831622E7DEE800324FDE /* Elemental.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Elemental.swift; sourceTree = "<group>"; };
+		8CD2831822E7EC1000324FDE /* XCUIElementTypeQueryProvider+Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElementTypeQueryProvider+Query.swift"; sourceTree = "<group>"; };
 		8CDBE5ED22C08AD5005A6C18 /* PostPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPayload.swift; sourceTree = "<group>"; };
 		8CE3FC2B222389B600B94EAA /* Scorecard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scorecard.swift; sourceTree = "<group>"; };
 		8CE6F46A224B029400B24410 /* ContentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentState.swift; sourceTree = "<group>"; };
@@ -304,7 +308,7 @@
 		FA25ACE7217C87ED000AE26D /* RankingHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingHeader.swift; sourceTree = "<group>"; };
 		FA291FD4217ECBC8004140BD /* RankingsFilterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsFilterVC.swift; sourceTree = "<group>"; };
 		FA2E718421ED535B00E6AB73 /* WHS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WHS.swift; sourceTree = "<group>"; };
-		FA32CC7120FAC863004C1329 /* XCTestCase+UITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+UITest.swift"; sourceTree = "<group>"; };
+		FA32CC7120FAC863004C1329 /* XCTestCase+Launch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Launch.swift"; sourceTree = "<group>"; };
 		FA32CC7320FB6E67004C1329 /* UIView+Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Gradient.swift"; sourceTree = "<group>"; };
 		FA32CC752100C34E004C1329 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		FA32CC772100C360004C1329 /* SignupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupVC.swift; sourceTree = "<group>"; };
@@ -510,8 +514,10 @@
 			isa = PBXGroup;
 			children = (
 				FA392BDE20DF69F50026C828 /* Info.plist */,
+				8CD2831622E7DEE800324FDE /* Elemental.swift */,
 				8C3EA1FE22DD540F008DD858 /* SnapshotHelper.swift */,
-				FA32CC7120FAC863004C1329 /* XCTestCase+UITest.swift */,
+				FA32CC7120FAC863004C1329 /* XCTestCase+Launch.swift */,
+				8CD2831822E7EC1000324FDE /* XCUIElementTypeQueryProvider+Query.swift */,
 			);
 			path = support;
 			sourceTree = "<group>";
@@ -1458,8 +1464,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA4257E422E7C531006CE4AC /* ProcessInfo+Launch.swift in Sources */,
-				FA32CC7220FAC863004C1329 /* XCTestCase+UITest.swift in Sources */,
+				FA32CC7220FAC863004C1329 /* XCTestCase+Launch.swift in Sources */,
+				8CD2831922E7EC1000324FDE /* XCUIElementTypeQueryProvider+Query.swift in Sources */,
 				FA4FBFFB22E7327100FE0902 /* SnapshotTests.swift in Sources */,
+				8CD2831722E7DEE800324FDE /* Elemental.swift in Sources */,
 				FA4257E722E7C6AE006CE4AC /* Exposable.swift in Sources */,
 				FA392BDD20DF69F50026C828 /* MTPUITests.swift in Sources */,
 				8C3EA1FF22DD540F008DD858 /* SnapshotHelper.swift in Sources */,
