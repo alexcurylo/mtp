@@ -206,6 +206,9 @@
 		FAEB87A1227ED26300858898 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEB87A0227ED26300858898 /* PostCell.swift */; };
 		FAF1853120FA0C8600CC5D83 /* RootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF1853020FA0C8600CC5D83 /* RootVC.swift */; };
 		FAF1853220FA0DEF00CC5D83 /* Root.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAF1853420FA0DEF00CC5D83 /* Root.storyboard */; };
+		FAF1C67A22E9D53500F6636B /* RankingVCs.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF1C67922E9D53500F6636B /* RankingVCs.swift */; };
+		FAF1C67C22E9EA8800F6636B /* UserProfileVCs.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF1C67B22E9EA8800F6636B /* UserProfileVCs.swift */; };
+		FAF1C67E22EA4FBA00F6636B /* NearbyVCs.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF1C67D22EA4FBA00F6636B /* NearbyVCs.swift */; };
 		FAFBB0CD22A6A5C4001EDB80 /* SettingsJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFBB0CC22A6A5C4001EDB80 /* SettingsJSON.swift */; };
 		FAFEDA50211DB0E800DA3DB8 /* LoginFailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFEDA4F211DB0E800DA3DB8 /* LoginFailVC.swift */; };
 		FAFEDA522129602800DA3DB8 /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFEDA512129602800DA3DB8 /* WelcomeVC.swift */; };
@@ -475,6 +478,9 @@
 		FAF1853020FA0C8600CC5D83 /* RootVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootVC.swift; sourceTree = "<group>"; };
 		FAF1853320FA0DEF00CC5D83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Root.storyboard; sourceTree = "<group>"; };
 		FAF1853520FA16CE00CC5D83 /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
+		FAF1C67922E9D53500F6636B /* RankingVCs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingVCs.swift; sourceTree = "<group>"; };
+		FAF1C67B22E9EA8800F6636B /* UserProfileVCs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileVCs.swift; sourceTree = "<group>"; };
+		FAF1C67D22EA4FBA00F6636B /* NearbyVCs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyVCs.swift; sourceTree = "<group>"; };
 		FAFBB0CC22A6A5C4001EDB80 /* SettingsJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsJSON.swift; sourceTree = "<group>"; };
 		FAFEDA4F211DB0E800DA3DB8 /* LoginFailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFailVC.swift; sourceTree = "<group>"; };
 		FAFEDA512129602800DA3DB8 /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
@@ -525,6 +531,9 @@
 				8C011F5D22E93A39002C4133 /* LocationsVCs.swift */,
 				8C011F5922E939BA002C4133 /* MainTBCs.swift */,
 				8C011F5B22E93A10002C4133 /* MyProfileVCs.swift */,
+				FAF1C67D22EA4FBA00F6636B /* NearbyVCs.swift */,
+				FAF1C67B22E9EA8800F6636B /* UserProfileVCs.swift */,
+				FAF1C67922E9D53500F6636B /* RankingVCs.swift */,
 			);
 			path = screens;
 			sourceTree = "<group>";
@@ -1487,15 +1496,18 @@
 			files = (
 				8C011F5C22E93A10002C4133 /* MyProfileVCs.swift in Sources */,
 				FA4257E422E7C531006CE4AC /* ProcessInfo+Launch.swift in Sources */,
+				FAF1C67C22E9EA8800F6636B /* UserProfileVCs.swift in Sources */,
 				FA32CC7220FAC863004C1329 /* XCTestCase+Launch.swift in Sources */,
 				8CD2831922E7EC1000324FDE /* XCUIElementTypeQueryProvider+Query.swift in Sources */,
 				FA4FBFFB22E7327100FE0902 /* SnapshotTests.swift in Sources */,
 				8C011F5E22E93A39002C4133 /* LocationsVCs.swift in Sources */,
+				FAF1C67E22EA4FBA00F6636B /* NearbyVCs.swift in Sources */,
 				8CD2831722E7DEE800324FDE /* Elemental.swift in Sources */,
 				FA4257E722E7C6AE006CE4AC /* Exposable.swift in Sources */,
 				8C011F5A22E939BA002C4133 /* MainTBCs.swift in Sources */,
 				8C011F5722E93724002C4133 /* Exposed.swift in Sources */,
 				FA392BDD20DF69F50026C828 /* MTPUITests.swift in Sources */,
+				FAF1C67A22E9D53500F6636B /* RankingVCs.swift in Sources */,
 				8C3EA1FF22DD540F008DD858 /* SnapshotHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

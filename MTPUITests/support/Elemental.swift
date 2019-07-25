@@ -4,10 +4,8 @@ import XCTest
 
 protocol Elemental: Exposable {
 
-    var container: XCUIElementQuery { get }
-    var element: XCUIElement { get }
-    var match: XCUIElement { get }
     var type: XCUIElement.ElementType { get }
+    var container: XCUIElementQuery { get }
 }
 
 extension Elemental {

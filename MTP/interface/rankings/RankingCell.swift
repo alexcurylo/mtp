@@ -42,7 +42,7 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         $0.textAlignment = .center
     }
 
-    private let nameLabel = UILabel {
+    let nameLabel = UILabel {
         $0.font = Avenir.heavy.of(size: 18)
         $0.numberOfLines = 2
         $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
@@ -56,10 +56,10 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
 
-    private let visitedButton = GradientButton(type: .system).with {
+    let visitedButton = GradientButton(type: .system).with {
         configure(button: $0)
     }
-    private let remainingButton = GradientButton(type: .system).with {
+    let remainingButton = GradientButton(type: .system).with {
         configure(button: $0)
     }
 

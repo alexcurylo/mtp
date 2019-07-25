@@ -53,6 +53,7 @@ final class RankingsVC: UIViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .standard)
+        expose()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -133,6 +134,19 @@ private extension RankingsVC {
         } else {
             searchBarCancelButtonClicked(searchBar)
         }
+    }
+}
+
+// MARK: - Exposing
+
+extension RankingsVC: Exposing {
+
+    func expose() {
+        let bar = navigationController?.navigationBar
+        RankingVCs.nav.expose(item: bar)
+        let items = navigationItem.rightBarButtonItems
+        RankingVCs.search.expose(item: items?.first)
+        RankingVCs.filter.expose(item: items?.last)
     }
 }
 

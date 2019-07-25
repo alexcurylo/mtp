@@ -12,6 +12,7 @@ final class NearbyVC: UITableViewController, ServiceProvider {
 
     private typealias Segues = R.segue.nearbyVC
 
+    @IBOutlet private var closeButtonItem: UIBarButtonItem?
     @IBOutlet private var backgroundView: UIView?
 
     private var contentState: ContentState = .loading
@@ -38,6 +39,7 @@ final class NearbyVC: UITableViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .standard)
+        expose()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -83,6 +85,9 @@ extension NearbyVC {
         cell.set(mappable: mappable,
                  distance: distances[mappable.dbKey] ?? 0,
                  delegate: self)
+        expose(view: tableView,
+               path: indexPath,
+               cell: cell)
 
         return cell
     }
@@ -100,6 +105,27 @@ extension NearbyVC {
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+}
+
+// MARK: - Exposing
+
+extension NearbyVC: Exposing {
+
+    func expose() {
+        NearbyVCs.close.expose(item: closeButtonItem)
+        NearbyVCs.places.expose(item: tableView)
+    }
+}
+
+// MARK: - TableCellExposing
+
+extension NearbyVC: TableCellExposing {
+
+    func expose(view: UITableView,
+                path: IndexPath,
+                cell: UITableViewCell) {
+        NearbyVCs.place(path.row).expose(item: cell)
     }
 }
 
@@ -219,6 +245,8 @@ final class NearbyCell: UITableViewCell, ServiceProvider {
         visitorsLabel?.text = L.visitors(mappable.visitors.grouped)
     }
  }
+
+// MARK: - Private
 
 private extension NearbyCell {
 

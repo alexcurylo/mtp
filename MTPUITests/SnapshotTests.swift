@@ -14,7 +14,8 @@ final class SnapshotTests: XCTestCase {
         super.tearDown()
     }
 
-    func test_snapshot_Tabs() {
+    // swiftlint:disable:next function_body_length
+    func test_Snapshots() {
         launch(arguments: [.takingScreenshots],
                settings: [.loggedIn(true)])
 
@@ -29,7 +30,12 @@ final class SnapshotTests: XCTestCase {
         let nearby = LocationsVCs.nearby.match
         nearby.tap()
 
-        //snapshot("02LocationsNearby")
+        snapshot("02Nearby")
+
+        let place = NearbyVCs.place(2).match
+        place.tap()
+
+        snapshot("03Place")
 
         let rankings = MainTBCs.rankings.match
         rankings.tap()
@@ -38,11 +44,20 @@ final class SnapshotTests: XCTestCase {
         expectation(for: selectedPredicate, evaluatedWith: rankings, handler: nil)
         waitForExpectations(timeout: 5, handler: nil)
 
-        snapshot("02Rankings")
+        snapshot("04Rankings")
 
-        //app.scrollViews.otherElements.collectionViews.cells.buttons["Visited: 847"].tap()
+        let userProfile = RankingVCs.profile(.locations, 2).match
+        userProfile.tap()
 
-        //snapshot("04RankingsProfile")
+        snapshot("05UserProfile")
+
+        let close = UserProfileVCs.close.match
+        close.tap()
+
+        let filter = RankingVCs.filter.match
+        filter.tap()
+
+        snapshot("06Filter")
 
         let myProfile = MainTBCs.myProfile.match
         myProfile.tap()
@@ -50,21 +65,21 @@ final class SnapshotTests: XCTestCase {
         expectation(for: selectedPredicate, evaluatedWith: myProfile, handler: nil)
         waitForExpectations(timeout: 5, handler: nil)
 
-        snapshot("03ProfileAbout")
+        snapshot("07MyAbout")
 
         let counts = MyProfileVCs.counts.match
         counts.tap()
 
-        snapshot("04ProfileCounts")
+        snapshot("08MyCounts")
 
         let photos = MyProfileVCs.photos.match
         photos.tap()
 
-        snapshot("05ProfilePhotos")
+        snapshot("09MyPhotos")
 
         let posts = MyProfileVCs.posts.match
         posts.tap()
 
-        snapshot("06ProfilePosts")
+        snapshot("10MyPosts")
     }
 }

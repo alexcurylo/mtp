@@ -528,3 +528,18 @@ extension Checklist {
         return hierarchy.isSubtitled
     }
 }
+
+extension ChecklistIndex {
+
+    init(list: Checklist) {
+        switch list {
+        case .locations: self = .locations
+        case .uncountries: self = .uncountries
+        case .whss: self = .whss
+        case .beaches: self = .beaches
+        case .golfcourses: self = .golfcourses
+        case .divesites: self = .divesites
+        case .restaurants: self = .restaurants
+        }
+    }
+}

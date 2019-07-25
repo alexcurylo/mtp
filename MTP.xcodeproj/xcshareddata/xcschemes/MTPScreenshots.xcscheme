@@ -24,6 +24,9 @@
             </BuildableReference>
             <SelectedTests>
                <Test
+                  Identifier = "SnapshotTests/test_Snapshots()">
+               </Test>
+               <Test
                   Identifier = "SnapshotTests/test_snapshot_Tabs()">
                </Test>
             </SelectedTests>

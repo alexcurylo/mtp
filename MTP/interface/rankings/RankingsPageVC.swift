@@ -89,6 +89,7 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
             update(rankings: false)
             observe()
         }
+        expose()
     }
 }
 
@@ -158,6 +159,9 @@ extension RankingsPageVC: UICollectionViewDataSource {
                  for: rank,
                  in: filter.checklist,
                  delegate: delegate)
+        expose(view: collectionView,
+               path: indexPath,
+               cell: cell)
 
         return cell
     }
@@ -324,5 +328,34 @@ private extension RankingsPageVC {
         }
         let userId = page.userIds[userIndex]
         return data.get(user: userId)
+    }
+}
+
+// MARK: - Exposing
+
+extension RankingsPageVC: Exposing {
+
+    func expose() {
+        let list = ChecklistIndex(list: filter.checklist)
+        RankingVCs.ranks(list).expose(item: collectionView)
+    }
+}
+
+// MARK: - CollectionCellExposing
+
+extension RankingsPageVC: CollectionCellExposing {
+
+    func expose(view: UICollectionView,
+                path: IndexPath,
+                cell: UICollectionViewCell) {
+        guard let cell = cell as? RankingCell else { return }
+
+        let list = ChecklistIndex(list: filter.checklist)
+        let profile = cell.nameLabel
+        RankingVCs.profile(list, path.item).expose(item: profile)
+        let remaining = cell.remainingButton
+        RankingVCs.remaining(list, path.item).expose(item: remaining)
+        let visited = cell.visitedButton
+        RankingVCs.visited(list, path.item).expose(item: visited)
     }
 }
