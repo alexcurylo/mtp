@@ -62,6 +62,8 @@ final class MainTBC: UITabBarController, ServiceProvider {
     }
 }
 
+// MARK: - Private
+
 private extension MainTBC {
 
     var locations: LocationsVC? {
@@ -92,6 +94,11 @@ private extension MainTBC {
 
         destination = nil
     }
+}
+
+// MARK: - Exposing
+
+extension MainTBC: Exposing {
 
     func expose() {
         MainTBCs.bar.expose(item: tabBar)
@@ -107,6 +114,8 @@ private extension MainTBC {
         }
     }
 }
+
+// MARK: - Injectable
 
 extension MainTBC: Injectable {
 

@@ -2,11 +2,6 @@
 
 import XCTest
 
-// Travis appears to haveissues with the "Failed to terminate" problem
-// Deleting app between each test is an option presented here
-// swiftlint:disable:next line_length
-// https://stackoverflow.com/questions/33107731/is-there-a-way-to-reset-the-app-between-tests-in-swift-xctest-ui/48715864#48715864
-
 final class SnapshotTests: XCTestCase {
 
     private let app = XCUIApplication()
@@ -57,15 +52,18 @@ final class SnapshotTests: XCTestCase {
 
         snapshot("03ProfileAbout")
 
-        let collectionViewsQuery = app.collectionViews
-        collectionViewsQuery.cells.staticTexts["Counts"].tap()
+        let counts = MyProfileVCs.counts.match
+        counts.tap()
 
         snapshot("04ProfileCounts")
-        collectionViewsQuery.cells.staticTexts["Photos"].tap()
+
+        let photos = MyProfileVCs.photos.match
+        photos.tap()
 
         snapshot("05ProfilePhotos")
 
-        collectionViewsQuery.cells.staticTexts["Posts"].tap()
+        let posts = MyProfileVCs.posts.match
+        posts.tap()
 
         snapshot("06ProfilePosts")
     }

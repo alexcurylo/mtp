@@ -4,6 +4,8 @@ import Parchment
 
 final class ProfilePagingVC: FixedPagingViewController, ServiceProvider {
 
+    weak var exposer: CollectionCellExposing?
+
     override init(viewControllers: [UIViewController]) {
         super.init(viewControllers: viewControllers)
         configure()
@@ -32,7 +34,19 @@ final class ProfilePagingVC: FixedPagingViewController, ServiceProvider {
             log.debug("unexpected segue: \(segue.name)")
         }
     }
+
+    override func collectionView(_ collectionView: UICollectionView,
+                                 cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = super.collectionView(collectionView,
+                                        cellForItemAt: indexPath)
+        exposer?.expose(view: collectionView,
+                        path: indexPath,
+                        cell: cell)
+        return cell
+    }
 }
+
+// MARK: - Private
 
 private extension ProfilePagingVC {
 

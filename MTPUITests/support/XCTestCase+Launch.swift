@@ -6,7 +6,7 @@ extension XCTestCase {
 
     // disable wait for idle
     // https://stackoverflow.com/questions/41277026/disabling-waiting-for-idle-state-in-ui-testing-of-ios-apps
-    
+
     func launch(arguments: [LaunchArgument] = [],
                 settings: [LaunchSetting] = []) {
         continueAfterFailure = false

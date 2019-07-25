@@ -195,6 +195,11 @@ private extension LocationsVC {
         trackingButton?.set(visibility: permission)
         mtpMapView?.centerOnDevice()
     }
+}
+
+// MARK: - Exposing
+
+extension LocationsVC: Exposing {
 
     func expose() {
         let bar = navigationController?.navigationBar

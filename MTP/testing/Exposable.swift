@@ -27,15 +27,21 @@ extension UIAccessibilityIdentification {
     }
 }
 
-enum MainTBCs: Exposable {
-    case bar
-    case locations
-    case rankings
-    case myProfile
+protocol Exposing {
+
+    func expose()
 }
 
-enum LocationsVCs: Exposable {
-    case nav
-    case filter
-    case nearby
+protocol CollectionCellExposing: AnyObject {
+
+    func expose(view: UICollectionView,
+                path: IndexPath,
+                cell: UICollectionViewCell)
+}
+
+protocol TableCellExposing: AnyObject {
+
+    func expose(view: UITableView,
+                path: IndexPath,
+                cell: UITableViewCell)
 }
