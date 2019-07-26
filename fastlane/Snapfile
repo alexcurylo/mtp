@@ -5,8 +5,9 @@ devices([
 # required
   "iPhone 8 Plus", # 5.5" phone
   "iPhone Xs Max", # 6.5" phone
+  # "iPhone XS Max", # 6.5" phone # if Xs Max fails
   "iPad Pro (12.9-inch) (2nd generation)",
-  # https://github.com/fastlane/fastlane/issues/14713
+  # https://github.com/fastlane/frameit-frames/pull/8
   "iPad Pro (12.9-inch) (3rd generation)",
 # optional
 # 5.8" phone
