@@ -10,7 +10,7 @@
 #     https://docs.fastlane.tools/plugins/available-plugins
 #
 
-fastlane_version "2.128.0"
+fastlane_version "2.128.1"
 #update_fastlane
 default_platform(:ios)
 
