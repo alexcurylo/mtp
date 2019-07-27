@@ -458,8 +458,8 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
     }
 
     func milestone(visited: Int) -> String {
-        guard let settings = data.settings else { return "" }
-        return settings.milestone(list: self, count: visited)
+        guard let milestones = data.get(milestones: self) else { return "" }
+        return milestones.milestone(count: visited)
     }
 
     var isMappable: Bool {

@@ -1,28 +1,24 @@
 // @copyright Trollwerks Inc.
 
-import Foundation
+import RealmSwift
 
 struct SettingsJSON: Codable {
 
     private enum CodingKeys: String, CodingKey {
         //case accident = "fill-it-later-accedintal-added-by-pitt"
-        case defaultEmails = "default-emails"
-        case locationMap = "location-map"
+        //case defaultEmails = "default-emails"
+        //case locationMap = "location-map"
         case milestoneThresholds = "milestone-thresholds"
-        case rssFeeds = "rss-feeds"
-        case worldMap = "world-map"
+        //case rssFeeds = "rss-feeds"
+        //case worldMap = "world-map"
     }
 
     //let accident: String?
-    let defaultEmails: DefaultEmailsJSON
-    let locationMap: MapRenderJSON
+    //let defaultEmails: DefaultEmailsJSON?
+    //let locationMap: MapRenderJSON?
     let milestoneThresholds: MilestonesJSON
-    let rssFeeds: RSSFeedsJSON
-    let worldMap: MapRenderJSON
-
-    func milestone(list: Checklist, count: Int) -> String {
-        return milestoneThresholds.milestone(list: list, count: count)
-    }
+    //let rssFeeds: RSSFeedsJSON?
+    //let worldMap: MapRenderJSON?
 }
 
 extension SettingsJSON: CustomStringConvertible {
@@ -37,8 +33,7 @@ extension SettingsJSON: CustomDebugStringConvertible {
     var debugDescription: String {
         return """
         < Settings: \(description):
-        locationMap: \(locationMap))
-        worldMap: \(worldMap)
+        milestoneThresholds: \(milestoneThresholds)
         /SettingsJSON >
         """
     }
@@ -191,16 +186,6 @@ struct MilestonesJSON: Codable {
     let uncountries: [ThresholdsJSON]
     let whss: [ThresholdsJSON]
 
-    func milestone(list: Checklist, count: Int) -> String {
-        let threshold = thresholds(list: list)
-                        .first { $0.min == count }?
-                        .name
-        if let threshold = threshold {
-            return L.milestone(threshold)
-        }
-        return ""
-    }
-
     func thresholds(list: Checklist) -> [ThresholdsJSON] {
         switch list {
         case .locations:
@@ -275,5 +260,72 @@ extension RSSFeedsJSON: CustomDebugStringConvertible {
         feeds: \(travelNews.count))
         /RSSFeedsJSON >
         """
+    }
+}
+
+@objcMembers final class Threshold: Object {
+
+    dynamic var min: Int = 0
+    dynamic var max: Int = 0
+    dynamic var name: String = ""
+
+    dynamic var checklistValue: Int = Checklist.beaches.rawValue
+    dynamic var index: Int = 0
+    dynamic var dbKey: String = ""
+
+    override static func primaryKey() -> String? {
+        return "dbKey"
+    }
+
+    convenience init(from: MilestonesJSON.ThresholdsJSON,
+                     list: Checklist,
+                     index: Int) {
+        self.init()
+
+        min = from.min
+        max = from.max
+        name = from.name
+
+        checklistValue = list.rawValue
+        self.index = index
+        dbKey = "list=\(checklistValue)?index=\(index)"
+    }
+}
+
+@objcMembers final class Milestones: Object {
+
+    dynamic var checklistValue: Int = Checklist.beaches.rawValue
+    var checklist: Checklist {
+        //swiftlint:disable:next force_unwrapping
+        get { return Checklist(rawValue: checklistValue)! }
+        set { checklistValue = newValue.rawValue }
+    }
+
+    let thresholds = List<Threshold>()
+
+    override static func primaryKey() -> String? {
+        return "checklistValue"
+    }
+
+    convenience init(from: SettingsJSON,
+                     list: Checklist) {
+        self.init()
+
+        checklist = list
+        let jsons = from.milestoneThresholds.thresholds(list: list)
+        for (index, json) in jsons.enumerated() {
+            let threshold = Threshold(from: json,
+                                      list: list,
+                                      index: index)
+            thresholds.append(threshold)
+        }
+    }
+
+    func milestone(count: Int) -> String {
+        // swiftlint:disable:next first_where
+        guard let threshold = thresholds.filter("min = \(count)").first else {
+            return ""
+        }
+        return L.milestone(threshold.name)
     }
 }

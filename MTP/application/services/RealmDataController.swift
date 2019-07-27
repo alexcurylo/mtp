@@ -152,6 +152,26 @@ final class RealmDataController: ServiceProvider {
         return Array(results)
     }
 
+    func milestones(list: Checklist) -> Milestones? {
+        let results = realm.objects(Milestones.self)
+                           .filter("checklistValue = \(list.rawValue)")
+        return results.first
+    }
+
+    func set(milestones: SettingsJSON) {
+        do {
+            let objects = Checklist.allCases.map {
+                Milestones(from: milestones,
+                           list: $0)
+            }
+            try realm.write {
+                realm.add(objects, update: .modified)
+            }
+        } catch {
+            log.error("set milestones: \(error)")
+        }
+    }
+
     func photo(id: Int) -> Photo? {
         let filter = "photoId = \(id)"
         let results = realm.objects(Photo.self)

@@ -209,7 +209,7 @@
 		FAF1C67A22E9D53500F6636B /* RankingVCs.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF1C67922E9D53500F6636B /* RankingVCs.swift */; };
 		FAF1C67C22E9EA8800F6636B /* UserProfileVCs.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF1C67B22E9EA8800F6636B /* UserProfileVCs.swift */; };
 		FAF1C67E22EA4FBA00F6636B /* NearbyVCs.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF1C67D22EA4FBA00F6636B /* NearbyVCs.swift */; };
-		FAFBB0CD22A6A5C4001EDB80 /* SettingsJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFBB0CC22A6A5C4001EDB80 /* SettingsJSON.swift */; };
+		FAFBB0CD22A6A5C4001EDB80 /* Milestones.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFBB0CC22A6A5C4001EDB80 /* Milestones.swift */; };
 		FAFEDA50211DB0E800DA3DB8 /* LoginFailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFEDA4F211DB0E800DA3DB8 /* LoginFailVC.swift */; };
 		FAFEDA522129602800DA3DB8 /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFEDA512129602800DA3DB8 /* WelcomeVC.swift */; };
 		FAFEDA5421296F6D00DA3DB8 /* MainTBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFEDA5321296F6D00DA3DB8 /* MainTBC.swift */; };
@@ -481,7 +481,7 @@
 		FAF1C67922E9D53500F6636B /* RankingVCs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingVCs.swift; sourceTree = "<group>"; };
 		FAF1C67B22E9EA8800F6636B /* UserProfileVCs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileVCs.swift; sourceTree = "<group>"; };
 		FAF1C67D22EA4FBA00F6636B /* NearbyVCs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyVCs.swift; sourceTree = "<group>"; };
-		FAFBB0CC22A6A5C4001EDB80 /* SettingsJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsJSON.swift; sourceTree = "<group>"; };
+		FAFBB0CC22A6A5C4001EDB80 /* Milestones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Milestones.swift; sourceTree = "<group>"; };
 		FAFEDA4F211DB0E800DA3DB8 /* LoginFailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFailVC.swift; sourceTree = "<group>"; };
 		FAFEDA512129602800DA3DB8 /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
 		FAFEDA5321296F6D00DA3DB8 /* MainTBC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTBC.swift; sourceTree = "<group>"; };
@@ -950,6 +950,7 @@
 				8C8DC74C22AF4343002EA1CD /* FaqJSON.swift */,
 				FAC159A121EB68AA00564E2D /* Location.swift */,
 				FA6386A422D17EBA001B4424 /* Mappable.swift */,
+				FAFBB0CC22A6A5C4001EDB80 /* Milestones.swift */,
 				FA7C200D221820FA002C6DAB /* OperationReply.swift */,
 				FA7C2011221C2F20002C6DAB /* Photo.swift */,
 				FAD2B51721F48AB8009FFDD7 /* PlaceInfo.swift */,
@@ -962,7 +963,6 @@
 				FAD2B51B21F4A675009FFDD7 /* Restaurant.swift */,
 				8CE3FC2B222389B600B94EAA /* Scorecard.swift */,
 				8C1A267D22AE019400DAFC7B /* SearchResultJSON.swift */,
-				FAFBB0CC22A6A5C4001EDB80 /* SettingsJSON.swift */,
 				8C6F7C0622D8079B004565BD /* Timestamps.swift */,
 				FA8833E6220CE8260037C796 /* UNCountry.swift */,
 				FA76D9742131278900EF8E25 /* User.swift */,
@@ -1435,7 +1435,7 @@
 				FA815B712286D138004B91C8 /* NearbyVC.swift in Sources */,
 				FA254DCB21685D6800FC9360 /* Withable.swift in Sources */,
 				FAD2B51321F45796009FFDD7 /* PlaceLocation.swift in Sources */,
-				FAFBB0CD22A6A5C4001EDB80 /* SettingsJSON.swift in Sources */,
+				FAFBB0CD22A6A5C4001EDB80 /* Milestones.swift in Sources */,
 				FA99615F2136CF3100C85FBC /* ProfilePagingVC.swift in Sources */,
 				FA54272822D62936005DF1CC /* MappablesAnnotationView.swift in Sources */,
 				FA5AC0BD21FDC80A0080F84F /* MyCountsVC.swift in Sources */,

@@ -591,7 +591,7 @@ struct MTPNetworkController: ServiceProvider {
                 do {
                     let faq = try result.map(FaqJSON.self,
                                              using: JSONDecoder.mtp)
-                    //self.data.faq = settings
+                    //self.data.faq = faq
                     return then(.success(faq))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -1012,7 +1012,7 @@ struct MTPNetworkController: ServiceProvider {
                 do {
                     let settings = try result.map(SettingsJSON.self,
                                                   using: JSONDecoder.mtp)
-                    self.data.settings = settings
+                    self.data.set(milestones: settings)
                     return then(.success(settings))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")

@@ -217,7 +217,6 @@ private extension NetworkServiceImpl {
             self.mtp.loadLocations { _ in
                 self.refreshPlaces()
                 self.refreshRankings()
-                //self.loadFaq()
             }
         }
     }

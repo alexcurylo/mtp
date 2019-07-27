@@ -183,26 +183,6 @@ final class DataServiceSpy: DataService {
         invokedRestaurantsGetterCount += 1
         return stubbedRestaurants
     }
-    var invokedSettingsSetter = false
-    var invokedSettingsSetterCount = 0
-    var invokedSettings: SettingsJSON?
-    var invokedSettingsList = [SettingsJSON?]()
-    var invokedSettingsGetter = false
-    var invokedSettingsGetterCount = 0
-    var stubbedSettings: SettingsJSON!
-    var settings: SettingsJSON? {
-        set {
-            invokedSettingsSetter = true
-            invokedSettingsSetterCount += 1
-            invokedSettings = newValue
-            invokedSettingsList.append(newValue)
-        }
-        get {
-            invokedSettingsGetter = true
-            invokedSettingsGetterCount += 1
-            return stubbedSettings
-        }
-    }
     var invokedTokenSetter = false
     var invokedTokenSetterCount = 0
     var invokedToken: String?
@@ -487,6 +467,18 @@ final class DataServiceSpy: DataService {
         invokedGetMappablesStringParametersList.append((matching, ()))
         return stubbedGetMappablesStringResult
     }
+    var invokedGetMilestones = false
+    var invokedGetMilestonesCount = 0
+    var invokedGetMilestonesParameters: (list: Checklist, Void)?
+    var invokedGetMilestonesParametersList = [(list: Checklist, Void)]()
+    var stubbedGetMilestonesResult: Milestones!
+    func get(milestones list: Checklist) -> Milestones? {
+        invokedGetMilestones = true
+        invokedGetMilestonesCount += 1
+        invokedGetMilestonesParameters = (list, ())
+        invokedGetMilestonesParametersList.append((list, ()))
+        return stubbedGetMilestonesResult
+    }
     var invokedGetPhotosPages = false
     var invokedGetPhotosPagesCount = 0
     var invokedGetPhotosPagesParameters: (id: Int, Void)?
@@ -690,6 +682,16 @@ final class DataServiceSpy: DataService {
         invokedSetLocationPostsCount += 1
         invokedSetLocationPostsParameters = (id, posts)
         invokedSetLocationPostsParametersList.append((id, posts))
+    }
+    var invokedSetMilestones = false
+    var invokedSetMilestonesCount = 0
+    var invokedSetMilestonesParameters: (milestones: SettingsJSON, Void)?
+    var invokedSetMilestonesParametersList = [(milestones: SettingsJSON, Void)]()
+    func set(milestones: SettingsJSON) {
+        invokedSetMilestones = true
+        invokedSetMilestonesCount += 1
+        invokedSetMilestonesParameters = (milestones, ())
+        invokedSetMilestonesParametersList.append((milestones, ()))
     }
     var invokedSetPhoto = false
     var invokedSetPhotoCount = 0
