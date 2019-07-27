@@ -211,10 +211,15 @@ final class NearbyCell: UITableViewCell, ServiceProvider {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        let doubleTap = UITapGestureRecognizer(target: self,
+                                               action: #selector(cellDoubleTapped))
+        doubleTap.numberOfTapsRequired = 2
+        addGestureRecognizer(doubleTap)
         let tap = UITapGestureRecognizer(target: self,
                                          action: #selector(cellTapped))
         addGestureRecognizer(tap)
-    }
+        tap.require(toFail: doubleTap)
+   }
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -252,6 +257,10 @@ private extension NearbyCell {
 
     @IBAction func cellTapped(_ sender: UIButton) {
         mappable?.reveal(callout: true)
+    }
+
+    @IBAction func cellDoubleTapped(_ sender: UIButton) {
+        mappable?.show()
     }
 
     @IBAction func toggleVisit(_ sender: UISwitch) {

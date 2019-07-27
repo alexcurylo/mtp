@@ -35,7 +35,12 @@ final class SnapshotTests: XCTestCase {
         let place = NearbyVCs.place(2).match
         place.tap()
 
-        snapshot("03Place")
+        snapshot("03Callout")
+
+        nearby.tap()
+        place.doubleTap()
+
+        snapshot("04Info")
 
         let rankings = MainTBCs.rankings.match
         rankings.tap()
@@ -44,12 +49,12 @@ final class SnapshotTests: XCTestCase {
         expectation(for: selectedPredicate, evaluatedWith: rankings, handler: nil)
         waitForExpectations(timeout: 5, handler: nil)
 
-        snapshot("04Rankings")
+        snapshot("05Rankings")
 
         let userProfile = RankingVCs.profile(.locations, 2).match
         userProfile.tap()
 
-        snapshot("05UserProfile")
+        snapshot("06UserProfile")
 
         let close = UserProfileVCs.close.match
         close.tap()
@@ -57,15 +62,13 @@ final class SnapshotTests: XCTestCase {
         let filter = RankingVCs.filter.match
         filter.tap()
 
-        snapshot("06Filter")
+        snapshot("07Filter")
 
         let myProfile = MainTBCs.myProfile.match
         myProfile.tap()
 
         expectation(for: selectedPredicate, evaluatedWith: myProfile, handler: nil)
         waitForExpectations(timeout: 5, handler: nil)
-
-        snapshot("07MyAbout")
 
         let counts = MyProfileVCs.counts.match
         counts.tap()

@@ -126,6 +126,10 @@ protocol Mapper {
         loc.reveal(mappable: self, callout: callout)
     }
 
+    func show() {
+        loc.show(mappable: self)
+    }
+
     var nearest: Mappable? {
         return loc.nearest(list: checklist,
                            id: checklistId,
