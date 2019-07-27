@@ -39,8 +39,8 @@ struct PostJSON: Codable {
     let post: String?
     let status: String
     let updatedAt: Date
-    let owner: OwnerJSON // UserJSON in user endpoint
-    let userId: Int
+    let owner: OwnerJSON? // UserJSON in user endpoint
+    let userId: Int // appears filled in even if owner null
 }
 
 extension PostJSON: CustomStringConvertible {
@@ -62,7 +62,7 @@ extension PostJSON: CustomDebugStringConvertible {
         post: \(String(describing: post))
         status: \(status)
         updatedAt: \(updatedAt)
-        owner: \(owner)
+        owner: \(String(describing: owner))
         userId: \(userId)
         /PostJSON >
         """
@@ -84,6 +84,7 @@ extension PostJSON: CustomDebugStringConvertible {
     convenience init?(from: PostJSON) {
         guard let text = from.post,
               !text.isEmpty,
+              from.owner != nil,
               from.status == MTP.Status.published.rawValue else {
             return nil
         }

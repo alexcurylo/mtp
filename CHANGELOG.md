@@ -13,6 +13,7 @@ The best way to let us know about any problems or suggestions is in the TestFlig
 ### Fixed
 - Swiping the Counts pages will not hide the Profile navigation bar
 - Sharing the app on an iPad will not crash
+- Loading location posts deals with missing authors
 
 ## [Version 1.0, Build 631] - 2019-07-21
 

@@ -265,7 +265,10 @@ final class RealmDataController: ServiceProvider {
     func set(posts: [PostJSON]) {
         do {
             let objects = posts.compactMap { Post(from: $0) }
-            let users = posts.compactMap { User(from: $0.owner, with: user(id: $0.userId)) }
+            let users: [User] = posts.compactMap {
+                guard let owner = $0.owner else { return nil }
+                return User(from: owner, with: user(id: $0.userId))
+            }
             try realm.write {
                 if !objects.isEmpty {
                     realm.add(objects, update: .modified)
