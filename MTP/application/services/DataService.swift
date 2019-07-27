@@ -552,6 +552,12 @@ final class DataServiceImpl: DataService {
             updated = update
         }
     }
+
+    #if targetEnvironment(simulator)
+    func saveRealm() {
+        realm.saveToDesktop()
+    }
+    #endif
 }
 
 // MARK: - Observable

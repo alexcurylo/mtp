@@ -5,22 +5,15 @@ import RealmSwift
 // swiftlint:disable file_length
 
 // https://realm.io/docs/swift/latest
-// https://realm.io/docs/data-model
-
-// for RealmStudio:
-// po Realm.Configuration.defaultConfiguration.fileURL
 
 // swiftlint:disable:next type_body_length
 final class RealmDataController: ServiceProvider {
 
-    private lazy var realm: Realm = createRealm()
+    private lazy var realm: Realm = create()
 
     init() {
-        #if INSPECT_DATABASE
-        defer {
-            log.verbose("realm database: \(fileURL)")
-        }
-        #endif
+        configure()
+        seed()
     }
 
     var beaches: [Beach] {
@@ -428,9 +421,11 @@ final class RealmDataController: ServiceProvider {
     }
 }
 
+// MARK: - Private
+
 private extension RealmDataController {
 
-    func createRealm() -> Realm {
+    func configure() {
         // swiftlint:disable:next trailing_closure
         let config = Realm.Configuration(
             schemaVersion: 1,
@@ -448,10 +443,29 @@ private extension RealmDataController {
         )
         // reset instead of migrating
         //let config = Realm.Configuration(schemaVersion: 0,
-                                         //deleteRealmIfMigrationNeeded: true)
+                                           //deleteRealmIfMigrationNeeded: true)
 
         Realm.Configuration.defaultConfiguration = config
+    }
 
+    func seed() {
+        let fileManager = FileManager.default
+        guard !fileManager.fileExists(atPath: fileURL.path),
+              let seed = Bundle.main.url(forResource: "default",
+                                         withExtension: "realm") else {
+            return
+        }
+
+        do {
+            try fileManager.copyItem(at: seed, to: fileURL)
+        } catch {
+            #if DEBUG
+            print("seeding realm: \(error)")
+            #endif
+        }
+    }
+
+    func create() -> Realm {
         do {
             let folder = fileURL.deletingLastPathComponent().path
             let noLocking = [FileAttributeKey.protectionKey: FileProtectionType.none]
@@ -504,3 +518,23 @@ private extension Migration {
         }
     }
 }
+
+// MARK: - Seeding
+
+#if targetEnvironment(simulator)
+extension RealmDataController {
+
+    func saveToDesktop() {
+        // po Realm.Configuration.defaultConfiguration.fileURL
+        do {
+            let home = try unwrap(ProcessInfo.processInfo.environment["SIMULATOR_HOST_HOME"])
+            let file = fileURL.lastPathComponent
+            let path = "\(home)/Desktop/\(file)"
+            let destination = URL(fileURLWithPath: path)
+            try realm.writeCopy(toFile: destination)
+        } catch {
+            print("saving realm: \(error)")
+        }
+    }
+}
+#endif

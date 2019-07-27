@@ -72,6 +72,12 @@ class NetworkServiceImpl {
 
     let mtp = MTPNetworkController()
 
+    private var queue = OperationQueue {
+        $0.name = "refresh"
+        $0.maxConcurrentOperationCount = 1
+        $0.qualityOfService = .utility
+    }
+
     // MARK: - Overriden in NetworkServiceStub
 
     func refreshUser() {
@@ -185,13 +191,14 @@ extension NetworkServiceImpl: NetworkService {
     func refreshEverything() {
         refreshUser()
         refreshData()
+        refreshRankings()
     }
 
     func refreshRankings() {
         var query = data.lastRankingsQuery
         Checklist.allCases.forEach { list in
             query.checklistKey = list.key
-            mtp.loadRankings(query: query)
+            add { done in self.mtp.loadRankings(query: query) { _ in done() } }
         }
     }
 }
@@ -200,34 +207,36 @@ extension NetworkServiceImpl: NetworkService {
 
 private extension NetworkServiceImpl {
 
+    func add(operation: @escaping AsyncBlockOperation.Operation) {
+        queue.addOperation(
+            AsyncBlockOperation(operation: operation)
+        )
+    }
+
     func refreshUserInfo() {
         guard let user = data.user else { return }
 
-        mtp.loadChecklists()
-        mtp.loadPosts(user: user.id)
-        mtp.loadPhotos(page: 1, reload: false)
+        add { done in self.mtp.loadChecklists { _ in done() } }
+        add { done in self.mtp.loadPosts(user: user.id) { _ in done() } }
+        add { done in self.mtp.loadPhotos(page: 1, reload: false) { _ in done() } }
+        add { done in self.mtp.loadChecklists { _ in done() } }
+        add { done in self.mtp.loadChecklists { _ in done() } }
         Checklist.allCases.forEach { list in
-            mtp.loadScorecard(list: list, user: user.id)
+            add { done in self.mtp.loadScorecard(list: list, user: user.id) { _ in done() } }
         }
     }
 
     func refreshData() {
-        mtp.loadSettings()
-        mtp.searchCountries { _ in
-            self.mtp.loadLocations { _ in
-                self.refreshPlaces()
-                self.refreshRankings()
-            }
-        }
-    }
+        add { done in self.mtp.loadSettings { _ in done() } }
+        add { done in self.mtp.searchCountries { _ in done() } }
+        add { done in self.mtp.loadLocations { _ in done() } }
 
-    func refreshPlaces() {
-        mtp.loadBeaches()
-        mtp.loadDiveSites()
-        mtp.loadGolfCourses()
-        mtp.loadRestaurants()
-        mtp.loadUNCountries()
-        mtp.loadWHS()
+        add { done in self.mtp.loadBeaches { _ in done() } }
+        add { done in self.mtp.loadDiveSites { _ in done() } }
+        add { done in self.mtp.loadGolfCourses { _ in done() } }
+        add { done in self.mtp.loadRestaurants { _ in done() } }
+        add { done in self.mtp.loadUNCountries { _ in done() } }
+        add { done in self.mtp.loadWHS { _ in done() } }
     }
 }
 

@@ -12,6 +12,10 @@ The best way to let us know about any problems or suggestions is in the TestFlig
 
 ### Added
 - Double-tapping a Nearby cell will open More Info directly
+- Includes place info data snapshot to deal with network problems during first launch
+
+### Changed
+- all place images now loaded from MTP
 
 ### Fixed
 - Swiping the Counts pages will not hide the Profile navigation bar
