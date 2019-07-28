@@ -4,6 +4,10 @@ import XCTest
 
 final class SnapshotTests: XCTestCase {
 
+    // to reset all simulators:
+    // xcrun simctl shutdown all
+    // xcrun simctl erase all
+
     private let app = XCUIApplication()
 
     override func setUp() {

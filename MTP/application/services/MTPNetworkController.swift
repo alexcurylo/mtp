@@ -295,16 +295,34 @@ extension MTP: TargetType {
     public var sampleData: Data {
         let file: String
         switch self {
-        case .userGetByToken:
+        case .checklists,
+             .userGetByToken:
             file = "\(self)"
+        //case let .photos(user?, page):
+            //file = "photos-\(user)-\(page)"
+        case .photos(_, let page):
+            file = "photos-7853-\(page)"
+        case .rankings:
+            file = "rankings"
+        case let .scorecard(list, _):
+            //file = "scorecard-\(list.key)-\(user)"
+            file = "scorecard-\(list.key)-7853"
+        case .userGet:
+            //file = "userGet-\(id)"
+            file = "userGet-1"
+        case .userPosts:
+            //file = "userPosts-\(id)"
+            file = "userPosts-7853"
         default:
             log.error("sampleData not provided for \(self)")
             return "{}".data(using: String.Encoding.utf8) ?? Data()
         }
 
         do {
-            let path = try unwrap(Bundle.main.path(forResource: file, ofType: "json"))
-            let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+            let path = try unwrap(Bundle.main.path(forResource: file,
+                                                   ofType: "json"))
+            let data = try Data(contentsOf: URL(fileURLWithPath: path),
+                                options: .mappedIfSafe)
             return data
         } catch {
             log.error("could not load sampleData for \(self)")
@@ -492,13 +510,14 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
-    func loadChecklists(then: @escaping NetworkCompletion<Checked> = { _ in }) {
+    func loadChecklists(stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
+                        then: @escaping NetworkCompletion<Checked> = { _ in }) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
         }
 
         let auth = AccessTokenPlugin { self.data.token }
-        let provider = MTPProvider(plugins: [auth])
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
         let endpoint = MTP.checklists
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
@@ -729,33 +748,38 @@ struct MTPNetworkController: ServiceProvider {
 
     func loadPhotos(page: Int,
                     reload: Bool,
+                    stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                     then: @escaping NetworkCompletion<PhotosPageInfoJSON> = { _ in }) {
         loadPhotos(id: nil,
                    page: page,
                    reload: reload,
+                   stub: stub,
                    then: then)
     }
 
     func loadPhotos(profile id: Int,
                     page: Int,
                     reload: Bool,
+                    stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                     then: @escaping NetworkCompletion<PhotosPageInfoJSON> = { _ in }) {
         loadPhotos(id: id,
                    page: page,
                    reload: reload,
+                   stub: stub,
                    then: then)
     }
 
     func loadPhotos(id: Int?,
                     page: Int,
                     reload: Bool,
+                    stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                     then: @escaping NetworkCompletion<PhotosPageInfoJSON>) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
         }
 
         let auth = AccessTokenPlugin { self.data.token }
-        let provider = MTPProvider(plugins: [auth])
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
         let endpoint = MTP.photos(user: id, page: page)
         guard reload || !endpoint.isThrottled else {
             return then(.failure(.throttle))
@@ -836,13 +860,14 @@ struct MTPNetworkController: ServiceProvider {
     }
 
     func loadPosts(user id: Int,
+                   stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                    then: @escaping NetworkCompletion<PostsJSON> = { _ in }) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
         }
 
         let auth = AccessTokenPlugin { self.data.token }
-        let provider = MTPProvider(plugins: [auth])
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
         let endpoint = MTP.userPosts(id: id)
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
@@ -880,13 +905,14 @@ struct MTPNetworkController: ServiceProvider {
     }
 
     func loadRankings(query: RankingsQuery,
+                      stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                       then: @escaping NetworkCompletion<RankingsPageInfoJSON> = { _ in }) {
         let provider: MTPProvider
         if data.isLoggedIn {
             let auth = AccessTokenPlugin { self.data.token }
-            provider = MTPProvider(plugins: [auth])
+            provider = MTPProvider(stubClosure: stub, plugins: [auth])
         } else {
-            provider = MTPProvider()
+            provider = MTPProvider(stubClosure: stub)
         }
         let endpoint = MTP.rankings(query: query)
 
@@ -960,8 +986,9 @@ struct MTPNetworkController: ServiceProvider {
 
     func loadScorecard(list: Checklist,
                        user id: Int,
+                       stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                        then: @escaping NetworkCompletion<ScorecardJSON> = { _ in }) {
-        let provider = MTPProvider()
+        let provider = MTPProvider(stubClosure: stub)
         let endpoint = MTP.scorecard(list: list, user: id)
 
         //swiftlint:disable:next closure_body_length
@@ -1071,8 +1098,9 @@ struct MTPNetworkController: ServiceProvider {
     }
 
     func loadUser(id: Int,
+                  stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                   then: @escaping NetworkCompletion<UserJSON> = { _ in }) {
-        let provider = MTPProvider()
+        let provider = MTPProvider(stubClosure: stub)
         let endpoint = MTP.userGet(id: id)
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))

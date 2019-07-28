@@ -2,13 +2,17 @@
 
 import UIKit
 
-public enum LoggingLevel: Int {
+public enum LoggingLevel: Int, CustomStringConvertible {
 
-    case verbose = 0
-    case debug = 1
-    case info = 2
-    case warning = 3
-    case error = 4
+    case verbose
+    case debug
+    case info
+    case warning
+    case error
+
+    public var description: String {
+        return ["💬", "🛠️", "📌", "⚠️", "💥"][rawValue]
+    }
 }
 
 protocol LoggingService {
@@ -98,6 +102,30 @@ extension LoggingService {
                function: function,
                line: line,
                context: context)
+    }
+}
+
+struct ConsoleLoggingService: LoggingService {
+
+    func custom(level: LoggingLevel,
+                message: @autoclosure () -> Any,
+                file: String,
+                function: String,
+                line: Int,
+                context: Any?) {
+        // copy file:line for ⌘⇧O
+        print("⏱\(timestamp) \(level)\(message()) 📂\(file.file):\(line) ⚙️\(function)")
+    }
+
+    var timestamp: String {
+        return DateFormatter.stampTime.string(from: Date())
+    }
+}
+
+extension String {
+
+    var file: String {
+        return components(separatedBy: "/").last ?? ""
     }
 }
 

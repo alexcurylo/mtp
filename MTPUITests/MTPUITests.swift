@@ -19,7 +19,7 @@ final class MTPUITests: XCTestCase {
         super.tearDown()
     }
 
-    func testLogin() {
+    func testWelcome() {
         launch(settings: [.loggedIn(false)])
 
         let tabBar = MainTBCs.bar.match

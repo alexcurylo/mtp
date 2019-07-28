@@ -41,13 +41,13 @@ extension ServiceHandlerStub: AppLaunchHandler {
         willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         // other services may log
-        ServiceProviderInstances.logServiceInstance = SwiftyBeaverLoggingService()
+        ServiceProviderInstances.logServiceInstance = ConsoleLoggingService()
 
         ServiceProviderInstances.appServiceInstance = UIApplication.shared
-        ServiceProviderInstances.dataServiceInstance = DataServiceImpl()
-        ServiceProviderInstances.locServiceInstance = LocationServiceImpl()
+        ServiceProviderInstances.dataServiceInstance = DataServiceStub()
+        ServiceProviderInstances.locServiceInstance = LocationServiceStub()
         ServiceProviderInstances.netServiceInstance = NetworkServiceStub()
-        ServiceProviderInstances.noteServiceInstance = NotificationServiceImpl()
+        ServiceProviderInstances.noteServiceInstance = NotificationServiceStub()
 
         return true
     }

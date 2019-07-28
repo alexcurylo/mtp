@@ -137,7 +137,7 @@ extension DataService {
 }
 
 // swiftlint:disable:next type_body_length
-final class DataServiceImpl: DataService {
+class DataServiceImpl: DataService {
 
     private let defaults = UserDefaults.standard
     private let realm = RealmDataController()
@@ -649,5 +649,14 @@ extension Checklist {
         case .whss:
             return .whss
         }
+    }
+}
+
+final class DataServiceStub: DataServiceImpl {
+
+    override var etags: [String: String] {
+        get { return [:] }
+        // swiftlint:disable:next unused_setter_value
+        set { }
     }
 }

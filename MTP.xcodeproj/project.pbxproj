@@ -171,6 +171,18 @@
 		FA8A65AF217ED3BA00BC0DFE /* RankingsFilter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA8A65AD217ED3BA00BC0DFE /* RankingsFilter.storyboard */; };
 		FA9656CF22BE32D500DA050F /* AddPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9656CE22BE32D500DA050F /* AddPostVC.swift */; };
 		FA96A86F22EC6213001423F6 /* default.realm in Resources */ = {isa = PBXBuildFile; fileRef = FA96A86E22EC6212001423F6 /* default.realm */; };
+		FA96A87122ECEF11001423F6 /* checklists.json in Resources */ = {isa = PBXBuildFile; fileRef = FA96A87022ECEF11001423F6 /* checklists.json */; };
+		FA96A87322ECF1E8001423F6 /* userPosts-7853.json in Resources */ = {isa = PBXBuildFile; fileRef = FA96A87222ECF1E8001423F6 /* userPosts-7853.json */; };
+		FA96A87522ECF441001423F6 /* photos-7853-1.json in Resources */ = {isa = PBXBuildFile; fileRef = FA96A87422ECF440001423F6 /* photos-7853-1.json */; };
+		FA96A87D22ECF865001423F6 /* scorecard-locations-7853.json in Resources */ = {isa = PBXBuildFile; fileRef = FA96A87622ECF864001423F6 /* scorecard-locations-7853.json */; };
+		FA96A87E22ECF865001423F6 /* scorecard-uncountries-7853.json in Resources */ = {isa = PBXBuildFile; fileRef = FA96A87722ECF864001423F6 /* scorecard-uncountries-7853.json */; };
+		FA96A87F22ECF865001423F6 /* scorecard-divesites-7853.json in Resources */ = {isa = PBXBuildFile; fileRef = FA96A87822ECF865001423F6 /* scorecard-divesites-7853.json */; };
+		FA96A88022ECF865001423F6 /* scorecard-whss-7853.json in Resources */ = {isa = PBXBuildFile; fileRef = FA96A87922ECF865001423F6 /* scorecard-whss-7853.json */; };
+		FA96A88122ECF865001423F6 /* scorecard-restaurants-7853.json in Resources */ = {isa = PBXBuildFile; fileRef = FA96A87A22ECF865001423F6 /* scorecard-restaurants-7853.json */; };
+		FA96A88222ECF865001423F6 /* scorecard-golfcourses-7853.json in Resources */ = {isa = PBXBuildFile; fileRef = FA96A87B22ECF865001423F6 /* scorecard-golfcourses-7853.json */; };
+		FA96A88322ECF865001423F6 /* scorecard-beaches-7853.json in Resources */ = {isa = PBXBuildFile; fileRef = FA96A87C22ECF865001423F6 /* scorecard-beaches-7853.json */; };
+		FA96A88522ED213E001423F6 /* rankings.json in Resources */ = {isa = PBXBuildFile; fileRef = FA96A88422ED213E001423F6 /* rankings.json */; };
+		FA96A88722ED314A001423F6 /* userGet-1.json in Resources */ = {isa = PBXBuildFile; fileRef = FA96A88622ED314A001423F6 /* userGet-1.json */; };
 		FA99615F2136CF3100C85FBC /* ProfilePagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA99615E2136CF3100C85FBC /* ProfilePagingVC.swift */; };
 		FA9A71DF20F1D3FA005F6A57 /* LaunchHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9A71DE20F1D3FA005F6A57 /* LaunchHandler.swift */; };
 		FAA818FE22447EAB00BB9F92 /* LocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA818FD22447EAB00BB9F92 /* LocationVC.swift */; };
@@ -303,7 +315,7 @@
 		CF56246BCC141A7DD1DD5AF9 /* Pods-MTPUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MTPUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MTPUITests/Pods-MTPUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E03793369993AA49FE17B339 /* Pods-MTP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MTP.release.xcconfig"; path = "Pods/Target Support Files/Pods-MTP/Pods-MTP.release.xcconfig"; sourceTree = "<group>"; };
 		EA7B8EF0C9A37C87525A9855 /* libPods-MTP.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MTP.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FA0A7B9322E6797400D3EF99 /* userGetByToken.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = userGetByToken.json; sourceTree = "<group>"; };
+		FA0A7B9322E6797400D3EF99 /* userGetByToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = userGetByToken.json; sourceTree = "<group>"; };
 		FA0BE96B210C5F3300797224 /* ViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTests.swift; sourceTree = "<group>"; };
 		FA0F816322BF1CA700C00898 /* AddPhotoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoVC.swift; sourceTree = "<group>"; };
 		FA0F816622BF1D1400C00898 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/AddPhoto.storyboard; sourceTree = "<group>"; };
@@ -418,6 +430,18 @@
 		FA8A65AE217ED3BA00BC0DFE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/RankingsFilter.storyboard; sourceTree = "<group>"; };
 		FA9656CE22BE32D500DA050F /* AddPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostVC.swift; sourceTree = "<group>"; };
 		FA96A86E22EC6212001423F6 /* default.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = default.realm; sourceTree = "<group>"; };
+		FA96A87022ECEF11001423F6 /* checklists.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = checklists.json; sourceTree = "<group>"; };
+		FA96A87222ECF1E8001423F6 /* userPosts-7853.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "userPosts-7853.json"; sourceTree = "<group>"; };
+		FA96A87422ECF440001423F6 /* photos-7853-1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "photos-7853-1.json"; sourceTree = "<group>"; };
+		FA96A87622ECF864001423F6 /* scorecard-locations-7853.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "scorecard-locations-7853.json"; sourceTree = "<group>"; };
+		FA96A87722ECF864001423F6 /* scorecard-uncountries-7853.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "scorecard-uncountries-7853.json"; sourceTree = "<group>"; };
+		FA96A87822ECF865001423F6 /* scorecard-divesites-7853.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "scorecard-divesites-7853.json"; sourceTree = "<group>"; };
+		FA96A87922ECF865001423F6 /* scorecard-whss-7853.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "scorecard-whss-7853.json"; sourceTree = "<group>"; };
+		FA96A87A22ECF865001423F6 /* scorecard-restaurants-7853.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "scorecard-restaurants-7853.json"; sourceTree = "<group>"; };
+		FA96A87B22ECF865001423F6 /* scorecard-golfcourses-7853.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "scorecard-golfcourses-7853.json"; sourceTree = "<group>"; };
+		FA96A87C22ECF865001423F6 /* scorecard-beaches-7853.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "scorecard-beaches-7853.json"; sourceTree = "<group>"; };
+		FA96A88422ED213E001423F6 /* rankings.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = rankings.json; sourceTree = "<group>"; };
+		FA96A88622ED314A001423F6 /* userGet-1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "userGet-1.json"; sourceTree = "<group>"; };
 		FA99615E2136CF3100C85FBC /* ProfilePagingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePagingVC.swift; sourceTree = "<group>"; };
 		FA9A71DE20F1D3FA005F6A57 /* LaunchHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchHandler.swift; sourceTree = "<group>"; };
 		FA9A71E020F1DD60005F6A57 /* Gemfile.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile.lock; sourceTree = "<group>"; };
@@ -618,7 +642,19 @@
 		FA0A7B9222E678AD00D3EF99 /* fixtures */ = {
 			isa = PBXGroup;
 			children = (
+				FA96A87022ECEF11001423F6 /* checklists.json */,
+				FA96A87422ECF440001423F6 /* photos-7853-1.json */,
+				FA96A88422ED213E001423F6 /* rankings.json */,
+				FA96A87C22ECF865001423F6 /* scorecard-beaches-7853.json */,
+				FA96A87822ECF865001423F6 /* scorecard-divesites-7853.json */,
+				FA96A87B22ECF865001423F6 /* scorecard-golfcourses-7853.json */,
+				FA96A87622ECF864001423F6 /* scorecard-locations-7853.json */,
+				FA96A87A22ECF865001423F6 /* scorecard-restaurants-7853.json */,
+				FA96A87722ECF864001423F6 /* scorecard-uncountries-7853.json */,
+				FA96A87922ECF865001423F6 /* scorecard-whss-7853.json */,
+				FA96A88622ED314A001423F6 /* userGet-1.json */,
 				FA0A7B9322E6797400D3EF99 /* userGetByToken.json */,
+				FA96A87222ECF1E8001423F6 /* userPosts-7853.json */,
 			);
 			path = fixtures;
 			sourceTree = "<group>";
@@ -1144,27 +1180,39 @@
 				FA463783210E00E60007382D /* EditProfile.storyboard in Resources */,
 				FABA740D213A29CD0059ACCA /* ProfileAbout.storyboard in Resources */,
 				FA40F752225B06010056182E /* Settings.storyboard in Resources */,
+				FA96A88122ECF865001423F6 /* scorecard-restaurants-7853.json in Resources */,
 				FABA7413213A374F0059ACCA /* ProfilePosts.storyboard in Resources */,
+				FA96A88722ED314A001423F6 /* userGet-1.json in Resources */,
 				FA390132213AB4A90016A362 /* Rankings.storyboard in Resources */,
+				FA96A87522ECF441001423F6 /* photos-7853-1.json in Resources */,
 				FA12AB5A22C75FAA00105545 /* UserProfile.storyboard in Resources */,
 				8C617975223F2E1E000827D6 /* LocationsFilter.storyboard in Resources */,
+				FA96A88522ED213E001423F6 /* rankings.json in Resources */,
 				8CA1ECEA22C45A8600C3B40B /* Location.storyboard in Resources */,
 				FA392BC220DF69F30026C828 /* Main.storyboard in Resources */,
+				FA96A88222ECF865001423F6 /* scorecard-golfcourses-7853.json in Resources */,
 				FA8839552234BDC9002F324F /* LocationSearch.storyboard in Resources */,
 				FA0A7B9422E6797400D3EF99 /* userGetByToken.json in Resources */,
 				FAF1853220FA0DEF00CC5D83 /* Root.storyboard in Resources */,
 				FAB5E73922BE4F58002B24C8 /* AddPost.storyboard in Resources */,
+				FA96A87D22ECF865001423F6 /* scorecard-locations-7853.json in Resources */,
+				FA96A87122ECEF11001423F6 /* checklists.json in Resources */,
 				0A2349E36085A3EE89A30019 /* Pods-MTP-metadata.plist in Resources */,
+				FA96A87322ECF1E8001423F6 /* userPosts-7853.json in Resources */,
 				FABA7410213A359C0059ACCA /* ProfilePhotos.storyboard in Resources */,
+				FA96A88022ECF865001423F6 /* scorecard-whss-7853.json in Resources */,
 				FA32CC7E2100CB75004C1329 /* Signup.storyboard in Resources */,
+				FA96A87E22ECF865001423F6 /* scorecard-uncountries-7853.json in Resources */,
 				F5352AD2AEBF0C3A5C6191CE /* Pods-MTP-settings-metadata.plist in Resources */,
 				FA745753210DA4C60010F4F4 /* MyProfile.storyboard in Resources */,
 				FA21FB9F22A3F25400190B71 /* UserCounts.storyboard in Resources */,
 				FA32CC892100CC6B004C1329 /* Login.storyboard in Resources */,
 				FA96A86F22EC6213001423F6 /* default.realm in Resources */,
 				8CE6FC56224C6C1B00B24410 /* LocationPhotos.storyboard in Resources */,
+				FA96A88322ECF865001423F6 /* scorecard-beaches-7853.json in Resources */,
 				FA8A65AF217ED3BA00BC0DFE /* RankingsFilter.storyboard in Resources */,
 				FA0F816722BF1D1400C00898 /* AddPhoto.storyboard in Resources */,
+				FA96A87F22ECF865001423F6 /* scorecard-divesites-7853.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

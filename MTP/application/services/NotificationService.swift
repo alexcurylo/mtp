@@ -133,7 +133,7 @@ extension NotificationService {
     }
 }
 
-final class NotificationServiceImpl: NotificationService, ServiceProvider {
+class NotificationServiceImpl: NotificationService, ServiceProvider {
 
     private var notifying: Mappable?
     private var congratulating: Mappable?
@@ -695,5 +695,12 @@ private extension EKAttributes {
         attributes.precedence = .enqueue(priority: category.priority)
 
         return attributes
+    }
+}
+
+final class NotificationServiceStub: NotificationServiceImpl {
+
+    override func authorizeNotifications(then: @escaping (Bool) -> Void) {
+        then(false)
     }
 }

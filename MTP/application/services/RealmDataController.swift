@@ -460,7 +460,7 @@ private extension RealmDataController {
             try fileManager.copyItem(at: seed, to: fileURL)
         } catch {
             #if DEBUG
-            print("seeding realm: \(error)")
+            ConsoleLoggingService().error("seeding realm: \(error)")
             #endif
         }
     }
@@ -533,7 +533,7 @@ extension RealmDataController {
             let destination = URL(fileURLWithPath: path)
             try realm.writeCopy(toFile: destination)
         } catch {
-            print("saving realm: \(error)")
+            ConsoleLoggingService().error("saving realm: \(error)")
         }
     }
 }

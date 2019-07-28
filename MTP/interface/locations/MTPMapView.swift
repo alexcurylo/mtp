@@ -212,7 +212,7 @@ private extension MTPMapView {
             }
         }
 
-        log.error("Could not find annotation for \(mappable)")
+        log.info("Could not find annotation for \(mappable)")
         return nil
     }
 

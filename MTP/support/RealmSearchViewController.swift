@@ -25,7 +25,8 @@ protocol RealmSearchResultsDelegate: AnyObject {
 
 class RealmSearchViewController: UITableViewController,
                                  RealmSearchResultsDataSource,
-                                 RealmSearchResultsDelegate {
+                                 RealmSearchResultsDelegate,
+                                 ServiceProvider {
 
     // swiftlint:disable:next implicitly_unwrapped_optional
     var resultsDataSource: RealmSearchResultsDataSource!
@@ -190,8 +191,7 @@ class RealmSearchViewController: UITableViewController,
     func searchViewController(_ controller: RealmSearchViewController,
                               cellForObject object: Object,
                               atIndexPath indexPath: IndexPath) -> UITableViewCell {
-
-        print("You need to implement searchViewController(controller:,cellForObject object:,atIndexPath indexPath:)")
+        log.error("Implement searchViewController(:cellForObject:atIndexPath:)")
 
         return UITableViewCell()
     }
