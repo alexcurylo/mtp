@@ -174,10 +174,6 @@ extension Location: PlaceInfo {
         return self
     }
 
-    var placeIsMappable: Bool {
-        return placeId != 0
-    }
-
     var placeSubtitle: String {
         return map?.subtitle ?? ""
     }

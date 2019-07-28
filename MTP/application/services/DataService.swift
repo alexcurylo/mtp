@@ -188,6 +188,7 @@ class DataServiceImpl: DataService {
         get { return defaults.email }
         set {
             defaults.email = newValue
+            //saveRealm()
         }
     }
 

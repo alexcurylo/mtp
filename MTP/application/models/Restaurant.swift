@@ -9,8 +9,8 @@ struct RestaurantJSON: Codable {
     let address: String?
     let country: String?
     let externalId: String
+    let featuredImg: String?
     let id: Int
-    let img: String
     let isTop100: Int
     let lat: Double
     let location: PlaceLocation?
@@ -41,8 +41,8 @@ extension RestaurantJSON: CustomDebugStringConvertible {
         address: \(String(describing: address))
         country: \(String(describing: country))
         externalId: \(externalId)
+        featuredImg: \(String(describing: featuredImg))
         id: \(id)
-        img: \(img)
         isTop100: \(isTop100)
         lat: \(lat)
         location: \(String(describing: location))
@@ -76,7 +76,7 @@ extension RestaurantJSON: CustomDebugStringConvertible {
 
         map = Mappable(checklist: .restaurants,
                        checklistId: from.id,
-                       image: from.img,
+                       image: from.featuredImg ?? "",
                        latitude: from.lat,
                        locationId: from.location?.id ?? from.locationId,
                        longitude: from.long,

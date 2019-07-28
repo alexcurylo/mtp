@@ -129,17 +129,6 @@ extension WHSJSON: CustomDebugStringConvertible {
 
 extension WHS: PlaceInfo {
 
-    var placeIsMappable: Bool {
-        switch placeId {
-        case Parents.jesuitMissionsOfTheGuaranis.rawValue,
-             Parents.primevalBeechForestsOfTheCarpathians.rawValue,
-             Parents.struveGeodeticArc.rawValue:
-            return false
-        default:
-            return true
-        }
-    }
-
     var placeParent: PlaceInfo? {
         return parent
     }

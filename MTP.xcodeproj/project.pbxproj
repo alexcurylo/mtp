@@ -170,7 +170,6 @@
 		FA88395722351C30002F324F /* UIImage+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA88395622351C30002F324F /* UIImage+Color.swift */; };
 		FA8A65AF217ED3BA00BC0DFE /* RankingsFilter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA8A65AD217ED3BA00BC0DFE /* RankingsFilter.storyboard */; };
 		FA9656CF22BE32D500DA050F /* AddPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9656CE22BE32D500DA050F /* AddPostVC.swift */; };
-		FA96A86F22EC6213001423F6 /* default.realm in Resources */ = {isa = PBXBuildFile; fileRef = FA96A86E22EC6212001423F6 /* default.realm */; };
 		FA96A87122ECEF11001423F6 /* checklists.json in Resources */ = {isa = PBXBuildFile; fileRef = FA96A87022ECEF11001423F6 /* checklists.json */; };
 		FA96A87322ECF1E8001423F6 /* userPosts-7853.json in Resources */ = {isa = PBXBuildFile; fileRef = FA96A87222ECF1E8001423F6 /* userPosts-7853.json */; };
 		FA96A87522ECF441001423F6 /* photos-7853-1.json in Resources */ = {isa = PBXBuildFile; fileRef = FA96A87422ECF440001423F6 /* photos-7853-1.json */; };
@@ -183,6 +182,7 @@
 		FA96A88322ECF865001423F6 /* scorecard-beaches-7853.json in Resources */ = {isa = PBXBuildFile; fileRef = FA96A87C22ECF865001423F6 /* scorecard-beaches-7853.json */; };
 		FA96A88522ED213E001423F6 /* rankings.json in Resources */ = {isa = PBXBuildFile; fileRef = FA96A88422ED213E001423F6 /* rankings.json */; };
 		FA96A88722ED314A001423F6 /* userGet-1.json in Resources */ = {isa = PBXBuildFile; fileRef = FA96A88622ED314A001423F6 /* userGet-1.json */; };
+		FA96A88922EDCCAA001423F6 /* default.realm in Resources */ = {isa = PBXBuildFile; fileRef = FA96A88822EDCCA9001423F6 /* default.realm */; };
 		FA99615F2136CF3100C85FBC /* ProfilePagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA99615E2136CF3100C85FBC /* ProfilePagingVC.swift */; };
 		FA9A71DF20F1D3FA005F6A57 /* LaunchHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9A71DE20F1D3FA005F6A57 /* LaunchHandler.swift */; };
 		FAA818FE22447EAB00BB9F92 /* LocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA818FD22447EAB00BB9F92 /* LocationVC.swift */; };
@@ -429,7 +429,6 @@
 		FA88395622351C30002F324F /* UIImage+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Color.swift"; sourceTree = "<group>"; };
 		FA8A65AE217ED3BA00BC0DFE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/RankingsFilter.storyboard; sourceTree = "<group>"; };
 		FA9656CE22BE32D500DA050F /* AddPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostVC.swift; sourceTree = "<group>"; };
-		FA96A86E22EC6212001423F6 /* default.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = default.realm; sourceTree = "<group>"; };
 		FA96A87022ECEF11001423F6 /* checklists.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = checklists.json; sourceTree = "<group>"; };
 		FA96A87222ECF1E8001423F6 /* userPosts-7853.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "userPosts-7853.json"; sourceTree = "<group>"; };
 		FA96A87422ECF440001423F6 /* photos-7853-1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "photos-7853-1.json"; sourceTree = "<group>"; };
@@ -442,6 +441,7 @@
 		FA96A87C22ECF865001423F6 /* scorecard-beaches-7853.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "scorecard-beaches-7853.json"; sourceTree = "<group>"; };
 		FA96A88422ED213E001423F6 /* rankings.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = rankings.json; sourceTree = "<group>"; };
 		FA96A88622ED314A001423F6 /* userGet-1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "userGet-1.json"; sourceTree = "<group>"; };
+		FA96A88822EDCCA9001423F6 /* default.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = default.realm; sourceTree = "<group>"; };
 		FA99615E2136CF3100C85FBC /* ProfilePagingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePagingVC.swift; sourceTree = "<group>"; };
 		FA9A71DE20F1D3FA005F6A57 /* LaunchHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchHandler.swift; sourceTree = "<group>"; };
 		FA9A71E020F1DD60005F6A57 /* Gemfile.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile.lock; sourceTree = "<group>"; };
@@ -808,7 +808,7 @@
 			isa = PBXGroup;
 			children = (
 				FA392BC320DF69F50026C828 /* Assets.xcassets */,
-				FA96A86E22EC6212001423F6 /* default.realm */,
+				FA96A88822EDCCA9001423F6 /* default.realm */,
 				FA392BC820DF69F50026C828 /* Info.plist */,
 				FA74C10D211BB8F00013A840 /* Localizable.strings */,
 				FA392BC020DF69F30026C828 /* Main.storyboard */,
@@ -1188,6 +1188,7 @@
 				FA12AB5A22C75FAA00105545 /* UserProfile.storyboard in Resources */,
 				8C617975223F2E1E000827D6 /* LocationsFilter.storyboard in Resources */,
 				FA96A88522ED213E001423F6 /* rankings.json in Resources */,
+				FA96A88922EDCCAA001423F6 /* default.realm in Resources */,
 				8CA1ECEA22C45A8600C3B40B /* Location.storyboard in Resources */,
 				FA392BC220DF69F30026C828 /* Main.storyboard in Resources */,
 				FA96A88222ECF865001423F6 /* scorecard-golfcourses-7853.json in Resources */,
@@ -1207,7 +1208,6 @@
 				FA745753210DA4C60010F4F4 /* MyProfile.storyboard in Resources */,
 				FA21FB9F22A3F25400190B71 /* UserCounts.storyboard in Resources */,
 				FA32CC892100CC6B004C1329 /* Login.storyboard in Resources */,
-				FA96A86F22EC6213001423F6 /* default.realm in Resources */,
 				8CE6FC56224C6C1B00B24410 /* LocationPhotos.storyboard in Resources */,
 				FA96A88322ECF865001423F6 /* scorecard-beaches-7853.json in Resources */,
 				FA8A65AF217ED3BA00BC0DFE /* RankingsFilter.storyboard in Resources */,

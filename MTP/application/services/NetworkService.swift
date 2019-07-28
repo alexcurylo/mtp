@@ -196,8 +196,8 @@ class NetworkServiceImpl: NetworkService {
     }
 
     func refreshRankings() {
-        var query = data.lastRankingsQuery
         Checklist.allCases.forEach { list in
+            var query = data.lastRankingsQuery
             query.checklistKey = list.key
             add { done in self.mtp.loadRankings(query: query) { _ in done() } }
         }

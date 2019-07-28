@@ -27,6 +27,18 @@ extension Optional {
     }
 }
 
+extension Optional where Wrapped == String {
+    var isNilOrEmpty: Bool {
+        return self?.isEmpty ?? true
+    }
+}
+
+extension Optional where Wrapped: Collection {
+    var isNilOrEmpty: Bool {
+        return self?.isEmpty ?? true
+    }
+}
+
 struct UnwrapError<T>: LocalizedError {
 
     let file: StaticString

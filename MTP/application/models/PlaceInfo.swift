@@ -11,7 +11,6 @@ protocol PlaceInfo {
     var placeId: Int { get }
     var placeImageUrl: URL? { get }
     var placeIsCountry: Bool { get }
-    var placeIsMappable: Bool { get }
     var placeLocation: Location? { get }
     var placeParent: PlaceInfo? { get }
     var placeRegion: String { get }
@@ -33,10 +32,6 @@ func == (lhs: PlaceInfo, rhs: PlaceInfo) -> Bool {
 }
 
 extension PlaceInfo {
-
-    var placeIsMappable: Bool {
-        return true
-    }
 
     var placeParent: PlaceInfo? {
         return nil
@@ -60,8 +55,8 @@ struct PlaceJSON: Codable {
     let active: String
     let address: String?
     let country: String
+    let featuredImg: String?
     let id: Int
-    let img: String?
     let lat: Double
     let location: PlaceLocation
     let locationId: Int
@@ -88,8 +83,8 @@ extension PlaceJSON: CustomDebugStringConvertible {
         active: \(active)
         address: \(String(describing: address))
         country: \(country)
+        featuredImg: \(String(describing: featuredImg))
         id: \(id)
-        img: \(String(describing: img))
         lat: \(lat)
         location: \(location)
         locationId: \(locationId)
