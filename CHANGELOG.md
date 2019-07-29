@@ -15,17 +15,21 @@ The best way to let us know about any problems or suggestions is in the TestFlig
 ### Added
 - Double-tapping a Nearby cell will open More Info directly
 - Includes place info data snapshot to deal with network problems during first launch
+- Popup reminder to verify account
 
 ### Changed
 - All place images now loaded from MTP
 - Visited and Remaining buttons under maps are now their region colors
 - Logout and Delete moved to Settings screen
+- Displays message instead of rank 0 when account unverified
+- Signup and Edit UI flows improved
 
 ### Fixed
 - Swiping the Counts pages will not hide the Profile navigation bar
 - Sharing the app on an iPad will not crash
 - Loading location posts deals with missing authors
-- Map display refreshes when visit toggled in callout 
+- Map marker display state refreshes when visited state toggled in callout 
+- Date pickers work correctly in all time zones and with Facebook dates
 
 ## [Version 1.0, Build 631] - 2019-07-21
 

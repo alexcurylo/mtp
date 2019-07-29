@@ -55,6 +55,8 @@ final class LocationPhotosVC: PhotosVC {
 
 extension LocationPhotosVC: AddPhotoDelegate {
 
+    var isLocatable: Bool { return true }
+
     func addPhoto(controller: AddPhotoVC,
                   didAdd reply: PhotoReply) {
         refresh(reload: true)

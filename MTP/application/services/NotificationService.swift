@@ -68,7 +68,7 @@ protocol NotificationService {
     func ask(question: String,
              then: @escaping (Bool) -> Void)
 
-    func checkTriggered()
+    func checkPending()
     func notify(mappable: Mappable,
                 triggered: Date,
                 then: @escaping Completion)
@@ -140,6 +140,7 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
     private var showingModal = false
     private var alerting = false
     private var asking = false
+    private var remindedVerify = false
 
     private var center: UNUserNotificationCenter {
         return UNUserNotificationCenter.current()
@@ -268,7 +269,41 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
         congratulateBackground(note: note)
     }
 
-    func checkTriggered() {
+    func checkPending() {
+        guard checkRemindedVerify() else { return }
+
+        checkVisitTriggered()
+    }
+
+    func message(error: String) {
+        let note = Note(title: error,
+                        message: "",
+                        category: .error)
+        alert(foreground: note) { }
+    }
+}
+
+// MARK: - Private
+
+private extension NotificationServiceImpl {
+
+    func checkRemindedVerify() -> Bool {
+        guard !remindedVerify,
+              canNotifyForeground,
+              let user = data.user,
+              user.isWaiting else { return true }
+
+        let note = Note(title: L.verify(),
+                        message: L.verifyInstructions(user.email),
+                        category: .information)
+        alert(foreground: note) {
+            self.remindedVerify = true
+        }
+
+        return false
+    }
+
+    func checkVisitTriggered() {
         let dismissed = data.dismissed ?? Timestamps()
         let visited = data.visited ?? Checked()
         var triggered = data.triggered ?? Timestamps()
@@ -276,7 +311,7 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
         for (key, value) in triggered {
             let item = key.item
             if visited[item.list].contains(item.id) ||
-               dismissed.isStamped(item: item) {
+                dismissed.isStamped(item: item) {
                 triggered.set(key: key, stamped: false)
                 changed = true
                 break
@@ -289,13 +324,6 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
         if changed {
             data.triggered = triggered
         }
-    }
-
-    func message(error: String) {
-        let note = Note(title: error,
-                        message: "",
-                        category: .error)
-        alert(foreground: note) { }
     }
 }
 
@@ -462,7 +490,7 @@ private extension NotificationServiceImpl {
                 mappable.isDismissed = true
                 SwiftEntryKit.dismiss {
                     self.notifying = nil
-                    self.checkTriggered()
+                    self.checkPending()
                 }
         }
 
@@ -510,7 +538,7 @@ private extension NotificationServiceImpl {
 
         alert(foreground: note) {
             self.congratulating = nil
-            self.checkTriggered()
+            self.checkPending()
         }
     }
 

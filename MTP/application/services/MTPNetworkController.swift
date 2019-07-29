@@ -1632,6 +1632,8 @@ private extension MTPNetworkController {
             switch code {
             case 304:
                 return .notModified
+            case 409: // Conflict - found in signup
+                break
             default:
                 return .status
             }

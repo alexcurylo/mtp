@@ -33,6 +33,8 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
         $0.minimumScaleFactor = 0.9
     }
     private let rankLabel = UILabel {
+        $0.font = Layout.rankFont.normal
+        $0.textColor = .white
         $0.setContentHuggingPriority(.required, for: .horizontal)
     }
     private let fractionLabel = UILabel {

@@ -173,7 +173,7 @@ private extension LocationHandler {
             DispatchQueue.main.async {
                 self.distances = update.distances
                 self.distancesUpdating -= 1
-                self.note.checkTriggered()
+                self.note.checkPending()
             }
         }
 

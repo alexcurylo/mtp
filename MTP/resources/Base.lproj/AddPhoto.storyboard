@@ -365,6 +365,7 @@
                         <outlet property="locationLabel" destination="I3m-Dn-AzO" id="BB9-lt-KwR"/>
                         <outlet property="locationLine" destination="uEF-Qk-Epz" id="7jR-IR-gyA"/>
                         <outlet property="locationStack" destination="7Ez-FX-Gsi" id="BGW-xL-xjo"/>
+                        <outlet property="locationView" destination="Um9-Uf-nYZ" id="xfn-ld-8pD"/>
                         <outlet property="saveButton" destination="6U4-1R-L2a" id="Us0-Rn-f5G"/>
                     </connections>
                 </viewController>

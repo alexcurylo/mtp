@@ -396,7 +396,7 @@
             <objects>
                 <viewController title="About" id="i2Y-2E-uEl" customClass="AppAboutVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wzp-i6-2vU" customClass="GradientView" customModule="MTP" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ykb-30-epf" customClass="TopLoadingTextView" customModule="MTP" customModuleProvider="target">
@@ -600,19 +600,19 @@ FEATURES INCLUDE:
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud1" translatesAutoresizingMaskIntoConstraints="NO" id="Ptc-6t-NXX">
-                                <rect key="frame" x="16" y="263" width="97" height="58"/>
+                                <rect key="frame" x="97" y="305" width="16" height="16"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud1" translatesAutoresizingMaskIntoConstraints="NO" id="hhj-s2-d7O">
-                                <rect key="frame" x="-42" y="138.5" width="97" height="58"/>
+                                <rect key="frame" x="39" y="180.5" width="16" height="16"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud2" translatesAutoresizingMaskIntoConstraints="NO" id="GMf-yS-75q">
-                                <rect key="frame" x="327" y="285" width="101" height="55"/>
+                                <rect key="frame" x="327" y="324" width="16" height="16"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud3" translatesAutoresizingMaskIntoConstraints="NO" id="GQA-8I-3Gg">
-                                <rect key="frame" x="32" y="456" width="112" height="69"/>
+                                <rect key="frame" x="128" y="456" width="16" height="16"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud4" translatesAutoresizingMaskIntoConstraints="NO" id="VDr-6k-PIG">
-                                <rect key="frame" x="288" y="431" width="104" height="68"/>
+                                <rect key="frame" x="288" y="431" width="16" height="16"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="48" translatesAutoresizingMaskIntoConstraints="NO" id="2RK-IZ-lth" userLabel="Message Stack">
                                 <rect key="frame" x="32" y="179" width="350" height="269.5"/>
@@ -691,7 +691,7 @@ FEATURES INCLUDE:
                                 </subviews>
                             </stackView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud4" translatesAutoresizingMaskIntoConstraints="NO" id="lFx-4q-Jtj">
-                                <rect key="frame" x="355" y="128.5" width="104" height="68"/>
+                                <rect key="frame" x="355" y="180.5" width="16" height="16"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

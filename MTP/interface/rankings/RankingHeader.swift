@@ -49,6 +49,9 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
     }
     private let rankLabel = UILabel {
         $0.setContentHuggingPriority(.required, for: .horizontal)
+        $0.allowsDefaultTighteningForTruncation = true
+        $0.adjustsFontSizeToFitWidth = true
+        $0.minimumScaleFactor = 0.9
     }
     private let fractionLabel = UILabel {
         $0.font = Avenir.book.of(size: 14)
@@ -124,11 +127,11 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
 
         self.list = list
         self.rank = rank
-        update(rank: user)
-
         scheduler.fire(every: 60) { [weak self, list] in
             self?.update(timer: list)
         }
+        update(rank: user)
+
         observe()
     }
 
@@ -158,13 +161,28 @@ private extension RankingHeader {
     }
 
     func update(rank user: UserJSON) {
+        guard !user.isWaiting else {
+            scheduler.stop()
+            rankTitle.text = ""
+            rankLabel.text = L.verify()
+            rankLabel.textColor = Layout.updatingColor
+            rankLabel.font = Layout.rankFont.updating
+            fractionLabel.text = ""
+            updatingStack?.isHidden = true
+            return
+        }
+
         rank = list.rank(of: user)
         let status = list.visitStatus(of: user)
         let visitedText = status.visited.grouped
         let totalText = (status.visited + status.remaining).grouped
         guard let rank = rank else {
+            scheduler.stop()
             rankTitle.text = L.myScore()
             rankLabel.text = L.scoreFraction(visitedText, totalText)
+            rankLabel.textColor = nil
+            rankLabel.font = Layout.rankFont.normal
+            fractionLabel.text = ""
             updatingStack?.isHidden = true
             return
         }

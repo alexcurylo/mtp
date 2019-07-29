@@ -107,7 +107,7 @@ private extension SettingsVC {
                 note.modal(success: L.success())
                 DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
                     note.dismissModal()
-                    self?.performSegue(withIdentifier: Segues.unwindFromSettings, sender: self)
+                    self?.performSegue(withIdentifier: Segues.logout, sender: self)
                 }
                 return
             case .failure(let error):

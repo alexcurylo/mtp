@@ -196,7 +196,9 @@ private extension EditProfileVC {
         location = data.get(location: update.location_id)
         current = original
 
-        avatarButton?.load(image: update)
+        if update.imageUrl != nil {
+            avatarButton?.load(image: update)
+        }
 
         firstNameTextField?.inputAccessoryView = keyboardToolbar
         firstNameTextField?.text = update.first_name
@@ -207,8 +209,9 @@ private extension EditProfileVC {
         birthdayTextField?.inputAccessoryView = keyboardToolbar
         birthdayTextField?.inputView = UIDatePicker {
             $0.datePickerMode = .date
-            $0.maximumDate = Date()
+            $0.timeZone = TimeZone(secondsFromGMT: 0)
             $0.minimumDate = Calendar.current.date(byAdding: .year, value: -120, to: Date())
+            $0.maximumDate = Date()
             $0.addTarget(self,
                          action: #selector(birthdayChanged(_:)),
                          for: .valueChanged)

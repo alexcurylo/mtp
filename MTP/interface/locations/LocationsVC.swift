@@ -60,7 +60,7 @@ final class LocationsVC: UIViewController, ServiceProvider {
 
         mtpMapView?.refreshMapView()
         updateTracking()
-        note.checkTriggered()
+        note.checkPending()
     }
 
     override func viewDidDisappear(_ animated: Bool) {

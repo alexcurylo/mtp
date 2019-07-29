@@ -36,8 +36,8 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
         case active = "A"
         case deceased = "D"
         case inactive = "I"
-        case notVerified = "W"
         case suspended = "S"
+        case waiting = "W"
     }
 
     let airport: String?
@@ -82,6 +82,10 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
     let token: String? // found only in login + signup responses
     let updatedAt: Date
     let username: String
+
+    var isWaiting: Bool {
+        return Status(rawValue: status) == .waiting
+    }
 
     // swiftlint:disable:next function_body_length
     func updated(visited: Checked) -> UserJSON {
