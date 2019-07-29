@@ -12,6 +12,8 @@ Please delete any previous builds from your device and reinstall this version - 
 
 The best way to let us know about any problems or suggestions is in the TestFlight app you use to install the MTP app - a little down from the "Install" button you'll see a "Send Beta Feedback" button. That'll let you send us an email with information about your device attached, which will help us reproduce any problems you describe.
 
+## [Version 1.0, Build 632] - 2019-07-29
+
 ### Added
 - Double-tapping a Nearby cell will open More Info directly
 - Includes place info data snapshot to deal with network problems during first launch
