@@ -62,7 +62,7 @@ struct PhotoReply: Codable {
     let desc: String?
     let id: Int
     let location: LocationJSON?
-    let locationId: Int?
+    let locationId: UncertainValue<Int, String>?
     let mime: String
     let name: String
     let type: String

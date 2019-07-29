@@ -30,6 +30,7 @@ The best way to let us know about any problems or suggestions is in the TestFlig
 - Loading location posts deals with missing authors
 - Map marker display state refreshes when visited state toggled in callout 
 - Date pickers work correctly in all time zones and with Facebook dates
+- Improved result handling of photo uploads
 
 ## [Version 1.0, Build 631] - 2019-07-21
 
