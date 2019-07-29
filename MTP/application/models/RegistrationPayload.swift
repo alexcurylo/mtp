@@ -4,7 +4,7 @@ import Foundation
 
 struct RegistrationPayload: Codable, Hashable {
 
-    let birthday: Date
+    let birthday: String
     let country: CountryPayload
     let country_id: Int
     let email: String
@@ -17,7 +17,7 @@ struct RegistrationPayload: Codable, Hashable {
     let passwordConfirmation: String
 
     var isValid: Bool {
-        return birthday != Date.distantFuture &&
+        return !birthday.isEmpty &&
                country.isValid &&
                country_id > 0 &&
                !email.isEmpty &&
@@ -39,7 +39,7 @@ struct RegistrationPayload: Codable, Hashable {
          location: Location,
          password: String,
          passwordConfirmation: String) {
-        self.birthday = birthday
+        self.birthday = DateFormatter.mtpDay.string(from: birthday)
         self.country = CountryPayload(country: country)
         country_id = country.countryId
         self.email = email
@@ -55,9 +55,9 @@ struct RegistrationPayload: Codable, Hashable {
     init(facebook response: [String: Any]) {
         if let dateString = response["birthday"] as? String,
            let date = DateFormatter.fbDay.date(from: dateString) {
-            birthday = date
+            birthday = DateFormatter.mtpDay.string(from: date)
         } else {
-            birthday = Date.distantFuture
+            birthday = ""
         }
         email = response["email"] as? String ?? ""
         first_name = response["first_name"] as? String ?? ""
@@ -86,8 +86,7 @@ struct CountryPayload: Codable, Hashable {
     let is_mtp_location: Int
 
     var isValid: Bool {
-        return country_id > 0 &&
-            !country_name.isEmpty
+        return country_id > 0 && !country_name.isEmpty
     }
 
     init(country: Country) {
@@ -110,9 +109,9 @@ struct LocationPayload: Codable, Hashable {
 
     var isValid: Bool {
         return country_id > 0 &&
-            !country_name.isEmpty &&
-            id > 0 &&
-            !location_name.isEmpty
+               !country_name.isEmpty &&
+               id > 0 &&
+               !location_name.isEmpty
     }
 
     init() {

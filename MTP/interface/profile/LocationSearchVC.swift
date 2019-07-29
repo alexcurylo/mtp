@@ -8,7 +8,7 @@ protocol LocationSearchDelegate: AnyObject {
                         didSelect item: Object)
 }
 
-final class LocationSearchVC: RealmSearchViewController, ServiceProvider {
+final class LocationSearchVC: RealmSearchViewController {
 
     private typealias Segues = R.segue.locationSearchVC
 

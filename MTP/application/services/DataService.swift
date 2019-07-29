@@ -22,7 +22,6 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var mappables: [Mappable] { get }
     var notified: Timestamps? { get set }
     var restaurants: [Restaurant] { get }
-    var settings: SettingsJSON? { get set }
     var token: String { get set }
     var triggered: Timestamps? { get set }
     var uncountries: [UNCountry] { get }
@@ -40,6 +39,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func get(mappable item: Checklist.Item) -> Mappable?
     func get(mappables list: Checklist) -> [Mappable]
     func get(mappables matching: String) -> [Mappable]
+    func get(milestones list: Checklist) -> Milestones?
     func getPhotosPages(user id: Int) -> Results<PhotosPageInfo>
     func get(photo: Int) -> Photo
     func getPosts(user id: Int) -> [Post]
@@ -64,6 +64,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
              photos: PhotosInfoJSON)
     func set(location id: Int,
              posts: [PostJSON])
+    func set(milestones: SettingsJSON)
     func set(photo: PhotoReply)
     func set(photos page: Int,
              user id: Int,
@@ -94,6 +95,12 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
 extension DataService {
 
     var isLoggedIn: Bool {
+        if let loggedIn = ProcessInfo.setting(bool: .loggedIn) {
+            return loggedIn
+        } else if UIApplication.isUnitTesting {
+            return false
+        }
+
         guard !token.isEmpty else { return false }
         guard let jwt = try? decode(jwt: token),
               !jwt.expired else {
@@ -101,8 +108,6 @@ extension DataService {
             logOut()
             return false
         }
-        // https://github.com/auth0/JWTDecode.swift/issues/70
-        // let expired = jwt.expiresAt < Date().toUTC?
         return true
     }
 
@@ -132,7 +137,7 @@ extension DataService {
 }
 
 // swiftlint:disable:next type_body_length
-final class DataServiceImpl: DataService {
+class DataServiceImpl: DataService {
 
     private let defaults = UserDefaults.standard
     private let realm = RealmDataController()
@@ -183,6 +188,7 @@ final class DataServiceImpl: DataService {
         get { return defaults.email }
         set {
             defaults.email = newValue
+            //saveRealm()
         }
     }
 
@@ -313,6 +319,15 @@ final class DataServiceImpl: DataService {
         notify(change: .locationPosts, object: id)
     }
 
+    func get(milestones list: Checklist) -> Milestones? {
+        return realm.milestones(list: list)
+    }
+
+    func set(milestones: SettingsJSON) {
+        realm.set(milestones: milestones)
+        notify(change: .milestones, object: milestones)
+    }
+
     func set(photo: PhotoReply) {
         realm.set(photo: photo)
         notify(change: .photoPages)
@@ -383,14 +398,6 @@ final class DataServiceImpl: DataService {
             clear(updates: list)
         }
         notify(change: .scorecard)
-    }
-
-    var settings: SettingsJSON? {
-        get { return defaults.settings }
-        set {
-            defaults.settings = newValue
-            notify(change: .settings)
-        }
     }
 
     var token: String {
@@ -485,7 +492,7 @@ final class DataServiceImpl: DataService {
         notify(change: .whss)
     }
 
-    var worldMap = WorldMap()
+    let worldMap = WorldMap()
 
     func resolve(reference: Mappable.Reference) -> Mappable? {
         return realm.resolve(reference: reference)
@@ -546,6 +553,12 @@ final class DataServiceImpl: DataService {
             updated = update
         }
     }
+
+    #if targetEnvironment(simulator)
+    func saveRealm() {
+        realm.saveToDesktop()
+    }
+    #endif
 }
 
 // MARK: - Observable
@@ -559,13 +572,13 @@ enum DataServiceChange: String {
     case locationPhotos
     case locationPosts
     case locations
+    case milestones
     case notified
     case photoPages
     case posts
     case rankings
     case restaurants
     case scorecard
-    case settings
     case triggered
     case uncountries
     case updated
@@ -637,5 +650,14 @@ extension Checklist {
         case .whss:
             return .whss
         }
+    }
+}
+
+final class DataServiceStub: DataServiceImpl {
+
+    override var etags: [String: String] {
+        get { return [:] }
+        // swiftlint:disable:next unused_setter_value
+        set { }
     }
 }

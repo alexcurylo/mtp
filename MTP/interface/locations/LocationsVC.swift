@@ -52,6 +52,7 @@ final class LocationsVC: UIViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .map)
+        expose()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -59,7 +60,7 @@ final class LocationsVC: UIViewController, ServiceProvider {
 
         mtpMapView?.refreshMapView()
         updateTracking()
-        note.checkTriggered()
+        note.checkPending()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -193,6 +194,19 @@ private extension LocationsVC {
         let permission = loc.start(tracker: self)
         trackingButton?.set(visibility: permission)
         mtpMapView?.centerOnDevice()
+    }
+}
+
+// MARK: - Exposing
+
+extension LocationsVC: Exposing {
+
+    func expose() {
+        let bar = navigationController?.navigationBar
+        LocationsVCs.nav.expose(item: bar)
+        let items = navigationItem.rightBarButtonItems
+        LocationsVCs.nearby.expose(item: items?.first)
+        LocationsVCs.filter.expose(item: items?.last)
     }
 }
 

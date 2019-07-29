@@ -23,6 +23,7 @@ final class MainTBC: UITabBarController, ServiceProvider {
 
         hide(navBar: animated)
         checkDestination()
+        expose()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -61,6 +62,8 @@ final class MainTBC: UITabBarController, ServiceProvider {
     }
 }
 
+// MARK: - Private
+
 private extension MainTBC {
 
     var locations: LocationsVC? {
@@ -92,6 +95,27 @@ private extension MainTBC {
         destination = nil
     }
 }
+
+// MARK: - Exposing
+
+extension MainTBC: Exposing {
+
+    func expose() {
+        MainTBCs.bar.expose(item: tabBar)
+        var buttons = [
+            MainTBCs.locations,
+            MainTBCs.rankings,
+            MainTBCs.myProfile
+        ]
+        for control in tabBar.subviews where control is UIControl {
+            control.expose(as: buttons.first)
+            guard buttons.count > 1 else { return }
+            buttons = Array(buttons.dropFirst())
+        }
+    }
+}
+
+// MARK: - Injectable
 
 extension MainTBC: Injectable {
 

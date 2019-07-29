@@ -67,7 +67,7 @@ final class NotificationServiceSpy: NotificationService {
     }
     var invokedCheckTriggered = false
     var invokedCheckTriggeredCount = 0
-    func checkTriggered() {
+    func checkPending() {
         invokedCheckTriggered = true
         invokedCheckTriggeredCount += 1
     }

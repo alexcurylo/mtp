@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import Foundation
+import Moya
 
 enum NetworkError: Swift.Error {
     case unknown
@@ -67,14 +67,38 @@ protocol NetworkService: ServiceProvider {
     func refreshEverything()
 }
 
-final class NetworkServiceImpl {
+class NetworkServiceImpl: NetworkService {
 
-    let mtp = MTPNetworkConroller()
-}
+    let mtp = MTPNetworkController()
 
-// MARK: - NetworkService
+    private var queue = OperationQueue {
+        $0.name = "refresh"
+        $0.maxConcurrentOperationCount = 1
+        $0.qualityOfService = .utility
+    }
 
-extension NetworkServiceImpl: NetworkService {
+    func refreshData() {
+        add { done in self.mtp.loadSettings { _ in done() } }
+        add { done in self.mtp.searchCountries { _ in done() } }
+        add { done in self.mtp.loadLocations { _ in done() } }
+
+        add { done in self.mtp.loadBeaches { _ in done() } }
+        add { done in self.mtp.loadDiveSites { _ in done() } }
+        add { done in self.mtp.loadGolfCourses { _ in done() } }
+        add { done in self.mtp.loadRestaurants { _ in done() } }
+        add { done in self.mtp.loadUNCountries { _ in done() } }
+        add { done in self.mtp.loadWHS { _ in done() } }
+    }
+
+    func refreshUser() {
+        guard data.isLoggedIn else { return }
+
+        mtp.userGetByToken { _ in
+            self.refreshUserInfo()
+        }
+    }
+
+    // MARK: - NetworkService
 
     func loadPhotos(location id: Int,
                     reload: Bool,
@@ -171,17 +195,18 @@ extension NetworkServiceImpl: NetworkService {
         mtp.userUpdate(payload: payload, then: then)
     }
 
+    func refreshRankings() {
+        Checklist.allCases.forEach { list in
+            var query = data.lastRankingsQuery
+            query.checklistKey = list.key
+            add { done in self.mtp.loadRankings(query: query) { _ in done() } }
+        }
+    }
+
     func refreshEverything() {
         refreshUser()
         refreshData()
-    }
-
-    func refreshRankings() {
-        var query = data.lastRankingsQuery
-        Checklist.allCases.forEach { list in
-            query.checklistKey = list.key
-            mtp.loadRankings(query: query)
-        }
+        refreshRankings()
     }
 }
 
@@ -189,42 +214,153 @@ extension NetworkServiceImpl: NetworkService {
 
 private extension NetworkServiceImpl {
 
-    func refreshUser() {
-        guard data.isLoggedIn else { return }
-
-        mtp.userGetByToken { _ in
-            self.refreshUserInfo()
-        }
+    func add(operation: @escaping AsyncBlockOperation.Operation) {
+        queue.addOperation(
+            AsyncBlockOperation(operation: operation)
+        )
     }
 
     func refreshUserInfo() {
         guard let user = data.user else { return }
 
-        mtp.loadChecklists()
-        mtp.loadPosts(user: user.id)
-        mtp.loadPhotos(page: 1, reload: false)
+        add { done in self.mtp.loadChecklists { _ in done() } }
+        add { done in self.mtp.loadPosts(user: user.id) { _ in done() } }
+        add { done in self.mtp.loadPhotos(page: 1, reload: false) { _ in done() } }
         Checklist.allCases.forEach { list in
-            mtp.loadScorecard(list: list, user: user.id)
+            add { done in self.loadScorecard(list: list, user: user.id) { _ in done() } }
+        }
+    }
+}
+
+final class NetworkServiceStub: NetworkServiceImpl {
+
+    override func refreshData() {
+        // expect seeded
+    }
+
+    override func refreshRankings() {
+        // expect seeded
+    }
+
+    override func refreshUser() {
+        mtp.userGetByToken(stub: MTPProvider.immediatelyStub) { _ in }
+        guard let user = data.user else { return }
+
+        mtp.loadChecklists(stub: MTPProvider.immediatelyStub) { _ in }
+        loadPosts(user: user.id) { _ in }
+        loadPhotos(profile: user.id, page: 1, reload: false) { _ in }
+        Checklist.allCases.forEach { list in
+            loadScorecard(list: list,
+                          user: user.id) { _ in }
         }
     }
 
-    func refreshData() {
-        mtp.loadSettings()
-        mtp.searchCountries { _ in
-            self.mtp.loadLocations { _ in
-                self.refreshPlaces()
-                self.refreshRankings()
-                //self.loadFaq()
-            }
-        }
+    override func loadPhotos(location id: Int,
+                             reload: Bool,
+                             then: @escaping NetworkCompletion<PhotosInfoJSON>) {
+        log.error("not stubbed yet")
     }
 
-    func refreshPlaces() {
-        mtp.loadBeaches()
-        mtp.loadDiveSites()
-        mtp.loadGolfCourses()
-        mtp.loadRestaurants()
-        mtp.loadUNCountries()
-        mtp.loadWHS()
+    override func loadPhotos(page: Int,
+                             reload: Bool,
+                             then: @escaping NetworkCompletion<PhotosPageInfoJSON>) {
+        mtp.loadPhotos(page: page,
+                       reload: reload,
+                       stub: MTPProvider.immediatelyStub,
+                       then: then)
+    }
+
+    override func loadPhotos(profile id: Int,
+                             page: Int,
+                             reload: Bool,
+                             then: @escaping NetworkCompletion<PhotosPageInfoJSON>) {
+        mtp.loadPhotos(profile: id,
+                       page: page,
+                       reload: reload,
+                       stub: MTPProvider.immediatelyStub,
+                       then: then)
+    }
+
+    override func loadPosts(location id: Int,
+                            then: @escaping NetworkCompletion<PostsJSON>) {
+        log.error("not stubbed yet")
+    }
+
+    override func loadPosts(user id: Int,
+                            then: @escaping NetworkCompletion<PostsJSON>) {
+        mtp.loadPosts(user: id,
+                      stub: MTPProvider.immediatelyStub,
+                      then: then)
+    }
+
+    override func loadRankings(query: RankingsQuery,
+                               then: @escaping NetworkCompletion<RankingsPageInfoJSON>) {
+        mtp.loadRankings(query: query,
+                         stub: MTPProvider.immediatelyStub,
+                         then: then)
+    }
+
+    override func loadScorecard(list: Checklist,
+                                user id: Int,
+                                then: @escaping NetworkCompletion<ScorecardJSON>) {
+        mtp.loadScorecard(list: list,
+                          user: id,
+                          stub: MTPProvider.immediatelyStub,
+                          then: then)
+    }
+
+    override func loadUser(id: Int,
+                           then: @escaping NetworkCompletion<UserJSON>) {
+        mtp.loadUser(id: id,
+                     stub: MTPProvider.immediatelyStub,
+                     then: then)
+    }
+
+    override func search(query: String,
+                         then: @escaping NetworkCompletion<SearchResultJSON>) {
+        log.error("not stubbed yet")
+    }
+
+    override func set(items: [Checklist.Item],
+                      visited: Bool,
+                      then: @escaping NetworkCompletion<Bool>) {
+        log.error("not stubbed yet")
+    }
+
+    override func upload(photo: Data,
+                         caption: String?,
+                         location id: Int?,
+                         then: @escaping NetworkCompletion<PhotoReply>) {
+        log.error("not stubbed yet")
+    }
+
+    override func postPublish(payload: PostPayload,
+                              then: @escaping NetworkCompletion<PostReply>) {
+        log.error("not stubbed yet")
+    }
+
+    override func userDeleteAccount(then: @escaping NetworkCompletion<String>) {
+        log.error("not stubbed yet")
+    }
+
+    override func userForgotPassword(email: String,
+                                     then: @escaping NetworkCompletion<String>) {
+        log.error("not stubbed yet")
+    }
+
+    override func userLogin(email: String,
+                            password: String,
+                            then: @escaping NetworkCompletion<UserJSON>) {
+        log.error("not stubbed yet")
+    }
+
+    override func userRegister(payload: RegistrationPayload,
+                               then: @escaping NetworkCompletion<UserJSON>) {
+        log.error("not stubbed yet")
+    }
+
+    override func userUpdate(payload: UserUpdatePayload,
+                             then: @escaping NetworkCompletion<UserJSON>) {
+        log.error("not stubbed yet")
     }
 }

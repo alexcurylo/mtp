@@ -115,28 +115,6 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
-    var settings: SettingsJSON? {
-        get {
-            do {
-                return try get(objectType: SettingsJSON.self, forKey: #function)
-            } catch {
-                log.error("decoding settings value: \(error)")
-                return nil
-            }
-        }
-        set {
-            guard let newValue = newValue else {
-                set(nil, forKey: #function)
-                return
-            }
-            do {
-                try set(object: newValue, forKey: #function)
-            } catch {
-                log.error("encoding settings newValue: \(error)")
-            }
-        }
-    }
-
     var token: String {
         get { return string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }

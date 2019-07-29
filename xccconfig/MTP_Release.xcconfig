@@ -10,3 +10,5 @@
 #include "Pods/Target Support Files/Pods-MTP/Pods-MTP.release.xcconfig"
 
 PROVISIONING_PROFILE_SPECIFIER = MTP-AdHoc
+
+EXCLUDED_SOURCE_FILE_NAMES = "MTP/application/services/fixtures/*"

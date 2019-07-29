@@ -21,7 +21,7 @@ class PhotosVC: UICollectionViewController, ServiceProvider {
     }
 
     var contentState: ContentState = .loading
-    private var mode: Mode = .browser
+    var mode: Mode = .browser
 
     private var scrollingCells: Set<PhotoCell> = []
     private var isScrolling = false {
@@ -62,25 +62,13 @@ class PhotosVC: UICollectionViewController, ServiceProvider {
         original = selection
         current = selection
         self.delegate = delegate
+        configure()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let background: UIView
-        switch mode {
-        case .browser:
-            background = UIView {
-                $0.backgroundColor = .clear
-            }
-        case .picker:
-            background = GradientView {
-                $0.set(gradient: [.dodgerBlue, .azureRadiance],
-                       orientation: .topRightBottomLeft)
-            }
-            saveButton.require().isEnabled = false
-        }
-        collectionView.backgroundView = background
+        configure()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -100,6 +88,23 @@ class PhotosVC: UICollectionViewController, ServiceProvider {
 // MARK: - Private
 
 private extension PhotosVC {
+
+    func configure() {
+        let background: UIView
+        switch mode {
+        case .browser:
+            background = UIView {
+                $0.backgroundColor = .clear
+            }
+        case .picker:
+            background = GradientView {
+                $0.set(gradient: [.dodgerBlue, .azureRadiance],
+                       orientation: .topRightBottomLeft)
+            }
+            saveButton.require().isEnabled = false
+        }
+        collectionView.backgroundView = background
+    }
 
     @IBAction func addTapped(_ sender: GradientButton) {
         createPhoto()

@@ -14,6 +14,8 @@ class ProfileVC: UIViewController, ServiceProvider {
 
     @IBOutlet private var pagesHolder: UIView?
 
+    private(set) var pagingVC: ProfilePagingVC?
+
     private var user: User?
 
     private var headerObservation: NSKeyValueObservation?
@@ -57,6 +59,8 @@ class ProfileVC: UIViewController, ServiceProvider {
     }
 }
 
+// MARK: - Private
+
 private extension ProfileVC {
 
     func setupHeaderView() {
@@ -80,6 +84,8 @@ private extension ProfileVC {
             ($0 as? UserInjectable)?.inject(model: user)
         }
         let paging = ProfilePagingVC(viewControllers: vcs)
+        pagingVC = paging
+        paging.exposer = self as? CollectionCellExposing
         addChild(paging)
         holder.addSubview(paging.view)
         paging.view.edgeAnchors == holder.edgeAnchors
@@ -138,4 +144,4 @@ protocol UserInjectable {
     @discardableResult func inject(model: User) -> Self
 }
 
-extension ProfileVC: UserInjectable {}
+extension ProfileVC: UserInjectable { }

@@ -5,7 +5,9 @@ devices([
 # required
   "iPhone 8 Plus", # 5.5" phone
   "iPhone Xs Max", # 6.5" phone
+  # "iPhone XS Max", # 6.5" phone # if Xs Max fails
   "iPad Pro (12.9-inch) (2nd generation)",
+  # https://github.com/fastlane/frameit-frames/pull/8
   "iPad Pro (12.9-inch) (3rd generation)",
 # optional
 # 5.8" phone
@@ -27,7 +29,7 @@ languages([
 workspace("MTP.xcworkspace")
 
 # The name of the scheme which contains the UI Tests
-scheme("MTPUITests")
+scheme("MTPScreenshots")
 
 # Where should the resulting screenshots be stored?
 output_directory("./fastlane/screenshots")
@@ -36,7 +38,7 @@ output_directory("./fastlane/screenshots")
 # concurrent_simulators(true)
 
 # The directory for derived data reuse
-# derived_data_path("/tmp/MTPSnapshots/DerivedData")
+# derived_data_path("/tmp/MTPScreenshots/DerivedData")
 # test_without_building(true)
 
 # remove the '#' to clear all previously generated screenshots before creating new ones
@@ -58,7 +60,7 @@ reinstall_app(false)
 # launch_arguments(["-favColor red"])
 
 # save application's logging
-# buildlog_path("/tmp/MTPSnapshots/BuildLog")
+# buildlog_path("/tmp/MTPScreenshots/BuildLog")
 # output_simulator_logs(true)
 
 # just stop when done
@@ -66,7 +68,7 @@ reinstall_app(false)
 
 # stop immediately on problems
 stop_after_first_error(true)
-number_of_retries(2)
+number_of_retries(0)
 
 # For more information about all available options run
 # fastlane action snapshot

@@ -59,7 +59,7 @@
 
 "linkTitle" = "Title";
 "linkUrl" = "URL";
-"fixBio" = "Please tell us about yourself!";
+"fixBio" = "Please tell us about yourself in the About field!";
 "fixAirport" = "Please enter your home airport!";
 "fixLinks" = "Please enter a title and URL for all your links!";
 
@@ -163,6 +163,8 @@
 
 "myRanking" = "My Ranking:";
 "myScore" = "My Score:";
+"verify" = "Account not verified - check your email!";
+"verifyInstructions" = "Your account verification email was sent to %@. Please tap the link in that email to verify your account.";
 "rankScore" = "%@";
 "rankFraction" = "(%1$@/%2$@)";
 "rankScoreFraction" = "%1$@ (%2$@/%3$@)";

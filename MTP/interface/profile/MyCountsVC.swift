@@ -19,9 +19,6 @@ final class MyCountsVC: UIViewController, ServiceProvider {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        hide(navBar: false)
-        hide(toolBar: false)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -47,8 +44,7 @@ final class MyCountsVC: UIViewController, ServiceProvider {
 
 private extension MyCountsVC {
 
-    @IBAction func unwindToCounts(segue: UIStoryboardSegue) {
-    }
+    @IBAction func unwindToCounts(segue: UIStoryboardSegue) { }
 
     func configurePagesHolder() {
         guard let holder = pagesHolder else { return }

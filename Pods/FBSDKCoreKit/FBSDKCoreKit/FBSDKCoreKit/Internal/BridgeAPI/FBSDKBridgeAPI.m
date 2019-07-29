@@ -27,17 +27,24 @@ typedef void (^FBSDKAuthenticationCompletionHandler)(NSURL *_Nullable callbackUR
 - (instancetype)initWithURL:(NSURL *)URL callbackURLScheme:(nullable NSString *)callbackURLScheme completionHandler:(FBSDKAuthenticationCompletionHandler)completionHandler;
 - (BOOL)start;
 - (void)cancel;
+@optional
+- (void)setPresentationContextProvider:(id)presentationContextProvider;
 
 @end
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
+#import <AuthenticationServices/AuthenticationServices.h>
+@interface FBSDKBridgeAPI() <FBSDKApplicationObserving, FBSDKContainerViewControllerDelegate, ASWebAuthenticationPresentationContextProviding>
+#else
 @interface FBSDKBridgeAPI() <FBSDKApplicationObserving, FBSDKContainerViewControllerDelegate>
+#endif
 
 @end
 
 @implementation FBSDKBridgeAPI {
   FBSDKBridgeAPIRequest *_pendingRequest;
   FBSDKBridgeAPIResponseBlock _pendingRequestCompletionBlock;
-  __weak id<FBSDKURLOpening> _pendingURLOpen;
+  id<FBSDKURLOpening> _pendingURLOpen;
   id<FBSDKAuthenticationSession> _authenticationSession NS_AVAILABLE_IOS(11_0);
   FBSDKAuthenticationCompletionHandler _authenticationSessionCompletionHandler NS_AVAILABLE_IOS(11_0);
 
@@ -209,11 +216,11 @@ didFinishLaunchingWithOptions:(NSDictionary<UIApplicationLaunchOptionsKey, id> *
       self->_pendingRequestCompletionBlock = nil;
       NSError *openedURLError;
       if ([request.scheme hasPrefix:@"http"]) {
-        openedURLError = [NSError fbErrorWithCode:FBSDKErrorBrowserUnavailable
-                                          message:@"the app switch failed because the browser is unavailable"];
+        openedURLError = [FBSDKError errorWithCode:FBSDKErrorBrowserUnavailable
+                                           message:@"the app switch failed because the browser is unavailable"];
       } else {
-        openedURLError = [NSError fbErrorWithCode:FBSDKErrorAppVersionUnsupported
-                                          message:@"the app switch failed because the destination app is out of date"];
+        openedURLError = [FBSDKError errorWithCode:FBSDKErrorAppVersionUnsupported
+                                           message:@"the app switch failed because the destination app is out of date"];
       }
       FBSDKBridgeAPIResponse *response = [FBSDKBridgeAPIResponse bridgeAPIResponseWithRequest:request
                                                                                         error:openedURLError];
@@ -314,6 +321,13 @@ didFinishLaunchingWithOptions:(NSDictionary<UIApplicationLaunchOptionsKey, id> *
     _authenticationSession = [[AuthenticationSessionClass alloc] initWithURL:url
                                                            callbackURLScheme:[FBSDKInternalUtility appURLScheme]
                                                            completionHandler:_authenticationSessionCompletionHandler];
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
+    if (@available(iOS 13.0, *)) {
+      if ([_authenticationSession respondsToSelector:@selector(setPresentationContextProvider:)]) {
+        [_authenticationSession setPresentationContextProvider:self];
+      }
+    }
+#endif
     _isRequestingSFAuthenticationSession = YES;
     [_authenticationSession start];
   }
@@ -410,5 +424,13 @@ didFinishLaunchingWithOptions:(NSDictionary<UIApplicationLaunchOptionsKey, id> *
   _pendingRequest = nil;
   _pendingRequestCompletionBlock = NULL;
 }
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
+#pragma mark - ASWebAuthenticationPresentationContextProviding
+
+- (ASPresentationAnchor)presentationAnchorForWebAuthenticationSession:(ASWebAuthenticationSession *)session API_AVAILABLE(ios(13.0)){
+    return UIApplication.sharedApplication.keyWindow;
+}
+#endif
 
 @end

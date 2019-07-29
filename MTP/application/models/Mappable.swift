@@ -126,6 +126,10 @@ protocol Mapper {
         loc.reveal(mappable: self, callout: callout)
     }
 
+    func show() {
+        loc.show(mappable: self)
+    }
+
     var nearest: Mappable? {
         return loc.nearest(list: checklist,
                            id: checklistId,
@@ -159,7 +163,7 @@ protocol Mapper {
 
         self.checklist = checklist
         checklistId = place.id
-        image = place.img ?? ""
+        image = place.featuredImg ?? ""
         latitude = place.lat
         longitude = place.long
         subtitle = ""
@@ -200,6 +204,12 @@ protocol Mapper {
         subtitle = location?.description ?? ""
 
         dbKey = Mappable.key(item: item)
+
+        #if DEBUG
+        if image.isEmpty {
+            log.warning("imageless \(checklist.key) \(checklistId): \(title)")
+        }
+        #endif
     }
 
     convenience init(checklist: Checklist,
@@ -267,7 +277,6 @@ protocol Mapper {
                    checklistValue == other.checklistValue &&
                    checklistId == other.checklistId &&
                    country == other.country &&
-                   image == other.image &&
                    image == other.image &&
                    latitude == other.latitude &&
                    longitude == other.longitude &&

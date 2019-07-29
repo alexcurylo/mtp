@@ -4,6 +4,8 @@ import RealmSwift
 
 protocol AddPhotoDelegate: AnyObject {
 
+    var isLocatable: Bool { get }
+
     func addPhoto(controller: AddPhotoVC,
                   didAdd reply: PhotoReply)
 }
@@ -14,6 +16,7 @@ final class AddPhotoVC: UIViewController, ServiceProvider {
 
     @IBOutlet private var saveButton: UIBarButtonItem?
 
+    @IBOutlet private var locationView: UIView?
     @IBOutlet private var locationStack: UIStackView?
     @IBOutlet private var locationLine: UIStackView?
     @IBOutlet private var countryLabel: UILabel?
@@ -119,6 +122,13 @@ private extension AddPhotoVC {
     }
 
     func configureLocation() {
+        guard let delegate = delegate, delegate.isLocatable else {
+            locationView?.isHidden = true
+            return
+        }
+
+        locationView?.isHidden = false
+
         let country = countryId > 0 ? data.get(country: countryId) : nil
         countryLabel?.text = country?.placeCountry ?? L.selectCountryOptional()
 
@@ -140,6 +150,8 @@ private extension AddPhotoVC {
     func suggestLocation() {
         guard !suggestedLocation,
               locationId == 0,
+              let delegate = delegate,
+              delegate.isLocatable,
               let inside = loc.inside else { return }
 
         suggestedLocation = true

@@ -99,10 +99,7 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
                            selection: current.picture ?? "",
                            delegate: self)
             }
-        case Segues.unwindFromEditProfile.identifier:
-            data.logOut()
-        case Segues.cancelEdits.identifier,
-             Segues.showConfirmDelete.identifier:
+        case Segues.cancelEdits.identifier:
             break
         default:
             log.debug("unexpected segue: \(segue.name)")
@@ -199,7 +196,9 @@ private extension EditProfileVC {
         location = data.get(location: update.location_id)
         current = original
 
-        avatarButton?.load(image: update)
+        if update.imageUrl != nil {
+            avatarButton?.load(image: update)
+        }
 
         firstNameTextField?.inputAccessoryView = keyboardToolbar
         firstNameTextField?.text = update.first_name
@@ -210,8 +209,9 @@ private extension EditProfileVC {
         birthdayTextField?.inputAccessoryView = keyboardToolbar
         birthdayTextField?.inputView = UIDatePicker {
             $0.datePickerMode = .date
-            $0.maximumDate = Date()
+            $0.timeZone = TimeZone(secondsFromGMT: 0)
             $0.minimumDate = Calendar.current.date(byAdding: .year, value: -120, to: Date())
+            $0.maximumDate = Date()
             $0.addTarget(self,
                          action: #selector(birthdayChanged(_:)),
                          for: .valueChanged)
@@ -556,25 +556,6 @@ private extension EditProfileVC {
         }
 
         updateSave(showError: false)
-    }
-
-    @IBAction func deleteAccount(segue: UIStoryboardSegue) {
-        note.modal(info: L.deletingAccount())
-
-        net.userDeleteAccount { [weak self, note] result in
-            switch result {
-            case .success:
-                note.modal(success: L.success())
-                DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
-                    note.dismissModal()
-                    self?.performSegue(withIdentifier: Segues.unwindFromEditProfile, sender: self)
-                }
-                return
-            case .failure(let error):
-                note.modal(failure: error,
-                           operation: L.deleteAccount())
-            }
-        }
     }
 }
 

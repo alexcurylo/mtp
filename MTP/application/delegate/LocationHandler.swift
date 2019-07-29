@@ -173,7 +173,7 @@ private extension LocationHandler {
             DispatchQueue.main.async {
                 self.distances = update.distances
                 self.distancesUpdating -= 1
-                self.note.checkTriggered()
+                self.note.checkPending()
             }
         }
 
@@ -273,10 +273,9 @@ final class DistancesOperation: KVNOperation {
 
         #if INSTRUMENT_DISTANCE
         let time = -start.timeIntervalSinceNow
-        let title = "Distances: \(references.count) in \(Int(time * 1_000)) ms"
-        print(title)
-        let body = ""
-        handler?.note.infoBackground(title: title, body: body)
+        let results = "Distances: \(references.count) in \(Int(time * 1_000)) ms"
+        ConsoleLoggingService().info(results)
+        handler?.note.postInfo(title: results, body: "")
         #endif
     }
 }

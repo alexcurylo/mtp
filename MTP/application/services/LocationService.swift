@@ -69,7 +69,7 @@ extension LocationService {
     }
 }
 
-final class LocationServiceImpl: LocationService {
+class LocationServiceImpl: LocationService {
 
     private var handler: LocationHandler?
     private var manager: CLLocationManager?
@@ -172,4 +172,11 @@ extension LocationServiceImpl: Mapper {
     func update(mappable: Mappable) {
         handler?.broadcast(mappable: mappable) { $0.update(mappable: $1) }
     }
+}
+
+final class LocationServiceStub: LocationServiceImpl {
+
+    override func request(permission: LocationPermission) { }
+
+    override func start(permission: LocationPermission) { }
 }

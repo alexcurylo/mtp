@@ -68,7 +68,7 @@ protocol NotificationService {
     func ask(question: String,
              then: @escaping (Bool) -> Void)
 
-    func checkTriggered()
+    func checkPending()
     func notify(mappable: Mappable,
                 triggered: Date,
                 then: @escaping Completion)
@@ -133,13 +133,14 @@ extension NotificationService {
     }
 }
 
-final class NotificationServiceImpl: NotificationService, ServiceProvider {
+class NotificationServiceImpl: NotificationService, ServiceProvider {
 
     private var notifying: Mappable?
     private var congratulating: Mappable?
     private var showingModal = false
     private var alerting = false
     private var asking = false
+    private var remindedVerify = false
 
     private var center: UNUserNotificationCenter {
         return UNUserNotificationCenter.current()
@@ -268,7 +269,41 @@ final class NotificationServiceImpl: NotificationService, ServiceProvider {
         congratulateBackground(note: note)
     }
 
-    func checkTriggered() {
+    func checkPending() {
+        guard checkRemindedVerify() else { return }
+
+        checkVisitTriggered()
+    }
+
+    func message(error: String) {
+        let note = Note(title: error,
+                        message: "",
+                        category: .error)
+        alert(foreground: note) { }
+    }
+}
+
+// MARK: - Private
+
+private extension NotificationServiceImpl {
+
+    func checkRemindedVerify() -> Bool {
+        guard !remindedVerify,
+              canNotifyForeground,
+              let user = data.user,
+              user.isWaiting else { return true }
+
+        let note = Note(title: L.verify(),
+                        message: L.verifyInstructions(user.email),
+                        category: .information)
+        alert(foreground: note) {
+            self.remindedVerify = true
+        }
+
+        return false
+    }
+
+    func checkVisitTriggered() {
         let dismissed = data.dismissed ?? Timestamps()
         let visited = data.visited ?? Checked()
         var triggered = data.triggered ?? Timestamps()
@@ -276,7 +311,7 @@ final class NotificationServiceImpl: NotificationService, ServiceProvider {
         for (key, value) in triggered {
             let item = key.item
             if visited[item.list].contains(item.id) ||
-               dismissed.isStamped(item: item) {
+                dismissed.isStamped(item: item) {
                 triggered.set(key: key, stamped: false)
                 changed = true
                 break
@@ -289,13 +324,6 @@ final class NotificationServiceImpl: NotificationService, ServiceProvider {
         if changed {
             data.triggered = triggered
         }
-    }
-
-    func message(error: String) {
-        let note = Note(title: error,
-                        message: "",
-                        category: .error)
-        alert(foreground: note) { }
     }
 }
 
@@ -389,14 +417,14 @@ private extension NotificationServiceImpl {
         // No
         let buttonFont = Avenir.heavy.of(size: 16)
         let noColor = UIColor(rgb: 0xD0021B)
-        let noButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: noColor)
+        let noButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: EKColor(noColor))
         let noButtonLabel = EKProperty.LabelContent(
             text: L.no(),
             style: noButtonLabelStyle)
         let noButton = EKProperty.ButtonContent(
             label: noButtonLabel,
             backgroundColor: .clear,
-            highlightedBackgroundColor: noColor.withAlphaComponent(0.05)) {
+            highlightedBackgroundColor: EKColor(noColor.withAlphaComponent(0.05))) {
                 SwiftEntryKit.dismiss {
                     self.asking = false
                     then(false)
@@ -405,14 +433,14 @@ private extension NotificationServiceImpl {
 
         // Yes
         let yesColor = UIColor(rgb: 0x028DFF)
-        let yesButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: yesColor)
+        let yesButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: EKColor(yesColor))
         let yesButtonLabel = EKProperty.LabelContent(
             text: L.yes(),
             style: yesButtonLabelStyle)
         let yesButton = EKProperty.ButtonContent(
             label: yesButtonLabel,
             backgroundColor: .clear,
-            highlightedBackgroundColor: yesColor.withAlphaComponent(0.05)) {
+            highlightedBackgroundColor: EKColor(yesColor.withAlphaComponent(0.05))) {
                 SwiftEntryKit.dismiss {
                     self.asking = false
                     then(true)
@@ -422,7 +450,7 @@ private extension NotificationServiceImpl {
         let buttonsBarContent = EKProperty.ButtonBarContent(
             // swiftlint:disable:next multiline_arguments
             with: noButton, yesButton,
-            separatorColor: grayLight,
+            separatorColor: EKColor(grayLight),
             buttonHeight: 60,
             expandAnimatedly: true)
 
@@ -451,31 +479,31 @@ private extension NotificationServiceImpl {
         // Dismiss
         let buttonFont = Avenir.heavy.of(size: 16)
         let dismissColor = UIColor(rgb: 0xD0021B)
-        let closeButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: dismissColor)
+        let closeButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: EKColor(dismissColor))
         let closeButtonLabel = EKProperty.LabelContent(
             text: L.dismissAction(),
             style: closeButtonLabelStyle)
         let closeButton = EKProperty.ButtonContent(
             label: closeButtonLabel,
             backgroundColor: .clear,
-            highlightedBackgroundColor: dismissColor.withAlphaComponent(0.05)) { [mappable] in
+            highlightedBackgroundColor: EKColor(dismissColor.withAlphaComponent(0.05))) { [mappable] in
                 mappable.isDismissed = true
                 SwiftEntryKit.dismiss {
                     self.notifying = nil
-                    self.checkTriggered()
+                    self.checkPending()
                 }
         }
 
         // Checkin
         let checkinColor = UIColor(rgb: 0x028DFF)
-        let okButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: checkinColor)
+        let okButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: EKColor(checkinColor))
         let okButtonLabel = EKProperty.LabelContent(
             text: L.checkinAction(),
             style: okButtonLabelStyle)
         let okButton = EKProperty.ButtonContent(
             label: okButtonLabel,
             backgroundColor: .clear,
-            highlightedBackgroundColor: checkinColor.withAlphaComponent(0.05)) { [mappable] in
+            highlightedBackgroundColor: EKColor(checkinColor.withAlphaComponent(0.05))) { [mappable] in
                 SwiftEntryKit.dismiss {
                     self.notifying = nil
                     self.set(item: mappable.item,
@@ -488,7 +516,7 @@ private extension NotificationServiceImpl {
         let buttonsBarContent = EKProperty.ButtonBarContent(
             // swiftlint:disable:next multiline_arguments
             with: closeButton, okButton,
-            separatorColor: grayLight,
+            separatorColor: EKColor(grayLight),
             buttonHeight: 60,
             expandAnimatedly: true)
 
@@ -510,7 +538,7 @@ private extension NotificationServiceImpl {
 
         alert(foreground: note) {
             self.congratulating = nil
-            self.checkTriggered()
+            self.checkPending()
         }
     }
 
@@ -522,15 +550,15 @@ private extension NotificationServiceImpl {
 
         // OK
         let buttonFont = Avenir.heavy.of(size: 16)
-        let checkinColor = UIColor(rgb: 0x028DFF)
-        let okButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: checkinColor)
+        let okColor = UIColor(rgb: 0x028DFF)
+        let okButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: EKColor(okColor))
         let okButtonLabel = EKProperty.LabelContent(
             text: L.ok(),
             style: okButtonLabelStyle)
         let okButton = EKProperty.ButtonContent(
             label: okButtonLabel,
             backgroundColor: .clear,
-            highlightedBackgroundColor: checkinColor.withAlphaComponent(0.05)) {
+            highlightedBackgroundColor: EKColor(okColor.withAlphaComponent(0.05))) {
                 SwiftEntryKit.dismiss {
                     self.alerting = false
                     then()
@@ -539,7 +567,7 @@ private extension NotificationServiceImpl {
         let grayLight = UIColor(white: 230.0 / 255.0, alpha: 1)
         let buttonsBarContent = EKProperty.ButtonBarContent(
             with: okButton,
-            separatorColor: grayLight,
+            separatorColor: EKColor(grayLight),
             buttonHeight: 60,
             expandAnimatedly: true)
 
@@ -666,7 +694,7 @@ private extension EKAttributes {
     static func notifyAttributes(note category: Note.Category) -> EKAttributes {
         var attributes = EKAttributes.bottomFloat
 
-        let dimmedLightBackground = UIColor(white: 100.0 / 255.0, alpha: 0.3)
+        let dimmedLightBackground = EKColor(UIColor(white: 100.0 / 255.0, alpha: 0.3))
         attributes.screenBackground = .color(color: dimmedLightBackground)
         attributes.hapticFeedbackType = .success
         attributes.displayDuration = .infinity
@@ -695,5 +723,12 @@ private extension EKAttributes {
         attributes.precedence = .enqueue(priority: category.priority)
 
         return attributes
+    }
+}
+
+final class NotificationServiceStub: NotificationServiceImpl {
+
+    override func authorizeNotifications(then: @escaping (Bool) -> Void) {
+        then(false)
     }
 }

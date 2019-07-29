@@ -114,7 +114,7 @@ extension SignupVC: KeyboardListener {
     var keyboardScrollee: UIScrollView? { return scrollView }
 }
 
-// MARK: - SignupVC
+// MARK: - Private
 
 private extension SignupVC {
 
@@ -132,15 +132,16 @@ private extension SignupVC {
         }
         genderTextField?.inputAccessoryView = keyboardToolbar
 
+        birthdayTextField?.inputAccessoryView = keyboardToolbar
         birthdayTextField?.inputView = UIDatePicker {
             $0.datePickerMode = .date
-            $0.maximumDate = Date()
+            $0.timeZone = TimeZone(secondsFromGMT: 0)
             $0.minimumDate = Calendar.current.date(byAdding: .year, value: -120, to: Date())
+            $0.maximumDate = Date()
             $0.addTarget(self,
                          action: #selector(birthdayChanged(_:)),
                          for: .valueChanged)
         }
-        birthdayTextField?.inputAccessoryView = keyboardToolbar
 
         show(location: false)
 
@@ -300,9 +301,8 @@ private extension SignupVC {
 
         lastNameTextField?.disable(text: payload.last_name)
 
-        if payload.birthday != Date.distantFuture {
-            let birthday = DateFormatter.mtpDay.string(from: payload.birthday)
-            birthdayTextField?.disable(text: birthday)
+        if !payload.birthday.isEmpty {
+            birthdayTextField?.disable(text: payload.birthday)
         }
 
         prepareRegister(showError: false)

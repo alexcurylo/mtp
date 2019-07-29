@@ -259,6 +259,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="backgroundView" destination="WmJ-w5-hsG" id="JXP-fv-2mM"/>
+                        <outlet property="closeButtonItem" destination="YmC-jP-bXf" id="WwB-2E-T8X"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="01i-Cf-XQd" userLabel="First Responder" sceneMemberID="firstResponder"/>

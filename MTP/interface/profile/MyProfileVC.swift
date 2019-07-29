@@ -8,6 +8,14 @@ final class MyProfileVC: ProfileVC {
 
     @IBOutlet private var birthdayLabel: UILabel?
 
+    fileprivate enum Page: Int {
+
+        case about
+        case counts
+        case photos
+        case posts
+    }
+
     override var pages: [UIViewController] {
         return [
             R.storyboard.profileAbout.about(),
@@ -23,8 +31,13 @@ final class MyProfileVC: ProfileVC {
         if let user = data.user {
             inject(model: User(from: user))
         }
-
         super.viewDidLoad()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        expose()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -58,8 +71,41 @@ final class MyProfileVC: ProfileVC {
     }
 }
 
+// MARK: - Exposing
+
+extension MyProfileVC: Exposing {
+
+    func expose() {
+        guard let menu = pagingVC?.collectionView else { return }
+        MyProfileVCs.menu.expose(item: menu)
+    }
+}
+
+// MARK: - CollectionCellExposing
+
+extension MyProfileVC: CollectionCellExposing {
+
+    func expose(view: UICollectionView,
+                path: IndexPath,
+                cell: UICollectionViewCell) {
+        switch path.item {
+        case Page.about.rawValue:
+            MyProfileVCs.about.expose(item: cell)
+        case Page.counts.rawValue:
+            MyProfileVCs.counts.expose(item: cell)
+        case Page.photos.rawValue:
+            MyProfileVCs.photos.expose(item: cell)
+        case Page.posts.rawValue:
+            MyProfileVCs.posts.expose(item: cell)
+        default:
+            break
+        }
+    }
+}
+
+// MARK: - Private
+
 private extension MyProfileVC {
 
-    @IBAction func unwindToMyProfile(segue: UIStoryboardSegue) {
-    }
+    @IBAction func unwindToMyProfile(segue: UIStoryboardSegue) { }
 }

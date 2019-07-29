@@ -47,6 +47,13 @@ extension DateFormatter {
         $0.locale = Locale(identifier: "en_US_POSIX")
     }
 
+    static var stampTime = DateFormatter {
+        $0.dateFormat = "yy.MM.dd HH:mm:ss.SSS"
+        $0.calendar = Calendar(identifier: .iso8601)
+        $0.timeZone = TimeZone.current
+        $0.locale = Locale(identifier: "en_US_POSIX")
+    }
+
     static let mtpBirthday = DateFormatter(mtp: .medium)
 
     static let mtpPost = DateFormatter(mtp: .long)

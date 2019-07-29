@@ -97,7 +97,7 @@ extension LaunchHandler {
         }
         swiftyBeaver.addDestination(file)
 
-        if !UIApplication.isTesting {
+        if UIApplication.isProduction {
             let platform = SBPlatformDestination(
                 appID: "YbnQz9",
                 appSecret: "qyictm2bUy3Kvqi0dUpgysuUayuuJ1Py",
@@ -116,7 +116,7 @@ extension LaunchHandler {
 extension LaunchHandler {
 
     func configureAppCenter() {
-        guard !UIApplication.isTesting else { return }
+        guard UIApplication.isProduction else { return }
 
         MSAppCenter.start("20cb945f-58b9-4544-a059-424aa3b86820",
                           withServices: [MSAnalytics.self,

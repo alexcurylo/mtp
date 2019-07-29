@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hKQ-UB-UNy">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -12,11 +16,11 @@
             <objects>
                 <viewController title="User Profile" id="hKQ-UB-UNy" customClass="UserProfileVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bnF-5N-fyR" customClass="GradientView" customModule="MTP" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zjr-zl-bxv" userLabel="Header View">
-                                <rect key="frame" x="8" y="72" width="359" height="118"/>
+                                <rect key="frame" x="8" y="96" width="398" height="118"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="center" horizontalHuggingPriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R4t-Kj-q56">
                                         <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
@@ -30,7 +34,7 @@
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="p6n-TU-G9s" userLabel="Info Stack">
-                                        <rect key="frame" x="32" y="24" width="303" height="70"/>
+                                        <rect key="frame" x="32" y="24" width="342" height="70"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Dnf-ez-HZd">
                                                 <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
@@ -46,24 +50,24 @@
                                                 </userDefinedRuntimeAttributes>
                                             </imageView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="tGZ-4X-CUk" userLabel="Name Stack">
-                                                <rect key="frame" x="78" y="11.5" width="225" height="47"/>
+                                                <rect key="frame" x="78" y="11.5" width="264" height="47"/>
                                                 <subviews>
                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="scaleToFill" verticalHuggingPriority="1000" text="Nikola Trstenjak" lineBreakMode="wordWrap" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="kCf-pd-GsQ">
-                                                        <rect key="frame" x="0.0" y="0.0" width="225" height="25"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="264" height="25"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="18"/>
                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="scaleToFill" verticalHuggingPriority="1000" text="Croatia" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="v6I-Kk-9dQ">
-                                                        <rect key="frame" x="0.0" y="25" width="225" height="22"/>
+                                                        <rect key="frame" x="0.0" y="25" width="264" height="22"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="l6L-DQ-bRf" userLabel="Followers Stack">
-                                                        <rect key="frame" x="0.0" y="47" width="225" height="0.0"/>
+                                                        <rect key="frame" x="0.0" y="47" width="264" height="0.0"/>
                                                         <subviews>
                                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="1000" text="121 Followers" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="JlY-3X-BRu">
                                                                 <rect key="frame" x="0.0" y="0.0" width="88.5" height="0.0"/>
@@ -80,7 +84,7 @@
                                                                 </constraints>
                                                             </view>
                                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="scaleToFill" verticalHuggingPriority="1000" text="42 Following" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="SN6-Of-nOz">
-                                                                <rect key="frame" x="105.5" y="0.0" width="119.5" height="0.0"/>
+                                                                <rect key="frame" x="105.5" y="0.0" width="158.5" height="0.0"/>
                                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="14"/>
                                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -104,7 +108,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6NC-yI-EOP" customClass="GradientView" customModule="MTP" customModuleProvider="target">
-                                <rect key="frame" x="8" y="190" width="359" height="428"/>
+                                <rect key="frame" x="8" y="214" width="398" height="599"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="startColor">
@@ -146,6 +150,7 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                     <connections>
                         <outlet property="avatarImageView" destination="Dnf-ez-HZd" id="fYb-rx-4Fe"/>
+                        <outlet property="closeButton" destination="R4t-Kj-q56" id="EoV-Nt-3VZ"/>
                         <outlet property="countryLabel" destination="v6I-Kk-9dQ" id="WjI-ns-Wt7"/>
                         <outlet property="followersLabel" destination="JlY-3X-BRu" id="8Vv-gt-y2B"/>
                         <outlet property="followingLabel" destination="SN6-Of-nOz" id="ezf-Xp-6rR"/>

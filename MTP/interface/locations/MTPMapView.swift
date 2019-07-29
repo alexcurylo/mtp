@@ -57,8 +57,8 @@ final class MTPMapView: RealmMapView, ServiceProvider {
     }
 
     var isCentered = false
-
-    var completions: [Completion] = []
+    private var completions: [Completion] = []
+    private var visitedObserver: Observer?
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -68,6 +68,7 @@ final class MTPMapView: RealmMapView, ServiceProvider {
         }
         configure()
         register()
+        observe()
     }
 
     func centerOnDevice() {
@@ -162,6 +163,16 @@ private extension MTPMapView {
         MappablesAnnotationView.register(view: self)
     }
 
+    func observe() {
+        visitedObserver = data.observer(of: .visited) { [weak self] _ in
+            guard let self = self else { return }
+
+            let center = self.centerCoordinate
+            self.centerCoordinate = .zero
+            self.centerCoordinate = center
+        }
+    }
+
     func updateFilter() {
         let show = Checklist.allCases.compactMap {
             $0.isMappable && displayed.display(list: $0) ? $0.rawValue : nil
@@ -212,7 +223,7 @@ private extension MTPMapView {
             }
         }
 
-        log.error("Could not find annotation for \(mappable)")
+        log.info("Could not find annotation for \(mappable)")
         return nil
     }
 

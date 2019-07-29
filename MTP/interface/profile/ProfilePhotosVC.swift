@@ -65,6 +65,8 @@ final class ProfilePhotosVC: PhotosVC {
 
 extension ProfilePhotosVC: AddPhotoDelegate {
 
+    var isLocatable: Bool { return mode == .browser }
+
     func addPhoto(controller: AddPhotoVC,
                   didAdd reply: PhotoReply) {
         refresh(page: 1, reload: true)

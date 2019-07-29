@@ -205,7 +205,7 @@ extension PhotoJSON: CustomDebugStringConvertible {
         self.init()
 
         desc = from.desc ?? ""
-        locationId = from.locationId ?? 0
+        locationId = from.locationId?.intValue ?? 0
         photoId = from.id
         userId = from.userId
         uuid = from.uuid
