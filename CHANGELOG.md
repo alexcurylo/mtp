@@ -19,6 +19,7 @@ The best way to let us know about any problems or suggestions is in the TestFlig
 ### Changed
 - All place images now loaded from MTP
 - Visited and Remaining buttons under maps are now their region colors
+- Logout and Delete moved to Settings screen
 
 ### Fixed
 - Swiping the Counts pages will not hide the Profile navigation bar

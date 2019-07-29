@@ -33,6 +33,8 @@ final class SettingsVC: UITableViewController, ServiceProvider {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
+        case Segues.logout.identifier:
+            data.logOut()
         case Segues.showAbout.identifier,
              Segues.showFAQ.identifier,
              Segues.unwindFromSettings.identifier:
@@ -94,6 +96,25 @@ private extension SettingsVC {
         composeVC.navigationBar.set(style: .system)
 
         present(composeVC, animated: true, completion: nil)
+    }
+
+    @IBAction func deleteAccount(segue: UIStoryboardSegue) {
+        note.modal(info: L.deletingAccount())
+
+        net.userDeleteAccount { [weak self, note] result in
+            switch result {
+            case .success:
+                note.modal(success: L.success())
+                DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
+                    note.dismissModal()
+                    self?.performSegue(withIdentifier: Segues.unwindFromSettings, sender: self)
+                }
+                return
+            case .failure(let error):
+                note.modal(failure: error,
+                           operation: L.deleteAccount())
+            }
+        }
     }
 }
 

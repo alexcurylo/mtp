@@ -505,93 +505,6 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="70" id="I8g-yu-x5h" userLabel="Log Out">
-                                        <rect key="frame" x="0.0" y="740" width="414" height="70"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="I8g-yu-x5h" id="hOp-OB-3EO">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="70"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5zC-VM-MDy" customClass="ShadowView" customModule="MTP" customModuleProvider="target">
-                                                    <rect key="frame" x="12" y="8" width="390" height="54"/>
-                                                    <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uGe-qh-Y3U">
-                                                            <rect key="frame" x="0.0" y="0.0" width="390" height="54"/>
-                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="20"/>
-                                                            <state key="normal" title="Log Out">
-                                                                <color key="titleColor" red="0.0078431372549019607" green="0.55294117647058827" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                            </state>
-                                                            <connections>
-                                                                <segue destination="af3-oh-FK2" kind="unwind" identifier="unwindFromEditProfile" unwindAction="unwindToRootWithSegue:" id="vS3-g5-fPx"/>
-                                                            </connections>
-                                                        </button>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="54" id="FfU-h1-am7"/>
-                                                        <constraint firstItem="uGe-qh-Y3U" firstAttribute="top" secondItem="5zC-VM-MDy" secondAttribute="top" id="Qcc-hi-brW"/>
-                                                        <constraint firstAttribute="trailing" secondItem="uGe-qh-Y3U" secondAttribute="trailing" id="dlJ-aH-jlB"/>
-                                                        <constraint firstItem="uGe-qh-Y3U" firstAttribute="leading" secondItem="5zC-VM-MDy" secondAttribute="leading" id="mGy-GR-fN9"/>
-                                                        <constraint firstAttribute="bottom" secondItem="uGe-qh-Y3U" secondAttribute="bottom" id="vKB-sa-k0h"/>
-                                                    </constraints>
-                                                </view>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="5zC-VM-MDy" secondAttribute="bottom" constant="8" id="983-NP-eDp"/>
-                                                <constraint firstAttribute="trailing" secondItem="5zC-VM-MDy" secondAttribute="trailing" constant="12" id="F0o-3T-v3B"/>
-                                                <constraint firstItem="5zC-VM-MDy" firstAttribute="leading" secondItem="hOp-OB-3EO" secondAttribute="leading" constant="12" id="T38-vT-pJz"/>
-                                                <constraint firstItem="5zC-VM-MDy" firstAttribute="top" secondItem="hOp-OB-3EO" secondAttribute="top" constant="8" id="p3n-x3-m1A"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="70" id="DaU-3K-fWa" userLabel="Delete Account">
-                                        <rect key="frame" x="0.0" y="810" width="414" height="70"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DaU-3K-fWa" id="j94-ia-Lzf">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="69.666666666666671"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GDI-Be-IZI" customClass="ShadowView" customModule="MTP" customModuleProvider="target">
-                                                    <rect key="frame" x="12" y="8.3333333333333286" width="390" height="54"/>
-                                                    <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ztf-Fe-5ud">
-                                                            <rect key="frame" x="0.0" y="0.0" width="390" height="54"/>
-                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
-                                                            <state key="normal" title="Delete Account">
-                                                                <color key="titleColor" red="1" green="0.30196078431372547" blue="0.38823529411764707" alpha="1" colorSpace="calibratedRGB"/>
-                                                            </state>
-                                                            <userDefinedRuntimeAttributes>
-                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                                    <real key="value" value="4"/>
-                                                                </userDefinedRuntimeAttribute>
-                                                            </userDefinedRuntimeAttributes>
-                                                            <connections>
-                                                                <segue destination="gti-4z-BGL" kind="presentation" identifier="showConfirmDelete" id="Oed-t0-Itp"/>
-                                                            </connections>
-                                                        </button>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <constraints>
-                                                        <constraint firstItem="ztf-Fe-5ud" firstAttribute="top" secondItem="GDI-Be-IZI" secondAttribute="top" id="AP3-mh-tF8"/>
-                                                        <constraint firstAttribute="trailing" secondItem="ztf-Fe-5ud" secondAttribute="trailing" id="OFW-BU-gRS"/>
-                                                        <constraint firstItem="ztf-Fe-5ud" firstAttribute="leading" secondItem="GDI-Be-IZI" secondAttribute="leading" id="iDL-F3-JLl"/>
-                                                        <constraint firstAttribute="bottom" secondItem="ztf-Fe-5ud" secondAttribute="bottom" id="rZN-3C-FwJ"/>
-                                                        <constraint firstAttribute="height" constant="54" id="tJA-3C-OtN"/>
-                                                    </constraints>
-                                                </view>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <constraints>
-                                                <constraint firstItem="GDI-Be-IZI" firstAttribute="top" secondItem="j94-ia-Lzf" secondAttribute="top" constant="8" id="Bhw-Dj-B0c"/>
-                                                <constraint firstItem="GDI-Be-IZI" firstAttribute="leading" secondItem="j94-ia-Lzf" secondAttribute="leading" constant="12" id="bWy-YN-JsY"/>
-                                                <constraint firstAttribute="bottom" secondItem="GDI-Be-IZI" secondAttribute="bottom" constant="16" id="kNc-oh-RVJ"/>
-                                                <constraint firstAttribute="trailing" secondItem="GDI-Be-IZI" secondAttribute="trailing" constant="12" id="xrj-qX-4XY"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -680,159 +593,13 @@
             </objects>
             <point key="canvasLocation" x="3322.4000000000001" y="303.59820089955025"/>
         </scene>
-        <!--Confirm Delete-->
-        <scene sceneID="3Cl-rT-7bh">
-            <objects>
-                <viewController title="Confirm Delete" id="gti-4z-BGL" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Irg-x2-klQ" customClass="GradientView" customModule="MTP" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud1" translatesAutoresizingMaskIntoConstraints="NO" id="dkn-Nb-1TC">
-                                <rect key="frame" x="16" y="263" width="97" height="58"/>
-                            </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud1" translatesAutoresizingMaskIntoConstraints="NO" id="wwH-cb-Pnj">
-                                <rect key="frame" x="-42" y="138.33333333333334" width="97" height="58"/>
-                            </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud2" translatesAutoresizingMaskIntoConstraints="NO" id="h5P-4b-P6e">
-                                <rect key="frame" x="327" y="285" width="101" height="55"/>
-                            </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud3" translatesAutoresizingMaskIntoConstraints="NO" id="liG-t7-Xp1">
-                                <rect key="frame" x="32" y="456" width="112" height="69"/>
-                            </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud4" translatesAutoresizingMaskIntoConstraints="NO" id="aJz-Gi-R1g">
-                                <rect key="frame" x="288" y="431" width="104" height="68"/>
-                            </imageView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="48" translatesAutoresizingMaskIntoConstraints="NO" id="tT5-jP-ET1" userLabel="Message Stack">
-                                <rect key="frame" x="32" y="178.66666666666666" width="350" height="269.66666666666674"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WFC-FA-SQn">
-                                        <rect key="frame" x="0.0" y="0.0" width="350" height="76.666666666666671"/>
-                                        <attributedString key="attributedText">
-                                            <fragment content="Are you sure you want to delete your MTP account?">
-                                                <attributes>
-                                                    <color key="NSColor" red="0.14946000000000001" green="0.28997000000000001" blue="0.46486" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                    <font key="NSFont" size="28" name="Avenir-Black"/>
-                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                                </attributes>
-                                            </fragment>
-                                        </attributedString>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="faceDelete" translatesAutoresizingMaskIntoConstraints="NO" id="iMl-4d-3JW">
-                                        <rect key="frame" x="0.0" y="124.66666666666666" width="350" height="144.99999999999997"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="145" id="CuO-8g-QMW"/>
-                                        </constraints>
-                                    </imageView>
-                                </subviews>
-                            </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="NVX-i9-EvW" userLabel="Settings Stack">
-                                <rect key="frame" x="32" y="714" width="350" height="116"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LQJ-Fm-PWs">
-                                        <rect key="frame" x="0.0" y="0.0" width="350" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="d3x-D6-pkE"/>
-                                        </constraints>
-                                        <state key="normal">
-                                            <attributedString key="attributedTitle">
-                                                <fragment content="Yes, delete my account">
-                                                    <attributes>
-                                                        <color key="NSColor" red="0.71428000000000003" green="0.14323" blue="0.12299" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <font key="NSFont" size="18" name="Avenir-Heavy"/>
-                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                                    </attributes>
-                                                </fragment>
-                                            </attributedString>
-                                        </state>
-                                        <connections>
-                                            <segue destination="WwF-Sl-Go6" kind="unwind" unwindAction="deleteAccountWithSegue:" id="sgR-ZL-4za"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cdL-gV-upo" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="66" width="350" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="w2y-bj-UV7"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
-                                        <state key="normal" title="Cancel">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                <real key="value" value="4"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
-                                                <color key="value" name="dodgerBlue"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
-                                                <color key="value" name="azureRadiance"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="orientation">
-                                                <integer key="value" value="2"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <segue destination="Aga-YF-c3F" kind="custom" identifier="cancelDelete" customClass="DismissSegue" customModule="MTP" customModuleProvider="target" id="z59-Je-wQW"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </stackView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud4" translatesAutoresizingMaskIntoConstraints="NO" id="T2k-QS-12r">
-                                <rect key="frame" x="355" y="128.33333333333334" width="104" height="68"/>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="tT5-jP-ET1" firstAttribute="centerY" secondItem="Irg-x2-klQ" secondAttribute="centerY" multiplier="0.7" priority="750" id="4Dk-2k-Kd4"/>
-                            <constraint firstItem="tT5-jP-ET1" firstAttribute="leading" secondItem="Pgh-D6-fOg" secondAttribute="leading" constant="32" id="AZK-1U-44P"/>
-                            <constraint firstItem="Pgh-D6-fOg" firstAttribute="trailing" secondItem="NVX-i9-EvW" secondAttribute="trailing" constant="32" id="H7g-ku-QLI"/>
-                            <constraint firstItem="Pgh-D6-fOg" firstAttribute="trailing" secondItem="tT5-jP-ET1" secondAttribute="trailing" constant="32" id="HBF-Jz-FVs"/>
-                            <constraint firstItem="aJz-Gi-R1g" firstAttribute="leading" secondItem="iMl-4d-3JW" secondAttribute="trailing" constant="-94" id="Pcx-OT-Dmf"/>
-                            <constraint firstItem="WFC-FA-SQn" firstAttribute="top" secondItem="T2k-QS-12r" secondAttribute="bottom" constant="-17.5" id="QOc-O7-fQk"/>
-                            <constraint firstItem="WFC-FA-SQn" firstAttribute="top" secondItem="wwH-cb-Pnj" secondAttribute="bottom" constant="-17.5" id="XiJ-xL-oPk"/>
-                            <constraint firstItem="iMl-4d-3JW" firstAttribute="leading" secondItem="dkn-Nb-1TC" secondAttribute="trailing" constant="-81" id="b1z-SR-dDI"/>
-                            <constraint firstItem="iMl-4d-3JW" firstAttribute="leading" secondItem="liG-t7-Xp1" secondAttribute="trailing" constant="-112" id="b4D-ev-FKN"/>
-                            <constraint firstItem="iMl-4d-3JW" firstAttribute="top" secondItem="h5P-4b-P6e" secondAttribute="bottom" constant="-36.5" id="cEH-5x-w4x"/>
-                            <constraint firstItem="h5P-4b-P6e" firstAttribute="leading" secondItem="iMl-4d-3JW" secondAttribute="trailing" constant="-55" id="evC-Ty-HJh"/>
-                            <constraint firstItem="iMl-4d-3JW" firstAttribute="top" secondItem="dkn-Nb-1TC" secondAttribute="bottom" constant="-17.5" id="fYD-BH-isc"/>
-                            <constraint firstItem="liG-t7-Xp1" firstAttribute="top" secondItem="iMl-4d-3JW" secondAttribute="bottom" constant="7.5" id="gM8-na-inG"/>
-                            <constraint firstItem="aJz-Gi-R1g" firstAttribute="top" secondItem="iMl-4d-3JW" secondAttribute="bottom" constant="-17.5" id="i5m-gB-27x"/>
-                            <constraint firstItem="WFC-FA-SQn" firstAttribute="leading" secondItem="wwH-cb-Pnj" secondAttribute="trailing" constant="-23" id="kgY-C0-biK"/>
-                            <constraint firstItem="NVX-i9-EvW" firstAttribute="leading" secondItem="Pgh-D6-fOg" secondAttribute="leading" constant="32" id="sYF-lC-fKz"/>
-                            <constraint firstItem="T2k-QS-12r" firstAttribute="leading" secondItem="WFC-FA-SQn" secondAttribute="trailing" constant="-27" id="xec-gb-D8T"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="NVX-i9-EvW" secondAttribute="bottom" constant="32" id="yWY-fO-kBd"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="Pgh-D6-fOg"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
-                                <color key="value" red="0.81960784310000001" green="0.94509803920000002" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
-                                <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="number" keyPath="orientation">
-                                <integer key="value" value="3"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
-                    </view>
-                    <toolbarItems/>
-                    <nil key="simulatedTopBarMetrics"/>
-                    <nil key="simulatedBottomBarMetrics"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lV3-Gr-X46" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="WwF-Sl-Go6" userLabel="Exit" sceneMemberID="exit"/>
-            </objects>
-            <point key="canvasLocation" x="4167" y="-77"/>
-        </scene>
         <!--ProfilePhotos-->
         <scene sceneID="Gza-xY-I6T">
             <objects>
                 <viewControllerPlaceholder storyboardName="ProfilePhotos" id="dlU-js-xxP" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MFT-bM-Hew" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3949" y="285"/>
+            <point key="canvasLocation" x="3957" y="271"/>
         </scene>
         <!--LocationSearch-->
         <scene sceneID="s4X-57-rKL">
@@ -840,15 +607,10 @@
                 <viewControllerPlaceholder storyboardName="LocationSearch" id="adc-Rf-7Hd" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TbU-Lw-eIF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3957" y="440"/>
+            <point key="canvasLocation" x="3965" y="321"/>
         </scene>
     </scenes>
     <resources>
-        <image name="cloud1" width="97" height="58"/>
-        <image name="cloud2" width="101" height="55"/>
-        <image name="cloud3" width="112" height="69"/>
-        <image name="cloud4" width="104" height="68"/>
-        <image name="faceDelete" width="146" height="145"/>
         <image name="navClose" width="16" height="16"/>
         <image name="pencilWhite" width="25" height="25"/>
         <namedColor name="alto">

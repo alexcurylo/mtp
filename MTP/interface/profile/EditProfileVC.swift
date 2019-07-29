@@ -99,10 +99,7 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
                            selection: current.picture ?? "",
                            delegate: self)
             }
-        case Segues.unwindFromEditProfile.identifier:
-            data.logOut()
-        case Segues.cancelEdits.identifier,
-             Segues.showConfirmDelete.identifier:
+        case Segues.cancelEdits.identifier:
             break
         default:
             log.debug("unexpected segue: \(segue.name)")
@@ -556,25 +553,6 @@ private extension EditProfileVC {
         }
 
         updateSave(showError: false)
-    }
-
-    @IBAction func deleteAccount(segue: UIStoryboardSegue) {
-        note.modal(info: L.deletingAccount())
-
-        net.userDeleteAccount { [weak self, note] result in
-            switch result {
-            case .success:
-                note.modal(success: L.success())
-                DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
-                    note.dismissModal()
-                    self?.performSegue(withIdentifier: Segues.unwindFromEditProfile, sender: self)
-                }
-                return
-            case .failure(let error):
-                note.modal(failure: error,
-                           operation: L.deleteAccount())
-            }
-        }
     }
 }
 
