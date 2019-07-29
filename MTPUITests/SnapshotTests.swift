@@ -36,13 +36,14 @@ final class SnapshotTests: XCTestCase {
 
         snapshot("02Nearby")
 
-        let place = NearbyVCs.place(2).match
-        place.tap()
+        let gaggan = NearbyVCs.place(3).match
+        gaggan.tap()
 
         snapshot("03Callout")
 
         nearby.tap()
-        place.doubleTap()
+        let thailand = NearbyVCs.place(0).match
+        thailand.doubleTap()
 
         snapshot("04Info")
 
