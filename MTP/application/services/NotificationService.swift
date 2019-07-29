@@ -417,14 +417,14 @@ private extension NotificationServiceImpl {
         // No
         let buttonFont = Avenir.heavy.of(size: 16)
         let noColor = UIColor(rgb: 0xD0021B)
-        let noButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: noColor)
+        let noButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: EKColor(noColor))
         let noButtonLabel = EKProperty.LabelContent(
             text: L.no(),
             style: noButtonLabelStyle)
         let noButton = EKProperty.ButtonContent(
             label: noButtonLabel,
             backgroundColor: .clear,
-            highlightedBackgroundColor: noColor.withAlphaComponent(0.05)) {
+            highlightedBackgroundColor: EKColor(noColor.withAlphaComponent(0.05))) {
                 SwiftEntryKit.dismiss {
                     self.asking = false
                     then(false)
@@ -433,14 +433,14 @@ private extension NotificationServiceImpl {
 
         // Yes
         let yesColor = UIColor(rgb: 0x028DFF)
-        let yesButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: yesColor)
+        let yesButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: EKColor(yesColor))
         let yesButtonLabel = EKProperty.LabelContent(
             text: L.yes(),
             style: yesButtonLabelStyle)
         let yesButton = EKProperty.ButtonContent(
             label: yesButtonLabel,
             backgroundColor: .clear,
-            highlightedBackgroundColor: yesColor.withAlphaComponent(0.05)) {
+            highlightedBackgroundColor: EKColor(yesColor.withAlphaComponent(0.05))) {
                 SwiftEntryKit.dismiss {
                     self.asking = false
                     then(true)
@@ -450,7 +450,7 @@ private extension NotificationServiceImpl {
         let buttonsBarContent = EKProperty.ButtonBarContent(
             // swiftlint:disable:next multiline_arguments
             with: noButton, yesButton,
-            separatorColor: grayLight,
+            separatorColor: EKColor(grayLight),
             buttonHeight: 60,
             expandAnimatedly: true)
 
@@ -479,14 +479,14 @@ private extension NotificationServiceImpl {
         // Dismiss
         let buttonFont = Avenir.heavy.of(size: 16)
         let dismissColor = UIColor(rgb: 0xD0021B)
-        let closeButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: dismissColor)
+        let closeButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: EKColor(dismissColor))
         let closeButtonLabel = EKProperty.LabelContent(
             text: L.dismissAction(),
             style: closeButtonLabelStyle)
         let closeButton = EKProperty.ButtonContent(
             label: closeButtonLabel,
             backgroundColor: .clear,
-            highlightedBackgroundColor: dismissColor.withAlphaComponent(0.05)) { [mappable] in
+            highlightedBackgroundColor: EKColor(dismissColor.withAlphaComponent(0.05))) { [mappable] in
                 mappable.isDismissed = true
                 SwiftEntryKit.dismiss {
                     self.notifying = nil
@@ -496,14 +496,14 @@ private extension NotificationServiceImpl {
 
         // Checkin
         let checkinColor = UIColor(rgb: 0x028DFF)
-        let okButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: checkinColor)
+        let okButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: EKColor(checkinColor))
         let okButtonLabel = EKProperty.LabelContent(
             text: L.checkinAction(),
             style: okButtonLabelStyle)
         let okButton = EKProperty.ButtonContent(
             label: okButtonLabel,
             backgroundColor: .clear,
-            highlightedBackgroundColor: checkinColor.withAlphaComponent(0.05)) { [mappable] in
+            highlightedBackgroundColor: EKColor(checkinColor.withAlphaComponent(0.05))) { [mappable] in
                 SwiftEntryKit.dismiss {
                     self.notifying = nil
                     self.set(item: mappable.item,
@@ -516,7 +516,7 @@ private extension NotificationServiceImpl {
         let buttonsBarContent = EKProperty.ButtonBarContent(
             // swiftlint:disable:next multiline_arguments
             with: closeButton, okButton,
-            separatorColor: grayLight,
+            separatorColor: EKColor(grayLight),
             buttonHeight: 60,
             expandAnimatedly: true)
 
@@ -550,15 +550,15 @@ private extension NotificationServiceImpl {
 
         // OK
         let buttonFont = Avenir.heavy.of(size: 16)
-        let checkinColor = UIColor(rgb: 0x028DFF)
-        let okButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: checkinColor)
+        let okColor = UIColor(rgb: 0x028DFF)
+        let okButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: EKColor(okColor))
         let okButtonLabel = EKProperty.LabelContent(
             text: L.ok(),
             style: okButtonLabelStyle)
         let okButton = EKProperty.ButtonContent(
             label: okButtonLabel,
             backgroundColor: .clear,
-            highlightedBackgroundColor: checkinColor.withAlphaComponent(0.05)) {
+            highlightedBackgroundColor: EKColor(okColor.withAlphaComponent(0.05))) {
                 SwiftEntryKit.dismiss {
                     self.alerting = false
                     then()
@@ -567,7 +567,7 @@ private extension NotificationServiceImpl {
         let grayLight = UIColor(white: 230.0 / 255.0, alpha: 1)
         let buttonsBarContent = EKProperty.ButtonBarContent(
             with: okButton,
-            separatorColor: grayLight,
+            separatorColor: EKColor(grayLight),
             buttonHeight: 60,
             expandAnimatedly: true)
 
@@ -694,7 +694,7 @@ private extension EKAttributes {
     static func notifyAttributes(note category: Note.Category) -> EKAttributes {
         var attributes = EKAttributes.bottomFloat
 
-        let dimmedLightBackground = UIColor(white: 100.0 / 255.0, alpha: 0.3)
+        let dimmedLightBackground = EKColor(UIColor(white: 100.0 / 255.0, alpha: 0.3))
         attributes.screenBackground = .color(color: dimmedLightBackground)
         attributes.hapticFeedbackType = .success
         attributes.displayDuration = .infinity

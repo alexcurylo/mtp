@@ -48,7 +48,7 @@ extension DateFormatter {
     }
 
     static var stampTime = DateFormatter {
-        $0.dateFormat = "yy.MM.dd HH:mm:ss:SSS"
+        $0.dateFormat = "yy.MM.dd HH:mm:ss.SSS"
         $0.calendar = Calendar(identifier: .iso8601)
         $0.timeZone = TimeZone.current
         $0.locale = Locale(identifier: "en_US_POSIX")

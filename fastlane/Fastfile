@@ -9,6 +9,8 @@
 #
 #     https://docs.fastlane.tools/plugins/available-plugins
 #
+# update metadata: fastlane deliver download_metadata
+#
 
 fastlane_version "2.128.1"
 #update_fastlane
@@ -59,7 +61,11 @@ platform :ios do
     build_app(export_method: "app-store")
     # screenshots
 
-    # upload_to_app_store(skip_metadata: true, skip_screenshots: true)
+    upload_to_app_store(skip_metadata: true,
+                        skip_screenshots: true,
+                        demo_account_required: true,
+                        # https://github.com/fastlane/fastlane/issues/13512
+                        force: true)
 
     stamp_changelog(section_identifier: "Version #{version_number}, Build #{build_number}")
     clean_build_artifacts
