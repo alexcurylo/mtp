@@ -59,6 +59,9 @@ final class SnapshotTests: XCTestCase {
         let userProfile = RankingVCs.profile(.locations, 2).match
         userProfile.tap()
 
+        let wait3 = XCTestExpectation(description: "Wait")
+        _ = XCTWaiter.wait(for: [wait3], timeout: 5.0)
+
         snapshot("06UserProfile")
 
         let close = UserProfileVCs.close.match
@@ -82,6 +85,9 @@ final class SnapshotTests: XCTestCase {
 
         let photos = MyProfileVCs.photos.match
         photos.tap()
+
+        let wait4 = XCTestExpectation(description: "Wait")
+        _ = XCTWaiter.wait(for: [wait4], timeout: 8.0)
 
         snapshot("09MyPhotos")
 
