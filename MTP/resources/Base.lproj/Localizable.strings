@@ -6,6 +6,7 @@
 "cancel" = "Cancel";
 "yes" = "Yes";
 "no" = "No";
+"resend" = "Resend";
 "unimplemented" = "Not implemented yet!";
 
 // networking handling

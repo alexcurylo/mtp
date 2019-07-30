@@ -12,6 +12,7 @@ The best way to let us know about any problems or suggestions is in the TestFlig
 
 ### Added
 - Web page headers now display Loading… then page title
+- Verify reminder has Resend button
 
 ## [Version 1.0, Build 632] - 2019-07-29
 
