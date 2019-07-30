@@ -140,6 +140,7 @@ extension NearbyVC: Injectable {
         if UIApplication.isTakingScreenshots {
             // "Thailand" first
             // https://www.google.co.th/maps/@,101.6532421,9.14z
+            // swiftlint:disable number_separator
             center = CLLocationCoordinate2D(
                 latitude: 15.6865673,
                 longitude: 101.6532421

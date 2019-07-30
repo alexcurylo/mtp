@@ -554,7 +554,8 @@ fileprivate extension WKWebViewController {
         }
     }
 
-    func checkRequestCookies(_ request: URLRequest, cookies: [HTTPCookie]) -> Bool {
+    func checkRequestCookies(_ request: URLRequest,
+                             cookies: [HTTPCookie]) -> Bool {
         if cookies.isEmpty {
             return true
         }
@@ -583,7 +584,8 @@ fileprivate extension WKWebViewController {
         return false
     }
 
-    func handleURLWithApp(_ url: URL, targetFrame: WKFrameInfo?) -> Bool {
+    func handleURLWithApp(_ url: URL,
+                          targetFrame: WKFrameInfo?) -> Bool {
         let hosts = UrlsHandledByApp.hosts
         let schemes = UrlsHandledByApp.schemes
         let blank = UrlsHandledByApp.blank
@@ -638,7 +640,8 @@ fileprivate extension WKWebViewController {
             items = [str]
         }
 
-        let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        let activityViewController = UIActivityViewController(activityItems: items,
+                                                              applicationActivities: nil)
         present(activityViewController, animated: true, completion: nil)
     }
 
@@ -659,15 +662,15 @@ fileprivate extension WKWebViewController {
 
 // MARK: - WKUIDelegate
 
-extension WKWebViewController: WKUIDelegate {
-}
+extension WKWebViewController: WKUIDelegate { }
 
 // MARK: - WKNavigationDelegate
 
 extension WKWebViewController: WKNavigationDelegate {
 
-    // swiftlint:disable:next implicitly_unwrapped_optional
-    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+    func webView(_ webView: WKWebView,
+                 // swiftlint:disable:next implicitly_unwrapped_optional
+                 didStartProvisionalNavigation navigation: WKNavigation!) {
         updateBarButtonItems()
         progressView.progress = 0
         if let u = webView.url {
@@ -676,8 +679,9 @@ extension WKWebViewController: WKNavigationDelegate {
         }
     }
 
-    // swiftlint:disable:next implicitly_unwrapped_optional
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+    func webView(_ webView: WKWebView,
+                 // swiftlint:disable:next implicitly_unwrapped_optional
+                 didFinish navigation: WKNavigation!) {
         updateBarButtonItems()
         progressView.progress = 0
         if let url = webView.url {
@@ -686,8 +690,10 @@ extension WKWebViewController: WKNavigationDelegate {
         }
     }
 
-    // swiftlint:disable:next implicitly_unwrapped_optional
-    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+    func webView(_ webView: WKWebView,
+                 // swiftlint:disable:next implicitly_unwrapped_optional
+                 didFailProvisionalNavigation navigation: WKNavigation!,
+                 withError error: Error) {
         updateBarButtonItems()
         progressView.progress = 0
         if let url = webView.url {
@@ -696,8 +702,10 @@ extension WKWebViewController: WKNavigationDelegate {
         }
     }
 
-    // swiftlint:disable:next implicitly_unwrapped_optional
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+    func webView(_ webView: WKWebView,
+                 // swiftlint:disable:next implicitly_unwrapped_optional
+                 didFail navigation: WKNavigation!,
+                 withError error: Error) {
         updateBarButtonItems()
         progressView.progress = 0
         if let url = webView.url {
