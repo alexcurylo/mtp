@@ -249,6 +249,17 @@ final class NetworkServiceSpy: NetworkService {
         invokedUserUpdateParameters = (payload, then)
         invokedUserUpdateParametersList.append((payload, then))
     }
+    var invokedUserVerify = false
+    var invokedUserVerifyCount = 0
+    var invokedUserVerifyParameters: (id: Int, then: NetworkCompletion<String>)?
+    var invokedUserVerifyParametersList = [(id: Int, then: NetworkCompletion<String>)]()
+    func userVerify(id: Int,
+    then: @escaping NetworkCompletion<String>) {
+        invokedUserVerify = true
+        invokedUserVerifyCount += 1
+        invokedUserVerifyParameters = (id, then)
+        invokedUserVerifyParametersList.append((id, then))
+    }
     var invokedRefreshRankings = false
     var invokedRefreshRankingsCount = 0
     func refreshRankings() {

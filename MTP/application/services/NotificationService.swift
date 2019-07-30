@@ -239,7 +239,10 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
 
     func ask(question: String,
              then: @escaping (Bool) -> Void) {
-        askForeground(question: question, then: then)
+        let note = Note(title: question,
+                        message: "",
+                        category: .question)
+        askForeground(question: note, then: then)
     }
 
     func notify(mappable: Mappable,
@@ -296,8 +299,13 @@ private extension NotificationServiceImpl {
         let note = Note(title: L.verify(),
                         message: L.verifyInstructions(user.email),
                         category: .information)
-        alert(foreground: note) {
+        askForeground(question: note,
+                      yes: L.ok(),
+                      no: L.resend()) { dontResend in
             self.remindedVerify = true
+            if !dontResend {
+                self.net.userVerify(id: user.id) { _ in }
+            }
         }
 
         return false
@@ -408,18 +416,20 @@ private extension NotificationServiceImpl {
     }
 
     // swiftlint:disable:next function_body_length
-    func askForeground(question: String,
+    func askForeground(question: Note,
+                       yes: String = L.yes(),
+                       no: String = L.no(),
                        then: @escaping (Bool) -> Void) {
         asking = true
-        let simpleMessage = notifyMessage(contentTitle: question,
-                                          contentMessage: "")
+        let simpleMessage = notifyMessage(contentTitle: question.title,
+                                          contentMessage: question.message)
 
         // No
         let buttonFont = Avenir.heavy.of(size: 16)
         let noColor = UIColor(rgb: 0xD0021B)
         let noButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: EKColor(noColor))
         let noButtonLabel = EKProperty.LabelContent(
-            text: L.no(),
+            text: no,
             style: noButtonLabelStyle)
         let noButton = EKProperty.ButtonContent(
             label: noButtonLabel,
@@ -435,7 +445,7 @@ private extension NotificationServiceImpl {
         let yesColor = UIColor(rgb: 0x028DFF)
         let yesButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: EKColor(yesColor))
         let yesButtonLabel = EKProperty.LabelContent(
-            text: L.yes(),
+            text: yes,
             style: yesButtonLabelStyle)
         let yesButton = EKProperty.ButtonContent(
             label: yesButtonLabel,

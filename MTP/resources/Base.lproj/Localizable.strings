@@ -6,6 +6,7 @@
 "cancel" = "Cancel";
 "yes" = "Yes";
 "no" = "No";
+"resend" = "Resend";
 "unimplemented" = "Not implemented yet!";
 
 // networking handling
@@ -107,6 +108,7 @@
 "notVisited" = "Not Visited";
 "showMore" = "Show More";
 "website" = "Website";
+"websiteLoading" = "Website Loading…";
 "noWebsite" = "Sorry, no website is available.";
 "directions" = "Directions";
 

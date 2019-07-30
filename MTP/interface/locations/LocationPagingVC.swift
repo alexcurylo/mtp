@@ -45,6 +45,10 @@ final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
 
     override init(viewControllers: [UIViewController]) {
         super.init(viewControllers: viewControllers)
+
+        if let webVC = viewControllers[0] as? LocationWebsiteVC {
+            webVC.titleDelegate = self
+        }
         configure()
     }
 
@@ -73,6 +77,8 @@ final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
     }
 }
 
+// MARK: - Private
+
 private extension LocationPagingVC {
 
     func configure() {
@@ -93,6 +99,17 @@ private extension LocationPagingVC {
             insets: .zero)
     }
 }
+
+// MARK: - Injectable
+
+extension LocationPagingVC: TitleChangeDelegate {
+
+    func changed(title: String) {
+        reloadMenu()
+    }
+}
+
+// MARK: - Injectable
 
 extension LocationPagingVC: Injectable {
 

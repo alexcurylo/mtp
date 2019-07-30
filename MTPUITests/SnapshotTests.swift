@@ -36,13 +36,14 @@ final class SnapshotTests: XCTestCase {
 
         snapshot("02Nearby")
 
-        let place = NearbyVCs.place(2).match
-        place.tap()
+        let gaggan = NearbyVCs.place(3).match
+        gaggan.tap()
 
         snapshot("03Callout")
 
         nearby.tap()
-        place.doubleTap()
+        let thailand = NearbyVCs.place(0).match
+        thailand.doubleTap()
 
         snapshot("04Info")
 
@@ -57,6 +58,9 @@ final class SnapshotTests: XCTestCase {
 
         let userProfile = RankingVCs.profile(.locations, 2).match
         userProfile.tap()
+
+        let wait3 = XCTestExpectation(description: "Wait")
+        _ = XCTWaiter.wait(for: [wait3], timeout: 5.0)
 
         snapshot("06UserProfile")
 
@@ -81,6 +85,9 @@ final class SnapshotTests: XCTestCase {
 
         let photos = MyProfileVCs.photos.match
         photos.tap()
+
+        let wait4 = XCTestExpectation(description: "Wait")
+        _ = XCTWaiter.wait(for: [wait4], timeout: 8.0)
 
         snapshot("09MyPhotos")
 

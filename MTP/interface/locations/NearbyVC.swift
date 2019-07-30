@@ -136,16 +136,28 @@ extension NearbyVC: Injectable {
     typealias Model = (mappables: [Mappable], center: CLLocationCoordinate2D)
 
     @discardableResult func inject(model: Model) -> Self {
-        if let here = loc.here,
-           !loc.distances.isEmpty {
-            guard model.center.distance(from: here) > 10 else {
-                set(mappables: model.mappables,
-                    distances: loc.distances)
-                return self
+        let center: CLLocationCoordinate2D
+        if UIApplication.isTakingScreenshots {
+            // "Thailand" first
+            // https://www.google.co.th/maps/@,101.6532421,9.14z
+            // swiftlint:disable number_separator
+            center = CLLocationCoordinate2D(
+                latitude: 15.6865673,
+                longitude: 101.6532421
+            )
+        } else {
+            if let here = loc.here,
+               !loc.distances.isEmpty {
+                guard model.center.distance(from: here) > 10 else {
+                    set(mappables: model.mappables,
+                        distances: loc.distances)
+                    return self
+                }
             }
+            center = model.center
         }
 
-        let update = DistancesOperation(center: model.center,
+        let update = DistancesOperation(center: center,
                                         mappables: model.mappables,
                                         handler: nil,
                                         trigger: false,

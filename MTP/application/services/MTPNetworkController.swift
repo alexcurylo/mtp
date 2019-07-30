@@ -54,6 +54,7 @@ enum MTP: Hashable {
     case userPut(payload: UserUpdatePayload)
     case userLogin(email: String, password: String)
     case userRegister(payload: RegistrationPayload)
+    case userVerify(id: Int)
     case whs
 
     // GET minimap: /minimaps/{user_id}.png
@@ -129,6 +130,8 @@ extension MTP: TargetType {
             return "user/login"
         case .userRegister:
             return "user"
+        case .userVerify(let id):
+            return "users/\(id)/send-verification-email"
         case .whs:
             return "whs"
         }
@@ -160,6 +163,7 @@ extension MTP: TargetType {
              .userGet,
              .userGetByToken,
              .userPosts,
+             .userVerify,
              .whs:
             return .get
         case .checkIn,
@@ -238,6 +242,9 @@ extension MTP: TargetType {
             return .requestJSONEncodable(payload)
         case .userRegister(let payload):
             return .requestJSONEncodable(payload)
+        case .userVerify:
+            return .requestParameters(parameters: ["preventCache": "1"],
+                                      encoding: URLEncoding.default)
         case .beach,
              .checklists,
              .countriesSearch,
@@ -349,7 +356,8 @@ extension MTP: AccessTokenAuthorizable {
              .upload,
              .userDelete,
              .userGetByToken,
-             .userPut:
+             .userPut,
+             .userVerify:
             return .bearer
         case .beach,
              .countriesSearch,
@@ -1566,6 +1574,42 @@ struct MTPNetworkController: ServiceProvider {
                 guard error.modified(from: endpoint) else {
                     return then(.failure(.notModified))
                 }
+                let message = error.errorDescription ?? L.unknown()
+                self.log.error("failure: \(endpoint.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
+    func userVerify(id: Int,
+                    then: @escaping NetworkCompletion<String>) {
+        let auth = AccessTokenPlugin { self.data.token }
+        let provider = MTPProvider(plugins: [auth])
+        let endpoint = MTP.userVerify(id: id)
+
+        //swiftlint:disable:next closure_body_length
+        provider.request(endpoint) { response in
+            switch response {
+            case .success(let result):
+                do {
+                    let reply = try result.map(OperationReply.self,
+                                               using: JSONDecoder.mtp)
+                    if reply.isSuccess {
+                        return then(.success(reply.message))
+                    } else {
+                        return then(.failure(.message(reply.message)))
+                    }
+                } catch {
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    return then(.failure(.decoding))
+                }
+            case .failure(.underlying(AFError.responseValidationFailed, _)):
+                self.log.error("API rejection: \(endpoint.path)")
+                return then(.failure(.status))
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
+            case .failure(let error):
                 let message = error.errorDescription ?? L.unknown()
                 self.log.error("failure: \(endpoint.path) \(message)")
                 return then(.failure(.network(message)))

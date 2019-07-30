@@ -6,11 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [Version 1.0, Build 633] - 2019-07-30
+
 ### Welcome to the MTP iOS app! I'm Alex, the lead mobile app developer for MTP.
 
-Please delete any previous builds from your device and reinstall this version - the way place images are stored has changed so the app needs to reload all its place data for those to show up.
-
 The best way to let us know about any problems or suggestions is in the TestFlight app you use to install the MTP app - a little down from the "Install" button you'll see a "Send Beta Feedback" button. That'll let you send us an email with information about your device attached, which will help us reproduce any problems you describe.
+
+### Added
+- Web page headers now display Loading… then page title
+- Verify reminder has Resend button
+
+### Changed
+- App icon
 
 ## [Version 1.0, Build 632] - 2019-07-29
 

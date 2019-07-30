@@ -62,6 +62,8 @@ protocol NetworkService: ServiceProvider {
                       then: @escaping NetworkCompletion<UserJSON>)
     func userUpdate(payload: UserUpdatePayload,
                     then: @escaping NetworkCompletion<UserJSON>)
+    func userVerify(id: Int,
+                    then: @escaping NetworkCompletion<String>)
 
     func refreshRankings()
     func refreshEverything()
@@ -193,6 +195,11 @@ class NetworkServiceImpl: NetworkService {
     func userUpdate(payload: UserUpdatePayload,
                     then: @escaping NetworkCompletion<UserJSON>) {
         mtp.userUpdate(payload: payload, then: then)
+    }
+
+    func userVerify(id: Int,
+                    then: @escaping NetworkCompletion<String>) {
+        mtp.userVerify(id: id, then: then)
     }
 
     func refreshRankings() {
@@ -361,6 +368,11 @@ final class NetworkServiceStub: NetworkServiceImpl {
 
     override func userUpdate(payload: UserUpdatePayload,
                              then: @escaping NetworkCompletion<UserJSON>) {
+        log.error("not stubbed yet")
+    }
+
+    override func userVerify(id: Int,
+                             then: @escaping NetworkCompletion<String>) {
         log.error("not stubbed yet")
     }
 }
