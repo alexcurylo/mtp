@@ -204,10 +204,10 @@
 "facebookFailed" = "Failed to get information from Facebook!";
 "fixFirstName" = "Please enter a first name!";
 "fixLastName" = "Please enter a last name!";
-"fixGender" = "Please select a gender!";
-"fixBirthday" = "Please select a birthday!";
-"fixCountry" = "Please select a country!";
-"fixLocation" = "Please select a location!";
+"fixGender" = "Please select a gender! This is used to sort traveler rankings by gender.";
+"fixBirthday" = "Please select a birthday! This is used to sort traveler rankings by age.";
+"fixCountry" = "Please select a country! This is used to sort traveler rankings by location.";
+"fixLocation" = "Please select a location!  This is used to sort traveler rankings by location.";
 "fixPassword" = "Please enter a password of at least 6 characters!";
 "fixConfirmPassword" = "Those passwords do not match!";
 
