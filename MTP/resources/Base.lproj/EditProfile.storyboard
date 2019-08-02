@@ -36,10 +36,10 @@
                                                             <rect key="frame" x="8" y="12" width="374" height="580"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Sap-WF-dzL">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="374" height="110"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="374" height="158"/>
                                                                     <subviews>
                                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wuK-ZE-BRx">
-                                                                            <rect key="frame" x="0.0" y="10" width="90" height="90"/>
+                                                                            <rect key="frame" x="0.0" y="34" width="90" height="90"/>
                                                                             <color key="backgroundColor" name="alto"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="height" constant="90" id="DC4-qt-r05"/>
@@ -56,19 +56,19 @@
                                                                             </connections>
                                                                         </button>
                                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="1Jw-Ew-YOm">
-                                                                            <rect key="frame" x="98" y="0.0" width="276" height="110"/>
+                                                                            <rect key="frame" x="98" y="31" width="276" height="96"/>
                                                                             <subviews>
-                                                                                <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="cOr-3T-oaa">
-                                                                                    <rect key="frame" x="0.0" y="0.0" width="276" height="52"/>
+                                                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="cOr-3T-oaa">
+                                                                                    <rect key="frame" x="0.0" y="0.0" width="276" height="44"/>
                                                                                     <subviews>
-                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="First name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bNP-8s-zfj">
+                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bNP-8s-zfj">
                                                                                             <rect key="frame" x="0.0" y="0.0" width="276" height="22"/>
                                                                                             <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="16"/>
                                                                                             <nil key="textColor"/>
                                                                                             <nil key="highlightedColor"/>
                                                                                         </label>
-                                                                                        <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First name" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="EPj-LD-X1o" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
-                                                                                            <rect key="frame" x="0.0" y="22" width="276" height="30"/>
+                                                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First name" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="EPj-LD-X1o" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
+                                                                                            <rect key="frame" x="0.0" y="22" width="276" height="22"/>
                                                                                             <nil key="textColor"/>
                                                                                             <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
                                                                                             <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" smartDashesType="no" smartQuotesType="no" textContentType="given-name"/>
@@ -95,17 +95,17 @@
                                                                                         </textField>
                                                                                     </subviews>
                                                                                 </stackView>
-                                                                                <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="qVa-Pa-Ooq">
-                                                                                    <rect key="frame" x="0.0" y="60" width="276" height="50"/>
+                                                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="qVa-Pa-Ooq">
+                                                                                    <rect key="frame" x="0.0" y="52" width="276" height="44"/>
                                                                                     <subviews>
-                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Last name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rFC-G6-bSu">
+                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rFC-G6-bSu">
                                                                                             <rect key="frame" x="0.0" y="0.0" width="276" height="22"/>
                                                                                             <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="16"/>
                                                                                             <nil key="textColor"/>
                                                                                             <nil key="highlightedColor"/>
                                                                                         </label>
-                                                                                        <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last name" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="qNx-nx-eet" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
-                                                                                            <rect key="frame" x="0.0" y="22" width="276" height="28"/>
+                                                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last name" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="qNx-nx-eet" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
+                                                                                            <rect key="frame" x="0.0" y="22" width="276" height="22"/>
                                                                                             <nil key="textColor"/>
                                                                                             <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
                                                                                             <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" smartDashesType="no" smartQuotesType="no" textContentType="family-name"/>
@@ -137,7 +137,7 @@
                                                                     </subviews>
                                                                 </stackView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Ozl-Lg-OBe">
-                                                                    <rect key="frame" x="0.0" y="118" width="374" height="52"/>
+                                                                    <rect key="frame" x="0.0" y="166" width="374" height="44"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Birthday" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G0Q-3z-VRB">
                                                                             <rect key="frame" x="0.0" y="0.0" width="374" height="22"/>
@@ -146,7 +146,7 @@
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Birthday" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="UXJ-Fc-RR3" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
-                                                                            <rect key="frame" x="0.0" y="22" width="374" height="30"/>
+                                                                            <rect key="frame" x="0.0" y="22" width="374" height="22"/>
                                                                             <nil key="textColor"/>
                                                                             <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
                                                                             <textInputTraits key="textInputTraits"/>
@@ -174,7 +174,7 @@
                                                                     </subviews>
                                                                 </stackView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="GYq-yJ-sFV">
-                                                                    <rect key="frame" x="0.0" y="178" width="374" height="52"/>
+                                                                    <rect key="frame" x="0.0" y="218" width="374" height="44"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gender" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KA2-Xx-cRk">
                                                                             <rect key="frame" x="0.0" y="0.0" width="374" height="22"/>
@@ -183,7 +183,7 @@
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Gender" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="F8V-yE-V2C" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
-                                                                            <rect key="frame" x="0.0" y="22" width="374" height="30"/>
+                                                                            <rect key="frame" x="0.0" y="22" width="374" height="22"/>
                                                                             <nil key="textColor"/>
                                                                             <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
                                                                             <textInputTraits key="textInputTraits"/>
@@ -211,7 +211,7 @@
                                                                     </subviews>
                                                                 </stackView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="6m5-1r-AtQ">
-                                                                    <rect key="frame" x="0.0" y="238" width="374" height="52"/>
+                                                                    <rect key="frame" x="0.0" y="270" width="374" height="44"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Home Country" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uTh-ab-414">
                                                                             <rect key="frame" x="0.0" y="0.0" width="374" height="22"/>
@@ -220,7 +220,7 @@
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Home Country" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="Xfx-7V-Suc" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
-                                                                            <rect key="frame" x="0.0" y="22" width="374" height="30"/>
+                                                                            <rect key="frame" x="0.0" y="22" width="374" height="22"/>
                                                                             <nil key="textColor"/>
                                                                             <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
                                                                             <textInputTraits key="textInputTraits"/>
@@ -251,7 +251,7 @@
                                                                     </subviews>
                                                                 </stackView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="zOO-wo-bMQ">
-                                                                    <rect key="frame" x="0.0" y="298" width="374" height="52"/>
+                                                                    <rect key="frame" x="0.0" y="322" width="374" height="44"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="State/Province" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p7b-MZ-rk8">
                                                                             <rect key="frame" x="0.0" y="0.0" width="374" height="22"/>
@@ -260,7 +260,7 @@
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="State/Province" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="qKj-gB-YE8" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
-                                                                            <rect key="frame" x="0.0" y="22" width="374" height="30"/>
+                                                                            <rect key="frame" x="0.0" y="22" width="374" height="22"/>
                                                                             <nil key="textColor"/>
                                                                             <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
                                                                             <textInputTraits key="textInputTraits"/>
@@ -291,7 +291,7 @@
                                                                     </subviews>
                                                                 </stackView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="tOg-tW-EVF">
-                                                                    <rect key="frame" x="0.0" y="358" width="374" height="52"/>
+                                                                    <rect key="frame" x="0.0" y="374" width="374" height="44"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0C2-2y-hdN">
                                                                             <rect key="frame" x="0.0" y="0.0" width="374" height="22"/>
@@ -300,7 +300,7 @@
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your email" adjustsFontSizeToFit="NO" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="OkT-tU-k7t" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
-                                                                            <rect key="frame" x="0.0" y="22" width="374" height="30"/>
+                                                                            <rect key="frame" x="0.0" y="22" width="374" height="22"/>
                                                                             <nil key="textColor"/>
                                                                             <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
                                                                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="done" smartDashesType="no" smartQuotesType="no" textContentType="email"/>
@@ -328,7 +328,7 @@
                                                                     </subviews>
                                                                 </stackView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Fi8-mG-qZU">
-                                                                    <rect key="frame" x="0.0" y="418" width="374" height="102"/>
+                                                                    <rect key="frame" x="0.0" y="426" width="374" height="102"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9EW-HS-q2d">
                                                                             <rect key="frame" x="0.0" y="0.0" width="374" height="22"/>
@@ -362,7 +362,7 @@
                                                                     </subviews>
                                                                 </stackView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="3zm-Ym-waz">
-                                                                    <rect key="frame" x="0.0" y="528" width="374" height="52"/>
+                                                                    <rect key="frame" x="0.0" y="536" width="374" height="44"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Home Airport Code (IATA 3-letter code)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v6H-xR-yMU">
                                                                             <rect key="frame" x="0.0" y="0.0" width="374" height="22"/>
@@ -371,7 +371,7 @@
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Home Airport Code " textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="fOe-69-bAq" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
-                                                                            <rect key="frame" x="0.0" y="22" width="374" height="30"/>
+                                                                            <rect key="frame" x="0.0" y="22" width="374" height="22"/>
                                                                             <nil key="textColor"/>
                                                                             <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
                                                                             <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" smartDashesType="no" smartQuotesType="no"/>
@@ -547,6 +547,7 @@
                         <outlet property="locationTextField" destination="qKj-gB-YE8" id="ugN-az-CoP"/>
                         <outlet property="saveButton" destination="R6r-9m-yTa" id="nEq-g5-H77"/>
                         <outlet property="toolbarBackButton" destination="P4e-oM-bDy" id="tiR-nY-dhX"/>
+                        <outlet property="toolbarClearButton" destination="k8j-va-ZDT" id="E0d-FH-eWP"/>
                         <outlet property="toolbarNextButton" destination="hnU-vs-zqO" id="2v6-a4-Qq5"/>
                     </connections>
                 </tableViewController>
@@ -565,6 +566,11 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Ox8-HN-xTs"/>
+                        <barButtonItem title="Clear" id="k8j-va-ZDT">
+                            <connections>
+                                <action selector="toolbarClearTapped:" destination="Aga-YF-c3F" id="MmL-BR-6FI"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem systemItem="done" id="Ejn-gy-2uF">
                             <connections>
                                 <action selector="toolbarDoneTapped:" destination="Aga-YF-c3F" id="1s1-tk-aOQ"/>

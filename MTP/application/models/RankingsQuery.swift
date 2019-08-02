@@ -7,12 +7,14 @@ enum Gender: String, Codable, CustomStringConvertible {
     case all = ""
     case female = "F"
     case male = "M"
+    case unknown = "U"
 
     var description: String {
         switch self {
         case .all: return "all"
         case .female: return L.female()
         case .male: return L.male()
+        case .unknown: return L.unknown()
         }
     }
 }

@@ -58,7 +58,7 @@ struct ScorecardRankedUser: Codable {
 
 struct ScorecardRankedUserJSON: Codable {
 
-    let birthday: Date
+    let birthday: Date?
     let country: String?
     let firstName: String
     let fullName: String
@@ -125,7 +125,7 @@ struct ScorecardRanks: Codable {
 struct ScorecardUserJSON: Codable {
 
     let age: Int
-    let birthday: Date
+    let birthday: Date?
     let firstName: String
     let gender: String
     let id: Int

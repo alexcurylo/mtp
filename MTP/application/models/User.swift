@@ -42,7 +42,7 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
 
     let airport: String?
     let bio: String?
-    let birthday: Date
+    let birthday: Date?
     let country: LocationJSON
     let countryId: Int
     let createdAt: Date
@@ -85,6 +85,10 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
 
     var isWaiting: Bool {
         return Status(rawValue: status) == .waiting
+    }
+
+    var isComplete: Bool {
+        return birthday != nil && gender != "U"
     }
 
     // swiftlint:disable:next function_body_length
@@ -152,7 +156,7 @@ extension UserJSON: CustomDebugStringConvertible {
         < User: \(description):
             airport: \(String(describing: airport))
             bio: \(String(describing: bio))
-            birthday: \(birthday)
+            birthday: \(String(describing: birthday))
             country: \(country)
             country_id: \(countryId)
             created_at: \(createdAt)
@@ -276,7 +280,7 @@ extension UserAvatar {
         switch gender {
         case "F":
             return R.image.placeholderFemaleThumb()
-        case "M":
+        case "M", "U":
             return R.image.placeholderMaleThumb()
         default:
             return R.image.placeholderThumb()

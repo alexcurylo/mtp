@@ -47,10 +47,6 @@ final class LoginVC: UIViewController, ServiceProvider {
         data.email = emailTextField?.text ?? ""
    }
 
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
-
     override func didReceiveMemoryWarning() {
         log.warning("didReceiveMemoryWarning: \(type(of: self))")
         super.didReceiveMemoryWarning()

@@ -94,6 +94,7 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
     private var list: Checklist = .locations
     private var rank: Int?
     private var scorecardObserver: Observer?
+    private var userObserver: Observer?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -158,6 +159,13 @@ private extension RankingHeader {
 
             self.update(rank: user)
         }
+
+        userObserver = data.observer(of: .user) { [weak self] _ in
+            guard let self = self,
+                  let user = self.data.user else { return }
+
+            self.update(rank: user)
+        }
     }
 
     func update(rank user: UserJSON) {
@@ -166,6 +174,17 @@ private extension RankingHeader {
             rankTitle.text = ""
             rankLabel.text = L.verify()
             rankLabel.textColor = Layout.updatingColor
+            rankLabel.font = Layout.rankFont.updating
+            fractionLabel.text = ""
+            updatingStack?.isHidden = true
+            return
+        }
+
+        guard user.isComplete else {
+            scheduler.stop()
+            rankTitle.text = ""
+            rankLabel.text = L.complete()
+            rankLabel.textColor = nil
             rankLabel.font = Layout.rankFont.updating
             fractionLabel.text = ""
             updatingStack?.isHidden = true

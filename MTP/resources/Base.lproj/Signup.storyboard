@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="VZf-fG-PrW">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -12,20 +16,20 @@
             <objects>
                 <viewController title="Sign Up to MTP" definesPresentationContext="YES" providesPresentationContextTransitionStyle="YES" id="VZf-fG-PrW" customClass="SignupVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jbu-cQ-Pp1" customClass="GradientView" customModule="MTP" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hnx-yz-Iz5">
-                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                                <rect key="frame" x="0.0" y="20" width="414" height="842"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Ecq-E5-OQM" userLabel="Credentials Stack">
-                                        <rect key="frame" x="100" y="16" width="400" height="720.5"/>
+                                        <rect key="frame" x="32" y="16" width="350" height="720.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="qyu-KV-sXB" userLabel="Facebook Stack">
-                                                <rect key="frame" x="0.0" y="0.0" width="400" height="108"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="350" height="108"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Idz-tR-O7l" customClass="FacebookButton" customModule="MTP" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="400" height="50"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="350" height="50"/>
                                                         <color key="backgroundColor" name="facebookButton"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="kKu-sI-74k"/>
@@ -44,17 +48,17 @@
                                                         </connections>
                                                     </button>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="shp-XK-dXd">
-                                                        <rect key="frame" x="0.0" y="58" width="400" height="50"/>
+                                                        <rect key="frame" x="0.0" y="58" width="350" height="50"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XxQ-3s-lSF" userLabel="Left Line">
-                                                                <rect key="frame" x="0.0" y="24.5" width="111.5" height="1"/>
+                                                                <rect key="frame" x="0.0" y="24.5" width="86.5" height="1"/>
                                                                 <color key="backgroundColor" name="dustyGray"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="1" id="Tr7-Uf-F9j"/>
                                                                 </constraints>
                                                             </view>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="d2r-nH-XQS">
-                                                                <rect key="frame" x="127.5" y="0.0" width="145.5" height="50"/>
+                                                                <rect key="frame" x="102.5" y="0.0" width="145.5" height="50"/>
                                                                 <attributedString key="attributedText">
                                                                     <fragment content="or Sign Up with email">
                                                                         <attributes>
@@ -67,7 +71,7 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lMR-dX-tVG" userLabel="Right Line">
-                                                                <rect key="frame" x="289" y="24.5" width="111" height="1"/>
+                                                                <rect key="frame" x="264" y="24.5" width="86" height="1"/>
                                                                 <color key="backgroundColor" name="dustyGray"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="1" id="cNO-eM-jFD"/>
@@ -96,13 +100,13 @@
                                                 </constraints>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s6t-sG-dgB" userLabel="Credentials">
-                                                <rect key="frame" x="0.0" y="116" width="400" height="454"/>
+                                                <rect key="frame" x="0.0" y="116" width="350" height="454"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="VIo-QH-PZ2">
-                                                        <rect key="frame" x="0.0" y="0.0" width="400" height="454"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="350" height="454"/>
                                                         <subviews>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your email" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JUr-F9-mJF" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
-                                                                <rect key="frame" x="0.0" y="0.0" width="400" height="50"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="350" height="50"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="50" id="860-rL-Oxr"/>
@@ -123,7 +127,7 @@
                                                                 </connections>
                                                             </textField>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First name" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6Z5-BT-WlN" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
-                                                                <rect key="frame" x="0.0" y="50.5" width="400" height="50"/>
+                                                                <rect key="frame" x="0.0" y="50.5" width="350" height="50"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="50" id="nsj-WF-UeX"/>
@@ -144,7 +148,7 @@
                                                                 </connections>
                                                             </textField>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last name" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="B4n-c0-9pg" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
-                                                                <rect key="frame" x="0.0" y="101" width="400" height="50"/>
+                                                                <rect key="frame" x="0.0" y="101" width="350" height="50"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="50" id="hJb-bQ-fW1"/>
@@ -165,7 +169,7 @@
                                                                 </connections>
                                                             </textField>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Gender" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="B4L-tv-2IT" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
-                                                                <rect key="frame" x="0.0" y="151.5" width="400" height="50"/>
+                                                                <rect key="frame" x="0.0" y="151.5" width="350" height="50"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="50" id="FIT-bK-cbP"/>
@@ -186,7 +190,7 @@
                                                                 </connections>
                                                             </textField>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Home Country" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="of2-5v-sav" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
-                                                                <rect key="frame" x="0.0" y="202" width="400" height="50"/>
+                                                                <rect key="frame" x="0.0" y="202" width="350" height="50"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="50" id="CXr-rV-23e"/>
@@ -210,7 +214,7 @@
                                                                 </connections>
                                                             </textField>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="State/Province" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0wm-Do-yw1" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
-                                                                <rect key="frame" x="0.0" y="252.5" width="400" height="50"/>
+                                                                <rect key="frame" x="0.0" y="252.5" width="350" height="50"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="50" id="cLi-x9-MYO"/>
@@ -234,7 +238,7 @@
                                                                 </connections>
                                                             </textField>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Birthday" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TD2-H5-D6D" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
-                                                                <rect key="frame" x="0.0" y="303" width="400" height="50"/>
+                                                                <rect key="frame" x="0.0" y="303" width="350" height="50"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="50" id="TEE-Hp-Vj8"/>
@@ -255,7 +259,7 @@
                                                                 </connections>
                                                             </textField>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="n6Q-oe-4DJ" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
-                                                                <rect key="frame" x="0.0" y="353.5" width="400" height="50"/>
+                                                                <rect key="frame" x="0.0" y="353.5" width="350" height="50"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="50" id="Lgd-Qs-Nr9"/>
@@ -276,7 +280,7 @@
                                                                 </connections>
                                                             </textField>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Confirm Password" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SMh-oa-DIs" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
-                                                                <rect key="frame" x="0.0" y="404" width="400" height="50"/>
+                                                                <rect key="frame" x="0.0" y="404" width="350" height="50"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="50" id="pnT-ta-UKK"/>
@@ -324,7 +328,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4h0-y8-Si9" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="578" width="400" height="50"/>
+                                                <rect key="frame" x="0.0" y="578" width="350" height="50"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="fDW-xk-vk8"/>
                                                 </constraints>
@@ -351,7 +355,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MGV-q0-7lo">
-                                                <rect key="frame" x="0.0" y="636" width="400" height="26.5"/>
+                                                <rect key="frame" x="0.0" y="636" width="350" height="26.5"/>
                                                 <state key="normal">
                                                     <attributedString key="attributedTitle">
                                                         <fragment content="By signing up you agree to">
@@ -382,7 +386,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z31-kE-lWB">
-                                                <rect key="frame" x="0.0" y="670.5" width="400" height="50"/>
+                                                <rect key="frame" x="0.0" y="670.5" width="350" height="50"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="7hw-uc-eIL"/>
                                                 </constraints>
@@ -473,6 +477,7 @@
                         <outlet property="toggleConfirmPasswordButton" destination="HbW-1G-lKZ" id="Mpm-Vg-ita"/>
                         <outlet property="togglePasswordButton" destination="HLz-Mw-MsJ" id="GLa-3i-Lpl"/>
                         <outlet property="toolbarBackButton" destination="xAY-V7-g7K" id="2dF-Uy-nIe"/>
+                        <outlet property="toolbarClearButton" destination="upp-k0-iav" id="jYM-8B-pjZ"/>
                         <outlet property="toolbarNextButton" destination="Rgm-dJ-6vn" id="Q6d-K9-u3M"/>
                         <segue destination="Sh2-4H-ObH" kind="show" identifier="showWelcome" id="y8N-wZ-OXP"/>
                         <segue destination="ChW-sd-d9N" kind="presentation" identifier="presentSignupFail" modalTransitionStyle="crossDissolve" id="Fen-BZ-1cX"/>
@@ -493,6 +498,11 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="hSa-TI-eXm"/>
+                        <barButtonItem title="Clear" id="upp-k0-iav">
+                            <connections>
+                                <action selector="toolbarClearTapped:" destination="VZf-fG-PrW" id="Bf4-3F-TnG"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem systemItem="done" id="vPT-U6-mcD">
                             <connections>
                                 <action selector="toolbarDoneTapped:" destination="VZf-fG-PrW" id="Pvl-8J-D7T"/>
@@ -536,11 +546,11 @@
             <objects>
                 <viewController title="Terms of Service" id="RVy-dB-36p" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IET-yo-uft">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LEM-rz-ioT" customClass="TopLoadingTextView" customModule="MTP" customModuleProvider="target">
-                                <rect key="frame" x="16" y="80" width="568" height="520"/>
+                                <rect key="frame" x="16" y="104" width="382" height="758"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <attributedString key="attributedText">
                                     <fragment content="TERMS OF USE">
@@ -3871,26 +3881,26 @@ Cg
             <objects>
                 <viewController title="Welcome" id="Sh2-4H-ObH" customClass="WelcomeVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6F1-I8-OSZ" customClass="GradientView" customModule="MTP" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud1" translatesAutoresizingMaskIntoConstraints="NO" id="zgx-2g-52R">
-                                <rect key="frame" x="165" y="204.5" width="16" height="16"/>
+                                <rect key="frame" x="16" y="296" width="97" height="58"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud2" translatesAutoresizingMaskIntoConstraints="NO" id="4aG-gG-oiE">
-                                <rect key="frame" x="445" y="223.5" width="16" height="16"/>
+                                <rect key="frame" x="327" y="318" width="101" height="55"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud3" translatesAutoresizingMaskIntoConstraints="NO" id="vOe-gG-w9J">
-                                <rect key="frame" x="148" y="313.5" width="16" height="16"/>
+                                <rect key="frame" x="-16" y="447" width="112" height="69"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud4" translatesAutoresizingMaskIntoConstraints="NO" id="C15-xM-60M">
-                                <rect key="frame" x="471" y="324.5" width="16" height="16"/>
+                                <rect key="frame" x="353" y="458" width="104" height="68"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="KW2-wY-ZyV" userLabel="Message Stack">
-                                <rect key="frame" x="100" y="72.5" width="400" height="275.5"/>
+                                <rect key="frame" x="32" y="145.5" width="350" height="336"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Kb-WM-TtP">
-                                        <rect key="frame" x="0.0" y="0.0" width="400" height="76.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="115"/>
                                         <attributedString key="attributedText">
                                             <fragment>
                                                 <string key="content">Congratulations!
@@ -3905,7 +3915,7 @@ You’re now a member of MTP.</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bmf-Ij-HCS">
-                                        <rect key="frame" x="0.0" y="92.5" width="400" height="22"/>
+                                        <rect key="frame" x="0.0" y="131" width="350" height="44"/>
                                         <attributedString key="attributedText">
                                             <fragment content="Welcome to the ranks of the Most Traveled People!">
                                                 <attributes>
@@ -3918,7 +3928,7 @@ You’re now a member of MTP.</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="faceRegister" translatesAutoresizingMaskIntoConstraints="NO" id="qkD-oK-Frk">
-                                        <rect key="frame" x="0.0" y="130.5" width="400" height="145"/>
+                                        <rect key="frame" x="0.0" y="191" width="350" height="145"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="145" id="arV-Ed-2Tq"/>
                                         </constraints>
@@ -3929,10 +3939,10 @@ You’re now a member of MTP.</string>
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="oIZ-aS-8gw" userLabel="Settings Stack">
-                                <rect key="frame" x="100" y="416" width="400" height="160"/>
+                                <rect key="frame" x="32" y="678" width="350" height="160"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uPv-Ce-edY">
-                                        <rect key="frame" x="0.0" y="0.0" width="400" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="44"/>
                                         <attributedString key="attributedText">
                                             <fragment>
                                                 <string key="content">Tell us more about yourself by
@@ -3947,7 +3957,7 @@ going to your Profile Settings.</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="53c-W7-tyV" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="52" width="400" height="50"/>
+                                        <rect key="frame" x="0.0" y="52" width="350" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="Nw9-fI-jRX"/>
                                         </constraints>
@@ -3975,7 +3985,7 @@ going to your Profile Settings.</string>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xpu-l4-3G1">
-                                        <rect key="frame" x="0.0" y="110" width="400" height="50"/>
+                                        <rect key="frame" x="0.0" y="110" width="350" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="1Xd-6d-FLg"/>
                                         </constraints>
@@ -4045,29 +4055,29 @@ going to your Profile Settings.</string>
             <objects>
                 <viewController modalPresentationStyle="overCurrentContext" id="ChW-sd-d9N" customClass="SignupFailVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CNi-hS-40Q">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8ej-Bp-9VC">
-                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="luo-5c-ZeG">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="580"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T2c-UT-ea1">
-                                            <rect key="frame" x="100" y="355" width="400" height="225"/>
+                                            <rect key="frame" x="24" y="593" width="366" height="225"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="bHw-g2-ft1">
-                                                    <rect key="frame" x="8" y="24" width="384" height="189"/>
+                                                    <rect key="frame" x="8" y="24" width="350" height="189"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MYq-z1-v8M">
-                                                            <rect key="frame" x="15" y="0.0" width="354" height="122"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="350" height="122"/>
                                                             <subviews>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1pZ-CH-liT">
-                                                                    <rect key="frame" x="54" y="0.0" width="246" height="122"/>
+                                                                    <rect key="frame" x="54" y="0.0" width="242" height="122"/>
                                                                 </button>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A0B-lJ-JAv">
-                                                                    <rect key="frame" x="54" y="0.0" width="246" height="122"/>
+                                                                    <rect key="frame" x="54" y="0.0" width="242" height="122"/>
                                                                     <attributedString key="attributedText">
                                                                         <fragment content="Sorry, there was an error signing up.">
                                                                             <attributes>
@@ -4094,14 +4104,14 @@ going to your Profile Settings.</string>
                                                             </constraints>
                                                         </view>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4XN-8l-itJ">
-                                                            <rect key="frame" x="72" y="130" width="240" height="1"/>
+                                                            <rect key="frame" x="55" y="130" width="240" height="1"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="1" id="QNr-l5-F34"/>
                                                             </constraints>
                                                         </view>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Bp-Mg-jao" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="139" width="384" height="50"/>
+                                                            <rect key="frame" x="0.0" y="139" width="350" height="50"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="50" id="lUi-g0-vC8"/>
                                                             </constraints>

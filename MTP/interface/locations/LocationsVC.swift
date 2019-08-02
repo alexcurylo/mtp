@@ -63,10 +63,6 @@ final class LocationsVC: UIViewController, ServiceProvider {
         note.checkPending()
     }
 
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
-
     override func didReceiveMemoryWarning() {
         log.warning("didReceiveMemoryWarning: \(type(of: self))")
         super.didReceiveMemoryWarning()

@@ -33,6 +33,7 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
     @IBOutlet private var keyboardToolbar: UIToolbar?
     @IBOutlet private var toolbarBackButton: UIBarButtonItem?
     @IBOutlet private var toolbarNextButton: UIBarButtonItem?
+    @IBOutlet private var toolbarClearButton: UIBarButtonItem?
 
     enum Layout {
         static let sectionCornerRadius = CGFloat(5)
@@ -43,7 +44,10 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
     private var current = UserUpdatePayload()
     private var country: Country?
     private var location: Location?
-    private let genders = [L.selectGender(), L.male(), L.female()]
+    private let genders = [L.selectGender(),
+                           L.male(),
+                           L.female(),
+                           L.unknown()]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -129,6 +133,7 @@ extension EditProfileVC: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         let linkTextFields = linksStack?.linkTextFields ?? []
 
+        var clearHidden = true
         switch textField {
         case firstNameTextField:
             toolbarBackButton?.isEnabled = false
@@ -145,6 +150,10 @@ extension EditProfileVC: UITextFieldDelegate {
         case linkTextFields.last:
             toolbarBackButton?.isEnabled = true
             toolbarNextButton?.isEnabled = false
+        case birthdayTextField:
+            clearHidden = false
+            // swiftlint:disable:next fallthrough
+            fallthrough
         case lastNameTextField,
              birthdayTextField,
              genderTextField,
@@ -156,6 +165,8 @@ extension EditProfileVC: UITextFieldDelegate {
             toolbarBackButton?.isEnabled = false
             toolbarNextButton?.isEnabled = false
         }
+        toolbarClearButton?.isHidden = clearHidden
+
         return true
     }
 
@@ -173,6 +184,7 @@ extension EditProfileVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         toolbarBackButton?.isEnabled = true
         toolbarNextButton?.isEnabled = true
+        toolbarClearButton?.isHidden = true
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -227,7 +239,8 @@ private extension EditProfileVC {
         switch update.gender {
         case "M": gender = L.male()
         case "F": gender = L.female()
-        default: gender = ""
+        case "U": gender = L.unknown()
+        default: gender = L.unknown()
         }
         genderTextField?.text = gender
 
@@ -419,6 +432,15 @@ private extension EditProfileVC {
         }
     }
 
+    @IBAction func toolbarClearTapped(_ sender: UIBarButtonItem) {
+        if birthdayTextField?.isEditing ?? false {
+            birthdayTextField?.text = nil
+            current.birthday = nil
+        }
+        view.endEditing(true)
+        updateSave(showError: false)
+    }
+
     @IBAction func toolbarDoneTapped(_ sender: UIBarButtonItem) {
         view.endEditing(true)
         updateSave(showError: false)
@@ -443,6 +465,9 @@ private extension EditProfileVC {
         current.first_name = firstNameTextField?.text ?? ""
         current.last_name = lastNameTextField?.text ?? ""
         // birthday, gender, country, location expected set here
+        if let text = current.birthday, text.isEmpty {
+            current.birthday = nil
+        }
         current.email = emailTextField?.text ?? ""
         current.bio = aboutTextView?.text ?? ""
         current.airport = airportTextField?.text ?? ""
@@ -453,10 +478,10 @@ private extension EditProfileVC {
             errorMessage = L.fixFirstName()
         } else if current.last_name.isEmpty {
             errorMessage = L.fixLastName()
-        } else if current.birthday.isEmpty {
-            errorMessage = L.fixBirthday()
-        } else if current.gender.isEmpty {
-            errorMessage = L.fixGender()
+        //} else if current.birthday.isEmpty {
+            //errorMessage = L.fixBirthday()
+        //} else if current.gender.isEmpty {
+            //errorMessage = L.fixGender()
         } else if current.country_id == 0 {
             errorMessage = L.fixCountry()
         } else if current.location_id == 0 {
@@ -629,10 +654,10 @@ extension EditProfileVC: UIPickerViewDelegate {
 
         genderTextField?.text = genders[row]
         let gender: String
-        if let first = genderTextField?.text?.first {
-            gender = String(first)
-        } else {
-            gender = ""
+        switch genderTextField?.text?.first {
+        case "M": gender = "M"
+        case "F": gender = "F"
+        default: gender = "U"
         }
         current.gender = gender
         genderTextField?.resignFirstResponder()
@@ -671,6 +696,7 @@ extension EditProfileVC: Injectable {
         keyboardToolbar.require()
         toolbarBackButton.require()
         toolbarNextButton.require()
+        toolbarClearButton.require()
     }
 }
 
@@ -741,5 +767,19 @@ private extension UIView {
     var linkDeleteButton: UIButton? {
         let button = linkUrlView?.subviews.first { $0 is UIButton }
         return button as? UIButton
+    }
+}
+
+extension UIBarButtonItem {
+
+    var isHidden: Bool {
+        get {
+            return tintColor == .clear
+        }
+        set {
+            tintColor = newValue ? .clear : nil
+            isEnabled = !newValue
+            isAccessibilityElement = !newValue
+        }
     }
 }

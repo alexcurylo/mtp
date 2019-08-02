@@ -165,6 +165,7 @@
 
 "myRanking" = "My Ranking:";
 "myScore" = "My Score:";
+"complete" = "Complete your profile to see your rank!";
 "verify" = "Account not verified - check your email!";
 "verifyInstructions" = "Your account verification email was sent to %@. Please tap the link in that email to verify your account.";
 "rankScore" = "%@";
@@ -187,6 +188,7 @@
 "selectLocationAll" = "(All locations)";
 "male" = "Male";
 "female" = "Female";
+"unknown" = "Prefer not to say";
 "facebookFriends" = "Friends";
 "allAges" = "All ages";
 "ageRange" = "%1$ld-%2$ld";

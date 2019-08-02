@@ -18,7 +18,7 @@ struct UserUpdatePayload: Codable, Hashable, UserAvatar {
 
     var airport: String?
     var bio: String?
-    var birthday: String = ""
+    var birthday: String?
     var country_id: Int = 0
     var created_at: String = ""
     var email: String = ""
@@ -62,7 +62,11 @@ struct UserUpdatePayload: Codable, Hashable, UserAvatar {
     init(from: UserJSON) {
         airport = from.airport
         bio = from.bio
-        birthday = DateFormatter.mtpDay.string(from: from.birthday)
+        if let date = from.birthday {
+            birthday = DateFormatter.mtpDay.string(from: date)
+        } else {
+            birthday = nil
+        }
         country_id = from.countryId
         created_at = DateFormatter.mtpTime.string(from: from.createdAt)
         email = from.email

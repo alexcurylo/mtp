@@ -4,7 +4,7 @@ import Foundation
 
 struct RegistrationPayload: Codable, Hashable {
 
-    let birthday: String
+    let birthday: String?
     let country: CountryPayload
     let country_id: Int
     let email: String
@@ -17,20 +17,20 @@ struct RegistrationPayload: Codable, Hashable {
     let passwordConfirmation: String
 
     var isValid: Bool {
-        return !birthday.isEmpty &&
-               country.isValid &&
+        return country.isValid &&
                country_id > 0 &&
                !email.isEmpty &&
                !first_name.isEmpty &&
-               !gender.isEmpty &&
                !last_name.isEmpty &&
                location.isValid &&
                location_id > 0 &&
+               //!birthday.isEmpty &&
+               //!gender.isEmpty &&
                !password.isEmpty &&
                password == passwordConfirmation
     }
 
-    init(birthday: Date,
+    init(birthday: String?,
          country: Country,
          firstName: String,
          email: String,
@@ -39,7 +39,7 @@ struct RegistrationPayload: Codable, Hashable {
          location: Location,
          password: String,
          passwordConfirmation: String) {
-        self.birthday = DateFormatter.mtpDay.string(from: birthday)
+        self.birthday = birthday
         self.country = CountryPayload(country: country)
         country_id = country.countryId
         self.email = email
@@ -57,14 +57,14 @@ struct RegistrationPayload: Codable, Hashable {
            let date = DateFormatter.fbDay.date(from: dateString) {
             birthday = DateFormatter.mtpDay.string(from: date)
         } else {
-            birthday = ""
+            birthday = nil
         }
         email = response["email"] as? String ?? ""
         first_name = response["first_name"] as? String ?? ""
         switch response["gender"] as? String {
         case "female": gender = "F"
         case "male": gender = "M"
-        default: gender = ""
+        default: gender = "U"
         }
         last_name = response["last_name"] as? String ?? ""
 

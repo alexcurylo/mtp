@@ -65,9 +65,14 @@ final class MyProfileVC: ProfileVC {
     override func configure() {
         super.configure()
 
-        guard let user = data.user else { return }
-
-        birthdayLabel?.text = DateFormatter.mtpBirthday.string(from: user.birthday)
+        let title: String?
+        if let birthday = data.user?.birthday {
+            title = DateFormatter.mtpBirthday.string(from: birthday)
+            return
+        } else {
+            title = nil
+        }
+        birthdayLabel?.text = title
     }
 }
 

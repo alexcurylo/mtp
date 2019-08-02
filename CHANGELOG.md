@@ -6,11 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## [Version 1.0, Build 634] - 2019-08-01
-
 ### Welcome to the MTP iOS app! I'm Alex, the lead mobile app developer for MTP.
 
 The best way to let us know about any problems or suggestions is in the TestFlight app you use to install the MTP app - a little down from the "Install" button you'll see a "Send Beta Feedback" button. That'll let you send us an email with information about your device attached, which will help us reproduce any problems you describe.
+
+### Changed
+- Birthday and gender signup/profile fields are now optional
+
+## [Version 1.0, Build 634] - 2019-08-01
 
 ### Changed
 - Camera permission strings, registration data requests

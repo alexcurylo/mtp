@@ -29,13 +29,17 @@ final class SignupVC: UIViewController, ServiceProvider {
     @IBOutlet private var keyboardToolbar: UIToolbar?
     @IBOutlet private var toolbarBackButton: UIBarButtonItem?
     @IBOutlet private var toolbarNextButton: UIBarButtonItem?
+    @IBOutlet private var toolbarClearButton: UIBarButtonItem?
 
     private var errorMessage: String = ""
 
     private var country: Country?
     private var location: Location?
 
-    private let genders = [L.selectGender(), L.male(), L.female()]
+    private let genders = [L.selectGender(),
+                           L.male(),
+                           L.female(),
+                           L.unknown()]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,10 +70,6 @@ final class SignupVC: UIViewController, ServiceProvider {
 
         data.email = emailTextField?.text ?? ""
    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
 
     override func didReceiveMemoryWarning() {
         log.warning("didReceiveMemoryWarning: \(type(of: self))")
@@ -281,6 +281,14 @@ private extension SignupVC {
         }
     }
 
+    @IBAction func toolbarClearTapped(_ sender: UIBarButtonItem) {
+        if birthdayTextField?.isEditing ?? false {
+            birthdayTextField?.text = nil
+        }
+        view.endEditing(true)
+        prepareRegister(showError: false)
+    }
+
     @IBAction func toolbarDoneTapped(_ sender: UIBarButtonItem) {
         view.endEditing(true)
         prepareRegister(showError: false)
@@ -295,14 +303,16 @@ private extension SignupVC {
         switch payload.gender {
         case "M": gender = L.male()
         case "F": gender = L.female()
-        default: gender = ""
+        case "U": gender = L.unknown()
+        default: gender = L.unknown()
         }
         genderTextField?.disable(text: gender)
 
         lastNameTextField?.disable(text: payload.last_name)
 
-        if !payload.birthday.isEmpty {
-            birthdayTextField?.disable(text: payload.birthday)
+        let birthday = payload.birthday ?? ""
+        if !birthday.isEmpty {
+            birthdayTextField?.disable(text: birthday)
         }
 
         prepareRegister(showError: false)
@@ -318,24 +328,36 @@ private extension SignupVC {
         let firstName = firstNameTextField?.text ?? ""
         let lastName = lastNameTextField?.text ?? ""
         let gender: String
-        if let first = genderTextField?.text?.first {
-            gender = String(first)
-        } else {
-            gender = ""
+        switch genderTextField?.text?.first {
+        case "M": gender = "M"
+        case "F": gender = "F"
+        default: gender = "U"
         }
-        let birthdayText = birthdayTextField?.text ?? ""
-        let birthdayDate = DateFormatter.mtpDay.date(from: birthdayText)
+        let birthday: String?
+        if let text = birthdayTextField?.text,
+           !text.isEmpty {
+            birthday = text
+        } else {
+            birthday = nil
+        }
         let password = passwordTextField?.text ?? ""
         let passwordConfirmation = confirmPasswordTextField?.text ?? ""
 
+        errorMessage = ""
         if !email.isValidEmail {
             errorMessage = L.fixEmail()
         } else if firstName.isEmpty {
             errorMessage = L.fixFirstName()
         } else if lastName.isEmpty {
             errorMessage = L.fixLastName()
-        } else if gender.isEmpty {
-            errorMessage = L.fixGender()
+        //} else if gender.isEmpty {
+            //errorMessage = L.fixGender()
+        //} else if birthday == nil {
+            //errorMessage = L.fixBirthday()
+        } else if !password.isValidPassword {
+            errorMessage = L.fixPassword()
+        } else if password != passwordConfirmation {
+            errorMessage = L.fixConfirmPassword()
         } else if country == nil {
             errorMessage = L.fixCountry()
         } else if location == nil {
@@ -344,17 +366,8 @@ private extension SignupVC {
             } else {
                 location = data.get(location: country?.countryId ?? 0)
             }
-        } else if birthdayDate == nil {
-            errorMessage = L.fixBirthday()
-        } else if !password.isValidPassword {
-            errorMessage = L.fixPassword()
-        } else if password != passwordConfirmation {
-            errorMessage = L.fixConfirmPassword()
-        } else {
-            errorMessage = ""
         }
-        guard let birthday = birthdayDate,
-              let country = country,
+        guard let country = country,
               let location = location,
               errorMessage.isEmpty else {
             if showError {
@@ -422,6 +435,7 @@ private extension SignupVC {
 extension SignupVC: UITextFieldDelegate {
 
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        var clearHidden = true
         switch textField {
         case emailTextField:
             toolbarBackButton?.isEnabled = false
@@ -435,10 +449,16 @@ extension SignupVC: UITextFieldDelegate {
         case locationTextField:
             performSegue(withIdentifier: Segues.showLocation, sender: self)
             return false
+        case birthdayTextField:
+            clearHidden = false
+            // swiftlint:disable:next fallthrough
+            fallthrough
         default:
             toolbarBackButton?.isEnabled = true
             toolbarNextButton?.isEnabled = true
         }
+        toolbarClearButton?.isHidden = clearHidden
+
         return true
     }
 
@@ -590,5 +610,6 @@ extension SignupVC: Injectable {
         keyboardToolbar.require()
         toolbarBackButton.require()
         toolbarNextButton.require()
+        toolbarClearButton.require()
     }
 }
