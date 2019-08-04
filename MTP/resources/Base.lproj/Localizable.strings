@@ -183,12 +183,13 @@
 "selectCountry" = "Select Country";
 "selectCountryAll" = "(All countries)";
 "selectCountryNone" = "(No country)";
+"selectCountryPreferNot" = "(Prefer not to say)";
 "selectCountryOptional" = "Select Country (optional)";
 "selectLocation" = "Select Location";
 "selectLocationAll" = "(All locations)";
 "male" = "Male";
 "female" = "Female";
-"unknown" = "Prefer not to say";
+"preferNot" = "Prefer not to say";
 "facebookFriends" = "Friends";
 "allAges" = "All ages";
 "ageRange" = "%1$ld-%2$ld";

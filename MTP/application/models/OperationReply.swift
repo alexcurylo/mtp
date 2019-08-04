@@ -2,11 +2,15 @@
 
 import Foundation
 
+/// Generic endpoint reply
 struct OperationReply: Codable {
 
+    /// HTTP result code
     let code: Int
+    /// Result message
     let message: String
 
+    /// Whether operation succeeded
     var isSuccess: Bool {
         return code == 200
     }
@@ -19,18 +23,22 @@ extension OperationReply: CustomStringConvertible {
     }
 }
 
-enum MessageType: String {
+private enum MessageType: String {
     case error
     case success
 }
 
+/// Reply from the password reset endpoint
 struct PasswordResetReply: Codable {
 
+    /// HTTP result code
     let code: Int
-    let data: String?
+    private let data: String?
+    /// Result message
     let message: String
-    let messageType: String
+    private let messageType: String
 
+    /// Whether operation succeeded
     var isSuccess: Bool {
         return messageType == MessageType.success.rawValue
     }

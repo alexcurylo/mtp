@@ -2,18 +2,24 @@
 
 import Foundation
 
+/// Reply from the user update endpoint
 struct UserUpdateReply: Codable {
 
+    /// HTTP result code
     let code: Int
+    /// Result message
     let message: String
+    /// Updated user
     let user: UserJSON
 
+    /// Whether operation succeeded
     var isSuccess: Bool {
         return code == 200
     }
 }
 
-// expect everything in UserJSON except country, location structs
+/// Sent to the user update endpoint
+/// expect everything in UserJSON except country, location structs
 struct UserUpdatePayload: Codable, Hashable, UserAvatar {
 
     var airport: String?
@@ -67,7 +73,7 @@ struct UserUpdatePayload: Codable, Hashable, UserAvatar {
         } else {
             birthday = nil
         }
-        country_id = from.countryId
+        country_id = from.countryId ?? 0
         created_at = DateFormatter.mtpTime.string(from: from.createdAt)
         email = from.email
         facebook_email = from.facebookEmail
@@ -81,7 +87,7 @@ struct UserUpdatePayload: Codable, Hashable, UserAvatar {
         last_log_in = from.lastLogIn
         last_name = from.lastName
         links = from.links
-        location_id = from.locationId
+        location_id = from.locationId ?? 0
         picture = from.picture
         rank_beaches = from.rankBeaches
         rank_divesites = from.rankDivesites

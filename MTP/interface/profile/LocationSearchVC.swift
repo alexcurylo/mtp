@@ -23,6 +23,7 @@ final class LocationSearchVC: RealmSearchViewController {
         case country
         case countryOrAll
         case countryOrNone
+        case countryOrPreferNot
         case location(country: Int)
         case locationOrAll(country: Int)
     }
@@ -120,7 +121,9 @@ private extension LocationSearchVC {
             entityName = "Country"
             basePredicate = NSPredicate(format: "countryId > 0")
             title = L.selectCountry()
-        case .countryOrAll, .countryOrNone:
+        case .countryOrAll,
+             .countryOrNone,
+             .countryOrPreferNot:
             searchPropertyKeyPath = "placeCountry"
             sortPropertyKey = "placeCountry"
             entityName = "Country"
@@ -199,6 +202,8 @@ final class LocationSearchTableViewCell: UITableViewCell {
             name = named(orNot: L.selectCountryAll())
         case .countryOrNone:
             name = named(orNot: L.selectCountryNone())
+        case .countryOrPreferNot:
+            name = named(orNot: L.selectCountryPreferNot())
         case .location:
             name = named(orNot: L.unknown())
         case .locationOrAll:

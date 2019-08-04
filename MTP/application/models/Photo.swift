@@ -2,9 +2,12 @@
 
 import RealmSwift
 
+/// Photos endpoints reply
 struct PhotosInfoJSON: Codable {
 
+    /// HTTP result code
     let code: Int
+    /// List of photos
     let data: [PhotoJSON]
 }
 

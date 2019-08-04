@@ -48,7 +48,7 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
     private let genders = [L.selectGender(),
                            L.male(),
                            L.female(),
-                           L.unknown()]
+                           L.preferNot()]
 
     /// Prepare for interaction
     override func viewDidLoad() {
@@ -85,7 +85,7 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
         switch segue.identifier {
         case Segues.showCountry.identifier:
             if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                destination.set(search: .country,
+                destination.set(search: .countryOrPreferNot,
                                 styler: .standard,
                                 delegate: self)
             }
@@ -210,8 +210,13 @@ private extension EditProfileVC {
 
         let update = UserUpdatePayload(from: user)
         original = update
-        country = data.get(country: update.country_id)
-        location = data.get(location: update.location_id)
+        if update.country_id > 0 {
+            country = data.get(country: update.country_id)
+            location = data.get(location: update.location_id)
+        } else {
+            country = nil
+            location = nil
+        }
         current = original
 
         if update.imageUrl != nil {
@@ -245,8 +250,8 @@ private extension EditProfileVC {
         switch update.gender {
         case "M": gender = L.male()
         case "F": gender = L.female()
-        case "U": gender = L.unknown()
-        default: gender = L.unknown()
+        case "U": gender = L.preferNot()
+        default: gender = L.preferNot()
         }
         genderTextField?.text = gender
 
@@ -488,16 +493,16 @@ private extension EditProfileVC {
             //errorMessage = L.fixBirthday()
         //} else if current.gender.isEmpty {
             //errorMessage = L.fixGender()
-        } else if current.country_id == 0 {
-            errorMessage = L.fixCountry()
-        } else if current.location_id == 0 {
-            errorMessage = L.fixLocation()
+        //} else if current.country_id == 0 {
+            //errorMessage = L.fixCountry()
+        //} else if current.location_id == 0 {
+            //errorMessage = L.fixLocation()
         } else if !current.email.isValidEmail {
             errorMessage = L.fixEmail()
         } else if current.bio?.isEmpty ?? true {
             errorMessage = L.fixBio()
-        } else if current.airport?.isEmpty ?? true {
-            errorMessage = L.fixAirport()
+        //} else if current.airport?.isEmpty ?? true {
+            //errorMessage = L.fixAirport()
         } else if !linksValid {
             errorMessage = L.fixLinks()
         } else {
@@ -615,12 +620,19 @@ extension EditProfileVC: LocationSearchDelegate {
         switch item {
         case let countryItem as Country:
             guard country != countryItem else { return }
-            country = countryItem
-            countryTextField?.text = countryItem.placeCountry
+            if countryItem.countryId > 0 {
+                country = countryItem
+                current.country_id = countryItem.countryId
+                current.location_id = countryItem.countryId
+                countryTextField?.text = countryItem.placeCountry
+            } else {
+                country = nil
+                current.country_id = 0
+                current.location_id = 0
+               countryTextField?.text = L.preferNot()
+            }
             location = nil
             locationTextField?.text = nil
-            current.country_id = countryItem.countryId
-            current.location_id = countryItem.countryId
             show(location: countryItem.hasChildren)
         case let locationItem as Location:
             guard location != locationItem else { return }

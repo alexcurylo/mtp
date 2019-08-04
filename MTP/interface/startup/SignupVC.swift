@@ -40,7 +40,7 @@ final class SignupVC: UIViewController, ServiceProvider {
     private let genders = [L.selectGender(),
                            L.male(),
                            L.female(),
-                           L.unknown()]
+                           L.preferNot()]
 
     /// Prepare for interaction
     override func viewDidLoad() {
@@ -87,7 +87,7 @@ final class SignupVC: UIViewController, ServiceProvider {
             hide(navBar: true)
         case Segues.showCountry.identifier:
             if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                destination.set(search: .country,
+                destination.set(search: .countryOrPreferNot,
                                 styler: .login,
                                 delegate: self)
             }
@@ -306,8 +306,8 @@ private extension SignupVC {
         switch payload.gender {
         case "M": gender = L.male()
         case "F": gender = L.female()
-        case "U": gender = L.unknown()
-        default: gender = L.unknown()
+        case "U": gender = L.preferNot()
+        default: gender = L.preferNot()
         }
         genderTextField?.disable(text: gender)
 
@@ -361,17 +361,17 @@ private extension SignupVC {
             errorMessage = L.fixPassword()
         } else if password != passwordConfirmation {
             errorMessage = L.fixConfirmPassword()
-        } else if country == nil {
-            errorMessage = L.fixCountry()
+        //} else if country == nil {
+            //errorMessage = L.fixCountry()
         } else if location == nil {
             if isLocationVisible {
                 errorMessage = L.fixLocation()
-            } else {
-                location = data.get(location: country?.countryId ?? 0)
+            } else if let country = country {
+                location = data.get(location: country.countryId)
             }
         }
-        guard let country = country,
-              let location = location,
+        guard //let country = country,
+              //let location = location,
               errorMessage.isEmpty else {
             if showError {
                 if errorMessage.isEmpty {
@@ -527,8 +527,12 @@ extension SignupVC: LocationSearchDelegate {
         switch item {
         case let countryItem as Country:
             guard country != countryItem else { return }
-            country = countryItem
-            countryTextField?.text = countryItem.placeCountry
+            if countryItem.countryId > 0 {
+                country = countryItem
+                countryTextField?.text = countryItem.placeCountry
+            } else {
+                countryTextField?.text = L.preferNot()
+            }
             location = nil
             locationTextField?.text = nil
             show(location: countryItem.hasChildren)

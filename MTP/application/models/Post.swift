@@ -2,12 +2,15 @@
 
 import RealmSwift
 
+/// Posts endpoints reply
 struct PostsJSON: Codable {
 
+    /// HTTP result code
     let code: Int
+    /// List of posts
     let data: [PostJSON]
     // swiftlint:disable:next discouraged_optional_boolean
-    let paging: Bool? // not in locations, always false for user
+    private let paging: Bool? // not in locations, always false for user
 }
 
 extension PostsJSON: CustomStringConvertible {

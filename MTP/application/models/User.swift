@@ -43,8 +43,8 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
     let airport: String?
     let bio: String?
     let birthday: Date?
-    let country: LocationJSON
-    let countryId: Int
+    let country: LocationJSON?
+    let countryId: Int?
     let createdAt: Date
     let email: String
     let facebookEmail: String?
@@ -59,8 +59,8 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
     let lastName: String
     // swiftlint:disable:next discouraged_optional_collection
     let links: [Link]? // not in signup
-    let location: LocationJSON
-    let locationId: Int
+    let location: LocationJSON?
+    let locationId: Int?
     let picture: String?
     let rankBeaches: Int? // not in signup
     let rankDivesites: Int? // not in signup
@@ -88,7 +88,10 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
     }
 
     var isComplete: Bool {
-        return birthday != nil && gender != "U"
+        return birthday != nil &&
+               country != nil &&
+               location != nil &&
+               gender != "U"
     }
 
     // swiftlint:disable:next function_body_length
@@ -157,8 +160,8 @@ extension UserJSON: CustomDebugStringConvertible {
             airport: \(String(describing: airport))
             bio: \(String(describing: bio))
             birthday: \(String(describing: birthday))
-            country: \(country)
-            country_id: \(countryId)
+            country: \(String(describing: country))
+            country_id: \(String(describing: countryId))
             created_at: \(createdAt)
             email: \(email)
             facebook_email: \(String(describing: facebookEmail))
@@ -170,9 +173,9 @@ extension UserJSON: CustomDebugStringConvertible {
             id: \(id)
             last_log_in: \(String(describing: lastLogIn))
             last_name: \(lastName)
-            location: \(location)
+            location: \(String(describing: location))
             links: \(links.debugDescription)
-            location_id: \(locationId)
+            location_id: \(String(describing: locationId))
             picture: \(String(describing: picture))
             rankBeaches: \(String(describing: rankBeaches))
             rankDivesites: \(String(describing: rankDivesites))
@@ -361,7 +364,7 @@ extension UserAvatar {
         fullName = from.fullName
         gender = from.gender
         userId = from.id
-        locationName = from.location.description
+        locationName = from.location?.description ?? ""
         picture = from.picture
         orderBeaches = from.rankBeaches ?? 0
         orderDivesites = from.rankDivesites ?? 0

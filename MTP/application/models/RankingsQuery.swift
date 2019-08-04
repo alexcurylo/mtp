@@ -14,7 +14,7 @@ enum Gender: String, Codable, CustomStringConvertible {
         case .all: return "all"
         case .female: return L.female()
         case .male: return L.male()
-        case .unknown: return L.unknown()
+        case .unknown: return L.preferNot()
         }
     }
 }
