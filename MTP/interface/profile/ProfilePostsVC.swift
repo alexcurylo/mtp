@@ -20,6 +20,7 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
         return .user
     }
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -27,6 +28,11 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
         update()
     }
 
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.addPost.identifier:
@@ -76,8 +82,13 @@ private extension ProfilePostsVC {
 
 extension ProfilePostsVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = User
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         user = model
         isSelf = model.isSelf
@@ -89,6 +100,7 @@ extension ProfilePostsVC: Injectable {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         user.require()
     }

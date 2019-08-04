@@ -56,19 +56,11 @@ final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
         super.init(viewControllers: [])
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         default:
@@ -113,12 +105,17 @@ extension LocationPagingVC: TitleChangeDelegate {
 
 extension LocationPagingVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = Mappable
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         return self
     }
 
-    func requireInjections() {
-    }
+    /// Enforce dependency injection
+    func requireInjections() { }
 }

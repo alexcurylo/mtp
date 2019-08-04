@@ -23,6 +23,7 @@ protocol RealmSearchResultsDelegate: AnyObject {
                               atIndexPath indexPath: IndexPath)
 }
 
+/// Base class for displaying searchable Realm object lists
 class RealmSearchViewController: UITableViewController,
                                  RealmSearchResultsDataSource,
                                  RealmSearchResultsDelegate,
@@ -157,6 +158,7 @@ class RealmSearchViewController: UITableViewController,
 
     // MARK: - UIViewController
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -180,6 +182,9 @@ class RealmSearchViewController: UITableViewController,
         definesPresentationContext = true
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 

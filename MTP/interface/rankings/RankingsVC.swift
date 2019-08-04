@@ -4,6 +4,7 @@ import Anchorage
 import DropDown
 import Parchment
 
+/// Root class for the Rankings tab
 final class RankingsVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.rankingsVC
@@ -41,6 +42,7 @@ final class RankingsVC: UIViewController, ServiceProvider {
     private var searchResults: [String: [SearchResultItemJSON]] = [:]
     private var searchKey: String = ""
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -49,6 +51,9 @@ final class RankingsVC: UIViewController, ServiceProvider {
         configureSearchBar()
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -56,15 +61,11 @@ final class RankingsVC: UIViewController, ServiceProvider {
         expose()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.showFilter.identifier:
@@ -305,12 +306,18 @@ extension RankingsVC: UISearchBarDelegate {
 
 extension RankingsVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = ()
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         pagesHolder.require()
         searchBar.require()

@@ -2,6 +2,7 @@
 
 import RealmSwift
 
+/// Handles creation and uploading of new posts to MTP
 final class AddPostVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.addPostVC
@@ -34,6 +35,7 @@ final class AddPostVC: UIViewController, ServiceProvider {
     private let minCharacters = 140
     private var payload = PostPayload()
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -42,24 +44,26 @@ final class AddPostVC: UIViewController, ServiceProvider {
         startKeyboardListening()
     }
 
+    /// Remove observers
     deinit {
         stopKeyboardListening()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Stop editing on touch
+    ///
+    /// - Parameters:
+    ///   - touches: User touches
+    ///   - event: Touch event
     override func touchesBegan(_ touches: Set<UITouch>,
                                with event: UIEvent?) {
         view.endEditing(true)
     }
 
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.showCountry.identifier:
@@ -158,6 +162,11 @@ private extension AddPostVC {
 
 extension AddPostVC: LocationSearchDelegate {
 
+    /// Handle a location selection
+    ///
+    /// - Parameters:
+    ///   - controller: source of selection
+    ///   - item: Country or Location selected
     func locationSearch(controller: RealmSearchViewController,
                         didSelect item: Object) {
         switch item {
@@ -176,8 +185,10 @@ extension AddPostVC: LocationSearchDelegate {
 
 extension AddPostVC: UITextViewDelegate {
 
-    func textViewDidBeginEditing(_ textView: UITextView) {
-    }
+    /// Respond to edit beginning
+    ///
+    /// - Parameter textView: Active edit target
+    func textViewDidBeginEditing(_ textView: UITextView) { }
 
     func textViewDidChange(_ textView: UITextView) {
         updateSave(showError: false)
@@ -189,14 +200,17 @@ extension AddPostVC: UITextViewDelegate {
         }
     }
 
-    func textViewDidEndEditing(_ textView: UITextView) {
-    }
+    /// Respond to edit ending
+    ///
+    /// - Parameter textView: Active edit target
+    func textViewDidEndEditing(_ textView: UITextView) { }
 }
 
 // MARK: - KeyboardListener
 
 extension AddPostVC: KeyboardListener {
 
+    /// Scroll view for keyboard avoidance
     var keyboardScrollee: UIScrollView? { return postTextView }
 }
 
@@ -204,8 +218,13 @@ extension AddPostVC: KeyboardListener {
 
 extension AddPostVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = Mappable
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         if let countryId = model.location?.countryId {
             country = data.get(country: countryId)
@@ -216,6 +235,7 @@ extension AddPostVC: Injectable {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         saveButton.require()
         locationStack.require()

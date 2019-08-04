@@ -2,14 +2,24 @@
 
 import RealmSwift
 
+// swiftlint:disable file_length
+
+/// Manage AddPhoto controller
 protocol AddPhotoDelegate: AnyObject {
 
+    /// Enable Location selection
     var isLocatable: Bool { get }
 
+    /// Handle photo addition
+    ///
+    /// - Parameters:
+    ///   - controller: Add Photo controller
+    ///   - reply: Selection description
     func addPhoto(controller: AddPhotoVC,
                   didAdd reply: PhotoReply)
 }
 
+/// Handles creation and uploading of new photos to MTP
 final class AddPhotoVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.addPhotoVC
@@ -55,6 +65,7 @@ final class AddPhotoVC: UIViewController, ServiceProvider {
         }
     }
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -65,24 +76,26 @@ final class AddPhotoVC: UIViewController, ServiceProvider {
         startKeyboardListening()
     }
 
+    /// Remove observers
     deinit {
         stopKeyboardListening()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Stop editing on touch
+    ///
+    /// - Parameters:
+    ///   - touches: User touches
+    ///   - event: Touch event
     override func touchesBegan(_ touches: Set<UITouch>,
                                with event: UIEvent?) {
         view.endEditing(true)
     }
 
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.showCountry.identifier:
@@ -251,6 +264,11 @@ private extension AddPhotoVC {
 
 extension AddPhotoVC: LocationSearchDelegate {
 
+    /// Handle a location selection
+    ///
+    /// - Parameters:
+    ///   - controller: source of selection
+    ///   - item: Country or Location selected
     func locationSearch(controller: RealmSearchViewController,
                         didSelect item: Object) {
         switch item {
@@ -271,9 +289,18 @@ extension AddPhotoVC: LocationSearchDelegate {
 
 extension AddPhotoVC: UITextViewDelegate {
 
-    func textViewDidBeginEditing(_ textView: UITextView) {
-    }
+    /// Respond to edit beginning
+    ///
+    /// - Parameter textView: Active edit target
+    func textViewDidBeginEditing(_ textView: UITextView) { }
 
+    /// Detect return key to end editing
+    ///
+    /// - Parameters:
+    ///   - textView: Active edit target
+    ///   - _: Replacement range
+    ///   - text: Replacement text
+    /// - Returns: Change permission
     func textView(_ textView: UITextView,
                   shouldChangeTextIn _: NSRange,
                   replacementText text: String) -> Bool {
@@ -286,10 +313,16 @@ extension AddPhotoVC: UITextViewDelegate {
         return true
     }
 
+    /// Respond to text changes
+    ///
+    /// - Parameter textView: Active edit target
     func textViewDidChange(_ textView: UITextView) {
         updateSave(showError: false)
     }
 
+    /// Respond to edit ending
+    ///
+    /// - Parameter textView: Active edit target
     func textViewDidEndEditing(_ textView: UITextView) {
         updateSave(showError: false)
     }
@@ -299,6 +332,7 @@ extension AddPhotoVC: UITextViewDelegate {
 
 extension AddPhotoVC: KeyboardListener {
 
+    /// Scroll view for keyboard avoidance
     var keyboardScrollee: UIScrollView? { return captionTextView }
 }
 
@@ -306,6 +340,11 @@ extension AddPhotoVC: KeyboardListener {
 
 extension AddPhotoVC: UIImagePickerControllerDelegate {
 
+    /// Receive system provided image
+    ///
+    /// - Parameters:
+    ///   - picker: The system photo picker
+    ///   - info: Picking results
     func imagePickerController(
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
@@ -322,6 +361,9 @@ extension AddPhotoVC: UIImagePickerControllerDelegate {
         }
     }
 
+    /// Handle image picking cancel
+    ///
+    ///   - picker: The system photo picker
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true)
     }
@@ -329,15 +371,19 @@ extension AddPhotoVC: UIImagePickerControllerDelegate {
 
 // MARK: - UINavigationControllerDelegate
 
-extension AddPhotoVC: UINavigationControllerDelegate {
-}
+extension AddPhotoVC: UINavigationControllerDelegate { }
 
 // MARK: - Injectable
 
 extension AddPhotoVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = (mappable: Mappable?, delegate: AddPhotoDelegate)
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         countryId = model.mappable?.location?.countryId ?? 0
         locationId = model.mappable?.location?.placeId ?? 0
@@ -345,6 +391,7 @@ extension AddPhotoVC: Injectable {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         saveButton.require()
         locationStack.require()

@@ -5,6 +5,7 @@ import UIKit
 
 // swiftlint:disable file_length
 
+/// Handle the user signup process
 final class SignupVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.signupVC
@@ -41,6 +42,7 @@ final class SignupVC: UIViewController, ServiceProvider {
                            L.female(),
                            L.unknown()]
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -49,19 +51,19 @@ final class SignupVC: UIViewController, ServiceProvider {
         startKeyboardListening()
    }
 
+    /// Remove observers
     deinit {
         stopKeyboardListening()
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .login)
         navigationController?.delegate = self
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -71,11 +73,11 @@ final class SignupVC: UIViewController, ServiceProvider {
         data.email = emailTextField?.text ?? ""
    }
 
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         view.endEditing(true)
         switch segue.identifier {
@@ -111,6 +113,7 @@ final class SignupVC: UIViewController, ServiceProvider {
 
 extension SignupVC: KeyboardListener {
 
+    /// Scroll view for keyboard avoidance
     var keyboardScrollee: UIScrollView? { return scrollView }
 }
 
@@ -514,6 +517,11 @@ extension SignupVC: UINavigationControllerDelegate {
 
 extension SignupVC: LocationSearchDelegate {
 
+    /// Handle a location selection
+    ///
+    /// - Parameters:
+    ///   - controller: source of selection
+    ///   - item: Country or Location selected
     func locationSearch(controller: RealmSearchViewController,
                         didSelect item: Object) {
         switch item {
@@ -585,12 +593,18 @@ extension SignupVC: UIPickerViewDelegate {
 
 extension SignupVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = ()
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         scrollView.require()
         credentialsStack.require()

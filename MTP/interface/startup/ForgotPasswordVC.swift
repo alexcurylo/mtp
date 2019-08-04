@@ -2,6 +2,7 @@
 
 import KRProgressHUD
 
+/// Handle prompting MTP for password reset link
 final class ForgotPasswordVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.forgotPasswordVC
@@ -13,6 +14,7 @@ final class ForgotPasswordVC: UIViewController, ServiceProvider {
 
     private var email: String = ""
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -22,6 +24,9 @@ final class ForgotPasswordVC: UIViewController, ServiceProvider {
         messageLabel?.text = message
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -34,11 +39,11 @@ final class ForgotPasswordVC: UIViewController, ServiceProvider {
         revealAlert()
     }
 
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.dismissForgotPassword.identifier:
@@ -102,12 +107,18 @@ private extension ForgotPasswordVC {
 
 extension ForgotPasswordVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = ()
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         alertHolder.require()
         bottomY.require()

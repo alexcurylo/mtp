@@ -2,8 +2,10 @@
 
 import UIKit
 
+/// Provide scroll view for keyboard avoidance
 protocol KeyboardListener {
 
+    /// Scroll view for keyboard avoidance
     var keyboardScrollee: UIScrollView? { get }
 }
 

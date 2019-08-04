@@ -13,6 +13,7 @@ final class Scheduler {
         return timer != nil
     }
 
+    /// Remove observers
     deinit {
         stop()
     }

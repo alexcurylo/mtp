@@ -2,6 +2,7 @@
 
 import UIKit
 
+/// Handle the user login process
 final class LoginVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.loginVC
@@ -16,6 +17,7 @@ final class LoginVC: UIViewController, ServiceProvider {
 
     private var errorMessage: String = ""
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -27,6 +29,9 @@ final class LoginVC: UIViewController, ServiceProvider {
         passwordTextField?.inputAccessoryView = keyboardToolbar
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -36,21 +41,12 @@ final class LoginVC: UIViewController, ServiceProvider {
         emailTextField?.text = data.email
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.delegate = nil
 
         data.email = emailTextField?.text ?? ""
    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
 
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         switch identifier {
@@ -66,6 +62,11 @@ final class LoginVC: UIViewController, ServiceProvider {
         }
     }
 
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         view.endEditing(true)
         switch segue.identifier {
@@ -271,12 +272,18 @@ extension LoginVC: UIViewControllerTransitioningDelegate {
 
 extension LoginVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = ()
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         emailTextField.require()
         passwordTextField.require()

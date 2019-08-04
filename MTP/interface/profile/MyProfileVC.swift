@@ -2,6 +2,7 @@
 
 import Parchment
 
+/// Displays logged in user information
 final class MyProfileVC: ProfileVC {
 
     private typealias Segues = R.segue.myProfileVC
@@ -27,6 +28,7 @@ final class MyProfileVC: ProfileVC {
 
     private var userObserver: Observer?
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         if let user = data.user {
             inject(model: User(from: user))
@@ -34,12 +36,20 @@ final class MyProfileVC: ProfileVC {
         super.viewDidLoad()
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         expose()
     }
 
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.directEdit.identifier,

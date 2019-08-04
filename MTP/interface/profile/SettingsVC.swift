@@ -3,12 +3,14 @@
 import MessageUI
 //import StoreKit
 
+/// Miscellaneous account and app operations
 final class SettingsVC: UITableViewController, ServiceProvider {
 
     private typealias Segues = R.segue.settingsVC
 
     @IBOutlet private var backgroundView: UIView?
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -16,21 +18,20 @@ final class SettingsVC: UITableViewController, ServiceProvider {
         tableView.backgroundView = backgroundView
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .standard)
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.logout.identifier:
@@ -130,12 +131,18 @@ extension SettingsVC: MFMailComposeViewControllerDelegate {
 
 extension SettingsVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = ()
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         backgroundView.require()
     }

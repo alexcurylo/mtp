@@ -27,6 +27,7 @@ class PostsVC: UITableViewController, ServiceProvider {
     private let layout = (row: CGFloat(100),
                           header: CGFloat(50))
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -46,19 +47,6 @@ class PostsVC: UITableViewController, ServiceProvider {
             tableView.estimatedSectionHeaderHeight = 1
             tableView.sectionHeaderHeight = 1
         }
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
     }
 
     func cellModels(from posts: [Post]) -> [PostCellModel] {

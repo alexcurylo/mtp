@@ -65,19 +65,11 @@ class PhotosVC: UICollectionViewController, ServiceProvider {
         configure()
     }
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configure()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
     }
 
     func broadcastSelection() {

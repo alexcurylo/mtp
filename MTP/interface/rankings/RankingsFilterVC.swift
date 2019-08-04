@@ -25,6 +25,7 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
     private var original: RankingsQuery?
     private var current: RankingsQuery?
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -37,15 +38,11 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
         configure()
    }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.showCountry.identifier:
@@ -88,6 +85,11 @@ extension RankingsFilterVC {
 
 extension RankingsFilterVC: LocationSearchDelegate {
 
+    /// Handle a location selection
+    ///
+    /// - Parameters:
+    ///   - controller: source of selection
+    ///   - item: Country or Location selected
     func locationSearch(controller: RealmSearchViewController,
                         didSelect item: Object) {
         guard current?.update(with: item) ?? false else { return }

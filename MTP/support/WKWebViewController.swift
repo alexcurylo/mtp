@@ -94,6 +94,7 @@ private enum UrlsHandledByApp {
                                 navigationType: NavigationType) -> Bool
 }
 
+/// Provides WKWebView hosting support
 class WKWebViewController: UIViewController, ServiceProvider {
 
     init() {
@@ -234,6 +235,7 @@ class WKWebViewController: UIViewController, ServiceProvider {
         UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     }()
 
+    /// Remove observers
     deinit {
         webView.removeObserver(self, forKeyPath: estimatedProgressKeyPath)
         if websiteTitleInNavigationBar {
@@ -241,6 +243,7 @@ class WKWebViewController: UIViewController, ServiceProvider {
         }
     }
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -279,6 +282,9 @@ class WKWebViewController: UIViewController, ServiceProvider {
         }
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -289,11 +295,6 @@ class WKWebViewController: UIViewController, ServiceProvider {
         super.viewWillDisappear(animated)
 
         rollbackState()
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
     }
 
     // swiftlint:disable:next block_based_kvo

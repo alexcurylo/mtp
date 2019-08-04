@@ -2,6 +2,7 @@
 
 import RealmSwift
 
+/// Selection dialog for POI types to show
 final class LocationsFilterVC: UITableViewController, ServiceProvider {
 
     private typealias Segues = R.segue.locationsFilterVC
@@ -17,6 +18,7 @@ final class LocationsFilterVC: UITableViewController, ServiceProvider {
     private var original = ChecklistFlags()
     private var current = ChecklistFlags()
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -30,17 +32,20 @@ final class LocationsFilterVC: UITableViewController, ServiceProvider {
         configure()
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .standard)
     }
 
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.saveEdits.identifier:
@@ -121,12 +126,18 @@ private extension LocationsFilterVC {
 
 extension LocationsFilterVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = ()
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         saveButton.require()
         locationsSwitch.require()

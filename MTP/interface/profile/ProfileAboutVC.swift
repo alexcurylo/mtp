@@ -2,6 +2,7 @@
 
 import UIKit
 
+/// Display user details
 final class ProfileAboutVC: UITableViewController, UserInjectable, ServiceProvider {
 
     private typealias Segues = R.segue.profileAboutVC
@@ -29,6 +30,7 @@ final class ProfileAboutVC: UITableViewController, UserInjectable, ServiceProvid
 
     private var mapWidth: CGFloat = 0
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -44,21 +46,20 @@ final class ProfileAboutVC: UITableViewController, UserInjectable, ServiceProvid
          }
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
+   override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         update()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.showUserCounts.identifier:
@@ -253,8 +254,13 @@ private extension ProfileAboutVC {
 
 extension ProfileAboutVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = User
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         user = model
         isSelf = model.isSelf
@@ -287,6 +293,7 @@ extension ProfileAboutVC: Injectable {
         }
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         user.require()
 

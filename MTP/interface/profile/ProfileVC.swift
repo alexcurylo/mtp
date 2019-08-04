@@ -3,6 +3,7 @@
 import Anchorage
 import Parchment
 
+/// Base class for local and remote user profiles
 class ProfileVC: UIViewController, ServiceProvider {
 
     @IBOutlet private var headerView: UIView?
@@ -20,6 +21,7 @@ class ProfileVC: UIViewController, ServiceProvider {
 
     private var headerObservation: NSKeyValueObservation?
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -31,19 +33,13 @@ class ProfileVC: UIViewController, ServiceProvider {
         observe()
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .standard)
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
     }
 
     var pages: [UIViewController] {
@@ -112,8 +108,13 @@ private extension ProfileVC {
 
 extension ProfileVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = User
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         let updating = user != nil
         user = model
@@ -124,6 +125,7 @@ extension ProfileVC: Injectable {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         user.require()
 

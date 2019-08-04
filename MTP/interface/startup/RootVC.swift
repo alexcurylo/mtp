@@ -2,6 +2,7 @@
 
 import UIKit
 
+/// Application root containing signup and logged in UI
 final class RootVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.rootVC
@@ -11,11 +12,15 @@ final class RootVC: UIViewController, ServiceProvider {
     @IBOutlet private var loginButton: UIButton?
     @IBOutlet private var signupButton: UIButton?
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -41,11 +46,11 @@ final class RootVC: UIViewController, ServiceProvider {
         super.viewWillDisappear(animated)
     }
 
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.showMain.identifier:
@@ -85,12 +90,18 @@ private extension RootVC {
 
 extension RootVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = ()
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         credentials.require()
         credentialsBottom.require()

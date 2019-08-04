@@ -40,6 +40,7 @@ final class ProfilePhotosVC: PhotosVC {
                      sender: self)
     }
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -47,6 +48,11 @@ final class ProfilePhotosVC: PhotosVC {
         update()
     }
 
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.addPhoto.identifier:
@@ -65,8 +71,14 @@ final class ProfilePhotosVC: PhotosVC {
 
 extension ProfilePhotosVC: AddPhotoDelegate {
 
+    /// Enable Location selection
     var isLocatable: Bool { return mode == .browser }
 
+    /// Handle photo addition
+    ///
+    /// - Parameters:
+    ///   - controller: Add Photo controller
+    ///   - reply: Selection description
     func addPhoto(controller: AddPhotoVC,
                   didAdd reply: PhotoReply) {
         refresh(page: 1, reload: true)
@@ -129,8 +141,13 @@ private extension ProfilePhotosVC {
 
 extension ProfilePhotosVC: UserInjectable {
 
+    /// Injected dependencies
     typealias Model = User
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         user = model
         isSelf = model.isSelf
@@ -140,6 +157,7 @@ extension ProfilePhotosVC: UserInjectable {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         user.require()
     }

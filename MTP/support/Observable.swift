@@ -34,6 +34,7 @@ class ObserverImpl: Observer {
         subscribe()
     }
 
+    /// Remove observers
     deinit {
         unsubscribe()
     }

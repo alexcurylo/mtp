@@ -64,12 +64,17 @@ private extension MyCountsPageVC {
 
 extension MyCountsPageVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = (list: Checklist, delegate: MyCountsPageVCDelegate)
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         return self
     }
 
-    func requireInjections() {
-    }
+    /// Enforce dependency injection
+    func requireInjections() { }
 }

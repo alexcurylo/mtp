@@ -4,6 +4,7 @@ import Anchorage
 import DropDown
 import MapKit
 
+/// Root controller for the map displaying tab
 final class LocationsVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.locationsVC
@@ -35,10 +36,12 @@ final class LocationsVC: UIViewController, ServiceProvider {
 
     private var injectMappable: Mappable?
 
+    /// Remove observers
     deinit {
         loc.remove(tracker: self)
     }
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -48,6 +51,9 @@ final class LocationsVC: UIViewController, ServiceProvider {
         configureSearchBar()
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -55,6 +61,9 @@ final class LocationsVC: UIViewController, ServiceProvider {
         expose()
     }
 
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -63,11 +72,11 @@ final class LocationsVC: UIViewController, ServiceProvider {
         note.checkPending()
     }
 
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.showFilter.identifier:
@@ -367,12 +376,18 @@ private extension MKUserTrackingButton {
 
 extension LocationsVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = ()
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         mtpMapView.require()
         searchBar.require()

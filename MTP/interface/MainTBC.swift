@@ -2,6 +2,7 @@
 
 import UIKit
 
+/// Root view for logged in user
 final class MainTBC: UITabBarController, ServiceProvider {
 
     private typealias Segues = R.segue.myProfileVC
@@ -10,6 +11,7 @@ final class MainTBC: UITabBarController, ServiceProvider {
 
     static var current: MainTBC?
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -18,6 +20,9 @@ final class MainTBC: UITabBarController, ServiceProvider {
         checkDestination()
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -31,11 +36,11 @@ final class MainTBC: UITabBarController, ServiceProvider {
         checkDestination()
     }
 
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         default:
@@ -119,13 +124,19 @@ extension MainTBC: Exposing {
 
 extension MainTBC: Injectable {
 
+    /// Injected dependencies
     typealias Model = Route
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         destination = model
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         destination.require()
     }

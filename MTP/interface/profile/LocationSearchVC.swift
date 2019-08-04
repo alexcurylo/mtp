@@ -2,12 +2,19 @@
 
 import RealmSwift
 
+/// Receive notification of a Country or Location selection
 protocol LocationSearchDelegate: AnyObject {
 
+    /// Handle a location selection
+    ///
+    /// - Parameters:
+    ///   - controller: source of selection
+    ///   - item: Country or Location selected
     func locationSearch(controller: RealmSearchViewController,
                         didSelect item: Object)
 }
 
+/// Selectable list of country and location options
 final class LocationSearchVC: RealmSearchViewController {
 
     private typealias Segues = R.segue.locationSearchVC
@@ -38,6 +45,7 @@ final class LocationSearchVC: RealmSearchViewController {
         configureSearch()
     }
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -49,21 +57,20 @@ final class LocationSearchVC: RealmSearchViewController {
         tableView.rowHeight = UITableView.automaticDimension
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: styler)
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.pop.identifier:
@@ -141,14 +148,19 @@ private extension LocationSearchVC {
 
 extension LocationSearchVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = ()
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         return self
     }
 
-    func requireInjections() {
-    }
+    /// Enforce dependency injection
+    func requireInjections() { }
 }
 
 final class LocationSearchTableViewCell: UITableViewCell {

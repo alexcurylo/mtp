@@ -82,16 +82,21 @@ private extension UserCountsPageVC {
 
 extension UserCountsPageVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = (list: Checklist,
                        user: User,
                        tab: UserCountsVC.Tab)
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         return self
     }
 
-    func requireInjections() {
-    }
+    /// Enforce dependency injection
+    func requireInjections() { }
 }
 
 extension UserCountsVC.Tab {

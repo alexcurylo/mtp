@@ -5,6 +5,7 @@ import RealmSwift
 
 // swiftlint:disable file_length
 
+/// Edit logged in user info and upload to MTP
 final class EditProfileVC: UITableViewController, ServiceProvider {
 
     private typealias Segues = R.segue.editProfileVC
@@ -49,6 +50,7 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
                            L.female(),
                            L.unknown()]
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -58,14 +60,13 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
         configure()
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .standard)
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
     }
 
     override func viewDidLayoutSubviews() {
@@ -74,11 +75,11 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
         addLinkButton?.round(corners: Layout.bottomCorners)
     }
 
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         view.endEditing(true)
         switch segue.identifier {
@@ -181,14 +182,19 @@ extension EditProfileVC: UITextFieldDelegate {
 
 extension EditProfileVC: UITextViewDelegate {
 
+    /// Respond to edit beginning
+    ///
+    /// - Parameter textView: Active edit target
     func textViewDidBeginEditing(_ textView: UITextView) {
         toolbarBackButton?.isEnabled = true
         toolbarNextButton?.isEnabled = true
         toolbarClearButton?.isHidden = true
     }
 
-    func textViewDidEndEditing(_ textView: UITextView) {
-    }
+    /// Respond to edit ending
+    ///
+    /// - Parameter textView: Active edit target
+    func textViewDidEndEditing(_ textView: UITextView) { }
 }
 
 // MARK: - Private
@@ -599,6 +605,11 @@ extension EditProfileVC: PhotoSelectionDelegate {
 
 extension EditProfileVC: LocationSearchDelegate {
 
+    /// Handle a location selection
+    ///
+    /// - Parameters:
+    ///   - controller: source of selection
+    ///   - item: Country or Location selected
     func locationSearch(controller: RealmSearchViewController,
                         didSelect item: Object) {
         switch item {
@@ -669,12 +680,18 @@ extension EditProfileVC: UIPickerViewDelegate {
 
 extension EditProfileVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = ()
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         saveButton.require()
         backgroundView.require()

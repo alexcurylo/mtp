@@ -29,11 +29,6 @@ final class LocationWebsiteVC: WKWebViewController {
         configure()
     }
 
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
     override func webView(_ webView: WKWebView,
                           // swiftlint:disable:next implicitly_unwrapped_optional
                           didFinish navigation: WKNavigation!) {

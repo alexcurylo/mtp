@@ -25,6 +25,7 @@ final class LocationPostsVC: PostsVC {
     //swiftlint:disable:next implicitly_unwrapped_optional
     private var mappable: Mappable!
 
+    /// Prepare for interaction
      override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -32,6 +33,11 @@ final class LocationPostsVC: PostsVC {
         update()
    }
 
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.addPost.identifier:
@@ -101,8 +107,13 @@ private extension LocationPostsVC {
 
 extension LocationPostsVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = Mappable
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         mappable = model
 
@@ -115,6 +126,7 @@ extension LocationPostsVC: Injectable {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         mappable.require()
     }
