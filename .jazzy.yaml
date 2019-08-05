@@ -15,6 +15,8 @@ copyright: '© 2018-present [Trollwerks Inc.](http://trollwerks.com/) under [MIT
 skip_undocumented: false
 hide_documentation_coverage: false
 min_acl: internal
+exclude:
+  - "**/*resources*/*.*"
 
 swift_version: 5.0.1
 sdk: iphonesimulator

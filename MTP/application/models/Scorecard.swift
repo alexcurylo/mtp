@@ -250,6 +250,9 @@ extension ScorecardJSON: CustomDebugStringConvertible {
 
     let visits = List<Int>()
 
+    /// Realm unique identifier
+    ///
+    /// - Returns: unique identifier
     override static func primaryKey() -> String? {
         return "dbKey"
     }

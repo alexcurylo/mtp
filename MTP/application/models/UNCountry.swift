@@ -9,14 +9,19 @@ import RealmSwift
     dynamic var placeCountry: String = ""
     dynamic var placeId: Int = 0
     dynamic var placeImage: String = ""
+    /// MTP location containing place
     dynamic var placeLocation: Location?
     dynamic var placeVisitors: Int = 0
     dynamic var placeRegion: String = ""
 
+    /// Realm unique identifier
+    ///
+    /// - Returns: unique identifier
     override static func primaryKey() -> String? {
         return "placeId"
     }
 
+    /// Constructor from MTP endpoint data
     convenience init?(from: LocationJSON) {
         guard from.active == "Y" else {
             return nil
@@ -37,6 +42,7 @@ extension UNCountry: PlaceInfo {
         return .zero
     }
 
+    /// Country's MTP ID
     var placeCountryId: Int {
         return placeId
     }

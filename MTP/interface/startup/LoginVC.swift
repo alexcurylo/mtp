@@ -41,6 +41,9 @@ final class LoginVC: UIViewController, ServiceProvider {
         emailTextField?.text = data.email
     }
 
+    /// Prepare for hide
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.delegate = nil

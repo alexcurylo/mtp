@@ -125,6 +125,9 @@ final class MappableAnnotationView: MKMarkerAnnotationView, MappingAnnotationVie
         observe()
     }
 
+    /// Decoding intializer
+    ///
+    /// - Parameter aDecoder: Decoder
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

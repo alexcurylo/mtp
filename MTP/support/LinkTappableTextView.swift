@@ -9,6 +9,9 @@ final class LinkTappableTextView: UITextView {
         configure()
     }
 
+    /// Decoding intializer
+    ///
+    /// - Parameter aDecoder: Decoder
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         configure()

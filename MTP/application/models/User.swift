@@ -323,6 +323,9 @@ extension UserAvatar {
         return userId == data.user?.id
     }
 
+    /// Realm unique identifier
+    ///
+    /// - Returns: unique identifier
     override static func primaryKey() -> String? {
         return "userId"
     }
@@ -395,6 +398,7 @@ extension UserAvatar {
         userId = from.id
     }
 
+    /// Constructor from MTP endpoint data
     convenience init?(from: OwnerJSON,
                       with existing: User?) {
         guard existing == nil else { return nil }
@@ -405,6 +409,10 @@ extension UserAvatar {
         userId = from.id
     }
 
+    /// Equality operator
+    ///
+    /// - Parameter object: Other object
+    /// - Returns: equality
     override func isEqual(_ object: Any?) -> Bool {
         guard let other = object as? User else { return false }
         guard !isSameObject(as: other) else { return true }

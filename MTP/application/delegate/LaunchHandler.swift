@@ -51,11 +51,11 @@ private extension LaunchHandler {
     }
 
     func configureSettingsDisplay() {
-        StringKey.infoDictionarySettingsKeys.copyToUserDefaults()
+        StringKey.configureSettingsDisplay()
     }
 
     func configureAppearance() {
-        style.standard.styleAppearance()
+        style.styler.standard.styleAppearance()
     }
 }
 

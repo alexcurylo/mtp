@@ -172,6 +172,9 @@ extension RankedUserJSON: CustomDebugStringConvertible {
         return expired
     }
 
+    /// Realm unique identifier
+    ///
+    /// - Returns: unique identifier
     override static func primaryKey() -> String? {
         return "dbKey"
     }

@@ -4,8 +4,12 @@ import MapKit
 import RealmMapView
 import RealmSwift
 
+// swiftlint:disable file_length
+
+/// A Place that is showable on map
 protocol PlaceMappable {
 
+    /// The Mappable to use for display
     var map: Mappable? { get }
 }
 
@@ -23,6 +27,7 @@ extension PlaceMappable {
         return map?.imageUrl
     }
 
+    /// MTP location containing place
     var placeLocation: Location? {
         return map?.location
     }
@@ -79,6 +84,9 @@ protocol Mapper {
 
     dynamic var dbKey: Key = ""
 
+    /// Realm unique identifier
+    ///
+    /// - Returns: unique identifier
     override static func primaryKey() -> String? {
         return "dbKey"
     }
@@ -270,6 +278,10 @@ protocol Mapper {
         return contains
     }
 
+    /// Equality operator
+    ///
+    /// - Parameter object: Other object
+    /// - Returns: equality
     override func isEqual(_ object: Any?) -> Bool {
         guard let other = object as? Mappable else { return false }
         guard !isSameObject(as: other) else { return true }

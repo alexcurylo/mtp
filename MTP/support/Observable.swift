@@ -101,7 +101,6 @@ enum StatusKey: String {
 /// Adopt tp publish changes
 protocol Observable {
 
-    
     /// Type of change generated
     var statusKey: StatusKey { get }
     /// Name of change

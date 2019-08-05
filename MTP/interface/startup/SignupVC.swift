@@ -66,6 +66,9 @@ final class SignupVC: UIViewController, ServiceProvider {
         navigationController?.delegate = self
     }
 
+    /// Prepare for hide
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.delegate = nil

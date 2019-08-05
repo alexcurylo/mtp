@@ -12,6 +12,9 @@ final class FacebookButton: UIButton, ServiceProvider {
         setup()
     }
 
+    /// Decoding intializer
+    ///
+    /// - Parameter aDecoder: Decoder
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()

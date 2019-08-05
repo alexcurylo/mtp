@@ -6,10 +6,16 @@ struct ServiceHandler: AppHandler { }
 
 extension ServiceHandler: AppLaunchHandler {
 
+    /// willFinishLaunchingWithOptions handler
+    ///
+    /// - Parameters:
+    ///   - application: UIApplication
+    ///   - launchOptions: Options
+    /// - Returns: Success
     public func application(
         _ application: UIApplication,
-        // swiftlint:disable:next discouraged_optional_collection
         willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // swiftlint:disable:previous discouraged_optional_collection
 
         // other services may log
         ServiceProviderInstances.logServiceInstance = SwiftyBeaverLoggingService()
@@ -19,14 +25,21 @@ extension ServiceHandler: AppLaunchHandler {
         ServiceProviderInstances.locServiceInstance = LocationServiceImpl()
         ServiceProviderInstances.netServiceInstance = NetworkServiceImpl()
         ServiceProviderInstances.noteServiceInstance = NotificationServiceImpl()
+        ServiceProviderInstances.styleServiceInstance = StyleServiceImpl()
 
         return true
     }
 
+    /// didFinishLaunching handler
+    ///
+    /// - Parameters:
+    ///   - application: UIApplication
+    ///   - launchOptions: Options
+    /// - Returns: Success
     public func application(
         _ application: UIApplication,
-        // swiftlint:disable:next discouraged_optional_collection
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // swiftlint:disable:previous discouraged_optional_collection
         return true
     }
 }
@@ -35,10 +48,16 @@ struct ServiceHandlerStub: AppHandler { }
 
 extension ServiceHandlerStub: AppLaunchHandler {
 
+    /// willFinishLaunchingWithOptions handler
+    ///
+    /// - Parameters:
+    ///   - application: UIApplication
+    ///   - launchOptions: Options
+    /// - Returns: Success
     public func application(
         _ application: UIApplication,
-        // swiftlint:disable:next discouraged_optional_collection
         willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // swiftlint:disable:previous discouraged_optional_collection
 
         // other services may log
         ServiceProviderInstances.logServiceInstance = ConsoleLoggingService()
@@ -52,14 +71,20 @@ extension ServiceHandlerStub: AppLaunchHandler {
         return true
     }
 
+    /// didFinishLaunching handler
+    ///
+    /// - Parameters:
+    ///   - application: UIApplication
+    ///   - launchOptions: Options
+    /// - Returns: Success
     public func application(
         _ application: UIApplication,
-        // swiftlint:disable:next discouraged_optional_collection
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // swiftlint:disable:previous discouraged_optional_collection
         return true
     }
 }
 
+/// Forward declaration for handler construction in app delegate
+/// ServiceHandlerSpy+AppLaunchHandler in test target sets spy instances
 struct ServiceHandlerSpy: AppHandler { }
-
-// ServiceHandlerSpy+AppLaunchHandler in test target sets spy instances

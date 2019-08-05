@@ -41,6 +41,9 @@ extension CountryJSON: CustomDebugStringConvertible {
     dynamic var hasChildren: Bool = false
     dynamic var placeCountry: String = ""
 
+    /// Realm unique identifier
+    ///
+    /// - Returns: unique identifier
     override static func primaryKey() -> String? {
         return "countryId"
     }
@@ -68,6 +71,10 @@ extension CountryJSON: CustomDebugStringConvertible {
         return data.get(locations: filter)
     }
 
+    /// Equality operator
+    ///
+    /// - Parameter object: Other object
+    /// - Returns: equality
     override func isEqual(_ object: Any?) -> Bool {
         guard let other = object as? Country else { return false }
         guard !isSameObject(as: other) else { return true }

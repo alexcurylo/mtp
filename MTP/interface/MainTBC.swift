@@ -31,6 +31,9 @@ final class MainTBC: UITabBarController, ServiceProvider {
         expose()
     }
 
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         checkDestination()

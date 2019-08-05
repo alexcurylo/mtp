@@ -64,13 +64,18 @@ extension RestaurantJSON: CustomDebugStringConvertible {
 /// Realm representation of a restaurant place
 @objcMembers final class Restaurant: Object, PlaceInfo, PlaceMappable {
 
+    /// Link to the Mappable object for this location
     dynamic var map: Mappable?
     dynamic var placeId: Int = 0
 
+    /// Realm unique identifier
+    ///
+    /// - Returns: unique identifier
     override static func primaryKey() -> String? {
         return "placeId"
     }
 
+    /// Constructor from MTP endpoint data
     convenience init?(from: RestaurantJSON,
                       realm: RealmDataController) {
         guard from.active == "Y" else { return nil }

@@ -8,7 +8,7 @@ struct RegistrationPayload: Codable, Hashable {
     /// YYYY-MM-DD
     let birthday: String?
     /// Country of residence
-    let country: CountryPayload?
+    fileprivate let country: CountryPayload?
     /// ID of country of residence
     let country_id: Int
     /// Email
@@ -136,7 +136,7 @@ private struct CountryPayload: Codable, Hashable {
     }
 }
 
-private struct LocationPayload: Codable, Hashable {
+struct LocationPayload: Codable, Hashable {
 
     let admin_level: Int
     let country_id: Int

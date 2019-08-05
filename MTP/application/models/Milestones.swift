@@ -276,6 +276,9 @@ extension RSSFeedsJSON: CustomDebugStringConvertible {
     dynamic var index: Int = 0
     dynamic var dbKey: String = ""
 
+    /// Realm unique identifier
+    ///
+    /// - Returns: unique identifier
     override static func primaryKey() -> String? {
         return "dbKey"
     }
@@ -307,6 +310,9 @@ extension RSSFeedsJSON: CustomDebugStringConvertible {
 
     let thresholds = List<Threshold>()
 
+    /// Realm unique identifier
+    ///
+    /// - Returns: unique identifier
     override static func primaryKey() -> String? {
         return "checklistValue"
     }

@@ -12,6 +12,7 @@ protocol ServiceProvider {
     var log: LoggingService { get }
     var net: NetworkService { get }
     var note: NotificationService { get }
+    var style: StyleService { get }
 }
 
 extension ServiceProvider {
@@ -42,6 +43,10 @@ extension ServiceProvider {
     var note: NotificationService {
         return ServiceProviderInstances.noteServiceInstance
     }
+
+    var style: StyleService {
+        return ServiceProviderInstances.styleServiceInstance
+    }
 }
 
 enum ServiceProviderInstances {
@@ -53,4 +58,5 @@ enum ServiceProviderInstances {
     static var logServiceInstance: LoggingService!
     static var netServiceInstance: NetworkService!
     static var noteServiceInstance: NotificationService!
+    static var styleServiceInstance: StyleService!
 }

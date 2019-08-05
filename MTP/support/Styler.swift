@@ -2,7 +2,17 @@
 
 import UIKit
 
-let style = Styler.self
+protocol StyleService {
+
+    var styler: Styler.Type { get }
+}
+
+extension StyleService {
+
+    var styler: Styler.Type { return Styler.self }
+}
+
+struct StyleServiceImpl: StyleService { }
 
 enum Styler {
     case login

@@ -128,13 +128,18 @@ extension PlaceJSON: CustomDebugStringConvertible {
 /// Realm representation of a beach place
 @objcMembers final class Beach: Object, PlaceInfo, PlaceMappable {
 
+    /// Link to the Mappable object for this location
     dynamic var map: Mappable?
     dynamic var placeId: Int = 0
 
+    /// Realm unique identifier
+    ///
+    /// - Returns: unique identifier
     override static func primaryKey() -> String? {
         return "placeId"
     }
 
+    /// Constructor from MTP endpoint data
     convenience init?(from: PlaceJSON,
                       realm: RealmDataController) {
         guard from.active == "Y" else { return nil }
@@ -154,13 +159,18 @@ extension PlaceJSON: CustomDebugStringConvertible {
 /// Realm representation of a dive site place
 @objcMembers final class DiveSite: Object, PlaceInfo, PlaceMappable {
 
+    /// Link to the Mappable object for this location
     dynamic var map: Mappable?
     dynamic var placeId: Int = 0
 
+    /// Realm unique identifier
+    ///
+    /// - Returns: unique identifier
     override static func primaryKey() -> String? {
         return "placeId"
     }
 
+    /// Constructor from MTP endpoint data
     convenience init?(from: PlaceJSON,
                       realm: RealmDataController) {
         guard from.active == "Y" else { return nil }
@@ -180,13 +190,18 @@ extension PlaceJSON: CustomDebugStringConvertible {
 /// Realm representation of a golf course place
 @objcMembers final class GolfCourse: Object, PlaceInfo, PlaceMappable {
 
+    /// Link to the Mappable object for this location
     dynamic var map: Mappable?
     dynamic var placeId: Int = 0
 
+    /// Realm unique identifier
+    ///
+    /// - Returns: unique identifier
     override static func primaryKey() -> String? {
         return "placeId"
     }
 
+    /// Constructor from MTP endpoint data
     convenience init?(from: PlaceJSON,
                       realm: RealmDataController) {
         guard from.active == "Y" else { return nil }

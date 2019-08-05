@@ -24,6 +24,9 @@ final class LocationWebsiteVC: WKWebViewController {
         configure()
     }
 
+    /// Decoding intializer
+    ///
+    /// - Parameter aDecoder: Decoder
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         configure()

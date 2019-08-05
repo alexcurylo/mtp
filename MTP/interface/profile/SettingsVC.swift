@@ -88,7 +88,7 @@ private extension SettingsVC {
     @IBAction func contactTapped(_ sender: UIButton) {
         guard MFMailComposeViewController.canSendMail() else { return }
 
-        style.system.styleAppearanceNavBar()
+        style.styler.system.styleAppearanceNavBar()
         let composeVC = MFMailComposeViewController {
             $0.mailComposeDelegate = self
             $0.setToRecipients([L.contactAddress()])
@@ -124,7 +124,7 @@ extension SettingsVC: MFMailComposeViewControllerDelegate {
     func mailComposeController(_ controller: MFMailComposeViewController,
                                didFinishWith result: MFMailComposeResult,
                                error: Error?) {
-        style.standard.styleAppearanceNavBar()
+        style.styler.standard.styleAppearanceNavBar()
         controller.dismiss(animated: true, completion: nil)
     }
 }

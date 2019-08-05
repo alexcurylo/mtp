@@ -64,17 +64,22 @@ extension WHSJSON: CustomDebugStringConvertible {
         case angkor = 668
     }
 
+    /// Link to the Mappable object for this location
     dynamic var map: Mappable?
     dynamic var parentId: Int = 0
     dynamic var placeId: Int = 0
     dynamic var unescoId: Int = 0
 
+    /// Realm unique identifier
+    ///
+    /// - Returns: unique identifier
     override static func primaryKey() -> String? {
         return "placeId"
     }
 
-    // swiftlint:disable:next function_body_length
+    /// Constructor from MTP endpoint data
     convenience init?(from: WHSJSON,
+                      // swiftlint:disable:previous function_body_length
                       realm: RealmDataController) {
         guard from.active == "Y" else { return nil }
         self.init()

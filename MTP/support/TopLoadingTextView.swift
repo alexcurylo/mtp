@@ -2,12 +2,14 @@
 
 import UIKit
 
-// works around issue where text in storyboard loads not at top
-
+/// works around issue where text in storyboard loads not at top
 final class TopLoadingTextView: UITextView {
 
-    var shouldEnableScroll = false
+    private var shouldEnableScroll = false
 
+    /// Decoding intializer
+    ///
+    /// - Parameter aDecoder: Decoder
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         shouldEnableScroll = isScrollEnabled

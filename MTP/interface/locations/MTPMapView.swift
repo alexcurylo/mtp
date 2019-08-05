@@ -60,6 +60,9 @@ final class MTPMapView: RealmMapView, ServiceProvider {
     private var completions: [Completion] = []
     private var visitedObserver: Observer?
 
+    /// Decoding intializer
+    ///
+    /// - Parameter aDecoder: Decoder
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 

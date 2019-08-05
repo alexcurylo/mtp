@@ -2,15 +2,20 @@
 
 import UIKit
 
-@UIApplicationMain
-final class MTPDelegate: RoutingAppDelegate {
+/// Our minimal application delegate
+@UIApplicationMain final class MTPDelegate: RoutingAppDelegate {
 
+    /// Runtime environments our app delegate recognizes
     enum Runtime {
+        /// Active user input
         case production
+        /// Executing UI tests
         case uiTesting
+        /// Executing unit tests
         case unitTesting
     }
 
+    /// Handlers for the active environment
     override var handlers: Handlers {
         return runtimeHandlers
     }
@@ -28,6 +33,10 @@ final class MTPDelegate: RoutingAppDelegate {
         return MTPDelegate.runtimeHandlers(for: runtime)
     }()
 
+    /// Handlers for environment
+    ///
+    /// - Parameter runtime: Environment descriptor
+    /// - Returns: Appropriate handler collection
     static func runtimeHandlers(for runtime: Runtime) -> Handlers {
         switch runtime {
         case .production:
@@ -53,24 +62,3 @@ final class MTPDelegate: RoutingAppDelegate {
         }
     }
 }
-
-#if PUSH_NOTIFICATIONS
-func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-    MSPush.didRegisterForRemoteNotifications(withDeviceToken: deviceToken)
-}
-
-func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-    MSPush.didFailToRegisterForRemoteNotificationsWithError(error)
-}
-
-func application(_ application: UIApplication,
-                 didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-                 fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-    let result: Bool = MSPush.didReceiveRemoteNotification(userInfo)
-    if result {
-        completionHandler(.newData)
-    } else {
-        completionHandler(.noData)
-    }
-}
-#endif

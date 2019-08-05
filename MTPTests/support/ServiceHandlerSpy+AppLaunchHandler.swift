@@ -15,6 +15,7 @@ extension ServiceHandlerSpy: AppLaunchHandler {
         ServiceProviderInstances.logServiceInstance = LoggingServiceSpy()
         ServiceProviderInstances.netServiceInstance = NetworkServiceSpy()
         ServiceProviderInstances.noteServiceInstance = NotificationServiceSpy()
+        ServiceProviderInstances.styleServiceInstance = StyleServiceSpy()
 
         return true
     }

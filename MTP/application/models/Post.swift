@@ -82,10 +82,14 @@ extension PostJSON: CustomDebugStringConvertible {
     dynamic var updatedAt = Date()
     dynamic var userId: Int = 0
 
+    /// Realm unique identifier
+    ///
+    /// - Returns: unique identifier
     override static func primaryKey() -> String? {
         return "postId"
     }
 
+    /// Constructor from MTP endpoint data
     convenience init?(from: PostJSON) {
         guard let text = from.post,
               !text.isEmpty,
@@ -103,6 +107,7 @@ extension PostJSON: CustomDebugStringConvertible {
         userId = from.userId
     }
 
+    /// Constructor from MTP endpoint data
     convenience init?(from: PostReply) {
         self.init()
 

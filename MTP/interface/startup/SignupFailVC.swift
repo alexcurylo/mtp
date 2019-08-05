@@ -34,6 +34,9 @@ final class SignupFailVC: UIViewController, ServiceProvider {
         hideAlert()
     }
 
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         revealAlert()

@@ -5,18 +5,30 @@ import UIKit
 
 // swiftlint:disable file_length
 
+/// Tracks place types to show on map
 struct ChecklistFlags: Codable, Equatable {
 
+    /// number types that are mappable
     static let mappableCount = 6
 
+    /// Whether to show beaches
     var beaches: Bool = true
+    /// Whether to show divesites
     var divesites: Bool = true
+    /// Whether to show golfcourses
     var golfcourses: Bool = true
+    /// Whether to show locations
     var locations: Bool = true
+    /// Whether to show restaurants
     var restaurants: Bool = true
+    /// Whether to show uncountries
     var uncountries: Bool = true
+    /// Whether to show whss
     var whss: Bool = true
 
+    /// Default constructor
+    ///
+    /// - Parameter flagged: Default on or off
     init(flagged: Bool = true) {
         beaches = flagged
         divesites = flagged
@@ -27,6 +39,10 @@ struct ChecklistFlags: Codable, Equatable {
         whss = flagged
     }
 
+    /// Whether a particular list type is shown
+    ///
+    /// - Parameter list: The list type
+    /// - Returns: Whether shown
     func display(list: Checklist) -> Bool {
         switch list {
         case .beaches: return beaches
@@ -40,22 +56,34 @@ struct ChecklistFlags: Codable, Equatable {
     }
 }
 
-// swiftlint:disable:next type_body_length
+/// The list types to track visits to
 enum Checklist: Int, CaseIterable, ServiceProvider {
+    // swiftlint:disable:previous type_body_length
 
+    /// MTP locations
     case locations
+    /// UN countries
     case uncountries
+    /// WHSs
     case whss
+    /// Beaches
     case beaches
+    /// Golf courses
     case golfcourses
+    /// Dive sites
     case divesites
+    /// Restaurants
     case restaurants
 
+    /// Individual item identifier
     typealias Item = (list: Checklist, id: Int)
+    /// Current count of visits
     typealias VisitStatus = (visited: Int, remaining: Int)
 
+    /// How long to display updating status after a visit change
     static var rankUpdateMinutes = 60
 
+    /// Constructor from text key found in JSON
     init?(key: String) {
         switch key {
         case "locations": self = .locations
@@ -69,6 +97,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         }
     }
 
+    /// Mapper to JSON text key
     var key: String {
         switch self {
         case .locations: return "locations"
@@ -81,6 +110,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         }
     }
 
+    /// Background color for map markers
     var marker: UIColor {
         let marker: UIColor?
         switch self {
@@ -103,6 +133,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         return marker!
     }
 
+    /// Image for map markers
     var image: UIImage {
         let image: UIImage?
         switch self {
@@ -125,6 +156,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         return image!
     }
 
+    /// Accessor for laying out Counts pages
     func hasChildren(id: Int) -> Bool {
         switch self {
         case .whss:
@@ -134,6 +166,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         }
     }
 
+    /// Accessor for determining parent visited status
     func hasVisitedChildren(id: Int) -> Bool {
         switch self {
         case .whss:
@@ -143,6 +176,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         }
     }
 
+    /// Accessor for determining child status
     func hasParent(id: Int) -> Bool {
         switch self {
         case .whss:
@@ -152,29 +186,35 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         }
     }
 
+    /// Accessor for previously dismissed notifications
     func isDismissed(id: Int) -> Bool {
         let item = (list: self, id: id)
         return data.dismissed?.isStamped(item: item) ?? false
     }
 
+    /// Accessor for presented notifications
     func isNotified(id: Int) -> Bool {
         let item = (list: self, id: id)
         return data.notified?.isStamped(item: item) ?? false
     }
 
+    /// Accessor for pending notifications
     func isTriggered(id: Int) -> Bool {
         let item = (list: self, id: id)
         return data.triggered?.isStamped(item: item) ?? false
     }
 
+    /// Accessor for visited status
     func isVisited(id: Int) -> Bool {
         return visited.contains(id)
     }
 
+    /// Mapper to PlaceInfo interface
     func place(id: Int) -> PlaceInfo? {
         return places.first { $0.placeId == id }
     }
 
+    /// All places of this type
     var places: [PlaceInfo] {
         let places: [PlaceInfo]
         switch self {
@@ -196,6 +236,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         return places
     }
 
+    /// Set dismissed status
     func set(dismissed: Bool, id: Int) {
         let item = (list: self, id: id)
         var timestamps = data.dismissed ?? Timestamps()
@@ -206,6 +247,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         }
     }
 
+    /// Set notified status
     func set(notified: Bool, id: Int) {
         let item = (list: self, id: id)
         var timestamps = data.notified ?? Timestamps()
@@ -213,6 +255,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         data.notified = timestamps
     }
 
+    /// Set triggered status
     func set(triggered: Bool, id: Int) {
         let item = (list: self, id: id)
         var timestamps = data.triggered ?? Timestamps()
@@ -220,6 +263,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         data.triggered = timestamps
     }
 
+    /// Determine items to sync with website
     func changes(id: Int,
                  visited: Bool) -> [Item] {
         guard self != .uncountries,
@@ -256,6 +300,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         return [(self, id)]
     }
 
+    /// Accessor for logged in user rank
     func rank(of user: UserJSON? = nil) -> Int {
         guard let user = user ?? data.user else { return 0 }
 
@@ -277,6 +322,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         }
     }
 
+    /// Accessor for other user rank
     func rank(of user: User) -> Int {
         switch self {
         case .locations:
@@ -296,10 +342,12 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         }
     }
 
+    /// Accessor for remaining count
     func remaining(of user: UserInfo) -> Int {
         return visitStatus(of: user).remaining
     }
 
+    /// Accessor for visited/remaining counts
     func visitStatus(of user: UserInfo) -> VisitStatus {
         let total: Int
         switch self {
@@ -322,6 +370,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         return (complete, total - complete)
     }
 
+    /// Title to display in UI
     var title: String {
         switch self {
         case .locations:
@@ -341,6 +390,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         }
     }
 
+    /// Accessor for category description
     func category(full: Bool) -> String {
         switch self {
         case .locations:
@@ -360,6 +410,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         }
     }
 
+    /// Accessor for visit count
     func visits(of user: UserInfo) -> Int {
         switch self {
         case .locations:
@@ -379,6 +430,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         }
     }
 
+    /// Accessor for order of user
     func order(of user: UserInfo) -> Int {
         switch self {
         case .locations:
@@ -398,6 +450,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         }
     }
 
+    /// Accessor for complete visit list
     var visited: [Int] {
         guard let visited = data.visited else { return [] }
 
@@ -419,6 +472,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         }
     }
 
+    /// Accessor for distance to trigger a notification
     var triggerDistance: CLLocationDistance {
         switch self {
         case .locations:
@@ -438,6 +492,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         }
     }
 
+    /// Accessor for description to present in UI
     func names(full: Bool) -> (single: String, plural: String) {
         switch self {
         case .locations:
@@ -457,11 +512,13 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         }
     }
 
+    /// Accessor for congratulations description
     func milestone(visited: Int) -> String {
         guard let milestones = data.get(milestones: self) else { return "" }
         return milestones.milestone(count: visited)
     }
 
+    /// Whether this type can be displayed on the map
     var isMappable: Bool {
         switch self {
         case .uncountries: return false
@@ -469,10 +526,12 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         }
     }
 
+    /// Timestamp accesssor
     var rankingsItem: Item {
         return (self, Timestamps.Info.rankings.rawValue)
     }
 
+    /// Timestamp status
     var rankingsStatus: Timestamps.UpdateStatus {
         guard let updated = data.updated else {
             return Timestamps.UpdateStatus()
@@ -480,10 +539,12 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         return updated.updateStatus(rankings: self)
     }
 
+    /// Scorecard accesssor
     var scorecardItem: Item {
         return (self, Timestamps.Info.scorecard.rawValue)
     }
 
+    /// Scorecard status
     var scorecardStatus: Timestamps.UpdateStatus {
         guard let updated = data.updated else {
             return Timestamps.UpdateStatus()
@@ -492,12 +553,19 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
     }
 }
 
+/// Structure of Counts pages
 enum Hierarchy {
+
+    /// sort by parent
     case parent
+    /// sort by region
     case region
+    /// sort by region and children
     case regionSubgrouped // region/country if 1 else region/country/locations
+    /// display region as cell subtitle
     case regionSubtitled
 
+    /// Whether to display cell subtitle
     var isSubtitled: Bool {
         return self == .regionSubtitled
     }
@@ -505,6 +573,7 @@ enum Hierarchy {
 
 extension Checklist {
 
+    /// Structure of Counts pages
     var hierarchy: Hierarchy {
         switch self {
         case .locations:
@@ -524,13 +593,16 @@ extension Checklist {
         }
     }
 
+    /// Whether to display cell subtitle
     var isSubtitled: Bool {
         return hierarchy.isSubtitled
     }
 }
 
+/// Mapping to bridge Checklist with UI tests' identifiers
 extension ChecklistIndex {
 
+    /// returns enum of Int value for accessibilityIdentifier
     init(list: Checklist) {
         switch list {
         case .locations: self = .locations
