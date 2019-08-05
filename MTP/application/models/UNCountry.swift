@@ -3,6 +3,7 @@
 import CoreLocation
 import RealmSwift
 
+/// Realm representation of a UNCountry place
 @objcMembers final class UNCountry: Object, ServiceProvider {
 
     dynamic var placeCountry: String = ""

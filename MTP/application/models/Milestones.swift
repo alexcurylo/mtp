@@ -2,6 +2,7 @@
 
 import RealmSwift
 
+/// Settings info received from MTP endpoints
 struct SettingsJSON: Codable {
 
     private enum CodingKeys: String, CodingKey {
@@ -16,7 +17,7 @@ struct SettingsJSON: Codable {
     //let accident: String?
     //let defaultEmails: DefaultEmailsJSON?
     //let locationMap: MapRenderJSON?
-    let milestoneThresholds: MilestonesJSON
+    fileprivate let milestoneThresholds: MilestonesJSON
     //let rssFeeds: RSSFeedsJSON?
     //let worldMap: MapRenderJSON?
 }
@@ -39,7 +40,7 @@ extension SettingsJSON: CustomDebugStringConvertible {
     }
 }
 
-struct DefaultEmailsJSON: Codable {
+private struct DefaultEmailsJSON: Codable {
 
     private enum CodingKeys: String, CodingKey {
         case verificationRequest = "verification-request"
@@ -75,7 +76,7 @@ extension DefaultEmailsJSON: CustomDebugStringConvertible {
     }
 }
 
-struct MapRenderJSON: Codable {
+private struct MapRenderJSON: Codable {
 
     private enum CodingKeys: String, CodingKey {
         case fillColors = "fill-colors"
@@ -108,7 +109,7 @@ extension MapRenderJSON: CustomDebugStringConvertible {
     }
 }
 
-struct ColorsJSON: Codable {
+private struct ColorsJSON: Codable {
 
     private enum CodingKeys: String, CodingKey {
         case remainingPolygon = "remaining-polygon"
@@ -138,7 +139,7 @@ extension ColorsJSON: CustomDebugStringConvertible {
     }
 }
 
-struct OpacitiesJSON: Codable {
+private struct OpacitiesJSON: Codable {
 
     private enum CodingKeys: String, CodingKey {
         case remainingPolygon = "remaining-polygon"
@@ -168,7 +169,7 @@ extension OpacitiesJSON: CustomDebugStringConvertible {
     }
 }
 
-struct MilestonesJSON: Codable {
+private struct MilestonesJSON: Codable {
 
     struct ThresholdsJSON: Codable {
 
@@ -229,7 +230,8 @@ extension MilestonesJSON: CustomDebugStringConvertible {
         """
     }
 }
-struct RSSFeedsJSON: Codable {
+
+private struct RSSFeedsJSON: Codable {
 
     private enum CodingKeys: String, CodingKey {
         case travelNews = "travel-news"
@@ -263,6 +265,7 @@ extension RSSFeedsJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Realm representation of a milestone message
 @objcMembers final class Threshold: Object {
 
     dynamic var min: Int = 0
@@ -277,9 +280,9 @@ extension RSSFeedsJSON: CustomDebugStringConvertible {
         return "dbKey"
     }
 
-    convenience init(from: MilestonesJSON.ThresholdsJSON,
-                     list: Checklist,
-                     index: Int) {
+    fileprivate convenience init(from: MilestonesJSON.ThresholdsJSON,
+                                 list: Checklist,
+                                 index: Int) {
         self.init()
 
         min = from.min
@@ -292,6 +295,7 @@ extension RSSFeedsJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Realm representation of a collection of Thresholds
 @objcMembers final class Milestones: Object {
 
     dynamic var checklistValue: Int = Checklist.beaches.rawValue

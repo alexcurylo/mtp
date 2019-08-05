@@ -2,6 +2,7 @@
 
 import RealmSwift
 
+/// Rankings page info received from MTP endpoints
 struct RankingsPageInfoJSON: Codable {
 
     let endRank: Int
@@ -31,6 +32,7 @@ extension RankingsPageInfoJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Rankngs page received from MTP endpoints
 struct RankingsPageJSON: Codable {
 
     let currentPage: Int
@@ -76,6 +78,7 @@ extension RankingsPageJSON: CustomDebugStringConvertible {
     }
 }
 
+/// User info contained in ranking page
 struct RankedUserJSON: Codable {
 
     let birthday: Date?
@@ -149,6 +152,7 @@ extension RankedUserJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Realm representation of a rankings page
 @objcMembers final class RankingsPageInfo: Object {
 
     static let perPage = 50

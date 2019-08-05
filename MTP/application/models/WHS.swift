@@ -5,7 +5,8 @@ import RealmSwift
 
 struct WHSJSON: Codable {
 
-    let active: String
+    fileprivate let active: String
+    /// UUID of main image
     let featuredImg: String?
     let id: Int
     let lat: Double
@@ -48,6 +49,7 @@ extension WHSJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Realm representation of a WHS place
 @objcMembers final class WHS: Object, PlaceMappable, ServiceProvider {
 
     enum Parents: Int {

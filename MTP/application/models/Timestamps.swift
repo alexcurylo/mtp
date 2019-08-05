@@ -2,6 +2,7 @@
 
 import Foundation
 
+/// Track last time data was changed
 typealias Timestamps = [Mappable.Key: Date]
 
 extension Timestamps {

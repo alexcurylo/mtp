@@ -5,10 +5,11 @@ import RealmSwift
 
 struct RestaurantJSON: Codable {
 
-    let active: String
+    fileprivate let active: String
     let address: String?
     let country: String?
     let externalId: String
+    /// UUID of main image
     let featuredImg: String?
     let id: Int
     let isTop100: Int
@@ -60,6 +61,7 @@ extension RestaurantJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Realm representation of a restaurant place
 @objcMembers final class Restaurant: Object, PlaceInfo, PlaceMappable {
 
     dynamic var map: Mappable?

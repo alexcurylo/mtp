@@ -190,6 +190,9 @@ extension AddPostVC: UITextViewDelegate {
     /// - Parameter textView: Active edit target
     func textViewDidBeginEditing(_ textView: UITextView) { }
 
+    /// Update remaining count
+    ///
+    /// - Parameter textView: Active edit target
     func textViewDidChange(_ textView: UITextView) {
         updateSave(showError: false)
         let remaining = max(0, minCharacters - payload.post.count)

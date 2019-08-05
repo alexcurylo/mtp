@@ -115,7 +115,7 @@ struct RegistrationPayload: Codable, Hashable {
     }
 }
 
-struct CountryPayload: Codable, Hashable {
+private struct CountryPayload: Codable, Hashable {
 
     let admin_level: Int
     let country_id: Int
@@ -136,7 +136,7 @@ struct CountryPayload: Codable, Hashable {
     }
 }
 
-struct LocationPayload: Codable, Hashable {
+private struct LocationPayload: Codable, Hashable {
 
     let admin_level: Int
     let country_id: Int

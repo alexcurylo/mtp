@@ -291,6 +291,7 @@ extension UserAvatar {
     }
 }
 
+/// Realm representation of a MTP user
 @objcMembers final class User: Object, UserInfo, ServiceProvider {
 
     dynamic var airport: String = ""

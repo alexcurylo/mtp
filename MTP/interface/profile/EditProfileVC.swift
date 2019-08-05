@@ -471,7 +471,6 @@ private extension EditProfileVC {
         upload(payload: current)
     }
 
-    // swiftlint:disable:next cyclomatic_complexity
     @discardableResult func updateSave(showError: Bool) -> Bool {
         current.first_name = firstNameTextField?.text ?? ""
         current.last_name = lastNameTextField?.text ?? ""

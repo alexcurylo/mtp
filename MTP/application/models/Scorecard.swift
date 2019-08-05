@@ -223,6 +223,7 @@ extension ScorecardJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Realm representation of a user socrecard
 @objcMembers final class Scorecard: Object {
 
     dynamic var userId: Int = 0

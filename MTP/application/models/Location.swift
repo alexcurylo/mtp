@@ -3,20 +3,27 @@
 import CoreLocation
 import RealmSwift
 
+/// Type of location
+///
+/// - unknown: Unknown
+/// - country: A UN country
+/// - location: an MTP location
 enum AdminLevel: Int {
     case unknown = 0
     case country = 2
     case location = 4
 }
 
+/// Location info received from MTP endpoints
 struct LocationJSON: Codable, Equatable {
 
-    let active: String
+    fileprivate let active: String
     let adminLevel: Int
     let airports: String?
     let countryId: Int? // null or 0 in index 190-192 of un-country
     let countryName: String
     let distance: Double?
+    /// UUID of main image
     let featuredImg: String?
     let id: Int
     let isMtpLocation: Int
@@ -79,6 +86,7 @@ extension LocationJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Realm representation of a MTP location
 @objcMembers final class Location: Object, PlaceMappable, ServiceProvider {
 
     dynamic var map: Mappable?

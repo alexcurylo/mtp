@@ -33,6 +33,7 @@ extension PostsJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Post info received from MTP endpoints
 struct PostJSON: Codable {
 
     let createdAt: Date
@@ -72,6 +73,7 @@ extension PostJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Realm representation of a post
 @objcMembers final class Post: Object {
 
     dynamic var locationId: Int = 0

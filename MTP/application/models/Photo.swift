@@ -30,6 +30,7 @@ extension PhotosInfoJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Photos page info received from MTP endpoints
 struct PhotosPageInfoJSON: Codable {
 
     let code: Int
@@ -57,6 +58,7 @@ extension PhotosPageInfoJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Photos page info received from MTP endpoints
 struct PhotosPageJSON: Codable {
 
     let currentPage: Int
@@ -87,6 +89,7 @@ extension PhotosPageJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Post or photo owner info received from MTP endpoints
 struct OwnerJSON: Codable {
     //let country: String? // UserJSON in user endpoints, null in location
     let firstName: String
@@ -97,6 +100,7 @@ struct OwnerJSON: Codable {
     let role: Int
 }
 
+/// Photo info received from MTP endpoints
 struct PhotoJSON: Codable {
 
     struct PivotJSON: Codable {
@@ -148,6 +152,7 @@ extension PhotoJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Realm representation of a page of photos
 @objcMembers final class PhotosPageInfo: Object {
 
     static let perPage = 25
@@ -180,6 +185,7 @@ extension PhotoJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Realm representation of a photo
 @objcMembers final class Photo: Object {
 
     dynamic var desc: String = ""

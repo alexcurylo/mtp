@@ -2,13 +2,14 @@
 
 import RealmSwift
 
+/// Country info received from MTP endpoints
 struct CountryJSON: Codable {
 
-    let adminLevel: Int
-    let countryId: Int
-    let countryName: String
-    let hasChildren: Bool
-    let isMtpLocation: Int
+    private let adminLevel: Int
+    fileprivate let countryId: Int
+    fileprivate let countryName: String
+    fileprivate let hasChildren: Bool
+    private let isMtpLocation: Int
 }
 
 extension CountryJSON: CustomStringConvertible {
@@ -33,6 +34,7 @@ extension CountryJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Realm representation of a country
 @objcMembers final class Country: Object, ServiceProvider {
 
     dynamic var countryId: Int = 0

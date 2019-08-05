@@ -2,18 +2,28 @@
 
 import CoreLocation
 
+/// What kind of permission to ask the user for
+///
+/// - always: after initial grant
+/// - whenInUse: when in use - initially
 enum LocationPermission {
     case always
     case whenInUse
 }
 
+/// Interactivity control on permission check
+///
+/// - ask: Ask user for permission
+/// - dontAsk: Don't ask user for permission
 enum PermissionTrigger {
     case ask
     case dontAsk
 }
 
+/// Track distances to places
 typealias Distances = [String: CLLocationDistance]
 
+/// <#Description#>
 protocol LocationService: Mapper, ServiceProvider {
 
     var here: CLLocationCoordinate2D? { get }

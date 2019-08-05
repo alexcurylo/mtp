@@ -3,25 +3,45 @@
 import CoreLocation
 import RealmSwift
 
+/// Information common to all place types
 protocol PlaceInfo {
 
+    /// Coordinate for plotting on map
     var placeCoordinate: CLLocationCoordinate2D { get }
+    /// UN country containing place
     var placeCountry: String { get }
+    /// Country's MTP ID
     var placeCountryId: Int { get }
+    /// Place's MTP ID
     var placeId: Int { get }
+    /// UUID of main image to display for place
     var placeImageUrl: URL? { get }
+    /// Whether the place is a country
     var placeIsCountry: Bool { get }
+    /// MTP location containing place
     var placeLocation: Location? { get }
+    /// For WHS, whether place has a parent place
     var placeParent: PlaceInfo? { get }
+    /// Region containing the country
     var placeRegion: String { get }
+    /// Subtitle to display to user
     var placeSubtitle: String { get }
+    /// Title to display to user
     var placeTitle: String { get }
+    /// Number of MTP visitors
     var placeVisitors: Int { get }
+    /// for non-MTP locations, page to load in More Info screen
     var placeWebUrl: URL? { get }
 }
 
-// swiftlint:disable:next static_operator
+/// Equality operator for PlaceInfos
+///
+/// - Parameters:
+///   - lhs: A PlaceInfo
+///   - rhs: Another PlaceInfo
+/// - Returns: Whether they are equivalent
 func == (lhs: PlaceInfo, rhs: PlaceInfo) -> Bool {
+// swiftlint:disable:previous static_operator
     return lhs.placeCoordinate == rhs.placeCoordinate &&
            lhs.placeCountry == rhs.placeCountry &&
            lhs.placeId == rhs.placeId &&
@@ -33,36 +53,42 @@ func == (lhs: PlaceInfo, rhs: PlaceInfo) -> Bool {
 
 extension PlaceInfo {
 
+    /// Only WHS may have parents
     var placeParent: PlaceInfo? {
         return nil
     }
 
+    /// Subtitle is usually the MTP location
     var placeSubtitle: String {
         return placeLocation?.description ?? ""
     }
 
+    /// Only countries are countries
     var placeIsCountry: Bool {
         return false
     }
 
+    /// Default non-countries to 0
     var placeCountryId: Int {
         return 0
     }
 }
 
+/// Place info received from MTP endpoints
 struct PlaceJSON: Codable {
 
-    let active: String
-    let address: String?
-    let country: String
+    fileprivate let active: String
+    private let address: String?
+    private let country: String
+    /// UUID of main image
     let featuredImg: String?
     let id: Int
     let lat: Double
     let location: PlaceLocation
-    let locationId: Int
+    private let locationId: Int
     let long: Double
-    let notes: String?
-    let rank: Int
+    private let notes: String?
+    private let rank: Int
     let title: String
     let url: String
     let visitors: Int
@@ -99,6 +125,7 @@ extension PlaceJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Realm representation of a beach place
 @objcMembers final class Beach: Object, PlaceInfo, PlaceMappable {
 
     dynamic var map: Mappable?
@@ -124,6 +151,7 @@ extension PlaceJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Realm representation of a dive site place
 @objcMembers final class DiveSite: Object, PlaceInfo, PlaceMappable {
 
     dynamic var map: Mappable?
@@ -149,6 +177,7 @@ extension PlaceJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Realm representation of a golf course place
 @objcMembers final class GolfCourse: Object, PlaceInfo, PlaceMappable {
 
     dynamic var map: Mappable?

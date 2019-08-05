@@ -53,6 +53,7 @@ protocol Mapper {
     func update(mappable: Mappable)
 }
 
+/// Realm representation of a mappable place
 @objcMembers final class Mappable: Object, ServiceProvider {
 
     typealias Key = String
