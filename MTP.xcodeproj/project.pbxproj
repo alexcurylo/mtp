@@ -197,7 +197,6 @@
 		FABA7410213A359C0059ACCA /* ProfilePhotos.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABA740E213A359C0059ACCA /* ProfilePhotos.storyboard */; };
 		FABA7413213A374F0059ACCA /* ProfilePosts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABA7411213A374F0059ACCA /* ProfilePosts.storyboard */; };
 		FAC159A221EB68AA00564E2D /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC159A121EB68AA00564E2D /* Location.swift */; };
-		FAC3BCB8216A225900E1507E /* TagButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC3BCB5216A225900E1507E /* TagButton.swift */; };
 		FAC8465922AB493E004F57EC /* LocationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8465822AB493E004F57EC /* LocationHandler.swift */; };
 		FAC8465B22AB55B6004F57EC /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8465A22AB55B6004F57EC /* NotificationService.swift */; };
 		FAC8465D22AB6C2A004F57EC /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8465C22AB6C2A004F57EC /* LocationService.swift */; };
@@ -465,7 +464,6 @@
 		FABA740F213A359C0059ACCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ProfilePhotos.storyboard; sourceTree = "<group>"; };
 		FABA7412213A374F0059ACCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ProfilePosts.storyboard; sourceTree = "<group>"; };
 		FAC159A121EB68AA00564E2D /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
-		FAC3BCB5216A225900E1507E /* TagButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagButton.swift; sourceTree = "<group>"; };
 		FAC7A77621FF400300DCED01 /* .codebeatignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .codebeatignore; sourceTree = "<group>"; };
 		FAC7A77721FF43F900DCED01 /* .codebeatsettings */ = {isa = PBXFileReference; lastKnownFileType = text; path = .codebeatsettings; sourceTree = "<group>"; };
 		FAC7A77821FF452500DCED01 /* .swift-version */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".swift-version"; sourceTree = "<group>"; };
@@ -961,7 +959,6 @@
 				8C3EAB832230FCC200CB4886 /* RoutingAppDelegate.swift */,
 				FA835D33210EAC110098C270 /* Styler.swift */,
 				FA74C110211BBF490013A840 /* String+Formatting.swift */,
-				FAC3BCB5216A225900E1507E /* TagButton.swift */,
 				8CB2A24222E177C90050E368 /* Scheduler.swift */,
 				8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */,
 				FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */,
@@ -1386,7 +1383,6 @@
 				FA291FD5217ECBC8004140BD /* RankingsFilterVC.swift in Sources */,
 				8CE6FC65224C6CB600B24410 /* LocationPhotosVC.swift in Sources */,
 				8C011F5622E93709002C4133 /* Exposed.swift in Sources */,
-				FAC3BCB8216A225900E1507E /* TagButton.swift in Sources */,
 				FA7C2010221BA0A1002C6DAB /* Post.swift in Sources */,
 				8C9DD8CE2245034E00D5EAFB /* Injectable.swift in Sources */,
 				8C617972223F2D79000827D6 /* LocationsFilterVC.swift in Sources */,

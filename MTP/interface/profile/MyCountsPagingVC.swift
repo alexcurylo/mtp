@@ -112,6 +112,9 @@ private class MyCountsPagingCell: PagingCell {
         $0.numberOfLines = 2
     }
 
+    /// Procedural intializer
+    ///
+    /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.layer.cornerRadius = 4

@@ -16,11 +16,15 @@ final class TopLoadingTextView: UITextView {
         self.isScrollEnabled = false
     }
 
+    /// Intercept layout process
     override func layoutSubviews() {
         super.layoutSubviews()
         isScrollEnabled = shouldEnableScroll
     }
 
+    /// Implement text wrapping
+    ///
+    /// - Parameter rect: Bounds to exclude
     func exclude(rect: CGRect?) {
         guard let rect = rect else {
             textContainer.exclusionPaths = []

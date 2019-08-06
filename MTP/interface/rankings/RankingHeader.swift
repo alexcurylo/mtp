@@ -96,6 +96,9 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
     private var scorecardObserver: Observer?
     private var userObserver: Observer?
 
+    /// Procedural intializer
+    ///
+    /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
 

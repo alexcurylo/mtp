@@ -103,3 +103,7 @@ fastlane/test_output
 
 # R.swift -- tool for resource reference generation
 R.generated.swift
+
+# Jazzy -- tool for documentation generation
+docs/undocumented.json
+docs/docsets/

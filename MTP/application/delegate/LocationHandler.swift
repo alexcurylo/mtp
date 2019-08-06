@@ -4,6 +4,7 @@ import CoreLocation
 import RealmSwift
 import UIKit
 
+/// Handle things to do on location changes
 final class LocationHandler: NSObject, AppHandler, ServiceProvider {
 
     let locationManager = CLLocationManager {
@@ -67,6 +68,13 @@ final class LocationHandler: NSObject, AppHandler, ServiceProvider {
                 then(tracker, resolved)
             }
         }
+    }
+
+    func checkDistances() {
+        guard let now = lastCoordinate else { return }
+
+        update(distances: now)
+        lastFilter = Date()
     }
 }
 

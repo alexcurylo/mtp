@@ -2,19 +2,28 @@
 
 import MapKit
 
+/// Add Codable compliance to CLLocationCoordinate2D
 extension CLLocationCoordinate2D: Codable {
 
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.unkeyedContainer()
-        try container.encode(longitude)
-        try container.encode(latitude)
-    }
-
+    /// Initialize with decoder
+    ///
+    /// - Parameter decoder: Decoder
+    /// - Throws: Decoding error
     public init(from decoder: Decoder) throws {
         var container = try decoder.unkeyedContainer()
         let longitude = try container.decode(CLLocationDegrees.self)
         let latitude = try container.decode(CLLocationDegrees.self)
         self.init(latitude: latitude, longitude: longitude)
+    }
+
+    /// Encode to encoder
+    ///
+    /// - Parameter encoder: Encoder
+    /// - Throws: Encoding error
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.unkeyedContainer()
+        try container.encode(longitude)
+        try container.encode(latitude)
     }
 }
 

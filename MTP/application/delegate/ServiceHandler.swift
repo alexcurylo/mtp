@@ -67,6 +67,7 @@ extension ServiceHandlerStub: AppLaunchHandler {
         ServiceProviderInstances.locServiceInstance = LocationServiceStub()
         ServiceProviderInstances.netServiceInstance = NetworkServiceStub()
         ServiceProviderInstances.noteServiceInstance = NotificationServiceStub()
+        ServiceProviderInstances.styleServiceInstance = StyleServiceImpl()
 
         return true
     }

@@ -2,23 +2,35 @@
 
 import UIKit
 
+/// Handle things to do on application state changes
 struct StateHandler: AppHandler, ServiceProvider { }
 
 extension StateHandler: AppStateHandler {
 
-    func applicationWillEnterForeground(_ application: UIApplication) {
-    }
+    /// Enter foreground handler
+    ///
+    /// - Parameter application: Application
+    func applicationWillEnterForeground(_ application: UIApplication) { }
 
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        net.refreshEverything()
-    }
+    /// Become active handler
+    ///
+    /// - Parameter application: Application
+    func applicationDidBecomeActive(_ application: UIApplication) { }
 
-    func applicationWillResignActive(_ application: UIApplication) {
-    }
+    /// Resign active handler
+    ///
+    /// - Parameter application: Application
+    func applicationWillResignActive(_ application: UIApplication) { }
 
+    /// Enter background handler
+    ///
+    /// - Parameter application: Application
     func applicationDidEnterBackground(_ application: UIApplication) {
+        //loc.checkDistances()
     }
 
-    func applicationWillTerminate(_ application: UIApplication) {
-    }
+    /// Terminate handler
+    ///
+    /// - Parameter application: Application
+    func applicationWillTerminate(_ application: UIApplication) { }
 }

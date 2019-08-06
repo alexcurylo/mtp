@@ -83,6 +83,13 @@ final class LocationSearchVC: RealmSearchViewController {
 
     // MARK: - RealmSearchResultsDataSource
 
+    /// Cell for Object
+    ///
+    /// - Parameters:
+    ///   - controller: RealmSearchViewController
+    ///   - object: Realm Object
+    ///   - indexPath: Index path
+    /// - Returns: Cell
     override func searchViewController(_ controller: RealmSearchViewController,
                                        cellForObject object: Object,
                                        atIndexPath indexPath: IndexPath) -> UITableViewCell {
@@ -98,6 +105,12 @@ final class LocationSearchVC: RealmSearchViewController {
 
     // MARK: - RealmSearchResultsDelegate
 
+    /// Did select Object
+    ///
+    /// - Parameters:
+    ///   - controller: RealmSearchViewController
+    ///   - object: Realm Object
+    ///   - indexPath: Index path
     override func searchViewController(_ controller: RealmSearchViewController,
                                        didSelectObject anObject: Object,
                                        atIndexPath indexPath: IndexPath) {

@@ -2,8 +2,10 @@
 
 import UIKit
 
+/// Custom segue to replace top controller
 final class ReplaceTopSegue: UIStoryboardSegue {
 
+    /// Perform the segue
     override func perform() {
         if let nav = source.navigationController {
             var vcs = nav.viewControllers
@@ -17,22 +19,28 @@ final class ReplaceTopSegue: UIStoryboardSegue {
     }
 }
 
+/// Custom segue to dismiss top controller
 final class DismissSegue: UIStoryboardSegue {
 
+    /// Perform the segue
     override func perform() {
         source.presentingViewController?.dismiss(animated: true)
     }
 }
 
+/// Custom segue to pop top controller
 final class PopSegue: UIStoryboardSegue {
 
+    /// Perform the segue
     override func perform() {
         source.navigationController?.popViewController(animated: true)
     }
 }
 
+/// Custom segue to switch alert controllers
 final class SwitchAlertSegue: UIStoryboardSegue {
 
+    /// Perform the segue
     override func perform() {
         if let presenter = source.presentingViewController {
             presenter.dismiss(animated: false)
@@ -43,8 +51,10 @@ final class SwitchAlertSegue: UIStoryboardSegue {
     }
 }
 
+/// Custom segue to preset from tab bar controller
 final class TabPresentSegue: UIStoryboardSegue {
 
+    /// Perform the segue
     override func perform() {
         if let tabBar = source.tabBarController {
             tabBar.present(destination, animated: true)
@@ -54,8 +64,13 @@ final class TabPresentSegue: UIStoryboardSegue {
     }
 }
 
+/// Animator for segue fade transitioning
 final class FadeInAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
+    /// Transition duration
+    ///
+    /// - Parameter transitionContext: context
+    /// - Returns: 0.35 seconds
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return 0.35
     }
@@ -84,8 +99,13 @@ final class FadeInAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     }
 }
 
+/// Animator for segue zoom transitioning
 final class ZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
+    /// Transition duration
+    ///
+    /// - Parameter transitionContext: context
+    /// - Returns: 1 second
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return 1
     }

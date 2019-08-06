@@ -64,6 +64,9 @@ final class InsetTextFieldGradient: InsetTextField {
         }
     }
 
+    /// Procedural intializer
+    ///
+    /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -82,6 +85,9 @@ final class InsetTextFieldGradient: InsetTextField {
               orientation: GradientOrientation(rawValue: orientation))
     }
 
+    /// Update screen rendering
+    ///
+    /// - Parameter layer: Our layer
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)
         gradient?.frame = bounds

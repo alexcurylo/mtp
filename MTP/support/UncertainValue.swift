@@ -2,15 +2,20 @@
 
 import Foundation
 
+/// Handle JSON values that may be different values
+/// Such as possibly quoted numbers
 struct UncertainValue<T: Codable, U: Codable>: Codable {
 
+    /// First possible value
     var tValue: T?
+    /// Second possible value
     var uValue: U?
 
-    var value: Any? {
+    private var value: Any? {
         return tValue ?? uValue
     }
 
+    /// Convenience access to Int if present
     var intValue: Int? {
         switch value {
         case let intValue as Int:
@@ -22,6 +27,7 @@ struct UncertainValue<T: Codable, U: Codable>: Codable {
         }
     }
 
+    /// Convenience access to Double if present
     var doubleValue: Double? {
         switch value {
         case let doubleValue as Double:
@@ -33,14 +39,24 @@ struct UncertainValue<T: Codable, U: Codable>: Codable {
         }
     }
 
+    /// Initalize with first type
+    ///
+    /// - Parameter value: Value
     init(with value: T) {
         tValue = value
     }
 
+    /// Initalize with second type
+    ///
+    /// - Parameter value: Value
     init(with value: U) {
         uValue = value
     }
 
+    /// Initialize with decoder
+    ///
+    /// - Parameter decoder: Decoder
+    /// - Throws: Decoding error
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         guard !container.decodeNil() else { return }
@@ -54,6 +70,10 @@ struct UncertainValue<T: Codable, U: Codable>: Codable {
         throw DecodingError.typeMismatch(type(of: self), context)
     }
 
+    /// Encode to encoder
+    ///
+    /// - Parameter encoder: Encoder
+    /// - Throws: Encoding error
     func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         if let tValue = tValue {
@@ -66,8 +86,13 @@ struct UncertainValue<T: Codable, U: Codable>: Codable {
     }
 }
 
+/// Add Codable compliance to null
 struct JSONNull: Codable {
 
+    /// Initialize with decoder
+    ///
+    /// - Parameter decoder: Decoder
+    /// - Throws: Decoding error
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if !container.decodeNil() {
@@ -78,6 +103,10 @@ struct JSONNull: Codable {
         }
     }
 
+    /// Encode to encoder
+    ///
+    /// - Parameter encoder: Encoder
+    /// - Throws: Encoding error
     func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         try container.encodeNil()

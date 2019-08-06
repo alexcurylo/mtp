@@ -6,15 +6,17 @@ import UIKit
 
 // swiftlint:disable file_length
 
-// Adopt to be constructed at app startup
+/// Adopt to be constructed at app startup
 protocol AppHandler { }
 
 // Adopt more protocols to have notifications routed to your handler
 
 protocol AppLaunchHandler: AppHandler {
+
     func application(_ application: UIApplication,
                      // swiftlint:disable:next discouraged_optional_collection
                      willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool
+
     func application(_ application: UIApplication,
                      // swiftlint:disable:next discouraged_optional_collection
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool
@@ -143,9 +145,7 @@ protocol AppCloudKitHandler: AppHandler {
                      userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShare.Metadata)
 }
 
-// Override `RoutingAppDelegate` to return app's list of `handlers`
-
-// swiftlint:disable:next type_body_length
+/// Override `RoutingAppDelegate` to return app's list of `handlers`
 open class RoutingAppDelegate: UIResponder, UIApplicationDelegate {
 
     typealias Handlers = [AppHandler]
@@ -164,8 +164,11 @@ open class RoutingAppDelegate: UIResponder, UIApplicationDelegate {
     static func handler<T>(type: T.Type) -> T? {
         return RoutingAppDelegate.shared.handlers.firstOf(type: T.self)
     }
+}
 
-    // MARK: - All members of UIApplicationDelegate as found in 12.0 SDK
+// MARK: - All members of UIApplicationDelegate as found in 12.0 SDK -
+
+extension RoutingAppDelegate {
 
     public func applicationDidFinishLaunching(_ application: UIApplication) {
         handlers.of(type: AppLaunchHandler.self)

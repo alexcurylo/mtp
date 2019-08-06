@@ -82,10 +82,20 @@ class PostsVC: UITableViewController, ServiceProvider {
 
 extension PostsVC {
 
+    /// Number of sections
+    ///
+    /// - Parameter tableView: UITableView
+    /// - Returns: Number of sections
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
+    /// Number of rows in section
+    ///
+    /// - Parameters:
+    ///   - tableView: UITableView
+    ///   - section: Section
+    /// - Returns: Number of rows in section
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
         return models.count
@@ -103,6 +113,12 @@ extension PostsVC {
         return header
      }
 
+    /// Create table cell
+    ///
+    /// - Parameters:
+    ///   - tableView: UITableView
+    ///   - indexPath: Index Path
+    /// - Returns: UITableViewCell
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //swiftlint:disable:next implicitly_unwrapped_optional

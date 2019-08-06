@@ -61,6 +61,9 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
     private let scheduler = Scheduler()
     private var updating = false
 
+    /// Procedural intializer
+    ///
+    /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
 

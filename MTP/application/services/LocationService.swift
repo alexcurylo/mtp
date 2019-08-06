@@ -23,7 +23,7 @@ enum PermissionTrigger {
 /// Track distances to places
 typealias Distances = [String: CLLocationDistance]
 
-/// <#Description#>
+/// Provides location-related functionality
 protocol LocationService: Mapper, ServiceProvider {
 
     var here: CLLocationCoordinate2D? { get }
@@ -42,6 +42,8 @@ protocol LocationService: Mapper, ServiceProvider {
     func remove<T>(tracker: T) where T: LocationTracker, T: Hashable
 
     func inject(handler: LocationHandler)
+
+    func checkDistances()
 }
 
 extension LocationService {
@@ -156,6 +158,10 @@ class LocationServiceImpl: LocationService {
         case .whenInUse:
             manager.startUpdatingLocation()
         }
+    }
+
+    func checkDistances() {
+        handler?.checkDistances()
     }
 }
 

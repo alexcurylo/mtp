@@ -74,6 +74,9 @@ final class CountCellGroup: UICollectionViewCell {
         $0.font = Layout.font
     }
 
+    /// Procedural intializer
+    ///
+    /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
 

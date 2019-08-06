@@ -166,6 +166,10 @@ extension CountsPageVC: UICollectionViewDataSource {
                            model: modelPath)
     }
 
+    /// Number of sections
+    ///
+    /// - Parameter tableView: UITableView
+    /// - Returns: Number of sections
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return regions.count + (showsInfo ? 1 : 0)
     }

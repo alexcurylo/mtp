@@ -7,6 +7,9 @@ import FBSDKLoginKit
 
 final class FacebookButton: UIButton, ServiceProvider {
 
+    /// Procedural intializer
+    ///
+    /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -20,6 +23,7 @@ final class FacebookButton: UIButton, ServiceProvider {
         setup()
     }
 
+    /// Prepare for Interface Builder
     override func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
         setup()

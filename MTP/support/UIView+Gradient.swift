@@ -2,23 +2,29 @@
 
 import UIKit
 
-typealias GradientPoints = (start: CGPoint, end: CGPoint)
+private typealias GradientPoints = (start: CGPoint, end: CGPoint)
 
+/// Supported gradient orientations
 enum GradientOrientation: Int {
+
+    /// Top right to bottom left
     case topRightBottomLeft
+    /// Top left to bottom right
     case topLeftBottomRight
+    /// Horizontal
     case horizontal
+    /// Vertical
     case vertical
 
-    var start: CGPoint {
+    fileprivate var start: CGPoint {
         return points.start
     }
 
-    var end: CGPoint {
+    fileprivate var end: CGPoint {
         return points.end
     }
 
-    var points: GradientPoints {
+    fileprivate var points: GradientPoints {
         switch self {
         case .topRightBottomLeft:
             return (CGPoint(x: 1, y: 0), CGPoint(x: 0, y: 1))
@@ -34,14 +40,21 @@ enum GradientOrientation: Int {
 
 extension UIView {
 
-    static let gradientLayerName = "BackingGradient"
+    private static let gradientLayerName = "BackingGradient"
 
+    /// Layer with gradient
     var gradient: CAGradientLayer? {
         return layer.sublayers?.first {
             $0.name == UIView.gradientLayerName
         } as? CAGradientLayer
     }
 
+    /// Apply a gradient
+    ///
+    /// - Parameters:
+    ///   - colors: Start to end color array
+    ///   - orientation: Orientation
+    ///   - locations: Optional location array
     func apply(gradient colors: [UIColor],
                orientation: GradientOrientation? = .vertical,
                locations: [Float] = []) {
@@ -59,6 +72,7 @@ extension UIView {
         apply.endPoint = points.end
     }
 
+    /// Convenience for assigning layer border width
     @IBInspectable var borderWidth: CGFloat {
         get {
             return layer.borderWidth
@@ -68,6 +82,7 @@ extension UIView {
         }
     }
 
+    /// Convenience for assigning layer border color
     @IBInspectable var borderColor: UIColor? {
         get {
             if let border = layer.borderColor {
@@ -80,8 +95,8 @@ extension UIView {
         }
     }
 
-    func animate(gradient colors: [UIColor],
-                 duration: TimeInterval) {
+    private func animate(gradient colors: [UIColor],
+                         duration: TimeInterval) {
         let from = gradient?.colors
         gradient?.colors = colors
         let animation = CABasicAnimation(keyPath: "colors")
@@ -94,7 +109,7 @@ extension UIView {
         gradient?.add(animation, forKey: "animateGradient")
     }
 
-    func apply(radialGradient colors: [UIColor]) {
+    private func apply(radialGradient colors: [UIColor]) {
         guard let gradient = CGGradient(colorsSpace: nil,
                                         colors: colors as CFArray,
                                         locations: nil) else { return }
@@ -112,6 +127,13 @@ extension UIView {
 
 extension UIColor {
 
+    /// Convenience component initializer
+    ///
+    /// - Parameters:
+    ///   - r: Red, 0...255
+    ///   - g: Green, 0...255
+    ///   - b: Blue, 0...255
+    ///   - a: Alpha, 0...255
     convenience init(r: Int, g: Int, b: Int, a: Int = 255) {
         self.init(red: CGFloat(r) / 255.0,
                   green: CGFloat(g) / 255.0,
@@ -119,12 +141,18 @@ extension UIColor {
                   alpha: CGFloat(a) / 255.0)
     }
 
+    /// Convenience Int RGB initializer
+    ///
+    /// - Parameter rgb: 3 byte RGB
     convenience init(rgb: Int) {
         self.init(r: (rgb >> 16) & 0xFF,
                   g: (rgb >> 8) & 0xFF,
                   b: rgb & 0xFF)
     }
 
+    /// Convenience Int ARGB initializer
+    ///
+    /// - Parameter rgb: 4 byte ARGB
     convenience init(argb: Int) {
         self.init(r: (argb >> 16) & 0xFF,
                   g: (argb >> 8) & 0xFF,
@@ -133,26 +161,35 @@ extension UIColor {
     }
 }
 
+/// View that contains a gradient
 @IBDesignable final class GradientView: UIView {
 
+    /// Gradient starting color
     @IBInspectable var startColor: UIColor = .white {
         didSet {
             setup()
         }
     }
 
+    /// Gradient ending color
     @IBInspectable var endColor: UIColor = .white {
         didSet {
             setup()
         }
     }
 
+    /// Gradient orientation
     @IBInspectable var orientation: Int = 3 {
         didSet {
             setup()
         }
     }
 
+    /// Simple gradient setter
+    ///
+    /// - Parameters:
+    ///   - colors: Color array
+    ///   - direction: GradientOrientation
     func set(gradient colors: [UIColor],
              orientation direction: GradientOrientation) {
         startColor = colors[0]
@@ -160,6 +197,9 @@ extension UIColor {
         orientation = direction.rawValue
     }
 
+    /// Procedural intializer
+    ///
+    /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -173,6 +213,7 @@ extension UIColor {
         setup()
     }
 
+    /// Prepare for Interface Builder
     override func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
         setup()
@@ -183,11 +224,17 @@ extension UIColor {
               orientation: GradientOrientation(rawValue: orientation))
     }
 
+    /// Update screen rendering
+    ///
+    /// - Parameter layer: Our layer
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)
         gradient?.frame = bounds
     }
 
+    /// Set predefined style
+    ///
+    /// - Parameter style: Style definition
     func set(style: Styler) {
         switch style {
         case .login:
@@ -202,26 +249,36 @@ extension UIColor {
     }
 }
 
+/// Button with a gradient background
 @IBDesignable class GradientButton: UIButton {
 
+    /// Gradient starting color
     @IBInspectable var startColor: UIColor = .white {
         didSet {
             setup()
         }
     }
 
+    /// Gradient ending color
     @IBInspectable var endColor: UIColor = .white {
         didSet {
             setup()
         }
     }
 
+    /// Gradient orientation
     @IBInspectable var orientation: Int = 3 {
         didSet {
             setup()
          }
     }
 
+    /// Factory for gradient buttons triggering URL navigation
+    ///
+    /// - Parameters:
+    ///   - title: Button title
+    ///   - link: Triggered link
+    /// - Returns: Created button
     static func urlButton(title: String,
                           link: String) -> GradientButton {
         let button = GradientButton {
@@ -242,6 +299,9 @@ extension UIColor {
         return button
     }
 
+    /// Procedural intializer
+    ///
+    /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -255,16 +315,20 @@ extension UIColor {
         setup()
     }
 
+    /// Prepare for Interface Builder
     override func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
         setup()
     }
 
-    func setup() {
+    private func setup() {
         apply(gradient: [startColor, endColor],
               orientation: GradientOrientation(rawValue: orientation))
     }
 
+    /// Update screen rendering
+    ///
+    /// - Parameter layer: Our layer
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)
         gradient?.frame = bounds
@@ -273,10 +337,12 @@ extension UIColor {
 
 extension UIEdgeInsets {
 
+    /// Convenience accessor for horizontal inset total
     var horizontal: CGFloat {
         return left + right
     }
 
+    /// Convenience accessor for vertical inset total
     var vertical: CGFloat {
         return top + bottom
     }
@@ -284,6 +350,7 @@ extension UIEdgeInsets {
 
 extension CGRect {
 
+    /// Convience accessor for shortest edge
     var minEdge: CGFloat {
         return min(width, height)
     }

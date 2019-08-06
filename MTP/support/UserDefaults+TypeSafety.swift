@@ -29,7 +29,8 @@ struct StringKey: Hashable, RawRepresentable, ExpressibleByStringLiteral {
         StringKey.infoDictionarySettingsKeys.copyToUserDefaults()
     }
 
-    private static var infoDictionarySettingsKeys: [StringKey] {
+    /// Settings keys we expect to find in Info.plist
+    static var infoDictionarySettingsKeys: [StringKey] {
         return [.cfBundleShortVersionString,
                 .cfBundleVersion]
     }

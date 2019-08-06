@@ -102,6 +102,9 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
         $0.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
     }
 
+    /// Procedural intializer
+    ///
+    /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
 
