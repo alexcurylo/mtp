@@ -43,14 +43,13 @@ enum Styler {
                                         itemColor: itemColor,
                                         backgroundColor: nil)
     }
-}
 
-private extension Styler {
-
+    /// Set up search bar default appearance
     func styleAppearanceSearchBar() {
         UISearchBar.styleAppearance()
      }
 
+    /// Item color accessor
     var itemColor: UIColor {
         switch self {
         case .login: return .azureRadiance
@@ -60,6 +59,7 @@ private extension Styler {
         }
     }
 
+    /// Title color accessor
     var titleColor: UIColor {
         switch self {
         case .login: return .regalBlue
@@ -69,6 +69,7 @@ private extension Styler {
        }
     }
 
+    /// Title font accessor
     var titleFont: UIFont {
         switch self {
         case .login: return Avenir.heavy.of(size: 18)

@@ -160,6 +160,8 @@ struct WorldMap {
     }
 }
 
+// MARK: - Fileprivate
+
 fileprivate extension GeoJSON.Feature {
 
     func contains(coordinate test: CLLocationCoordinate2D) -> Bool {

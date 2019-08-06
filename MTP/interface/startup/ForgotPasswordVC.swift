@@ -57,6 +57,8 @@ final class ForgotPasswordVC: UIViewController, ServiceProvider {
     }
 }
 
+// MARK: - Private
+
 private extension ForgotPasswordVC {
 
     @IBAction func continueTapped(_ sender: GradientButton) {
@@ -107,6 +109,8 @@ private extension ForgotPasswordVC {
             completion: nil)
     }
 }
+
+// MARK: - Injectable
 
 extension ForgotPasswordVC: Injectable {
 

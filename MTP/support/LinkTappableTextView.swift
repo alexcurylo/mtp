@@ -20,6 +20,12 @@ final class LinkTappableTextView: UITextView {
         configure()
     }
 
+    /// Hit test
+    ///
+    /// - Parameters:
+    ///   - point: Point tapped
+    ///   - event: Event for tap
+    /// - Returns: View hit if any
     override func hitTest(_ point: CGPoint,
                           with event: UIEvent?) -> UIView? {
         var location = point

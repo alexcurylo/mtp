@@ -17,6 +17,7 @@ final class MyProfileVC: ProfileVC {
         case posts
     }
 
+    /// Controllers to be displayed in PagingViewController
     override var pages: [UIViewController] {
         return [
             R.storyboard.profileAbout.about(),
@@ -90,6 +91,7 @@ final class MyProfileVC: ProfileVC {
 
 extension MyProfileVC: Exposing {
 
+    /// Expose controls to UI tests
     func expose() {
         guard let menu = pagingVC?.collectionView else { return }
         MyProfileVCs.menu.expose(item: menu)

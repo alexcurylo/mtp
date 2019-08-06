@@ -4,6 +4,10 @@ import Foundation
 
 extension HTTPURLResponse {
 
+    /// Find header
+    ///
+    /// - Parameter header: Header to find
+    /// - Returns: Value if found
     func find(header: String) -> String? {
         let keyValues = allHeaderFields.map {
             (String(describing: $0.key).lowercased(), String(describing: $0.value))

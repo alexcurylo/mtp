@@ -126,6 +126,8 @@ private extension LocationPhotosVC {
     }
 }
 
+// MARK: - Injectable
+
 extension LocationPhotosVC: Injectable {
 
     /// Injected dependencies

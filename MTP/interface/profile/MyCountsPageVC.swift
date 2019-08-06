@@ -7,12 +7,15 @@ protocol MyCountsPageVCDelegate: AnyObject {
     func didScroll(myCountsPageVC: MyCountsPageVC)
 }
 
+/// Displays logged in user visit counts
 final class MyCountsPageVC: CountsPageVC {
 
     private weak var delegate: MyCountsPageVCDelegate?
 
     override var isEditable: Bool { return true }
+    /// Places to display
     override var places: [PlaceInfo] { return listPlaces }
+    /// Places that have been visited
     override var visited: [Int] { return listVisited }
 
     private let listPlaces: [PlaceInfo]
@@ -21,6 +24,9 @@ final class MyCountsPageVC: CountsPageVC {
     private var visitedObserver: Observer?
     private var placesObserver: Observer?
 
+    /// Construction by injection
+    ///
+    /// - Parameter model: Injected model
     init(model: Model) {
         delegate = model.delegate
         listPlaces = model.list.places
@@ -57,8 +63,7 @@ extension MyCountsPageVC {
 
 // MARK: - Private
 
-private extension MyCountsPageVC {
-}
+private extension MyCountsPageVC { }
 
 // MARK: - Injectable
 

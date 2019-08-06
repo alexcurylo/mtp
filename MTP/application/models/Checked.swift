@@ -51,6 +51,8 @@ struct Checked: Codable, ServiceProvider {
     }
 }
 
+// MARK: - Private
+
 private extension Checked {
 
     mutating func set(list: Checklist,

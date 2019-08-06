@@ -156,6 +156,8 @@ private extension LocationInfoVC {
     }
 }
 
+// MARK: - Injectable
+
 extension LocationInfoVC: Injectable {
 
     /// Injected dependencies

@@ -5,7 +5,6 @@ import Foundation
 /// Convenience wrapper for Timer manipulation
 final class Scheduler {
 
-    
     /// Action to take on scheduling
     typealias Completion = () -> Void
 

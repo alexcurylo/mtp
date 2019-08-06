@@ -2,13 +2,20 @@
 
 import Parchment
 
+/// Displays user visit tabs
 final class UserCountsPagingVC: FixedPagingViewController, UserCountsPageDataSource, ServiceProvider {
 
+    /// Scorecard to display
     var scorecard: Scorecard?
+    /// Content state to display
     var contentState: ContentState = .loading
 
     private let model: Model
 
+    /// Provide pages container
+    ///
+    /// - Parameter model: Model to populate pages
+    /// - Returns: UserCountsPagingVC
     static func profile(model: Model) -> UserCountsPagingVC {
 
         let controllers: [UserCountsPageVC] = [
@@ -20,6 +27,11 @@ final class UserCountsPagingVC: FixedPagingViewController, UserCountsPageDataSou
                                   viewControllers: controllers)
     }
 
+    /// Construction by injection
+    ///
+    /// - Parameters:
+    ///   - model: Injected model
+    ///   - viewControllers: Controllers
     init(model: Model,
          viewControllers: [UserCountsPageVC]) {
         self.model = model
@@ -30,6 +42,9 @@ final class UserCountsPagingVC: FixedPagingViewController, UserCountsPageDataSou
         viewControllers.forEach { $0.dataSource = self }
     }
 
+    /// Unavailable coding constructor
+    ///
+    /// - Parameter coder: An unarchiver object.
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -47,6 +62,8 @@ final class UserCountsPagingVC: FixedPagingViewController, UserCountsPageDataSou
         }
     }
 }
+
+// MARK: - Private
 
 private extension UserCountsPagingVC {
 
@@ -85,6 +102,8 @@ private extension UserCountsPagingVC {
         }
     }
 }
+
+// MARK: - Injectable
 
 extension UserCountsPagingVC: Injectable {
 

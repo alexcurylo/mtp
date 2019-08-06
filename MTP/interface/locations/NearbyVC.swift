@@ -129,6 +129,7 @@ extension NearbyVC {
 
 extension NearbyVC: Exposing {
 
+    /// Expose controls to UI tests
     func expose() {
         NearbyVCs.close.expose(item: closeButtonItem)
         NearbyVCs.places.expose(item: tableView)

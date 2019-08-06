@@ -7,18 +7,31 @@ import AppCenterCrashes
 import FBSDKCoreKit
 import SwiftyBeaver
 
+/// Stub for startup construction
 struct LaunchHandler: AppHandler, ServiceProvider { }
 
 // MARK: - AppLaunchHandler
 
 extension LaunchHandler: AppLaunchHandler {
 
+    /// willFinishLaunchingWithOptions
+    ///
+    /// - Parameters:
+    ///   - application: Application
+    ///   - launchOptions: Launch options
+    /// - Returns: Success
     func application(_ application: UIApplication,
                      // swiftlint:disable:next discouraged_optional_collection
                      willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         return true
     }
 
+    /// didFinishLaunchingWithOptions
+    ///
+    /// - Parameters:
+    ///   - application: Application
+    ///   - launchOptions: Launch options
+    /// - Returns: Success
     func application(_ application: UIApplication,
                      // swiftlint:disable:next discouraged_optional_collection
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {

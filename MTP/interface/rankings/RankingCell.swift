@@ -78,6 +78,9 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         configure()
     }
 
+    /// Unavailable coding constructor
+    ///
+    /// - Parameter coder: An unarchiver object.
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -140,6 +143,8 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         remainingButton.setTitle(nil, for: .normal)
    }
 }
+
+// MARK: - Private
 
 private extension RankingCell {
 

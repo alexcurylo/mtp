@@ -46,10 +46,11 @@ final class SettingsVC: UITableViewController, ServiceProvider {
     }
 }
 
+// MARK: - Private
+
 private extension SettingsVC {
 
-    @IBAction func unwindToSettings(segue: UIStoryboardSegue) {
-    }
+    @IBAction func unwindToSettings(segue: UIStoryboardSegue) { }
 
     var productUrl: URL? {
         //let posesLink = "https://apps.apple.com/app/id357099619"
@@ -128,6 +129,8 @@ extension SettingsVC: MFMailComposeViewControllerDelegate {
         controller.dismiss(animated: true, completion: nil)
     }
 }
+
+// MARK: - Injectable
 
 extension SettingsVC: Injectable {
 

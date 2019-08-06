@@ -48,6 +48,8 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
     }
 }
 
+// MARK: - Private
+
 private extension ProfilePostsVC {
 
     func loaded() {
@@ -79,6 +81,8 @@ private extension ProfilePostsVC {
         }
     }
 }
+
+// MARK: - Injectable
 
 extension ProfilePostsVC: Injectable {
 

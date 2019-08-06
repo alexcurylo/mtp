@@ -126,6 +126,8 @@ final class PostCell: UITableViewCell, ServiceProvider {
     }
 }
 
+// MARK: - Private
+
 private extension PostCell {
 
     func configure() {

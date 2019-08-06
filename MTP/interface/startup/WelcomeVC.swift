@@ -41,6 +41,8 @@ final class WelcomeVC: UIViewController, ServiceProvider {
     }
 }
 
+// MARK: - Injectable
+
 extension WelcomeVC: Injectable {
 
     /// Injected dependencies

@@ -12,7 +12,7 @@ final class SignupFailVC: UIViewController, ServiceProvider {
     @IBOutlet private var centerY: NSLayoutConstraint?
     @IBOutlet private var messageLabel: UILabel?
 
-    var errorMessage: String?
+    private var errorMessage: String?
 
     /// Prepare for interaction
     override func viewDidLoad() {
@@ -57,6 +57,8 @@ final class SignupFailVC: UIViewController, ServiceProvider {
     }
 }
 
+// MARK: - Private
+
 private extension SignupFailVC {
 
     func hideAlert() {
@@ -83,6 +85,8 @@ private extension SignupFailVC {
             completion: nil)
     }
 }
+
+// MARK: - Injectable
 
 extension SignupFailVC: Injectable {
 

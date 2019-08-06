@@ -2,6 +2,7 @@
 
 import UIKit
 
+/// Stub for startup construction
 struct ServiceHandler: AppHandler { }
 
 extension ServiceHandler: AppLaunchHandler {

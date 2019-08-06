@@ -42,6 +42,7 @@ class ProfileVC: UIViewController, ServiceProvider {
         show(navBar: animated, style: .standard)
     }
 
+    /// Controllers to be displayed in PagingViewController
     var pages: [UIViewController] {
         return []
     }
@@ -105,6 +106,8 @@ private extension ProfileVC {
         #endif
     }
 }
+
+// MARK: - Injectable
 
 extension ProfileVC: Injectable {
 

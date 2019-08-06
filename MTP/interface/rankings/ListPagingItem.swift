@@ -10,6 +10,12 @@ struct ListPagingItem: PagingItem, Hashable, Comparable {
         hasher.combine(list)
     }
 
+    /// Equality operator
+    ///
+    /// - Parameters:
+    ///   - lhs: A thing
+    ///   - rhs: Another thing
+    /// - Returns: Equality
     static func == (lhs: ListPagingItem, rhs: ListPagingItem) -> Bool {
         return lhs.list == rhs.list
     }

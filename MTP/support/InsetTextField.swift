@@ -2,39 +2,69 @@
 
 import UIKit
 
+/// A UITextField with settable insets
 @IBDesignable class InsetTextField: UITextField {
 
+    /// Expose horizontal inset
     @IBInspectable var hInset: CGFloat = 0
+    /// Expose vertical inset
     @IBInspectable var vInset: CGFloat = 0
 
+    /// Return text rect
+    ///
+    /// - Parameter bounds: Field bounds
+    /// - Returns: Inset bounds
     override func textRect(forBounds bounds: CGRect) -> CGRect {
         return super.textRect(forBounds: bounds)
                     .insetBy(dx: hInset, dy: vInset)
     }
 
+    /// Return editing rect
+    ///
+    /// - Parameter bounds: Field bounds
+    /// - Returns: Inset bounds
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
         return super.editingRect(forBounds: bounds)
                     .insetBy(dx: hInset, dy: vInset)
     }
 
+    /// Return placeholder rect
+    ///
+    /// - Parameter bounds: Field bounds
+    /// - Returns: Inset bounds
     override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
         return super.placeholderRect(forBounds: bounds)
     }
 
+    /// Return left view rect
+    ///
+    /// - Parameter bounds: Field bounds
+    /// - Returns: Inset bounds
     override func leftViewRect(forBounds bounds: CGRect) -> CGRect {
         return super.leftViewRect(forBounds: bounds)
                     .offsetBy(dx: hInset, dy: vInset)
     }
 
+    /// Return clear button rect
+    ///
+    /// - Parameter bounds: Field bounds
+    /// - Returns: Inset bounds
     override func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
         return super.clearButtonRect(forBounds: bounds)
             .offsetBy(dx: -hInset, dy: vInset)
     }
 
+    /// Return right view rect
+    ///
+    /// - Parameter bounds: Field bounds
+    /// - Returns: Inset bounds
     override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
         return super.rightViewRect(forBounds: bounds)
     }
 
+    /// Fill and disable
+    ///
+    /// - Parameter text: Text to fill with
     func disable(text: String) {
         self.text = text
         if !text.isEmpty {
@@ -44,20 +74,24 @@ import UIKit
     }
 }
 
+/// An InsetTextField with a gradient
 final class InsetTextFieldGradient: InsetTextField {
 
-    var startColor: UIColor = .dodgerBlue {
+    /// Expose start color
+    @IBInspectable var startColor: UIColor = .dodgerBlue {
         didSet {
             setup()
         }
     }
 
+    /// Expose end color
     @IBInspectable var endColor: UIColor = .azureRadiance {
         didSet {
             setup()
         }
     }
 
+    /// Expose orientation
     @IBInspectable var orientation: Int = 2 {
         didSet {
             setup()
@@ -80,7 +114,7 @@ final class InsetTextFieldGradient: InsetTextField {
         setup()
     }
 
-    func setup() {
+    private func setup() {
         apply(gradient: [startColor, endColor],
               orientation: GradientOrientation(rawValue: orientation))
     }

@@ -4,6 +4,8 @@ import Anchorage
 import DropDown
 import MapKit
 
+// swiftlint:disable file_length
+
 /// Root controller for the map displaying tab
 final class LocationsVC: UIViewController, ServiceProvider {
 
@@ -146,14 +148,21 @@ extension LocationsVC: Mapper {
 
 extension LocationsVC: LocationTracker {
 
+    /// User refused access
     func accessRefused() {
         mtpMapView?.isCentered = true
     }
 
+    /// Authorization changed
+    ///
+    /// - Parameter changed: New status
     func authorization(changed: CLAuthorizationStatus) {
         updateTracking()
     }
 
+    /// Location changed
+    ///
+    /// - Parameter changed: New location
     func location(changed: CLLocation) { }
 }
 
@@ -206,6 +215,7 @@ private extension LocationsVC {
 
 extension LocationsVC: Exposing {
 
+    /// Expose controls to UI tests
     func expose() {
         let bar = navigationController?.navigationBar
         LocationsVCs.nav.expose(item: bar)

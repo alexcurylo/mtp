@@ -44,7 +44,14 @@ final class LoginFailVC: UIViewController, ServiceProvider {
         revealAlert()
     }
 
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+    /// Allow navigation
+    ///
+    /// - Parameters:
+    ///   - identifier: Segue identifier
+    ///   - sender: Action originator
+    /// - Returns: Permission
+    override func shouldPerformSegue(withIdentifier identifier: String,
+                                     sender: Any?) -> Bool {
         switch identifier {
         case Segues.switchForgotPassword.identifier:
             return isSwitchable
@@ -69,6 +76,8 @@ final class LoginFailVC: UIViewController, ServiceProvider {
         }
     }
 }
+
+// MARK: - Private
 
 private extension LoginFailVC {
 
@@ -98,6 +107,8 @@ private extension LoginFailVC {
             completion: nil)
     }
 }
+
+// MARK: - Injectable
 
 extension LoginFailVC: Injectable {
 

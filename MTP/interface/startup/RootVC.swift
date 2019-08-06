@@ -72,6 +72,8 @@ final class RootVC: UIViewController, ServiceProvider {
     }
 }
 
+// MARK: - Private
+
 private extension RootVC {
 
     @IBAction func unwindToRoot(segue: UIStoryboardSegue) { }
@@ -93,6 +95,8 @@ private extension RootVC {
             completion: nil)
     }
 }
+
+// MARK: - Injectable
 
 extension RootVC: Injectable {
 

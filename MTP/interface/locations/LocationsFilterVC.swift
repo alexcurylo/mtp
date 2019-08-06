@@ -124,6 +124,8 @@ private extension LocationsFilterVC {
    }
 }
 
+// MARK: - Injectable
+
 extension LocationsFilterVC: Injectable {
 
     /// Injected dependencies

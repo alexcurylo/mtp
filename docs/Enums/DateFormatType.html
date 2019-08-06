@@ -23,7 +23,7 @@
         <a class="header-link" href="../index.html">
           MTP 1.0 Docs
         </a>
-         (32% documented)
+         (47% documented)
       </p>
     
       <p class="header-col--secondary">
@@ -387,9 +387,6 @@
                 <a class="nav-group-task-link" href="../Classes/TabPresentSegue.html">TabPresentSegue</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/TagButton.html">TagButton</a>
-              </li>
-              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/Threshold.html">Threshold</a>
               </li>
               <li class="nav-group-task">
@@ -569,12 +566,6 @@
                 <a class="nav-group-task-link" href="../Enums/Styler.html">Styler</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Enums/TagButtonType.html">TagButtonType</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Enums/TagDefaultOption.html">TagDefaultOption</a>
-              </li>
-              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/TimeZoneType.html">TimeZoneType</a>
               </li>
               <li class="nav-group-task">
@@ -620,9 +611,6 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/DispatchTime.html">DispatchTime</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Extensions/Formatter.html">Formatter</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/HTTPURLResponse.html">HTTPURLResponse</a>
@@ -671,6 +659,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/RSSFeedsJSON.html">RSSFeedsJSON</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/RealmDataController.html">RealmDataController</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/Response.html">Response</a>
@@ -932,9 +923,6 @@
                 <a class="nav-group-task-link" href="../Protocols/TableCellExposing.html">TableCellExposing</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Protocols/TagButtonDelegate.html">TagButtonDelegate</a>
-              </li>
-              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/TitleChangeDelegate.html">TitleChangeDelegate</a>
               </li>
               <li class="nav-group-task">
@@ -965,9 +953,6 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/AgeLevel.html">AgeLevel</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/ButtonOptions.html">ButtonOptions</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/Checked.html">Checked</a>
@@ -1238,20 +1223,7 @@
 
                 </div>
               </div>
-            <p>The string format used for date string conversion.</p>
-<pre class="highlight swift"><code><span class="k">case</span> <span class="nv">isoYear</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span> <span class="mi">1997</span>
-<span class="k">case</span> <span class="nv">isoYearMonth</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span> <span class="mi">1997</span><span class="o">-</span><span class="mo">07</span>
-<span class="k">case</span> <span class="nv">isoDate</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span> <span class="mi">1997</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">16</span>
-<span class="k">case</span> <span class="nv">isoDateTime</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span> <span class="mi">1997</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">16</span><span class="kt">T19</span><span class="p">:</span><span class="mi">20</span><span class="o">+</span><span class="mo">01</span><span class="p">:</span><span class="mo">00</span>
-<span class="k">case</span> <span class="nv">isoDateTimeSec</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span> <span class="mi">1997</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">16</span><span class="kt">T19</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mi">30</span><span class="o">+</span><span class="mo">01</span><span class="p">:</span><span class="mo">00</span>
-<span class="k">case</span> <span class="nv">isoDateTimeMilliSec</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span> <span class="mi">1997</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">16</span><span class="kt">T19</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mf">30.45</span><span class="o">+</span><span class="mo">01</span><span class="p">:</span><span class="mo">00</span>
-<span class="k">case</span> <span class="nv">dotNet</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span> <span class="s">"/Date(1268123281843)/"</span>
-<span class="k">case</span> <span class="nv">rss</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span> <span class="s">"Fri, 09 Sep 2011 15:26:08 +0200"</span>
-<span class="k">case</span> <span class="nv">altRSS</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span> <span class="s">"09 Sep 2011 15:26:08 +0200"</span>
-<span class="k">case</span> <span class="nv">httpHeader</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span> <span class="s">"Tue, 15 Nov 1994 12:45:26 GMT"</span>
-<span class="k">case</span> <span class="nv">standard</span><span class="p">:</span> <span class="s">"EEE MMM dd HH:mm:ss Z yyyy"</span>
-<span class="k">case</span> <span class="nf">custom</span><span class="p">(</span><span class="kt">String</span><span class="p">):</span> <span class="n">a</span> <span class="n">custom</span> <span class="n">date</span> <span class="n">format</span> <span class="n">string</span>
-</code></pre>
+            <p>Undocumented</p>
 
           </div>
         </section>
@@ -1285,7 +1257,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L546">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L616">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1315,7 +1287,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L549">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L619">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1345,7 +1317,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L552">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L622">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1375,7 +1347,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L555">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L625">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1405,7 +1377,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L558">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L628">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1435,7 +1407,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L561">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L631">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1465,7 +1437,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L564">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L634">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1495,7 +1467,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L567">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L637">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1525,7 +1497,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L570">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L640">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1555,7 +1527,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L573">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L643">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1585,7 +1557,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L576">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L646">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1615,7 +1587,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L579">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L649">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1633,7 +1605,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Format provider</p>
 
                       </div>
                       <div class="declaration">
@@ -1645,7 +1617,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L581-L596">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L652-L667">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1664,9 +1636,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:SQ2eeoiySbx_xtFZ"></a>
+                    <a name="/s:3MTP14DateFormatTypeO2eeoiySbAC_ACtFZ"></a>
                     <a name="//apple_ref/swift/Method/==(_:_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:SQ2eeoiySbx_xtFZ">==(_:_:)</a>
+                    <a class="token" href="#/s:3MTP14DateFormatTypeO2eeoiySbAC_ACtFZ">==(_:_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1674,7 +1646,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Equality operator</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -1684,8 +1657,43 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>lhs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A thing</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>rhs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Another thing</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Equality</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L601-L608">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/Date+Helper.swift#L678-L685">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

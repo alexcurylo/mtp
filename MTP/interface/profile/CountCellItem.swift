@@ -111,6 +111,9 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
         configure()
     }
 
+    /// Unavailable coding constructor
+    ///
+    /// - Parameter coder: An unarchiver object.
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -127,6 +130,8 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
         layer.mask = nil
     }
 }
+
+// MARK: - Private
 
 private extension CountCellItem {
 

@@ -2,19 +2,26 @@
 
 import UIKit
 
+/// Adopt to provide scorecard and content state
 protocol UserCountsPageDataSource: AnyObject {
 
+    /// Scorecard to display
     var scorecard: Scorecard? { get }
+    /// Content state to display
     var contentState: ContentState { get }
 }
 
+/// Displays user visit counts
 final class UserCountsPageVC: CountsPageVC {
 
+    /// Data source for content
     weak var dataSource: UserCountsPageDataSource? {
         didSet { refresh() }
     }
 
+    /// Places to display
     override var places: [PlaceInfo] { return listPlaces }
+    /// Places that have been visited
     override var visited: [Int] { return listVisited }
 
     private var listPlaces: [PlaceInfo] = []
@@ -23,6 +30,9 @@ final class UserCountsPageVC: CountsPageVC {
     private let user: User
     private var status: Checklist.VisitStatus
 
+    /// Construction by injection
+    ///
+    /// - Parameter model: Injected model
     init(model: Model) {
         tab = model.tab
         user = model.user
@@ -31,11 +41,13 @@ final class UserCountsPageVC: CountsPageVC {
         super.init(model: model.list)
     }
 
-    func  refresh() {
+    /// Rebuild data and update
+    func refresh() {
         cache()
         update()
     }
 
+    /// Update UI state
     override func update() {
         super.update()
 
@@ -52,6 +64,8 @@ final class UserCountsPageVC: CountsPageVC {
         collectionView.set(message: state)
     }
 }
+
+// MARK: - Private
 
 private extension UserCountsPageVC {
 
@@ -80,6 +94,8 @@ private extension UserCountsPageVC {
     }
 }
 
+// MARK: - Injectable
+
 extension UserCountsPageVC: Injectable {
 
     /// Injected dependencies
@@ -101,6 +117,10 @@ extension UserCountsPageVC: Injectable {
 
 extension UserCountsVC.Tab {
 
+    /// Provide title from status
+    ///
+    /// - Parameter status: Visit counts
+    /// - Returns: Formatted string
     func title(status: Checklist.VisitStatus) -> String {
         switch self {
         case .visited:
@@ -110,6 +130,10 @@ extension UserCountsVC.Tab {
        }
     }
 
+    /// Provide score for tab
+    ///
+    /// - Parameter status: Visit counts
+    /// - Returns: Int
     func score(status: Checklist.VisitStatus) -> Int {
         switch self {
         case .visited:
@@ -119,6 +143,10 @@ extension UserCountsVC.Tab {
         }
     }
 
+    /// Provide title from scorecard
+    ///
+    /// - Parameter scorecard: Scorecard
+    /// - Returns: Formatted string
     func title(scorecard: Scorecard) -> String {
         switch self {
         case .visited:
@@ -128,6 +156,10 @@ extension UserCountsVC.Tab {
         }
     }
 
+    /// Provide score for tab
+    ///
+    /// - Parameter scorecard: Scorecard
+    /// - Returns: Int
     func score(scorecard: Scorecard) -> Int {
         switch self {
         case .visited:

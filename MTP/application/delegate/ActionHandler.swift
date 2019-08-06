@@ -3,10 +3,18 @@
 import FBSDKCoreKit
 import UIKit
 
+/// Stub for startup construction
 struct ActionHandler: AppHandler { }
 
 extension ActionHandler: AppOpenURLHandler {
 
+    /// Open URL handler
+    ///
+    /// - Parameters:
+    ///   - app: Application
+    ///   - url: URL
+    ///   - options: Options
+    /// - Returns: Success
     func application(_ app: UIApplication,
                      open url: URL,
                      options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {

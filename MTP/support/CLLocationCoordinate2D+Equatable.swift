@@ -29,6 +29,12 @@ extension CLLocationCoordinate2D: Codable {
 
 extension CLLocationCoordinate2D: Equatable {
 
+    /// Equality operator
+    ///
+    /// - Parameters:
+    ///   - lhs: A thing
+    ///   - rhs: Another thing
+    /// - Returns: Equality
     public static func == (lhs: CLLocationCoordinate2D,
                            rhs: CLLocationCoordinate2D) -> Bool {
         return lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
@@ -37,21 +43,32 @@ extension CLLocationCoordinate2D: Equatable {
 
 extension CLLocationCoordinate2D {
 
+    /// Empty coordinate value
     static var zero = CLLocationCoordinate2D(latitude: 0, longitude: 0)
 
+    /// Is coordinate empty?
     var isZero: Bool {
         return self == .zero
     }
 
+    /// CLLocation constructor convenience
     var location: CLLocation {
         return CLLocation(latitude: latitude,
                           longitude: longitude)
     }
 
+    /// Distance calculation
+    ///
+    /// - Parameter from: CLLocationCoordinate2D
+    /// - Returns: Distance
     func distance(from: CLLocationCoordinate2D) -> CLLocationDistance {
         return location.distance(from: from.location)
     }
 
+    /// Distance calculation
+    ///
+    /// - Parameter from: CLLocation
+    /// - Returns: Distance
     func distance(from: CLLocation) -> CLLocationDistance {
         return location.distance(from: from)
     }
@@ -59,6 +76,7 @@ extension CLLocationCoordinate2D {
 
 extension CLLocationDistance {
 
+    /// Range appropriate formatting of kilometers
     var formatted: String {
         let km = self / 1_000
         let formatted: String
@@ -77,24 +95,27 @@ extension CLLocationDistance {
     }
 }
 
+/// Helper for determining region needed to show map cluster annotations
 struct ClusterRegion {
 
-    var left: CLLocationDegrees = 0
-    var top: CLLocationDegrees = 0
-    var right: CLLocationDegrees = 0
-    var bottom: CLLocationDegrees = 0
+    private var left: CLLocationDegrees = 0
+    private var top: CLLocationDegrees = 0
+    private var right: CLLocationDegrees = 0
+    private var bottom: CLLocationDegrees = 0
 
-    var latitudeDelta: CLLocationDegrees {
+    private var latitudeDelta: CLLocationDegrees {
         return (bottom + 90) - (top + 90)
     }
-    var longitudeDelta: CLLocationDegrees {
+    private var longitudeDelta: CLLocationDegrees {
         return (right + 180) - (left + 180)
     }
+
+    /// Accessor for size to fit on screen
     var maxDelta: CLLocationDegrees {
         return max(latitudeDelta, longitudeDelta)
     }
 
-    init(coordinates: [CLLocationCoordinate2D]) {
+    private init(coordinates: [CLLocationCoordinate2D]) {
         if let first = coordinates.first {
             left = first.longitude
             top = first.latitude
@@ -109,11 +130,14 @@ struct ClusterRegion {
         }
     }
 
-    init(cluster: MKClusterAnnotation) {
+    private init(cluster: MKClusterAnnotation) {
         let coordinates = cluster.memberAnnotations.map { $0.coordinate }
         self.init(coordinates: coordinates)
     }
 
+    /// Construct region from an annotation
+    ///
+    /// - Parameter mappables: MappablesAnnotation
     init(mappables: MappablesAnnotation) {
         let coordinates = mappables.mappables.map { $0.coordinate }
         self.init(coordinates: coordinates)

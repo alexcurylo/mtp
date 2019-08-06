@@ -9,7 +9,7 @@ final class MainTBC: UITabBarController, ServiceProvider {
 
     private var destination: Route?
 
-    static var current: MainTBC?
+    private static var current: MainTBC?
 
     /// Prepare for interaction
     override func viewDidLoad() {
@@ -51,22 +51,37 @@ final class MainTBC: UITabBarController, ServiceProvider {
         }
     }
 
-    func route(to mappable: Mappable) {
-        dismiss(presentations: self)
-        locations?.reveal(mappable: mappable, callout: true)
-        selectedIndex = Route.locations.rawValue
+    /// Route to display a Mappable in Locations
+    ///
+    /// - Parameter mappable: Mappable to display
+    static func route(to mappable: Mappable) {
+        guard let current = MainTBC.current else { return }
+
+        current.dismiss(presentations: current)
+        current.locations?.reveal(mappable: mappable, callout: true)
+        current.selectedIndex = Route.locations.rawValue
     }
 
-    func route(to user: User?) {
-        dismiss(presentations: self)
-        locations?.reveal(user: user)
-        selectedIndex = Route.locations.rawValue
+    /// Route to display a User in Locations
+    ///
+    /// - Parameter user: User to display
+    static func route(to user: User?) {
+        guard let current = MainTBC.current else { return }
+
+        current.dismiss(presentations: current)
+        current.locations?.reveal(user: user)
+        current.selectedIndex = Route.locations.rawValue
     }
 
-    func route(to route: Route) {
-        dismiss(presentations: self)
-        destination = route
-        checkDestination()
+    /// Route to an enumerated destination
+    ///
+    /// - Parameter route: Route case
+    static func route(to route: Route) {
+        guard let current = MainTBC.current else { return }
+
+        current.dismiss(presentations: current)
+        current.destination = route
+        current.checkDestination()
     }
 }
 
@@ -108,6 +123,7 @@ private extension MainTBC {
 
 extension MainTBC: Exposing {
 
+    /// Expose controls to UI tests
     func expose() {
         MainTBCs.bar.expose(item: tabBar)
         var buttons = [
@@ -147,6 +163,7 @@ extension MainTBC: Injectable {
 
 extension UIViewController {
 
+    /// Locate the main tab bar controller
     var mainTBC: MainTBC? {
         if let tbc = tabBarController as? MainTBC {
             return tbc
@@ -157,6 +174,9 @@ extension UIViewController {
         }
     }
 
+    /// Dismiss all currently presented controllers
+    ///
+    /// - Parameter from: View controller to unwind to
     func dismiss(presentations from: UIViewController) {
         if let presented = from.presentedViewController {
             dismiss(presentations: presented)

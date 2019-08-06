@@ -2,7 +2,7 @@
 
 import UIKit
 
-/// Our minimal application delegate
+/// Our routing application delegate
 @UIApplicationMain final class MTPDelegate: RoutingAppDelegate {
 
     /// Runtime environments our app delegate recognizes

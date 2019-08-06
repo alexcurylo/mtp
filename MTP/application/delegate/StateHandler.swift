@@ -2,7 +2,7 @@
 
 import UIKit
 
-/// Handle things to do on application state changes
+/// Stub for startup construction
 struct StateHandler: AppHandler, ServiceProvider { }
 
 extension StateHandler: AppStateHandler {

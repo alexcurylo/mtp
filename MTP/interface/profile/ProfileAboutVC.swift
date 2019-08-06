@@ -252,6 +252,8 @@ private extension ProfileAboutVC {
     }
 }
 
+// MARK: - Injectable
+
 extension ProfileAboutVC: Injectable {
 
     /// Injected dependencies

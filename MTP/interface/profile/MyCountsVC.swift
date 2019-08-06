@@ -35,6 +35,8 @@ final class MyCountsVC: UIViewController, ServiceProvider {
     }
 }
 
+// MARK: - Private
+
 private extension MyCountsVC {
 
     @IBAction func unwindToCounts(segue: UIStoryboardSegue) { }
@@ -113,6 +115,8 @@ extension MyCountsVC: PagingViewControllerDelegate {
         update(menu: height)
     }
 }
+
+// MARK: - Injectable
 
 extension MyCountsVC: Injectable {
 

@@ -105,6 +105,9 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
         configure()
     }
 
+    /// Unavailable coding constructor
+    ///
+    /// - Parameter coder: An unarchiver object.
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -150,6 +153,8 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
         filterLabel.text = nil
     }
 }
+
+// MARK: - Private
 
 private extension RankingHeader {
 

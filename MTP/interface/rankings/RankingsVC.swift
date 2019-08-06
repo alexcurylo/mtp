@@ -85,6 +85,7 @@ final class RankingsVC: UIViewController, ServiceProvider {
         }
     }
 
+    /// Refresh rankings for changed filter
     func updateFilter() {
         net.refreshRankings()
         pagingVC.reloadData()
@@ -95,8 +96,7 @@ final class RankingsVC: UIViewController, ServiceProvider {
 
 private extension RankingsVC {
 
-    @IBAction func unwindToRankings(segue: UIStoryboardSegue) {
-    }
+    @IBAction func unwindToRankings(segue: UIStoryboardSegue) { }
 
     func configurePagesHolder() {
         guard let holder = pagesHolder else { return }
@@ -142,6 +142,7 @@ private extension RankingsVC {
 
 extension RankingsVC: Exposing {
 
+    /// Expose controls to UI tests
     func expose() {
         let bar = navigationController?.navigationBar
         RankingVCs.nav.expose(item: bar)

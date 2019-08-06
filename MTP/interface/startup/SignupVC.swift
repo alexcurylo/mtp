@@ -86,7 +86,7 @@ final class SignupVC: UIViewController, ServiceProvider {
         switch segue.identifier {
         case Segues.presentSignupFail.identifier:
             let alert = Segues.presentSignupFail(segue: segue)
-            alert?.destination.errorMessage = errorMessage
+            alert?.destination.inject(model: errorMessage)
             hide(navBar: true)
         case Segues.showCountry.identifier:
             if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
@@ -440,6 +440,10 @@ private extension SignupVC {
 
 extension SignupVC: UITextFieldDelegate {
 
+    /// Begin editing text field
+    ///
+    /// - Parameter textField: UITextField
+    /// - Returns: Permission
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         var clearHidden = true
         switch textField {
@@ -468,6 +472,10 @@ extension SignupVC: UITextFieldDelegate {
         return true
     }
 
+    /// Handle return key
+    ///
+    /// - Parameter textField: UITextField
+    /// - Returns: Permission
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case emailTextField:
@@ -504,6 +512,14 @@ extension SignupVC: UITextFieldDelegate {
 
 extension SignupVC: UINavigationControllerDelegate {
 
+    /// Animation controller for navigation
+    ///
+    /// - Parameters:
+    ///   - navigationController: Enclosing controller
+    ///   - operation: Operation
+    ///   - fromVC: source
+    ///   - toVC: destination
+    /// - Returns: Animator
     func navigationController(
         _ navigationController: UINavigationController,
         animationControllerFor operation: UINavigationController.Operation,
@@ -553,12 +569,23 @@ extension SignupVC: LocationSearchDelegate {
 
 extension SignupVC: UIViewControllerTransitioningDelegate {
 
+    /// Animation controller for transition
+    ///
+    /// - Parameters:
+    ///   - presented: Presented controller
+    ///   - presenting: Presenting controller
+    ///   - source: Source controller
+    /// - Returns: Animator
     func animationController(forPresented presented: UIViewController,
                              presenting: UIViewController,
                              source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return ZoomAnimator()
     }
 
+    /// Animation controller for dismissal
+    ///
+    /// - Parameter dismissed: View controller
+    /// - Returns: Animator
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return nil
     }
@@ -568,11 +595,22 @@ extension SignupVC: UIViewControllerTransitioningDelegate {
 
 extension SignupVC: UIPickerViewDataSource {
 
+    /// Number of picker components
+    ///
+    /// - Parameter pickerView: Picker view
+    /// - Returns: 1
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
 
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    /// Number of rows in picker component
+    ///
+    /// - Parameters:
+    ///   - pickerView: Picker view
+    ///   - component: Index
+    /// - Returns: Value
+    func pickerView(_ pickerView: UIPickerView,
+                    numberOfRowsInComponent component: Int) -> Int {
         return genders.count
     }
 }
@@ -581,12 +619,25 @@ extension SignupVC: UIPickerViewDataSource {
 
 extension SignupVC: UIPickerViewDelegate {
 
+    /// Title of picker row
+    ///
+    /// - Parameters:
+    ///   - pickerView: Picker view
+    ///   - row: Index
+    ///   - component: Index
+    /// - Returns: Title
     public func pickerView(_ pickerView: UIPickerView,
                            titleForRow row: Int,
                            forComponent component: Int) -> String? {
         return genders[row]
     }
 
+    /// Handle picker selection
+    ///
+    /// - Parameters:
+    ///   - pickerView: Picker view
+    ///   - row: Index
+    ///   - component: Index
     public func pickerView(_ pickerView: UIPickerView,
                            didSelectRow row: Int,
                            inComponent component: Int) {

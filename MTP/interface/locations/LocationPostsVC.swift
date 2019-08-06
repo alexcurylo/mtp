@@ -65,6 +65,8 @@ final class LocationPostsVC: PostsVC {
     }
 }
 
+// MARK: - Private
+
 private extension LocationPostsVC {
 
     func loaded() {
@@ -104,6 +106,8 @@ private extension LocationPostsVC {
         }
     }
 }
+
+// MARK: - Injectable
 
 extension LocationPostsVC: Injectable {
 

@@ -252,6 +252,8 @@ final class FaqCell: UITableViewCell {
     }
 }
 
+// MARK: - Private
+
 private extension FaqCell {
 
     @IBAction func toggleTapped(_ sender: UIButton) {

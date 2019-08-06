@@ -3,19 +3,31 @@
 import UIKit
 import UserNotifications
 
-final class NotificationsHandler: NSObject, AppHandler, ServiceProvider {
-}
+/// Stub for startup construction
+final class NotificationsHandler: NSObject, AppHandler, ServiceProvider { }
 
 // MARK: - AppLaunchHandler
 
 extension NotificationsHandler: AppLaunchHandler {
 
+    /// willFinishLaunchingWithOptions
+    ///
+    /// - Parameters:
+    ///   - application: Application
+    ///   - launchOptions: Launch options
+    /// - Returns: Success
     func application(_ application: UIApplication,
                      // swiftlint:disable:next discouraged_optional_collection
                      willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         return true
     }
 
+    /// didFinishLaunchingWithOptions
+    ///
+    /// - Parameters:
+    ///   - application: Application
+    ///   - launchOptions: Launch options
+    /// - Returns: Success
     func application(_ application: UIApplication,
                      // swiftlint:disable:next discouraged_optional_collection
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {

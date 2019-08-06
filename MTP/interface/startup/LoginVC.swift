@@ -51,7 +51,14 @@ final class LoginVC: UIViewController, ServiceProvider {
         data.email = emailTextField?.text ?? ""
    }
 
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+    /// Allow navigation
+    ///
+    /// - Parameters:
+    ///   - identifier: Segue identifier
+    ///   - sender: Action originator
+    /// - Returns: Permission
+    override func shouldPerformSegue(withIdentifier identifier: String,
+                                     sender: Any?) -> Bool {
         switch identifier {
         case Segues.presentForgotPassword.identifier:
             guard let email = emailTextField?.text, email.isValidEmail else {
@@ -211,6 +218,10 @@ private extension LoginVC {
 
 extension LoginVC: UITextFieldDelegate {
 
+    /// Begin editing text field
+    ///
+    /// - Parameter textField: UITextField
+    /// - Returns: Permission
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         switch textField {
         case emailTextField:
@@ -226,6 +237,10 @@ extension LoginVC: UITextFieldDelegate {
         return true
     }
 
+    /// Handle return key
+    ///
+    /// - Parameter textField: UITextField
+    /// - Returns: Permission
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case emailTextField:
@@ -244,6 +259,14 @@ extension LoginVC: UITextFieldDelegate {
 
 extension LoginVC: UINavigationControllerDelegate {
 
+    /// Animation controller for navigation
+    ///
+    /// - Parameters:
+    ///   - navigationController: Enclosing controller
+    ///   - operation: Operation
+    ///   - fromVC: source
+    ///   - toVC: destination
+    /// - Returns: Animator
     func navigationController(
         _ navigationController: UINavigationController,
         animationControllerFor operation: UINavigationController.Operation,
@@ -260,12 +283,23 @@ extension LoginVC: UINavigationControllerDelegate {
 
 extension LoginVC: UIViewControllerTransitioningDelegate {
 
+    /// Animation controller for transition
+    ///
+    /// - Parameters:
+    ///   - presented: Presented controller
+    ///   - presenting: Presenting controller
+    ///   - source: Source controller
+    /// - Returns: Animator
     func animationController(forPresented presented: UIViewController,
                              presenting: UIViewController,
                              source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return ZoomAnimator()
     }
 
+    /// Animation controller for dismissal
+    ///
+    /// - Parameter dismissed: View controller
+    /// - Returns: Animator
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return nil
     }

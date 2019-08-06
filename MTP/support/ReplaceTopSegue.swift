@@ -75,6 +75,9 @@ final class FadeInAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         return 0.35
     }
 
+    /// Perform transition
+    ///
+    /// - Parameter transitionContext: context
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard let to = transitionContext.view(forKey: .to) else {
             transitionContext.completeTransition(true)
@@ -110,6 +113,9 @@ final class ZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         return 1
     }
 
+    /// Perform transition
+    ///
+    /// - Parameter transitionContext: context
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard let from = transitionContext.view(forKey: .from),
               let to = transitionContext.view(forKey: .to) else {

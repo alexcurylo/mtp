@@ -19,11 +19,13 @@ extension Date {
 
     // MARK: Convert from String
 
-    /*
-        Initializes a new Date() objext based on a date string, format, optional timezone and optional locale.
-     
-        - Returns: A Date() object if successfully converted from string or nil.
-    */
+    /// Initializes a new Date() objext based on a date string, format, optional timezone and optional locale
+    ///
+    /// - Parameters:
+    ///   - string: Source to format
+    ///   - format: Format to apply
+    ///   - zone: Time zone
+    ///   - locale: Locale
     init?(fromString string: String,
           format: DateFormatType,
           zone: TimeZoneType = .current,
@@ -64,6 +66,9 @@ extension Date {
     // MARK: Convert to String
 
     /// Converts the date to string using the short date and time style.
+    ///
+    /// - Parameter style: DateStyleType
+    /// - Returns: Formatted string
     func toString(style: DateStyleType = .short) -> String {
         switch style {
         case .short:
@@ -106,6 +111,12 @@ extension Date {
     }
 
     /// Converts the date to string based on a date format, optional timezone and optional locale.
+    ///
+    /// - Parameters:
+    ///   - format: Format
+    ///   - zone: Time zone
+    ///   - locale: Locale
+    /// - Returns: Formatted string
     func toString(format: DateFormatType,
                   zone: TimeZoneType = .current,
                   locale: Locale = .current) -> String {
@@ -126,6 +137,14 @@ extension Date {
     /// Converts the date to string based on DateFormatter's date style and
     /// time style with optional relative date formatting, optional time zone
     /// and optional locale.
+    ///
+    /// - Parameters:
+    ///   - dateStyle: Date style
+    ///   - timeStyle: Time style
+    ///   - isRelative: Format with relative strings?
+    ///   - zone: Time zone
+    ///   - locale: Locale
+    /// - Returns: Formatted string
     func toString(dateStyle: DateFormatter.Style,
                   timeStyle: DateFormatter.Style,
                   isRelative: Bool = false,
@@ -140,8 +159,11 @@ extension Date {
     }
 
     /// Converts the date to string based on a relative time language. i.e. just now, 1 minute ago etc...
-    // swiftlint:disable:next cyclomatic_complexity function_body_length
+    ///
+    /// - Parameter style: Time style
+    /// - Returns: Formatted string
     func toStringWithRelativeTime(style: RelativeTimeStyle = .regular) -> String {
+        // swiftlint:disable:previous cyclomatic_complexity function_body_length
         let time = self.timeIntervalSince1970
         let now = Date().timeIntervalSince1970
         let isPast = now - time > 0
@@ -219,8 +241,11 @@ extension Date {
     // MARK: Compare Dates
 
     /// Compares dates to see if they are equal while ignoring time.
-    // swiftlint:disable:next function_body_length
+    ///
+    /// - Parameter comparison: Comparison type
+    /// - Returns: Equality
     func compare(_ comparison: DateComparisonType) -> Bool {
+        // swiftlint:disable:previous function_body_length
         switch comparison {
         case .isToday:
             return compare(.isSameDay(as: Date()))
@@ -288,7 +313,11 @@ extension Date {
     // MARK: Adjust dates
 
     /// Creates a new date with adjusted components
-
+    ///
+    /// - Parameters:
+    ///   - component: Component to adjust
+    ///   - offset: Adjust offset
+    /// - Returns: New date
     func adjust(_ component: DateComponentType, offset: Int) -> Date {
         var dateComp = DateComponents()
         switch component {
@@ -315,6 +344,14 @@ extension Date {
     }
 
     /// Return a new Date object with the new hour, minute and seconds values.
+    ///
+    /// - Parameters:
+    ///   - hour: Hour
+    ///   - minute: Minute
+    ///   - second: Second
+    ///   - day: Day
+    ///   - month: Month
+    /// - Returns: New date
     func adjust(hour: Int?, minute: Int?, second: Int?, day: Int? = nil, month: Int? = nil) -> Date {
         var comp = Date.components(self)
         comp.month = month ?? comp.month
@@ -327,6 +364,12 @@ extension Date {
 
     // MARK: Date for...
 
+    /// Create date for type
+    ///
+    /// - Parameters:
+    ///   - type: DateForType
+    ///   - calendar: Calendar
+    /// - Returns: New date
     func dateFor(_ type: DateForType, calendar: Calendar = .current) -> Date {
         switch type {
         case .startOfDay:
@@ -361,6 +404,12 @@ extension Date {
 
     // MARK: Time since...
 
+    /// Time components since date
+    ///
+    /// - Parameters:
+    ///   - date: Date
+    ///   - component: Component
+    /// - Returns: Number of components elapsed
     func since(_ date: Date, in component: DateComponentType) -> Int64 {
         let calendar = Calendar.current
         let end: Int
@@ -398,6 +447,10 @@ extension Date {
 
     // MARK: Extracting components
 
+    /// Extract component
+    ///
+    /// - Parameter component: Component
+    /// - Returns: Value if present
     func component(_ component: DateComponentType) -> Int? {
         let components = Date.components(self)
         switch component {
@@ -422,11 +475,17 @@ extension Date {
         }
     }
 
+    /// Number of days in current month
+    ///
+    /// - Returns: Int
     func numberOfDaysInMonth() -> Int {
         guard let range = Calendar.current.range(of: .day, in: .month, for: self) else { return 0 }
         return range.upperBound - range.lowerBound
     }
 
+    /// First day of week
+    ///
+    /// - Returns: Int
     func firstDayOfWeek() -> Int {
         guard let weekday = component(.weekday) else { return 0 }
         let distanceToStartOfWeek = Date.dayInSeconds * Double(weekday - 1)
@@ -434,6 +493,9 @@ extension Date {
         return Date(timeIntervalSinceReferenceDate: interval).component(.day) ?? 0
     }
 
+    /// Last day of week
+    ///
+    /// - Returns: Int
     func lastDayOfWeek() -> Int {
         guard let weekday = component(.weekday) else { return 0 }
         let distanceToStartOfWeek = Date.dayInSeconds * Double(weekday - 1)
@@ -442,9 +504,9 @@ extension Date {
         return Date(timeIntervalSinceReferenceDate: interval).component(.day) ?? 0
     }
 
-    // MARK: Internal Components
+    // MARK: Private Components
 
-    internal static func componentFlags() -> Set<Calendar.Component> {
+    private static func componentFlags() -> Set<Calendar.Component> {
         return [ .year,
                  .month,
                  .day,
@@ -455,7 +517,7 @@ extension Date {
                  .weekday,
                  .weekdayOrdinal,
                  .weekOfYear] }
-    internal static func components(_ fromDate: Date) -> DateComponents {
+    private static func components(_ fromDate: Date) -> DateComponents {
         return Calendar.current.dateComponents(Date.componentFlags(), from: fromDate)
     }
 
@@ -512,10 +574,16 @@ extension Date {
     }
 
     // MARK: Intervals In Seconds
+
+    /// Minute in seconds
     internal static let minuteInSeconds: Double = 60
+    /// Hour in seconds
     internal static let hourInSeconds: Double = 3_600
+    /// Day in seconds
     internal static let dayInSeconds: Double = 86_400
+    /// Week in seconds
     internal static let weekInSeconds: Double = 604_800
+    /// Year in seconds
     internal static let yearInSeconds: Double = 31_556_926
 }
 
@@ -540,6 +608,8 @@ extension Date {
  ````
  
  */
+
+/// Common date formats
 enum DateFormatType: Hashable {
 
     /// The ISO8601 formatted year "yyyy" i.e. 1997
@@ -578,6 +648,7 @@ enum DateFormatType: Hashable {
     /// A custom date format string
     case custom(String)
 
+    /// Format provider
     var stringFormat: String {
         switch self {
         case .isoYear: return "yyyy"
@@ -598,6 +669,12 @@ enum DateFormatType: Hashable {
 
 extension DateFormatType: Equatable {
 
+    /// Equality operator
+    ///
+    /// - Parameters:
+    ///   - lhs: A thing
+    ///   - rhs: Another thing
+    /// - Returns: Equality
     static func == (lhs: DateFormatType, rhs: DateFormatType) -> Bool {
         switch (lhs, rhs) {
         case let (.custom(lhsString), .custom(rhsString)):
@@ -611,12 +688,18 @@ extension DateFormatType: Equatable {
 /// The time zone to be used for date conversion
 enum TimeZoneType: Hashable {
 
-    case current // aka local in 11+
+    /// Current time zone aka local in 11+
+    case current
+    /// Default time zone
     case `default`
+    /// System time zone
     case system
+    /// UTC time zone
     case utc
+    /// Custom time zone
     case custom(Int)
 
+    /// TimeZone provider
     var timeZone: TimeZone {
         switch self {
         case .current: return .current
@@ -628,47 +711,78 @@ enum TimeZoneType: Hashable {
     }
 }
 
-// The string keys to modify the strings in relative format
+/// The string keys to modify the strings in relative format
 enum RelativeTimeStringType {
 
+    /// nowPast
     case nowPast
+    /// nowFuture
     case nowFuture
+    /// secondsPast
     case secondsPast
+    /// secondsFuture
     case secondsFuture
+    /// oneMinutePast
     case oneMinutePast
+    /// oneMinuteFuture
     case oneMinuteFuture
+    /// minutesPast
     case minutesPast
+    /// minutesFuture
     case minutesFuture
+    /// oneHourPast
     case oneHourPast
+    /// oneHourFuture
     case oneHourFuture
+    /// hoursPast
     case hoursPast
+    /// hoursFuture
     case hoursFuture
+    /// oneDayPast
     case oneDayPast
+    /// oneDayFuture
     case oneDayFuture
+    /// daysPast
     case daysPast
+    /// daysFuture
     case daysFuture
+    /// oneWeekPast
     case oneWeekPast
+    /// oneWeekFuture
     case oneWeekFuture
+    /// weeksPast
     case weeksPast
+    /// weeksFuture
     case weeksFuture
+    /// oneMonthPast
     case oneMonthPast
+    /// oneMonthFuture
     case oneMonthFuture
+    /// monthsPast
     case monthsPast
+    /// monthsFuture
     case monthsFuture
+    /// oneYearPast
     case oneYearPast
+    /// oneYearFuture
     case oneYearFuture
+    /// yearsPast
     case yearsPast
+    /// yearsFuture
     case yearsFuture
 }
 
+/// Relative time styles
 enum RelativeTimeStyle {
 
+    /// Regular
     case regular
+    /// Short
     case short
 
-    typealias Formats = [RelativeTimeStringType: StringResource]
+    fileprivate typealias Formats = [RelativeTimeStringType: StringResource]
 
-    var formats: Formats {
+    fileprivate var formats: Formats {
         switch self {
         case .regular:
             return RelativeTimeStyle.regularRelativeTimeStrings
@@ -740,7 +854,7 @@ enum RelativeTimeStyle {
     ]
 }
 
-// The type of comparison to do against today's date or with the suplied date.
+/// The type of comparison to do against today's date or with the suplied date.
 enum DateComparisonType {
 
     // Days
@@ -803,36 +917,55 @@ enum DateComparisonType {
     case isWeekend
 }
 
-// The date components available to be retrieved or modifed
+/// The date components available to be retrieved or modifed
 enum DateComponentType {
 
+    /// second
     case second
+    /// minute
     case minute
+    /// hour
     case hour
+    /// day
     case day
+    /// weekday
     case weekday
+    /// nthWeekday
     case nthWeekday
+    /// week
     case week
+    /// month
     case month
+    /// year
     case year
 }
 
-// The type of date that can be used for the dateFor function.
+/// The type of date that can be used for the dateFor function.
 enum DateForType {
 
+    /// startOfDay
     case startOfDay
+    /// endOfDay
     case endOfDay
+    /// startOfWeek
     case startOfWeek
+    /// endOfWeek
     case endOfWeek
+    /// startOfMonth
     case startOfMonth
+    /// endOfMonth
     case endOfMonth
+    /// tomorrow
     case tomorrow
+    /// yesterday
     case yesterday
+    /// nearestMinute
     case nearestMinute(minute:Int)
+    /// nearestHour
     case nearestHour(hour:Int)
 }
 
-// Convenience types for date to string conversion
+/// Convenience types for date to string conversion
 enum DateStyleType {
 
     /// Short style: "2/27/17, 2:22 PM"

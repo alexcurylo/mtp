@@ -5,13 +5,16 @@ import Parchment
 
 // swiftlint:disable file_length
 
+/// Base class for displaying visit counts
 class CountsPageVC: UIViewController, ServiceProvider {
 
     typealias CountsModel = Checklist
 
     let list: Checklist
     var isEditable: Bool { return false }
+    /// Places to display
     var places: [PlaceInfo] { return [] }
+    /// Places that have been visited
     var visited: [Int] { return [] }
 
     private let infoSection = 0
@@ -80,6 +83,9 @@ class CountsPageVC: UIViewController, ServiceProvider {
     private var countriesVisited: [RegionKey: CountryVisits] = [:]
     private var countriesExpanded: [RegionKey: CountryExpanded] = [:]
 
+    /// Construction by injection
+    ///
+    /// - Parameter model: Injected model
     init(model: CountsModel) {
         list = model
         super.init(nibName: nil, bundle: nil)
@@ -87,6 +93,9 @@ class CountsPageVC: UIViewController, ServiceProvider {
         configure()
     }
 
+    /// Unavailable coding constructor
+    ///
+    /// - Parameter coder: An unarchiver object.
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

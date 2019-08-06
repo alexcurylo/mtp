@@ -124,6 +124,8 @@ final class LocationSearchVC: RealmSearchViewController {
     }
 }
 
+// MARK: - Private
+
 private extension LocationSearchVC {
 
     func configureSearch() {
@@ -161,6 +163,8 @@ private extension LocationSearchVC {
         }
     }
 }
+
+// MARK: - Injectable
 
 extension LocationSearchVC: Injectable {
 

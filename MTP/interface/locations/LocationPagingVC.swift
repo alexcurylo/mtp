@@ -2,8 +2,13 @@
 
 import Parchment
 
+/// Displays location info tabs
 final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
 
+    /// Provide pages container
+    ///
+    /// - Parameter model: Model to populate pages
+    /// - Returns: LocationPagingVC
     static func profile(model: Model) -> LocationPagingVC {
 
         var first: UIViewController? {
@@ -52,6 +57,9 @@ final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
         configure()
     }
 
+    /// Unavailable coding constructor
+    ///
+    /// - Parameter coder: An unarchiver object.
     required init?(coder: NSCoder) {
         super.init(viewControllers: [])
     }
@@ -92,7 +100,7 @@ private extension LocationPagingVC {
     }
 }
 
-// MARK: - Injectable
+// MARK: - TitleChangeDelegate
 
 extension LocationPagingVC: TitleChangeDelegate {
 

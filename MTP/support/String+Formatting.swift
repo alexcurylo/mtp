@@ -2,7 +2,6 @@
 
 import UIKit
 
-
 /// Convenience for localizable string typesafe access
 typealias L = R.string.localizable
 //swiftlint:disable:previous type_name
@@ -190,7 +189,8 @@ extension NSAttributedString {
         return attributes
     }
 
-    private var fullRange: NSRange {
+    /// Convenience Range of entire string
+    var fullRange: NSRange {
         return NSRange(string.startIndex..<string.endIndex, in: string)
     }
 }

@@ -131,6 +131,10 @@ extension EditProfileVC {
 
 extension EditProfileVC: UITextFieldDelegate {
 
+    /// Begin editing text field
+    ///
+    /// - Parameter textField: UITextField
+    /// - Returns: Permission
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         let linkTextFields = linksStack?.linkTextFields ?? []
 
@@ -171,6 +175,10 @@ extension EditProfileVC: UITextFieldDelegate {
         return true
     }
 
+    /// Handle return key
+    ///
+    /// - Parameter textField: UITextField
+    /// - Returns: Permission
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         updateSave(showError: false)
@@ -650,11 +658,22 @@ extension EditProfileVC: LocationSearchDelegate {
 
 extension EditProfileVC: UIPickerViewDataSource {
 
+    /// Number of picker components
+    ///
+    /// - Parameter pickerView: Picker view
+    /// - Returns: 1
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
 
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    /// Number of rows in picker component
+    ///
+    /// - Parameters:
+    ///   - pickerView: Picker view
+    ///   - component: Index
+    /// - Returns: Value
+    func pickerView(_ pickerView: UIPickerView,
+                    numberOfRowsInComponent component: Int) -> Int {
         return genders.count
     }
 }
@@ -663,12 +682,25 @@ extension EditProfileVC: UIPickerViewDataSource {
 
 extension EditProfileVC: UIPickerViewDelegate {
 
+    /// Title of picker row
+    ///
+    /// - Parameters:
+    ///   - pickerView: Picker view
+    ///   - row: Index
+    ///   - component: Index
+    /// - Returns: Title
     public func pickerView(_ pickerView: UIPickerView,
                            titleForRow row: Int,
                            forComponent component: Int) -> String? {
         return genders[row]
     }
 
+    /// Handle picker selection
+    ///
+    /// - Parameters:
+    ///   - pickerView: Picker view
+    ///   - row: Index
+    ///   - component: Index
     public func pickerView(_ pickerView: UIPickerView,
                            didSelectRow row: Int,
                            inComponent component: Int) {

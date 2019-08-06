@@ -6,8 +6,12 @@ import Parchment
 /// Allow user to review and edit all visits
 final class UserCountsVC: UIViewController, ServiceProvider {
 
+    /// Visited or remaining tab
     enum Tab: Int {
+
+        /// Visited tab index 0
         case visited = 0
+        /// Remaining tab index 1
         case remaining
     }
 
@@ -58,10 +62,12 @@ final class UserCountsVC: UIViewController, ServiceProvider {
     }
 }
 
+// MARK: - Private
+
 private extension UserCountsVC {
 
     @IBAction func mapButtonTapped(_ sender: UIButton) {
-        mainTBC?.route(to: user)
+        app.route(to: user)
     }
 
     func setupPagesHolder() {
@@ -96,6 +102,8 @@ private extension UserCountsVC {
         countryLabel?.text = user.locationName
     }
 }
+
+// MARK: - Injectable
 
 extension UserCountsVC: Injectable {
 
