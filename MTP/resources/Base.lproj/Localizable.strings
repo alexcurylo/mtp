@@ -205,6 +205,7 @@
 
 "selectGender" = "Select Gender";
 "facebookFailed" = "Failed to get information from Facebook!";
+"fixAgree" = "Please agree to the MTP Terms Of Use!";
 "fixFirstName" = "Please enter a first name!";
 "fixLastName" = "Please enter a last name!";
 "fixGender" = "Please select a gender! MTP uses this to rank the most traveled people by gender.";

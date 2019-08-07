@@ -26,6 +26,7 @@ final class SignupVC: UIViewController, ServiceProvider {
     @IBOutlet private var togglePasswordButton: UIButton?
     @IBOutlet private var confirmPasswordTextField: InsetTextField?
     @IBOutlet private var toggleConfirmPasswordButton: UIButton?
+    @IBOutlet private var termsOfServiceButton: UIButton?
 
     @IBOutlet private var keyboardToolbar: UIToolbar?
     @IBOutlet private var toolbarBackButton: UIBarButtonItem?
@@ -33,7 +34,7 @@ final class SignupVC: UIViewController, ServiceProvider {
     @IBOutlet private var toolbarClearButton: UIBarButtonItem?
 
     private var errorMessage: String = ""
-
+    private var agreed = false
     private var country: Country?
     private var location: Location?
 
@@ -300,6 +301,11 @@ private extension SignupVC {
         prepareRegister(showError: false)
     }
 
+    @IBAction func unwindToSignup(segue: UIStoryboardSegue) {
+        agreed = true
+        termsOfServiceButton?.setImage(R.image.checkmarkBlue(), for: .normal)
+    }
+
     func populate(with payload: RegistrationPayload) {
         emailTextField?.disable(text: payload.email)
 
@@ -350,7 +356,9 @@ private extension SignupVC {
         let passwordConfirmation = confirmPasswordTextField?.text ?? ""
 
         errorMessage = ""
-        if !email.isValidEmail {
+        if !agreed {
+            errorMessage = L.fixAgree()
+        } else if !email.isValidEmail {
             errorMessage = L.fixEmail()
         } else if firstName.isEmpty {
             errorMessage = L.fixFirstName()
