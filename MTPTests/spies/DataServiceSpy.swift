@@ -15,6 +15,66 @@ final class DataServiceSpy: DataService {
         invokedBeachesGetterCount += 1
         return stubbedBeaches
     }
+    var invokedBlockedPhotosSetter = false
+    var invokedBlockedPhotosSetterCount = 0
+    var invokedBlockedPhotos: [Int]?
+    var invokedBlockedPhotosList = [[Int]]()
+    var invokedBlockedPhotosGetter = false
+    var invokedBlockedPhotosGetterCount = 0
+    var stubbedBlockedPhotos: [Int]! = []
+    var blockedPhotos: [Int] {
+        set {
+            invokedBlockedPhotosSetter = true
+            invokedBlockedPhotosSetterCount += 1
+            invokedBlockedPhotos = newValue
+            invokedBlockedPhotosList.append(newValue)
+        }
+        get {
+            invokedBlockedPhotosGetter = true
+            invokedBlockedPhotosGetterCount += 1
+            return stubbedBlockedPhotos
+        }
+    }
+    var invokedBlockedPostsSetter = false
+    var invokedBlockedPostsSetterCount = 0
+    var invokedBlockedPosts: [Int]?
+    var invokedBlockedPostsList = [[Int]]()
+    var invokedBlockedPostsGetter = false
+    var invokedBlockedPostsGetterCount = 0
+    var stubbedBlockedPosts: [Int]! = []
+    var blockedPosts: [Int] {
+        set {
+            invokedBlockedPostsSetter = true
+            invokedBlockedPostsSetterCount += 1
+            invokedBlockedPosts = newValue
+            invokedBlockedPostsList.append(newValue)
+        }
+        get {
+            invokedBlockedPostsGetter = true
+            invokedBlockedPostsGetterCount += 1
+            return stubbedBlockedPosts
+        }
+    }
+    var invokedBlockedUsersSetter = false
+    var invokedBlockedUsersSetterCount = 0
+    var invokedBlockedUsers: [Int]?
+    var invokedBlockedUsersList = [[Int]]()
+    var invokedBlockedUsersGetter = false
+    var invokedBlockedUsersGetterCount = 0
+    var stubbedBlockedUsers: [Int]! = []
+    var blockedUsers: [Int] {
+        set {
+            invokedBlockedUsersSetter = true
+            invokedBlockedUsersSetterCount += 1
+            invokedBlockedUsers = newValue
+            invokedBlockedUsersList.append(newValue)
+        }
+        get {
+            invokedBlockedUsersGetter = true
+            invokedBlockedUsersGetterCount += 1
+            return stubbedBlockedUsers
+        }
+    }
     var invokedCountriesGetter = false
     var invokedCountriesGetterCount = 0
     var stubbedCountries: [Country]! = []
@@ -370,6 +430,44 @@ final class DataServiceSpy: DataService {
         invokedNoteGetter = true
         invokedNoteGetterCount += 1
         return stubbedNote
+    }
+    var invokedStyleGetter = false
+    var invokedStyleGetterCount = 0
+    var stubbedStyle: StyleService!
+    var style: StyleService {
+        invokedStyleGetter = true
+        invokedStyleGetterCount += 1
+        return stubbedStyle
+    }
+    var invokedBlockPhoto = false
+    var invokedBlockPhotoCount = 0
+    var invokedBlockPhotoParameters: (id: Int, Void)?
+    var invokedBlockPhotoParametersList = [(id: Int, Void)]()
+    func block(photo id: Int) {
+        invokedBlockPhoto = true
+        invokedBlockPhotoCount += 1
+        invokedBlockPhotoParameters = (id, ())
+        invokedBlockPhotoParametersList.append((id, ()))
+    }
+    var invokedBlockPost = false
+    var invokedBlockPostCount = 0
+    var invokedBlockPostParameters: (id: Int, Void)?
+    var invokedBlockPostParametersList = [(id: Int, Void)]()
+    func block(post id: Int) {
+        invokedBlockPost = true
+        invokedBlockPostCount += 1
+        invokedBlockPostParameters = (id, ())
+        invokedBlockPostParametersList.append((id, ()))
+    }
+    var invokedBlockUser = false
+    var invokedBlockUserCount = 0
+    var invokedBlockUserParameters: (id: Int, Void)?
+    var invokedBlockUserParametersList = [(id: Int, Void)]()
+    func block(user id: Int) {
+        invokedBlockUser = true
+        invokedBlockUserCount += 1
+        invokedBlockUserParameters = (id, ())
+        invokedBlockUserParametersList.append((id, ()))
     }
     var invokedGetCountry = false
     var invokedGetCountryCount = 0

@@ -40,10 +40,12 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
     private var filter = RankingsQuery()
     private var filterDescription = ""
     private var filterRank: Int?
+    private var blockedUsers: [Int] = []
 
     private var visitedObserver: Observer?
     private var rankingsObserver: Observer?
     private var scorecardObserver: Observer?
+    private var blockedObserver: Observer?
 
     init(options: PagingOptions) {
         super.init(nibName: nil, bundle: nil)
@@ -81,6 +83,7 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
         collectionView.contentInset = insets
         collectionView.scrollIndicatorInsets = insets
         self.delegate = delegate
+        blockedUsers = data.blockedUsers
 
         let newFilter = data.lastRankingsQuery.with(list: list)
         if contentState == .unknown || filter != newFilter {
@@ -158,7 +161,9 @@ extension RankingsPageVC: UICollectionViewDataSource {
             for: indexPath) as? RankingCell
 
         let rank = indexPath.row + 1
-        cell.set(user: user(at: rank) ?? User(),
+        let shown = user(at: rank) ?? User()
+        let blocked = blockedUsers.contains(shown.userId)
+        cell.set(user: blocked ? nil : shown,
                  for: rank,
                  in: filter.checklist,
                  delegate: delegate)
@@ -286,6 +291,12 @@ private extension RankingsPageVC {
 
         scorecardObserver = data.observer(of: .scorecard) { [weak self] _ in
             self?.updateRank()
+        }
+
+        blockedObserver = data.observer(of: .scorecard) { [weak self] _ in
+            guard let self = self else { return }
+            self.blockedUsers = self.data.blockedUsers
+            self.collectionView.reloadData()
         }
     }
 

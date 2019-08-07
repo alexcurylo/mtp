@@ -23,6 +23,7 @@ class PostsVC: UITableViewController, ServiceProvider {
 
     var contentState: ContentState = .loading
     var models: [PostCellModel] = []
+    private var configuredMenu = false
 
     private let layout = (row: CGFloat(100),
                           header: CGFloat(50))
@@ -66,6 +67,7 @@ class PostsVC: UITableViewController, ServiceProvider {
                 date: DateFormatter.mtpPost.string(from: post.updatedAt).uppercased(),
                 title: title,
                 body: post.post,
+                postId: post.postId,
                 presenter: presenter,
                 location: location,
                 user: user,
@@ -156,6 +158,26 @@ extension PostsVC {
                             estimatedHeightForHeaderInSection section: Int) -> CGFloat {
         return canCreate ? layout.header : 1
     }
+
+    override func tableView(_ tableView: UITableView,
+                            shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
+        configureMenu()
+        return true
+    }
+
+    override func tableView(_ tableView: UITableView,
+                            canPerformAction action: Selector,
+                            forRowAt indexPath: IndexPath,
+                            withSender sender: Any?) -> Bool {
+        return MenuAction.isContent(action: action)
+    }
+
+    override func tableView(_ tableView: UITableView,
+                            performAction action: Selector,
+                            forRowAt indexPath: IndexPath,
+                            withSender sender: Any?) {
+        // Required to be present but only triggers for standard items
+    }
 }
 
 // MARK: - PostCellDelegate
@@ -175,6 +197,20 @@ extension PostsVC: PostCellDelegate {
             tableView.reloadRows(at: [path], with: .none)
         }
     }
+
+    func tapped(hide: PostCellModel?) {
+        data.block(post: hide?.postId ?? 0)
+    }
+
+    func tapped(report: PostCellModel?) {
+        let message = L.reportPost(report?.postId ?? 0)
+        app.route(to: .reportContent(message))
+    }
+
+    func tapped(block: PostCellModel?) {
+        data.block(user: block?.user?.userId ?? 0)
+        app.dismissPresentations()
+    }
 }
 
 // MARK: - Private
@@ -183,6 +219,13 @@ private extension PostsVC {
 
     @IBAction func addTapped(_ sender: GradientButton) {
         createPost()
+    }
+
+    private func configureMenu() {
+        guard !configuredMenu else { return }
+
+        configuredMenu = true
+        UIMenuController.shared.menuItems = MenuAction.contentItems
     }
 }
 

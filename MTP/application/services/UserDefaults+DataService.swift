@@ -4,6 +4,60 @@ import Foundation
 
 extension UserDefaults: ServiceProvider {
 
+    var blockedPhotos: [Int] {
+        get {
+            do {
+                return try get(objectType: [Int].self, forKey: #function) ?? []
+            } catch {
+                log.error("decoding blockedPhotos value: \(error)")
+                return []
+            }
+        }
+        set {
+            do {
+                try set(object: newValue, forKey: #function)
+            } catch {
+                log.error("encoding blockedPhotos newValue: \(error)")
+            }
+        }
+    }
+
+    var blockedPosts: [Int] {
+        get {
+            do {
+                return try get(objectType: [Int].self, forKey: #function) ?? []
+            } catch {
+                log.error("decoding blockedPosts value: \(error)")
+                return []
+            }
+        }
+        set {
+            do {
+                try set(object: newValue, forKey: #function)
+            } catch {
+                log.error("encoding blockedPosts newValue: \(error)")
+            }
+        }
+    }
+
+    var blockedUsers: [Int] {
+        get {
+            do {
+                return try get(objectType: [Int].self, forKey: #function) ?? []
+            } catch {
+                log.error("decoding blockedUsers value: \(error)")
+                return []
+            }
+        }
+        set {
+            do {
+                try set(object: newValue, forKey: #function)
+            } catch {
+                log.error("encoding blockedUsers newValue: \(error)")
+            }
+        }
+    }
+
     var dismissed: Timestamps? {
         get {
             do {

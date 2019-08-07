@@ -45,6 +45,13 @@
 "errorState" = "Error loading data!";
 "loading" = "Loading…";
 
+// menu options
+
+"menuHide" = "Hide";
+"menuReport" = "Report";
+"menuBlock" = "Block user";
+"blockSelf" = "You cannot block yourself!";
+
 // AddPhotoVC
 
 "fixPhoto" = "Please select a photo!";
@@ -200,6 +207,10 @@
 
 "contactAddress" = "admin@mtp.travel";
 "contactSubject" = "Hello from The App!";
+"setupEmail" = "Please set up an email account on your device to contact us with!";
+"reportSubject" = "Objectionable Content Report";
+"reportPhoto" = "This is a report of objectionable content found in the application to be removed within 24 hours - photo ID #%ld.";
+"reportPost" = "This is a report of objectionable content found in the application to be removed within 24 hours - post ID #%ld.";
 
 // SignupVC
 

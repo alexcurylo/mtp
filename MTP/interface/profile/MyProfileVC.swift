@@ -28,6 +28,7 @@ final class MyProfileVC: ProfileVC {
     }
 
     private var userObserver: Observer?
+    private var reportMessage = ""
 
     /// Prepare for interaction
     override func viewDidLoad() {
@@ -53,6 +54,11 @@ final class MyProfileVC: ProfileVC {
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
+        case Segues.showSettings.identifier:
+            if let settings = Segues.showSettings(segue: segue)?.destination {
+                settings.inject(model: reportMessage)
+                reportMessage = ""
+            }
         case Segues.directEdit.identifier,
              Segues.showEditProfile.identifier,
              Segues.showSettings.identifier:
@@ -84,6 +90,11 @@ final class MyProfileVC: ProfileVC {
             title = nil
         }
         birthdayLabel?.text = title
+    }
+
+    func reportContent(message: String) {
+        reportMessage = message
+        performSegue(withIdentifier: Segues.showSettings, sender: self)
     }
 }
 

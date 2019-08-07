@@ -10,6 +10,9 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     typealias Completion = (Bool) -> Void
 
     var beaches: [Beach] { get }
+    var blockedPhotos: [Int] { get set }
+    var blockedPosts: [Int] { get set }
+    var blockedUsers: [Int] { get set }
     var countries: [Country] { get }
     var divesites: [DiveSite] { get }
     var dismissed: Timestamps? { get set }
@@ -30,6 +33,10 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var visited: Checked? { get set }
     var whss: [WHS] { get }
     var worldMap: WorldMap { get }
+
+    func block(photo id: Int)
+    func block(post id: Int)
+    func block(user id: Int)
 
     func get(country id: Int?) -> Country?
     func get(location id: Int?) -> Location?
@@ -122,6 +129,9 @@ extension DataService {
         if let id = user?.id {
             deletePhotos(user: id)
         }
+        blockedPhotos = []
+        blockedPosts = []
+        blockedUsers = []
         dismissed = nil
         email = ""
         etags = [:]
@@ -153,6 +163,60 @@ class DataServiceImpl: DataService {
     func set(beaches: [PlaceJSON]) {
         realm.set(beaches: beaches)
         notify(change: .beaches)
+    }
+
+    var blockedPhotos: [Int] {
+        get { return defaults.blockedPhotos }
+        set {
+            defaults.blockedPhotos = newValue
+            notify(change: .blockedPhotos)
+            notify(change: .locationPhotos)
+            notify(change: .photoPages)
+        }
+    }
+
+    var blockedPosts: [Int] {
+        get { return defaults.blockedPosts }
+        set {
+            defaults.blockedPosts = newValue
+            notify(change: .blockedPosts)
+            notify(change: .locationPosts)
+            notify(change: .posts)
+        }
+    }
+
+    var blockedUsers: [Int] {
+        get { return defaults.blockedUsers }
+        set {
+            defaults.blockedUsers = newValue
+            notify(change: .blockedUsers)
+            notify(change: .locationPhotos)
+            notify(change: .photoPages)
+            notify(change: .locationPosts)
+            notify(change: .posts)
+        }
+    }
+
+    func block(photo id: Int) {
+        if !blockedPhotos.contains(id) {
+            blockedPhotos.append(id)
+        }
+    }
+
+    func block(post id: Int) {
+        if !blockedPosts.contains(id) {
+            blockedPosts.append(id)
+        }
+    }
+
+    func block(user id: Int) {
+        guard id != user?.id else {
+            note.message(error: L.blockSelf())
+            return
+        }
+        if !blockedPosts.contains(id) {
+            blockedPosts.append(id)
+        }
     }
 
     var countries: [Country] {
@@ -566,6 +630,9 @@ class DataServiceImpl: DataService {
 enum DataServiceChange: String {
 
     case beaches
+    case blockedPhotos
+    case blockedPosts
+    case blockedUsers
     case dismissed
     case divesites
     case golfcourses

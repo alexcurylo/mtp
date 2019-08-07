@@ -6,6 +6,10 @@ protocol PostCellDelegate: AnyObject {
 
     func tapped(profile user: User)
     func tapped(toggle: Int)
+
+    func tapped(hide: PostCellModel?)
+    func tapped(report: PostCellModel?)
+    func tapped(block: PostCellModel?)
 }
 
 enum Presenter {
@@ -20,6 +24,7 @@ struct PostCellModel {
     let date: String
     let title: String
     let body: String
+    let postId: Int
     let presenter: Presenter
     let location: Location?
     let user: User?
@@ -227,6 +232,18 @@ private extension PostCell {
         guard let model = model else { return }
 
         delegate?.tapped(toggle: model.index)
+    }
+
+    @objc func hide(_ sender: AnyObject?) {
+        delegate?.tapped(hide: model)
+    }
+
+    @objc func report(_ sender: AnyObject?) {
+        delegate?.tapped(report: model)
+    }
+
+    @objc func block(_ sender: AnyObject?) {
+        delegate?.tapped(block: model)
     }
 
     func setExpanded() {

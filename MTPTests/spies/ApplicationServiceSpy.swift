@@ -52,4 +52,10 @@ final class ApplicationServiceSpy: ApplicationService {
         invokedEndEditing = true
         invokedEndEditingCount += 1
     }
+    var invokedDismissPresentations = false
+    var invokedDismissPresentationsCount = 0
+    func dismissPresentations() {
+        invokedDismissPresentations = true
+        invokedDismissPresentationsCount += 1
+    }
 }

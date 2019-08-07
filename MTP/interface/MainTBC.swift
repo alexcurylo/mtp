@@ -59,7 +59,7 @@ final class MainTBC: UITabBarController, ServiceProvider {
 
         current.dismiss(presentations: current)
         current.locations?.reveal(mappable: mappable, callout: true)
-        current.selectedIndex = Route.locations.rawValue
+        current.selectedIndex = Route.locations.tabIndex
     }
 
     /// Route to display a User in Locations
@@ -70,7 +70,7 @@ final class MainTBC: UITabBarController, ServiceProvider {
 
         current.dismiss(presentations: current)
         current.locations?.reveal(user: user)
-        current.selectedIndex = Route.locations.rawValue
+        current.selectedIndex = Route.locations.tabIndex
     }
 
     /// Route to an enumerated destination
@@ -83,25 +83,42 @@ final class MainTBC: UITabBarController, ServiceProvider {
         current.destination = route
         current.checkDestination()
     }
+
+    /// Dismiss any presented controllers
+    static func dismissPresentations() {
+        guard let current = MainTBC.current else { return }
+
+        current.dismiss(presentations: current)
+        current.clean(tab: .locations)
+        current.clean(tab: .rankings)
+        current.clean(tab: .myProfile)
+    }
 }
 
 // MARK: - Private
 
 private extension MainTBC {
 
+    @discardableResult func clean(tab: Route) -> UIViewController? {
+        guard let nav = viewControllers?[tab.tabIndex] as? UINavigationController else { return nil }
+
+        if nav.viewControllers.count > 1 {
+            let root = [nav.viewControllers[0]]
+            nav.viewControllers = root
+        }
+        return nav.root
+    }
+
     var locations: LocationsVC? {
-        let nav = viewControllers?[Route.locations.rawValue] as? UINavigationController
-        return nav?.topViewController as? LocationsVC
+        return clean(tab: .locations) as? LocationsVC
     }
 
     var rankings: RankingsVC? {
-        let nav = viewControllers?[Route.rankings.rawValue] as? UINavigationController
-        return nav?.topViewController as? RankingsVC
+        return clean(tab: .rankings) as? RankingsVC
     }
 
     var myProfile: MyProfileVC? {
-        let nav = viewControllers?[Route.myProfile.rawValue] as? UINavigationController
-        return nav?.topViewController as? MyProfileVC
+        return clean(tab: .myProfile) as? MyProfileVC
     }
 
     func checkDestination() {
@@ -109,10 +126,13 @@ private extension MainTBC {
 
         switch goto {
         case .locations, .rankings, .myProfile:
-            selectedIndex = goto.rawValue
+            selectedIndex = goto.tabIndex
         case .editProfile:
-            selectedIndex = Route.myProfile.rawValue
+            selectedIndex = Route.myProfile.tabIndex
             myProfile?.performSegue(withIdentifier: Segues.directEdit, sender: self)
+        case .reportContent(let message):
+            selectedIndex = Route.myProfile.tabIndex
+            myProfile?.reportContent(message: message)
         }
 
         destination = nil
@@ -182,5 +202,12 @@ extension UIViewController {
             dismiss(presentations: presented)
             dismiss(animated: false)
         }
+    }
+}
+
+private extension UINavigationController {
+
+    var root: UIViewController? {
+        return viewControllers.first
     }
 }

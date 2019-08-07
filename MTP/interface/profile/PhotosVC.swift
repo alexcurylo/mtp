@@ -22,6 +22,7 @@ class PhotosVC: UICollectionViewController, ServiceProvider {
 
     var contentState: ContentState = .loading
     var mode: Mode = .browser
+    private var configuredMenu = false
 
     private var scrollingCells: Set<PhotoCell> = []
     private var isScrolling = false {
@@ -123,6 +124,13 @@ private extension PhotosVC {
         let cell = collectionView.cellForItem(at: path)
         return (cell as? PhotoCell)?.imageView
     }
+
+    private func configureMenu() {
+        guard !configuredMenu else { return }
+
+        configuredMenu = true
+        UIMenuController.shared.menuItems = MenuAction.contentItems
+    }
 }
 
 // MARK: UICollectionViewDataSource
@@ -156,9 +164,10 @@ extension PhotosVC {
         )
 
         let model = photo(at: indexPath.item)
-        cell.set(photo: model, isScrolling: isScrolling)
+        cell.set(photo: model,
+                 delegate: self,
+                 isScrolling: isScrolling)
         if isScrolling {
-            cell.delegate = self
             scrollingCells.insert(cell)
         }
 
@@ -193,6 +202,26 @@ extension PhotosVC {
                                  didSelectItemAt indexPath: IndexPath) {
         current = photo(at: indexPath.item).uuid
         saveButton?.isEnabled = original != current
+    }
+
+    override func collectionView(_ collectionView: UICollectionView,
+                                 shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
+        configureMenu()
+        return true
+    }
+
+    override func collectionView(_ collectionView: UICollectionView,
+                                 canPerformAction action: Selector,
+                                 forItemAt indexPath: IndexPath,
+                                 withSender sender: Any?) -> Bool {
+        return MenuAction.isContent(action: action)
+    }
+
+    override func collectionView(_ collectionView: UICollectionView,
+                                 performAction action: Selector,
+                                 forItemAt indexPath: IndexPath,
+                                 withSender sender: Any?) {
+        // Required to be present but only triggers for standard items
     }
 }
 
@@ -236,6 +265,20 @@ extension PhotosVC: PhotoCellDelegate {
     func prepared(forReuse cell: PhotoCell) {
         scrollingCells.remove(cell)
     }
+
+    func tapped(hide: Photo?) {
+        data.block(photo: hide?.photoId ?? 0)
+    }
+
+    func tapped(report: Photo?) {
+        let message = L.reportPhoto(report?.photoId ?? 0)
+        app.route(to: .reportContent(message))
+    }
+
+    func tapped(block: Photo?) {
+        data.block(user: block?.userId ?? 0)
+        app.route(to: .locations)
+    }
 }
 
 // MARK: UICollectionViewDelegateFlowLayout
@@ -265,58 +308,6 @@ extension PhotosVC: UICollectionViewDelegateFlowLayout {
         let spacing = (items - 1) * flow.minimumInteritemSpacing
         let edge = ((width - spacing) / items).rounded(.down)
         return CGSize(width: edge, height: edge)
-    }
-}
-
-protocol PhotoCellDelegate: AnyObject {
-
-    func prepared(forReuse cell: PhotoCell)
-}
-
-final class PhotoCell: UICollectionViewCell {
-
-    //swiftlint:disable:next private_outlet
-    @IBOutlet var imageView: UIImageView?
-
-    private var photo: Photo?
-    private var loaded = false
-    var isScrolling = false {
-        didSet {
-            if !isScrolling { load() }
-        }
-    }
-
-    weak var delegate: PhotoCellDelegate?
-
-    override var isSelected: Bool {
-        didSet {
-            borderColor = isSelected ? .switchOn : nil
-            borderWidth = isSelected ? 4 : 0
-        }
-    }
-
-    fileprivate func set(photo: Photo?,
-                         isScrolling: Bool) {
-        self.photo = photo
-        self.isScrolling = isScrolling
-    }
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
-
-        imageView?.prepareForReuse()
-        photo = nil
-        loaded = false
-        isScrolling = false
-
-        delegate?.prepared(forReuse: self)
-    }
-
-    private func load() {
-        guard !loaded, let photo = photo else { return }
-
-        loaded = true
-        imageView?.load(image: photo)
     }
 }
 

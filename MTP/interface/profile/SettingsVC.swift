@@ -9,6 +9,7 @@ final class SettingsVC: UITableViewController, ServiceProvider {
     private typealias Segues = R.segue.settingsVC
 
     @IBOutlet private var backgroundView: UIView?
+    private var reportMessage = ""
 
     /// Prepare for interaction
     override func viewDidLoad() {
@@ -25,6 +26,17 @@ final class SettingsVC: UITableViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .standard)
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if !reportMessage.isEmpty {
+            email(title: L.reportSubject(), body: reportMessage)
+            reportMessage = ""
+        }
     }
 
     /// Instrument and inject navigation
@@ -87,13 +99,28 @@ private extension SettingsVC {
     }
 
     @IBAction func contactTapped(_ sender: UIButton) {
-        guard MFMailComposeViewController.canSendMail() else { return }
+        email(title: L.contactSubject())
+    }
+
+    func report(body: String? = nil) {
+        email(title: L.reportSubject(), body: body)
+    }
+
+    func email(title: String,
+               body: String? = nil) {
+        guard MFMailComposeViewController.canSendMail() else {
+            note.message(error: L.setupEmail())
+            return
+        }
 
         style.styler.system.styleAppearanceNavBar()
         let composeVC = MFMailComposeViewController {
             $0.mailComposeDelegate = self
             $0.setToRecipients([L.contactAddress()])
-            $0.setSubject(L.contactSubject())
+            $0.setSubject(title)
+            if let body = body {
+                $0.setMessageBody(body, isHTML: false)
+            }
         }
         composeVC.navigationBar.set(style: .system)
 
@@ -135,13 +162,14 @@ extension SettingsVC: MFMailComposeViewControllerDelegate {
 extension SettingsVC: Injectable {
 
     /// Injected dependencies
-    typealias Model = ()
+    typealias Model = String
 
     /// Handle dependency injection
     ///
     /// - Parameter model: Dependencies
     /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
+        reportMessage = model
         return self
     }
 

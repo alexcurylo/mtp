@@ -22,6 +22,7 @@
 		8C012801223208CC00EA2095 /* DataServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C012800223208CC00EA2095 /* DataServiceSpy.swift */; };
 		8C012803223208FB00EA2095 /* NetworkServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C012802223208FB00EA2095 /* NetworkServiceSpy.swift */; };
 		8C0F242B22432076005BD5DC /* UserCountsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0F242A22432076005BD5DC /* UserCountsVC.swift */; };
+		8C177A0722FA671700E4433C /* MenuAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C177A0622FA671700E4433C /* MenuAction.swift */; };
 		8C1A267E22AE019400DAFC7B /* SearchResultJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1A267D22AE019400DAFC7B /* SearchResultJSON.swift */; };
 		8C3EA1FF22DD540F008DD858 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EA1FE22DD540F008DD858 /* SnapshotHelper.swift */; };
 		8C3EA813222F64F100CB4886 /* TopLoadingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */; };
@@ -66,6 +67,7 @@
 		8CE6FC64224C6CB600B24410 /* LocationInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6FC61224C6CB500B24410 /* LocationInfoVC.swift */; };
 		8CE6FC65224C6CB600B24410 /* LocationPhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6FC62224C6CB600B24410 /* LocationPhotosVC.swift */; };
 		8CE6FC66224C6CB600B24410 /* LocationPostsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6FC63224C6CB600B24410 /* LocationPostsVC.swift */; };
+		8CF7381A22FA9DD2006D4C66 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF7381922FA9DD2006D4C66 /* PhotoCell.swift */; };
 		8CFEE459221FA2120061614B /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFEE458221FA2120061614B /* ImageService.swift */; };
 		C1D9A04EB6208ED844515108 /* libPods-MTP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA7B8EF0C9A37C87525A9855 /* libPods-MTP.a */; };
 		F5352AD2AEBF0C3A5C6191CE /* Pods-MTP-settings-metadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E2C18C122B275F3B40CDCDA /* Pods-MTP-settings-metadata.plist */; };
@@ -263,6 +265,7 @@
 		8C012800223208CC00EA2095 /* DataServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataServiceSpy.swift; sourceTree = "<group>"; };
 		8C012802223208FB00EA2095 /* NetworkServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceSpy.swift; sourceTree = "<group>"; };
 		8C0F242A22432076005BD5DC /* UserCountsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCountsVC.swift; sourceTree = "<group>"; };
+		8C177A0622FA671700E4433C /* MenuAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuAction.swift; sourceTree = "<group>"; };
 		8C1A267D22AE019400DAFC7B /* SearchResultJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultJSON.swift; sourceTree = "<group>"; };
 		8C3EA1FE22DD540F008DD858 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
 		8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLoadingTextView.swift; sourceTree = "<group>"; };
@@ -308,6 +311,7 @@
 		8CE6FC61224C6CB500B24410 /* LocationInfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationInfoVC.swift; sourceTree = "<group>"; };
 		8CE6FC62224C6CB600B24410 /* LocationPhotosVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationPhotosVC.swift; sourceTree = "<group>"; };
 		8CE6FC63224C6CB600B24410 /* LocationPostsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationPostsVC.swift; sourceTree = "<group>"; };
+		8CF7381922FA9DD2006D4C66 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		8CFEE458221FA2120061614B /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		B1C0AF3F035BC227379ED6DE /* libPods-MTPUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MTPUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B988D22396864AC3181C1EA5 /* Pods-MTP-metadata.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "Pods-MTP-metadata.plist"; path = "Pods/Pods-MTP-metadata.plist"; sourceTree = "<group>"; };
@@ -596,6 +600,7 @@
 				FA36FBEC22059E6B00616CDE /* ApplicationService.swift */,
 				FA3CEC552132579300791195 /* DataService.swift */,
 				FA4653332115ADC6005B5A0A /* MTPNetworkController.swift */,
+				8C177A0622FA671700E4433C /* MenuAction.swift */,
 				FA1663AE22E3325B0075DA1A /* NetworkService.swift */,
 				8CFEE458221FA2120061614B /* ImageService.swift */,
 				FAC8465C22AB6C2A004F57EC /* LocationService.swift */,
@@ -708,6 +713,7 @@
 				FA74574C210CA5730010F4F4 /* MyProfileVC.swift */,
 				FAEB87A0227ED26300858898 /* PostCell.swift */,
 				8C8DB38022817B6800B2BBD3 /* PostsVC.swift */,
+				8CF7381922FA9DD2006D4C66 /* PhotoCell.swift */,
 				FA7CCAEE22B848EE0092A95E /* PhotosVC.swift */,
 				FA254DCC2169A2A400FC9360 /* ProfileAboutVC.swift */,
 				FA99615E2136CF3100C85FBC /* ProfilePagingVC.swift */,
@@ -1443,6 +1449,7 @@
 				FA40F754225B06D50056182E /* FaqVC.swift in Sources */,
 				FA36FBEF2206461F00616CDE /* RealmDataController.swift in Sources */,
 				FA32CC7420FB6E67004C1329 /* UIView+Gradient.swift in Sources */,
+				8CF7381A22FA9DD2006D4C66 /* PhotoCell.swift in Sources */,
 				FAF1853120FA0C8600CC5D83 /* RootVC.swift in Sources */,
 				FA7C2012221C2F20002C6DAB /* Photo.swift in Sources */,
 				FA9656CF22BE32D500DA050F /* AddPostVC.swift in Sources */,
@@ -1499,6 +1506,7 @@
 				FA62BAE922478A6D009FDC4E /* UserCountsPagingVC.swift in Sources */,
 				FA5DBFA8222FF9E300639148 /* RegistrationPayload.swift in Sources */,
 				FA254DCD2169A2A400FC9360 /* ProfileAboutVC.swift in Sources */,
+				8C177A0722FA671700E4433C /* MenuAction.swift in Sources */,
 				FA32CC782100C360004C1329 /* SignupVC.swift in Sources */,
 				FA25ACE6217B54A8000AE26D /* RankingCell.swift in Sources */,
 				FAC8465922AB493E004F57EC /* LocationHandler.swift in Sources */,
