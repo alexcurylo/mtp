@@ -86,7 +86,7 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func set(user: User,
+    func set(user: User?,
              for rank: Int,
              in list: Checklist,
              delegate: RankingCellDelegate?) {
@@ -94,9 +94,14 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         self.list = list
         self.delegate = delegate
 
-        nameLabel.text = user.fullName
-        countryLabel.text = user.locationName
-
+        guard let user = user else {
+            nameLabel.text = L.blocked()
+            avatarImageView.image = nil
+            visitedButton.isHidden = true
+            remainingButton.isHidden = true
+            rankLabel.text = nil
+            return
+        }
         guard user.userId != 0 else {
             nameLabel.text = L.loading()
             avatarImageView.image = nil
@@ -106,6 +111,8 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
             return
         }
 
+        nameLabel.text = user.fullName
+        countryLabel.text = user.locationName
         avatarImageView.load(image: user)
 
         let order = list.order(of: user)

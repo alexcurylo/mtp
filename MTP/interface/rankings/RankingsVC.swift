@@ -259,12 +259,13 @@ extension RankingsVC: UISearchBarDelegate {
     }
 
     func search(query: String) {
+        let blocked = data.blockedUsers
         net.search(query: query) { [weak self] result in
             guard case let .success(results) = result,
                   let self = self else { return }
 
             let key = results.request.query
-            let items = results.data.filter { $0.isUser }
+            let items = results.data.filter { $0.isUser && !blocked.contains($0.id) }
             self.searchResults[key] = items
             if key == self.searchKey {
                 self.display(names: items.map { $0.label })

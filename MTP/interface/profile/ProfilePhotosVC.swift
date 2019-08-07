@@ -9,10 +9,12 @@ final class ProfilePhotosVC: PhotosVC {
     private var photosPages: Results<PhotosPageInfo>?
 
     private var pagesObserver: Observer?
+    private var blockedPhotosObserver: Observer?
     private var updated = false
 
     private var user: User?
     private var isSelf: Bool = false
+    private var blockedPhotos: [Int] = []
 
     override var canCreate: Bool {
         return isSelf
@@ -32,7 +34,11 @@ final class ProfilePhotosVC: PhotosVC {
         }
 
         let photoId = page.photoIds[photoIndex]
-        return data.get(photo: photoId)
+        if blockedPhotos.contains(photoId) {
+            return Photo()
+        } else {
+            return data.get(photo: photoId)
+        }
     }
 
     override func createPhoto() {
@@ -91,6 +97,7 @@ private extension ProfilePhotosVC {
 
     func loaded() {
         updated = true
+
         update()
         observe()
     }
@@ -113,6 +120,7 @@ private extension ProfilePhotosVC {
     func update() {
         guard let user = user else { return }
 
+        blockedPhotos = data.blockedPhotos
         let pages = data.getPhotosPages(user: user.userId)
         photosPages = pages
         collectionView.reloadData()
@@ -129,6 +137,10 @@ private extension ProfilePhotosVC {
         guard pagesObserver == nil else { return }
 
         pagesObserver = data.observer(of: .photoPages) { [weak self] _ in
+            self?.update()
+        }
+
+        blockedPhotosObserver = data.observer(of: .blockedPhotos) { [weak self] _ in
             self?.update()
         }
     }

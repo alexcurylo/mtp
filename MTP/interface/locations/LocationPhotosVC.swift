@@ -10,6 +10,8 @@ final class LocationPhotosVC: PhotosVC {
     private var photos: [Photo] = []
 
     private var photosObserver: Observer?
+    private var blockedUsersObserver: Observer?
+    private var blockedPhotosObserver: Observer?
     private var updated = false
 
     override var canCreate: Bool {
@@ -97,9 +99,7 @@ private extension LocationPhotosVC {
     func update() {
         guard let mappable = mappable else { return }
 
-        if isImplemented {
-            photos = data.get(locationPhotos: mappable.checklistId)
-        }
+        update(photos: mappable)
         collectionView.reloadData()
 
         if photoCount > 0 {
@@ -112,6 +112,23 @@ private extension LocationPhotosVC {
         collectionView.set(message: contentState, color: .darkText)
     }
 
+    func update(photos mappable: Mappable) {
+        guard isImplemented else { return }
+
+        let blockedPhotos = data.blockedPhotos
+        let blockedUsers = data.blockedUsers
+        let allPhotos = data.get(locationPhotos: mappable.checklistId)
+        if blockedPhotos.isEmpty && blockedUsers.isEmpty {
+            photos = allPhotos
+        } else {
+            photos = allPhotos.compactMap {
+                guard !blockedPhotos.contains($0.photoId),
+                      !blockedUsers.contains($0.userId) else { return nil }
+                return $0
+            }
+        }
+    }
+
     func observe() {
         guard photosObserver == nil else { return }
 
@@ -122,6 +139,13 @@ private extension LocationPhotosVC {
                   updated == mappable.checklistId else { return }
             self.updated = true
             self.update()
+        }
+
+        blockedPhotosObserver = data.observer(of: .blockedPhotos) { [weak self] _ in
+            self?.update()
+        }
+        blockedUsersObserver = data.observer(of: .blockedUsers) { [weak self] _ in
+            self?.update()
         }
     }
 }

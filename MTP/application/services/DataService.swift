@@ -214,8 +214,8 @@ class DataServiceImpl: DataService {
             note.message(error: L.blockSelf())
             return
         }
-        if !blockedPosts.contains(id) {
-            blockedPosts.append(id)
+        if !blockedUsers.contains(id) {
+            blockedUsers.append(id)
         }
     }
 

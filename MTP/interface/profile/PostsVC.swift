@@ -51,8 +51,14 @@ class PostsVC: UITableViewController, ServiceProvider {
     }
 
     func cellModels(from posts: [Post]) -> [PostCellModel] {
+        let blockedPosts = data.blockedPosts
+        let blockedUsers = data.blockedUsers
         var index = 0
-        let cellModels: [PostCellModel] = posts.map { post in
+        // swiftlint:disable:next closure_body_length
+        let cellModels: [PostCellModel] = posts.compactMap { post in
+            guard !blockedPosts.contains(post.postId),
+                  !blockedUsers.contains(post.userId) else { return nil }
+
             let location = data.get(location: post.locationId)
             let user = data.get(user: post.userId)
             let title: String

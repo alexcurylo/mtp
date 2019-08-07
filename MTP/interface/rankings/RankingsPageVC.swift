@@ -293,7 +293,7 @@ private extension RankingsPageVC {
             self?.updateRank()
         }
 
-        blockedObserver = data.observer(of: .scorecard) { [weak self] _ in
+        blockedObserver = data.observer(of: .blockedUsers) { [weak self] _ in
             guard let self = self else { return }
             self.blockedUsers = self.data.blockedUsers
             self.collectionView.reloadData()
