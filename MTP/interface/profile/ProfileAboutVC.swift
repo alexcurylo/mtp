@@ -36,7 +36,8 @@ final class ProfileAboutVC: UITableViewController, UserInjectable, ServiceProvid
         requireInjections()
     }
 
-    override func viewWillLayoutSubviews() {
+    /// Refresh map on layout
+   override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
         guard let inset = mapImageView?.superview?.frame.origin.x else { return }
@@ -77,11 +78,23 @@ final class ProfileAboutVC: UITableViewController, UserInjectable, ServiceProvid
 
 extension ProfileAboutVC {
 
+    /// Provide row height
+    ///
+    /// - Parameters:
+    ///   - tableView: Table
+    ///   - indexPath: Index path
+    /// - Returns: Height
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 
+    /// Provide estimated row height
+    ///
+    /// - Parameters:
+    ///   - tableView: Table
+    ///   - indexPath: Index path
+    /// - Returns: Height
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension

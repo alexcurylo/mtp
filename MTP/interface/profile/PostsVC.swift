@@ -134,8 +134,8 @@ extension PostsVC {
             withIdentifier: R.reuseIdentifier.postCell,
             for: indexPath)
 
-        cell.set(model: models[indexPath.row],
-                 delegate: self)
+        cell.inject(model: models[indexPath.row],
+                    delegate: self)
 
         return cell
     }
@@ -145,15 +145,23 @@ extension PostsVC {
 
 extension PostsVC {
 
+    /// Provide row height
+    ///
+    /// - Parameters:
+    ///   - tableView: Table
+    ///   - indexPath: Index path
+    /// - Returns: Height
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 
-    override func tableView(_ tableView: UITableView,
-                            estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
+    /// Provide estimated row height
+    ///
+    /// - Parameters:
+    ///   - tableView: Table
+    ///   - indexPath: Index path
+    /// - Returns: Height
 
     override func tableView(_ tableView: UITableView,
                             heightForHeaderInSection section: Int) -> CGFloat {
@@ -190,6 +198,9 @@ extension PostsVC {
 
 extension PostsVC: PostCellDelegate {
 
+    /// Profile tapped
+    ///
+    /// - Parameter user: User to display
     func tapped(profile user: User) {
         show(user: user)
     }
@@ -237,6 +248,7 @@ private extension PostsVC {
 
 final class PostHeader: UITableViewHeaderFooterView {
 
+    /// Dequeueing identifier
     static let reuseIdentifier = NSStringFromClass(PostHeader.self)
 
     private let button = GradientButton {
@@ -283,6 +295,7 @@ final class PostHeader: UITableViewHeaderFooterView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    /// Empty display
     override func prepareForReuse() {
         super.prepareForReuse()
 

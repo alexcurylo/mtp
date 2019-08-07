@@ -113,6 +113,12 @@ extension MyProfileVC: Exposing {
 
 extension MyProfileVC: CollectionCellExposing {
 
+    /// Expose cell to UI tests
+    ///
+    /// - Parameters:
+    ///   - view: Collection
+    ///   - path: Index path
+    ///   - cell: Cell
     func expose(view: UICollectionView,
                 path: IndexPath,
                 cell: UICollectionViewCell) {

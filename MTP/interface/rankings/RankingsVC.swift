@@ -136,6 +136,43 @@ private extension RankingsVC {
             searchBarCancelButtonClicked(searchBar)
         }
     }
+
+    func display(names: [String]) {
+        dropdown.dataSource = names
+        if names.isEmpty {
+            dropdown.hide()
+            searchBar?.setShowsCancelButton(true, animated: true)
+        } else {
+            searchBar?.showsCancelButton = false
+            dropdown.show()
+        }
+    }
+
+    func search(query: String) {
+        let blocked = data.blockedUsers
+        net.search(query: query) { [weak self] result in
+            guard case let .success(results) = result,
+                let self = self else { return }
+
+            let key = results.request.query
+            let items = results.data.filter { $0.isUser && !blocked.contains($0.id) }
+            self.searchResults[key] = items
+            if key == self.searchKey {
+                self.display(names: items.map { $0.label })
+            }
+        }
+    }
+
+    func dropdown(selected index: Int) {
+        let info = searchResults[searchKey]?[index]
+        if let searchBar = searchBar {
+            searchBarCancelButtonClicked(searchBar)
+        }
+
+        guard let person = info else { return }
+        profileModel = data.get(user: person.id) ?? User(from: person)
+        performSegue(withIdentifier: Segues.showUserProfile, sender: self)
+    }
 }
 
 // MARK: - Exposing
@@ -156,6 +193,12 @@ extension RankingsVC: Exposing {
 
 extension RankingsVC: PagingViewControllerDataSource {
 
+    /// Create page by index
+    ///
+    /// - Parameters:
+    ///   - pagingViewController: Page holder
+    ///   - index: Index
+    /// - Returns: View controller
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  viewControllerForIndex index: Int) -> UIViewController {
         let viewController = RankingsPageVC(options: pagingViewController.options)
@@ -171,6 +214,12 @@ extension RankingsVC: PagingViewControllerDataSource {
         return viewController
     }
 
+    /// Provide Parchment with typed page
+    ///
+    /// - Parameters:
+    ///   - pagingViewController: Page holder
+    ///   - index: Index
+    /// - Returns: Typed view controller
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  pagingItemForIndex index: Int) -> T {
         guard let result = pages[index] as? T else {
@@ -179,6 +228,10 @@ extension RankingsVC: PagingViewControllerDataSource {
         return result
     }
 
+    /// Provide Parchment with page count
+    ///
+    /// - Parameter in: Page holder
+    /// - Returns: Page count
     func numberOfViewControllers<T>(in: PagingViewController<T>) -> Int {
         return pages.count
     }
@@ -188,21 +241,37 @@ extension RankingsVC: PagingViewControllerDataSource {
 
 extension RankingsVC: RankingsPageVCDelegate {
 
+    /// Scroll notification
+    ///
+    /// - Parameter rankingsPageVC: Scrollee
     func didScroll(rankingsPageVC: RankingsPageVC) {
         let height = pagingVC.menuHeight(for: rankingsPageVC.collectionView)
         update(menu: height)
     }
 
+    /// Profile tapped
+    ///
+    /// - Parameter user: User to display
     func tapped(profile user: User) {
         profileModel = user
         performSegue(withIdentifier: Segues.showUserProfile, sender: self)
     }
 
+    /// Remaining tapped
+    ///
+    /// - Parameters:
+    ///   - user: User to display
+    ///   - list: List to display
     func tapped(remaining user: User, list: Checklist) {
         countsModel = (list, user, .remaining)
         performSegue(withIdentifier: Segues.showUserCounts, sender: self)
     }
 
+    /// Visited tapped
+    ///
+    /// - Parameters:
+    ///   - user: User to display
+    ///   - list: List to display
     func tapped(visited user: User, list: Checklist) {
         countsModel = (list, user, .visited)
         performSegue(withIdentifier: Segues.showUserCounts, sender: self)
@@ -213,6 +282,15 @@ extension RankingsVC: RankingsPageVCDelegate {
 
 extension RankingsVC: PagingViewControllerDelegate {
 
+    /// Handle page change progress
+    ///
+    /// - Parameters:
+    ///   - pagingViewController: Page holder
+    ///   - currentPagingItem: Current typed page item
+    ///   - upcomingPagingItem: Next typed page item
+    ///   - startingViewController: Start view controller
+    ///   - destinationViewController: Finish view controller
+    ///   - progress: Float
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  isScrollingFromItem currentPagingItem: T,
                                  toItem upcomingPagingItem: T?,
@@ -233,6 +311,11 @@ extension RankingsVC: PagingViewControllerDelegate {
 
 extension RankingsVC: UISearchBarDelegate {
 
+    /// Changed search text notification
+    ///
+    /// - Parameters:
+    ///   - searchBar: Searcher
+    ///   - searchText: Contents
     func searchBar(_ searchBar: UISearchBar,
                    textDidChange searchText: String) {
         searchKey = searchText
@@ -247,40 +330,23 @@ extension RankingsVC: UISearchBarDelegate {
         }
     }
 
-    func display(names: [String]) {
-        dropdown.dataSource = names
-        if names.isEmpty {
-            dropdown.hide()
-            searchBar?.setShowsCancelButton(true, animated: true)
-        } else {
-            searchBar?.showsCancelButton = false
-            dropdown.show()
-        }
-    }
-
-    func search(query: String) {
-        let blocked = data.blockedUsers
-        net.search(query: query) { [weak self] result in
-            guard case let .success(results) = result,
-                  let self = self else { return }
-
-            let key = results.request.query
-            let items = results.data.filter { $0.isUser && !blocked.contains($0.id) }
-            self.searchResults[key] = items
-            if key == self.searchKey {
-                self.display(names: items.map { $0.label })
-            }
-        }
-    }
-
+    /// Begin search editing
+    ///
+    /// - Parameter searchBar: Searcher
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)
     }
 
+    /// Handle search button click
+    ///
+    /// - Parameter searchBar: Searcher
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBarCancelButtonClicked(searchBar)
     }
 
+    /// Handle cancel button click
+    ///
+    /// - Parameter searchBar: Searcher
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
         dropdown.hide()
@@ -288,19 +354,11 @@ extension RankingsVC: UISearchBarDelegate {
         navigationItem.titleView = nil
     }
 
+    /// Search ended notification
+    ///
+    /// - Parameter searchBar: Searcher
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = false
-    }
-
-    func dropdown(selected index: Int) {
-        let info = searchResults[searchKey]?[index]
-        if let searchBar = searchBar {
-            searchBarCancelButtonClicked(searchBar)
-        }
-
-        guard let person = info else { return }
-        profileModel = data.get(user: person.id) ?? User(from: person)
-        performSegue(withIdentifier: Segues.showUserProfile, sender: self)
     }
 }
 

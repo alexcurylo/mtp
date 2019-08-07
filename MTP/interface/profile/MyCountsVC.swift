@@ -61,8 +61,16 @@ private extension MyCountsVC {
     }
 }
 
+// MARK: - PagingViewControllerDataSource
+
 extension MyCountsVC: PagingViewControllerDataSource {
 
+    /// Create page by index
+    ///
+    /// - Parameters:
+    ///   - pagingViewController: Page holder
+    ///   - index: Index
+    /// - Returns: View controller
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  viewControllerForIndex index: Int) -> UIViewController {
         let pageVC = MyCountsPageVC(model: (pages[index].list, self))
@@ -77,6 +85,12 @@ extension MyCountsVC: PagingViewControllerDataSource {
         return pageVC
     }
 
+    /// Provide Parchment with typed page
+    ///
+    /// - Parameters:
+    ///   - pagingViewController: Page holder
+    ///   - index: Index
+    /// - Returns: Typed view controller
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  pagingItemForIndex index: Int) -> T {
         guard let result = pages[index] as? T else {
@@ -85,6 +99,10 @@ extension MyCountsVC: PagingViewControllerDataSource {
         return result
     }
 
+    /// Provide Parchment with page count
+    ///
+    /// - Parameter in: Page holder
+    /// - Returns: Page count
     func numberOfViewControllers<T>(in: PagingViewController<T>) -> Int {
         return pages.count
     }
@@ -100,6 +118,15 @@ extension MyCountsVC: MyCountsPageVCDelegate {
 
 extension MyCountsVC: PagingViewControllerDelegate {
 
+    /// Handle page change progress
+    ///
+    /// - Parameters:
+    ///   - pagingViewController: Page holder
+    ///   - currentPagingItem: Current typed page item
+    ///   - upcomingPagingItem: Next typed page item
+    ///   - startingViewController: Start view controller
+    ///   - destinationViewController: Finish view controller
+    ///   - progress: Float
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  isScrollingFromItem currentPagingItem: T,
                                  toItem upcomingPagingItem: T?,

@@ -2,8 +2,12 @@
 
 import UIKit
 
+/// Notifies of scroll for menu updating
 protocol MyCountsPageVCDelegate: AnyObject {
 
+    /// Scroll notification
+    ///
+    /// - Parameter rankingsPageVC: Scrollee
     func didScroll(myCountsPageVC: MyCountsPageVC)
 }
 
@@ -56,6 +60,9 @@ final class MyCountsPageVC: CountsPageVC {
 
 extension MyCountsPageVC {
 
+    /// Scrolling notfication
+    ///
+    /// - Parameter scrollView: Scrollee
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         delegate?.didScroll(myCountsPageVC: self)
     }

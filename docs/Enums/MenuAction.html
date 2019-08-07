@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>GeoJSON Structure Reference</title>
+    <title>MenuAction Enumeration Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Struct/GeoJSON" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Enum/MenuAction" class="dashAnchor"></a>
 
-    <a title="GeoJSON Structure Reference"></a>
+    <a title="MenuAction Enumeration Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">MTP Reference</a>
       <img class="carat" src="../img/carat.png" />
-      GeoJSON Structure Reference
+      MenuAction Enumeration Reference
     </p>
 
     <div class="content-wrapper">
@@ -1219,14 +1219,14 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>GeoJSON</h1>
+            <h1>MenuAction</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">GeoJSON</span> <span class="p">:</span> <span class="kt">Codable</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">MenuAction</span> <span class="p">:</span> <span class="kt">String</span></code></pre>
 
                 </div>
               </div>
-            <p>Undocumented</p>
+            <p>Actions that can be shown in popup menus</p>
 
           </div>
         </section>
@@ -1238,9 +1238,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:3MTP7GeoJSONV7FeatureV"></a>
-                    <a name="//apple_ref/swift/Struct/Feature" class="dashAnchor"></a>
-                    <a class="token" href="#/s:3MTP7GeoJSONV7FeatureV">Feature</a>
+                    <a name="/s:3MTP10MenuActionO4hideyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/hide" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3MTP10MenuActionO4hideyA2CmF">hide</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1248,20 +1248,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Hide triggering content</p>
 
-                        <a href="../Structs/GeoJSON/Feature.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Feature</span> <span class="p">:</span> <span class="kt">Codable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">hide</span> <span class="o">=</span> <span class="s">"hide:"</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/application/models/WorldMap.swift#L8-L49">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/application/services/MenuAction.swift#L9">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1269,9 +1268,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:3MTP7GeoJSONV8featuresSayAC7FeatureVGvp"></a>
-                    <a name="//apple_ref/swift/Property/features" class="dashAnchor"></a>
-                    <a class="token" href="#/s:3MTP7GeoJSONV8featuresSayAC7FeatureVGvp">features</a>
+                    <a name="/s:3MTP10MenuActionO6reportyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/report" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3MTP10MenuActionO6reportyA2CmF">report</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1279,19 +1278,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Report triggering content</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">features</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Structs/GeoJSON/Feature.html">Feature</a></span><span class="p">]</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">report</span> <span class="o">=</span> <span class="s">"report:"</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/application/models/WorldMap.swift#L">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/application/services/MenuAction.swift#L11">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1299,9 +1298,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:3MTP7GeoJSONV4typeSSvp"></a>
-                    <a name="//apple_ref/swift/Property/type" class="dashAnchor"></a>
-                    <a class="token" href="#/s:3MTP7GeoJSONV4typeSSvp">type</a>
+                    <a name="/s:3MTP10MenuActionO5blockyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/block" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3MTP10MenuActionO5blockyA2CmF">block</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1309,19 +1308,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Block triggering user</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">block</span> <span class="o">=</span> <span class="s">"block:"</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/application/models/WorldMap.swift#L">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/application/services/MenuAction.swift#L13">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1329,9 +1328,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:3MTP7GeoJSONV8validateyyKF"></a>
-                    <a name="//apple_ref/swift/Method/validate()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:3MTP7GeoJSONV8validateyyKF">validate()</a>
+                    <a name="/s:3MTP10MenuActionO12contentItemsSaySo10UIMenuItemCGvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/contentItems" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3MTP10MenuActionO12contentItemsSaySo10UIMenuItemCGvpZ">contentItems</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1339,19 +1338,72 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Actions for dealing with UGC as per Apple&rsquo;s requirements</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">validate</span><span class="p">()</span> <span class="k">throws</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">contentItems</span><span class="p">:</span> <span class="p">[</span><span class="kt">UIMenuItem</span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/application/models/WorldMap.swift#L54-L57">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/application/services/MenuAction.swift#L16">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3MTP10MenuActionO9isContent6actionSb10ObjectiveC8SelectorV_tFZ"></a>
+                    <a name="//apple_ref/swift/Method/isContent(action:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3MTP10MenuActionO9isContent6actionSb10ObjectiveC8SelectorV_tFZ">isContent(action:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Is a menu action one of our content actions?</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="nf">isContent</span><span class="p">(</span><span class="nv">action</span><span class="p">:</span> <span class="kt">Selector</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>action</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Action selector</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Whether it is a content action</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/application/services/MenuAction.swift#L26-L35">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

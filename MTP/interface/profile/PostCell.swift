@@ -2,8 +2,12 @@
 
 import Anchorage
 
+/// Actions triggered by post cell
 protocol PostCellDelegate: AnyObject {
 
+    /// Profile tapped
+    ///
+    /// - Parameter user: User to display
     func tapped(profile user: User)
     func tapped(toggle: Int)
 
@@ -73,8 +77,8 @@ final class PostCell: UITableViewCell, ServiceProvider {
         configure()
     }
 
-    func set(model: PostCellModel,
-             delegate: PostCellDelegate) {
+    func inject(model: PostCellModel,
+                delegate: PostCellDelegate) {
         self.model = model
         self.delegate = delegate
 
@@ -118,6 +122,7 @@ final class PostCell: UITableViewCell, ServiceProvider {
         setExpanded()
     }
 
+    /// Empty display
     override func prepareForReuse() {
         super.prepareForReuse()
 

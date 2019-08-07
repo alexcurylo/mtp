@@ -209,6 +209,13 @@ private extension LocationsVC {
         trackingButton?.set(visibility: permission)
         mtpMapView?.centerOnDevice()
     }
+
+    func dropdown(selected index: Int) {
+        if let searchBar = searchBar {
+            searchBarCancelButtonClicked(searchBar)
+        }
+        reveal(mappable: matches[index], callout: true)
+    }
 }
 
 // MARK: - Exposing
@@ -229,6 +236,11 @@ extension LocationsVC: Exposing {
 
 extension LocationsVC: UISearchBarDelegate {
 
+    /// Changed search text notification
+    ///
+    /// - Parameters:
+    ///   - searchBar: Searcher
+    ///   - searchText: Contents
     func searchBar(_ searchBar: UISearchBar,
                    textDidChange searchText: String) {
         matches = data.get(mappables: searchText)
@@ -243,29 +255,34 @@ extension LocationsVC: UISearchBarDelegate {
         }
     }
 
+    /// Begin search editing
+    ///
+    /// - Parameter searchBar: Searcher
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)
     }
 
+    /// Handle search button click
+    ///
+    /// - Parameter searchBar: Searcher
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBarCancelButtonClicked(searchBar)
     }
 
+    /// Handle cancel button click
+    ///
+    /// - Parameter searchBar: Searcher
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
         dropdown.hide()
         searchBar.resignFirstResponder()
     }
 
+    /// Search ended notification
+    ///
+    /// - Parameter searchBar: Searcher
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = false
-    }
-
-    func dropdown(selected index: Int) {
-        if let searchBar = searchBar {
-            searchBarCancelButtonClicked(searchBar)
-        }
-        reveal(mappable: matches[index], callout: true)
     }
 }
 

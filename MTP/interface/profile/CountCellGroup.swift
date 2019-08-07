@@ -37,13 +37,14 @@ struct CountGroupModel {
 
 final class CountCellGroup: UICollectionViewCell {
 
+    /// Dequeueing identifier
     static let reuseIdentifier = NSStringFromClass(CountCellGroup.self)
 
     weak var delegate: CountCellGroupDelegate?
 
     private var model: CountGroupModel?
 
-    func set(model: CountGroupModel) {
+    func inject(model: CountGroupModel) {
         self.model = model
 
         if let visited = model.visited {
@@ -91,6 +92,7 @@ final class CountCellGroup: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    /// Empty display
     override func prepareForReuse() {
         super.prepareForReuse()
 

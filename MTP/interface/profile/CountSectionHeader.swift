@@ -16,13 +16,14 @@ struct CountSectionModel {
 
 final class CountSectionHeader: UICollectionReusableView {
 
+    /// Dequeueing identifier
     static let reuseIdentifier = NSStringFromClass(CountSectionHeader.self)
 
     weak var delegate: CountSectionHeaderDelegate?
 
     private var model: CountSectionModel?
 
-    func set(model: CountSectionModel) {
+    func inject(model: CountSectionModel) {
         self.model = model
 
         let disclose: Disclosure = model.isExpanded ? .close : .expand
@@ -73,6 +74,7 @@ final class CountSectionHeader: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    /// Empty display
     override func prepareForReuse() {
         super.prepareForReuse()
 

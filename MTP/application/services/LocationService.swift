@@ -41,6 +41,9 @@ protocol LocationService: Mapper, ServiceProvider {
     func insert<T>(tracker: T) where T: LocationTracker, T: Hashable
     func remove<T>(tracker: T) where T: LocationTracker, T: Hashable
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter handler: Location handler
     func inject(handler: LocationHandler)
 
     func checkDistances()
@@ -86,6 +89,9 @@ class LocationServiceImpl: LocationService {
     private var handler: LocationHandler?
     private var manager: CLLocationManager?
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter handler: Location handler
     func inject(handler: LocationHandler) {
         self.handler = handler
         manager = handler.locationManager

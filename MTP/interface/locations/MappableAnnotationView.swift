@@ -157,6 +157,7 @@ final class MappableAnnotationView: MKMarkerAnnotationView, MappingAnnotationVie
         headerImageView.load(image: mappable)
     }
 
+    /// Empty display
     override func prepareForReuse() {
         super.prepareForReuse()
 

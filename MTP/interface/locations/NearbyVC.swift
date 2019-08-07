@@ -114,11 +114,23 @@ extension NearbyVC {
 
 extension NearbyVC {
 
+    /// Provide row height
+    ///
+    /// - Parameters:
+    ///   - tableView: Table
+    ///   - indexPath: Index path
+    /// - Returns: Height
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 
+    /// Provide estimated row height
+    ///
+    /// - Parameters:
+    ///   - tableView: Table
+    ///   - indexPath: Index path
+    /// - Returns: Height
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
@@ -140,6 +152,12 @@ extension NearbyVC: Exposing {
 
 extension NearbyVC: TableCellExposing {
 
+    /// Expose cell to UI tests
+    ///
+    /// - Parameters:
+    ///   - view: Collection
+    ///   - path: Index path
+    ///   - cell: Cell
     func expose(view: UITableView,
                 path: IndexPath,
                 cell: UITableViewCell) {
@@ -257,6 +275,7 @@ final class NearbyCell: UITableViewCell, ServiceProvider {
         tap.require(toFail: doubleTap)
    }
 
+    /// Empty display
     override func prepareForReuse() {
         super.prepareForReuse()
 

@@ -2,13 +2,19 @@
 
 import Anchorage
 
+/// Notifies of header taps
 protocol RankingHeaderDelegate: AnyObject {
 
+    /// Tap notification
+    ///
+    /// - Parameter header: Tapped header
     func tapped(header: RankingHeader)
 }
 
+/// Header for rankings page
 final class RankingHeader: UICollectionReusableView, ServiceProvider {
 
+    /// Dequeueing identifier
     static let reuseIdentifier = NSStringFromClass(RankingHeader.self)
 
     private enum Layout {
@@ -113,10 +119,17 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func set(rank: Int?,
-             list: Checklist,
-             filter: String,
-             delegate: RankingHeaderDelegate) {
+    /// Inject display data
+    ///
+    /// - Parameters:
+    ///   - rank: Rank if any
+    ///   - list: Checklist
+    ///   - filter: Filter
+    ///   - delegate: Delegate
+    func inject(rank: Int?,
+                list: Checklist,
+                filter: String,
+                delegate: RankingHeaderDelegate) {
         self.delegate = delegate
 
         filterLabel.text = filter
@@ -142,6 +155,7 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
         observe()
     }
 
+    /// Empty display
     override func prepareForReuse() {
         super.prepareForReuse()
 

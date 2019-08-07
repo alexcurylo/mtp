@@ -101,6 +101,7 @@ class CountsPageVC: UIViewController, ServiceProvider {
         fatalError("init(coder:) has not been implemented")
     }
 
+    /// Refresh collection view on layout
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
@@ -131,6 +132,13 @@ class CountsPageVC: UIViewController, ServiceProvider {
 
 extension CountsPageVC: UICollectionViewDelegateFlowLayout {
 
+    /// Provide header size
+    ///
+    /// - Parameters:
+    ///   - collectionView: Collection
+    ///   - collectionViewLayout: Collection layout
+    ///   - section: Section index
+    /// - Returns: Size
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -157,6 +165,13 @@ extension CountsPageVC: UICollectionViewDelegateFlowLayout {
 
 extension CountsPageVC: UICollectionViewDataSource {
 
+    /// Provide header
+    ///
+    /// - Parameters:
+    ///   - collectionView: Collection
+    ///   - kind: Expect header
+    ///   - indexPath: Item path
+    /// - Returns: CountSectionHeader
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
@@ -183,6 +198,12 @@ extension CountsPageVC: UICollectionViewDataSource {
         return regions.count + (showsInfo ? 1 : 0)
     }
 
+    /// Section items count
+    ///
+    /// - Parameters:
+    ///   - collectionView: Collection
+    ///   - section: Index
+    /// - Returns: Item count
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
         switch (section, showsInfo) {
@@ -195,6 +216,12 @@ extension CountsPageVC: UICollectionViewDataSource {
         }
     }
 
+    /// Provide cell
+    ///
+    /// - Parameters:
+    ///   - collectionView: Collection
+    ///   - indexPath: Index path
+    /// - Returns: CountCellGroup or CountCellItem
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let modelPath: IndexPath
@@ -290,7 +317,7 @@ private extension CountsPageVC {
                 count: count,
                 isExpanded: regionsExpanded[region, default: false]
             )
-            header.set(model: model)
+            header.inject(model: model)
         }
 
         return view
@@ -318,7 +345,7 @@ private extension CountsPageVC {
                 isLast: isLast,
                 isCombined: list == .locations && place.placeIsCountry
             )
-            counter.set(model: model)
+            counter.inject(model: model)
         case let grouper as CountCellGroup:
             guard let group = cellModel.group else { break }
             grouper.delegate = self
@@ -331,7 +358,7 @@ private extension CountsPageVC {
                 disclose: expanded ? .close : .expand,
                 isLast: isLast
             )
-            grouper.set(model: model)
+            grouper.inject(model: model)
         default:
             break
         }

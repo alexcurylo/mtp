@@ -23,7 +23,7 @@
         <a class="header-link" href="../index.html">
           MTP 1.0 Docs
         </a>
-         (47% documented)
+         (51% documented)
       </p>
     
       <p class="header-col--secondary">
@@ -522,6 +522,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/MainTBCs.html">MainTBCs</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/MenuAction.html">MenuAction</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/MyProfileVCs.html">MyProfileVCs</a>
@@ -1357,19 +1360,19 @@
             </div>
             <div class="task-group">
               <div class="task-name-container">
-                <a name="/Private"></a>
-                <a name="//apple_ref/swift/Section/Private" class="dashAnchor"></a>
-                <a href="#/Private">
-                  <h3 class="section-name">Private</h3>
+                <a name="/PagingViewControllerDataSource"></a>
+                <a name="//apple_ref/swift/Section/PagingViewControllerDataSource" class="dashAnchor"></a>
+                <a href="#/PagingViewControllerDataSource">
+                  <h3 class="section-name">PagingViewControllerDataSource</h3>
                 </a>
               </div>
               <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:9Parchment30PagingViewControllerDataSourceP06pagingcD0_04viewD8ForIndexSo06UIViewD0CAA0bcD0Cyqd__G_SitAA0B4ItemRd__SLRd__SHRd__lF"></a>
+                    <a name="/s:3MTP10MyCountsVCC20pagingViewController_04viewG8ForIndexSo06UIViewG0C9Parchment06PagingfG0CyxG_SitAH0M4ItemRzSLRzSHRzlF"></a>
                     <a name="//apple_ref/swift/Method/pagingViewController(_:viewControllerForIndex:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:9Parchment30PagingViewControllerDataSourceP06pagingcD0_04viewD8ForIndexSo06UIViewD0CAA0bcD0Cyqd__G_SitAA0B4ItemRd__SLRd__SHRd__lF">pagingViewController(_:viewControllerForIndex:)</a>
+                    <a class="token" href="#/s:3MTP10MyCountsVCC20pagingViewController_04viewG8ForIndexSo06UIViewG0C9Parchment06PagingfG0CyxG_SitAH0M4ItemRzSLRzSHRzlF">pagingViewController(_:viewControllerForIndex:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1377,7 +1380,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Create page by index</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -1388,8 +1392,43 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>pagingViewController</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Page holder</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>index</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Index</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>View controller</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/MyCountsVC.swift#L66-L78">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/MyCountsVC.swift#L74-L86">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1397,9 +1436,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:9Parchment30PagingViewControllerDataSourceP06pagingcD0_0G12ItemForIndexqd__AA0bcD0Cyqd__G_SitAA0bH0Rd__SLRd__SHRd__lF"></a>
+                    <a name="/s:3MTP10MyCountsVCC20pagingViewController_0E12ItemForIndexx9Parchment06PagingfG0CyxG_SitAF0lH0RzSLRzSHRzlF"></a>
                     <a name="//apple_ref/swift/Method/pagingViewController(_:pagingItemForIndex:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:9Parchment30PagingViewControllerDataSourceP06pagingcD0_0G12ItemForIndexqd__AA0bcD0Cyqd__G_SitAA0bH0Rd__SLRd__SHRd__lF">pagingViewController(_:pagingItemForIndex:)</a>
+                    <a class="token" href="#/s:3MTP10MyCountsVCC20pagingViewController_0E12ItemForIndexx9Parchment06PagingfG0CyxG_SitAF0lH0RzSLRzSHRzlF">pagingViewController(_:pagingItemForIndex:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1407,7 +1446,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Provide Parchment with typed page</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -1418,8 +1458,43 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>pagingViewController</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Page holder</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>index</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Index</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Typed view controller</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/MyCountsVC.swift#L80-L86">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/MyCountsVC.swift#L94-L100">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1427,9 +1502,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:9Parchment30PagingViewControllerDataSourceP08numberOfC11Controllers2inSiAA0bcD0Cyqd__G_tAA0B4ItemRd__SLRd__SHRd__lF"></a>
+                    <a name="/s:3MTP10MyCountsVCC23numberOfViewControllers2inSi9Parchment06PagingG10ControllerCyxG_tAF0K4ItemRzSLRzSHRzlF"></a>
                     <a name="//apple_ref/swift/Method/numberOfViewControllers(in:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:9Parchment30PagingViewControllerDataSourceP08numberOfC11Controllers2inSiAA0bcD0Cyqd__G_tAA0B4ItemRd__SLRd__SHRd__lF">numberOfViewControllers(in:)</a>
+                    <a class="token" href="#/s:3MTP10MyCountsVCC23numberOfViewControllers2inSi9Parchment06PagingG10ControllerCyxG_tAF0K4ItemRzSLRzSHRzlF">numberOfViewControllers(in:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1437,7 +1512,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Provide Parchment with page count</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -1447,8 +1523,31 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>in</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Page holder</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Page count</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/MyCountsVC.swift#L88-L90">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/MyCountsVC.swift#L106-L108">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1457,19 +1556,19 @@
             </div>
             <div class="task-group">
               <div class="task-name-container">
-                <a name="/Private2"></a>
-                <a name="//apple_ref/swift/Section/Private" class="dashAnchor"></a>
-                <a href="#/Private2">
-                  <h3 class="section-name">Private</h3>
+                <a name="/PagingViewControllerDataSource2"></a>
+                <a name="//apple_ref/swift/Section/PagingViewControllerDataSource" class="dashAnchor"></a>
+                <a href="#/PagingViewControllerDataSource2">
+                  <h3 class="section-name">PagingViewControllerDataSource</h3>
                 </a>
               </div>
               <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:3MTP10MyCountsVCC9didScroll02myc4PageD0yAA0bchD0C_tF"></a>
+                    <a name="/s:3MTP22MyCountsPageVCDelegateP9didScroll02mycD2VCyAA0bcdI0C_tF"></a>
                     <a name="//apple_ref/swift/Method/didScroll(myCountsPageVC:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:3MTP10MyCountsVCC9didScroll02myc4PageD0yAA0bchD0C_tF">didScroll(myCountsPageVC:)</a>
+                    <a class="token" href="#/s:3MTP22MyCountsPageVCDelegateP9didScroll02mycD2VCyAA0bcdI0C_tF">didScroll(myCountsPageVC:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1477,8 +1576,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -1489,7 +1587,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/MyCountsVC.swift#L95-L98">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/MyCountsVC.swift#L113-L116">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1498,19 +1596,19 @@
             </div>
             <div class="task-group">
               <div class="task-name-container">
-                <a name="/Private3"></a>
-                <a name="//apple_ref/swift/Section/Private" class="dashAnchor"></a>
-                <a href="#/Private3">
-                  <h3 class="section-name">Private</h3>
+                <a name="/PagingViewControllerDataSource3"></a>
+                <a name="//apple_ref/swift/Section/PagingViewControllerDataSource" class="dashAnchor"></a>
+                <a href="#/PagingViewControllerDataSource3">
+                  <h3 class="section-name">PagingViewControllerDataSource</h3>
                 </a>
               </div>
               <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:9Parchment28PagingViewControllerDelegateP06pagingcD0_19isScrollingFromItem02toJ008startingcD0011destinationcD08progressyAA0bcD0Cyqd__G_qd__qd__SgSo06UIViewD0CAOSg12CoreGraphics7CGFloatVtAA0bJ0Rd__SLRd__SHRd__lF"></a>
+                    <a name="/s:3MTP10MyCountsVCC20pagingViewController_19isScrollingFromItem02toK008startingfG0011destinationfG08progressy9Parchment06PagingfG0CyxG_xxSgSo06UIViewG0CAPSg12CoreGraphics7CGFloatVtAJ0qK0RzSLRzSHRzlF"></a>
                     <a name="//apple_ref/swift/Method/pagingViewController(_:isScrollingFromItem:toItem:startingViewController:destinationViewController:progress:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:9Parchment28PagingViewControllerDelegateP06pagingcD0_19isScrollingFromItem02toJ008startingcD0011destinationcD08progressyAA0bcD0Cyqd__G_qd__qd__SgSo06UIViewD0CAOSg12CoreGraphics7CGFloatVtAA0bJ0Rd__SLRd__SHRd__lF">pagingViewController(_:isScrollingFromItem:toItem:startingViewController:destinationViewController:progress:)</a>
+                    <a class="token" href="#/s:3MTP10MyCountsVCC20pagingViewController_19isScrollingFromItem02toK008startingfG0011destinationfG08progressy9Parchment06PagingfG0CyxG_xxSgSo06UIViewG0CAPSg12CoreGraphics7CGFloatVtAJ0qK0RzSLRzSHRzlF">pagingViewController(_:isScrollingFromItem:toItem:startingViewController:destinationViewController:progress:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1518,7 +1616,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Handle page change progress</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -1533,8 +1632,87 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>pagingViewController</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Page holder</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>currentPagingItem</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Current typed page item</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>upcomingPagingItem</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Next typed page item</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>startingViewController</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Start view controller</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>destinationViewController</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Finish view controller</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>progress</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Float</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/MyCountsVC.swift#L103-L116">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/MyCountsVC.swift#L130-L143">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1575,7 +1753,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/MyCountsVC.swift#L124">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/MyCountsVC.swift#L151">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1629,7 +1807,7 @@
                         <p>Chainable self</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/MyCountsVC.swift#L130-L132">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/MyCountsVC.swift#L157-L159">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1659,7 +1837,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/MyCountsVC.swift#L135-L137">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/MyCountsVC.swift#L162-L164">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

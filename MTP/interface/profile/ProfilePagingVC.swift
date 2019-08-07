@@ -30,6 +30,12 @@ final class ProfilePagingVC: FixedPagingViewController, ServiceProvider {
         }
     }
 
+    /// Provide cell
+    ///
+    /// - Parameters:
+    ///   - collectionView: Collection
+    ///   - indexPath: Index path
+    /// - Returns: Exposed cell
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = super.collectionView(collectionView,

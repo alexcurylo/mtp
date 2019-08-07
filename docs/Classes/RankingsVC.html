@@ -23,7 +23,7 @@
         <a class="header-link" href="../index.html">
           MTP 1.0 Docs
         </a>
-         (47% documented)
+         (51% documented)
       </p>
     
       <p class="header-col--secondary">
@@ -522,6 +522,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/MainTBCs.html">MainTBCs</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/MenuAction.html">MenuAction</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/MyProfileVCs.html">MyProfileVCs</a>
@@ -1438,7 +1441,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L146-L152">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L183-L189">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1457,9 +1460,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:9Parchment30PagingViewControllerDataSourceP06pagingcD0_04viewD8ForIndexSo06UIViewD0CAA0bcD0Cyqd__G_SitAA0B4ItemRd__SLRd__SHRd__lF"></a>
+                    <a name="/s:3MTP10RankingsVCC20pagingViewController_04viewF8ForIndexSo06UIViewF0C9Parchment06PagingeF0CyxG_SitAH0L4ItemRzSLRzSHRzlF"></a>
                     <a name="//apple_ref/swift/Method/pagingViewController(_:viewControllerForIndex:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:9Parchment30PagingViewControllerDataSourceP06pagingcD0_04viewD8ForIndexSo06UIViewD0CAA0bcD0Cyqd__G_SitAA0B4ItemRd__SLRd__SHRd__lF">pagingViewController(_:viewControllerForIndex:)</a>
+                    <a class="token" href="#/s:3MTP10RankingsVCC20pagingViewController_04viewF8ForIndexSo06UIViewF0C9Parchment06PagingeF0CyxG_SitAH0L4ItemRzSLRzSHRzlF">pagingViewController(_:viewControllerForIndex:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1467,7 +1470,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Create page by index</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -1478,8 +1482,43 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>pagingViewController</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Page holder</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>index</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Index</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>View controller</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L159-L172">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L202-L215">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1487,9 +1526,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:9Parchment30PagingViewControllerDataSourceP06pagingcD0_0G12ItemForIndexqd__AA0bcD0Cyqd__G_SitAA0bH0Rd__SLRd__SHRd__lF"></a>
+                    <a name="/s:3MTP10RankingsVCC20pagingViewController_0D12ItemForIndexx9Parchment06PagingeF0CyxG_SitAF0kG0RzSLRzSHRzlF"></a>
                     <a name="//apple_ref/swift/Method/pagingViewController(_:pagingItemForIndex:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:9Parchment30PagingViewControllerDataSourceP06pagingcD0_0G12ItemForIndexqd__AA0bcD0Cyqd__G_SitAA0bH0Rd__SLRd__SHRd__lF">pagingViewController(_:pagingItemForIndex:)</a>
+                    <a class="token" href="#/s:3MTP10RankingsVCC20pagingViewController_0D12ItemForIndexx9Parchment06PagingeF0CyxG_SitAF0kG0RzSLRzSHRzlF">pagingViewController(_:pagingItemForIndex:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1497,7 +1536,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Provide Parchment with typed page</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -1508,8 +1548,43 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>pagingViewController</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Page holder</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>index</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Index</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Typed view controller</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L174-L180">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L223-L229">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1517,9 +1592,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:9Parchment30PagingViewControllerDataSourceP08numberOfC11Controllers2inSiAA0bcD0Cyqd__G_tAA0B4ItemRd__SLRd__SHRd__lF"></a>
+                    <a name="/s:3MTP10RankingsVCC23numberOfViewControllers2inSi9Parchment06PagingF10ControllerCyxG_tAF0J4ItemRzSLRzSHRzlF"></a>
                     <a name="//apple_ref/swift/Method/numberOfViewControllers(in:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:9Parchment30PagingViewControllerDataSourceP08numberOfC11Controllers2inSiAA0bcD0Cyqd__G_tAA0B4ItemRd__SLRd__SHRd__lF">numberOfViewControllers(in:)</a>
+                    <a class="token" href="#/s:3MTP10RankingsVCC23numberOfViewControllers2inSi9Parchment06PagingF10ControllerCyxG_tAF0J4ItemRzSLRzSHRzlF">numberOfViewControllers(in:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1527,7 +1602,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Provide Parchment with page count</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -1537,8 +1613,31 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>in</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Page holder</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Page count</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L182-L184">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L235-L237">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1567,7 +1666,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Scroll notification</p>
 
                       </div>
                       <div class="declaration">
@@ -1578,8 +1677,27 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>rankingsPageVC</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Scrollee</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L191-L194">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L247-L250">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1597,7 +1715,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Profile tapped</p>
 
                       </div>
                       <div class="declaration">
@@ -1608,8 +1726,27 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>user</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>User to display</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L196-L199">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L255-L258">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1627,7 +1764,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Remaining tapped</p>
 
                       </div>
                       <div class="declaration">
@@ -1638,8 +1775,39 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>user</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>User to display</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>list</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>List to display</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L201-L204">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L265-L268">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1657,7 +1825,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Visited tapped</p>
 
                       </div>
                       <div class="declaration">
@@ -1668,8 +1836,39 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>user</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>User to display</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>list</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>List to display</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L206-L209">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L275-L278">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1688,9 +1887,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:9Parchment28PagingViewControllerDelegateP06pagingcD0_19isScrollingFromItem02toJ008startingcD0011destinationcD08progressyAA0bcD0Cyqd__G_qd__qd__SgSo06UIViewD0CAOSg12CoreGraphics7CGFloatVtAA0bJ0Rd__SLRd__SHRd__lF"></a>
+                    <a name="/s:3MTP10RankingsVCC20pagingViewController_19isScrollingFromItem02toJ008startingeF0011destinationeF08progressy9Parchment06PagingeF0CyxG_xxSgSo06UIViewF0CAPSg12CoreGraphics7CGFloatVtAJ0pJ0RzSLRzSHRzlF"></a>
                     <a name="//apple_ref/swift/Method/pagingViewController(_:isScrollingFromItem:toItem:startingViewController:destinationViewController:progress:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:9Parchment28PagingViewControllerDelegateP06pagingcD0_19isScrollingFromItem02toJ008startingcD0011destinationcD08progressyAA0bcD0Cyqd__G_qd__qd__SgSo06UIViewD0CAOSg12CoreGraphics7CGFloatVtAA0bJ0Rd__SLRd__SHRd__lF">pagingViewController(_:isScrollingFromItem:toItem:startingViewController:destinationViewController:progress:)</a>
+                    <a class="token" href="#/s:3MTP10RankingsVCC20pagingViewController_19isScrollingFromItem02toJ008startingeF0011destinationeF08progressy9Parchment06PagingeF0CyxG_xxSgSo06UIViewF0CAPSg12CoreGraphics7CGFloatVtAJ0pJ0RzSLRzSHRzlF">pagingViewController(_:isScrollingFromItem:toItem:startingViewController:destinationViewController:progress:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1698,7 +1897,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Handle page change progress</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -1713,8 +1913,87 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>pagingViewController</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Page holder</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>currentPagingItem</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Current typed page item</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>upcomingPagingItem</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Next typed page item</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>startingViewController</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Start view controller</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>destinationViewController</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Finish view controller</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>progress</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Float</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L216-L229">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L294-L307">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1743,7 +2022,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Changed search text notification</p>
 
                       </div>
                       <div class="declaration">
@@ -1755,68 +2034,39 @@
 
                         </div>
                       </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L236-L248">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:3MTP10RankingsVCC7display5namesySaySSG_tF"></a>
-                    <a name="//apple_ref/swift/Method/display(names:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:3MTP10RankingsVCC7display5namesySaySSG_tF">display(names:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">display</span><span class="p">(</span><span class="nv">names</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">])</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L250-L259">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:3MTP10RankingsVCC6search5queryySS_tF"></a>
-                    <a name="//apple_ref/swift/Method/search(query:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:3MTP10RankingsVCC6search5queryySS_tF">search(query:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">search</span><span class="p">(</span><span class="nv">query</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
-
-                        </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>searchBar</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Searcher</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>searchText</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Contents</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L261-L273">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L319-L331">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1834,7 +2084,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Begin search editing</p>
 
                       </div>
                       <div class="declaration">
@@ -1845,8 +2095,27 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>searchBar</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Searcher</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L275-L277">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L336-L338">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1864,7 +2133,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Handle search button click</p>
 
                       </div>
                       <div class="declaration">
@@ -1875,8 +2144,27 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>searchBar</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Searcher</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L279-L281">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L343-L345">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1894,7 +2182,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Handle cancel button click</p>
 
                       </div>
                       <div class="declaration">
@@ -1905,8 +2193,27 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>searchBar</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Searcher</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L283-L288">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L350-L355">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1924,7 +2231,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Search ended notification</p>
 
                       </div>
                       <div class="declaration">
@@ -1935,38 +2242,27 @@
 
                         </div>
                       </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L290-L292">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:3MTP10RankingsVCC8dropdown8selectedySi_tF"></a>
-                    <a name="//apple_ref/swift/Method/dropdown(selected:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:3MTP10RankingsVCC8dropdown8selectedySi_tF">dropdown(selected:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">dropdown</span><span class="p">(</span><span class="n">selected</span> <span class="nv">index</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span></code></pre>
-
-                        </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>searchBar</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Searcher</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L294-L303">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L360-L362">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2007,7 +2303,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L311">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L370">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2061,7 +2357,7 @@
                         <p>Chainable self</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L317-L319">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L376-L378">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2091,7 +2387,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L322-L325">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/rankings/RankingsVC.swift#L381-L384">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

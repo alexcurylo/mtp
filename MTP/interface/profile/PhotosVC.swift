@@ -56,9 +56,9 @@ class PhotosVC: UICollectionViewController, ServiceProvider {
         fatalError("createPhoto has not been overridden")
     }
 
-    func set(mode: Mode,
-             selection: String = "",
-             delegate: PhotoSelectionDelegate? = nil) {
+    func inject(mode: Mode,
+                selection: String = "",
+                delegate: PhotoSelectionDelegate? = nil) {
         self.mode = mode
         original = selection
         current = selection
@@ -137,6 +137,13 @@ private extension PhotosVC {
 
 extension PhotosVC {
 
+    /// Provide header
+    ///
+    /// - Parameters:
+    ///   - collectionView: Collection
+    ///   - kind: Expect header
+    ///   - indexPath: Item path
+    /// - Returns: PhotosHeader
     override func collectionView(_ collectionView: UICollectionView,
                                  viewForSupplementaryElementOfKind kind: String,
                                  at indexPath: IndexPath) -> UICollectionReusableView {
@@ -150,11 +157,23 @@ extension PhotosVC {
         return header
     }
 
+    /// Section items count
+    ///
+    /// - Parameters:
+    ///   - collectionView: Collection
+    ///   - section: Index
+    /// - Returns: Item count
     override func collectionView(_ collectionView: UICollectionView,
                                  numberOfItemsInSection section: Int) -> Int {
         return photoCount
     }
 
+    /// Provide cell
+    ///
+    /// - Parameters:
+    ///   - collectionView: Collection
+    ///   - indexPath: Index path
+    /// - Returns: PhotoCell
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //swiftlint:disable:next implicitly_unwrapped_optional
@@ -164,9 +183,9 @@ extension PhotosVC {
         )
 
         let model = photo(at: indexPath.item)
-        cell.set(photo: model,
-                 delegate: self,
-                 isScrolling: isScrolling)
+        cell.inject(photo: model,
+                    delegate: self,
+                    isScrolling: isScrolling)
         if isScrolling {
             scrollingCells.insert(cell)
         }
@@ -249,6 +268,9 @@ extension PhotosVC {
         return true
     }
 
+    /// Scrolling notfication
+    ///
+    /// - Parameter scrollView: Scrollee
     override func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
         isScrolling = false
     }
@@ -285,6 +307,13 @@ extension PhotosVC: PhotoCellDelegate {
 
 extension PhotosVC: UICollectionViewDelegateFlowLayout {
 
+    /// Provide header size
+    ///
+    /// - Parameters:
+    ///   - collectionView: Collection
+    ///   - collectionViewLayout: Collection layout
+    ///   - section: Section index
+    /// - Returns: Size
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         referenceSizeForHeaderInSection: Int) -> CGSize {
@@ -296,6 +325,13 @@ extension PhotosVC: UICollectionViewDelegateFlowLayout {
         return .zero
     }
 
+    /// Provide cell size
+    ///
+    /// - Parameters:
+    ///   - collectionView: Collection
+    ///   - collectionViewLayout: Collection layout
+    ///   - indexPath: Cell path
+    /// - Returns: Size
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {

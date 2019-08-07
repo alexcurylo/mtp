@@ -6,6 +6,9 @@ struct ListPagingItem: PagingItem, Hashable, Comparable {
 
     let list: Checklist
 
+    /// Implement Hashable
+    ///
+    /// - Parameter hasher: Hasher
     func hash(into hasher: inout Hasher) {
         hasher.combine(list)
     }
@@ -20,10 +23,17 @@ struct ListPagingItem: PagingItem, Hashable, Comparable {
         return lhs.list == rhs.list
     }
 
+    /// Less than operator
+    ///
+    /// - Parameters:
+    ///   - lhs: A thing
+    ///   - rhs: Another thing
+    /// - Returns: Comparison
     static func < (lhs: ListPagingItem, rhs: ListPagingItem) -> Bool {
         return lhs.list.index < rhs.list.index
     }
 
+    /// Provide paging items for Checklist cases
     static var pages: [ListPagingItem] = {
         Checklist.allCases.compactMap { list in
             ListPagingItem(list: list)

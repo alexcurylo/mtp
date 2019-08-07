@@ -2,6 +2,7 @@
 
 import RealmSwift
 
+/// Handles selection of rankings criteria
 final class RankingsFilterVC: UITableViewController, ServiceProvider {
 
     private typealias Segues = R.segue.rankingsFilterVC
@@ -72,11 +73,23 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
 
 extension RankingsFilterVC {
 
+    /// Provide row height
+    ///
+    /// - Parameters:
+    ///   - tableView: Table
+    ///   - indexPath: Index path
+    /// - Returns: Height
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 
+    /// Provide estimated row height
+    ///
+    /// - Parameters:
+    ///   - tableView: Table
+    ///   - indexPath: Index path
+    /// - Returns: Height
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension

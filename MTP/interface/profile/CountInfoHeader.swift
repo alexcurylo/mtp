@@ -4,6 +4,7 @@ import Anchorage
 
 final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
 
+    /// Dequeueing identifier
     static let reuseIdentifier = NSStringFromClass(CountInfoHeader.self)
 
     private enum Layout {
@@ -103,6 +104,7 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
         }
     }
 
+    /// Empty display
     override func prepareForReuse() {
         super.prepareForReuse()
 

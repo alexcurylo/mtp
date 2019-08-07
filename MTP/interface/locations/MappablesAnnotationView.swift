@@ -79,6 +79,7 @@ final class MappablesAnnotationView: MKAnnotationView, MappingAnnotationView, Se
         image = mapped?.draw()
     }
 
+    /// Empty display
     override func prepareForReuse() {
         super.prepareForReuse()
 

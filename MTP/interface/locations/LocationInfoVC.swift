@@ -45,11 +45,23 @@ final class LocationInfoVC: UITableViewController, ServiceProvider {
 
 extension LocationInfoVC {
 
+    /// Provide row height
+    ///
+    /// - Parameters:
+    ///   - tableView: Table
+    ///   - indexPath: Index path
+    /// - Returns: Height
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 
+    /// Provide estimated row height
+    ///
+    /// - Parameters:
+    ///   - tableView: Table
+    ///   - indexPath: Index path
+    /// - Returns: Height
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension

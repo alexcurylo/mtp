@@ -31,11 +31,12 @@ struct CountItemModel {
 
 final class CountCellItem: UICollectionViewCell, ServiceProvider {
 
+    /// Dequeueing identifier
     static let reuseIdentifier = NSStringFromClass(CountCellItem.self)
 
     private var model: CountItemModel?
 
-    func set(model: CountItemModel) {
+    func inject(model: CountItemModel) {
         self.model = model
 
         let font: UIFont
@@ -119,6 +120,7 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
         fatalError("init(coder:) has not been implemented")
     }
 
+    /// Empty display
     override func prepareForReuse() {
         super.prepareForReuse()
 

@@ -100,9 +100,9 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
             if let photos = Segues.showPhotos(segue: segue)?.destination,
                let user = data.user {
                 photos.inject(model: User(from: user))
-                photos.set(mode: .picker,
-                           selection: current.picture ?? "",
-                           delegate: self)
+                photos.inject(mode: .picker,
+                              selection: current.picture ?? "",
+                              delegate: self)
             }
         case Segues.cancelEdits.identifier:
             break
@@ -116,11 +116,23 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
 
 extension EditProfileVC {
 
+    /// Provide row height
+    ///
+    /// - Parameters:
+    ///   - tableView: Table
+    ///   - indexPath: Index path
+    /// - Returns: Height
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 
+    /// Provide estimated row height
+    ///
+    /// - Parameters:
+    ///   - tableView: Table
+    ///   - indexPath: Index path
+    /// - Returns: Height
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension

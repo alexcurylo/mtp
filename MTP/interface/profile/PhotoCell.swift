@@ -35,14 +35,15 @@ final class PhotoCell: UICollectionViewCell, ServiceProvider {
         }
     }
 
-    func set(photo: Photo?,
-             delegate: PhotoCellDelegate,
-             isScrolling: Bool) {
+    func inject(photo: Photo?,
+                delegate: PhotoCellDelegate,
+                isScrolling: Bool) {
         self.photo = photo
         self.delegate = delegate
         self.isScrolling = isScrolling
     }
 
+    /// Empty display
     override func prepareForReuse() {
         super.prepareForReuse()
 
