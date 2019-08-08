@@ -62,8 +62,7 @@ final class LocationsFilterVC: UITableViewController, ServiceProvider {
 
 private extension LocationsFilterVC {
 
-    @IBAction func unwindToLocations(segue: UIStoryboardSegue) {
-    }
+    @IBAction func unwindToLocations(segue: UIStoryboardSegue) { }
 
     func configure() {
         let filter = data.mapDisplay

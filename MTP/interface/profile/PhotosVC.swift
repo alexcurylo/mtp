@@ -2,17 +2,28 @@
 
 import AXPhotoViewer
 
+// swiftlint:disable file_length
+
+/// Photo selection notification
 protocol PhotoSelectionDelegate: AnyObject {
 
+    /// Notify of selection
+    ///
+    /// - Parameter picture: Selected picture
     func selected(picture: String)
 }
 
+/// Base class for location and user photo display
 class PhotosVC: UICollectionViewController, ServiceProvider {
 
     @IBOutlet private var saveButton: UIBarButtonItem?
 
+    /// Whether we can select a photo
     enum Mode {
+
+        /// Display only
         case browser
+        /// Select a picture, as for profile avatar
         case picker
     }
 
@@ -20,7 +31,9 @@ class PhotosVC: UICollectionViewController, ServiceProvider {
         static let minItemSize = CGFloat(100)
     }
 
+    /// Content state to display
     var contentState: ContentState = .loading
+    /// Mode of presentation
     var mode: Mode = .browser
     private var configuredMenu = false
 
@@ -38,24 +51,37 @@ class PhotosVC: UICollectionViewController, ServiceProvider {
     private var current: String = ""
     private weak var delegate: PhotoSelectionDelegate?
 
+    /// Display a user's posts
     var canCreate: Bool {
         return false
     }
 
+    /// How many photos in collection
     var photoCount: Int {
         fatalError("photoCount has not been overridden")
     }
 
-    //swiftlint:disable:next unavailable_function
+    /// Retrieve an indexed photo
+    ///
+    /// - Parameter index: Index
+    /// - Returns: Photo
     func photo(at index: Int) -> Photo {
+        //swiftlint:disable:previous unavailable_function
         fatalError("photo(at:) has not been overridden")
     }
 
-    //swiftlint:disable:next unavailable_function
+    /// Create a new Photo
     func createPhoto() {
+        //swiftlint:disable:previous unavailable_function
         fatalError("createPhoto has not been overridden")
     }
 
+    /// Handle dependency injection
+    ///
+    /// - Parameters:
+    ///   - mode: Presentation mode
+    ///   - selection: Starting selection if any
+    ///   - delegate: Selection delegate
     func inject(mode: Mode,
                 selection: String = "",
                 delegate: PhotoSelectionDelegate? = nil) {
@@ -73,6 +99,7 @@ class PhotosVC: UICollectionViewController, ServiceProvider {
         configure()
     }
 
+    /// Inform delegate of selection
     func broadcastSelection() {
         delegate?.selected(picture: current)
     }
@@ -206,6 +233,12 @@ extension PhotosVC {
 
 extension PhotosVC {
 
+    /// Selection permission
+    ///
+    /// - Parameters:
+    ///   - collectionView: Container
+    ///   - indexPath: Index path
+    /// - Returns: Permission
     override func collectionView(_ collectionView: UICollectionView,
                                  shouldSelectItemAt indexPath: IndexPath) -> Bool {
         switch mode {
@@ -217,18 +250,37 @@ extension PhotosVC {
         }
     }
 
+    /// Selection handling
+    ///
+    /// - Parameters:
+    ///   - collectionView: Container
+    ///   - indexPath: Index path
     override func collectionView(_ collectionView: UICollectionView,
                                  didSelectItemAt indexPath: IndexPath) {
         current = photo(at: indexPath.item).uuid
         saveButton?.isEnabled = original != current
     }
 
+    /// Menu permission
+    ///
+    /// - Parameters:
+    ///   - collectionView: Container
+    ///   - indexPath: Index path
+    /// - Returns: Permission
     override func collectionView(_ collectionView: UICollectionView,
                                  shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
         configureMenu()
         return true
     }
 
+    /// Action permission
+    ///
+    /// - Parameters:
+    ///   - collectionView: Container
+    ///   - action: Action
+    ///   - indexPath: Index path
+    ///   - sender: Sender
+    /// - Returns: Permission
     override func collectionView(_ collectionView: UICollectionView,
                                  canPerformAction action: Selector,
                                  forItemAt indexPath: IndexPath,
@@ -236,6 +288,13 @@ extension PhotosVC {
         return MenuAction.isContent(action: action)
     }
 
+    /// Action operation
+    ///
+    /// - Parameters:
+    ///   - collectionView: Container
+    ///   - action: Action
+    ///   - indexPath: Index path
+    ///   - sender: Sender
     override func collectionView(_ collectionView: UICollectionView,
                                  performAction action: Selector,
                                  forItemAt indexPath: IndexPath,
@@ -248,10 +307,18 @@ extension PhotosVC {
 
 extension PhotosVC {
 
+    /// Flag scrolling to suppress image loading
+    ///
+    /// - Parameter scrollView: Container
     override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         isScrolling = true
     }
 
+    /// Unflag scrolling to resume image loading
+    ///
+    /// - Parameters:
+    ///   - scrollView: Container
+    ///   - decelerate: Will taper off
     override func scrollViewDidEndDragging(_ scrollView: UIScrollView,
                                            willDecelerate decelerate: Bool) {
         if !decelerate {
@@ -259,10 +326,17 @@ extension PhotosVC {
         }
     }
 
+    /// Unflag scrolling to resume image loading
+    ///
+    /// - Parameter scrollView: Container
     override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         isScrolling = false
     }
 
+    /// Flag scrolling to suppress image loading
+    ///
+    /// - Parameter scrollView: Container
+    /// - Returns: Permission
     override func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
         isScrolling = true
         return true
@@ -275,6 +349,9 @@ extension PhotosVC {
         isScrolling = false
     }
 
+    /// Unflag scrolling to resume image loading
+    ///
+    /// - Parameter scrollView: Container
     override func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         isScrolling = false
     }
@@ -284,19 +361,31 @@ extension PhotosVC {
 
 extension PhotosVC: PhotoCellDelegate {
 
+    /// Clear suspended state
+    ///
+    /// - Parameter cell: Cell
     func prepared(forReuse cell: PhotoCell) {
         scrollingCells.remove(cell)
     }
 
+    /// Handle hide action
+    ///
+    /// - Parameter hide: Photo to hide
     func tapped(hide: Photo?) {
         data.block(photo: hide?.photoId ?? 0)
     }
 
+    /// Handle report action
+    ///
+    /// - Parameter report: Photo to report
     func tapped(report: Photo?) {
         let message = L.reportPhoto(report?.photoId ?? 0)
         app.route(to: .reportContent(message))
     }
 
+    /// Handle block action
+    ///
+    /// - Parameter block: Photo to block
     func tapped(block: Photo?) {
         data.block(user: block?.userId ?? 0)
         app.route(to: .locations)
@@ -347,6 +436,7 @@ extension PhotosVC: UICollectionViewDelegateFlowLayout {
     }
 }
 
+/// Header for photos collections
 final class PhotosHeader: UICollectionReusableView {
     // expect addTapped(_:) hooked up in storyboard
 }

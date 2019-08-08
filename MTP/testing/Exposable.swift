@@ -6,6 +6,7 @@ import UIKit
 /// Intended as base class for screen based enums
 protocol Exposable {
 
+    /// Defaults to Type.self
     var identifier: String { get }
 }
 

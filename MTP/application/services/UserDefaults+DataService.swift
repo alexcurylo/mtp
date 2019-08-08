@@ -4,6 +4,7 @@ import Foundation
 
 extension UserDefaults: ServiceProvider {
 
+    /// Blocked photos
     var blockedPhotos: [Int] {
         get {
             do {
@@ -22,6 +23,7 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
+    /// Blocked posts
     var blockedPosts: [Int] {
         get {
             do {
@@ -40,6 +42,7 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
+    /// Blocked users
     var blockedUsers: [Int] {
         get {
             do {
@@ -58,6 +61,7 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
+    /// Dismissed timestamps
     var dismissed: Timestamps? {
         get {
             do {
@@ -80,11 +84,13 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
+    /// Email stash during signup
     var email: String {
         get { return string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }
     }
 
+    /// If-None-Match cache
     var etags: [String: String] {
         get {
             do {
@@ -103,6 +109,7 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
+    /// Rankings filter
     var lastRankingsQuery: RankingsQuery? {
         get {
             do {
@@ -125,6 +132,7 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
+    /// Displayed types
     var mapDisplay: ChecklistFlags? {
         get {
             do {
@@ -147,6 +155,7 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
+    /// Notified timestamps
     var notified: Timestamps? {
         get {
             do {
@@ -169,11 +178,13 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
+    /// Login token
     var token: String {
         get { return string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }
     }
 
+    /// Triggered timestamps
     var triggered: Timestamps? {
         get {
             do {
@@ -196,6 +207,7 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
+    /// Updated timestamps
     var updated: Timestamps? {
         get {
             do {
@@ -218,6 +230,7 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
+    /// User info
     var user: UserJSON? {
         get {
             do {
@@ -240,6 +253,7 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
+    /// User visits
     var visited: Checked? {
         get {
             do {

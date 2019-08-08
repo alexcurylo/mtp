@@ -3,7 +3,7 @@
 import CoreLocation
 import UIKit
 
-protocol NearbyCellDelegate: AnyObject {
+private protocol NearbyCellDelegate: AnyObject {
 
     func dismiss()
 }
@@ -62,6 +62,22 @@ final class NearbyVC: UITableViewController, ServiceProvider {
     }
 }
 
+// MARK: - Private
+
+private extension NearbyVC {
+
+    func set(mappables: [Mappable],
+             distances: Distances) {
+        self.distances = distances
+        self.mappables = mappables.sorted {
+            distances[$0.dbKey] ?? 0 < distances[$1.dbKey] ?? 0
+        }
+        contentState = .data
+        tableView.set(message: contentState)
+        tableView.reloadData()
+    }
+}
+
 // MARK: - UITableViewControllerDataSource
 
 extension NearbyVC {
@@ -99,9 +115,9 @@ extension NearbyVC {
             for: indexPath)
 
         let mappable = mappables[indexPath.row]
-        cell.set(mappable: mappable,
-                 distance: distances[mappable.dbKey] ?? 0,
-                 delegate: self)
+        cell.inject(mappable: mappable,
+                    distance: distances[mappable.dbKey] ?? 0,
+                    delegate: self)
         expose(view: tableView,
                path: indexPath,
                cell: cell)
@@ -215,17 +231,6 @@ extension NearbyVC: Injectable {
         return self
     }
 
-    func set(mappables: [Mappable],
-             distances: Distances) {
-        self.distances = distances
-        self.mappables = mappables.sorted {
-            distances[$0.dbKey] ?? 0 < distances[$1.dbKey] ?? 0
-        }
-        contentState = .data
-        tableView.set(message: contentState)
-        tableView.reloadData()
-   }
-
     /// Enforce dependency injection
     func requireInjections() {
         backgroundView.require()
@@ -236,12 +241,13 @@ extension NearbyVC: Injectable {
 
 extension NearbyVC: NearbyCellDelegate {
 
-    func dismiss() {
+    fileprivate func dismiss() {
         performSegue(withIdentifier: Segues.unwindFromNearby,
                      sender: self)
     }
 }
 
+/// Item in Nearby controller
 final class NearbyCell: UITableViewCell, ServiceProvider {
 
     @IBOutlet private var placeImage: UIImageView?
@@ -262,6 +268,7 @@ final class NearbyCell: UITableViewCell, ServiceProvider {
     private var mappable: Mappable?
     private weak var delegate: NearbyCellDelegate?
 
+    /// Configure after nib loading
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -290,9 +297,9 @@ final class NearbyCell: UITableViewCell, ServiceProvider {
         visitorsLabel?.text = nil
     }
 
-    func set(mappable: Mappable,
-             distance: CLLocationDistance,
-             delegate: NearbyCellDelegate) {
+    fileprivate func inject(mappable: Mappable,
+                            distance: CLLocationDistance,
+                            delegate: NearbyCellDelegate) {
         self.mappable = mappable
         self.delegate = delegate
 

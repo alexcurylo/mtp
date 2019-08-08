@@ -2,8 +2,10 @@
 
 import Parchment
 
+/// Paging item for checklist page holders
 struct ListPagingItem: PagingItem, Hashable, Comparable {
 
+    /// Checklist of this item
     let list: Checklist
 
     /// Implement Hashable

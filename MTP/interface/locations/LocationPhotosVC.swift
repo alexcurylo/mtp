@@ -2,6 +2,7 @@
 
 import UIKit
 
+/// Displays location photos
 final class LocationPhotosVC: PhotosVC {
 
     private typealias Segues = R.segue.locationPhotosVC
@@ -14,6 +15,7 @@ final class LocationPhotosVC: PhotosVC {
     private var blockedPhotosObserver: Observer?
     private var updated = false
 
+    /// Can create new content
     override var canCreate: Bool {
         return isImplemented
     }
@@ -21,14 +23,20 @@ final class LocationPhotosVC: PhotosVC {
         return mappable?.checklist == .locations
     }
 
+    /// How many photos in collection
     override var photoCount: Int {
         return photos.count
     }
 
+    /// Retrieve an indexed photo
+    ///
+    /// - Parameter index: Index
+    /// - Returns: Photo
     override func photo(at index: Int) -> Photo {
         return photos[index]
     }
 
+    /// Create a new Photo
     override func createPhoto() {
         performSegue(withIdentifier: Segues.addPhoto,
                      sender: self)

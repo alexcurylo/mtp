@@ -7,25 +7,35 @@ import UIKit
 /// Handle things to do on location changes
 final class LocationHandler: NSObject, AppHandler, ServiceProvider {
 
+    /// Application's locationManager instance
     let locationManager = CLLocationManager {
         $0.distanceFilter = 50
         $0.desiredAccuracy = kCLLocationAccuracyHundredMeters
     }
 
+    /// Last coordinate measured
     var lastCoordinate: CLLocation?
+    /// Last location contained in
     var lastInside: Int?
 
     private var trackers: Set<AnyHashable> = []
 
+    /// Insert a typed tracker in our listeners
+    ///
+    /// - Parameter tracker: New listener
     func insert<T>(tracker: T) where T: LocationTracker, T: Hashable {
         trackers.insert(AnyHashable(tracker))
     }
 
+    /// Remove a typed tracker from our listeners
+    ///
+    /// - Parameter tracker: Former listener
     func remove<T>(tracker: T) where T: LocationTracker, T: Hashable {
         trackers.remove(tracker)
     }
 
-    var distances: Distances = [:]
+    /// Last calculated distances
+    private(set) var distances: Distances = [:]
 
     private var beachesObserver: Observer?
     private var divesitesObserver: Observer?
@@ -48,6 +58,9 @@ final class LocationHandler: NSObject, AppHandler, ServiceProvider {
     private var timeFilter = TimeInterval(5)
     private var lastFilter: Date?
 
+    /// Broadcast to all trackers
+    ///
+    /// - Parameter then: Closure
     func broadcast(then: @escaping (LocationTracker) -> Void) {
         DispatchQueue.main.async {
             self.trackers.forEach {
@@ -57,6 +70,11 @@ final class LocationHandler: NSObject, AppHandler, ServiceProvider {
         }
     }
 
+    /// Broadcast to all trackers
+    ///
+    /// - Parameters:
+    ///   - mappable: Place
+    ///   - then: Closure
     func broadcast(mappable: Mappable,
                    then: @escaping (LocationTracker, Mappable) -> Void) {
         let reference = mappable.reference
@@ -70,7 +88,8 @@ final class LocationHandler: NSObject, AppHandler, ServiceProvider {
         }
     }
 
-    func checkDistances() {
+    /// Calculate distances
+    func calculateDistances() {
         guard let now = lastCoordinate else { return }
 
         update(distances: now)
@@ -118,6 +137,11 @@ extension LocationHandler: AppLaunchHandler {
 
 extension LocationHandler: CLLocationManagerDelegate {
 
+    /// Updated locations
+    ///
+    /// - Parameters:
+    ///   - manager: Location manager
+    ///   - locations: Locations list
     func locationManager(_ manager: CLLocationManager,
                          didUpdateLocations locations: [CLLocation]) {
         guard let now = locations.last else { return }
@@ -136,44 +160,53 @@ extension LocationHandler: CLLocationManagerDelegate {
         lastFilter = Date()
     }
 
-    func locationManager(_ manager: CLLocationManager,
-                         didUpdateHeading newHeading: CLHeading) { }
+    //func locationManager(_ manager: CLLocationManager,
+                         //didUpdateHeading newHeading: CLHeading) { }
+    /// Should display heading calibraion
+    ///
+    /// - Parameter manager: Location manager
+    /// - Returns: true
     func locationManagerShouldDisplayHeadingCalibration(_ manager: CLLocationManager) -> Bool {
         return true
     }
 
-    func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) { }
-    func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) { }
-    func locationManager(_ manager: CLLocationManager,
-                         didDetermineState state: CLRegionState,
-                         for region: CLRegion) { }
-    func locationManager(_ manager: CLLocationManager,
-                         didEnterRegion region: CLRegion) { }
-    func locationManager(_ manager: CLLocationManager,
-                         didExitRegion region: CLRegion) { }
-    func locationManager(_ manager: CLLocationManager,
-                         didRangeBeacons beacons: [CLBeacon],
-                         in region: CLBeaconRegion) { }
-    func locationManager(_ manager: CLLocationManager,
-                         rangingBeaconsDidFailFor region: CLBeaconRegion,
-                         withError error: Error) { }
-    func locationManager(_ manager: CLLocationManager,
-                         didFailWithError error: Error) { }
-    func locationManager(_ manager: CLLocationManager,
-                         didStartMonitoringFor region: CLRegion) { }
-    func locationManager(_ manager: CLLocationManager,
-                         monitoringDidFailFor region: CLRegion?,
-                         withError error: Error) { }
+    //func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) { }
+    //func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) { }
+    //func locationManager(_ manager: CLLocationManager,
+                         //didDetermineState state: CLRegionState,
+                         //for region: CLRegion) { }
+    //func locationManager(_ manager: CLLocationManager,
+                         //didEnterRegion region: CLRegion) { }
+    //func locationManager(_ manager: CLLocationManager,
+                         //didExitRegion region: CLRegion) { }
+    //func locationManager(_ manager: CLLocationManager,
+                         //didRangeBeacons beacons: [CLBeacon],
+                         //in region: CLBeaconRegion) { }
+    //func locationManager(_ manager: CLLocationManager,
+                         //rangingBeaconsDidFailFor region: CLBeaconRegion,
+                         //withError error: Error) { }
+    //func locationManager(_ manager: CLLocationManager,
+                         //didFailWithError error: Error) { }
+    //func locationManager(_ manager: CLLocationManager,
+                         //didStartMonitoringFor region: CLRegion) { }
+    //func locationManager(_ manager: CLLocationManager,
+                         //monitoringDidFailFor region: CLRegion?,
+                         //withError error: Error) { }
 
+    /// Broadcast authorization change
+    ///
+    /// - Parameters:
+    ///   - manager: Location manager
+    ///   - status: New authorization
     func locationManager(_ manager: CLLocationManager,
                          didChangeAuthorization status: CLAuthorizationStatus) {
         broadcast { $0.authorization(changed: status) }
     }
 
-    func locationManager(_ manager: CLLocationManager,
-                         didFinishDeferredUpdatesWithError error: Error?) {}
-    func locationManager(_ manager: CLLocationManager,
-                         didVisit visit: CLVisit) { }
+    //func locationManager(_ manager: CLLocationManager,
+                         //didFinishDeferredUpdatesWithError error: Error?) { }
+    //func locationManager(_ manager: CLLocationManager,
+                         //didVisit visit: CLVisit) { }
 }
 
 // MARK: - Private
@@ -239,9 +272,11 @@ private extension LocationHandler {
     }
 }
 
+/// Calculates distances from a coordinate
 final class DistancesOperation: KVNOperation {
 
-    var distances: Distances = [:]
+    /// Calculated distances
+    private(set) var distances: Distances = [:]
 
     private let center: CLLocationCoordinate2D
     private let handler: LocationHandler?
@@ -249,6 +284,14 @@ final class DistancesOperation: KVNOperation {
     private let references: [Mappable.Reference]
     private let world: WorldMap
 
+    /// Construction by injection
+    ///
+    /// - Parameters:
+    ///   - center: Where to measure from
+    ///   - mappables: Places to measure
+    ///   - handler: LocationHandler
+    ///   - trigger: Whether to trigger visits
+    ///   - world: World map for containment trigger
     init(center: CLLocationCoordinate2D,
          mappables: [Mappable],
          handler: LocationHandler?,
@@ -261,6 +304,7 @@ final class DistancesOperation: KVNOperation {
         self.world = world
     }
 
+    /// Perform task - distances compiling
     override func operate() {
         guard let realm = try? Realm() else { return }
 

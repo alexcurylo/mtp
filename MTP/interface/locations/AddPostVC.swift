@@ -68,16 +68,16 @@ final class AddPostVC: UIViewController, ServiceProvider {
         switch segue.identifier {
         case Segues.showCountry.identifier:
             if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                destination.set(search: .country,
-                                styler: .standard,
-                                delegate: self)
+                destination.inject(mode: .country,
+                                   styler: .standard,
+                                   delegate: self)
             }
         case Segues.showLocation.identifier:
             if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC,
                let countryId = country?.countryId {
-                destination.set(search: .location(country: countryId),
-                                styler: .standard,
-                                delegate: self)
+                destination.inject(mode: .location(country: countryId),
+                                   styler: .standard,
+                                   delegate: self)
             }
         case Segues.pop.identifier:
             break

@@ -68,6 +68,7 @@ final class MyProfileVC: ProfileVC {
         }
     }
 
+    /// Set up data change observations
     override func observe() {
         guard userObserver == nil else { return }
 
@@ -79,6 +80,7 @@ final class MyProfileVC: ProfileVC {
         }
     }
 
+    /// Configure for display
     override func configure() {
         super.configure()
 
@@ -92,6 +94,9 @@ final class MyProfileVC: ProfileVC {
         birthdayLabel?.text = title
     }
 
+    /// Handle content reporting
+    ///
+    /// - Parameter message: Email body
     func reportContent(message: String) {
         reportMessage = message
         performSegue(withIdentifier: Segues.showSettings, sender: self)

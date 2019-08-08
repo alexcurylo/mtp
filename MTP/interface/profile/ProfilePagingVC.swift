@@ -2,10 +2,15 @@
 
 import Parchment
 
+/// Holder of profile pages
 final class ProfilePagingVC: FixedPagingViewController, ServiceProvider {
 
+    /// Provider of UI test exposition
     weak var exposer: CollectionCellExposing?
 
+    /// Construction by injection
+    ///
+    /// - Parameter viewControllers: Controllers
     override init(viewControllers: [UIViewController]) {
         super.init(viewControllers: viewControllers)
         configure()

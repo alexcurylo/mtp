@@ -3,6 +3,7 @@
 import Anchorage
 import Parchment
 
+/// Displays logged in user visit counts
 final class MyCountsVC: UIViewController, ServiceProvider {
 
     @IBOutlet private var pagesHolder: UIView?
@@ -28,10 +29,6 @@ final class MyCountsVC: UIViewController, ServiceProvider {
         default:
             log.debug("unexpected segue: \(segue.name)")
         }
-    }
-
-    func updateFilter() {
-        pagingVC.reloadData()
     }
 }
 
@@ -110,6 +107,9 @@ extension MyCountsVC: PagingViewControllerDataSource {
 
 extension MyCountsVC: MyCountsPageVCDelegate {
 
+    /// Scroll notification
+    ///
+    /// - Parameter rankingsPageVC: Scrollee
     func didScroll(myCountsPageVC: MyCountsPageVC) {
         let height = pagingVC.menuHeight(for: myCountsPageVC.collectionView)
         update(menu: height)

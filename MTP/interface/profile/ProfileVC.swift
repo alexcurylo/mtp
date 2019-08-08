@@ -13,8 +13,10 @@ class ProfileVC: UIViewController, ServiceProvider {
     @IBOutlet private var followersLabel: UILabel?
     @IBOutlet private var followingLabel: UILabel?
 
+    /// Pages holder
     @IBOutlet private var pagesHolder: UIView?
 
+    /// Pages controller
     private(set) var pagingVC: ProfilePagingVC?
 
     private var user: User?
@@ -47,10 +49,12 @@ class ProfileVC: UIViewController, ServiceProvider {
         return []
     }
 
+    /// Set up data change observations
     func observe() {
         // to be overridden
     }
 
+    /// Configure for display
     func configure() {
         commonConfigure()
     }
@@ -144,8 +148,13 @@ extension ProfileVC: Injectable {
     }
 }
 
+/// Convenience for injecting a User model
 protocol UserInjectable {
 
+    /// Inject a User
+    ///
+    /// - Parameter model: User
+    /// - Returns: Chainable self
     @discardableResult func inject(model: User) -> Self
 }
 

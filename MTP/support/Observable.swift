@@ -90,11 +90,11 @@ class ObserverImpl: Observer {
 }
 
 /// Information types sent with notificaton
-///
-/// - change: type of change
-/// - value: associated value
 enum StatusKey: String {
+
+    /// type of change
     case change
+    /// associated value
     case value
 }
 

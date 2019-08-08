@@ -2,12 +2,18 @@
 
 import UIKit
 
+/// Type of log statement
 public enum LoggingLevel: Int, CustomStringConvertible {
 
+    /// Verbose
     case verbose
+    /// Debug
     case debug
+    /// Info
     case info
+    /// Warning
     case warning
+    /// Error
     case error
 
     public var description: String {
@@ -15,8 +21,18 @@ public enum LoggingLevel: Int, CustomStringConvertible {
     }
 }
 
+/// Wraps a single logging statement implmentation
 protocol LoggingService {
 
+    /// Wrap point for log API integration
+    ///
+    /// - Parameters:
+    ///   - level: LoggingLevel
+    ///   - message: Describable autoclosure
+    ///   - file: File marker
+    ///   - function: Function marker
+    ///   - line: Line marker
+    ///   - context: If service requires such
     func custom(level: LoggingLevel,
                 message: @autoclosure () -> Any,
                 file: String,
@@ -27,6 +43,13 @@ protocol LoggingService {
 
 extension LoggingService {
 
+    /// Todo logging convenience
+    ///
+    /// - Parameters:
+    ///   - message: String
+    ///   - file: File marker
+    ///   - function: Function marker
+    ///   - line: Line marker
     func todo(_ message: String,
               _ file: String = #file,
               _ function: String = #function,
@@ -39,6 +62,14 @@ extension LoggingService {
                context: nil)
     }
 
+    /// Verbose logging wrapper
+    ///
+    /// - Parameters:
+    ///   - message: String
+    ///   - file: File marker
+    ///   - function: Function marker
+    ///   - line: Line marker
+    ///   - context: If service requires such
     func verbose(_ message: @autoclosure () -> Any,
                  _ file: String = #file,
                  _ function: String = #function,
@@ -52,6 +83,14 @@ extension LoggingService {
                context: context)
     }
 
+    /// Debug logging wrapper
+    ///
+    /// - Parameters:
+    ///   - message: String
+    ///   - file: File marker
+    ///   - function: Function marker
+    ///   - line: Line marker
+    ///   - context: If service requires such
     func debug(_ message: @autoclosure () -> Any,
                _ file: String = #file,
                _ function: String = #function,
@@ -65,6 +104,14 @@ extension LoggingService {
                context: context)
     }
 
+    /// Info logging wrapper
+    ///
+    /// - Parameters:
+    ///   - message: String
+    ///   - file: File marker
+    ///   - function: Function marker
+    ///   - line: Line marker
+    ///   - context: If service requires such
     func info(_ message: @autoclosure () -> Any,
               _ file: String = #file,
               _ function: String = #function,
@@ -78,6 +125,14 @@ extension LoggingService {
                context: context)
     }
 
+    /// Warning logging wrapper
+    ///
+    /// - Parameters:
+    ///   - message: String
+    ///   - file: File marker
+    ///   - function: Function marker
+    ///   - line: Line marker
+    ///   - context: If service requires such
     func warning(_ message: @autoclosure () -> Any,
                  _ file: String = #file,
                  _ function: String = #function,
@@ -91,6 +146,14 @@ extension LoggingService {
                context: context)
     }
 
+    /// Error logging wrapper
+    ///
+    /// - Parameters:
+    ///   - message: String
+    ///   - file: File marker
+    ///   - function: Function marker
+    ///   - line: Line marker
+    ///   - context: If service requires such
     func error(_ message: @autoclosure () -> Any,
                _ file: String = #file,
                _ function: String = #function,
@@ -105,6 +168,7 @@ extension LoggingService {
     }
 }
 
+/// Wraps console print
 struct ConsoleLoggingService: LoggingService {
 
     func custom(level: LoggingLevel,
@@ -122,7 +186,7 @@ struct ConsoleLoggingService: LoggingService {
     }
 }
 
-extension String {
+private extension String {
 
     var file: String {
         return components(separatedBy: "/").last ?? ""
@@ -131,6 +195,7 @@ extension String {
 
 extension UIStoryboardSegue {
 
+    /// Describe unnamed segues
     var name: String {
         return identifier ?? "<unnamed>"
     }

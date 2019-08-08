@@ -12,6 +12,9 @@ class KVNOperation: Operation {
     /// Executing state of operation
     override var isExecuting: Bool { return _executing }
 
+    /// Set executing state
+    ///
+    /// - Parameter executing: Executing state
     func execute(_ executing: Bool) {
         _executing = executing
     }

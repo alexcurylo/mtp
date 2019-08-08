@@ -19,25 +19,38 @@ final class LocationSearchVC: RealmSearchViewController {
 
     private typealias Segues = R.segue.locationSearchVC
 
-    enum Search {
+    /// Location selection modes
+    enum Mode {
+        /// Must select a country
         case country
+        /// Select any or all countries
         case countryOrAll
+        /// Select any or no countries
         case countryOrNone
+        /// Select country or decline
         case countryOrPreferNot
+        /// Must select a location
         case location(country: Int)
+        /// Select any or all locations
         case locationOrAll(country: Int)
     }
 
-    private var search: Search = .countryOrAll
+    private var mode: Mode = .countryOrAll
     private var styler: Styler = .standard
     private weak var delegate: LocationSearchDelegate?
 
     private let backgroundView = GradientView()
 
-    func set(search: Search,
-             styler: Styler,
-             delegate: LocationSearchDelegate) {
-        self.search = search
+    /// Handle dependency injection
+    ///
+    /// - Parameters:
+    ///   - mode: Selection mode
+    ///   - styler: Style provider
+    ///   - delegate: Delegate
+    func inject(mode: Mode,
+                styler: Styler,
+                delegate: LocationSearchDelegate) {
+        self.mode = mode
         self.styler = styler
         self.delegate = delegate
 
@@ -49,7 +62,6 @@ final class LocationSearchVC: RealmSearchViewController {
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
 
         tableView.backgroundView = backgroundView
         tableView.tableFooterView = UIView()
@@ -98,7 +110,7 @@ final class LocationSearchVC: RealmSearchViewController {
             withIdentifier: R.reuseIdentifier.locationSearchTableViewCell,
             for: indexPath)
 
-        cell.set(search: search, item: object)
+        cell.inject(mode: mode, item: object)
 
         return cell
     }
@@ -129,7 +141,7 @@ final class LocationSearchVC: RealmSearchViewController {
 private extension LocationSearchVC {
 
     func configureSearch() {
-        switch search {
+        switch mode {
         case .country:
             searchPropertyKeyPath = "placeCountry"
             sortPropertyKey = "placeCountry"
@@ -164,35 +176,23 @@ private extension LocationSearchVC {
     }
 }
 
-// MARK: - Injectable
-
-extension LocationSearchVC: Injectable {
-
-    /// Injected dependencies
-    typealias Model = ()
-
-    /// Handle dependency injection
-    ///
-    /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
-        return self
-    }
-
-    /// Enforce dependency injection
-    func requireInjections() { }
-}
-
+/// Display selectable item
 final class LocationSearchTableViewCell: UITableViewCell {
 
     @IBOutlet private var locationLabel: UILabel?
 
+    /// Configure after nib loading
     override func awakeFromNib() {
         super.awakeFromNib()
     }
 
-    func set(search: LocationSearchVC.Search,
-             item: Object?) {
+    /// Handle dependency injection
+    ///
+    /// - Parameters:
+    ///   - mode: Selection mode
+    ///   - item: Realm object to display
+    func inject(mode: LocationSearchVC.Mode,
+                item: Object?) {
 
         var countryName: String {
             return (item as? Country)?.placeCountry ?? L.unknown()
@@ -212,7 +212,7 @@ final class LocationSearchTableViewCell: UITableViewCell {
         }
 
         let name: String
-        switch search {
+        switch mode {
         case .country:
             name = countryName
         case .countryOrAll:
@@ -227,9 +227,5 @@ final class LocationSearchTableViewCell: UITableViewCell {
             name = named(orNot: L.selectLocationAll())
         }
         locationLabel?.text = name.isEmpty ? L.unknown() : name
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
     }
 }

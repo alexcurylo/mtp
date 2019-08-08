@@ -2,6 +2,7 @@
 
 import UIKit
 
+/// A display text view that allows tapping on links
 final class LinkTappableTextView: UITextView {
 
     /// Procedural intializer

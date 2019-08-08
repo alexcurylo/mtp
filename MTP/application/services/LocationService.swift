@@ -3,20 +3,20 @@
 import CoreLocation
 
 /// What kind of permission to ask the user for
-///
-/// - always: after initial grant
-/// - whenInUse: when in use - initially
 enum LocationPermission {
+
+    /// after initial grant
     case always
+    /// initially
     case whenInUse
 }
 
 /// Interactivity control on permission check
-///
-/// - ask: Ask user for permission
-/// - dontAsk: Don't ask user for permission
 enum PermissionTrigger {
+
+    /// Ask user for permission
     case ask
+    /// Don't ask user for permission
     case dontAsk
 }
 
@@ -26,19 +26,45 @@ typealias Distances = [String: CLLocationDistance]
 /// Provides location-related functionality
 protocol LocationService: Mapper, ServiceProvider {
 
+    /// Last coordinate measured
     var here: CLLocationCoordinate2D? { get }
+    /// Last location contained in
     var inside: Location? { get }
+    /// Last calculated distances
     var distances: Distances { get }
 
+    /// Distance to a place
+    ///
+    /// - Parameter to: Place
+    /// - Returns: Distance
     func distance(to: Mappable) -> CLLocationDistance
+    /// Calculate nearest place of type
+    ///
+    /// - Parameters:
+    ///   - list: Checklist
+    ///   - id: Place ID
+    ///   - coordinate: Center
+    /// - Returns: Nearest place if found
     func nearest(list: Checklist,
                  id: Int,
                  to coordinate: CLLocationCoordinate2D) -> Mappable?
 
+    /// Request permission
+    ///
+    /// - Parameter permission: Permission
     func request(permission: LocationPermission)
+    /// Start with intended permission
+    ///
+    /// - Parameter permission: Permission
     func start(permission: LocationPermission)
 
+    /// Insert a typed tracker in our listeners
+    ///
+    /// - Parameter tracker: New listener
     func insert<T>(tracker: T) where T: LocationTracker, T: Hashable
+    /// Remove a typed tracker from our listeners
+    ///
+    /// - Parameter tracker: Former listener
     func remove<T>(tracker: T) where T: LocationTracker, T: Hashable
 
     /// Handle dependency injection
@@ -46,15 +72,24 @@ protocol LocationService: Mapper, ServiceProvider {
     /// - Parameter handler: Location handler
     func inject(handler: LocationHandler)
 
-    func checkDistances()
+    /// Calculate distances
+    func calculateDistances()
 }
 
 extension LocationService {
 
+    /// Distance to a place
+    ///
+    /// - Parameter to: Place
+    /// - Returns: Distance
     func distance(to: Mappable) -> CLLocationDistance {
         return distances[to.dbKey] ?? 0
     }
 
+    /// Start with tracker
+    ///
+    /// - Parameter tracker: Tracker
+    /// - Returns: Authorization
     @discardableResult func start(tracker: LocationTracker?) -> CLAuthorizationStatus {
         let ask: PermissionTrigger = tracker == nil ? .dontAsk : .ask
         let status = CLLocationManager.authorizationStatus()
@@ -84,6 +119,7 @@ extension LocationService {
     }
 }
 
+/// Production implementation of LocationService
 class LocationServiceImpl: LocationService {
 
     private var handler: LocationHandler?
@@ -98,18 +134,28 @@ class LocationServiceImpl: LocationService {
         start(tracker: nil)
     }
 
+    /// Last coordinate measured
     var here: CLLocationCoordinate2D? {
         return handler?.lastCoordinate?.coordinate ?? manager?.location?.coordinate
     }
 
+    /// Last location contained in
     var inside: Location? {
         return data.get(location: handler?.lastInside)
     }
 
+    /// Last calculated distances
     var distances: Distances {
         return handler?.distances ?? [:]
     }
 
+    /// Calculate nearest place of type
+    ///
+    /// - Parameters:
+    ///   - list: Checklist
+    ///   - id: Place ID
+    ///   - coordinate: Center
+    /// - Returns: Nearest place if found
     func nearest(list: Checklist,
                  id: Int,
                  to coordinate: CLLocationCoordinate2D) -> Mappable? {
@@ -129,14 +175,23 @@ class LocationServiceImpl: LocationService {
         return nearest
     }
 
+    /// Insert a typed tracker in our listeners
+    ///
+    /// - Parameter tracker: New listener
     func insert<T>(tracker: T) where T: LocationTracker, T: Hashable {
         handler?.insert(tracker: tracker)
     }
 
+    /// Remove a typed tracker from our listeners
+    ///
+    /// - Parameter tracker: Former listener
     func remove<T>(tracker: T) where T: LocationTracker, T: Hashable {
         handler?.remove(tracker: tracker)
     }
 
+    /// Request permission
+    ///
+    /// - Parameter permission: Permission
     func request(permission: LocationPermission) {
         guard CLLocationManager.locationServicesEnabled(),
               let manager = manager else { return }
@@ -149,6 +204,9 @@ class LocationServiceImpl: LocationService {
         }
     }
 
+    /// Start with intended permission
+    ///
+    /// - Parameter permission: Permission
     func start(permission: LocationPermission) {
         guard CLLocationManager.locationServicesEnabled(),
             let manager = manager else { return }
@@ -166,8 +224,9 @@ class LocationServiceImpl: LocationService {
         }
     }
 
-    func checkDistances() {
-        handler?.checkDistances()
+    /// Calculate distances
+    func calculateDistances() {
+        handler?.calculateDistances()
     }
 }
 
@@ -175,30 +234,62 @@ class LocationServiceImpl: LocationService {
 
 extension LocationServiceImpl: Mapper {
 
+    /// Close
+    ///
+    /// - Parameter mappable: Place
     func close(mappable: Mappable) {
         handler?.broadcast(mappable: mappable) { $0.close(mappable: $1) }
     }
 
+    /// Notify
+    ///
+    /// - Parameters:
+    ///   - mappable: Place
+    ///   - triggered: Date
     func notify(mappable: Mappable, triggered: Date) {
         handler?.broadcast(mappable: mappable) { $0.notify(mappable: $1, triggered: triggered) }
     }
 
+    /// Reveal
+    ///
+    /// - Parameters:
+    ///   - mappable: Place
+    ///   - callout: Show callout
     func reveal(mappable: Mappable, callout: Bool) {
         handler?.broadcast(mappable: mappable) { $0.reveal(mappable: $1, callout: callout) }
     }
 
+    /// Show
+    ///
+    /// - Parameter mappable: Place
     func show(mappable: Mappable) {
         handler?.broadcast(mappable: mappable) { $0.show(mappable: $1) }
     }
 
+    /// Update
+    ///
+    /// - Parameter mappable: Place
     func update(mappable: Mappable) {
         handler?.broadcast(mappable: mappable) { $0.update(mappable: $1) }
     }
 }
 
+// MARK: - Testing
+
+#if DEBUG
+
+/// Stub for testing
 final class LocationServiceStub: LocationServiceImpl {
 
+    /// Request permission
+    ///
+    /// - Parameter permission: Permission
     override func request(permission: LocationPermission) { }
 
+    /// Start with intended permission
+    ///
+    /// - Parameter permission: Permission
     override func start(permission: LocationPermission) { }
 }
+
+#endif

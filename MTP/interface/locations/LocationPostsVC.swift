@@ -2,10 +2,12 @@
 
 import UIKit
 
+/// Display a location's posts
 final class LocationPostsVC: PostsVC {
 
     private typealias Segues = R.segue.locationPostsVC
 
+    /// Can create new content
     override var canCreate: Bool {
         return isImplemented
     }
@@ -13,6 +15,7 @@ final class LocationPostsVC: PostsVC {
         return mappable?.checklist == .locations
     }
 
+    /// Type of view presenting this controller
     override var presenter: Presenter {
         return .location
     }
@@ -26,12 +29,12 @@ final class LocationPostsVC: PostsVC {
     private var mappable: Mappable!
 
     /// Prepare for interaction
-     override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
 
         update()
-   }
+    }
 
     /// Instrument and inject navigation
     ///
@@ -54,11 +57,15 @@ final class LocationPostsVC: PostsVC {
         }
     }
 
+    /// Create a new post
     override func createPost() {
         performSegue(withIdentifier: Segues.addPost,
                      sender: self)
     }
 
+    /// Present user profile
+    ///
+    /// - Parameter user: User to present
     override func show(user: User) {
         profileModel = user
         performSegue(withIdentifier: Segues.showUserProfile, sender: self)

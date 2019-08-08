@@ -2,6 +2,7 @@
 
 import UIKit
 
+/// Typesafe wrapper for stringly typed APIs
 struct StringKey: Hashable, RawRepresentable, ExpressibleByStringLiteral {
 
     private static let cfBundleShortVersionString: StringKey = "CFBundleShortVersionString"

@@ -2,6 +2,7 @@
 
 import RealmSwift
 
+/// Display a user's photos
 final class ProfilePhotosVC: PhotosVC {
 
     private typealias Segues = R.segue.profilePhotosVC
@@ -16,14 +17,20 @@ final class ProfilePhotosVC: PhotosVC {
     private var isSelf: Bool = false
     private var blockedPhotos: [Int] = []
 
+    /// Display a user's posts
     override var canCreate: Bool {
         return isSelf
     }
 
+    /// How many photos in collection
     override var photoCount: Int {
         return photosPages?.first?.total ?? 0
     }
 
+    /// Retrieve an indexed photo
+    ///
+    /// - Parameter index: Index
+    /// - Returns: Photo
     override func photo(at index: Int) -> Photo {
         let pageIndex = (index / PhotosPageInfo.perPage) + 1
         let photoIndex = index % PhotosPageInfo.perPage
@@ -41,6 +48,7 @@ final class ProfilePhotosVC: PhotosVC {
         }
     }
 
+    /// Create a new Photo
     override func createPhoto() {
         performSegue(withIdentifier: Segues.addPhoto,
                      sender: self)

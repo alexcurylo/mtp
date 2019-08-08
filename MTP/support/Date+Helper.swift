@@ -27,7 +27,7 @@ extension Date {
     ///   - zone: Time zone
     ///   - locale: Locale
     init?(fromString string: String,
-          format: DateFormatType,
+          format: DateFormat,
           zone: TimeZoneType = .current,
           locale: Locale = .current) {
         guard !string.isEmpty else { return nil }
@@ -69,7 +69,7 @@ extension Date {
     ///
     /// - Parameter style: DateStyleType
     /// - Returns: Formatted string
-    func toString(style: DateStyleType = .short) -> String {
+    func toString(style: DateStyle = .short) -> String {
         switch style {
         case .short:
             return self.toString(dateStyle: .short, timeStyle: .short, isRelative: false)
@@ -117,7 +117,7 @@ extension Date {
     ///   - zone: Time zone
     ///   - locale: Locale
     /// - Returns: Formatted string
-    func toString(format: DateFormatType,
+    func toString(format: DateFormat,
                   zone: TimeZoneType = .current,
                   locale: Locale = .current) -> String {
         switch format {
@@ -173,7 +173,7 @@ extension Date {
         let hr: Double = round(min / 60)
         let d: Double = round(hr / 24)
 
-        func format(for type: RelativeTimeStringType) -> String {
+        func format(for type: RelativeTime) -> String {
             if let resource = style.formats[type] {
                 //swiftlint:disable:next nslocalizedstring_key
                 return NSLocalizedString(resource.key,
@@ -244,7 +244,7 @@ extension Date {
     ///
     /// - Parameter comparison: Comparison type
     /// - Returns: Equality
-    func compare(_ comparison: DateComparisonType) -> Bool {
+    func compare(_ comparison: DateComparison) -> Bool {
         // swiftlint:disable:previous function_body_length
         switch comparison {
         case .isToday:
@@ -318,7 +318,7 @@ extension Date {
     ///   - component: Component to adjust
     ///   - offset: Adjust offset
     /// - Returns: New date
-    func adjust(_ component: DateComponentType, offset: Int) -> Date {
+    func adjust(_ component: DateComponent, offset: Int) -> Date {
         var dateComp = DateComponents()
         switch component {
         case .second:
@@ -370,7 +370,7 @@ extension Date {
     ///   - type: DateForType
     ///   - calendar: Calendar
     /// - Returns: New date
-    func dateFor(_ type: DateForType, calendar: Calendar = .current) -> Date {
+    func dateFor(_ type: DateFor, calendar: Calendar = .current) -> Date {
         switch type {
         case .startOfDay:
             return adjust(hour: 0, minute: 0, second: 0)
@@ -410,7 +410,7 @@ extension Date {
     ///   - date: Date
     ///   - component: Component
     /// - Returns: Number of components elapsed
-    func since(_ date: Date, in component: DateComponentType) -> Int64 {
+    func since(_ date: Date, in component: DateComponent) -> Int64 {
         let calendar = Calendar.current
         let end: Int
         let start: Int
@@ -451,7 +451,7 @@ extension Date {
     ///
     /// - Parameter component: Component
     /// - Returns: Value if present
-    func component(_ component: DateComponentType) -> Int? {
+    func component(_ component: DateComponent) -> Int? {
         let components = Date.components(self)
         switch component {
         case .second:
@@ -530,7 +530,7 @@ extension Date {
     /// Generates a cached formatter based on the specified format, timeZone and locale.
     /// Formatters are cached in a singleton array using hashkeys.
     private static func cachedFormatter(
-        format: DateFormatType = .standard,
+        format: DateFormat = .standard,
         zone: TimeZoneType = .current,
         locale: Locale = .current
     ) -> DateFormatter {
@@ -587,30 +587,10 @@ extension Date {
     internal static let yearInSeconds: Double = 31_556_926
 }
 
-// MARK: Enums used
+// MARK: - Enums
 
-/**
- The string format used for date string conversion.
- 
- ````
- case isoYear: i.e. 1997
- case isoYearMonth: i.e. 1997-07
- case isoDate: i.e. 1997-07-16
- case isoDateTime: i.e. 1997-07-16T19:20+01:00
- case isoDateTimeSec: i.e. 1997-07-16T19:20:30+01:00
- case isoDateTimeMilliSec: i.e. 1997-07-16T19:20:30.45+01:00
- case dotNet: i.e. "/Date(1268123281843)/"
- case rss: i.e. "Fri, 09 Sep 2011 15:26:08 +0200"
- case altRSS: i.e. "09 Sep 2011 15:26:08 +0200"
- case httpHeader: i.e. "Tue, 15 Nov 1994 12:45:26 GMT"
- case standard: "EEE MMM dd HH:mm:ss Z yyyy"
- case custom(String): a custom date format string
- ````
- 
- */
-
-/// Common date formats
-enum DateFormatType: Hashable {
+/// The string format used for date string conversion
+enum DateFormat: Hashable {
 
     /// The ISO8601 formatted year "yyyy" i.e. 1997
     case isoYear
@@ -667,7 +647,7 @@ enum DateFormatType: Hashable {
     }
 }
 
-extension DateFormatType: Equatable {
+extension DateFormat: Equatable {
 
     /// Equality operator
     ///
@@ -675,7 +655,7 @@ extension DateFormatType: Equatable {
     ///   - lhs: A thing
     ///   - rhs: Another thing
     /// - Returns: Equality
-    static func == (lhs: DateFormatType, rhs: DateFormatType) -> Bool {
+    static func == (lhs: DateFormat, rhs: DateFormat) -> Bool {
         switch (lhs, rhs) {
         case let (.custom(lhsString), .custom(rhsString)):
             return lhsString == rhsString
@@ -712,7 +692,7 @@ enum TimeZoneType: Hashable {
 }
 
 /// The string keys to modify the strings in relative format
-enum RelativeTimeStringType {
+enum RelativeTime {
 
     /// nowPast
     case nowPast
@@ -780,7 +760,7 @@ enum RelativeTimeStyle {
     /// Short
     case short
 
-    fileprivate typealias Formats = [RelativeTimeStringType: StringResource]
+    fileprivate typealias Formats = [RelativeTime: StringResource]
 
     fileprivate var formats: Formats {
         switch self {
@@ -855,7 +835,7 @@ enum RelativeTimeStyle {
 }
 
 /// The type of comparison to do against today's date or with the suplied date.
-enum DateComparisonType {
+enum DateComparison {
 
     // Days
 
@@ -918,7 +898,7 @@ enum DateComparisonType {
 }
 
 /// The date components available to be retrieved or modifed
-enum DateComponentType {
+enum DateComponent {
 
     /// second
     case second
@@ -941,7 +921,7 @@ enum DateComponentType {
 }
 
 /// The type of date that can be used for the dateFor function.
-enum DateForType {
+enum DateFor {
 
     /// startOfDay
     case startOfDay
@@ -966,7 +946,7 @@ enum DateForType {
 }
 
 /// Convenience types for date to string conversion
-enum DateStyleType {
+enum DateStyle {
 
     /// Short style: "2/27/17, 2:22 PM"
     case short

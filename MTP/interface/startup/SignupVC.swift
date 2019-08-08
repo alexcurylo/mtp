@@ -91,16 +91,16 @@ final class SignupVC: UIViewController, ServiceProvider {
             hide(navBar: true)
         case Segues.showCountry.identifier:
             if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                destination.set(search: .countryOrPreferNot,
-                                styler: .login,
-                                delegate: self)
+                destination.inject(mode: .countryOrPreferNot,
+                                   styler: .login,
+                                   delegate: self)
             }
         case Segues.showLocation.identifier:
             if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC {
                 let countryId = country?.countryId ?? 0
-                destination.set(search: .location(country: countryId),
-                                styler: .login,
-                                delegate: self)
+                destination.inject(mode: .location(country: countryId),
+                                   styler: .login,
+                                   delegate: self)
             }
         case Segues.pushTermsOfService.identifier,
              Segues.showWelcome.identifier,

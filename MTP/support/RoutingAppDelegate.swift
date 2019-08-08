@@ -126,7 +126,6 @@ protocol AppNotificationsHandler: AppHandler {
     /// - Parameters:
     ///   - application: Application
     ///   - deviceToken: Token
-    /// - Returns: Nothing
     func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data)
     /// didFailToRegisterForRemoteNotificationsWithError
@@ -134,7 +133,6 @@ protocol AppNotificationsHandler: AppHandler {
     /// - Parameters:
     ///   - application: Application
     ///   - error: Error
-    /// - Returns: Nothing
     func application(_ application: UIApplication,
                      didFailToRegisterForRemoteNotificationsWithError error: Error)
     /// didReceiveRemoteNotification
@@ -549,7 +547,6 @@ extension RoutingAppDelegate {
     /// - Parameters:
     ///   - application: Application
     ///   - deviceToken: Token
-    /// - Returns: Nothing
     func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         handlers.of(type: AppNotificationsHandler.self)
@@ -563,7 +560,6 @@ extension RoutingAppDelegate {
     /// - Parameters:
     ///   - application: Application
     ///   - error: Error
-    /// - Returns: Nothing
     func application(_ application: UIApplication,
                      didFailToRegisterForRemoteNotificationsWithError error: Error) {
         handlers.of(type: AppNotificationsHandler.self)
@@ -588,13 +584,13 @@ extension RoutingAppDelegate {
                  }
     }
 
+    /// performFetchWithCompletionHandler
+    ///
+    /// - Parameters:
+    ///   - application: Application
+    ///   - completionHandler: Callback
     func application(_ application: UIApplication,
                      performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        /// performFetchWithCompletionHandler
-        ///
-        /// - Parameters:
-        ///   - application: Application
-        ///   - completionHandler: Callback
         handlers.of(type: AppBackgroundFetchHandler.self)
                 .forEach { $0.application(application,
                                           performFetchWithCompletionHandler: completionHandler)

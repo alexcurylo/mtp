@@ -26,6 +26,13 @@ extension ActionHandler: AppOpenURLHandler {
 
 extension ActionHandler {
 
+    /// Handle Facebook URL
+    ///
+    /// - Parameters:
+    ///   - app: Application
+    ///   - url: URL
+    ///   - options: Options
+    /// - Returns: Success
     func handleFacebookURL(app: UIApplication,
                            open url: URL,
                            options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {

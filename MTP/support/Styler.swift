@@ -5,6 +5,7 @@ import UIKit
 /// Service wrapper for a Styler type instance
 protocol StyleService {
 
+    /// Styler enum
     var styler: Styler.Type { get }
 }
 

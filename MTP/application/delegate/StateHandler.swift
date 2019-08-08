@@ -15,7 +15,9 @@ extension StateHandler: AppStateHandler {
     /// Become active handler
     ///
     /// - Parameter application: Application
-    func applicationDidBecomeActive(_ application: UIApplication) { }
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        net.refreshEverything()
+    }
 
     /// Resign active handler
     ///
@@ -26,7 +28,7 @@ extension StateHandler: AppStateHandler {
     ///
     /// - Parameter application: Application
     func applicationDidEnterBackground(_ application: UIApplication) {
-        //loc.checkDistances()
+        //loc.calculateDistances()
     }
 
     /// Terminate handler

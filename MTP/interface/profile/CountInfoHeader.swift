@@ -2,6 +2,7 @@
 
 import Anchorage
 
+/// Counts information header
 final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
 
     /// Dequeueing identifier
@@ -79,7 +80,10 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func set(list: Checklist) {
+    /// Handle dependency injection
+    ///
+    /// - Parameter list: Checklist
+    func inject(list: Checklist) {
         guard let user = data.user else { return }
 
         let status = list.visitStatus(of: user)

@@ -2,6 +2,7 @@
 
 import UIKit
 
+/// Display a user's posts
 final class ProfilePostsVC: PostsVC, UserInjectable {
 
     private typealias Segues = R.segue.profilePostsVC
@@ -12,10 +13,12 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
     private var user: User?
     private var isSelf: Bool = false
 
+    /// Can create new content
     override var canCreate: Bool {
         return isSelf
     }
 
+    /// Type of view presenting this controller
     override var presenter: Presenter {
         return .user
     }
@@ -42,6 +45,7 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
         }
     }
 
+    /// Create a new post
     override func createPost() {
         performSegue(withIdentifier: Segues.addPost,
                      sender: self)

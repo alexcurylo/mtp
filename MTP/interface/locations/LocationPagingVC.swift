@@ -48,6 +48,9 @@ final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
         return LocationPagingVC(viewControllers: controllers)
     }
 
+    /// Construction by injection
+    ///
+    /// - Parameter viewControllers: Controllers
     override init(viewControllers: [UIViewController]) {
         super.init(viewControllers: viewControllers)
 
@@ -104,6 +107,9 @@ private extension LocationPagingVC {
 
 extension LocationPagingVC: TitleChangeDelegate {
 
+    /// Notify of title change
+    ///
+    /// - Parameter title: New title
     func changed(title: String) {
         reloadMenu()
     }

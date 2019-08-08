@@ -2,18 +2,28 @@
 
 import Anchorage
 
+/// Display model for count group
 struct CountItemModel {
+
+    /// Title
     var title: String
+    /// Subtitle
     var subtitle: String
+    /// Checklist
     var list: Checklist
+    /// Item ID
     var id: Int
+    /// Parent ID if any
     var parentId: Int?
+    /// Whether to show visit state
     var isVisitable: Bool
+    /// Whether to round corners
     var isLast: Bool
+    /// Whether is a combined header and content of one
     var isCombined: Bool
 
-    func description(titleFont: UIFont,
-                     subtitleFont: UIFont) -> NSAttributedString {
+    fileprivate func description(titleFont: UIFont,
+                                 subtitleFont: UIFont) -> NSAttributedString {
         let description = NSMutableAttributedString(
             string: title,
             attributes: titleFont.attributes
@@ -29,13 +39,20 @@ struct CountItemModel {
     }
 }
 
+/// Counts single item
 final class CountCellItem: UICollectionViewCell, ServiceProvider {
 
     /// Dequeueing identifier
     static let reuseIdentifier = NSStringFromClass(CountCellItem.self)
 
+    /// Corener radius for items and groups
+    static let cellCornerRadius = CGFloat(4)
+
     private var model: CountItemModel?
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Data model
     func inject(model: CountItemModel) {
         self.model = model
 
@@ -69,7 +86,7 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
         // without this background randomly goes gray?
         visit.styleAsFilter()
 
-        let rounded: ViewCorners = model.isLast ? .bottom(radius: CountsPageVC.Layout.cellCornerRadius)
+        let rounded: ViewCorners = model.isLast ? .bottom(radius: CountCellItem.cellCornerRadius)
                                                 : .square
         round(corners: rounded)
     }

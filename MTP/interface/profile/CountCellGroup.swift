@@ -2,11 +2,17 @@
 
 import Anchorage
 
+/// State of disclosure arrow
 enum Disclosure {
+
+    /// Undisclosed
     case close
+    /// Nothing to disclose
     case empty
+    /// Disclosed
     case expand
 
+    /// Image to prefix title with if any
     var image: UIImage? {
         switch self {
         case .close:
@@ -19,31 +25,49 @@ enum Disclosure {
     }
 }
 
+/// Notify of display state changes
 protocol CountCellGroupDelegate: AnyObject {
 
+    /// Toggle expanded state of country
+    ///
+    /// - Parameters:
+    ///   - region: Region
+    ///   - country: Country
     func toggle(region: String,
                 country: String)
 }
 
+/// Display model for count group
 struct CountGroupModel {
 
+    /// Region
     var region: String
+    /// Country
     var country: String
+    /// Number visited
     var visited: Int?
+    /// Number total
     var count: Int
+    /// Disclosure state
     var disclose: Disclosure
+    /// Whether to round corners
     var isLast: Bool
 }
 
+/// Counts item groupd
 final class CountCellGroup: UICollectionViewCell {
 
     /// Dequeueing identifier
     static let reuseIdentifier = NSStringFromClass(CountCellGroup.self)
 
+    /// Delegate
     weak var delegate: CountCellGroupDelegate?
 
     private var model: CountGroupModel?
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Data model
     func inject(model: CountGroupModel) {
         self.model = model
 
@@ -54,7 +78,7 @@ final class CountCellGroup: UICollectionViewCell {
         }
         disclosure.image = model.disclose.image
 
-        let rounded: ViewCorners = model.isLast ? .bottom(radius: CountsPageVC.Layout.cellCornerRadius)
+        let rounded: ViewCorners = model.isLast ? .bottom(radius: CountCellItem.cellCornerRadius)
                                                 : .square
         round(corners: rounded)
     }

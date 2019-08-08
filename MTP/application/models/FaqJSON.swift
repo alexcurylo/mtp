@@ -3,7 +3,7 @@
 import Foundation
 
 /// FAQ info received from MTP endpoints
-struct FaqJSON: Codable {
+private struct FaqJSON: Codable {
 
     let id: Int
     //let userID: Int

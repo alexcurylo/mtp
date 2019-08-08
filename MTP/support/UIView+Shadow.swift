@@ -22,6 +22,7 @@ private extension UIView {
     }
 }
 
+/// A View with a shadow
 @IBDesignable final class ShadowView: UIView {
 
     /// Procedural intializer
@@ -47,7 +48,7 @@ private extension UIView {
     }
 
     private func setup() {
-        cornerRadius = EditProfileVC.Layout.sectionCornerRadius
+        cornerRadius = 5
         applyShadow()
     }
 

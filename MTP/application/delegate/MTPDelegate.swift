@@ -48,6 +48,7 @@ import UIKit
                 NotificationsHandler(),
                 LocationHandler()
             ]
+        #if DEBUG
         case .uiTesting:
             return [
                 ServiceHandlerStub(),
@@ -59,6 +60,10 @@ import UIKit
             ]
         case .unitTesting:
             return [ ServiceHandlerSpy() ]
+        #else
+        default:
+            return []
+        #endif
         }
     }
 }

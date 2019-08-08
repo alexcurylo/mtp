@@ -600,44 +600,6 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
-    func loadFaq(then: @escaping NetworkCompletion<FaqJSON> = { _ in }) {
-        let provider = MTPProvider()
-        let endpoint = MTP.faq
-        guard !endpoint.isThrottled else {
-            return then(.failure(.throttle))
-        }
-
-        //swiftlint:disable:next closure_body_length
-        provider.request(endpoint) { response in
-            endpoint.markResponded()
-            switch response {
-            case .success(let result):
-                guard result.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                do {
-                    let faq = try result.map(FaqJSON.self,
-                                             using: JSONDecoder.mtp)
-                    //self.data.faq = faq
-                    return then(.success(faq))
-                } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
-                    return then(.failure(.decoding))
-                }
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
-            case .failure(let error):
-                guard error.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
-            }
-        }
-    }
-
     func loadGolfCourses(then: @escaping NetworkCompletion<[PlaceJSON]> = { _ in }) {
         let provider = MTPProvider()
         let endpoint = MTP.golfcourse

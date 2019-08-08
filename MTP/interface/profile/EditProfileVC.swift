@@ -36,7 +36,7 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
     @IBOutlet private var toolbarNextButton: UIBarButtonItem?
     @IBOutlet private var toolbarClearButton: UIBarButtonItem?
 
-    enum Layout {
+    private enum Layout {
         static let sectionCornerRadius = CGFloat(5)
         static let bottomCorners = ViewCorners.bottom(radius: sectionCornerRadius)
     }
@@ -69,6 +69,7 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
         show(navBar: animated, style: .standard)
     }
 
+    /// Apply corner rounding on each layout
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -85,16 +86,16 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
         switch segue.identifier {
         case Segues.showCountry.identifier:
             if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                destination.set(search: .countryOrPreferNot,
-                                styler: .standard,
-                                delegate: self)
+                destination.inject(mode: .countryOrPreferNot,
+                                   styler: .standard,
+                                   delegate: self)
             }
         case Segues.showLocation.identifier:
             if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC,
                let countryId = country?.countryId {
-                destination.set(search: .location(country: countryId),
-                                styler: .standard,
-                                delegate: self)
+                destination.inject(mode: .location(country: countryId),
+                                   styler: .standard,
+                                   delegate: self)
             }
         case Segues.showPhotos.identifier:
             if let photos = Segues.showPhotos(segue: segue)?.destination,
@@ -221,8 +222,7 @@ extension EditProfileVC: UITextViewDelegate {
 
 private extension EditProfileVC {
 
-    @IBAction func unwindToEditProfile(segue: UIStoryboardSegue) {
-    }
+    @IBAction func unwindToEditProfile(segue: UIStoryboardSegue) { }
 
     // swiftlint:disable:next function_body_length
     func configure() {
@@ -618,6 +618,9 @@ private extension EditProfileVC {
 
 extension EditProfileVC: PhotoSelectionDelegate {
 
+    /// Notify of selection
+    ///
+    /// - Parameter picture: Selected picture
     func selected(picture: String) {
         current.picture = picture
         avatarButton?.load(image: current)
@@ -844,6 +847,7 @@ private extension UIView {
 
 extension UIBarButtonItem {
 
+    /// Control visibility by drawing clear
     var isHidden: Bool {
         get {
             return tintColor == .clear

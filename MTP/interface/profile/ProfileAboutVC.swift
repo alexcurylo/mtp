@@ -263,6 +263,24 @@ private extension ProfileAboutVC {
         countsModel = (.locations, user, .remaining)
         performSegue(withIdentifier: Segues.showUserCounts, sender: self)
     }
+
+    func fetch(id: Int) {
+        net.loadUser(id: id) { _ in }
+
+        if let scorecard = data.get(scorecard: .locations, user: id) {
+            visits = Array(scorecard.visits)
+        } else {
+            visits = []
+            net.loadScorecard(list: .locations,
+                              user: id) { [weak self] _ in
+                                guard let self = self else { return }
+                                if let scorecard = self.data.get(scorecard: .locations, user: id) {
+                                    self.visits = Array(scorecard.visits)
+                                    self.update(map: self.mapWidth)
+                                }
+            }
+        }
+    }
 }
 
 // MARK: - Injectable
@@ -288,24 +306,6 @@ extension ProfileAboutVC: Injectable {
        }
 
         return self
-    }
-
-    func fetch(id: Int) {
-        net.loadUser(id: id) { _ in }
-
-        if let scorecard = data.get(scorecard: .locations, user: id) {
-            visits = Array(scorecard.visits)
-        } else {
-            visits = []
-            net.loadScorecard(list: .locations,
-                              user: id) { [weak self] _ in
-                guard let self = self else { return }
-                if let scorecard = self.data.get(scorecard: .locations, user: id) {
-                    self.visits = Array(scorecard.visits)
-                    self.update(map: self.mapWidth)
-                }
-            }
-        }
     }
 
     /// Enforce dependency injection

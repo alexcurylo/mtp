@@ -4,46 +4,68 @@ import Anchorage
 import MapKit
 import RealmMapView
 
+/// Common accessors for single and cluster views
 protocol MappingAnnotationView {
 
+    /// Annotation displayed
     var annotation: MKAnnotation? { get }
+    /// Convenience annotation type caster
     var mapped: MappablesAnnotation? { get }
 
+    /// Convenience accessor for uniqueness
     var isSingle: Bool { get }
+    /// Convenience accessor for multiplicity
     var isMultiple: Bool { get }
 
+    /// Convenience accessor for unique place
     var mappable: Mappable? { get }
+    /// Convenience accessor for place(s) list
     var mappables: [Mappable] { get }
 }
 
 extension MappingAnnotationView {
 
+    /// Convenience annotation type caster
     var mapped: MappablesAnnotation? {
         return annotation as? MappablesAnnotation
     }
+    /// Convenience accessor for uniqueness
     var isSingle: Bool {
         return mapped?.isSingle ?? false
     }
+    /// Convenience accessor for multiplicity
     var isMultiple: Bool {
         return mapped?.isMultiple ?? false
     }
 
+    /// Convenience accessor for unique place
     var mappable: Mappable? {
         return mapped?.mappable
     }
+    /// Convenience accessor for place(s) list
     var mappables: [Mappable] {
         return mapped?.mappables ?? []
     }
 }
 
+/// Annotation view for multiple places
 final class MappablesAnnotationView: MKAnnotationView, MappingAnnotationView, ServiceProvider {
 
-    static var identifier = typeName
+    private static var identifier = typeName
 
+    /// Register view type
+    ///
+    /// - Parameter view: Map view
     static func register(view: MKMapView) {
         view.register(self, forAnnotationViewWithReuseIdentifier: identifier)
     }
 
+    /// Factory method for view
+    ///
+    /// - Parameters:
+    ///   - map: Map view
+    ///   - annotation: Place
+    /// - Returns: MappablesAnnotationView
     static func view(on map: MKMapView,
                      for annotation: MappablesAnnotation) -> MKAnnotationView {
         let view = map.dequeueReusableAnnotationView(
@@ -57,7 +79,13 @@ final class MappablesAnnotationView: MKAnnotationView, MappingAnnotationView, Se
         return view
     }
 
-    override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
+    /// Construction by injection
+    ///
+    /// - Parameters:
+    ///   - annotation: Place
+    ///   - reuseIdentifier: Identifier
+    override init(annotation: MKAnnotation?,
+                  reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
 
         canShowCallout = false
@@ -73,6 +101,7 @@ final class MappablesAnnotationView: MKAnnotationView, MappingAnnotationView, Se
         fatalError("init(coder:) has not been implemented")
     }
 
+    /// Prepare for display
     override func prepareForDisplay() {
         super.prepareForDisplay()
 
@@ -90,7 +119,7 @@ final class MappablesAnnotationView: MKAnnotationView, MappingAnnotationView, Se
 
 // MARK: - Drawing
 
-extension MappablesAnnotation: ServiceProvider {
+private extension MappablesAnnotation {
 
     typealias Slice = (color: UIColor, count: CGFloat)
 

@@ -2,26 +2,35 @@
 
 import Anchorage
 
+/// Base class for user and location post pages
 class PostsVC: UITableViewController, ServiceProvider {
 
+    /// Display a user's posts
     var canCreate: Bool {
         return false
     }
 
+    /// Type of view presenting this controller
     var presenter: Presenter {
         fatalError("presenter has not been overridden")
     }
 
-    //swiftlint:disable:next unavailable_function
+    /// Create a new post
     func createPost() {
+        //swiftlint:disable:previous unavailable_function
         fatalError("createPost has not been overridden")
     }
 
+    /// Present user profile
+    ///
+    /// - Parameter user: User to present
     func show(user: User) {
         // override to implement
     }
 
+    /// Content state to display
     var contentState: ContentState = .loading
+    /// Data models
     var models: [PostCellModel] = []
     private var configuredMenu = false
 
@@ -50,6 +59,10 @@ class PostsVC: UITableViewController, ServiceProvider {
         }
     }
 
+    /// Construct cell models
+    ///
+    /// - Parameter posts: List of posts
+    /// - Returns: List of displayable models
     func cellModels(from posts: [Post]) -> [PostCellModel] {
         let blockedPosts = data.blockedPosts
         let blockedUsers = data.blockedUsers
@@ -109,6 +122,12 @@ extension PostsVC {
         return models.count
     }
 
+    /// Create table header
+    ///
+    /// - Parameters:
+    ///   - tableView: Container
+    ///   - section: Index
+    /// - Returns: PostHeader
     override func tableView(_ tableView: UITableView,
                             viewForHeaderInSection section: Int) -> UIView? {
         guard canCreate else { return UIView() }
@@ -124,9 +143,9 @@ extension PostsVC {
     /// Create table cell
     ///
     /// - Parameters:
-    ///   - tableView: UITableView
-    ///   - indexPath: Index Path
-    /// - Returns: UITableViewCell
+    ///   - tableView: Container
+    ///   - indexPath: Index path
+    /// - Returns: PostCell
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //swiftlint:disable:next implicitly_unwrapped_optional
@@ -148,7 +167,7 @@ extension PostsVC {
     /// Provide row height
     ///
     /// - Parameters:
-    ///   - tableView: Table
+    ///   - tableView: Container
     ///   - indexPath: Index path
     /// - Returns: Height
     override func tableView(_ tableView: UITableView,
@@ -156,29 +175,48 @@ extension PostsVC {
         return UITableView.automaticDimension
     }
 
-    /// Provide estimated row height
+    /// Provide header height
     ///
     /// - Parameters:
-    ///   - tableView: Table
-    ///   - indexPath: Index path
+    ///   - tableView: Container
+    ///   - section: Index
     /// - Returns: Height
-
     override func tableView(_ tableView: UITableView,
                             heightForHeaderInSection section: Int) -> CGFloat {
         return canCreate ? layout.header : 1
     }
 
+    /// Provide estimated header height
+    ///
+    /// - Parameters:
+    ///   - tableView: Container
+    ///   - section: Index
+    /// - Returns: Height
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForHeaderInSection section: Int) -> CGFloat {
         return canCreate ? layout.header : 1
     }
 
+    /// Menu permission
+    ///
+    /// - Parameters:
+    ///   - tableView: Container
+    ///   - indexPath: Index path
+    /// - Returns: Permission
     override func tableView(_ tableView: UITableView,
                             shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
         configureMenu()
         return true
     }
 
+    /// Action permission
+    ///
+    /// - Parameters:
+    ///   - tableView: Container
+    ///   - action: Action
+    ///   - indexPath: Index path
+    ///   - sender: Sender
+    /// - Returns: Permission
     override func tableView(_ tableView: UITableView,
                             canPerformAction action: Selector,
                             forRowAt indexPath: IndexPath,
@@ -186,6 +224,13 @@ extension PostsVC {
         return MenuAction.isContent(action: action)
     }
 
+    /// Action operation
+    ///
+    /// - Parameters:
+    ///   - tableView: Container
+    ///   - action: Action
+    ///   - indexPath: Index path
+    ///   - sender: Sender
     override func tableView(_ tableView: UITableView,
                             performAction action: Selector,
                             forRowAt indexPath: IndexPath,
@@ -205,6 +250,9 @@ extension PostsVC: PostCellDelegate {
         show(user: user)
     }
 
+    /// Display toggle tapped
+    ///
+    /// - Parameter toggle: Model to toggle
     func tapped(toggle: Int) {
         guard toggle < models.count else { return }
 
@@ -215,15 +263,24 @@ extension PostsVC: PostCellDelegate {
         }
     }
 
+    /// Handle hide action
+    ///
+    /// - Parameter hide: PostCellModel to hide
     func tapped(hide: PostCellModel?) {
         data.block(post: hide?.postId ?? 0)
     }
 
+    /// Handle report action
+    ///
+    /// - Parameter report: PostCellModel to report
     func tapped(report: PostCellModel?) {
         let message = L.reportPost(report?.postId ?? 0)
         app.route(to: .reportContent(message))
     }
 
+    /// Handle block action
+    ///
+    /// - Parameter block: PostCellModel to block
     func tapped(block: PostCellModel?) {
         data.block(user: block?.user?.userId ?? 0)
         app.dismissPresentations()
@@ -246,6 +303,7 @@ private extension PostsVC {
     }
 }
 
+/// Header of post table
 final class PostHeader: UITableViewHeaderFooterView {
 
     /// Dequeueing identifier
@@ -263,7 +321,7 @@ final class PostHeader: UITableViewHeaderFooterView {
         $0.titleLabel?.font = Avenir.medium.of(size: 15)
     }
 
-    var delegate: PostsVC? {
+    fileprivate var delegate: PostsVC? {
         didSet {
             if let delegate = delegate {
                 button.addTarget(delegate,
@@ -277,6 +335,9 @@ final class PostHeader: UITableViewHeaderFooterView {
         }
     }
 
+    /// Construct with identifier
+    ///
+    /// - Parameter reuseIdentifier: Identifier
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
 

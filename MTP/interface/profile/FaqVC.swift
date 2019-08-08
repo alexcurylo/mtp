@@ -2,8 +2,14 @@
 
 import UIKit
 
-protocol FaqCellDelegate: AnyObject {
+/// Notify of cell events
+private protocol FaqCellDelegate: AnyObject {
 
+    /// Toggle visible state
+    ///
+    /// - Parameters:
+    ///   - faq: Index
+    ///   - visible: Visibility
     func set(faq: Int, answer visible: Bool)
 }
 
@@ -149,8 +155,8 @@ extension FaqVC {
             withIdentifier: R.reuseIdentifier.faqCell,
             for: indexPath)
 
-        cell.set(model: faqs[indexPath.row],
-                 delegate: self)
+        cell.inject(model: faqs[indexPath.row],
+                    delegate: self)
 
         return cell
     }
@@ -208,14 +214,13 @@ extension FaqVC: Injectable {
 
 extension FaqVC: FaqCellDelegate {
 
-    func set(faq: Int, answer visible: Bool) {
+    fileprivate func set(faq: Int, answer visible: Bool) {
         faqs[faq].isExpanded = visible
-
         tableView.update()
     }
 }
 
-struct FaqCellModel {
+private struct FaqCellModel {
 
     let index: Int
     let question: String
@@ -223,6 +228,7 @@ struct FaqCellModel {
     var isExpanded: Bool
 }
 
+/// Displays a FAQ
 final class FaqCell: UITableViewCell {
 
     @IBOutlet private var questionLabel: UILabel?
@@ -232,6 +238,7 @@ final class FaqCell: UITableViewCell {
     private var index = 0
     private weak var delegate: FaqCellDelegate?
 
+    /// Configure after nib loading
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -254,8 +261,8 @@ final class FaqCell: UITableViewCell {
         setAnswerShown()
     }
 
-    func set(model: FaqCellModel,
-             delegate: FaqCellDelegate) {
+    fileprivate func inject(model: FaqCellModel,
+                            delegate: FaqCellDelegate) {
         self.index = model.index
         self.delegate = delegate
         questionLabel?.text = model.question

@@ -2,24 +2,38 @@
 
 import UIKit
 
-/// Things tht can trigger in a PhotoCell
+/// Actions triggered by photo cell
 protocol PhotoCellDelegate: AnyObject {
 
+    /// Clear suspended state
+    ///
+    /// - Parameter cell: Cell
     func prepared(forReuse cell: PhotoCell)
 
+    /// Handle hide action
+    ///
+    /// - Parameter hide: Photo to hide
     func tapped(hide: Photo?)
+    /// Handle report action
+    ///
+    /// - Parameter report: Photo to report
     func tapped(report: Photo?)
+    /// Handle block action
+    ///
+    /// - Parameter block: Photo to block
     func tapped(block: Photo?)
 }
 
 /// Displays pictures in Photos tabs
 final class PhotoCell: UICollectionViewCell, ServiceProvider {
 
-    //swiftlint:disable:next private_outlet
+    /// Photo displayer
     @IBOutlet var imageView: UIImageView?
+    //swiftlint:disable:previous private_outlet
 
     private var photo: Photo?
     private var loaded = false
+    /// Display suppression flag
     var isScrolling = false {
         didSet {
             if !isScrolling { load() }
@@ -28,6 +42,7 @@ final class PhotoCell: UICollectionViewCell, ServiceProvider {
 
     private weak var delegate: PhotoCellDelegate?
 
+    /// Handle selected state display
     override var isSelected: Bool {
         didSet {
             borderColor = isSelected ? .switchOn : nil
@@ -35,6 +50,12 @@ final class PhotoCell: UICollectionViewCell, ServiceProvider {
         }
     }
 
+    /// Handle dependency injection
+    ///
+    /// - Parameters:
+    ///   - model: Data model
+    ///   - delegate: Delegate
+    ///   - isScrolling: Whether to load immediately
     func inject(photo: Photo?,
                 delegate: PhotoCellDelegate,
                 isScrolling: Bool) {

@@ -1,7 +1,6 @@
 // @copyright Trollwerks Inc.
 
 import MessageUI
-//import StoreKit
 
 /// Miscellaneous account and app operations
 final class SettingsVC: UITableViewController, ServiceProvider {
@@ -149,6 +148,12 @@ private extension SettingsVC {
 
 extension SettingsVC: MFMailComposeViewControllerDelegate {
 
+    /// Handle mail compose result
+    ///
+    /// - Parameters:
+    ///   - controller: Mail editor
+    ///   - result: Result
+    ///   - error: Error if any
     func mailComposeController(_ controller: MFMailComposeViewController,
                                didFinishWith result: MFMailComposeResult,
                                error: Error?) {
@@ -181,8 +186,11 @@ extension SettingsVC: Injectable {
 
 extension MFMailComposeViewController {
 
-    // swiftlint:disable:next override_in_extension
+    /// Fix nav bar for mail controller
+    ///
+    /// - Parameter animated: Animated appearance?
     override open func viewWillAppear(_ animated: Bool) {
+        // swiftlint:disable:previous override_in_extension
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .system)

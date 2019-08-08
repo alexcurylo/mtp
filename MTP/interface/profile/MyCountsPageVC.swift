@@ -16,6 +16,7 @@ final class MyCountsPageVC: CountsPageVC {
 
     private weak var delegate: MyCountsPageVCDelegate?
 
+    /// Whether counts are editable
     override var isEditable: Bool { return true }
     /// Places to display
     override var places: [PlaceInfo] { return listPlaces }
@@ -38,6 +39,7 @@ final class MyCountsPageVC: CountsPageVC {
         super.init(model: model.list)
     }
 
+    /// Set up data change observations
     override func observe() {
         super.observe()
 
@@ -67,10 +69,6 @@ extension MyCountsPageVC {
         delegate?.didScroll(myCountsPageVC: self)
     }
 }
-
-// MARK: - Private
-
-private extension MyCountsPageVC { }
 
 // MARK: - Injectable
 

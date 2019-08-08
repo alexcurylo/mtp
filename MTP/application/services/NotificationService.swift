@@ -17,13 +17,14 @@ struct Note {
         case success
         case visit
 
+        /// identifier for UNNotification
         var identifier: String { return rawValue }
 
-        var attributes: EKAttributes {
+        fileprivate var attributes: EKAttributes {
             return EKAttributes(note: self)
         }
 
-        var priority: EKAttributes.Precedence.Priority {
+        fileprivate var priority: EKAttributes.Precedence.Priority {
             switch self {
             case .congratulate: return .high
             case .error: return .max
@@ -43,13 +44,14 @@ struct Note {
         var key: String { return rawValue }
     }
 
-    let title: String
-    let message: String
-    let category: Category
+    fileprivate let title: String
+    fileprivate let message: String
+    fileprivate let category: Category
 }
 
 protocol NotificationService {
 
+    /// Callback handler type
     typealias Completion = (Result<Bool, String>) -> Void
 
     typealias Info = [String: Any]
@@ -133,6 +135,7 @@ extension NotificationService {
     }
 }
 
+/// Production implementation of NotificationService
 class NotificationServiceImpl: NotificationService, ServiceProvider {
 
     private var notifying: Mappable?
@@ -267,11 +270,6 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
         congratulate(mappable: mappable, note: note)
     }
 
-    func congratulate(mappable: Mappable, note: Note) {
-        congratulateForeground(mappable: mappable, note: note)
-        congratulateBackground(note: note)
-    }
-
     func checkPending() {
         guard checkRemindedVerify() else { return }
 
@@ -289,6 +287,11 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
 // MARK: - Private
 
 private extension NotificationServiceImpl {
+
+    func congratulate(mappable: Mappable, note: Note) {
+        congratulateForeground(mappable: mappable, note: note)
+        congratulateBackground(note: note)
+    }
 
     func checkRemindedVerify() -> Bool {
         guard !remindedVerify,
@@ -736,9 +739,16 @@ private extension EKAttributes {
     }
 }
 
+// MARK: - Testing
+
+#if DEBUG
+
+/// Stub for testing
 final class NotificationServiceStub: NotificationServiceImpl {
 
     override func authorizeNotifications(then: @escaping (Bool) -> Void) {
         then(false)
     }
 }
+
+#endif

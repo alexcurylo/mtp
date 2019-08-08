@@ -48,16 +48,16 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
         switch segue.identifier {
         case Segues.showCountry.identifier:
             if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                destination.set(search: .countryOrAll,
-                                styler: .standard,
-                                delegate: self)
+                destination.inject(mode: .countryOrAll,
+                                   styler: .standard,
+                                   delegate: self)
             }
         case Segues.showLocation.identifier:
             if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC,
                let countryId = current?.countryId {
-                destination.set(search: .locationOrAll(country: countryId),
-                                styler: .standard,
-                                delegate: self)
+                destination.inject(mode: .locationOrAll(country: countryId),
+                                   styler: .standard,
+                                   delegate: self)
             }
         case Segues.saveEdits.identifier:
             saveEdits(notifying: Segues.saveEdits(segue: segue)?.destination)

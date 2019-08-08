@@ -2,6 +2,7 @@
 
 import UIKit
 
+/// Displays location information
 final class LocationInfoVC: UITableViewController, ServiceProvider {
 
     @IBOutlet private var regionLabel: UILabel?

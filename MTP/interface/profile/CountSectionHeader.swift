@@ -2,27 +2,42 @@
 
 import Anchorage
 
+/// Notify of display state changes
 protocol CountSectionHeaderDelegate: AnyObject {
 
+    /// Toggle expanded state of region
+    ///
+    /// - Parameter region: Region
     func toggle(region: String)
 }
 
+/// Display model for count section
 struct CountSectionModel {
+
+    /// Region
     var region: String
+    /// Number visited
     var visited: Int?
+    /// Number total
     var count: Int
+    /// Whether is expanded
     var isExpanded: Bool
 }
 
+/// Counts section header
 final class CountSectionHeader: UICollectionReusableView {
 
     /// Dequeueing identifier
     static let reuseIdentifier = NSStringFromClass(CountSectionHeader.self)
 
+    /// Delegate
     weak var delegate: CountSectionHeaderDelegate?
 
     private var model: CountSectionModel?
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Data model
     func inject(model: CountSectionModel) {
         self.model = model
 

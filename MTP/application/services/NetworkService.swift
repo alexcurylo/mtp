@@ -69,6 +69,7 @@ protocol NetworkService: ServiceProvider {
     func refreshEverything()
 }
 
+/// Production implementation of NetworkService
 class NetworkServiceImpl: NetworkService {
 
     let mtp = MTPNetworkController()
@@ -239,6 +240,11 @@ private extension NetworkServiceImpl {
     }
 }
 
+// MARK: - Testing
+
+#if DEBUG
+
+/// Stub for testing
 final class NetworkServiceStub: NetworkServiceImpl {
 
     override func refreshData() {
@@ -376,3 +382,5 @@ final class NetworkServiceStub: NetworkServiceImpl {
         log.error("not stubbed yet")
     }
 }
+
+#endif

@@ -121,7 +121,6 @@ private enum UrlsHandledByApp {
     /// - Parameters:
     ///   - controller: WKWebViewController
     ///   - url: Target URL
-    /// - Returns: Nothing
     @objc optional func webView(controller: WKWebViewController,
                                 didStart url: URL)
     /// Finish notification
@@ -129,7 +128,6 @@ private enum UrlsHandledByApp {
     /// - Parameters:
     ///   - controller: WKWebViewController
     ///   - url: Target URL
-    /// - Returns: Nothing
     @objc optional func webView(controller: WKWebViewController,
                                 didFinish url: URL)
     /// Failure notification
@@ -138,7 +136,6 @@ private enum UrlsHandledByApp {
     ///   - controller: WKWebViewController
     ///   - url: Target URL
     ///   - error: Error
-    /// - Returns: Nothing
     @objc optional func webView(controller: WKWebViewController,
                                 didFail url: URL,
                                 withError error: Error)

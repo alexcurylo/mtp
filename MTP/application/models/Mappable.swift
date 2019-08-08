@@ -49,12 +49,32 @@ extension PlaceMappable {
     }
 }
 
+/// Actions that a Mappable displayer can handle
 protocol Mapper {
 
+    /// Close
+    ///
+    /// - Parameter mappable: Place
     func close(mappable: Mappable)
+    /// Notify
+    ///
+    /// - Parameters:
+    ///   - mappable: Place
+    ///   - triggered: Date
     func notify(mappable: Mappable, triggered: Date)
+    /// Reveal
+    ///
+    /// - Parameters:
+    ///   - mappable: Place
+    ///   - callout: Show callout
     func reveal(mappable: Mappable, callout: Bool)
+    /// Show
+    ///
+    /// - Parameter mappable: Place
     func show(mappable: Mappable)
+    /// Update
+    ///
+    /// - Parameter mappable: Place
     func update(mappable: Mappable)
 }
 
@@ -95,6 +115,7 @@ protocol Mapper {
         return Key.key(item: item)
     }
 
+    /// Configure for display
     static func configure(map: RealmMapView) {
         map.entityName = typeName
         map.latitudeKeyPath = "latitude"

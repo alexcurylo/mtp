@@ -59,8 +59,11 @@ extension Optional where Wrapped: Collection {
 /// Generic error for unexpectedly nil optionals
 struct UnwrapError<T>: LocalizedError {
 
+    /// File thrown from
     let file: StaticString
+    /// Line thrown from
     let line: UInt
+
     var errorDescription: String? {
         return "failed to unwrap \(T.self) at line \(line) in file \(file)."
     }

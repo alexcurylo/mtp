@@ -163,11 +163,11 @@ final class LocationServiceSpy: LocationService {
         invokedInjectParameters = (handler, ())
         invokedInjectParametersList.append((handler, ()))
     }
-    var invokedCheckDistances = false
-    var invokedCheckDistancesCount = 0
-    func checkDistances() {
-        invokedCheckDistances = true
-        invokedCheckDistancesCount += 1
+    var invokedCalculateDistances = false
+    var invokedCalculateDistancesCount = 0
+    func calculateDistances() {
+        invokedCalculateDistances = true
+        invokedCalculateDistancesCount += 1
     }
     var invokedClose = false
     var invokedCloseCount = 0

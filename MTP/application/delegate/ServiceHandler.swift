@@ -45,6 +45,11 @@ extension ServiceHandler: AppLaunchHandler {
     }
 }
 
+// MARK: - Testing
+
+#if DEBUG
+
+/// Stub for testing
 struct ServiceHandlerStub: AppHandler { }
 
 extension ServiceHandlerStub: AppLaunchHandler {
@@ -90,3 +95,5 @@ extension ServiceHandlerStub: AppLaunchHandler {
 /// Forward declaration for handler construction in app delegate
 /// ServiceHandlerSpy+AppLaunchHandler in test target sets spy instances
 struct ServiceHandlerSpy: AppHandler { }
+
+#endif

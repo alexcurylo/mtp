@@ -100,15 +100,15 @@ final class AddPhotoVC: UIViewController, ServiceProvider {
         switch segue.identifier {
         case Segues.showCountry.identifier:
             if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                destination.set(search: .countryOrNone,
-                                styler: .standard,
-                                delegate: self)
+                destination.inject(mode: .countryOrNone,
+                                   styler: .standard,
+                                   delegate: self)
             }
         case Segues.showLocation.identifier:
             if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                destination.set(search: .location(country: countryId),
-                                styler: .standard,
-                                delegate: self)
+                destination.inject(mode: .location(country: countryId),
+                                   styler: .standard,
+                                   delegate: self)
             }
         case Segues.pop.identifier:
             break
