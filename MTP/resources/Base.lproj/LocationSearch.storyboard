@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="WEt-w0-tN3">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Countries-->
+        <scene sceneID="wF7-ek-Ee4">
+            <objects>
+                <tableViewController title="Countries" id="clk-57-GkD" customClass="LocationSearchVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="A0P-5Z-6Ie">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="locationSearchTableViewCell" id="22W-ui-Wnx" customClass="LocationSearchTableViewCell" customModule="MTP" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="22W-ui-Wnx" id="JG0-Rw-aiR">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E9q-Fv-kff">
+                                            <rect key="frame" x="12" y="8" width="351" height="27.5"/>
+                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="E9q-Fv-kff" secondAttribute="bottom" constant="8" id="6E0-EO-Uif"/>
+                                        <constraint firstItem="E9q-Fv-kff" firstAttribute="top" secondItem="JG0-Rw-aiR" secondAttribute="top" constant="8" id="BIQ-FK-4bG"/>
+                                        <constraint firstAttribute="trailing" secondItem="E9q-Fv-kff" secondAttribute="trailing" constant="12" id="QGg-OA-tW6"/>
+                                        <constraint firstItem="E9q-Fv-kff" firstAttribute="leading" secondItem="JG0-Rw-aiR" secondAttribute="leading" constant="12" id="ruV-sx-SYr"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="locationLabel" destination="E9q-Fv-kff" id="MyE-Kk-qnj"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="clk-57-GkD" id="Rkj-5D-ixJ"/>
+                            <outlet property="delegate" destination="clk-57-GkD" id="c5Q-Lv-EgM"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Select" id="bt1-6E-UmI">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="navClose" id="SDr-Ho-8iX">
+                            <connections>
+                                <segue destination="WEt-w0-tN3" kind="custom" identifier="pop" customClass="DismissSegue" customModule="MTP" customModuleProvider="target" id="8qZ-cu-MVK"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="entityName" value="Location"/>
+                        <userDefinedRuntimeAttribute type="string" keyPath="searchPropertyKeyPath" value="placeTitle"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="useContainsSearch" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="sortAscending" value="YES"/>
+                        <userDefinedRuntimeAttribute type="string" keyPath="sortPropertyKey" value="placeTitle"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="caseInsensitiveSearch" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5pI-5d-1VL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4956" y="-472"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="saV-4g-Dou">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="WEt-w0-tN3" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ddl-fF-sFB">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="clk-57-GkD" kind="relationship" relationship="rootViewController" id="PZD-zZ-XRu"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tN2-Dc-H4l" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3917.5999999999999" y="-454.72263868065971"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="navClose" width="16" height="16"/>
+    </resources>
+</document>

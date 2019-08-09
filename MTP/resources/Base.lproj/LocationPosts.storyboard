@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fGz-KU-k2z">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Posts-->
+        <scene sceneID="5ku-0A-E44">
+            <objects>
+                <tableViewController storyboardIdentifier="LocationPosts" title="Posts" useStoryboardIdentifierAsRestorationIdentifier="YES" id="fGz-KU-k2z" customClass="LocationPostsVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" estimatedSectionHeaderHeight="1" sectionFooterHeight="18" id="3ns-xU-TMs">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PostCell" rowHeight="170" id="dWA-Z1-8u3" customClass="PostCell" customModule="MTP" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="55.5" width="375" height="170"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dWA-Z1-8u3" id="5Xd-8Z-iHp">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="170"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6MB-Jn-ERh">
+                                            <rect key="frame" x="0.0" y="8" width="375" height="154"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <real key="value" value="5"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </view>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="6MB-Jn-ERh" secondAttribute="trailing" id="9ei-1X-x14"/>
+                                        <constraint firstAttribute="bottom" secondItem="6MB-Jn-ERh" secondAttribute="bottom" constant="8" id="MoK-7Z-IwK"/>
+                                        <constraint firstItem="6MB-Jn-ERh" firstAttribute="leading" secondItem="5Xd-8Z-iHp" secondAttribute="leading" id="bsI-iQ-wh2"/>
+                                        <constraint firstItem="6MB-Jn-ERh" firstAttribute="top" secondItem="5Xd-8Z-iHp" secondAttribute="top" constant="8" id="i3Z-lG-2Hn"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="holder" destination="6MB-Jn-ERh" id="T9v-Nh-wtl"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <sections/>
+                        <connections>
+                            <outlet property="dataSource" destination="fGz-KU-k2z" id="Svk-zF-2Hb"/>
+                            <outlet property="delegate" destination="fGz-KU-k2z" id="C6D-GD-O5p"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <segue destination="q98-6v-QP4" kind="show" identifier="addPost" id="JDp-NO-xvF"/>
+                        <segue destination="c9W-Bz-FlD" kind="custom" identifier="showUserProfile" customClass="TabPresentSegue" customModule="MTP" customModuleProvider="target" id="6BF-hq-aBp"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Z8f-rF-Hio" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2586" y="39"/>
+        </scene>
+        <!--AddPost-->
+        <scene sceneID="yZf-JP-Kf5">
+            <objects>
+                <viewControllerPlaceholder storyboardName="AddPost" id="q98-6v-QP4" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WDp-a1-rSn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3190" y="38"/>
+        </scene>
+        <!--UserProfile-->
+        <scene sceneID="fii-ER-5TY">
+            <objects>
+                <viewControllerPlaceholder storyboardName="UserProfile" id="c9W-Bz-FlD" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bVP-rY-nKa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3204" y="-88"/>
+        </scene>
+    </scenes>
+</document>

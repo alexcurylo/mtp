@@ -1,0 +1,107 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+# update metadata: fastlane deliver download_metadata
+#
+
+fastlane_version "2.128.1"
+#update_fastlane
+default_platform(:ios)
+
+platform :ios do
+
+  before_all do
+    # ensure_git_status_clean
+    # git_pull
+  end
+
+  desc "Runs all the tests"
+  lane :test do
+    run_tests
+  end
+
+  desc "Push a new beta build to TestFlight"
+  lane :beta do
+    increment_build_number
+    build_number = get_build_number
+    version_number = get_version_number
+    changelog = read_changelog
+    # File.write('changelog.txt', changelog)
+    # test
+    # sync_code_signing(type: "appstore")
+    build_app(export_method: "app-store")
+
+    upload_to_testflight(changelog: changelog,
+                         distribute_external: true,
+                         notify_external_testers: true,
+                         groups: ["MTP Beta Testers"],
+                         demo_account_required: true)
+
+    stamp_changelog(section_identifier: "Version #{version_number}, Build #{build_number}")
+    clean_build_artifacts
+    commit_version_bump(message: "Version #{version_number} beta #{build_number}", include: "CHANGELOG.md")
+    push_to_git_remote
+  end
+
+  desc "Push a new release build to the App Store"
+  lane :release do
+    increment_build_number
+    build_number = get_build_number
+    version_number = get_version_number
+    changelog = read_changelog
+    # File.write('changelog.txt', changelog)
+    # test
+    build_app(export_method: "app-store")
+    # screenshots
+
+    upload_to_app_store(skip_metadata: true,
+                        skip_screenshots: true,
+                        skip_binary_upload: false,
+                        submit_for_review: true,
+                        # https://github.com/fastlane/fastlane/issues/13512
+                        force: true)
+
+    stamp_changelog(section_identifier: "Version #{version_number}, Build #{build_number}")
+    clean_build_artifacts
+    commit_version_bump(message: "Version #{version_number} release #{build_number}", include: "CHANGELOG.md")
+    push_to_git_remote
+  end
+
+  desc "Generate new localized screenshots"
+  lane :screenshots do
+    # enable_simulators_keyboard
+    # give_simulators_permissions
+    # build_app(derived_data_path: "/tmp/MTPScreenshots/DerivedData")
+    capture_screenshots
+    frame_screenshots
+    upload_to_app_store(skip_binary_upload: true,
+                        skip_metadata: true,
+                        # https://github.com/fastlane/fastlane/issues/13512
+                        force: true)
+  end
+
+  desc "Prepare simulators for screenshots"
+  lane :give_simulators_permissions do
+    # https://github.com/wix/AppleSimulatorUtils
+    for dev in test_devices
+      sh("applesimutils --byName '#{dev}' --bundle 'br.com.unicred.Unicred-Debug' --setPermissions 'calendar=YES, camera=YES, contacts=YES, health=YES, homekit=YES, location=inuse, medialibrary=YES, microphone=YES, motion=YES, notifications=YES, photos=YES, reminders=YES, siri=YES, speech=YES'")
+    end
+  end
+
+  after_all do |lane|
+    # slack(message: "success")
+  end
+
+  error do |lane, exception|
+    # slack(message: exception.message, success: false)
+  end
+
+end

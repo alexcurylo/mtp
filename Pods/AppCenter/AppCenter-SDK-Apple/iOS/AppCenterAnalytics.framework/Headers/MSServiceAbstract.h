@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <Foundation/Foundation.h>
 
 #import "MSService.h"
@@ -29,8 +32,8 @@
               fromApplication:(BOOL)fromApplication;
 
 /**
- * Update configuration when the service requires to start again. This method should only be called if the service is
- * started from libraries and then is being started from an application.
+ * Update configuration when the service requires to start again. This method should only be called if the service is started from libraries
+ * and then is being started from an application.
  *
  * @param appSecret app secret for the SDK.
  * @param token default transmission target token for this service.

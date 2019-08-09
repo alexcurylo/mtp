@@ -20,13 +20,12 @@
 
 #import "FBSDKInternalUtility.h"
 #import "FBSDKLogger.h"
-#import "FBSDKMacros.h"
 #import "FBSDKSettings.h"
 
 @interface FBSDKURLSessionTask ()
 
 @property (nonatomic, strong) NSURLSessionTask *task;
-@property (nonatomic, copy) FBSDKURLSessionTaskHandler handler;
+@property (nonatomic, copy) FBSDKURLSessionTaskBlock handler;
 @property (nonatomic, assign) uint64_t requestStartTime;
 @property (nonatomic, assign, readonly) NSUInteger loggerSerialNumber;
 
@@ -34,9 +33,9 @@
 
 @implementation FBSDKURLSessionTask
 
-- (FBSDKURLSessionTask *)initWithRequest:(NSURLRequest *)request
-                             fromSession:(NSURLSession *)session
-                       completionHandler:(FBSDKURLSessionTaskHandler)handler
+- (instancetype)initWithRequest:(NSURLRequest *)request
+                    fromSession:(NSURLSession *)session
+              completionHandler:(FBSDKURLSessionTaskBlock)handler
 {
   if ((self = [super init])) {
     _requestStartTime = [FBSDKInternalUtility currentTimeInMilliseconds];
@@ -55,24 +54,16 @@
   return self;
 }
 
-- (FBSDKURLSessionTask *)init
-{
-  FBSDK_NOT_DESIGNATED_INITIALIZER(initWithRequest:fromSession:completionHandler:);
-  return [self initWithRequest:nil
-                   fromSession:nil
-             completionHandler:NULL];
-}
-
 #pragma mark - Logging and Completion
 
-- (void)logAndInvokeHandler:(FBSDKURLSessionTaskHandler)handler
+- (void)logAndInvokeHandler:(FBSDKURLSessionTaskBlock)handler
                       error:(NSError *)error {
   if (error) {
     NSString *logEntry = [NSString
                           stringWithFormat:@"FBSDKURLSessionTask <#%lu>:\n  Error: '%@'\n%@\n",
                           (unsigned long)self.loggerSerialNumber,
-                          [error localizedDescription],
-                          [error userInfo]];
+                          error.localizedDescription,
+                          error.userInfo];
 
     [self logMessage:logEntry];
   }
@@ -80,15 +71,15 @@
   [self invokeHandler:handler error:error response:nil responseData:nil];
 }
 
-- (void)logAndInvokeHandler:(FBSDKURLSessionTaskHandler)handler
+- (void)logAndInvokeHandler:(FBSDKURLSessionTaskBlock)handler
                    response:(NSURLResponse *)response
                responseData:(NSData *)responseData {
   // Basic FBSDKURLSessionTask logging just prints out the URL.  FBSDKGraphRequest logging provides more details.
-  NSString *mimeType = [response MIMEType];
+  NSString *mimeType = response.MIMEType;
   NSMutableString *mutableLogEntry = [NSMutableString stringWithFormat:@"FBSDKURLSessionTask <#%lu>:\n  Duration: %llu msec\nResponse Size: %lu kB\n  MIME type: %@\n",
                                       (unsigned long)self.loggerSerialNumber,
                                       [FBSDKInternalUtility currentTimeInMilliseconds] - self.requestStartTime,
-                                      (unsigned long)[responseData length] / 1024,
+                                      (unsigned long)responseData.length / 1024,
                                       mimeType];
 
   if ([mimeType isEqualToString:@"text/javascript"]) {
@@ -101,7 +92,7 @@
   [self invokeHandler:handler error:nil response:response responseData:responseData];
 }
 
-- (void)invokeHandler:(FBSDKURLSessionTaskHandler)handler
+- (void)invokeHandler:(FBSDKURLSessionTaskBlock)handler
                 error:(NSError *)error
              response:(NSURLResponse *)response
          responseData:(NSData *)responseData {

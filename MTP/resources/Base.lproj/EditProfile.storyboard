@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Aga-YF-c3F">
-    <device id="retina4_7" orientation="portrait">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Aga-YF-c3F">
+    <device id="retina6_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -14,153 +15,495 @@
         <scene sceneID="vMZ-Z6-Wfz">
             <objects>
                 <tableViewController id="Aga-YF-c3F" customClass="EditProfileVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="jc0-q8-DQp">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="jc0-q8-DQp">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <sections>
                             <tableViewSection id="9vx-ZE-BvJ">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="54" id="uCt-5p-aWG">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="54"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="620" id="uCt-5p-aWG" userLabel="Info">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="620"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="uCt-5p-aWG" id="8aj-UU-h11">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="53.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="620"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(First name etc.)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bNP-8s-zfj">
-                                                    <rect key="frame" x="24" y="14.5" width="327" height="25"/>
-                                                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W0u-6r-1Tr" customClass="ShadowView" customModule="MTP" customModuleProvider="target">
+                                                    <rect key="frame" x="12" y="8" width="390" height="604"/>
+                                                    <subviews>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="gdi-L5-k3I">
+                                                            <rect key="frame" x="8" y="12" width="374" height="580"/>
+                                                            <subviews>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Sap-WF-dzL">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="374" height="158"/>
+                                                                    <subviews>
+                                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wuK-ZE-BRx">
+                                                                            <rect key="frame" x="0.0" y="34" width="90" height="90"/>
+                                                                            <color key="backgroundColor" name="alto"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="height" constant="90" id="DC4-qt-r05"/>
+                                                                                <constraint firstAttribute="width" constant="90" id="a4Q-rq-Ztv"/>
+                                                                            </constraints>
+                                                                            <state key="normal" image="pencilWhite"/>
+                                                                            <userDefinedRuntimeAttributes>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                                    <real key="value" value="45"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                            </userDefinedRuntimeAttributes>
+                                                                            <connections>
+                                                                                <segue destination="dlU-js-xxP" kind="show" identifier="showPhotos" id="myx-op-jE2"/>
+                                                                            </connections>
+                                                                        </button>
+                                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="1Jw-Ew-YOm">
+                                                                            <rect key="frame" x="98" y="31" width="276" height="96"/>
+                                                                            <subviews>
+                                                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="cOr-3T-oaa">
+                                                                                    <rect key="frame" x="0.0" y="0.0" width="276" height="44"/>
+                                                                                    <subviews>
+                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bNP-8s-zfj">
+                                                                                            <rect key="frame" x="0.0" y="0.0" width="276" height="22"/>
+                                                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="16"/>
+                                                                                            <nil key="textColor"/>
+                                                                                            <nil key="highlightedColor"/>
+                                                                                        </label>
+                                                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First name" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="EPj-LD-X1o" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
+                                                                                            <rect key="frame" x="0.0" y="22" width="276" height="22"/>
+                                                                                            <nil key="textColor"/>
+                                                                                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
+                                                                                            <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" smartDashesType="no" smartQuotesType="no" textContentType="given-name"/>
+                                                                                            <userDefinedRuntimeAttributes>
+                                                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                                                    <real key="value" value="3"/>
+                                                                                                </userDefinedRuntimeAttribute>
+                                                                                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                                                                    <real key="value" value="1"/>
+                                                                                                </userDefinedRuntimeAttribute>
+                                                                                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                                                                    <color key="value" name="alto"/>
+                                                                                                </userDefinedRuntimeAttribute>
+                                                                                                <userDefinedRuntimeAttribute type="number" keyPath="hInset">
+                                                                                                    <real key="value" value="8"/>
+                                                                                                </userDefinedRuntimeAttribute>
+                                                                                                <userDefinedRuntimeAttribute type="number" keyPath="vInset">
+                                                                                                    <real key="value" value="4"/>
+                                                                                                </userDefinedRuntimeAttribute>
+                                                                                            </userDefinedRuntimeAttributes>
+                                                                                            <connections>
+                                                                                                <outlet property="delegate" destination="Aga-YF-c3F" id="DMl-XD-ezQ"/>
+                                                                                            </connections>
+                                                                                        </textField>
+                                                                                    </subviews>
+                                                                                </stackView>
+                                                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="qVa-Pa-Ooq">
+                                                                                    <rect key="frame" x="0.0" y="52" width="276" height="44"/>
+                                                                                    <subviews>
+                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rFC-G6-bSu">
+                                                                                            <rect key="frame" x="0.0" y="0.0" width="276" height="22"/>
+                                                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="16"/>
+                                                                                            <nil key="textColor"/>
+                                                                                            <nil key="highlightedColor"/>
+                                                                                        </label>
+                                                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last name" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="qNx-nx-eet" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
+                                                                                            <rect key="frame" x="0.0" y="22" width="276" height="22"/>
+                                                                                            <nil key="textColor"/>
+                                                                                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
+                                                                                            <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" smartDashesType="no" smartQuotesType="no" textContentType="family-name"/>
+                                                                                            <userDefinedRuntimeAttributes>
+                                                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                                                    <real key="value" value="3"/>
+                                                                                                </userDefinedRuntimeAttribute>
+                                                                                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                                                                    <real key="value" value="1"/>
+                                                                                                </userDefinedRuntimeAttribute>
+                                                                                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                                                                    <color key="value" name="alto"/>
+                                                                                                </userDefinedRuntimeAttribute>
+                                                                                                <userDefinedRuntimeAttribute type="number" keyPath="hInset">
+                                                                                                    <real key="value" value="8"/>
+                                                                                                </userDefinedRuntimeAttribute>
+                                                                                                <userDefinedRuntimeAttribute type="number" keyPath="vInset">
+                                                                                                    <real key="value" value="4"/>
+                                                                                                </userDefinedRuntimeAttribute>
+                                                                                            </userDefinedRuntimeAttributes>
+                                                                                            <connections>
+                                                                                                <outlet property="delegate" destination="Aga-YF-c3F" id="7MK-D9-Exf"/>
+                                                                                            </connections>
+                                                                                        </textField>
+                                                                                    </subviews>
+                                                                                </stackView>
+                                                                            </subviews>
+                                                                        </stackView>
+                                                                    </subviews>
+                                                                </stackView>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Ozl-Lg-OBe">
+                                                                    <rect key="frame" x="0.0" y="166" width="374" height="44"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Birthday" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G0Q-3z-VRB">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="374" height="22"/>
+                                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="16"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Birthday" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="UXJ-Fc-RR3" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
+                                                                            <rect key="frame" x="0.0" y="22" width="374" height="22"/>
+                                                                            <nil key="textColor"/>
+                                                                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
+                                                                            <textInputTraits key="textInputTraits"/>
+                                                                            <userDefinedRuntimeAttributes>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                                    <real key="value" value="3"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                                                    <real key="value" value="1"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                                                    <color key="value" name="alto"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="hInset">
+                                                                                    <real key="value" value="8"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="vInset">
+                                                                                    <real key="value" value="4"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                            </userDefinedRuntimeAttributes>
+                                                                            <connections>
+                                                                                <outlet property="delegate" destination="Aga-YF-c3F" id="9vc-tk-emJ"/>
+                                                                            </connections>
+                                                                        </textField>
+                                                                    </subviews>
+                                                                </stackView>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="GYq-yJ-sFV">
+                                                                    <rect key="frame" x="0.0" y="218" width="374" height="44"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gender" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KA2-Xx-cRk">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="374" height="22"/>
+                                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="16"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Gender" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="F8V-yE-V2C" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
+                                                                            <rect key="frame" x="0.0" y="22" width="374" height="22"/>
+                                                                            <nil key="textColor"/>
+                                                                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
+                                                                            <textInputTraits key="textInputTraits"/>
+                                                                            <userDefinedRuntimeAttributes>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                                    <real key="value" value="3"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                                                    <real key="value" value="1"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                                                    <color key="value" name="alto"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="hInset">
+                                                                                    <real key="value" value="8"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="vInset">
+                                                                                    <real key="value" value="4"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                            </userDefinedRuntimeAttributes>
+                                                                            <connections>
+                                                                                <outlet property="delegate" destination="Aga-YF-c3F" id="Ldx-qh-dIc"/>
+                                                                            </connections>
+                                                                        </textField>
+                                                                    </subviews>
+                                                                </stackView>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="6m5-1r-AtQ">
+                                                                    <rect key="frame" x="0.0" y="270" width="374" height="44"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Home Country" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uTh-ab-414">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="374" height="22"/>
+                                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="16"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Home Country" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="Xfx-7V-Suc" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
+                                                                            <rect key="frame" x="0.0" y="22" width="374" height="22"/>
+                                                                            <nil key="textColor"/>
+                                                                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
+                                                                            <textInputTraits key="textInputTraits"/>
+                                                                            <userDefinedRuntimeAttributes>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                                    <real key="value" value="3"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                                                    <real key="value" value="1"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                                                    <color key="value" name="alto"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="hInset">
+                                                                                    <real key="value" value="8"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="vInset">
+                                                                                    <real key="value" value="4"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                            </userDefinedRuntimeAttributes>
+                                                                            <connections>
+                                                                                <outlet property="delegate" destination="Aga-YF-c3F" id="NFc-zY-lL8"/>
+                                                                                <segue destination="adc-Rf-7Hd" kind="popoverPresentation" identifier="showCountry" popoverAnchorView="Xfx-7V-Suc" id="t0v-Z6-U0P">
+                                                                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                                                                </segue>
+                                                                            </connections>
+                                                                        </textField>
+                                                                    </subviews>
+                                                                </stackView>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="zOO-wo-bMQ">
+                                                                    <rect key="frame" x="0.0" y="322" width="374" height="44"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="State/Province" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p7b-MZ-rk8">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="374" height="22"/>
+                                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="16"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="State/Province" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="qKj-gB-YE8" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
+                                                                            <rect key="frame" x="0.0" y="22" width="374" height="22"/>
+                                                                            <nil key="textColor"/>
+                                                                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
+                                                                            <textInputTraits key="textInputTraits"/>
+                                                                            <userDefinedRuntimeAttributes>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                                    <real key="value" value="3"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                                                    <real key="value" value="1"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                                                    <color key="value" name="alto"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="hInset">
+                                                                                    <real key="value" value="8"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="vInset">
+                                                                                    <real key="value" value="4"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                            </userDefinedRuntimeAttributes>
+                                                                            <connections>
+                                                                                <outlet property="delegate" destination="Aga-YF-c3F" id="WE4-zM-gvX"/>
+                                                                                <segue destination="adc-Rf-7Hd" kind="popoverPresentation" identifier="showLocation" popoverAnchorView="qKj-gB-YE8" id="hWM-hu-bb8">
+                                                                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                                                                </segue>
+                                                                            </connections>
+                                                                        </textField>
+                                                                    </subviews>
+                                                                </stackView>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="tOg-tW-EVF">
+                                                                    <rect key="frame" x="0.0" y="374" width="374" height="44"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0C2-2y-hdN">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="374" height="22"/>
+                                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="16"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your email" adjustsFontSizeToFit="NO" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="OkT-tU-k7t" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
+                                                                            <rect key="frame" x="0.0" y="22" width="374" height="22"/>
+                                                                            <nil key="textColor"/>
+                                                                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
+                                                                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="done" smartDashesType="no" smartQuotesType="no" textContentType="email"/>
+                                                                            <userDefinedRuntimeAttributes>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                                    <real key="value" value="3"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                                                    <real key="value" value="1"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                                                    <color key="value" name="alto"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="hInset">
+                                                                                    <real key="value" value="8"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="vInset">
+                                                                                    <real key="value" value="4"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                            </userDefinedRuntimeAttributes>
+                                                                            <connections>
+                                                                                <outlet property="delegate" destination="Aga-YF-c3F" id="h44-La-I5o"/>
+                                                                            </connections>
+                                                                        </textField>
+                                                                    </subviews>
+                                                                </stackView>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Fi8-mG-qZU">
+                                                                    <rect key="frame" x="0.0" y="426" width="374" height="102"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9EW-HS-q2d">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="374" height="22"/>
+                                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="16"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5u0-h9-jVp">
+                                                                            <rect key="frame" x="0.0" y="22" width="374" height="80"/>
+                                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="80" id="gJH-x6-gZ8"/>
+                                                                            </constraints>
+                                                                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
+                                                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                                            <userDefinedRuntimeAttributes>
+                                                                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                                                    <color key="value" name="alto"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                                                    <real key="value" value="1"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                                    <real key="value" value="3"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                            </userDefinedRuntimeAttributes>
+                                                                            <connections>
+                                                                                <outlet property="delegate" destination="Aga-YF-c3F" id="U5Y-qk-sHF"/>
+                                                                            </connections>
+                                                                        </textView>
+                                                                    </subviews>
+                                                                </stackView>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="3zm-Ym-waz">
+                                                                    <rect key="frame" x="0.0" y="536" width="374" height="44"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Home Airport Code (IATA 3-letter code)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v6H-xR-yMU">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="374" height="22"/>
+                                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="16"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Home Airport Code " textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="fOe-69-bAq" customClass="InsetTextField" customModule="MTP" customModuleProvider="target">
+                                                                            <rect key="frame" x="0.0" y="22" width="374" height="22"/>
+                                                                            <nil key="textColor"/>
+                                                                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
+                                                                            <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" smartDashesType="no" smartQuotesType="no"/>
+                                                                            <userDefinedRuntimeAttributes>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                                    <real key="value" value="3"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                                                    <real key="value" value="1"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                                                    <color key="value" name="alto"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="hInset">
+                                                                                    <real key="value" value="8"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="vInset">
+                                                                                    <real key="value" value="4"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                            </userDefinedRuntimeAttributes>
+                                                                            <connections>
+                                                                                <outlet property="delegate" destination="Aga-YF-c3F" id="jkk-6y-v11"/>
+                                                                            </connections>
+                                                                        </textField>
+                                                                    </subviews>
+                                                                </stackView>
+                                                            </subviews>
+                                                        </stackView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="bottom" secondItem="gdi-L5-k3I" secondAttribute="bottom" constant="12" id="Bvy-wP-uB9"/>
+                                                        <constraint firstItem="gdi-L5-k3I" firstAttribute="top" secondItem="W0u-6r-1Tr" secondAttribute="top" constant="12" id="caT-Fy-Yml"/>
+                                                        <constraint firstItem="gdi-L5-k3I" firstAttribute="leading" secondItem="W0u-6r-1Tr" secondAttribute="leading" constant="8" id="rgM-Sf-Q3c"/>
+                                                        <constraint firstAttribute="trailing" secondItem="gdi-L5-k3I" secondAttribute="trailing" constant="8" id="wNQ-dO-HAT"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="bNP-8s-zfj" secondAttribute="trailing" constant="8" id="9vJ-cu-8JH"/>
-                                                <constraint firstItem="bNP-8s-zfj" firstAttribute="leading" secondItem="8aj-UU-h11" secondAttribute="leadingMargin" constant="8" id="iQo-EX-qQ9"/>
-                                                <constraint firstItem="bNP-8s-zfj" firstAttribute="centerY" secondItem="8aj-UU-h11" secondAttribute="centerY" id="xbV-hD-8Ek"/>
+                                                <constraint firstItem="W0u-6r-1Tr" firstAttribute="top" secondItem="8aj-UU-h11" secondAttribute="top" constant="8" id="EmN-AD-Q0p"/>
+                                                <constraint firstAttribute="bottom" secondItem="W0u-6r-1Tr" secondAttribute="bottom" constant="8" id="Zvi-Vm-EHC"/>
+                                                <constraint firstItem="W0u-6r-1Tr" firstAttribute="leading" secondItem="8aj-UU-h11" secondAttribute="leading" constant="12" id="h91-fS-qiv"/>
+                                                <constraint firstAttribute="trailing" secondItem="W0u-6r-1Tr" secondAttribute="trailing" constant="12" id="i03-hA-r7p"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="54" id="I1K-Ws-oh0">
-                                        <rect key="frame" x="0.0" y="54" width="375" height="54"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="I1K-Ws-oh0" id="l3t-dm-YbY">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="53.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Favorite Places" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6SQ-On-Xtr">
-                                                    <rect key="frame" x="24" y="14.5" width="327" height="25"/>
-                                                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="6SQ-On-Xtr" secondAttribute="trailing" constant="8" id="AuV-5e-a72"/>
-                                                <constraint firstItem="6SQ-On-Xtr" firstAttribute="centerY" secondItem="l3t-dm-YbY" secondAttribute="centerY" id="D9k-mn-DSS"/>
-                                                <constraint firstItem="6SQ-On-Xtr" firstAttribute="leading" secondItem="l3t-dm-YbY" secondAttribute="leadingMargin" constant="8" id="u5o-u3-PnD"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="54" id="42V-4l-4gF">
-                                        <rect key="frame" x="0.0" y="108" width="375" height="54"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="120" id="42V-4l-4gF" userLabel="Links">
+                                        <rect key="frame" x="0.0" y="620" width="414" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="42V-4l-4gF" id="BpI-zd-DAc">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="53.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="120"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Links" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9dc-bX-ajy">
-                                                    <rect key="frame" x="24" y="14.5" width="327" height="25"/>
-                                                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SA5-aD-hJM" customClass="ShadowView" customModule="MTP" customModuleProvider="target">
+                                                    <rect key="frame" x="12" y="8" width="390" height="104"/>
+                                                    <subviews>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="6WK-Be-cdh">
+                                                            <rect key="frame" x="0.0" y="0.0" width="390" height="104"/>
+                                                            <subviews>
+                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qax-Xo-btH">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="390" height="50"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="750" text="Links" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9dc-bX-ajy">
+                                                                            <rect key="frame" x="8" y="7.9999999999999982" width="374" height="23.333333333333329"/>
+                                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="17"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="lDO-r5-yHA">
+                                                                            <rect key="frame" x="8" y="35.333333333333336" width="374" height="14.666666666666664"/>
+                                                                        </stackView>
+                                                                    </subviews>
+                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="bottom" secondItem="lDO-r5-yHA" secondAttribute="bottom" id="9BW-lg-Oyv"/>
+                                                                        <constraint firstItem="lDO-r5-yHA" firstAttribute="top" secondItem="9dc-bX-ajy" secondAttribute="bottom" constant="4" id="Cc8-yp-1As"/>
+                                                                        <constraint firstItem="9dc-bX-ajy" firstAttribute="top" secondItem="Qax-Xo-btH" secondAttribute="top" constant="8" id="F0s-if-wjV"/>
+                                                                        <constraint firstItem="9dc-bX-ajy" firstAttribute="leading" secondItem="Qax-Xo-btH" secondAttribute="leading" constant="8" id="FCC-Im-MSt"/>
+                                                                        <constraint firstItem="lDO-r5-yHA" firstAttribute="leading" secondItem="Qax-Xo-btH" secondAttribute="leading" constant="8" id="PYx-fw-UHE"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="9dc-bX-ajy" secondAttribute="trailing" constant="8" id="gCE-RF-C4I"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="lDO-r5-yHA" secondAttribute="trailing" constant="8" id="zSr-Y2-vbc"/>
+                                                                    </constraints>
+                                                                    <userDefinedRuntimeAttributes>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                            <real key="value" value="5"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                    </userDefinedRuntimeAttributes>
+                                                                </view>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j16-UJ-CJ3" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
+                                                                    <rect key="frame" x="0.0" y="62" width="390" height="42"/>
+                                                                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                                                    <state key="normal" title="＋ Add new link">
+                                                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    </state>
+                                                                    <userDefinedRuntimeAttributes>
+                                                                        <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                                                            <color key="value" name="dodgerBlue"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                                                            <color key="value" name="azureRadiance"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="orientation">
+                                                                            <integer key="value" value="2"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                    </userDefinedRuntimeAttributes>
+                                                                    <connections>
+                                                                        <action selector="addLinkTapped:" destination="Aga-YF-c3F" eventType="touchUpInside" id="HZy-FN-j8J"/>
+                                                                    </connections>
+                                                                </button>
+                                                            </subviews>
+                                                        </stackView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstItem="6WK-Be-cdh" firstAttribute="leading" secondItem="SA5-aD-hJM" secondAttribute="leading" id="FwY-o1-3Fz"/>
+                                                        <constraint firstItem="6WK-Be-cdh" firstAttribute="top" secondItem="SA5-aD-hJM" secondAttribute="top" id="OIw-kY-wKQ"/>
+                                                        <constraint firstAttribute="bottom" secondItem="6WK-Be-cdh" secondAttribute="bottom" id="fKy-7A-02m"/>
+                                                        <constraint firstAttribute="trailing" secondItem="6WK-Be-cdh" secondAttribute="trailing" id="vkh-kT-N3b"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstItem="9dc-bX-ajy" firstAttribute="centerY" secondItem="BpI-zd-DAc" secondAttribute="centerY" id="B7r-DF-zmJ"/>
-                                                <constraint firstItem="9dc-bX-ajy" firstAttribute="leading" secondItem="BpI-zd-DAc" secondAttribute="leadingMargin" constant="8" id="NCL-6R-B55"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="9dc-bX-ajy" secondAttribute="trailing" constant="8" id="crt-gr-2xa"/>
+                                                <constraint firstAttribute="trailing" secondItem="SA5-aD-hJM" secondAttribute="trailing" constant="12" id="1dM-xx-ciX"/>
+                                                <constraint firstItem="SA5-aD-hJM" firstAttribute="top" secondItem="BpI-zd-DAc" secondAttribute="top" constant="8" id="OIC-Hz-wwG"/>
+                                                <constraint firstAttribute="bottom" secondItem="SA5-aD-hJM" secondAttribute="bottom" constant="8" id="Sts-77-Z3J"/>
+                                                <constraint firstItem="SA5-aD-hJM" firstAttribute="leading" secondItem="BpI-zd-DAc" secondAttribute="leading" constant="12" id="t6A-Em-bCy"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="54" id="bD3-xF-20t">
-                                        <rect key="frame" x="0.0" y="162" width="375" height="54"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bD3-xF-20t" id="E8H-Da-Bpg">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="53.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contact Me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OLP-9I-G1c">
-                                                    <rect key="frame" x="24" y="14.5" width="327" height="25"/>
-                                                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="OLP-9I-G1c" firstAttribute="centerY" secondItem="E8H-Da-Bpg" secondAttribute="centerY" id="Awp-qQ-WhZ"/>
-                                                <constraint firstItem="OLP-9I-G1c" firstAttribute="leading" secondItem="E8H-Da-Bpg" secondAttribute="leadingMargin" constant="8" id="RR4-DZ-To6"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="OLP-9I-G1c" secondAttribute="trailing" constant="8" id="TZc-Lp-rFy"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="54" id="I8g-yu-x5h">
-                                        <rect key="frame" x="0.0" y="216" width="375" height="54"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="I8g-yu-x5h" id="hOp-OB-3EO">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="53.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uGe-qh-Y3U">
-                                                    <rect key="frame" x="16" y="11" width="343" height="32"/>
-                                                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
-                                                    <state key="normal" title="Log Out">
-                                                        <color key="titleColor" red="0.0078431372549019607" green="0.55294117647058827" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="logOut" destination="Aga-YF-c3F" eventType="touchUpInside" id="kGh-iT-pgg"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="uGe-qh-Y3U" secondAttribute="trailing" id="4OG-zf-bbC"/>
-                                                <constraint firstItem="uGe-qh-Y3U" firstAttribute="bottom" secondItem="hOp-OB-3EO" secondAttribute="bottomMargin" id="80j-7c-9Dx"/>
-                                                <constraint firstItem="uGe-qh-Y3U" firstAttribute="top" secondItem="hOp-OB-3EO" secondAttribute="topMargin" id="LGa-37-bp8"/>
-                                                <constraint firstItem="uGe-qh-Y3U" firstAttribute="leading" secondItem="hOp-OB-3EO" secondAttribute="leadingMargin" id="qAq-MP-0Xd"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="54" id="DaU-3K-fWa">
-                                        <rect key="frame" x="0.0" y="270" width="375" height="54"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DaU-3K-fWa" id="j94-ia-Lzf">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="53.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ztf-Fe-5ud">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="53.5"/>
-                                                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="16"/>
-                                                    <state key="normal" title="Delete Account">
-                                                        <color key="titleColor" red="1" green="0.30196078431372547" blue="0.38823529411764707" alpha="1" colorSpace="calibratedRGB"/>
-                                                    </state>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                            <real key="value" value="4"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
-                                                    <connections>
-                                                        <action selector="deleteAccount" destination="Aga-YF-c3F" eventType="touchUpInside" id="c8n-IY-MT5"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="ztf-Fe-5ud" firstAttribute="top" secondItem="j94-ia-Lzf" secondAttribute="top" id="0Aq-bR-e8d"/>
-                                                <constraint firstItem="ztf-Fe-5ud" firstAttribute="leading" secondItem="j94-ia-Lzf" secondAttribute="leading" id="R1E-Uh-SFY"/>
-                                                <constraint firstAttribute="trailing" secondItem="ztf-Fe-5ud" secondAttribute="trailing" id="nC0-7D-STW"/>
-                                                <constraint firstAttribute="bottom" secondItem="ztf-Fe-5ud" secondAttribute="bottom" id="oMJ-LQ-pt8"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -171,19 +514,122 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Edit Profile" id="pKw-8e-Fme">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="VDz-7c-CfW"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="R6r-9m-yTa"/>
+                        <barButtonItem key="leftBarButtonItem" image="navClose" id="VDz-7c-CfW">
+                            <connections>
+                                <segue destination="af3-oh-FK2" kind="unwind" identifier="cancelEdits" unwindAction="unwindToMyProfileWithSegue:" id="jfn-K9-jNW"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="R6r-9m-yTa">
+                            <connections>
+                                <action selector="saveTapped:" destination="Aga-YF-c3F" id="7pB-8F-Oq5"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                     <connections>
-                        <segue destination="af3-oh-FK2" kind="unwind" identifier="unwindFromEditProfile" unwindAction="unwindToRootWithSegue:" id="hAn-B4-YkP"/>
+                        <outlet property="aboutTextView" destination="5u0-h9-jVp" id="L9A-5B-046"/>
+                        <outlet property="addLinkButton" destination="j16-UJ-CJ3" id="Foz-ZT-IJy"/>
+                        <outlet property="airportTextField" destination="fOe-69-bAq" id="OVb-HE-2dX"/>
+                        <outlet property="avatarButton" destination="wuK-ZE-BRx" id="eNb-gs-k0Z"/>
+                        <outlet property="backgroundView" destination="iwS-hn-IzQ" id="Ka6-AL-lbZ"/>
+                        <outlet property="birthdayTextField" destination="UXJ-Fc-RR3" id="4GF-aE-jlI"/>
+                        <outlet property="countryStack" destination="6m5-1r-AtQ" id="Zv5-n8-8ju"/>
+                        <outlet property="countryTextField" destination="Xfx-7V-Suc" id="Kb3-9S-ILq"/>
+                        <outlet property="emailTextField" destination="OkT-tU-k7t" id="AeH-4B-h0U"/>
+                        <outlet property="firstNameTextField" destination="EPj-LD-X1o" id="1cb-Zd-CN5"/>
+                        <outlet property="genderTextField" destination="F8V-yE-V2C" id="FTu-Te-Rf6"/>
+                        <outlet property="infoStack" destination="gdi-L5-k3I" id="seV-02-DlD"/>
+                        <outlet property="keyboardToolbar" destination="Wio-w3-Yc9" id="Xbt-H3-whb"/>
+                        <outlet property="lastNameTextField" destination="qNx-nx-eet" id="FIw-qY-aUo"/>
+                        <outlet property="linksStack" destination="lDO-r5-yHA" id="bZd-t9-62l"/>
+                        <outlet property="locationStack" destination="zOO-wo-bMQ" id="Qe5-8g-AJV"/>
+                        <outlet property="locationTextField" destination="qKj-gB-YE8" id="ugN-az-CoP"/>
+                        <outlet property="saveButton" destination="R6r-9m-yTa" id="nEq-g5-H77"/>
+                        <outlet property="toolbarBackButton" destination="P4e-oM-bDy" id="tiR-nY-dhX"/>
+                        <outlet property="toolbarClearButton" destination="k8j-va-ZDT" id="E0d-FH-eWP"/>
+                        <outlet property="toolbarNextButton" destination="hnU-vs-zqO" id="2v6-a4-Qq5"/>
                     </connections>
                 </tableViewController>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Wio-w3-Yc9">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <items>
+                        <barButtonItem title="Back" id="P4e-oM-bDy">
+                            <connections>
+                                <action selector="toolbarBackTapped:" destination="Aga-YF-c3F" id="7tt-Tn-foY"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem title="Next" id="hnU-vs-zqO">
+                            <connections>
+                                <action selector="toolbarNextTapped:" destination="Aga-YF-c3F" id="zRJ-dF-uGv"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Ox8-HN-xTs"/>
+                        <barButtonItem title="Clear" id="k8j-va-ZDT">
+                            <connections>
+                                <action selector="toolbarClearTapped:" destination="Aga-YF-c3F" id="MmL-BR-6FI"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem systemItem="done" id="Ejn-gy-2uF">
+                            <connections>
+                                <action selector="toolbarDoneTapped:" destination="Aga-YF-c3F" id="1s1-tk-aOQ"/>
+                            </connections>
+                        </barButtonItem>
+                    </items>
+                </toolbar>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5ym-7H-jEc" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="af3-oh-FK2" userLabel="Exit" sceneMemberID="exit"/>
+                <view contentMode="scaleToFill" id="iwS-hn-IzQ" customClass="GradientView" customModule="MTP" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <viewLayoutGuide key="safeArea" id="GnB-qP-cjw"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                            <color key="value" red="0.098039215690000001" green="0.75294117650000003" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                            <color key="value" red="0.0078431372550000003" green="0.55294117649999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="orientation">
+                            <integer key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
             </objects>
-            <point key="canvasLocation" x="3323" y="304"/>
+            <point key="canvasLocation" x="3322.4000000000001" y="303.59820089955025"/>
+        </scene>
+        <!--ProfilePhotos-->
+        <scene sceneID="Gza-xY-I6T">
+            <objects>
+                <viewControllerPlaceholder storyboardName="ProfilePhotos" id="dlU-js-xxP" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MFT-bM-Hew" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3957" y="271"/>
+        </scene>
+        <!--LocationSearch-->
+        <scene sceneID="s4X-57-rKL">
+            <objects>
+                <viewControllerPlaceholder storyboardName="LocationSearch" id="adc-Rf-7Hd" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TbU-Lw-eIF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3965" y="321"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="navClose" width="16" height="16"/>
+        <image name="pencilWhite" width="25" height="25"/>
+        <namedColor name="alto">
+            <color red="0.85882352941176465" green="0.85882352941176465" blue="0.85882352941176465" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="azureRadiance">
+            <color red="0.0078431372549019607" green="0.55294117647058827" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="dodgerBlue">
+            <color red="0.098039215686274508" green="0.75294117647058822" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="t0v-Z6-U0P"/>
+    </inferredMetricsTieBreakers>
 </document>

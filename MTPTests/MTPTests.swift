@@ -21,13 +21,26 @@ final class MTPTests: XCTestCase {
     }
 
     func testInfoPlist() {
-        let infoPlist = Bundle.main.infoDictionary
+        guard let infoPlist = Bundle.main.infoDictionary else {
+            return XCTFail("missing infoDictionary")
+        }
 
         // AppCenter
-        let urlType = (infoPlist?["CFBundleURLTypes"] as? [AnyObject])?.first as? [String: AnyObject]
+        let urlType = (infoPlist["CFBundleURLTypes"] as? [AnyObject])?.first as? [String: AnyObject]
         let urlScheme = (urlType?["CFBundleURLSchemes"] as? [String])?.first
-        let expected = "appcenter-20cb945f-58b9-4544-a059-424aa3b86820"
-        XCTAssertEqual(urlScheme, expected, "could not find AppCenter Distribution URL scheme")
+        let appcenter = "appcenter-20cb945f-58b9-4544-a059-424aa3b86820"
+        appcenter.assert(equal: urlScheme)
+
+        // Facebook
+        XCTAssertNotNil(infoPlist["FacebookAppID"])
+        XCTAssertNotNil(infoPlist["FacebookDisplayName"])
+        XCTAssertNotNil(infoPlist["LSApplicationQueriesSchemes"])
+
+        // Location Services, iOS 11+
+        XCTAssertNotNil(infoPlist["NSLocationAlwaysAndWhenInUseUsageDescription"])
+        XCTAssertNotNil(infoPlist["NSLocationWhenInUseUsageDescription"])
+        // Location Services, iOS <= 10
+        XCTAssertNotNil(infoPlist["NSLocationAlwaysUsageDescription"])
     }
 
     func testResources() throws {
@@ -52,7 +65,7 @@ final class MTPTests: XCTestCase {
 
     func testAppDelegateConfiguration() {
         let app = UIApplication.shared
-        let delegate = app.delegate as? AppDelegate
+        let delegate = app.delegate as? MTPDelegate
         XCTAssertNotNil(delegate, "sharedApplication().delegate does not exist - set host application")
         XCTAssertNotNil(delegate?.window, "missing main window")
 
@@ -80,7 +93,7 @@ final class MTPTests: XCTestCase {
 
     func testAppDelegateDelegation() {
         let app = UIApplication.shared
-        guard let delegate = app.delegate as? AppDelegate else {
+        guard let delegate = app.delegate as? MTPDelegate else {
             return XCTFail("unexpected app delegate class")
         }
 

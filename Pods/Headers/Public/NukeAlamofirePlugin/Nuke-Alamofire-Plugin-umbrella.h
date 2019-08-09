@@ -1,0 +1,1 @@
+../../../Target Support Files/Nuke-Alamofire-Plugin/Nuke-Alamofire-Plugin-umbrella.h

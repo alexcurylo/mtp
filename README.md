@@ -1,10 +1,14 @@
 # [mtp](https://github.com/alexcurylo/mtp)
-[![Build Status](https://travis-ci.org/alexcurylo/mtp.svg?branch=develop)](https://travis-ci.org/alexcurylo/mtp)
-[![Coverage Status](https://coveralls.io/repos/github/alexcurylo/mtp/badge.svg?branch=develop)](https://coveralls.io/github/alexcurylo/mtp?branch=develop)
+[![Travis](https://travis-ci.org/alexcurylo/mtp.svg?branch=develop)](https://travis-ci.org/alexcurylo/mtp)
 [![Issues](https://img.shields.io/github/issues/alexcurylo/mtp.svg)](https://github.com/alexcurylo/mtp/issues)
-[![Waffle](https://badge.waffle.io/alexcurylo/mtp.svg?columns=all)](https://waffle.io/alexcurylo/mtp)
-[![Swift](https://img.shields.io/badge/Swift-4.1-orange.svg)](https://swift.org)
-[![License](http://img.shields.io/badge/license-MIT-lightgrey.svg)][linkMIT]
+[![Xcode](https://img.shields.io/badge/Xcode-10.3-blue.svg)](https://developer.apple.com/xcode)
+[![Swift](https://img.shields.io/badge/Swift-5.0.1-orange.svg)](https://swift.org)
+[![MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+[![codebeat](https://codebeat.co/badges/321a44b1-ff7b-48fd-b8e2-42a5a8d19568)](https://codebeat.co/projects/github-com-alexcurylo-mtp-develop)
+[![coverage](https://coveralls.io/repos/github/alexcurylo/mtp/badge.svg?branch=develop)](https://coveralls.io/github/alexcurylo/mtp?branch=develop)
+[![docs](https://alexcurylo.github.io/mtp/badge.svg)](https://alexcurylo.github.io/mtp)
+[![Join the chat at https://gitter.im/alexcurylo/mtp](https://badges.gitter.im/alexcurylo/mtp.svg)](https://gitter.im/alexcurylo/mtp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
 
 
 Table of Contents
@@ -21,33 +25,45 @@ Table of Contents
 Purpose
 -------
 
-The Most Traveled People iOS app.
+The [Most Traveled People](https://mtp.travel) iOS app.
 
 Requirements
 ------------
 
-- Xcode 9.4.1 or later
-- iOS 11.4 or later
+- Xcode 10.3 or later
+- iOS 11.0 or later
 
 ### Tools:
 
-- [AppCenter](https://appcenter.ms/) for distribution management
-- [Bundler](https://bundler.io/) for dependency management
-- [CocoaPods](https://cocoapods.org/) for dependency management
+- [AppCenter](https://appcenter.ms/) for crash reporting
+- [Bundler](https://bundler.io/) for Ruby dependency management
+- [CocoaPods](https://cocoapods.org/) for iOS dependency management
+- [Codebeat](https://codebeat.co/projects/github-com-alexcurylo-mtp-develop) for automated code review
 - [Coveralls](https://coveralls.io/github/alexcurylo/mtp?branch=develop) for test coverage statistics
+- [Fastlane](https://fastlane.tools) for release management
 - [Danger](http://danger.systems/ruby/) for automated code review
-- [Slather](https://github.com/SlatherOrg/slather)) for test coverage reports
+- [Gitter](https://gitter.im/alexcurylo/mtp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) for chat
+- [Slather](https://github.com/SlatherOrg/slather) for test coverage reports
 - [SwiftLint](https://github.com/realm/SwiftLint) for opinionated coding style enforcement
+- [SwiftMockGeneratorForXcode](https://github.com/seanhenry/SwiftMockGeneratorForXcode) for generating mocks
 - [SwiftyBeaver](https://github.com/SwiftyBeaver/SwiftyBeaver) for logging
 - [Travis-CI](https://travis-ci.org/alexcurylo/mtp) for test builds
 
 ### Libraries:
 
-- [Alamofire](https://github.com/Alamofire/Alamofire) for HTTP networking
-- [facebook-sdk-swift](https://github.com/facebook/facebook-sdk-swift) for Facebook support
-- [Moya](https://github.com/Moya/Moya) for network abstraction
+- [Alamofire](https://github.com/Alamofire/Alamofire) and [AlamofireNetworkActivityIndicator](https://github.com/Alamofire/AlamofireNetworkActivityIndicator) for HTTP networking
+- [Anchorage](https://github.com/Raizlabs/Anchorage) for fluent layout declarations
+- [AXPhotoViewer](https://github.com/alexhillc/AXPhotoViewer) for photo lightboxing
+- [DropDown](https://github.com/AssistoLab/DropDown) for live search results
+- [Facebook SDK in Swift](https://github.com/facebook/facebook-sdk-swift)  for Facebook support
+- [JWTDecode](https://github.com/auth0/JWTDecode.swift) for [JSON Web Token](https://jwt.io) management
+- [KRProgressHUD](https://github.com/krimpedance/KRProgressHUD) for progress management
+- [Moya](https://github.com/Moya/Moya) for network endpoint abstraction
+- [Nuke](https://github.com/kean/Nuke) for networked image loading
+- [Parchment](https://github.com/rechsteiner/Parchment) for view paging
 - [R.swift](https://github.com/mac-cain13/R.swift/) for typed resource identifiers
-- [Result](https://github.com/antitypical/Result) for operation result modelling
+- [Realm](https://github.com/realm/realm-cocoa) for data management
+- [SwiftEntryKit](https://github.com/huri000/SwiftEntryKit) for notification management
 
 Usage
 -----
@@ -71,13 +87,11 @@ Author
 
 [![web: trollwerks.com](http://img.shields.io/badge/web-www.trollwerks.com-blue.svg)](http://trollwerks.com) 
 [![twitter: @trollwerks](http://img.shields.io/badge/twitter-%40trollwerks-blue.svg)](https://twitter.com/trollwerks) 
-[![email: alex@trollwerks.com](http://img.shields.io/badge/email-alex%40trollwerks.com-blue.svg)](mailto:alex@trollwerks.com) [![Join the chat at https://gitter.im/alexcurylo/mtp](https://badges.gitter.im/alexcurylo/mtp.svg)](https://gitter.im/alexcurylo/mtp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
+[![email: alex@trollwerks.com](http://img.shields.io/badge/email-alex%40trollwerks.com-blue.svg)](mailto:alex@trollwerks.com)
 
 License
 -------
 
-The [MIT License][linkMIT]. See the [LICENSE.md](LICENSE.md) file for details.
+The [MIT License](http://opensource.org/licenses/MIT). See the [LICENSE.md](LICENSE.md) file for details.
 
->**Copyright &copy;2018-present Trollwerks Inc.**
-
-[linkMIT]: http://opensource.org/licenses/MIT
+_Copyright &copy;2018-present Trollwerks Inc._

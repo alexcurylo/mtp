@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ySF-3Z-TpY">
+    <device id="retina6_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Add Photo-->
+        <scene sceneID="gsD-oB-CrU">
+            <objects>
+                <viewController title="Add Photo" id="ySF-3Z-TpY" customClass="AddPhotoVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="j9d-hs-scq" customClass="GradientView" customModule="MTP" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AZ8-2r-4Qv">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="1eG-wN-HQL">
+                                        <rect key="frame" x="8" y="0.0" width="398" height="679"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Um9-Uf-nYZ">
+                                                <rect key="frame" x="0.0" y="0.0" width="398" height="68"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="7Ez-FX-Gsi">
+                                                        <rect key="frame" x="16" y="8" width="366" height="52"/>
+                                                        <subviews>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="dgl-1o-0jI" userLabel="Country Line">
+                                                                <rect key="frame" x="0.0" y="0.0" width="366" height="23.666666666666668"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Country:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ER8-nr-hNt">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="68.666666666666671" height="23.666666666666668"/>
+                                                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="17"/>
+                                                                        <color key="textColor" name="azureRadiance"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Select Country" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SPT-2N-suW">
+                                                                        <rect key="frame" x="76.666666666666686" y="0.0" width="100.33333333333331" height="23.666666666666668"/>
+                                                                        <gestureRecognizers/>
+                                                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <imageView userInteractionEnabled="NO" contentMode="right" horizontalHuggingPriority="249" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="arrowRightBlue" translatesAutoresizingMaskIntoConstraints="NO" id="aoC-C0-WP2">
+                                                                        <rect key="frame" x="185" y="0.0" width="181" height="23.666666666666668"/>
+                                                                    </imageView>
+                                                                </subviews>
+                                                                <connections>
+                                                                    <outletCollection property="gestureRecognizers" destination="Qmp-0I-EYG" appends="YES" id="66Q-ua-IQb"/>
+                                                                </connections>
+                                                            </stackView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="uEF-Qk-Epz">
+                                                                <rect key="frame" x="0.0" y="28.666666666666664" width="366" height="23.333333333333336"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Location:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oug-hM-Rb4">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="73" height="23.333333333333332"/>
+                                                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="17"/>
+                                                                        <color key="textColor" name="azureRadiance"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Select Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I3m-Dn-AzO">
+                                                                        <rect key="frame" x="81" y="0.0" width="104" height="23.333333333333332"/>
+                                                                        <gestureRecognizers/>
+                                                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <imageView userInteractionEnabled="NO" contentMode="right" horizontalHuggingPriority="249" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="arrowRightBlue" translatesAutoresizingMaskIntoConstraints="NO" id="Sw7-JR-wK5">
+                                                                        <rect key="frame" x="193" y="0.0" width="173" height="23.333333333333332"/>
+                                                                    </imageView>
+                                                                </subviews>
+                                                                <connections>
+                                                                    <outletCollection property="gestureRecognizers" destination="vdA-2A-OG6" appends="YES" id="4Ev-BU-yyt"/>
+                                                                </connections>
+                                                            </stackView>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="7Ez-FX-Gsi" secondAttribute="trailing" constant="16" id="2VH-tJ-xxR"/>
+                                                    <constraint firstAttribute="bottom" secondItem="7Ez-FX-Gsi" secondAttribute="bottom" constant="8" id="8Jz-0U-U19"/>
+                                                    <constraint firstItem="7Ez-FX-Gsi" firstAttribute="leading" secondItem="Um9-Uf-nYZ" secondAttribute="leading" constant="16" id="bxr-at-iqS"/>
+                                                    <constraint firstItem="7Ez-FX-Gsi" firstAttribute="top" secondItem="Um9-Uf-nYZ" secondAttribute="top" constant="8" id="qcx-Nc-3iR"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                        <real key="value" value="0.0"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <real key="value" value="4"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BlG-cy-0Eh">
+                                                <rect key="frame" x="0.0" y="76" width="398" height="117"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="GqL-1c-hSv">
+                                                        <rect key="frame" x="16" y="8" width="366" height="97"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Caption (optional):" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eq8-rP-xDV">
+                                                                <rect key="frame" x="0.0" y="0.0" width="366" height="23.333333333333332"/>
+                                                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="17"/>
+                                                                <color key="textColor" name="azureRadiance"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="aUt-Dk-5Bh" customClass="TopLoadingTextView" customModule="MTP" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="28.333333333333329" width="366" height="68.666666666666671"/>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
+                                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                        <real key="value" value="3"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                                        <real key="value" value="1"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                                        <color key="value" name="alto"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                </userDefinedRuntimeAttributes>
+                                                                <connections>
+                                                                    <outlet property="delegate" destination="ySF-3Z-TpY" id="sVu-v7-Phz"/>
+                                                                </connections>
+                                                            </textView>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="GqL-1c-hSv" firstAttribute="leading" secondItem="BlG-cy-0Eh" secondAttribute="leading" constant="16" id="dpK-89-7zJ"/>
+                                                    <constraint firstItem="GqL-1c-hSv" firstAttribute="top" secondItem="BlG-cy-0Eh" secondAttribute="top" constant="8" id="goM-yL-rUU"/>
+                                                    <constraint firstAttribute="bottom" secondItem="GqL-1c-hSv" secondAttribute="bottom" constant="12" id="hym-BL-TZW"/>
+                                                    <constraint firstAttribute="trailing" secondItem="GqL-1c-hSv" secondAttribute="trailing" constant="16" id="qnE-bs-dMs"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <real key="value" value="4"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gQk-so-HC4">
+                                                <rect key="frame" x="0.0" y="201" width="398" height="478"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="h2Y-kd-4lR">
+                                                        <rect key="frame" x="16" y="16" width="366" height="450"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="feC-Fl-2Om">
+                                                                <rect key="frame" x="0.0" y="0.0" width="366" height="270"/>
+                                                                <subviews>
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NLp-fY-8ed">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="366" height="270"/>
+                                                                        <color key="backgroundColor" name="alto"/>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                                <real key="value" value="4"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </imageView>
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VQA-RQ-c3k">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="366" height="270"/>
+                                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <state key="normal" image="pencilWhite"/>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                                <real key="value" value="4"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                        <connections>
+                                                                            <action selector="photoLibraryTapped:" destination="ySF-3Z-TpY" eventType="touchUpInside" id="T41-bp-neU"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                </subviews>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="trailing" secondItem="VQA-RQ-c3k" secondAttribute="trailing" id="5jJ-Rn-qWn"/>
+                                                                    <constraint firstAttribute="bottom" secondItem="VQA-RQ-c3k" secondAttribute="bottom" id="DIf-yT-Mdq"/>
+                                                                    <constraint firstItem="NLp-fY-8ed" firstAttribute="leading" secondItem="feC-Fl-2Om" secondAttribute="leading" id="Hnq-ql-5e9"/>
+                                                                    <constraint firstItem="VQA-RQ-c3k" firstAttribute="top" secondItem="feC-Fl-2Om" secondAttribute="top" id="JZ4-Hd-VjF"/>
+                                                                    <constraint firstItem="VQA-RQ-c3k" firstAttribute="leading" secondItem="feC-Fl-2Om" secondAttribute="leading" id="KuM-9H-5Pw"/>
+                                                                    <constraint firstAttribute="height" constant="270" id="QxM-OR-klm"/>
+                                                                    <constraint firstAttribute="trailing" secondItem="NLp-fY-8ed" secondAttribute="trailing" id="VwX-ig-hkV"/>
+                                                                    <constraint firstAttribute="bottom" secondItem="NLp-fY-8ed" secondAttribute="bottom" id="e2R-TF-lPm"/>
+                                                                    <constraint firstItem="NLp-fY-8ed" firstAttribute="top" secondItem="feC-Fl-2Om" secondAttribute="top" id="k9Z-aj-9qf"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Oo-FC-IfQ" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="278" width="366" height="37"/>
+                                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
+                                                                <state key="normal" title="Open Photo Library">
+                                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                </state>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                                                        <color key="value" name="dodgerBlue"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                                                        <color key="value" name="azureRadiance"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="orientation">
+                                                                        <integer key="value" value="2"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                        <real key="value" value="4"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                </userDefinedRuntimeAttributes>
+                                                                <connections>
+                                                                    <action selector="photoLibraryTapped:" destination="ySF-3Z-TpY" eventType="touchUpInside" id="V4n-sH-Jh5"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iaf-wu-0GT" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="323" width="366" height="37"/>
+                                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
+                                                                <state key="normal" title="Open Camera">
+                                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                </state>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                                                        <color key="value" name="dodgerBlue"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                                                        <color key="value" name="azureRadiance"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="orientation">
+                                                                        <integer key="value" value="2"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                        <real key="value" value="4"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                </userDefinedRuntimeAttributes>
+                                                                <connections>
+                                                                    <action selector="cameraTapped:" destination="ySF-3Z-TpY" eventType="touchUpInside" id="0g9-xF-iLZ"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PPb-XV-cPo" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="368" width="366" height="37"/>
+                                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
+                                                                <state key="normal" title="Open Facebook Photos">
+                                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                </state>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                                                        <color key="value" name="dodgerBlue"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                                                        <color key="value" name="azureRadiance"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="orientation">
+                                                                        <integer key="value" value="2"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                        <real key="value" value="4"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                </userDefinedRuntimeAttributes>
+                                                                <connections>
+                                                                    <action selector="facebookPhotosTapped:" destination="ySF-3Z-TpY" eventType="touchUpInside" id="GCr-0y-SfV"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f2t-N4-utz" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="413" width="366" height="37"/>
+                                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
+                                                                <state key="normal" title="Open Instagram Photos">
+                                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                </state>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                                                        <color key="value" name="dodgerBlue"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                                                        <color key="value" name="azureRadiance"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="orientation">
+                                                                        <integer key="value" value="2"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                        <real key="value" value="4"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                </userDefinedRuntimeAttributes>
+                                                                <connections>
+                                                                    <action selector="instagramPhotosTapped:" destination="ySF-3Z-TpY" eventType="touchUpInside" id="GlI-Db-syD"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="bottom" secondItem="h2Y-kd-4lR" secondAttribute="bottom" constant="12" id="Jfp-Ik-P5h"/>
+                                                    <constraint firstAttribute="trailing" secondItem="h2Y-kd-4lR" secondAttribute="trailing" constant="16" id="k6U-uQ-Dpr"/>
+                                                    <constraint firstItem="h2Y-kd-4lR" firstAttribute="top" secondItem="gQk-so-HC4" secondAttribute="top" constant="16" id="qid-Sh-WVI"/>
+                                                    <constraint firstItem="h2Y-kd-4lR" firstAttribute="leading" secondItem="gQk-so-HC4" secondAttribute="leading" constant="16" id="zp0-1F-nhZ"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <real key="value" value="4"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="1eG-wN-HQL" firstAttribute="leading" secondItem="AZ8-2r-4Qv" secondAttribute="leading" constant="8" id="EZ0-ze-heU"/>
+                                    <constraint firstAttribute="trailing" secondItem="1eG-wN-HQL" secondAttribute="trailing" constant="8" id="UNM-B3-b6Q"/>
+                                    <constraint firstItem="1eG-wN-HQL" firstAttribute="width" secondItem="AZ8-2r-4Qv" secondAttribute="width" constant="-16" id="gBe-iD-RGi"/>
+                                    <constraint firstAttribute="bottom" secondItem="1eG-wN-HQL" secondAttribute="bottom" constant="8" id="pn4-MG-Zh3"/>
+                                    <constraint firstItem="1eG-wN-HQL" firstAttribute="top" secondItem="AZ8-2r-4Qv" secondAttribute="top" id="vk1-5y-6jw"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="AZ8-2r-4Qv" firstAttribute="top" secondItem="j9d-hs-scq" secondAttribute="top" id="7jY-t0-cuI"/>
+                            <constraint firstItem="321-Ei-Uae" firstAttribute="bottom" secondItem="AZ8-2r-4Qv" secondAttribute="bottom" id="M8g-zb-pBz"/>
+                            <constraint firstAttribute="trailing" secondItem="AZ8-2r-4Qv" secondAttribute="trailing" id="Urp-hg-9ty"/>
+                            <constraint firstItem="AZ8-2r-4Qv" firstAttribute="leading" secondItem="j9d-hs-scq" secondAttribute="leading" id="a0g-Hj-wfY"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="321-Ei-Uae"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                <color key="value" name="dodgerBlue"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                <color key="value" name="azureRadiance"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="orientation">
+                                <integer key="value" value="1"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Add Photo" id="obS-q2-VMq">
+                        <barButtonItem key="leftBarButtonItem" image="navClose" id="TjA-6R-X3L">
+                            <connections>
+                                <segue destination="ySF-3Z-TpY" kind="custom" identifier="pop" customClass="PopSegue" customModule="MTP" customModuleProvider="target" id="8La-qr-Xsf"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="6U4-1R-L2a">
+                            <connections>
+                                <action selector="saveTapped:" destination="ySF-3Z-TpY" id="9pg-C1-rJg"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="cameraButton" destination="iaf-wu-0GT" id="OYm-Oo-GOv"/>
+                        <outlet property="captionTextView" destination="aUt-Dk-5Bh" id="D8G-Nx-2dq"/>
+                        <outlet property="countryLabel" destination="SPT-2N-suW" id="vQT-3l-59I"/>
+                        <outlet property="facebookButton" destination="PPb-XV-cPo" id="fJR-rx-mq0"/>
+                        <outlet property="imageButton" destination="VQA-RQ-c3k" id="ROu-rs-1zI"/>
+                        <outlet property="imageView" destination="NLp-fY-8ed" id="Fxc-FK-yrr"/>
+                        <outlet property="instagramButton" destination="f2t-N4-utz" id="tou-lF-6lC"/>
+                        <outlet property="locationLabel" destination="I3m-Dn-AzO" id="BB9-lt-KwR"/>
+                        <outlet property="locationLine" destination="uEF-Qk-Epz" id="7jR-IR-gyA"/>
+                        <outlet property="locationStack" destination="7Ez-FX-Gsi" id="BGW-xL-xjo"/>
+                        <outlet property="locationView" destination="Um9-Uf-nYZ" id="xfn-ld-8pD"/>
+                        <outlet property="saveButton" destination="6U4-1R-L2a" id="Us0-Rn-f5G"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tCB-gQ-qif" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="vdA-2A-OG6" userLabel="Tap Location">
+                    <connections>
+                        <segue destination="wJh-aN-kd0" kind="popoverPresentation" identifier="showLocation" popoverAnchorView="oug-hM-Rb4" id="K8U-SJ-PgF">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                        </segue>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="Qmp-0I-EYG" userLabel="Tap Country">
+                    <connections>
+                        <segue destination="wJh-aN-kd0" kind="popoverPresentation" identifier="showCountry" popoverAnchorView="ER8-nr-hNt" id="3Ga-oW-kpN">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                        </segue>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="3475.36231884058" y="37.5"/>
+        </scene>
+        <!--LocationSearch-->
+        <scene sceneID="7zq-Zh-r3T">
+            <objects>
+                <viewControllerPlaceholder storyboardName="LocationSearch" id="wJh-aN-kd0" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wbC-fN-woi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4084" y="38"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="arrowRightBlue" width="18" height="16"/>
+        <image name="navClose" width="16" height="16"/>
+        <image name="pencilWhite" width="25" height="25"/>
+        <namedColor name="alto">
+            <color red="0.85882352941176465" green="0.85882352941176465" blue="0.85882352941176465" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="azureRadiance">
+            <color red="0.0078431372549019607" green="0.55294117647058827" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="dodgerBlue">
+            <color red="0.098039215686274508" green="0.75294117647058822" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="3Ga-oW-kpN"/>
+    </inferredMetricsTieBreakers>
+</document>

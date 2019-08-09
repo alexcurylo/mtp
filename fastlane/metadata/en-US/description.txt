@@ -1,0 +1,21 @@
+MTP is the first mobile app for members of Most Traveled People, the world's largest competitive travel community. MTP ranks the world's top travelers by gender, age group, and home location.
+
+MTP members on the web have long enjoyed the ability to measure their lifetime travel accomplishments against their peers, and challenge themselves towards new travel accomplishments. The MTP mobile app imbues all of the features of MTP on the web with geo-awareness, enabling a whole new level of immersive interaction.
+
+FEATURES INCLUDE:
+
+- Geo-awareness of what MTP regions a user is in or near
+
+- Map and list-based display of over 3400 MTP checklist travel destinations
+
+- Automated check-ion notifications based on geolocation (both foreground and background)
+
+- Nearest destinations, sorted by distance
+
+- Directions to any checklist travel destination from current position
+
+- Worldwide rankings of all users, combined with powerful filters across all lists
+
+- Detailed location information, including user posts and photos
+
+- User profiles, search and updating

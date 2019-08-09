@@ -2,54 +2,76 @@
 
 import XCTest
 
+// Travis appears to haveissues with the "Failed to terminate" problem
+// Deleting app between each test is an option presented here
+// swiftlint:disable:next line_length
+// https://stackoverflow.com/questions/33107731/is-there-a-way-to-reset-the-app-between-tests-in-swift-xctest-ui/48715864#48715864
+
 final class MTPUITests: XCTestCase {
 
     private let app = XCUIApplication()
 
     override func setUp() {
         super.setUp()
-
-        continueAfterFailure = false
     }
 
     override func tearDown() {
         super.tearDown()
     }
 
-    func testFirstLaunch() {
+    func testWelcome() {
         launch(settings: [.loggedIn(false)])
 
-        let tabBar = app.tabBars.element(boundBy: 0)
-        XCTAssertFalse(tabBar.waitForExistence(timeout: 5))
+        let tabBar = MainTBCs.bar.match
+        XCTAssertFalse(tabBar.waitForExistence(timeout: 5), "tab bar not found")
+
+        //app.printList(of: .button)
+        //app.printHierarchy()
     }
 
-    func testTabNavigation() {
+    func testLocations() {
         launch(settings: [.loggedIn(true)])
 
-        let tabBar = app.tabBars.element(boundBy: 0)
-        let first = tabBar.buttons.element(boundBy: 0)
-        let second = tabBar.buttons.element(boundBy: 1)
-        let third = tabBar.buttons.element(boundBy: 2)
+        let tabBar = MainTBCs.bar.match
+        XCTAssertTrue(tabBar.waitForExistence(timeout: 5), "tab bar not found")
 
-        XCTAssertTrue(tabBar.waitForExistence(timeout: 5))
-        XCTAssertTrue(first.isSelected, "first tab not selected at startup")
+        let locations = MainTBCs.locations.match
+        XCTAssertTrue(locations.isSelected, "locations not selected at startup")
+    }
+
+    func testRankings() {
+        launch(settings: [.loggedIn(true)])
+
+        let tabBar = MainTBCs.bar.match
+        XCTAssertTrue(tabBar.waitForExistence(timeout: 5), "tab bar not found")
+
+        let locations = MainTBCs.locations.match
+        XCTAssertTrue(locations.isSelected, "locations not selected at startup")
 
         // note foreseeable failure here:
         // https://openradar.appspot.com/26493495
-        second.tap()
+        let rankings = MainTBCs.rankings.match
+        rankings.tap()
 
         let selectedPredicate = NSPredicate(format: "selected == true")
-        expectation(for: selectedPredicate, evaluatedWith: second, handler: nil)
+        expectation(for: selectedPredicate, evaluatedWith: rankings, handler: nil)
         waitForExpectations(timeout: 5, handler: nil)
+    }
 
-        third.tap()
+    func testMyProfile() {
+        launch(settings: [.loggedIn(true)])
 
-        expectation(for: selectedPredicate, evaluatedWith: third, handler: nil)
-        waitForExpectations(timeout: 5, handler: nil)
+        let tabBar = MainTBCs.bar.match
+        XCTAssertTrue(tabBar.waitForExistence(timeout: 5), "tab bar not found")
 
-        first.tap()
+        let locations = MainTBCs.locations.match
+        XCTAssertTrue(locations.isSelected, "locations not selected at startup")
 
-        expectation(for: selectedPredicate, evaluatedWith: first, handler: nil)
+        let myProfile = MainTBCs.myProfile.match
+        myProfile.tap()
+
+        let selectedPredicate = NSPredicate(format: "selected == true")
+        expectation(for: selectedPredicate, evaluatedWith: myProfile, handler: nil)
         waitForExpectations(timeout: 5, handler: nil)
     }
 }

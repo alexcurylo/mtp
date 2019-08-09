@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="heg-gh-VET">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Posts-->
+        <scene sceneID="LHG-d1-pXr">
+            <objects>
+                <tableViewController storyboardIdentifier="Posts" title="Posts" useStoryboardIdentifierAsRestorationIdentifier="YES" id="heg-gh-VET" customClass="ProfilePostsVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" estimatedSectionHeaderHeight="1" sectionFooterHeight="18" id="iZI-bO-6ES">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PostCell" rowHeight="170" id="df0-E7-H1f" customClass="PostCell" customModule="MTP" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="55.5" width="375" height="170"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="df0-E7-H1f" id="n9y-k0-ZbJ">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="170"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IXC-q6-fSu">
+                                            <rect key="frame" x="0.0" y="8" width="375" height="154"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <real key="value" value="5"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </view>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstItem="IXC-q6-fSu" firstAttribute="top" secondItem="n9y-k0-ZbJ" secondAttribute="top" constant="8" id="BjE-MQ-U4Q"/>
+                                        <constraint firstItem="IXC-q6-fSu" firstAttribute="leading" secondItem="n9y-k0-ZbJ" secondAttribute="leading" id="jkh-Yq-y3W"/>
+                                        <constraint firstAttribute="trailing" secondItem="IXC-q6-fSu" secondAttribute="trailing" id="jwf-LC-otf"/>
+                                        <constraint firstAttribute="bottom" secondItem="IXC-q6-fSu" secondAttribute="bottom" constant="8" id="nn8-Wa-WJT"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="holder" destination="IXC-q6-fSu" id="9Pr-Qr-nE8"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <sections/>
+                        <connections>
+                            <outlet property="dataSource" destination="heg-gh-VET" id="EMa-v8-Jsb"/>
+                            <outlet property="delegate" destination="heg-gh-VET" id="fAH-4q-Tvw"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <segue destination="bQF-Ud-clT" kind="show" identifier="addPost" id="mU4-Vs-jtV"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xm4-yo-lfg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2561" y="52"/>
+        </scene>
+        <!--AddPost-->
+        <scene sceneID="tUe-AV-Kuq">
+            <objects>
+                <viewControllerPlaceholder storyboardName="AddPost" id="bQF-Ud-clT" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1uH-MV-Yhh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3117" y="51"/>
+        </scene>
+    </scenes>
+</document>

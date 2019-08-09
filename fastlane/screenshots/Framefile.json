@@ -1,0 +1,35 @@
+{
+  "device_frame_version": "latest",
+
+  "default": {
+    "keyword": {
+      "font": "./fonts/AvenirLTStd-Roman.otf",
+      "color": "#19C0FD"
+    },
+    "title": {
+      "font": "./fonts/AvenirLTStd-Roman.otf",
+      "color": "#004B78"
+    },
+    "background": "./background.jpg",
+    "padding": 50,
+    //"font_scale_factor": 1,
+    //"interline_spacing": 1,
+    "frame": "BLACK",
+    "stack_title" : true,
+    "show_complete_frame": true,
+    "title_below_image": false
+  },
+
+  "data": [
+    { "filter": "01" },
+    { "filter": "02" },
+    { "filter": "03" },
+    { "filter": "04" },
+    { "filter": "05" },
+    { "filter": "06" },
+    { "filter": "07" },
+    { "filter": "08" },
+    { "filter": "09" },
+    { "filter": "10" }
+  ]
+}

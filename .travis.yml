@@ -7,8 +7,8 @@
 # https://github.com/SlatherOrg/slather
 
 language: objective-c
-osx_image: xcode9.4
-xcode_sdk: iphonesimulator11.4
+osx_image: xcode10.2
+xcode_sdk: iphonesimulator12.2
 xcode_workspace: MTP.xcworkspace
 xcode_scheme: MTP
 gemfile: Gemfile
@@ -18,8 +18,8 @@ env:
   - LANG=en_US.UTF-8
   - IOS_WORKSPACE=MTP.xcworkspace
   - IOS_SCHEME=MTP
-  - IOS_SDK=iphonesimulator11.4
-  - IOS_DESTINATION='platform=iOS Simulator,name=iPhone X'
+  - IOS_SDK=iphonesimulator12.2
+  - IOS_DESTINATION='platform=iOS Simulator,name=iPhone XS'
 
 branches:
   except:
@@ -32,6 +32,8 @@ cache:
 
 before_install:
 #- rvm install ruby-2.2.2
+ - gem update --system
+ - gem install bundler
  - bundle install
 # Can't find AppCenter 1.7.1 (18.06.24)
 # - bundle exec pod repo update --silent
@@ -58,7 +60,7 @@ script:
     -enableCodeCoverage YES
     CODE_SIGN_IDENTITY=""
     CODE_SIGNING_REQUIRED=NO
-    ONLY_ACTIVE_ARCH=YES
+    ONLY_ACTIVE_ARCH=NO
     GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES
     GCC_GENERATE_TEST_COVERAGE_FILES=YES
     | xcpretty -f `xcpretty-travis-formatter`
