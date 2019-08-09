@@ -14,7 +14,7 @@ struct CountryJSON: Codable {
 
 extension CountryJSON: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return countryName
     }
 }
@@ -37,8 +37,11 @@ extension CountryJSON: CustomDebugStringConvertible {
 /// Realm representation of a country
 @objcMembers final class Country: Object, ServiceProvider {
 
+    /// countryId
     dynamic var countryId: Int = 0
+    /// hasChildren
     dynamic var hasChildren: Bool = false
+    /// UN country containing place
     dynamic var placeCountry: String = ""
 
     /// Realm unique identifier
@@ -48,6 +51,7 @@ extension CountryJSON: CustomDebugStringConvertible {
         return "countryId"
     }
 
+    /// Constructor from MTP endpoint data
     convenience init(from: CountryJSON) {
         self.init()
 
@@ -56,6 +60,7 @@ extension CountryJSON: CustomDebugStringConvertible {
         placeCountry = from.countryName
     }
 
+    /// Placeholder for all countries
     static var all: Country = {
         let all = Country()
         all.placeCountry = "(\(L.allCountries()))"
@@ -66,6 +71,7 @@ extension CountryJSON: CustomDebugStringConvertible {
         return placeCountry
     }
 
+    /// children
     var children: [Location] {
         let filter = "countryId = \(countryId) AND countryId != id"
         return data.get(locations: filter)

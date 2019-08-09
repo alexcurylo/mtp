@@ -20,7 +20,7 @@ struct RegistrationPayload: Codable, Hashable {
     /// Last name
     let last_name: String
     /// MTP location of residence
-    let location: LocationPayload?
+    fileprivate let location: LocationPayload?
     /// ID of location of residence
     let location_id: Int
     /// Password
@@ -136,15 +136,18 @@ private struct CountryPayload: Codable, Hashable {
     }
 }
 
+/// Location information to send to API
 struct LocationPayload: Codable, Hashable {
 
-    let admin_level: Int
-    let country_id: Int
-    let country_name: String
+    fileprivate let admin_level: Int
+    fileprivate let country_id: Int
+    fileprivate let country_name: String
+    /// id
     let id: Int
-    let is_mtp_location: Int
-    let location_name: String
+    fileprivate let is_mtp_location: Int
+    fileprivate let location_name: String
 
+    /// Is payload valid?
     var isValid: Bool {
         return country_id > 0 &&
                !country_name.isEmpty &&
@@ -152,6 +155,7 @@ struct LocationPayload: Codable, Hashable {
                !location_name.isEmpty
     }
 
+    /// Default constructor
     init() {
         admin_level = 0
         country_id = 0
@@ -161,6 +165,9 @@ struct LocationPayload: Codable, Hashable {
         location_name = ""
     }
 
+    /// Initialize with Country
+    ///
+    /// - Parameter country: Country
     init(country: Country) {
         admin_level = AdminLevel.country.rawValue
         country_id = country.countryId
@@ -170,6 +177,9 @@ struct LocationPayload: Codable, Hashable {
         location_name = country.placeCountry
     }
 
+    /// Initialize with Location
+    ///
+    /// - Parameter country: Location
     init(location: Location) {
         admin_level = location.adminLevel.rawValue
         country_id = location.countryId

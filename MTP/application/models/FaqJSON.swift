@@ -21,7 +21,7 @@ private struct FaqJSON: Codable {
 
 extension FaqJSON: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return "Faq"
     }
 }

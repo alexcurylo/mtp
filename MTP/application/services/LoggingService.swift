@@ -181,7 +181,7 @@ struct ConsoleLoggingService: LoggingService {
         print("⏱\(timestamp) \(level)\(message()) 📂\(file.file):\(line) ⚙️\(function)")
     }
 
-    var timestamp: String {
+    private var timestamp: String {
         return DateFormatter.stampTime.string(from: Date())
     }
 }

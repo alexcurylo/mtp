@@ -15,7 +15,7 @@ struct PostsJSON: Codable {
 
 extension PostsJSON: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return "PostsJSON: \(data.count)"
     }
 }
@@ -36,20 +36,22 @@ extension PostsJSON: CustomDebugStringConvertible {
 /// Post info received from MTP endpoints
 struct PostJSON: Codable {
 
-    let createdAt: Date
-    let id: Int
-    let location: PlaceLocation // LocationJSON in user endpoint
-    let locationId: Int
-    let post: String?
-    let status: String
-    let updatedAt: Date
+    fileprivate let createdAt: Date
+    fileprivate let id: Int
+    fileprivate let location: PlaceLocation // LocationJSON in user endpoint
+    fileprivate let locationId: Int
+    fileprivate let post: String?
+    fileprivate let status: String
+    fileprivate let updatedAt: Date
+    /// owner
     let owner: OwnerJSON? // UserJSON in user endpoint
+    /// userId
     let userId: Int // appears filled in even if owner null
 }
 
 extension PostJSON: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return "PostJSON: \(locationId), \(id)"
     }
 }
@@ -76,10 +78,15 @@ extension PostJSON: CustomDebugStringConvertible {
 /// Realm representation of a post
 @objcMembers final class Post: Object {
 
+    /// locationId
     dynamic var locationId: Int = 0
+    /// post
     dynamic var post: String = ""
+    /// postId
     dynamic var postId: Int = 0
+    /// updatedAt
     dynamic var updatedAt = Date()
+    /// userId
     dynamic var userId: Int = 0
 
     /// Realm unique identifier
@@ -104,16 +111,6 @@ extension PostJSON: CustomDebugStringConvertible {
         post = text
         postId = from.id
         updatedAt = from.updatedAt
-        userId = from.userId
-    }
-
-    /// Constructor from MTP endpoint data
-    convenience init?(from: PostReply) {
-        self.init()
-
-        locationId = from.locationId
-        post = from.post
-        postId = from.id
         userId = from.userId
     }
 }

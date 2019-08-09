@@ -360,6 +360,9 @@ final class RealmDataController: ServiceProvider {
         return Array(results)
     }
 
+    /// Set post
+    ///
+    /// - Parameter post: API results
     func set(post: PostReply) {
         do {
             guard let new = Post(from: post) else { return }

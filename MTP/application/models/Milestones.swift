@@ -24,7 +24,7 @@ struct SettingsJSON: Codable {
 
 extension SettingsJSON: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return "Settings"
     }
 }
@@ -40,7 +40,7 @@ extension SettingsJSON: CustomDebugStringConvertible {
     }
 }
 
-private struct DefaultEmailsJSON: Codable {
+private struct DefaultEmailsJSON: Codable, CustomStringConvertible, CustomDebugStringConvertible {
 
     private enum CodingKeys: String, CodingKey {
         case verificationRequest = "verification-request"
@@ -54,16 +54,10 @@ private struct DefaultEmailsJSON: Codable {
     }
 
     let verificationRequest: EmailJSON
-}
 
-extension DefaultEmailsJSON: CustomStringConvertible {
-
-    public var description: String {
+    var description: String {
         return "DefaultEmailsJSON: [verification-request]"
     }
-}
-
-extension DefaultEmailsJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
@@ -76,7 +70,7 @@ extension DefaultEmailsJSON: CustomDebugStringConvertible {
     }
 }
 
-private struct MapRenderJSON: Codable {
+private struct MapRenderJSON: Codable, CustomStringConvertible, CustomDebugStringConvertible {
 
     private enum CodingKeys: String, CodingKey {
         case fillColors = "fill-colors"
@@ -87,16 +81,10 @@ private struct MapRenderJSON: Codable {
     let fillColors: ColorsJSON
     let fillOpacities: OpacitiesJSON
     let outlineColors: ColorsJSON
-}
 
-extension MapRenderJSON: CustomStringConvertible {
-
-    public var description: String {
+    var description: String {
         return "MapRenderJSON"
     }
-}
-
-extension MapRenderJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
@@ -109,7 +97,7 @@ extension MapRenderJSON: CustomDebugStringConvertible {
     }
 }
 
-private struct ColorsJSON: Codable {
+private struct ColorsJSON: Codable, CustomStringConvertible, CustomDebugStringConvertible {
 
     private enum CodingKeys: String, CodingKey {
         case remainingPolygon = "remaining-polygon"
@@ -118,16 +106,10 @@ private struct ColorsJSON: Codable {
 
     let remainingPolygon: String
     let visitedPolygon: String
-}
 
-extension ColorsJSON: CustomStringConvertible {
-
-    public var description: String {
+    var description: String {
         return "ColorsJSON"
     }
-}
-
-extension ColorsJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
@@ -139,7 +121,7 @@ extension ColorsJSON: CustomDebugStringConvertible {
     }
 }
 
-private struct OpacitiesJSON: Codable {
+private struct OpacitiesJSON: Codable, CustomStringConvertible, CustomDebugStringConvertible {
 
     private enum CodingKeys: String, CodingKey {
         case remainingPolygon = "remaining-polygon"
@@ -148,16 +130,10 @@ private struct OpacitiesJSON: Codable {
 
     let remainingPolygon: Int
     let visitedPolygon: Int
-}
 
-extension OpacitiesJSON: CustomStringConvertible {
-
-    public var description: String {
+    var description: String {
         return "OpacitiesJSON"
     }
-}
-
-extension OpacitiesJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
@@ -169,7 +145,7 @@ extension OpacitiesJSON: CustomDebugStringConvertible {
     }
 }
 
-private struct MilestonesJSON: Codable {
+private struct MilestonesJSON: Codable, CustomStringConvertible, CustomDebugStringConvertible {
 
     struct ThresholdsJSON: Codable {
 
@@ -205,16 +181,10 @@ private struct MilestonesJSON: Codable {
             return restaurants
         }
     }
-}
 
-extension MilestonesJSON: CustomStringConvertible {
-
-    public var description: String {
+    var description: String {
         return "MilestonesJSON"
     }
-}
-
-extension MilestonesJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
@@ -231,7 +201,7 @@ extension MilestonesJSON: CustomDebugStringConvertible {
     }
 }
 
-private struct RSSFeedsJSON: Codable {
+private struct RSSFeedsJSON: Codable, CustomStringConvertible, CustomDebugStringConvertible {
 
     private enum CodingKeys: String, CodingKey {
         case travelNews = "travel-news"
@@ -245,16 +215,10 @@ private struct RSSFeedsJSON: Codable {
     }
 
     let travelNews: [FeedJSON]
-}
 
-extension RSSFeedsJSON: CustomStringConvertible {
-
-    public var description: String {
+    var description: String {
         return "RSSFeedsJSON: [travel-news]"
     }
-}
-
-extension RSSFeedsJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
@@ -268,12 +232,18 @@ extension RSSFeedsJSON: CustomDebugStringConvertible {
 /// Realm representation of a milestone message
 @objcMembers final class Threshold: Object {
 
+    /// min
     dynamic var min: Int = 0
+    /// max
     dynamic var max: Int = 0
+    /// name
     dynamic var name: String = ""
 
+    /// checklistValue
     dynamic var checklistValue: Int = Checklist.beaches.rawValue
+    /// index
     dynamic var index: Int = 0
+    /// dbKey
     dynamic var dbKey: String = ""
 
     /// Realm unique identifier
@@ -301,13 +271,16 @@ extension RSSFeedsJSON: CustomDebugStringConvertible {
 /// Realm representation of a collection of Thresholds
 @objcMembers final class Milestones: Object {
 
+    /// checklistValue
     dynamic var checklistValue: Int = Checklist.beaches.rawValue
+    /// checklist
     var checklist: Checklist {
         //swiftlint:disable:next force_unwrapping
         get { return Checklist(rawValue: checklistValue)! }
         set { checklistValue = newValue.rawValue }
     }
 
+    /// thresholds
     let thresholds = List<Threshold>()
 
     /// Realm unique identifier
@@ -317,6 +290,7 @@ extension RSSFeedsJSON: CustomDebugStringConvertible {
         return "checklistValue"
     }
 
+    /// Constructor from MTP endpoint data
     convenience init(from: SettingsJSON,
                      list: Checklist) {
         self.init()
@@ -331,6 +305,10 @@ extension RSSFeedsJSON: CustomDebugStringConvertible {
         }
     }
 
+    /// Milestone text if any
+    ///
+    /// - Parameter count: New count
+    /// - Returns: Milestone text if appropriate
     func milestone(count: Int) -> String {
         // swiftlint:disable:next first_where
         guard let threshold = thresholds.filter("min = \(count)").first else {

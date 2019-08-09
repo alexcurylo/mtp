@@ -5,15 +5,16 @@ import RealmSwift
 /// Rankings page info received from MTP endpoints
 struct RankingsPageInfoJSON: Codable {
 
-    let endRank: Int
-    let endScore: Int
-    let maxScore: Int
+    fileprivate let endRank: Int
+    fileprivate let endScore: Int
+    fileprivate let maxScore: Int
+    /// users
     let users: RankingsPageJSON
 }
 
 extension RankingsPageInfoJSON: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return "RankingsPageInfoJSON: \(endRank) \(endScore)"
     }
 }
@@ -35,23 +36,25 @@ extension RankingsPageInfoJSON: CustomDebugStringConvertible {
 /// Rankngs page received from MTP endpoints
 struct RankingsPageJSON: Codable {
 
-    let currentPage: Int
+    fileprivate let currentPage: Int
+    /// data
     let data: [RankedUserJSON]
-    let firstPageUrl: String
-    let from: Int? // nil if data empty
-    let lastPage: Int
-    let lastPageUrl: String
-    let nextPageUrl: String?
-    let path: String
+    fileprivate let firstPageUrl: String
+    fileprivate let from: Int? // nil if data empty
+    fileprivate let lastPage: Int
+    fileprivate let lastPageUrl: String
+    fileprivate let nextPageUrl: String?
+    fileprivate let path: String
+    /// perPage
     let perPage: Int
-    let prevPageUrl: String?
-    let to: Int? // nil if data empty
-    let total: Int
+    fileprivate let prevPageUrl: String?
+    fileprivate let to: Int? // nil if data empty
+    fileprivate let total: Int
 }
 
 extension RankingsPageJSON: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return "RankingsPageJSON: \(currentPage) \(lastPage)"
     }
 }
@@ -81,37 +84,39 @@ extension RankingsPageJSON: CustomDebugStringConvertible {
 /// User info contained in ranking page
 struct RankedUserJSON: Codable {
 
-    let birthday: Date?
-    let country: LocationJSON?
-    let currentRank: Int
-    let firstName: String
-    let fullName: String
-    let gender: String
+    fileprivate let birthday: Date?
+    fileprivate let country: LocationJSON?
+    fileprivate let currentRank: Int
+    fileprivate let firstName: String
+    /// fullName
+    fileprivate let fullName: String
+    fileprivate let gender: String
+    /// id
     let id: Int
-    let lastName: String
-    let location: LocationJSON // still has 30 items
-    let locationId: Int
-    let picture: String?
-    let rankBeaches: Int?
-    let rankDivesites: Int?
-    let rankGolfcourses: Int?
-    let rankLocations: Int?
-    let rankRestaurants: Int?
-    let rankUncountries: Int?
-    let rankWhss: Int?
-    let role: Int
-    let scoreBeaches: Int?
-    let scoreDivesites: Int?
-    let scoreGolfcourses: Int?
-    let scoreLocations: Int?
-    let scoreRestaurants: Int?
-    let scoreUncountries: Int?
-    let scoreWhss: Int?
+    fileprivate let lastName: String
+    fileprivate let location: LocationJSON // still has 30 items
+    fileprivate let locationId: Int
+    fileprivate let picture: String?
+    fileprivate let rankBeaches: Int?
+    fileprivate let rankDivesites: Int?
+    fileprivate let rankGolfcourses: Int?
+    fileprivate let rankLocations: Int?
+    fileprivate let rankRestaurants: Int?
+    fileprivate let rankUncountries: Int?
+    fileprivate let rankWhss: Int?
+    fileprivate let role: Int
+    fileprivate let scoreBeaches: Int?
+    fileprivate let scoreDivesites: Int?
+    fileprivate let scoreGolfcourses: Int?
+    fileprivate let scoreLocations: Int?
+    fileprivate let scoreRestaurants: Int?
+    fileprivate let scoreUncountries: Int?
+    fileprivate let scoreWhss: Int?
 }
 
 extension RankedUserJSON: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return "RankedUserJSON: \(currentRank) \(fullName)"
     }
 }
@@ -155,17 +160,25 @@ extension RankedUserJSON: CustomDebugStringConvertible {
 /// Realm representation of a rankings page
 @objcMembers final class RankingsPageInfo: Object {
 
+    /// Expected items per page
     static let perPage = 50
 
+    /// lastPage
     dynamic var lastPage: Int = 0
+    /// page
     dynamic var page: Int = 0
 
+    /// dbKey
     dynamic var dbKey: String = ""
+    /// queryKey
     dynamic var queryKey: String = ""
+    /// timestamp
     dynamic var timestamp: TimeInterval = Date().timeIntervalSinceReferenceDate
 
+    /// userIds
     let userIds = List<Int>()
 
+    /// Is this page expired?
     var expired: Bool {
         let validTime = TimeInterval(Timestamps.rankUpdateMinutes * 60)
         let expired = Date().timeIntervalSinceReferenceDate > timestamp + validTime
@@ -179,6 +192,11 @@ extension RankedUserJSON: CustomDebugStringConvertible {
         return "dbKey"
     }
 
+    /// Initialization by injection
+    ///
+    /// - Parameters:
+    ///   - query: RankingsQuery
+    ///   - info: RankingsPageInfoJSON
     convenience init(query: RankingsQuery,
                      info: RankingsPageInfoJSON) {
         self.init()
@@ -191,7 +209,42 @@ extension RankedUserJSON: CustomDebugStringConvertible {
         info.users.data.forEach { userIds.append($0.id) }
     }
 
+    /// Apply timestamp
     func stamp() {
         timestamp = Date().timeIntervalSinceReferenceDate
     }
  }
+
+extension User {
+
+    /// Constructor from MTP endpoint data
+    convenience init(from: RankedUserJSON,
+                     with existing: User?) {
+        self.init()
+
+        airport = existing?.airport ?? ""
+        bio = existing?.bio ?? ""
+        fullName = from.fullName
+        gender = from.gender
+        locationName = from.location.description
+        picture = from.picture
+        orderBeaches = from.rankBeaches ?? existing?.orderBeaches ?? 0
+        orderDivesites = from.rankDivesites ?? existing?.orderDivesites ?? 0
+        orderGolfcourses = from.rankGolfcourses ?? existing?.orderGolfcourses ?? 0
+        orderLocations = from.rankLocations ?? existing?.orderLocations ?? 0
+        orderRestaurants = from.rankRestaurants ?? existing?.orderRestaurants ?? 0
+        orderUncountries = from.rankUncountries ?? existing?.orderUncountries ?? 0
+        orderWhss = from.rankWhss ?? existing?.orderWhss ?? 0
+        userId = from.id
+        visitBeaches = from.scoreBeaches ?? existing?.visitBeaches ?? 0
+        visitDivesites = from.scoreDivesites ?? existing?.visitDivesites ?? 0
+        visitGolfcourses = from.scoreGolfcourses ?? existing?.visitGolfcourses ?? 0
+        visitLocations = from.scoreLocations ?? existing?.visitLocations ?? 0
+        visitRestaurants = from.scoreRestaurants ?? existing?.visitRestaurants ?? 0
+        visitUncountries = from.scoreUncountries ?? existing?.visitUncountries ?? 0
+        visitWhss = from.scoreWhss ?? existing?.visitWhss ?? 0
+
+        existing?.linkTexts.forEach { linkTexts.append($0) }
+        existing?.linkUrls.forEach { linkUrls.append($0) }
+    }
+}

@@ -5,6 +5,7 @@ import RealmSwift
 
 // swiftlint:disable file_length
 
+/// Provides stored data functionality
 protocol DataService: AnyObject, Observable, ServiceProvider {
 
     /// Callback handler type
@@ -60,10 +61,16 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var worldMap: WorldMap { get }
 
     /// Block a photo
+    ///
+    /// - Parameter id: Photo ID
     func block(photo id: Int)
-    // Block a post
+    /// Block a post
+    ///
+    /// - Parameter id: Post ID
     func block(post id: Int)
-    //// Block a user
+    /// Block a user
+    ///
+    /// - Parameter id: User ID
     func block(user id: Int)
 
     /// Get country
@@ -227,6 +234,9 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func set(photos page: Int,
              user id: Int,
              info: PhotosPageInfoJSON)
+    /// Set post
+    ///
+    /// - Parameter post: API results
     func set(post: PostReply)
     /// Set user posts
     ///
@@ -297,6 +307,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
 
 extension DataService {
 
+    /// Is there a logged in user?
     var isLoggedIn: Bool {
         if let loggedIn = ProcessInfo.setting(bool: .loggedIn) {
             return loggedIn
@@ -314,10 +325,12 @@ extension DataService {
         return true
     }
 
+    /// Are visits loaded?
     var isVisitsLoaded: Bool {
         return visited != nil
     }
 
+    /// Log out current user
     func logOut() {
         FacebookButton.logOut()
         MTP.unthrottle()
@@ -398,6 +411,8 @@ class DataServiceImpl: DataService {
     }
 
     /// Block a photo
+    ///
+    /// - Parameter id: Photo ID
     func block(photo id: Int) {
         if !blockedPhotos.contains(id) {
             blockedPhotos.append(id)
@@ -405,6 +420,8 @@ class DataServiceImpl: DataService {
     }
 
     /// Block a post
+    ///
+    /// - Parameter id: Post ID
     func block(post id: Int) {
         if !blockedPosts.contains(id) {
             blockedPosts.append(id)
@@ -412,6 +429,8 @@ class DataServiceImpl: DataService {
     }
 
     /// Block a user
+    ///
+    /// - Parameter id: User ID
     func block(user id: Int) {
         guard id != user?.id else {
             note.message(error: L.blockSelf())
@@ -719,6 +738,9 @@ class DataServiceImpl: DataService {
         return realm.posts(user: id)
     }
 
+    /// Set post
+    ///
+    /// - Parameter post: API results
     func set(post: PostReply) {
         realm.set(post: post)
         notify(change: .posts)
@@ -816,6 +838,7 @@ class DataServiceImpl: DataService {
         }
     }
 
+    /// UN Countries
     var uncountries: [UNCountry] {
         return realm.uncountries
     }

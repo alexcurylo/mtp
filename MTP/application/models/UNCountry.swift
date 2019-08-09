@@ -6,12 +6,17 @@ import RealmSwift
 /// Realm representation of a UNCountry place
 @objcMembers final class UNCountry: Object, ServiceProvider {
 
+    /// UN country containing place
     dynamic var placeCountry: String = ""
+    /// Place's MTP ID
     dynamic var placeId: Int = 0
+    /// UUID of main image to display for place
     dynamic var placeImage: String = ""
     /// MTP location containing place
     dynamic var placeLocation: Location?
+    /// Number of MTP visitors
     dynamic var placeVisitors: Int = 0
+    /// Region containing the country
     dynamic var placeRegion: String = ""
 
     /// Realm unique identifier
@@ -38,6 +43,7 @@ import RealmSwift
 
 extension UNCountry: PlaceInfo {
 
+    /// Coordinate for plotting on map
     var placeCoordinate: CLLocationCoordinate2D {
         return .zero
     }
@@ -47,14 +53,17 @@ extension UNCountry: PlaceInfo {
         return placeId
     }
 
+    /// UUID of main image to display for place
     var placeImageUrl: URL? {
         return placeImage.mtpImageUrl
     }
 
+    /// Title to display to user
     var placeTitle: String {
         return placeCountry
     }
 
+    /// for non-MTP locations, page to load in More Info screen
     var placeWebUrl: URL? {
         let link = "https://mtp.travel/locations/\(placeId)"
         return URL(string: link)

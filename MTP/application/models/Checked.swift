@@ -91,7 +91,7 @@ private extension Checked {
 
 extension Checked: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return """
         \(beaches.count) beaches \
         \(divesites.count) divesites \

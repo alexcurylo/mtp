@@ -6,69 +6,123 @@ import Alamofire
 import Moya
 import enum Result.Result
 
+/// MTP.travel API endpoints
 enum MTP: Hashable {
 
+    /// Map arguments
     enum Map: String {
+
+        /// uncountries
         case uncountries
+        /// world
         case world
     }
 
+    /// Size argumens
     enum Size: String {
+
+        /// Unspecified
         case any = ""
+        /// Large
         case large
+        /// Thumbnail
         case thumb
     }
 
+    /// Published status
     enum Status: String {
+
+        /// Draft
         case draft = "D"
+        /// Published
         case published = "A"
     }
 
+    /// beach
     case beach
+    /// checkIn(list: Checklist, id: Int)
     case checkIn(list: Checklist, id: Int)
+    /// checklists
     case checklists
+    /// checkOut(list: Checklist, id: Int)
     case checkOut(list: Checklist, id: Int)
+    /// countriesSearch(query: String?)
     case countriesSearch(query: String?)
+    /// divesite
     case divesite
+    /// faq
     case faq
+    /// geoJson(map: Map)
     case geoJson(map: Map)
+    /// golfcourse
     case golfcourse
+    /// location
     case location
+    /// locationPhotos(location: Int)
     case locationPhotos(location: Int)
+    /// locationPosts(location: Int)
     case locationPosts(location: Int)
+    /// passwordReset(email: String)
     case passwordReset(email: String)
+    /// picture(uuid: String, size: Size)
     case picture(uuid: String, size: Size)
+    /// photos(user: Int?, page: Int)
     case photos(user: Int?, page: Int)
+    /// postPublish(payload: PostPayload)
     case postPublish(payload: PostPayload)
+    /// rankings(query: RankingsQuery)
     case rankings(query: RankingsQuery)
+    /// restaurant
     case restaurant
+    /// scorecard(list: Checklist, user: Int)
     case scorecard(list: Checklist, user: Int)
+    /// search(query: String?)
     case search(query: String?)
+    /// settings
     case settings
+    /// userDelete(id: Int)
     case unCountry
+    /// upload(photo: Data, caption: String?, location: Int?)
     case upload(photo: Data, caption: String?, location: Int?)
+    /// unCountry
     case userDelete(id: Int)
+    /// userGet(id: Int)
     case userGet(id: Int)
+    /// userGetByToken
     case userGetByToken
+    /// userPosts(id: Int)
     case userPosts(id: Int)
+    /// userPut(payload: UserUpdatePayload)
     case userPut(payload: UserUpdatePayload)
+    /// userLogin(email: String, password: String)
     case userLogin(email: String, password: String)
+    /// userRegister(payload: RegistrationPayload)
     case userRegister(payload: RegistrationPayload)
+    /// userVerify(id: Int)
     case userVerify(id: Int)
+    /// whs
     case whs
 
     // GET minimap: /minimaps/{user_id}.png
     // force map reload: POST /api/users/{user_id}/minimap
+
+    /// Reset all throttling
+    static func unthrottle() {
+        active = []
+        received = [:]
+    }
 }
 
 extension MTP: TargetType {
 
-    // swiftlint:disable:next force_unwrapping
-    public var baseURL: URL { return URL(string: "https://mtp.travel/api/")! }
+    /// The target's base `URL`.
+    var baseURL: URL { return URL(string: "https://mtp.travel/api/")! }
+    // swiftlint:disable:previous force_unwrapping
 
-    public var preventCache: Bool { return false }
+    private var preventCache: Bool { return false }
 
-    public var path: String {
+    /// The path to be appended to `baseURL` to form the full `URL`.
+    var path: String {
         switch self {
         case .beach:
             return "beach"
@@ -137,7 +191,8 @@ extension MTP: TargetType {
         }
     }
 
-    public var method: Moya.Method {
+    /// The HTTP method used in the request.
+    var method: Moya.Method {
         switch self {
         case .checkOut,
              .userDelete:
@@ -178,6 +233,7 @@ extension MTP: TargetType {
         }
     }
 
+    /// The type of HTTP task to be performed.
     var task: Task {
         switch self {
         case let .countriesSearch(query?):
@@ -272,6 +328,7 @@ extension MTP: TargetType {
         }
     }
 
+    /// The type of validation to perform on the request. Default is `.none`.
     var validationType: ValidationType {
         switch self {
         case .userLogin:
@@ -281,8 +338,9 @@ extension MTP: TargetType {
         }
     }
 
-    // swiftlint:disable:next discouraged_optional_collection
+    /// The headers to be used in the request.
     var headers: [String: String]? {
+        // swiftlint:disable:previous discouraged_optional_collection
         var headers: [String: String] = [:]
         headers["Accept"] = "application/json; charset=utf-8"
 
@@ -299,7 +357,8 @@ extension MTP: TargetType {
         return headers
     }
 
-    public var sampleData: Data {
+    /// Provides stub data for use in testing.
+    var sampleData: Data {
         let file: String
         switch self {
         case .checklists,
@@ -337,6 +396,7 @@ extension MTP: TargetType {
         }
     }
 
+    /// Convenience URL accessor
     var requestUrl: URL? {
         let request = try? MoyaProvider.defaultEndpointMapping(for: self).urlRequest()
         return request?.url
@@ -345,6 +405,7 @@ extension MTP: TargetType {
 
 extension MTP: AccessTokenAuthorizable {
 
+    /// Represents the authorization header to use for requests.
     var authorizationType: AuthorizationType {
         switch self {
         case .checkIn,
@@ -387,16 +448,24 @@ extension MTP: AccessTokenAuthorizable {
 
 extension MTP: ServiceProvider {
 
-    var etag: String {
+    private var etag: String {
         return data.etags[path] ?? ""
     }
 }
 
+/// Convenience provider shorthand
 typealias MTPProvider = MoyaProvider<MTP>
 
-// swiftlint:disable:next type_body_length
+/// Calls the MTP API via Moya
 struct MTPNetworkController: ServiceProvider {
+    // swiftlint:disable:previous type_body_length
 
+    /// Set places visit status
+    ///
+    /// - Parameters:
+    ///   - items: Places
+    ///   - visited: Whether visited
+    ///   - then: Completion
     func set(items: [Checklist.Item],
              visited: Bool,
              then: @escaping NetworkCompletion<Bool>) {
@@ -430,9 +499,9 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
-    func checkIn(list: Checklist,
-                 id: Int,
-                 then: @escaping NetworkCompletion<Bool>) {
+    private func checkIn(list: Checklist,
+                         id: Int,
+                         then: @escaping NetworkCompletion<Bool>) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
         }
@@ -455,9 +524,9 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
-    func checkOut(list: Checklist,
-                  id: Int,
-                  then: @escaping NetworkCompletion<Bool>) {
+    private func checkOut(list: Checklist,
+                          id: Int,
+                          then: @escaping NetworkCompletion<Bool>) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
         }
@@ -480,6 +549,7 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Load beaches
     func loadBeaches(then: @escaping NetworkCompletion<[PlaceJSON]> = { _ in }) {
         let provider = MTPProvider()
         let endpoint = MTP.beach
@@ -518,6 +588,7 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Load checklists
     func loadChecklists(stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                         then: @escaping NetworkCompletion<Checked> = { _ in }) {
         guard data.isLoggedIn else {
@@ -562,6 +633,7 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Load dive sites
     func loadDiveSites(then: @escaping NetworkCompletion<[PlaceJSON]> = { _ in }) {
         let provider = MTPProvider()
         let endpoint = MTP.divesite
@@ -600,6 +672,7 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Load golf courses
     func loadGolfCourses(then: @escaping NetworkCompletion<[PlaceJSON]> = { _ in }) {
         let provider = MTPProvider()
         let endpoint = MTP.golfcourse
@@ -638,6 +711,7 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Load locations
     func loadLocations(then: @escaping NetworkCompletion<[LocationJSON]> = { _ in }) {
         let provider = MTPProvider()
         let endpoint = MTP.location
@@ -676,6 +750,12 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Load location photos
+    ///
+    /// - Parameters:
+    ///   - id: Location ID
+    ///   - reload: Force reload
+    ///   - then: Completion
     func loadPhotos(location id: Int,
                     reload: Bool,
                     then: @escaping NetworkCompletion<PhotosInfoJSON> = { _ in }) {
@@ -716,6 +796,12 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Load logged in user photos
+    ///
+    /// - Parameters:
+    ///   - page: Index
+    ///   - reload: Force reload
+    ///   - then: Completion
     func loadPhotos(page: Int,
                     reload: Bool,
                     stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
@@ -727,6 +813,13 @@ struct MTPNetworkController: ServiceProvider {
                    then: then)
     }
 
+    /// Load user photos
+    ///
+    /// - Parameters:
+    ///   - id: User ID
+    ///   - page: Index
+    ///   - reload: Force reload
+    ///   - then: Completion
     func loadPhotos(profile id: Int,
                     page: Int,
                     reload: Bool,
@@ -739,11 +832,11 @@ struct MTPNetworkController: ServiceProvider {
                    then: then)
     }
 
-    func loadPhotos(id: Int?,
-                    page: Int,
-                    reload: Bool,
-                    stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
-                    then: @escaping NetworkCompletion<PhotosPageInfoJSON>) {
+    private func loadPhotos(id: Int?,
+                            page: Int,
+                            reload: Bool,
+                            stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
+                            then: @escaping NetworkCompletion<PhotosPageInfoJSON>) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
         }
@@ -790,6 +883,11 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Load location posts
+    ///
+    /// - Parameters:
+    ///   - id: Location ID
+    ///   - then: Completion
     func loadPosts(location id: Int,
                    then: @escaping NetworkCompletion<PostsJSON> = { _ in }) {
         let provider = MTPProvider()
@@ -829,6 +927,11 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Load user posts
+    ///
+    /// - Parameters:
+    ///   - id: User ID
+    ///   - then: Completion
     func loadPosts(user id: Int,
                    stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                    then: @escaping NetworkCompletion<PostsJSON> = { _ in }) {
@@ -874,6 +977,11 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Load rankings
+    ///
+    /// - Parameters:
+    ///   - query: Filter
+    ///   - then: Completion
     func loadRankings(query: RankingsQuery,
                       stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                       then: @escaping NetworkCompletion<RankingsPageInfoJSON> = { _ in }) {
@@ -916,6 +1024,7 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Load restaurants
     func loadRestaurants(then: @escaping NetworkCompletion<[RestaurantJSON]> = { _ in }) {
         let provider = MTPProvider()
         let endpoint = MTP.restaurant
@@ -954,6 +1063,12 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Load scorecard
+    ///
+    /// - Parameters:
+    ///   - list: Checklist
+    ///   - id: User ID
+    ///   - then: Completion
     func loadScorecard(list: Checklist,
                        user id: Int,
                        stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
@@ -991,6 +1106,7 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Load settings
     func loadSettings(then: @escaping NetworkCompletion<SettingsJSON> = { _ in }) {
         let provider = MTPProvider()
         let endpoint = MTP.settings
@@ -1029,6 +1145,7 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Load UN countries
     func loadUNCountries(then: @escaping NetworkCompletion<[LocationJSON]> = { _ in }) {
         let provider = MTPProvider()
         let endpoint = MTP.unCountry
@@ -1067,6 +1184,11 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Load user
+    ///
+    /// - Parameters:
+    ///   - id: User ID
+    ///   - then: Completion
     func loadUser(id: Int,
                   stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                   then: @escaping NetworkCompletion<UserJSON> = { _ in }) {
@@ -1107,6 +1229,7 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Load WHS
     func loadWHS(then: @escaping NetworkCompletion<[WHSJSON]> = { _ in }) {
         let provider = MTPProvider()
         let endpoint = MTP.whs
@@ -1145,6 +1268,11 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Publish post
+    ///
+    /// - Parameters:
+    ///   - payload: Post payload
+    ///   - then: Completion
     func postPublish(payload: PostPayload,
                      then: @escaping NetworkCompletion<PostReply>) {
         guard data.isLoggedIn else {
@@ -1191,6 +1319,11 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Search countries
+    ///
+    /// - Parameters:
+    ///   - query: Query
+    ///   - then: Completion
     func searchCountries(query: String = "",
                          then: @escaping NetworkCompletion<[CountryJSON]>) {
         let provider = MTPProvider()
@@ -1219,6 +1352,11 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Search
+    ///
+    /// - Parameters:
+    ///   - query: Query
+    ///   - then: Completion
     func search(query: String,
                 then: @escaping NetworkCompletion<SearchResultJSON>) {
         let provider = MTPProvider()
@@ -1246,6 +1384,13 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Upload photo
+    ///
+    /// - Parameters:
+    ///   - photo: Data
+    ///   - caption: String
+    ///   - id: Location ID if any
+    ///   - then: Completion
     func upload(photo: Data,
                 caption: String?,
                 location id: Int?,
@@ -1297,6 +1442,9 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Delete user account
+    ///
+    /// - Parameter then: Completion
     func userDeleteAccount(then: @escaping NetworkCompletion<String>) {
         guard let userId = data.user?.id else {
             return then(.failure(.parameter))
@@ -1336,6 +1484,11 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Send reset password link
+    ///
+    /// - Parameters:
+    ///   - email: Email
+    ///   - then: Completion
     func userForgotPassword(email: String,
                             then: @escaping NetworkCompletion<String>) {
         guard !email.isEmpty else {
@@ -1375,6 +1528,11 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Get logged in user info
+    ///
+    /// - Parameters:
+    ///   - stub: Stub behaviour
+    ///   - then: Completion
     func userGetByToken(
         stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
         then: @escaping NetworkCompletion<UserJSON>
@@ -1421,6 +1579,12 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Login user
+    ///
+    /// - Parameters:
+    ///   - email: Email
+    ///   - password: Password
+    ///   - then: Completion
     func userLogin(email: String,
                    password: String,
                    then: @escaping NetworkCompletion<UserJSON>) {
@@ -1466,6 +1630,11 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Register new user
+    ///
+    /// - Parameters:
+    ///   - payload: RegistrationPayload
+    ///   - then: Completion
     func userRegister(payload: RegistrationPayload,
                       then: @escaping NetworkCompletion<UserJSON>) {
         guard payload.isValid else {
@@ -1506,6 +1675,11 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Update user info
+    ///
+    /// - Parameters:
+    ///   - payload: UserUpdatePayload
+    ///   - then: Completion
     func userUpdate(payload: UserUpdatePayload,
                     then: @escaping NetworkCompletion<UserJSON>) {
         let auth = AccessTokenPlugin { self.data.token }
@@ -1543,6 +1717,11 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Resend verification email
+    ///
+    /// - Parameters:
+    ///   - id: User ID
+    ///   - then: Completion
     func userVerify(id: Int,
                     then: @escaping NetworkCompletion<String>) {
         let auth = AccessTokenPlugin { self.data.token }
@@ -1596,7 +1775,7 @@ private extension MoyaError {
 
 extension Response: ServiceProvider {
 
-    func modified(from endpoint: MTP) -> Bool {
+    fileprivate func modified(from endpoint: MTP) -> Bool {
         guard let response = response else {
             // expected in a stubbed response
             return true
@@ -1624,7 +1803,7 @@ extension Response: ServiceProvider {
         return true
     }
 
-    var toString: String {
+    fileprivate var toString: String {
         return (try? mapString()) ?? "mapString failed"
     }
 }
@@ -1670,7 +1849,7 @@ private extension MTPNetworkController {
 private var active: Set<MTP> = []
 private var received: [MTP: Date] = [:]
 
-extension MTP {
+private extension MTP {
 
     var isThrottled: Bool {
         guard !active.contains(self) else {
@@ -1687,11 +1866,6 @@ extension MTP {
             }
         }
         return false
-    }
-
-    static func unthrottle() {
-        active = []
-        received = [:]
     }
 
     func markResponded() {

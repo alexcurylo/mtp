@@ -81,22 +81,23 @@ struct PlaceJSON: Codable {
     private let address: String?
     private let country: String
     /// UUID of main image
-    let featuredImg: String?
-    let id: Int
-    let lat: Double
-    let location: PlaceLocation
+    fileprivate let featuredImg: String?
+    fileprivate let id: Int
+    fileprivate let lat: Double
+    /// MTP location containing place
+    fileprivate let location: PlaceLocation
     private let locationId: Int
-    let long: Double
+    fileprivate let long: Double
     private let notes: String?
     private let rank: Int
-    let title: String
-    let url: String
-    let visitors: Int
+    fileprivate let title: String
+    fileprivate let url: String
+    fileprivate let visitors: Int
 }
 
 extension PlaceJSON: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return title
     }
 }
@@ -130,6 +131,7 @@ extension PlaceJSON: CustomDebugStringConvertible {
 
     /// Link to the Mappable object for this location
     dynamic var map: Mappable?
+    /// placeId
     dynamic var placeId: Int = 0
 
     /// Realm unique identifier
@@ -161,6 +163,7 @@ extension PlaceJSON: CustomDebugStringConvertible {
 
     /// Link to the Mappable object for this location
     dynamic var map: Mappable?
+    /// placeId
     dynamic var placeId: Int = 0
 
     /// Realm unique identifier
@@ -192,6 +195,7 @@ extension PlaceJSON: CustomDebugStringConvertible {
 
     /// Link to the Mappable object for this location
     dynamic var map: Mappable?
+    /// placeId
     dynamic var placeId: Int = 0
 
     /// Realm unique identifier
@@ -215,5 +219,26 @@ extension PlaceJSON: CustomDebugStringConvertible {
 
     override var description: String {
         return placeTitle
+    }
+}
+
+extension Mappable {
+
+    /// Constructor from MTP endpoint data
+    convenience init(checklist: Checklist,
+                     place: PlaceJSON,
+                     realm: RealmDataController) {
+        self.init()
+
+        self.checklist = checklist
+        checklistId = place.id
+        image = place.featuredImg ?? ""
+        latitude = place.lat
+        longitude = place.long
+        subtitle = ""
+        title = place.title
+        visitors = place.visitors
+        website = place.url
+        complete(locationId: place.location.id, realm: realm)
     }
 }

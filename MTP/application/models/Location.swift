@@ -51,7 +51,7 @@ struct LocationJSON: Codable, Equatable {
 
 extension LocationJSON: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         if !countryName.isEmpty
            && !locationName.isEmpty
            && countryName != locationName {
@@ -107,11 +107,11 @@ extension LocationJSON: CustomDebugStringConvertible {
     dynamic var countryId: Int = 0
     /// Description of country
     dynamic var placeCountry: String = ""
-    /// Place ID
+    /// Place's MTP ID
     dynamic var placeId: Int = 0
-    /// Description of region
+    /// Region containing the country
     dynamic var placeRegion: String = ""
-    /// Description of place
+    /// Title to display to user
     dynamic var placeTitle: String = ""
     /// Difficulty rank of location
     dynamic var rank: Int = 0

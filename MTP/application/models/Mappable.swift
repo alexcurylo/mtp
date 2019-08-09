@@ -15,14 +15,17 @@ protocol PlaceMappable {
 
 extension PlaceMappable {
 
+    /// Coordinate for plotting on map
     var placeCoordinate: CLLocationCoordinate2D {
         return map?.coordinate ?? .zero
     }
 
+    /// UN country containing place
     var placeCountry: String {
         return map?.country ?? ""
     }
 
+    /// UUID of main image to display for place
     var placeImageUrl: URL? {
         return map?.imageUrl
     }
@@ -32,18 +35,22 @@ extension PlaceMappable {
         return map?.location
     }
 
+    /// Region containing the country
     var placeRegion: String {
         return map?.region ?? ""
     }
 
+    /// Title to display to user
     var placeTitle: String {
         return map?.title ?? ""
     }
 
+    /// Number of MTP visitors
     var placeVisitors: Int {
         return map?.visitors ?? 0
     }
 
+    /// for non-MTP locations, page to load in More Info screen
     var placeWebUrl: URL? {
         return map?.placeWebUrl
     }
@@ -81,27 +88,43 @@ protocol Mapper {
 /// Realm representation of a mappable place
 @objcMembers final class Mappable: Object, ServiceProvider {
 
+    /// Typealias for fluency
     typealias Key = String
+    /// Typealias for fluency
     typealias Reference = ThreadSafeReference<Mappable>
 
+    /// checklistValue
     dynamic var checklistValue: Int = Checklist.beaches.rawValue
+    /// checklist
     var checklist: Checklist {
         //swiftlint:disable:next force_unwrapping
         get { return Checklist(rawValue: checklistValue)! }
         set { checklistValue = newValue.rawValue }
     }
+    /// checklistId
     dynamic var checklistId: Int = 0
+    /// country
     dynamic var country: String = ""
+    /// image
     dynamic var image: String = ""
+    /// latitude
     dynamic var latitude: CLLocationDegrees = 0
+    /// location
     dynamic var location: Location?
+    /// longitude
     dynamic var longitude: CLLocationDegrees = 0
+    /// region
     dynamic var region: String = ""
+    /// subtitle
     dynamic var subtitle: String = ""
+    /// title
     dynamic var title: String = ""
+    /// visitors
     dynamic var visitors: Int = 0
+    /// website
     dynamic var website: String = ""
 
+    /// dbKey
     dynamic var dbKey: Key = ""
 
     /// Realm unique identifier
@@ -111,6 +134,10 @@ protocol Mapper {
         return "dbKey"
     }
 
+    /// Unique key for database
+    ///
+    /// - Parameter item: Item
+    /// - Returns: Unique key
     static func key(item: Checklist.Item) -> Key {
         return Key.key(item: item)
     }
@@ -126,83 +153,95 @@ protocol Mapper {
         map.subtitleKeyPath = "title"
     }
 
+    /// Convenience item accessor
     var item: Checklist.Item {
         return (list: checklist, id: checklistId)
     }
 
+    /// Convenience coordinate accessor
     var coordinate: CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude: latitude,
                                       longitude: longitude)
     }
 
+    /// Convenience marker accessor
     var marker: UIColor {
         return isVisited ? .visited : checklist.marker
     }
 
+    /// Convenience listImage accessor
     var listImage: UIImage {
         return checklist.image
     }
 
+    /// Convenience isVisited accessor
     var isVisited: Bool {
         return checklist.isVisited(id: checklistId)
     }
 
+    /// Convenience isDismissed accessor
     var isDismissed: Bool {
         get { return checklist.isDismissed(id: checklistId) }
         set { checklist.set(dismissed: newValue, id: checklistId) }
     }
 
+    /// Reveal on map
+    ///
+    /// - Parameter callout: Whether to pop up info
     func reveal(callout: Bool) {
         loc.reveal(mappable: self, callout: callout)
     }
 
+    /// Show on map
     func show() {
         loc.show(mappable: self)
     }
 
+    /// Convenience nearest accessor
     var nearest: Mappable? {
         return loc.nearest(list: checklist,
                            id: checklistId,
                            to: coordinate)
     }
 
+    /// Convenience imageUrl accessor
     var imageUrl: URL? {
         return image.mtpImageUrl
     }
 
+    /// for non-MTP locations, page to load in More Info screen
     var placeWebUrl: URL? {
         return website.mtpWebsiteUrl
     }
 
+    /// Convenience canPost accessor
     var canPost: Bool {
         return checklist == .locations
     }
 
+    /// Convenience distance accessor
     var distance: CLLocationDistance {
         return loc.distance(to: self)
     }
 
+    /// Thread safe reference
     var reference: Reference {
         return ThreadSafeReference(to: self)
     }
 
-    convenience init(checklist: Checklist,
-                     place: PlaceJSON,
-                     realm: RealmDataController) {
-        self.init()
-
-        self.checklist = checklist
-        checklistId = place.id
-        image = place.featuredImg ?? ""
-        latitude = place.lat
-        longitude = place.long
-        subtitle = ""
-        title = place.title
-        visitors = place.visitors
-        website = place.url
-        complete(locationId: place.location.id, realm: realm)
-    }
-
+    /// Intialize by injection
+    ///
+    /// - Parameters:
+    ///   - checklist: Checklist
+    ///   - checklistId: Int
+    ///   - image: String
+    ///   - latitude: CLLocationDegrees
+    ///   - locationId: Int
+    ///   - longitude: CLLocationDegrees
+    ///   - title: String
+    ///   - visitors: Int
+    ///   - website: String
+    ///   - realm: RealmDataController
     convenience init(checklist: Checklist,
                      checklistId: Int,
                      image: String,
@@ -226,6 +265,11 @@ protocol Mapper {
         complete(locationId: locationId, realm: realm)
     }
 
+    /// Fill in location related data
+    ///
+    /// - Parameters:
+    ///   - locationId: Int
+    ///   - realm: RealmDataController
     func complete(locationId: Int,
                   realm: RealmDataController) {
         location = realm.location(id: locationId)
@@ -242,6 +286,21 @@ protocol Mapper {
         #endif
     }
 
+    /// Intialize by injection
+    ///
+    /// - Parameters:
+    ///   - checklist: Checklist
+    ///   - checklistId: Int
+    ///   - country: String
+    ///   - image: String
+    ///   - latitude: CLLocationDegrees
+    ///   - location: Location
+    ///   - longitude: CLLocationDegrees
+    ///   - region: String
+    ///   - subtitle: String
+    ///   - title: String
+    ///   - visitors: Int
+    ///   - website: String
     convenience init(checklist: Checklist,
                      checklistId: Int,
                      country: String,
@@ -272,6 +331,7 @@ protocol Mapper {
         dbKey = Mappable.key(item: item)
     }
 
+    /// Test visitability
     var isHere: Bool {
         switch checklist {
         case .locations:
@@ -282,6 +342,9 @@ protocol Mapper {
         }
     }
 
+    /// Trigger visit notification
+    ///
+    /// - Parameter distance: Distance
     func trigger(distance: CLLocationDistance) {
         guard checklist.triggerDistance > 0 else { return }
 
@@ -289,6 +352,12 @@ protocol Mapper {
         update(triggered: triggered)
     }
 
+    /// Trigger visit notification
+    ///
+    /// - Parameters:
+    ///   - contains: Coordinate
+    ///   - world: World Map
+    /// - Returns: whether triggered
     func trigger(contains: CLLocationCoordinate2D,
                  world: WorldMap) -> Bool {
         guard checklist == .locations else { return false }
@@ -324,10 +393,12 @@ protocol Mapper {
     }
 
     #if DEBUG
+    /// Test nearby triggering
     func _testTriggeredNearby() {
         update(triggered: true)
     }
 
+    /// Test background triggering
     func _testTrigger(background: Bool) {
 
         func trigger() {
@@ -372,14 +443,20 @@ private extension Mappable {
 
 extension Mappable.Key: ServiceProvider {
 
+    /// Unique key for database
+    ///
+    /// - Parameter item: Item
+    /// - Returns: Unique key
     static func key(item: Checklist.Item) -> Mappable.Key {
         return "list=\(item.list.rawValue)?id=\(item.id)"
     }
 
+    /// item
     var item: Checklist.Item {
         return (list: checklist, id: checklistId)
     }
 
+    /// checklist
     var checklist: Checklist {
         guard let range = range(of: #"list=[0-9]+"#,
                                 options: .regularExpression) else {
@@ -393,6 +470,7 @@ extension Mappable.Key: ServiceProvider {
         return Checklist(rawValue: value) ?? .beaches
     }
 
+    /// checklistId
     var checklistId: Int {
         guard let range = range(of: #"id=[0-9]+"#,
                                 options: .regularExpression) else {
@@ -408,6 +486,7 @@ extension Mappable.Key: ServiceProvider {
 
 extension String {
 
+    /// Image URL from a MTP UUID
     var mtpImageUrl: URL? {
         guard !isEmpty else { return nil }
 
@@ -419,6 +498,7 @@ extension String {
         }
     }
 
+    /// Sanitize URL string
     var mtpWebsiteUrl: URL? {
         guard !isEmpty else { return nil }
 
