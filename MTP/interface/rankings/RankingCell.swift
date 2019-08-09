@@ -2,15 +2,31 @@
 
 import Anchorage
 
+/// Actions triggered by ranking cell
 protocol RankingCellDelegate: AnyObject {
 
+    /// Profile tapped
+    ///
+    /// - Parameter user: User to display
     func tapped(profile user: User)
+    /// Remaining tapped
+    ///
+    /// - Parameters:
+    ///   - user: User to display
+    ///   - list: List to display
     func tapped(remaining user: User, list: Checklist)
+    /// Visited tapped
+    ///
+    /// - Parameters:
+    ///   - user: User to display
+    ///   - list: List to display
     func tapped(visited user: User, list: Checklist)
 }
 
+/// Display an entry in ranking list
 final class RankingCell: UICollectionViewCell, ServiceProvider {
 
+    /// Dequeueing identifier
     static let reuseIdentifier = NSStringFromClass(RankingCell.self)
 
     private enum Layout {
@@ -42,7 +58,7 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         $0.textAlignment = .center
     }
 
-    let nameLabel = UILabel {
+    private let nameLabel = UILabel {
         $0.font = Avenir.heavy.of(size: 18)
         $0.numberOfLines = 2
         $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
@@ -56,10 +72,10 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
 
-    let visitedButton = GradientButton(type: .system).with {
+    private let visitedButton = GradientButton(type: .system).with {
         configure(button: $0)
     }
-    let remainingButton = GradientButton(type: .system).with {
+    private let remainingButton = GradientButton(type: .system).with {
         configure(button: $0)
     }
 
@@ -69,28 +85,46 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
     private let scheduler = Scheduler()
     private var updating = false
 
+    /// Procedural intializer
+    ///
+    /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         configure()
     }
 
+    /// Unavailable coding constructor
+    ///
+    /// - Parameter coder: An unarchiver object.
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func set(user: User,
-             for rank: Int,
-             in list: Checklist,
-             delegate: RankingCellDelegate?) {
+    /// Inject display data
+    ///
+    /// - Parameters:
+    ///   - user: User if available
+    ///   - rank: Rank
+    ///   - list: Checklist
+    ///   - delegate: Delegate
+    func inject(user: User?,
+                for rank: Int,
+                in list: Checklist,
+                delegate: RankingCellDelegate?) {
         self.user = user
         self.list = list
         self.delegate = delegate
 
-        nameLabel.text = user.fullName
-        countryLabel.text = user.locationName
-
+        guard let user = user else {
+            nameLabel.text = L.blocked()
+            avatarImageView.image = nil
+            visitedButton.isHidden = true
+            remainingButton.isHidden = true
+            rankLabel.text = nil
+            return
+        }
         guard user.userId != 0 else {
             nameLabel.text = L.loading()
             avatarImageView.image = nil
@@ -100,6 +134,8 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
             return
         }
 
+        nameLabel.text = user.fullName
+        countryLabel.text = user.locationName
         avatarImageView.load(image: user)
 
         let order = list.order(of: user)
@@ -122,6 +158,19 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         }
     }
 
+    /// Expose cell to UI tests
+    ///
+    /// - Parameters:
+    ///   - list: ChecklistIndex
+    ///   - item: Index
+    func expose(list: ChecklistIndex,
+                item: Int) {
+        RankingVCs.profile(list, item).expose(item: nameLabel)
+        RankingVCs.remaining(list, item).expose(item: remainingButton)
+        RankingVCs.visited(list, item).expose(item: visitedButton)
+    }
+
+    /// Empty display
     override func prepareForReuse() {
         super.prepareForReuse()
 
@@ -137,6 +186,8 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         remainingButton.setTitle(nil, for: .normal)
    }
 }
+
+// MARK: - Private
 
 private extension RankingCell {
 

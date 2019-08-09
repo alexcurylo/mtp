@@ -2,15 +2,62 @@
 
 import RealmSwift
 
+/// Reply from the photos endpoints
+struct PhotoReply: Codable {
+
+    fileprivate let desc: String?
+    fileprivate let id: Int
+    fileprivate let location: LocationJSON?
+    fileprivate let locationId: UncertainValue<Int, String>?
+    fileprivate let mime: String
+    fileprivate let name: String
+    fileprivate let type: String
+    fileprivate let uploaded: Int
+    fileprivate let url: String
+    fileprivate let userId: Int
+    fileprivate let uuid: String
+}
+
+extension PhotoReply: CustomStringConvertible {
+
+    var description: String {
+        return "photo \(id) - \(uuid): \(String(describing: desc))"
+    }
+}
+
+extension PhotoReply: CustomDebugStringConvertible {
+
+    var debugDescription: String {
+        return """
+        < PhotoReply: \(description):
+        desc: \(String(describing: desc))
+        id: \(id)
+        location: \(String(describing: location))
+        locationId: \(String(describing: locationId))
+        mime: \(mime)
+        name: \(name)
+        type: \(type)
+        uploaded: \(uploaded)
+        url: \(url)
+        userId: \(userId)
+        uuid: \(uuid)
+        /PhotoReply >
+        """
+    }
+}
+
+/// Photos endpoints reply
 struct PhotosInfoJSON: Codable {
 
+    /// HTTP result code
     let code: Int
+    /// List of photos
     let data: [PhotoJSON]
 }
 
 extension PhotosInfoJSON: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return "PhotosInfoJSON"
     }
 }
@@ -27,16 +74,20 @@ extension PhotosInfoJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Photos page info received from MTP endpoints
 struct PhotosPageInfoJSON: Codable {
 
+    /// HTTP result code
     let code: Int
+    /// List of photos
     let data: [PhotoJSON]
+    /// Paging info
     let paging: PhotosPageJSON
 }
 
 extension PhotosPageInfoJSON: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return "PhotosPageInfoJSON: \(paging.currentPage)"
     }
 }
@@ -54,18 +105,20 @@ extension PhotosPageInfoJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Photos page info received from MTP endpoints
 struct PhotosPageJSON: Codable {
 
-    let currentPage: Int
-    let lastPage: Int
+    fileprivate let currentPage: Int
+    fileprivate let lastPage: Int
+    /// perPage
     let perPage: Int
-    let total: Int
+    fileprivate let total: Int
     // let links: [] -- appears always empty
 }
 
 extension PhotosPageJSON: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return "PhotosPageJSON: \(currentPage) \(lastPage)"
     }
 }
@@ -84,41 +137,45 @@ extension PhotosPageJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Post or photo owner info received from MTP endpoints
 struct OwnerJSON: Codable {
     //let country: String? // UserJSON in user endpoints, null in location
-    let firstName: String
+    fileprivate let firstName: String
+    /// fullName
     let fullName: String
+    /// id
     let id: Int
-    let lastName: String
+    fileprivate let lastName: String
     //let location: String? // LocationJSON in user endpoint, null in location
-    let role: Int
+    fileprivate let role: Int
 }
 
+/// Photo info received from MTP endpoints
 struct PhotoJSON: Codable {
 
-    struct PivotJSON: Codable {
+    private struct PivotJSON: Codable {
         let fileId: Int
         let userId: Int
     }
 
-    let createdAt: Date
-    let desc: String?
-    let id: Int
-    let location: LocationJSON? // still has 30 items
-    let locationId: Int?
-    let mime: String
-    let name: String
-    let owner: OwnerJSON? // only in location photos
-    let pivot: PivotJSON? // not in location photos
-    let type: String
-    let updatedAt: Date
-    let userId: Int
-    let uuid: String
+    fileprivate let createdAt: Date
+    fileprivate let desc: String?
+    fileprivate let id: Int
+    fileprivate let location: LocationJSON? // still has 30 items
+    fileprivate let locationId: Int?
+    fileprivate let mime: String
+    fileprivate let name: String
+    fileprivate let owner: OwnerJSON? // only in location photos
+    private let pivot: PivotJSON? // not in location photos
+    fileprivate let type: String
+    fileprivate let updatedAt: Date
+    fileprivate let userId: Int
+    fileprivate let uuid: String
 }
 
 extension PhotoJSON: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return "PhotoJSON: \(id) \(name)"
     }
 }
@@ -145,23 +202,35 @@ extension PhotoJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Realm representation of a page of photos
 @objcMembers final class PhotosPageInfo: Object {
 
+    /// Expected items per page
     static let perPage = 25
 
+    /// lastPage
     dynamic var lastPage: Int = 0
+    /// page
     dynamic var page: Int = 0
+    /// total
     dynamic var total: Int = 0
+    /// userId
     dynamic var userId: Int = 0
 
+    /// dbKey
     dynamic var dbKey: String = ""
 
+    /// photoIds
     let photoIds = List<Int>()
 
+    /// Realm unique identifier
+    ///
+    /// - Returns: unique identifier
     override static func primaryKey() -> String? {
         return "dbKey"
     }
 
+    /// Constructor from MTP endpoint data
     convenience init(user id: Int,
                      info: PhotosPageInfoJSON) {
         self.init()
@@ -177,19 +246,30 @@ extension PhotoJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Realm representation of a photo
 @objcMembers final class Photo: Object {
 
+    /// desc
     dynamic var desc: String = ""
+    /// locationId
     dynamic var locationId: Int = 0
+    /// photoId
     dynamic var photoId: Int = 0
+    /// updatedAt
     dynamic var updatedAt = Date()
+    /// userId
     dynamic var userId: Int = 0
+    /// uuid
     dynamic var uuid: String = ""
 
+    /// Realm unique identifier
+    ///
+    /// - Returns: unique identifier
     override static func primaryKey() -> String? {
         return "photoId"
     }
 
+    /// Constructor from MTP endpoint data
     convenience init(from: PhotoJSON) {
         self.init()
 
@@ -201,6 +281,7 @@ extension PhotoJSON: CustomDebugStringConvertible {
         uuid = from.uuid
     }
 
+    /// Constructor from MTP endpoint data
     convenience init(from: PhotoReply) {
         self.init()
 
@@ -211,12 +292,14 @@ extension PhotoJSON: CustomDebugStringConvertible {
         uuid = from.uuid
     }
 
+    /// Image URL if available
     var imageUrl: URL? {
         guard !uuid.isEmpty else { return nil }
         let target = MTP.picture(uuid: uuid, size: .any)
         return target.requestUrl
     }
 
+    /// Attributed title string if available
     var attributedTitle: NSAttributedString? {
         guard !desc.isEmpty else { return nil }
         let attributes = NSAttributedString.attributes(

@@ -2,19 +2,25 @@
 
 import Foundation
 
+/// Reply from the search endpoint
 struct SearchResultJSON: Codable {
 
+    /// returned copy of request
     struct Request: Codable {
+
+        /// query
         let query: String
     }
 
+    /// returned copy of request
     let request: Request
+    /// results
     let data: [SearchResultItemJSON]
 }
 
 extension SearchResultJSON: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return "SearchResultJSON: \(request.query)"
     }
 }
@@ -30,27 +36,32 @@ extension SearchResultJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Reply from the search endpoint
 struct SearchResultItemJSON: Codable {
 
-    let country: String?
-    let firstName: String?
-    let fullName: String?
+    fileprivate let country: String?
+    fileprivate let firstName: String?
+    fileprivate let fullName: String?
+    /// id
     let id: Int
+    /// label - treated as full name for display
     let label: String
-    let lastName: String?
-    let link: String
-    let location: String?
-    let locationName: String?
-    let role: Int?
-    let type: String
+    fileprivate let lastName: String?
+    fileprivate let link: String
+    fileprivate let location: String?
+    fileprivate let locationName: String?
+    fileprivate let role: Int?
+    fileprivate let type: String
 
+    /// Is this a location search result?
     var isLocation: Bool { return type == "locations" }
+    /// Is this a user search result?
     var isUser: Bool { return type == "users" }
  }
 
 extension SearchResultItemJSON: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return "SearchResultItemJSON"
     }
 }

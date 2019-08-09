@@ -6,21 +6,27 @@ import RealmSwift
 
 // https://realm.io/docs/swift/latest
 
-// swiftlint:disable:next type_body_length
+/// Wrapper around Realm database
 final class RealmDataController: ServiceProvider {
+    // swiftlint:disable:previous type_body_length
 
     private lazy var realm: Realm = create()
 
+    /// Default initializer
     init() {
         configure()
         seed()
     }
 
+    /// Beaches
     var beaches: [Beach] {
         let results = realm.objects(Beach.self)
         return Array(results)
     }
 
+    /// Set beaches
+    ///
+    /// - Parameter beaches: API results
     func set(beaches: [PlaceJSON]) {
         do {
             let objects = beaches.compactMap { Beach(from: $0, realm: self) }
@@ -32,11 +38,16 @@ final class RealmDataController: ServiceProvider {
         }
     }
 
+    /// Countries
     var countries: [Country] {
         let results = realm.objects(Country.self)
         return Array(results)
     }
 
+    /// Get country
+    ///
+    /// - Parameter id: country ID
+    /// - Returns: Country if found
     func country(id: Int?) -> Country? {
         guard let id = id else { return nil }
         let results = realm.objects(Country.self)
@@ -44,6 +55,9 @@ final class RealmDataController: ServiceProvider {
         return results.first
     }
 
+    /// Set countries
+    ///
+    /// - Parameter countries: API results
     func set(countries: [CountryJSON]) {
         do {
             let objects = countries.map { Country(from: $0) }
@@ -56,11 +70,15 @@ final class RealmDataController: ServiceProvider {
         }
     }
 
+    /// Dive sites
     var divesites: [DiveSite] {
         let results = realm.objects(DiveSite.self)
         return Array(results)
     }
 
+    /// Set dive sites
+    ///
+    /// - Parameter divesites: API results
     func set(divesites: [PlaceJSON]) {
         do {
             let objects = divesites.compactMap { DiveSite(from: $0, realm: self) }
@@ -72,11 +90,15 @@ final class RealmDataController: ServiceProvider {
         }
     }
 
+    /// Golf courses
     var golfcourses: [GolfCourse] {
         let results = realm.objects(GolfCourse.self)
         return Array(results)
     }
 
+    /// Set golf courses
+    ///
+    /// - Parameter golfcourses: API results
     func set(golfcourses: [PlaceJSON]) {
         do {
             let objects = golfcourses.compactMap { GolfCourse(from: $0, realm: self) }
@@ -88,17 +110,26 @@ final class RealmDataController: ServiceProvider {
         }
     }
 
+    /// Locations
     var locations: [Location] {
         let results = realm.objects(Location.self)
         return Array(results)
     }
 
+    /// Get filtered locations
+    ///
+    /// - Parameter filter: Filter
+    /// - Returns: Locations if found
     func locations(filter: String) -> [Location] {
         let results = realm.objects(Location.self)
                            .filter(filter)
         return Array(results)
     }
 
+    /// Get location
+    ///
+    /// - Parameter id: location ID
+    /// - Returns: Location if found
     func location(id: Int?) -> Location? {
         guard let id = id else { return nil }
         let results = realm.objects(Location.self)
@@ -106,6 +137,9 @@ final class RealmDataController: ServiceProvider {
         return results.first
     }
 
+    /// Set locations
+    ///
+    /// - Parameter locations: API results
     func set(locations: [LocationJSON]) {
         do {
             let objects = locations.compactMap { Location(from: $0) }
@@ -118,6 +152,10 @@ final class RealmDataController: ServiceProvider {
         }
     }
 
+    /// Get place
+    ///
+    /// - Parameter item: list and ID
+    /// - Returns: Place if found
     func mappable(item: Checklist.Item) -> Mappable? {
         let key = Mappable.key(item: item)
         let results = realm.objects(Mappable.self)
@@ -125,6 +163,10 @@ final class RealmDataController: ServiceProvider {
         return results.first
     }
 
+    /// Get places
+    ///
+    /// - Parameter list: list
+    /// - Returns: Places in list
     func mappables(list: Checklist?) -> [Mappable] {
         let results: Results<Mappable>
         if let value = list?.rawValue {
@@ -136,6 +178,10 @@ final class RealmDataController: ServiceProvider {
         return Array(results)
     }
 
+    /// Get matching places
+    ///
+    /// - Parameter matching: String
+    /// - Returns: Places matching
     func mappables(matching: String) -> [Mappable] {
         guard !matching.isEmpty else { return [] }
 
@@ -145,12 +191,19 @@ final class RealmDataController: ServiceProvider {
         return Array(results)
     }
 
+    /// Get milestones
+    ///
+    /// - Parameter list: Checklist
+    /// - Returns: Milestones if found
     func milestones(list: Checklist) -> Milestones? {
         let results = realm.objects(Milestones.self)
                            .filter("checklistValue = \(list.rawValue)")
         return results.first
     }
 
+    /// Set milestones
+    ///
+    /// - Parameter milestones: API results
     func set(milestones: SettingsJSON) {
         do {
             let objects = Checklist.allCases.map {
@@ -165,6 +218,10 @@ final class RealmDataController: ServiceProvider {
         }
     }
 
+    /// Get photo
+    ///
+    /// - Parameter id: ID
+    /// - Returns: Photo
     func photo(id: Int) -> Photo? {
         let filter = "photoId = \(id)"
         let results = realm.objects(Photo.self)
@@ -172,6 +229,10 @@ final class RealmDataController: ServiceProvider {
         return results.first
     }
 
+    /// Get location photos
+    ///
+    /// - Parameter id: location ID
+    /// - Returns: Photos if found
     func photos(location: Int) -> [Photo] {
         let filter = "locationId = \(location)"
         let results = realm.objects(Photo.self)
@@ -180,6 +241,12 @@ final class RealmDataController: ServiceProvider {
         return Array(results)
     }
 
+    /// Get user photos by location
+    ///
+    /// - Parameters:
+    ///   - id: User ID
+    ///   - location: Location
+    /// - Returns: Photos if found
     func photos(user id: Int,
                 location: Int) -> [Photo] {
         let filter = "userId = \(id) AND locationId = \(location)"
@@ -189,6 +256,11 @@ final class RealmDataController: ServiceProvider {
         return Array(results)
     }
 
+    /// Set location photos
+    ///
+    /// - Parameters:
+    ///   - id: Location ID
+    ///   - photos: API results
     func set(locationPhotos id: Int,
              info: PhotosInfoJSON) {
         do {
@@ -201,6 +273,9 @@ final class RealmDataController: ServiceProvider {
         }
     }
 
+    /// Set photo
+    ///
+    /// - Parameter photo: API result
     func set(photo: PhotoReply) {
         do {
             let new = Photo(from: photo)
@@ -212,6 +287,12 @@ final class RealmDataController: ServiceProvider {
         }
     }
 
+    /// Set photos page
+    ///
+    /// - Parameters:
+    ///   - page: Index
+    ///   - id: User ID
+    ///   - info: API results
     func set(photos page: Int,
              user id: Int,
              info: PhotosPageInfoJSON) {
@@ -227,6 +308,10 @@ final class RealmDataController: ServiceProvider {
         }
     }
 
+    /// Get user photo pages
+    ///
+    /// - Parameter id: User ID
+    /// - Returns: Photo pages if found
     func photosPages(user id: Int) -> Results<PhotosPageInfo> {
         let filter = "userId = \(id)"
         let results = realm.objects(PhotosPageInfo.self)
@@ -235,6 +320,9 @@ final class RealmDataController: ServiceProvider {
         return results
     }
 
+    /// Delete all user photos
+    ///
+    /// - Parameter id: User ID
     func deletePhotos(user id: Int) {
         do {
             let filter = "userId = \(id)"
@@ -248,6 +336,10 @@ final class RealmDataController: ServiceProvider {
         }
     }
 
+    /// Get location posts
+    ///
+    /// - Parameter id: location ID
+    /// - Returns: Posts if found
     func posts(location id: Int) -> [Post] {
         let filter = "locationId = \(id)"
         let results = realm.objects(Post.self)
@@ -256,6 +348,10 @@ final class RealmDataController: ServiceProvider {
         return Array(results)
     }
 
+    /// Get user posts
+    ///
+    /// - Parameter id: User ID
+    /// - Returns: Posts if found
     func posts(user id: Int) -> [Post] {
         let filter = "userId = \(id)"
         let results = realm.objects(Post.self)
@@ -264,6 +360,9 @@ final class RealmDataController: ServiceProvider {
         return Array(results)
     }
 
+    /// Set post
+    ///
+    /// - Parameter post: API results
     func set(post: PostReply) {
         do {
             guard let new = Post(from: post) else { return }
@@ -275,6 +374,11 @@ final class RealmDataController: ServiceProvider {
         }
     }
 
+    /// Set posts
+    ///
+    /// - Parameters:
+    ///   - id: Location ID
+    ///   - posts: API results
     func set(posts: [PostJSON]) {
         do {
             let objects = posts.compactMap { Post(from: $0) }
@@ -295,6 +399,10 @@ final class RealmDataController: ServiceProvider {
         }
     }
 
+    /// Get rankings pages
+    ///
+    /// - Parameter query: Filter query
+    /// - Returns: Rankings pages if found
     func rankings(query: RankingsQuery) -> Results<RankingsPageInfo> {
         let filter = "queryKey = '\(query.queryKey)'"
         let results = realm.objects(RankingsPageInfo.self)
@@ -303,6 +411,11 @@ final class RealmDataController: ServiceProvider {
         return results
     }
 
+    /// Set rankings query
+    ///
+    /// - Parameters:
+    ///   - query: Query
+    ///   - info: API results
     func set(rankings query: RankingsQuery,
              info: RankingsPageInfoJSON) {
         do {
@@ -317,11 +430,15 @@ final class RealmDataController: ServiceProvider {
         }
     }
 
+    /// Restaurants
     var restaurants: [Restaurant] {
         let results = realm.objects(Restaurant.self)
         return Array(results)
     }
 
+    /// Set restaurants
+    ///
+    /// - Parameter restaurants: API results
     func set(restaurants: [RestaurantJSON]) {
         do {
             let objects = restaurants.compactMap { Restaurant(from: $0, realm: self) }
@@ -333,6 +450,12 @@ final class RealmDataController: ServiceProvider {
         }
     }
 
+    /// Get user scorecard
+    ///
+    /// - Parameters:
+    ///   - list: Checklist
+    ///   - id: userID
+    /// - Returns: Scorecard if found
     func scorecard(list: Checklist, id: Int) -> Scorecard? {
         let key = Scorecard.key(list: list, user: id)
         let results = realm.objects(Scorecard.self)
@@ -340,6 +463,9 @@ final class RealmDataController: ServiceProvider {
         return results.first
     }
 
+    /// Set scorecard
+    ///
+    /// - Parameter scorecard: API results
     func set(scorecard: ScorecardWrapperJSON) {
         do {
             let object = Scorecard(from: scorecard)
@@ -351,11 +477,15 @@ final class RealmDataController: ServiceProvider {
         }
     }
 
+    /// UN Countries
     var uncountries: [UNCountry] {
         let results = realm.objects(UNCountry.self)
         return Array(results)
     }
 
+    /// Set UN countries
+    ///
+    /// - Parameter uncountries: API results
     func set(uncountries: [LocationJSON]) {
         do {
             let objects = uncountries.compactMap { UNCountry(from: $0) }
@@ -367,12 +497,19 @@ final class RealmDataController: ServiceProvider {
         }
     }
 
+    /// Get user
+    ///
+    /// - Parameter id: User ID
+    /// - Returns: User if found
     func user(id: Int) -> User? {
         let results = realm.objects(User.self)
                            .filter("userId = \(id)")
         return results.first
     }
 
+    /// Set user
+    ///
+    /// - Parameter data: API results
     func set(user data: UserJSON) {
         do {
             let object = User(from: data)
@@ -384,17 +521,25 @@ final class RealmDataController: ServiceProvider {
         }
     }
 
+    /// WHSs
     var whss: [WHS] {
         let results = realm.objects(WHS.self)
         return Array(results)
     }
 
+    /// Get WHS
+    ///
+    /// - Parameter id: WHS ID
+    /// - Returns: WHS if found
     func whs(id: Int) -> WHS? {
         let results = realm.objects(WHS.self)
                            .filter("placeId = \(id)")
         return results.first
     }
 
+    /// Set WHSs
+    ///
+    /// - Parameter whss: API results
     func set(whss: [WHSJSON]) {
         do {
             let objects = whss.compactMap { WHS(from: $0, realm: self) }
@@ -406,10 +551,17 @@ final class RealmDataController: ServiceProvider {
         }
     }
 
+    /// Resolve Realm crossthread reference
+    ///
+    /// - Parameter reference: Reference
+    /// - Returns: Mappable if found
     func resolve(reference: Mappable.Reference) -> Mappable? {
         return realm.resolve(reference)
     }
 
+    /// Update page stamp
+    ///
+    /// - Parameter stamp: Page
     func update(stamp: RankingsPageInfo) {
         do {
             try realm.write {
@@ -524,6 +676,7 @@ private extension Migration {
 #if targetEnvironment(simulator)
 extension RealmDataController {
 
+    /// Save current data for default startup loading
     func saveToDesktop() {
         // po Realm.Configuration.defaultConfiguration.fileURL
         do {

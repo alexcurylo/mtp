@@ -1,15 +1,26 @@
 // @copyright Trollwerks Inc.
 
+/// Excchange visit status with MTP endpoint
 struct Checked: Codable, ServiceProvider {
 
+    /// Visited beaches
     var beaches: [Int] = []
+    /// Visited divesites
     var divesites: [Int] = []
+    /// Visited golfcourses
     var golfcourses: [Int] = []
+    /// Visited locations
     var locations: [Int] = []
+    /// Visited restaurants
     var restaurants: [Int] = []
+    /// Visited uncountries
     var uncountries: [Int] = []
+    /// Visited whss
     var whss: [Int] = []
 
+    /// Index by checklist
+    ///
+    /// - Parameter list: Checklist
     subscript(list: Checklist) -> [Int] {
         switch list {
         case .beaches:
@@ -29,11 +40,18 @@ struct Checked: Codable, ServiceProvider {
         }
     }
 
+    /// Set visited status
+    ///
+    /// - Parameters:
+    ///   - item: Item to set
+    ///   - visited: Status to set
     mutating func set(item: Checklist.Item,
                       visited: Bool) {
         set(list: item.list, id: item.id, checked: visited)
     }
 }
+
+// MARK: - Private
 
 private extension Checked {
 
@@ -73,7 +91,7 @@ private extension Checked {
 
 extension Checked: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return """
         \(beaches.count) beaches \
         \(divesites.count) divesites \
@@ -105,6 +123,7 @@ extension Checked: CustomDebugStringConvertible {
 
 extension Hashable where Self: CaseIterable {
 
+    /// Convenience for indexing by case
     var index: Self.AllCases.Index {
         // swiftlint:disable:next force_unwrapping
         return type(of: self).allCases.firstIndex(of: self)!

@@ -2,13 +2,16 @@
 
 import UIKit
 
+/// Provide scroll view for keyboard avoidance
 protocol KeyboardListener {
 
+    /// Scroll view for keyboard avoidance
     var keyboardScrollee: UIScrollView? { get }
 }
 
 extension UIViewController {
 
+    /// Call when ready to listen, like `viewDidLoad`
     func startKeyboardListening() {
         NotificationCenter.default.addObserver(
             self,
@@ -23,6 +26,7 @@ extension UIViewController {
         // TBD: UIKeyboardWillChangeFrameNotification
     }
 
+    /// Call when finished listening, like `deinit`
     func stopKeyboardListening() {
         NotificationCenter.default.removeObserver(
             self,
@@ -33,6 +37,9 @@ extension UIViewController {
             name: UIResponder.keyboardWillHideNotification,
             object: nil)
     }
+}
+
+private extension UIViewController {
 
     @objc func keyboardWillShow(_ notification: Notification) {
         guard let scrollView = (self as? KeyboardListener)?.keyboardScrollee else { return }
@@ -71,7 +78,8 @@ extension UIViewController {
     }
 }
 
-struct KeyboardPayload {
+private struct KeyboardPayload {
+
     let beginFrame: CGRect
     let endFrame: CGRect
     let curve: UIView.AnimationCurve
@@ -79,7 +87,7 @@ struct KeyboardPayload {
     let isLocal: Bool
 }
 
-extension KeyboardPayload {
+private extension KeyboardPayload {
 
     init(note: Notification) {
         let userInfo = note.userInfo
@@ -94,13 +102,13 @@ extension KeyboardPayload {
 
 #if BLOCK_OBSERVATIONS
 
-struct NotificationDescriptor<Payload> {
+private struct NotificationDescriptor<Payload> {
 
     let name: Notification.Name
     let convert: (Notification) -> Payload
 }
 
-extension NotificationCenter {
+private extension NotificationCenter {
 
     func addObserver<Payload>(with descriptor: NotificationDescriptor<Payload>, block: @escaping (Payload) -> Void) {
         addObserver(forName: descriptor.name,
@@ -111,7 +119,7 @@ extension NotificationCenter {
     }
 }
 
-extension UIViewController {
+private extension UIViewController {
 
     static let keyboardWillShow = NotificationDescriptor(
         name: UIResponder.keyboardWillShowNotification,

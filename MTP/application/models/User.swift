@@ -4,34 +4,54 @@ import RealmSwift
 
 // swiftlint:disable file_length
 
+/// Abstraction for displaying avatars or placeholders
 protocol UserAvatar {
 
+    /// gender
     var gender: String { get }
+    /// picture
     var picture: String? { get }
 }
 
+/// Abstraction for logged in or other users
 protocol UserInfo: UserAvatar {
 
+    /// Is this logged in user?
     var isSelf: Bool { get }
+    /// orderBeaches
     var orderBeaches: Int { get }
+    /// orderDivesites
     var orderDivesites: Int { get }
+    /// orderGolfcourses
     var orderGolfcourses: Int { get }
+    /// orderLocations
     var orderLocations: Int { get }
+    /// orderRestaurants
     var orderRestaurants: Int { get }
+    /// orderUncountries
     var orderUncountries: Int { get }
+    /// orderWhss
     var orderWhss: Int { get }
+    /// visitBeaches
     var visitBeaches: Int { get }
+    /// visitDivesites
     var visitDivesites: Int { get }
+    /// visitGolfcourses
     var visitGolfcourses: Int { get }
+    /// visitLocations
     var visitLocations: Int { get }
+    /// visitRestaurants
     var visitRestaurants: Int { get }
+    /// visitUncountries
     var visitUncountries: Int { get }
+    /// visitWhss
     var visitWhss: Int { get }
 }
 
+/// Reply from user information endpoints
 struct UserJSON: Codable, Equatable, ServiceProvider {
 
-    enum Status: String {
+    private enum Status: String {
 
         case active = "A"
         case deceased = "D"
@@ -40,55 +60,107 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
         case waiting = "W"
     }
 
+    /// airport
     let airport: String?
+    /// bio
     let bio: String?
-    let birthday: Date
-    let country: LocationJSON
-    let countryId: Int
+    /// birthday
+    let birthday: Date?
+    /// country
+    let country: LocationJSON?
+    /// countryId
+    let countryId: Int?
+    /// createdAt
     let createdAt: Date
+    /// email
     let email: String
+    /// facebookEmail
     let facebookEmail: String?
+    /// facebookId
     let facebookId: Int?
+    /// facebookUserToken
     let facebookUserToken: String?
-    //let favoritePlaces: [FavoritePlace]? // not in signup
+    /// firstName
     let firstName: String
+    /// fullName
     let fullName: String
+    /// gender
     let gender: String
+    /// id
     let id: Int
+    /// lastLogIn
     let lastLogIn: String?
+    /// lastName
     let lastName: String
-    // swiftlint:disable:next discouraged_optional_collection
+    /// links
     let links: [Link]? // not in signup
-    let location: LocationJSON
-    let locationId: Int
+    // swiftlint:disable:previous discouraged_optional_collection
+    /// location
+    let location: LocationJSON?
+    /// locationId
+    let locationId: Int?
+    /// picture
     let picture: String?
+    /// rankBeaches
     let rankBeaches: Int? // not in signup
+    /// rankDivesites
     let rankDivesites: Int? // not in signup
+    /// rankGolfcourses
     let rankGolfcourses: Int? // not in signup
+    /// rankLocations
     let rankLocations: Int? // not in signup
+    /// rankRestaurants
     let rankRestaurants: Int? // not in signup
+    /// rankUncountries
     let rankUncountries: Int? // not in signup
+    /// rankWhss
     let rankWhss: Int? // not in signup
+    /// role
     let role: Int
+    /// score
     let score: Int? // not in signup
+    /// scoreBeaches
     let scoreBeaches: Int? // not in signup
+    /// scoreDivesites
     let scoreDivesites: Int? // not in signup
+    /// scoreGolfcourses
     let scoreGolfcourses: Int? // not in signup
+    /// scoreLocations
     let scoreLocations: Int? // not in signup
+    /// scoreRestaurants
     let scoreRestaurants: Int? // not in signup
+    /// scoreUncountries
     let scoreUncountries: Int? // not in signup
+    /// scoreWhss
     let scoreWhss: Int? // not in signup
+    /// status
     let status: String
+    /// token
     let token: String? // found only in login + signup responses
+    /// updatedAt
     let updatedAt: Date
+    /// username
     let username: String
 
+    /// Convenience status accessor
     var isWaiting: Bool {
         return Status(rawValue: status) == .waiting
     }
 
-    // swiftlint:disable:next function_body_length
+    /// Can rankings be displayed?
+    var isComplete: Bool {
+        return birthday != nil &&
+               country != nil &&
+               location != nil &&
+               gender != "U"
+    }
+
+    /// Copy and update visit counts
+    ///
+    /// - Parameter visited: New visit counts
+    /// - Returns: Copy with visited applied
     func updated(visited: Checked) -> UserJSON {
+        // swiftlint:disable:previous function_body_length
         let whsScore = visited.whss.reduce(0) {
             let hasParent = data.get(whs: $1)?.hasParent ?? false
             return $0 + (hasParent ? 0 : 1)
@@ -140,7 +212,7 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
 
 extension UserJSON: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return "\(username) (\(id))"
     }
 }
@@ -152,9 +224,9 @@ extension UserJSON: CustomDebugStringConvertible {
         < User: \(description):
             airport: \(String(describing: airport))
             bio: \(String(describing: bio))
-            birthday: \(birthday)
-            country: \(country)
-            country_id: \(countryId)
+            birthday: \(String(describing: birthday))
+            country: \(String(describing: country))
+            country_id: \(String(describing: countryId))
             created_at: \(createdAt)
             email: \(email)
             facebook_email: \(String(describing: facebookEmail))
@@ -166,9 +238,9 @@ extension UserJSON: CustomDebugStringConvertible {
             id: \(id)
             last_log_in: \(String(describing: lastLogIn))
             last_name: \(lastName)
-            location: \(location)
+            location: \(String(describing: location))
             links: \(links.debugDescription)
-            location_id: \(locationId)
+            location_id: \(String(describing: locationId))
             picture: \(String(describing: picture))
             rankBeaches: \(String(describing: rankBeaches))
             rankDivesites: \(String(describing: rankDivesites))
@@ -216,19 +288,17 @@ extension UserJSON: UserInfo {
     var visitWhss: Int { return scoreWhss ?? 0 }
 }
 
-struct FavoritePlace: Codable, Hashable {
+/// Apparently unimplemented so far
+struct FavoritePlace: Codable, Hashable, CustomStringConvertible, CustomDebugStringConvertible {
 
-    let id: String?
-    let type: String?
-}
+    private let id: String?
+    private let type: String?
 
-extension FavoritePlace: CustomStringConvertible, CustomDebugStringConvertible {
-
-    public var description: String {
+    var description: String {
         return debugDescription
     }
 
-    public var debugDescription: String {
+    var debugDescription: String {
         return """
         < Favorite Place:
             id \(String(describing: id))
@@ -237,15 +307,24 @@ extension FavoritePlace: CustomStringConvertible, CustomDebugStringConvertible {
     }
 }
 
+/// Links to display in user profile
 struct Link: Codable, Hashable {
 
+    /// text
     let text: String
+    /// url
     let url: String
 
+    /// Convience isEmpty accessor
     var isEmpty: Bool {
         return text.isEmpty && url.isEmpty
     }
 
+    /// Initialize by injection
+    ///
+    /// - Parameters:
+    ///   - text: text
+    ///   - url: url
     init(text: String = "",
          url: String = "") {
         self.text = text
@@ -255,28 +334,30 @@ struct Link: Codable, Hashable {
 
 extension Link: CustomStringConvertible, CustomDebugStringConvertible {
 
-    public var description: String {
+    var description: String {
         return debugDescription
     }
 
-    public var debugDescription: String {
+    var debugDescription: String {
         return "< Link: text \(text) url \(url)>"
     }
 }
 
 extension UserAvatar {
 
+    /// imageUrl
     var imageUrl: URL? {
         guard let uuid = picture, !uuid.isEmpty else { return nil }
         let target = MTP.picture(uuid: uuid, size: .thumb)
         return target.requestUrl
     }
 
+    /// placeholder
     var placeholder: UIImage? {
         switch gender {
         case "F":
             return R.image.placeholderFemaleThumb()
-        case "M":
+        case "M", "U":
             return R.image.placeholderMaleThumb()
         default:
             return R.image.placeholderThumb()
@@ -284,71 +365,70 @@ extension UserAvatar {
     }
 }
 
+/// Realm representation of a MTP user
 @objcMembers final class User: Object, UserInfo, ServiceProvider {
 
+    /// airport
     dynamic var airport: String = ""
+    /// bio
     dynamic var bio: String = ""
+    /// fullName
     dynamic var fullName: String = ""
+    /// gender
     dynamic var gender: String = ""
+    /// locationName
     dynamic var locationName: String = ""
+    /// picture
     dynamic var picture: String?
+    /// orderBeaches
     dynamic var orderBeaches: Int = 0
+    /// orderDivesites
     dynamic var orderDivesites: Int = 0
+    /// orderGolfcourses
     dynamic var orderGolfcourses: Int = 0
+    /// orderLocations
     dynamic var orderLocations: Int = 0
+    /// orderRestaurants
     dynamic var orderRestaurants: Int = 0
+    /// orderUncountries
     dynamic var orderUncountries: Int = 0
+    /// orderWhss
     dynamic var orderWhss: Int = 0
+    /// userId
     dynamic var userId: Int = 0
+    /// visitBeaches
     dynamic var visitBeaches: Int = 0
+    /// visitDivesites
     dynamic var visitDivesites: Int = 0
+    /// visitGolfcourses
     dynamic var visitGolfcourses: Int = 0
+    /// visitLocations
     dynamic var visitLocations: Int = 0
+    /// visitRestaurants
     dynamic var visitRestaurants: Int = 0
+    /// visitUncountries
     dynamic var visitUncountries: Int = 0
+    /// visitWhss
     dynamic var visitWhss: Int = 0
 
+    /// linkTexts
     let linkTexts = List<String>()
+    /// linkUrls
     let linkUrls = List<String>()
 
+    /// Is this logged in user?
     var isSelf: Bool {
         return userId == data.user?.id
     }
 
+    /// Realm unique identifier
+    ///
+    /// - Returns: unique identifier
     override static func primaryKey() -> String? {
         return "userId"
     }
 
-    convenience init(from: RankedUserJSON,
-                     with existing: User?) {
-        self.init()
-
-        airport = existing?.airport ?? ""
-        bio = existing?.bio ?? ""
-        fullName = from.fullName
-        gender = from.gender
-        locationName = from.location.description
-        picture = from.picture
-        orderBeaches = from.rankBeaches ?? existing?.orderBeaches ?? 0
-        orderDivesites = from.rankDivesites ?? existing?.orderDivesites ?? 0
-        orderGolfcourses = from.rankGolfcourses ?? existing?.orderGolfcourses ?? 0
-        orderLocations = from.rankLocations ?? existing?.orderLocations ?? 0
-        orderRestaurants = from.rankRestaurants ?? existing?.orderRestaurants ?? 0
-        orderUncountries = from.rankUncountries ?? existing?.orderUncountries ?? 0
-        orderWhss = from.rankWhss ?? existing?.orderWhss ?? 0
-        userId = from.id
-        visitBeaches = from.scoreBeaches ?? existing?.visitBeaches ?? 0
-        visitDivesites = from.scoreDivesites ?? existing?.visitDivesites ?? 0
-        visitGolfcourses = from.scoreGolfcourses ?? existing?.visitGolfcourses ?? 0
-        visitLocations = from.scoreLocations ?? existing?.visitLocations ?? 0
-        visitRestaurants = from.scoreRestaurants ?? existing?.visitRestaurants ?? 0
-        visitUncountries = from.scoreUncountries ?? existing?.visitUncountries ?? 0
-        visitWhss = from.scoreWhss ?? existing?.visitWhss ?? 0
-
-        existing?.linkTexts.forEach { linkTexts.append($0) }
-        existing?.linkUrls.forEach { linkUrls.append($0) }
-    }
-
+    /// Constructor from MTP endpoint data
     convenience init(from: UserJSON) {
         self.init()
 
@@ -357,7 +437,7 @@ extension UserAvatar {
         fullName = from.fullName
         gender = from.gender
         userId = from.id
-        locationName = from.location.description
+        locationName = from.location?.description ?? ""
         picture = from.picture
         orderBeaches = from.rankBeaches ?? 0
         orderDivesites = from.rankDivesites ?? 0
@@ -380,6 +460,7 @@ extension UserAvatar {
         }
     }
 
+    /// Constructor from MTP endpoint data
     convenience init(from: SearchResultItemJSON) {
         self.init()
 
@@ -387,6 +468,7 @@ extension UserAvatar {
         userId = from.id
     }
 
+    /// Constructor from MTP endpoint data
     convenience init?(from: OwnerJSON,
                       with existing: User?) {
         guard existing == nil else { return nil }
@@ -397,6 +479,10 @@ extension UserAvatar {
         userId = from.id
     }
 
+    /// Equality operator
+    ///
+    /// - Parameter object: Other object
+    /// - Returns: equality
     override func isEqual(_ object: Any?) -> Bool {
         guard let other = object as? User else { return false }
         guard !isSameObject(as: other) else { return true }

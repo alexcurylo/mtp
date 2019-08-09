@@ -6,24 +6,33 @@ import UserNotifications
 
 // swiftlint:disable file_length
 
+/// Notification model
 struct Note {
 
+    /// Intention of notification
     enum Category: String {
 
+        /// Congratulate on visit
         case congratulate
+        /// Display error
         case error
+        /// Show information
         case information
+        /// Ask question
         case question
+        /// Display success
         case success
+        /// Provide checkin
         case visit
 
+        /// identifier for UNNotification
         var identifier: String { return rawValue }
 
-        var attributes: EKAttributes {
+        fileprivate var attributes: EKAttributes {
             return EKAttributes(note: self)
         }
 
-        var priority: EKAttributes.Precedence.Priority {
+        fileprivate var priority: EKAttributes.Precedence.Priority {
             switch self {
             case .congratulate: return .high
             case .error: return .max
@@ -35,72 +44,164 @@ struct Note {
         }
     }
 
+    /// Information passed in notification user info
     enum ChecklistItemInfo: String {
 
+        /// Checklist
         case list
+        /// ID
         case id
 
+        /// Dictionary key
         var key: String { return rawValue }
     }
 
-    let title: String
-    let message: String
-    let category: Category
+    fileprivate let title: String
+    fileprivate let message: String
+    fileprivate let category: Category
 }
 
+/// Provides alerts, modal messages, and background notifications
 protocol NotificationService {
 
+    /// Callback handler type
     typealias Completion = (Result<Bool, String>) -> Void
-
+    /// Information type
     typealias Info = [String: Any]
 
+    /// Ask user for authorization
+    ///
+    /// - Parameter then: Callback
     func authorizeNotifications(then: @escaping (Bool) -> Void)
 
+    /// Set visited state
+    ///
+    /// - Parameters:
+    ///   - item: Place
+    ///   - visited: Whether visited
+    ///   - congratulate: Whether to congratulate
+    ///   - then: Callback
     func set(item: Checklist.Item,
              visited: Bool,
              congratulate: Bool,
              then: @escaping Completion)
+    /// Set visited state
+    ///
+    /// - Parameters:
+    ///   - items: Places
+    ///   - visited: Whether visited
+    ///   - congratulate: Whether to congratulate
+    ///   - then: Callback
     func set(items: [Checklist.Item],
              visited: Bool,
              congratulate: Bool,
              then: @escaping Completion)
 
+    /// Ask question
+    ///
+    /// - Parameters:
+    ///   - question: Question
+    ///   - then: Callback
     func ask(question: String,
              then: @escaping (Bool) -> Void)
 
+    /// Check for pending notifications
     func checkPending()
+    /// Queue visited notification
+    ///
+    /// - Parameters:
+    ///   - mappable: Place
+    ///   - triggered: Last triggered
+    ///   - then: Callback
     func notify(mappable: Mappable,
                 triggered: Date,
                 then: @escaping Completion)
+    /// Queue congratulations
+    ///
+    /// - Parameter item: Place
     func congratulate(item: Checklist.Item)
+    /// Queue congratulations
+    ///
+    /// - Parameter mappable: Place
     func congratulate(mappable: Mappable)
 
+    /// Post information
+    ///
+    /// - Parameters:
+    ///   - title: String
+    ///   - body: String
     func postInfo(title: String?,
                   body: String?)
+    /// Post visit
+    ///
+    /// - Parameters:
+    ///   - title: String
+    ///   - body: String
+    ///   - info: Info
     func postVisit(title: String,
                    body: String,
                    info: Info)
+    /// Post error
+    ///
+    /// - Parameter error: String
     func post(error: String)
+    /// Execute if in background
+    ///
+    /// - Parameter then: Action closure
     func background(then: @escaping () -> Void)
+    /// Custom post
+    ///
+    /// - Parameters:
+    ///   - title: String
+    ///   - subtitle: String
+    ///   - body: String
+    ///   - category: String
+    ///   - info: Info
     func post(title: String,
               subtitle: String,
               body: String,
               category: String,
               info: Info)
 
+    /// Show success
+    ///
+    /// - Parameter success: String
     func modal(success: String)
+    /// Show info
+    ///
+    /// - Parameter info: String
     func modal(info: String)
+    /// Show error
+    ///
+    /// - Parameter error: String
     func modal(error: String)
+    /// Network failure modal
+    ///
+    /// - Parameters:
+    ///   - failure: NetworkError
+    ///   - operation: String
     @discardableResult func modal(failure: NetworkError,
                                   operation: String) -> String
+    /// Dismiss modal
     func dismissModal()
 
+    /// Show error
+    ///
+    /// - Parameter error: String
     func message(error: String)
+    /// Show unimplemented alert
     func unimplemented()
 }
 
+// MARK: - Generic NotificationService
+
 extension NotificationService {
 
+    /// Post information
+    ///
+    /// - Parameters:
+    ///   - title: String
+    ///   - body: String
     func postInfo(title: String?,
                   body: String?) {
         post(title: title ?? "",
@@ -110,6 +211,12 @@ extension NotificationService {
              info: [:])
     }
 
+    /// Post visit
+    ///
+    /// - Parameters:
+    ///   - title: String
+    ///   - body: String
+    ///   - info: Info
     func postVisit(title: String,
                    body: String,
                    info: Info) {
@@ -120,6 +227,9 @@ extension NotificationService {
              info: info)
     }
 
+    /// Post error
+    ///
+    /// - Parameter error: String
     func post(error: String) {
         post(title: L.errorState(),
              subtitle: "",
@@ -128,11 +238,13 @@ extension NotificationService {
              info: [:])
     }
 
+    /// Show unimplemented alert
     func unimplemented() {
         message(error: L.unimplemented())
     }
 }
 
+/// Production implementation of NotificationService
 class NotificationServiceImpl: NotificationService, ServiceProvider {
 
     private var notifying: Mappable?
@@ -146,10 +258,14 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
         return UNUserNotificationCenter.current()
     }
 
+    /// Default constructor
     init() {
         KRProgressHUD.styleAppearance()
     }
 
+    /// Ask user for authorization
+    ///
+    /// - Parameter then: Callback
     func authorizeNotifications(then: @escaping (Bool) -> Void) {
         let options: UNAuthorizationOptions = [.alert, .badge, .sound]
         center.requestAuthorization(options: options) { granted, _ in
@@ -157,6 +273,13 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
         }
     }
 
+    /// Set visited state
+    ///
+    /// - Parameters:
+    ///   - item: Place
+    ///   - visited: Whether visited
+    ///   - congratulate: Whether to congratulate
+    ///   - then: Callback
     func set(item: Checklist.Item,
              visited: Bool,
              congratulate: Bool,
@@ -169,6 +292,13 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
             then: then)
     }
 
+    /// Set visited state
+    ///
+    /// - Parameters:
+    ///   - items: Places
+    ///   - visited: Whether visited
+    ///   - congratulate: Whether to congratulate
+    ///   - then: Callback
     func set(items: [Checklist.Item],
              visited: Bool,
              congratulate: Bool,
@@ -204,6 +334,9 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
         }
     }
 
+    /// Execute if in background
+    ///
+    /// - Parameter then: Action closure
     func background(then: @escaping () -> Void) {
         guard UIApplication.shared.isBackground else { return }
 
@@ -219,6 +352,14 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
         }
     }
 
+    /// Custom post
+    ///
+    /// - Parameters:
+    ///   - title: String
+    ///   - subtitle: String
+    ///   - body: String
+    ///   - category: String
+    ///   - info: Info
     func post(title: String,
               subtitle: String,
               body: String,
@@ -237,6 +378,11 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
         center.add(request)
     }
 
+    /// Ask question
+    ///
+    /// - Parameters:
+    ///   - question: Question
+    ///   - then: Callback
     func ask(question: String,
              then: @escaping (Bool) -> Void) {
         let note = Note(title: question,
@@ -245,6 +391,12 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
         askForeground(question: note, then: then)
     }
 
+    /// Queue visited notification
+    ///
+    /// - Parameters:
+    ///   - mappable: Place
+    ///   - triggered: Last triggered
+    ///   - then: Callback
     func notify(mappable: Mappable,
                 triggered: Date,
                 then: @escaping Completion) {
@@ -255,29 +407,34 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
                          triggered: triggered)
     }
 
+    /// Queue congratulations
+    ///
+    /// - Parameter item: Place
     func congratulate(item: Checklist.Item) {
         guard let mappable = data.get(mappable: item) else { return }
 
         congratulate(mappable: mappable)
     }
 
+    /// Queue congratulations
+    ///
+    /// - Parameter mappable: Place
     func congratulate(mappable: Mappable) {
         guard let note = congratulations(for: mappable) else { return }
 
         congratulate(mappable: mappable, note: note)
     }
 
-    func congratulate(mappable: Mappable, note: Note) {
-        congratulateForeground(mappable: mappable, note: note)
-        congratulateBackground(note: note)
-    }
-
+    /// Check for pending notifications
     func checkPending() {
         guard checkRemindedVerify() else { return }
 
         checkVisitTriggered()
     }
 
+    /// Show error
+    ///
+    /// - Parameter error: String
     func message(error: String) {
         let note = Note(title: error,
                         message: "",
@@ -289,6 +446,11 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
 // MARK: - Private
 
 private extension NotificationServiceImpl {
+
+    func congratulate(mappable: Mappable, note: Note) {
+        congratulateForeground(mappable: mappable, note: note)
+        congratulateBackground(note: note)
+    }
 
     func checkRemindedVerify() -> Bool {
         guard !remindedVerify,
@@ -636,21 +798,35 @@ private extension NotificationServiceImpl {
 
 extension NotificationServiceImpl {
 
+    /// Show success
+    ///
+    /// - Parameter success: String
     func modal(success: String) {
         showingModal = true
         KRProgressHUD.showSuccess(withMessage: success)
     }
 
+    /// Show info
+    ///
+    /// - Parameter info: String
     func modal(info: String) {
         showingModal = true
         KRProgressHUD.show(withMessage: info)
     }
 
+    /// Show error
+    ///
+    /// - Parameter error: String
     func modal(error: String) {
         showingModal = true
         KRProgressHUD.showError(withMessage: error)
     }
 
+    /// Network failure modal
+    ///
+    /// - Parameters:
+    ///   - failure: NetworkError
+    ///   - operation: String
     @discardableResult func modal(failure: NetworkError,
                                   operation: String) -> String {
         let errorMessage: String
@@ -677,6 +853,7 @@ extension NotificationServiceImpl {
         return errorMessage
     }
 
+    /// Dismiss modal
     func dismissModal() {
         showingModal = false
         KRProgressHUD.dismiss()
@@ -736,9 +913,19 @@ private extension EKAttributes {
     }
 }
 
+// MARK: - Testing
+
+#if DEBUG
+
+/// Stub for testing
 final class NotificationServiceStub: NotificationServiceImpl {
 
+    /// Ask user for authorization
+    ///
+    /// - Parameter then: Callback
     override func authorizeNotifications(then: @escaping (Bool) -> Void) {
         then(false)
     }
 }
+
+#endif

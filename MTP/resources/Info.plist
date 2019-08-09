@@ -29,7 +29,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>633</string>
+	<string>637</string>
 	<key>FacebookAppID</key>
 	<string>970945913071007</string>
 	<key>FacebookDisplayName</key>
@@ -49,7 +49,7 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>MTP needs to access the camera to let you take a photo.</string>
+	<string>By giving MTP access to your camera, you can take a travel photo and publish it directly to the MTP website.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>MTP needs your location to show you nearby places to visit. With “Always” access, MTP can notify you to check in at a place.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -57,9 +57,9 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>MTP needs your location to show you nearby places to visit.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>MTP needs to access your photo library to let you save a photo.</string>
+	<string>By giving MTP access to your photo library, you can save your photos published on the MTP website back to your library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>MTP needs to access your photo library to let you select a photo.</string>
+	<string>By giving MTP access to your photo library, you can select photos from your library to publish to the MTP website.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>

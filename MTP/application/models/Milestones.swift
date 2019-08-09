@@ -2,6 +2,7 @@
 
 import RealmSwift
 
+/// Settings info received from MTP endpoints
 struct SettingsJSON: Codable {
 
     private enum CodingKeys: String, CodingKey {
@@ -16,14 +17,14 @@ struct SettingsJSON: Codable {
     //let accident: String?
     //let defaultEmails: DefaultEmailsJSON?
     //let locationMap: MapRenderJSON?
-    let milestoneThresholds: MilestonesJSON
+    fileprivate let milestoneThresholds: MilestonesJSON
     //let rssFeeds: RSSFeedsJSON?
     //let worldMap: MapRenderJSON?
 }
 
 extension SettingsJSON: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return "Settings"
     }
 }
@@ -39,7 +40,7 @@ extension SettingsJSON: CustomDebugStringConvertible {
     }
 }
 
-struct DefaultEmailsJSON: Codable {
+private struct DefaultEmailsJSON: Codable, CustomStringConvertible, CustomDebugStringConvertible {
 
     private enum CodingKeys: String, CodingKey {
         case verificationRequest = "verification-request"
@@ -53,16 +54,10 @@ struct DefaultEmailsJSON: Codable {
     }
 
     let verificationRequest: EmailJSON
-}
 
-extension DefaultEmailsJSON: CustomStringConvertible {
-
-    public var description: String {
+    var description: String {
         return "DefaultEmailsJSON: [verification-request]"
     }
-}
-
-extension DefaultEmailsJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
@@ -75,7 +70,7 @@ extension DefaultEmailsJSON: CustomDebugStringConvertible {
     }
 }
 
-struct MapRenderJSON: Codable {
+private struct MapRenderJSON: Codable, CustomStringConvertible, CustomDebugStringConvertible {
 
     private enum CodingKeys: String, CodingKey {
         case fillColors = "fill-colors"
@@ -86,16 +81,10 @@ struct MapRenderJSON: Codable {
     let fillColors: ColorsJSON
     let fillOpacities: OpacitiesJSON
     let outlineColors: ColorsJSON
-}
 
-extension MapRenderJSON: CustomStringConvertible {
-
-    public var description: String {
+    var description: String {
         return "MapRenderJSON"
     }
-}
-
-extension MapRenderJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
@@ -108,7 +97,7 @@ extension MapRenderJSON: CustomDebugStringConvertible {
     }
 }
 
-struct ColorsJSON: Codable {
+private struct ColorsJSON: Codable, CustomStringConvertible, CustomDebugStringConvertible {
 
     private enum CodingKeys: String, CodingKey {
         case remainingPolygon = "remaining-polygon"
@@ -117,16 +106,10 @@ struct ColorsJSON: Codable {
 
     let remainingPolygon: String
     let visitedPolygon: String
-}
 
-extension ColorsJSON: CustomStringConvertible {
-
-    public var description: String {
+    var description: String {
         return "ColorsJSON"
     }
-}
-
-extension ColorsJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
@@ -138,7 +121,7 @@ extension ColorsJSON: CustomDebugStringConvertible {
     }
 }
 
-struct OpacitiesJSON: Codable {
+private struct OpacitiesJSON: Codable, CustomStringConvertible, CustomDebugStringConvertible {
 
     private enum CodingKeys: String, CodingKey {
         case remainingPolygon = "remaining-polygon"
@@ -147,16 +130,10 @@ struct OpacitiesJSON: Codable {
 
     let remainingPolygon: Int
     let visitedPolygon: Int
-}
 
-extension OpacitiesJSON: CustomStringConvertible {
-
-    public var description: String {
+    var description: String {
         return "OpacitiesJSON"
     }
-}
-
-extension OpacitiesJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
@@ -168,7 +145,7 @@ extension OpacitiesJSON: CustomDebugStringConvertible {
     }
 }
 
-struct MilestonesJSON: Codable {
+private struct MilestonesJSON: Codable, CustomStringConvertible, CustomDebugStringConvertible {
 
     struct ThresholdsJSON: Codable {
 
@@ -204,16 +181,10 @@ struct MilestonesJSON: Codable {
             return restaurants
         }
     }
-}
 
-extension MilestonesJSON: CustomStringConvertible {
-
-    public var description: String {
+    var description: String {
         return "MilestonesJSON"
     }
-}
-
-extension MilestonesJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
@@ -229,7 +200,8 @@ extension MilestonesJSON: CustomDebugStringConvertible {
         """
     }
 }
-struct RSSFeedsJSON: Codable {
+
+private struct RSSFeedsJSON: Codable, CustomStringConvertible, CustomDebugStringConvertible {
 
     private enum CodingKeys: String, CodingKey {
         case travelNews = "travel-news"
@@ -243,16 +215,10 @@ struct RSSFeedsJSON: Codable {
     }
 
     let travelNews: [FeedJSON]
-}
 
-extension RSSFeedsJSON: CustomStringConvertible {
-
-    public var description: String {
+    var description: String {
         return "RSSFeedsJSON: [travel-news]"
     }
-}
-
-extension RSSFeedsJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
@@ -263,23 +229,33 @@ extension RSSFeedsJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Realm representation of a milestone message
 @objcMembers final class Threshold: Object {
 
+    /// min
     dynamic var min: Int = 0
+    /// max
     dynamic var max: Int = 0
+    /// name
     dynamic var name: String = ""
 
+    /// checklistValue
     dynamic var checklistValue: Int = Checklist.beaches.rawValue
+    /// index
     dynamic var index: Int = 0
+    /// dbKey
     dynamic var dbKey: String = ""
 
+    /// Realm unique identifier
+    ///
+    /// - Returns: unique identifier
     override static func primaryKey() -> String? {
         return "dbKey"
     }
 
-    convenience init(from: MilestonesJSON.ThresholdsJSON,
-                     list: Checklist,
-                     index: Int) {
+    fileprivate convenience init(from: MilestonesJSON.ThresholdsJSON,
+                                 list: Checklist,
+                                 index: Int) {
         self.init()
 
         min = from.min
@@ -292,21 +268,29 @@ extension RSSFeedsJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Realm representation of a collection of Thresholds
 @objcMembers final class Milestones: Object {
 
+    /// checklistValue
     dynamic var checklistValue: Int = Checklist.beaches.rawValue
+    /// checklist
     var checklist: Checklist {
         //swiftlint:disable:next force_unwrapping
         get { return Checklist(rawValue: checklistValue)! }
         set { checklistValue = newValue.rawValue }
     }
 
+    /// thresholds
     let thresholds = List<Threshold>()
 
+    /// Realm unique identifier
+    ///
+    /// - Returns: unique identifier
     override static func primaryKey() -> String? {
         return "checklistValue"
     }
 
+    /// Constructor from MTP endpoint data
     convenience init(from: SettingsJSON,
                      list: Checklist) {
         self.init()
@@ -321,6 +305,10 @@ extension RSSFeedsJSON: CustomDebugStringConvertible {
         }
     }
 
+    /// Milestone text if any
+    ///
+    /// - Parameter count: New count
+    /// - Returns: Milestone text if appropriate
     func milestone(count: Int) -> String {
         // swiftlint:disable:next first_where
         guard let threshold = thresholds.filter("min = \(count)").first else {

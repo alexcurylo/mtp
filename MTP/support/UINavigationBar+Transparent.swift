@@ -2,14 +2,22 @@
 
 import UIKit
 
+/// Transparency valyes, particularly of navigation bars
 enum Transparency {
+
+    /// Transparent
     case transparent
+    /// Translucent
     case translucent
+    /// Opaque
     case opaque
 }
 
 extension UIViewController {
 
+    /// Hide navigation bar
+    ///
+    /// - Parameter animated: Whether to animate
     func hide(navBar animated: Bool) {
         if let presenter = presentingViewController {
             presenter.hide(navBar: animated)
@@ -18,6 +26,9 @@ extension UIViewController {
         }
     }
 
+    /// Hide tool bar
+    ///
+    /// - Parameter animated: Whether to animate
     func hide(toolBar animated: Bool) {
         if let presenter = presentingViewController {
             presenter.hide(toolBar: animated)
@@ -26,6 +37,9 @@ extension UIViewController {
         }
     }
 
+    /// Show navigation bar
+    ///
+    /// - Parameter animated: Whether to animate
     func show(navBar animated: Bool, style: Styler? = nil) {
         if let style = style {
             navigationController?.navigationBar.set(style: style)
@@ -33,6 +47,9 @@ extension UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
 
+    /// Show tool bar
+    ///
+    /// - Parameter animated: Whether to animate
     func show(toolBar animated: Bool) {
         navigationController?.setToolbarHidden(false, animated: animated)
     }
@@ -40,6 +57,9 @@ extension UIViewController {
 
 extension UINavigationBar {
 
+    /// Set predefined style
+    ///
+    /// - Parameter style: Style definition
     func set(style: Styler) {
         tintColor = style.itemColor
         let attributes = NSAttributedString.attributes(
@@ -48,6 +68,14 @@ extension UINavigationBar {
         titleTextAttributes = attributes
     }
 
+    /// Style appearance of navigation bar
+    ///
+    /// - Parameters:
+    ///   - transparency: Transparency
+    ///   - titleFont: Title font
+    ///   - titleColor: Title color
+    ///   - itemColor: Item color
+    ///   - backgroundColor: Background color
     static func styleAppearance(transparency: Transparency? = nil,
                                 titleFont: UIFont? = nil,
                                 titleColor: UIColor? = nil,

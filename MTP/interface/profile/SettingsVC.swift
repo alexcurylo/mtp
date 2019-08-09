@@ -1,14 +1,16 @@
 // @copyright Trollwerks Inc.
 
 import MessageUI
-//import StoreKit
 
+/// Miscellaneous account and app operations
 final class SettingsVC: UITableViewController, ServiceProvider {
 
     private typealias Segues = R.segue.settingsVC
 
     @IBOutlet private var backgroundView: UIView?
+    private var reportMessage = ""
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -16,21 +18,31 @@ final class SettingsVC: UITableViewController, ServiceProvider {
         tableView.backgroundView = backgroundView
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .standard)
     }
 
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if !reportMessage.isEmpty {
+            email(title: L.reportSubject(), body: reportMessage)
+            reportMessage = ""
+        }
     }
 
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.logout.identifier:
@@ -45,10 +57,11 @@ final class SettingsVC: UITableViewController, ServiceProvider {
     }
 }
 
+// MARK: - Private
+
 private extension SettingsVC {
 
-    @IBAction func unwindToSettings(segue: UIStoryboardSegue) {
-    }
+    @IBAction func unwindToSettings(segue: UIStoryboardSegue) { }
 
     var productUrl: URL? {
         //let posesLink = "https://apps.apple.com/app/id357099619"
@@ -85,13 +98,28 @@ private extension SettingsVC {
     }
 
     @IBAction func contactTapped(_ sender: UIButton) {
-        guard MFMailComposeViewController.canSendMail() else { return }
+        email(title: L.contactSubject())
+    }
 
-        style.system.styleAppearanceNavBar()
+    func report(body: String? = nil) {
+        email(title: L.reportSubject(), body: body)
+    }
+
+    func email(title: String,
+               body: String? = nil) {
+        guard MFMailComposeViewController.canSendMail() else {
+            note.message(error: L.setupEmail())
+            return
+        }
+
+        style.styler.system.styleAppearanceNavBar()
         let composeVC = MFMailComposeViewController {
             $0.mailComposeDelegate = self
             $0.setToRecipients([L.contactAddress()])
-            $0.setSubject(L.contactSubject())
+            $0.setSubject(title)
+            if let body = body {
+                $0.setMessageBody(body, isHTML: false)
+            }
         }
         composeVC.navigationBar.set(style: .system)
 
@@ -120,22 +148,37 @@ private extension SettingsVC {
 
 extension SettingsVC: MFMailComposeViewControllerDelegate {
 
+    /// Handle mail compose result
+    ///
+    /// - Parameters:
+    ///   - controller: Mail editor
+    ///   - result: Result
+    ///   - error: Error if any
     func mailComposeController(_ controller: MFMailComposeViewController,
                                didFinishWith result: MFMailComposeResult,
                                error: Error?) {
-        style.standard.styleAppearanceNavBar()
+        style.styler.standard.styleAppearanceNavBar()
         controller.dismiss(animated: true, completion: nil)
     }
 }
 
+// MARK: - Injectable
+
 extension SettingsVC: Injectable {
 
-    typealias Model = ()
+    /// Injected dependencies
+    typealias Model = String
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
+        reportMessage = model
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         backgroundView.require()
     }
@@ -143,8 +186,11 @@ extension SettingsVC: Injectable {
 
 extension MFMailComposeViewController {
 
-    // swiftlint:disable:next override_in_extension
+    /// Fix nav bar for mail controller
+    ///
+    /// - Parameter animated: Animated appearance?
     override open func viewWillAppear(_ animated: Bool) {
+        // swiftlint:disable:previous override_in_extension
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .system)

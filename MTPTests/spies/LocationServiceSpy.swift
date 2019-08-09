@@ -63,13 +63,13 @@ final class LocationServiceSpy: LocationService {
         invokedLogGetterCount += 1
         return stubbedLog
     }
-    var invokedMtpGetter = false
-    var invokedMtpGetterCount = 0
-    var stubbedMtp: NetworkService!
+    var invokedNetGetter = false
+    var invokedNetGetterCount = 0
+    var stubbedNet: NetworkService!
     var net: NetworkService {
-        invokedMtpGetter = true
-        invokedMtpGetterCount += 1
-        return stubbedMtp
+        invokedNetGetter = true
+        invokedNetGetterCount += 1
+        return stubbedNet
     }
     var invokedNoteGetter = false
     var invokedNoteGetterCount = 0
@@ -78,6 +78,14 @@ final class LocationServiceSpy: LocationService {
         invokedNoteGetter = true
         invokedNoteGetterCount += 1
         return stubbedNote
+    }
+    var invokedStyleGetter = false
+    var invokedStyleGetterCount = 0
+    var stubbedStyle: StyleService!
+    var style: StyleService {
+        invokedStyleGetter = true
+        invokedStyleGetterCount += 1
+        return stubbedStyle
     }
     var invokedDistance = false
     var invokedDistanceCount = 0
@@ -154,6 +162,12 @@ final class LocationServiceSpy: LocationService {
         invokedInjectCount += 1
         invokedInjectParameters = (handler, ())
         invokedInjectParametersList.append((handler, ()))
+    }
+    var invokedCalculateDistances = false
+    var invokedCalculateDistancesCount = 0
+    func calculateDistances() {
+        invokedCalculateDistances = true
+        invokedCalculateDistancesCount += 1
     }
     var invokedClose = false
     var invokedCloseCount = 0

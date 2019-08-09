@@ -77,13 +77,12 @@
                                                                         </label>
                                                                     </subviews>
                                                                 </stackView>
-                                                                <button opaque="NO" contentMode="center" horizontalHuggingPriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S3i-7f-jXx">
+                                                                <button opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="1000" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S3i-7f-jXx">
                                                                     <rect key="frame" x="342" y="0.0" width="40" height="40"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="40" id="W6i-AB-6Mx"/>
                                                                         <constraint firstAttribute="height" constant="40" id="hn3-aA-EfS"/>
                                                                     </constraints>
-                                                                    <state key="normal" image="buttonMapBlue"/>
                                                                     <connections>
                                                                         <action selector="mapButtonTapped:" destination="9Or-xE-AhS" eventType="touchUpInside" id="yob-Aa-uY5"/>
                                                                     </connections>
@@ -165,7 +164,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="buttonMapBlue" width="30" height="30"/>
         <image name="navCloseBlue" width="16" height="16"/>
         <namedColor name="azureRadiance">
             <color red="0.0078431372549019607" green="0.55294117647058827" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

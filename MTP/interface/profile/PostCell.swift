@@ -2,30 +2,65 @@
 
 import Anchorage
 
+/// Actions triggered by post cell
 protocol PostCellDelegate: AnyObject {
 
+    /// Profile tapped
+    ///
+    /// - Parameter user: User to display
     func tapped(profile user: User)
+    /// Display toggle tapped
+    ///
+    /// - Parameter toggle: Model to toggle
     func tapped(toggle: Int)
+
+    /// Handle hide action
+    ///
+    /// - Parameter hide: PostCellModel to hide
+    func tapped(hide: PostCellModel?)
+    /// Handle report action
+    ///
+    /// - Parameter report: PostCellModel to report
+    func tapped(report: PostCellModel?)
+    /// Handle block action
+    ///
+    /// - Parameter block: PostCellModel to block
+    func tapped(block: PostCellModel?)
 }
 
+/// Type of page presenting this object
 enum Presenter {
 
+    /// A location page
     case location
+    /// A user page
     case user
 }
 
+/// Data model for post cell
 struct PostCellModel {
 
+    /// Post index
     let index: Int
+    /// Date of post
     let date: String
+    /// Title of post
     let title: String
+    /// Body of post
     let body: String
+    /// Reportable ID
+    let postId: Int
+    /// Type of presenter
     let presenter: Presenter
+    /// Location if available
     let location: Location?
+    /// User if available
     let user: User?
+    /// Show full text?
     var isExpanded: Bool
 }
 
+/// Displays a single post
 final class PostCell: UITableViewCell, ServiceProvider {
 
     @IBOutlet private var holder: UIView?
@@ -62,14 +97,20 @@ final class PostCell: UITableViewCell, ServiceProvider {
                       color: UIColor.darkGray))
     )
 
+    /// Configure after nib loading
     override func awakeFromNib() {
         super.awakeFromNib()
 
         configure()
     }
 
-    func set(model: PostCellModel,
-             delegate: PostCellDelegate) {
+    /// Handle dependency injection
+    ///
+    /// - Parameters:
+    ///   - model: Data model
+    ///   - delegate: Delegate
+    func inject(model: PostCellModel,
+                delegate: PostCellDelegate) {
         self.model = model
         self.delegate = delegate
 
@@ -113,6 +154,7 @@ final class PostCell: UITableViewCell, ServiceProvider {
         setExpanded()
     }
 
+    /// Empty display
     override func prepareForReuse() {
         super.prepareForReuse()
 
@@ -125,6 +167,8 @@ final class PostCell: UITableViewCell, ServiceProvider {
         setExpanded()
     }
 }
+
+// MARK: - Private
 
 private extension PostCell {
 
@@ -225,6 +269,18 @@ private extension PostCell {
         guard let model = model else { return }
 
         delegate?.tapped(toggle: model.index)
+    }
+
+    @objc func hide(_ sender: AnyObject?) {
+        delegate?.tapped(hide: model)
+    }
+
+    @objc func report(_ sender: AnyObject?) {
+        delegate?.tapped(report: model)
+    }
+
+    @objc func block(_ sender: AnyObject?) {
+        delegate?.tapped(block: model)
     }
 
     func setExpanded() {

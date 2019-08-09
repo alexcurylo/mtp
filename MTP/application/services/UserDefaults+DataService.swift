@@ -4,6 +4,64 @@ import Foundation
 
 extension UserDefaults: ServiceProvider {
 
+    /// Blocked photos
+    var blockedPhotos: [Int] {
+        get {
+            do {
+                return try get(objectType: [Int].self, forKey: #function) ?? []
+            } catch {
+                log.error("decoding blockedPhotos value: \(error)")
+                return []
+            }
+        }
+        set {
+            do {
+                try set(object: newValue, forKey: #function)
+            } catch {
+                log.error("encoding blockedPhotos newValue: \(error)")
+            }
+        }
+    }
+
+    /// Blocked posts
+    var blockedPosts: [Int] {
+        get {
+            do {
+                return try get(objectType: [Int].self, forKey: #function) ?? []
+            } catch {
+                log.error("decoding blockedPosts value: \(error)")
+                return []
+            }
+        }
+        set {
+            do {
+                try set(object: newValue, forKey: #function)
+            } catch {
+                log.error("encoding blockedPosts newValue: \(error)")
+            }
+        }
+    }
+
+    /// Blocked users
+    var blockedUsers: [Int] {
+        get {
+            do {
+                return try get(objectType: [Int].self, forKey: #function) ?? []
+            } catch {
+                log.error("decoding blockedUsers value: \(error)")
+                return []
+            }
+        }
+        set {
+            do {
+                try set(object: newValue, forKey: #function)
+            } catch {
+                log.error("encoding blockedUsers newValue: \(error)")
+            }
+        }
+    }
+
+    /// Dismissed timestamps
     var dismissed: Timestamps? {
         get {
             do {
@@ -26,11 +84,13 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
+    /// Email stash during signup
     var email: String {
         get { return string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }
     }
 
+    /// If-None-Match cache
     var etags: [String: String] {
         get {
             do {
@@ -49,6 +109,7 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
+    /// Rankings filter
     var lastRankingsQuery: RankingsQuery? {
         get {
             do {
@@ -71,6 +132,7 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
+    /// Displayed types
     var mapDisplay: ChecklistFlags? {
         get {
             do {
@@ -93,6 +155,7 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
+    /// Notified timestamps
     var notified: Timestamps? {
         get {
             do {
@@ -115,11 +178,13 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
+    /// Login token
     var token: String {
         get { return string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }
     }
 
+    /// Triggered timestamps
     var triggered: Timestamps? {
         get {
             do {
@@ -142,6 +207,7 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
+    /// Updated timestamps
     var updated: Timestamps? {
         get {
             do {
@@ -164,6 +230,7 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
+    /// User info
     var user: UserJSON? {
         get {
             do {
@@ -186,6 +253,7 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
+    /// User visits
     var visited: Checked? {
         get {
             do {

@@ -3,31 +3,32 @@
 import CoreLocation
 import RealmSwift
 
+/// Restaurant API result
 struct RestaurantJSON: Codable {
 
-    let active: String
-    let address: String?
-    let country: String?
-    let externalId: String
-    let featuredImg: String?
-    let id: Int
-    let isTop100: Int
-    let lat: Double
-    let location: PlaceLocation?
-    let locationId: Int
-    let long: Double
-    let rank: Int
-    let rankTop100: Int?
-    let restid: Int
-    let stars: Int
-    let title: String
-    let url: String
-    let visitors: Int
+    fileprivate let active: String
+    fileprivate let address: String?
+    fileprivate let country: String?
+    fileprivate let externalId: String
+    fileprivate let featuredImg: String?
+    fileprivate let id: Int
+    fileprivate let isTop100: Int
+    fileprivate let lat: Double
+    fileprivate let location: PlaceLocation?
+    fileprivate let locationId: Int
+    fileprivate let long: Double
+    fileprivate let rank: Int
+    fileprivate let rankTop100: Int?
+    fileprivate let restid: Int
+    fileprivate let stars: Int
+    fileprivate let title: String
+    fileprivate let url: String
+    fileprivate let visitors: Int
 }
 
 extension RestaurantJSON: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return title
     }
 }
@@ -60,15 +61,22 @@ extension RestaurantJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Realm representation of a restaurant place
 @objcMembers final class Restaurant: Object, PlaceInfo, PlaceMappable {
 
+    /// Link to the Mappable object for this location
     dynamic var map: Mappable?
+    /// placeId
     dynamic var placeId: Int = 0
 
+    /// Realm unique identifier
+    ///
+    /// - Returns: unique identifier
     override static func primaryKey() -> String? {
         return "placeId"
     }
 
+    /// Constructor from MTP endpoint data
     convenience init?(from: RestaurantJSON,
                       realm: RealmDataController) {
         guard from.active == "Y" else { return nil }

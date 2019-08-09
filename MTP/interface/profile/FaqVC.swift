@@ -2,11 +2,18 @@
 
 import UIKit
 
-protocol FaqCellDelegate: AnyObject {
+/// Notify of cell events
+private protocol FaqCellDelegate: AnyObject {
 
+    /// Toggle visible state
+    ///
+    /// - Parameters:
+    ///   - faq: Index
+    ///   - visible: Visibility
     func set(faq: Int, answer visible: Bool)
 }
 
+/// Display the website FAQ as a collapsible table
 final class FaqVC: UITableViewController, ServiceProvider {
 
     private typealias Segues = R.segue.faqVC
@@ -76,6 +83,7 @@ final class FaqVC: UITableViewController, ServiceProvider {
                      isExpanded: false)
     ]
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -87,21 +95,20 @@ final class FaqVC: UITableViewController, ServiceProvider {
         tableView.rowHeight = UITableView.automaticDimension
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .standard)
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.unwindFromFaq.identifier:
@@ -116,22 +123,40 @@ final class FaqVC: UITableViewController, ServiceProvider {
 
 extension FaqVC {
 
+    /// Number of sections
+    ///
+    /// - Parameter tableView: UITableView
+    /// - Returns: Number of sections
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    /// Number of rows in section
+    ///
+    /// - Parameters:
+    ///   - tableView: UITableView
+    ///   - section: Section
+    /// - Returns: Number of rows in section
+    override func tableView(_ tableView: UITableView,
+                            numberOfRowsInSection section: Int) -> Int {
         return faqs.count
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    /// Create table cell
+    ///
+    /// - Parameters:
+    ///   - tableView: UITableView
+    ///   - indexPath: Index Path
+    /// - Returns: UITableViewCell
+    override func tableView(_ tableView: UITableView,
+                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //swiftlint:disable:next implicitly_unwrapped_optional
         let cell: FaqCell! = tableView.dequeueReusableCell(
             withIdentifier: R.reuseIdentifier.faqCell,
             for: indexPath)
 
-        cell.set(model: faqs[indexPath.row],
-                 delegate: self)
+        cell.inject(model: faqs[indexPath.row],
+                    delegate: self)
 
         return cell
     }
@@ -141,11 +166,23 @@ extension FaqVC {
 
 extension FaqVC {
 
+    /// Provide row height
+    ///
+    /// - Parameters:
+    ///   - tableView: Table
+    ///   - indexPath: Index path
+    /// - Returns: Height
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 
+    /// Provide estimated row height
+    ///
+    /// - Parameters:
+    ///   - tableView: Table
+    ///   - indexPath: Index path
+    /// - Returns: Height
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
@@ -156,12 +193,18 @@ extension FaqVC {
 
 extension FaqVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = ()
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         backgroundView.require()
     }
@@ -171,14 +214,13 @@ extension FaqVC: Injectable {
 
 extension FaqVC: FaqCellDelegate {
 
-    func set(faq: Int, answer visible: Bool) {
+    fileprivate func set(faq: Int, answer visible: Bool) {
         faqs[faq].isExpanded = visible
-
         tableView.update()
     }
 }
 
-struct FaqCellModel {
+private struct FaqCellModel {
 
     let index: Int
     let question: String
@@ -186,6 +228,7 @@ struct FaqCellModel {
     var isExpanded: Bool
 }
 
+/// Displays a FAQ
 final class FaqCell: UITableViewCell {
 
     @IBOutlet private var questionLabel: UILabel?
@@ -195,6 +238,7 @@ final class FaqCell: UITableViewCell {
     private var index = 0
     private weak var delegate: FaqCellDelegate?
 
+    /// Configure after nib loading
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -205,6 +249,7 @@ final class FaqCell: UITableViewCell {
         addGestureRecognizer(tap)
     }
 
+    /// Empty display
     override func prepareForReuse() {
         super.prepareForReuse()
 
@@ -216,8 +261,8 @@ final class FaqCell: UITableViewCell {
         setAnswerShown()
     }
 
-    func set(model: FaqCellModel,
-             delegate: FaqCellDelegate) {
+    fileprivate func inject(model: FaqCellModel,
+                            delegate: FaqCellDelegate) {
         self.index = model.index
         self.delegate = delegate
         questionLabel?.text = model.question
@@ -226,6 +271,8 @@ final class FaqCell: UITableViewCell {
         setAnswerShown()
     }
 }
+
+// MARK: - Private
 
 private extension FaqCell {
 

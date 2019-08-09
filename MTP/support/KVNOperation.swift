@@ -2,14 +2,19 @@
 
 import Foundation
 
+/// Operation with KVN support for isExecuting and isFinished
 class KVNOperation: Operation {
 
     private var _executing = false {
         willSet { willChangeValue(forKey: "isExecuting") }
         didSet { didChangeValue(forKey: "isExecuting") }
     }
+    /// Executing state of operation
     override var isExecuting: Bool { return _executing }
 
+    /// Set executing state
+    ///
+    /// - Parameter executing: Executing state
     func execute(_ executing: Bool) {
         _executing = executing
     }
@@ -18,17 +23,23 @@ class KVNOperation: Operation {
         willSet { willChangeValue(forKey: "isFinished") }
         didSet { didChangeValue(forKey: "isFinished") }
     }
+    /// Finished state of operation
     override var isFinished: Bool { return _finished }
 
+    /// Set finished state
+    ///
+    /// - Parameter finished: Finished state
     func finish(_ finished: Bool) {
         _finished = finished
     }
 
-    //swiftlint:disable:next unavailable_function
+    /// Perform task - must be overridden
     func operate() {
+        //swiftlint:disable:previous unavailable_function
         fatalError("operate has not been overridden")
     }
 
+    /// Send completion notification
     func complete() {
         if _executing {
             execute(false)
@@ -38,10 +49,12 @@ class KVNOperation: Operation {
         }
     }
 
+    /// Completion override point
     func operated() {
         complete()
     }
 
+    /// Operation execution
     override func main() {
         guard isCancelled == false else {
             finish(true)
@@ -58,22 +71,29 @@ class KVNOperation: Operation {
     }
 }
 
+/// A KVNOperation for blocks
 final class AsyncBlockOperation: KVNOperation {
 
+    /// The block to execute
     typealias Operation = (@escaping () -> Void) -> Void
 
     private let operation: Operation
 
+    /// Initialize with block
+    ///
+    /// - Parameter operation: Block to execute
     init(operation: @escaping Operation) {
         self.operation = operation
         super.init()
     }
 
+    /// Asynchronously completing execution
     override func operate() {
         operation {
             self.complete()
         }
     }
 
+    /// Stubbed override for block to complete
     override func operated() { }
 }

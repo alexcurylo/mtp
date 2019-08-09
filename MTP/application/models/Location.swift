@@ -3,41 +3,55 @@
 import CoreLocation
 import RealmSwift
 
+/// Type of location
 enum AdminLevel: Int {
+
+    /// Unknown
     case unknown = 0
+    /// A UN country
     case country = 2
+    /// An MTP location
     case location = 4
 }
 
+/// Location info received from MTP endpoints
 struct LocationJSON: Codable, Equatable {
 
+    /// Filter for current data
     let active: String
-    let adminLevel: Int
-    let airports: String?
-    let countryId: Int? // null or 0 in index 190-192 of un-country
+    fileprivate let adminLevel: Int
+    fileprivate let airports: String?
+    /// Unique ID of country
+    /// null or 0 in index 190-192 of un-country
+    let countryId: Int?
+    /// Name to display in UI
     let countryName: String
-    let distance: Double?
-    let featuredImg: String?
+    private let distance: Double?
+    /// UUID of main image
+    fileprivate let featuredImg: String?
+    /// Unique ID of location
     let id: Int
-    let isMtpLocation: Int
-    let isUn: Int
-    let lat: Double?
-    let locationName: String
-    let lon: Double?
-    let rank: Int
-    let rankUn: Int
-    let regionId: Int
+    private let isMtpLocation: Int
+    private let isUn: Int
+    fileprivate let lat: Double?
+    fileprivate let locationName: String
+    fileprivate let lon: Double?
+    fileprivate let rank: Int
+    fileprivate let rankUn: Int
+    private let regionId: Int
+    /// Region containing this country
     let regionName: String
+    /// Number of MTP visitors
     let visitors: Int
-    let visitorsUn: Int
-    let weather: String?
-    let weatherhist: String?
-    let zoom: Int?
+    private let visitorsUn: Int
+    private let weather: String?
+    fileprivate let weatherhist: String?
+    private let zoom: Int?
 }
 
 extension LocationJSON: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         if !countryName.isEmpty
            && !locationName.isEmpty
            && countryName != locationName {
@@ -79,25 +93,41 @@ extension LocationJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Realm representation of a MTP location
 @objcMembers final class Location: Object, PlaceMappable, ServiceProvider {
 
+    /// Link to the Mappable object for this location
     dynamic var map: Mappable?
 
+    /// Whether this is a country or a location
     dynamic var adminLevel: AdminLevel = .unknown
+    /// Airports to be found in this location
     dynamic var airports: String = ""
+    /// Country ID
     dynamic var countryId: Int = 0
+    /// Description of country
     dynamic var placeCountry: String = ""
+    /// Place's MTP ID
     dynamic var placeId: Int = 0
+    /// Region containing the country
     dynamic var placeRegion: String = ""
+    /// Title to display to user
     dynamic var placeTitle: String = ""
+    /// Difficulty rank of location
     dynamic var rank: Int = 0
+    /// Difficulty rank of UN country
     dynamic var rankUn: Int = 0
+    /// For use in constructing weather information URL
     dynamic var weatherhist: String = ""
 
+    /// Realm unique identifier
+    ///
+    /// - Returns: unique identifier
     override static func primaryKey() -> String? {
         return "placeId"
     }
 
+    /// Constructor from MTP endpoint data
     convenience init?(from: LocationJSON) {
         guard from.active == "Y",
               let country = from.countryId,
@@ -131,6 +161,7 @@ extension LocationJSON: CustomDebugStringConvertible {
         weatherhist = from.weatherhist ?? ""
     }
 
+    /// Placeholder for selection screens
     static var all: Location = {
         let all = Location()
         all.placeCountry = L.allCountries()
@@ -152,6 +183,10 @@ extension LocationJSON: CustomDebugStringConvertible {
         return placeName.isEmpty ? placeCountry : placeName
     }
 
+    /// Equality operator
+    ///
+    /// - Parameter object: Other object
+    /// - Returns: equality
     override func isEqual(_ object: Any?) -> Bool {
         guard let other = object as? Location else { return false }
         guard !isSameObject(as: other) else { return true }
@@ -166,24 +201,32 @@ extension LocationJSON: CustomDebugStringConvertible {
 
 extension Location: PlaceInfo {
 
+    /// Country's MTP ID
     var placeCountryId: Int {
         return countryId
     }
 
+    /// MTP location containing place
     var placeLocation: Location? {
         return self
     }
 
+    /// Subtitle to display to user
     var placeSubtitle: String {
         return map?.subtitle ?? ""
     }
 
+    /// Special cases to treat as if they're flattenable
     enum Inexpandibles: Int {
+        /// Europe: Netherlands (mainland)
         case netherlandsMainland = 301
+        /// Europe: Portugal (mainland)
         case portugalMainland = 305
+        /// Europe: Turkey (Thrace)
         case turkishThrace = 325
     }
 
+    /// Whether the place is a country
     var placeIsCountry: Bool {
         switch placeId {
         case Inexpandibles.netherlandsMainland.rawValue,
@@ -198,19 +241,23 @@ extension Location: PlaceInfo {
 
 extension Location {
 
+    /// URL of flag image
     var flagUrl: URL? {
         let link = "https://mtp.travel/flags/\(countryId)"
         return URL(string: link)
     }
 
+    /// Whether location is country
     var isCountry: Bool {
         return adminLevel == .country
     }
 
+    /// Map marker latitude
     var latitude: CLLocationDegrees {
         return map?.latitude ?? 0
     }
 
+    /// Map marker longitude
     var longitude: CLLocationDegrees {
         return map?.longitude ?? 0
     }

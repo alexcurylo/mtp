@@ -2,7 +2,8 @@
 
 import Foundation
 
-struct FaqJSON: Codable {
+/// FAQ info received from MTP endpoints
+private struct FaqJSON: Codable {
 
     let id: Int
     //let userID: Int
@@ -20,7 +21,7 @@ struct FaqJSON: Codable {
 
 extension FaqJSON: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return "Faq"
     }
 }

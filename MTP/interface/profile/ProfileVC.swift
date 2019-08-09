@@ -3,6 +3,7 @@
 import Anchorage
 import Parchment
 
+/// Base class for local and remote user profiles
 class ProfileVC: UIViewController, ServiceProvider {
 
     @IBOutlet private var headerView: UIView?
@@ -12,14 +13,17 @@ class ProfileVC: UIViewController, ServiceProvider {
     @IBOutlet private var followersLabel: UILabel?
     @IBOutlet private var followingLabel: UILabel?
 
+    /// Pages holder
     @IBOutlet private var pagesHolder: UIView?
 
+    /// Pages controller
     private(set) var pagingVC: ProfilePagingVC?
 
     private var user: User?
 
     private var headerObservation: NSKeyValueObservation?
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -31,29 +35,26 @@ class ProfileVC: UIViewController, ServiceProvider {
         observe()
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .standard)
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Controllers to be displayed in PagingViewController
     var pages: [UIViewController] {
         return []
     }
 
+    /// Set up data change observations
     func observe() {
         // to be overridden
     }
 
+    /// Configure for display
     func configure() {
         commonConfigure()
     }
@@ -110,10 +111,17 @@ private extension ProfileVC {
     }
 }
 
+// MARK: - Injectable
+
 extension ProfileVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = User
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         let updating = user != nil
         user = model
@@ -124,6 +132,7 @@ extension ProfileVC: Injectable {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         user.require()
 
@@ -139,8 +148,13 @@ extension ProfileVC: Injectable {
     }
 }
 
+/// Convenience for injecting a User model
 protocol UserInjectable {
 
+    /// Inject a User
+    ///
+    /// - Parameter model: User
+    /// - Returns: Chainable self
     @discardableResult func inject(model: User) -> Self
 }
 

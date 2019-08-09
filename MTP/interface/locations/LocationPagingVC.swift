@@ -2,8 +2,13 @@
 
 import Parchment
 
+/// Displays location info tabs
 final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
 
+    /// Provide pages container
+    ///
+    /// - Parameter model: Model to populate pages
+    /// - Returns: LocationPagingVC
     static func profile(model: Model) -> LocationPagingVC {
 
         var first: UIViewController? {
@@ -43,6 +48,9 @@ final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
         return LocationPagingVC(viewControllers: controllers)
     }
 
+    /// Construction by injection
+    ///
+    /// - Parameter viewControllers: Controllers
     override init(viewControllers: [UIViewController]) {
         super.init(viewControllers: viewControllers)
 
@@ -52,23 +60,18 @@ final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
         configure()
     }
 
+    /// Unavailable coding constructor
+    ///
+    /// - Parameter coder: An unarchiver object.
     required init?(coder: NSCoder) {
         super.init(viewControllers: [])
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         default:
@@ -100,10 +103,13 @@ private extension LocationPagingVC {
     }
 }
 
-// MARK: - Injectable
+// MARK: - TitleChangeDelegate
 
 extension LocationPagingVC: TitleChangeDelegate {
 
+    /// Notify of title change
+    ///
+    /// - Parameter title: New title
     func changed(title: String) {
         reloadMenu()
     }
@@ -113,12 +119,17 @@ extension LocationPagingVC: TitleChangeDelegate {
 
 extension LocationPagingVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = Mappable
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         return self
     }
 
-    func requireInjections() {
-    }
+    /// Enforce dependency injection
+    func requireInjections() { }
 }

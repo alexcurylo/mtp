@@ -5,23 +5,36 @@ import FBSDKLoginKit
 
 // https://developers.facebook.com/docs/facebook-login/ios/advanced/#custom-login-button
 
+/// Button for Facebook login
 final class FacebookButton: UIButton, ServiceProvider {
 
+    /// Procedural intializer
+    ///
+    /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
 
+    /// Decoding intializer
+    ///
+    /// - Parameter aDecoder: Decoder
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
 
+    /// Prepare for Interface Builder
     override func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
         setup()
     }
 
+    /// Perform Facebook login
+    ///
+    /// - Parameters:
+    ///   - vc: Containing view controller
+    ///   - then: Callback
     func login(vc: UIViewController,
                then: @escaping (RegistrationPayload?) -> Void) {
         LoginManager().logIn(
@@ -43,10 +56,13 @@ final class FacebookButton: UIButton, ServiceProvider {
         }
     }
 
+    /// Log out of Facebook
     static func logOut() {
         LoginManager().logOut()
     }
 }
+
+// MARK: - Private
 
 private extension FacebookButton {
 

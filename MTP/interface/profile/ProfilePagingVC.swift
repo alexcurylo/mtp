@@ -2,32 +2,32 @@
 
 import Parchment
 
+/// Holder of profile pages
 final class ProfilePagingVC: FixedPagingViewController, ServiceProvider {
 
+    /// Provider of UI test exposition
     weak var exposer: CollectionCellExposing?
 
+    /// Construction by injection
+    ///
+    /// - Parameter viewControllers: Controllers
     override init(viewControllers: [UIViewController]) {
         super.init(viewControllers: viewControllers)
         configure()
     }
 
+    /// Construction by unarchiving
+    ///
+    /// - Parameter coder: An unarchiver object.
     required init?(coder: NSCoder) {
         super.init(viewControllers: [])
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         default:
@@ -35,6 +35,12 @@ final class ProfilePagingVC: FixedPagingViewController, ServiceProvider {
         }
     }
 
+    /// Provide cell
+    ///
+    /// - Parameters:
+    ///   - collectionView: Collection
+    ///   - indexPath: Index path
+    /// - Returns: Exposed cell
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = super.collectionView(collectionView,

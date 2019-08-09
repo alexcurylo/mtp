@@ -2,8 +2,10 @@
 
 import Anchorage
 
+/// Counts information header
 final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
 
+    /// Dequeueing identifier
     static let reuseIdentifier = NSStringFromClass(CountInfoHeader.self)
 
     private enum Layout {
@@ -61,18 +63,27 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
     private let scheduler = Scheduler()
     private var updating = false
 
+    /// Procedural intializer
+    ///
+    /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         configure()
     }
 
+    /// Unavailable coding constructor
+    ///
+    /// - Parameter coder: An unarchiver object.
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func set(list: Checklist) {
+    /// Handle dependency injection
+    ///
+    /// - Parameter list: Checklist
+    func inject(list: Checklist) {
         guard let user = data.user else { return }
 
         let status = list.visitStatus(of: user)
@@ -97,6 +108,7 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
         }
     }
 
+    /// Empty display
     override func prepareForReuse() {
         super.prepareForReuse()
 

@@ -3,7 +3,8 @@
 import CoreLocation
 import UIKit
 
-struct GeoJSON: Codable {
+/// GeoJSON file definition
+private struct GeoJSON: Codable {
 
     struct Feature: Codable {
 
@@ -57,6 +58,7 @@ struct GeoJSON: Codable {
     }
 }
 
+/// World map definition
 struct WorldMap {
 
     private let locations: [GeoJSON.Feature]
@@ -68,6 +70,7 @@ struct WorldMap {
     private static var calcBox: Bounds = (0, 0, 0, 0)
     #endif
 
+    /// Default constructor
     init() {
         do {
             guard let file = R.file.worldMapGeojson() else { throw "missing map file" }
@@ -82,6 +85,12 @@ struct WorldMap {
         }
     }
 
+    /// Draw world map for profile
+    ///
+    /// - Parameters:
+    ///   - visits: Visited locations
+    ///   - width: Rendering width
+    /// - Returns: Map image
     func draw(visits: [Int],
               width: CGFloat) -> UIImage? {
         let outline = width > 700
@@ -131,6 +140,12 @@ struct WorldMap {
         return image
     }
 
+    /// Does location contain coordinate?
+    ///
+    /// - Parameters:
+    ///   - coordinate: Coordinate
+    ///   - id: Location ID
+    /// - Returns: Containment
     func contains(coordinate: CLLocationCoordinate2D,
                   location id: Int) -> Bool {
         for location in locations {
@@ -143,6 +158,10 @@ struct WorldMap {
         return false
     }
 
+    /// Coordinates for map overlay
+    ///
+    /// - Parameter id: LocationID
+    /// - Returns: Coordinate list
     func coordinates(location id: Int) -> [[CLLocationCoordinate2D]] {
         return locations.compactMap {
             guard $0.properties.locid == id else { return nil }
@@ -159,6 +178,8 @@ struct WorldMap {
         #endif
     }
 }
+
+// MARK: - Fileprivate
 
 fileprivate extension GeoJSON.Feature {
 

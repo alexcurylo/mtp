@@ -2,31 +2,48 @@
 
 import RealmSwift
 
+/// Gender field in all API endpoints
 enum Gender: String, Codable, CustomStringConvertible {
 
+    /// All
     case all = ""
+    /// Female
     case female = "F"
+    /// Male
     case male = "M"
+    /// Unknown
+    case unknown = "U"
 
     var description: String {
         switch self {
         case .all: return "all"
         case .female: return L.female()
         case .male: return L.male()
+        case .unknown: return L.preferNot()
         }
     }
 }
 
+/// Age group for ranking queries
 enum Age: Int, CaseIterable, Codable, CustomStringConvertible {
 
+    /// all
     case all = 0
+    /// under20
     case under20
+    /// from20to29
     case from20to29
+    /// from30to39
     case from30to39
+    /// from40to49
     case from40to49
+    /// from50to59
     case from50to59
+    /// from60to69
     case from60to69
+    /// from70to79
     case from70to79
+    /// over79
     case over79
 
     var description: String {
@@ -43,6 +60,7 @@ enum Age: Int, CaseIterable, Codable, CustomStringConvertible {
         }
     }
 
+    /// Integer value for query
     var parameter: Int {
         switch self {
         case .all: return 0
@@ -58,21 +76,35 @@ enum Age: Int, CaseIterable, Codable, CustomStringConvertible {
     }
 }
 
+/// Rankings query for API endpoints
 struct RankingsQuery: Codable, Hashable, ServiceProvider {
 
+    /// Constant for all locations
     static let allLocations = -1
 
+    /// checklistKey
     var checklistKey: String
-    var page: Int = 1
+    fileprivate var page: Int = 1
 
+    /// ageGroup
     var ageGroup: Age = .all
-    var country: String?
+    fileprivate var country: String?
+    /// countryId
     var countryId: Int?
+    /// facebookConnected
     var facebookConnected: Bool = false
+    /// gender
     var gender: Gender = .all
-    var location: String?
+    fileprivate var location: String?
+    /// locationId
     var locationId: Int?
 
+    /// Copy changing list and page
+    ///
+    /// - Parameters:
+    ///   - list: Checklist
+    ///   - page: Index
+    /// - Returns: New query
     func with(list: Checklist? = nil,
               page: Int = 1) -> RankingsQuery {
         var withList = self
@@ -81,6 +113,13 @@ struct RankingsQuery: Codable, Hashable, ServiceProvider {
         }
         withList.page = page
         return withList
+    }
+
+    /// Initalize for checklist
+    ///
+    /// - Parameter list: Checklist
+    init(list: Checklist = .locations) {
+        checklistKey = list.key
     }
 }
 
@@ -141,15 +180,13 @@ extension RankingsQuery: CustomDebugStringConvertible {
 
 extension RankingsQuery {
 
-    init(list: Checklist = .locations) {
-        checklistKey = list.key
-    }
-
+    /// Checklist this query is for
     var checklist: Checklist {
         // swiftlint:disable:next force_unwrapping
         return Checklist(key: checklistKey)!
     }
 
+    /// Query key
     var queryKey: String {
         let params = parameters
         let queryKey = params.keys
@@ -161,6 +198,7 @@ extension RankingsQuery {
         return queryKey
     }
 
+    /// Unique storage key
     var dbKey: String {
         let params = parameters
         let dbKey = params.keys
@@ -172,6 +210,7 @@ extension RankingsQuery {
         return dbKey
     }
 
+    /// Convenience accessor for overall rankings query
     var isAllTravelers: Bool {
         if ageGroup != .all { return false }
         if countryId != nil { return false }
@@ -182,6 +221,7 @@ extension RankingsQuery {
         return true
     }
 
+    /// Provides API parameters
     var parameters: [String: String] {
         var parameters: [String: String] = [:]
 
@@ -212,6 +252,10 @@ extension RankingsQuery {
         return parameters
     }
 
+    /// Update with new geography
+    ///
+    /// - Parameter item: Country or Location expected
+    /// - Returns: Success
     mutating func update(with item: Object) -> Bool {
         switch item {
         case let countryItem as Country:

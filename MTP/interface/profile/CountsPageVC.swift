@@ -5,19 +5,22 @@ import Parchment
 
 // swiftlint:disable file_length
 
+/// Base class for displaying visit counts
 class CountsPageVC: UIViewController, ServiceProvider {
 
-    typealias CountsModel = Checklist
-
+    /// List displayed
     let list: Checklist
+    /// Whether counts are editable
     var isEditable: Bool { return false }
+    /// Places to display
     var places: [PlaceInfo] { return [] }
+    /// Places that have been visited
     var visited: [Int] { return [] }
 
     private let infoSection = 0
     private var showsInfo: Bool { return isEditable }
 
-    enum Layout {
+    private enum Layout {
         static let headerHeight = CGFloat(25)
         static let lineHeight = CGFloat(32)
         static let margin = CGFloat(8)
@@ -30,11 +33,11 @@ class CountsPageVC: UIViewController, ServiceProvider {
                                                 bottom: margin,
                                                 right: 0)
         static let cellSpacing = CGFloat(0)
-        static let cellCornerRadius = CGFloat(4)
     }
 
-    // swiftlint:disable:next closure_body_length
+    /// Container of count items
     let collectionView: UICollectionView = {
+        // swiftlint:disable:previous closure_body_length
         let flow = UICollectionViewFlowLayout()
         flow.minimumLineSpacing = Layout.cellSpacing
         flow.sectionInset = Layout.sectionInsets
@@ -61,13 +64,13 @@ class CountsPageVC: UIViewController, ServiceProvider {
         return collectionView
     }()
 
-    typealias RegionKey = String
-    typealias CountryKey = String
-    typealias ParentKey = Int
-    typealias CountryPlaces = [CountryKey: [PlaceInfo]]
-    typealias CountryFamilies = [CountryKey: [ParentKey: [PlaceInfo]]]
-    typealias CountryVisits = [CountryKey: Int]
-    typealias CountryExpanded = [CountryKey: Bool]
+    private typealias RegionKey = String
+    private typealias CountryKey = String
+    private typealias ParentKey = Int
+    private typealias CountryPlaces = [CountryKey: [PlaceInfo]]
+    private typealias CountryFamilies = [CountryKey: [ParentKey: [PlaceInfo]]]
+    private typealias CountryVisits = [CountryKey: Int]
+    private typealias CountryExpanded = [CountryKey: Bool]
 
     private var regions: [RegionKey] = []
     private var regionsPlaces: [RegionKey: [PlaceInfo]] = [:]
@@ -80,24 +83,32 @@ class CountsPageVC: UIViewController, ServiceProvider {
     private var countriesVisited: [RegionKey: CountryVisits] = [:]
     private var countriesExpanded: [RegionKey: CountryExpanded] = [:]
 
-    init(model: CountsModel) {
+    /// Construction by injection
+    ///
+    /// - Parameter model: Injected model
+    init(model: Checklist) {
         list = model
         super.init(nibName: nil, bundle: nil)
 
         configure()
     }
 
+    /// Unavailable coding constructor
+    ///
+    /// - Parameter coder: An unarchiver object.
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+    /// Refresh collection view on layout
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
         collectionView.collectionViewLayout.invalidateLayout()
     }
 
+    /// Configure for display
     func configure() {
         view.addSubview(collectionView)
         collectionView.edgeAnchors == view.edgeAnchors + Layout.collectionInsets
@@ -108,11 +119,13 @@ class CountsPageVC: UIViewController, ServiceProvider {
         observe()
     }
 
+    /// Update UI state
     func update() {
         count(places: places, visited: visited)
         collectionView.reloadData()
     }
 
+    /// Set up data change observations
     func observe() {
         // to be overridden
     }
@@ -122,6 +135,13 @@ class CountsPageVC: UIViewController, ServiceProvider {
 
 extension CountsPageVC: UICollectionViewDelegateFlowLayout {
 
+    /// Provide header size
+    ///
+    /// - Parameters:
+    ///   - collectionView: Collection
+    ///   - collectionViewLayout: Collection layout
+    ///   - section: Section index
+    /// - Returns: Size
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -136,6 +156,13 @@ extension CountsPageVC: UICollectionViewDelegateFlowLayout {
                       height: height)
     }
 
+    /// Provide cell size
+    ///
+    /// - Parameters:
+    ///   - collectionView: Collection
+    ///   - collectionViewLayout: Collection layout
+    ///   - indexPath: Cell path
+    /// - Returns: Size
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -148,6 +175,13 @@ extension CountsPageVC: UICollectionViewDelegateFlowLayout {
 
 extension CountsPageVC: UICollectionViewDataSource {
 
+    /// Provide header
+    ///
+    /// - Parameters:
+    ///   - collectionView: Collection
+    ///   - kind: Expect header
+    ///   - indexPath: Item path
+    /// - Returns: CountSectionHeader
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
@@ -166,10 +200,20 @@ extension CountsPageVC: UICollectionViewDataSource {
                            model: modelPath)
     }
 
+    /// Number of sections
+    ///
+    /// - Parameter tableView: UITableView
+    /// - Returns: Number of sections
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return regions.count + (showsInfo ? 1 : 0)
     }
 
+    /// Section items count
+    ///
+    /// - Parameters:
+    ///   - collectionView: Collection
+    ///   - section: Index
+    /// - Returns: Item count
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
         switch (section, showsInfo) {
@@ -182,6 +226,12 @@ extension CountsPageVC: UICollectionViewDataSource {
         }
     }
 
+    /// Provide cell
+    ///
+    /// - Parameters:
+    ///   - collectionView: Collection
+    ///   - indexPath: Index path
+    /// - Returns: CountCellGroup or CountCellItem
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let modelPath: IndexPath
@@ -201,6 +251,9 @@ extension CountsPageVC: UICollectionViewDataSource {
 
 extension CountsPageVC: CountSectionHeaderDelegate {
 
+    /// Toggle expanded state of region
+    ///
+    /// - Parameter region: Region
     func toggle(region: String) {
         if let isExpanded = regionsExpanded[region],
            isExpanded == true {
@@ -217,6 +270,11 @@ extension CountsPageVC: CountSectionHeaderDelegate {
 
 extension CountsPageVC: CountCellGroupDelegate {
 
+    /// Toggle expanded state of country
+    ///
+    /// - Parameters:
+    ///   - region: Region
+    ///   - country: Country
     func toggle(region: String,
                 country: String) {
         var expanded = countriesExpanded[region] ?? [:]
@@ -245,7 +303,7 @@ private extension CountsPageVC {
             for: indexPath)
 
         if let header = view as? CountInfoHeader {
-             header.set(list: list)
+             header.inject(list: list)
         }
 
         return view
@@ -277,7 +335,7 @@ private extension CountsPageVC {
                 count: count,
                 isExpanded: regionsExpanded[region, default: false]
             )
-            header.set(model: model)
+            header.inject(model: model)
         }
 
         return view
@@ -305,7 +363,7 @@ private extension CountsPageVC {
                 isLast: isLast,
                 isCombined: list == .locations && place.placeIsCountry
             )
-            counter.set(model: model)
+            counter.inject(model: model)
         case let grouper as CountCellGroup:
             guard let group = cellModel.group else { break }
             grouper.delegate = self
@@ -318,7 +376,7 @@ private extension CountsPageVC {
                 disclose: expanded ? .close : .expand,
                 isLast: isLast
             )
-            grouper.set(model: model)
+            grouper.inject(model: model)
         default:
             break
         }
@@ -508,7 +566,7 @@ private extension CountsPageVC {
         countriesVisited[region] = countryVisits
     }
 
-    func groupChildren(countries: CountryPlaces) -> (CountryPlaces, CountryFamilies?) {
+    private func groupChildren(countries: CountryPlaces) -> (CountryPlaces, CountryFamilies?) {
         guard list == .whss else { return (countries, nil) }
 
         var parentPlaces: CountryPlaces = [:]

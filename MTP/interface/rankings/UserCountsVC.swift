@@ -3,10 +3,15 @@
 import Anchorage
 import Parchment
 
+/// Allow user to review and edit all visits
 final class UserCountsVC: UIViewController, ServiceProvider {
 
+    /// Visited or remaining tab
     enum Tab: Int {
+
+        /// Visited tab index 0
         case visited = 0
+        /// Remaining tab index 1
         case remaining
     }
 
@@ -25,6 +30,7 @@ final class UserCountsVC: UIViewController, ServiceProvider {
     private var user: User?
     private var selected: Tab = .visited
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -32,21 +38,20 @@ final class UserCountsVC: UIViewController, ServiceProvider {
         setupPagesHolder()
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         observe()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.dismissUserCounts.identifier:
@@ -57,10 +62,12 @@ final class UserCountsVC: UIViewController, ServiceProvider {
     }
 }
 
+// MARK: - Private
+
 private extension UserCountsVC {
 
     @IBAction func mapButtonTapped(_ sender: UIButton) {
-        mainTBC?.route(to: user)
+        app.route(to: user)
     }
 
     func setupPagesHolder() {
@@ -96,10 +103,17 @@ private extension UserCountsVC {
     }
 }
 
+// MARK: - Injectable
+
 extension UserCountsVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = (list: Checklist, user: User, tab: Tab)
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         list = model.list
         user = model.user
@@ -107,6 +121,7 @@ extension UserCountsVC: Injectable {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         user.require()
 

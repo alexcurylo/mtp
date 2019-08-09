@@ -5,40 +5,64 @@ import RealmSwift
 
 // swiftlint:disable file_length
 
+/// RealmSearchViewController data source
 protocol RealmSearchResultsDataSource {
 
+    /// Cell for Object
+    ///
+    /// - Parameters:
+    ///   - controller: RealmSearchViewController
+    ///   - object: Realm Object
+    ///   - indexPath: Index path
+    /// - Returns: Cell
     func searchViewController(_ controller: RealmSearchViewController,
                               cellForObject object: Object,
                               atIndexPath indexPath: IndexPath) -> UITableViewCell
 }
 
+/// RealmSearchViewController results
 protocol RealmSearchResultsDelegate: AnyObject {
 
+    /// Will select Object
+    ///
+    /// - Parameters:
+    ///   - controller: RealmSearchViewController
+    ///   - object: Realm Object
+    ///   - indexPath: Index path
     func searchViewController(_ controller: RealmSearchViewController,
                               willSelectObject anObject: Object,
                               atIndexPath indexPath: IndexPath)
 
+    /// Did select Object
+    ///
+    /// - Parameters:
+    ///   - controller: RealmSearchViewController
+    ///   - object: Realm Object
+    ///   - indexPath: Index path
     func searchViewController(_ controller: RealmSearchViewController,
                               didSelectObject anObject: Object,
                               atIndexPath indexPath: IndexPath)
 }
 
+/// Base class for displaying searchable Realm object lists
 class RealmSearchViewController: UITableViewController,
                                  RealmSearchResultsDataSource,
                                  RealmSearchResultsDelegate,
                                  ServiceProvider {
 
     // swiftlint:disable:next implicitly_unwrapped_optional
-    var resultsDataSource: RealmSearchResultsDataSource!
+    private var resultsDataSource: RealmSearchResultsDataSource!
     // swiftlint:disable:next implicitly_unwrapped_optional
-    weak var resultsDelegate: RealmSearchResultsDelegate!
+    private weak var resultsDelegate: RealmSearchResultsDelegate!
 
+    /// Realm entity name to display
     @IBInspectable var entityName: String? {
         didSet {
             refreshSearchResults()
         }
     }
 
+    /// Key path to search property
     @IBInspectable var searchPropertyKeyPath: String? {
         didSet {
 
@@ -51,39 +75,45 @@ class RealmSearchViewController: UITableViewController,
         }
     }
 
+    /// Base predicate to add to search
     var basePredicate: NSPredicate? {
         didSet {
             refreshSearchResults()
         }
     }
 
+    /// Sort property key
     @IBInspectable var sortPropertyKey: String? {
         didSet {
             refreshSearchResults()
         }
     }
 
+    /// Sort order ascending or descending
     @IBInspectable var sortAscending: Bool = true {
         didSet {
             refreshSearchResults()
         }
     }
 
+    /// Enable search bar?
     @IBInspectable var searchBarInTableView: Bool = false
 
+    /// Case insensitive search?
     @IBInspectable var caseInsensitiveSearch: Bool = true {
         didSet {
             refreshSearchResults()
         }
     }
 
+    /// Containment search?
     @IBInspectable var useContainsSearch: Bool = false {
         didSet {
             refreshSearchResults()
         }
     }
 
-    var realmConfiguration: Realm.Configuration {
+    private var realmConfiguration: Realm.Configuration {
         set {
             internalConfiguration = newValue
         }
@@ -96,14 +126,14 @@ class RealmSearchViewController: UITableViewController,
         }
     }
 
-    var realm: Realm {
+    private var realm: Realm {
         // swiftlint:disable:next force_try
         return try! Realm(configuration: realmConfiguration)
     }
 
-    var results: RLMResults<RLMObject>?
+    private var results: RLMResults<RLMObject>?
 
-    var searchBar: UISearchBar {
+    private var searchBar: UISearchBar {
         return searchController.searchBar
     }
 
@@ -123,7 +153,7 @@ class RealmSearchViewController: UITableViewController,
 
     // MARK: - Public Methods
 
-    func refreshSearchResults() {
+    private func refreshSearchResults() {
         let searchString = searchController.searchBar.text
 
         let predicate = searchPredicate(searchString)
@@ -133,6 +163,11 @@ class RealmSearchViewController: UITableViewController,
 
     // MARK: - Initialization
 
+    /// Default initializer
+    ///
+    /// - Parameters:
+    ///   - nibNameOrNil: Nib name (optional)
+    ///   - nibBundleOrNil: Nib bundle (optional
     override init(nibName nibNameOrNil: String?,
                   bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -141,6 +176,9 @@ class RealmSearchViewController: UITableViewController,
         resultsDelegate = self
     }
 
+    /// Style initializer
+    ///
+    /// - Parameter style: Table style
     override init(style: UITableView.Style) {
         super.init(style: style)
 
@@ -148,6 +186,9 @@ class RealmSearchViewController: UITableViewController,
         resultsDelegate = self
     }
 
+    /// Decoding intializer
+    ///
+    /// - Parameter aDecoder: Decoder
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 
@@ -157,6 +198,7 @@ class RealmSearchViewController: UITableViewController,
 
     // MARK: - UIViewController
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -180,6 +222,9 @@ class RealmSearchViewController: UITableViewController,
         definesPresentationContext = true
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -188,6 +233,13 @@ class RealmSearchViewController: UITableViewController,
 
     // MARK: - RealmSearchResultsDataSource
 
+    /// Cell for Object
+    ///
+    /// - Parameters:
+    ///   - controller: RealmSearchViewController
+    ///   - object: Realm Object
+    ///   - indexPath: Index path
+    /// - Returns: Cell
     func searchViewController(_ controller: RealmSearchViewController,
                               cellForObject object: Object,
                               atIndexPath indexPath: IndexPath) -> UITableViewCell {
@@ -198,12 +250,24 @@ class RealmSearchViewController: UITableViewController,
 
     // MARK: - RealmSearchResultsDelegate
 
+    /// Did select Object
+    ///
+    /// - Parameters:
+    ///   - controller: RealmSearchViewController
+    ///   - object: Realm Object
+    ///   - indexPath: Index path
     func searchViewController(_ controller: RealmSearchViewController,
                               didSelectObject anObject: Object,
                               atIndexPath indexPath: IndexPath) {
         // Subclasses to redeclare
     }
 
+    /// Will select Object
+    ///
+    /// - Parameters:
+    ///   - controller: RealmSearchViewController
+    ///   - object: Realm Object
+    ///   - indexPath: Index path
     func searchViewController(_ controller: RealmSearchViewController,
                               willSelectObject anObject: Object,
                               atIndexPath indexPath: IndexPath) {
@@ -362,7 +426,14 @@ private extension RealmSearchViewController {
 
 extension RealmSearchViewController {
 
-    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+    /// Will Select Row AT
+    ///
+    /// - Parameters:
+    ///   - tableView: UITableView
+    ///   - indexPath: Index path
+    /// - Returns: selectable path
+    override func tableView(_ tableView: UITableView,
+                            willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         if let results = results {
             let baseObject = results.object(at: UInt(indexPath.row)) as RLMObjectBase
             // swiftlint:disable:next force_cast
@@ -376,7 +447,14 @@ extension RealmSearchViewController {
         return nil
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    /// Will Select Row AT
+    ///
+    /// - Parameters:
+    ///   - tableView: UITableView
+    ///   - indexPath: Index path
+    /// - Returns: selectable path
+    override func tableView(_ tableView: UITableView,
+                            didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
         if let results = results {
@@ -393,11 +471,22 @@ extension RealmSearchViewController {
 
 extension RealmSearchViewController {
 
+    /// Number of sections
+    ///
+    /// - Parameter tableView: UITableView
+    /// - Returns: Number of sections
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    /// Number of rows in section
+    ///
+    /// - Parameters:
+    ///   - tableView: UITableView
+    ///   - section: Section
+    /// - Returns: Number of rows in section
+    override func tableView(_ tableView: UITableView,
+                            numberOfRowsInSection section: Int) -> Int {
         if let results = results {
             return Int(results.count)
         }
@@ -405,7 +494,14 @@ extension RealmSearchViewController {
         return 0
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    /// Create table cell
+    ///
+    /// - Parameters:
+    ///   - tableView: UITableView
+    ///   - indexPath: Index Path
+    /// - Returns: UITableViewCell
+    override func tableView(_ tableView: UITableView,
+                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let results = results {
             let baseObject = results.object(at: UInt(indexPath.row)) as RLMObjectBase
             // swiftlint:disable:next force_cast
@@ -424,6 +520,9 @@ extension RealmSearchViewController {
 
 extension RealmSearchViewController: UISearchResultsUpdating {
 
+    /// Update search results
+    ///
+    /// - Parameter searchController: UISearchController
     func updateSearchResults(for searchController: UISearchController) {
         refreshSearchResults()
     }

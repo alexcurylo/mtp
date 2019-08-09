@@ -4,11 +4,18 @@ import Anchorage
 import Parchment
 import RealmSwift
 
+// swiftlint:disable file_length
+
+/// Notifies of scroll for menu updating
 protocol RankingsPageVCDelegate: RankingCellDelegate {
 
+    /// Scroll notification
+    ///
+    /// - Parameter rankingsPageVC: Scrollee
     func didScroll(rankingsPageVC: RankingsPageVC)
 }
 
+/// Displays logged in user visit counts
 final class RankingsPageVC: UIViewController, ServiceProvider {
 
     private enum Layout {
@@ -22,6 +29,7 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
         static let cellHeight = CGFloat(90)
     }
 
+    /// View displaying ranking cells
     let collectionView: UICollectionView = {
         let flow = UICollectionViewFlowLayout()
         flow.minimumLineSpacing = Layout.lineSpacing
@@ -40,11 +48,16 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
     private var filter = RankingsQuery()
     private var filterDescription = ""
     private var filterRank: Int?
+    private var blockedUsers: [Int] = []
 
     private var visitedObserver: Observer?
     private var rankingsObserver: Observer?
     private var scorecardObserver: Observer?
+    private var blockedObserver: Observer?
 
+    /// Construction with paging options
+    ///
+    /// - Parameter options: Options
     init(options: PagingOptions) {
         super.init(nibName: nil, bundle: nil)
 
@@ -62,22 +75,33 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
             withReuseIdentifier: RankingHeader.reuseIdentifier)
     }
 
+    /// Unavailable coding constructor
+    ///
+    /// - Parameter coder: An unarchiver object.
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+    /// Refresh collection view on layout
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         collectionView.collectionViewLayout.invalidateLayout()
     }
 
+    /// Handle dependency injection
+    ///
+    /// - Parameters:
+    ///   - list: Checklist
+    ///   - insets: Edge instets
+    ///   - delegate: RankingsPageVCDelegate
     func inject(list: Checklist,
                 insets: UIEdgeInsets,
                 delegate: RankingsPageVCDelegate) {
         collectionView.contentInset = insets
         collectionView.scrollIndicatorInsets = insets
         self.delegate = delegate
+        blockedUsers = data.blockedUsers
 
         let newFilter = data.lastRankingsQuery.with(list: list)
         if contentState == .unknown || filter != newFilter {
@@ -97,6 +121,13 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
 
 extension RankingsPageVC: UICollectionViewDelegateFlowLayout {
 
+    /// Provide header size
+    ///
+    /// - Parameters:
+    ///   - collectionView: Collection
+    ///   - collectionViewLayout: Collection layout
+    ///   - section: Section index
+    /// - Returns: Size
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -104,6 +135,13 @@ extension RankingsPageVC: UICollectionViewDelegateFlowLayout {
                       height: Layout.headerHeight)
     }
 
+    /// Provide cell size
+    ///
+    /// - Parameters:
+    ///   - collectionView: Collection
+    ///   - collectionViewLayout: Collection layout
+    ///   - indexPath: Cell path
+    /// - Returns: Size
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -116,6 +154,9 @@ extension RankingsPageVC: UICollectionViewDelegateFlowLayout {
 
 extension RankingsPageVC {
 
+    /// Scrolling notfication
+    ///
+    /// - Parameter scrollView: Scrollee
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         delegate?.didScroll(rankingsPageVC: self)
     }
@@ -125,6 +166,13 @@ extension RankingsPageVC {
 
 extension RankingsPageVC: UICollectionViewDataSource {
 
+    /// Provide header
+    ///
+    /// - Parameters:
+    ///   - collectionView: Collection
+    ///   - kind: Expect header
+    ///   - indexPath: Item path
+    /// - Returns: RankingHeader
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
@@ -134,19 +182,31 @@ extension RankingsPageVC: UICollectionViewDataSource {
             withReuseIdentifier: RankingHeader.reuseIdentifier,
             for: indexPath) as? RankingHeader
 
-        header.set(rank: filterRank,
-                   list: filter.checklist,
-                   filter: filterDescription,
-                   delegate: self)
+        header.inject(rank: filterRank,
+                      list: filter.checklist,
+                      filter: filterDescription,
+                      delegate: self)
 
         return header
     }
 
+    /// Section items count
+    ///
+    /// - Parameters:
+    ///   - collectionView: Collection
+    ///   - section: Index
+    /// - Returns: Item count
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
         return itemCount
     }
 
+    /// Provide cell
+    ///
+    /// - Parameters:
+    ///   - collectionView: Collection
+    ///   - indexPath: Index path
+    /// - Returns: RankingCell
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //swiftlint:disable:next implicitly_unwrapped_optional
@@ -155,10 +215,12 @@ extension RankingsPageVC: UICollectionViewDataSource {
             for: indexPath) as? RankingCell
 
         let rank = indexPath.row + 1
-        cell.set(user: user(at: rank) ?? User(),
-                 for: rank,
-                 in: filter.checklist,
-                 delegate: delegate)
+        let shown = user(at: rank) ?? User()
+        let blocked = blockedUsers.contains(shown.userId)
+        cell.inject(user: blocked ? nil : shown,
+                    for: rank,
+                    in: filter.checklist,
+                    delegate: delegate)
         expose(view: collectionView,
                path: indexPath,
                cell: cell)
@@ -171,6 +233,9 @@ extension RankingsPageVC: UICollectionViewDataSource {
 
 extension RankingsPageVC: RankingHeaderDelegate {
 
+    /// Tap notification
+    ///
+    /// - Parameter header: Tapped header
     func tapped(header: RankingHeader) {
         guard let index = myIndex else { return }
 
@@ -284,6 +349,12 @@ private extension RankingsPageVC {
         scorecardObserver = data.observer(of: .scorecard) { [weak self] _ in
             self?.updateRank()
         }
+
+        blockedObserver = data.observer(of: .blockedUsers) { [weak self] _ in
+            guard let self = self else { return }
+            self.blockedUsers = self.data.blockedUsers
+            self.collectionView.reloadData()
+        }
     }
 
     func update(rankings error: Bool) {
@@ -335,6 +406,7 @@ private extension RankingsPageVC {
 
 extension RankingsPageVC: Exposing {
 
+    /// Expose controls to UI tests
     func expose() {
         let list = ChecklistIndex(list: filter.checklist)
         RankingVCs.ranks(list).expose(item: collectionView)
@@ -345,17 +417,18 @@ extension RankingsPageVC: Exposing {
 
 extension RankingsPageVC: CollectionCellExposing {
 
+    /// Expose cell to UI tests
+    ///
+    /// - Parameters:
+    ///   - view: Collection
+    ///   - path: Index path
+    ///   - cell: Cell
     func expose(view: UICollectionView,
                 path: IndexPath,
                 cell: UICollectionViewCell) {
         guard let cell = cell as? RankingCell else { return }
 
         let list = ChecklistIndex(list: filter.checklist)
-        let profile = cell.nameLabel
-        RankingVCs.profile(list, path.item).expose(item: profile)
-        let remaining = cell.remainingButton
-        RankingVCs.remaining(list, path.item).expose(item: remaining)
-        let visited = cell.visitedButton
-        RankingVCs.visited(list, path.item).expose(item: visited)
+        cell.expose(list: list, item: path.item)
     }
 }

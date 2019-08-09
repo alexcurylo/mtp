@@ -6,11 +6,32 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## [Version 1.0, Build 633] - 2019-07-30
-
 ### Welcome to the MTP iOS app! I'm Alex, the lead mobile app developer for MTP.
 
 The best way to let us know about any problems or suggestions is in the TestFlight app you use to install the MTP app - a little down from the "Install" button you'll see a "Send Beta Feedback" button. That'll let you send us an email with information about your device attached, which will help us reproduce any problems you describe.
+
+### Added
+- Explicit agreement to Terms of Service
+- Long-pressing posts and photos brings up menu to hide content, report content, or block user
+- Blocked users are hidden from search and display as "Blocked" in rankings
+- Blocked posts and photos disappear or are grey placeholders in paged displays
+
+## [Version 1.0, Build 636] - 2019-08-05
+
+### Changed
+- Country and location signup/profile fields are now optional
+
+## [Version 1.0, Build 635] - 2019-08-03
+
+### Changed
+- Birthday and gender signup/profile fields are now optional
+
+## [Version 1.0, Build 634] - 2019-08-01
+
+### Changed
+- Camera permission strings, registration data requests
+
+## [Version 1.0, Build 633] - 2019-07-30
 
 ### Added
 - Web page headers now display Loading… then page title

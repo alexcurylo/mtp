@@ -2,6 +2,7 @@
 
 import UIKit
 
+/// Displays location information
 final class LocationInfoVC: UITableViewController, ServiceProvider {
 
     @IBOutlet private var regionLabel: UILabel?
@@ -20,6 +21,7 @@ final class LocationInfoVC: UITableViewController, ServiceProvider {
     //swiftlint:disable:next implicitly_unwrapped_optional
     private var location: Location!
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -27,19 +29,11 @@ final class LocationInfoVC: UITableViewController, ServiceProvider {
         configure()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         default:
@@ -52,11 +46,23 @@ final class LocationInfoVC: UITableViewController, ServiceProvider {
 
 extension LocationInfoVC {
 
+    /// Provide row height
+    ///
+    /// - Parameters:
+    ///   - tableView: Table
+    ///   - indexPath: Index path
+    /// - Returns: Height
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 
+    /// Provide estimated row height
+    ///
+    /// - Parameters:
+    ///   - tableView: Table
+    ///   - indexPath: Index path
+    /// - Returns: Height
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
@@ -163,10 +169,17 @@ private extension LocationInfoVC {
     }
 }
 
+// MARK: - Injectable
+
 extension LocationInfoVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = Mappable
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         if model.checklist == .locations {
             location = data.get(location: model.checklistId)
@@ -174,6 +187,7 @@ extension LocationInfoVC: Injectable {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         location.require()
 

@@ -2,13 +2,19 @@
 
 import Anchorage
 
+/// Notifies of header taps
 protocol RankingHeaderDelegate: AnyObject {
 
+    /// Tap notification
+    ///
+    /// - Parameter header: Tapped header
     func tapped(header: RankingHeader)
 }
 
+/// Header for rankings page
 final class RankingHeader: UICollectionReusableView, ServiceProvider {
 
+    /// Dequeueing identifier
     static let reuseIdentifier = NSStringFromClass(RankingHeader.self)
 
     private enum Layout {
@@ -94,22 +100,36 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
     private var list: Checklist = .locations
     private var rank: Int?
     private var scorecardObserver: Observer?
+    private var userObserver: Observer?
 
+    /// Procedural intializer
+    ///
+    /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         configure()
     }
 
+    /// Unavailable coding constructor
+    ///
+    /// - Parameter coder: An unarchiver object.
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func set(rank: Int?,
-             list: Checklist,
-             filter: String,
-             delegate: RankingHeaderDelegate) {
+    /// Inject display data
+    ///
+    /// - Parameters:
+    ///   - rank: Rank if any
+    ///   - list: Checklist
+    ///   - filter: Filter
+    ///   - delegate: Delegate
+    func inject(rank: Int?,
+                list: Checklist,
+                filter: String,
+                delegate: RankingHeaderDelegate) {
         self.delegate = delegate
 
         filterLabel.text = filter
@@ -135,6 +155,7 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
         observe()
     }
 
+    /// Empty display
     override func prepareForReuse() {
         super.prepareForReuse()
 
@@ -147,12 +168,21 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
     }
 }
 
+// MARK: - Private
+
 private extension RankingHeader {
 
     func observe() {
         guard scorecardObserver == nil else { return }
 
         scorecardObserver = data.observer(of: .scorecard) { [weak self] _ in
+            guard let self = self,
+                  let user = self.data.user else { return }
+
+            self.update(rank: user)
+        }
+
+        userObserver = data.observer(of: .user) { [weak self] _ in
             guard let self = self,
                   let user = self.data.user else { return }
 
@@ -166,6 +196,17 @@ private extension RankingHeader {
             rankTitle.text = ""
             rankLabel.text = L.verify()
             rankLabel.textColor = Layout.updatingColor
+            rankLabel.font = Layout.rankFont.updating
+            fractionLabel.text = ""
+            updatingStack?.isHidden = true
+            return
+        }
+
+        guard user.isComplete else {
+            scheduler.stop()
+            rankTitle.text = ""
+            rankLabel.text = L.complete()
+            rankLabel.textColor = nil
             rankLabel.font = Layout.rankFont.updating
             fractionLabel.text = ""
             updatingStack?.isHidden = true

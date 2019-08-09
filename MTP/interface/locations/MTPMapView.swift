@@ -3,18 +3,24 @@
 import MapKit
 import RealmMapView
 
+/// Typealias for fluency
 typealias MappablesAnnotation = Annotation
 
 extension CLLocationDistance {
 
+    /// Default map span for an annotation
     static let annotationSpan = CLLocationDistance(500)
+    /// Default map span for device location
     static let deviceSpan = CLLocationDistance(160_000)
 }
 
+/// Displays locations
 final class MTPMapView: RealmMapView, ServiceProvider {
 
+    /// Callback handler type
     typealias Completion = () -> Void
 
+    /// Which location types to display
     var displayed = ChecklistFlags() {
         didSet {
             if displayed != oldValue {
@@ -23,6 +29,7 @@ final class MTPMapView: RealmMapView, ServiceProvider {
         }
     }
 
+    /// Compass button
     var compass: MKCompassButton? {
         guard showsCompass else { return nil }
 
@@ -32,6 +39,7 @@ final class MTPMapView: RealmMapView, ServiceProvider {
         }
     }
 
+    /// Tracking and legend stack
     var infoStack: UIStackView {
         showsUserLocation = true
 
@@ -56,10 +64,14 @@ final class MTPMapView: RealmMapView, ServiceProvider {
         return stack
     }
 
+    /// Has the map been centered on a location?
     var isCentered = false
     private var completions: [Completion] = []
     private var visitedObserver: Observer?
 
+    /// Decoding intializer
+    ///
+    /// - Parameter aDecoder: Decoder
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 
@@ -71,6 +83,7 @@ final class MTPMapView: RealmMapView, ServiceProvider {
         observe()
     }
 
+    /// Center map on device
     func centerOnDevice() {
         guard !isCentered, let here = loc.here else { return }
 
@@ -79,10 +92,18 @@ final class MTPMapView: RealmMapView, ServiceProvider {
              longitudeSpan: .deviceSpan)
     }
 
+    /// Zoom map to coordinate
+    ///
+    /// - Parameter center: Center
     func zoom(to center: CLLocationCoordinate2D) {
         zoom(center: center)
     }
 
+    /// Zoom map to place
+    ///
+    /// - Parameters:
+    ///   - mappable: Place
+    ///   - callout: Show callout?
     func zoom(to mappable: Mappable, callout: Bool) {
         zoom(center: mappable.coordinate) { [weak self] in
             if callout {
@@ -91,12 +112,18 @@ final class MTPMapView: RealmMapView, ServiceProvider {
         }
     }
 
+    /// Close place annotation view
+    ///
+    /// - Parameter mappable: Place
     func close(mappable: Mappable) {
         guard let shown = shown(for: mappable) else { return }
 
         deselectAnnotation(shown, animated: false)
     }
 
+    /// Update place display
+    ///
+    /// - Parameter mappable: Place
     func update(mappable: Mappable) {
         guard let contains = contains(mappable: mappable) else { return }
 
@@ -104,6 +131,9 @@ final class MTPMapView: RealmMapView, ServiceProvider {
         addAnnotation(contains)
     }
 
+    /// Handle annotation view display
+    ///
+    /// - Parameter view: Place view
     func display(view: MappableAnnotationView) {
         guard let mappable = view.mappable else { return }
 
@@ -114,6 +144,9 @@ final class MTPMapView: RealmMapView, ServiceProvider {
         #endif
     }
 
+    /// Expand to region covered by annotation
+    ///
+    /// - Parameter view: Places view
     func expand(view: MappablesAnnotationView) {
         guard let mapped = view.mapped else { return }
 
@@ -121,6 +154,11 @@ final class MTPMapView: RealmMapView, ServiceProvider {
         zoom(into: mapped)
     }
 
+    /// Refresh region override to expand enough to collect just offscreens
+    ///
+    /// - Parameters:
+    ///   - refreshRegion: Region to refresh
+    ///   - refreshMapRect: Map rect to refresh
     override func refreshMapView(refreshRegion: MKCoordinateRegion? = nil,
                                  refreshMapRect: MKMapRect? = nil) {
         let bigger = refreshRegion ?? region.expanded(by: 1.2)
@@ -128,6 +166,7 @@ final class MTPMapView: RealmMapView, ServiceProvider {
                              refreshMapRect: refreshMapRect)
     }
 
+    /// Schedule operations after map update
     override func didUpdateAnnotations() {
         guard !completions.isEmpty else { return }
 
@@ -194,7 +233,7 @@ private extension MTPMapView {
     func update(overlays mappable: Mappable) {
         let current = overlays.filter { $0 is MappableOverlay }
         if let first = current.first as? MappableOverlay,
-            first.shows(mappable: mappable) {
+           first.shows(mappable: mappable) {
             return
         }
 
@@ -288,36 +327,50 @@ private extension MTPMapView {
 
 extension MappablesAnnotation {
 
+    /// Convenience accessor for uniqueness
     var isSingle: Bool {
         return type == .unique
     }
+    /// Convenience accessor for multiplicity
     var isMultiple: Bool {
         return type == .cluster
     }
+    /// Number of places
     var count: Int {
         return safeObjects.count
     }
 
+    /// Convenience accessor for unique place
     var mappable: Mappable? {
         return isSingle ? mappables[0] : nil
     }
+    /// Convenience accessor for place(s) list
     var mappables: [Mappable] {
         return safeObjects.map { $0.toObject(Mappable.self) }
     }
+    /// Region containing place(s)
     var region: ClusterRegion {
         return ClusterRegion(mappables: self)
     }
 
+    /// Whether this annotation contains a particular place
+    ///
+    /// - Parameter mappable: Place
+    /// - Returns: Containment
     func contains(mappable: Mappable) -> Bool {
         return mappables.contains { $0 == mappable }
     }
 
+    /// Whether this annotation is a particular place
+    ///
+    /// - Parameter only: Place
+    /// - Returns: Identity
     func shows(only: Mappable) -> Bool {
         return only == mappable
     }
 }
 
-extension MKCoordinateRegion {
+private extension MKCoordinateRegion {
 
     var mapRect: MKMapRect { return MKMapRect() }
 

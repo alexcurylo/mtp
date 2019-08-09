@@ -2,6 +2,7 @@
 
 import RealmSwift
 
+/// Handles selection of rankings criteria
 final class RankingsFilterVC: UITableViewController, ServiceProvider {
 
     private typealias Segues = R.segue.rankingsFilterVC
@@ -25,6 +26,7 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
     private var original: RankingsQuery?
     private var current: RankingsQuery?
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -37,29 +39,25 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
         configure()
    }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.showCountry.identifier:
             if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                destination.set(search: .countryOrAll,
-                                styler: .standard,
-                                delegate: self)
+                destination.inject(mode: .countryOrAll,
+                                   styler: .standard,
+                                   delegate: self)
             }
         case Segues.showLocation.identifier:
             if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC,
                let countryId = current?.countryId {
-                destination.set(search: .locationOrAll(country: countryId),
-                                styler: .standard,
-                                delegate: self)
+                destination.inject(mode: .locationOrAll(country: countryId),
+                                   styler: .standard,
+                                   delegate: self)
             }
         case Segues.saveEdits.identifier:
             saveEdits(notifying: Segues.saveEdits(segue: segue)?.destination)
@@ -75,11 +73,23 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
 
 extension RankingsFilterVC {
 
+    /// Provide row height
+    ///
+    /// - Parameters:
+    ///   - tableView: Table
+    ///   - indexPath: Index path
+    /// - Returns: Height
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 
+    /// Provide estimated row height
+    ///
+    /// - Parameters:
+    ///   - tableView: Table
+    ///   - indexPath: Index path
+    /// - Returns: Height
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
@@ -88,6 +98,11 @@ extension RankingsFilterVC {
 
 extension RankingsFilterVC: LocationSearchDelegate {
 
+    /// Handle a location selection
+    ///
+    /// - Parameters:
+    ///   - controller: source of selection
+    ///   - item: Country or Location selected
     func locationSearch(controller: RealmSearchViewController,
                         didSelect item: Object) {
         guard current?.update(with: item) ?? false else { return }

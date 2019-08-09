@@ -4,6 +4,9 @@ import Anchorage
 import DropDown
 import MapKit
 
+// swiftlint:disable file_length
+
+/// Root controller for the map displaying tab
 final class LocationsVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.locationsVC
@@ -16,7 +19,7 @@ final class LocationsVC: UIViewController, ServiceProvider {
 
     private var trackingButton: MKUserTrackingButton?
 
-    let dropdown = DropDown {
+    private let dropdown = DropDown {
         $0.dismissMode = .manual
         $0.backgroundColor = .white
         $0.selectionBackgroundColor = UIColor(red: 0.649, green: 0.815, blue: 1.0, alpha: 0.2)
@@ -31,14 +34,16 @@ final class LocationsVC: UIViewController, ServiceProvider {
         $0.textColor = .darkGray
         $0.textFont = Avenir.book.of(size: 14)
     }
-    var matches: [Mappable] = []
+    private var matches: [Mappable] = []
 
     private var injectMappable: Mappable?
 
+    /// Remove observers
     deinit {
         loc.remove(tracker: self)
     }
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -48,6 +53,9 @@ final class LocationsVC: UIViewController, ServiceProvider {
         configureSearchBar()
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -55,6 +63,9 @@ final class LocationsVC: UIViewController, ServiceProvider {
         expose()
     }
 
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -63,15 +74,11 @@ final class LocationsVC: UIViewController, ServiceProvider {
         note.checkPending()
     }
 
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.showFilter.identifier:
@@ -91,10 +98,14 @@ final class LocationsVC: UIViewController, ServiceProvider {
         }
     }
 
+    /// Update place types shown
     func updateFilter() {
         mtpMapView?.displayed = data.mapDisplay
     }
 
+    /// Reveal user
+    ///
+    /// - Parameter user: User to display
     func reveal(user: User?) {
         guard let name = user?.locationName, !name.isEmpty else { return }
 
@@ -111,20 +122,36 @@ final class LocationsVC: UIViewController, ServiceProvider {
 
 extension LocationsVC: Mapper {
 
+    /// Close
+    ///
+    /// - Parameter mappable: Place
     func close(mappable: Mappable) {
         mtpMapView?.close(mappable: mappable)
     }
 
+    /// Notify
+    ///
+    /// - Parameters:
+    ///   - mappable: Place
+    ///   - triggered: Date
     func notify(mappable: Mappable, triggered: Date) {
         note.notify(mappable: mappable,
                     triggered: triggered) { _ in }
     }
 
+    /// Reveal
+    ///
+    /// - Parameters:
+    ///   - mappable: Place
+    ///   - callout: Show callout
     func reveal(mappable: Mappable, callout: Bool) {
         navigationController?.popToRootViewController(animated: false)
         mtpMapView?.zoom(to: mappable, callout: callout)
     }
 
+    /// Show
+    ///
+    /// - Parameter mappable: Place
     func show(mappable: Mappable) {
         injectMappable = mappable
         close(mappable: mappable)
@@ -132,6 +159,9 @@ extension LocationsVC: Mapper {
                      sender: self)
     }
 
+    /// Update
+    ///
+    /// - Parameter mappable: Place
     func update(mappable: Mappable) {
         mtpMapView?.update(mappable: mappable)
     }
@@ -141,14 +171,21 @@ extension LocationsVC: Mapper {
 
 extension LocationsVC: LocationTracker {
 
+    /// User refused access
     func accessRefused() {
         mtpMapView?.isCentered = true
     }
 
+    /// Authorization changed
+    ///
+    /// - Parameter changed: New status
     func authorization(changed: CLAuthorizationStatus) {
         updateTracking()
     }
 
+    /// Location changed
+    ///
+    /// - Parameter changed: New location
     func location(changed: CLLocation) { }
 }
 
@@ -195,12 +232,20 @@ private extension LocationsVC {
         trackingButton?.set(visibility: permission)
         mtpMapView?.centerOnDevice()
     }
+
+    func dropdown(selected index: Int) {
+        if let searchBar = searchBar {
+            searchBarCancelButtonClicked(searchBar)
+        }
+        reveal(mappable: matches[index], callout: true)
+    }
 }
 
 // MARK: - Exposing
 
 extension LocationsVC: Exposing {
 
+    /// Expose controls to UI tests
     func expose() {
         let bar = navigationController?.navigationBar
         LocationsVCs.nav.expose(item: bar)
@@ -214,6 +259,11 @@ extension LocationsVC: Exposing {
 
 extension LocationsVC: UISearchBarDelegate {
 
+    /// Changed search text notification
+    ///
+    /// - Parameters:
+    ///   - searchBar: Searcher
+    ///   - searchText: Contents
     func searchBar(_ searchBar: UISearchBar,
                    textDidChange searchText: String) {
         matches = data.get(mappables: searchText)
@@ -228,29 +278,34 @@ extension LocationsVC: UISearchBarDelegate {
         }
     }
 
+    /// Begin search editing
+    ///
+    /// - Parameter searchBar: Searcher
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)
     }
 
+    /// Handle search button click
+    ///
+    /// - Parameter searchBar: Searcher
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBarCancelButtonClicked(searchBar)
     }
 
+    /// Handle cancel button click
+    ///
+    /// - Parameter searchBar: Searcher
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
         dropdown.hide()
         searchBar.resignFirstResponder()
     }
 
+    /// Search ended notification
+    ///
+    /// - Parameter searchBar: Searcher
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = false
-    }
-
-    func dropdown(selected index: Int) {
-        if let searchBar = searchBar {
-            searchBarCancelButtonClicked(searchBar)
-        }
-        reveal(mappable: matches[index], callout: true)
     }
 }
 
@@ -258,31 +313,43 @@ extension LocationsVC: UISearchBarDelegate {
 
 extension LocationsVC: MKMapViewDelegate {
 
-    func mapView(_ mapView: MKMapView,
-                 regionWillChangeAnimated: Bool) { }
-    func mapView(_ mapView: MKMapView,
-                 regionDidChangeAnimated: Bool) { }
+    //func mapView(_ mapView: MKMapView,
+                 //regionWillChangeAnimated: Bool) { }
+    //func mapView(_ mapView: MKMapView,
+                 //regionDidChangeAnimated: Bool) { }
 
-    func mapViewWillStartLoadingMap(_ mapView: MKMapView) { }
-    func mapViewDidFinishLoadingMap(_ mapView: MKMapView) { }
-    func mapViewDidFailLoadingMap(_ mapView: MKMapView) { }
+    //func mapViewWillStartLoadingMap(_ mapView: MKMapView) { }
+    //func mapViewDidFinishLoadingMap(_ mapView: MKMapView) { }
+    //func mapViewDidFailLoadingMap(_ mapView: MKMapView) { }
 
-    func mapViewWillStartRenderingMap(_ mapView: MKMapView) { }
-    func mapViewDidFinishRenderingMap(_ mapView: MKMapView,
-                                      fullyRendered: Bool) { }
+    //func mapViewWillStartRenderingMap(_ mapView: MKMapView) { }
+    //func mapViewDidFinishRenderingMap(_ mapView: MKMapView,
+                                      //fullyRendered: Bool) { }
 
-    func mapViewWillStartLocatingUser(_ mapView: MKMapView) { }
-    func mapViewDidStopLocatingUser(_ mapView: MKMapView) { }
+    //func mapViewWillStartLocatingUser(_ mapView: MKMapView) { }
+    //func mapViewDidStopLocatingUser(_ mapView: MKMapView) { }
+
+    /// Update user location
+    ///
+    /// - Parameters:
+    ///   - mapView: Map view
+    ///   - userLocation: Location
     func mapView(_ mapView: MKMapView,
                  didUpdate userLocation: MKUserLocation) {
         mtpMapView?.centerOnDevice()
     }
-    func mapView(_ mapView: MKMapView,
-                 didFailToLocateUserWithError error: Error) { }
-    func mapView(_ mapView: MKMapView,
-                 didChange mode: MKUserTrackingMode,
-                 animated: Bool) { }
+    //func mapView(_ mapView: MKMapView,
+                 //didFailToLocateUserWithError error: Error) { }
+    //func mapView(_ mapView: MKMapView,
+                 //didChange mode: MKUserTrackingMode,
+                 //animated: Bool) { }
 
+    /// Produce annotation view
+    ///
+    /// - Parameters:
+    ///   - mapView: Map view
+    ///   - annotation: Annotation
+    /// - Returns: Mappable[s]AnnotationView
     func mapView(_ mapView: MKMapView,
                  viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         switch annotation {
@@ -298,13 +365,18 @@ extension LocationsVC: MKMapViewDelegate {
         return nil
     }
 
-    func mapView(_ mapView: MKMapView,
-                 didAdd views: [MKAnnotationView]) { }
+    //func mapView(_ mapView: MKMapView,
+                 //didAdd views: [MKAnnotationView]) { }
 
-    func mapView(_ mapView: MKMapView,
-                 annotationView view: MKAnnotationView,
-                 calloutAccessoryControlTapped control: UIControl) { }
+    //func mapView(_ mapView: MKMapView,
+                 //annotationView view: MKAnnotationView,
+                 //calloutAccessoryControlTapped control: UIControl) { }
 
+    /// Handle annoation selection
+    ///
+    /// - Parameters:
+    ///   - mapView: Map view
+    ///   - view: Annotation view
     func mapView(_ mapView: MKMapView,
                  didSelect view: MKAnnotationView) {
         switch view {
@@ -318,14 +390,20 @@ extension LocationsVC: MKMapViewDelegate {
         }
     }
 
-    func mapView(_ mapView: MKMapView,
-                 didDeselect view: MKAnnotationView) { }
+    //func mapView(_ mapView: MKMapView,
+                 //didDeselect view: MKAnnotationView) { }
 
-    func mapView(_ mapView: MKMapView,
-                 annotationView view: MKAnnotationView,
-                 didChange newState: MKAnnotationView.DragState,
-                 fromOldState oldState: MKAnnotationView.DragState) { }
+    //func mapView(_ mapView: MKMapView,
+                 //annotationView view: MKAnnotationView,
+                 //didChange newState: MKAnnotationView.DragState,
+                 //fromOldState oldState: MKAnnotationView.DragState) { }
 
+    /// Provide overlay renderer
+    ///
+    /// - Parameters:
+    ///   - mapView: Map view
+    ///   - overlay: Overlay
+    /// - Returns: Renderer
     func mapView(_ mapView: MKMapView,
                  rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         switch overlay {
@@ -336,14 +414,14 @@ extension LocationsVC: MKMapViewDelegate {
         }
     }
 
-    func mapView(_ mapView: MKMapView,
-                 didAdd renderers: [MKOverlayRenderer]) { }
+    //func mapView(_ mapView: MKMapView,
+                 //didAdd renderers: [MKOverlayRenderer]) { }
 
-    func mapView(_ mapView: MKMapView,
-                 clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
-        log.error("MKMapView should not be clustering")
-        return MKClusterAnnotation(memberAnnotations: memberAnnotations)
-    }
+    //func mapView(_ mapView: MKMapView,
+                 //clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
+        //log.error("MKMapView should not be clustering")
+        //return MKClusterAnnotation(memberAnnotations: memberAnnotations)
+    //}
 }
 
 // MARK: - MKUserTrackingButton
@@ -371,12 +449,18 @@ private extension MKUserTrackingButton {
 
 extension LocationsVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = ()
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         mtpMapView.require()
         searchBar.require()

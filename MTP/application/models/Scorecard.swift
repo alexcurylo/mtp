@@ -2,17 +2,19 @@
 
 import RealmSwift
 
+/// Enclosing results from API
 struct ScorecardWrapperJSON: Codable {
 
+    /// results
     let data: ScorecardJSON
 }
 
-struct AgeLevel: Codable {
+private struct AgeLevel: Codable {
     let min: Int
     let max: Int
 }
 
-struct LabelPairs: Codable {
+private struct LabelPairs: Codable {
 
     let beaches: String
     let divesites: String
@@ -23,7 +25,7 @@ struct LabelPairs: Codable {
     let whss: String
 }
 
-struct ScorecardRankedUsersWrapper: Codable {
+private struct ScorecardRankedUsersWrapper: Codable {
 
     let beaches: ScorecardRankedUsers?
     let divesites: ScorecardRankedUsers?
@@ -34,7 +36,7 @@ struct ScorecardRankedUsersWrapper: Codable {
     let whss: ScorecardRankedUsers?
 }
 
-struct ScorecardRankedUsers: Codable {
+private struct ScorecardRankedUsers: Codable {
 
     private enum CodingKeys: String, CodingKey {
         case ageAndCountry = "AgeAndCountry"
@@ -49,20 +51,22 @@ struct ScorecardRankedUsers: Codable {
     let genderAndCountry: [Int: ScorecardRankedUser]
 }
 
-struct ScorecardRankedUser: Codable {
+private struct ScorecardRankedUser: Codable {
 
     let data: ScorecardRankedUserJSON
     let rank: Int
     let score: Int
 }
 
-struct ScorecardRankedUserJSON: Codable {
+private struct ScorecardRankedUserJSON: Codable {
 
-    let birthday: Date
+    let birthday: Date?
     let country: String?
     let firstName: String
+    /// fullName
     let fullName: String
     let gender: String
+    /// id
     let id: Int
     let lastName: String
     let location: LocationJSON // still has 30 items
@@ -86,7 +90,7 @@ struct ScorecardRankedUserJSON: Codable {
     let status: String
 }
 
-struct RanksWrapper: Codable {
+private struct RanksWrapper: Codable {
 
     let beaches: ScorecardRanks?
     let divesites: ScorecardRanks?
@@ -107,7 +111,7 @@ struct RanksWrapper: Codable {
     }
 }
 
-struct ScorecardRanks: Codable {
+private struct ScorecardRanks: Codable {
 
     private enum CodingKeys: String, CodingKey {
         case ageAndCountry = "AgeAndCountry"
@@ -122,10 +126,10 @@ struct ScorecardRanks: Codable {
     let genderAndCountry: Int
 }
 
-struct ScorecardUserJSON: Codable {
+private struct ScorecardUserJSON: Codable {
 
     let age: Int
-    let birthday: Date
+    let birthday: Date?
     let firstName: String
     let gender: String
     let id: Int
@@ -149,7 +153,7 @@ struct ScorecardUserJSON: Codable {
     let status: String
 }
 
-struct ScorecardLocationJSON: Codable {
+private struct ScorecardLocationJSON: Codable {
 
     let countryId: Int?
     let countryName: String?
@@ -162,6 +166,7 @@ struct ScorecardLocationJSON: Codable {
     let visitorsUn: Int?
 }
 
+/// Reply from the scorecard endpoints
 struct ScorecardJSON: Codable {
 
     private enum CodingKeys: String, CodingKey {
@@ -181,29 +186,33 @@ struct ScorecardJSON: Codable {
         case userId
         //case usersByRank
         case visitedByUser
-   }
+    }
 
-    let ageLevel: AgeLevel
-    let labelPairs: LabelPairs
-    let rank: RanksWrapper?
-    let remainingByUser: UncertainValue<[Int: ScorecardLocationJSON], [ScorecardLocationJSON]> // usually array if 1...2
-    let scoreBeaches: Int?
-    let scoreDivesites: Int?
-    let scoreGolfcourses: Int?
-    let scoreLocations: Int?
-    let scoreRestaurants: Int?
-    let scoreUncountries: Int?
-    let scoreWhss: Int?
+    fileprivate let ageLevel: AgeLevel
+    fileprivate let labelPairs: LabelPairs
+    fileprivate let rank: RanksWrapper?
+    // usually array if 1...2
+    fileprivate let remainingByUser: UncertainValue<[Int: ScorecardLocationJSON], [ScorecardLocationJSON]>
+    fileprivate let scoreBeaches: Int?
+    fileprivate let scoreDivesites: Int?
+    fileprivate let scoreGolfcourses: Int?
+    fileprivate let scoreLocations: Int?
+    fileprivate let scoreRestaurants: Int?
+    fileprivate let scoreUncountries: Int?
+    fileprivate let scoreWhss: Int?
+    /// type
     let type: String
-    let user: ScorecardUserJSON
+    fileprivate let user: ScorecardUserJSON
+    /// userId
     let userId: String
-    //let usersByRank: ScorecardRankedUsersWrapper
-    let visitedByUser: UncertainValue<[Int: ScorecardLocationJSON], [ScorecardLocationJSON]> // usually array if 1...2
+    //fileprivate let usersByRank: ScorecardRankedUsersWrapper
+     // usually array if 1...2
+    fileprivate let visitedByUser: UncertainValue<[Int: ScorecardLocationJSON], [ScorecardLocationJSON]>
 }
 
 extension ScorecardJSON: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return "ScorecardJSON: \(userId)"
     }
 }
@@ -223,40 +232,64 @@ extension ScorecardJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Realm representation of a user socrecard
 @objcMembers final class Scorecard: Object {
 
+    /// userId
     dynamic var userId: Int = 0
+    /// checklistValue
     dynamic var checklistValue: Int = Checklist.beaches.rawValue
+    /// checklist
     var checklist: Checklist {
         //swiftlint:disable:next force_unwrapping
         get { return Checklist(rawValue: checklistValue)! }
         set { checklistValue = newValue.rawValue }
     }
+    /// visited
     dynamic var visited: Int = 0
+    /// remaining
     dynamic var remaining: Int = 0
 
+    /// age
     dynamic var age: Int = 0
+    /// countryId
     dynamic var countryId: Int = 0
+    /// gender
     dynamic var gender: String = ""
+    /// locationId
     dynamic var locationId: Int = 0
 
+    /// ageAndCountry
     dynamic var ageAndCountry: Int = 0
+    /// ageAndGenderAndCountry
     dynamic var ageAndGenderAndCountry: Int = 0
+    /// country
     dynamic var country: Int = 0
+    /// genderAndCountry
     dynamic var genderAndCountry: Int = 0
 
+    /// dbKey
     dynamic var dbKey: String = ""
 
+    /// visits
     let visits = List<Int>()
 
+    /// Realm unique identifier
+    ///
+    /// - Returns: unique identifier
     override static func primaryKey() -> String? {
         return "dbKey"
     }
 
+    /// Unique key for database
+    ///
+    /// - Parameter item: Item
+    /// - Returns: Unique key
     static func key(list: Checklist, user: Int) -> String {
         return "list=\(list.rawValue)?user=\(user)"
     }
 
+    /// Constructor from MTP endpoint data
     convenience init(from: ScorecardWrapperJSON) {
         self.init()
 
@@ -294,6 +327,10 @@ extension ScorecardJSON: CustomDebugStringConvertible {
         dbKey = Scorecard.key(list: checklist, user: userId)
     }
 
+    /// Rank in query if matches
+    ///
+    /// - Parameter filter: Filter
+    /// - Returns: Rank if present
     func rank(filter: RankingsQuery) -> Int? {
         guard countryId == filter.countryId else { return nil }
 

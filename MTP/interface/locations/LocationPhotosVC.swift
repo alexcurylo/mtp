@@ -2,6 +2,7 @@
 
 import UIKit
 
+/// Displays location photos
 final class LocationPhotosVC: PhotosVC {
 
     private typealias Segues = R.segue.locationPhotosVC
@@ -10,8 +11,11 @@ final class LocationPhotosVC: PhotosVC {
     private var photos: [Photo] = []
 
     private var photosObserver: Observer?
+    private var blockedUsersObserver: Observer?
+    private var blockedPhotosObserver: Observer?
     private var updated = false
 
+    /// Can create new content
     override var canCreate: Bool {
         return isImplemented
     }
@@ -19,19 +23,26 @@ final class LocationPhotosVC: PhotosVC {
         return mappable?.checklist == .locations
     }
 
+    /// How many photos in collection
     override var photoCount: Int {
         return photos.count
     }
 
+    /// Retrieve an indexed photo
+    ///
+    /// - Parameter index: Index
+    /// - Returns: Photo
     override func photo(at index: Int) -> Photo {
         return photos[index]
     }
 
+    /// Create a new Photo
     override func createPhoto() {
         performSegue(withIdentifier: Segues.addPhoto,
                      sender: self)
     }
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -39,6 +50,11 @@ final class LocationPhotosVC: PhotosVC {
         update()
     }
 
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.addPhoto.identifier:
@@ -55,8 +71,14 @@ final class LocationPhotosVC: PhotosVC {
 
 extension LocationPhotosVC: AddPhotoDelegate {
 
+    /// Enable Location selection
     var isLocatable: Bool { return true }
 
+    /// Handle photo addition
+    ///
+    /// - Parameters:
+    ///   - controller: Add Photo controller
+    ///   - reply: Selection description
     func addPhoto(controller: AddPhotoVC,
                   didAdd reply: PhotoReply) {
         refresh(reload: true)
@@ -85,9 +107,7 @@ private extension LocationPhotosVC {
     func update() {
         guard let mappable = mappable else { return }
 
-        if isImplemented {
-            photos = data.get(locationPhotos: mappable.checklistId)
-        }
+        update(photos: mappable)
         collectionView.reloadData()
 
         if photoCount > 0 {
@@ -98,6 +118,23 @@ private extension LocationPhotosVC {
             contentState = updated ? .empty : .loading
         }
         collectionView.set(message: contentState, color: .darkText)
+    }
+
+    func update(photos mappable: Mappable) {
+        guard isImplemented else { return }
+
+        let blockedPhotos = data.blockedPhotos
+        let blockedUsers = data.blockedUsers
+        let allPhotos = data.get(locationPhotos: mappable.checklistId)
+        if blockedPhotos.isEmpty && blockedUsers.isEmpty {
+            photos = allPhotos
+        } else {
+            photos = allPhotos.compactMap {
+                guard !blockedPhotos.contains($0.photoId),
+                      !blockedUsers.contains($0.userId) else { return nil }
+                return $0
+            }
+        }
     }
 
     func observe() {
@@ -111,13 +148,27 @@ private extension LocationPhotosVC {
             self.updated = true
             self.update()
         }
+
+        blockedPhotosObserver = data.observer(of: .blockedPhotos) { [weak self] _ in
+            self?.update()
+        }
+        blockedUsersObserver = data.observer(of: .blockedUsers) { [weak self] _ in
+            self?.update()
+        }
     }
 }
 
+// MARK: - Injectable
+
 extension LocationPhotosVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = Mappable
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         mappable = model
 
@@ -126,6 +177,7 @@ extension LocationPhotosVC: Injectable {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         mappable.require()
     }

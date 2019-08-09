@@ -5,6 +5,7 @@ import UIKit
 
 // swiftlint:disable file_length
 
+/// Handle the user signup process
 final class SignupVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.signupVC
@@ -25,18 +26,24 @@ final class SignupVC: UIViewController, ServiceProvider {
     @IBOutlet private var togglePasswordButton: UIButton?
     @IBOutlet private var confirmPasswordTextField: InsetTextField?
     @IBOutlet private var toggleConfirmPasswordButton: UIButton?
+    @IBOutlet private var termsOfServiceButton: UIButton?
 
     @IBOutlet private var keyboardToolbar: UIToolbar?
     @IBOutlet private var toolbarBackButton: UIBarButtonItem?
     @IBOutlet private var toolbarNextButton: UIBarButtonItem?
+    @IBOutlet private var toolbarClearButton: UIBarButtonItem?
 
     private var errorMessage: String = ""
-
+    private var agreed = false
     private var country: Country?
     private var location: Location?
 
-    private let genders = [L.selectGender(), L.male(), L.female()]
+    private let genders = [L.selectGender(),
+                           L.male(),
+                           L.female(),
+                           L.preferNot()]
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -45,10 +52,14 @@ final class SignupVC: UIViewController, ServiceProvider {
         startKeyboardListening()
    }
 
+    /// Remove observers
     deinit {
         stopKeyboardListening()
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -56,10 +67,9 @@ final class SignupVC: UIViewController, ServiceProvider {
         navigationController?.delegate = self
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
+    /// Prepare for hide
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.delegate = nil
@@ -67,34 +77,30 @@ final class SignupVC: UIViewController, ServiceProvider {
         data.email = emailTextField?.text ?? ""
    }
 
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         view.endEditing(true)
         switch segue.identifier {
         case Segues.presentSignupFail.identifier:
             let alert = Segues.presentSignupFail(segue: segue)
-            alert?.destination.errorMessage = errorMessage
+            alert?.destination.inject(model: errorMessage)
             hide(navBar: true)
         case Segues.showCountry.identifier:
             if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                destination.set(search: .country,
-                                styler: .login,
-                                delegate: self)
+                destination.inject(mode: .countryOrPreferNot,
+                                   styler: .login,
+                                   delegate: self)
             }
         case Segues.showLocation.identifier:
             if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC {
                 let countryId = country?.countryId ?? 0
-                destination.set(search: .location(country: countryId),
-                                styler: .login,
-                                delegate: self)
+                destination.inject(mode: .location(country: countryId),
+                                   styler: .login,
+                                   delegate: self)
             }
         case Segues.pushTermsOfService.identifier,
              Segues.showWelcome.identifier,
@@ -111,6 +117,7 @@ final class SignupVC: UIViewController, ServiceProvider {
 
 extension SignupVC: KeyboardListener {
 
+    /// Scroll view for keyboard avoidance
     var keyboardScrollee: UIScrollView? { return scrollView }
 }
 
@@ -281,9 +288,22 @@ private extension SignupVC {
         }
     }
 
+    @IBAction func toolbarClearTapped(_ sender: UIBarButtonItem) {
+        if birthdayTextField?.isEditing ?? false {
+            birthdayTextField?.text = nil
+        }
+        view.endEditing(true)
+        prepareRegister(showError: false)
+    }
+
     @IBAction func toolbarDoneTapped(_ sender: UIBarButtonItem) {
         view.endEditing(true)
         prepareRegister(showError: false)
+    }
+
+    @IBAction func unwindToSignup(segue: UIStoryboardSegue) {
+        agreed = true
+        termsOfServiceButton?.setImage(R.image.checkmarkBlue(), for: .normal)
     }
 
     func populate(with payload: RegistrationPayload) {
@@ -295,14 +315,16 @@ private extension SignupVC {
         switch payload.gender {
         case "M": gender = L.male()
         case "F": gender = L.female()
-        default: gender = ""
+        case "U": gender = L.preferNot()
+        default: gender = L.preferNot()
         }
         genderTextField?.disable(text: gender)
 
         lastNameTextField?.disable(text: payload.last_name)
 
-        if !payload.birthday.isEmpty {
-            birthdayTextField?.disable(text: payload.birthday)
+        let birthday = payload.birthday ?? ""
+        if !birthday.isEmpty {
+            birthdayTextField?.disable(text: birthday)
         }
 
         prepareRegister(showError: false)
@@ -318,44 +340,49 @@ private extension SignupVC {
         let firstName = firstNameTextField?.text ?? ""
         let lastName = lastNameTextField?.text ?? ""
         let gender: String
-        if let first = genderTextField?.text?.first {
-            gender = String(first)
-        } else {
-            gender = ""
+        switch genderTextField?.text?.first {
+        case "M": gender = "M"
+        case "F": gender = "F"
+        default: gender = "U"
         }
-        let birthdayText = birthdayTextField?.text ?? ""
-        let birthdayDate = DateFormatter.mtpDay.date(from: birthdayText)
+        let birthday: String?
+        if let text = birthdayTextField?.text,
+           !text.isEmpty {
+            birthday = text
+        } else {
+            birthday = nil
+        }
         let password = passwordTextField?.text ?? ""
         let passwordConfirmation = confirmPasswordTextField?.text ?? ""
 
-        if !email.isValidEmail {
+        errorMessage = ""
+        if !agreed {
+            errorMessage = L.fixAgree()
+        } else if !email.isValidEmail {
             errorMessage = L.fixEmail()
         } else if firstName.isEmpty {
             errorMessage = L.fixFirstName()
         } else if lastName.isEmpty {
             errorMessage = L.fixLastName()
-        } else if gender.isEmpty {
-            errorMessage = L.fixGender()
-        } else if country == nil {
-            errorMessage = L.fixCountry()
-        } else if location == nil {
-            if isLocationVisible {
-                errorMessage = L.fixLocation()
-            } else {
-                location = data.get(location: country?.countryId ?? 0)
-            }
-        } else if birthdayDate == nil {
-            errorMessage = L.fixBirthday()
+        //} else if gender.isEmpty {
+            //errorMessage = L.fixGender()
+        //} else if birthday == nil {
+            //errorMessage = L.fixBirthday()
         } else if !password.isValidPassword {
             errorMessage = L.fixPassword()
         } else if password != passwordConfirmation {
             errorMessage = L.fixConfirmPassword()
-        } else {
-            errorMessage = ""
+        //} else if country == nil {
+            //errorMessage = L.fixCountry()
+        } else if location == nil {
+            if isLocationVisible {
+                errorMessage = L.fixLocation()
+            } else if let country = country {
+                location = data.get(location: country.countryId)
+            }
         }
-        guard let birthday = birthdayDate,
-              let country = country,
-              let location = location,
+        guard //let country = country,
+              //let location = location,
               errorMessage.isEmpty else {
             if showError {
                 if errorMessage.isEmpty {
@@ -421,7 +448,12 @@ private extension SignupVC {
 
 extension SignupVC: UITextFieldDelegate {
 
+    /// Begin editing text field
+    ///
+    /// - Parameter textField: UITextField
+    /// - Returns: Permission
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        var clearHidden = true
         switch textField {
         case emailTextField:
             toolbarBackButton?.isEnabled = false
@@ -435,13 +467,23 @@ extension SignupVC: UITextFieldDelegate {
         case locationTextField:
             performSegue(withIdentifier: Segues.showLocation, sender: self)
             return false
+        case birthdayTextField:
+            clearHidden = false
+            // swiftlint:disable:next fallthrough
+            fallthrough
         default:
             toolbarBackButton?.isEnabled = true
             toolbarNextButton?.isEnabled = true
         }
+        toolbarClearButton?.isHidden = clearHidden
+
         return true
     }
 
+    /// Handle return key
+    ///
+    /// - Parameter textField: UITextField
+    /// - Returns: Permission
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case emailTextField:
@@ -478,6 +520,14 @@ extension SignupVC: UITextFieldDelegate {
 
 extension SignupVC: UINavigationControllerDelegate {
 
+    /// Animation controller for navigation
+    ///
+    /// - Parameters:
+    ///   - navigationController: Enclosing controller
+    ///   - operation: Operation
+    ///   - fromVC: source
+    ///   - toVC: destination
+    /// - Returns: Animator
     func navigationController(
         _ navigationController: UINavigationController,
         animationControllerFor operation: UINavigationController.Operation,
@@ -494,13 +544,22 @@ extension SignupVC: UINavigationControllerDelegate {
 
 extension SignupVC: LocationSearchDelegate {
 
+    /// Handle a location selection
+    ///
+    /// - Parameters:
+    ///   - controller: source of selection
+    ///   - item: Country or Location selected
     func locationSearch(controller: RealmSearchViewController,
                         didSelect item: Object) {
         switch item {
         case let countryItem as Country:
             guard country != countryItem else { return }
-            country = countryItem
-            countryTextField?.text = countryItem.placeCountry
+            if countryItem.countryId > 0 {
+                country = countryItem
+                countryTextField?.text = countryItem.placeCountry
+            } else {
+                countryTextField?.text = L.preferNot()
+            }
             location = nil
             locationTextField?.text = nil
             show(location: countryItem.hasChildren)
@@ -518,12 +577,23 @@ extension SignupVC: LocationSearchDelegate {
 
 extension SignupVC: UIViewControllerTransitioningDelegate {
 
+    /// Animation controller for transition
+    ///
+    /// - Parameters:
+    ///   - presented: Presented controller
+    ///   - presenting: Presenting controller
+    ///   - source: Source controller
+    /// - Returns: Animator
     func animationController(forPresented presented: UIViewController,
                              presenting: UIViewController,
                              source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return ZoomAnimator()
     }
 
+    /// Animation controller for dismissal
+    ///
+    /// - Parameter dismissed: View controller
+    /// - Returns: Animator
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return nil
     }
@@ -533,11 +603,22 @@ extension SignupVC: UIViewControllerTransitioningDelegate {
 
 extension SignupVC: UIPickerViewDataSource {
 
+    /// Number of picker components
+    ///
+    /// - Parameter pickerView: Picker view
+    /// - Returns: 1
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
 
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    /// Number of rows in picker component
+    ///
+    /// - Parameters:
+    ///   - pickerView: Picker view
+    ///   - component: Index
+    /// - Returns: Value
+    func pickerView(_ pickerView: UIPickerView,
+                    numberOfRowsInComponent component: Int) -> Int {
         return genders.count
     }
 }
@@ -546,12 +627,25 @@ extension SignupVC: UIPickerViewDataSource {
 
 extension SignupVC: UIPickerViewDelegate {
 
+    /// Title of picker row
+    ///
+    /// - Parameters:
+    ///   - pickerView: Picker view
+    ///   - row: Index
+    ///   - component: Index
+    /// - Returns: Title
     public func pickerView(_ pickerView: UIPickerView,
                            titleForRow row: Int,
                            forComponent component: Int) -> String? {
         return genders[row]
     }
 
+    /// Handle picker selection
+    ///
+    /// - Parameters:
+    ///   - pickerView: Picker view
+    ///   - row: Index
+    ///   - component: Index
     public func pickerView(_ pickerView: UIPickerView,
                            didSelectRow row: Int,
                            inComponent component: Int) {
@@ -565,12 +659,18 @@ extension SignupVC: UIPickerViewDelegate {
 
 extension SignupVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = ()
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         scrollView.require()
         credentialsStack.require()
@@ -590,5 +690,6 @@ extension SignupVC: Injectable {
         keyboardToolbar.require()
         toolbarBackButton.require()
         toolbarNextButton.require()
+        toolbarClearButton.require()
     }
 }

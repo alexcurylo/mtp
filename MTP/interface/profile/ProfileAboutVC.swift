@@ -2,6 +2,7 @@
 
 import UIKit
 
+/// Display user details
 final class ProfileAboutVC: UITableViewController, UserInjectable, ServiceProvider {
 
     private typealias Segues = R.segue.profileAboutVC
@@ -29,12 +30,14 @@ final class ProfileAboutVC: UITableViewController, UserInjectable, ServiceProvid
 
     private var mapWidth: CGFloat = 0
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
     }
 
-    override func viewWillLayoutSubviews() {
+    /// Refresh map on layout
+   override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
         guard let inset = mapImageView?.superview?.frame.origin.x else { return }
@@ -44,21 +47,20 @@ final class ProfileAboutVC: UITableViewController, UserInjectable, ServiceProvid
          }
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
+   override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         update()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.showUserCounts.identifier:
@@ -76,11 +78,23 @@ final class ProfileAboutVC: UITableViewController, UserInjectable, ServiceProvid
 
 extension ProfileAboutVC {
 
+    /// Provide row height
+    ///
+    /// - Parameters:
+    ///   - tableView: Table
+    ///   - indexPath: Index path
+    /// - Returns: Height
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 
+    /// Provide estimated row height
+    ///
+    /// - Parameters:
+    ///   - tableView: Table
+    ///   - indexPath: Index path
+    /// - Returns: Height
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
@@ -249,12 +263,37 @@ private extension ProfileAboutVC {
         countsModel = (.locations, user, .remaining)
         performSegue(withIdentifier: Segues.showUserCounts, sender: self)
     }
+
+    func fetch(id: Int) {
+        net.loadUser(id: id) { _ in }
+
+        if let scorecard = data.get(scorecard: .locations, user: id) {
+            visits = Array(scorecard.visits)
+        } else {
+            visits = []
+            net.loadScorecard(list: .locations,
+                              user: id) { [weak self] _ in
+                                guard let self = self else { return }
+                                if let scorecard = self.data.get(scorecard: .locations, user: id) {
+                                    self.visits = Array(scorecard.visits)
+                                    self.update(map: self.mapWidth)
+                                }
+            }
+        }
+    }
 }
+
+// MARK: - Injectable
 
 extension ProfileAboutVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = User
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         user = model
         isSelf = model.isSelf
@@ -269,24 +308,7 @@ extension ProfileAboutVC: Injectable {
         return self
     }
 
-    func fetch(id: Int) {
-        net.loadUser(id: id) { _ in }
-
-        if let scorecard = data.get(scorecard: .locations, user: id) {
-            visits = Array(scorecard.visits)
-        } else {
-            visits = []
-            net.loadScorecard(list: .locations,
-                              user: id) { [weak self] _ in
-                guard let self = self else { return }
-                if let scorecard = self.data.get(scorecard: .locations, user: id) {
-                    self.visits = Array(scorecard.visits)
-                    self.update(map: self.mapWidth)
-                }
-            }
-        }
-    }
-
+    /// Enforce dependency injection
     func requireInjections() {
         user.require()
 

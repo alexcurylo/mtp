@@ -2,23 +2,37 @@
 
 import UIKit
 
+/// Stub for startup construction
 struct StateHandler: AppHandler, ServiceProvider { }
 
 extension StateHandler: AppStateHandler {
 
-    func applicationWillEnterForeground(_ application: UIApplication) {
-    }
+    /// Enter foreground handler
+    ///
+    /// - Parameter application: Application
+    func applicationWillEnterForeground(_ application: UIApplication) { }
 
+    /// Become active handler
+    ///
+    /// - Parameter application: Application
     func applicationDidBecomeActive(_ application: UIApplication) {
         net.refreshEverything()
     }
 
-    func applicationWillResignActive(_ application: UIApplication) {
-    }
+    /// Resign active handler
+    ///
+    /// - Parameter application: Application
+    func applicationWillResignActive(_ application: UIApplication) { }
 
+    /// Enter background handler
+    ///
+    /// - Parameter application: Application
     func applicationDidEnterBackground(_ application: UIApplication) {
+        //loc.calculateDistances()
     }
 
-    func applicationWillTerminate(_ application: UIApplication) {
-    }
+    /// Terminate handler
+    ///
+    /// - Parameter application: Application
+    func applicationWillTerminate(_ application: UIApplication) { }
 }

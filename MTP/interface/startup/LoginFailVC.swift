@@ -2,6 +2,7 @@
 
 import UIKit
 
+/// Notify user of login failure
 final class LoginFailVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.loginFailVC
@@ -14,6 +15,7 @@ final class LoginFailVC: UIViewController, ServiceProvider {
     private var errorMessage: String?
     private var isSwitchable: Bool = true
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -24,6 +26,9 @@ final class LoginFailVC: UIViewController, ServiceProvider {
         }
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -31,17 +36,22 @@ final class LoginFailVC: UIViewController, ServiceProvider {
         hideAlert()
     }
 
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         revealAlert()
     }
 
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+    /// Allow navigation
+    ///
+    /// - Parameters:
+    ///   - identifier: Segue identifier
+    ///   - sender: Action originator
+    /// - Returns: Permission
+    override func shouldPerformSegue(withIdentifier identifier: String,
+                                     sender: Any?) -> Bool {
         switch identifier {
         case Segues.switchForgotPassword.identifier:
             return isSwitchable
@@ -50,6 +60,11 @@ final class LoginFailVC: UIViewController, ServiceProvider {
         }
     }
 
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.dismissLoginFail.identifier:
@@ -61,6 +76,8 @@ final class LoginFailVC: UIViewController, ServiceProvider {
         }
     }
 }
+
+// MARK: - Private
 
 private extension LoginFailVC {
 
@@ -91,15 +108,23 @@ private extension LoginFailVC {
     }
 }
 
+// MARK: - Injectable
+
 extension LoginFailVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = String
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         errorMessage = model
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         errorMessage.require()
 

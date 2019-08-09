@@ -2,12 +2,14 @@
 
 import UIKit
 
+/// Root class for remote user profile
 final class UserProfileVC: ProfileVC {
 
     private typealias Segues = R.segue.userProfileVC
 
     @IBOutlet private var closeButton: UIButton?
 
+    /// Controllers to be displayed in PagingViewController
     override var pages: [UIViewController] {
         return [
             R.storyboard.profileAbout.about(),
@@ -16,12 +18,20 @@ final class UserProfileVC: ProfileVC {
         ].compactMap { $0 }
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         expose()
     }
 
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.dismissUserProfile.identifier:
@@ -36,6 +46,7 @@ final class UserProfileVC: ProfileVC {
 
 extension UserProfileVC: Exposing {
 
+    /// Expose controls to UI tests
     func expose() {
         UserProfileVCs.close.expose(item: closeButton)
     }

@@ -2,6 +2,7 @@
 
 import Parchment
 
+/// Displays logged in user information
 final class MyProfileVC: ProfileVC {
 
     private typealias Segues = R.segue.myProfileVC
@@ -16,6 +17,7 @@ final class MyProfileVC: ProfileVC {
         case posts
     }
 
+    /// Controllers to be displayed in PagingViewController
     override var pages: [UIViewController] {
         return [
             R.storyboard.profileAbout.about(),
@@ -26,7 +28,9 @@ final class MyProfileVC: ProfileVC {
     }
 
     private var userObserver: Observer?
+    private var reportMessage = ""
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         if let user = data.user {
             inject(model: User(from: user))
@@ -34,14 +38,27 @@ final class MyProfileVC: ProfileVC {
         super.viewDidLoad()
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         expose()
     }
 
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
+        case Segues.showSettings.identifier:
+            if let settings = Segues.showSettings(segue: segue)?.destination {
+                settings.inject(model: reportMessage)
+                reportMessage = ""
+            }
         case Segues.directEdit.identifier,
              Segues.showEditProfile.identifier,
              Segues.showSettings.identifier:
@@ -51,6 +68,7 @@ final class MyProfileVC: ProfileVC {
         }
     }
 
+    /// Set up data change observations
     override func observe() {
         guard userObserver == nil else { return }
 
@@ -62,12 +80,26 @@ final class MyProfileVC: ProfileVC {
         }
     }
 
+    /// Configure for display
     override func configure() {
         super.configure()
 
-        guard let user = data.user else { return }
+        let title: String?
+        if let birthday = data.user?.birthday {
+            title = DateFormatter.mtpBirthday.string(from: birthday)
+            return
+        } else {
+            title = nil
+        }
+        birthdayLabel?.text = title
+    }
 
-        birthdayLabel?.text = DateFormatter.mtpBirthday.string(from: user.birthday)
+    /// Handle content reporting
+    ///
+    /// - Parameter message: Email body
+    func reportContent(message: String) {
+        reportMessage = message
+        performSegue(withIdentifier: Segues.showSettings, sender: self)
     }
 }
 
@@ -75,6 +107,7 @@ final class MyProfileVC: ProfileVC {
 
 extension MyProfileVC: Exposing {
 
+    /// Expose controls to UI tests
     func expose() {
         guard let menu = pagingVC?.collectionView else { return }
         MyProfileVCs.menu.expose(item: menu)
@@ -85,6 +118,12 @@ extension MyProfileVC: Exposing {
 
 extension MyProfileVC: CollectionCellExposing {
 
+    /// Expose cell to UI tests
+    ///
+    /// - Parameters:
+    ///   - view: Collection
+    ///   - path: Index path
+    ///   - cell: Cell
     func expose(view: UICollectionView,
                 path: IndexPath,
                 cell: UICollectionViewCell) {

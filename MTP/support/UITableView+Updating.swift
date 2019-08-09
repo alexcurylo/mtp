@@ -4,7 +4,8 @@ import UIKit
 
 extension UITableView {
 
-    // suppress annoying redraw, especially in static tables
+    /// Suppress annoying redraw, especially in static tables
+    ///
     func update(layout: () -> Void = {}) {
         UIView.setAnimationsEnabled(false)
         beginUpdates()

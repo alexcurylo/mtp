@@ -1,4 +1,6 @@
-MTP is the first mobile app for members of Most Traveled People, the world's largest competitive travel community. MTP members on the web have long enjoyed the ability to measure their lifetime travel accomplishments against their peers, and challenge themselves towards new travel accomplishments. The MTP mobile app imbues all of the features of MTP on the web with geo-awareness, enabling a whole new level of immersive interaction.
+MTP is the first mobile app for members of Most Traveled People, the world's largest competitive travel community. MTP ranks the world's top travelers by gender, age group, and home location.
+
+MTP members on the web have long enjoyed the ability to measure their lifetime travel accomplishments against their peers, and challenge themselves towards new travel accomplishments. The MTP mobile app imbues all of the features of MTP on the web with geo-awareness, enabling a whole new level of immersive interaction.
 
 FEATURES INCLUDE:
 

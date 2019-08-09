@@ -3,11 +3,12 @@
 import CoreLocation
 import UIKit
 
-protocol NearbyCellDelegate: AnyObject {
+private protocol NearbyCellDelegate: AnyObject {
 
     func dismiss()
 }
 
+/// Lists POI by distance from map center
 final class NearbyVC: UITableViewController, ServiceProvider {
 
     private typealias Segues = R.segue.nearbyVC
@@ -24,6 +25,7 @@ final class NearbyVC: UITableViewController, ServiceProvider {
         $0.qualityOfService = .userInteractive
     }
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -35,6 +37,9 @@ final class NearbyVC: UITableViewController, ServiceProvider {
         tableView.rowHeight = UITableView.automaticDimension
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -42,15 +47,11 @@ final class NearbyVC: UITableViewController, ServiceProvider {
         expose()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.unwindFromNearby.identifier:
@@ -61,19 +62,51 @@ final class NearbyVC: UITableViewController, ServiceProvider {
     }
 }
 
+// MARK: - Private
+
+private extension NearbyVC {
+
+    func set(mappables: [Mappable],
+             distances: Distances) {
+        self.distances = distances
+        self.mappables = mappables.sorted {
+            distances[$0.dbKey] ?? 0 < distances[$1.dbKey] ?? 0
+        }
+        contentState = .data
+        tableView.set(message: contentState)
+        tableView.reloadData()
+    }
+}
+
 // MARK: - UITableViewControllerDataSource
 
 extension NearbyVC {
 
+    /// Number of sections
+    ///
+    /// - Parameter tableView: UITableView
+    /// - Returns: Number of sections
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
+    /// Number of rows in section
+    ///
+    /// - Parameters:
+    ///   - tableView: UITableView
+    ///   - section: Section
+    /// - Returns: Number of rows in section
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
         return mappables.count
     }
 
+    /// Create table cell
+    ///
+    /// - Parameters:
+    ///   - tableView: UITableView
+    ///   - indexPath: Index Path
+    /// - Returns: UITableViewCell
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //swiftlint:disable:next implicitly_unwrapped_optional
@@ -82,9 +115,9 @@ extension NearbyVC {
             for: indexPath)
 
         let mappable = mappables[indexPath.row]
-        cell.set(mappable: mappable,
-                 distance: distances[mappable.dbKey] ?? 0,
-                 delegate: self)
+        cell.inject(mappable: mappable,
+                    distance: distances[mappable.dbKey] ?? 0,
+                    delegate: self)
         expose(view: tableView,
                path: indexPath,
                cell: cell)
@@ -97,11 +130,23 @@ extension NearbyVC {
 
 extension NearbyVC {
 
+    /// Provide row height
+    ///
+    /// - Parameters:
+    ///   - tableView: Table
+    ///   - indexPath: Index path
+    /// - Returns: Height
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 
+    /// Provide estimated row height
+    ///
+    /// - Parameters:
+    ///   - tableView: Table
+    ///   - indexPath: Index path
+    /// - Returns: Height
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
@@ -112,6 +157,7 @@ extension NearbyVC {
 
 extension NearbyVC: Exposing {
 
+    /// Expose controls to UI tests
     func expose() {
         NearbyVCs.close.expose(item: closeButtonItem)
         NearbyVCs.places.expose(item: tableView)
@@ -122,6 +168,12 @@ extension NearbyVC: Exposing {
 
 extension NearbyVC: TableCellExposing {
 
+    /// Expose cell to UI tests
+    ///
+    /// - Parameters:
+    ///   - view: Collection
+    ///   - path: Index path
+    ///   - cell: Cell
     func expose(view: UITableView,
                 path: IndexPath,
                 cell: UITableViewCell) {
@@ -133,8 +185,13 @@ extension NearbyVC: TableCellExposing {
 
 extension NearbyVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = (mappables: [Mappable], center: CLLocationCoordinate2D)
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         let center: CLLocationCoordinate2D
         if UIApplication.isTakingScreenshots {
@@ -174,17 +231,7 @@ extension NearbyVC: Injectable {
         return self
     }
 
-    func set(mappables: [Mappable],
-             distances: Distances) {
-        self.distances = distances
-        self.mappables = mappables.sorted {
-            distances[$0.dbKey] ?? 0 < distances[$1.dbKey] ?? 0
-        }
-        contentState = .data
-        tableView.set(message: contentState)
-        tableView.reloadData()
-   }
-
+    /// Enforce dependency injection
     func requireInjections() {
         backgroundView.require()
     }
@@ -194,12 +241,13 @@ extension NearbyVC: Injectable {
 
 extension NearbyVC: NearbyCellDelegate {
 
-    func dismiss() {
+    fileprivate func dismiss() {
         performSegue(withIdentifier: Segues.unwindFromNearby,
                      sender: self)
     }
 }
 
+/// Item in Nearby controller
 final class NearbyCell: UITableViewCell, ServiceProvider {
 
     @IBOutlet private var placeImage: UIImageView?
@@ -220,6 +268,7 @@ final class NearbyCell: UITableViewCell, ServiceProvider {
     private var mappable: Mappable?
     private weak var delegate: NearbyCellDelegate?
 
+    /// Configure after nib loading
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -233,6 +282,7 @@ final class NearbyCell: UITableViewCell, ServiceProvider {
         tap.require(toFail: doubleTap)
    }
 
+    /// Empty display
     override func prepareForReuse() {
         super.prepareForReuse()
 
@@ -247,9 +297,9 @@ final class NearbyCell: UITableViewCell, ServiceProvider {
         visitorsLabel?.text = nil
     }
 
-    func set(mappable: Mappable,
-             distance: CLLocationDistance,
-             delegate: NearbyCellDelegate) {
+    fileprivate func inject(mappable: Mappable,
+                            distance: CLLocationDistance,
+                            delegate: NearbyCellDelegate) {
         self.mappable = mappable
         self.delegate = delegate
 

@@ -3,14 +3,24 @@
 import Anchorage
 import MapKit
 
+/// Annotation view for a single place
 final class MappableAnnotationView: MKMarkerAnnotationView, MappingAnnotationView, ServiceProvider {
 
-    static var identifier = typeName
+    private static var identifier = typeName
 
+    /// Register view type
+    ///
+    /// - Parameter view: Map view
     static func register(view: MKMapView) {
         view.register(self, forAnnotationViewWithReuseIdentifier: identifier)
     }
 
+    /// Factory method for view
+    ///
+    /// - Parameters:
+    ///   - map: Map view
+    ///   - annotation: Place
+    /// - Returns: MappableAnnotationView
     static func view(on map: MKMapView,
                      for annotation: MappablesAnnotation) -> MKAnnotationView {
         let view = map.dequeueReusableAnnotationView(
@@ -102,6 +112,11 @@ final class MappableAnnotationView: MKMarkerAnnotationView, MappingAnnotationVie
 
     private var visitedObserver: Observer?
 
+    /// Construction by injection
+    ///
+    /// - Parameters:
+    ///   - annotation: Place
+    ///   - reuseIdentifier: Identifier
     override init(annotation: MKAnnotation?,
                   reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
@@ -125,11 +140,15 @@ final class MappableAnnotationView: MKMarkerAnnotationView, MappingAnnotationVie
         observe()
     }
 
+    /// Decoding intializer
+    ///
+    /// - Parameter aDecoder: Decoder
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+    /// Prepare for display
     override func prepareForDisplay() {
         super.prepareForDisplay()
         guard let mappable = mappable else { return }
@@ -147,6 +166,7 @@ final class MappableAnnotationView: MKMarkerAnnotationView, MappingAnnotationVie
         detailCalloutAccessoryView = detailView
    }
 
+    /// Prepare for callout display
     func prepareForCallout() {
         guard let mappable = mappable,
             headerImageView.image == nil else { return }
@@ -154,6 +174,7 @@ final class MappableAnnotationView: MKMarkerAnnotationView, MappingAnnotationVie
         headerImageView.load(image: mappable)
     }
 
+    /// Empty display
     override func prepareForReuse() {
         super.prepareForReuse()
 

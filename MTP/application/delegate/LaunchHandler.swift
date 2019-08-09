@@ -7,18 +7,31 @@ import AppCenterCrashes
 import FBSDKCoreKit
 import SwiftyBeaver
 
+/// Stub for startup construction
 struct LaunchHandler: AppHandler, ServiceProvider { }
 
 // MARK: - AppLaunchHandler
 
 extension LaunchHandler: AppLaunchHandler {
 
+    /// willFinishLaunchingWithOptions
+    ///
+    /// - Parameters:
+    ///   - application: Application
+    ///   - launchOptions: Launch options
+    /// - Returns: Success
     func application(_ application: UIApplication,
                      // swiftlint:disable:next discouraged_optional_collection
                      willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         return true
     }
 
+    /// didFinishLaunchingWithOptions
+    ///
+    /// - Parameters:
+    ///   - application: Application
+    ///   - launchOptions: Launch options
+    /// - Returns: Success
     func application(_ application: UIApplication,
                      // swiftlint:disable:next discouraged_optional_collection
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -51,11 +64,11 @@ private extension LaunchHandler {
     }
 
     func configureSettingsDisplay() {
-        StringKey.infoDictionarySettingsKeys.copyToUserDefaults()
+        StringKey.configureSettingsDisplay()
     }
 
     func configureAppearance() {
-        style.standard.styleAppearance()
+        style.styler.standard.styleAppearance()
     }
 }
 
@@ -65,8 +78,18 @@ private extension LaunchHandler {
 
 private let swiftyBeaver = SwiftyBeaver.self
 
+/// Wraps SwiftyBeaver API
 struct SwiftyBeaverLoggingService: LoggingService {
 
+    /// Wrap point for log API integration
+    ///
+    /// - Parameters:
+    ///   - level: LoggingLevel
+    ///   - message: Describable autoclosure
+    ///   - file: File marker
+    ///   - function: Function marker
+    ///   - line: Line marker
+    ///   - context: If service requires such
     func custom(level: LoggingLevel,
                 message: @autoclosure () -> Any,
                 file: String,
@@ -83,7 +106,7 @@ struct SwiftyBeaverLoggingService: LoggingService {
     }
 }
 
-extension LaunchHandler {
+private extension LaunchHandler {
 
     func configureLogging() {
 
@@ -113,7 +136,7 @@ extension LaunchHandler {
 // https://docs.microsoft.com/en-us/appcenter/sdk/crashes/ios
 // https://docs.microsoft.com/en-us/appcenter/sdk/analytics/ios
 
-extension LaunchHandler {
+private extension LaunchHandler {
 
     func configureAppCenter() {
         guard UIApplication.isProduction else { return }
@@ -122,20 +145,6 @@ extension LaunchHandler {
                           withServices: [MSAnalytics.self,
                                          MSCrashes.self])
     }
-
-    #if PUSH_NOTIFICATIONS
-    func onboardPush() {
-        MSAppCenter.startService(MSPush.self)
-        MSPush.setEnabled(true)
-        center.requestAuthorization(options: [.alert, .badge, .carPlay, .sound]) { granted, err in
-            if granted {
-                log.verbose("push authorization granted")
-            } else {
-                log.verbose("push authorization failed: \(err)")
-            }
-        }
-    }
-    #endif
 }
 
 // MARK: - Facebook
@@ -143,7 +152,7 @@ extension LaunchHandler {
 // https://developers.facebook.com/docs/swift/login
 // https://developers.facebook.com/docs/facebook-login/testing-your-login-flow/
 
-extension LaunchHandler {
+private extension LaunchHandler {
 
     func configureFacebook(app: UIApplication,
                            options: [UIApplication.LaunchOptionsKey: Any]) {

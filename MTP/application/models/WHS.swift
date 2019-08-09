@@ -3,25 +3,27 @@
 import CoreLocation
 import RealmSwift
 
+/// WHS API result
 struct WHSJSON: Codable {
 
-    let active: String
-    let featuredImg: String?
-    let id: Int
-    let lat: Double
-    let location: PlaceLocation?
-    let locationId: Int?
-    let long: Double
-    let parentId: Int?
-    let rank: Int
-    let title: String
-    let unescoId: Int
-    let visitors: Int
+    fileprivate let active: String
+    /// UUID of main image
+    fileprivate let featuredImg: String?
+    fileprivate let id: Int
+    fileprivate let lat: Double
+    fileprivate let location: PlaceLocation?
+    fileprivate let locationId: Int?
+    fileprivate let long: Double
+    fileprivate let parentId: Int?
+    fileprivate let rank: Int
+    fileprivate let title: String
+    fileprivate let unescoId: Int
+    fileprivate let visitors: Int
 }
 
 extension WHSJSON: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return "\(String(describing: title)) (\(String(describing: unescoId)))"
     }
 }
@@ -48,31 +50,40 @@ extension WHSJSON: CustomDebugStringConvertible {
     }
 }
 
+/// Realm representation of a WHS place
 @objcMembers final class WHS: Object, PlaceMappable, ServiceProvider {
 
-    enum Parents: Int {
+    private enum Parents: Int {
         case jesuitMissionsOfTheGuaranis = 275
         case primevalBeechForestsOfTheCarpathians = 1_133
         case struveGeodeticArc = 1_187
     }
-    enum Children: Int {
+    private enum Children: Int {
         case tornea = 1_595 // Finland - Struve Geodetic Arc
     }
-    enum Singles: Int {
+    private enum Singles: Int {
         case angkor = 668
     }
 
+    /// Link to the Mappable object for this location
     dynamic var map: Mappable?
+    /// parentId
     dynamic var parentId: Int = 0
+    /// Place's MTP ID
     dynamic var placeId: Int = 0
+    /// unescoId
     dynamic var unescoId: Int = 0
 
+    /// Realm unique identifier
+    ///
+    /// - Returns: unique identifier
     override static func primaryKey() -> String? {
         return "placeId"
     }
 
-    // swiftlint:disable:next function_body_length
+    /// Constructor from MTP endpoint data
     convenience init?(from: WHSJSON,
+                      // swiftlint:disable:previous function_body_length
                       realm: RealmDataController) {
         guard from.active == "Y" else { return nil }
         self.init()
@@ -129,6 +140,7 @@ extension WHSJSON: CustomDebugStringConvertible {
 
 extension WHS: PlaceInfo {
 
+    /// For WHS, whether place has a parent place
     var placeParent: PlaceInfo? {
         return parent
     }
@@ -136,10 +148,12 @@ extension WHS: PlaceInfo {
 
 extension WHS {
 
+    /// Does WHS have a parent?
     var hasParent: Bool {
         return parentId != 0
     }
 
+    /// Parent if any
     var parent: WHS? {
         if hasParent {
             return data.get(whs: parentId)
@@ -147,6 +161,7 @@ extension WHS {
         return nil
     }
 
+    /// Is this WHS visited?
     var visited: Bool {
         return Checklist.whss.isVisited(id: placeId)
     }

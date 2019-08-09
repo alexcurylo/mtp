@@ -11,34 +11,53 @@ private let _dispatchOnceConfigureNukeWithAlamofire: Void = {
     ImagePipeline.shared = pipeline
 }()
 
+/// Currently synonym for the Nuke protocol
 protocol ImageService: ImageDisplaying { }
 
 extension ImageService where Self: UIView {
 
+    /// Load location image
+    ///
+    /// - Parameter location: Location
     func load(image location: Location?) {
         load(image: location?.placeImageUrl)
     }
 
+    /// Load location flag
+    ///
+    /// - Parameter location: Location
     func load(flag location: Location?) {
         load(image: location?.flagUrl)
     }
 
+    /// Load mappable image
+    ///
+    /// - Parameter mappable: Mappable
     func load(image mappable: Mappable?) {
         load(image: mappable?.imageUrl,
              placeholder: R.image.placeholderMedium()
         )
     }
 
+    /// Load photo image
+    ///
+    /// - Parameter photo: Photo
     func load(image photo: Photo?) {
         load(image: photo?.imageUrl)
     }
 
+    /// Load user image
+    ///
+    /// - Parameter user: User info
     func load(image user: UserAvatar) {
         load(image: user.imageUrl,
              placeholder: user.placeholder
         )
     }
 
+    /// Load image from HTML
+    ///
+    /// - Parameter html: HTML
     func load(image html: String) -> Bool {
         // example pattern, 30 characters prefix and 1 character suffix:
         // src="/api/files/preview?uuid=7FgX3ruwM4j5heCyrAAaq8"
@@ -57,7 +76,7 @@ extension ImageService where Self: UIView {
         return load(image: target.requestUrl)
     }
 
-    @discardableResult func load(
+    @discardableResult private func load(
         image url: URL?,
         placeholder: UIImage? = R.image.placeholderThumb()
     ) -> Bool {
@@ -82,6 +101,7 @@ extension ImageService where Self: UIView {
 
 extension UIImageView: ImageService {
 
+    /// Cancel request in progress
     func prepareForReuse() {
         Nuke.cancelRequest(for: self)
         image = nil
@@ -91,6 +111,9 @@ extension UIImageView: ImageService {
 
 extension UIButton: ImageService {
 
+    /// Conform UIButton to ImageService
+    ///
+    /// - Parameter image: image to display
     open func display(image: Image?) {
         setBackgroundImage(image, for: .normal)
     }

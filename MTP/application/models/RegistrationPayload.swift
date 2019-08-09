@@ -2,82 +2,120 @@
 
 import Foundation
 
+/// Sent to the sign up endpoint
 struct RegistrationPayload: Codable, Hashable {
 
-    let birthday: String
-    let country: CountryPayload
+    /// YYYY-MM-DD
+    let birthday: String?
+    /// Country of residence
+    fileprivate let country: CountryPayload?
+    /// ID of country of residence
     let country_id: Int
+    /// Email
     let email: String
+    /// First Name
     let first_name: String
+    /// M|F|U
     let gender: String
+    /// Last name
     let last_name: String
-    let location: LocationPayload
+    /// MTP location of residence
+    fileprivate let location: LocationPayload?
+    /// ID of location of residence
     let location_id: Int
+    /// Password
     let password: String
+    /// Password check
     let passwordConfirmation: String
 
+    /// Check fields required by endpoint
     var isValid: Bool {
-        return !birthday.isEmpty &&
-               country.isValid &&
-               country_id > 0 &&
-               !email.isEmpty &&
+        return !email.isEmpty &&
                !first_name.isEmpty &&
-               !gender.isEmpty &&
                !last_name.isEmpty &&
-               location.isValid &&
-               location_id > 0 &&
+               //country.isValid &&
+               //country_id > 0 &&
+               //location.isValid &&
+               //location_id > 0 &&
+               //!birthday.isEmpty &&
+               //!gender.isEmpty &&
                !password.isEmpty &&
                password == passwordConfirmation
     }
 
-    init(birthday: Date,
-         country: Country,
+    /// Initialize with data
+    ///
+    /// - Parameters:
+    ///   - birthday: YYYY-MM-DD
+    ///   - country: Country of residence
+    ///   - firstName: First Name
+    ///   - email: Email
+    ///   - gender: M|F|U
+    ///   - lastName: Last name
+    ///   - location: MTP location of residence
+    ///   - password: Password
+    ///   - passwordConfirmation: Password check
+    init(birthday: String?,
+         country: Country?,
          firstName: String,
          email: String,
          gender: String,
          lastName: String,
-         location: Location,
+         location: Location?,
          password: String,
          passwordConfirmation: String) {
-        self.birthday = DateFormatter.mtpDay.string(from: birthday)
-        self.country = CountryPayload(country: country)
-        country_id = country.countryId
+        self.birthday = birthday
+        if let country = country {
+            self.country = CountryPayload(country: country)
+            country_id = country.countryId
+        } else {
+            self.country = nil
+            country_id = 0
+        }
         self.email = email
         first_name = firstName
         self.gender = gender
         last_name = lastName
-        self.location = LocationPayload(location: location)
-        location_id = location.placeId
+        if let location = location {
+            self.location = LocationPayload(location: location)
+            location_id = location.placeId
+        } else {
+            self.location = nil
+            location_id = 0
+        }
         self.password = password
         self.passwordConfirmation = passwordConfirmation
     }
 
+    /// Initialize with Facebook data
+    ///
+    /// - Parameter response: Provided by Facebook SDK
     init(facebook response: [String: Any]) {
         if let dateString = response["birthday"] as? String,
            let date = DateFormatter.fbDay.date(from: dateString) {
             birthday = DateFormatter.mtpDay.string(from: date)
         } else {
-            birthday = ""
+            birthday = nil
         }
         email = response["email"] as? String ?? ""
         first_name = response["first_name"] as? String ?? ""
         switch response["gender"] as? String {
         case "female": gender = "F"
         case "male": gender = "M"
-        default: gender = ""
+        default: gender = "U"
         }
         last_name = response["last_name"] as? String ?? ""
 
-        country = CountryPayload(country: Country())
+        country = nil
         country_id = 0
-        location = LocationPayload(location: Location())
+        location = nil
         location_id = 0
         password = ""
         passwordConfirmation = ""
     }
 }
 
-struct CountryPayload: Codable, Hashable {
+private struct CountryPayload: Codable, Hashable {
 
     let admin_level: Int
     let country_id: Int
@@ -98,15 +136,18 @@ struct CountryPayload: Codable, Hashable {
     }
 }
 
+/// Location information to send to API
 struct LocationPayload: Codable, Hashable {
 
-    let admin_level: Int
-    let country_id: Int
-    let country_name: String
+    fileprivate let admin_level: Int
+    fileprivate let country_id: Int
+    fileprivate let country_name: String
+    /// id
     let id: Int
-    let is_mtp_location: Int
-    let location_name: String
+    fileprivate let is_mtp_location: Int
+    fileprivate let location_name: String
 
+    /// Is payload valid?
     var isValid: Bool {
         return country_id > 0 &&
                !country_name.isEmpty &&
@@ -114,6 +155,7 @@ struct LocationPayload: Codable, Hashable {
                !location_name.isEmpty
     }
 
+    /// Default constructor
     init() {
         admin_level = 0
         country_id = 0
@@ -123,6 +165,9 @@ struct LocationPayload: Codable, Hashable {
         location_name = ""
     }
 
+    /// Initialize with Country
+    ///
+    /// - Parameter country: Country
     init(country: Country) {
         admin_level = AdminLevel.country.rawValue
         country_id = country.countryId
@@ -132,6 +177,9 @@ struct LocationPayload: Codable, Hashable {
         location_name = country.placeCountry
     }
 
+    /// Initialize with Location
+    ///
+    /// - Parameter country: Location
     init(location: Location) {
         admin_level = location.adminLevel.rawValue
         country_id = location.countryId

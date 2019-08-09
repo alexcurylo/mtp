@@ -3,19 +3,31 @@
 import UIKit
 import UserNotifications
 
-final class NotificationsHandler: NSObject, AppHandler, ServiceProvider {
-}
+/// Stub for startup construction
+final class NotificationsHandler: NSObject, AppHandler, ServiceProvider { }
 
 // MARK: - AppLaunchHandler
 
 extension NotificationsHandler: AppLaunchHandler {
 
+    /// willFinishLaunchingWithOptions
+    ///
+    /// - Parameters:
+    ///   - application: Application
+    ///   - launchOptions: Launch options
+    /// - Returns: Success
     func application(_ application: UIApplication,
                      // swiftlint:disable:next discouraged_optional_collection
                      willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         return true
     }
 
+    /// didFinishLaunchingWithOptions
+    ///
+    /// - Parameters:
+    ///   - application: Application
+    ///   - launchOptions: Launch options
+    /// - Returns: Success
     func application(_ application: UIApplication,
                      // swiftlint:disable:next discouraged_optional_collection
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -61,31 +73,16 @@ extension NotificationsHandler: AppLaunchHandler {
     }
 }
 
-// MARK: - AppNotificationsHandler
-
-extension NotificationsHandler: AppNotificationsHandler {
-
-    func application(_ application: UIApplication,
-                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        log.error(#function)
-    }
-
-    func application(_ application: UIApplication,
-                     didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        log.error(#function)
-    }
-
-    func application(_ application: UIApplication,
-                     didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        log.error(#function)
-    }
-}
-
 // MARK: - UNUserNotificationCenterDelegate
 
 extension NotificationsHandler: UNUserNotificationCenterDelegate {
 
+    /// Handle user response
+    ///
+    /// - Parameters:
+    ///   - center: UNUserNotificationCenter
+    ///   - response: user response
+    ///   - completionHandler: Callback
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         didReceive response: UNNotificationResponse,
@@ -111,6 +108,12 @@ extension NotificationsHandler: UNUserNotificationCenterDelegate {
         completionHandler()
     }
 
+    /// <#Description#>
+    ///
+    /// - Parameters:
+    ///   - center: <#center description#>
+    ///   - notification: <#notification description#>
+    ///   - completionHandler: <#completionHandler description#>
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         willPresent notification: UNNotification,
@@ -119,10 +122,13 @@ extension NotificationsHandler: UNUserNotificationCenterDelegate {
         completionHandler( [.alert, .badge, .sound])
     }
 
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                openSettingsFor notification: UNNotification?) {
-        log.error(#function)
-    }
+    // also need requestAuthorization(options: [.alert, .badge, .sound, .providesAppNotificationSettings]) { ... }
+    //func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                //openSettingsFor notification: UNNotification?) {
+        //let navController = self.window?.rootViewController as! UINavigationController
+        //let notificationSettingsVC = NotificationSettingsViewController()
+       // navController.pushViewController(notificationSettingsVC, animated: true)
+    // }
 }
 
 // MARK: - Private

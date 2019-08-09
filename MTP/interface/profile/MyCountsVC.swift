@@ -3,6 +3,7 @@
 import Anchorage
 import Parchment
 
+/// Displays logged in user visit counts
 final class MyCountsVC: UIViewController, ServiceProvider {
 
     @IBOutlet private var pagesHolder: UIView?
@@ -10,6 +11,7 @@ final class MyCountsVC: UIViewController, ServiceProvider {
     private let pagingVC = MyCountsPagingVC()
     private let pages = ListPagingItem.pages
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -17,30 +19,20 @@ final class MyCountsVC: UIViewController, ServiceProvider {
         configurePagesHolder()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         default:
             log.debug("unexpected segue: \(segue.name)")
         }
     }
-
-    func updateFilter() {
-        pagingVC.reloadData()
-    }
 }
+
+// MARK: - Private
 
 private extension MyCountsVC {
 
@@ -66,8 +58,16 @@ private extension MyCountsVC {
     }
 }
 
+// MARK: - PagingViewControllerDataSource
+
 extension MyCountsVC: PagingViewControllerDataSource {
 
+    /// Create page by index
+    ///
+    /// - Parameters:
+    ///   - pagingViewController: Page holder
+    ///   - index: Index
+    /// - Returns: View controller
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  viewControllerForIndex index: Int) -> UIViewController {
         let pageVC = MyCountsPageVC(model: (pages[index].list, self))
@@ -82,6 +82,12 @@ extension MyCountsVC: PagingViewControllerDataSource {
         return pageVC
     }
 
+    /// Provide Parchment with typed page
+    ///
+    /// - Parameters:
+    ///   - pagingViewController: Page holder
+    ///   - index: Index
+    /// - Returns: Typed view controller
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  pagingItemForIndex index: Int) -> T {
         guard let result = pages[index] as? T else {
@@ -90,6 +96,10 @@ extension MyCountsVC: PagingViewControllerDataSource {
         return result
     }
 
+    /// Provide Parchment with page count
+    ///
+    /// - Parameter in: Page holder
+    /// - Returns: Page count
     func numberOfViewControllers<T>(in: PagingViewController<T>) -> Int {
         return pages.count
     }
@@ -97,6 +107,9 @@ extension MyCountsVC: PagingViewControllerDataSource {
 
 extension MyCountsVC: MyCountsPageVCDelegate {
 
+    /// Scroll notification
+    ///
+    /// - Parameter rankingsPageVC: Scrollee
     func didScroll(myCountsPageVC: MyCountsPageVC) {
         let height = pagingVC.menuHeight(for: myCountsPageVC.collectionView)
         update(menu: height)
@@ -105,6 +118,15 @@ extension MyCountsVC: MyCountsPageVCDelegate {
 
 extension MyCountsVC: PagingViewControllerDelegate {
 
+    /// Handle page change progress
+    ///
+    /// - Parameters:
+    ///   - pagingViewController: Page holder
+    ///   - currentPagingItem: Current typed page item
+    ///   - upcomingPagingItem: Next typed page item
+    ///   - startingViewController: Start view controller
+    ///   - destinationViewController: Finish view controller
+    ///   - progress: Float
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  isScrollingFromItem currentPagingItem: T,
                                  toItem upcomingPagingItem: T?,
@@ -121,14 +143,22 @@ extension MyCountsVC: PagingViewControllerDelegate {
     }
 }
 
+// MARK: - Injectable
+
 extension MyCountsVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = ()
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         pagesHolder.require()
     }

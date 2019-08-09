@@ -2,6 +2,7 @@
 
 import UIKit
 
+/// Display a user's posts
 final class ProfilePostsVC: PostsVC, UserInjectable {
 
     private typealias Segues = R.segue.profilePostsVC
@@ -12,14 +13,17 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
     private var user: User?
     private var isSelf: Bool = false
 
+    /// Can create new content
     override var canCreate: Bool {
         return isSelf
     }
 
+    /// Type of view presenting this controller
     override var presenter: Presenter {
         return .user
     }
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -27,6 +31,11 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
         update()
     }
 
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.addPost.identifier:
@@ -36,11 +45,14 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
         }
     }
 
+    /// Create a new post
     override func createPost() {
         performSegue(withIdentifier: Segues.addPost,
                      sender: self)
     }
 }
+
+// MARK: - Private
 
 private extension ProfilePostsVC {
 
@@ -74,10 +86,17 @@ private extension ProfilePostsVC {
     }
 }
 
+// MARK: - Injectable
+
 extension ProfilePostsVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = User
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         user = model
         isSelf = model.isSelf
@@ -89,6 +108,7 @@ extension ProfilePostsVC: Injectable {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         user.require()
     }

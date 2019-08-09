@@ -2,11 +2,13 @@
 
 import UIKit
 
-//swiftlint:disable:next type_name
+/// Convenience for localizable string typesafe access
 typealias L = R.string.localizable
+//swiftlint:disable:previous type_name
 
 extension String {
 
+    /// Partially mask email address with "*"
     var hiddenName: String {
         let pieces = components(separatedBy: "@")
         guard pieces.count > 1,
@@ -21,21 +23,30 @@ extension String {
         return "\(first)\(middle)\(last)\(rest)"
     }
 
+    /// Verify email is valid
     var isValidEmail: Bool {
         let regex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let valid = NSPredicate(format: "SELF MATCHES %@", regex)
         return valid.evaluate(with: self)
     }
 
+    /// Verify name exists
     var isValidName: Bool {
         let stripped = trimmingCharacters(in: .whitespacesAndNewlines)
         return stripped.split(separator: " ").count > 1
     }
 
+    /// Verify password matches MTP conditions
     var isValidPassword: Bool {
         return count >= 6 // as per signup.blade.php
     }
 
+    /// Create attributed string with specified traits
+    ///
+    /// - Parameters:
+    ///   - font: Font
+    ///   - color: Color
+    /// - Returns: Attributed string
     func attributed(font: UIFont,
                     color: UIColor) -> NSAttributedString {
         let attributes = NSAttributedString.attributes(
@@ -45,6 +56,12 @@ extension String {
         return NSAttributedString(string: self, attributes: attributes)
     }
 
+    /// Convert HTML doc to NSAttributedString if possible
+    ///
+    /// - Parameters:
+    ///   - font: default font
+    ///   - color: default color
+    /// - Returns: Attributed string if possible
     func html2Attributed(font: UIFont,
                          color: UIColor) -> NSMutableAttributedString? {
         guard let data = data(using: String.Encoding.utf8) else { return nil }
@@ -65,7 +82,7 @@ extension String {
         return attributed
     }
 
-    var htmlAttributes: (NSAttributedString?, NSDictionary?) {
+    private var htmlAttributes: (NSAttributedString?, NSDictionary?) {
         guard let data = data(using: String.Encoding.utf8) else {
             return (nil, nil)
         }
@@ -82,8 +99,8 @@ extension String {
         return (string, dict)
     }
 
-    func htmlAttributed(using font: UIFont,
-                        color: UIColor) -> NSAttributedString? {
+    private func htmlAttributed(using font: UIFont,
+                                color: UIColor) -> NSAttributedString? {
         let htmlCSSString = "<style>" +
             "html *" +
             "{" +
@@ -102,9 +119,9 @@ extension String {
         )
     }
 
-    func htmlAttributed(family: String?,
-                        size: CGFloat,
-                        color: UIColor) -> NSAttributedString? {
+    private func htmlAttributed(family: String?,
+                                size: CGFloat,
+                                color: UIColor) -> NSAttributedString? {
         let htmlCSSString = "<style>" +
             "html *" +
             "{" +
@@ -126,10 +143,11 @@ extension String {
 
 extension String: LocalizedError {
 
+    /// Treat a String as self documenting Error
     public var errorDescription: String? { return self }
 }
 
-extension Formatter {
+private extension Formatter {
 
     static let grouping = NumberFormatter {
         $0.usesGroupingSeparator = true
@@ -140,6 +158,7 @@ extension Formatter {
 
 extension Int {
 
+    /// Format in local grouping style
     var grouped: String {
         return Formatter.grouping.string(for: self) ?? ""
     }
@@ -147,8 +166,15 @@ extension Int {
 
 extension NSAttributedString {
 
+    /// For strongly typing attribute dictionaries
     typealias Attributes = [NSAttributedString.Key: Any]
 
+    /// Wrap attribute values in Attributes
+    ///
+    /// - Parameters:
+    ///   - color: Color
+    ///   - font: Font
+    /// - Returns: Attributes with color and/or font
     static func attributes(color: UIColor? = nil,
                            font: UIFont? = nil) -> Attributes {
         var attributes = NSAttributedString.Attributes()
@@ -163,6 +189,7 @@ extension NSAttributedString {
         return attributes
     }
 
+    /// Convenience Range of entire string
     var fullRange: NSRange {
         return NSRange(string.startIndex..<string.endIndex, in: string)
     }
@@ -170,12 +197,13 @@ extension NSAttributedString {
 
 extension UIFont {
 
+    /// Provide assignment attribute
     var attributes: NSAttributedString.Attributes {
         return [NSAttributedString.Key.font: self]
     }
 }
 
-extension UIColor {
+private extension UIColor {
 
     // swiftlint:disable:next large_tuple
     var rgba: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
@@ -198,12 +226,18 @@ extension UIColor {
 
 extension StringProtocol {
 
+    /// Allow string subscripting by Int closed range
+    ///
+    /// - Parameter bounds: Range to subscript
     subscript(bounds: CountableClosedRange<Int>) -> SubSequence {
         let start = index(startIndex, offsetBy: bounds.lowerBound)
         let end = index(start, offsetBy: bounds.count)
         return self[start..<end]
     }
 
+    /// Allow string subscripting by Int range
+    ///
+    /// - Parameter bounds: Range to subscript
     subscript(bounds: CountableRange<Int>) -> SubSequence {
         let start = index(startIndex, offsetBy: bounds.lowerBound)
         let end = index(start, offsetBy: bounds.count)
@@ -213,6 +247,7 @@ extension StringProtocol {
 
 extension NSMutableAttributedString {
 
+    /// Self with whitespace trimmed from beginning and end
     var trimmed: NSAttributedString {
         let invertedSet = CharacterSet.whitespacesAndNewlines.inverted
         let startRange = string.rangeOfCharacter(from: invertedSet)

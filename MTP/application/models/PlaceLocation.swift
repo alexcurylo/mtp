@@ -2,21 +2,21 @@
 
 import Foundation
 
-// version of Location found in place results
-
+/// version of Location found in place results
 struct PlaceLocation: Codable {
 
-    let countryId: Int
-    let countryName: String
+    fileprivate let countryId: Int
+    fileprivate let countryName: String
+    /// id
     let id: Int
-    let locationName: String
-    let regionId: Int
-    let regionName: String
+    fileprivate let locationName: String
+    fileprivate let regionId: Int
+    fileprivate let regionName: String
 }
 
 extension PlaceLocation: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return "\(String(describing: countryName)) (\(String(describing: countryId)))"
     }
 }

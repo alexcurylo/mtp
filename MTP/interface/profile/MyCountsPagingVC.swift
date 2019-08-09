@@ -4,17 +4,26 @@ import Anchorage
 import Parchment
 import UIKit
 
+/// Holder for counts pages
 final class MyCountsPagingVC: PagingViewController<ListPagingItem> {
 
+    /// Layout for counts pages
     enum Layout {
+        /// Page insets
         static let insets = UIEdgeInsets(top: 8,
                                          left: 8,
                                          bottom: 8,
                                          right: 8)
+        /// Menu item size
         static let itemSize = CGSize(width: 70, height: 70)
+        /// Menu default height
         static let menuHeight = itemSize.height + insets.horizontal
     }
 
+    /// Menu height
+    ///
+    /// - Parameter scrollView: Menu container
+    /// - Returns: Height
     func menuHeight(for scrollView: UIScrollView) -> CGFloat {
         let maxChange: CGFloat = 30
         let offset = min(maxChange, scrollView.contentOffset.y + Layout.menuHeight) / maxChange
@@ -22,12 +31,14 @@ final class MyCountsPagingVC: PagingViewController<ListPagingItem> {
         return height
     }
 
+    /// Create paging view
     override func loadView() {
         view = MyCountsPagingView(options: options,
                                   collectionView: collectionView,
                                   pageView: pageViewController.view)
     }
 
+    /// Configure page holder
     func configure() {
         menuItemSource = .class(type: MyCountsPagingCell.self)
         menuItemSize = .fixed(width: Layout.itemSize.width,
@@ -46,6 +57,9 @@ final class MyCountsPagingVC: PagingViewController<ListPagingItem> {
         )
     }
 
+    /// Update menu height
+    ///
+    /// - Parameter height: Menu height
     func update(menu height: CGFloat) {
         guard let pagingView = view as? MyCountsPagingView else {
             fatalError("MyCountsPagingView type failure")
@@ -112,6 +126,9 @@ private class MyCountsPagingCell: PagingCell {
         $0.numberOfLines = 2
     }
 
+    /// Procedural intializer
+    ///
+    /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.layer.cornerRadius = 4
@@ -128,6 +145,9 @@ private class MyCountsPagingCell: PagingCell {
         imageView.bottomAnchor <= titleLabel.topAnchor - 6
     }
 
+    /// Unavailable coding constructor
+    ///
+    /// - Parameter coder: An unarchiver object.
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

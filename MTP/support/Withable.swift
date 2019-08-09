@@ -4,6 +4,8 @@ import UIKit
 
 /// Streamline configuration closures/functions
 protocol Withable {
+
+    /// Anything initializable conforms
     init()
 }
 

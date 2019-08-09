@@ -2,6 +2,7 @@
 
 import UIKit
 
+/// Notify user of signup failure
 final class SignupFailVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.signupFailVC
@@ -11,8 +12,9 @@ final class SignupFailVC: UIViewController, ServiceProvider {
     @IBOutlet private var centerY: NSLayoutConstraint?
     @IBOutlet private var messageLabel: UILabel?
 
-    var errorMessage: String?
+    private var errorMessage: String?
 
+    /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
@@ -22,6 +24,9 @@ final class SignupFailVC: UIViewController, ServiceProvider {
         }
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -29,16 +34,19 @@ final class SignupFailVC: UIViewController, ServiceProvider {
         hideAlert()
     }
 
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         revealAlert()
     }
 
-    override func didReceiveMemoryWarning() {
-        log.warning("didReceiveMemoryWarning: \(type(of: self))")
-        super.didReceiveMemoryWarning()
-    }
-
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.dismissSignupFail.identifier:
@@ -48,6 +56,8 @@ final class SignupFailVC: UIViewController, ServiceProvider {
         }
     }
 }
+
+// MARK: - Private
 
 private extension SignupFailVC {
 
@@ -76,15 +86,23 @@ private extension SignupFailVC {
     }
 }
 
+// MARK: - Injectable
+
 extension SignupFailVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = String
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         errorMessage = model
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         errorMessage.require()
 

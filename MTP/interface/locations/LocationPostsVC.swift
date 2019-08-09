@@ -2,10 +2,12 @@
 
 import UIKit
 
+/// Display a location's posts
 final class LocationPostsVC: PostsVC {
 
     private typealias Segues = R.segue.locationPostsVC
 
+    /// Can create new content
     override var canCreate: Bool {
         return isImplemented
     }
@@ -13,6 +15,7 @@ final class LocationPostsVC: PostsVC {
         return mappable?.checklist == .locations
     }
 
+    /// Type of view presenting this controller
     override var presenter: Presenter {
         return .location
     }
@@ -25,13 +28,19 @@ final class LocationPostsVC: PostsVC {
     //swiftlint:disable:next implicitly_unwrapped_optional
     private var mappable: Mappable!
 
-     override func viewDidLoad() {
+    /// Prepare for interaction
+    override func viewDidLoad() {
         super.viewDidLoad()
         requireInjections()
 
         update()
-   }
+    }
 
+    /// Instrument and inject navigation
+    ///
+    /// - Parameters:
+    ///   - segue: Navigation action
+    ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.addPost.identifier:
@@ -48,16 +57,22 @@ final class LocationPostsVC: PostsVC {
         }
     }
 
+    /// Create a new post
     override func createPost() {
         performSegue(withIdentifier: Segues.addPost,
                      sender: self)
     }
 
+    /// Present user profile
+    ///
+    /// - Parameter user: User to present
     override func show(user: User) {
         profileModel = user
         performSegue(withIdentifier: Segues.showUserProfile, sender: self)
     }
 }
+
+// MARK: - Private
 
 private extension LocationPostsVC {
 
@@ -99,10 +114,17 @@ private extension LocationPostsVC {
     }
 }
 
+// MARK: - Injectable
+
 extension LocationPostsVC: Injectable {
 
+    /// Injected dependencies
     typealias Model = Mappable
 
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         mappable = model
 
@@ -115,6 +137,7 @@ extension LocationPostsVC: Injectable {
         return self
     }
 
+    /// Enforce dependency injection
     func requireInjections() {
         mappable.require()
     }
