@@ -2,6 +2,11 @@
 
 import XCTest
 
+// Travis appears to haveissues with the "Failed to terminate" problem
+// Deleting app between each test is an option presented here
+// swiftlint:disable:next line_length
+// https://stackoverflow.com/questions/33107731/is-there-a-way-to-reset-the-app-between-tests-in-swift-xctest-ui/48715864#48715864
+
 extension XCTestCase {
 
     // disable wait for idle
@@ -19,6 +24,11 @@ extension XCTestCase {
 
         app.apply(arguments: allArguments)
         app.launch()
+    }
+
+    func wait(for seconds: TimeInterval) {
+        let wait = XCTestExpectation(description: "wait")
+        _ = XCTWaiter.wait(for: [wait], timeout: seconds)
     }
 }
 

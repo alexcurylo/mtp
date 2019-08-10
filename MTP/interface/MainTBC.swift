@@ -145,11 +145,11 @@ extension MainTBC: Exposing {
 
     /// Expose controls to UI tests
     func expose() {
-        MainTBCs.bar.expose(item: tabBar)
+        UIMain.bar.expose(item: tabBar)
         var buttons = [
-            MainTBCs.locations,
-            MainTBCs.rankings,
-            MainTBCs.myProfile
+            UIMain.locations,
+            UIMain.rankings,
+            UIMain.myProfile
         ]
         for control in tabBar.subviews where control is UIControl {
             control.expose(as: buttons.first)

@@ -7,9 +7,13 @@ final class WelcomeVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.welcomeVC
 
+    @IBOutlet private var profileButton: GradientButton?
+    @IBOutlet private var laterButton: UIButton?
+
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
+
         requireInjections()
     }
 
@@ -20,6 +24,7 @@ final class WelcomeVC: UIViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         hide(navBar: animated)
+        expose()
     }
 
     /// Instrument and inject navigation
@@ -41,6 +46,17 @@ final class WelcomeVC: UIViewController, ServiceProvider {
     }
 }
 
+// MARK: - Exposing
+
+extension WelcomeVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        UIWelcome.profile.expose(item: profileButton)
+        UIWelcome.later.expose(item: laterButton)
+    }
+}
+
 // MARK: - Injectable
 
 extension WelcomeVC: Injectable {
@@ -57,5 +73,8 @@ extension WelcomeVC: Injectable {
     }
 
     /// Enforce dependency injection
-    func requireInjections() { }
+    func requireInjections() {
+        profileButton.require()
+        laterButton.require()
+    }
 }

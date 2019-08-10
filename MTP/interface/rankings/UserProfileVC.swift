@@ -48,6 +48,6 @@ extension UserProfileVC: Exposing {
 
     /// Expose controls to UI tests
     func expose() {
-        UserProfileVCs.close.expose(item: closeButton)
+        UIUserProfile.close.expose(item: closeButton)
     }
 }

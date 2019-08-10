@@ -248,10 +248,10 @@ extension LocationsVC: Exposing {
     /// Expose controls to UI tests
     func expose() {
         let bar = navigationController?.navigationBar
-        LocationsVCs.nav.expose(item: bar)
+        UILocations.nav.expose(item: bar)
         let items = navigationItem.rightBarButtonItems
-        LocationsVCs.nearby.expose(item: items?.first)
-        LocationsVCs.filter.expose(item: items?.last)
+        UILocations.nearby.expose(item: items?.first)
+        UILocations.filter.expose(item: items?.last)
     }
 }
 

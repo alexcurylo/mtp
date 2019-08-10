@@ -2,7 +2,7 @@
 
 import XCTest
 
-extension MainTBCs: Elemental {
+extension UIMain: Elemental {
 
     var type: XCUIElement.ElementType {
         switch self {
@@ -18,7 +18,7 @@ extension MainTBCs: Elemental {
     var container: XCUIElementQuery {
         switch self {
         case .bar: return app
-        default: return MainTBCs.bar.match.query(type: type)
+        default: return UIMain.bar.match.query(type: type)
         }
     }
 }

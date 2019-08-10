@@ -2,7 +2,7 @@
 
 import XCTest
 
-extension MyProfileVCs: Elemental {
+extension UIMyProfile: Elemental {
 
     var type: XCUIElement.ElementType {
         switch self {
@@ -19,7 +19,7 @@ extension MyProfileVCs: Elemental {
     var container: XCUIElementQuery {
         switch self {
         case .menu: return app
-        default: return MyProfileVCs.menu.match.query(type: type)
+        default: return UIMyProfile.menu.match.query(type: type)
         }
     }
 }

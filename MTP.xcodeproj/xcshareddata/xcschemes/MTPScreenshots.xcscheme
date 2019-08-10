@@ -24,6 +24,12 @@
             </BuildableReference>
             <SelectedTests>
                <Test
+                  Identifier = "AppStoreSnapshotTests/testAppStoreSnapshots()">
+               </Test>
+               <Test
+                  Identifier = "AppStoreSnapshotTests/test_Snapshots()">
+               </Test>
+               <Test
                   Identifier = "SnapshotTests/test_Snapshots()">
                </Test>
                <Test

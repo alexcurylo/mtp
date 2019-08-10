@@ -110,7 +110,7 @@ extension MyProfileVC: Exposing {
     /// Expose controls to UI tests
     func expose() {
         guard let menu = pagingVC?.collectionView else { return }
-        MyProfileVCs.menu.expose(item: menu)
+        UIMyProfile.menu.expose(item: menu)
     }
 }
 
@@ -129,13 +129,13 @@ extension MyProfileVC: CollectionCellExposing {
                 cell: UICollectionViewCell) {
         switch path.item {
         case Page.about.rawValue:
-            MyProfileVCs.about.expose(item: cell)
+            UIMyProfile.about.expose(item: cell)
         case Page.counts.rawValue:
-            MyProfileVCs.counts.expose(item: cell)
+            UIMyProfile.counts.expose(item: cell)
         case Page.photos.rawValue:
-            MyProfileVCs.photos.expose(item: cell)
+            UIMyProfile.photos.expose(item: cell)
         case Page.posts.rawValue:
-            MyProfileVCs.posts.expose(item: cell)
+            UIMyProfile.posts.expose(item: cell)
         default:
             break
         }

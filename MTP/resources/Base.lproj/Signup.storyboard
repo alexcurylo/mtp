@@ -336,24 +336,17 @@
                                                 <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 <state key="normal" image="navCloseBlue">
                                                     <attributedString key="attributedTitle">
-                                                        <fragment content="Tap to agree to the MTP">
+                                                        <fragment content="Tap to agree to ">
                                                             <attributes>
                                                                 <color key="NSColor" red="0.61177999999999999" green="0.61175000000000002" blue="0.61175999999999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                                <font key="NSFont" size="15.5" name="Avenir-Medium"/>
-                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                                            </attributes>
-                                                        </fragment>
-                                                        <fragment content=" ">
-                                                            <attributes>
-                                                                <color key="NSColor" red="0.29021999999999998" green="0.29016999999999998" blue="0.29022999999999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                                <font key="NSFont" size="15.5" name="Avenir-Medium"/>
+                                                                <font key="NSFont" size="15" name="Avenir-Medium"/>
                                                                 <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
                                                             </attributes>
                                                         </fragment>
                                                         <fragment content="Terms of Use">
                                                             <attributes>
                                                                 <color key="NSColor" red="0.39238000000000001" green="0.55896000000000001" blue="0.87605999999999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                                <font key="NSFont" size="15.5" name="Avenir-Medium"/>
+                                                                <font key="NSFont" size="15" name="Avenir-Medium"/>
                                                                 <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
                                                             </attributes>
                                                         </fragment>
@@ -3925,16 +3918,16 @@ Cg
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud1" translatesAutoresizingMaskIntoConstraints="NO" id="zgx-2g-52R">
-                                <rect key="frame" x="16" y="296" width="97" height="58"/>
+                                <rect key="frame" x="97" y="338" width="16" height="16"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud2" translatesAutoresizingMaskIntoConstraints="NO" id="4aG-gG-oiE">
-                                <rect key="frame" x="327" y="318" width="101" height="55"/>
+                                <rect key="frame" x="327" y="357" width="16" height="16"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud3" translatesAutoresizingMaskIntoConstraints="NO" id="vOe-gG-w9J">
-                                <rect key="frame" x="-16" y="447" width="112" height="69"/>
+                                <rect key="frame" x="80" y="447" width="16" height="16"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud4" translatesAutoresizingMaskIntoConstraints="NO" id="C15-xM-60M">
-                                <rect key="frame" x="353" y="458" width="104" height="68"/>
+                                <rect key="frame" x="353" y="458" width="16" height="16"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="KW2-wY-ZyV" userLabel="Message Stack">
                                 <rect key="frame" x="32" y="145.5" width="350" height="336"/>
@@ -4085,6 +4078,10 @@ going to your Profile Settings.</string>
                     <toolbarItems/>
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="laterButton" destination="Xpu-l4-3G1" id="plw-Nu-yS0"/>
+                        <outlet property="profileButton" destination="53c-W7-tyV" id="ySM-Df-CO3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M5w-pf-vRC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -4265,6 +4262,6 @@ going to your Profile Settings.</string>
     <inferredMetricsTieBreakers>
         <segue reference="hkf-mG-nci"/>
         <segue reference="e73-rY-bFS"/>
-        <segue reference="VFq-Qq-FvX"/>
+        <segue reference="oCn-24-dvd"/>
     </inferredMetricsTieBreakers>
 </document>

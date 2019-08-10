@@ -2,7 +2,7 @@
 
 import XCTest
 
-extension NearbyVCs: Elemental {
+extension UINearby: Elemental {
 
     var type: XCUIElement.ElementType {
         switch self {
@@ -20,7 +20,7 @@ extension NearbyVCs: Elemental {
         case .close,
              .places: return app
         case .place:
-            return NearbyVCs.places.match.query(type: type)
+            return UINearby.places.match.query(type: type)
         }
     }
 }

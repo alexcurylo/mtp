@@ -15,6 +15,7 @@ final class RootVC: UIViewController, ServiceProvider {
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
+
         requireInjections()
     }
 
@@ -33,7 +34,8 @@ final class RootVC: UIViewController, ServiceProvider {
         } else {
             credentials?.isHidden = false
             credentialsBottom?.constant = -(credentials?.bounds.height ?? 0)
-        }
+            expose()
+       }
     }
 
     /// Actions to take after reveal
@@ -93,6 +95,17 @@ private extension RootVC {
                 self.view.layoutIfNeeded()
             },
             completion: nil)
+    }
+}
+
+// MARK: - Exposing
+
+extension RootVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        UIRoot.login.expose(item: loginButton)
+        UIRoot.signup.expose(item: signupButton)
     }
 }
 
