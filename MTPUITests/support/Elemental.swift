@@ -12,6 +12,7 @@ enum ElementalState {
 
     case exists
     case hittable
+    case label(String)
     case selected
 }
 
@@ -59,6 +60,8 @@ extension Elemental {
             success = matched.exists
         case .hittable:
             success = matched.isHittable
+        case .label(let text):
+            success = matched.label == text
         case .selected:
             success = matched.isSelected
         }
@@ -74,6 +77,8 @@ extension Elemental {
             return
         case .hittable:
             predicate = NSPredicate(format: "selected == true")
+        case .label(let text):
+            predicate = NSPredicate(format: "label == '\(text)'")
         case .selected:
             predicate = NSPredicate(format: "selected == true")
         }

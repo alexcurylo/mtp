@@ -178,6 +178,12 @@
 		FA7A66E822FE2C1D001DCCA2 /* UIRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7A66E722FE2C1D001DCCA2 /* UIRoot.swift */; };
 		FA7A66EA22FE2C5C001DCCA2 /* UIRoot+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7A66E922FE2C5C001DCCA2 /* UIRoot+Test.swift */; };
 		FA7A66EB22FE2C65001DCCA2 /* UIRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7A66E722FE2C1D001DCCA2 /* UIRoot.swift */; };
+		FA7A66ED2300E894001DCCA2 /* UILogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7A66EC2300E894001DCCA2 /* UILogin.swift */; };
+		FA7A66EE2300E8D1001DCCA2 /* UILogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7A66EC2300E894001DCCA2 /* UILogin.swift */; };
+		FA7A66F02300E914001DCCA2 /* UILogin+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7A66EF2300E914001DCCA2 /* UILogin+Test.swift */; };
+		FA7A66F223022527001DCCA2 /* UILoginFail.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7A66F123022527001DCCA2 /* UILoginFail.swift */; };
+		FA7A66F32302253B001DCCA2 /* UILoginFail.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7A66F123022527001DCCA2 /* UILoginFail.swift */; };
+		FA7A66F523022650001DCCA2 /* UILoginFail+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7A66F423022650001DCCA2 /* UILoginFail+Test.swift */; };
 		FA7C200E221820FA002C6DAB /* OperationReply.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7C200D221820FA002C6DAB /* OperationReply.swift */; };
 		FA7C2010221BA0A1002C6DAB /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7C200F221BA0A1002C6DAB /* Post.swift */; };
 		FA7C2012221C2F20002C6DAB /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7C2011221C2F20002C6DAB /* Photo.swift */; };
@@ -451,6 +457,10 @@
 		FA7A66E422FE26F4001DCCA2 /* UIWelcome+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWelcome+Test.swift"; sourceTree = "<group>"; };
 		FA7A66E722FE2C1D001DCCA2 /* UIRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIRoot.swift; sourceTree = "<group>"; };
 		FA7A66E922FE2C5C001DCCA2 /* UIRoot+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIRoot+Test.swift"; sourceTree = "<group>"; };
+		FA7A66EC2300E894001DCCA2 /* UILogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILogin.swift; sourceTree = "<group>"; };
+		FA7A66EF2300E914001DCCA2 /* UILogin+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILogin+Test.swift"; sourceTree = "<group>"; };
+		FA7A66F123022527001DCCA2 /* UILoginFail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILoginFail.swift; sourceTree = "<group>"; };
+		FA7A66F423022650001DCCA2 /* UILoginFail+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILoginFail+Test.swift"; sourceTree = "<group>"; };
 		FA7C200D221820FA002C6DAB /* OperationReply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationReply.swift; sourceTree = "<group>"; };
 		FA7C200F221BA0A1002C6DAB /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		FA7C2011221C2F20002C6DAB /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
@@ -590,6 +600,8 @@
 			isa = PBXGroup;
 			children = (
 				8C011F5D22E93A39002C4133 /* UILocations+Test.swift */,
+				FA7A66EF2300E914001DCCA2 /* UILogin+Test.swift */,
+				FA7A66F423022650001DCCA2 /* UILoginFail+Test.swift */,
 				8C011F5922E939BA002C4133 /* UIMain+Test.swift */,
 				8C011F5B22E93A10002C4133 /* UIMyProfile+Test.swift */,
 				FAF1C67D22EA4FBA00F6636B /* UINearby+Test.swift */,
@@ -948,6 +960,8 @@
 			isa = PBXGroup;
 			children = (
 				FA7A66CE22FD922F001DCCA2 /* UILocations.swift */,
+				FA7A66EC2300E894001DCCA2 /* UILogin.swift */,
+				FA7A66F123022527001DCCA2 /* UILoginFail.swift */,
 				FA7A66D122FD9459001DCCA2 /* UIMain.swift */,
 				FA7A66D422FD95FB001DCCA2 /* UIMyProfile.swift */,
 				FA7A66D722FD9669001DCCA2 /* UINearby.swift */,
@@ -1472,6 +1486,7 @@
 				8C1A267E22AE019400DAFC7B /* SearchResultJSON.swift in Sources */,
 				8C4A6FAF224859A500B33DB9 /* UserCountsPageVC.swift in Sources */,
 				FA88395722351C30002F324F /* UIImage+Color.swift in Sources */,
+				FA7A66F223022527001DCCA2 /* UILoginFail.swift in Sources */,
 				FAC159A221EB68AA00564E2D /* Location.swift in Sources */,
 				FA7C200E221820FA002C6DAB /* OperationReply.swift in Sources */,
 				FA1663AF22E3325B0075DA1A /* NetworkService.swift in Sources */,
@@ -1545,6 +1560,7 @@
 				FAD2B51C21F4A675009FFDD7 /* Restaurant.swift in Sources */,
 				FA44CDF422B5A13F00F33D34 /* UIView+Shadow.swift in Sources */,
 				FA463780210DE94C0007382D /* EditProfileVC.swift in Sources */,
+				FA7A66ED2300E894001DCCA2 /* UILogin.swift in Sources */,
 				FA815B712286D138004B91C8 /* NearbyVC.swift in Sources */,
 				FA254DCB21685D6800FC9360 /* Withable.swift in Sources */,
 				FAD2B51321F45796009FFDD7 /* PlaceLocation.swift in Sources */,
@@ -1613,7 +1629,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA7A66DE22FD97EC001DCCA2 /* UIUserProfile+Test.swift in Sources */,
+				FA7A66F32302253B001DCCA2 /* UILoginFail.swift in Sources */,
 				8C011F5C22E93A10002C4133 /* UIMyProfile+Test.swift in Sources */,
+				FA7A66F02300E914001DCCA2 /* UILogin+Test.swift in Sources */,
 				FA4257E422E7C531006CE4AC /* ProcessInfo+Launch.swift in Sources */,
 				FA32CC7220FAC863004C1329 /* XCTestCase+Launch.swift in Sources */,
 				FA7A66E122FD98ED001DCCA2 /* UIUserProfile.swift in Sources */,
@@ -1631,7 +1649,9 @@
 				FA7A66CA22FD85C4001DCCA2 /* RankingsUITests.swift in Sources */,
 				FA7A66D922FD9669001DCCA2 /* UINearby.swift in Sources */,
 				FA392BDD20DF69F50026C828 /* LocationsUITests.swift in Sources */,
+				FA7A66F523022650001DCCA2 /* UILoginFail+Test.swift in Sources */,
 				FAF1C67A22E9D53500F6636B /* UIRanking+Test.swift in Sources */,
+				FA7A66EE2300E8D1001DCCA2 /* UILogin.swift in Sources */,
 				8C3EA1FF22DD540F008DD858 /* SnapshotHelper.swift in Sources */,
 				FA7A66E522FE26F4001DCCA2 /* UIWelcome+Test.swift in Sources */,
 				FA7A66EB22FE2C65001DCCA2 /* UIRoot.swift in Sources */,

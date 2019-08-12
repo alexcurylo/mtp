@@ -10,6 +10,7 @@ final class LoginVC: UIViewController, ServiceProvider {
     @IBOutlet private var emailTextField: InsetTextField?
     @IBOutlet private var passwordTextField: InsetTextField?
     @IBOutlet private var togglePasswordButton: UIButton?
+    @IBOutlet private var forgotPasswordButton: UIButton?
 
     @IBOutlet private var keyboardToolbar: UIToolbar?
     @IBOutlet private var toolbarBackButton: UIBarButtonItem?
@@ -39,6 +40,7 @@ final class LoginVC: UIViewController, ServiceProvider {
         navigationController?.delegate = self
 
         emailTextField?.text = data.email
+        expose()
     }
 
     /// Prepare for hide
@@ -305,6 +307,18 @@ extension LoginVC: UIViewControllerTransitioningDelegate {
     }
 }
 
+// MARK: - Exposing
+
+extension LoginVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        UILogin.email.expose(item: emailTextField)
+        UILogin.forgot.expose(item: forgotPasswordButton)
+        UILogin.password.expose(item: passwordTextField)
+    }
+}
+
 // MARK: - Injectable
 
 extension LoginVC: Injectable {
@@ -325,6 +339,7 @@ extension LoginVC: Injectable {
         emailTextField.require()
         passwordTextField.require()
         togglePasswordButton.require()
+        forgotPasswordButton.require()
         keyboardToolbar.require()
         toolbarBackButton.require()
         toolbarNextButton.require()

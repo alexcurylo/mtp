@@ -287,6 +287,7 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="emailTextField" destination="8O1-zS-xwC" id="Gra-O4-j35"/>
+                        <outlet property="forgotPasswordButton" destination="NgJ-IU-raF" id="pKf-0K-9dD"/>
                         <outlet property="keyboardToolbar" destination="jKj-Xc-Xm9" id="SWi-qD-EXb"/>
                         <outlet property="passwordTextField" destination="zEZ-d4-d11" id="qnv-Gc-381"/>
                         <outlet property="togglePasswordButton" destination="khv-EQ-jcb" id="7No-Pc-l6s"/>
@@ -660,6 +661,7 @@ Please try again, or click </string>
                         <outlet property="bottomY" destination="acf-g4-Jlr" id="bZW-5k-nZ9"/>
                         <outlet property="centerY" destination="307-3D-44M" id="Bz7-8U-BcG"/>
                         <outlet property="messageLabel" destination="2g9-o9-icK" id="t3K-aC-1ft"/>
+                        <outlet property="okButton" destination="iNf-9T-CBa" id="kJq-TF-CEP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C67-lg-F1G" userLabel="First Responder" sceneMemberID="firstResponder"/>

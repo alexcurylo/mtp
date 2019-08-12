@@ -1,5 +1,5 @@
 docs/**
+MTP/resources/**
 MTPTests/**
 MTPUITests/**
-MTPUnhostedTests/**
 Pods/**
