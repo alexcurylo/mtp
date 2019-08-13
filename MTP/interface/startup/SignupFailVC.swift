@@ -11,6 +11,7 @@ final class SignupFailVC: UIViewController, ServiceProvider {
     @IBOutlet private var bottomY: NSLayoutConstraint?
     @IBOutlet private var centerY: NSLayoutConstraint?
     @IBOutlet private var messageLabel: UILabel?
+    @IBOutlet private var okButton: GradientButton?
 
     private var errorMessage: String?
 
@@ -32,6 +33,7 @@ final class SignupFailVC: UIViewController, ServiceProvider {
 
         hide(navBar: animated)
         hideAlert()
+        expose()
     }
 
     /// Actions to take after reveal
@@ -86,6 +88,17 @@ private extension SignupFailVC {
     }
 }
 
+// MARK: - Exposing
+
+extension SignupFailVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        UISignupFail.message.expose(item: messageLabel)
+        UISignupFail.ok.expose(item: okButton)
+    }
+}
+
 // MARK: - Injectable
 
 extension SignupFailVC: Injectable {
@@ -110,5 +123,6 @@ extension SignupFailVC: Injectable {
         bottomY.require()
         centerY.require()
         messageLabel.require()
+        okButton.require()
     }
 }

@@ -1,7 +1,7 @@
 // @copyright Trollwerks Inc.
 
-/// RankingVC exposed items
-enum UIRanking: Exposable {
+/// RankingsVC exposed items
+enum UIRankings: Exposable {
 
     /// Navigation bar
     case nav

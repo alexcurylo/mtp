@@ -27,6 +27,8 @@ final class SignupVC: UIViewController, ServiceProvider {
     @IBOutlet private var confirmPasswordTextField: InsetTextField?
     @IBOutlet private var toggleConfirmPasswordButton: UIButton?
     @IBOutlet private var termsOfServiceButton: UIButton?
+    @IBOutlet private var signupButton: UIButton?
+    @IBOutlet private var loginButton: UIButton?
 
     @IBOutlet private var keyboardToolbar: UIToolbar?
     @IBOutlet private var toolbarBackButton: UIBarButtonItem?
@@ -65,6 +67,7 @@ final class SignupVC: UIViewController, ServiceProvider {
 
         show(navBar: animated, style: .login)
         navigationController?.delegate = self
+        expose()
     }
 
     /// Prepare for hide
@@ -655,6 +658,20 @@ extension SignupVC: UIPickerViewDelegate {
     }
 }
 
+// MARK: - Exposing
+
+extension SignupVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        UISignup.credentials.expose(item: credentialsStack)
+        UISignup.email.expose(item: emailTextField)
+        UISignup.login.expose(item: loginButton)
+        UISignup.signup.expose(item: signupButton)
+        UISignup.password.expose(item: passwordTextField)
+    }
+}
+
 // MARK: - Injectable
 
 extension SignupVC: Injectable {
@@ -687,6 +704,8 @@ extension SignupVC: Injectable {
         togglePasswordButton.require()
         confirmPasswordTextField.require()
         toggleConfirmPasswordButton.require()
+        signupButton.require()
+        loginButton.require()
         keyboardToolbar.require()
         toolbarBackButton.require()
         toolbarNextButton.require()

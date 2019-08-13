@@ -2,7 +2,7 @@
 
 import XCTest
 
-extension UIRanking: Elemental {
+extension UIRankings: Elemental {
 
     var type: XCUIElement.ElementType {
         switch self {
@@ -28,10 +28,10 @@ extension UIRanking: Elemental {
         case .profile(let list, _),
              .remaining(let list, _),
              .visited(let list, _):
-            return UIRanking.ranks(list).match.query(type: type)
+            return UIRankings.ranks(list).match.query(type: type)
         case .filter,
              .search:
-            return UIRanking.nav.match.query(type: type)
+            return UIRankings.nav.match.query(type: type)
         }
     }
 }

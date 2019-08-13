@@ -165,9 +165,9 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
     ///   - item: Index
     func expose(list: ChecklistIndex,
                 item: Int) {
-        UIRanking.profile(list, item).expose(item: nameLabel)
-        UIRanking.remaining(list, item).expose(item: remainingButton)
-        UIRanking.visited(list, item).expose(item: visitedButton)
+        UIRankings.profile(list, item).expose(item: nameLabel)
+        UIRankings.remaining(list, item).expose(item: remainingButton)
+        UIRankings.visited(list, item).expose(item: visitedButton)
     }
 
     /// Empty display

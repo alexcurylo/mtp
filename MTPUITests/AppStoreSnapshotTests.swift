@@ -46,7 +46,7 @@ final class AppStoreSnapshotTests: XCTestCase {
         snapshot("05Rankings")
 
         let charles = 2
-        UIRanking.profile(.locations, charles).tap()
+        UIRankings.profile(.locations, charles).tap()
 
         wait(for: 5)
 
@@ -54,7 +54,7 @@ final class AppStoreSnapshotTests: XCTestCase {
 
         UIUserProfile.close.tap()
 
-        UIRanking.filter.tap()
+        UIRankings.filter.tap()
 
         snapshot("07Filter")
 

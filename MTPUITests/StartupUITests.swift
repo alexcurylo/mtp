@@ -42,5 +42,10 @@ final class StartupUITests: XCTestCase {
         launch(settings: [.loggedIn(false)])
 
         UIRoot.signup.tap()
+
+        UISignup.credentials.swipeUp()
+        UISignup.signup.tap()
+
+        UISignupFail.ok.tap()
     }
 }

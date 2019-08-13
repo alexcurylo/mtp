@@ -182,10 +182,10 @@ extension RankingsVC: Exposing {
     /// Expose controls to UI tests
     func expose() {
         let bar = navigationController?.navigationBar
-        UIRanking.nav.expose(item: bar)
+        UIRankings.nav.expose(item: bar)
         let items = navigationItem.rightBarButtonItems
-        UIRanking.search.expose(item: items?.first)
-        UIRanking.filter.expose(item: items?.last)
+        UIRankings.search.expose(item: items?.first)
+        UIRankings.filter.expose(item: items?.last)
     }
 }
 
