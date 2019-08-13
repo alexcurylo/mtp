@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-/// RootVC exposed items
+/// LoginFailVC exposed items
 enum UILoginFail: Exposable {
 
     /// Message label

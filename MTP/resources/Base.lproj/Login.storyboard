@@ -289,6 +289,7 @@
                         <outlet property="emailTextField" destination="8O1-zS-xwC" id="Gra-O4-j35"/>
                         <outlet property="forgotPasswordButton" destination="NgJ-IU-raF" id="pKf-0K-9dD"/>
                         <outlet property="keyboardToolbar" destination="jKj-Xc-Xm9" id="SWi-qD-EXb"/>
+                        <outlet property="loginButton" destination="DVC-A9-iU3" id="6FS-6q-wsK"/>
                         <outlet property="passwordTextField" destination="zEZ-d4-d11" id="qnv-Gc-381"/>
                         <outlet property="togglePasswordButton" destination="khv-EQ-jcb" id="7No-Pc-l6s"/>
                         <outlet property="toolbarBackButton" destination="G5h-3y-Tfb" id="qoX-u0-cPQ"/>
@@ -495,8 +496,10 @@
                     <connections>
                         <outlet property="alertHolder" destination="170-Ec-8vl" id="zFG-1o-EuQ"/>
                         <outlet property="bottomY" destination="2xj-hu-Nb3" id="5Ev-Ua-ZkT"/>
+                        <outlet property="cancelButton" destination="UjQ-Sn-hc1" id="V2g-hO-fyF"/>
                         <outlet property="centerY" destination="pyB-4i-rhA" id="pL7-rC-rp8"/>
                         <outlet property="messageLabel" destination="SoJ-Js-aav" id="ica-lb-9qZ"/>
+                        <outlet property="sendButton" destination="qYb-kQ-H9H" id="AWV-PM-jTw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TqS-2B-lZu" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -693,7 +696,7 @@ Please try again, or click </string>
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="LeK-xz-AvH"/>
+        <segue reference="f8y-mG-Gew"/>
         <segue reference="3cN-rR-Iq9"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -492,7 +492,8 @@ final class NetworkServiceStub: NetworkServiceImpl {
     override func loadPhotos(location id: Int,
                              reload: Bool,
                              then: @escaping NetworkCompletion<PhotosInfoJSON>) {
-        log.error("not stubbed yet")
+        log.error("not stubbed yet!")
+        then(.failure(.message("not stubbed yet!")))
     }
 
     /// Load logged in user photos
@@ -535,7 +536,8 @@ final class NetworkServiceStub: NetworkServiceImpl {
     ///   - then: Completion
     override func loadPosts(location id: Int,
                             then: @escaping NetworkCompletion<PostsJSON>) {
-        log.error("not stubbed yet")
+        log.error("not stubbed yet!")
+        then(.failure(.message("not stubbed yet!")))
     }
 
     /// Load user posts
@@ -596,7 +598,8 @@ final class NetworkServiceStub: NetworkServiceImpl {
     ///   - then: Completion
     override func search(query: String,
                          then: @escaping NetworkCompletion<SearchResultJSON>) {
-        log.error("not stubbed yet")
+        log.error("not stubbed yet!")
+        then(.failure(.message("not stubbed yet!")))
     }
 
     /// Set places visit status
@@ -608,7 +611,8 @@ final class NetworkServiceStub: NetworkServiceImpl {
     override func set(items: [Checklist.Item],
                       visited: Bool,
                       then: @escaping NetworkCompletion<Bool>) {
-        log.error("not stubbed yet")
+        log.error("not stubbed yet!")
+        then(.failure(.message("not stubbed yet!")))
     }
 
     /// Upload photo
@@ -622,7 +626,8 @@ final class NetworkServiceStub: NetworkServiceImpl {
                          caption: String?,
                          location id: Int?,
                          then: @escaping NetworkCompletion<PhotoReply>) {
-        log.error("not stubbed yet")
+        log.error("not stubbed yet!")
+        then(.failure(.message("not stubbed yet!")))
     }
 
     /// Publish post
@@ -632,14 +637,16 @@ final class NetworkServiceStub: NetworkServiceImpl {
     ///   - then: Completion
     override func postPublish(payload: PostPayload,
                               then: @escaping NetworkCompletion<PostReply>) {
-        log.error("not stubbed yet")
+        log.error("not stubbed yet!")
+        then(.failure(.message("not stubbed yet!")))
     }
 
     /// Delete user account
     ///
     /// - Parameter then: Completion
     override func userDeleteAccount(then: @escaping NetworkCompletion<String>) {
-        log.error("not stubbed yet")
+        log.error("not stubbed yet!")
+        then(.failure(.message("not stubbed yet!")))
     }
 
     /// Send reset password link
@@ -649,7 +656,8 @@ final class NetworkServiceStub: NetworkServiceImpl {
     ///   - then: Completion
     override func userForgotPassword(email: String,
                                      then: @escaping NetworkCompletion<String>) {
-        log.error("not stubbed yet")
+        log.error("not stubbed yet!")
+        then(.failure(.message("not stubbed yet!")))
     }
 
     /// Login user
@@ -661,7 +669,8 @@ final class NetworkServiceStub: NetworkServiceImpl {
     override func userLogin(email: String,
                             password: String,
                             then: @escaping NetworkCompletion<UserJSON>) {
-        log.error("not stubbed yet")
+        log.error("not stubbed yet!")
+        then(.failure(.message("not stubbed yet!")))
     }
 
     /// Register new user
@@ -671,7 +680,8 @@ final class NetworkServiceStub: NetworkServiceImpl {
     ///   - then: Completion
     override func userRegister(payload: RegistrationPayload,
                                then: @escaping NetworkCompletion<UserJSON>) {
-        log.error("not stubbed yet")
+        log.error("not stubbed yet!")
+        then(.failure(.message("not stubbed yet!")))
     }
 
     /// Update user info
@@ -681,7 +691,8 @@ final class NetworkServiceStub: NetworkServiceImpl {
     ///   - then: Completion
     override func userUpdate(payload: UserUpdatePayload,
                              then: @escaping NetworkCompletion<UserJSON>) {
-        log.error("not stubbed yet")
+        log.error("not stubbed yet!")
+        then(.failure(.message("not stubbed yet!")))
     }
 
     /// Resend verification email
@@ -691,7 +702,8 @@ final class NetworkServiceStub: NetworkServiceImpl {
     ///   - then: Completion
     override func userVerify(id: Int,
                              then: @escaping NetworkCompletion<String>) {
-        log.error("not stubbed yet")
+        log.error("not stubbed yet!")
+        then(.failure(.message("not stubbed yet!")))
     }
 }
 

@@ -1054,6 +1054,14 @@ final class DataServiceStub: DataServiceImpl {
         // swiftlint:disable:next unused_setter_value
         set { }
     }
+
+    /// Default initializer
+    /// Clears fields referenced in UI tests
+    override init() {
+        super.init()
+
+        self.email = ""
+    }
 }
 
 #endif

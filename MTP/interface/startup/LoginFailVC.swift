@@ -145,5 +145,6 @@ extension LoginFailVC: Injectable {
         bottomY.require()
         centerY.require()
         messageLabel.require()
+        okButton.require()
     }
 }

@@ -6,10 +6,12 @@ extension UILogin: Elemental {
 
     var type: XCUIElement.ElementType {
         switch self {
-        case .email,
-             .password:
-            return .textField
-        case .forgot:
+        case .email:
+             return .textField
+        case .password:
+             return .secureTextField
+        case .forgot,
+             .login:
             return .button
         }
     }

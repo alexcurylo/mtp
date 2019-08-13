@@ -57,6 +57,9 @@
 		8CCA5A7322AA6BBB00853903 /* AppAboutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCA5A7222AA6BBB00853903 /* AppAboutVC.swift */; };
 		8CD2831722E7DEE800324FDE /* Elemental.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD2831622E7DEE800324FDE /* Elemental.swift */; };
 		8CD2831922E7EC1000324FDE /* XCUIElementTypeQueryProvider+Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD2831822E7EC1000324FDE /* XCUIElementTypeQueryProvider+Query.swift */; };
+		8CD4BD2723024DCB0041E0C3 /* UIForgotPassword+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD4BD2623024DCB0041E0C3 /* UIForgotPassword+Test.swift */; };
+		8CD4BD2923024E320041E0C3 /* UIForgotPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD4BD2823024E320041E0C3 /* UIForgotPassword.swift */; };
+		8CD4BD2A23024E320041E0C3 /* UIForgotPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD4BD2823024E320041E0C3 /* UIForgotPassword.swift */; };
 		8CDBE5EE22C08AD5005A6C18 /* PostPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDBE5ED22C08AD5005A6C18 /* PostPayload.swift */; };
 		8CE3FC2C222389B600B94EAA /* Scorecard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE3FC2B222389B600B94EAA /* Scorecard.swift */; };
 		8CE6F46B224B029500B24410 /* ContentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6F46A224B029400B24410 /* ContentState.swift */; };
@@ -328,6 +331,8 @@
 		8CCA5A7222AA6BBB00853903 /* AppAboutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAboutVC.swift; sourceTree = "<group>"; };
 		8CD2831622E7DEE800324FDE /* Elemental.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Elemental.swift; sourceTree = "<group>"; };
 		8CD2831822E7EC1000324FDE /* XCUIElementTypeQueryProvider+Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElementTypeQueryProvider+Query.swift"; sourceTree = "<group>"; };
+		8CD4BD2623024DCB0041E0C3 /* UIForgotPassword+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIForgotPassword+Test.swift"; sourceTree = "<group>"; };
+		8CD4BD2823024E320041E0C3 /* UIForgotPassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIForgotPassword.swift; sourceTree = "<group>"; };
 		8CDBE5ED22C08AD5005A6C18 /* PostPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPayload.swift; sourceTree = "<group>"; };
 		8CE3FC2B222389B600B94EAA /* Scorecard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scorecard.swift; sourceTree = "<group>"; };
 		8CE6F46A224B029400B24410 /* ContentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentState.swift; sourceTree = "<group>"; };
@@ -599,6 +604,7 @@
 		8C011F5822E93968002C4133 /* screens */ = {
 			isa = PBXGroup;
 			children = (
+				8CD4BD2623024DCB0041E0C3 /* UIForgotPassword+Test.swift */,
 				8C011F5D22E93A39002C4133 /* UILocations+Test.swift */,
 				FA7A66EF2300E914001DCCA2 /* UILogin+Test.swift */,
 				FA7A66F423022650001DCCA2 /* UILoginFail+Test.swift */,
@@ -959,6 +965,7 @@
 		FA7A66CD22FD9158001DCCA2 /* screens */ = {
 			isa = PBXGroup;
 			children = (
+				8CD4BD2823024E320041E0C3 /* UIForgotPassword.swift */,
 				FA7A66CE22FD922F001DCCA2 /* UILocations.swift */,
 				FA7A66EC2300E894001DCCA2 /* UILogin.swift */,
 				FA7A66F123022527001DCCA2 /* UILoginFail.swift */,
@@ -1508,6 +1515,7 @@
 				FA7A66D822FD9669001DCCA2 /* UINearby.swift in Sources */,
 				FA8833E7220CE8260037C796 /* UNCountry.swift in Sources */,
 				FA3BD1D2215F7FCD007EAF75 /* ProfilePostsVC.swift in Sources */,
+				8CD4BD2923024E320041E0C3 /* UIForgotPassword.swift in Sources */,
 				FAC8466322AC6D18004F57EC /* KVNOperation.swift in Sources */,
 				8C3EAA1C2230BFA500CB4886 /* InsetTextField.swift in Sources */,
 				FA75562E22A4FFCF0006EFC3 /* ProfileVC.swift in Sources */,
@@ -1647,11 +1655,13 @@
 				FA7A66D022FD93A1001DCCA2 /* UILocations.swift in Sources */,
 				FA7A66C822FD843D001DCCA2 /* StartupUITests.swift in Sources */,
 				FA7A66CA22FD85C4001DCCA2 /* RankingsUITests.swift in Sources */,
+				8CD4BD2723024DCB0041E0C3 /* UIForgotPassword+Test.swift in Sources */,
 				FA7A66D922FD9669001DCCA2 /* UINearby.swift in Sources */,
 				FA392BDD20DF69F50026C828 /* LocationsUITests.swift in Sources */,
 				FA7A66F523022650001DCCA2 /* UILoginFail+Test.swift in Sources */,
 				FAF1C67A22E9D53500F6636B /* UIRanking+Test.swift in Sources */,
 				FA7A66EE2300E8D1001DCCA2 /* UILogin.swift in Sources */,
+				8CD4BD2A23024E320041E0C3 /* UIForgotPassword.swift in Sources */,
 				8C3EA1FF22DD540F008DD858 /* SnapshotHelper.swift in Sources */,
 				FA7A66E522FE26F4001DCCA2 /* UIWelcome+Test.swift in Sources */,
 				FA7A66EB22FE2C65001DCCA2 /* UIRoot.swift in Sources */,

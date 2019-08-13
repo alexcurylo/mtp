@@ -11,6 +11,8 @@ final class ForgotPasswordVC: UIViewController, ServiceProvider {
     @IBOutlet private var bottomY: NSLayoutConstraint?
     @IBOutlet private var centerY: NSLayoutConstraint?
     @IBOutlet private var messageLabel: UILabel?
+    @IBOutlet private var cancelButton: UIButton?
+    @IBOutlet private var sendButton: UIButton?
 
     private var email: String = ""
 
@@ -32,6 +34,7 @@ final class ForgotPasswordVC: UIViewController, ServiceProvider {
 
         hide(navBar: animated)
         hideAlert()
+        expose()
     }
 
     /// Actions to take after reveal
@@ -110,6 +113,17 @@ private extension ForgotPasswordVC {
     }
 }
 
+// MARK: - Exposing
+
+extension ForgotPasswordVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        UIForgotPassword.cancel.expose(item: cancelButton)
+        UIForgotPassword.send.expose(item: sendButton)
+    }
+}
+
 // MARK: - Injectable
 
 extension ForgotPasswordVC: Injectable {
@@ -131,5 +145,7 @@ extension ForgotPasswordVC: Injectable {
         bottomY.require()
         centerY.require()
         messageLabel.require()
+        cancelButton.require()
+        sendButton.require()
     }
 }

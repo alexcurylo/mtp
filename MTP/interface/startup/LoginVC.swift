@@ -10,6 +10,7 @@ final class LoginVC: UIViewController, ServiceProvider {
     @IBOutlet private var emailTextField: InsetTextField?
     @IBOutlet private var passwordTextField: InsetTextField?
     @IBOutlet private var togglePasswordButton: UIButton?
+    @IBOutlet private var loginButton: UIButton?
     @IBOutlet private var forgotPasswordButton: UIButton?
 
     @IBOutlet private var keyboardToolbar: UIToolbar?
@@ -315,6 +316,7 @@ extension LoginVC: Exposing {
     func expose() {
         UILogin.email.expose(item: emailTextField)
         UILogin.forgot.expose(item: forgotPasswordButton)
+        UILogin.login.expose(item: loginButton)
         UILogin.password.expose(item: passwordTextField)
     }
 }
@@ -337,10 +339,11 @@ extension LoginVC: Injectable {
     /// Enforce dependency injection
     func requireInjections() {
         emailTextField.require()
-        passwordTextField.require()
-        togglePasswordButton.require()
         forgotPasswordButton.require()
         keyboardToolbar.require()
+        loginButton.require()
+        passwordTextField.require()
+        togglePasswordButton.require()
         toolbarBackButton.require()
         toolbarNextButton.require()
     }

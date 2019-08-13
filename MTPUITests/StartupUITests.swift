@@ -25,6 +25,17 @@ final class StartupUITests: XCTestCase {
         UILogin.email.tap()
         UILogin.email.type(text: "test@test.com")
         UILogin.forgot.tap()
+
+        UIForgotPassword.cancel.tap()
+
+        UILogin.login.tap()
+
+        UILoginFail.message.assert(.label("Please enter a password!"))
+        UILoginFail.ok.tap()
+
+        UILogin.password.tap()
+        UILogin.password.type(text: "password")
+        UILogin.login.tap()
     }
 
     func testSignup() {
