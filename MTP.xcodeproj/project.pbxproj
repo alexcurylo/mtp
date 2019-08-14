@@ -127,6 +127,51 @@
 		FA03455123037C3000632322 /* UISignup.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03454F23037B0400632322 /* UISignup.swift */; };
 		FA03455223037C3600632322 /* UISignupFail.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03454B2303795400632322 /* UISignupFail.swift */; };
 		FA03455423037C7600632322 /* UISignup+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03455323037C7600632322 /* UISignup+Test.swift */; };
+		FA034556230435AE00632322 /* UIEditProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA034555230435AE00632322 /* UIEditProfile.swift */; };
+		FA034557230435AE00632322 /* UIEditProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA034555230435AE00632322 /* UIEditProfile.swift */; };
+		FA034559230435EF00632322 /* UIEditProfile+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA034558230435EF00632322 /* UIEditProfile+Test.swift */; };
+		FA03455B23043BA700632322 /* UISettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03455A23043BA700632322 /* UISettings.swift */; };
+		FA03455D23043C3600632322 /* UISettings+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03455C23043C3600632322 /* UISettings+Test.swift */; };
+		FA03455E23043C5F00632322 /* UISettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03455A23043BA700632322 /* UISettings.swift */; };
+		FA0345602304421000632322 /* UIAppAbout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03455F2304421000632322 /* UIAppAbout.swift */; };
+		FA0345612304421000632322 /* UIAppAbout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03455F2304421000632322 /* UIAppAbout.swift */; };
+		FA0345642304425100632322 /* UIAppAbout+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0345622304425100632322 /* UIAppAbout+Test.swift */; };
+		FA0345662304435B00632322 /* UIFaq.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0345652304435B00632322 /* UIFaq.swift */; };
+		FA0345672304435B00632322 /* UIFaq.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0345652304435B00632322 /* UIFaq.swift */; };
+		FA03456A2304438700632322 /* UIFaq+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0345682304438700632322 /* UIFaq+Test.swift */; };
+		FA03456C2304449100632322 /* UICountsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03456B2304449100632322 /* UICountsPage.swift */; };
+		FA03456D2304449100632322 /* UICountsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03456B2304449100632322 /* UICountsPage.swift */; };
+		FA034570230444C500632322 /* UICountsPage+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03456E230444C500632322 /* UICountsPage+Test.swift */; };
+		FA034572230446A000632322 /* UILocationSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA034571230446A000632322 /* UILocationSearch.swift */; };
+		FA034573230446A000632322 /* UILocationSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA034571230446A000632322 /* UILocationSearch.swift */; };
+		FA034576230446C700632322 /* UILocationSearch+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA034574230446C700632322 /* UILocationSearch+Test.swift */; };
+		FA0345782304487000632322 /* UIProfilePhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0345772304487000632322 /* UIProfilePhotos.swift */; };
+		FA0345792304487000632322 /* UIProfilePhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0345772304487000632322 /* UIProfilePhotos.swift */; };
+		FA03457B2304488000632322 /* UIProfilePosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03457A2304488000632322 /* UIProfilePosts.swift */; };
+		FA03457C2304488000632322 /* UIProfilePosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03457A2304488000632322 /* UIProfilePosts.swift */; };
+		FA03457E2304489400632322 /* UIProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03457D2304489400632322 /* UIProfile.swift */; };
+		FA03457F2304489400632322 /* UIProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03457D2304489400632322 /* UIProfile.swift */; };
+		FA034583230448F600632322 /* UIProfilePhotos+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA034581230448F600632322 /* UIProfilePhotos+Test.swift */; };
+		FA0345862304490400632322 /* UIProfilePosts+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0345842304490400632322 /* UIProfilePosts+Test.swift */; };
+		FA0345892304491600632322 /* UIProfile+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0345872304491600632322 /* UIProfile+Test.swift */; };
+		FA03458C2304B44600632322 /* UIProfilePaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03458B2304B44600632322 /* UIProfilePaging.swift */; };
+		FA03458D2304B44600632322 /* UIProfilePaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03458B2304B44600632322 /* UIProfilePaging.swift */; };
+		FA0345902304B4B900632322 /* UIProfilePaging+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03458E2304B4B900632322 /* UIProfilePaging+Test.swift */; };
+		FA0345922304C9C300632322 /* UIMyCountsPaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0345912304C9C300632322 /* UIMyCountsPaging.swift */; };
+		FA0345932304C9C300632322 /* UIMyCountsPaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0345912304C9C300632322 /* UIMyCountsPaging.swift */; };
+		FA0345962304CA8900632322 /* UIMyCountsPaging+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0345942304CA8900632322 /* UIMyCountsPaging+Test.swift */; };
+		FA0345982304CB8800632322 /* UIMyCounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0345972304CB8800632322 /* UIMyCounts.swift */; };
+		FA0345992304CB8800632322 /* UIMyCounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0345972304CB8800632322 /* UIMyCounts.swift */; };
+		FA03459B2304CBC100632322 /* UIMyCounts+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03459A2304CBC100632322 /* UIMyCounts+Test.swift */; };
+		FA03459D2304CC3000632322 /* UIProfileAbout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03459C2304CC3000632322 /* UIProfileAbout.swift */; };
+		FA03459E2304CC3000632322 /* UIProfileAbout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03459C2304CC3000632322 /* UIProfileAbout.swift */; };
+		FA0345A02304CC6800632322 /* UIProfileAbout+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03459F2304CC6800632322 /* UIProfileAbout+Test.swift */; };
+		FA0345A22304CD9800632322 /* UIPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0345A12304CD9800632322 /* UIPhotos.swift */; };
+		FA0345A42304CDD500632322 /* UIPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0345A32304CDD500632322 /* UIPosts.swift */; };
+		FA0345A62304CE1900632322 /* UIPhotos+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0345A52304CE1900632322 /* UIPhotos+Test.swift */; };
+		FA0345A82304CE3000632322 /* UIPosts+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0345A72304CE3000632322 /* UIPosts+Test.swift */; };
+		FA0345A92304CE6400632322 /* UIPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0345A12304CD9800632322 /* UIPhotos.swift */; };
+		FA0345AA2304CE6800632322 /* UIPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0345A32304CDD500632322 /* UIPosts.swift */; };
 		FA0A7B9422E6797400D3EF99 /* userGetByToken.json in Resources */ = {isa = PBXBuildFile; fileRef = FA0A7B9322E6797400D3EF99 /* userGetByToken.json */; };
 		FA0BE96C210C5F3300797224 /* ViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0BE96B210C5F3300797224 /* ViewTests.swift */; };
 		FA0F816422BF1CA700C00898 /* AddPhotoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0F816322BF1CA700C00898 /* AddPhotoVC.swift */; };
@@ -439,6 +484,36 @@
 		FA03454D2303798100632322 /* UISignupFail+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISignupFail+Test.swift"; sourceTree = "<group>"; };
 		FA03454F23037B0400632322 /* UISignup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISignup.swift; sourceTree = "<group>"; };
 		FA03455323037C7600632322 /* UISignup+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISignup+Test.swift"; sourceTree = "<group>"; };
+		FA034555230435AE00632322 /* UIEditProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIEditProfile.swift; sourceTree = "<group>"; };
+		FA034558230435EF00632322 /* UIEditProfile+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIEditProfile+Test.swift"; sourceTree = "<group>"; };
+		FA03455A23043BA700632322 /* UISettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISettings.swift; sourceTree = "<group>"; };
+		FA03455C23043C3600632322 /* UISettings+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISettings+Test.swift"; sourceTree = "<group>"; };
+		FA03455F2304421000632322 /* UIAppAbout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAppAbout.swift; sourceTree = "<group>"; };
+		FA0345622304425100632322 /* UIAppAbout+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAppAbout+Test.swift"; sourceTree = "<group>"; };
+		FA0345652304435B00632322 /* UIFaq.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFaq.swift; sourceTree = "<group>"; };
+		FA0345682304438700632322 /* UIFaq+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFaq+Test.swift"; sourceTree = "<group>"; };
+		FA03456B2304449100632322 /* UICountsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICountsPage.swift; sourceTree = "<group>"; };
+		FA03456E230444C500632322 /* UICountsPage+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICountsPage+Test.swift"; sourceTree = "<group>"; };
+		FA034571230446A000632322 /* UILocationSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILocationSearch.swift; sourceTree = "<group>"; };
+		FA034574230446C700632322 /* UILocationSearch+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILocationSearch+Test.swift"; sourceTree = "<group>"; };
+		FA0345772304487000632322 /* UIProfilePhotos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIProfilePhotos.swift; sourceTree = "<group>"; };
+		FA03457A2304488000632322 /* UIProfilePosts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIProfilePosts.swift; sourceTree = "<group>"; };
+		FA03457D2304489400632322 /* UIProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIProfile.swift; sourceTree = "<group>"; };
+		FA034581230448F600632322 /* UIProfilePhotos+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIProfilePhotos+Test.swift"; sourceTree = "<group>"; };
+		FA0345842304490400632322 /* UIProfilePosts+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIProfilePosts+Test.swift"; sourceTree = "<group>"; };
+		FA0345872304491600632322 /* UIProfile+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIProfile+Test.swift"; sourceTree = "<group>"; };
+		FA03458B2304B44600632322 /* UIProfilePaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIProfilePaging.swift; sourceTree = "<group>"; };
+		FA03458E2304B4B900632322 /* UIProfilePaging+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIProfilePaging+Test.swift"; sourceTree = "<group>"; };
+		FA0345912304C9C300632322 /* UIMyCountsPaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIMyCountsPaging.swift; sourceTree = "<group>"; };
+		FA0345942304CA8900632322 /* UIMyCountsPaging+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIMyCountsPaging+Test.swift"; sourceTree = "<group>"; };
+		FA0345972304CB8800632322 /* UIMyCounts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIMyCounts.swift; sourceTree = "<group>"; };
+		FA03459A2304CBC100632322 /* UIMyCounts+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIMyCounts+Test.swift"; sourceTree = "<group>"; };
+		FA03459C2304CC3000632322 /* UIProfileAbout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIProfileAbout.swift; sourceTree = "<group>"; };
+		FA03459F2304CC6800632322 /* UIProfileAbout+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIProfileAbout+Test.swift"; sourceTree = "<group>"; };
+		FA0345A12304CD9800632322 /* UIPhotos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPhotos.swift; sourceTree = "<group>"; };
+		FA0345A32304CDD500632322 /* UIPosts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPosts.swift; sourceTree = "<group>"; };
+		FA0345A52304CE1900632322 /* UIPhotos+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPhotos+Test.swift"; sourceTree = "<group>"; };
+		FA0345A72304CE3000632322 /* UIPosts+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPosts+Test.swift"; sourceTree = "<group>"; };
 		FA0A7B9322E6797400D3EF99 /* userGetByToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = userGetByToken.json; sourceTree = "<group>"; };
 		FA0BE96B210C5F3300797224 /* ViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTests.swift; sourceTree = "<group>"; };
 		FA0F816322BF1CA700C00898 /* AddPhotoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoVC.swift; sourceTree = "<group>"; };
@@ -801,8 +876,23 @@
 		FA0345442303745C00632322 /* profile */ = {
 			isa = PBXGroup;
 			children = (
-				FA7A66D422FD95FB001DCCA2 /* UIMyProfile.swift */,
+				FA03455F2304421000632322 /* UIAppAbout.swift */,
+				FA03456B2304449100632322 /* UICountsPage.swift */,
+				FA034555230435AE00632322 /* UIEditProfile.swift */,
+				FA0345652304435B00632322 /* UIFaq.swift */,
+				FA034571230446A000632322 /* UILocationSearch.swift */,
 				8C7D71CF2303BE7D005939AC /* UIMyCountsPage.swift */,
+				FA0345912304C9C300632322 /* UIMyCountsPaging.swift */,
+				FA0345972304CB8800632322 /* UIMyCounts.swift */,
+				FA7A66D422FD95FB001DCCA2 /* UIMyProfile.swift */,
+				FA0345A12304CD9800632322 /* UIPhotos.swift */,
+				FA0345A32304CDD500632322 /* UIPosts.swift */,
+				FA03459C2304CC3000632322 /* UIProfileAbout.swift */,
+				FA03458B2304B44600632322 /* UIProfilePaging.swift */,
+				FA0345772304487000632322 /* UIProfilePhotos.swift */,
+				FA03457A2304488000632322 /* UIProfilePosts.swift */,
+				FA03457D2304489400632322 /* UIProfile.swift */,
+				FA03455A23043BA700632322 /* UISettings.swift */,
 			);
 			path = profile;
 			sourceTree = "<group>";
@@ -870,8 +960,23 @@
 		FA034549230375BB00632322 /* profile */ = {
 			isa = PBXGroup;
 			children = (
+				FA0345622304425100632322 /* UIAppAbout+Test.swift */,
+				FA03456E230444C500632322 /* UICountsPage+Test.swift */,
+				FA034558230435EF00632322 /* UIEditProfile+Test.swift */,
+				FA0345682304438700632322 /* UIFaq+Test.swift */,
+				FA034574230446C700632322 /* UILocationSearch+Test.swift */,
 				8C011F5B22E93A10002C4133 /* UIMyProfile+Test.swift */,
 				8C7D71D22303BEC3005939AC /* UIMyCountsPage+Test.swift */,
+				FA0345942304CA8900632322 /* UIMyCountsPaging+Test.swift */,
+				FA03459A2304CBC100632322 /* UIMyCounts+Test.swift */,
+				FA0345A52304CE1900632322 /* UIPhotos+Test.swift */,
+				FA0345A72304CE3000632322 /* UIPosts+Test.swift */,
+				FA03459F2304CC6800632322 /* UIProfileAbout+Test.swift */,
+				FA03458E2304B4B900632322 /* UIProfilePaging+Test.swift */,
+				FA034581230448F600632322 /* UIProfilePhotos+Test.swift */,
+				FA0345842304490400632322 /* UIProfilePosts+Test.swift */,
+				FA0345872304491600632322 /* UIProfile+Test.swift */,
+				FA03455C23043C3600632322 /* UISettings+Test.swift */,
 			);
 			path = profile;
 			sourceTree = "<group>";
@@ -1678,11 +1783,14 @@
 				FADC1ABA2144FAD70011EE49 /* Date+Formatting.swift in Sources */,
 				FA8833E12209BF570037C796 /* RealmSearchViewController.swift in Sources */,
 				FAC8465D22AB6C2A004F57EC /* LocationService.swift in Sources */,
+				FA03455B23043BA700632322 /* UISettings.swift in Sources */,
 				FAE1F11E2143B29F0002CAB2 /* LocationTracker.swift in Sources */,
 				8C0F242B22432076005BD5DC /* UserCountsVC.swift in Sources */,
 				8C7D71D62303C1C1005939AC /* UILocationsFilter.swift in Sources */,
 				FA4257E322E7C4AE006CE4AC /* ProcessInfo+Launch.swift in Sources */,
+				FA03457B2304488000632322 /* UIProfilePosts.swift in Sources */,
 				FAEB87A1227ED26300858898 /* PostCell.swift in Sources */,
+				FA03458C2304B44600632322 /* UIProfilePaging.swift in Sources */,
 				8C91D293222CBFE20063C587 /* SignupFailVC.swift in Sources */,
 				8C1A267E22AE019400DAFC7B /* SearchResultJSON.swift in Sources */,
 				8C4A6FAF224859A500B33DB9 /* UserCountsPageVC.swift in Sources */,
@@ -1691,6 +1799,7 @@
 				FAC159A221EB68AA00564E2D /* Location.swift in Sources */,
 				FA7C200E221820FA002C6DAB /* OperationReply.swift in Sources */,
 				FA1663AF22E3325B0075DA1A /* NetworkService.swift in Sources */,
+				FA0345602304421000632322 /* UIAppAbout.swift in Sources */,
 				8C4763232304156F0089EF33 /* UIAddPost.swift in Sources */,
 				FA5AC0B621FC4EBE0080F84F /* MappableAnnotationView.swift in Sources */,
 				FA0F816422BF1CA700C00898 /* AddPhotoVC.swift in Sources */,
@@ -1700,6 +1809,7 @@
 				8C7D71CB2303B690005939AC /* UIUserCountsPage.swift in Sources */,
 				8C93FE4F23039D690054B951 /* UIRankingsPaging.swift in Sources */,
 				FA76D9752131278900EF8E25 /* User.swift in Sources */,
+				FA03457E2304489400632322 /* UIProfile.swift in Sources */,
 				8C76D8EC2207CD36005CF4CD /* RankingsPageInfo.swift in Sources */,
 				8C5ECE0221FE9B3600322ABF /* Checklist.swift in Sources */,
 				8CE6FC64224C6CB600B24410 /* LocationInfoVC.swift in Sources */,
@@ -1710,6 +1820,7 @@
 				FAC8465B22AB55B6004F57EC /* NotificationService.swift in Sources */,
 				8C93FE3D23038F150054B951 /* UIRankingsFilter.swift in Sources */,
 				FA03454C2303795500632322 /* UISignupFail.swift in Sources */,
+				FA0345662304435B00632322 /* UIFaq.swift in Sources */,
 				FA74C111211BBF490013A840 /* String+Formatting.swift in Sources */,
 				FA7A66D822FD9669001DCCA2 /* UINearby.swift in Sources */,
 				FA8833E7220CE8260037C796 /* UNCountry.swift in Sources */,
@@ -1718,19 +1829,24 @@
 				FAC8466322AC6D18004F57EC /* KVNOperation.swift in Sources */,
 				8C3EAA1C2230BFA500CB4886 /* InsetTextField.swift in Sources */,
 				8C93FE49230397770054B951 /* UIUserCounts.swift in Sources */,
+				FA0345782304487000632322 /* UIProfilePhotos.swift in Sources */,
 				FA75562E22A4FFCF0006EFC3 /* ProfileVC.swift in Sources */,
 				FA44CDF622B5B3F800F33D34 /* UIView+Corner.swift in Sources */,
 				FA8833E5220CE7350037C796 /* Country.swift in Sources */,
 				8C7D71E12303DA98005939AC /* UILocationPaging.swift in Sources */,
 				FAFEDA522129602800DA3DB8 /* WelcomeVC.swift in Sources */,
 				8C3EAB8C2231100400CB4886 /* Array+Type.swift in Sources */,
+				FA03459D2304CC3000632322 /* UIProfileAbout.swift in Sources */,
 				FA9A71DF20F1D3FA005F6A57 /* LaunchHandler.swift in Sources */,
 				8CE6FC66224C6CB600B24410 /* LocationPostsVC.swift in Sources */,
+				FA0345A22304CD9800632322 /* UIPhotos.swift in Sources */,
 				FA40F754225B06D50056182E /* FaqVC.swift in Sources */,
+				FA0345A42304CDD500632322 /* UIPosts.swift in Sources */,
 				8C47631D230411D50089EF33 /* UIAddPhoto.swift in Sources */,
 				FA36FBEF2206461F00616CDE /* RealmDataController.swift in Sources */,
 				FA32CC7420FB6E67004C1329 /* UIView+Gradient.swift in Sources */,
 				8CF7381A22FA9DD2006D4C66 /* PhotoCell.swift in Sources */,
+				FA034572230446A000632322 /* UILocationSearch.swift in Sources */,
 				FAF1853120FA0C8600CC5D83 /* RootVC.swift in Sources */,
 				FA7C2012221C2F20002C6DAB /* Photo.swift in Sources */,
 				FA9656CF22BE32D500DA050F /* AddPostVC.swift in Sources */,
@@ -1749,6 +1865,7 @@
 				FA46533021157784005B5A0A /* FacebookButton.swift in Sources */,
 				FA745757210DBD910010F4F4 /* UINavigationBar+Transparent.swift in Sources */,
 				FA21FBA122A4157000190B71 /* UserProfileVC.swift in Sources */,
+				FA03456C2304449100632322 /* UICountsPage.swift in Sources */,
 				8C76D5DC22028874005CF4CD /* ServiceProvider.swift in Sources */,
 				8CCA21F822B3AB5D00C1D13B /* UserUpdatePayload.swift in Sources */,
 				FAD2B51821F48AB8009FFDD7 /* PlaceInfo.swift in Sources */,
@@ -1800,14 +1917,17 @@
 				8C177A0722FA671700E4433C /* MenuAction.swift in Sources */,
 				FA32CC782100C360004C1329 /* SignupVC.swift in Sources */,
 				FA25ACE6217B54A8000AE26D /* RankingCell.swift in Sources */,
+				FA034556230435AE00632322 /* UIEditProfile.swift in Sources */,
 				FAC8465922AB493E004F57EC /* LocationHandler.swift in Sources */,
 				FA36FBED22059E6B00616CDE /* ApplicationService.swift in Sources */,
 				FAAE29C520F05A9600B43BA9 /* UserDefaults+TypeSafety.swift in Sources */,
 				FA7A66E322FE258D001DCCA2 /* UIWelcome.swift in Sources */,
 				FA5AC0C121FDCCDE0080F84F /* ListPagingItem.swift in Sources */,
+				FA0345982304CB8800632322 /* UIMyCounts.swift in Sources */,
 				FA2172D822BE038C00CE4F40 /* MappableOverlay.swift in Sources */,
 				FA6386A722D181C7001B4424 /* Namable.swift in Sources */,
 				FA44CDF822B5CBFC00F33D34 /* UITableView+Updating.swift in Sources */,
+				FA0345922304C9C300632322 /* UIMyCountsPaging.swift in Sources */,
 				FA7A66D522FD95FB001DCCA2 /* UIMyProfile.swift in Sources */,
 				FA46377E210DE1E60007382D /* SettingsVC.swift in Sources */,
 				FA62BAEB2247A9A0009FDC4E /* CountsPageVC.swift in Sources */,
@@ -1845,30 +1965,41 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C47631E230411D50089EF33 /* UIAddPhoto.swift in Sources */,
+				FA03459E2304CC3000632322 /* UIProfileAbout.swift in Sources */,
 				8C7D71DF2303C51E005939AC /* UILocationWebsite+Test.swift in Sources */,
+				FA03455E23043C5F00632322 /* UISettings.swift in Sources */,
+				FA03455D23043C3600632322 /* UISettings+Test.swift in Sources */,
+				FA0345792304487000632322 /* UIProfilePhotos.swift in Sources */,
 				FA7A66DE22FD97EC001DCCA2 /* UIUserProfile+Test.swift in Sources */,
 				8C7D71ED2303EA2A005939AC /* UILocationInfo+Test.swift in Sources */,
 				8C47631523040EA60089EF33 /* UILocationPhotos+Test.swift in Sources */,
 				8C93FE4D230398800054B951 /* UIUserCounts+Test.swift in Sources */,
+				FA03456D2304449100632322 /* UICountsPage.swift in Sources */,
+				FA03457C2304488000632322 /* UIProfilePosts.swift in Sources */,
 				FA03455123037C3000632322 /* UISignup.swift in Sources */,
+				FA034576230446C700632322 /* UILocationSearch+Test.swift in Sources */,
 				FA7A66F32302253B001DCCA2 /* UILoginFail.swift in Sources */,
 				8C011F5C22E93A10002C4133 /* UIMyProfile+Test.swift in Sources */,
 				FA03454E2303798100632322 /* UISignupFail+Test.swift in Sources */,
 				8C93FE47230394920054B951 /* UIRankingsPage+Test.swift in Sources */,
 				8C7D71CC2303B70B005939AC /* UIUserCountsPage.swift in Sources */,
 				8C7D71EE2303EA61005939AC /* UILocationInfo.swift in Sources */,
+				FA03456A2304438700632322 /* UIFaq+Test.swift in Sources */,
 				8C7D71E42303DCD3005939AC /* UILocationPaging+Test.swift in Sources */,
 				FA7A66F02300E914001DCCA2 /* UILogin+Test.swift in Sources */,
 				FA4257E422E7C531006CE4AC /* ProcessInfo+Launch.swift in Sources */,
 				8C93FE5023039D690054B951 /* UIRankingsPaging.swift in Sources */,
 				8C93FE4A230397770054B951 /* UIUserCounts.swift in Sources */,
 				8C93FE44230394560054B951 /* UIRankingsPage.swift in Sources */,
+				FA0345612304421000632322 /* UIAppAbout.swift in Sources */,
 				FA32CC7220FAC863004C1329 /* XCTestCase+Launch.swift in Sources */,
 				8C476326230415980089EF33 /* UIAddPost+Test.swift in Sources */,
+				FA03457F2304489400632322 /* UIProfile.swift in Sources */,
 				8C93FE41230391B30054B951 /* UIRankingsFilter+Test.swift in Sources */,
 				FA7A66E122FD98ED001DCCA2 /* UIUserProfile.swift in Sources */,
 				8C7D71CE2303B907005939AC /* UIUserCountsPage+Test.swift in Sources */,
 				FA7A66EA22FE2C5C001DCCA2 /* UIRoot+Test.swift in Sources */,
+				FA034573230446A000632322 /* UILocationSearch.swift in Sources */,
 				8C93FE562303A3190054B951 /* UIUserCountsPaging.swift in Sources */,
 				8CD2831922E7EC1000324FDE /* XCUIElementTypeQueryProvider+Query.swift in Sources */,
 				FA4FBFFB22E7327100FE0902 /* AppStoreSnapshotTests.swift in Sources */,
@@ -1882,30 +2013,49 @@
 				8C93FE592303A3F80054B951 /* UIUserCountsPaging+Test.swift in Sources */,
 				FA4257E722E7C6AE006CE4AC /* Exposable.swift in Sources */,
 				8C7D71E22303DA98005939AC /* UILocationPaging.swift in Sources */,
+				FA034559230435EF00632322 /* UIEditProfile+Test.swift in Sources */,
 				8C011F5A22E939BA002C4133 /* UIMain+Test.swift in Sources */,
 				8C93FE5323039E6C0054B951 /* UIRankingsPaging+Test.swift in Sources */,
 				8C4763242304156F0089EF33 /* UIAddPost.swift in Sources */,
+				FA0345AA2304CE6800632322 /* UIPosts.swift in Sources */,
 				8C7D71D92303C20A005939AC /* UILocationsFilter+Test.swift in Sources */,
 				8C7D71D12303BE7D005939AC /* UIMyCountsPage.swift in Sources */,
 				FA7A66D022FD93A1001DCCA2 /* UILocations.swift in Sources */,
+				FA0345992304CB8800632322 /* UIMyCounts.swift in Sources */,
+				FA03459B2304CBC100632322 /* UIMyCounts+Test.swift in Sources */,
+				FA0345672304435B00632322 /* UIFaq.swift in Sources */,
 				FA7A66C822FD843D001DCCA2 /* StartupUITests.swift in Sources */,
+				FA034570230444C500632322 /* UICountsPage+Test.swift in Sources */,
 				8C7D71E92303E29B005939AC /* UILocation+Test.swift in Sources */,
+				FA0345932304C9C300632322 /* UIMyCountsPaging.swift in Sources */,
+				FA0345902304B4B900632322 /* UIProfilePaging+Test.swift in Sources */,
+				FA0345862304490400632322 /* UIProfilePosts+Test.swift in Sources */,
 				FA7A66CA22FD85C4001DCCA2 /* RankingsUITests.swift in Sources */,
 				8C7D71DC2303C4B8005939AC /* UILocationWebsite.swift in Sources */,
 				FA03455223037C3600632322 /* UISignupFail.swift in Sources */,
+				FA034557230435AE00632322 /* UIEditProfile.swift in Sources */,
 				8C7D71D42303BEC3005939AC /* UIMyCountsPage+Test.swift in Sources */,
 				8CD4BD2723024DCB0041E0C3 /* UIForgotPassword+Test.swift in Sources */,
+				FA0345A02304CC6800632322 /* UIProfileAbout+Test.swift in Sources */,
 				8C47631A230410290089EF33 /* UILocationPosts+Test.swift in Sources */,
 				FA7A66D922FD9669001DCCA2 /* UINearby.swift in Sources */,
 				FA392BDD20DF69F50026C828 /* LocationsUITests.swift in Sources */,
+				FA03458D2304B44600632322 /* UIProfilePaging.swift in Sources */,
+				FA0345A92304CE6400632322 /* UIPhotos.swift in Sources */,
+				FA0345962304CA8900632322 /* UIMyCountsPaging+Test.swift in Sources */,
 				FA7A66F523022650001DCCA2 /* UILoginFail+Test.swift in Sources */,
+				FA0345642304425100632322 /* UIAppAbout+Test.swift in Sources */,
 				FAF1C67A22E9D53500F6636B /* UIRankings+Test.swift in Sources */,
 				8C47631B2304109E0089EF33 /* UILocationPosts.swift in Sources */,
 				FA7A66EE2300E8D1001DCCA2 /* UILogin.swift in Sources */,
 				8C7D71E72303E28D005939AC /* UILocation.swift in Sources */,
 				8CD4BD2A23024E320041E0C3 /* UIForgotPassword.swift in Sources */,
+				FA0345A62304CE1900632322 /* UIPhotos+Test.swift in Sources */,
 				8C3EA1FF22DD540F008DD858 /* SnapshotHelper.swift in Sources */,
+				FA0345A82304CE3000632322 /* UIPosts+Test.swift in Sources */,
+				FA0345892304491600632322 /* UIProfile+Test.swift in Sources */,
 				FA7A66E522FE26F4001DCCA2 /* UIWelcome+Test.swift in Sources */,
+				FA034583230448F600632322 /* UIProfilePhotos+Test.swift in Sources */,
 				FA7A66EB22FE2C65001DCCA2 /* UIRoot.swift in Sources */,
 				FA7A66D622FD95FB001DCCA2 /* UIMyProfile.swift in Sources */,
 				FA7A66E622FE2769001DCCA2 /* UIWelcome.swift in Sources */,

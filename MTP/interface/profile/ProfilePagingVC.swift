@@ -23,6 +23,15 @@ final class ProfilePagingVC: FixedPagingViewController, ServiceProvider {
         super.init(viewControllers: [])
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        expose()
+    }
+
     /// Instrument and inject navigation
     ///
     /// - Parameters:
@@ -72,5 +81,15 @@ private extension ProfilePagingVC {
             zIndex: .max,
             spacing: .zero,
             insets: .zero)
+    }
+}
+
+// MARK: - Exposing
+
+extension ProfilePagingVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        UIProfilePaging.menu.expose(item: collectionView)
     }
 }

@@ -182,6 +182,7 @@ extension LocationPagingVC: CollectionCellExposing {
         }
     }
 }
+
 // MARK: - Injectable
 
 extension LocationPagingVC: Injectable {

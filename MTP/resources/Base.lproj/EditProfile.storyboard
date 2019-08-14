@@ -534,6 +534,7 @@
                         <outlet property="avatarButton" destination="wuK-ZE-BRx" id="eNb-gs-k0Z"/>
                         <outlet property="backgroundView" destination="iwS-hn-IzQ" id="Ka6-AL-lbZ"/>
                         <outlet property="birthdayTextField" destination="UXJ-Fc-RR3" id="4GF-aE-jlI"/>
+                        <outlet property="closeButton" destination="VDz-7c-CfW" id="5Yk-3Y-PaL"/>
                         <outlet property="countryStack" destination="6m5-1r-AtQ" id="Zv5-n8-8ju"/>
                         <outlet property="countryTextField" destination="Xfx-7V-Suc" id="Kb3-9S-ILq"/>
                         <outlet property="emailTextField" destination="OkT-tU-k7t" id="AeH-4B-h0U"/>

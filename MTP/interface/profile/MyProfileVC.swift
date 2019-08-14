@@ -7,8 +7,6 @@ final class MyProfileVC: ProfileVC {
 
     private typealias Segues = R.segue.myProfileVC
 
-    @IBOutlet private var birthdayLabel: UILabel?
-
     fileprivate enum Page: Int {
 
         case about
@@ -16,6 +14,10 @@ final class MyProfileVC: ProfileVC {
         case photos
         case posts
     }
+
+    @IBOutlet private var editButton: UIBarButtonItem?
+    @IBOutlet private var settingsButton: UIBarButtonItem?
+    @IBOutlet private var birthdayLabel: UILabel?
 
     /// Controllers to be displayed in PagingViewController
     override var pages: [UIViewController] {
@@ -109,8 +111,10 @@ extension MyProfileVC: Exposing {
 
     /// Expose controls to UI tests
     func expose() {
-        guard let menu = pagingVC?.collectionView else { return }
-        UIMyProfile.menu.expose(item: menu)
+        let bar = navigationController?.navigationBar
+        UIMyProfile.nav.expose(item: bar)
+        UIMyProfile.edit.expose(item: editButton)
+        UIMyProfile.settings.expose(item: settingsButton)
     }
 }
 
@@ -129,13 +133,13 @@ extension MyProfileVC: CollectionCellExposing {
                 cell: UICollectionViewCell) {
         switch path.item {
         case Page.about.rawValue:
-            UIMyProfile.about.expose(item: cell)
+            UIProfilePaging.about.expose(item: cell)
         case Page.counts.rawValue:
-            UIMyProfile.counts.expose(item: cell)
+            UIProfilePaging.counts.expose(item: cell)
         case Page.photos.rawValue:
-            UIMyProfile.photos.expose(item: cell)
+            UIProfilePaging.photos.expose(item: cell)
         case Page.posts.rawValue:
-            UIMyProfile.posts.expose(item: cell)
+            UIProfilePaging.posts.expose(item: cell)
         default:
             break
         }

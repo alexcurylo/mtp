@@ -160,11 +160,13 @@
                         <outlet property="avatarImageView" destination="Ju3-Me-QPA" id="ep4-hp-2fv"/>
                         <outlet property="birthdayLabel" destination="ehV-Sa-Bnh" id="n36-GZ-tFM"/>
                         <outlet property="countryLabel" destination="U7j-AG-y4V" id="2vB-QQ-IKr"/>
+                        <outlet property="editButton" destination="A9A-P9-fvI" id="8Bv-j2-C8P"/>
                         <outlet property="followersLabel" destination="jGT-f5-0R8" id="hxk-iv-eot"/>
                         <outlet property="followingLabel" destination="tcp-1L-0FO" id="dsO-rf-3Vk"/>
                         <outlet property="fullNameLabel" destination="bHu-Dd-wWU" id="77I-10-Z4s"/>
                         <outlet property="headerView" destination="SqN-8E-JAh" id="edI-P8-uXk"/>
                         <outlet property="pagesHolder" destination="gXY-Wv-zsT" id="nr7-wT-k3m"/>
+                        <outlet property="settingsButton" destination="mEg-20-miC" id="0V0-bd-xfO"/>
                         <segue destination="M95-Fc-Urs" kind="show" identifier="directEdit" animates="NO" id="7Wa-VS-F0d"/>
                     </connections>
                 </viewController>

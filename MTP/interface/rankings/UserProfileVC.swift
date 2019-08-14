@@ -7,6 +7,13 @@ final class UserProfileVC: ProfileVC {
 
     private typealias Segues = R.segue.userProfileVC
 
+    fileprivate enum Page: Int {
+
+        case about
+        case photos
+        case posts
+    }
+
     @IBOutlet private var closeButton: UIButton?
 
     /// Controllers to be displayed in PagingViewController
@@ -49,5 +56,31 @@ extension UserProfileVC: Exposing {
     /// Expose controls to UI tests
     func expose() {
         UIUserProfile.close.expose(item: closeButton)
+    }
+}
+
+// MARK: - CollectionCellExposing
+
+extension UserProfileVC: CollectionCellExposing {
+
+    /// Expose cell to UI tests
+    ///
+    /// - Parameters:
+    ///   - view: Collection
+    ///   - path: Index path
+    ///   - cell: Cell
+    func expose(view: UICollectionView,
+                path: IndexPath,
+                cell: UICollectionViewCell) {
+        switch path.item {
+        case Page.about.rawValue:
+            UIProfilePaging.about.expose(item: cell)
+        case Page.photos.rawValue:
+            UIProfilePaging.photos.expose(item: cell)
+        case Page.posts.rawValue:
+            UIProfilePaging.posts.expose(item: cell)
+        default:
+            break
+        }
     }
 }

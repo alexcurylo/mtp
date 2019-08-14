@@ -8,6 +8,10 @@ final class SettingsVC: UITableViewController, ServiceProvider {
     private typealias Segues = R.segue.settingsVC
 
     @IBOutlet private var backgroundView: UIView?
+
+    @IBOutlet private var aboutButton: UIButton?
+    @IBOutlet private var faqButton: UIButton?
+
     private var reportMessage = ""
 
     /// Prepare for interaction
@@ -25,6 +29,7 @@ final class SettingsVC: UITableViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .standard)
+        expose()
     }
 
     /// Actions to take after reveal
@@ -162,6 +167,20 @@ extension SettingsVC: MFMailComposeViewControllerDelegate {
     }
 }
 
+// MARK: - Exposing
+
+extension SettingsVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        let items = navigationItem.leftBarButtonItems
+        UISettings.close.expose(item: items?.first)
+
+        UISettings.about.expose(item: aboutButton)
+        UISettings.faq.expose(item: faqButton)
+    }
+}
+
 // MARK: - Injectable
 
 extension SettingsVC: Injectable {
@@ -180,7 +199,9 @@ extension SettingsVC: Injectable {
 
     /// Enforce dependency injection
     func requireInjections() {
+        aboutButton.require()
         backgroundView.require()
+        faqButton.require()
     }
 }
 

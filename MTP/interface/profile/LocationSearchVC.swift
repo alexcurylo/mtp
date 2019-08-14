@@ -77,6 +77,7 @@ final class LocationSearchVC: RealmSearchViewController {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: styler)
+        expose()
     }
 
     /// Instrument and inject navigation
@@ -173,6 +174,17 @@ private extension LocationSearchVC {
                 subpredicates: [isChild, isAll])
             title = L.selectLocation()
         }
+    }
+}
+
+// MARK: - Exposing
+
+extension LocationSearchVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        let items = navigationItem.leftBarButtonItems
+        UILocationSearch.close.expose(item: items?.first)
     }
 }
 

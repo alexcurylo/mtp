@@ -102,6 +102,7 @@ final class FaqVC: UITableViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .standard)
+        expose()
     }
 
     /// Instrument and inject navigation
@@ -186,6 +187,17 @@ extension FaqVC {
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+}
+
+// MARK: - Exposing
+
+extension FaqVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        let items = navigationItem.leftBarButtonItems
+        UIFaq.close.expose(item: items?.first)
     }
 }
 

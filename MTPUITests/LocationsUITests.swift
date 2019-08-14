@@ -15,9 +15,6 @@ final class LocationsUITests: XCTestCase {
     func testLocations() {
         launch(settings: [.loggedIn(true)])
 
-        UIMain.bar.wait()
-        UIMain.locations.assert(.selected)
-
         UILocations.nearby.tap()
 
         let thailand = 0

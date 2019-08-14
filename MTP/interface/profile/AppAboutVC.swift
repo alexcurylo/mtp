@@ -24,6 +24,7 @@ final class AppAboutVC: UIViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .standard)
+        expose()
     }
 
     /// Instrument and inject navigation
@@ -38,6 +39,17 @@ final class AppAboutVC: UIViewController, ServiceProvider {
         default:
             log.debug("unexpected segue: \(segue.name)")
         }
+    }
+}
+
+// MARK: - Exposing
+
+extension AppAboutVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        let items = navigationItem.leftBarButtonItems
+        UIAppAbout.close.expose(item: items?.first)
     }
 }
 

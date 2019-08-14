@@ -20,7 +20,6 @@ final class AppStoreSnapshotTests: XCTestCase {
         launch(arguments: [.takingScreenshots],
                settings: [.loggedIn(true)])
 
-        UIMain.bar.wait()
         UIMain.locations.assert(.selected)
 
         snapshot("01Locations")
@@ -60,17 +59,17 @@ final class AppStoreSnapshotTests: XCTestCase {
 
         UIMain.myProfile.tap()
 
-        UIMyProfile.counts.tap()
+        UIProfilePaging.counts.tap()
 
         snapshot("08MyCounts")
 
-        UIMyProfile.photos.tap()
+        UIProfilePaging.photos.tap()
 
         wait(for: 8)
 
         snapshot("09MyPhotos")
 
-        UIMyProfile.posts.tap()
+        UIProfilePaging.posts.tap()
 
         snapshot("10MyPosts")
     }

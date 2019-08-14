@@ -15,9 +15,6 @@ final class RankingsUITests: XCTestCase {
     func testRankings() {
         launch(settings: [.loggedIn(true)])
 
-        UIMain.bar.wait()
-        UIMain.locations.assert(.selected)
-
         UIMain.rankings.tap()
         UIMain.rankings.wait(for: .selected)
 

@@ -3,14 +3,10 @@
 /// MyProfileVC exposed items
 enum UIMyProfile: Exposable {
 
-    /// Tab menu
-    case menu
-    /// About tab button
-    case about
-    /// Counts tab button
-    case counts
-    /// Photos tab button
-    case photos
-    /// Posts tab button
-    case posts
+    /// Navigation bar
+    case nav
+    /// Edit Profile bar button
+    case edit
+    /// Settings bar button
+    case settings
 }

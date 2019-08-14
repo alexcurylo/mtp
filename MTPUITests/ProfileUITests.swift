@@ -15,10 +15,46 @@ final class ProfileUITests: XCTestCase {
     func testProfile() {
         launch(settings: [.loggedIn(true)])
 
-        UIMain.bar.wait()
-        UIMain.locations.assert(.selected)
-
         UIMain.myProfile.tap()
         UIMain.myProfile.wait(for: .selected)
+
+        UIProfilePaging.counts.tap()
+
+        UIMyCountsPaging.page(.whss).tap()
+        UIMyCountsPaging.page(.uncountries).tap()
+
+        UIProfilePaging.photos.tap()
+
+        UIPhotos.add.tap()
+
+        UIAddPhoto.close.tap()
+
+        UIProfilePaging.posts.tap()
+
+        UIPosts.add.tap()
+
+        UIAddPost.close.tap()
+
+        UIProfilePaging.about.tap()
+
+        UIMyProfile.edit.tap()
+
+        UIEditProfile.country.tap()
+
+        UILocationSearch.close.tap()
+
+        UIEditProfile.close.tap()
+
+        UIMyProfile.settings.tap()
+
+        UISettings.faq.tap()
+
+        UIFaq.close.tap()
+
+        UISettings.about.tap()
+
+        UIAppAbout.close.tap()
+
+        UISettings.close.tap()
     }
 }

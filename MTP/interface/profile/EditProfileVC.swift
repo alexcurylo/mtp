@@ -10,6 +10,7 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
 
     private typealias Segues = R.segue.editProfileVC
 
+    @IBOutlet private var closeButton: UIBarButtonItem?
     @IBOutlet private var saveButton: UIBarButtonItem?
 
     @IBOutlet private var backgroundView: UIView?
@@ -67,6 +68,7 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .standard)
+        expose()
     }
 
     /// Apply corner rounding on each layout
@@ -734,6 +736,18 @@ extension EditProfileVC: UIPickerViewDelegate {
     }
 }
 
+// MARK: - Exposing
+
+extension EditProfileVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        UIEditProfile.close.expose(item: closeButton)
+        UIEditProfile.save.expose(item: saveButton)
+        UIEditProfile.country.expose(item: countryTextField)
+    }
+}
+
 // MARK: - Injectable
 
 extension EditProfileVC: Injectable {
@@ -751,27 +765,28 @@ extension EditProfileVC: Injectable {
 
     /// Enforce dependency injection
     func requireInjections() {
-        saveButton.require()
-        backgroundView.require()
-        infoStack.require()
+        aboutTextView.require()
+        addLinkButton.require()
+        airportTextField.require()
         avatarButton.require()
-        firstNameTextField.require()
-        lastNameTextField.require()
+        backgroundView.require()
         birthdayTextField.require()
-        genderTextField.require()
+        closeButton.require()
         countryStack.require()
         countryTextField.require()
+        emailTextField.require()
+        firstNameTextField.require()
+        genderTextField.require()
+        infoStack.require()
+        keyboardToolbar.require()
+        lastNameTextField.require()
+        linksStack.require()
         locationStack.require()
         locationTextField.require()
-        emailTextField.require()
-        aboutTextView.require()
-        airportTextField.require()
-        linksStack.require()
-        addLinkButton.require()
-        keyboardToolbar.require()
+        saveButton.require()
         toolbarBackButton.require()
-        toolbarNextButton.require()
         toolbarClearButton.require()
+        toolbarNextButton.require()
     }
 }
 
