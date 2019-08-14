@@ -24,6 +24,7 @@ final class AddPhotoVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.addPhotoVC
 
+    @IBOutlet private var closeButton: UIBarButtonItem?
     @IBOutlet private var saveButton: UIBarButtonItem?
 
     @IBOutlet private var locationView: UIView?
@@ -79,6 +80,15 @@ final class AddPhotoVC: UIViewController, ServiceProvider {
     /// Remove observers
     deinit {
         stopKeyboardListening()
+    }
+
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        expose()
     }
 
     /// Stop editing on touch
@@ -373,6 +383,17 @@ extension AddPhotoVC: UIImagePickerControllerDelegate {
 
 extension AddPhotoVC: UINavigationControllerDelegate { }
 
+// MARK: - Exposing
+
+extension AddPhotoVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        UIAddPhoto.close.expose(item: closeButton)
+        UIAddPhoto.save.expose(item: saveButton)
+    }
+}
+
 // MARK: - Injectable
 
 extension AddPhotoVC: Injectable {
@@ -393,6 +414,7 @@ extension AddPhotoVC: Injectable {
 
     /// Enforce dependency injection
     func requireInjections() {
+        closeButton.require()
         saveButton.require()
         locationStack.require()
         locationLine.require()

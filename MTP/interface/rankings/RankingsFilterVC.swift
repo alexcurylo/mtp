@@ -7,6 +7,7 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
 
     private typealias Segues = R.segue.rankingsFilterVC
 
+    @IBOutlet private var closeButton: UIBarButtonItem?
     @IBOutlet private var saveButton: UIBarButtonItem?
 
     @IBOutlet private var locationStack: UIStackView?
@@ -29,6 +30,7 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireInjections()
 
         let backgroundView = GradientView {
             $0.set(gradient: [.dodgerBlue, .azureRadiance],
@@ -37,6 +39,7 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
         tableView.backgroundView = backgroundView
 
         configure()
+        expose()
    }
 
     /// Instrument and inject navigation
@@ -210,6 +213,48 @@ private extension RankingsFilterVC {
         } else {
             log.error("expected to return to Rankings tab")
         }
+    }
+}
+
+// MARK: - Exposing
+
+extension RankingsFilterVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        UIRankingsFilter.close.expose(item: closeButton)
+    }
+}
+
+// MARK: - Injectable
+
+extension RankingsFilterVC: Injectable {
+
+    /// Injected dependencies
+    typealias Model = ()
+
+    /// Handle dependency injection
+    ///
+    /// - Parameter model: Dependencies
+    /// - Returns: Chainable self
+    @discardableResult func inject(model: Model) -> Self {
+        return self
+    }
+
+    /// Enforce dependency injection
+    func requireInjections() {
+        ageLabel.require()
+        ageSlider.require()
+        closeButton.require()
+        countryLabel.require()
+        facebookSwitch.require()
+        femaleButton.require()
+        locationLabel.require()
+        locationStack.require()
+        locationStack.require()
+        maleAndFemaleButton.require()
+        maleButton.require()
+        saveButton.require()
     }
 }
 

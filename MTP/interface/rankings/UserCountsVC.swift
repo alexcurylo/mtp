@@ -17,6 +17,7 @@ final class UserCountsVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.userCountsVC
 
+    @IBOutlet private var closeButton: UIButton?
     @IBOutlet private var headerView: UIView?
     @IBOutlet private var avatarImageView: UIImageView?
     @IBOutlet private var fullNameLabel: UILabel?
@@ -45,6 +46,7 @@ final class UserCountsVC: UIViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         observe()
+        expose()
     }
 
     /// Instrument and inject navigation
@@ -103,6 +105,16 @@ private extension UserCountsVC {
     }
 }
 
+// MARK: - Exposing
+
+extension UserCountsVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        UIUserCounts.close.expose(item: closeButton)
+    }
+}
+
 // MARK: - Injectable
 
 extension UserCountsVC: Injectable {
@@ -125,6 +137,7 @@ extension UserCountsVC: Injectable {
     func requireInjections() {
         user.require()
 
+        closeButton.require()
         headerView.require()
         avatarImageView.require()
         fullNameLabel.require()

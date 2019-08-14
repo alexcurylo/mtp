@@ -194,7 +194,7 @@ extension NearbyVC: Injectable {
     /// - Returns: Chainable self
     @discardableResult func inject(model: Model) -> Self {
         let center: CLLocationCoordinate2D
-        if UIApplication.isTakingScreenshots {
+        if UIApplication.isUITesting {
             // "Thailand" first
             // https://www.google.co.th/maps/@,101.6532421,9.14z
             // swiftlint:disable number_separator

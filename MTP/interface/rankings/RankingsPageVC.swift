@@ -409,7 +409,7 @@ extension RankingsPageVC: Exposing {
     /// Expose controls to UI tests
     func expose() {
         let list = ChecklistIndex(list: filter.checklist)
-        UIRankings.ranks(list).expose(item: collectionView)
+        UIRankingsPage.ranks(list).expose(item: collectionView)
     }
 }
 

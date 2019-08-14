@@ -5,6 +5,12 @@ import Parchment
 /// Displays user visit tabs
 final class UserCountsPagingVC: FixedPagingViewController, UserCountsPageDataSource, ServiceProvider {
 
+    fileprivate enum Page: Int {
+
+        case visited
+        case remaining
+   }
+
     /// Scorecard to display
     var scorecard: Scorecard?
     /// Content state to display
@@ -50,6 +56,15 @@ final class UserCountsPagingVC: FixedPagingViewController, UserCountsPageDataSou
         fatalError("init(coder:) has not been implemented")
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        expose()
+    }
+
     /// Instrument and inject navigation
     ///
     /// - Parameters:
@@ -60,6 +75,22 @@ final class UserCountsPagingVC: FixedPagingViewController, UserCountsPageDataSou
         default:
             log.debug("unexpected segue: \(segue.name)")
         }
+    }
+
+    /// Provide cell
+    ///
+    /// - Parameters:
+    ///   - collectionView: Collection
+    ///   - indexPath: Index path
+    /// - Returns: Exposed cell
+    override func collectionView(_ collectionView: UICollectionView,
+                                 cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = super.collectionView(collectionView,
+                                        cellForItemAt: indexPath)
+        expose(view: collectionView,
+               path: indexPath,
+               cell: cell)
+        return cell
     }
 }
 
@@ -103,6 +134,40 @@ private extension UserCountsPagingVC {
     }
 }
 
+// MARK: - Exposing
+
+extension UserCountsPagingVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        UIUserCountsPaging.menu.expose(item: collectionView)
+    }
+}
+
+// MARK: - CollectionCellExposing
+
+extension UserCountsPagingVC: CollectionCellExposing {
+
+    /// Expose cell to UI tests
+    ///
+    /// - Parameters:
+    ///   - view: Collection
+    ///   - path: Index path
+    ///   - cell: Cell
+    func expose(view: UICollectionView,
+                path: IndexPath,
+                cell: UICollectionViewCell) {
+        switch path.item {
+        case Page.remaining.rawValue:
+            UIUserCountsPaging.remaining.expose(item: cell)
+        case Page.visited.rawValue:
+            UIUserCountsPaging.visited.expose(item: cell)
+        default:
+            break
+        }
+    }
+}
+
 // MARK: - Injectable
 
 extension UserCountsPagingVC: Injectable {
@@ -119,6 +184,5 @@ extension UserCountsPagingVC: Injectable {
     }
 
     /// Enforce dependency injection
-    func requireInjections() {
-    }
+    func requireInjections() { }
 }

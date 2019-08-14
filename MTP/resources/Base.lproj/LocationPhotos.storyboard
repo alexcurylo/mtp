@@ -90,6 +90,9 @@
                                 <constraint firstItem="tOT-pC-IbN" firstAttribute="leading" secondItem="nm3-Xu-Ug0" secondAttribute="leading" constant="8" id="frO-Ya-6ym"/>
                                 <constraint firstAttribute="bottom" secondItem="tOT-pC-IbN" secondAttribute="bottom" id="tvh-DJ-q2I"/>
                             </constraints>
+                            <connections>
+                                <outlet property="addPhotoButton" destination="tOT-pC-IbN" id="9Qg-Sd-DaH"/>
+                            </connections>
                         </collectionReusableView>
                         <connections>
                             <outlet property="dataSource" destination="I89-Ov-fSa" id="bud-Eo-q0Y"/>

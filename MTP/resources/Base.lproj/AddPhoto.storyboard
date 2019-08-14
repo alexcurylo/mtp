@@ -354,6 +354,7 @@
                     <connections>
                         <outlet property="cameraButton" destination="iaf-wu-0GT" id="OYm-Oo-GOv"/>
                         <outlet property="captionTextView" destination="aUt-Dk-5Bh" id="D8G-Nx-2dq"/>
+                        <outlet property="closeButton" destination="TjA-6R-X3L" id="FbJ-yv-QZz"/>
                         <outlet property="countryLabel" destination="SPT-2N-suW" id="vQT-3l-59I"/>
                         <outlet property="facebookButton" destination="PPb-XV-cPo" id="fJR-rx-mq0"/>
                         <outlet property="imageButton" destination="VQA-RQ-c3k" id="ROu-rs-1zI"/>

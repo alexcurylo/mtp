@@ -90,6 +90,9 @@
                                 <constraint firstItem="9V9-Ac-ZjW" firstAttribute="top" secondItem="LOp-d9-EOa" secondAttribute="top" constant="8" id="B0N-d8-Qzo"/>
                                 <constraint firstAttribute="trailing" secondItem="9V9-Ac-ZjW" secondAttribute="trailing" constant="8" id="YHM-Tz-nK6"/>
                             </constraints>
+                            <connections>
+                                <outlet property="addPhotoButton" destination="9V9-Ac-ZjW" id="IBm-SR-oG1"/>
+                            </connections>
                         </collectionReusableView>
                         <connections>
                             <outlet property="dataSource" destination="I89-Ov-fSa" id="bud-Eo-q0Y"/>

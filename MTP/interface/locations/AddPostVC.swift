@@ -7,6 +7,7 @@ final class AddPostVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.addPostVC
 
+    @IBOutlet private var closeButton: UIBarButtonItem?
     @IBOutlet private var saveButton: UIBarButtonItem?
 
     @IBOutlet private var locationStack: UIStackView?
@@ -47,6 +48,15 @@ final class AddPostVC: UIViewController, ServiceProvider {
     /// Remove observers
     deinit {
         stopKeyboardListening()
+    }
+
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        expose()
     }
 
     /// Stop editing on touch
@@ -217,6 +227,17 @@ extension AddPostVC: KeyboardListener {
     var keyboardScrollee: UIScrollView? { return postTextView }
 }
 
+// MARK: - Exposing
+
+extension AddPostVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        UIAddPost.close.expose(item: closeButton)
+        UIAddPost.save.expose(item: saveButton)
+    }
+}
+
 // MARK: - Injectable
 
 extension AddPostVC: Injectable {
@@ -240,6 +261,7 @@ extension AddPostVC: Injectable {
 
     /// Enforce dependency injection
     func requireInjections() {
+        closeButton.require()
         saveButton.require()
         locationStack.require()
         locationLine.require()

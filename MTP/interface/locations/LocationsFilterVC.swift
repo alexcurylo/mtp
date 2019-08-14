@@ -7,6 +7,7 @@ final class LocationsFilterVC: UITableViewController, ServiceProvider {
 
     private typealias Segues = R.segue.locationsFilterVC
 
+    @IBOutlet private var closeButton: UIBarButtonItem?
     @IBOutlet private var saveButton: UIBarButtonItem?
     @IBOutlet private var locationsSwitch: UISwitch?
     @IBOutlet private var whsSwitch: UISwitch?
@@ -39,6 +40,7 @@ final class LocationsFilterVC: UITableViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .standard)
+        expose()
     }
 
     /// Instrument and inject navigation
@@ -123,6 +125,16 @@ private extension LocationsFilterVC {
    }
 }
 
+// MARK: - Exposing
+
+extension LocationsFilterVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        UILocationsFilter.close.expose(item: closeButton)
+    }
+}
+
 // MARK: - Injectable
 
 extension LocationsFilterVC: Injectable {
@@ -140,12 +152,13 @@ extension LocationsFilterVC: Injectable {
 
     /// Enforce dependency injection
     func requireInjections() {
-        saveButton.require()
-        locationsSwitch.require()
-        whsSwitch.require()
         beachesSwitch.require()
-        golfCoursesSwitch.require()
+        closeButton.require()
         diveSitesSwitch.require()
+        golfCoursesSwitch.require()
+        locationsSwitch.require()
         restaurantsSwitch.require()
+        saveButton.require()
+        whsSwitch.require()
     }
 }

@@ -5,6 +5,13 @@ import Parchment
 /// Displays location info tabs
 final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
 
+    fileprivate enum Page: Int {
+
+        case first
+        case photos
+        case posts
+    }
+
     /// Provide pages container
     ///
     /// - Parameter model: Model to populate pages
@@ -67,6 +74,15 @@ final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
         super.init(viewControllers: [])
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        expose()
+    }
+
     /// Instrument and inject navigation
     ///
     /// - Parameters:
@@ -77,6 +93,22 @@ final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
         default:
             log.debug("unexpected segue: \(segue.name)")
         }
+    }
+
+    /// Provide cell
+    ///
+    /// - Parameters:
+    ///   - collectionView: Collection
+    ///   - indexPath: Index path
+    /// - Returns: Exposed cell
+    override func collectionView(_ collectionView: UICollectionView,
+                                 cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = super.collectionView(collectionView,
+                                        cellForItemAt: indexPath)
+        expose(view: collectionView,
+               path: indexPath,
+               cell: cell)
+        return cell
     }
 }
 
@@ -115,6 +147,41 @@ extension LocationPagingVC: TitleChangeDelegate {
     }
 }
 
+// MARK: - Exposing
+
+extension LocationPagingVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        UILocationPaging.menu.expose(item: collectionView)
+    }
+}
+
+// MARK: - CollectionCellExposing
+
+extension LocationPagingVC: CollectionCellExposing {
+
+    /// Expose cell to UI tests
+    ///
+    /// - Parameters:
+    ///   - view: Collection
+    ///   - path: Index path
+    ///   - cell: Cell
+    func expose(view: UICollectionView,
+                path: IndexPath,
+                cell: UICollectionViewCell) {
+        switch path.item {
+        case Page.first.rawValue:
+            UILocationPaging.first.expose(item: cell)
+        case Page.photos.rawValue:
+            UILocationPaging.photos.expose(item: cell)
+        case Page.posts.rawValue:
+            UILocationPaging.posts.expose(item: cell)
+        default:
+            break
+        }
+    }
+}
 // MARK: - Injectable
 
 extension LocationPagingVC: Injectable {

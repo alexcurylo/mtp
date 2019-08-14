@@ -17,5 +17,25 @@ final class LocationsUITests: XCTestCase {
 
         UIMain.bar.wait()
         UIMain.locations.assert(.selected)
+
+        UILocations.nearby.tap()
+
+        let thailand = 0
+        UINearby.place(thailand).doubleTap()
+
+        UILocationPaging.photos.tap()
+
+        UILocationPaging.posts.tap()
+
+        UILocation.close.tap()
+
+        let gaggan = 3
+        UINearby.place(gaggan).doubleTap()
+
+        UILocation.map.tap()
+
+        UILocations.filter.tap()
+
+        UILocationsFilter.close.tap()
     }
 }

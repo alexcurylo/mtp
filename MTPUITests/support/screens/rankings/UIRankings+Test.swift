@@ -8,27 +8,16 @@ extension UIRankings: Elemental {
         switch self {
         case .nav:
             return .navigationBar
-        case .ranks:
-            return .collectionView
-        case .profile:
-            return .staticText
         case .filter,
-             .remaining,
-             .search,
-             .visited:
+             .search:
             return .button
         }
     }
 
     var container: XCUIElementQuery {
         switch self {
-        case .nav,
-             .ranks:
+        case .nav:
             return app
-        case .profile(let list, _),
-             .remaining(let list, _),
-             .visited(let list, _):
-            return UIRankings.ranks(list).match.query(type: type)
         case .filter,
              .search:
             return UIRankings.nav.match.query(type: type)

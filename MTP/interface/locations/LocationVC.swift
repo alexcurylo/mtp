@@ -7,6 +7,8 @@ final class LocationVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.locationVC
 
+    @IBOutlet private var closeButton: UIBarButtonItem?
+    @IBOutlet private var mapButton: UIBarButtonItem?
     @IBOutlet private var placeImageView: UIImageView?
     @IBOutlet private var categoryLabel: UILabel?
     @IBOutlet private var distanceLabel: UILabel?
@@ -32,6 +34,7 @@ final class LocationVC: UIViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .standard)
+        expose()
     }
 
     /// Instrument and inject navigation
@@ -79,6 +82,17 @@ private extension LocationVC {
     }
 }
 
+// MARK: - Exposing
+
+extension LocationVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        UILocation.close.expose(item: closeButton)
+        UILocation.map.expose(item: mapButton)
+    }
+}
+
 // MARK: - Injectable
 
 extension LocationVC: Injectable {
@@ -99,6 +113,8 @@ extension LocationVC: Injectable {
     func requireInjections() {
         mappable.require()
 
+        closeButton.require()
+        mapButton.require()
         placeImageView.require()
         categoryLabel.require()
         distanceLabel.require()
