@@ -89,7 +89,6 @@ final class MyProfileVC: ProfileVC {
         let title: String?
         if let birthday = data.user?.birthday {
             title = DateFormatter.mtpBirthday.string(from: birthday)
-            return
         } else {
             title = nil
         }

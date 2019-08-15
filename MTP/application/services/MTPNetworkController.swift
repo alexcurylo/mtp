@@ -1636,6 +1636,7 @@ struct MTPNetworkController: ServiceProvider {
     ///
     /// - Parameters:
     ///   - payload: RegistrationPayload
+    ///   - stub: Stub behaviour
     ///   - then: Completion
     func userRegister(payload: RegistrationPayload,
                       stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,

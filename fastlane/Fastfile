@@ -96,6 +96,15 @@ platform :ios do
     end
   end
 
+  desc "Bump version number"
+  lane :bump do
+    increment_version_number(
+      #bump_type: "patch"
+      bump_type: "minor"
+      #bump_type: "major"
+    )
+  end
+
   after_all do |lane|
     # slack(message: "success")
   end
