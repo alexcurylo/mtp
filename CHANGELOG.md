@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Remote notification support
+
 ### Fixed
 - Displays correct birthday in My Profile
 

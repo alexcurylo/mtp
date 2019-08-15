@@ -16,6 +16,7 @@ extension StateHandler: AppStateHandler {
     ///
     /// - Parameter application: Application
     func applicationDidBecomeActive(_ application: UIApplication) {
+        UIApplication.shared.applicationIconBadgeNumber = 0
         net.refreshEverything()
     }
 

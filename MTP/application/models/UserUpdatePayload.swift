@@ -150,3 +150,21 @@ struct UserUpdatePayload: Codable, Hashable, UserAvatar {
         username = from.username
     }
 }
+
+/// Reply from the user token update endpoint
+struct UserTokenReply: Codable {
+
+    fileprivate struct Data: Codable {
+        /// "apn_device_token"
+        let type: String
+        /// Updated user
+        let userId: UncertainValue<Int, String>?
+        /// Updated token
+        let value: String
+        let createdAt: Date
+        let updatedAt: Date
+        let id: Int
+    }
+
+    fileprivate let data: Data
+}

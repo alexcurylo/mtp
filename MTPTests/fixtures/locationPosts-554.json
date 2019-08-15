@@ -1,0 +1,527 @@
+{
+    "code": 200,
+    "data": [
+        {
+            "id": 7061,
+            "location_id": 554,
+            "user_id": 42686,
+            "post": null,
+            "created_at": "2019-05-22 06:22:32",
+            "updated_at": "2019-05-22 06:22:32",
+            "status": "D",
+            "location": {
+                "id": 554,
+                "location_name": "Thailand",
+                "region_id": 983,
+                "region_name": "Asia",
+                "country_id": 554,
+                "country_name": "Thailand"
+            },
+            "owner": {
+                "id": 42686,
+                "first_name": "Jeremy",
+                "last_name": "Shear",
+                "full_name": "Jeremy Shear",
+                "country": null,
+                "location": null,
+                "role": 2
+            }
+        },
+        {
+            "id": 7053,
+            "location_id": 554,
+            "user_id": 42628,
+            "post": "<p>Traveled to Phuket and Bangcok december 2017&nbsp;<\/p>\n\n<p>We flew from sydney - Phuket via Bangcok.&nbsp;<\/p>\n\n<p>We hopped on a boat to take us across the bay of Bengal.&nbsp;<\/p>\n\n<p>&nbsp;<\/p>\n",
+            "created_at": "2019-05-11 23:03:27",
+            "updated_at": "2019-05-11 23:03:27",
+            "status": "A",
+            "location": {
+                "id": 554,
+                "location_name": "Thailand",
+                "region_id": 983,
+                "region_name": "Asia",
+                "country_id": 554,
+                "country_name": "Thailand"
+            },
+            "owner": {
+                "id": 42628,
+                "first_name": "Annaliese",
+                "last_name": "Park",
+                "full_name": "Annaliese Park",
+                "country": null,
+                "location": null,
+                "role": 2
+            }
+        },
+        {
+            "id": 6726,
+            "location_id": 554,
+            "user_id": 41759,
+            "post": "",
+            "created_at": "2018-12-08 18:55:13",
+            "updated_at": "2018-12-08 18:52:35",
+            "status": "A",
+            "location": {
+                "id": 554,
+                "location_name": "Thailand",
+                "region_id": 983,
+                "region_name": "Asia",
+                "country_id": 554,
+                "country_name": "Thailand"
+            },
+            "owner": {
+                "id": 41759,
+                "first_name": "Parinya",
+                "last_name": "Wangchoochertgun",
+                "full_name": "Parinya Wangchoochertgun",
+                "country": null,
+                "location": null,
+                "role": 2
+            }
+        },
+        {
+            "id": 5031,
+            "location_id": 554,
+            "user_id": 22488,
+            "post": "<p>Chiang Mai - November 2nd, 2002 - Green Curry Over Rice $.75,&nbsp;One Hour Thai Massage $2.25,&nbsp;Boat Ride Down the Chao Phraya River across Bangkok $.20,&nbsp;14 Hour Sleeper Train to &ldquo;Lan Nan&quot; Kingdom in Norhtern Thailand $12,&nbsp;24-Hour 4-Speed 100cc Motorbike Rental No Questions Asked $3.75,&nbsp;Being able to get cash from the Thai Military Bank ATM machine half way around the world on the Burmese border with my First Hawaiian Bank Checking Card... Priceless!<\/p>\n",
+            "created_at": "2018-09-28 19:45:26",
+            "updated_at": "2014-07-28 00:47:35",
+            "status": "A",
+            "location": {
+                "id": 554,
+                "location_name": "Thailand",
+                "region_id": 983,
+                "region_name": "Asia",
+                "country_id": 554,
+                "country_name": "Thailand"
+            },
+            "owner": {
+                "id": 22488,
+                "first_name": "Gunnar",
+                "last_name": "Dahlberg",
+                "full_name": "Gunnar Dahlberg",
+                "country": null,
+                "location": null,
+                "role": 2
+            }
+        },
+        {
+            "id": 6609,
+            "location_id": 554,
+            "user_id": 41296,
+            "post": null,
+            "created_at": "2018-09-17 18:12:20",
+            "updated_at": "0000-00-00 00:00:00",
+            "status": "I",
+            "location": {
+                "id": 554,
+                "location_name": "Thailand",
+                "region_id": 983,
+                "region_name": "Asia",
+                "country_id": 554,
+                "country_name": "Thailand"
+            },
+            "owner": {
+                "id": 41296,
+                "first_name": "Matt",
+                "last_name": "Poljak",
+                "full_name": "Matt Poljak",
+                "country": null,
+                "location": null,
+                "role": 2
+            }
+        },
+        {
+            "id": 3624,
+            "location_id": 554,
+            "user_id": 14172,
+            "post": "<p>I stayed three nights on the&nbsp;Raya Yai island, at Rayaburi resort\/Siam Bay on January 2011. Beautiful place, very quiet. We arrived Patok Bay by longtailboat from Phuket on 28th Jan. The island itself is almost wild and it is a paradise for divers and snorkeling oriented people. There is always some corner of the island that is not windy so you can go snorkeling or diving every day. When you get there you never want to leave. There is an old lady who has a huge rabbit house there. There are two restaurants at Siam Bay. Seafood is delicious.. especially Red snapper and Andaman Prawns.<\/p>\n",
+            "created_at": "2018-09-09 09:18:10",
+            "updated_at": "2011-02-06 22:29:17",
+            "status": "A",
+            "location": {
+                "id": 554,
+                "location_name": "Thailand",
+                "region_id": 983,
+                "region_name": "Asia",
+                "country_id": 554,
+                "country_name": "Thailand"
+            },
+            "owner": {
+                "id": 14172,
+                "first_name": "Pirkko",
+                "last_name": "Ekholm",
+                "full_name": "Pirkko Ekholm",
+                "country": null,
+                "location": null,
+                "role": 2
+            }
+        },
+        {
+            "id": 6510,
+            "location_id": 554,
+            "user_id": 26518,
+            "post": "Thailand - Bangkok",
+            "created_at": "2018-05-03 09:29:33",
+            "updated_at": "2018-05-03 09:29:33",
+            "status": "A",
+            "location": {
+                "id": 554,
+                "location_name": "Thailand",
+                "region_id": 983,
+                "region_name": "Asia",
+                "country_id": 554,
+                "country_name": "Thailand"
+            },
+            "owner": {
+                "id": 26518,
+                "first_name": "Carlos",
+                "last_name": "Anies",
+                "full_name": "Carlos Anies",
+                "country": null,
+                "location": null,
+                "role": 2
+            }
+        },
+        {
+            "id": 6317,
+            "location_id": 554,
+            "user_id": 31887,
+            "post": "Incredible country! No direct flights that I could find from New York (JFK) so we took a connection of Cathay pacific through Hong Kong. However, we used AirAsia to travel through cambodia and then back to Thailand. The only two worthwhile cities in my opinion are Bangkok and Chiang Mai. Phuket is a complete tourist trap... Bangkok is full of culture and it is so so easy to negotiate over a price! It is possible at the most pushy of people to get from 500 baht to 125 baht. However, your overall experience (especially in Bangkok) is never complete without a Tuk-Tuk ride. Some sites that cannot be missed from Bangkok are:\r\n-Grand Palace\/Wat Phra Kaew\r\n-Wat Arun\r\n-Wat Pho\r\n-Water-taxi through canals\r\n-MBK\r\n-Jim Thompson\r\n-Golden Mount\r\n-Temple of Golden Buddha\r\nAs for Chiang Mai, if you choose to not be pricey and drive up to Chiang Rai for the four seasons elephant experience, then you can go to the near to Chiang Mai 45 minute drive to the Mahout Experience which is truly incredible. You can also go to Tiger Kingdom, markets, and nearby attractions such as Monkey shows and ziplines",
+            "created_at": "2017-08-21 19:13:16",
+            "updated_at": "2017-08-21 19:13:16",
+            "status": "A",
+            "location": {
+                "id": 554,
+                "location_name": "Thailand",
+                "region_id": 983,
+                "region_name": "Asia",
+                "country_id": 554,
+                "country_name": "Thailand"
+            },
+            "owner": null
+        },
+        {
+            "id": 6246,
+            "location_id": 554,
+            "user_id": 33763,
+            "post": "",
+            "created_at": "2017-06-10 13:02:54",
+            "updated_at": "2017-06-10 13:02:54",
+            "status": "I",
+            "location": {
+                "id": 554,
+                "location_name": "Thailand",
+                "region_id": 983,
+                "region_name": "Asia",
+                "country_id": 554,
+                "country_name": "Thailand"
+            },
+            "owner": null
+        },
+        {
+            "id": 5969,
+            "location_id": 554,
+            "user_id": 36240,
+            "post": "",
+            "created_at": "2016-09-06 08:03:40",
+            "updated_at": "2016-09-06 08:03:40",
+            "status": "I",
+            "location": {
+                "id": 554,
+                "location_name": "Thailand",
+                "region_id": 983,
+                "region_name": "Asia",
+                "country_id": 554,
+                "country_name": "Thailand"
+            },
+            "owner": {
+                "id": 36240,
+                "first_name": "Maria",
+                "last_name": "Weber",
+                "full_name": "Maria Weber",
+                "country": null,
+                "location": null,
+                "role": 2
+            }
+        },
+        {
+            "id": 5288,
+            "location_id": 554,
+            "user_id": 15186,
+            "post": "",
+            "created_at": "2014-12-03 01:35:59",
+            "updated_at": "2014-12-03 01:35:59",
+            "status": "I",
+            "location": {
+                "id": 554,
+                "location_name": "Thailand",
+                "region_id": 983,
+                "region_name": "Asia",
+                "country_id": 554,
+                "country_name": "Thailand"
+            },
+            "owner": {
+                "id": 15186,
+                "first_name": "Leslie",
+                "last_name": "Rutledge",
+                "full_name": "Leslie Rutledge",
+                "country": null,
+                "location": null,
+                "role": 2
+            }
+        },
+        {
+            "id": 5057,
+            "location_id": 554,
+            "user_id": 29451,
+            "post": "On my most recent visit to Thailand I joined a group day tour from Bangkok to visit the UNESCO World Heritage site at Ayutthaya. The temples were magnificent. Included was a stop at the summer palace of King Rama IV.  And the return to back to Bangkok was on a river cruise boat.  All in all a good way to spend a day!",
+            "created_at": "2014-08-20 01:42:56",
+            "updated_at": "2014-08-20 01:42:56",
+            "status": "A",
+            "location": {
+                "id": 554,
+                "location_name": "Thailand",
+                "region_id": 983,
+                "region_name": "Asia",
+                "country_id": 554,
+                "country_name": "Thailand"
+            },
+            "owner": null
+        },
+        {
+            "id": 4885,
+            "location_id": 554,
+            "user_id": 26725,
+            "post": "",
+            "created_at": "2014-01-03 22:26:54",
+            "updated_at": "2014-01-03 22:26:54",
+            "status": "I",
+            "location": {
+                "id": 554,
+                "location_name": "Thailand",
+                "region_id": 983,
+                "region_name": "Asia",
+                "country_id": 554,
+                "country_name": "Thailand"
+            },
+            "owner": {
+                "id": 26725,
+                "first_name": "Rafael",
+                "last_name": "Campospereira",
+                "full_name": "Rafael Campospereira",
+                "country": null,
+                "location": null,
+                "role": 2
+            }
+        },
+        {
+            "id": 4631,
+            "location_id": 554,
+            "user_id": 23819,
+            "post": "",
+            "created_at": "2013-03-05 15:59:20",
+            "updated_at": "2013-03-05 15:59:20",
+            "status": "I",
+            "location": {
+                "id": 554,
+                "location_name": "Thailand",
+                "region_id": 983,
+                "region_name": "Asia",
+                "country_id": 554,
+                "country_name": "Thailand"
+            },
+            "owner": {
+                "id": 23819,
+                "first_name": "Sandra",
+                "last_name": "Fernandes",
+                "full_name": "Sandra Fernandes",
+                "country": null,
+                "location": null,
+                "role": 2
+            }
+        },
+        {
+            "id": 3510,
+            "location_id": 554,
+            "user_id": 6671,
+            "post": "We departed Hong Kong and flew into Phuket on Cathay Pacific's Dragon Airlines. The Banyan Tree hotel was really nice and we enjoyed our stay there. I went to several different Thai restaurants in the area and the food was okay, I was kind of disappointed that I actually think the Thai food is better and hotter in the USA. In Phuket town we went to McDonalds and tried their corn and chocolate pies. The corn pies were delicious, the chocolate was okay. As you can see, other travelers have a lot to say about Thailand, a country well worth the visit. From here we flew to Beijing China on Dragon Air.",
+            "created_at": "2012-07-22 06:08:33",
+            "updated_at": "2012-07-22 06:08:33",
+            "status": "A",
+            "location": {
+                "id": 554,
+                "location_name": "Thailand",
+                "region_id": 983,
+                "region_name": "Asia",
+                "country_id": 554,
+                "country_name": "Thailand"
+            },
+            "owner": {
+                "id": 6671,
+                "first_name": "Franklin",
+                "last_name": "Murillo",
+                "full_name": "Franklin Murillo",
+                "country": null,
+                "location": null,
+                "role": 2
+            }
+        },
+        {
+            "id": 3227,
+            "location_id": 554,
+            "user_id": 111,
+            "post": "September 1996, November 1996, December 1998 and January 2015 -- I have visited Bangkok several times, most recently in January 2015 when I made a day trip by minibus from Victory Monument to the Historic City of Ayutthaya, the second Siamese capital after Sukhothai and a UNESCO World Heritage Site.  During this trip, I ate in Bangkok at Prachak, which has been serving roast duck since 1909, and Poj Spa Kar, one of the oldest restaurants in Bangkok.  On previous trips, I hired a canal boat to explore the khlongs that branch off the Chao Phraya River and visited the Grand Palace, Wat Phra Kaew (which houses the Emerald Buddha and is considered the most important temple in Thailand) and Wat Pho (which houses the Temple of the Reclining Buddha).  The best hotel that I stayed in was The Oriental, which opened in 1879 and is located on the banks of the Chao Phraya River (http:\/\/www.mandarinoriental.com\/bangkok\/).",
+            "created_at": "2011-01-31 00:54:05",
+            "updated_at": "2011-01-31 00:54:05",
+            "status": "A",
+            "location": {
+                "id": 554,
+                "location_name": "Thailand",
+                "region_id": 983,
+                "region_name": "Asia",
+                "country_id": 554,
+                "country_name": "Thailand"
+            },
+            "owner": {
+                "id": 111,
+                "first_name": "Michael",
+                "last_name": "Novins",
+                "full_name": "Michael Novins",
+                "country": null,
+                "location": null,
+                "role": 2
+            }
+        },
+        {
+            "id": 3463,
+            "location_id": 554,
+            "user_id": 1097,
+            "post": "I have five visits to Thailand. First time was 1977 when I had my two weeks holiday. During this two weeks I visited to Hong Kong and Macau as well. I spent some days in Pattaya, 140 km S of Bangkok, and rest time I spent in the capital.<br><br>1996 Oili and I stayed one week in Phuket. Phuket is the island in the southern part of Thailand and famous tourist destination from around the world. <br><br>During earthquake 2004, tsunami killed 179 Finnish people in Thailand. Many of them were first time abroad. Very bad luck.<br><br>",
+            "created_at": "2010-10-28 21:30:36",
+            "updated_at": "2010-10-28 21:30:36",
+            "status": "A",
+            "location": {
+                "id": 554,
+                "location_name": "Thailand",
+                "region_id": 983,
+                "region_name": "Asia",
+                "country_id": 554,
+                "country_name": "Thailand"
+            },
+            "owner": {
+                "id": 1097,
+                "first_name": "Veikko",
+                "last_name": "Huhtala*",
+                "full_name": "Veikko Huhtala*",
+                "country": null,
+                "location": null,
+                "role": 2
+            }
+        },
+        {
+            "id": 2643,
+            "location_id": 554,
+            "user_id": 14735,
+            "post": "Been to Thailand a few times. Here are some Bangkok Highlights.<br><br>Back in Bangkok. Bangkok in winter. 36 degrees and getting steamy and they call this winter. Decided to get my sight-seeing out of the way on the first day. Grand Palace, Emerald Buddha, Wat Pho, the Reclining Buddha and down to China Town.<br>The Grand Palace complex in massive. Buildings, temples, towers and statues. All ornately decorated with lacquer work, gold, emerald, jade. It's all on such a great scale. The biggest religious draw card here is the Emerald Buddha. It is only 66cm high but very important to Buddhists. So important in Thailand that 3 times a year with the changing of the seasons the King comes to change it's clothes!<br><br>Wat Pho next, to see the Reclining Buddha. 46m long, its feet 3m high. Impressive. It's  in a small temple, it's hard to get far enough away from the Buddha to fully appreciate it.",
+            "created_at": "2010-03-07 16:29:46",
+            "updated_at": "2010-03-07 16:29:46",
+            "status": "A",
+            "location": {
+                "id": 554,
+                "location_name": "Thailand",
+                "region_id": 983,
+                "region_name": "Asia",
+                "country_id": 554,
+                "country_name": "Thailand"
+            },
+            "owner": {
+                "id": 14735,
+                "first_name": "Chris",
+                "last_name": "Lewis",
+                "full_name": "Chris Lewis",
+                "country": null,
+                "location": null,
+                "role": 2
+            }
+        },
+        {
+            "id": 1961,
+            "location_id": 554,
+            "user_id": 1561,
+            "post": "This was my 6th visit to Thailand and believe it or not, there&apos;s still so much to see and enjoy.  Of all the South East Asian countries that I have travelled in, Thailand is still my favourite.  It&apos;s just the choices that make it different to other countries.  It&apos;s just the range of things to see, the accommodation, the food, the relative ease of transport.  It&apos;s not called \"the Land of Smiles\" for nothing.  However, in April of 2009, Thailand just proved to me that no matter what I&apos;ve seen and done there, it always has something up its sleeve.  I was in Bangkok during the problems with the red shirts and all of that.  However, it must be said that the problems were in just a few blocks and 99% of Bangkok was fine to go to.",
+            "created_at": "2009-04-16 05:48:34",
+            "updated_at": "2009-04-16 05:48:34",
+            "status": "A",
+            "location": {
+                "id": 554,
+                "location_name": "Thailand",
+                "region_id": 983,
+                "region_name": "Asia",
+                "country_id": 554,
+                "country_name": "Thailand"
+            },
+            "owner": {
+                "id": 1561,
+                "first_name": "Peter",
+                "last_name": "Mathews",
+                "full_name": "Peter Mathews",
+                "country": null,
+                "location": null,
+                "role": 2
+            }
+        },
+        {
+            "id": 1806,
+            "location_id": 554,
+            "user_id": 3211,
+            "post": "Bangkok is a buzzing city criss crossed with canals & rivers.  The sky line is one of high rises, shopping malls & international hotel chains but at the canal banks and side streets of the city the traditional side of Thai life is clearly visible.  The business hub of the city is easily navigated using the skyrail & underground but the more touristy areas around the Koh San road are less well supplied & Tuk Tuks are the main mode of transport.  Negotiate hard with your tuk tuk driver - a taxi will always be cheaper & has the advantage of air conditioning however be sure to agree that you&apos;re charged according to the metre as opposed to agreeing a fixed price.  Taxis will only take you at an agreed price after 3pm as from this point on your in to rush hour and they are highly likely to spend hours with you stuck in traffic! About 3 hours out of Bangkok towards the Burman (now Myanmar) border, in the province of the same name, is the town of Kanchanaburi where you can walk over the famous but tragic bridge of the River Kwai.  There are some interesting museums here where you can learn more about the history of this place of wartime tragedy & cinematic fame.  There are also many opportunities for elephant riding in the surrounding area.  A 20 min drive out of the town will take you to the Tiger Temple - a real highlight of any trip to this province.  This functioning buddhist temple is also home to about a dozen tigers of varying ages (& sizes!).  The temple first took on this unexpected side line in 1999 when a tiger cub was found in a near by village, it had lost its mother to poachers and needed round the clock care to survive.  The villagers took the orphaned cub to the temple where the monks agreed to offer it sanctuary.  Word spread in the surrounding area and over the years more and more orphaned cubs were bought to the temple - word also spread amongst the tourist population and in the present day a mutually beneficial relationship exists between the tourist dollar and the conservation of the tigers.  A few dollars gains you entry in the afternoons when the tigers are napping in their canyon, photos can be taken from afar for free and if cubs are around there are opportunities for photos here also.  For a few extra dollars you can have a picture taken with a fully grown tigers head in your lap - not an experience easily found any where else in the world!  Don&apos;t listen to chinese whispers that the tigers are drugged - they aren&apos;t and are in fact very well looked after thanks to the dilligence of the monks and the many (often western) volunteers.  Of course queing up with lots of other sightseers to get your picture taken with a tiger isn&apos;t exactly the &apos;genuine&apos; experience a backpacker is after however getting that close to fully grown tigers remains awe inspiring and your money is going to a good cause so if you can stomach the crowds get yourself down there.  If you want a more personal encounter then there are two other options open to you - firstly you can volunteer, you must remain at the temple for an agreed minimum stay (think it&apos;s 1 month) and assist as required, meals and basic accomodation is covered.  Secondly if you&apos;re lucky (this is not an every day offering) and if you can afford it (c. $50 when we visited) then you can spend the morning with the tigers - only 5 people maximum allowed for this so you will get the one on one experience.  A morning with the tigers involves arrival at 7am for breakfast with the monks where you will get to bottle feed & play with the tiger cubs (including being locked in a cage with them & some squeaky toys for an hour of play time!).  Next you will get to walk the &apos;teenage&apos; tigers down to the canyon for their morning exercise - incredible to watch them pouncing on each other in the water (check out the photos in the photo section of this website).  Following exercise time you will walk the tigers back up to their cages and give them a quick bath - just like their domestic cousins they aren&apos;t great fans of this so handle with care!Koh TaoA backpacker Island where everyone comes to dive and mainly to learn how to dive. There are some great beaches here and also a good nightlife.Koh Pan ganThis is the party island of Thailand and where the famous Full Moon party is held each month. This if you have not heard is one big crazy party on a beach which attracts at least 10,000 people each month to get as fucked up as possible. Get here a few days early during the peak months if you want to get accommodation though.Koh Samui & PhuketThese islands are crammed full of package holiday tourists on their yearly holiday for 2 weeks in the sun. I would strongly suggest avoiding these two islands.Koh Phi PhiThis island did get severely damaged by the Tsunami and having seen the before and after myself it truly is remarkable how quickly is has got back onto its feet. There is one main area\/town where everybody stays but it\u00e2\u20ac\u2122s still big enough not for everyone to be on top of each other. The Beach is like a postcard or you can get a boat to the lagoon where the Leo Dicapro film \u00e2\u20ac\u02dcThe Beach\u00e2\u20ac\u2122 was filmed and chill there for the day.",
+            "created_at": "2009-01-19 16:24:31",
+            "updated_at": "2009-01-19 16:24:31",
+            "status": "A",
+            "location": {
+                "id": 554,
+                "location_name": "Thailand",
+                "region_id": 983,
+                "region_name": "Asia",
+                "country_id": 554,
+                "country_name": "Thailand"
+            },
+            "owner": {
+                "id": 3211,
+                "first_name": "Matthew",
+                "last_name": "Coe",
+                "full_name": "Matthew Coe",
+                "country": null,
+                "location": null,
+                "role": 2
+            }
+        },
+        {
+            "id": 335,
+            "location_id": 554,
+            "user_id": 34,
+            "post": "There are so many wonderful places to see in Thailand!<BR>From elephant trekking in the Golden Triangle, to nice beaches, in beautiful little islands. The food is good and the people are friendly.<BR>You can organize in Chiang Mai an exciting elephant trekking excursion. I did it with a girl friend some years ago. It was not expensive at all and the food and accommodation was included. That excursion, which lasted three days, will remain forever in my memory as one of the most exotic in my life.<BR>Khao San Road, in Bangkok, is the place to stay if you are on a budget. There are direct buses from the airport to that street. There you have restaurants, shops, travel agencies that will help you with the visas to the neighbours countries, etc.<BR>Furthermore, in Bangkok you can get cheap flights to everywhere.<BR>It is a pity that many people associate Thailand with prostitution. The Government should avoid that, at least with minors.<\/DIV>..............................................\r\nAYUTTHAYA: \r\nI spent half a day visiting the temples complex of Ayutthaya.\r\nIn those times (year 1987) I was not interested in the UNESCO sites, and furthermore, Ayutthaya was not yet included in the list (it was registered in the year 1991) but decided to stop there thanks to my companion, a girl from Barcelona, in Spain, who suggested me to visit Sukhothai and Ayutthaya in the way from Chiang May to Bangkok for its historical importance.\r\nAnd indeed, Ayutthaya was the capital of the Kingdom of Siam and during a long time it was the most populous city in Asia, and probably in the world. We could still observe the old magnificence of the old town in the rest of temples in the Ayutthaya historical park. We were the only tourists in that complex of temples and pagodas, what was surprising (it was the month of September and in Bangkok and Chiang May there were thousands of tourists).\r\nAlthough that visit happened almost 30 years ago, I still remember that before leaving to Bangkok we had lunch in a restaurant inside a boat by the river.............................................................. PHUKET: \r\nI travelled in a night bus from Pattaya to Phuket.\r\nLike Penang, Phuket is not, strictly speaking, an island anymore, being united to the mainland by a bridge.\r\nThe bus dropped me in Patong Beach, where I soon found a room, for 500 baths, in a hotel near the beach.\r\nThe beach was nice and the wheather perfect.\r\nThe travel agencies offered tours around the island, and excursions to snake shows, to pearls factories, to the zoo, etc.\r\n\r\nI considered that one day would be enough to get to know Phuket.\r\nLike Pattaya, Phuket was too touristic. There were many Europeans, Australians and especially Russians. Many signs were written in Russian language.\r\nDuring the nigth all the clubs were full with young girls and men looking for company.\r\nThe next day, early in the morning, I boarded a bus with destination Langkawi Island, in Malaysia..........................................\r\nKRABI: Coming from Phuket I resolved to spend one day in Krabi in my way to Langkawi Island, in Malaysia.\r\n\r\nI found a hostel in the backpackers\u00e2\u20ac\u2122 street and went to discover the place.\r\nKrabi was very touristic, especially its beach Ao Nang, but I found the place much better than Pattaya or Phuket, cities that look like Sodom and Gomorra.\r\nThe travel agencies offered elephant rides, trekking, diving activities, islands hopping, etc.\r\nThere were many pizzerias and stalls selling food.\r\n\r\nThe symbol of Krabi was obvious: a crab!\r\n\r\nAlthough I liked the place, I preferred to continue my journey to Langkawi Island, therefore the next day, early in the morning I took \r\nfirst a bus, crossed the border between Thailand and Malaysia, and then boarded a ferry. And soon I reached Langkawi Island.\r\n..............................................\r\nPATTAYA: I had a meeting in Pattaya with some great travelers (all of them had already been in all the United Nations countries).\r\nTherefore I travelled there by bus from Bangkok, arriving in the evening.\r\nOne of my friends, who lives permanently in Pattaya and knows the city pretty well, found me a room in a hotel for only 400 baths, or 10 euro.\r\nThe next day we, my friends and I, met in a famous and very nice restaurant called Beer Garden, where we all had lunch.\r\nWe talked about our travel plans and exchanged information regarding how to get to hard reaching places, such as Paracel Islands (X&#299;sh&#257; Islands), Diego Garcia Atoll, or Aksai Chin.\r\nIt was a most didactic and interesting reunion, apart from pleasant. We all improved our knowledge of Geography.\r\nI noticed that in that same area where the Beer Garden is located, as soon as it becomes dark, as if by magic, is completely transformed and then frequented by girls practicing the oldest feminine profession in the world. In the night that part of Pattaya is like a version of Sodom and Gomorrah.\r\nI did not like that atmosphere and consequently the next day I left to Phuket Island in a night bus.......................................\r\nUBON RATCHATHANI: \r\nI had the intention to visit the International Forest Monastery (Wat Pah Nanachat) during some days to get familiarized with its Buddhist practices.\r\nConsequently I took a night train from Bangkok to Ubon Ratchathani where I arrived very early in the morning.\r\nI spent a couple of hours visiting that pleasant town tourist places, especially Wat Maha Wanaram, a most lovely monastery. The stucco statue representing Mara (High Goddes in the mythology of Laos) inside the main temple was very impressive.\r\nOne of the monks explained me that the monastery was built at the beginning of the XIX century and today is a residence for monks practicing Vipassana.\r\nAter Wat Maha Wanaram I boarded a bus to the Wat Pah Nanachat, located a few kilometers far from the town\r\nAt the entrance was written that photographing was forbidden. There was nobody at the gate, so I went inside and soon found several monks, in silence. Many of them were foreigners, from Europe and North America as I soon learnt.\r\nI was sent to the monk in charge of the visitors, a native of USA, who told me that I was welcome to participate in the daily monastery activities, but I was not accepted to overnight, since I had no asked written permission to the monastery. They do not have telephone, internet of fax, and only reply to the requirements by letters. Everybody is welcome and food, accommodation and Buddhist practices are free of charge. The only requirement is the observance of the rules. He invited me to write them a letter requesting to be accepted to stay in the monastery and then come back some weeks later, when the approval would be issued.\r\nI stayed inside the monastery for a few hours walking into the forest and reading the signs written plaques hanging in the trees containing phrases to stimulate meditation and concentration. I walked for a few hours, until lunch time, but since everybody was in the dining room and nobody invited me to have lunch, I left the monastery.\r\nI felt that I received more satisfaction visiting Wat Maha Wanaram than Wat Pah Nanachat.\r\nDisappointed by the refusal to stay there I travelled by bus to Pakse, in Laos, and one day later to Don Det Island, in the middle of the Mekong River, a stop in the famous Banana Pancake Trail.",
+            "created_at": "2007-06-01 21:39:11",
+            "updated_at": "2007-06-01 21:39:11",
+            "status": "A",
+            "location": {
+                "id": 554,
+                "location_name": "Thailand",
+                "region_id": 983,
+                "region_name": "Asia",
+                "country_id": 554,
+                "country_name": "Thailand"
+            },
+            "owner": {
+                "id": 34,
+                "first_name": "Jorge",
+                "last_name": "S\u00e1nchez",
+                "full_name": "Jorge S\u00e1nchez",
+                "country": null,
+                "location": null,
+                "role": 2
+            }
+        }
+    ]
+}

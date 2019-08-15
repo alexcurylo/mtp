@@ -267,7 +267,7 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
     ///
     /// - Parameter then: Callback
     func authorizeNotifications(then: @escaping (Bool) -> Void) {
-        let options: UNAuthorizationOptions = [.alert, .badge, .sound]
+        let options: UNAuthorizationOptions = [.alert, .badge, .carPlay, .sound]
         center.requestAuthorization(options: options) { granted, _ in
             then(granted)
         }

@@ -1,18 +1,56 @@
 {
-    "email": "tester@test.com",
-    "birthday": "1968-08-12",
+    "id": 7853,
+    "username": "test@tester.com",
+    "email": "test@tester.com",
+    "created_at": "2008-06-25 10:12:23",
+    "updated_at": "2019-07-05 21:18:32",
+    "birthday": "1958-02-11",
     "country_id": 920,
-    "first_name": "Test",
-    "last_name": "User",
+    "first_name": "Alex",
+    "last_name": "Curylo",
     "gender": "M",
+    "facebook_id": 1579825538812830,
+    "facebook_email": "test@tester.com",
+    "facebook_user_token": null,
+    "status": "A",
+    "last_log_in": null,
+    "score": 1248,
+    "bio": "iPhone programmer and bon vivant currently kicking it at Agoda.com in electric Bangkok, Thailand.",
+    "links": [
+        {
+            "url": "https:\/\/everywhs.com",
+            "text": "Every World Heritage Site"
+        },
+        {
+            "url": "https:\/\/alexcurylo.com",
+            "text": "Trollwerks"
+        }
+    ],
+    "favorite_places": [
+        {
+            "type": "",
+            "id": ""
+        }
+    ],
+    "picture": "52TMnrrd0vD3NMUFrDtYcf",
+    "airport": "BKK",
+    "score_locations": 446,
+    "score_whss": 500,
+    "score_beaches": 1,
+    "score_golfcourses": 1,
+    "score_divesites": 12,
+    "score_restaurants": 14,
     "location_id": 88,
-    "username": "tester@test.com",
-    "status": "W",
-    "updated_at": "2019-03-05 02:27:44",
-    "created_at": "2019-03-05 02:27:44",
-    "id": 42276,
+    "score_uncountries": 104,
+    "rank_locations": 196,
+    "rank_uncountries": 988,
+    "rank_whss": 41,
+    "rank_beaches": 4312,
+    "rank_golfcourses": 162,
+    "rank_divesites": 4139,
+    "rank_restaurants": 41,
     "token": "thisisatoken",
-    "full_name": "Test User",
+    "full_name": "Alex Curylo",
     "country": {
         "id": 920,
         "Location": "Canada",
@@ -40,9 +78,9 @@
         "admin_level": 2,
         "featured_img": null,
         "airports": null,
-        "visitors": 12323,
+        "visitors": 12660,
         "rank": 0,
-        "visitors_un": 12323,
+        "visitors_un": 12660,
         "rank_un": 185
     },
     "location": {
@@ -72,10 +110,10 @@
         "admin_level": 4,
         "featured_img": "5svD7v2KIvIHdL2aELAisP",
         "airports": "YVR, YYJ",
-        "visitors": 7427,
+        "visitors": 7598,
         "rank": 838,
         "visitors_un": 0,
         "rank_un": 0
     },
-    "role": 2
+    "role": 1
 }

@@ -201,6 +201,8 @@
 		FA0345A82304CE3000632322 /* UIPosts+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0345A72304CE3000632322 /* UIPosts+Test.swift */; };
 		FA0345A92304CE6400632322 /* UIPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0345A12304CD9800632322 /* UIPhotos.swift */; };
 		FA0345AA2304CE6800632322 /* UIPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0345A32304CDD500632322 /* UIPosts.swift */; };
+		FA0345AD23058BE200632322 /* locationPhotos-554.json in Resources */ = {isa = PBXBuildFile; fileRef = FA0345AC23058BE200632322 /* locationPhotos-554.json */; };
+		FA0345AF23058E3600632322 /* locationPosts-554.json in Resources */ = {isa = PBXBuildFile; fileRef = FA0345AE23058E3600632322 /* locationPosts-554.json */; };
 		FA0BE96C210C5F3300797224 /* ViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0BE96B210C5F3300797224 /* ViewTests.swift */; };
 		FA0F816422BF1CA700C00898 /* AddPhotoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0F816322BF1CA700C00898 /* AddPhotoVC.swift */; };
 		FA0F816722BF1D1400C00898 /* AddPhoto.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA0F816522BF1D1400C00898 /* AddPhoto.storyboard */; };
@@ -257,6 +259,7 @@
 		FA4653322115A250005B5A0A /* UserDefaults+DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653312115A250005B5A0A /* UserDefaults+DataService.swift */; };
 		FA4653342115ADC6005B5A0A /* MTPNetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653332115ADC6005B5A0A /* MTPNetworkController.swift */; };
 		FA4FBFFB22E7327100FE0902 /* AppStoreSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4FBFFA22E7327100FE0902 /* AppStoreSnapshotTests.swift */; };
+		FA507C2823059DD6000F0EF9 /* userLogin-7853.json in Resources */ = {isa = PBXBuildFile; fileRef = FA507C2723059DD5000F0EF9 /* userLogin-7853.json */; };
 		FA54272822D62936005DF1CC /* MappablesAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA54272722D62936005DF1CC /* MappablesAnnotationView.swift */; };
 		FA54272A22D97476005DF1CC /* Date+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA54272922D97476005DF1CC /* Date+Helper.swift */; };
 		FA5AC0B621FC4EBE0080F84F /* MappableAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0B521FC4EBE0080F84F /* MappableAnnotationView.swift */; };
@@ -544,6 +547,8 @@
 		FA0345A32304CDD500632322 /* UIPosts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPosts.swift; sourceTree = "<group>"; };
 		FA0345A52304CE1900632322 /* UIPhotos+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPhotos+Test.swift"; sourceTree = "<group>"; };
 		FA0345A72304CE3000632322 /* UIPosts+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPosts+Test.swift"; sourceTree = "<group>"; };
+		FA0345AC23058BE200632322 /* locationPhotos-554.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "locationPhotos-554.json"; sourceTree = "<group>"; };
+		FA0345AE23058E3600632322 /* locationPosts-554.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "locationPosts-554.json"; sourceTree = "<group>"; };
 		FA0A7B9322E6797400D3EF99 /* userGetByToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = userGetByToken.json; sourceTree = "<group>"; };
 		FA0BE96B210C5F3300797224 /* ViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTests.swift; sourceTree = "<group>"; };
 		FA0F816322BF1CA700C00898 /* AddPhotoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoVC.swift; sourceTree = "<group>"; };
@@ -614,6 +619,7 @@
 		FA4F1C5D20DFA69000B8A1ED /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		FA4F1C5E20DFA74500B8A1ED /* Gemfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile; sourceTree = "<group>"; };
 		FA4FBFFA22E7327100FE0902 /* AppStoreSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreSnapshotTests.swift; sourceTree = "<group>"; };
+		FA507C2723059DD5000F0EF9 /* userLogin-7853.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "userLogin-7853.json"; sourceTree = "<group>"; };
 		FA54272722D62936005DF1CC /* MappablesAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappablesAnnotationView.swift; sourceTree = "<group>"; };
 		FA54272922D97476005DF1CC /* Date+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Helper.swift"; sourceTree = "<group>"; };
 		FA5AC0B521FC4EBE0080F84F /* MappableAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappableAnnotationView.swift; sourceTree = "<group>"; };
@@ -1138,6 +1144,8 @@
 			isa = PBXGroup;
 			children = (
 				FA96A87022ECEF11001423F6 /* checklists.json */,
+				FA0345AC23058BE200632322 /* locationPhotos-554.json */,
+				FA0345AE23058E3600632322 /* locationPosts-554.json */,
 				FA96A87422ECF440001423F6 /* photos-7853-1.json */,
 				FA96A88422ED213E001423F6 /* rankings.json */,
 				FA96A87C22ECF865001423F6 /* scorecard-beaches-7853.json */,
@@ -1149,6 +1157,7 @@
 				FA96A87922ECF865001423F6 /* scorecard-whss-7853.json */,
 				FA96A88622ED314A001423F6 /* userGet-1.json */,
 				FA0A7B9322E6797400D3EF99 /* userGetByToken.json */,
+				FA507C2723059DD5000F0EF9 /* userLogin-7853.json */,
 				FA96A87222ECF1E8001423F6 /* userPosts-7853.json */,
 				8C4CDC362305561000A9E497 /* userRegister.json */,
 			);
@@ -1685,6 +1694,7 @@
 				8CAE30592239DA7D00E31647 /* world-map.geojson in Resources */,
 				FA392BC420DF69F50026C828 /* Assets.xcassets in Resources */,
 				FA463783210E00E60007382D /* EditProfile.storyboard in Resources */,
+				FA0345AD23058BE200632322 /* locationPhotos-554.json in Resources */,
 				FABA740D213A29CD0059ACCA /* ProfileAbout.storyboard in Resources */,
 				FA40F752225B06010056182E /* Settings.storyboard in Resources */,
 				FABA7413213A374F0059ACCA /* ProfilePosts.storyboard in Resources */,
@@ -1698,6 +1708,7 @@
 				8C0E6A7723055CFD00E7768E /* userGetByToken.json in Resources */,
 				8CA1ECEA22C45A8600C3B40B /* Location.storyboard in Resources */,
 				8C0E6A7223055CFD00E7768E /* scorecard-locations-7853.json in Resources */,
+				FA0345AF23058E3600632322 /* locationPosts-554.json in Resources */,
 				FA392BC220DF69F30026C828 /* Main.storyboard in Resources */,
 				8C0E6A7023055CFD00E7768E /* scorecard-divesites-7853.json in Resources */,
 				FA8839552234BDC9002F324F /* LocationSearch.storyboard in Resources */,
@@ -1718,6 +1729,7 @@
 				8CE6FC56224C6C1B00B24410 /* LocationPhotos.storyboard in Resources */,
 				FA8A65AF217ED3BA00BC0DFE /* RankingsFilter.storyboard in Resources */,
 				FA0F816722BF1D1400C00898 /* AddPhoto.storyboard in Resources */,
+				FA507C2823059DD6000F0EF9 /* userLogin-7853.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
