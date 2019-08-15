@@ -30,7 +30,8 @@ struct PostPayload: Codable, Hashable {
     var location = LocationPayload()
     /// location_id
     var location_id: Int = 0
-    fileprivate var status = "A"
+    /// status
+    var status = "A"
 
     /// Set Location
     ///
@@ -54,6 +55,13 @@ struct PostPayload: Codable, Hashable {
             location = LocationPayload()
         }
         location_id = location.id
+    }
+}
+
+extension PostPayload: CustomStringConvertible {
+
+    var description: String {
+        return "post for \(location_id): \(post)"
     }
 }
 

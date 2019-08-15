@@ -664,11 +664,15 @@ extension SignupVC: Exposing {
 
     /// Expose controls to UI tests
     func expose() {
+        UISignup.confirm.expose(item: confirmPasswordTextField)
         UISignup.credentials.expose(item: credentialsStack)
         UISignup.email.expose(item: emailTextField)
+        UISignup.first.expose(item: firstNameTextField)
+        UISignup.last.expose(item: lastNameTextField)
         UISignup.login.expose(item: loginButton)
-        UISignup.signup.expose(item: signupButton)
         UISignup.password.expose(item: passwordTextField)
+        UISignup.signup.expose(item: signupButton)
+        UISignup.tos.expose(item: termsOfServiceButton)
     }
 }
 

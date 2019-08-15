@@ -29,8 +29,8 @@ extension SearchResultJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
-        < SearchResultJSON: \(description):
-        data: \(data.debugDescription))
+        < SearchResultJSON: \(request.query):
+        data: \(data.debugDescription)
         /SearchResultJSON >
         """
     }

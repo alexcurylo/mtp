@@ -545,7 +545,7 @@
         <!--Terms of Service-->
         <scene sceneID="ABI-9D-esR">
             <objects>
-                <viewController title="Terms of Service" id="RVy-dB-36p" sceneMemberID="viewController">
+                <viewController title="Terms of Service" id="RVy-dB-36p" customClass="TermsVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IET-yo-uft">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3897,6 +3897,9 @@ Cg
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="agreeButton" destination="Tts-zo-ydY" id="Qks-TV-UsX"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TRx-SE-dzi" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="e05-3e-1qK" userLabel="Exit" sceneMemberID="exit"/>
@@ -3920,16 +3923,16 @@ Cg
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud1" translatesAutoresizingMaskIntoConstraints="NO" id="zgx-2g-52R">
-                                <rect key="frame" x="97" y="338" width="16" height="16"/>
+                                <rect key="frame" x="16" y="296" width="97" height="58"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud2" translatesAutoresizingMaskIntoConstraints="NO" id="4aG-gG-oiE">
-                                <rect key="frame" x="327" y="357" width="16" height="16"/>
+                                <rect key="frame" x="327" y="318" width="101" height="55"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud3" translatesAutoresizingMaskIntoConstraints="NO" id="vOe-gG-w9J">
-                                <rect key="frame" x="80" y="447" width="16" height="16"/>
+                                <rect key="frame" x="-16" y="447" width="112" height="69"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud4" translatesAutoresizingMaskIntoConstraints="NO" id="C15-xM-60M">
-                                <rect key="frame" x="353" y="458" width="16" height="16"/>
+                                <rect key="frame" x="353" y="458" width="104" height="68"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="KW2-wY-ZyV" userLabel="Message Stack">
                                 <rect key="frame" x="32" y="145.5" width="350" height="336"/>
@@ -4265,6 +4268,6 @@ going to your Profile Settings.</string>
     <inferredMetricsTieBreakers>
         <segue reference="hkf-mG-nci"/>
         <segue reference="e73-rY-bFS"/>
-        <segue reference="oCn-24-dvd"/>
+        <segue reference="VFq-Qq-FvX"/>
     </inferredMetricsTieBreakers>
 </document>

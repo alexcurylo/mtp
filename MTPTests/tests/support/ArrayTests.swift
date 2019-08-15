@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class ArrayTypeTests: XCTestCase {
+final class ArrayTests: XCTestCase {
 
     func testTypeRefining() {
         let numbers = [ 1, 2, 3 ]

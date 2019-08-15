@@ -46,6 +46,52 @@ final class StartupUITests: XCTestCase {
         UISignup.credentials.swipeUp()
         UISignup.signup.tap()
 
+        UISignupFail.message.assert(.label("Please agree to the MTP Terms Of Use!"))
         UISignupFail.ok.tap()
+
+        UISignup.tos.tap()
+
+        UITerms.agree.tap()
+
+        UISignup.signup.tap()
+
+        UISignupFail.message.assert(.label("That does not appear to be a valid email!"))
+        UISignupFail.ok.tap()
+
+        UISignup.email.tap()
+        UISignup.email.type(text: "test@test.com")
+        UISignup.signup.tap()
+
+        UISignupFail.message.assert(.label("Please enter a first name!"))
+        UISignupFail.ok.tap()
+
+        UISignup.first.tap()
+        UISignup.first.type(text: "First")
+        UISignup.signup.tap()
+
+        UISignupFail.message.assert(.label("Please enter a last name!"))
+        UISignupFail.ok.tap()
+
+        UISignup.last.tap()
+        UISignup.last.type(text: "Last")
+        UISignup.signup.tap()
+
+        UISignupFail.message.assert(.label("Please enter a password of at least 6 characters!"))
+        UISignupFail.ok.tap()
+
+        UISignup.password.tap()
+        UISignup.password.type(text: "password")
+        UISignup.signup.tap()
+
+        UISignupFail.message.assert(.label("Those passwords do not match!"))
+        UISignupFail.ok.tap()
+
+        UISignup.confirm.tap()
+        UISignup.confirm.type(text: "password")
+        UISignup.signup.tap()
+
+        UIWelcome.profile.tap()
+
+        UIEditProfile.close.tap()
     }
 }

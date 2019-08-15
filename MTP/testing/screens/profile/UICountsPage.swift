@@ -1,5 +1,9 @@
 // @copyright Trollwerks Inc.
 
 /// CountsPageVC exposed items
-/// Currently placeholder
-enum UICountsPage: Exposable { }
+enum UICountsPage: Exposable {
+
+    case region(Int)
+    case group(Int, Int)
+    case item(Int, Int)
+}

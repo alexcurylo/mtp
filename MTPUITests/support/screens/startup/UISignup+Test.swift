@@ -8,12 +8,16 @@ extension UISignup: Elemental {
         switch self {
         case .credentials:
             return .other
-        case .email:
+        case .email,
+             .first,
+             .last:
             return .textField
-        case .password:
+        case .confirm,
+             .password:
             return .secureTextField
         case .login,
-             .signup:
+             .signup,
+             .tos:
             return .button
         }
     }

@@ -54,6 +54,7 @@ final class ProfileAboutVC: UITableViewController, UserInjectable, ServiceProvid
         super.viewWillAppear(animated)
 
         update()
+        expose()
     }
 
     /// Instrument and inject navigation
@@ -280,6 +281,17 @@ private extension ProfileAboutVC {
                                 }
             }
         }
+    }
+}
+
+// MARK: - Exposing
+
+extension ProfileAboutVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        UIProfileAbout.remaining.expose(item: remainingButton)
+        UIProfileAbout.visited.expose(item: visitedButton)
     }
 }
 

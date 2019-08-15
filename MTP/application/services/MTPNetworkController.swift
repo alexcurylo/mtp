@@ -379,6 +379,8 @@ extension MTP: TargetType {
         case .userPosts:
             //file = "userPosts-\(id)"
             file = "userPosts-7853"
+        case .userRegister:
+            file = "userRegister"
         default:
             log.error("sampleData not provided for \(self)")
             return "{}".data(using: String.Encoding.utf8) ?? Data()
@@ -1636,12 +1638,13 @@ struct MTPNetworkController: ServiceProvider {
     ///   - payload: RegistrationPayload
     ///   - then: Completion
     func userRegister(payload: RegistrationPayload,
+                      stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                       then: @escaping NetworkCompletion<UserJSON>) {
         guard payload.isValid else {
             return then(.failure(.parameter))
         }
 
-        let provider = MTPProvider()
+        let provider = MTPProvider(stubClosure: stub)
         let endpoint = MTP.userRegister(payload: payload)
 
         func parse(result: Response) {

@@ -680,8 +680,9 @@ final class NetworkServiceStub: NetworkServiceImpl {
     ///   - then: Completion
     override func userRegister(payload: RegistrationPayload,
                                then: @escaping NetworkCompletion<UserJSON>) {
-        log.error("not stubbed yet!")
-        then(.failure(.message("not stubbed yet!")))
+        mtp.userRegister(payload: payload,
+                         stub: MTPProvider.immediatelyStub,
+                         then: then)
     }
 
     /// Update user info

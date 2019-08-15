@@ -3,10 +3,15 @@
 import XCTest
 
 /// CountsPageVC exposed items
-/// Currently placeholder
 extension UICountsPage: Elemental {
 
     var type: XCUIElement.ElementType {
-        return .other
+        switch self {
+        case .region:
+            return .other
+        case .group,
+             .item:
+            return .cell
+        }
     }
 }

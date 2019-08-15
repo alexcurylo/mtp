@@ -2,13 +2,12 @@
 
 import XCTest
 
-/// ProfileAboutVC exposed items
-extension UIProfileAbout: Elemental {
+extension UITerms: Elemental {
 
     var type: XCUIElement.ElementType {
         switch self {
-        case .remaining,
-             .visited:
+        case .agree,
+             .close:
             return .button
         }
     }

@@ -242,8 +242,9 @@ extension CountsPageVC: UICollectionViewDataSource {
             modelPath = indexPath
         }
 
-        return cell(at: indexPath,
-                    model: modelPath)
+        let itemCell = cell(at: indexPath,
+                            model: modelPath)
+        return itemCell
     }
 }
 
@@ -336,6 +337,8 @@ private extension CountsPageVC {
                 isExpanded: regionsExpanded[region, default: false]
             )
             header.inject(model: model)
+
+            UICountsPage.region(viewPath.section).expose(item: header)
         }
 
         return view
@@ -364,6 +367,7 @@ private extension CountsPageVC {
                 isCombined: list == .locations && place.placeIsCountry
             )
             counter.inject(model: model)
+            UICountsPage.item(viewPath.section, viewPath.row).expose(item: cell)
         case let grouper as CountCellGroup:
             guard let group = cellModel.group else { break }
             grouper.delegate = self
@@ -377,6 +381,7 @@ private extension CountsPageVC {
                 isLast: isLast
             )
             grouper.inject(model: model)
+            UICountsPage.group(viewPath.section, viewPath.row).expose(item: cell)
         default:
             break
         }

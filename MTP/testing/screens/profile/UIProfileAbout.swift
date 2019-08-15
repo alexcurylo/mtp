@@ -1,5 +1,10 @@
 // @copyright Trollwerks Inc.
 
 /// ProfileAboutVC exposed items
-/// Currently placeholder
-enum UIProfileAbout: Exposable { }
+enum UIProfileAbout: Exposable {
+
+    /// Remaining button
+    case remaining
+    /// Visited button
+    case visited
+}

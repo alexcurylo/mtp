@@ -18,6 +18,13 @@ final class ProfileUITests: XCTestCase {
         UIMain.myProfile.tap()
         UIMain.myProfile.wait(for: .selected)
 
+        UIProfileAbout.visited.tap()
+
+        UICountsPage.region(0).tap()
+        UICountsPage.group(0, 1).tap()
+
+        UIUserCounts.close.tap()
+
         UIProfilePaging.counts.tap()
 
         UIMyCountsPaging.page(.whss).tap()
