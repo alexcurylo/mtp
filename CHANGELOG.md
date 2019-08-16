@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Displays correct birthday in My Profile
+- Updates map overlays to match visit update
 
 ## [Version 1.0, Build 637] - 2019-08-07
 

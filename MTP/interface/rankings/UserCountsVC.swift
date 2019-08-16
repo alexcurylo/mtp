@@ -54,10 +54,6 @@ final class UserCountsVC: UIViewController, ServiceProvider {
 
 private extension UserCountsVC {
 
-    @IBAction func mapButtonTapped(_ sender: UIButton) {
-        app.route(to: user)
-    }
-
     func setupPagesHolder() {
         guard let holder = pagesHolder,
               let user = user else { return }

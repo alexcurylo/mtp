@@ -67,11 +67,11 @@ final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
         configure()
     }
 
-    /// Unavailable coding constructor
+    /// Unsupported coding constructor
     ///
     /// - Parameter coder: An unarchiver object.
     required init?(coder: NSCoder) {
-        super.init(viewControllers: [])
+        return nil
     }
 
     /// Prepare for reveal

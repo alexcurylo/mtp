@@ -63,8 +63,9 @@ private extension SignupFailVC {
     func hideAlert() {
         view.setNeedsLayout()
         view.layoutIfNeeded()
-        let hide = -(alertHolder?.bounds.height ?? 0)
-        bottomY?.constant = hide
+        if let height = alertHolder?.bounds.height {
+            bottomY?.constant = -height
+        }
         view.setNeedsLayout()
         view.layoutIfNeeded()
     }

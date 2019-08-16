@@ -39,6 +39,13 @@ final class MyCountsPageVC: CountsPageVC {
         super.init(model: model.list)
     }
 
+    /// Unsupported coding constructor
+    ///
+    /// - Parameter coder: An unarchiver object.
+    required init?(coder: NSCoder) {
+        return nil
+    }
+
     /// Set up data change observations
     override func observe() {
         super.observe()

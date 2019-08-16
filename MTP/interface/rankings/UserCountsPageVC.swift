@@ -41,6 +41,13 @@ final class UserCountsPageVC: CountsPageVC {
         super.init(model: model.list)
     }
 
+    /// Unsupported coding constructor
+    ///
+    /// - Parameter coder: An unarchiver object.
+    required init?(coder: NSCoder) {
+        return nil
+    }
+
     /// Rebuild data and update
     func refresh() {
         cache()

@@ -148,7 +148,7 @@
                                 </constraints>
                             </stackView>
                             <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="93O-Pb-svT" userLabel="Hidden Stack">
-                                <rect key="frame" x="32" y="347.5" width="256" height="100"/>
+                                <rect key="frame" x="32" y="372.5" width="256" height="50"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uOI-t3-FQu">
                                         <rect key="frame" x="0.0" y="0.0" width="256" height="50"/>
@@ -642,6 +642,7 @@ Please try again, or click </string>
                         <outlet property="alertHolder" destination="i4o-Te-TbS" id="78f-Kx-mjJ"/>
                         <outlet property="bottomY" destination="acf-g4-Jlr" id="bZW-5k-nZ9"/>
                         <outlet property="centerY" destination="307-3D-44M" id="Bz7-8U-BcG"/>
+                        <outlet property="forgotButton" destination="p8C-4T-VnD" id="ssq-6N-bct"/>
                         <outlet property="messageLabel" destination="2g9-o9-icK" id="t3K-aC-1ft"/>
                         <outlet property="okButton" destination="iNf-9T-CBa" id="kJq-TF-CEP"/>
                     </connections>
@@ -672,6 +673,6 @@ Please try again, or click </string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="f8y-mG-Gew"/>
-        <segue reference="3cN-rR-Iq9"/>
+        <segue reference="oHd-b0-2Lf"/>
     </inferredMetricsTieBreakers>
 </document>

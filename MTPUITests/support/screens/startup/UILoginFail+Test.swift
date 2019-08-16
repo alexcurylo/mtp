@@ -8,7 +8,8 @@ extension UILoginFail: Elemental {
         switch self {
         case .message:
             return .staticText
-        case .ok:
+        case .forgot,
+             .ok:
             return .button
         }
     }

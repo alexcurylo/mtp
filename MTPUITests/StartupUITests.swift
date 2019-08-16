@@ -48,7 +48,7 @@ final class StartupUITests: XCTestCase {
         UILogin.login.tap()
     }
 
-    /// swiftlint:disable:next function_body_length
+    // swiftlint:disable:next function_body_length
     func testSignup() {
         launch(settings: [.loggedIn(false)])
 

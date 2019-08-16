@@ -11,6 +11,7 @@ final class LoginFailVC: UIViewController, ServiceProvider {
     @IBOutlet private var bottomY: NSLayoutConstraint?
     @IBOutlet private var centerY: NSLayoutConstraint?
     @IBOutlet private var messageLabel: UILabel?
+    @IBOutlet private var forgotButton: UIButton?
     @IBOutlet private var okButton: GradientButton?
 
     private var errorMessage: String?
@@ -83,8 +84,9 @@ private extension LoginFailVC {
         bottomY?.priority = .defaultHigh
         view.setNeedsLayout()
         view.layoutIfNeeded()
-        let hide = -(alertHolder?.bounds.height ?? 0)
-        bottomY?.constant = hide
+        if let height = alertHolder?.bounds.height {
+            bottomY?.constant = -height
+        }
         view.setNeedsLayout()
         view.layoutIfNeeded()
     }
@@ -112,6 +114,7 @@ extension LoginFailVC: Exposing {
     /// Expose controls to UI tests
     func expose() {
         UILoginFail.message.expose(item: messageLabel)
+        UILoginFail.forgot.expose(item: forgotButton)
         UILoginFail.ok.expose(item: okButton)
     }
 }
@@ -139,6 +142,7 @@ extension LoginFailVC: Injectable {
         alertHolder.require()
         bottomY.require()
         centerY.require()
+        forgotButton.require()
         messageLabel.require()
         okButton.require()
     }

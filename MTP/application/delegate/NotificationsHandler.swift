@@ -96,7 +96,9 @@ extension NotificationsHandler: AppNotificationsHandler {
     ///   - error: Error
     func application(_ application: UIApplication,
                      didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        #if !targetEnvironment(simulator)
         log.error("register for remote notifications: \(error)")
+        #endif
     }
 
     /// didReceiveRemoteNotification

@@ -16,11 +16,11 @@ final class ProfilePagingVC: FixedPagingViewController, ServiceProvider {
         configure()
     }
 
-    /// Construction by unarchiving
+    /// Unsupported coding constructor
     ///
     /// - Parameter coder: An unarchiver object.
     required init?(coder: NSCoder) {
-        super.init(viewControllers: [])
+        return nil
     }
 
     /// Prepare for reveal

@@ -277,6 +277,21 @@
 		FA6386A322D1743E001B4424 /* MTPMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6386A222D1743E001B4424 /* MTPMapView.swift */; };
 		FA6386A522D17EBA001B4424 /* Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6386A422D17EBA001B4424 /* Mappable.swift */; };
 		FA6386A722D181C7001B4424 /* Namable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6386A622D181C7001B4424 /* Namable.swift */; };
+		FA63A4AA2307610A00637BB3 /* CountSectionHeaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA63A4A92307610A00637BB3 /* CountSectionHeaderTests.swift */; };
+		FA63A4AF2307675F00637BB3 /* CountCellItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA63A4AC2307675F00637BB3 /* CountCellItemTests.swift */; };
+		FA63A4B02307675F00637BB3 /* CountInfoHeaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA63A4AD2307675F00637BB3 /* CountInfoHeaderTests.swift */; };
+		FA63A4B12307675F00637BB3 /* CountCellGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA63A4AE2307675F00637BB3 /* CountCellGroupTests.swift */; };
+		FA63A4B52307676900637BB3 /* CountsPageVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA63A4B22307676900637BB3 /* CountsPageVCTests.swift */; };
+		FA63A4B62307676900637BB3 /* MyCountsPagingVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA63A4B32307676900637BB3 /* MyCountsPagingVCTests.swift */; };
+		FA63A4B72307676900637BB3 /* ProfilePagingVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA63A4B42307676900637BB3 /* ProfilePagingVCTests.swift */; };
+		FA63A4B92307685800637BB3 /* MyCountsPageVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA63A4B82307685700637BB3 /* MyCountsPageVCTests.swift */; };
+		FA63A4BB230768F000637BB3 /* LocationPagingVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA63A4BA230768F000637BB3 /* LocationPagingVCTests.swift */; };
+		FA63A4C223076A1800637BB3 /* RankingCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA63A4BC23076A1800637BB3 /* RankingCellTests.swift */; };
+		FA63A4C323076A1800637BB3 /* RankingHeaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA63A4BD23076A1800637BB3 /* RankingHeaderTests.swift */; };
+		FA63A4C423076A1800637BB3 /* RankingsPagingVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA63A4BE23076A1800637BB3 /* RankingsPagingVCTests.swift */; };
+		FA63A4C523076A1800637BB3 /* UserCountsPageVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA63A4BF23076A1800637BB3 /* UserCountsPageVCTests.swift */; };
+		FA63A4C623076A1800637BB3 /* UserCountsPagingVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA63A4C023076A1800637BB3 /* UserCountsPagingVCTests.swift */; };
+		FA63A4C723076A1800637BB3 /* RankingsPageVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA63A4C123076A1800637BB3 /* RankingsPageVCTests.swift */; };
 		FA6A188621EFEF920092C56C /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6A188521EFEF920092C56C /* Observable.swift */; };
 		FA6A2CF222F85D4E00444BFA /* StyleServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6A2CF122F85D4E00444BFA /* StyleServiceSpy.swift */; };
 		FA74574D210CA5730010F4F4 /* MyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74574C210CA5730010F4F4 /* MyProfileVC.swift */; };
@@ -332,6 +347,7 @@
 		FA8839552234BDC9002F324F /* LocationSearch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA8839532234BDC9002F324F /* LocationSearch.storyboard */; };
 		FA88395722351C30002F324F /* UIImage+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA88395622351C30002F324F /* UIImage+Color.swift */; };
 		FA8A65AF217ED3BA00BC0DFE /* RankingsFilter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA8A65AD217ED3BA00BC0DFE /* RankingsFilter.storyboard */; };
+		FA949BFF2306D47400B9DF6D /* MilestonesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA949BFE2306D47400B9DF6D /* MilestonesTests.swift */; };
 		FA9656CF22BE32D500DA050F /* AddPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9656CE22BE32D500DA050F /* AddPostVC.swift */; };
 		FA99615F2136CF3100C85FBC /* ProfilePagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA99615E2136CF3100C85FBC /* ProfilePagingVC.swift */; };
 		FA9A71DF20F1D3FA005F6A57 /* LaunchHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9A71DE20F1D3FA005F6A57 /* LaunchHandler.swift */; };
@@ -637,6 +653,21 @@
 		FA6386A222D1743E001B4424 /* MTPMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPMapView.swift; sourceTree = "<group>"; };
 		FA6386A422D17EBA001B4424 /* Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mappable.swift; sourceTree = "<group>"; };
 		FA6386A622D181C7001B4424 /* Namable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Namable.swift; sourceTree = "<group>"; };
+		FA63A4A92307610A00637BB3 /* CountSectionHeaderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CountSectionHeaderTests.swift; path = MTPTests/tests/interface/profile/CountSectionHeaderTests.swift; sourceTree = SOURCE_ROOT; };
+		FA63A4AC2307675F00637BB3 /* CountCellItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountCellItemTests.swift; sourceTree = "<group>"; };
+		FA63A4AD2307675F00637BB3 /* CountInfoHeaderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountInfoHeaderTests.swift; sourceTree = "<group>"; };
+		FA63A4AE2307675F00637BB3 /* CountCellGroupTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountCellGroupTests.swift; sourceTree = "<group>"; };
+		FA63A4B22307676900637BB3 /* CountsPageVCTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountsPageVCTests.swift; sourceTree = "<group>"; };
+		FA63A4B32307676900637BB3 /* MyCountsPagingVCTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCountsPagingVCTests.swift; sourceTree = "<group>"; };
+		FA63A4B42307676900637BB3 /* ProfilePagingVCTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePagingVCTests.swift; sourceTree = "<group>"; };
+		FA63A4B82307685700637BB3 /* MyCountsPageVCTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCountsPageVCTests.swift; sourceTree = "<group>"; };
+		FA63A4BA230768F000637BB3 /* LocationPagingVCTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationPagingVCTests.swift; sourceTree = "<group>"; };
+		FA63A4BC23076A1800637BB3 /* RankingCellTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RankingCellTests.swift; sourceTree = "<group>"; };
+		FA63A4BD23076A1800637BB3 /* RankingHeaderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RankingHeaderTests.swift; sourceTree = "<group>"; };
+		FA63A4BE23076A1800637BB3 /* RankingsPagingVCTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RankingsPagingVCTests.swift; sourceTree = "<group>"; };
+		FA63A4BF23076A1800637BB3 /* UserCountsPageVCTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCountsPageVCTests.swift; sourceTree = "<group>"; };
+		FA63A4C023076A1800637BB3 /* UserCountsPagingVCTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCountsPagingVCTests.swift; sourceTree = "<group>"; };
+		FA63A4C123076A1800637BB3 /* RankingsPageVCTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RankingsPageVCTests.swift; sourceTree = "<group>"; };
 		FA6A188521EFEF920092C56C /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		FA6A2CF122F85D4E00444BFA /* StyleServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleServiceSpy.swift; sourceTree = "<group>"; };
 		FA74574C210CA5730010F4F4 /* MyProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileVC.swift; sourceTree = "<group>"; };
@@ -682,6 +713,7 @@
 		FA8839542234BDC9002F324F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LocationSearch.storyboard; sourceTree = "<group>"; };
 		FA88395622351C30002F324F /* UIImage+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Color.swift"; sourceTree = "<group>"; };
 		FA8A65AE217ED3BA00BC0DFE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/RankingsFilter.storyboard; sourceTree = "<group>"; };
+		FA949BFE2306D47400B9DF6D /* MilestonesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestonesTests.swift; sourceTree = "<group>"; };
 		FA9656CE22BE32D500DA050F /* AddPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostVC.swift; sourceTree = "<group>"; };
 		FA96A87022ECEF11001423F6 /* checklists.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = checklists.json; sourceTree = "<group>"; };
 		FA96A87222ECF1E8001423F6 /* userPosts-7853.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "userPosts-7853.json"; sourceTree = "<group>"; };
@@ -888,7 +920,7 @@
 			isa = PBXGroup;
 			children = (
 				8CC6B9572304E7860089DB89 /* locations */,
-				8CC6B9562304E7800089DB89 /* profile */,
+				FA63A4AB2307613A00637BB3 /* profile */,
 				8CC6B9552304E7790089DB89 /* rankings */,
 				8CC6B9542304E76E0089DB89 /* startup */,
 			);
@@ -933,6 +965,7 @@
 			isa = PBXGroup;
 			children = (
 				8CC6B95C2304EE070089DB89 /* FaqJSONTests.swift */,
+				FA949BFE2306D47400B9DF6D /* MilestonesTests.swift */,
 				8CC6B95E2304F0060089DB89 /* OperationReplyTests.swift */,
 				8C58019D2305097900DE768F /* PlaceLocationTests.swift */,
 				8C58019F23050CB700DE768F /* PostPayloadTests.swift */,
@@ -960,20 +993,20 @@
 		8CC6B9552304E7790089DB89 /* rankings */ = {
 			isa = PBXGroup;
 			children = (
+				FA63A4BC23076A1800637BB3 /* RankingCellTests.swift */,
+				FA63A4BD23076A1800637BB3 /* RankingHeaderTests.swift */,
+				FA63A4C123076A1800637BB3 /* RankingsPageVCTests.swift */,
+				FA63A4BE23076A1800637BB3 /* RankingsPagingVCTests.swift */,
+				FA63A4BF23076A1800637BB3 /* UserCountsPageVCTests.swift */,
+				FA63A4C023076A1800637BB3 /* UserCountsPagingVCTests.swift */,
 			);
 			path = rankings;
-			sourceTree = "<group>";
-		};
-		8CC6B9562304E7800089DB89 /* profile */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = profile;
 			sourceTree = "<group>";
 		};
 		8CC6B9572304E7860089DB89 /* locations */ = {
 			isa = PBXGroup;
 			children = (
+				FA63A4BA230768F000637BB3 /* LocationPagingVCTests.swift */,
 			);
 			path = locations;
 			sourceTree = "<group>";
@@ -1402,6 +1435,21 @@
 				8C617973223F2E1E000827D6 /* LocationsFilter.storyboard */,
 			);
 			name = locations;
+			sourceTree = "<group>";
+		};
+		FA63A4AB2307613A00637BB3 /* profile */ = {
+			isa = PBXGroup;
+			children = (
+				FA63A4AE2307675F00637BB3 /* CountCellGroupTests.swift */,
+				FA63A4AC2307675F00637BB3 /* CountCellItemTests.swift */,
+				FA63A4AD2307675F00637BB3 /* CountInfoHeaderTests.swift */,
+				FA63A4A92307610A00637BB3 /* CountSectionHeaderTests.swift */,
+				FA63A4B22307676900637BB3 /* CountsPageVCTests.swift */,
+				FA63A4B82307685700637BB3 /* MyCountsPageVCTests.swift */,
+				FA63A4B32307676900637BB3 /* MyCountsPagingVCTests.swift */,
+				FA63A4B42307676900637BB3 /* ProfilePagingVCTests.swift */,
+			);
+			path = profile;
 			sourceTree = "<group>";
 		};
 		FA7A66CD22FD9158001DCCA2 /* screens */ = {
@@ -2085,33 +2133,49 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA63A4B92307685800637BB3 /* MyCountsPageVCTests.swift in Sources */,
 				8CC6B95F2304F0060089DB89 /* OperationReplyTests.swift in Sources */,
 				8C3EAB862230FCEE00CB4886 /* RoutingAppDelegateTests.swift in Sources */,
 				8C3EAB8E2231100B00CB4886 /* ArrayTests.swift in Sources */,
 				8CC6B95D2304EE070089DB89 /* FaqJSONTests.swift in Sources */,
+				FA63A4C323076A1800637BB3 /* RankingHeaderTests.swift in Sources */,
 				8C3EAB882230FD1300CB4886 /* MTPDelegateTests.swift in Sources */,
+				FA63A4B52307676900637BB3 /* CountsPageVCTests.swift in Sources */,
 				FAB53F8B20DFD618007A80A7 /* MemoryWarner.m in Sources */,
+				FA63A4B02307675F00637BB3 /* CountInfoHeaderTests.swift in Sources */,
 				8C3EAB922231249E00CB4886 /* InjectableTests.swift in Sources */,
 				8C012801223208CC00EA2095 /* DataServiceSpy.swift in Sources */,
 				8CC91BBE2305122B002F74FA /* LocationTrackerSpy.swift in Sources */,
 				8C58019E2305097900DE768F /* PlaceLocationTests.swift in Sources */,
+				FA63A4B72307676900637BB3 /* ProfilePagingVCTests.swift in Sources */,
+				FA63A4AF2307675F00637BB3 /* CountCellItemTests.swift in Sources */,
 				FAE1F11C21437F860002CAB2 /* String+Assert.swift in Sources */,
 				8CC6B95B2304EBED0089DB89 /* UIImageTests.swift in Sources */,
 				8CC6B9612304F0D90089DB89 /* SearchResultJSONTests.swift in Sources */,
+				FA63A4C223076A1800637BB3 /* RankingCellTests.swift in Sources */,
 				8C5801A023050CB700DE768F /* PostPayloadTests.swift in Sources */,
+				FA63A4BB230768F000637BB3 /* LocationPagingVCTests.swift in Sources */,
 				FA3BD2292160D6BC007EAF75 /* WithableTests.swift in Sources */,
 				FAC8465F22AB78FC004F57EC /* LocationServiceSpy.swift in Sources */,
 				8C5801A223050FBC00DE768F /* LocationTrackerTests.swift in Sources */,
 				8C0127FF2232089100EA2095 /* LoggingServiceSpy.swift in Sources */,
+				FA63A4C523076A1800637BB3 /* UserCountsPageVCTests.swift in Sources */,
 				8C012803223208FB00EA2095 /* NetworkServiceSpy.swift in Sources */,
+				FA63A4C623076A1800637BB3 /* UserCountsPagingVCTests.swift in Sources */,
+				FA63A4B62307676900637BB3 /* MyCountsPagingVCTests.swift in Sources */,
+				FA63A4B12307675F00637BB3 /* CountCellGroupTests.swift in Sources */,
+				FA949BFF2306D47400B9DF6D /* MilestonesTests.swift in Sources */,
 				FA74C113211C61580013A840 /* StringTests.swift in Sources */,
+				FA63A4C423076A1800637BB3 /* RankingsPagingVCTests.swift in Sources */,
 				8C0127FB2232054E00EA2095 /* ServiceHandlerSpy+AppLaunchHandler.swift in Sources */,
 				8CC6B9592304EA2A0089DB89 /* DateTests.swift in Sources */,
 				FA6A2CF222F85D4E00444BFA /* StyleServiceSpy.swift in Sources */,
 				FAC8466122AB79AA004F57EC /* NotificationServiceSpy.swift in Sources */,
+				FA63A4C723076A1800637BB3 /* RankingsPageVCTests.swift in Sources */,
 				8CF239A92305156E006AB7D2 /* ActionHandlerTests.swift in Sources */,
 				FA0BE96C210C5F3300797224 /* ViewTests.swift in Sources */,
 				8CF239AB230519C8006AB7D2 /* HTTPURLResponseTests.swift in Sources */,
+				FA63A4AA2307610A00637BB3 /* CountSectionHeaderTests.swift in Sources */,
 				8C0127FD2232084600EA2095 /* ApplicationServiceSpy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
