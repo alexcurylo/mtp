@@ -39,18 +39,6 @@ final class MainTBC: UITabBarController, ServiceProvider {
         checkDestination()
     }
 
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        default:
-            log.debug("unexpected segue: \(segue.name)")
-        }
-    }
-
     /// Route to display a Mappable in Locations
     ///
     /// - Parameter mappable: Mappable to display

@@ -68,13 +68,8 @@ final class LoginFailVC: UIViewController, ServiceProvider {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.dismissLoginFail.identifier:
+        if segue.identifier == Segues.dismissLoginFail.identifier {
             presentingViewController?.show(navBar: true)
-        case Segues.switchForgotPassword.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
         }
     }
 }

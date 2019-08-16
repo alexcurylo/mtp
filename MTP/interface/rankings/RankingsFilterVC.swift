@@ -48,26 +48,22 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.showCountry.identifier:
-            if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                destination.inject(mode: .countryOrAll,
-                                   styler: .standard,
-                                   delegate: self)
-            }
-        case Segues.showLocation.identifier:
-            if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC,
-               let countryId = current?.countryId {
-                destination.inject(mode: .locationOrAll(country: countryId),
-                                   styler: .standard,
-                                   delegate: self)
-            }
-        case Segues.saveEdits.identifier:
-            saveEdits(notifying: Segues.saveEdits(segue: segue)?.destination)
-        case Segues.cancelEdits.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
+        if let target = Segues.showCountry(segue: segue)?
+                              .destination
+                              .topViewController as? LocationSearchVC {
+            target.inject(mode: .countryOrAll,
+                          styler: .standard,
+                          delegate: self)
+        } else if let target = Segues.showLocation(segue: segue)?
+                                     .destination
+                                     .topViewController as? LocationSearchVC,
+                  let countryId = current?.countryId {
+            target.inject(mode: .locationOrAll(country: countryId),
+                          styler: .standard,
+                          delegate: self)
+        } else if let target = Segues.saveEdits(segue: segue)?
+                                     .destination {
+            saveEdits(notifying: target)
         }
     }
 }

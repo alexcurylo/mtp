@@ -60,16 +60,9 @@ final class RootVC: UIViewController, ServiceProvider {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.showMain.identifier:
-            let main = Segues.showMain(segue: segue)
-            main?.destination.inject(model: .locations)
-        case Segues.embedLaunchScreen.identifier,
-             Segues.showLogin.identifier,
-             Segues.showSignup.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
+        if let main = Segues.showMain(segue: segue)?
+                            .destination {
+            main.inject(model: .locations)
         }
     }
 }

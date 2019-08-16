@@ -49,13 +49,9 @@ final class LocationsFilterVC: UITableViewController, ServiceProvider {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.saveEdits.identifier:
-            saveEdits(notifying: Segues.saveEdits(segue: segue)?.destination)
-        case Segues.cancelEdits.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
+        if let target = Segues.saveEdits(segue: segue)?
+                              .destination {
+            saveEdits(notifying: target)
         }
     }
 }

@@ -46,20 +46,6 @@ final class NearbyVC: UITableViewController, ServiceProvider {
         show(navBar: animated, style: .standard)
         expose()
     }
-
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.unwindFromNearby.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
-        }
-    }
 }
 
 // MARK: - Private

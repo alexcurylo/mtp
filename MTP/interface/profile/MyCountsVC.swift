@@ -18,18 +18,6 @@ final class MyCountsVC: UIViewController, ServiceProvider {
 
         configurePagesHolder()
     }
-
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        default:
-            log.debug("unexpected segue: \(segue.name)")
-        }
-    }
 }
 
 // MARK: - Private

@@ -3,6 +3,9 @@
 /// SignupVC exposed items
 enum UISignup: Exposable {
 
+    /// Close button
+    case close
+
     /// Credentials stack view
     case credentials
     /// Email text field
@@ -13,8 +16,12 @@ enum UISignup: Exposable {
     case last
     /// Password text field
     case password
+    /// Toggle password button
+    case togglePassword
     /// Confirm password text field
     case confirm
+    /// Toggle confirm password button
+    case toggleConfirm
 
     /// Terms of Service button
     case tos

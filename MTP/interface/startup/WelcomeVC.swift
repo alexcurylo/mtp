@@ -33,15 +33,12 @@ final class WelcomeVC: UIViewController, ServiceProvider {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.showSettings.identifier:
-            let settings = Segues.showSettings(segue: segue)
-            settings?.destination.inject(model: .editProfile)
-        case Segues.showMain.identifier:
-            let main = Segues.showMain(segue: segue)
-            main?.destination.inject(model: .locations)
-        default:
-            log.debug("unexpected segue: \(segue.name)")
+        if let settings = Segues.showSettings(segue: segue)?
+                                .destination {
+            settings.inject(model: .editProfile)
+        } else if let main = Segues.showMain(segue: segue)?
+                                   .destination {
+            main.inject(model: .locations)
         }
     }
 }

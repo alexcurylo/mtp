@@ -67,21 +67,14 @@ final class RankingsVC: UIViewController, ServiceProvider {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.showFilter.identifier:
-             break
-        case Segues.showUserCounts.identifier:
-            if let counts = Segues.showUserCounts(segue: segue)?.destination,
-               let countsModel = countsModel {
-                counts.inject(model: countsModel)
-            }
-        case Segues.showUserProfile.identifier:
-            if let profile = Segues.showUserProfile(segue: segue)?.destination,
-                let profileModel = profileModel {
-                profile.inject(model: profileModel)
-            }
-        default:
-            log.debug("unexpected segue: \(segue.name)")
+        if let counts = Segues.showUserCounts(segue: segue)?
+                              .destination,
+           let countsModel = countsModel {
+            counts.inject(model: countsModel)
+        } else if let profile = Segues.showUserProfile(segue: segue)?
+                                      .destination,
+                  let profileModel = profileModel {
+            profile.inject(model: profileModel)
         }
     }
 

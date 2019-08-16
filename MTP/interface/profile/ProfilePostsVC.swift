@@ -31,20 +31,6 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
         update()
     }
 
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.addPost.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
-        }
-    }
-
     /// Create a new post
     override func createPost() {
         performSegue(withIdentifier: Segues.addPost,

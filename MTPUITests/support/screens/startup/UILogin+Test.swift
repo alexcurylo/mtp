@@ -10,8 +10,11 @@ extension UILogin: Elemental {
              return .textField
         case .password:
              return .secureTextField
-        case .forgot,
-             .login:
+        case .close,
+             .forgot,
+             .login,
+             .signup,
+             .toggle:
             return .button
         }
     }

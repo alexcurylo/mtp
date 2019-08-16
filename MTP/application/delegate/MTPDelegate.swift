@@ -21,14 +21,11 @@ import UIKit
     }
 
     private var runtimeHandlers: Handlers = {
-        let runtime: Runtime
-        switch (UIApplication.isUITesting, UIApplication.isUnitTesting) {
-        case (true, _):
+        var runtime: Runtime = .production
+        if UIApplication.isUITesting {
             runtime = .uiTesting
-        case (_, true):
+        } else if UIApplication.isUnitTesting {
             runtime = .unitTesting
-        default:
-            runtime = .production
         }
         return MTPDelegate.runtimeHandlers(for: runtime)
     }()

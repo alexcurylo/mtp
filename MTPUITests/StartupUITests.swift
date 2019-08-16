@@ -17,6 +17,14 @@ final class StartupUITests: XCTestCase {
 
         UIRoot.login.tap()
 
+        UILogin.close.tap()
+
+        UIRoot.login.tap()
+
+        UILogin.signup.tap()
+
+        UISignup.login.tap()
+
         UILogin.forgot.tap()
 
         UILoginFail.message.assert(.label("That does not appear to be a valid email!"))
@@ -33,15 +41,26 @@ final class StartupUITests: XCTestCase {
         UILoginFail.message.assert(.label("Please enter a password!"))
         UILoginFail.ok.tap()
 
+        UILogin.toggle.tap()
+        UILogin.toggle.tap()
         UILogin.password.tap()
         UILogin.password.type(text: "password")
         UILogin.login.tap()
     }
 
+    /// swiftlint:disable:next function_body_length
     func testSignup() {
         launch(settings: [.loggedIn(false)])
 
         UIRoot.signup.tap()
+
+        UISignup.close.tap()
+
+        UIRoot.signup.tap()
+
+        UISignup.login.tap()
+
+        UILogin.signup.tap()
 
         UISignup.credentials.swipeUp()
         UISignup.signup.tap()
@@ -79,6 +98,8 @@ final class StartupUITests: XCTestCase {
         UISignupFail.message.assert(.label("Please enter a password of at least 6 characters!"))
         UISignupFail.ok.tap()
 
+        UISignup.togglePassword.tap()
+        UISignup.togglePassword.tap()
         UISignup.password.tap()
         UISignup.password.type(text: "password")
         UISignup.signup.tap()
@@ -86,6 +107,8 @@ final class StartupUITests: XCTestCase {
         UISignupFail.message.assert(.label("Those passwords do not match!"))
         UISignupFail.ok.tap()
 
+        UISignup.toggleConfirm.tap()
+        UISignup.toggleConfirm.tap()
         UISignup.confirm.tap()
         UISignup.confirm.type(text: "password")
         UISignup.signup.tap()

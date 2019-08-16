@@ -15,8 +15,11 @@ extension UISignup: Elemental {
         case .confirm,
              .password:
             return .secureTextField
-        case .login,
+        case .close,
+             .login,
              .signup,
+             .toggleConfirm,
+             .togglePassword,
              .tos:
             return .button
         }

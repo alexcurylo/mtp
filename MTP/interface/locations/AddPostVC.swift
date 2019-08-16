@@ -75,24 +75,19 @@ final class AddPostVC: UIViewController, ServiceProvider {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.showCountry.identifier:
-            if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                destination.inject(mode: .country,
-                                   styler: .standard,
-                                   delegate: self)
-            }
-        case Segues.showLocation.identifier:
-            if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC,
-               let countryId = country?.countryId {
-                destination.inject(mode: .location(country: countryId),
-                                   styler: .standard,
-                                   delegate: self)
-            }
-        case Segues.pop.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
+        if let target = Segues.showCountry(segue: segue)?
+                              .destination
+                              .topViewController as? LocationSearchVC {
+            target.inject(mode: .country,
+                          styler: .standard,
+                          delegate: self)
+        } else if let target = Segues.showLocation(segue: segue)?
+                                     .destination
+                                     .topViewController as? LocationSearchVC,
+                  let countryId = country?.countryId {
+            target.inject(mode: .location(country: countryId),
+                          styler: .standard,
+                          delegate: self)
         }
     }
 }

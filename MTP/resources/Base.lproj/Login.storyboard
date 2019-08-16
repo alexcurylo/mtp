@@ -147,7 +147,7 @@
                                     <constraint firstAttribute="width" priority="750" constant="400" id="8PV-O7-qfZ"/>
                                 </constraints>
                             </stackView>
-                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="93O-Pb-svT" userLabel="Facebook Stack">
+                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="93O-Pb-svT" userLabel="Hidden Stack">
                                 <rect key="frame" x="32" y="347.5" width="256" height="100"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uOI-t3-FQu">
@@ -194,32 +194,10 @@
                                             <constraint firstItem="xWu-SB-IoR" firstAttribute="leading" secondItem="uOI-t3-FQu" secondAttribute="leading" id="lvn-cm-xrK"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FW6-w9-2mU" customClass="FacebookButton" customModule="MTP" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="256" height="50"/>
-                                        <color key="backgroundColor" name="facebookButton"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="7bK-Qu-LCs"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17.5"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="10" maxX="19" maxY="10"/>
-                                        <state key="normal" title="Facebook" image="logoFacebook"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                <real key="value" value="4"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="facebookTapped:" destination="W0B-NC-hgt" eventType="touchUpInside" id="gam-HS-sqv"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="FW6-w9-2mU" secondAttribute="trailing" id="1ME-5W-Ify"/>
-                                    <constraint firstItem="FW6-w9-2mU" firstAttribute="top" secondItem="uOI-t3-FQu" secondAttribute="bottom" id="5pf-df-vPM"/>
                                     <constraint firstAttribute="trailing" secondItem="uOI-t3-FQu" secondAttribute="trailing" id="eLi-bD-W2e"/>
-                                    <constraint firstItem="FW6-w9-2mU" firstAttribute="leading" secondItem="93O-Pb-svT" secondAttribute="leading" id="kfb-Aj-4Yt"/>
                                     <constraint firstItem="uOI-t3-FQu" firstAttribute="leading" secondItem="93O-Pb-svT" secondAttribute="leading" id="rJo-4l-0WU"/>
-                                    <constraint firstAttribute="bottom" secondItem="FW6-w9-2mU" secondAttribute="bottom" id="vZZ-xb-jmb"/>
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Sj-o8-pG5">
@@ -291,6 +269,7 @@
                         <outlet property="keyboardToolbar" destination="jKj-Xc-Xm9" id="SWi-qD-EXb"/>
                         <outlet property="loginButton" destination="DVC-A9-iU3" id="6FS-6q-wsK"/>
                         <outlet property="passwordTextField" destination="zEZ-d4-d11" id="qnv-Gc-381"/>
+                        <outlet property="signupButton" destination="1Sj-o8-pG5" id="85o-af-NVi"/>
                         <outlet property="togglePasswordButton" destination="khv-EQ-jcb" id="7No-Pc-l6s"/>
                         <outlet property="toolbarBackButton" destination="G5h-3y-Tfb" id="qoX-u0-cPQ"/>
                         <outlet property="toolbarNextButton" destination="s31-Jh-0nz" id="wF6-3F-MUm"/>
@@ -683,13 +662,9 @@ Please try again, or click </string>
     <resources>
         <image name="fieldHide" width="22" height="19"/>
         <image name="fieldShow" width="23" height="16"/>
-        <image name="logoFacebook" width="57" height="57"/>
         <image name="navBackBlueCircle" width="30" height="30"/>
         <namedColor name="dustyGray">
             <color red="0.61176470588235299" green="0.61176470588235299" blue="0.61176470588235299" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="facebookButton">
-            <color red="0.25882352941176473" green="0.40392156862745099" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="regalBlue">
             <color red="0.0" green="0.29411764705882354" blue="0.47058823529411764" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -49,15 +49,8 @@ final class SettingsVC: UITableViewController, ServiceProvider {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.logout.identifier:
+        if segue.identifier == Segues.logout.identifier {
             data.logOut()
-        case Segues.showAbout.identifier,
-             Segues.showFAQ.identifier,
-             Segues.unwindFromSettings.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
         }
     }
 }

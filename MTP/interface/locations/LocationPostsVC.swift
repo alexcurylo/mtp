@@ -42,18 +42,13 @@ final class LocationPostsVC: PostsVC {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.addPost.identifier:
-            if let edit = Segues.addPost(segue: segue)?.destination {
-                edit.inject(model: mappable)
-            }
-        case Segues.showUserProfile.identifier:
-            if let profile = Segues.showUserProfile(segue: segue)?.destination,
-                let profileModel = profileModel {
-                profile.inject(model: profileModel)
-            }
-        default:
-            log.debug("unexpected segue: \(segue.name)")
+        if let edit = Segues.addPost(segue: segue)?
+                            .destination {
+            edit.inject(model: mappable)
+        } else if let profile = Segues.showUserProfile(segue: segue)?
+                                      .destination,
+                  let profileModel = profileModel {
+            profile.inject(model: profileModel)
         }
     }
 

@@ -55,18 +55,10 @@ final class MyProfileVC: ProfileVC {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.showSettings.identifier:
-            if let settings = Segues.showSettings(segue: segue)?.destination {
-                settings.inject(model: reportMessage)
-                reportMessage = ""
-            }
-        case Segues.directEdit.identifier,
-             Segues.showEditProfile.identifier,
-             Segues.showSettings.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
+        if let settings = Segues.showSettings(segue: segue)?
+                                .destination {
+            settings.inject(model: reportMessage)
+            reportMessage = ""
         }
     }
 

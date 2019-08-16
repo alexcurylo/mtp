@@ -85,32 +85,26 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         view.endEditing(true)
-        switch segue.identifier {
-        case Segues.showCountry.identifier:
-            if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                destination.inject(mode: .countryOrPreferNot,
-                                   styler: .standard,
-                                   delegate: self)
-            }
-        case Segues.showLocation.identifier:
-            if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC,
-               let countryId = country?.countryId {
-                destination.inject(mode: .location(country: countryId),
-                                   styler: .standard,
-                                   delegate: self)
-            }
-        case Segues.showPhotos.identifier:
-            if let photos = Segues.showPhotos(segue: segue)?.destination,
-               let user = data.user {
-                photos.inject(model: User(from: user))
-                photos.inject(mode: .picker,
-                              selection: current.picture ?? "",
-                              delegate: self)
-            }
-        case Segues.cancelEdits.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
+        if let target = Segues.showCountry(segue: segue)?
+                              .destination
+                              .topViewController as? LocationSearchVC {
+            target.inject(mode: .countryOrPreferNot,
+                          styler: .standard,
+                          delegate: self)
+        } else if let target = Segues.showLocation(segue: segue)?
+                                     .destination
+                                     .topViewController as? LocationSearchVC,
+                  let countryId = country?.countryId {
+            target.inject(mode: .location(country: countryId),
+                          styler: .standard,
+                          delegate: self)
+        } else if let photos = Segues.showPhotos(segue: segue)?
+                                     .destination,
+                  let user = data.user {
+            photos.inject(model: User(from: user))
+            photos.inject(mode: .picker,
+                          selection: current.picture ?? "",
+                          delegate: self)
         }
     }
 }

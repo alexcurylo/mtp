@@ -63,14 +63,10 @@ final class ProfileAboutVC: UITableViewController, UserInjectable, ServiceProvid
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.showUserCounts.identifier:
-            if let profile = Segues.showUserCounts(segue: segue)?.destination,
-                let countsModel = countsModel {
-                profile.inject(model: countsModel)
-            }
-        default:
-            log.debug("unexpected segue: \(segue.name)")
+        if let profile = Segues.showUserCounts(segue: segue)?
+                              .destination,
+           let countsModel = countsModel {
+            profile.inject(model: countsModel)
         }
     }
 }

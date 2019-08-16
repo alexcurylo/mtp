@@ -5,7 +5,7 @@ import XCTest
 
 final class HTTPURLResponseTests: XCTestCase {
 
-    func testUrl() throws {
+    func testHasField() throws {
         // given
         let sut = try unwrap(HTTPURLResponseMock())
 
@@ -14,6 +14,17 @@ final class HTTPURLResponseTests: XCTestCase {
 
         // then
         result?.assert(equal: HTTPURLResponseMock.value)
+    }
+
+    func testNotHasField() throws {
+        // given
+        let sut = try unwrap(HTTPURLResponseMock())
+
+        // when
+        let result = sut.find(header: "not-here")
+
+        // then
+        XCTAssertNil(result)
     }
 }
 

@@ -80,21 +80,15 @@ final class LocationsVC: UIViewController, ServiceProvider {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.showFilter.identifier:
-            break
-        case Segues.showNearby.identifier:
-            let nearby = Segues.showNearby(segue: segue)?.destination
-            nearby?.inject(model: (data.mappables,
-                                   mtpMapView?.centerCoordinate ?? .zero))
-        case Segues.showLocation.identifier:
-            guard let show = Segues.showLocation(segue: segue)?.destination else { break }
-            if let inject = injectMappable {
-                show.inject(model: inject)
-                injectMappable = nil
-            }
-        default:
-            log.debug("unexpected segue: \(segue.name)")
+        if let nearby = Segues.showNearby(segue: segue)?
+                              .destination {
+            nearby.inject(model: (data.mappables,
+                                  mtpMapView?.centerCoordinate ?? .zero))
+        } else if let show = Segues.showLocation(segue: segue)?
+                                   .destination,
+                  let inject = injectMappable {
+            show.inject(model: inject)
+            injectMappable = nil
         }
     }
 

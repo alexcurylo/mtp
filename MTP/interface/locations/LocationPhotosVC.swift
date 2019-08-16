@@ -56,13 +56,9 @@ final class LocationPhotosVC: PhotosVC {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.addPhoto.identifier:
-            if let add = Segues.addPhoto(segue: segue)?.destination {
-                add.inject(model: (mappable: mappable, delegate: self))
-            }
-        default:
-            log.debug("unexpected segue: \(segue.name)")
+        if let add = Segues.addPhoto(segue: segue)?
+                           .destination {
+            add.inject(model: (mappable: mappable, delegate: self))
         }
     }
 }

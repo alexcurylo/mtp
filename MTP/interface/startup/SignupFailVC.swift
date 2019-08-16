@@ -50,11 +50,8 @@ final class SignupFailVC: UIViewController, ServiceProvider {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.dismissSignupFail.identifier:
+        if segue.identifier == Segues.dismissSignupFail.identifier {
             presentingViewController?.show(navBar: true)
-        default:
-            log.debug("unexpected segue: \(segue.name)")
         }
     }
 }

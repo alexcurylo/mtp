@@ -11,6 +11,7 @@ final class LoginVC: UIViewController, ServiceProvider {
     @IBOutlet private var passwordTextField: InsetTextField?
     @IBOutlet private var togglePasswordButton: UIButton?
     @IBOutlet private var loginButton: UIButton?
+    @IBOutlet private var signupButton: UIButton?
     @IBOutlet private var forgotPasswordButton: UIButton?
 
     @IBOutlet private var keyboardToolbar: UIToolbar?
@@ -82,23 +83,17 @@ final class LoginVC: UIViewController, ServiceProvider {
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         view.endEditing(true)
-        switch segue.identifier {
-        case Segues.presentLoginFail.identifier:
-            let alert = Segues.presentLoginFail(segue: segue)
-            alert?.destination.inject(model: errorMessage)
+        if let alert = Segues.presentLoginFail(segue: segue)?
+                             .destination {
+            alert.inject(model: errorMessage)
             hide(navBar: true)
             data.email = emailTextField?.text ?? ""
-        case Segues.presentForgotPassword.identifier:
+        } else if let main = Segues.showMain(segue: segue)?
+                                   .destination {
+            main.inject(model: .locations)
+        } else if segue.identifier == Segues.presentForgotPassword.identifier {
             hide(navBar: true)
             data.email = emailTextField?.text ?? ""
-        case Segues.showMain.identifier:
-            let main = Segues.showMain(segue: segue)
-            main?.destination.inject(model: .locations)
-        case Segues.switchSignup.identifier,
-             Segues.unwindFromLogin.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
         }
     }
 }
@@ -129,14 +124,6 @@ private extension LoginVC {
     @IBAction func loginTapped(_ sender: GradientButton) {
         view.endEditing(true)
         prepareLogin(showError: true)
-    }
-
-    @IBAction func facebookTapped(_ sender: FacebookButton) {
-        view.endEditing(true)
-        sender.login(vc: self) { [weak self] info in
-            self?.emailTextField?.text = info?.email
-            // currently not implemented: login with Facebook ID
-        }
     }
 
     @IBAction func toolbarBackTapped(_ sender: UIBarButtonItem) {
@@ -314,10 +301,14 @@ extension LoginVC: Exposing {
 
     /// Expose controls to UI tests
     func expose() {
+        let items = navigationItem.leftBarButtonItems
+        UILogin.close.expose(item: items?.first)
         UILogin.email.expose(item: emailTextField)
         UILogin.forgot.expose(item: forgotPasswordButton)
         UILogin.login.expose(item: loginButton)
         UILogin.password.expose(item: passwordTextField)
+        UILogin.signup.expose(item: signupButton)
+        UILogin.toggle.expose(item: togglePasswordButton)
     }
 }
 
@@ -343,6 +334,7 @@ extension LoginVC: Injectable {
         keyboardToolbar.require()
         loginButton.require()
         passwordTextField.require()
+        signupButton.require()
         togglePasswordButton.require()
         toolbarBackButton.require()
         toolbarNextButton.require()

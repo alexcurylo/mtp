@@ -87,31 +87,23 @@ final class SignupVC: UIViewController, ServiceProvider {
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         view.endEditing(true)
-        switch segue.identifier {
-        case Segues.presentSignupFail.identifier:
-            let alert = Segues.presentSignupFail(segue: segue)
-            alert?.destination.inject(model: errorMessage)
+        if let target = Segues.showCountry(segue: segue)?
+            .destination
+            .topViewController as? LocationSearchVC {
+            target.inject(mode: .countryOrPreferNot,
+                          styler: .standard,
+                          delegate: self)
+        } else if let target = Segues.showLocation(segue: segue)?
+                                     .destination
+                                     .topViewController as? LocationSearchVC {
+            let countryId = country?.countryId ?? 0
+            target.inject(mode: .location(country: countryId),
+                          styler: .standard,
+                          delegate: self)
+        } else if let alert = Segues.presentSignupFail(segue: segue)?
+                                    .destination {
+            alert.inject(model: errorMessage)
             hide(navBar: true)
-        case Segues.showCountry.identifier:
-            if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                destination.inject(mode: .countryOrPreferNot,
-                                   styler: .login,
-                                   delegate: self)
-            }
-        case Segues.showLocation.identifier:
-            if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                let countryId = country?.countryId ?? 0
-                destination.inject(mode: .location(country: countryId),
-                                   styler: .login,
-                                   delegate: self)
-            }
-        case Segues.pushTermsOfService.identifier,
-             Segues.showWelcome.identifier,
-             Segues.switchLogin.identifier,
-             Segues.unwindFromSignup.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
         }
     }
 }
@@ -664,6 +656,8 @@ extension SignupVC: Exposing {
 
     /// Expose controls to UI tests
     func expose() {
+        let items = navigationItem.leftBarButtonItems
+        UISignup.close.expose(item: items?.first)
         UISignup.confirm.expose(item: confirmPasswordTextField)
         UISignup.credentials.expose(item: credentialsStack)
         UISignup.email.expose(item: emailTextField)
@@ -672,6 +666,8 @@ extension SignupVC: Exposing {
         UISignup.login.expose(item: loginButton)
         UISignup.password.expose(item: passwordTextField)
         UISignup.signup.expose(item: signupButton)
+        UISignup.toggleConfirm.expose(item: toggleConfirmPasswordButton)
+        UISignup.togglePassword.expose(item: togglePasswordButton)
         UISignup.tos.expose(item: termsOfServiceButton)
     }
 }
