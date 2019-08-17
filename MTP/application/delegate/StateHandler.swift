@@ -28,9 +28,7 @@ extension StateHandler: AppStateHandler {
     /// Enter background handler
     ///
     /// - Parameter application: Application
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        //loc.calculateDistances()
-    }
+    func applicationDidEnterBackground(_ application: UIApplication) { }
 
     /// Terminate handler
     ///

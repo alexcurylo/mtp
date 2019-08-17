@@ -1,22 +1,24 @@
 // @copyright Trollwerks Inc.
 
-import UIKit
+import Anchorage
 
 /// Application root containing signup and logged in UI
 final class RootVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.rootVC
 
-    @IBOutlet private var credentials: UIView?
-    @IBOutlet private var credentialsBottom: NSLayoutConstraint?
-    @IBOutlet private var loginButton: UIButton?
-    @IBOutlet private var signupButton: UIButton?
+    // verified in requireOutlets
+    @IBOutlet private var credentials: UIView!
+    @IBOutlet private var credentialsBottom: NSLayoutConstraint!
+    @IBOutlet private var loginButton: UIButton!
+    @IBOutlet private var signupButton: UIButton!
 
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
+        requireOutlets()
 
-        requireInjections()
+        setApplicationBackground()
     }
 
     /// Prepare for reveal
@@ -28,12 +30,12 @@ final class RootVC: UIViewController, ServiceProvider {
         hide(navBar: animated)
 
         if data.isLoggedIn {
-            credentials?.isHidden = true
-            credentialsBottom?.constant = 0
+            credentials.isHidden = true
+            credentialsBottom.constant = 0
             performSegue(withIdentifier: Segues.showMain, sender: self)
-        } else {
-            credentials?.isHidden = false
-            credentialsBottom?.constant = -(credentials?.bounds.height ?? 0)
+        } else if let credentials = credentials {
+            credentials.isHidden = false
+            credentialsBottom.constant = -credentials.bounds.height
             expose()
        }
     }
@@ -44,7 +46,10 @@ final class RootVC: UIViewController, ServiceProvider {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        revealCredentials()
+        let bottom = credentialsBottom.constant
+        if bottom < 0 {
+            revealCredentials(bottom: bottom)
+        }
     }
 
     /// Prepare for hide
@@ -73,9 +78,7 @@ private extension RootVC {
 
     @IBAction func unwindToRoot(segue: UIStoryboardSegue) { }
 
-    func revealCredentials() {
-        guard let bottom = credentialsBottom?.constant, bottom < 0 else { return }
-
+    func revealCredentials(bottom: CGFloat) {
         view.layoutIfNeeded()
         UIView.animate(
             withDuration: 1.0,
@@ -84,10 +87,21 @@ private extension RootVC {
             initialSpringVelocity: 0.75,
             options: [.curveEaseOut],
             animations: {
-                self.credentialsBottom?.constant = 0
+                self.credentialsBottom.constant = 0
                 self.view.layoutIfNeeded()
             },
             completion: nil)
+    }
+
+    func setApplicationBackground() {
+        if let first = UIApplication.shared.windows.first {
+            let background = GradientView {
+                $0.set(gradient: [.dodgerBlue, .azureRadiance],
+                       orientation: .topRightBottomLeft)
+            }
+            first.insertSubview(background, at: 0)
+            background.edgeAnchors == first.edgeAnchors
+        }
     }
 }
 
@@ -102,23 +116,12 @@ extension RootVC: Exposing {
     }
 }
 
-// MARK: - Injectable
+// MARK: - InterfaceBuildable
 
-extension RootVC: Injectable {
+extension RootVC: InterfaceBuildable {
 
-    /// Injected dependencies
-    typealias Model = ()
-
-    /// Handle dependency injection
-    ///
-    /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
-        return self
-    }
-
-    /// Enforce dependency injection
-    func requireInjections() {
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
         credentials.require()
         credentialsBottom.require()
         loginButton.require()

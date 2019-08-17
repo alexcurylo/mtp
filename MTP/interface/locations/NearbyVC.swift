@@ -13,8 +13,9 @@ final class NearbyVC: UITableViewController, ServiceProvider {
 
     private typealias Segues = R.segue.nearbyVC
 
-    @IBOutlet private var closeButtonItem: UIBarButtonItem?
-    @IBOutlet private var backgroundView: UIView?
+    // verified in requireOutlets
+    @IBOutlet private var closeButtonItem: UIBarButtonItem!
+    @IBOutlet private var backgroundView: UIView!
 
     private var contentState: ContentState = .loading
     private var mappables: [Mappable] = []
@@ -28,7 +29,8 @@ final class NearbyVC: UITableViewController, ServiceProvider {
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
+        requireInjection()
 
         tableView.backgroundView = backgroundView
         tableView.tableFooterView = UIView()
@@ -167,6 +169,17 @@ extension NearbyVC: TableCellExposing {
     }
 }
 
+// MARK: - InterfaceBuildable
+
+extension NearbyVC: InterfaceBuildable {
+
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
+        backgroundView.require()
+        closeButtonItem.require()
+    }
+}
+
 // MARK: - Injectable
 
 extension NearbyVC: Injectable {
@@ -177,8 +190,7 @@ extension NearbyVC: Injectable {
     /// Handle dependency injection
     ///
     /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
+    func inject(model: Model) {
         let center: CLLocationCoordinate2D
         if UIApplication.isUITesting {
             // "Thailand" first
@@ -194,7 +206,7 @@ extension NearbyVC: Injectable {
                 guard model.center.distance(from: here) > 10 else {
                     set(mappables: model.mappables,
                         distances: loc.distances)
-                    return self
+                    return
                 }
             }
             center = model.center
@@ -214,13 +226,10 @@ extension NearbyVC: Injectable {
         queue.addOperation(update)
 
         tableView.set(message: contentState)
-        return self
     }
 
     /// Enforce dependency injection
-    func requireInjections() {
-        backgroundView.require()
-    }
+    func requireInjection() { }
 }
 
 // MARK: - NearbyCellDelegate

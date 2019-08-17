@@ -6,7 +6,8 @@ import Parchment
 /// Displays logged in user visit counts
 final class MyCountsVC: UIViewController, ServiceProvider {
 
-    @IBOutlet private var pagesHolder: UIView?
+    // verified in requireOutlets
+    @IBOutlet private var pagesHolder: UIView!
 
     private let pagingVC = MyCountsPagingVC()
     private let pages = ListPagingItem.pages
@@ -14,7 +15,7 @@ final class MyCountsVC: UIViewController, ServiceProvider {
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
 
         configurePagesHolder()
     }
@@ -27,13 +28,11 @@ private extension MyCountsVC {
     @IBAction func unwindToCounts(segue: UIStoryboardSegue) { }
 
     func configurePagesHolder() {
-        guard let holder = pagesHolder else { return }
-
         pagingVC.configure()
 
         addChild(pagingVC)
-        holder.addSubview(pagingVC.view)
-        pagingVC.view.edgeAnchors == holder.edgeAnchors
+        pagesHolder.addSubview(pagingVC.view)
+        pagingVC.view.edgeAnchors == pagesHolder.edgeAnchors
         pagingVC.didMove(toParent: self)
 
         pagingVC.dataSource = self
@@ -131,23 +130,12 @@ extension MyCountsVC: PagingViewControllerDelegate {
     }
 }
 
-// MARK: - Injectable
+// MARK: - InterfaceBuildable
 
-extension MyCountsVC: Injectable {
-
-    /// Injected dependencies
-    typealias Model = ()
-
-    /// Handle dependency injection
-    ///
-    /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
-        return self
-    }
+extension MyCountsVC: InterfaceBuildable {
 
     /// Enforce dependency injection
-    func requireInjections() {
+    func requireOutlets() {
         pagesHolder.require()
     }
 }

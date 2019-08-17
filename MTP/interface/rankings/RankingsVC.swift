@@ -9,10 +9,11 @@ final class RankingsVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.rankingsVC
 
-    @IBOutlet private var pagesHolder: UIView?
-    @IBOutlet private var searchBar: UISearchBar? {
+    // verified in requireOutlets
+    @IBOutlet private var pagesHolder: UIView!
+    @IBOutlet private var searchBar: UISearchBar! {
         didSet {
-            searchBar?.removeClearButton()
+            searchBar.removeClearButton()
         }
     }
 
@@ -45,7 +46,7 @@ final class RankingsVC: UIViewController, ServiceProvider {
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
 
         configurePagesHolder()
         configureSearchBar()
@@ -92,13 +93,11 @@ private extension RankingsVC {
     @IBAction func unwindToRankings(segue: UIStoryboardSegue) { }
 
     func configurePagesHolder() {
-        guard let holder = pagesHolder else { return }
-
         pagingVC.configure()
 
         addChild(pagingVC)
-        holder.addSubview(pagingVC.view)
-        pagingVC.view.edgeAnchors == holder.edgeAnchors
+        pagesHolder.addSubview(pagingVC.view)
+        pagingVC.view.edgeAnchors == pagesHolder.edgeAnchors
         pagingVC.didMove(toParent: self)
 
         pagingVC.dataSource = self
@@ -107,7 +106,6 @@ private extension RankingsVC {
     }
 
     func configureSearchBar() {
-        guard let searchBar = searchBar else { return }
         dropdown.anchorView = searchBar
         dropdown.bottomOffset = CGPoint(x: 0, y: searchBar.bounds.height)
         dropdown.selectionAction = { [weak self] (index: Int, item: String) in
@@ -120,8 +118,6 @@ private extension RankingsVC {
     }
 
     @IBAction func searchTapped(_ sender: UIBarButtonItem) {
-        guard let searchBar = searchBar  else { return }
-
         if navigationItem.titleView == nil {
             navigationItem.titleView = searchBar
             searchBar.becomeFirstResponder()
@@ -134,9 +130,9 @@ private extension RankingsVC {
         dropdown.dataSource = names
         if names.isEmpty {
             dropdown.hide()
-            searchBar?.setShowsCancelButton(true, animated: true)
+            searchBar.setShowsCancelButton(true, animated: true)
         } else {
-            searchBar?.showsCancelButton = false
+            searchBar.showsCancelButton = false
             dropdown.show()
         }
     }
@@ -158,9 +154,7 @@ private extension RankingsVC {
 
     func dropdown(selected index: Int) {
         let info = searchResults[searchKey]?[index]
-        if let searchBar = searchBar {
-            searchBarCancelButtonClicked(searchBar)
-        }
+        searchBarCancelButtonClicked(searchBar)
 
         guard let person = info else { return }
         profileModel = data.get(user: person.id) ?? User(from: person)
@@ -355,23 +349,12 @@ extension RankingsVC: UISearchBarDelegate {
     }
 }
 
-// MARK: - Injectable
+// MARK: - InterfaceBuildable
 
-extension RankingsVC: Injectable {
+extension RankingsVC: InterfaceBuildable {
 
-    /// Injected dependencies
-    typealias Model = ()
-
-    /// Handle dependency injection
-    ///
-    /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
-        return self
-    }
-
-    /// Enforce dependency injection
-    func requireInjections() {
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
         pagesHolder.require()
         searchBar.require()
     }

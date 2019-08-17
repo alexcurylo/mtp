@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ySF-3Z-TpY">
-    <device id="retina6_5" orientation="portrait">
+    <device id="retina3_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -16,39 +16,39 @@
             <objects>
                 <viewController title="Add Photo" id="ySF-3Z-TpY" customClass="AddPhotoVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="j9d-hs-scq" customClass="GradientView" customModule="MTP" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AZ8-2r-4Qv">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="372"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="1eG-wN-HQL">
-                                        <rect key="frame" x="8" y="0.0" width="398" height="679"/>
+                                        <rect key="frame" x="8" y="0.0" width="304" height="679"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Um9-Uf-nYZ">
-                                                <rect key="frame" x="0.0" y="0.0" width="398" height="68"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="304" height="68"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="7Ez-FX-Gsi">
-                                                        <rect key="frame" x="16" y="8" width="366" height="52"/>
+                                                        <rect key="frame" x="16" y="8" width="272" height="52"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="dgl-1o-0jI" userLabel="Country Line">
-                                                                <rect key="frame" x="0.0" y="0.0" width="366" height="23.666666666666668"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="272" height="23.5"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Country:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ER8-nr-hNt">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="68.666666666666671" height="23.666666666666668"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="69" height="23.5"/>
                                                                         <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="17"/>
                                                                         <color key="textColor" name="azureRadiance"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Select Country" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SPT-2N-suW">
-                                                                        <rect key="frame" x="76.666666666666686" y="0.0" width="100.33333333333331" height="23.666666666666668"/>
+                                                                        <rect key="frame" x="77" y="0.0" width="100.5" height="23.5"/>
                                                                         <gestureRecognizers/>
                                                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
                                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <imageView userInteractionEnabled="NO" contentMode="right" horizontalHuggingPriority="249" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="arrowRightBlue" translatesAutoresizingMaskIntoConstraints="NO" id="aoC-C0-WP2">
-                                                                        <rect key="frame" x="185" y="0.0" width="181" height="23.666666666666668"/>
+                                                                        <rect key="frame" x="185.5" y="0.0" width="86.5" height="23.5"/>
                                                                     </imageView>
                                                                 </subviews>
                                                                 <connections>
@@ -56,23 +56,23 @@
                                                                 </connections>
                                                             </stackView>
                                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="uEF-Qk-Epz">
-                                                                <rect key="frame" x="0.0" y="28.666666666666664" width="366" height="23.333333333333336"/>
+                                                                <rect key="frame" x="0.0" y="28.5" width="272" height="23.5"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Location:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oug-hM-Rb4">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="73" height="23.333333333333332"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="73" height="23.5"/>
                                                                         <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="17"/>
                                                                         <color key="textColor" name="azureRadiance"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Select Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I3m-Dn-AzO">
-                                                                        <rect key="frame" x="81" y="0.0" width="104" height="23.333333333333332"/>
+                                                                        <rect key="frame" x="81" y="0.0" width="104" height="23.5"/>
                                                                         <gestureRecognizers/>
                                                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
                                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <imageView userInteractionEnabled="NO" contentMode="right" horizontalHuggingPriority="249" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="arrowRightBlue" translatesAutoresizingMaskIntoConstraints="NO" id="Sw7-JR-wK5">
-                                                                        <rect key="frame" x="193" y="0.0" width="173" height="23.333333333333332"/>
+                                                                        <rect key="frame" x="193" y="0.0" width="79" height="23.5"/>
                                                                     </imageView>
                                                                 </subviews>
                                                                 <connections>
@@ -99,19 +99,19 @@
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BlG-cy-0Eh">
-                                                <rect key="frame" x="0.0" y="76" width="398" height="117"/>
+                                                <rect key="frame" x="0.0" y="76" width="304" height="117"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="GqL-1c-hSv">
-                                                        <rect key="frame" x="16" y="8" width="366" height="97"/>
+                                                        <rect key="frame" x="16" y="8" width="272" height="97"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Caption (optional):" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eq8-rP-xDV">
-                                                                <rect key="frame" x="0.0" y="0.0" width="366" height="23.333333333333332"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="272" height="23.5"/>
                                                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="17"/>
                                                                 <color key="textColor" name="azureRadiance"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="aUt-Dk-5Bh" customClass="TopLoadingTextView" customModule="MTP" customModuleProvider="target">
-                                                                <rect key="frame" x="0.0" y="28.333333333333329" width="366" height="68.666666666666671"/>
+                                                                <rect key="frame" x="0.0" y="28.5" width="272" height="68.5"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                 <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
@@ -148,16 +148,16 @@
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gQk-so-HC4">
-                                                <rect key="frame" x="0.0" y="201" width="398" height="478"/>
+                                                <rect key="frame" x="0.0" y="201" width="304" height="478"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="h2Y-kd-4lR">
-                                                        <rect key="frame" x="16" y="16" width="366" height="450"/>
+                                                        <rect key="frame" x="16" y="16" width="272" height="450"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="feC-Fl-2Om">
-                                                                <rect key="frame" x="0.0" y="0.0" width="366" height="270"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="272" height="270"/>
                                                                 <subviews>
                                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NLp-fY-8ed">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="366" height="270"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="272" height="270"/>
                                                                         <color key="backgroundColor" name="alto"/>
                                                                         <userDefinedRuntimeAttributes>
                                                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -166,7 +166,7 @@
                                                                         </userDefinedRuntimeAttributes>
                                                                     </imageView>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VQA-RQ-c3k">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="366" height="270"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="272" height="270"/>
                                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <state key="normal" image="pencilWhite"/>
                                                                         <userDefinedRuntimeAttributes>
@@ -193,7 +193,7 @@
                                                                 </constraints>
                                                             </view>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Oo-FC-IfQ" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
-                                                                <rect key="frame" x="0.0" y="278" width="366" height="37"/>
+                                                                <rect key="frame" x="0.0" y="278" width="272" height="37"/>
                                                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
                                                                 <state key="normal" title="Open Photo Library">
                                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -217,7 +217,7 @@
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iaf-wu-0GT" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
-                                                                <rect key="frame" x="0.0" y="323" width="366" height="37"/>
+                                                                <rect key="frame" x="0.0" y="323" width="272" height="37"/>
                                                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
                                                                 <state key="normal" title="Open Camera">
                                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -241,7 +241,7 @@
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PPb-XV-cPo" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
-                                                                <rect key="frame" x="0.0" y="368" width="366" height="37"/>
+                                                                <rect key="frame" x="0.0" y="368" width="272" height="37"/>
                                                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
                                                                 <state key="normal" title="Open Facebook Photos">
                                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -265,7 +265,7 @@
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f2t-N4-utz" customClass="GradientButton" customModule="MTP" customModuleProvider="target">
-                                                                <rect key="frame" x="0.0" y="413" width="366" height="37"/>
+                                                                <rect key="frame" x="0.0" y="413" width="272" height="37"/>
                                                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
                                                                 <state key="normal" title="Open Instagram Photos">
                                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -318,7 +318,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="AZ8-2r-4Qv" firstAttribute="top" secondItem="j9d-hs-scq" secondAttribute="top" id="7jY-t0-cuI"/>
+                            <constraint firstItem="AZ8-2r-4Qv" firstAttribute="top" secondItem="321-Ei-Uae" secondAttribute="top" id="7jY-t0-cuI"/>
                             <constraint firstItem="321-Ei-Uae" firstAttribute="bottom" secondItem="AZ8-2r-4Qv" secondAttribute="bottom" id="M8g-zb-pBz"/>
                             <constraint firstAttribute="trailing" secondItem="AZ8-2r-4Qv" secondAttribute="trailing" id="Urp-hg-9ty"/>
                             <constraint firstItem="AZ8-2r-4Qv" firstAttribute="leading" secondItem="j9d-hs-scq" secondAttribute="leading" id="a0g-Hj-wfY"/>

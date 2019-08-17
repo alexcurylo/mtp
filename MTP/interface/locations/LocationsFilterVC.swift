@@ -7,14 +7,15 @@ final class LocationsFilterVC: UITableViewController, ServiceProvider {
 
     private typealias Segues = R.segue.locationsFilterVC
 
-    @IBOutlet private var closeButton: UIBarButtonItem?
-    @IBOutlet private var saveButton: UIBarButtonItem?
-    @IBOutlet private var locationsSwitch: UISwitch?
-    @IBOutlet private var whsSwitch: UISwitch?
-    @IBOutlet private var beachesSwitch: UISwitch?
-    @IBOutlet private var golfCoursesSwitch: UISwitch?
-    @IBOutlet private var diveSitesSwitch: UISwitch?
-    @IBOutlet private var restaurantsSwitch: UISwitch?
+    // verified in requireOutlets
+    @IBOutlet private var closeButton: UIBarButtonItem!
+    @IBOutlet private var saveButton: UIBarButtonItem!
+    @IBOutlet private var locationsSwitch: UISwitch!
+    @IBOutlet private var whsSwitch: UISwitch!
+    @IBOutlet private var beachesSwitch: UISwitch!
+    @IBOutlet private var golfCoursesSwitch: UISwitch!
+    @IBOutlet private var diveSitesSwitch: UISwitch!
+    @IBOutlet private var restaurantsSwitch: UISwitch!
 
     private var original = ChecklistFlags()
     private var current = ChecklistFlags()
@@ -22,7 +23,7 @@ final class LocationsFilterVC: UITableViewController, ServiceProvider {
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
 
         let backgroundView = GradientView {
             $0.set(gradient: [.dodgerBlue, .azureRadiance],
@@ -67,18 +68,18 @@ private extension LocationsFilterVC {
         original = filter
         current = filter
 
-        locationsSwitch?.isOn = filter.locations
-        whsSwitch?.isOn = filter.whss
-        beachesSwitch?.isOn = filter.beaches
-        golfCoursesSwitch?.isOn = filter.golfcourses
-        diveSitesSwitch?.isOn = filter.divesites
-        restaurantsSwitch?.isOn = filter.restaurants
+        locationsSwitch.isOn = filter.locations
+        whsSwitch.isOn = filter.whss
+        beachesSwitch.isOn = filter.beaches
+        golfCoursesSwitch.isOn = filter.golfcourses
+        diveSitesSwitch.isOn = filter.divesites
+        restaurantsSwitch.isOn = filter.restaurants
 
-        saveButton?.isEnabled = false
+        saveButton.isEnabled = false
     }
 
     func updateSave() {
-        saveButton?.isEnabled = original != current
+        saveButton.isEnabled = original != current
     }
 
     func saveEdits(notifying controller: UIViewController?) {
@@ -131,23 +132,12 @@ extension LocationsFilterVC: Exposing {
     }
 }
 
-// MARK: - Injectable
+// MARK: - InterfaceBuildable
 
-extension LocationsFilterVC: Injectable {
+extension LocationsFilterVC: InterfaceBuildable {
 
-    /// Injected dependencies
-    typealias Model = ()
-
-    /// Handle dependency injection
-    ///
-    /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
-        return self
-    }
-
-    /// Enforce dependency injection
-    func requireInjections() {
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
         beachesSwitch.require()
         closeButton.require()
         diveSitesSwitch.require()

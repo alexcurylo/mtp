@@ -16,11 +16,13 @@ final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
     ///
     /// - Parameter model: Model to populate pages
     /// - Returns: LocationPagingVC
-    static func profile(model: Model) -> LocationPagingVC {
+    static func profile(model: Mappable) -> LocationPagingVC {
 
         var first: UIViewController? {
             if model.canPost {
-                return R.storyboard.locationInfo.locationInfo()?.inject(model: model)
+                let vc = R.storyboard.locationInfo.locationInfo()
+                vc?.inject(model: model)
+                return vc
             } else {
                 return LocationWebsiteVC(mappable: model)
             }
@@ -32,14 +34,18 @@ final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
         #else
         var second: UIViewController? {
             if model.canPost {
-                return R.storyboard.locationPhotos.locationPhotos()?.inject(model: model)
+                let vc = R.storyboard.locationPhotos.locationPhotos()
+                vc?.inject(model: model)
+                return vc
             } else {
                 return nil
             }
         }
         var third: UIViewController? {
             if model.canPost {
-                return R.storyboard.locationPosts.locationPosts()?.inject(model: model)
+                let vc = R.storyboard.locationPosts.locationPosts()
+                vc?.inject(model: model)
+                return vc
             } else {
                 return nil
             }
@@ -158,34 +164,15 @@ extension LocationPagingVC: CollectionCellExposing {
     func expose(view: UICollectionView,
                 path: IndexPath,
                 cell: UICollectionViewCell) {
-        switch path.item {
-        case Page.first.rawValue:
+        guard let page = Page(rawValue: path.item) else { return }
+
+        switch page {
+        case .first:
             UILocationPaging.first.expose(item: cell)
-        case Page.photos.rawValue:
+        case .photos:
             UILocationPaging.photos.expose(item: cell)
-        case Page.posts.rawValue:
+        case .posts:
             UILocationPaging.posts.expose(item: cell)
-        default:
-            break
         }
     }
-}
-
-// MARK: - Injectable
-
-extension LocationPagingVC: Injectable {
-
-    /// Injected dependencies
-    typealias Model = Mappable
-
-    /// Handle dependency injection
-    ///
-    /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
-        return self
-    }
-
-    /// Enforce dependency injection
-    func requireInjections() { }
 }

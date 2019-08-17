@@ -7,7 +7,10 @@ final class LocationPhotosVC: PhotosVC {
 
     private typealias Segues = R.segue.locationPhotosVC
 
-    private var mappable: Mappable?
+    // verified in requireInjection
+    private var mappable: Mappable!
+    // swiftlint:disable:previous implicitly_unwrapped_optional
+
     private var photos: [Photo] = []
 
     private var photosObserver: Observer?
@@ -20,7 +23,7 @@ final class LocationPhotosVC: PhotosVC {
         return isImplemented
     }
     private var isImplemented: Bool {
-        return mappable?.checklist == .locations
+        return mappable.checklist == .locations
     }
 
     /// How many photos in collection
@@ -45,7 +48,7 @@ final class LocationPhotosVC: PhotosVC {
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireInjection()
 
         update()
     }
@@ -92,7 +95,7 @@ private extension LocationPhotosVC {
     }
 
     func refresh(reload: Bool) {
-        guard let mappable = mappable, isImplemented else { return }
+        guard isImplemented else { return }
 
         net.loadPhotos(location: mappable.checklistId,
                        reload: reload) { [weak self] _ in
@@ -101,8 +104,6 @@ private extension LocationPhotosVC {
     }
 
     func update() {
-        guard let mappable = mappable else { return }
-
         update(photos: mappable)
         collectionView.reloadData()
 
@@ -138,9 +139,8 @@ private extension LocationPhotosVC {
 
         photosObserver = data.observer(of: .locationPhotos) { [weak self] info in
             guard let self = self,
-                  let mappable = self.mappable,
                   let updated = info[StatusKey.value.rawValue] as? Int,
-                  updated == mappable.checklistId else { return }
+                  updated == self.mappable.checklistId else { return }
             self.updated = true
             self.update()
         }
@@ -164,17 +164,14 @@ extension LocationPhotosVC: Injectable {
     /// Handle dependency injection
     ///
     /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
+    func inject(model: Model) {
         mappable = model
 
         refresh(reload: false)
-
-        return self
     }
 
     /// Enforce dependency injection
-    func requireInjections() {
+    func requireInjection() {
         mappable.require()
     }
 }

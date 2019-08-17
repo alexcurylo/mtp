@@ -7,17 +7,19 @@ final class ProfileAboutVC: UITableViewController, UserInjectable, ServiceProvid
 
     private typealias Segues = R.segue.profileAboutVC
 
-    @IBOutlet private var rankingLabel: UILabel?
-    @IBOutlet private var mapImageView: UIImageView?
-    @IBOutlet private var visitedButton: GradientButton?
-    @IBOutlet private var remainingButton: GradientButton?
-    @IBOutlet private var bioTextView: UITextView?
+    // verified in requireOutlets
+    @IBOutlet private var rankingLabel: UILabel!
+    @IBOutlet private var mapImageView: UIImageView!
+    @IBOutlet private var visitedButton: GradientButton!
+    @IBOutlet private var remainingButton: GradientButton!
+    @IBOutlet private var bioTextView: UITextView!
+    @IBOutlet private var airportLabel: UILabel!
+    @IBOutlet private var linksStack: UIStackView!
 
-    @IBOutlet private var airportLabel: UILabel?
+    // verified in requireInjection
+    private var user: User!
+    // swiftlint:disable:previous implicitly_unwrapped_optional
 
-    @IBOutlet private var linksStack: UIStackView?
-
-    private var user: User?
     private var isSelf: Bool = false
     private var visits: [Int] = []
 
@@ -33,14 +35,15 @@ final class ProfileAboutVC: UITableViewController, UserInjectable, ServiceProvid
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
+        requireInjection()
     }
 
     /// Refresh map on layout
    override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
-        guard let inset = mapImageView?.superview?.frame.origin.x else { return }
+        guard let inset = mapImageView.superview?.frame.origin.x else { return }
         let width = tableView.bounds.width - (inset * 2)
         if mapWidth != width {
             update(map: width)
@@ -103,8 +106,6 @@ extension ProfileAboutVC {
 private extension ProfileAboutVC {
 
     func update() {
-        guard let user = user else { return }
-
         tableView.update {
             update(map: mapWidth)
             update(ranking: user)
@@ -129,8 +130,7 @@ private extension ProfileAboutVC {
         } else {
             userIdObserver = data.observer(of: .userId) { [weak self] _ in
                 guard let self = self,
-                      let userId = self.user?.userId,
-                      let new = self.data.get(user: userId) else { return }
+                      let new = self.data.get(user: self.user.userId) else { return }
 
                 self.user = new
                 self.update()
@@ -156,7 +156,7 @@ private extension ProfileAboutVC {
         let image = data.worldMap.draw(visits: visits,
                                        width: width)
         mapWidth = image?.size.width ?? 0
-        mapImageView?.image = image
+        mapImageView.image = image
     }
 
     func update(ranking user: User) {
@@ -164,45 +164,41 @@ private extension ProfileAboutVC {
 
         let rank = list.rank(of: user)
         let ranking = L.ranking(rank.grouped)
-        rankingLabel?.text = ranking
+        rankingLabel.text = ranking
 
         let status = list.visitStatus(of: user)
         let visited = L.visitedCount(status.visited)
-        visitedButton?.setTitle(visited, for: .normal)
+        visitedButton.setTitle(visited, for: .normal)
         let remaining = L.remainingCount(status.remaining)
-        remainingButton?.setTitle(remaining, for: .normal)
+        remainingButton.setTitle(remaining, for: .normal)
 
         if let attributed = user.bio.html2Attributed(
             font: Avenir.medium.of(size: 18),
             color: .darkGray
             )?.trimmed {
-            bioTextView?.attributedText = attributed
+            bioTextView.attributedText = attributed
         } else {
-            bioTextView?.text = user.bio
+            bioTextView.text = user.bio
         }
     }
 
     func update(airport user: User) {
-        guard let label = airportLabel else { return }
-
         if user.airport.isEmpty {
-            label.text = L.unknown()
-            label.font = Avenir.bookOblique.of(size: 12)
-            label.alpha = 0.7
+            airportLabel.text = L.unknown()
+            airportLabel.font = Avenir.bookOblique.of(size: 12)
+            airportLabel.alpha = 0.7
         } else {
-            label.text = user.airport.uppercased()
-            label.font = Avenir.book.of(size: 16)
-            label.alpha = 1
+            airportLabel.text = user.airport.uppercased()
+            airportLabel.font = Avenir.book.of(size: 16)
+            airportLabel.alpha = 1
         }
     }
 
     func update(links user: User) {
-        guard let stack = linksStack else { return }
-
         let headerViewCount = 2
-        let views = stack.arrangedSubviews
+        let views = linksStack.arrangedSubviews
         (headerViewCount..<views.count).forEach { index in
-            stack.removeArrangedSubview(views[index])
+            linksStack.removeArrangedSubview(views[index])
             views[index].removeFromSuperview()
         }
 
@@ -214,7 +210,7 @@ private extension ProfileAboutVC {
                 $0.font = Avenir.heavy.of(size: 10)
                 $0.alpha = 0.7
             }
-            stack.addArrangedSubview(label)
+            linksStack.addArrangedSubview(label)
 
             let title = linkUrl
                 .replacingOccurrences(of: "http://", with: "")
@@ -227,16 +223,16 @@ private extension ProfileAboutVC {
             }
             let button = GradientButton.urlButton(title: title, link: link)
             button.addTarget(self, action: #selector(linkTapped), for: .touchUpInside)
-            stack.addArrangedSubview(button)
+            linksStack.addArrangedSubview(button)
         }
 
-        if stack.arrangedSubviews.count <= headerViewCount {
+        if linksStack.arrangedSubviews.count <= headerViewCount {
             let label = UILabel {
                 $0.text = L.emptyState()
                 $0.font = Avenir.bookOblique.of(size: 12)
                 $0.alpha = 0.7
             }
-            stack.addArrangedSubview(label)
+            linksStack.addArrangedSubview(label)
         }
     }
 
@@ -248,15 +244,11 @@ private extension ProfileAboutVC {
     }
 
     @IBAction func visitedTapped(_ sender: GradientButton) {
-        guard let user = user else { return }
-
         countsModel = (.locations, user, .visited)
         performSegue(withIdentifier: Segues.showUserCounts, sender: self)
     }
 
     @IBAction func remainingTapped(_ sender: GradientButton) {
-        guard let user = user else { return }
-
         countsModel = (.locations, user, .remaining)
         performSegue(withIdentifier: Segues.showUserCounts, sender: self)
     }
@@ -291,6 +283,22 @@ extension ProfileAboutVC: Exposing {
     }
 }
 
+// MARK: - InterfaceBuildable
+
+extension ProfileAboutVC: InterfaceBuildable {
+
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
+        airportLabel.require()
+        bioTextView.require()
+        linksStack.require()
+        mapImageView.require()
+        rankingLabel.require()
+        remainingButton.require()
+        visitedButton.require()
+    }
+}
+
 // MARK: - Injectable
 
 extension ProfileAboutVC: Injectable {
@@ -301,8 +309,7 @@ extension ProfileAboutVC: Injectable {
     /// Handle dependency injection
     ///
     /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
+    func inject(model: Model) {
         user = model
         isSelf = model.isSelf
         observe()
@@ -312,20 +319,10 @@ extension ProfileAboutVC: Injectable {
         } else {
             fetch(id: model.userId)
        }
-
-        return self
     }
 
     /// Enforce dependency injection
-    func requireInjections() {
+    func requireInjection() {
         user.require()
-
-        rankingLabel.require()
-        mapImageView.require()
-        visitedButton.require()
-        remainingButton.require()
-        bioTextView.require()
-        airportLabel.require()
-        linksStack.require()
     }
 }

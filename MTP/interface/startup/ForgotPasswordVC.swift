@@ -7,23 +7,24 @@ final class ForgotPasswordVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.forgotPasswordVC
 
-    @IBOutlet private var alertHolder: UIView?
-    @IBOutlet private var bottomY: NSLayoutConstraint?
-    @IBOutlet private var centerY: NSLayoutConstraint?
-    @IBOutlet private var messageLabel: UILabel?
-    @IBOutlet private var cancelButton: UIButton?
-    @IBOutlet private var sendButton: UIButton?
+    // verified in requireOutlets
+    @IBOutlet private var alertHolder: UIView!
+    @IBOutlet private var bottomY: NSLayoutConstraint!
+    @IBOutlet private var centerY: NSLayoutConstraint!
+    @IBOutlet private var messageLabel: UILabel!
+    @IBOutlet private var cancelButton: UIButton!
+    @IBOutlet private var sendButton: UIButton!
 
     private var email: String = ""
 
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
 
         email = data.email
         let message = L.sendLink(email.hiddenName)
-        messageLabel?.text = message
+        messageLabel.text = message
     }
 
     /// Prepare for reveal
@@ -84,13 +85,11 @@ private extension ForgotPasswordVC {
     }
 
     func hideAlert() {
-        centerY?.priority = .defaultLow
-        bottomY?.priority = .defaultHigh
+        centerY.priority = .defaultLow
+        bottomY.priority = .defaultHigh
         view.setNeedsLayout()
         view.layoutIfNeeded()
-        if let height = alertHolder?.bounds.height {
-            bottomY?.constant = -height
-        }
+        bottomY.constant = -alertHolder.bounds.height
         view.setNeedsLayout()
         view.layoutIfNeeded()
     }
@@ -103,8 +102,8 @@ private extension ForgotPasswordVC {
             initialSpringVelocity: 0.75,
             options: [.curveEaseOut],
             animations: {
-                self.bottomY?.priority = .defaultLow
-                self.centerY?.priority = .defaultHigh
+                self.bottomY.priority = .defaultLow
+                self.centerY.priority = .defaultHigh
                 self.view.layoutIfNeeded()
             },
             completion: nil)
@@ -122,23 +121,12 @@ extension ForgotPasswordVC: Exposing {
     }
 }
 
-// MARK: - Injectable
+// MARK: - InterfaceBuildable
 
-extension ForgotPasswordVC: Injectable {
+extension ForgotPasswordVC: InterfaceBuildable {
 
-    /// Injected dependencies
-    typealias Model = ()
-
-    /// Handle dependency injection
-    ///
-    /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
-        return self
-    }
-
-    /// Enforce dependency injection
-    func requireInjections() {
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
         alertHolder.require()
         bottomY.require()
         centerY.require()

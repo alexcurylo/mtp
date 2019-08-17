@@ -7,14 +7,16 @@ final class MainTBC: UITabBarController, ServiceProvider {
 
     private typealias Segues = R.segue.myProfileVC
 
-    private var destination: Route?
+    // verified in requireInjection
+    private var destination: Route!
+    // swiftlint:disable:previous implicitly_unwrapped_optional
 
     private static var current: MainTBC?
 
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireInjection()
 
         MainTBC.current = self
         checkDestination()
@@ -110,17 +112,17 @@ private extension MainTBC {
     }
 
     func checkDestination() {
-        guard let goto = destination else { return }
-
-        switch goto {
-        case .locations, .rankings, .myProfile:
-            selectedIndex = goto.tabIndex
-        case .editProfile:
-            selectedIndex = Route.myProfile.tabIndex
-            myProfile?.performSegue(withIdentifier: Segues.directEdit, sender: self)
-        case .reportContent(let message):
-            selectedIndex = Route.myProfile.tabIndex
-            myProfile?.reportContent(message: message)
+        if let goto = destination {
+            switch goto {
+            case .locations, .rankings, .myProfile:
+                selectedIndex = goto.tabIndex
+            case .editProfile:
+                selectedIndex = Route.myProfile.tabIndex
+                myProfile?.performSegue(withIdentifier: Segues.directEdit, sender: self)
+            case .reportContent(let message):
+                selectedIndex = Route.myProfile.tabIndex
+                myProfile?.reportContent(message: message)
+            }
         }
 
         destination = nil
@@ -157,14 +159,12 @@ extension MainTBC: Injectable {
     /// Handle dependency injection
     ///
     /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
+    func inject(model: Model) {
         destination = model
-        return self
     }
 
     /// Enforce dependency injection
-    func requireInjections() {
+    func requireInjection() {
         destination.require()
     }
 }

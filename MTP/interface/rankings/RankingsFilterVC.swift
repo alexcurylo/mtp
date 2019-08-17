@@ -7,22 +7,19 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
 
     private typealias Segues = R.segue.rankingsFilterVC
 
-    @IBOutlet private var closeButton: UIBarButtonItem?
-    @IBOutlet private var saveButton: UIBarButtonItem?
-
-    @IBOutlet private var locationStack: UIStackView?
-    @IBOutlet private var locationLine: UIStackView?
-    @IBOutlet private var countryLabel: UILabel?
-    @IBOutlet private var locationLabel: UILabel?
-
-    @IBOutlet private var femaleButton: UIButton?
-    @IBOutlet private var maleAndFemaleButton: UIButton?
-    @IBOutlet private var maleButton: UIButton?
-
-    @IBOutlet private var ageSlider: UISlider?
-    @IBOutlet private var ageLabel: UILabel?
-
-    @IBOutlet private var facebookSwitch: UISwitch?
+    // verified in requireOutlets
+    @IBOutlet private var closeButton: UIBarButtonItem!
+    @IBOutlet private var saveButton: UIBarButtonItem!
+    @IBOutlet private var locationStack: UIStackView!
+    @IBOutlet private var locationLine: UIStackView!
+    @IBOutlet private var countryLabel: UILabel!
+    @IBOutlet private var locationLabel: UILabel!
+    @IBOutlet private var femaleButton: UIButton!
+    @IBOutlet private var maleAndFemaleButton: UIButton!
+    @IBOutlet private var maleButton: UIButton!
+    @IBOutlet private var ageSlider: UISlider!
+    @IBOutlet private var ageLabel: UILabel!
+    @IBOutlet private var facebookSwitch: UISwitch!
 
     private var original: RankingsQuery?
     private var current: RankingsQuery?
@@ -30,7 +27,7 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
 
         let backgroundView = GradientView {
             $0.set(gradient: [.dodgerBlue, .azureRadiance],
@@ -119,65 +116,64 @@ private extension RankingsFilterVC {
         let filter = data.lastRankingsQuery
         original = filter
         current = filter
-        saveButton?.isEnabled = false
+        saveButton.isEnabled = false
 
         configureLocation()
 
-        femaleButton?.centerImageAndLabel(gap: 8, imageOnTop: true)
-        femaleButton?.set(tintedSelection: filter.gender == .female)
-        maleAndFemaleButton?.centerImageAndLabel(gap: 8, imageOnTop: true)
-        maleAndFemaleButton?.set(tintedSelection: filter.gender == .all)
-        maleButton?.centerImageAndLabel(gap: 8, imageOnTop: true)
-        maleButton?.set(tintedSelection: filter.gender == .male)
+        femaleButton.centerImageAndLabel(gap: 8, imageOnTop: true)
+        femaleButton.set(tintedSelection: filter.gender == .female)
+        maleAndFemaleButton.centerImageAndLabel(gap: 8, imageOnTop: true)
+        maleAndFemaleButton.set(tintedSelection: filter.gender == .all)
+        maleButton.centerImageAndLabel(gap: 8, imageOnTop: true)
+        maleButton.set(tintedSelection: filter.gender == .male)
 
-        ageSlider?.value = Float(filter.ageGroup.rawValue)
-        ageLabel?.text = filter.ageGroup.description
+        ageSlider.value = Float(filter.ageGroup.rawValue)
+        ageLabel.text = filter.ageGroup.description
 
-        facebookSwitch?.isOn = filter.facebookConnected
+        facebookSwitch.isOn = filter.facebookConnected
     }
 
     func configureLocation() {
         let countryId = current?.countryId ?? 0
         let country = countryId > 0 ? data.get(country: countryId) : nil
-        countryLabel?.text = country?.placeCountry ?? L.allCountries()
+        countryLabel.text = country?.placeCountry ?? L.allCountries()
 
         let locationId = current?.locationId ?? 0
         let location = locationId > 0 ? data.get(location: locationId) : nil
 
-        guard let locationLine = locationLine else { return }
         if let country = country, country.hasChildren {
-            locationLabel?.text = location?.placeTitle ?? L.allLocations()
+            locationLabel.text = location?.placeTitle ?? L.allLocations()
 
-            locationStack?.addArrangedSubview(locationLine)
+            locationStack.addArrangedSubview(locationLine)
         } else {
-            locationLabel?.text = countryLabel?.text
+            locationLabel.text = countryLabel.text
 
-            locationStack?.removeArrangedSubview(locationLine)
+            locationStack.removeArrangedSubview(locationLine)
             locationLine.removeFromSuperview()
         }
         tableView.reloadData()
    }
 
     @IBAction func selectFemale(_ sender: UIButton) {
-        femaleButton?.set(tintedSelection: true)
-        maleAndFemaleButton?.set(tintedSelection: false)
-        maleButton?.set(tintedSelection: false)
+        femaleButton.set(tintedSelection: true)
+        maleAndFemaleButton.set(tintedSelection: false)
+        maleButton.set(tintedSelection: false)
         current?.gender = .female
         updateSave()
    }
 
     @IBAction func selectMale(_ sender: UIButton) {
-        femaleButton?.set(tintedSelection: false)
-        maleAndFemaleButton?.set(tintedSelection: false)
-        maleButton?.set(tintedSelection: true)
+        femaleButton.set(tintedSelection: false)
+        maleAndFemaleButton.set(tintedSelection: false)
+        maleButton.set(tintedSelection: true)
         current?.gender = .male
         updateSave()
     }
 
     @IBAction func selectMaleAndFemale(_ sender: UIButton) {
-        femaleButton?.set(tintedSelection: false)
-        maleAndFemaleButton?.set(tintedSelection: true)
-        maleButton?.set(tintedSelection: false)
+        femaleButton.set(tintedSelection: false)
+        maleAndFemaleButton.set(tintedSelection: true)
+        maleButton.set(tintedSelection: false)
         current?.gender = .all
         updateSave()
     }
@@ -186,7 +182,7 @@ private extension RankingsFilterVC {
         let newValue = sender.value.rounded()
         sender.setValue(newValue, animated: false)
         let ageGroup = Age(rawValue: Int(newValue)) ?? .all
-        ageLabel?.text = ageGroup.description
+        ageLabel.text = ageGroup.description
         current?.ageGroup = ageGroup
         updateSave()
   }
@@ -197,7 +193,7 @@ private extension RankingsFilterVC {
     }
 
     func updateSave() {
-        saveButton?.isEnabled = original != current
+        saveButton.isEnabled = original != current
     }
 
     func saveEdits(notifying controller: UIViewController?) {
@@ -222,23 +218,12 @@ extension RankingsFilterVC: Exposing {
     }
 }
 
-// MARK: - Injectable
+// MARK: - InterfaceBuildable
 
-extension RankingsFilterVC: Injectable {
+extension RankingsFilterVC: InterfaceBuildable {
 
-    /// Injected dependencies
-    typealias Model = ()
-
-    /// Handle dependency injection
-    ///
-    /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
-        return self
-    }
-
-    /// Enforce dependency injection
-    func requireInjections() {
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
         ageLabel.require()
         ageSlider.require()
         closeButton.require()
@@ -246,7 +231,7 @@ extension RankingsFilterVC: Injectable {
         facebookSwitch.require()
         femaleButton.require()
         locationLabel.require()
-        locationStack.require()
+        locationLine.require()
         locationStack.require()
         maleAndFemaleButton.require()
         maleButton.require()

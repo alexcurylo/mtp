@@ -18,7 +18,8 @@ final class FaqVC: UITableViewController, ServiceProvider {
 
     private typealias Segues = R.segue.faqVC
 
-    @IBOutlet private var backgroundView: UIView?
+    // verified in requireOutlets
+    @IBOutlet private var backgroundView: UIView!
 
     private var faqs: [FaqCellModel] = [
         FaqCellModel(index: 0,
@@ -86,7 +87,7 @@ final class FaqVC: UITableViewController, ServiceProvider {
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
 
         tableView.backgroundView = backgroundView
         tableView.tableFooterView = UIView()
@@ -187,23 +188,12 @@ extension FaqVC: Exposing {
     }
 }
 
-// MARK: - Injectable
+// MARK: - InterfaceBuildable
 
-extension FaqVC: Injectable {
+extension FaqVC: InterfaceBuildable {
 
-    /// Injected dependencies
-    typealias Model = ()
-
-    /// Handle dependency injection
-    ///
-    /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
-        return self
-    }
-
-    /// Enforce dependency injection
-    func requireInjections() {
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
         backgroundView.require()
     }
 }

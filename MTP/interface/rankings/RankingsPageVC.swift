@@ -425,9 +425,9 @@ extension RankingsPageVC: CollectionCellExposing {
     func expose(view: UICollectionView,
                 path: IndexPath,
                 cell: UICollectionViewCell) {
-        guard let cell = cell as? RankingCell else { return }
-
-        let list = ChecklistIndex(list: filter.checklist)
-        cell.expose(list: list, item: path.item)
+        if let cell = cell as? RankingCell {
+            let list = ChecklistIndex(list: filter.checklist)
+            cell.expose(list: list, item: path.item)
+        }
     }
 }

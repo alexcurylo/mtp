@@ -5,6 +5,9 @@ import Parchment
 /// Displays user visit tabs
 final class UserCountsPagingVC: FixedPagingViewController, UserCountsPageDataSource, ServiceProvider {
 
+    /// Injected dependencies
+    typealias Model = (list: Checklist, user: User)
+
     fileprivate enum Page: Int {
 
         case visited
@@ -144,32 +147,13 @@ extension UserCountsPagingVC: CollectionCellExposing {
     func expose(view: UICollectionView,
                 path: IndexPath,
                 cell: UICollectionViewCell) {
-        switch path.item {
-        case Page.remaining.rawValue:
+        guard let page = Page(rawValue: path.item) else { return }
+
+        switch page {
+        case .remaining:
             UIUserCountsPaging.remaining.expose(item: cell)
-        case Page.visited.rawValue:
+        case .visited:
             UIUserCountsPaging.visited.expose(item: cell)
-        default:
-            break
         }
     }
-}
-
-// MARK: - Injectable
-
-extension UserCountsPagingVC: Injectable {
-
-    /// Injected dependencies
-    typealias Model = (list: Checklist, user: User)
-
-    /// Handle dependency injection
-    ///
-    /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
-        return self
-    }
-
-    /// Enforce dependency injection
-    func requireInjections() { }
 }

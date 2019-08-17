@@ -17,24 +17,28 @@ final class UserCountsVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.userCountsVC
 
-    @IBOutlet private var closeButton: UIButton?
-    @IBOutlet private var headerView: UIView?
-    @IBOutlet private var avatarImageView: UIImageView?
-    @IBOutlet private var fullNameLabel: UILabel?
-    @IBOutlet private var countryLabel: UILabel?
-
-    @IBOutlet private var pagesHolder: UIView?
+    /// Injection enforcement for viewDidLoad
+    @IBOutlet private var closeButton: UIButton!
+    @IBOutlet private var headerView: UIView!
+    @IBOutlet private var avatarImageView: UIImageView!
+    @IBOutlet private var fullNameLabel: UILabel!
+    @IBOutlet private var countryLabel: UILabel!
+    @IBOutlet private var pagesHolder: UIView!
 
     private var userObserver: Observer?
 
+    // verified in requireInjection
+    private var user: User!
+    // swiftlint:disable:previous implicitly_unwrapped_optional
+
     private var list: Checklist = .locations
-    private var user: User?
     private var selected: Tab = .visited
 
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
+        requireInjection()
 
         setupPagesHolder()
     }
@@ -55,13 +59,10 @@ final class UserCountsVC: UIViewController, ServiceProvider {
 private extension UserCountsVC {
 
     func setupPagesHolder() {
-        guard let holder = pagesHolder,
-              let user = user else { return }
-
         let pagesVC = UserCountsPagingVC.profile(model: (list, user))
         addChild(pagesVC)
-        holder.addSubview(pagesVC.view)
-        pagesVC.view.edgeAnchors == holder.edgeAnchors
+        pagesHolder.addSubview(pagesVC.view)
+        pagesVC.view.edgeAnchors == pagesHolder.edgeAnchors
         pagesVC.didMove(toParent: self)
 
         let item = pagesVC.pagingViewController(pagesVC,
@@ -79,11 +80,9 @@ private extension UserCountsVC {
     }
 
     func configure() {
-        guard let user = user else { return }
-
-        avatarImageView?.load(image: user)
-        fullNameLabel?.text = user.fullName
-        countryLabel?.text = user.locationName
+        avatarImageView.load(image: user)
+        fullNameLabel.text = user.fullName
+        countryLabel.text = user.locationName
     }
 }
 
@@ -97,6 +96,21 @@ extension UserCountsVC: Exposing {
     }
 }
 
+// MARK: - InterfaceBuildable
+
+extension UserCountsVC: InterfaceBuildable {
+
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
+        avatarImageView.require()
+        closeButton.require()
+        countryLabel.require()
+        fullNameLabel.require()
+        headerView.require()
+        pagesHolder.require()
+    }
+}
+
 // MARK: - Injectable
 
 extension UserCountsVC: Injectable {
@@ -107,23 +121,14 @@ extension UserCountsVC: Injectable {
     /// Handle dependency injection
     ///
     /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
+    func inject(model: Model) {
         list = model.list
         user = model.user
         selected = model.tab
-        return self
     }
 
     /// Enforce dependency injection
-    func requireInjections() {
+    func requireInjection() {
         user.require()
-
-        closeButton.require()
-        headerView.require()
-        avatarImageView.require()
-        fullNameLabel.require()
-        countryLabel.require()
-        pagesHolder.require()
     }
 }

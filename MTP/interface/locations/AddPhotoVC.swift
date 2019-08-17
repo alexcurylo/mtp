@@ -24,22 +24,20 @@ final class AddPhotoVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.addPhotoVC
 
-    @IBOutlet private var closeButton: UIBarButtonItem?
-    @IBOutlet private var saveButton: UIBarButtonItem?
-
-    @IBOutlet private var locationView: UIView?
-    @IBOutlet private var locationStack: UIStackView?
-    @IBOutlet private var locationLine: UIStackView?
-    @IBOutlet private var countryLabel: UILabel?
-    @IBOutlet private var locationLabel: UILabel?
-
-    @IBOutlet private var captionTextView: TopLoadingTextView?
-
-    @IBOutlet private var imageButton: UIButton?
-    @IBOutlet private var imageView: UIImageView?
-    @IBOutlet private var cameraButton: GradientButton?
-    @IBOutlet private var facebookButton: GradientButton?
-    @IBOutlet private var instagramButton: GradientButton?
+    // verified in requireOutlets
+    @IBOutlet private var closeButton: UIBarButtonItem!
+    @IBOutlet private var saveButton: UIBarButtonItem!
+    @IBOutlet private var locationView: UIView!
+    @IBOutlet private var locationStack: UIStackView!
+    @IBOutlet private var locationLine: UIStackView!
+    @IBOutlet private var countryLabel: UILabel!
+    @IBOutlet private var locationLabel: UILabel!
+    @IBOutlet private var captionTextView: TopLoadingTextView!
+    @IBOutlet private var imageButton: UIButton!
+    @IBOutlet private var imageView: UIImageView!
+    @IBOutlet private var cameraButton: GradientButton!
+    @IBOutlet private var facebookButton: GradientButton!
+    @IBOutlet private var instagramButton: GradientButton!
 
     private let imagePicker = UIImagePickerController {
         $0.allowsEditing = true
@@ -60,16 +58,17 @@ final class AddPhotoVC: UIViewController, ServiceProvider {
 
     private var photo: UIImage? {
         didSet {
-            imageView?.image = photo
+            imageView.image = photo
             let back: UIColor = photo == nil ? .dustyGray : .clear
-            imageButton?.backgroundColor = back
+            imageButton.backgroundColor = back
         }
     }
 
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
+        requireInjection()
 
         imagePicker.delegate = self
 
@@ -131,36 +130,35 @@ private extension AddPhotoVC {
         configureLocation()
 
         if !UIImagePickerController.isSourceTypeAvailable(.camera) {
-            cameraButton?.isHidden = true
+            cameraButton.isHidden = true
         }
-        facebookButton?.isHidden = true
-        instagramButton?.isHidden = true
+        facebookButton.isHidden = true
+        instagramButton.isHidden = true
 
         updateSave(showError: false)
     }
 
     func configureLocation() {
         guard let delegate = delegate, delegate.isLocatable else {
-            locationView?.isHidden = true
+            locationView.isHidden = true
             return
         }
 
-        locationView?.isHidden = false
+        locationView.isHidden = false
 
         let country = countryId > 0 ? data.get(country: countryId) : nil
-        countryLabel?.text = country?.placeCountry ?? L.selectCountryOptional()
+        countryLabel.text = country?.placeCountry ?? L.selectCountryOptional()
 
         let location = locationId > 0 ? data.get(location: locationId) : nil
 
-        guard let locationLine = locationLine else { return }
         if let country = country, country.hasChildren {
-            locationLabel?.text = location?.placeTitle ?? L.selectLocation()
+            locationLabel.text = location?.placeTitle ?? L.selectLocation()
 
-            locationStack?.addArrangedSubview(locationLine)
+            locationStack.addArrangedSubview(locationLine)
         } else {
-            locationLabel?.text = countryLabel?.text
+            locationLabel.text = countryLabel.text
 
-            locationStack?.removeArrangedSubview(locationLine)
+            locationStack.removeArrangedSubview(locationLine)
             locationLine.removeFromSuperview()
         }
     }
@@ -216,7 +214,7 @@ private extension AddPhotoVC {
     }
 
     @discardableResult func updateSave(showError: Bool) -> Bool {
-        captionText = captionTextView?.text ?? ""
+        captionText = captionTextView.text ?? ""
 
         let errorMessage: String
         if countryId != 0 && locationId == 0 {
@@ -232,7 +230,7 @@ private extension AddPhotoVC {
             note.message(error: errorMessage)
         }
 
-        saveButton?.isEnabled = valid
+        saveButton.isEnabled = valid
         return valid
     }
 
@@ -389,6 +387,28 @@ extension AddPhotoVC: Exposing {
     }
 }
 
+// MARK: - InterfaceBuildable
+
+extension AddPhotoVC: InterfaceBuildable {
+
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
+        cameraButton.require()
+        captionTextView.require()
+        closeButton.require()
+        countryLabel.require()
+        facebookButton.require()
+        imageButton.require()
+        imageView.require()
+        instagramButton.require()
+        locationLabel.require()
+        locationLine.require()
+        locationStack.require()
+        locationView.require()
+        saveButton.require()
+    }
+}
+
 // MARK: - Injectable
 
 extension AddPhotoVC: Injectable {
@@ -399,25 +419,14 @@ extension AddPhotoVC: Injectable {
     /// Handle dependency injection
     ///
     /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
+    func inject(model: Model) {
         countryId = model.mappable?.location?.countryId ?? 0
         locationId = model.mappable?.location?.placeId ?? 0
         delegate = model.delegate
-        return self
     }
 
     /// Enforce dependency injection
-    func requireInjections() {
-        closeButton.require()
-        saveButton.require()
-        locationStack.require()
-        locationLine.require()
-        countryLabel.require()
-        locationLabel.require()
-        captionTextView.require()
-        imageButton.require()
-        imageView.require()
+    func requireInjection() {
         delegate.require()
     }
 }

@@ -7,13 +7,13 @@ final class TermsVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.termsVC
 
-    @IBOutlet private var agreeButton: GradientButton?
+    // verified in requireOutlets
+    @IBOutlet private var agreeButton: GradientButton!
 
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        requireInjections()
+        requireOutlets()
     }
 
     /// Prepare for reveal
@@ -38,23 +38,12 @@ extension TermsVC: Exposing {
     }
 }
 
-// MARK: - Injectable
+// MARK: - InterfaceBuildable
 
-extension TermsVC: Injectable {
+extension TermsVC: InterfaceBuildable {
 
-    /// Injected dependencies
-    typealias Model = ()
-
-    /// Handle dependency injection
-    ///
-    /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
-        return self
-    }
-
-    /// Enforce dependency injection
-    func requireInjections() {
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
         agreeButton.require()
     }
 }

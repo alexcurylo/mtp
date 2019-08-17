@@ -17,8 +17,7 @@ class PostsVC: UITableViewController, ServiceProvider {
 
     /// Create a new post
     func createPost() {
-        //swiftlint:disable:previous unavailable_function
-        fatalError("createPost has not been overridden")
+        // override to implement
     }
 
     /// Present user profile

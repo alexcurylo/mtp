@@ -14,6 +14,11 @@ protocol UserCountsPageDataSource: AnyObject {
 /// Displays user visit counts
 final class UserCountsPageVC: CountsPageVC {
 
+    /// Injected dependencies
+    typealias Model = (list: Checklist,
+        user: User,
+        tab: UserCountsVC.Tab)
+
     /// Data source for content
     weak var dataSource: UserCountsPageDataSource? {
         didSet { refresh() }
@@ -99,27 +104,6 @@ private extension UserCountsPageVC {
             showVisited == listVisited.contains($0.placeId)
         }
     }
-}
-
-// MARK: - Injectable
-
-extension UserCountsPageVC: Injectable {
-
-    /// Injected dependencies
-    typealias Model = (list: Checklist,
-                       user: User,
-                       tab: UserCountsVC.Tab)
-
-    /// Handle dependency injection
-    ///
-    /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
-        return self
-    }
-
-    /// Enforce dependency injection
-    func requireInjections() { }
 }
 
 extension UserCountsVC.Tab {

@@ -5,26 +5,26 @@ import UIKit
 /// Displays location information
 final class LocationInfoVC: UITableViewController, ServiceProvider {
 
-    @IBOutlet private var regionLabel: UILabel?
-    @IBOutlet private var countryTitle: UILabel?
-    @IBOutlet private var countryLabel: UILabel?
-    @IBOutlet private var mtpVisitorsLabel: UILabel?
-    @IBOutlet private var mtpRankingLabel: UILabel?
+    // verified in requireOutlets
+    @IBOutlet private var regionLabel: UILabel!
+    @IBOutlet private var countryTitle: UILabel!
+    @IBOutlet private var countryLabel: UILabel!
+    @IBOutlet private var mtpVisitorsLabel: UILabel!
+    @IBOutlet private var mtpRankingLabel: UILabel!
+    @IBOutlet private var flagImageView: UIImageView!
+    @IBOutlet private var airportsStack: UIStackView!
+    @IBOutlet private var airportsLabel: UILabel!
+    @IBOutlet private var linksStack: UIStackView!
 
-    @IBOutlet private var flagImageView: UIImageView?
-
-    @IBOutlet private var airportsStack: UIStackView?
-    @IBOutlet private var airportsLabel: UILabel?
-
-    @IBOutlet private var linksStack: UIStackView?
-
-    //swiftlint:disable:next implicitly_unwrapped_optional
+    // verified in requireInjection
     private var location: Location!
+    //swiftlint:disable:previous implicitly_unwrapped_optional
 
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
+        requireInjection()
 
         configure()
     }
@@ -68,30 +68,30 @@ private extension LocationInfoVC {
     }
 
     func configureInfo() {
-        regionLabel?.text = location.placeRegion
+        regionLabel.text = location.placeRegion
 
         if location.isCountry {
-            countryTitle?.text = L.titleUnRanking()
-            countryLabel?.text = "\(location.rankUn)"
+            countryTitle.text = L.titleUnRanking()
+            countryLabel.text = "\(location.rankUn)"
         } else {
-            countryTitle?.text = L.titleCountry()
-            countryLabel?.text = location.placeCountry
+            countryTitle.text = L.titleCountry()
+            countryLabel.text = location.placeCountry
         }
 
-        mtpVisitorsLabel?.text = location.placeVisitors.grouped
+        mtpVisitorsLabel.text = location.placeVisitors.grouped
 
-        mtpRankingLabel?.text = "\(location.rank)"
+        mtpRankingLabel.text = "\(location.rank)"
 
-        flagImageView?.load(flag: location)
+        flagImageView.load(flag: location)
     }
 
     func configureAirports() {
         guard !location.airports.isEmpty else {
-            airportsLabel?.text = L.none()
+            airportsLabel.text = L.none()
             return
         }
 
-        airportsLabel?.text = location.airports
+        airportsLabel.text = location.airports
 
         guard let home = data.user?.airport,
               !home.isEmpty else {
@@ -103,7 +103,7 @@ private extension LocationInfoVC {
                              action: #selector(setHomeTapped),
                              for: .touchUpInside)
             }
-            airportsStack?.addArrangedSubview(button)
+            airportsStack.addArrangedSubview(button)
             return
         }
 
@@ -119,7 +119,7 @@ private extension LocationInfoVC {
             let link = L.flightLink(home, airport, now, airport, home, then, currency)
             let button = GradientButton.urlButton(title: title, link: link)
             button.addTarget(self, action: #selector(linkTapped), for: .touchUpInside)
-            airportsStack?.addArrangedSubview(button)
+            airportsStack.addArrangedSubview(button)
         }
     }
 
@@ -141,7 +141,7 @@ private extension LocationInfoVC {
         for (title, link) in zip(titles, links) {
             let button = GradientButton.urlButton(title: title, link: link)
             button.addTarget(self, action: #selector(linkTapped), for: .touchUpInside)
-            linksStack?.addArrangedSubview(button)
+            linksStack.addArrangedSubview(button)
         }
     }
 
@@ -157,6 +157,24 @@ private extension LocationInfoVC {
     }
 }
 
+// MARK: - InterfaceBuildable
+
+extension LocationInfoVC: InterfaceBuildable {
+
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
+        airportsLabel.require()
+        airportsStack.require()
+        countryLabel.require()
+        countryTitle.require()
+        flagImageView.require()
+        linksStack.require()
+        mtpRankingLabel.require()
+        mtpVisitorsLabel.require()
+        regionLabel.require()
+    }
+}
+
 // MARK: - Injectable
 
 extension LocationInfoVC: Injectable {
@@ -167,25 +185,14 @@ extension LocationInfoVC: Injectable {
     /// Handle dependency injection
     ///
     /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
+    func inject(model: Model) {
         if model.checklist == .locations {
             location = data.get(location: model.checklistId)
         }
-        return self
     }
 
     /// Enforce dependency injection
-    func requireInjections() {
+    func requireInjection() {
         location.require()
-
-        regionLabel.require()
-        mtpVisitorsLabel.require()
-        mtpRankingLabel.require()
-        countryLabel.require()
-        flagImageView.require()
-        airportsStack.require()
-        airportsLabel.require()
-        linksStack.require()
     }
 }

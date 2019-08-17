@@ -35,8 +35,7 @@ class KVNOperation: Operation {
 
     /// Perform task - must be overridden
     func operate() {
-        //swiftlint:disable:previous unavailable_function
-        fatalError("operate has not been overridden")
+        // override to implement
     }
 
     /// Send completion notification

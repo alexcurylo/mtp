@@ -147,8 +147,9 @@ private extension CountCellGroup {
     }
 
     @objc func tapped(_ sender: UIGestureRecognizer) {
-        guard let model = model else { return }
-        delegate?.toggle(region: model.region,
-                         country: model.country)
+        if let model = model {
+            delegate?.toggle(region: model.region,
+                             country: model.country)
+        }
     }
 }

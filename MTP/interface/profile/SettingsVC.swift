@@ -7,17 +7,18 @@ final class SettingsVC: UITableViewController, ServiceProvider {
 
     private typealias Segues = R.segue.settingsVC
 
-    @IBOutlet private var backgroundView: UIView?
-
-    @IBOutlet private var aboutButton: UIButton?
-    @IBOutlet private var faqButton: UIButton?
+    // verified in requireOutlets
+    @IBOutlet private var backgroundView: UIView!
+    @IBOutlet private var aboutButton: UIButton!
+    @IBOutlet private var faqButton: UIButton!
 
     private var reportMessage = ""
 
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
+        requireInjection()
 
         tableView.backgroundView = backgroundView
     }
@@ -174,6 +175,18 @@ extension SettingsVC: Exposing {
     }
 }
 
+// MARK: - InterfaceBuildable
+
+extension SettingsVC: InterfaceBuildable {
+
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
+        aboutButton.require()
+        backgroundView.require()
+        faqButton.require()
+    }
+}
+
 // MARK: - Injectable
 
 extension SettingsVC: Injectable {
@@ -184,18 +197,12 @@ extension SettingsVC: Injectable {
     /// Handle dependency injection
     ///
     /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
+    func inject(model: Model) {
         reportMessage = model
-        return self
     }
 
     /// Enforce dependency injection
-    func requireInjections() {
-        aboutButton.require()
-        backgroundView.require()
-        faqButton.require()
-    }
+    func requireInjection() { }
 }
 
 extension MFMailComposeViewController {

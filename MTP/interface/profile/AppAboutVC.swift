@@ -7,14 +7,15 @@ final class AppAboutVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.appAboutVC
 
-    @IBOutlet private var aboutTextView: TopLoadingTextView?
+    // verified in requireOutlets
+    @IBOutlet private var aboutTextView: TopLoadingTextView!
 
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
 
-        aboutTextView?.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 0, right: 8)
+        aboutTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 0, right: 8)
     }
 
     /// Prepare for reveal
@@ -39,23 +40,12 @@ extension AppAboutVC: Exposing {
     }
 }
 
-// MARK: - Injectable
+// MARK: - InterfaceBuildable
 
-extension AppAboutVC: Injectable {
+extension AppAboutVC: InterfaceBuildable {
 
-    /// Injected dependencies
-    typealias Model = ()
-
-    /// Handle dependency injection
-    ///
-    /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
-        return self
-    }
-
-    /// Enforce dependency injection
-    func requireInjections() {
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
         aboutTextView.require()
     }
 }
