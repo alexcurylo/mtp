@@ -13,7 +13,7 @@ final class RestaurantTests: XCTestCase {
         let restaurants = realm.restaurants
 
         // then
-        XCTAssertEqual(restaurants.count, 728)
+        XCTAssertEqual(restaurants.count, 704)
     }
 
     func testDecodingComplete() throws {

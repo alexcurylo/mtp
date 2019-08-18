@@ -22,6 +22,7 @@ class CountsPageVC: UIViewController, ServiceProvider {
 
     private enum Layout {
         static let headerHeight = CGFloat(25)
+        static let unHeaderHeight = CGFloat(40)
         static let lineHeight = CGFloat(32)
         static let margin = CGFloat(8)
         static let collectionInsets = UIEdgeInsets(top: margin,
@@ -147,7 +148,8 @@ extension CountsPageVC: UICollectionViewDelegateFlowLayout {
         let height: CGFloat
         switch (section, showsInfo) {
         case (infoSection, true):
-            height = Layout.headerHeight
+            let isUn = list == .uncountries
+            height = isUn ? Layout.unHeaderHeight : Layout.headerHeight
         default:
             height = Layout.lineHeight
         }

@@ -181,7 +181,7 @@ struct LocationPayload: Codable, Hashable {
     ///
     /// - Parameter country: Location
     init(location: Location) {
-        admin_level = location.adminLevel.rawValue
+        admin_level = location.adminLevel
         country_id = location.countryId
         country_name = location.placeCountry
         id = location.placeId

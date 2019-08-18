@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Birthdate display removed from My Profile
+- UN visits are checkmarked and have calculation note
 
 ### Fixed
 - UN Country count now synced with location visit changes
