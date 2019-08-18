@@ -27,8 +27,15 @@ final class ProfileUITests: XCTestCase {
 
         UIProfilePaging.counts.tap()
 
-        UIMyCountsPaging.page(.whss).tap()
         UIMyCountsPaging.page(.uncountries).tap()
+        UIMyCountsPaging.page(.whss).tap()
+        UIMyCountsPaging.page(.beaches).tap()
+        UIMyCountsPaging.page(.golfcourses).tap()
+        UIMyCountsPaging.page(.divesites).tap()
+        UIMyCountsPaging.page(.restaurants).tap()
+
+        UICountsPage.region(1).tap()
+        UICountsPage.toggle(1, 0).tap()
 
         UIProfilePaging.photos.tap()
 

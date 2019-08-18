@@ -334,6 +334,7 @@ extension DataService {
     func logOut() {
         FacebookButton.logOut()
         MTP.unthrottle()
+        net.unthrottle()
 
         if let id = user?.id {
             deletePhotos(user: id)

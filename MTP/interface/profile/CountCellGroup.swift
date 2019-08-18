@@ -41,17 +41,19 @@ protocol CountCellGroupDelegate: AnyObject {
 struct CountGroupModel {
 
     /// Region
-    var region: String
+    let region: String
     /// Country
-    var country: String
+    let country: String
     /// Number visited
-    var visited: Int?
+    let visited: Int?
     /// Number total
-    var count: Int
+    let count: Int
     /// Disclosure state
-    var disclose: Disclosure
+    let disclose: Disclosure
     /// Whether to round corners
-    var isLast: Bool
+    let isLast: Bool
+    /// IndexPath for exposing
+    let path: IndexPath
 }
 
 /// Counts item groupd
@@ -81,6 +83,8 @@ final class CountCellGroup: UICollectionViewCell {
         let rounded: ViewCorners = model.isLast ? .bottom(radius: CountCellItem.cellCornerRadius)
                                                 : .square
         round(corners: rounded)
+
+        UICountsPage.group(model.path.section, model.path.row).expose(item: self)
     }
 
     private enum Layout {

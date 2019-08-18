@@ -17,7 +17,6 @@ final class MyProfileVC: ProfileVC {
 
     @IBOutlet private var editButton: UIBarButtonItem?
     @IBOutlet private var settingsButton: UIBarButtonItem?
-    @IBOutlet private var birthdayLabel: UILabel?
 
     /// Controllers to be displayed in PagingViewController
     override var pages: [UIViewController] {
@@ -72,19 +71,6 @@ final class MyProfileVC: ProfileVC {
 
             self.inject(model: User(from: user))
         }
-    }
-
-    /// Configure for display
-    override func configure() {
-        super.configure()
-
-        let title: String?
-        if let birthday = data.user?.birthday {
-            title = DateFormatter.mtpBirthday.string(from: birthday)
-        } else {
-            title = nil
-        }
-        birthdayLabel?.text = title
     }
 
     /// Handle content reporting

@@ -190,6 +190,9 @@ protocol NetworkService: ServiceProvider {
     func refreshRankings()
     /// Refresh everything
     func refreshEverything()
+
+    /// Reset user throttling
+    func unthrottle()
 }
 
 /// Production implementation of NetworkService
@@ -203,6 +206,10 @@ class NetworkServiceImpl: NetworkService {
     }
 
     fileprivate func refreshData() {
+        guard !isThrottled(last: lastRefreshData, wait: .data) else { return }
+
+        lastRefreshData = Date()
+
         add { done in self.mtp.loadSettings { _ in done() } }
         add { done in self.mtp.searchCountries { _ in done() } }
         add { done in self.mtp.loadLocations { _ in done() } }
@@ -216,12 +223,23 @@ class NetworkServiceImpl: NetworkService {
     }
 
     fileprivate func refreshUser() {
-        guard data.isLoggedIn else { return }
+        guard data.isLoggedIn,
+              !isThrottled(last: lastRefreshUser, wait: .user) else { return }
 
+        lastRefreshUser = Date()
         mtp.userGetByToken { _ in
             self.refreshUserInfo()
         }
     }
+
+    fileprivate enum Refresh: TimeInterval {
+        case data = 86_400 // 24 * 60 * 60
+        case rankings = 600 // 10 * 60
+        case user = 300 // 5 * 60
+    }
+    private var lastRefreshUser: Date?
+    private var lastRefreshData: Date?
+    private var lastRefreshRankings: Date?
 
     // MARK: - NetworkService
 
@@ -434,6 +452,9 @@ class NetworkServiceImpl: NetworkService {
 
     /// Refresh first page of each list's rankings
     func refreshRankings() {
+        guard !isThrottled(last: lastRefreshRankings, wait: .rankings) else { return }
+
+        lastRefreshRankings = Date()
         Checklist.allCases.forEach { list in
             var query = data.lastRankingsQuery
             query.checklistKey = list.key
@@ -447,11 +468,27 @@ class NetworkServiceImpl: NetworkService {
         refreshData()
         refreshRankings()
     }
+
+    /// Reset user throttling
+    func unthrottle() {
+        MTP.unthrottle()
+        lastRefreshUser = nil
+    }
 }
 
 // MARK: - Private
 
 private extension NetworkServiceImpl {
+
+    func isThrottled(last: Date?, wait: Refresh) -> Bool {
+        guard let last = last else {
+            return false
+        }
+
+        let next = last.addingTimeInterval(wait.rawValue)
+        guard next <= Date() else { return true }
+        return false
+    }
 
     func add(operation: @escaping AsyncBlockOperation.Operation) {
         queue.addOperation(
@@ -631,8 +668,10 @@ final class NetworkServiceStub: NetworkServiceImpl {
     override func set(items: [Checklist.Item],
                       visited: Bool,
                       then: @escaping NetworkCompletion<Bool>) {
-        log.error("not stubbed yet!")
-        then(.failure(.message("not stubbed yet!")))
+        mtp.set(items: items,
+                visited: visited,
+                stub: MTPProvider.immediatelyStub,
+                then: then)
     }
 
     /// Upload photo

@@ -72,8 +72,14 @@ protocol TableCellExposing: AnyObject {
                 cell: UITableViewCell)
 }
 
-/// Enhance readability
+/// Index of ranking cells
 typealias Rank = Int
+
+/// Section of count cells
+typealias Section = Int
+
+/// Row of count cells
+typealias Row = Int
 
 /// Mapping to bridge Checklist with UI tests' identifiers
 enum ChecklistIndex: Int, CustomStringConvertible {

@@ -1,5 +1,6 @@
 // @copyright Trollwerks Inc.
 
+import Photos
 import RealmSwift
 
 // swiftlint:disable file_length
@@ -52,7 +53,6 @@ final class AddPhotoVC: UIViewController, ServiceProvider {
 
     private var countryId = 0
     private var locationId = 0
-    private var suggestedLocation = false
 
     private var captionText: String = ""
 
@@ -88,6 +88,17 @@ final class AddPhotoVC: UIViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         expose()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if PHPhotoLibrary.authorizationStatus() == .notDetermined {
+            PHPhotoLibrary.requestAuthorization { _ in }
+        }
     }
 
     /// Stop editing on touch
@@ -163,20 +174,30 @@ private extension AddPhotoVC {
         }
     }
 
-    func suggestLocation() {
-        guard !suggestedLocation,
-              locationId == 0,
-              let delegate = delegate,
-              delegate.isLocatable,
-              let inside = loc.inside else { return }
+    func suggest(location: CLLocation?) {
+        guard let delegate = delegate,
+              delegate.isLocatable else { return }
 
-        suggestedLocation = true
-        let question = L.tagWithLocation(inside.description)
+        let inside: Location?
+        if let location = location {
+            inside = data.worldMap.location(of: location.coordinate)
+        } else {
+            inside = loc.inside
+        }
+        guard let located = inside,
+              located.placeId != locationId else { return }
+
+        let question: String
+        if location != nil {
+            question = L.tagWithPhotoLocation(located.description)
+        } else {
+            question = L.tagWithCurrentLocation(located.description)
+        }
         note.ask(question: question) { [weak self] answer in
             guard answer, let self = self else { return }
 
-            self.countryId = inside.countryId
-            self.locationId = inside.placeId
+            self.countryId = located.countryId
+            self.locationId = located.placeId
             self.configure()
         }
     }
@@ -352,6 +373,7 @@ extension AddPhotoVC: UIImagePickerControllerDelegate {
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
+        let location = (info[.phAsset] as? PHAsset)?.location
         if let edited = info[.editedImage] as? UIImage {
             photo = edited
         } else if let original = info[.originalImage] as? UIImage {
@@ -360,7 +382,7 @@ extension AddPhotoVC: UIImagePickerControllerDelegate {
 
         updateSave(showError: false)
         dismiss(animated: true) { [weak self] in
-            self?.suggestLocation()
+            self?.suggest(location: location)
         }
     }
 

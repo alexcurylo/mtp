@@ -6,21 +6,23 @@ import Anchorage
 struct CountItemModel {
 
     /// Title
-    var title: String
+    let title: String
     /// Subtitle
-    var subtitle: String
+    let subtitle: String
     /// Checklist
-    var list: Checklist
+    let list: Checklist
     /// Item ID
-    var id: Int
+    let id: Int
     /// Parent ID if any
-    var parentId: Int?
+    let parentId: Int?
     /// Whether to show visit state
-    var isVisitable: Bool
+    let isVisitable: Bool
     /// Whether to round corners
-    var isLast: Bool
+    let isLast: Bool
     /// Whether is a combined header and content of one
-    var isCombined: Bool
+    let isCombined: Bool
+    /// IndexPath for exposing
+    let path: IndexPath
 
     fileprivate func description(titleFont: UIFont,
                                  subtitleFont: UIFont) -> NSAttributedString {
@@ -89,6 +91,9 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
         let rounded: ViewCorners = model.isLast ? .bottom(radius: CountCellItem.cellCornerRadius)
                                                 : .square
         round(corners: rounded)
+
+        UICountsPage.item(model.path.section, model.path.row).expose(item: self)
+        UICountsPage.toggle(model.path.section, model.path.row).expose(item: visit)
     }
 
     private enum Layout {

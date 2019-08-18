@@ -12,6 +12,8 @@ extension UICountsPage: Elemental {
         case .group,
              .item:
             return .cell
+        case .toggle:
+            return .switch
         }
     }
 }

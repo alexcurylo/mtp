@@ -189,7 +189,9 @@ private extension LoginVC {
             case .failure(.serverOffline):
                 self?.errorMessage = L.serverOfflineError(operation)
             case .failure(.decoding):
-                self?.errorMessage = L.decodingError(operation)
+                // reported by 1.0 users
+                //self?.errorMessage = L.decodingError(operation)
+                self?.errorMessage = L.decodingLoginError()
             case .failure(.status):
                 self?.errorMessage = L.statusError(operation)
             case .failure(.message(let message)):

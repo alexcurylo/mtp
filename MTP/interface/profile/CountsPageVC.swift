@@ -363,10 +363,10 @@ private extension CountsPageVC {
                 parentId: place.placeParent?.placeId,
                 isVisitable: isEditable,
                 isLast: isLast,
-                isCombined: list == .locations && place.placeIsCountry
+                isCombined: list == .locations && place.placeIsCountry,
+                path: viewPath
             )
             counter.inject(model: model)
-            UICountsPage.item(viewPath.section, viewPath.row).expose(item: cell)
         case let grouper as CountCellGroup:
             guard let group = cellModel.group else { break }
             grouper.delegate = self
@@ -377,10 +377,10 @@ private extension CountsPageVC {
                 visited: isEditable ? group.visited : nil,
                 count: group.count,
                 disclose: expanded ? .close : .expand,
-                isLast: isLast
+                isLast: isLast,
+                path: viewPath
             )
             grouper.inject(model: model)
-            UICountsPage.group(viewPath.section, viewPath.row).expose(item: cell)
         default:
             break
         }

@@ -7,12 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
+- Photo tag suggestions from location taken
 - Remote notification support
 
+### Changed
+- Birthdate display removed from My Profile
+
 ### Fixed
-- Displays correct birthday in My Profile
-- Updates map overlays to match visit update
-- Improves error and editable content handling
+- UN Country count now synced with location visit changes
+- Map region overlay color updated with visit
+- Editing handling improved
+- Error messages improved
 
 ## [Version 1.0, Build 637] - 2019-08-07
 

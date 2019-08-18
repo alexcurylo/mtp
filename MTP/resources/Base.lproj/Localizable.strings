@@ -22,6 +22,7 @@
 "statusErrorReport" = "Could not %@ - a status error was received. Please report the problem with ‘Contact Us’ on the ‘Settings’ page.";
 "unexpectedError" = "Could not %@ - an unexpected error occurred.";
 "unexpectedErrorReport" = "Could not %@ - an unexpected error occurred. Please report the problem with ‘Contact Us’ on the ‘Settings’ page.";
+"decodingLoginError" = "Sorry - due to higher than expected demand, the MTP server is temporarily down. Please try again later.";
 "deleteAccount" = "delete account";
 "deletingAccount" = "Deleting account…";
 "logIn" = "log in";
@@ -56,7 +57,8 @@
 // AddPhotoVC
 
 "fixPhoto" = "Please select a photo!";
-"tagWithLocation" = "You are currently in %@. Would you like to tag this photo with that location?";
+"tagWithPhotoLocation" = "This photo was taken in %@. Would you like to tag this photo with that location?";
+"tagWithCurrentLocation" = "You are currently in %@. Would you like to tag this photo with that location?";
 
 // EditPostVC
 

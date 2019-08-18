@@ -122,10 +122,10 @@ private extension ProfileAboutVC {
         }
         if isSelf {
             userObserver = data.observer(of: .user) { [weak self] _ in
-                self?.refreshUser()
+                self?.reloadUser()
             }
             visitedObserver = data.observer(of: .visited) { [weak self] _ in
-                self?.refreshVisits()
+                self?.reloadVisits()
             }
         } else {
             userIdObserver = data.observer(of: .userId) { [weak self] _ in
@@ -138,14 +138,14 @@ private extension ProfileAboutVC {
         }
     }
 
-    func refreshUser() {
+    func reloadUser() {
         if let new = data.user {
             user = User(from: new)
             update()
         }
     }
 
-    func refreshVisits() {
+    func reloadVisits() {
         visits = data.visited?.locations ?? []
         update()
     }
@@ -315,7 +315,7 @@ extension ProfileAboutVC: Injectable {
         observe()
 
         if isSelf {
-            refreshVisits()
+            reloadVisits()
         } else {
             fetch(id: model.userId)
        }
