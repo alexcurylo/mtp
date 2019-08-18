@@ -19,7 +19,7 @@ env:
   - IOS_WORKSPACE=MTP.xcworkspace
   - IOS_SCHEME=MTP
   - IOS_SDK=iphonesimulator12.4
-  - IOS_DESTINATION='platform=iOS Simulator,name=iPhone XS'
+  - IOS_DESTINATION='platform=iOS Simulator,name=iPhone 5S'
 
 branches:
   except:
@@ -28,7 +28,6 @@ branches:
 cache:
   - bundler
   - cocoapods
-
 
 before_install:
  - gem update --system

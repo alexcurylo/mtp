@@ -49,7 +49,7 @@ final class StartupUITests: XCTestCase {
     }
 
     // swiftlint:disable:next function_body_length
-    func testSignup() {
+    func testSignupEmail() {
         launch(settings: [.loggedIn(false)])
 
         UIRoot.signup.tap()
@@ -116,5 +116,32 @@ final class StartupUITests: XCTestCase {
         UIWelcome.profile.tap()
 
         UIEditProfile.close.tap()
+    }
+
+    func testSignupFacebook() {
+        launch(settings: [.loggedIn(false)])
+
+        UIRoot.signup.tap()
+
+        UISignup.credentials.swipeUp()
+        UISignup.tos.tap()
+
+        UITerms.agree.tap()
+
+        UISignup.email.tap()
+        UISignup.email.type(text: "test@test.com")
+        UISignup.first.tap()
+        UISignup.first.type(text: "First")
+        UISignup.last.tap()
+        UISignup.last.type(text: "Last")
+        UISignup.password.tap()
+        UISignup.password.type(text: "password")
+        UISignup.confirm.tap()
+        UISignup.confirm.type(text: "password")
+        UISignup.signup.tap()
+
+        UIWelcome.later.tap()
+
+        UIMain.locations.wait()
     }
 }
