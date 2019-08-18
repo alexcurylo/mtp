@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [Version 1.0.1, Build 638] - 2019-08-18
+
 ### Added
 - Photo tag suggestions from location taken
 - Remote notification support

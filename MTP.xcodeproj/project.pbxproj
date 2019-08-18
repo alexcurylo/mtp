@@ -2543,7 +2543,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAF12300215652AE0099B772 /* MTP_Debug.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 637;
+				CURRENT_PROJECT_VERSION = 638;
 				INFOPLIST_FILE = MTP/resources/Info.plist;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -2553,7 +2553,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAF122FC215652AE0099B772 /* MTP_Release.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 637;
+				CURRENT_PROJECT_VERSION = 638;
 				DEVELOPMENT_TEAM = 37L8D8MJWV;
 				INFOPLIST_FILE = MTP/resources/Info.plist;
 				PROVISIONING_PROFILE_SPECIFIER = "MTP-AppStore";
