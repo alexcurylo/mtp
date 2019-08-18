@@ -206,9 +206,21 @@ private extension MTPMapView {
         visitedObserver = data.observer(of: .visited) { [weak self] _ in
             guard let self = self else { return }
 
+            if let selected = self.selected {
+                self.update(overlays: selected)
+            }
             let center = self.centerCoordinate
             self.centerCoordinate = .zero
             self.centerCoordinate = center
+        }
+    }
+
+    var selected: Mappable? {
+        switch selectedAnnotations.first {
+        case let mappables as MappablesAnnotation:
+            return mappables.mappable
+        default:
+            return nil
         }
     }
 

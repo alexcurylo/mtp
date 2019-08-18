@@ -16,13 +16,6 @@ protocol ImageService: ImageDisplaying { }
 
 extension ImageService where Self: UIView {
 
-    /// Load location image
-    ///
-    /// - Parameter location: Location
-    func load(image location: Location?) {
-        load(image: location?.placeImageUrl)
-    }
-
     /// Load location flag
     ///
     /// - Parameter location: Location

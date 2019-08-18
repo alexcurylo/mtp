@@ -171,6 +171,13 @@ protocol NetworkService: ServiceProvider {
     ///   - then: Completion
     func userUpdate(payload: UserUpdatePayload,
                     then: @escaping NetworkCompletion<UserJSON>)
+    /// Update user token
+    ///
+    /// - Parameters:
+    ///   - token: String
+    ///   - then: Completion
+    func userUpdate(token: String,
+                    then: @escaping NetworkCompletion<UserTokenReply>)
     /// Resend verification email
     ///
     /// - Parameters:
@@ -183,6 +190,9 @@ protocol NetworkService: ServiceProvider {
     func refreshRankings()
     /// Refresh everything
     func refreshEverything()
+
+    /// Reset user throttling
+    func unthrottle()
 }
 
 /// Production implementation of NetworkService
@@ -196,6 +206,10 @@ class NetworkServiceImpl: NetworkService {
     }
 
     fileprivate func refreshData() {
+        guard !isThrottled(last: lastRefreshData, wait: .data) else { return }
+
+        lastRefreshData = Date()
+
         add { done in self.mtp.loadSettings { _ in done() } }
         add { done in self.mtp.searchCountries { _ in done() } }
         add { done in self.mtp.loadLocations { _ in done() } }
@@ -209,12 +223,23 @@ class NetworkServiceImpl: NetworkService {
     }
 
     fileprivate func refreshUser() {
-        guard data.isLoggedIn else { return }
+        guard data.isLoggedIn,
+              !isThrottled(last: lastRefreshUser, wait: .user) else { return }
 
+        lastRefreshUser = Date()
         mtp.userGetByToken { _ in
             self.refreshUserInfo()
         }
     }
+
+    fileprivate enum Refresh: TimeInterval {
+        case data = 86_400 // 24 * 60 * 60
+        case rankings = 600 // 10 * 60
+        case user = 300 // 5 * 60
+    }
+    private var lastRefreshUser: Date?
+    private var lastRefreshData: Date?
+    private var lastRefreshRankings: Date?
 
     // MARK: - NetworkService
 
@@ -405,6 +430,16 @@ class NetworkServiceImpl: NetworkService {
         mtp.userUpdate(payload: payload, then: then)
     }
 
+    /// Update user token
+    ///
+    /// - Parameters:
+    ///   - token: String
+    ///   - then: Completion
+    func userUpdate(token: String,
+                    then: @escaping NetworkCompletion<UserTokenReply>) {
+        mtp.userUpdate(token: token, then: then)
+    }
+
     /// Resend verification email
     ///
     /// - Parameters:
@@ -417,6 +452,9 @@ class NetworkServiceImpl: NetworkService {
 
     /// Refresh first page of each list's rankings
     func refreshRankings() {
+        guard !isThrottled(last: lastRefreshRankings, wait: .rankings) else { return }
+
+        lastRefreshRankings = Date()
         Checklist.allCases.forEach { list in
             var query = data.lastRankingsQuery
             query.checklistKey = list.key
@@ -430,11 +468,27 @@ class NetworkServiceImpl: NetworkService {
         refreshData()
         refreshRankings()
     }
+
+    /// Reset user throttling
+    func unthrottle() {
+        MTP.unthrottle()
+        lastRefreshUser = nil
+    }
 }
 
 // MARK: - Private
 
 private extension NetworkServiceImpl {
+
+    func isThrottled(last: Date?, wait: Refresh) -> Bool {
+        guard let last = last else {
+            return false
+        }
+
+        let next = last.addingTimeInterval(wait.rawValue)
+        guard next <= Date() else { return true }
+        return false
+    }
 
     func add(operation: @escaping AsyncBlockOperation.Operation) {
         queue.addOperation(
@@ -492,7 +546,10 @@ final class NetworkServiceStub: NetworkServiceImpl {
     override func loadPhotos(location id: Int,
                              reload: Bool,
                              then: @escaping NetworkCompletion<PhotosInfoJSON>) {
-        log.error("not stubbed yet")
+        mtp.loadPhotos(location: id,
+                       reload: reload,
+                       stub: MTPProvider.immediatelyStub,
+                       then: then)
     }
 
     /// Load logged in user photos
@@ -535,7 +592,9 @@ final class NetworkServiceStub: NetworkServiceImpl {
     ///   - then: Completion
     override func loadPosts(location id: Int,
                             then: @escaping NetworkCompletion<PostsJSON>) {
-        log.error("not stubbed yet")
+        mtp.loadPosts(location: id,
+                      stub: MTPProvider.immediatelyStub,
+                      then: then)
     }
 
     /// Load user posts
@@ -596,7 +655,8 @@ final class NetworkServiceStub: NetworkServiceImpl {
     ///   - then: Completion
     override func search(query: String,
                          then: @escaping NetworkCompletion<SearchResultJSON>) {
-        log.error("not stubbed yet")
+        log.error("not stubbed yet!")
+        then(.failure(.message("not stubbed yet!")))
     }
 
     /// Set places visit status
@@ -608,7 +668,10 @@ final class NetworkServiceStub: NetworkServiceImpl {
     override func set(items: [Checklist.Item],
                       visited: Bool,
                       then: @escaping NetworkCompletion<Bool>) {
-        log.error("not stubbed yet")
+        mtp.set(items: items,
+                visited: visited,
+                stub: MTPProvider.immediatelyStub,
+                then: then)
     }
 
     /// Upload photo
@@ -622,7 +685,8 @@ final class NetworkServiceStub: NetworkServiceImpl {
                          caption: String?,
                          location id: Int?,
                          then: @escaping NetworkCompletion<PhotoReply>) {
-        log.error("not stubbed yet")
+        log.error("not stubbed yet!")
+        then(.failure(.message("not stubbed yet!")))
     }
 
     /// Publish post
@@ -632,14 +696,16 @@ final class NetworkServiceStub: NetworkServiceImpl {
     ///   - then: Completion
     override func postPublish(payload: PostPayload,
                               then: @escaping NetworkCompletion<PostReply>) {
-        log.error("not stubbed yet")
+        log.error("not stubbed yet!")
+        then(.failure(.message("not stubbed yet!")))
     }
 
     /// Delete user account
     ///
     /// - Parameter then: Completion
     override func userDeleteAccount(then: @escaping NetworkCompletion<String>) {
-        log.error("not stubbed yet")
+        log.error("not stubbed yet!")
+        then(.failure(.message("not stubbed yet!")))
     }
 
     /// Send reset password link
@@ -649,7 +715,8 @@ final class NetworkServiceStub: NetworkServiceImpl {
     ///   - then: Completion
     override func userForgotPassword(email: String,
                                      then: @escaping NetworkCompletion<String>) {
-        log.error("not stubbed yet")
+        log.error("not stubbed yet!")
+        then(.failure(.message("not stubbed yet!")))
     }
 
     /// Login user
@@ -661,7 +728,10 @@ final class NetworkServiceStub: NetworkServiceImpl {
     override func userLogin(email: String,
                             password: String,
                             then: @escaping NetworkCompletion<UserJSON>) {
-        log.error("not stubbed yet")
+        mtp.userLogin(email: email,
+                      password: password,
+                      stub: MTPProvider.immediatelyStub,
+                      then: then)
     }
 
     /// Register new user
@@ -671,7 +741,9 @@ final class NetworkServiceStub: NetworkServiceImpl {
     ///   - then: Completion
     override func userRegister(payload: RegistrationPayload,
                                then: @escaping NetworkCompletion<UserJSON>) {
-        log.error("not stubbed yet")
+        mtp.userRegister(payload: payload,
+                         stub: MTPProvider.immediatelyStub,
+                         then: then)
     }
 
     /// Update user info
@@ -681,7 +753,19 @@ final class NetworkServiceStub: NetworkServiceImpl {
     ///   - then: Completion
     override func userUpdate(payload: UserUpdatePayload,
                              then: @escaping NetworkCompletion<UserJSON>) {
-        log.error("not stubbed yet")
+        log.error("not stubbed yet!")
+        then(.failure(.message("not stubbed yet!")))
+    }
+
+    /// Update user token
+    ///
+    /// - Parameters:
+    ///   - token: String
+    ///   - then: Completion
+    override func userUpdate(token: String,
+                             then: @escaping NetworkCompletion<UserTokenReply>) {
+        log.error("not stubbed yet!")
+        then(.failure(.message("not stubbed yet!")))
     }
 
     /// Resend verification email
@@ -691,7 +775,8 @@ final class NetworkServiceStub: NetworkServiceImpl {
     ///   - then: Completion
     override func userVerify(id: Int,
                              then: @escaping NetworkCompletion<String>) {
-        log.error("not stubbed yet")
+        log.error("not stubbed yet!")
+        then(.failure(.message("not stubbed yet!")))
     }
 }
 

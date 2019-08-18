@@ -7,13 +7,18 @@ final class SettingsVC: UITableViewController, ServiceProvider {
 
     private typealias Segues = R.segue.settingsVC
 
-    @IBOutlet private var backgroundView: UIView?
+    // verified in requireOutlets
+    @IBOutlet private var backgroundView: UIView!
+    @IBOutlet private var aboutButton: UIButton!
+    @IBOutlet private var faqButton: UIButton!
+
     private var reportMessage = ""
 
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
+        requireInjection()
 
         tableView.backgroundView = backgroundView
     }
@@ -25,6 +30,7 @@ final class SettingsVC: UITableViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .standard)
+        expose()
     }
 
     /// Actions to take after reveal
@@ -44,15 +50,8 @@ final class SettingsVC: UITableViewController, ServiceProvider {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.logout.identifier:
+        if segue.identifier == Segues.logout.identifier {
             data.logOut()
-        case Segues.showAbout.identifier,
-             Segues.showFAQ.identifier,
-             Segues.unwindFromSettings.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
         }
     }
 }
@@ -162,6 +161,32 @@ extension SettingsVC: MFMailComposeViewControllerDelegate {
     }
 }
 
+// MARK: - Exposing
+
+extension SettingsVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        let items = navigationItem.leftBarButtonItems
+        UISettings.close.expose(item: items?.first)
+
+        UISettings.about.expose(item: aboutButton)
+        UISettings.faq.expose(item: faqButton)
+    }
+}
+
+// MARK: - InterfaceBuildable
+
+extension SettingsVC: InterfaceBuildable {
+
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
+        aboutButton.require()
+        backgroundView.require()
+        faqButton.require()
+    }
+}
+
 // MARK: - Injectable
 
 extension SettingsVC: Injectable {
@@ -172,16 +197,12 @@ extension SettingsVC: Injectable {
     /// Handle dependency injection
     ///
     /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
+    func inject(model: Model) {
         reportMessage = model
-        return self
     }
 
     /// Enforce dependency injection
-    func requireInjections() {
-        backgroundView.require()
-    }
+    func requireInjection() { }
 }
 
 extension MFMailComposeViewController {

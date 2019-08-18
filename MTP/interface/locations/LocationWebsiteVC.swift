@@ -22,12 +22,9 @@ final class LocationWebsiteVC: WKWebViewController {
     ///
     /// - Parameter mappable: Place
     init(mappable: Mappable) {
-        let source: WKWebSource?
-        switch mappable.placeWebUrl {
-        case let webUrl?:
+        var source: WKWebSource?
+        if let webUrl = mappable.placeWebUrl {
             source = .remote(webUrl)
-        default:
-            source = nil
         }
         super.init(source: source)
         configure()

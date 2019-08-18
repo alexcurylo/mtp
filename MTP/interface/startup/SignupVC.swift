@@ -10,28 +10,29 @@ final class SignupVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.signupVC
 
-    @IBOutlet private var scrollView: UIScrollView?
-    @IBOutlet private var credentialsStack: UIStackView?
-    @IBOutlet private var facebookStack: UIStackView?
-    @IBOutlet private var fieldsStack: UIStackView?
-
-    @IBOutlet private var emailTextField: InsetTextField?
-    @IBOutlet private var firstNameTextField: InsetTextField?
-    @IBOutlet private var lastNameTextField: InsetTextField?
-    @IBOutlet private var genderTextField: InsetTextField?
-    @IBOutlet private var countryTextField: InsetTextField?
-    @IBOutlet private var locationTextField: InsetTextField?
-    @IBOutlet private var birthdayTextField: InsetTextField?
-    @IBOutlet private var passwordTextField: InsetTextField?
-    @IBOutlet private var togglePasswordButton: UIButton?
-    @IBOutlet private var confirmPasswordTextField: InsetTextField?
-    @IBOutlet private var toggleConfirmPasswordButton: UIButton?
-    @IBOutlet private var termsOfServiceButton: UIButton?
-
-    @IBOutlet private var keyboardToolbar: UIToolbar?
-    @IBOutlet private var toolbarBackButton: UIBarButtonItem?
-    @IBOutlet private var toolbarNextButton: UIBarButtonItem?
-    @IBOutlet private var toolbarClearButton: UIBarButtonItem?
+    /// verified in requireOutlets
+    @IBOutlet private var scrollView: UIScrollView!
+    @IBOutlet private var credentialsStack: UIStackView!
+    @IBOutlet private var facebookStack: UIStackView!
+    @IBOutlet private var fieldsStack: UIStackView!
+    @IBOutlet private var emailTextField: InsetTextField!
+    @IBOutlet private var firstNameTextField: InsetTextField!
+    @IBOutlet private var lastNameTextField: InsetTextField!
+    @IBOutlet private var genderTextField: InsetTextField!
+    @IBOutlet private var countryTextField: InsetTextField!
+    @IBOutlet private var locationTextField: InsetTextField!
+    @IBOutlet private var birthdayTextField: InsetTextField!
+    @IBOutlet private var passwordTextField: InsetTextField!
+    @IBOutlet private var togglePasswordButton: UIButton!
+    @IBOutlet private var confirmPasswordTextField: InsetTextField!
+    @IBOutlet private var toggleConfirmPasswordButton: UIButton!
+    @IBOutlet private var termsOfServiceButton: UIButton!
+    @IBOutlet private var signupButton: UIButton!
+    @IBOutlet private var loginButton: UIButton!
+    @IBOutlet private var keyboardToolbar: UIToolbar!
+    @IBOutlet private var toolbarBackButton: UIBarButtonItem!
+    @IBOutlet private var toolbarNextButton: UIBarButtonItem!
+    @IBOutlet private var toolbarClearButton: UIBarButtonItem!
 
     private var errorMessage: String = ""
     private var agreed = false
@@ -46,7 +47,7 @@ final class SignupVC: UIViewController, ServiceProvider {
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
 
         setupView()
         startKeyboardListening()
@@ -65,6 +66,7 @@ final class SignupVC: UIViewController, ServiceProvider {
 
         show(navBar: animated, style: .login)
         navigationController?.delegate = self
+        expose()
     }
 
     /// Prepare for hide
@@ -74,7 +76,7 @@ final class SignupVC: UIViewController, ServiceProvider {
         super.viewWillDisappear(animated)
         navigationController?.delegate = nil
 
-        data.email = emailTextField?.text ?? ""
+        data.email = emailTextField.text ?? ""
    }
 
     /// Instrument and inject navigation
@@ -84,31 +86,23 @@ final class SignupVC: UIViewController, ServiceProvider {
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         view.endEditing(true)
-        switch segue.identifier {
-        case Segues.presentSignupFail.identifier:
-            let alert = Segues.presentSignupFail(segue: segue)
-            alert?.destination.inject(model: errorMessage)
+        if let target = Segues.showCountry(segue: segue)?
+            .destination
+            .topViewController as? LocationSearchVC {
+            target.inject(mode: .countryOrPreferNot,
+                          styler: .standard,
+                          delegate: self)
+        } else if let target = Segues.showLocation(segue: segue)?
+                                     .destination
+                                     .topViewController as? LocationSearchVC {
+            let countryId = country?.countryId ?? 0
+            target.inject(mode: .location(country: countryId),
+                          styler: .standard,
+                          delegate: self)
+        } else if let alert = Segues.presentSignupFail(segue: segue)?
+                                    .destination {
+            alert.inject(model: errorMessage)
             hide(navBar: true)
-        case Segues.showCountry.identifier:
-            if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                destination.inject(mode: .countryOrPreferNot,
-                                   styler: .login,
-                                   delegate: self)
-            }
-        case Segues.showLocation.identifier:
-            if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                let countryId = country?.countryId ?? 0
-                destination.inject(mode: .location(country: countryId),
-                                   styler: .login,
-                                   delegate: self)
-            }
-        case Segues.pushTermsOfService.identifier,
-             Segues.showWelcome.identifier,
-             Segues.switchLogin.identifier,
-             Segues.unwindFromSignup.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
         }
     }
 }
@@ -126,21 +120,21 @@ extension SignupVC: KeyboardListener {
 private extension SignupVC {
 
     func setupView() {
-        emailTextField?.text = data.email
-        emailTextField?.inputAccessoryView = keyboardToolbar
+        emailTextField.text = data.email
+        emailTextField.inputAccessoryView = keyboardToolbar
 
-        firstNameTextField?.inputAccessoryView = keyboardToolbar
+        firstNameTextField.inputAccessoryView = keyboardToolbar
 
-        lastNameTextField?.inputAccessoryView = keyboardToolbar
+        lastNameTextField.inputAccessoryView = keyboardToolbar
 
-        genderTextField?.inputView = UIPickerView {
+        genderTextField.inputView = UIPickerView {
             $0.dataSource = self
             $0.delegate = self
         }
-        genderTextField?.inputAccessoryView = keyboardToolbar
+        genderTextField.inputAccessoryView = keyboardToolbar
 
-        birthdayTextField?.inputAccessoryView = keyboardToolbar
-        birthdayTextField?.inputView = UIDatePicker {
+        birthdayTextField.inputAccessoryView = keyboardToolbar
+        birthdayTextField.inputView = UIDatePicker {
             $0.datePickerMode = .date
             $0.timeZone = TimeZone(secondsFromGMT: 0)
             $0.minimumDate = Calendar.current.date(byAdding: .year, value: -120, to: Date())
@@ -152,29 +146,28 @@ private extension SignupVC {
 
         show(location: false)
 
-        passwordTextField?.rightViewMode = .always
-        passwordTextField?.rightView = togglePasswordButton
-        passwordTextField?.inputAccessoryView = keyboardToolbar
+        passwordTextField.rightViewMode = .always
+        passwordTextField.rightView = togglePasswordButton
+        passwordTextField.inputAccessoryView = keyboardToolbar
 
-        confirmPasswordTextField?.rightViewMode = .always
-        confirmPasswordTextField?.rightView = toggleConfirmPasswordButton
-        confirmPasswordTextField?.inputAccessoryView = keyboardToolbar
+        confirmPasswordTextField.rightViewMode = .always
+        confirmPasswordTextField.rightView = toggleConfirmPasswordButton
+        confirmPasswordTextField.inputAccessoryView = keyboardToolbar
     }
 
     var isLocationVisible: Bool {
-        return locationTextField?.superview != nil
+        return locationTextField.superview != nil
     }
 
     func show(location visible: Bool) {
         guard let location = locationTextField,
-              let stack = fieldsStack,
               let country = countryTextField else { return }
         switch (visible, isLocationVisible) {
         case (true, false):
-            let after = stack.arrangedSubviews.firstIndex(of: country) ?? 0
-            stack.insertArrangedSubview(location, at: after + 1)
+            let after = fieldsStack.arrangedSubviews.firstIndex(of: country) ?? 0
+            fieldsStack.insertArrangedSubview(location, at: after + 1)
         case (false, true):
-            stack.removeArrangedSubview(location)
+            fieldsStack.removeArrangedSubview(location)
             location.removeFromSuperview()
         default:
             break
@@ -224,73 +217,70 @@ private extension SignupVC {
                 return
             }
 
-            if let stack = self.credentialsStack,
-                let fbStack = self.facebookStack {
-                stack.removeArrangedSubview(fbStack)
-                fbStack.removeFromSuperview()
-            }
+            self.credentialsStack.removeArrangedSubview(self.facebookStack)
+            self.facebookStack.removeFromSuperview()
 
             self.populate(with: info)
         }
     }
 
     @IBAction func toolbarBackTapped(_ sender: UIBarButtonItem) {
-        if emailTextField?.isEditing ?? false {
-            emailTextField?.resignFirstResponder()
+        if emailTextField.isEditing {
+            emailTextField.resignFirstResponder()
             prepareRegister(showError: false)
-        } else if firstNameTextField?.isEditing ?? false {
-            emailTextField?.becomeFirstResponder()
-        } else if lastNameTextField?.isEditing ?? false {
-            firstNameTextField?.becomeFirstResponder()
-        } else if genderTextField?.isEditing ?? false {
-            lastNameTextField?.becomeFirstResponder()
-        } else if countryTextField?.isEditing ?? false {
-            genderTextField?.becomeFirstResponder()
-        } else if locationTextField?.isEditing ?? false {
-            countryTextField?.becomeFirstResponder()
-        } else if birthdayTextField?.isEditing ?? false {
+        } else if firstNameTextField.isEditing {
+            emailTextField.becomeFirstResponder()
+        } else if lastNameTextField.isEditing {
+            firstNameTextField.becomeFirstResponder()
+        } else if genderTextField.isEditing {
+            lastNameTextField.becomeFirstResponder()
+        } else if countryTextField.isEditing {
+            genderTextField.becomeFirstResponder()
+        } else if locationTextField.isEditing {
+            countryTextField.becomeFirstResponder()
+        } else if birthdayTextField.isEditing {
             if isLocationVisible {
-                locationTextField?.becomeFirstResponder()
+                locationTextField.becomeFirstResponder()
             } else {
-                countryTextField?.becomeFirstResponder()
+                countryTextField.becomeFirstResponder()
             }
-        } else if passwordTextField?.isEditing ?? false {
-            birthdayTextField?.becomeFirstResponder()
-        } else if confirmPasswordTextField?.isEditing ?? false {
-            passwordTextField?.becomeFirstResponder()
+        } else if passwordTextField.isEditing {
+            birthdayTextField.becomeFirstResponder()
+        } else if confirmPasswordTextField.isEditing {
+            passwordTextField.becomeFirstResponder()
         }
     }
 
     @IBAction func toolbarNextTapped(_ sender: UIBarButtonItem) {
-        if emailTextField?.isEditing ?? false {
-            firstNameTextField?.becomeFirstResponder()
-        } else if firstNameTextField?.isEditing ?? false {
-            lastNameTextField?.becomeFirstResponder()
-        } else if lastNameTextField?.isEditing ?? false {
-            genderTextField?.becomeFirstResponder()
-        } else if genderTextField?.isEditing ?? false {
-            countryTextField?.becomeFirstResponder()
-        } else if countryTextField?.isEditing ?? false {
+        if emailTextField.isEditing {
+            firstNameTextField.becomeFirstResponder()
+        } else if firstNameTextField.isEditing {
+            lastNameTextField.becomeFirstResponder()
+        } else if lastNameTextField.isEditing {
+            genderTextField.becomeFirstResponder()
+        } else if genderTextField.isEditing {
+            countryTextField.becomeFirstResponder()
+        } else if countryTextField.isEditing {
             if isLocationVisible {
-                locationTextField?.becomeFirstResponder()
+                locationTextField.becomeFirstResponder()
             } else {
-                birthdayTextField?.becomeFirstResponder()
+                birthdayTextField.becomeFirstResponder()
             }
-        } else if locationTextField?.isEditing ?? false {
-            birthdayTextField?.becomeFirstResponder()
-        } else if birthdayTextField?.isEditing ?? false {
-            passwordTextField?.becomeFirstResponder()
-        } else if passwordTextField?.isEditing ?? false {
-            confirmPasswordTextField?.becomeFirstResponder()
-        } else if confirmPasswordTextField?.isEditing ?? false {
-            passwordTextField?.becomeFirstResponder()
+        } else if locationTextField.isEditing {
+            birthdayTextField.becomeFirstResponder()
+        } else if birthdayTextField.isEditing {
+            passwordTextField.becomeFirstResponder()
+        } else if passwordTextField.isEditing {
+            confirmPasswordTextField.becomeFirstResponder()
+        } else if confirmPasswordTextField.isEditing {
+            passwordTextField.becomeFirstResponder()
             prepareRegister(showError: false)
         }
     }
 
     @IBAction func toolbarClearTapped(_ sender: UIBarButtonItem) {
-        if birthdayTextField?.isEditing ?? false {
-            birthdayTextField?.text = nil
+        if birthdayTextField.isEditing {
+            birthdayTextField.text = nil
         }
         view.endEditing(true)
         prepareRegister(showError: false)
@@ -303,13 +293,13 @@ private extension SignupVC {
 
     @IBAction func unwindToSignup(segue: UIStoryboardSegue) {
         agreed = true
-        termsOfServiceButton?.setImage(R.image.checkmarkBlue(), for: .normal)
+        termsOfServiceButton.setImage(R.image.checkmarkBlue(), for: .normal)
     }
 
     func populate(with payload: RegistrationPayload) {
-        emailTextField?.disable(text: payload.email)
+        emailTextField.disable(text: payload.email)
 
-        firstNameTextField?.disable(text: payload.first_name)
+        firstNameTextField.disable(text: payload.first_name)
 
         let gender: String
         switch payload.gender {
@@ -318,42 +308,42 @@ private extension SignupVC {
         case "U": gender = L.preferNot()
         default: gender = L.preferNot()
         }
-        genderTextField?.disable(text: gender)
+        genderTextField.disable(text: gender)
 
-        lastNameTextField?.disable(text: payload.last_name)
+        lastNameTextField.disable(text: payload.last_name)
 
         let birthday = payload.birthday ?? ""
         if !birthday.isEmpty {
-            birthdayTextField?.disable(text: birthday)
+            birthdayTextField.disable(text: birthday)
         }
 
         prepareRegister(showError: false)
     }
 
     @IBAction func birthdayChanged(_ sender: UIDatePicker) {
-        birthdayTextField?.text = DateFormatter.mtpDay.string(from: sender.date)
+        birthdayTextField.text = DateFormatter.mtpDay.string(from: sender.date)
     }
 
     // swiftlint:disable:next function_body_length cyclomatic_complexity
     func prepareRegister(showError: Bool) {
-        let email = emailTextField?.text ?? ""
-        let firstName = firstNameTextField?.text ?? ""
-        let lastName = lastNameTextField?.text ?? ""
+        let email = emailTextField.text ?? ""
+        let firstName = firstNameTextField.text ?? ""
+        let lastName = lastNameTextField.text ?? ""
         let gender: String
-        switch genderTextField?.text?.first {
+        switch genderTextField.text?.first {
         case "M": gender = "M"
         case "F": gender = "F"
         default: gender = "U"
         }
         let birthday: String?
-        if let text = birthdayTextField?.text,
+        if let text = birthdayTextField.text,
            !text.isEmpty {
             birthday = text
         } else {
             birthday = nil
         }
-        let password = passwordTextField?.text ?? ""
-        let passwordConfirmation = confirmPasswordTextField?.text ?? ""
+        let password = passwordTextField.text ?? ""
+        let passwordConfirmation = confirmPasswordTextField.text ?? ""
 
         errorMessage = ""
         if !agreed {
@@ -456,11 +446,11 @@ extension SignupVC: UITextFieldDelegate {
         var clearHidden = true
         switch textField {
         case emailTextField:
-            toolbarBackButton?.isEnabled = false
-            toolbarNextButton?.isEnabled = true
+            toolbarBackButton.isEnabled = false
+            toolbarNextButton.isEnabled = true
         case confirmPasswordTextField:
-            toolbarBackButton?.isEnabled = true
-            toolbarNextButton?.isEnabled = false
+            toolbarBackButton.isEnabled = true
+            toolbarNextButton.isEnabled = false
         case countryTextField:
             performSegue(withIdentifier: Segues.showCountry, sender: self)
             return false
@@ -472,10 +462,10 @@ extension SignupVC: UITextFieldDelegate {
             // swiftlint:disable:next fallthrough
             fallthrough
         default:
-            toolbarBackButton?.isEnabled = true
-            toolbarNextButton?.isEnabled = true
+            toolbarBackButton.isEnabled = true
+            toolbarNextButton.isEnabled = true
         }
-        toolbarClearButton?.isHidden = clearHidden
+        toolbarClearButton.isHidden = clearHidden
 
         return true
     }
@@ -487,27 +477,27 @@ extension SignupVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case emailTextField:
-            firstNameTextField?.becomeFirstResponder()
+            firstNameTextField.becomeFirstResponder()
         case firstNameTextField:
-            lastNameTextField?.becomeFirstResponder()
+            lastNameTextField.becomeFirstResponder()
         case lastNameTextField:
-            genderTextField?.becomeFirstResponder()
+            genderTextField.becomeFirstResponder()
         case genderTextField:
-            countryTextField?.becomeFirstResponder()
+            countryTextField.becomeFirstResponder()
         case countryTextField:
             if isLocationVisible {
-                locationTextField?.becomeFirstResponder()
+                locationTextField.becomeFirstResponder()
             } else {
-                birthdayTextField?.becomeFirstResponder()
+                birthdayTextField.becomeFirstResponder()
             }
         case locationTextField:
-            birthdayTextField?.becomeFirstResponder()
+            birthdayTextField.becomeFirstResponder()
         case birthdayTextField:
-            passwordTextField?.becomeFirstResponder()
+            passwordTextField.becomeFirstResponder()
         case passwordTextField:
-            confirmPasswordTextField?.becomeFirstResponder()
+            confirmPasswordTextField.becomeFirstResponder()
         case confirmPasswordTextField:
-            confirmPasswordTextField?.resignFirstResponder()
+            confirmPasswordTextField.resignFirstResponder()
             prepareRegister(showError: false)
         default:
             break
@@ -556,17 +546,17 @@ extension SignupVC: LocationSearchDelegate {
             guard country != countryItem else { return }
             if countryItem.countryId > 0 {
                 country = countryItem
-                countryTextField?.text = countryItem.placeCountry
+                countryTextField.text = countryItem.placeCountry
             } else {
-                countryTextField?.text = L.preferNot()
+                countryTextField.text = L.preferNot()
             }
             location = nil
-            locationTextField?.text = nil
+            locationTextField.text = nil
             show(location: countryItem.hasChildren)
         case let locationItem as Location:
             guard location != locationItem else { return }
             location = locationItem
-            locationTextField?.text = locationItem.placeTitle
+            locationTextField.text = locationItem.placeTitle
         default:
             log.error("unknown item type selected")
         }
@@ -650,46 +640,60 @@ extension SignupVC: UIPickerViewDelegate {
                            didSelectRow row: Int,
                            inComponent component: Int) {
         guard row > 0 else { return }
-        genderTextField?.text = genders[row]
-        genderTextField?.resignFirstResponder()
+        genderTextField.text = genders[row]
+        genderTextField.resignFirstResponder()
     }
 }
 
-// MARK: - Injectable
+// MARK: - Exposing
 
-extension SignupVC: Injectable {
+extension SignupVC: Exposing {
 
-    /// Injected dependencies
-    typealias Model = ()
-
-    /// Handle dependency injection
-    ///
-    /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
-        return self
+    /// Expose controls to UI tests
+    func expose() {
+        let items = navigationItem.leftBarButtonItems
+        UISignup.close.expose(item: items?.first)
+        UISignup.confirm.expose(item: confirmPasswordTextField)
+        UISignup.credentials.expose(item: credentialsStack)
+        UISignup.email.expose(item: emailTextField)
+        UISignup.first.expose(item: firstNameTextField)
+        UISignup.last.expose(item: lastNameTextField)
+        UISignup.login.expose(item: loginButton)
+        UISignup.password.expose(item: passwordTextField)
+        UISignup.signup.expose(item: signupButton)
+        UISignup.toggleConfirm.expose(item: toggleConfirmPasswordButton)
+        UISignup.togglePassword.expose(item: togglePasswordButton)
+        UISignup.tos.expose(item: termsOfServiceButton)
     }
+}
 
-    /// Enforce dependency injection
-    func requireInjections() {
-        scrollView.require()
+// MARK: - InterfaceBuildable
+
+extension SignupVC: InterfaceBuildable {
+
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
+        birthdayTextField.require()
+        confirmPasswordTextField.require()
+        countryTextField.require()
         credentialsStack.require()
+        emailTextField.require()
         facebookStack.require()
         fieldsStack.require()
-        emailTextField.require()
         firstNameTextField.require()
-        lastNameTextField.require()
         genderTextField.require()
-        countryTextField.require()
-        locationTextField.require()
-        birthdayTextField.require()
-        passwordTextField.require()
-        togglePasswordButton.require()
-        confirmPasswordTextField.require()
-        toggleConfirmPasswordButton.require()
         keyboardToolbar.require()
+        lastNameTextField.require()
+        locationTextField.require()
+        loginButton.require()
+        passwordTextField.require()
+        scrollView.require()
+        signupButton.require()
+        termsOfServiceButton.require()
+        toggleConfirmPasswordButton.require()
+        togglePasswordButton.require()
         toolbarBackButton.require()
-        toolbarNextButton.require()
         toolbarClearButton.require()
+        toolbarNextButton.require()
     }
 }

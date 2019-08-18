@@ -334,6 +334,7 @@ extension DataService {
     func logOut() {
         FacebookButton.logOut()
         MTP.unthrottle()
+        net.unthrottle()
 
         if let id = user?.id {
             deletePhotos(user: id)
@@ -1053,6 +1054,14 @@ final class DataServiceStub: DataServiceImpl {
         get { return [:] }
         // swiftlint:disable:next unused_setter_value
         set { }
+    }
+
+    /// Default initializer
+    /// Clears fields referenced in UI tests
+    override init() {
+        super.init()
+
+        self.email = ""
     }
 }
 

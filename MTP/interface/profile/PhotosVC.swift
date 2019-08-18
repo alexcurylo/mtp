@@ -439,6 +439,12 @@ extension PhotosVC: UICollectionViewDelegateFlowLayout {
 /// Header for photos collections
 final class PhotosHeader: UICollectionReusableView {
     // expect addTapped(_:) hooked up in storyboard
+
+    @IBOutlet private var addPhotoButton: GradientButton? {
+        didSet {
+            UIPhotos.add.expose(item: addPhotoButton)
+        }
+    }
 }
 
 private class AXMTPDataSource: AXPhotosDataSource {

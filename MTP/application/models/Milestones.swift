@@ -22,25 +22,7 @@ struct SettingsJSON: Codable {
     //let worldMap: MapRenderJSON?
 }
 
-extension SettingsJSON: CustomStringConvertible {
-
-    var description: String {
-        return "Settings"
-    }
-}
-
-extension SettingsJSON: CustomDebugStringConvertible {
-
-    var debugDescription: String {
-        return """
-        < Settings: \(description):
-        milestoneThresholds: \(milestoneThresholds)
-        /SettingsJSON >
-        """
-    }
-}
-
-private struct DefaultEmailsJSON: Codable, CustomStringConvertible, CustomDebugStringConvertible {
+private struct DefaultEmailsJSON: Codable {
 
     private enum CodingKeys: String, CodingKey {
         case verificationRequest = "verification-request"
@@ -54,23 +36,9 @@ private struct DefaultEmailsJSON: Codable, CustomStringConvertible, CustomDebugS
     }
 
     let verificationRequest: EmailJSON
-
-    var description: String {
-        return "DefaultEmailsJSON: [verification-request]"
-    }
-
-    var debugDescription: String {
-        return """
-        < DefaultEmailsJSON: \(description):
-        message: \(verificationRequest.message))
-        name: \(verificationRequest.name)
-        subject: \(verificationRequest.subject)
-        /DefaultEmailsJSON >
-        """
-    }
 }
 
-private struct MapRenderJSON: Codable, CustomStringConvertible, CustomDebugStringConvertible {
+private struct MapRenderJSON: Codable {
 
     private enum CodingKeys: String, CodingKey {
         case fillColors = "fill-colors"
@@ -81,23 +49,9 @@ private struct MapRenderJSON: Codable, CustomStringConvertible, CustomDebugStrin
     let fillColors: ColorsJSON
     let fillOpacities: OpacitiesJSON
     let outlineColors: ColorsJSON
-
-    var description: String {
-        return "MapRenderJSON"
-    }
-
-    var debugDescription: String {
-        return """
-        < MapRenderJSON: \(description):
-        fillColors: \(fillColors))
-        fillOpacities: \(fillOpacities)
-        outlineColors: \(outlineColors)
-        /MapRenderJSON >
-        """
-    }
 }
 
-private struct ColorsJSON: Codable, CustomStringConvertible, CustomDebugStringConvertible {
+private struct ColorsJSON: Codable {
 
     private enum CodingKeys: String, CodingKey {
         case remainingPolygon = "remaining-polygon"
@@ -106,22 +60,9 @@ private struct ColorsJSON: Codable, CustomStringConvertible, CustomDebugStringCo
 
     let remainingPolygon: String
     let visitedPolygon: String
-
-    var description: String {
-        return "ColorsJSON"
-    }
-
-    var debugDescription: String {
-        return """
-        < ColorsJSON: \(description):
-        remainingPolygon: \(remainingPolygon))
-        visitedPolygon: \(visitedPolygon)
-        /ColorsJSON >
-        """
-    }
 }
 
-private struct OpacitiesJSON: Codable, CustomStringConvertible, CustomDebugStringConvertible {
+private struct OpacitiesJSON: Codable {
 
     private enum CodingKeys: String, CodingKey {
         case remainingPolygon = "remaining-polygon"
@@ -130,22 +71,9 @@ private struct OpacitiesJSON: Codable, CustomStringConvertible, CustomDebugStrin
 
     let remainingPolygon: Int
     let visitedPolygon: Int
-
-    var description: String {
-        return "OpacitiesJSON"
-    }
-
-    var debugDescription: String {
-        return """
-        < OpacitiesJSON: \(description):
-        remainingPolygon: \(remainingPolygon))
-        visitedPolygon: \(visitedPolygon)
-        /OpacitiesJSON >
-        """
-    }
 }
 
-private struct MilestonesJSON: Codable, CustomStringConvertible, CustomDebugStringConvertible {
+private struct MilestonesJSON: Codable {
 
     struct ThresholdsJSON: Codable {
 
@@ -181,27 +109,9 @@ private struct MilestonesJSON: Codable, CustomStringConvertible, CustomDebugStri
             return restaurants
         }
     }
-
-    var description: String {
-        return "MilestonesJSON"
-    }
-
-    var debugDescription: String {
-        return """
-        < MilestonesJSON: \(description):
-        beaches: \(beaches.count))
-        divesites: \(divesites.count))
-        golfcourses: \(golfcourses.count))
-        locations: \(locations.count))
-        restaurants: \(restaurants.count))
-        uncountries: \(uncountries.count))
-        whss: \(whss.count))
-        /MilestonesJSON >
-        """
-    }
 }
 
-private struct RSSFeedsJSON: Codable, CustomStringConvertible, CustomDebugStringConvertible {
+private struct RSSFeedsJSON: Codable {
 
     private enum CodingKeys: String, CodingKey {
         case travelNews = "travel-news"
@@ -215,18 +125,6 @@ private struct RSSFeedsJSON: Codable, CustomStringConvertible, CustomDebugString
     }
 
     let travelNews: [FeedJSON]
-
-    var description: String {
-        return "RSSFeedsJSON: [travel-news]"
-    }
-
-    var debugDescription: String {
-        return """
-        < RSSFeedsJSON: \(description):
-        feeds: \(travelNews.count))
-        /RSSFeedsJSON >
-        """
-    }
 }
 
 /// Realm representation of a milestone message
@@ -276,8 +174,7 @@ private struct RSSFeedsJSON: Codable, CustomStringConvertible, CustomDebugString
     /// checklist
     var checklist: Checklist {
         //swiftlint:disable:next force_unwrapping
-        get { return Checklist(rawValue: checklistValue)! }
-        set { checklistValue = newValue.rawValue }
+        return Checklist(rawValue: checklistValue)!
     }
 
     /// thresholds
@@ -295,7 +192,7 @@ private struct RSSFeedsJSON: Codable, CustomStringConvertible, CustomDebugString
                      list: Checklist) {
         self.init()
 
-        checklist = list
+        checklistValue = list.rawValue
         let jsons = from.milestoneThresholds.thresholds(list: list)
         for (index, json) in jsons.enumerated() {
             let threshold = Threshold(from: json,

@@ -25,13 +25,14 @@ final class LocationPostsVC: PostsVC {
 
     private var profileModel: UserProfileVC.Model?
 
-    //swiftlint:disable:next implicitly_unwrapped_optional
+    // verified in requireInjection
     private var mappable: Mappable!
+    // swiftlint:disable:previous implicitly_unwrapped_optional
 
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireInjection()
 
         update()
     }
@@ -42,18 +43,13 @@ final class LocationPostsVC: PostsVC {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.addPost.identifier:
-            if let edit = Segues.addPost(segue: segue)?.destination {
-                edit.inject(model: mappable)
-            }
-        case Segues.showUserProfile.identifier:
-            if let profile = Segues.showUserProfile(segue: segue)?.destination,
-                let profileModel = profileModel {
-                profile.inject(model: profileModel)
-            }
-        default:
-            log.debug("unexpected segue: \(segue.name)")
+        if let edit = Segues.addPost(segue: segue)?
+                            .destination {
+            edit.inject(model: mappable)
+        } else if let profile = Segues.showUserProfile(segue: segue)?
+                                      .destination,
+                  let profileModel = profileModel {
+            profile.inject(model: profileModel)
         }
     }
 
@@ -83,8 +79,6 @@ private extension LocationPostsVC {
     }
 
     func update() {
-        guard let mappable = mappable else { return }
-
         guard isImplemented else {
             contentState = .unimplemented
             tableView.set(message: contentState, color: .darkText)
@@ -124,8 +118,7 @@ extension LocationPostsVC: Injectable {
     /// Handle dependency injection
     ///
     /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
+    func inject(model: Model) {
         mappable = model
 
         if isImplemented {
@@ -133,12 +126,10 @@ extension LocationPostsVC: Injectable {
                 self?.loaded()
             }
         }
-
-        return self
     }
 
     /// Enforce dependency injection
-    func requireInjections() {
+    func requireInjection() {
         mappable.require()
     }
 }

@@ -77,20 +77,7 @@ final class LocationSearchVC: RealmSearchViewController {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: styler)
-    }
-
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.pop.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
-        }
+        expose()
     }
 
     // MARK: - RealmSearchResultsDataSource
@@ -173,6 +160,17 @@ private extension LocationSearchVC {
                 subpredicates: [isChild, isAll])
             title = L.selectLocation()
         }
+    }
+}
+
+// MARK: - Exposing
+
+extension LocationSearchVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        let items = navigationItem.leftBarButtonItems
+        UILocationSearch.close.expose(item: items?.first)
     }
 }
 

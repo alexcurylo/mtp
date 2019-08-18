@@ -7,13 +7,15 @@ final class LocationsFilterVC: UITableViewController, ServiceProvider {
 
     private typealias Segues = R.segue.locationsFilterVC
 
-    @IBOutlet private var saveButton: UIBarButtonItem?
-    @IBOutlet private var locationsSwitch: UISwitch?
-    @IBOutlet private var whsSwitch: UISwitch?
-    @IBOutlet private var beachesSwitch: UISwitch?
-    @IBOutlet private var golfCoursesSwitch: UISwitch?
-    @IBOutlet private var diveSitesSwitch: UISwitch?
-    @IBOutlet private var restaurantsSwitch: UISwitch?
+    // verified in requireOutlets
+    @IBOutlet private var closeButton: UIBarButtonItem!
+    @IBOutlet private var saveButton: UIBarButtonItem!
+    @IBOutlet private var locationsSwitch: UISwitch!
+    @IBOutlet private var whsSwitch: UISwitch!
+    @IBOutlet private var beachesSwitch: UISwitch!
+    @IBOutlet private var golfCoursesSwitch: UISwitch!
+    @IBOutlet private var diveSitesSwitch: UISwitch!
+    @IBOutlet private var restaurantsSwitch: UISwitch!
 
     private var original = ChecklistFlags()
     private var current = ChecklistFlags()
@@ -21,7 +23,7 @@ final class LocationsFilterVC: UITableViewController, ServiceProvider {
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
 
         let backgroundView = GradientView {
             $0.set(gradient: [.dodgerBlue, .azureRadiance],
@@ -39,6 +41,7 @@ final class LocationsFilterVC: UITableViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .standard)
+        expose()
     }
 
     /// Instrument and inject navigation
@@ -47,13 +50,9 @@ final class LocationsFilterVC: UITableViewController, ServiceProvider {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.saveEdits.identifier:
-            saveEdits(notifying: Segues.saveEdits(segue: segue)?.destination)
-        case Segues.cancelEdits.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
+        if let target = Segues.saveEdits(segue: segue)?
+                              .destination {
+            saveEdits(notifying: target)
         }
     }
 }
@@ -69,18 +68,18 @@ private extension LocationsFilterVC {
         original = filter
         current = filter
 
-        locationsSwitch?.isOn = filter.locations
-        whsSwitch?.isOn = filter.whss
-        beachesSwitch?.isOn = filter.beaches
-        golfCoursesSwitch?.isOn = filter.golfcourses
-        diveSitesSwitch?.isOn = filter.divesites
-        restaurantsSwitch?.isOn = filter.restaurants
+        locationsSwitch.isOn = filter.locations
+        whsSwitch.isOn = filter.whss
+        beachesSwitch.isOn = filter.beaches
+        golfCoursesSwitch.isOn = filter.golfcourses
+        diveSitesSwitch.isOn = filter.divesites
+        restaurantsSwitch.isOn = filter.restaurants
 
-        saveButton?.isEnabled = false
+        saveButton.isEnabled = false
     }
 
     func updateSave() {
-        saveButton?.isEnabled = original != current
+        saveButton.isEnabled = original != current
     }
 
     func saveEdits(notifying controller: UIViewController?) {
@@ -123,29 +122,29 @@ private extension LocationsFilterVC {
    }
 }
 
-// MARK: - Injectable
+// MARK: - Exposing
 
-extension LocationsFilterVC: Injectable {
+extension LocationsFilterVC: Exposing {
 
-    /// Injected dependencies
-    typealias Model = ()
-
-    /// Handle dependency injection
-    ///
-    /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
-        return self
+    /// Expose controls to UI tests
+    func expose() {
+        UILocationsFilter.close.expose(item: closeButton)
     }
+}
 
-    /// Enforce dependency injection
-    func requireInjections() {
-        saveButton.require()
-        locationsSwitch.require()
-        whsSwitch.require()
+// MARK: - InterfaceBuildable
+
+extension LocationsFilterVC: InterfaceBuildable {
+
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
         beachesSwitch.require()
-        golfCoursesSwitch.require()
+        closeButton.require()
         diveSitesSwitch.require()
+        golfCoursesSwitch.require()
+        locationsSwitch.require()
         restaurantsSwitch.require()
+        saveButton.require()
+        whsSwitch.require()
     }
 }

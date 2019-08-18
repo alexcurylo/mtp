@@ -79,7 +79,7 @@ final class RankingsPagingVC: PagingViewController<ListPagingItem> {
    }
 }
 
-private class RankingPagingView: PagingView {
+private class RankingPagingView: PagingView, Exposing {
 
     var menuHeightConstraint: NSLayoutConstraint?
 
@@ -91,6 +91,7 @@ private class RankingPagingView: PagingView {
                    orientation: .horizontal)
         }
         collectionView.backgroundView = menuBackground
+        expose()
     }
 
     override func setupConstraints() {
@@ -110,6 +111,11 @@ private class RankingPagingView: PagingView {
             pageView.bottomAnchor.constraint(equalTo: bottomAnchor),
             pageView.topAnchor.constraint(equalTo: topAnchor)
         ])
+    }
+
+    /// Expose controls to UI tests
+    func expose() {
+        UIRankingsPaging.menu.expose(item: collectionView)
     }
 }
 
@@ -145,12 +151,11 @@ private class RankingPagingCell: PagingCell {
         imageView.bottomAnchor <= titleLabel.topAnchor - 6
     }
 
-    /// Unavailable coding constructor
+    /// Unsupported coding constructor
     ///
     /// - Parameter coder: An unarchiver object.
-    @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        return nil
     }
 
     override func setPagingItem(_ pagingItem: PagingItem,
@@ -162,6 +167,7 @@ private class RankingPagingCell: PagingCell {
 
         imageView.image = item.list.image
         titleLabel.text = item.list.title
+        UIRankingsPaging.page(ChecklistIndex(list: item.list)).expose(item: self)
 
         if selected {
             contentView.backgroundColor = UIColor(white: 1, alpha: 0.6)

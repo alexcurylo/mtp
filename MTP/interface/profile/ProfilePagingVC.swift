@@ -16,23 +16,20 @@ final class ProfilePagingVC: FixedPagingViewController, ServiceProvider {
         configure()
     }
 
-    /// Construction by unarchiving
+    /// Unsupported coding constructor
     ///
     /// - Parameter coder: An unarchiver object.
     required init?(coder: NSCoder) {
-        super.init(viewControllers: [])
+        return nil
     }
 
-    /// Instrument and inject navigation
+    /// Prepare for reveal
     ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        default:
-            log.debug("unexpected segue: \(segue.name)")
-        }
+    /// - Parameter animated: Whether animating
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        expose()
     }
 
     /// Provide cell
@@ -72,5 +69,15 @@ private extension ProfilePagingVC {
             zIndex: .max,
             spacing: .zero,
             insets: .zero)
+    }
+}
+
+// MARK: - Exposing
+
+extension ProfilePagingVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        UIProfilePaging.menu.expose(item: collectionView)
     }
 }

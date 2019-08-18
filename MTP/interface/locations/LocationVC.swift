@@ -7,20 +7,24 @@ final class LocationVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.locationVC
 
-    @IBOutlet private var placeImageView: UIImageView?
-    @IBOutlet private var categoryLabel: UILabel?
-    @IBOutlet private var distanceLabel: UILabel?
-    @IBOutlet private var nameLabel: UILabel?
+    // verified in requireOutlets
+    @IBOutlet private var closeButton: UIBarButtonItem!
+    @IBOutlet private var mapButton: UIBarButtonItem!
+    @IBOutlet private var placeImageView: UIImageView!
+    @IBOutlet private var categoryLabel: UILabel!
+    @IBOutlet private var distanceLabel: UILabel!
+    @IBOutlet private var nameLabel: UILabel!
+    @IBOutlet private var pagesHolder: UIView!
 
-    @IBOutlet private var pagesHolder: UIView?
-
-    // swiftlint:disable:next implicitly_unwrapped_optional
+    // verified in requireInjection
     private var mappable: Mappable!
+    // swiftlint:disable:previous implicitly_unwrapped_optional
 
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
+        requireInjection()
 
         configure()
     }
@@ -32,20 +36,7 @@ final class LocationVC: UIViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .standard)
-    }
-
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.pop.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
-        }
+        expose()
     }
 }
 
@@ -60,22 +51,47 @@ private extension LocationVC {
     func configure() {
         guard let mappable = mappable else { return }
 
-        placeImageView?.load(image: mappable)
-        categoryLabel?.text = mappable.checklist.category(full: true).uppercased()
-        distanceLabel?.text = L.away(mappable.distance.formatted).uppercased()
-        nameLabel?.text = mappable.title
+        placeImageView.load(image: mappable)
+        categoryLabel.text = mappable.checklist.category(full: true).uppercased()
+        distanceLabel.text = L.away(mappable.distance.formatted).uppercased()
+        nameLabel.text = mappable.title
 
         setupPagesHolder()
     }
 
     func setupPagesHolder() {
-        guard let holder = pagesHolder else { return }
-
         let pagesVC = LocationPagingVC.profile(model: mappable)
         addChild(pagesVC)
-        holder.addSubview(pagesVC.view)
-        pagesVC.view.edgeAnchors == holder.edgeAnchors
+        pagesHolder.addSubview(pagesVC.view)
+        pagesVC.view.edgeAnchors == pagesHolder.edgeAnchors
         pagesVC.didMove(toParent: self)
+    }
+}
+
+// MARK: - Exposing
+
+extension LocationVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        UILocation.close.expose(item: closeButton)
+        UILocation.map.expose(item: mapButton)
+    }
+}
+
+// MARK: - InterfaceBuildable
+
+extension LocationVC: InterfaceBuildable {
+
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
+        categoryLabel.require()
+        closeButton.require()
+        distanceLabel.require()
+        mapButton.require()
+        nameLabel.require()
+        pagesHolder.require()
+        placeImageView.require()
     }
 }
 
@@ -89,20 +105,12 @@ extension LocationVC: Injectable {
     /// Handle dependency injection
     ///
     /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
+    func inject(model: Model) {
         mappable = model
-        return self
     }
 
     /// Enforce dependency injection
-    func requireInjections() {
+    func requireInjection() {
         mappable.require()
-
-        placeImageView.require()
-        categoryLabel.require()
-        distanceLabel.require()
-        nameLabel.require()
-        pagesHolder.require()
     }
 }

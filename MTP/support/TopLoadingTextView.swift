@@ -22,6 +22,7 @@ final class TopLoadingTextView: UITextView {
         isScrollEnabled = shouldEnableScroll
     }
 
+    #if WRAP_AROUND_IMAGES
     /// Implement text wrapping
     ///
     /// - Parameter rect: Bounds to exclude
@@ -35,4 +36,5 @@ final class TopLoadingTextView: UITextView {
         let imagePath = UIBezierPath(rect: exclude)
         textContainer.exclusionPaths = [imagePath]
     }
+    #endif
 }

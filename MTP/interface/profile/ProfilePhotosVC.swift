@@ -13,7 +13,10 @@ final class ProfilePhotosVC: PhotosVC {
     private var blockedPhotosObserver: Observer?
     private var updated = false
 
-    private var user: User?
+    // verified in requireInjection
+    private var user: User!
+    // swiftlint:disable:previous implicitly_unwrapped_optional
+
     private var isSelf: Bool = false
     private var blockedPhotos: [Int] = []
 
@@ -57,7 +60,7 @@ final class ProfilePhotosVC: PhotosVC {
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireInjection()
 
         update()
     }
@@ -68,15 +71,9 @@ final class ProfilePhotosVC: PhotosVC {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.addPhoto.identifier:
-            if let add = Segues.addPhoto(segue: segue)?.destination {
-                add.inject(model: (mappable: nil, delegate: self))
-            }
-        case Segues.cancelChoose.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
+        if let add = Segues.addPhoto(segue: segue)?
+                           .destination {
+            add.inject(model: (mappable: nil, delegate: self))
         }
     }
 }
@@ -116,7 +113,7 @@ private extension ProfilePhotosVC {
                            reload: reload) { [weak self] _ in
                 self?.loaded()
             }
-        } else if let user = user {
+        } else {
             net.loadPhotos(profile: user.userId,
                            page: page,
                            reload: reload) { [weak self] _ in
@@ -126,8 +123,6 @@ private extension ProfilePhotosVC {
     }
 
     func update() {
-        guard let user = user else { return }
-
         blockedPhotos = data.blockedPhotos
         let pages = data.getPhotosPages(user: user.userId)
         photosPages = pages
@@ -167,18 +162,15 @@ extension ProfilePhotosVC: UserInjectable {
     /// Handle dependency injection
     ///
     /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
+    func inject(model: Model) {
         user = model
         isSelf = model.isSelf
 
         refresh(page: 1, reload: false)
-
-        return self
     }
 
     /// Enforce dependency injection
-    func requireInjections() {
+    func requireInjection() {
         user.require()
     }
 }

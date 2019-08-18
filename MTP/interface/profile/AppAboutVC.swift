@@ -7,14 +7,15 @@ final class AppAboutVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.appAboutVC
 
-    @IBOutlet private var aboutTextView: TopLoadingTextView?
+    // verified in requireOutlets
+    @IBOutlet private var aboutTextView: TopLoadingTextView!
 
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
 
-        aboutTextView?.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 0, right: 8)
+        aboutTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 0, right: 8)
     }
 
     /// Prepare for reveal
@@ -24,40 +25,27 @@ final class AppAboutVC: UIViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .standard)
-    }
-
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.unwindFromAbout.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
-        }
+        expose()
     }
 }
 
-// MARK: - Injectable
+// MARK: - Exposing
 
-extension AppAboutVC: Injectable {
+extension AppAboutVC: Exposing {
 
-    /// Injected dependencies
-    typealias Model = ()
-
-    /// Handle dependency injection
-    ///
-    /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
-        return self
+    /// Expose controls to UI tests
+    func expose() {
+        let items = navigationItem.leftBarButtonItems
+        UIAppAbout.close.expose(item: items?.first)
     }
+}
 
-    /// Enforce dependency injection
-    func requireInjections() {
+// MARK: - InterfaceBuildable
+
+extension AppAboutVC: InterfaceBuildable {
+
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
         aboutTextView.require()
     }
 }

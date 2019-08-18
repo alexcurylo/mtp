@@ -93,12 +93,11 @@ class CountsPageVC: UIViewController, ServiceProvider {
         configure()
     }
 
-    /// Unavailable coding constructor
+    /// Unsupported coding constructor
     ///
     /// - Parameter coder: An unarchiver object.
-    @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        return nil
     }
 
     /// Refresh collection view on layout
@@ -242,8 +241,9 @@ extension CountsPageVC: UICollectionViewDataSource {
             modelPath = indexPath
         }
 
-        return cell(at: indexPath,
-                    model: modelPath)
+        let itemCell = cell(at: indexPath,
+                            model: modelPath)
+        return itemCell
     }
 }
 
@@ -336,6 +336,8 @@ private extension CountsPageVC {
                 isExpanded: regionsExpanded[region, default: false]
             )
             header.inject(model: model)
+
+            UICountsPage.region(viewPath.section).expose(item: header)
         }
 
         return view
@@ -361,7 +363,8 @@ private extension CountsPageVC {
                 parentId: place.placeParent?.placeId,
                 isVisitable: isEditable,
                 isLast: isLast,
-                isCombined: list == .locations && place.placeIsCountry
+                isCombined: list == .locations && place.placeIsCountry,
+                path: viewPath
             )
             counter.inject(model: model)
         case let grouper as CountCellGroup:
@@ -374,7 +377,8 @@ private extension CountsPageVC {
                 visited: isEditable ? group.visited : nil,
                 count: group.count,
                 disclose: expanded ? .close : .expand,
-                isLast: isLast
+                isLast: isLast,
+                path: viewPath
             )
             grouper.inject(model: model)
         default:

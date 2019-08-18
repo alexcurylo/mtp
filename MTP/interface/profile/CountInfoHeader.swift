@@ -72,12 +72,11 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
         configure()
     }
 
-    /// Unavailable coding constructor
+    /// Unsupported coding constructor
     ///
     /// - Parameter coder: An unarchiver object.
-    @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        return nil
     }
 
     /// Handle dependency injection

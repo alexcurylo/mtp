@@ -2,21 +2,26 @@
 
 import Foundation
 
+/// IBOutlet injection template
+protocol InterfaceBuildable {
+
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets()
+}
+
 /// Dependency injection template
 protocol Injectable {
 
-    /// Information to inject
+    /// Model to inject
     associatedtype Model
 
     /// Inject dependencies
     ///
     /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self
+    func inject(model: Model)
 
-    /// Injection enforcement
-    /// viewDidLoad is a good place to check Model and IBOutlets
-    func requireInjections()
+    /// Injection enforcement for viewWillAppear or earlier
+    func requireInjection()
 }
 
 extension Optional {

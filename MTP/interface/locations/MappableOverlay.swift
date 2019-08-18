@@ -5,8 +5,11 @@ import MapKit
 /// Draw a MTP location's region
 final class MappableOverlay: MKPolygon {
 
-    private var color: UIColor = Checklist.locations.marker
     private var locationId = 0
+    private var color: UIColor = Checklist.locations.marker
+    private var isVisited: Bool {
+        return color == UIColor.visited
+    }
 
     /// Renderer provider for MKMapViewDelegate
     var renderer: MKOverlayRenderer {
@@ -23,7 +26,8 @@ final class MappableOverlay: MKPolygon {
     /// - Returns: Identity
     func shows(mappable: Mappable) -> Bool {
         return mappable.checklist == .locations &&
-               mappable.checklistId == locationId
+               mappable.checklistId == locationId &&
+               mappable.isVisited == isVisited
     }
 
     fileprivate static func overlays(mappable: Mappable,

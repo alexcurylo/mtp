@@ -92,6 +92,8 @@ enum MTP: Hashable {
     case userGetByToken
     /// userPosts(id: Int)
     case userPosts(id: Int)
+    /// userPost(payload: UserUpdatePayload)
+    case userPost(id: Int, token: String)
     /// userPut(payload: UserUpdatePayload)
     case userPut(payload: UserUpdatePayload)
     /// userLogin(email: String, password: String)
@@ -176,12 +178,14 @@ extension MTP: TargetType {
         case .userDelete(let id),
              .userGet(let id):
             return "user/\(id)"
-        case .userPut(let payload):
-            return "user/\(payload.id)"
+        case .userPost(let id, _):
+            return "user/\(id)/token"
         case .userPosts(let id):
             return "users/\(id)/location-posts"
         case .userLogin:
             return "user/login"
+        case .userPut(let payload):
+            return "user/\(payload.id)"
         case .userRegister:
             return "user"
         case .userVerify(let id):
@@ -226,6 +230,7 @@ extension MTP: TargetType {
              .postPublish,
              .upload,
              .userLogin,
+             .userPost,
              .userRegister:
             return .post
         case .userPut:
@@ -267,6 +272,10 @@ extension MTP: TargetType {
         case let .search(query?):
             return .requestParameters(parameters: ["query": query],
                                       encoding: URLEncoding.default)
+        case .userPost(_, let token):
+            return .requestParameters(parameters: ["type": "apn_device_token",
+                                                   "value": token],
+                                      encoding: URLEncoding(destination: .queryString))
         case let .upload(photo: photo, caption: caption, location: location):
             let filePart = MultipartFormData(provider: .data(photo),
                                              name: "files[0]",
@@ -361,11 +370,20 @@ extension MTP: TargetType {
     var sampleData: Data {
         let file: String
         switch self {
+        case .checkIn,
+             .checkOut:
+            file = "checkin-whss-1187"
         case .checklists,
              .userGetByToken:
             file = "\(self)"
         //case let .photos(user?, page):
             //file = "photos-\(user)-\(page)"
+        case .locationPhotos:
+            //file = "locationPhotos-\(location)"
+            file = "locationPhotos-554"
+        case .locationPosts:
+            //file = "locationPosts-\(location)"
+            file = "locationPosts-554"
         case .photos(_, let page):
             file = "photos-7853-\(page)"
         case .rankings:
@@ -376,9 +394,13 @@ extension MTP: TargetType {
         case .userGet:
             //file = "userGet-\(id)"
             file = "userGet-1"
+        case .userLogin:
+            file = "userLogin-7853"
         case .userPosts:
             //file = "userPosts-\(id)"
             file = "userPosts-7853"
+        case .userRegister:
+            file = "userRegister"
         default:
             log.error("sampleData not provided for \(self)")
             return "{}".data(using: String.Encoding.utf8) ?? Data()
@@ -417,6 +439,7 @@ extension MTP: AccessTokenAuthorizable {
              .upload,
              .userDelete,
              .userGetByToken,
+             .userPost,
              .userPut,
              .userVerify:
             return .bearer
@@ -465,9 +488,11 @@ struct MTPNetworkController: ServiceProvider {
     /// - Parameters:
     ///   - items: Places
     ///   - visited: Whether visited
+    ///   - stub: Stub behaviour
     ///   - then: Completion
     func set(items: [Checklist.Item],
              visited: Bool,
+             stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
              then: @escaping NetworkCompletion<Bool>) {
         guard let item = items.first else {
             then(.success(true))
@@ -475,7 +500,7 @@ struct MTPNetworkController: ServiceProvider {
         }
 
         if visited {
-            checkIn(list: item.list, id: item.id) { result in
+            checkIn(list: item.list, id: item.id, stub: stub) { result in
                 switch result {
                 case .success:
                     self.set(items: Array(items.dropFirst()),
@@ -486,7 +511,7 @@ struct MTPNetworkController: ServiceProvider {
                 }
             }
         } else {
-            checkOut(list: item.list, id: item.id) { result in
+            checkOut(list: item.list, id: item.id, stub: stub) { result in
                 switch result {
                 case .success:
                     self.set(items: Array(items.dropFirst()),
@@ -501,13 +526,14 @@ struct MTPNetworkController: ServiceProvider {
 
     private func checkIn(list: Checklist,
                          id: Int,
+                         stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                          then: @escaping NetworkCompletion<Bool>) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
         }
 
         let auth = AccessTokenPlugin { self.data.token }
-        let provider = MTPProvider(plugins: [auth])
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
         let endpoint = MTP.checkIn(list: list, id: id)
         provider.request(endpoint) { response in
             switch response {
@@ -526,13 +552,14 @@ struct MTPNetworkController: ServiceProvider {
 
     private func checkOut(list: Checklist,
                           id: Int,
+                          stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                           then: @escaping NetworkCompletion<Bool>) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
         }
 
         let auth = AccessTokenPlugin { self.data.token }
-        let provider = MTPProvider(plugins: [auth])
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
         let endpoint = MTP.checkOut(list: list, id: id)
         provider.request(endpoint) { response in
             switch response {
@@ -589,6 +616,10 @@ struct MTPNetworkController: ServiceProvider {
     }
 
     /// Load checklists
+    ///
+    /// - Parameters:
+    ///   - stub: Stub behaviour
+    ///   - then: Completion
     func loadChecklists(stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                         then: @escaping NetworkCompletion<Checked> = { _ in }) {
         guard data.isLoggedIn else {
@@ -613,7 +644,11 @@ struct MTPNetworkController: ServiceProvider {
                 do {
                     let visited = try result.map(Checked.self,
                                                  using: JSONDecoder.mtp)
+                    let trigger = self.data.visited == nil
                     self.data.visited = visited
+                    if trigger {
+                        self.loc.calculateDistances()
+                    }
                     return then(.success(visited))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
@@ -755,11 +790,13 @@ struct MTPNetworkController: ServiceProvider {
     /// - Parameters:
     ///   - id: Location ID
     ///   - reload: Force reload
+    ///   - stub: Stub behaviour
     ///   - then: Completion
     func loadPhotos(location id: Int,
                     reload: Bool,
+                    stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                     then: @escaping NetworkCompletion<PhotosInfoJSON> = { _ in }) {
-        let provider = MTPProvider()
+        let provider = MTPProvider(stubClosure: stub)
         let endpoint = MTP.locationPhotos(location: id)
         guard reload || !endpoint.isThrottled else {
             return then(.failure(.throttle))
@@ -801,6 +838,7 @@ struct MTPNetworkController: ServiceProvider {
     /// - Parameters:
     ///   - page: Index
     ///   - reload: Force reload
+    ///   - stub: Stub behaviour
     ///   - then: Completion
     func loadPhotos(page: Int,
                     reload: Bool,
@@ -819,6 +857,7 @@ struct MTPNetworkController: ServiceProvider {
     ///   - id: User ID
     ///   - page: Index
     ///   - reload: Force reload
+    ///   - stub: Stub behaviour
     ///   - then: Completion
     func loadPhotos(profile id: Int,
                     page: Int,
@@ -887,10 +926,12 @@ struct MTPNetworkController: ServiceProvider {
     ///
     /// - Parameters:
     ///   - id: Location ID
+    ///   - stub: Stub behaviour
     ///   - then: Completion
     func loadPosts(location id: Int,
+                   stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                    then: @escaping NetworkCompletion<PostsJSON> = { _ in }) {
-        let provider = MTPProvider()
+        let provider = MTPProvider(stubClosure: stub)
         let endpoint = MTP.locationPosts(location: id)
         guard !endpoint.isThrottled else {
             return then(.failure(.throttle))
@@ -931,6 +972,7 @@ struct MTPNetworkController: ServiceProvider {
     ///
     /// - Parameters:
     ///   - id: User ID
+    ///   - stub: Stub behaviour
     ///   - then: Completion
     func loadPosts(user id: Int,
                    stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
@@ -981,6 +1023,7 @@ struct MTPNetworkController: ServiceProvider {
     ///
     /// - Parameters:
     ///   - query: Filter
+    ///   - stub: Stub behaviour
     ///   - then: Completion
     func loadRankings(query: RankingsQuery,
                       stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
@@ -1068,6 +1111,7 @@ struct MTPNetworkController: ServiceProvider {
     /// - Parameters:
     ///   - list: Checklist
     ///   - id: User ID
+    ///   - stub: Stub behaviour
     ///   - then: Completion
     func loadScorecard(list: Checklist,
                        user id: Int,
@@ -1188,6 +1232,7 @@ struct MTPNetworkController: ServiceProvider {
     ///
     /// - Parameters:
     ///   - id: User ID
+    ///   - stub: Stub behaviour
     ///   - then: Completion
     func loadUser(id: Int,
                   stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
@@ -1584,15 +1629,17 @@ struct MTPNetworkController: ServiceProvider {
     /// - Parameters:
     ///   - email: Email
     ///   - password: Password
+    ///   - stub: Stub behaviour
     ///   - then: Completion
     func userLogin(email: String,
                    password: String,
+                   stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                    then: @escaping NetworkCompletion<UserJSON>) {
         guard !email.isEmpty && !password.isEmpty else {
             return then(.failure(.parameter))
         }
 
-        let provider = MTPProvider()
+        let provider = MTPProvider(stubClosure: stub)
         let endpoint = MTP.userLogin(email: email, password: password)
 
         func parse(success response: Response) {
@@ -1634,14 +1681,16 @@ struct MTPNetworkController: ServiceProvider {
     ///
     /// - Parameters:
     ///   - payload: RegistrationPayload
+    ///   - stub: Stub behaviour
     ///   - then: Completion
     func userRegister(payload: RegistrationPayload,
+                      stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                       then: @escaping NetworkCompletion<UserJSON>) {
         guard payload.isValid else {
             return then(.failure(.parameter))
         }
 
-        let provider = MTPProvider()
+        let provider = MTPProvider(stubClosure: stub)
         let endpoint = MTP.userRegister(payload: payload)
 
         func parse(result: Response) {
@@ -1699,6 +1748,46 @@ struct MTPNetworkController: ServiceProvider {
                     } else {
                         return then(.failure(.message(reply.message)))
                     }
+                } catch {
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
+                    return then(.failure(.decoding))
+                }
+            case let .failure(.underlying(error, response)):
+                let problem = self.parse(error: error, response: response)
+                return then(.failure(problem))
+            case .failure(let error):
+                guard error.modified(from: endpoint) else {
+                    return then(.failure(.notModified))
+                }
+                let message = error.errorDescription ?? L.unknown()
+                self.log.error("failure: \(endpoint.path) \(message)")
+                return then(.failure(.network(message)))
+            }
+        }
+    }
+
+    /// Update user token
+    ///
+    /// - Parameters:
+    ///   - token: String
+    ///   - then: Completion
+    func userUpdate(token: String,
+                    then: @escaping NetworkCompletion<UserTokenReply>) {
+        guard let userId = data.user?.id else {
+            return then(.failure(.parameter))
+        }
+
+        let auth = AccessTokenPlugin { self.data.token }
+        let provider = MTPProvider(plugins: [auth])
+        let endpoint = MTP.userPost(id: userId, token: token)
+
+        provider.request(endpoint) { response in
+            switch response {
+            case .success(let result):
+                do {
+                    let reply = try result.map(UserTokenReply.self,
+                                               using: JSONDecoder.mtp)
+                    return then(.success(reply))
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(result.toString)")
                     return then(.failure(.decoding))

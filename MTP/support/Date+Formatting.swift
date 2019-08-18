@@ -91,6 +91,9 @@ extension JSONDecoder {
             if let date = DateFormatter.mtpTime.date(from: dateString) {
                 return date
             }
+            if dateString == "0000-00-00 00:00:00" {
+                return Date()
+            }
             throw DecodingError.dataCorruptedError(
                 in: container,
                 debugDescription: "Cannot decode date: '\(dateString)'")

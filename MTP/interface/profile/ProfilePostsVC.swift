@@ -10,7 +10,10 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
     private var postsObserver: Observer?
     private var isLoading = true
 
-    private var user: User?
+    // verified in requireInjection
+    private var user: User!
+    // swiftlint:disable:previous implicitly_unwrapped_optional
+
     private var isSelf: Bool = false
 
     /// Can create new content
@@ -26,23 +29,9 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireInjection()
 
         update()
-    }
-
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.addPost.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
-        }
     }
 
     /// Create a new post
@@ -63,8 +52,6 @@ private extension ProfilePostsVC {
     }
 
     func update() {
-        guard let user = user else { return }
-
         let posts = data.getPosts(user: user.userId)
         models = cellModels(from: posts)
         tableView.reloadData()
@@ -96,20 +83,17 @@ extension ProfilePostsVC: Injectable {
     /// Handle dependency injection
     ///
     /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
+    func inject(model: Model) {
         user = model
         isSelf = model.isSelf
 
         net.loadPosts(user: model.userId) { [weak self] _ in
             self?.loaded()
         }
-
-        return self
     }
 
     /// Enforce dependency injection
-    func requireInjections() {
+    func requireInjection() {
         user.require()
     }
 }

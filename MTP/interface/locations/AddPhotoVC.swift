@@ -1,5 +1,6 @@
 // @copyright Trollwerks Inc.
 
+import Photos
 import RealmSwift
 
 // swiftlint:disable file_length
@@ -24,21 +25,20 @@ final class AddPhotoVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.addPhotoVC
 
-    @IBOutlet private var saveButton: UIBarButtonItem?
-
-    @IBOutlet private var locationView: UIView?
-    @IBOutlet private var locationStack: UIStackView?
-    @IBOutlet private var locationLine: UIStackView?
-    @IBOutlet private var countryLabel: UILabel?
-    @IBOutlet private var locationLabel: UILabel?
-
-    @IBOutlet private var captionTextView: TopLoadingTextView?
-
-    @IBOutlet private var imageButton: UIButton?
-    @IBOutlet private var imageView: UIImageView?
-    @IBOutlet private var cameraButton: GradientButton?
-    @IBOutlet private var facebookButton: GradientButton?
-    @IBOutlet private var instagramButton: GradientButton?
+    // verified in requireOutlets
+    @IBOutlet private var closeButton: UIBarButtonItem!
+    @IBOutlet private var saveButton: UIBarButtonItem!
+    @IBOutlet private var locationView: UIView!
+    @IBOutlet private var locationStack: UIStackView!
+    @IBOutlet private var locationLine: UIStackView!
+    @IBOutlet private var countryLabel: UILabel!
+    @IBOutlet private var locationLabel: UILabel!
+    @IBOutlet private var captionTextView: TopLoadingTextView!
+    @IBOutlet private var imageButton: UIButton!
+    @IBOutlet private var imageView: UIImageView!
+    @IBOutlet private var cameraButton: GradientButton!
+    @IBOutlet private var facebookButton: GradientButton!
+    @IBOutlet private var instagramButton: GradientButton!
 
     private let imagePicker = UIImagePickerController {
         $0.allowsEditing = true
@@ -53,22 +53,22 @@ final class AddPhotoVC: UIViewController, ServiceProvider {
 
     private var countryId = 0
     private var locationId = 0
-    private var suggestedLocation = false
 
     private var captionText: String = ""
 
     private var photo: UIImage? {
         didSet {
-            imageView?.image = photo
+            imageView.image = photo
             let back: UIColor = photo == nil ? .dustyGray : .clear
-            imageButton?.backgroundColor = back
+            imageButton.backgroundColor = back
         }
     }
 
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
+        requireInjection()
 
         imagePicker.delegate = self
 
@@ -79,6 +79,26 @@ final class AddPhotoVC: UIViewController, ServiceProvider {
     /// Remove observers
     deinit {
         stopKeyboardListening()
+    }
+
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        expose()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if PHPhotoLibrary.authorizationStatus() == .notDetermined {
+            PHPhotoLibrary.requestAuthorization { _ in }
+        }
     }
 
     /// Stop editing on touch
@@ -97,23 +117,18 @@ final class AddPhotoVC: UIViewController, ServiceProvider {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.showCountry.identifier:
-            if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                destination.inject(mode: .countryOrNone,
-                                   styler: .standard,
-                                   delegate: self)
-            }
-        case Segues.showLocation.identifier:
-            if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                destination.inject(mode: .location(country: countryId),
-                                   styler: .standard,
-                                   delegate: self)
-            }
-        case Segues.pop.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
+        if let target = Segues.showCountry(segue: segue)?
+                              .destination
+                              .topViewController as? LocationSearchVC {
+            target.inject(mode: .countryOrNone,
+                          styler: .standard,
+                          delegate: self)
+        } else if let target = Segues.showLocation(segue: segue)?
+                                     .destination
+                                     .topViewController as? LocationSearchVC {
+            target.inject(mode: .location(country: countryId),
+                          styler: .standard,
+                          delegate: self)
         }
     }
 }
@@ -126,54 +141,63 @@ private extension AddPhotoVC {
         configureLocation()
 
         if !UIImagePickerController.isSourceTypeAvailable(.camera) {
-            cameraButton?.isHidden = true
+            cameraButton.isHidden = true
         }
-        facebookButton?.isHidden = true
-        instagramButton?.isHidden = true
+        facebookButton.isHidden = true
+        instagramButton.isHidden = true
 
         updateSave(showError: false)
     }
 
     func configureLocation() {
         guard let delegate = delegate, delegate.isLocatable else {
-            locationView?.isHidden = true
+            locationView.isHidden = true
             return
         }
 
-        locationView?.isHidden = false
+        locationView.isHidden = false
 
         let country = countryId > 0 ? data.get(country: countryId) : nil
-        countryLabel?.text = country?.placeCountry ?? L.selectCountryOptional()
+        countryLabel.text = country?.placeCountry ?? L.selectCountryOptional()
 
         let location = locationId > 0 ? data.get(location: locationId) : nil
 
-        guard let locationLine = locationLine else { return }
         if let country = country, country.hasChildren {
-            locationLabel?.text = location?.placeTitle ?? L.selectLocation()
+            locationLabel.text = location?.placeTitle ?? L.selectLocation()
 
-            locationStack?.addArrangedSubview(locationLine)
+            locationStack.addArrangedSubview(locationLine)
         } else {
-            locationLabel?.text = countryLabel?.text
+            locationLabel.text = countryLabel.text
 
-            locationStack?.removeArrangedSubview(locationLine)
+            locationStack.removeArrangedSubview(locationLine)
             locationLine.removeFromSuperview()
         }
     }
 
-    func suggestLocation() {
-        guard !suggestedLocation,
-              locationId == 0,
-              let delegate = delegate,
-              delegate.isLocatable,
-              let inside = loc.inside else { return }
+    func suggest(location: CLLocation?) {
+        guard let delegate = delegate,
+              delegate.isLocatable else { return }
 
-        suggestedLocation = true
-        let question = L.tagWithLocation(inside.description)
+        let inside: Location?
+        if let location = location {
+            inside = data.worldMap.location(of: location.coordinate)
+        } else {
+            inside = loc.inside
+        }
+        guard let located = inside,
+              located.placeId != locationId else { return }
+
+        let question: String
+        if location != nil {
+            question = L.tagWithPhotoLocation(located.description)
+        } else {
+            question = L.tagWithCurrentLocation(located.description)
+        }
         note.ask(question: question) { [weak self] answer in
             guard answer, let self = self else { return }
 
-            self.countryId = inside.countryId
-            self.locationId = inside.placeId
+            self.countryId = located.countryId
+            self.locationId = located.placeId
             self.configure()
         }
     }
@@ -211,7 +235,7 @@ private extension AddPhotoVC {
     }
 
     @discardableResult func updateSave(showError: Bool) -> Bool {
-        captionText = captionTextView?.text ?? ""
+        captionText = captionTextView.text ?? ""
 
         let errorMessage: String
         if countryId != 0 && locationId == 0 {
@@ -227,7 +251,7 @@ private extension AddPhotoVC {
             note.message(error: errorMessage)
         }
 
-        saveButton?.isEnabled = valid
+        saveButton.isEnabled = valid
         return valid
     }
 
@@ -349,6 +373,7 @@ extension AddPhotoVC: UIImagePickerControllerDelegate {
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
+        let location = (info[.phAsset] as? PHAsset)?.location
         if let edited = info[.editedImage] as? UIImage {
             photo = edited
         } else if let original = info[.originalImage] as? UIImage {
@@ -357,7 +382,7 @@ extension AddPhotoVC: UIImagePickerControllerDelegate {
 
         updateSave(showError: false)
         dismiss(animated: true) { [weak self] in
-            self?.suggestLocation()
+            self?.suggest(location: location)
         }
     }
 
@@ -373,6 +398,39 @@ extension AddPhotoVC: UIImagePickerControllerDelegate {
 
 extension AddPhotoVC: UINavigationControllerDelegate { }
 
+// MARK: - Exposing
+
+extension AddPhotoVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        UIAddPhoto.close.expose(item: closeButton)
+        UIAddPhoto.save.expose(item: saveButton)
+    }
+}
+
+// MARK: - InterfaceBuildable
+
+extension AddPhotoVC: InterfaceBuildable {
+
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
+        cameraButton.require()
+        captionTextView.require()
+        closeButton.require()
+        countryLabel.require()
+        facebookButton.require()
+        imageButton.require()
+        imageView.require()
+        instagramButton.require()
+        locationLabel.require()
+        locationLine.require()
+        locationStack.require()
+        locationView.require()
+        saveButton.require()
+    }
+}
+
 // MARK: - Injectable
 
 extension AddPhotoVC: Injectable {
@@ -383,24 +441,14 @@ extension AddPhotoVC: Injectable {
     /// Handle dependency injection
     ///
     /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
+    func inject(model: Model) {
         countryId = model.mappable?.location?.countryId ?? 0
         locationId = model.mappable?.location?.placeId ?? 0
         delegate = model.delegate
-        return self
     }
 
     /// Enforce dependency injection
-    func requireInjections() {
-        saveButton.require()
-        locationStack.require()
-        locationLine.require()
-        countryLabel.require()
-        locationLabel.require()
-        captionTextView.require()
-        imageButton.require()
-        imageView.require()
+    func requireInjection() {
         delegate.require()
     }
 }

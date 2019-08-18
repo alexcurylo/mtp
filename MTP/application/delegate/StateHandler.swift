@@ -16,6 +16,7 @@ extension StateHandler: AppStateHandler {
     ///
     /// - Parameter application: Application
     func applicationDidBecomeActive(_ application: UIApplication) {
+        UIApplication.shared.applicationIconBadgeNumber = 0
         net.refreshEverything()
     }
 
@@ -27,9 +28,7 @@ extension StateHandler: AppStateHandler {
     /// Enter background handler
     ///
     /// - Parameter application: Application
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        //loc.calculateDistances()
-    }
+    func applicationDidEnterBackground(_ application: UIApplication) { }
 
     /// Terminate handler
     ///

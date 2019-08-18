@@ -10,31 +10,28 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
 
     private typealias Segues = R.segue.editProfileVC
 
-    @IBOutlet private var saveButton: UIBarButtonItem?
-
-    @IBOutlet private var backgroundView: UIView?
-
-    @IBOutlet private var infoStack: UIStackView?
-    @IBOutlet private var avatarButton: UIButton?
-    @IBOutlet private var firstNameTextField: UITextField?
-    @IBOutlet private var lastNameTextField: UITextField?
-    @IBOutlet private var birthdayTextField: UITextField?
-    @IBOutlet private var genderTextField: UITextField?
-    @IBOutlet private var countryStack: UIStackView?
-    @IBOutlet private var countryTextField: UITextField?
-    @IBOutlet private var locationStack: UIStackView?
-    @IBOutlet private var locationTextField: UITextField?
-    @IBOutlet private var emailTextField: UITextField?
-    @IBOutlet private var aboutTextView: UITextView?
-    @IBOutlet private var airportTextField: UITextField?
-
-    @IBOutlet private var linksStack: UIStackView?
-    @IBOutlet private var addLinkButton: UIButton?
-
-    @IBOutlet private var keyboardToolbar: UIToolbar?
-    @IBOutlet private var toolbarBackButton: UIBarButtonItem?
-    @IBOutlet private var toolbarNextButton: UIBarButtonItem?
-    @IBOutlet private var toolbarClearButton: UIBarButtonItem?
+    // verified in requireOutlets
+    @IBOutlet private var closeButton: UIBarButtonItem!
+    @IBOutlet private var saveButton: UIBarButtonItem!
+    @IBOutlet private var infoStack: UIStackView!
+    @IBOutlet private var avatarButton: UIButton!
+    @IBOutlet private var firstNameTextField: UITextField!
+    @IBOutlet private var lastNameTextField: UITextField!
+    @IBOutlet private var birthdayTextField: UITextField!
+    @IBOutlet private var genderTextField: UITextField!
+    @IBOutlet private var countryStack: UIStackView!
+    @IBOutlet private var countryTextField: UITextField!
+    @IBOutlet private var locationStack: UIStackView!
+    @IBOutlet private var locationTextField: UITextField!
+    @IBOutlet private var emailTextField: UITextField!
+    @IBOutlet private var aboutTextView: UITextView!
+    @IBOutlet private var airportTextField: UITextField!
+    @IBOutlet private var linksStack: UIStackView!
+    @IBOutlet private var addLinkButton: UIButton!
+    @IBOutlet private var keyboardToolbar: UIToolbar!
+    @IBOutlet private var toolbarBackButton: UIBarButtonItem!
+    @IBOutlet private var toolbarNextButton: UIBarButtonItem!
+    @IBOutlet private var toolbarClearButton: UIBarButtonItem!
 
     private enum Layout {
         static let sectionCornerRadius = CGFloat(5)
@@ -53,9 +50,7 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
-
-        tableView.backgroundView = backgroundView
+        requireOutlets()
 
         configure()
     }
@@ -67,13 +62,14 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .standard)
+        expose()
     }
 
     /// Apply corner rounding on each layout
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        addLinkButton?.round(corners: Layout.bottomCorners)
+        addLinkButton.round(corners: Layout.bottomCorners)
     }
 
     /// Instrument and inject navigation
@@ -83,32 +79,26 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         view.endEditing(true)
-        switch segue.identifier {
-        case Segues.showCountry.identifier:
-            if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                destination.inject(mode: .countryOrPreferNot,
-                                   styler: .standard,
-                                   delegate: self)
-            }
-        case Segues.showLocation.identifier:
-            if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC,
-               let countryId = country?.countryId {
-                destination.inject(mode: .location(country: countryId),
-                                   styler: .standard,
-                                   delegate: self)
-            }
-        case Segues.showPhotos.identifier:
-            if let photos = Segues.showPhotos(segue: segue)?.destination,
-               let user = data.user {
-                photos.inject(model: User(from: user))
-                photos.inject(mode: .picker,
-                              selection: current.picture ?? "",
-                              delegate: self)
-            }
-        case Segues.cancelEdits.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
+        if let target = Segues.showCountry(segue: segue)?
+                              .destination
+                              .topViewController as? LocationSearchVC {
+            target.inject(mode: .countryOrPreferNot,
+                          styler: .standard,
+                          delegate: self)
+        } else if let target = Segues.showLocation(segue: segue)?
+                                     .destination
+                                     .topViewController as? LocationSearchVC,
+                  let countryId = country?.countryId {
+            target.inject(mode: .location(country: countryId),
+                          styler: .standard,
+                          delegate: self)
+        } else if let photos = Segues.showPhotos(segue: segue)?
+                                     .destination,
+                  let user = data.user {
+            photos.inject(model: User(from: user))
+            photos.inject(mode: .picker,
+                          selection: current.picture ?? "",
+                          delegate: self)
         }
     }
 }
@@ -149,13 +139,13 @@ extension EditProfileVC: UITextFieldDelegate {
     /// - Parameter textField: UITextField
     /// - Returns: Permission
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        let linkTextFields = linksStack?.linkTextFields ?? []
+        let linkTextFields = linksStack.linkTextFields
 
         var clearHidden = true
         switch textField {
         case firstNameTextField:
-            toolbarBackButton?.isEnabled = false
-            toolbarNextButton?.isEnabled = true
+            toolbarBackButton.isEnabled = false
+            toolbarNextButton.isEnabled = true
         case countryTextField:
             performSegue(withIdentifier: Segues.showCountry, sender: self)
             return false
@@ -163,11 +153,11 @@ extension EditProfileVC: UITextFieldDelegate {
             performSegue(withIdentifier: Segues.showLocation, sender: self)
             return false
         case airportTextField:
-            toolbarBackButton?.isEnabled = true
-            toolbarNextButton?.isEnabled = !linkTextFields.isEmpty
+            toolbarBackButton.isEnabled = true
+            toolbarNextButton.isEnabled = !linkTextFields.isEmpty
         case linkTextFields.last:
-            toolbarBackButton?.isEnabled = true
-            toolbarNextButton?.isEnabled = false
+            toolbarBackButton.isEnabled = true
+            toolbarNextButton.isEnabled = false
         case birthdayTextField:
             clearHidden = false
             // swiftlint:disable:next fallthrough
@@ -177,13 +167,13 @@ extension EditProfileVC: UITextFieldDelegate {
              genderTextField,
              emailTextField,
              _ where linkTextFields.contains(textField):
-            toolbarBackButton?.isEnabled = true
-            toolbarNextButton?.isEnabled = true
+            toolbarBackButton.isEnabled = true
+            toolbarNextButton.isEnabled = true
         default:
-            toolbarBackButton?.isEnabled = false
-            toolbarNextButton?.isEnabled = false
+            toolbarBackButton.isEnabled = false
+            toolbarNextButton.isEnabled = false
         }
-        toolbarClearButton?.isHidden = clearHidden
+        toolbarClearButton.isHidden = clearHidden
 
         return true
     }
@@ -207,9 +197,16 @@ extension EditProfileVC: UITextViewDelegate {
     ///
     /// - Parameter textView: Active edit target
     func textViewDidBeginEditing(_ textView: UITextView) {
-        toolbarBackButton?.isEnabled = true
-        toolbarNextButton?.isEnabled = true
-        toolbarClearButton?.isHidden = true
+        toolbarBackButton.isEnabled = true
+        toolbarNextButton.isEnabled = true
+        toolbarClearButton.isHidden = true
+    }
+
+    /// Update savability
+    ///
+    /// - Parameter textView: Active edit target
+    func textViewDidChange(_ textView: UITextView) {
+        updateSave(showError: false)
     }
 
     /// Respond to edit ending
@@ -226,6 +223,8 @@ private extension EditProfileVC {
 
     // swiftlint:disable:next function_body_length
     func configure() {
+        tableView.backgroundColor = .clear
+
         guard let user = data.user else { return }
 
         let update = UserUpdatePayload(from: user)
@@ -240,17 +239,23 @@ private extension EditProfileVC {
         current = original
 
         if update.imageUrl != nil {
-            avatarButton?.load(image: update)
+            avatarButton.load(image: update)
         }
 
-        firstNameTextField?.inputAccessoryView = keyboardToolbar
-        firstNameTextField?.text = update.first_name
+        firstNameTextField.inputAccessoryView = keyboardToolbar
+        firstNameTextField.text = update.first_name
+        firstNameTextField.addTarget(self,
+                                     action: #selector(textFieldDidChange),
+                                     for: .editingChanged)
 
-        lastNameTextField?.inputAccessoryView = keyboardToolbar
-        lastNameTextField?.text = update.last_name
+        lastNameTextField.inputAccessoryView = keyboardToolbar
+        lastNameTextField.text = update.last_name
+        lastNameTextField.addTarget(self,
+                                    action: #selector(textFieldDidChange),
+                                    for: .editingChanged)
 
-        birthdayTextField?.inputAccessoryView = keyboardToolbar
-        birthdayTextField?.inputView = UIDatePicker {
+        birthdayTextField.inputAccessoryView = keyboardToolbar
+        birthdayTextField.inputView = UIDatePicker {
             $0.datePickerMode = .date
             $0.timeZone = TimeZone(secondsFromGMT: 0)
             $0.minimumDate = Calendar.current.date(byAdding: .year, value: -120, to: Date())
@@ -259,13 +264,13 @@ private extension EditProfileVC {
                          action: #selector(birthdayChanged(_:)),
                          for: .valueChanged)
         }
-       birthdayTextField?.text = update.birthday
+       birthdayTextField.text = update.birthday
 
-        genderTextField?.inputView = UIPickerView {
+        genderTextField.inputView = UIPickerView {
             $0.dataSource = self
             $0.delegate = self
         }
-        genderTextField?.inputAccessoryView = keyboardToolbar
+        genderTextField.inputAccessoryView = keyboardToolbar
         let gender: String
         switch update.gender {
         case "M": gender = L.male()
@@ -273,23 +278,29 @@ private extension EditProfileVC {
         case "U": gender = L.preferNot()
         default: gender = L.preferNot()
         }
-        genderTextField?.text = gender
+        genderTextField.text = gender
 
-        countryTextField?.inputAccessoryView = keyboardToolbar
-        countryTextField?.text = country?.placeCountry
+        countryTextField.inputAccessoryView = keyboardToolbar
+        countryTextField.text = country?.placeCountry
 
-        locationTextField?.inputAccessoryView = keyboardToolbar
-        locationTextField?.text = location?.placeTitle
+        locationTextField.inputAccessoryView = keyboardToolbar
+        locationTextField.text = location?.placeTitle
         show(location: update.country_id != update.location_id)
 
-        emailTextField?.inputAccessoryView = keyboardToolbar
-        emailTextField?.text = update.email
+        emailTextField.inputAccessoryView = keyboardToolbar
+        emailTextField.text = update.email
+        emailTextField.addTarget(self,
+                                 action: #selector(textFieldDidChange),
+                                 for: .editingChanged)
 
-        airportTextField?.inputAccessoryView = keyboardToolbar
-        airportTextField?.text = update.airport?.uppercased()
+        airportTextField.inputAccessoryView = keyboardToolbar
+        airportTextField.text = update.airport?.uppercased()
+        airportTextField.addTarget(self,
+                                   action: #selector(textFieldDidChange),
+                                   for: .editingChanged)
 
-        aboutTextView?.inputAccessoryView = keyboardToolbar
-        aboutTextView?.text = update.bio
+        aboutTextView.inputAccessoryView = keyboardToolbar
+        aboutTextView.text = update.bio
 
         configureLinks()
 
@@ -314,8 +325,6 @@ private extension EditProfileVC {
     }
 
     func display(link: Link) {
-        guard let stack = linksStack else { return }
-
         let text = InsetTextField {
             $0.styleForEditProfile()
             $0.text = link.text
@@ -344,7 +353,7 @@ private extension EditProfileVC {
             $0.addTarget(self,
                          action: #selector(deleteLinkTapped),
                          for: .touchUpInside)
-            $0.tag = stack.arrangedSubviews.count
+            $0.tag = linksStack.arrangedSubviews.count
         }
 
         let linkStack = UIStackView(arrangedSubviews: [text,
@@ -352,11 +361,11 @@ private extension EditProfileVC {
             $0.axis = .vertical
             $0.spacing = 4
         }
-        stack.addArrangedSubview(linkStack)
+        linksStack.addArrangedSubview(linkStack)
     }
 
     var isLocationVisible: Bool {
-        return locationStack?.superview != nil
+        return locationStack.superview != nil
     }
 
     func show(location visible: Bool) {
@@ -381,33 +390,33 @@ private extension EditProfileVC {
 
     //swiftlint:disable:next cyclomatic_complexity
    @IBAction func toolbarBackTapped(_ sender: UIBarButtonItem) {
-        let linkTextFields = linksStack?.linkTextFields ?? []
+        let linkTextFields = linksStack.linkTextFields
 
-        if firstNameTextField?.isEditing ?? false {
-            firstNameTextField?.resignFirstResponder()
+        if firstNameTextField.isEditing {
+            firstNameTextField.resignFirstResponder()
             updateSave(showError: false)
-        } else if lastNameTextField?.isEditing ?? false {
-            firstNameTextField?.becomeFirstResponder()
-        } else if birthdayTextField?.isEditing ?? false {
-            lastNameTextField?.becomeFirstResponder()
-        } else if genderTextField?.isEditing ?? false {
-            birthdayTextField?.becomeFirstResponder()
-        } else if countryTextField?.isEditing ?? false {
-            genderTextField?.becomeFirstResponder()
-        } else if locationTextField?.isEditing ?? false {
-            countryTextField?.becomeFirstResponder()
-        } else if emailTextField?.isEditing ?? false {
+        } else if lastNameTextField.isEditing {
+            firstNameTextField.becomeFirstResponder()
+        } else if birthdayTextField.isEditing {
+            lastNameTextField.becomeFirstResponder()
+        } else if genderTextField.isEditing {
+            birthdayTextField.becomeFirstResponder()
+        } else if countryTextField.isEditing {
+            genderTextField.becomeFirstResponder()
+        } else if locationTextField.isEditing {
+            countryTextField.becomeFirstResponder()
+        } else if emailTextField.isEditing {
             if isLocationVisible {
-                locationTextField?.becomeFirstResponder()
+                locationTextField.becomeFirstResponder()
             } else {
-                countryTextField?.becomeFirstResponder()
+                countryTextField.becomeFirstResponder()
             }
-        } else if aboutTextView?.isFirstResponder ?? false {
-            emailTextField?.becomeFirstResponder()
-        } else if airportTextField?.isEditing ?? false {
-            aboutTextView?.becomeFirstResponder()
+        } else if aboutTextView.isFirstResponder {
+            emailTextField.becomeFirstResponder()
+        } else if airportTextField.isEditing {
+            aboutTextView.becomeFirstResponder()
         } else if linkTextFields.first?.isEditing ?? false {
-            airportTextField?.becomeFirstResponder()
+            airportTextField.becomeFirstResponder()
         } else {
             for (index, field) in linkTextFields.enumerated() where field.isEditing {
                 let prevIndex = index - 1
@@ -420,29 +429,29 @@ private extension EditProfileVC {
 
     //swiftlint:disable:next cyclomatic_complexity
     @IBAction func toolbarNextTapped(_ sender: UIBarButtonItem) {
-        let linkTextFields = linksStack?.linkTextFields ?? []
+        let linkTextFields = linksStack.linkTextFields
 
-        if firstNameTextField?.isEditing ?? false {
-            lastNameTextField?.becomeFirstResponder()
-        } else if lastNameTextField?.isEditing ?? false {
-            birthdayTextField?.becomeFirstResponder()
-        } else if birthdayTextField?.isEditing ?? false {
-            genderTextField?.becomeFirstResponder()
-        } else if genderTextField?.isEditing ?? false {
-            countryTextField?.becomeFirstResponder()
-        } else if countryTextField?.isEditing ?? false {
+        if firstNameTextField.isEditing {
+            lastNameTextField.becomeFirstResponder()
+        } else if lastNameTextField.isEditing {
+            birthdayTextField.becomeFirstResponder()
+        } else if birthdayTextField.isEditing {
+            genderTextField.becomeFirstResponder()
+        } else if genderTextField.isEditing {
+            countryTextField.becomeFirstResponder()
+        } else if countryTextField.isEditing {
             if isLocationVisible {
-                locationTextField?.becomeFirstResponder()
+                locationTextField.becomeFirstResponder()
             } else {
-                emailTextField?.becomeFirstResponder()
+                emailTextField.becomeFirstResponder()
             }
-        } else if locationTextField?.isEditing ?? false {
-            emailTextField?.becomeFirstResponder()
-        } else if emailTextField?.isEditing ?? false {
-            aboutTextView?.becomeFirstResponder()
-        } else if aboutTextView?.isFirstResponder ?? false {
-            airportTextField?.becomeFirstResponder()
-       } else if airportTextField?.isEditing ?? false {
+        } else if locationTextField.isEditing {
+            emailTextField.becomeFirstResponder()
+        } else if emailTextField.isEditing {
+            aboutTextView.becomeFirstResponder()
+        } else if aboutTextView.isFirstResponder {
+            airportTextField.becomeFirstResponder()
+       } else if airportTextField.isEditing {
             if let next = linkTextFields.first {
                 next.becomeFirstResponder()
             } else {
@@ -464,8 +473,8 @@ private extension EditProfileVC {
     }
 
     @IBAction func toolbarClearTapped(_ sender: UIBarButtonItem) {
-        if birthdayTextField?.isEditing ?? false {
-            birthdayTextField?.text = nil
+        if birthdayTextField.isEditing {
+            birthdayTextField.text = nil
             current.birthday = nil
         }
         view.endEditing(true)
@@ -479,7 +488,7 @@ private extension EditProfileVC {
 
     @IBAction func birthdayChanged(_ sender: UIDatePicker) {
         let birthday = DateFormatter.mtpDay.string(from: sender.date)
-        birthdayTextField?.text = birthday
+        birthdayTextField.text = birthday
         current.birthday = birthday
         updateSave(showError: false)
     }
@@ -491,16 +500,20 @@ private extension EditProfileVC {
         upload(payload: current)
     }
 
+    @objc func textFieldDidChange() {
+        updateSave(showError: false)
+    }
+
     @discardableResult func updateSave(showError: Bool) -> Bool {
-        current.first_name = firstNameTextField?.text ?? ""
-        current.last_name = lastNameTextField?.text ?? ""
+        current.first_name = firstNameTextField.text ?? ""
+        current.last_name = lastNameTextField.text ?? ""
         // birthday, gender, country, location expected set here
         if let text = current.birthday, text.isEmpty {
             current.birthday = nil
         }
-        current.email = emailTextField?.text ?? ""
-        current.bio = aboutTextView?.text ?? ""
-        current.airport = airportTextField?.text ?? ""
+        current.email = emailTextField.text ?? ""
+        current.bio = aboutTextView.text ?? ""
+        current.airport = airportTextField.text ?? ""
         let linksValid = updateLinks()
 
         let errorMessage: String
@@ -534,17 +547,17 @@ private extension EditProfileVC {
         }
 
         if original == current {
-            saveButton?.isEnabled = false
+            saveButton.isEnabled = false
             return false
         } else {
-            saveButton?.isEnabled = true
+            saveButton.isEnabled = true
             return valid
         }
     }
 
     func updateLinks() -> Bool {
+        let views = linksStack.arrangedSubviews
         guard let links = current.links,
-              let views = linksStack?.arrangedSubviews,
               links.count == views.count else { return false }
 
         var valid = true
@@ -587,13 +600,11 @@ private extension EditProfileVC {
         current.links?.remove(at: remove)
 
         tableView.update {
-            guard let stack = linksStack else { return }
-
-            let view = stack.arrangedSubviews[remove]
-            stack.removeArrangedSubview(view)
+            let view = linksStack.arrangedSubviews[remove]
+            linksStack.removeArrangedSubview(view)
             view.removeFromSuperview()
 
-            for (index, link) in stack.arrangedSubviews.enumerated() {
+            for (index, link) in linksStack.arrangedSubviews.enumerated() {
                 link.linkDeleteButton?.tag = index
             }
         }
@@ -623,7 +634,7 @@ extension EditProfileVC: PhotoSelectionDelegate {
     /// - Parameter picture: Selected picture
     func selected(picture: String) {
         current.picture = picture
-        avatarButton?.load(image: current)
+        avatarButton.load(image: current)
         updateSave(showError: false)
     }
 }
@@ -646,20 +657,20 @@ extension EditProfileVC: LocationSearchDelegate {
                 country = countryItem
                 current.country_id = countryItem.countryId
                 current.location_id = countryItem.countryId
-                countryTextField?.text = countryItem.placeCountry
+                countryTextField.text = countryItem.placeCountry
             } else {
                 country = nil
                 current.country_id = 0
                 current.location_id = 0
-               countryTextField?.text = L.preferNot()
+               countryTextField.text = L.preferNot()
             }
             location = nil
-            locationTextField?.text = nil
+            locationTextField.text = nil
             show(location: countryItem.hasChildren)
         case let locationItem as Location:
             guard location != locationItem else { return }
             location = locationItem
-            locationTextField?.text = locationItem.placeTitle
+            locationTextField.text = locationItem.placeTitle
             current.country_id = locationItem.countryId
             current.location_id = locationItem.placeId
         default:
@@ -721,57 +732,58 @@ extension EditProfileVC: UIPickerViewDelegate {
                            inComponent component: Int) {
         guard row > 0 else { return }
 
-        genderTextField?.text = genders[row]
+        genderTextField.text = genders[row]
         let gender: String
-        switch genderTextField?.text?.first {
+        switch genderTextField.text?.first {
         case "M": gender = "M"
         case "F": gender = "F"
         default: gender = "U"
         }
         current.gender = gender
-        genderTextField?.resignFirstResponder()
+        genderTextField.resignFirstResponder()
         updateSave(showError: false)
     }
 }
 
-// MARK: - Injectable
+// MARK: - Exposing
 
-extension EditProfileVC: Injectable {
+extension EditProfileVC: Exposing {
 
-    /// Injected dependencies
-    typealias Model = ()
-
-    /// Handle dependency injection
-    ///
-    /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
-        return self
+    /// Expose controls to UI tests
+    func expose() {
+        UIEditProfile.close.expose(item: closeButton)
+        UIEditProfile.save.expose(item: saveButton)
+        UIEditProfile.country.expose(item: countryTextField)
     }
+}
 
-    /// Enforce dependency injection
-    func requireInjections() {
-        saveButton.require()
-        backgroundView.require()
-        infoStack.require()
+// MARK: - InterfaceBuildable
+
+extension EditProfileVC: InterfaceBuildable {
+
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
+        aboutTextView.require()
+        addLinkButton.require()
+        airportTextField.require()
         avatarButton.require()
-        firstNameTextField.require()
-        lastNameTextField.require()
         birthdayTextField.require()
-        genderTextField.require()
+        closeButton.require()
         countryStack.require()
         countryTextField.require()
+        emailTextField.require()
+        firstNameTextField.require()
+        genderTextField.require()
+        infoStack.require()
+        keyboardToolbar.require()
+        lastNameTextField.require()
+        linksStack.require()
         locationStack.require()
         locationTextField.require()
-        emailTextField.require()
-        aboutTextView.require()
-        airportTextField.require()
-        linksStack.require()
-        addLinkButton.require()
-        keyboardToolbar.require()
+        saveButton.require()
         toolbarBackButton.require()
-        toolbarNextButton.require()
         toolbarClearButton.require()
+        toolbarNextButton.require()
     }
 }
 

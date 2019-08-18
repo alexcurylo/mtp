@@ -14,6 +14,10 @@ protocol MyCountsPageVCDelegate: AnyObject {
 /// Displays logged in user visit counts
 final class MyCountsPageVC: CountsPageVC {
 
+    /// Injected dependencies
+    typealias Model = (list: Checklist,
+                       delegate: MyCountsPageVCDelegate)
+
     private weak var delegate: MyCountsPageVCDelegate?
 
     /// Whether counts are editable
@@ -37,6 +41,13 @@ final class MyCountsPageVC: CountsPageVC {
         listPlaces = model.list.places
         listVisited = model.list.visited
         super.init(model: model.list)
+    }
+
+    /// Unsupported coding constructor
+    ///
+    /// - Parameter coder: An unarchiver object.
+    required init?(coder: NSCoder) {
+        return nil
     }
 
     /// Set up data change observations
@@ -68,23 +79,4 @@ extension MyCountsPageVC {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         delegate?.didScroll(myCountsPageVC: self)
     }
-}
-
-// MARK: - Injectable
-
-extension MyCountsPageVC: Injectable {
-
-    /// Injected dependencies
-    typealias Model = (list: Checklist, delegate: MyCountsPageVCDelegate)
-
-    /// Handle dependency injection
-    ///
-    /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
-        return self
-    }
-
-    /// Enforce dependency injection
-    func requireInjections() { }
 }

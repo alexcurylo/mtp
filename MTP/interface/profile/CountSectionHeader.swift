@@ -81,12 +81,11 @@ final class CountSectionHeader: UICollectionReusableView {
         configure()
     }
 
-    /// Unavailable coding constructor
+    /// Unsupported coding constructor
     ///
     /// - Parameter coder: An unarchiver object.
-    @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        return nil
     }
 
     /// Empty display
@@ -122,7 +121,8 @@ private extension CountSectionHeader {
     }
 
     @objc func tapped(_ sender: UIGestureRecognizer) {
-        guard let region = model?.region else { return }
-        delegate?.toggle(region: region)
+        if let region = model?.region {
+            delegate?.toggle(region: region)
+        }
     }
 }

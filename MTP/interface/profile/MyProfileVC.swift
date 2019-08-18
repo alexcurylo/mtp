@@ -7,8 +7,6 @@ final class MyProfileVC: ProfileVC {
 
     private typealias Segues = R.segue.myProfileVC
 
-    @IBOutlet private var birthdayLabel: UILabel?
-
     fileprivate enum Page: Int {
 
         case about
@@ -16,6 +14,9 @@ final class MyProfileVC: ProfileVC {
         case photos
         case posts
     }
+
+    @IBOutlet private var editButton: UIBarButtonItem?
+    @IBOutlet private var settingsButton: UIBarButtonItem?
 
     /// Controllers to be displayed in PagingViewController
     override var pages: [UIViewController] {
@@ -53,18 +54,10 @@ final class MyProfileVC: ProfileVC {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.showSettings.identifier:
-            if let settings = Segues.showSettings(segue: segue)?.destination {
-                settings.inject(model: reportMessage)
-                reportMessage = ""
-            }
-        case Segues.directEdit.identifier,
-             Segues.showEditProfile.identifier,
-             Segues.showSettings.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
+        if let settings = Segues.showSettings(segue: segue)?
+                                .destination {
+            settings.inject(model: reportMessage)
+            reportMessage = ""
         }
     }
 
@@ -78,20 +71,6 @@ final class MyProfileVC: ProfileVC {
 
             self.inject(model: User(from: user))
         }
-    }
-
-    /// Configure for display
-    override func configure() {
-        super.configure()
-
-        let title: String?
-        if let birthday = data.user?.birthday {
-            title = DateFormatter.mtpBirthday.string(from: birthday)
-            return
-        } else {
-            title = nil
-        }
-        birthdayLabel?.text = title
     }
 
     /// Handle content reporting
@@ -109,8 +88,10 @@ extension MyProfileVC: Exposing {
 
     /// Expose controls to UI tests
     func expose() {
-        guard let menu = pagingVC?.collectionView else { return }
-        MyProfileVCs.menu.expose(item: menu)
+        let bar = navigationController?.navigationBar
+        UIMyProfile.nav.expose(item: bar)
+        UIMyProfile.edit.expose(item: editButton)
+        UIMyProfile.settings.expose(item: settingsButton)
     }
 }
 
@@ -127,17 +108,17 @@ extension MyProfileVC: CollectionCellExposing {
     func expose(view: UICollectionView,
                 path: IndexPath,
                 cell: UICollectionViewCell) {
-        switch path.item {
-        case Page.about.rawValue:
-            MyProfileVCs.about.expose(item: cell)
-        case Page.counts.rawValue:
-            MyProfileVCs.counts.expose(item: cell)
-        case Page.photos.rawValue:
-            MyProfileVCs.photos.expose(item: cell)
-        case Page.posts.rawValue:
-            MyProfileVCs.posts.expose(item: cell)
-        default:
-            break
+        guard let page = Page(rawValue: path.item) else { return }
+
+        switch page {
+        case .about:
+            UIProfilePaging.about.expose(item: cell)
+        case .counts:
+            UIProfilePaging.counts.expose(item: cell)
+        case .photos:
+            UIProfilePaging.photos.expose(item: cell)
+        case .posts:
+            UIProfilePaging.posts.expose(item: cell)
         }
     }
 }

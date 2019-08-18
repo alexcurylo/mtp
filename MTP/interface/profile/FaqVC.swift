@@ -18,7 +18,8 @@ final class FaqVC: UITableViewController, ServiceProvider {
 
     private typealias Segues = R.segue.faqVC
 
-    @IBOutlet private var backgroundView: UIView?
+    // verified in requireOutlets
+    @IBOutlet private var backgroundView: UIView!
 
     private var faqs: [FaqCellModel] = [
         FaqCellModel(index: 0,
@@ -86,7 +87,7 @@ final class FaqVC: UITableViewController, ServiceProvider {
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
 
         tableView.backgroundView = backgroundView
         tableView.tableFooterView = UIView()
@@ -102,20 +103,7 @@ final class FaqVC: UITableViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         show(navBar: animated, style: .standard)
-    }
-
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.unwindFromFaq.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
-        }
+        expose()
     }
 }
 
@@ -189,23 +177,23 @@ extension FaqVC {
     }
 }
 
-// MARK: - Injectable
+// MARK: - Exposing
 
-extension FaqVC: Injectable {
+extension FaqVC: Exposing {
 
-    /// Injected dependencies
-    typealias Model = ()
-
-    /// Handle dependency injection
-    ///
-    /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
-        return self
+    /// Expose controls to UI tests
+    func expose() {
+        let items = navigationItem.leftBarButtonItems
+        UIFaq.close.expose(item: items?.first)
     }
+}
 
-    /// Enforce dependency injection
-    func requireInjections() {
+// MARK: - InterfaceBuildable
+
+extension FaqVC: InterfaceBuildable {
+
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
         backgroundView.require()
     }
 }

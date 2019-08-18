@@ -7,21 +7,24 @@ final class ForgotPasswordVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.forgotPasswordVC
 
-    @IBOutlet private var alertHolder: UIView?
-    @IBOutlet private var bottomY: NSLayoutConstraint?
-    @IBOutlet private var centerY: NSLayoutConstraint?
-    @IBOutlet private var messageLabel: UILabel?
+    // verified in requireOutlets
+    @IBOutlet private var alertHolder: UIView!
+    @IBOutlet private var bottomY: NSLayoutConstraint!
+    @IBOutlet private var centerY: NSLayoutConstraint!
+    @IBOutlet private var messageLabel: UILabel!
+    @IBOutlet private var cancelButton: UIButton!
+    @IBOutlet private var sendButton: UIButton!
 
     private var email: String = ""
 
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
 
         email = data.email
         let message = L.sendLink(email.hiddenName)
-        messageLabel?.text = message
+        messageLabel.text = message
     }
 
     /// Prepare for reveal
@@ -32,6 +35,7 @@ final class ForgotPasswordVC: UIViewController, ServiceProvider {
 
         hide(navBar: animated)
         hideAlert()
+        expose()
     }
 
     /// Actions to take after reveal
@@ -48,11 +52,8 @@ final class ForgotPasswordVC: UIViewController, ServiceProvider {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.dismissForgotPassword.identifier:
+        if segue.identifier == Segues.dismissForgotPassword.identifier {
             presentingViewController?.show(navBar: true)
-        default:
-            log.debug("unexpected segue: \(segue.name)")
         }
     }
 }
@@ -84,12 +85,11 @@ private extension ForgotPasswordVC {
     }
 
     func hideAlert() {
-        centerY?.priority = .defaultLow
-        bottomY?.priority = .defaultHigh
+        centerY.priority = .defaultLow
+        bottomY.priority = .defaultHigh
         view.setNeedsLayout()
         view.layoutIfNeeded()
-        let hide = -(alertHolder?.bounds.height ?? 0)
-        bottomY?.constant = hide
+        bottomY.constant = -alertHolder.bounds.height
         view.setNeedsLayout()
         view.layoutIfNeeded()
     }
@@ -102,34 +102,36 @@ private extension ForgotPasswordVC {
             initialSpringVelocity: 0.75,
             options: [.curveEaseOut],
             animations: {
-                self.bottomY?.priority = .defaultLow
-                self.centerY?.priority = .defaultHigh
+                self.bottomY.priority = .defaultLow
+                self.centerY.priority = .defaultHigh
                 self.view.layoutIfNeeded()
             },
             completion: nil)
     }
 }
 
-// MARK: - Injectable
+// MARK: - Exposing
 
-extension ForgotPasswordVC: Injectable {
+extension ForgotPasswordVC: Exposing {
 
-    /// Injected dependencies
-    typealias Model = ()
-
-    /// Handle dependency injection
-    ///
-    /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
-        return self
+    /// Expose controls to UI tests
+    func expose() {
+        UIForgotPassword.cancel.expose(item: cancelButton)
+        UIForgotPassword.send.expose(item: sendButton)
     }
+}
 
-    /// Enforce dependency injection
-    func requireInjections() {
+// MARK: - InterfaceBuildable
+
+extension ForgotPasswordVC: InterfaceBuildable {
+
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
         alertHolder.require()
         bottomY.require()
         centerY.require()
         messageLabel.require()
+        cancelButton.require()
+        sendButton.require()
     }
 }

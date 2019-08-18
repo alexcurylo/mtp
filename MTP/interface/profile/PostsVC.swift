@@ -17,8 +17,7 @@ class PostsVC: UITableViewController, ServiceProvider {
 
     /// Create a new post
     func createPost() {
-        //swiftlint:disable:previous unavailable_function
-        fatalError("createPost has not been overridden")
+        // override to implement
     }
 
     /// Present user profile
@@ -319,6 +318,7 @@ final class PostHeader: UITableViewHeaderFooterView {
         let title = L.addPost()
         $0.setTitle(title, for: .normal)
         $0.titleLabel?.font = Avenir.medium.of(size: 15)
+        UIPosts.add.expose(item: $0)
     }
 
     fileprivate var delegate: PostsVC? {
