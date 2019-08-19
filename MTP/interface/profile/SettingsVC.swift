@@ -10,7 +10,12 @@ final class SettingsVC: UITableViewController, ServiceProvider {
     // verified in requireOutlets
     @IBOutlet private var backgroundView: UIView!
     @IBOutlet private var aboutButton: UIButton!
+    @IBOutlet private var contactButton: UIButton!
+    @IBOutlet private var deleteButton: UIButton!
     @IBOutlet private var faqButton: UIButton!
+    @IBOutlet private var logoutButton: UIButton!
+    @IBOutlet private var reviewButton: UIButton!
+    @IBOutlet private var shareButton: UIButton!
 
     private var reportMessage = ""
 
@@ -171,7 +176,12 @@ extension SettingsVC: Exposing {
         UISettings.close.expose(item: items?.first)
 
         UISettings.about.expose(item: aboutButton)
+        UISettings.contact.expose(item: contactButton)
+        UISettings.delete.expose(item: deleteButton)
         UISettings.faq.expose(item: faqButton)
+        UISettings.logout.expose(item: logoutButton)
+        UISettings.review.expose(item: reviewButton)
+        UISettings.share.expose(item: shareButton)
     }
 }
 
@@ -183,7 +193,12 @@ extension SettingsVC: InterfaceBuildable {
     func requireOutlets() {
         aboutButton.require()
         backgroundView.require()
+        contactButton.require()
+        deleteButton.require()
         faqButton.require()
+        logoutButton.require()
+        reviewButton.require()
+        shareButton.require()
     }
 }
 

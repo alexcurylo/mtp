@@ -272,6 +272,7 @@
                         <outlet property="signupButton" destination="1Sj-o8-pG5" id="85o-af-NVi"/>
                         <outlet property="togglePasswordButton" destination="khv-EQ-jcb" id="7No-Pc-l6s"/>
                         <outlet property="toolbarBackButton" destination="G5h-3y-Tfb" id="qoX-u0-cPQ"/>
+                        <outlet property="toolbarDoneButton" destination="EUm-H8-o2i" id="fHh-kx-Bcn"/>
                         <outlet property="toolbarNextButton" destination="s31-Jh-0nz" id="wF6-3F-MUm"/>
                         <segue destination="pSz-or-at9" kind="show" identifier="showMain" id="Gl0-s0-NUI"/>
                         <segue destination="ZAf-Mp-iHO" kind="presentation" identifier="presentLoginFail" modalTransitionStyle="crossDissolve" id="ySR-F5-KRz"/>

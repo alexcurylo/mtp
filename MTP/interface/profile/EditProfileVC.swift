@@ -32,6 +32,7 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
     @IBOutlet private var toolbarBackButton: UIBarButtonItem!
     @IBOutlet private var toolbarNextButton: UIBarButtonItem!
     @IBOutlet private var toolbarClearButton: UIBarButtonItem!
+    @IBOutlet private var toolbarDoneButton: UIBarButtonItem!
 
     private enum Layout {
         static let sectionCornerRadius = CGFloat(5)
@@ -752,8 +753,14 @@ extension EditProfileVC: Exposing {
     /// Expose controls to UI tests
     func expose() {
         UIEditProfile.close.expose(item: closeButton)
-        UIEditProfile.save.expose(item: saveButton)
         UIEditProfile.country.expose(item: countryTextField)
+        UIEditProfile.save.expose(item: saveButton)
+
+        UIKeyboard.toolbar.expose(item: keyboardToolbar)
+        UIKeyboard.back.expose(item: toolbarBackButton)
+        UIKeyboard.clear.expose(item: toolbarClearButton)
+        UIKeyboard.done.expose(item: toolbarDoneButton)
+        UIKeyboard.next.expose(item: toolbarNextButton)
     }
 }
 
@@ -783,6 +790,7 @@ extension EditProfileVC: InterfaceBuildable {
         saveButton.require()
         toolbarBackButton.require()
         toolbarClearButton.require()
+        toolbarDoneButton.require()
         toolbarNextButton.require()
     }
 }

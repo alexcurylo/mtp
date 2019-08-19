@@ -384,6 +384,8 @@ extension MTP: TargetType {
         case .locationPosts:
             //file = "locationPosts-\(location)"
             file = "locationPosts-554"
+        case .passwordReset:
+            file = "passwordReset"
         case .photos(_, let page):
             file = "photos-7853-\(page)"
         case .rankings:
@@ -391,6 +393,8 @@ extension MTP: TargetType {
         case let .scorecard(list, _):
             //file = "scorecard-\(list.key)-\(user)"
             file = "scorecard-\(list.key)-7853"
+        case .userDelete:
+            file = "userDelete"
         case .userGet:
             //file = "userGet-\(id)"
             file = "userGet-1"
@@ -1489,14 +1493,19 @@ struct MTPNetworkController: ServiceProvider {
 
     /// Delete user account
     ///
-    /// - Parameter then: Completion
-    func userDeleteAccount(then: @escaping NetworkCompletion<String>) {
+    /// - Parameters:
+    ///   - stub: Stub behaviour
+    ///   - then: Completion
+    func userDeleteAccount(
+        stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
+        then: @escaping NetworkCompletion<String>
+    ) {
         guard let userId = data.user?.id else {
             return then(.failure(.parameter))
         }
 
         let auth = AccessTokenPlugin { self.data.token }
-        let provider = MTPProvider(plugins: [auth])
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
         let endpoint = MTP.userDelete(id: userId)
 
         //swiftlint:disable:next closure_body_length
@@ -1533,14 +1542,18 @@ struct MTPNetworkController: ServiceProvider {
     ///
     /// - Parameters:
     ///   - email: Email
+    ///   - stub: Stub behaviour
     ///   - then: Completion
-    func userForgotPassword(email: String,
-                            then: @escaping NetworkCompletion<String>) {
+    func userForgotPassword(
+        email: String,
+        stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
+        then: @escaping NetworkCompletion<String>
+    ) {
         guard !email.isEmpty else {
             return then(.failure(.parameter))
         }
 
-        let provider = MTPProvider()
+        let provider = MTPProvider(stubClosure: stub)
         let endpoint = MTP.passwordReset(email: email)
 
         //swiftlint:disable:next closure_body_length

@@ -551,6 +551,7 @@
                         <outlet property="saveButton" destination="R6r-9m-yTa" id="nEq-g5-H77"/>
                         <outlet property="toolbarBackButton" destination="P4e-oM-bDy" id="tiR-nY-dhX"/>
                         <outlet property="toolbarClearButton" destination="k8j-va-ZDT" id="E0d-FH-eWP"/>
+                        <outlet property="toolbarDoneButton" destination="Ejn-gy-2uF" id="74L-b7-aMW"/>
                         <outlet property="toolbarNextButton" destination="hnU-vs-zqO" id="2v6-a4-Qq5"/>
                     </connections>
                 </tableViewController>

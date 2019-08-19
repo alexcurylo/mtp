@@ -463,6 +463,7 @@
                         <outlet property="countryTextField" destination="of2-5v-sav" id="ymr-Xi-qcM"/>
                         <outlet property="credentialsStack" destination="Ecq-E5-OQM" id="RQo-RB-dnw"/>
                         <outlet property="emailTextField" destination="JUr-F9-mJF" id="2ov-BM-h7Q"/>
+                        <outlet property="facebookButton" destination="Idz-tR-O7l" id="POI-fj-8yi"/>
                         <outlet property="facebookStack" destination="qyu-KV-sXB" id="bcR-Wn-sKv"/>
                         <outlet property="fieldsStack" destination="VIo-QH-PZ2" id="HLH-iB-83g"/>
                         <outlet property="firstNameTextField" destination="6Z5-BT-WlN" id="KHu-Ok-grb"/>
@@ -479,6 +480,7 @@
                         <outlet property="togglePasswordButton" destination="HLz-Mw-MsJ" id="GLa-3i-Lpl"/>
                         <outlet property="toolbarBackButton" destination="xAY-V7-g7K" id="2dF-Uy-nIe"/>
                         <outlet property="toolbarClearButton" destination="upp-k0-iav" id="jYM-8B-pjZ"/>
+                        <outlet property="toolbarDoneButton" destination="vPT-U6-mcD" id="WfW-tA-ENN"/>
                         <outlet property="toolbarNextButton" destination="Rgm-dJ-6vn" id="Q6d-K9-u3M"/>
                         <segue destination="Sh2-4H-ObH" kind="show" identifier="showWelcome" id="y8N-wZ-OXP"/>
                         <segue destination="ChW-sd-d9N" kind="presentation" identifier="presentSignupFail" modalTransitionStyle="crossDissolve" id="Fen-BZ-1cX"/>

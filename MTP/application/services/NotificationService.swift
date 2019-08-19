@@ -453,7 +453,8 @@ private extension NotificationServiceImpl {
     }
 
     func checkRemindedVerify() -> Bool {
-        guard !remindedVerify,
+        guard !UIApplication.isTesting,
+              !remindedVerify,
               canNotifyForeground,
               let user = data.user,
               user.isWaiting else { return true }

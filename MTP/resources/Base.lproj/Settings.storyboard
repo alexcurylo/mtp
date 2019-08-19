@@ -369,7 +369,12 @@
                     <connections>
                         <outlet property="aboutButton" destination="9BF-zM-FQ0" id="MLa-Se-jTU"/>
                         <outlet property="backgroundView" destination="HMU-eM-cW1" id="m8A-FL-Awv"/>
+                        <outlet property="contactButton" destination="o6d-L6-vtL" id="O8A-AB-Stz"/>
+                        <outlet property="deleteButton" destination="fgK-8C-ciC" id="yRI-hR-Jda"/>
                         <outlet property="faqButton" destination="cRw-nG-8De" id="39q-tl-Xmm"/>
+                        <outlet property="logoutButton" destination="mwi-8o-nEq" id="155-DQ-smT"/>
+                        <outlet property="reviewButton" destination="ONF-ER-NzK" id="sg8-9D-K9o"/>
+                        <outlet property="shareButton" destination="OXK-QA-Kra" id="aqV-Fb-5j1"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5dq-tD-n56" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -596,7 +601,7 @@ FEATURES INCLUDE:
         <!--Confirm Delete-->
         <scene sceneID="eDZ-Qm-XXA">
             <objects>
-                <viewController title="Confirm Delete" id="2qU-MI-ao0" sceneMemberID="viewController">
+                <viewController title="Confirm Delete" id="2qU-MI-ao0" customClass="ConfirmDeleteVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Juv-WY-khr" customClass="GradientView" customModule="MTP" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -733,6 +738,10 @@ FEATURES INCLUDE:
                     <toolbarItems/>
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="cancelButton" destination="D8x-nn-DKJ" id="LPS-cz-ugd"/>
+                        <outlet property="confirmButton" destination="jvR-T5-e4D" id="HCV-3J-qfH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A5y-Kg-HZY" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="wyQ-dH-96B" userLabel="Exit" sceneMemberID="exit"/>

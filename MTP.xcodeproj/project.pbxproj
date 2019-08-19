@@ -132,6 +132,13 @@
 		8CD4BD2923024E320041E0C3 /* UIForgotPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD4BD2823024E320041E0C3 /* UIForgotPassword.swift */; };
 		8CD4BD2A23024E320041E0C3 /* UIForgotPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD4BD2823024E320041E0C3 /* UIForgotPassword.swift */; };
 		8CDBE5EE22C08AD5005A6C18 /* PostPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDBE5ED22C08AD5005A6C18 /* PostPayload.swift */; };
+		8CDC4D54230A301400AA422D /* UIKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDC4D53230A301400AA422D /* UIKeyboard.swift */; };
+		8CDC4D56230A312800AA422D /* ConfirmDeleteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDC4D55230A312800AA422D /* ConfirmDeleteVC.swift */; };
+		8CDC4D58230A32B200AA422D /* UIConfirmDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDC4D57230A32B200AA422D /* UIConfirmDelete.swift */; };
+		8CDC4D5A230A332500AA422D /* UIConfirmDelete+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDC4D59230A332500AA422D /* UIConfirmDelete+Test.swift */; };
+		8CDC4D5B230A335800AA422D /* UIConfirmDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDC4D57230A32B200AA422D /* UIConfirmDelete.swift */; };
+		8CDC4D5C230A335E00AA422D /* UIKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDC4D53230A301400AA422D /* UIKeyboard.swift */; };
+		8CDC4D5E230A337D00AA422D /* UIKeyboard+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDC4D5D230A337D00AA422D /* UIKeyboard+Test.swift */; };
 		8CE3FC2C222389B600B94EAA /* Scorecard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE3FC2B222389B600B94EAA /* Scorecard.swift */; };
 		8CE6F46B224B029500B24410 /* ContentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6F46A224B029400B24410 /* ContentState.swift */; };
 		8CE6FC56224C6C1B00B24410 /* LocationPhotos.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CE6FC58224C6C1B00B24410 /* LocationPhotos.storyboard */; };
@@ -147,6 +154,8 @@
 		8CF239B123054BD5006AB7D2 /* UITerms+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF239B023054BD5006AB7D2 /* UITerms+Test.swift */; };
 		8CF239B223054C01006AB7D2 /* UITerms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF239AE23054B5B006AB7D2 /* UITerms.swift */; };
 		8CF7381A22FA9DD2006D4C66 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF7381922FA9DD2006D4C66 /* PhotoCell.swift */; };
+		8CFBC103230A38D1008844D9 /* userDelete.json in Resources */ = {isa = PBXBuildFile; fileRef = 8CFBC102230A38D0008844D9 /* userDelete.json */; };
+		8CFBC105230A3C61008844D9 /* passwordReset.json in Resources */ = {isa = PBXBuildFile; fileRef = 8CFBC104230A3C61008844D9 /* passwordReset.json */; };
 		8CFEE459221FA2120061614B /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFEE458221FA2120061614B /* ImageService.swift */; };
 		C1D9A04EB6208ED844515108 /* libPods-MTP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA7B8EF0C9A37C87525A9855 /* libPods-MTP.a */; };
 		F5352AD2AEBF0C3A5C6191CE /* Pods-MTP-settings-metadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E2C18C122B275F3B40CDCDA /* Pods-MTP-settings-metadata.plist */; };
@@ -511,6 +520,11 @@
 		8CD4BD2623024DCB0041E0C3 /* UIForgotPassword+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIForgotPassword+Test.swift"; sourceTree = "<group>"; };
 		8CD4BD2823024E320041E0C3 /* UIForgotPassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIForgotPassword.swift; sourceTree = "<group>"; };
 		8CDBE5ED22C08AD5005A6C18 /* PostPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPayload.swift; sourceTree = "<group>"; };
+		8CDC4D53230A301400AA422D /* UIKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKeyboard.swift; sourceTree = "<group>"; };
+		8CDC4D55230A312800AA422D /* ConfirmDeleteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDeleteVC.swift; sourceTree = "<group>"; };
+		8CDC4D57230A32B200AA422D /* UIConfirmDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConfirmDelete.swift; sourceTree = "<group>"; };
+		8CDC4D59230A332500AA422D /* UIConfirmDelete+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIConfirmDelete+Test.swift"; sourceTree = "<group>"; };
+		8CDC4D5D230A337D00AA422D /* UIKeyboard+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKeyboard+Test.swift"; sourceTree = "<group>"; };
 		8CE3FC2B222389B600B94EAA /* Scorecard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scorecard.swift; sourceTree = "<group>"; };
 		8CE6F46A224B029400B24410 /* ContentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentState.swift; sourceTree = "<group>"; };
 		8CE6FC57224C6C1B00B24410 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LocationPhotos.storyboard; sourceTree = "<group>"; };
@@ -525,6 +539,8 @@
 		8CF239AE23054B5B006AB7D2 /* UITerms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITerms.swift; sourceTree = "<group>"; };
 		8CF239B023054BD5006AB7D2 /* UITerms+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITerms+Test.swift"; sourceTree = "<group>"; };
 		8CF7381922FA9DD2006D4C66 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
+		8CFBC102230A38D0008844D9 /* userDelete.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = userDelete.json; sourceTree = "<group>"; };
+		8CFBC104230A3C61008844D9 /* passwordReset.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = passwordReset.json; sourceTree = "<group>"; };
 		8CFEE458221FA2120061614B /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		B1C0AF3F035BC227379ED6DE /* libPods-MTPUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MTPUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B988D22396864AC3181C1EA5 /* Pods-MTP-metadata.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "Pods-MTP-metadata.plist"; path = "Pods/Pods-MTP-metadata.plist"; sourceTree = "<group>"; };
@@ -1054,6 +1070,7 @@
 			isa = PBXGroup;
 			children = (
 				FA03455F2304421000632322 /* UIAppAbout.swift */,
+				8CDC4D57230A32B200AA422D /* UIConfirmDelete.swift */,
 				FA03456B2304449100632322 /* UICountsPage.swift */,
 				FA034555230435AE00632322 /* UIEditProfile.swift */,
 				FA0345652304435B00632322 /* UIFaq.swift */,
@@ -1093,6 +1110,7 @@
 			isa = PBXGroup;
 			children = (
 				8CD4BD2823024E320041E0C3 /* UIForgotPassword.swift */,
+				8CDC4D53230A301400AA422D /* UIKeyboard.swift */,
 				FA7A66EC2300E894001DCCA2 /* UILogin.swift */,
 				FA7A66F123022527001DCCA2 /* UILoginFail.swift */,
 				FA7A66D122FD9459001DCCA2 /* UIMain.swift */,
@@ -1109,6 +1127,7 @@
 			isa = PBXGroup;
 			children = (
 				8CD4BD2623024DCB0041E0C3 /* UIForgotPassword+Test.swift */,
+				8CDC4D5D230A337D00AA422D /* UIKeyboard+Test.swift */,
 				FA7A66EF2300E914001DCCA2 /* UILogin+Test.swift */,
 				FA7A66F423022650001DCCA2 /* UILoginFail+Test.swift */,
 				8C011F5922E939BA002C4133 /* UIMain+Test.swift */,
@@ -1140,6 +1159,7 @@
 			isa = PBXGroup;
 			children = (
 				FA0345622304425100632322 /* UIAppAbout+Test.swift */,
+				8CDC4D59230A332500AA422D /* UIConfirmDelete+Test.swift */,
 				FA03456E230444C500632322 /* UICountsPage+Test.swift */,
 				FA034558230435EF00632322 /* UIEditProfile+Test.swift */,
 				FA0345682304438700632322 /* UIFaq+Test.swift */,
@@ -1185,6 +1205,7 @@
 				FA96A87022ECEF11001423F6 /* checklists.json */,
 				FA0345AC23058BE200632322 /* locationPhotos-554.json */,
 				FA0345AE23058E3600632322 /* locationPosts-554.json */,
+				8CFBC104230A3C61008844D9 /* passwordReset.json */,
 				FA96A87422ECF440001423F6 /* photos-7853-1.json */,
 				FA96A88422ED213E001423F6 /* rankings.json */,
 				FA96A87C22ECF865001423F6 /* scorecard-beaches-7853.json */,
@@ -1194,6 +1215,7 @@
 				FA96A87A22ECF865001423F6 /* scorecard-restaurants-7853.json */,
 				FA96A87722ECF864001423F6 /* scorecard-uncountries-7853.json */,
 				FA96A87922ECF865001423F6 /* scorecard-whss-7853.json */,
+				8CFBC102230A38D0008844D9 /* userDelete.json */,
 				FA96A88622ED314A001423F6 /* userGet-1.json */,
 				FA0A7B9322E6797400D3EF99 /* userGetByToken.json */,
 				FA507C2723059DD5000F0EF9 /* userLogin-7853.json */,
@@ -1241,6 +1263,7 @@
 			isa = PBXGroup;
 			children = (
 				8CCA5A7222AA6BBB00853903 /* AppAboutVC.swift */,
+				8CDC4D55230A312800AA422D /* ConfirmDeleteVC.swift */,
 				8C5ECE9D21FEE6F800322ABF /* CountCellGroup.swift */,
 				FA5AC0C621FDD8AA0080F84F /* CountCellItem.swift */,
 				FAC9057222CB8E9A001296DE /* CountInfoHeader.swift */,
@@ -1779,7 +1802,9 @@
 				F5352AD2AEBF0C3A5C6191CE /* Pods-MTP-settings-metadata.plist in Resources */,
 				FA745753210DA4C60010F4F4 /* MyProfile.storyboard in Resources */,
 				8C0E6A7423055CFD00E7768E /* scorecard-uncountries-7853.json in Resources */,
+				8CFBC105230A3C61008844D9 /* passwordReset.json in Resources */,
 				FA21FB9F22A3F25400190B71 /* UserCounts.storyboard in Resources */,
+				8CFBC103230A38D1008844D9 /* userDelete.json in Resources */,
 				FA32CC892100CC6B004C1329 /* Login.storyboard in Resources */,
 				8CE6FC56224C6C1B00B24410 /* LocationPhotos.storyboard in Resources */,
 				FA8A65AF217ED3BA00BC0DFE /* RankingsFilter.storyboard in Resources */,
@@ -1983,6 +2008,7 @@
 				FA8833E12209BF570037C796 /* RealmSearchViewController.swift in Sources */,
 				FAC8465D22AB6C2A004F57EC /* LocationService.swift in Sources */,
 				FA03455B23043BA700632322 /* UISettings.swift in Sources */,
+				8CDC4D58230A32B200AA422D /* UIConfirmDelete.swift in Sources */,
 				FAE1F11E2143B29F0002CAB2 /* LocationTracker.swift in Sources */,
 				8C0F242B22432076005BD5DC /* UserCountsVC.swift in Sources */,
 				8C7D71D62303C1C1005939AC /* UILocationsFilter.swift in Sources */,
@@ -2017,6 +2043,7 @@
 				FA3CC5CD2288456E00925A05 /* NotificationsHandler.swift in Sources */,
 				FA7A66E022FD98D0001DCCA2 /* UIUserProfile.swift in Sources */,
 				FAC8465B22AB55B6004F57EC /* NotificationService.swift in Sources */,
+				8CDC4D56230A312800AA422D /* ConfirmDeleteVC.swift in Sources */,
 				8C93FE3D23038F150054B951 /* UIRankingsFilter.swift in Sources */,
 				FA03454C2303795500632322 /* UISignupFail.swift in Sources */,
 				FA0345662304435B00632322 /* UIFaq.swift in Sources */,
@@ -2032,6 +2059,7 @@
 				FA75562E22A4FFCF0006EFC3 /* ProfileVC.swift in Sources */,
 				FA44CDF622B5B3F800F33D34 /* UIView+Corner.swift in Sources */,
 				FA8833E5220CE7350037C796 /* Country.swift in Sources */,
+				8CDC4D54230A301400AA422D /* UIKeyboard.swift in Sources */,
 				8C7D71E12303DA98005939AC /* UILocationPaging.swift in Sources */,
 				FAFEDA522129602800DA3DB8 /* WelcomeVC.swift in Sources */,
 				8C3EAB8C2231100400CB4886 /* Array+Type.swift in Sources */,
@@ -2211,6 +2239,7 @@
 				8C011F5C22E93A10002C4133 /* UIMyProfile+Test.swift in Sources */,
 				FA03454E2303798100632322 /* UISignupFail+Test.swift in Sources */,
 				8C93FE47230394920054B951 /* UIRankingsPage+Test.swift in Sources */,
+				8CDC4D5A230A332500AA422D /* UIConfirmDelete+Test.swift in Sources */,
 				8C7D71CC2303B70B005939AC /* UIUserCountsPage.swift in Sources */,
 				8C7D71EE2303EA61005939AC /* UILocationInfo.swift in Sources */,
 				FA03456A2304438700632322 /* UIFaq+Test.swift in Sources */,
@@ -2220,11 +2249,13 @@
 				8C93FE5023039D690054B951 /* UIRankingsPaging.swift in Sources */,
 				8C93FE4A230397770054B951 /* UIUserCounts.swift in Sources */,
 				8C93FE44230394560054B951 /* UIRankingsPage.swift in Sources */,
+				8CDC4D5E230A337D00AA422D /* UIKeyboard+Test.swift in Sources */,
 				FA0345612304421000632322 /* UIAppAbout.swift in Sources */,
 				FA32CC7220FAC863004C1329 /* XCTestCase+Launch.swift in Sources */,
 				8C476326230415980089EF33 /* UIAddPost+Test.swift in Sources */,
 				FA03457F2304489400632322 /* UIProfile.swift in Sources */,
 				8C93FE41230391B30054B951 /* UIRankingsFilter+Test.swift in Sources */,
+				8CDC4D5C230A335E00AA422D /* UIKeyboard.swift in Sources */,
 				FA7A66E122FD98ED001DCCA2 /* UIUserProfile.swift in Sources */,
 				8C7D71CE2303B907005939AC /* UIUserCountsPage+Test.swift in Sources */,
 				FA7A66EA22FE2C5C001DCCA2 /* UIRoot+Test.swift in Sources */,
@@ -2266,6 +2297,7 @@
 				8C7D71D42303BEC3005939AC /* UIMyCountsPage+Test.swift in Sources */,
 				8CD4BD2723024DCB0041E0C3 /* UIForgotPassword+Test.swift in Sources */,
 				FA0345A02304CC6800632322 /* UIProfileAbout+Test.swift in Sources */,
+				8CDC4D5B230A335800AA422D /* UIConfirmDelete.swift in Sources */,
 				8C47631A230410290089EF33 /* UILocationPosts+Test.swift in Sources */,
 				FA7A66D922FD9669001DCCA2 /* UINearby.swift in Sources */,
 				FA392BDD20DF69F50026C828 /* LocationsUITests.swift in Sources */,
