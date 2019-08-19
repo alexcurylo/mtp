@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- Handle missing locations in ranked user scorecards
+
 ## [Version 1.0.1, Build 638] - 2019-08-18
 
 ### Added

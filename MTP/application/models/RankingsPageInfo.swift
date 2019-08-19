@@ -94,8 +94,8 @@ struct RankedUserJSON: Codable {
     /// id
     let id: Int
     fileprivate let lastName: String
-    fileprivate let location: LocationJSON // still has 30 items
-    fileprivate let locationId: Int
+    fileprivate let location: LocationJSON?
+    fileprivate let locationId: Int?
     fileprivate let picture: String?
     fileprivate let rankBeaches: Int?
     fileprivate let rankDivesites: Int?
@@ -134,8 +134,8 @@ extension RankedUserJSON: CustomDebugStringConvertible {
         gender: \(gender)
         id: \(id)
         last_name: \(lastName)
-        location: \(location)
-        location_id: \(locationId)
+        location: \(String(describing: location))
+        location_id: \(String(describing: locationId))
         picture: \(String(describing: picture))
         rankBeaches: \(String(describing: rankBeaches))
         rankDivesites: \(String(describing: rankDivesites))
@@ -226,7 +226,7 @@ extension User {
         bio = existing?.bio ?? ""
         fullName = from.fullName
         gender = from.gender
-        locationName = from.location.description
+        locationName = from.location?.description ?? existing?.locationName ?? ""
         picture = from.picture
         orderBeaches = from.rankBeaches ?? existing?.orderBeaches ?? 0
         orderDivesites = from.rankDivesites ?? existing?.orderDivesites ?? 0
