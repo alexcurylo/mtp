@@ -28,6 +28,10 @@ extension Elemental {
     }
 
     var element: XCUIElement {
+        return identified
+    }
+
+    var identified: XCUIElement {
         return container.element(matching: type, identifier: identifier)
     }
 
