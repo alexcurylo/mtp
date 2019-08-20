@@ -69,8 +69,8 @@ private struct ScorecardRankedUserJSON: Codable {
     /// id
     let id: Int
     let lastName: String
-    let location: LocationJSON // still has 30 items
-    let locationId: Int
+    let location: LocationJSON?
+    let locationId: Int?
     let picture: String?
     let rankBeaches: Int?
     let rankDivesites: Int?
@@ -134,8 +134,8 @@ private struct ScorecardUserJSON: Codable {
     let gender: String
     let id: Int
     let lastName: String
-    let location: LocationJSON // still has 30 items
-    let locationId: Int
+    let location: LocationJSON?
+    let locationId: Int?
     let picture: String?
     let rankBeaches: Int?
     let rankDivesites: Int?
@@ -313,8 +313,8 @@ extension ScorecardJSON: CustomDebugStringConvertible {
         }
 
         age = from.data.ageLevel.min
-        countryId = from.data.user.location.countryId ?? 0
-        locationId = from.data.user.location.id
+        countryId = from.data.user.location?.countryId ?? 0
+        locationId = from.data.user.location?.id ?? 0
         gender = from.data.user.gender
 
         if let ranks = from.data.rank?.ranks {

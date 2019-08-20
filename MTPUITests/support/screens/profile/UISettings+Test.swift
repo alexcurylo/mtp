@@ -8,7 +8,12 @@ extension UISettings: Elemental {
         switch self {
         case .about,
              .close,
-             .faq:
+             .contact,
+             .delete,
+             .faq,
+             .logout,
+             .review,
+             .share:
             return .button
         }
     }

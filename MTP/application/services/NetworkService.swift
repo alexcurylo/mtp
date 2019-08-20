@@ -704,8 +704,8 @@ final class NetworkServiceStub: NetworkServiceImpl {
     ///
     /// - Parameter then: Completion
     override func userDeleteAccount(then: @escaping NetworkCompletion<String>) {
-        log.error("not stubbed yet!")
-        then(.failure(.message("not stubbed yet!")))
+        mtp.userDeleteAccount(stub: MTPProvider.immediatelyStub,
+                              then: then)
     }
 
     /// Send reset password link
@@ -715,8 +715,9 @@ final class NetworkServiceStub: NetworkServiceImpl {
     ///   - then: Completion
     override func userForgotPassword(email: String,
                                      then: @escaping NetworkCompletion<String>) {
-        log.error("not stubbed yet!")
-        then(.failure(.message("not stubbed yet!")))
+        mtp.userForgotPassword(email: email,
+                               stub: MTPProvider.immediatelyStub,
+                               then: then)
     }
 
     /// Login user
@@ -775,8 +776,9 @@ final class NetworkServiceStub: NetworkServiceImpl {
     ///   - then: Completion
     override func userVerify(id: Int,
                              then: @escaping NetworkCompletion<String>) {
-        log.error("not stubbed yet!")
-        then(.failure(.message("not stubbed yet!")))
+        mtp.userVerify(id: id,
+                       stub: MTPProvider.immediatelyStub,
+                       then: then)
     }
 }
 

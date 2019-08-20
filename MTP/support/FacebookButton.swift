@@ -37,6 +37,10 @@ final class FacebookButton: UIButton, ServiceProvider {
     ///   - then: Callback
     func login(vc: UIViewController,
                then: @escaping (RegistrationPayload?) -> Void) {
+        guard !UIApplication.isTesting else {
+            return then(nil)
+        }
+
         LoginManager().logIn(
             permissions: [ .publicProfile, .email, .userBirthday, .userGender ],
             viewController: vc

@@ -36,6 +36,10 @@ final class StartupUITests: XCTestCase {
 
         UIForgotPassword.cancel.tap()
 
+        UILogin.forgot.tap()
+
+        UIForgotPassword.send.tap()
+
         UILogin.login.tap()
 
         UILoginFail.message.assert(.label("Please enter a password!"))
@@ -49,7 +53,7 @@ final class StartupUITests: XCTestCase {
     }
 
     // swiftlint:disable:next function_body_length
-    func testSignup() {
+    func testSignupEmail() {
         launch(settings: [.loggedIn(false)])
 
         UIRoot.signup.tap()
@@ -113,8 +117,72 @@ final class StartupUITests: XCTestCase {
         UISignup.confirm.type(text: "password")
         UISignup.signup.tap()
 
+        UIWelcome.later.tap()
+
+        UIAlert.title("Account not verified - check your email!").wait()
+        UIAlert.button("Resend").tap()
+
+        UIMain.myProfile.tap()
+
+        UIMyProfile.settings.tap()
+
+        UISettings.delete.tap()
+
+        UIConfirmDelete.cancel.tap()
+
+        UISettings.delete.tap()
+
+        UIConfirmDelete.confirm.tap()
+
+        UIRoot.signup.wait()
+    }
+
+    func testSignupFacebook() {
+        launch(settings: [.loggedIn(false)])
+
+        UIRoot.signup.tap()
+
+        UISignup.facebook.tap()
+
+        UISignupFail.message.assert(.label("Failed to get information from Facebook!"))
+        UISignupFail.ok.tap()
+
+        UISignup.credentials.swipeUp()
+        UISignup.tos.tap()
+
+        UITerms.agree.tap()
+
+        UISignup.email.tap()
+        UISignup.email.type(text: "test@test.com")
+
+        UIKeyboard.next.tap()
+
+        UISignup.first.type(text: "First")
+
+        UISignup.last.tap()
+        UISignup.last.type(text: "Last")
+
+        UISignup.birthday.tap()
+
+        UIKeyboard.clear.tap()
+
+        UISignup.confirm.tap()
+        UISignup.confirm.type(text: "password")
+
+        UIKeyboard.back.tap()
+
+        UISignup.password.type(text: "password")
+
+        UIKeyboard.done.tap()
+
         UIWelcome.profile.tap()
 
         UIEditProfile.close.tap()
+
+        UIMyProfile.settings.tap()
+
+        UISettings.logout.tap()
+
+        UIRoot.signup.wait()
     }
 }

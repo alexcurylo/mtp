@@ -595,12 +595,14 @@ class DataServiceImpl: DataService {
     ///   - visited: Visited state
     func set(items: [Checklist.Item],
              visited: Bool) {
+        let allItems = withCountry(items: items,
+                                   visited: visited)
         var dismissals = dismissed ?? Timestamps()
         var notifications = notified ?? Timestamps()
         var triggers = triggered ?? Timestamps()
         var updates = updated ?? Timestamps()
         var visits = self.visited ?? Checked()
-        items.forEach { item in
+        allItems.forEach { item in
             dismissals.set(item: item, stamped: visited)
             notifications.set(item: item, stamped: visited)
             triggers.set(item: item, stamped: visited)
@@ -1023,6 +1025,36 @@ class DataServiceImpl: DataService {
 // MARK: - Private
 
 private extension DataServiceImpl {
+
+    func withCountry(items: [Checklist.Item],
+                     visited: Bool) -> [Checklist.Item] {
+        guard items.count == 1,
+              items[0].list == .locations,
+              let location = get(location: items[0].id) else {
+                return items
+        }
+
+        if visited {
+            if Checklist.uncountries.isVisited(id: location.countryId) {
+                return items
+            }
+        } else if !location.isCountry {
+            let children = realm.locations.filter { $0.countryId == location.countryId }
+            let visits = self.visited ?? Checked()
+            var visitedChildren = 0
+            for child in children {
+                if visits.locations.contains(child.placeId) {
+                    visitedChildren += 1
+                }
+            }
+            if visitedChildren > 1 {
+                return items
+            }
+        }
+
+        let item: Checklist.Item = (list: .uncountries, id: location.countryId)
+        return items + [item]
+    }
 
     func children(whs id: Int) -> [WHS] {
         return realm.whss.filter { $0.parentId == id }

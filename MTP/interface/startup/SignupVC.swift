@@ -14,6 +14,7 @@ final class SignupVC: UIViewController, ServiceProvider {
     @IBOutlet private var scrollView: UIScrollView!
     @IBOutlet private var credentialsStack: UIStackView!
     @IBOutlet private var facebookStack: UIStackView!
+    @IBOutlet private var facebookButton: FacebookButton!
     @IBOutlet private var fieldsStack: UIStackView!
     @IBOutlet private var emailTextField: InsetTextField!
     @IBOutlet private var firstNameTextField: InsetTextField!
@@ -33,6 +34,7 @@ final class SignupVC: UIViewController, ServiceProvider {
     @IBOutlet private var toolbarBackButton: UIBarButtonItem!
     @IBOutlet private var toolbarNextButton: UIBarButtonItem!
     @IBOutlet private var toolbarClearButton: UIBarButtonItem!
+    @IBOutlet private var toolbarDoneButton: UIBarButtonItem!
 
     private var errorMessage: String = ""
     private var agreed = false
@@ -653,17 +655,30 @@ extension SignupVC: Exposing {
     func expose() {
         let items = navigationItem.leftBarButtonItems
         UISignup.close.expose(item: items?.first)
+
+        UISignup.birthday.expose(item: birthdayTextField)
         UISignup.confirm.expose(item: confirmPasswordTextField)
+        UISignup.country.expose(item: countryTextField)
         UISignup.credentials.expose(item: credentialsStack)
         UISignup.email.expose(item: emailTextField)
+        UISignup.facebook.expose(item: facebookButton)
         UISignup.first.expose(item: firstNameTextField)
+        UISignup.gender.expose(item: genderTextField)
         UISignup.last.expose(item: lastNameTextField)
         UISignup.login.expose(item: loginButton)
+        UISignup.country.expose(item: countryTextField)
+        UISignup.location.expose(item: locationTextField)
         UISignup.password.expose(item: passwordTextField)
         UISignup.signup.expose(item: signupButton)
         UISignup.toggleConfirm.expose(item: toggleConfirmPasswordButton)
         UISignup.togglePassword.expose(item: togglePasswordButton)
         UISignup.tos.expose(item: termsOfServiceButton)
+
+        UIKeyboard.toolbar.expose(item: keyboardToolbar)
+        UIKeyboard.back.expose(item: toolbarBackButton)
+        UIKeyboard.clear.expose(item: toolbarClearButton)
+        UIKeyboard.done.expose(item: toolbarDoneButton)
+        UIKeyboard.next.expose(item: toolbarNextButton)
     }
 }
 
@@ -678,6 +693,7 @@ extension SignupVC: InterfaceBuildable {
         countryTextField.require()
         credentialsStack.require()
         emailTextField.require()
+        facebookButton.require()
         facebookStack.require()
         fieldsStack.require()
         firstNameTextField.require()
@@ -694,6 +710,7 @@ extension SignupVC: InterfaceBuildable {
         togglePasswordButton.require()
         toolbarBackButton.require()
         toolbarClearButton.require()
+        toolbarDoneButton.require()
         toolbarNextButton.require()
     }
 }

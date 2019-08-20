@@ -17,6 +17,7 @@ final class LoginVC: UIViewController, ServiceProvider {
     @IBOutlet private var keyboardToolbar: UIToolbar!
     @IBOutlet private var toolbarBackButton: UIBarButtonItem!
     @IBOutlet private var toolbarNextButton: UIBarButtonItem!
+    @IBOutlet private var toolbarDoneButton: UIBarButtonItem!
 
     private var errorMessage: String = ""
 
@@ -312,6 +313,11 @@ extension LoginVC: Exposing {
         UILogin.password.expose(item: passwordTextField)
         UILogin.signup.expose(item: signupButton)
         UILogin.toggle.expose(item: togglePasswordButton)
+
+        UIKeyboard.toolbar.expose(item: keyboardToolbar)
+        UIKeyboard.back.expose(item: toolbarBackButton)
+        UIKeyboard.done.expose(item: toolbarDoneButton)
+        UIKeyboard.next.expose(item: toolbarNextButton)
     }
 }
 
@@ -330,5 +336,6 @@ extension LoginVC: InterfaceBuildable {
         togglePasswordButton.require()
         toolbarBackButton.require()
         toolbarNextButton.require()
+        toolbarDoneButton.require()
     }
 }

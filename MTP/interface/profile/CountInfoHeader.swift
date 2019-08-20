@@ -60,6 +60,16 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
     }
     private var updatingStack: UIStackView?
 
+    private let unInfoLabel = UILabel {
+        $0.font = Layout.rankFont.updating
+        $0.allowsDefaultTighteningForTruncation = true
+        $0.adjustsFontSizeToFitWidth = true
+        $0.minimumScaleFactor = 0.9
+        $0.textColor = .white
+        $0.text = L.unInfo()
+    }
+    private var completeStack: UIStackView?
+
     private let scheduler = Scheduler()
     private var updating = false
 
@@ -84,6 +94,10 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
     /// - Parameter list: Checklist
     func inject(list: Checklist) {
         guard let user = data.user else { return }
+
+        if list == .uncountries {
+            completeStack?.addArrangedSubview(unInfoLabel)
+        }
 
         let status = list.visitStatus(of: user)
         let visitedText = status.visited.grouped
@@ -115,6 +129,7 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
         rankTitle.text = nil
         rankLabel.text = nil
         fractionLabel.text = nil
+        unInfoLabel.removeFromSuperview()
     }
 }
 
@@ -168,11 +183,19 @@ private extension CountInfoHeader {
             $0.spacing = Layout.spacing.updating
         }
         updatingStack = updating
-        let stack = UIStackView(arrangedSubviews: [labels,
-                                                   updating]).with {
+        let infoStack = UIStackView(arrangedSubviews: [labels,
+                                                       updating]).with {
             $0.spacing = Layout.spacing.rank
             $0.alignment = .center
         }
+
+        let stack = UIStackView(arrangedSubviews: [infoStack]).with {
+            $0.spacing = 2
+            $0.axis = .vertical
+            $0.distribution = .fillEqually
+        }
+        completeStack = stack
+
         addSubview(stack)
         stack.edgeAnchors == edgeAnchors + Layout.insets
     }

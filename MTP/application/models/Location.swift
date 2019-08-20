@@ -100,7 +100,7 @@ extension LocationJSON: CustomDebugStringConvertible {
     dynamic var map: Mappable?
 
     /// Whether this is a country or a location
-    dynamic var adminLevel: AdminLevel = .unknown
+    dynamic var adminLevel: Int = 0
     /// Airports to be found in this location
     dynamic var airports: String = ""
     /// Country ID
@@ -134,7 +134,7 @@ extension LocationJSON: CustomDebugStringConvertible {
               country > 0 else { return nil }
         self.init()
 
-        adminLevel = AdminLevel(rawValue: from.adminLevel) ?? .unknown
+        adminLevel = from.adminLevel
         let subtitle = isCountry ? from.regionName : from.countryName
         let website = "https://mtp.travel/locations/\(from.id)"
         map = Mappable(checklist: .locations,
@@ -249,7 +249,7 @@ extension Location {
 
     /// Whether location is country
     var isCountry: Bool {
-        return adminLevel == .country
+        return AdminLevel(rawValue: adminLevel) == .country
     }
 
     /// Map marker latitude

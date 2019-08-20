@@ -6,12 +6,23 @@ enum UISignup: Exposable {
     /// Close button
     case close
 
+    /// Facebook button
+    case facebook
+
     /// Credentials stack view
     case credentials
     /// Email text field
     case email
     /// First name text field
     case first
+    /// Gender text field
+    case gender
+    /// Country text field for list triggering
+    case country
+    /// Location text field for list triggering
+    case location
+    /// Birthday text field for date picker
+    case birthday
     /// Last name text field
     case last
     /// Password text field

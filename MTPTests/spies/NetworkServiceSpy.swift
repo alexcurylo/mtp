@@ -291,4 +291,10 @@ final class NetworkServiceSpy: NetworkService {
         invokedRefreshEverything = true
         invokedRefreshEverythingCount += 1
     }
+    var invokedUnthrottle = false
+    var invokedUnthrottleCount = 0
+    func unthrottle() {
+        invokedUnthrottle = true
+        invokedUnthrottleCount += 1
+    }
 }
