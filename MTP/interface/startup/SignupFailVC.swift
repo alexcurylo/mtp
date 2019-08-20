@@ -7,20 +7,25 @@ final class SignupFailVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.signupFailVC
 
-    @IBOutlet private var alertHolder: UIView?
-    @IBOutlet private var bottomY: NSLayoutConstraint?
-    @IBOutlet private var centerY: NSLayoutConstraint?
-    @IBOutlet private var messageLabel: UILabel?
+    // verified in requireOutlets
+    @IBOutlet private var alertHolder: UIView!
+    @IBOutlet private var bottomY: NSLayoutConstraint!
+    @IBOutlet private var centerY: NSLayoutConstraint!
+    @IBOutlet private var messageLabel: UILabel!
+    @IBOutlet private var okButton: GradientButton!
 
-    private var errorMessage: String?
+    // verified in requireInjection
+    private var errorMessage: String!
+    // swiftlint:disable:previous implicitly_unwrapped_optional
 
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
+        requireInjection()
 
-        if let message = errorMessage, !message.isEmpty {
-            messageLabel?.text = message
+        if !errorMessage.isEmpty {
+            messageLabel.text = errorMessage
         }
     }
 
@@ -32,6 +37,7 @@ final class SignupFailVC: UIViewController, ServiceProvider {
 
         hide(navBar: animated)
         hideAlert()
+        expose()
     }
 
     /// Actions to take after reveal
@@ -48,11 +54,8 @@ final class SignupFailVC: UIViewController, ServiceProvider {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.dismissSignupFail.identifier:
+        if segue.identifier == Segues.dismissSignupFail.identifier {
             presentingViewController?.show(navBar: true)
-        default:
-            log.debug("unexpected segue: \(segue.name)")
         }
     }
 }
@@ -64,8 +67,7 @@ private extension SignupFailVC {
     func hideAlert() {
         view.setNeedsLayout()
         view.layoutIfNeeded()
-        let hide = -(alertHolder?.bounds.height ?? 0)
-        bottomY?.constant = hide
+        bottomY.constant = -alertHolder.bounds.height
         view.setNeedsLayout()
         view.layoutIfNeeded()
     }
@@ -78,11 +80,36 @@ private extension SignupFailVC {
             initialSpringVelocity: 0.75,
             options: [.curveEaseOut],
             animations: {
-                self.bottomY?.priority = .defaultLow
-                self.centerY?.priority = .defaultHigh
+                self.bottomY.priority = .defaultLow
+                self.centerY.priority = .defaultHigh
                 self.view.layoutIfNeeded()
             },
             completion: nil)
+    }
+}
+
+// MARK: - Exposing
+
+extension SignupFailVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        UISignupFail.message.expose(item: messageLabel)
+        UISignupFail.ok.expose(item: okButton)
+    }
+}
+
+// MARK: - InterfaceBuildable
+
+extension SignupFailVC: InterfaceBuildable {
+
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
+        alertHolder.require()
+        bottomY.require()
+        centerY.require()
+        messageLabel.require()
+        okButton.require()
     }
 }
 
@@ -96,19 +123,12 @@ extension SignupFailVC: Injectable {
     /// Handle dependency injection
     ///
     /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
+    func inject(model: Model) {
         errorMessage = model
-        return self
     }
 
     /// Enforce dependency injection
-    func requireInjections() {
+    func requireInjection() {
         errorMessage.require()
-
-        alertHolder.require()
-        bottomY.require()
-        centerY.require()
-        messageLabel.require()
     }
 }

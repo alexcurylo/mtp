@@ -75,12 +75,11 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
             withReuseIdentifier: RankingHeader.reuseIdentifier)
     }
 
-    /// Unavailable coding constructor
+    /// Unsupported coding constructor
     ///
     /// - Parameter coder: An unarchiver object.
-    @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        return nil
     }
 
     /// Refresh collection view on layout
@@ -409,7 +408,7 @@ extension RankingsPageVC: Exposing {
     /// Expose controls to UI tests
     func expose() {
         let list = ChecklistIndex(list: filter.checklist)
-        RankingVCs.ranks(list).expose(item: collectionView)
+        UIRankingsPage.ranks(list).expose(item: collectionView)
     }
 }
 
@@ -426,9 +425,9 @@ extension RankingsPageVC: CollectionCellExposing {
     func expose(view: UICollectionView,
                 path: IndexPath,
                 cell: UICollectionViewCell) {
-        guard let cell = cell as? RankingCell else { return }
-
-        let list = ChecklistIndex(list: filter.checklist)
-        cell.expose(list: list, item: path.item)
+        if let cell = cell as? RankingCell {
+            let list = ChecklistIndex(list: filter.checklist)
+            cell.expose(list: list, item: path.item)
+        }
     }
 }

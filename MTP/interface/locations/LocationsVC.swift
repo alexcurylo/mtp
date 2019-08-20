@@ -11,11 +11,12 @@ final class LocationsVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.locationsVC
 
-    @IBOutlet private var mtpMapView: MTPMapView?
-    @IBOutlet private var searchBar: UISearchBar? {
-        didSet { searchBar?.removeClearButton() }
+    // verified in requireOutlets
+    @IBOutlet private var mtpMapView: MTPMapView!
+    @IBOutlet private var searchBar: UISearchBar! {
+        didSet { searchBar.removeClearButton() }
     }
-    @IBOutlet private var showMoreButton: UIButton?
+    @IBOutlet private var showMoreButton: UIButton!
 
     private var trackingButton: MKUserTrackingButton?
 
@@ -46,7 +47,7 @@ final class LocationsVC: UIViewController, ServiceProvider {
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
 
         setupCompass()
         setupTracking()
@@ -69,7 +70,7 @@ final class LocationsVC: UIViewController, ServiceProvider {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        mtpMapView?.refreshMapView()
+        mtpMapView.refreshMapView()
         updateTracking()
         note.checkPending()
     }
@@ -80,27 +81,21 @@ final class LocationsVC: UIViewController, ServiceProvider {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.showFilter.identifier:
-            break
-        case Segues.showNearby.identifier:
-            let nearby = Segues.showNearby(segue: segue)?.destination
-            nearby?.inject(model: (data.mappables,
-                                   mtpMapView?.centerCoordinate ?? .zero))
-        case Segues.showLocation.identifier:
-            guard let show = Segues.showLocation(segue: segue)?.destination else { break }
-            if let inject = injectMappable {
-                show.inject(model: inject)
-                injectMappable = nil
-            }
-        default:
-            log.debug("unexpected segue: \(segue.name)")
+        if let nearby = Segues.showNearby(segue: segue)?
+                              .destination {
+            nearby.inject(model: (data.mappables,
+                                  mtpMapView.centerCoordinate))
+        } else if let show = Segues.showLocation(segue: segue)?
+                                   .destination,
+                  let inject = injectMappable {
+            show.inject(model: inject)
+            injectMappable = nil
         }
     }
 
     /// Update place types shown
     func updateFilter() {
-        mtpMapView?.displayed = data.mapDisplay
+        mtpMapView.displayed = data.mapDisplay
     }
 
     /// Reveal user
@@ -114,7 +109,7 @@ final class LocationsVC: UIViewController, ServiceProvider {
         guard let coordinate = place?.placeCoordinate else { return }
 
         navigationController?.popToRootViewController(animated: false)
-        mtpMapView?.zoom(to: coordinate)
+        mtpMapView.zoom(to: coordinate)
     }
 }
 
@@ -126,7 +121,7 @@ extension LocationsVC: Mapper {
     ///
     /// - Parameter mappable: Place
     func close(mappable: Mappable) {
-        mtpMapView?.close(mappable: mappable)
+        mtpMapView.close(mappable: mappable)
     }
 
     /// Notify
@@ -146,7 +141,7 @@ extension LocationsVC: Mapper {
     ///   - callout: Show callout
     func reveal(mappable: Mappable, callout: Bool) {
         navigationController?.popToRootViewController(animated: false)
-        mtpMapView?.zoom(to: mappable, callout: callout)
+        mtpMapView.zoom(to: mappable, callout: callout)
     }
 
     /// Show
@@ -163,7 +158,7 @@ extension LocationsVC: Mapper {
     ///
     /// - Parameter mappable: Place
     func update(mappable: Mappable) {
-        mtpMapView?.update(mappable: mappable)
+        mtpMapView.update(mappable: mappable)
     }
 }
 
@@ -173,7 +168,7 @@ extension LocationsVC: LocationTracker {
 
     /// User refused access
     func accessRefused() {
-        mtpMapView?.isCentered = true
+        mtpMapView.isCentered = true
     }
 
     /// Authorization changed
@@ -200,7 +195,7 @@ private extension LocationsVC {
     @IBAction func unwindToLocations(segue: UIStoryboardSegue) { }
 
     func setupCompass() {
-        guard let compass = mtpMapView?.compass else { return }
+        guard let compass = mtpMapView.compass else { return }
 
         view.addSubview(compass)
         compass.topAnchor == view.safeAreaLayoutGuide.topAnchor + Layout.margin
@@ -208,8 +203,7 @@ private extension LocationsVC {
     }
 
     func setupTracking() {
-        guard let stack = mtpMapView?.infoStack else { return }
-
+        let stack = mtpMapView.infoStack
         trackingButton = stack.arrangedSubviews.first as? MKUserTrackingButton
         view.addSubview(stack)
         stack.bottomAnchor == view.safeAreaLayoutGuide.bottomAnchor - Layout.margin
@@ -230,7 +224,7 @@ private extension LocationsVC {
     func updateTracking() {
         let permission = loc.start(tracker: self)
         trackingButton?.set(visibility: permission)
-        mtpMapView?.centerOnDevice()
+        mtpMapView.centerOnDevice()
     }
 
     func dropdown(selected index: Int) {
@@ -248,10 +242,10 @@ extension LocationsVC: Exposing {
     /// Expose controls to UI tests
     func expose() {
         let bar = navigationController?.navigationBar
-        LocationsVCs.nav.expose(item: bar)
+        UILocations.nav.expose(item: bar)
         let items = navigationItem.rightBarButtonItems
-        LocationsVCs.nearby.expose(item: items?.first)
-        LocationsVCs.filter.expose(item: items?.last)
+        UILocations.nearby.expose(item: items?.first)
+        UILocations.filter.expose(item: items?.last)
     }
 }
 
@@ -336,7 +330,7 @@ extension LocationsVC: MKMapViewDelegate {
     ///   - userLocation: Location
     func mapView(_ mapView: MKMapView,
                  didUpdate userLocation: MKUserLocation) {
-        mtpMapView?.centerOnDevice()
+        mtpMapView.centerOnDevice()
     }
     //func mapView(_ mapView: MKMapView,
                  //didFailToLocateUserWithError error: Error) { }
@@ -381,9 +375,9 @@ extension LocationsVC: MKMapViewDelegate {
                  didSelect view: MKAnnotationView) {
         switch view {
         case let mappable as MappableAnnotationView:
-            mtpMapView?.display(view: mappable)
+            mtpMapView.display(view: mappable)
         case let mappables as MappablesAnnotationView:
-            mtpMapView?.expand(view: mappables)
+            mtpMapView.expand(view: mappables)
         default:
             // MKModernUserLocationView for instance
             break
@@ -445,23 +439,12 @@ private extension MKUserTrackingButton {
     }
 }
 
-// MARK: - Injectable
+// MARK: - InterfaceBuildable
 
-extension LocationsVC: Injectable {
+extension LocationsVC: InterfaceBuildable {
 
-    /// Injected dependencies
-    typealias Model = ()
-
-    /// Handle dependency injection
-    ///
-    /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
-        return self
-    }
-
-    /// Enforce dependency injection
-    func requireInjections() {
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
         mtpMapView.require()
         searchBar.require()
         showMoreButton.require()

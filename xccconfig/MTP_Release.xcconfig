@@ -11,4 +11,4 @@
 
 PROVISIONING_PROFILE_SPECIFIER = MTP-AdHoc
 
-EXCLUDED_SOURCE_FILE_NAMES = "MTP/application/services/fixtures/*"
+EXCLUDED_SOURCE_FILE_NAMES = "MTPTests/fixtures/*"

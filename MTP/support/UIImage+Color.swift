@@ -4,7 +4,13 @@ import UIKit
 
 extension UIImage {
 
-    private func image(color: UIColor, size: CGSize) -> UIImage? {
+    /// Create a flat color image
+    ///
+    /// - Parameters:
+    ///   - color: UIColor
+    ///   - size: CGSize
+    /// - Returns: Image if created
+    static func image(color: UIColor, size: CGSize) -> UIImage? {
         let rect = CGRect(origin: .zero, size: size)
         UIGraphicsBeginImageContextWithOptions(size, false, 0)
         color.setFill()
@@ -14,7 +20,11 @@ extension UIImage {
         return image
     }
 
-    private func rounded(cornerRadius: Int) -> UIImage? {
+    /// Return a rounded copy
+    ///
+    /// - Parameter cornerRadius: Point radius
+    /// - Returns: Image if created
+    func rounded(cornerRadius: Int) -> UIImage? {
         let rect = CGRect(origin: .zero, size: size)
         UIGraphicsBeginImageContextWithOptions(size, false, 1)
         UIBezierPath(roundedRect: rect,

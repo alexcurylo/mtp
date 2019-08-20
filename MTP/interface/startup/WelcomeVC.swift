@@ -7,10 +7,14 @@ final class WelcomeVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.welcomeVC
 
+    // verified in requireOutlets
+    @IBOutlet private var profileButton: GradientButton!
+    @IBOutlet private var laterButton: UIButton!
+
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
     }
 
     /// Prepare for reveal
@@ -20,6 +24,7 @@ final class WelcomeVC: UIViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         hide(navBar: animated)
+        expose()
     }
 
     /// Instrument and inject navigation
@@ -28,34 +33,34 @@ final class WelcomeVC: UIViewController, ServiceProvider {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.showSettings.identifier:
-            let settings = Segues.showSettings(segue: segue)
-            settings?.destination.inject(model: .editProfile)
-        case Segues.showMain.identifier:
-            let main = Segues.showMain(segue: segue)
-            main?.destination.inject(model: .locations)
-        default:
-            log.debug("unexpected segue: \(segue.name)")
+        if let settings = Segues.showSettings(segue: segue)?
+                                .destination {
+            settings.inject(model: .editProfile)
+        } else if let main = Segues.showMain(segue: segue)?
+                                   .destination {
+            main.inject(model: .locations)
         }
     }
 }
 
-// MARK: - Injectable
+// MARK: - Exposing
 
-extension WelcomeVC: Injectable {
+extension WelcomeVC: Exposing {
 
-    /// Injected dependencies
-    typealias Model = ()
-
-    /// Handle dependency injection
-    ///
-    /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
-        return self
+    /// Expose controls to UI tests
+    func expose() {
+        UIWelcome.profile.expose(item: profileButton)
+        UIWelcome.later.expose(item: laterButton)
     }
+}
 
-    /// Enforce dependency injection
-    func requireInjections() { }
+// MARK: - InterfaceBuildable
+
+extension WelcomeVC: InterfaceBuildable {
+
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
+        laterButton.require()
+        profileButton.require()
+    }
 }

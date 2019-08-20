@@ -192,11 +192,3 @@ private extension String {
         return components(separatedBy: "/").last ?? ""
     }
 }
-
-extension UIStoryboardSegue {
-
-    /// Describe unnamed segues
-    var name: String {
-        return identifier ?? "<unnamed>"
-    }
-}

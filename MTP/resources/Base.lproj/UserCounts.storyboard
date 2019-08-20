@@ -83,9 +83,6 @@
                                                                         <constraint firstAttribute="width" constant="40" id="W6i-AB-6Mx"/>
                                                                         <constraint firstAttribute="height" constant="40" id="hn3-aA-EfS"/>
                                                                     </constraints>
-                                                                    <connections>
-                                                                        <action selector="mapButtonTapped:" destination="9Or-xE-AhS" eventType="touchUpInside" id="yob-Aa-uY5"/>
-                                                                    </connections>
                                                                 </button>
                                                             </subviews>
                                                         </stackView>
@@ -152,6 +149,7 @@
                     </view>
                     <connections>
                         <outlet property="avatarImageView" destination="HF0-4h-zot" id="m3I-Xh-BVm"/>
+                        <outlet property="closeButton" destination="sHz-76-d96" id="lPe-g6-NJ7"/>
                         <outlet property="countryLabel" destination="Ew2-hT-S5S" id="Dxj-c1-hvC"/>
                         <outlet property="fullNameLabel" destination="dyA-28-gWo" id="6Hf-BG-8f0"/>
                         <outlet property="headerView" destination="Row-1V-4l6" id="PB2-i4-u94"/>

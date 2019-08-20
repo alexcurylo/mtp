@@ -422,6 +422,7 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                     <connections>
                         <outlet property="beachesSwitch" destination="pum-H6-c7w" id="u7i-8g-pg2"/>
+                        <outlet property="closeButton" destination="Z9u-bS-app" id="PTP-hG-Jx3"/>
                         <outlet property="diveSitesSwitch" destination="o1x-FN-wTO" id="Fjw-sN-bfe"/>
                         <outlet property="golfCoursesSwitch" destination="Esf-Jh-Dwe" id="JMK-aS-P8y"/>
                         <outlet property="locationsSwitch" destination="3Sf-re-t2u" id="nUY-cb-4IO"/>

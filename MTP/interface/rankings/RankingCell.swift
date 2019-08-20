@@ -94,12 +94,11 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
         configure()
     }
 
-    /// Unavailable coding constructor
+    /// Unsupported coding constructor
     ///
     /// - Parameter coder: An unarchiver object.
-    @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        return nil
     }
 
     /// Inject display data
@@ -165,9 +164,9 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
     ///   - item: Index
     func expose(list: ChecklistIndex,
                 item: Int) {
-        RankingVCs.profile(list, item).expose(item: nameLabel)
-        RankingVCs.remaining(list, item).expose(item: remainingButton)
-        RankingVCs.visited(list, item).expose(item: visitedButton)
+        UIRankingsPage.profile(list, item).expose(item: nameLabel)
+        UIRankingsPage.remaining(list, item).expose(item: remainingButton)
+        UIRankingsPage.visited(list, item).expose(item: visitedButton)
     }
 
     /// Empty display

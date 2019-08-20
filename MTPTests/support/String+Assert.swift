@@ -5,8 +5,8 @@ import XCTest
 /// - Parameters:
 ///   - expected: expression producing String?
 ///   - actual: expression producing String?
-func XCTAssertContainsString(_ container: @autoclosure () -> Any?,
-                             _ content: @autoclosure () -> Any?) {
+func XCTAssertContainsString(_ content: @autoclosure () -> Any?,
+                             _ container: @autoclosure () -> Any?) {
     let container = container() as? String ?? ""
     let content = content() as? String ?? ""
     let output = "container “\(container)” did not contain “\(content)”"
@@ -52,14 +52,14 @@ extension String {
     }
 
     func assert(contains content: @autoclosure () -> Any?) {
-        XCTAssertContainsString(self, content())
+        XCTAssertContainsString(content(), self)
     }
 
     func assert(equal: @autoclosure () -> Any?) {
-        XCTAssertEqualStrings(self, equal())
+        XCTAssertEqualStrings(equal(), self)
     }
 
     func assert(notEqual: @autoclosure () -> Any?) {
-        XCTAssertNotEqualStrings(self, notEqual())
+        XCTAssertNotEqualStrings(notEqual(), self)
     }
 }

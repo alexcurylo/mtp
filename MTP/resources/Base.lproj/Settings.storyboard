@@ -367,7 +367,14 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="aboutButton" destination="9BF-zM-FQ0" id="MLa-Se-jTU"/>
                         <outlet property="backgroundView" destination="HMU-eM-cW1" id="m8A-FL-Awv"/>
+                        <outlet property="contactButton" destination="o6d-L6-vtL" id="O8A-AB-Stz"/>
+                        <outlet property="deleteButton" destination="fgK-8C-ciC" id="yRI-hR-Jda"/>
+                        <outlet property="faqButton" destination="cRw-nG-8De" id="39q-tl-Xmm"/>
+                        <outlet property="logoutButton" destination="mwi-8o-nEq" id="155-DQ-smT"/>
+                        <outlet property="reviewButton" destination="ONF-ER-NzK" id="sg8-9D-K9o"/>
+                        <outlet property="shareButton" destination="OXK-QA-Kra" id="aqV-Fb-5j1"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5dq-tD-n56" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -396,7 +403,7 @@
             <objects>
                 <viewController title="About" id="i2Y-2E-uEl" customClass="AppAboutVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wzp-i6-2vU" customClass="GradientView" customModule="MTP" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ykb-30-epf" customClass="TopLoadingTextView" customModule="MTP" customModuleProvider="target">
@@ -594,25 +601,25 @@ FEATURES INCLUDE:
         <!--Confirm Delete-->
         <scene sceneID="eDZ-Qm-XXA">
             <objects>
-                <viewController title="Confirm Delete" id="2qU-MI-ao0" sceneMemberID="viewController">
+                <viewController title="Confirm Delete" id="2qU-MI-ao0" customClass="ConfirmDeleteVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Juv-WY-khr" customClass="GradientView" customModule="MTP" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud1" translatesAutoresizingMaskIntoConstraints="NO" id="Ptc-6t-NXX">
-                                <rect key="frame" x="97" y="305" width="16" height="16"/>
+                                <rect key="frame" x="16" y="263" width="97" height="58"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud1" translatesAutoresizingMaskIntoConstraints="NO" id="hhj-s2-d7O">
-                                <rect key="frame" x="39" y="180.5" width="16" height="16"/>
+                                <rect key="frame" x="-42" y="138.5" width="97" height="58"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud2" translatesAutoresizingMaskIntoConstraints="NO" id="GMf-yS-75q">
-                                <rect key="frame" x="327" y="324" width="16" height="16"/>
+                                <rect key="frame" x="327" y="285" width="101" height="55"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud3" translatesAutoresizingMaskIntoConstraints="NO" id="GQA-8I-3Gg">
-                                <rect key="frame" x="128" y="456" width="16" height="16"/>
+                                <rect key="frame" x="32" y="456" width="112" height="69"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud4" translatesAutoresizingMaskIntoConstraints="NO" id="VDr-6k-PIG">
-                                <rect key="frame" x="288" y="431" width="16" height="16"/>
+                                <rect key="frame" x="288" y="431" width="104" height="68"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="48" translatesAutoresizingMaskIntoConstraints="NO" id="2RK-IZ-lth" userLabel="Message Stack">
                                 <rect key="frame" x="32" y="179" width="350" height="269.5"/>
@@ -691,7 +698,7 @@ FEATURES INCLUDE:
                                 </subviews>
                             </stackView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="cloud4" translatesAutoresizingMaskIntoConstraints="NO" id="lFx-4q-Jtj">
-                                <rect key="frame" x="355" y="180.5" width="16" height="16"/>
+                                <rect key="frame" x="355" y="128.5" width="104" height="68"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -731,6 +738,10 @@ FEATURES INCLUDE:
                     <toolbarItems/>
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="cancelButton" destination="D8x-nn-DKJ" id="LPS-cz-ugd"/>
+                        <outlet property="confirmButton" destination="jvR-T5-e4D" id="HCV-3J-qfH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A5y-Kg-HZY" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="wyQ-dH-96B" userLabel="Exit" sceneMemberID="exit"/>

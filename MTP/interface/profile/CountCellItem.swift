@@ -6,21 +6,23 @@ import Anchorage
 struct CountItemModel {
 
     /// Title
-    var title: String
+    let title: String
     /// Subtitle
-    var subtitle: String
+    let subtitle: String
     /// Checklist
-    var list: Checklist
+    let list: Checklist
     /// Item ID
-    var id: Int
+    let id: Int
     /// Parent ID if any
-    var parentId: Int?
+    let parentId: Int?
     /// Whether to show visit state
-    var isVisitable: Bool
+    let isVisitable: Bool
     /// Whether to round corners
-    var isLast: Bool
+    let isLast: Bool
     /// Whether is a combined header and content of one
-    var isCombined: Bool
+    let isCombined: Bool
+    /// IndexPath for exposing
+    let path: IndexPath
 
     fileprivate func description(titleFont: UIFont,
                                  subtitleFont: UIFont) -> NSAttributedString {
@@ -61,6 +63,7 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
             labelsIndent?.constant = Layout.parentIndent
             font = Layout.titleBookFont
             visit.isHidden = true
+            check.isHidden = true
         } else {
             if model.parentId != nil {
                 labelsIndent?.constant = Layout.childIndent
@@ -74,8 +77,18 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
             }
             visit.isHidden = !model.isVisitable
             if model.isVisitable {
-                visit.isOn = model.list.isVisited(id: model.id)
-                visit.isEnabled = model.list != .uncountries
+                let visited = model.list.isVisited(id: model.id)
+                if model.list == .uncountries {
+                    visit.isHidden = true
+                    check.isHidden = !visited
+               } else {
+                    visit.isHidden = false
+                    visit.isOn = visited
+                    check.isHidden = true
+                }
+            } else {
+                visit.isHidden = true
+                check.isHidden = true
             }
         }
         titleLabel.attributedText = model.description(
@@ -89,6 +102,9 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
         let rounded: ViewCorners = model.isLast ? .bottom(radius: CountCellItem.cellCornerRadius)
                                                 : .square
         round(corners: rounded)
+
+        UICountsPage.item(model.path.section, model.path.row).expose(item: self)
+        UICountsPage.toggle(model.path.section, model.path.row).expose(item: visit)
     }
 
     private enum Layout {
@@ -120,6 +136,12 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
         $0.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
     }
 
+    private let check = UIImageView {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.setContentHuggingPriority(.required, for: .horizontal)
+        $0.image = R.image.checkmarkBlue()
+    }
+
     /// Procedural intializer
     ///
     /// - Parameter frame: Display frame
@@ -129,12 +151,11 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
         configure()
     }
 
-    /// Unavailable coding constructor
+    /// Unsupported coding constructor
     ///
     /// - Parameter coder: An unarchiver object.
-    @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        return nil
     }
 
     /// Empty display
@@ -144,8 +165,8 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
         model = nil
         titleLabel.attributedText = nil
         visit.isOn = false
-        visit.isEnabled = true
         visit.isHidden = false
+        check.isHidden = false
         layer.mask = nil
     }
 }
@@ -158,7 +179,8 @@ private extension CountCellItem {
         contentView.backgroundColor = .white
 
         let infos = UIStackView(arrangedSubviews: [titleLabel,
-                                                   visit]).with {
+                                                   visit,
+                                                   check]).with {
             $0.spacing = Layout.spacing
             $0.alignment = .center
         }

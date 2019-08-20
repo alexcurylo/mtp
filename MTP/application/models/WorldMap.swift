@@ -59,7 +59,7 @@ private struct GeoJSON: Codable {
 }
 
 /// World map definition
-struct WorldMap {
+struct WorldMap: ServiceProvider {
 
     private let locations: [GeoJSON.Feature]
 
@@ -156,6 +156,20 @@ struct WorldMap {
             }
         }
         return false
+    }
+
+    /// Location containing coordinate
+    ///
+    /// - Parameters:
+    ///   - coordinate: Coordinate
+    /// - Returns: Location if found
+    func location(of coordinate: CLLocationCoordinate2D) -> Location? {
+        for location in locations {
+            if location.contains(coordinate: coordinate) {
+                return data.get(location: location.properties.locid)
+            }
+        }
+        return nil
     }
 
     /// Coordinates for map overlay

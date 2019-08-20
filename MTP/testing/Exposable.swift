@@ -71,3 +71,35 @@ protocol TableCellExposing: AnyObject {
                 path: IndexPath,
                 cell: UITableViewCell)
 }
+
+/// Index of ranking cells
+typealias Rank = Int
+
+/// Section of count cells
+typealias Section = Int
+
+/// Row of count cells
+typealias Row = Int
+
+/// Mapping to bridge Checklist with UI tests' identifiers
+enum ChecklistIndex: Int, CustomStringConvertible {
+
+    /// Checklist .locations as 0
+    case locations
+    /// Checklist .uncountries as 1
+    case uncountries
+    /// Checklist .whss as 2
+    case whss
+    /// Checklist .beaches as 3
+    case beaches
+    /// Checklist .golfcourses as 4
+    case golfcourses
+    /// Checklist .divesites as 5
+    case divesites
+    /// Checklist .restaurants as 6
+    case restaurants
+
+    var description: String {
+        return "\(rawValue)"
+    }
+}

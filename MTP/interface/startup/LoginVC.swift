@@ -7,26 +7,30 @@ final class LoginVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.loginVC
 
-    @IBOutlet private var emailTextField: InsetTextField?
-    @IBOutlet private var passwordTextField: InsetTextField?
-    @IBOutlet private var togglePasswordButton: UIButton?
-
-    @IBOutlet private var keyboardToolbar: UIToolbar?
-    @IBOutlet private var toolbarBackButton: UIBarButtonItem?
-    @IBOutlet private var toolbarNextButton: UIBarButtonItem?
+    // verified in requireOutlets
+    @IBOutlet private var emailTextField: InsetTextField!
+    @IBOutlet private var passwordTextField: InsetTextField!
+    @IBOutlet private var togglePasswordButton: UIButton!
+    @IBOutlet private var loginButton: UIButton!
+    @IBOutlet private var signupButton: UIButton!
+    @IBOutlet private var forgotPasswordButton: UIButton!
+    @IBOutlet private var keyboardToolbar: UIToolbar!
+    @IBOutlet private var toolbarBackButton: UIBarButtonItem!
+    @IBOutlet private var toolbarNextButton: UIBarButtonItem!
+    @IBOutlet private var toolbarDoneButton: UIBarButtonItem!
 
     private var errorMessage: String = ""
 
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
 
-        emailTextField?.inputAccessoryView = keyboardToolbar
+        emailTextField.inputAccessoryView = keyboardToolbar
 
-        passwordTextField?.rightViewMode = .always
-        passwordTextField?.rightView = togglePasswordButton
-        passwordTextField?.inputAccessoryView = keyboardToolbar
+        passwordTextField.rightViewMode = .always
+        passwordTextField.rightView = togglePasswordButton
+        passwordTextField.inputAccessoryView = keyboardToolbar
     }
 
     /// Prepare for reveal
@@ -38,7 +42,8 @@ final class LoginVC: UIViewController, ServiceProvider {
         show(navBar: animated, style: .login)
         navigationController?.delegate = self
 
-        emailTextField?.text = data.email
+        emailTextField.text = data.email
+        expose()
     }
 
     /// Prepare for hide
@@ -48,7 +53,7 @@ final class LoginVC: UIViewController, ServiceProvider {
         super.viewWillDisappear(animated)
         navigationController?.delegate = nil
 
-        data.email = emailTextField?.text ?? ""
+        data.email = emailTextField.text ?? ""
    }
 
     /// Allow navigation
@@ -61,7 +66,8 @@ final class LoginVC: UIViewController, ServiceProvider {
                                      sender: Any?) -> Bool {
         switch identifier {
         case Segues.presentForgotPassword.identifier:
-            guard let email = emailTextField?.text, email.isValidEmail else {
+            guard let email = emailTextField.text,
+                  email.isValidEmail else {
                 errorMessage = L.fixEmail()
                 performSegue(withIdentifier: Segues.presentLoginFail, sender: self)
                 return false
@@ -79,23 +85,17 @@ final class LoginVC: UIViewController, ServiceProvider {
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         view.endEditing(true)
-        switch segue.identifier {
-        case Segues.presentLoginFail.identifier:
-            let alert = Segues.presentLoginFail(segue: segue)
-            alert?.destination.inject(model: errorMessage)
+        if let alert = Segues.presentLoginFail(segue: segue)?
+                             .destination {
+            alert.inject(model: errorMessage)
             hide(navBar: true)
-            data.email = emailTextField?.text ?? ""
-        case Segues.presentForgotPassword.identifier:
+            data.email = emailTextField.text ?? ""
+        } else if let main = Segues.showMain(segue: segue)?
+                                   .destination {
+            main.inject(model: .locations)
+        } else if segue.identifier == Segues.presentForgotPassword.identifier {
             hide(navBar: true)
-            data.email = emailTextField?.text ?? ""
-        case Segues.showMain.identifier:
-            let main = Segues.showMain(segue: segue)
-            main?.destination.inject(model: .locations)
-        case Segues.switchSignup.identifier,
-             Segues.unwindFromLogin.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
+            data.email = emailTextField.text ?? ""
         }
     }
 }
@@ -128,28 +128,20 @@ private extension LoginVC {
         prepareLogin(showError: true)
     }
 
-    @IBAction func facebookTapped(_ sender: FacebookButton) {
-        view.endEditing(true)
-        sender.login(vc: self) { [weak self] info in
-            self?.emailTextField?.text = info?.email
-            // currently not implemented: login with Facebook ID
-        }
-    }
-
     @IBAction func toolbarBackTapped(_ sender: UIBarButtonItem) {
-        if emailTextField?.isEditing ?? false {
-            emailTextField?.resignFirstResponder()
+        if emailTextField.isEditing {
+            emailTextField.resignFirstResponder()
             prepareLogin(showError: false)
-        } else if passwordTextField?.isEditing ?? false {
-            emailTextField?.becomeFirstResponder()
+        } else if passwordTextField.isEditing {
+            emailTextField.becomeFirstResponder()
         }
     }
 
     @IBAction func toolbarNextTapped(_ sender: UIBarButtonItem) {
-        if emailTextField?.isEditing ?? false {
-            passwordTextField?.becomeFirstResponder()
-        } else if passwordTextField?.isEditing ?? false {
-            passwordTextField?.resignFirstResponder()
+        if emailTextField.isEditing {
+            passwordTextField.becomeFirstResponder()
+        } else if passwordTextField.isEditing {
+            passwordTextField.resignFirstResponder()
             prepareLogin(showError: false)
         }
     }
@@ -160,8 +152,8 @@ private extension LoginVC {
    }
 
     func prepareLogin(showError: Bool) {
-        let email = emailTextField?.text ?? ""
-        let password = passwordTextField?.text ?? ""
+        let email = emailTextField.text ?? ""
+        let password = passwordTextField.text ?? ""
         if !email.isValidEmail {
             errorMessage = L.fixEmail()
         } else if password.isEmpty {
@@ -198,7 +190,9 @@ private extension LoginVC {
             case .failure(.serverOffline):
                 self?.errorMessage = L.serverOfflineError(operation)
             case .failure(.decoding):
-                self?.errorMessage = L.decodingError(operation)
+                // reported by 1.0 users
+                //self?.errorMessage = L.decodingError(operation)
+                self?.errorMessage = L.decodingLoginError()
             case .failure(.status):
                 self?.errorMessage = L.statusError(operation)
             case .failure(.message(let message)):
@@ -225,14 +219,14 @@ extension LoginVC: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         switch textField {
         case emailTextField:
-            toolbarBackButton?.isEnabled = false
-            toolbarNextButton?.isEnabled = true
+            toolbarBackButton.isEnabled = false
+            toolbarNextButton.isEnabled = true
         case passwordTextField:
-            toolbarBackButton?.isEnabled = true
-            toolbarNextButton?.isEnabled = false
+            toolbarBackButton.isEnabled = true
+            toolbarNextButton.isEnabled = false
         default:
-            toolbarBackButton?.isEnabled = true
-            toolbarNextButton?.isEnabled = true
+            toolbarBackButton.isEnabled = true
+            toolbarNextButton.isEnabled = true
         }
         return true
     }
@@ -244,9 +238,9 @@ extension LoginVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case emailTextField:
-            passwordTextField?.becomeFirstResponder()
+            passwordTextField.becomeFirstResponder()
         case passwordTextField:
-            passwordTextField?.resignFirstResponder()
+            passwordTextField.resignFirstResponder()
             prepareLogin(showError: false)
         default:
             break
@@ -305,28 +299,43 @@ extension LoginVC: UIViewControllerTransitioningDelegate {
     }
 }
 
-// MARK: - Injectable
+// MARK: - Exposing
 
-extension LoginVC: Injectable {
+extension LoginVC: Exposing {
 
-    /// Injected dependencies
-    typealias Model = ()
+    /// Expose controls to UI tests
+    func expose() {
+        let items = navigationItem.leftBarButtonItems
+        UILogin.close.expose(item: items?.first)
+        UILogin.email.expose(item: emailTextField)
+        UILogin.forgot.expose(item: forgotPasswordButton)
+        UILogin.login.expose(item: loginButton)
+        UILogin.password.expose(item: passwordTextField)
+        UILogin.signup.expose(item: signupButton)
+        UILogin.toggle.expose(item: togglePasswordButton)
 
-    /// Handle dependency injection
-    ///
-    /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
-        return self
+        UIKeyboard.toolbar.expose(item: keyboardToolbar)
+        UIKeyboard.back.expose(item: toolbarBackButton)
+        UIKeyboard.done.expose(item: toolbarDoneButton)
+        UIKeyboard.next.expose(item: toolbarNextButton)
     }
+}
 
-    /// Enforce dependency injection
-    func requireInjections() {
+// MARK: - InterfaceBuildable
+
+extension LoginVC: InterfaceBuildable {
+
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
         emailTextField.require()
-        passwordTextField.require()
-        togglePasswordButton.require()
+        forgotPasswordButton.require()
         keyboardToolbar.require()
+        loginButton.require()
+        passwordTextField.require()
+        signupButton.require()
+        togglePasswordButton.require()
         toolbarBackButton.require()
         toolbarNextButton.require()
+        toolbarDoneButton.require()
     }
 }

@@ -580,12 +580,16 @@ private extension RealmDataController {
     func configure() {
         // swiftlint:disable:next trailing_closure
         let config = Realm.Configuration(
-            schemaVersion: 1,
+            schemaVersion: 2,
             migrationBlock: { migration, oldSchemaVersion in
-                self.log.verbose("migrating database \(oldSchemaVersion) to 1")
+                self.log.verbose("migrating database \(oldSchemaVersion) to 2")
                 switch oldSchemaVersion {
                 case 0:
                     migration.migrate0to1()
+                    // swiftlint:disable:next fallthrough
+                    fallthrough
+                case 1:
+                    migration.migrate1to2()
                     // swiftlint:disable:next fallthrough
                     fallthrough
                 default:
@@ -667,6 +671,15 @@ private extension Migration {
         // apply new defaults: https://github.com/realm/realm-cocoa/issues/1793
         enumerateObjects(ofType: RankingsPageInfo.className()) { _, new in
             new?["timestamp"] = 0
+        }
+    }
+
+    func migrate1to2() {
+        // apply new defaults: https://github.com/realm/realm-cocoa/issues/1793
+        enumerateObjects(ofType: Location.className()) { _, new in
+            if new?["adminLevel"] == nil {
+                new?["adminLevel"] = 0
+            }
         }
     }
 }

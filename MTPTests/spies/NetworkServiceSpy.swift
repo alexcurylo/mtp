@@ -54,6 +54,14 @@ final class NetworkServiceSpy: NetworkService {
         invokedNoteGetterCount += 1
         return stubbedNote
     }
+    var invokedStyleGetter = false
+    var invokedStyleGetterCount = 0
+    var stubbedStyle: StyleService!
+    var style: StyleService {
+        invokedStyleGetter = true
+        invokedStyleGetterCount += 1
+        return stubbedStyle
+    }
     var invokedLoadPhotosLocation = false
     var invokedLoadPhotosLocationCount = 0
     var invokedLoadPhotosLocationParameters: (id: Int, reload: Bool, then: NetworkCompletion<PhotosInfoJSON>)?
@@ -238,16 +246,27 @@ final class NetworkServiceSpy: NetworkService {
         invokedUserRegisterParameters = (payload, then)
         invokedUserRegisterParametersList.append((payload, then))
     }
-    var invokedUserUpdate = false
-    var invokedUserUpdateCount = 0
-    var invokedUserUpdateParameters: (payload: UserUpdatePayload, then: NetworkCompletion<UserJSON>)?
-    var invokedUserUpdateParametersList = [(payload: UserUpdatePayload, then: NetworkCompletion<UserJSON>)]()
+    var invokedUserUpdatePayload = false
+    var invokedUserUpdatePayloadCount = 0
+    var invokedUserUpdatePayloadParameters: (payload: UserUpdatePayload, then: NetworkCompletion<UserJSON>)?
+    var invokedUserUpdatePayloadParametersList = [(payload: UserUpdatePayload, then: NetworkCompletion<UserJSON>)]()
     func userUpdate(payload: UserUpdatePayload,
     then: @escaping NetworkCompletion<UserJSON>) {
-        invokedUserUpdate = true
-        invokedUserUpdateCount += 1
-        invokedUserUpdateParameters = (payload, then)
-        invokedUserUpdateParametersList.append((payload, then))
+        invokedUserUpdatePayload = true
+        invokedUserUpdatePayloadCount += 1
+        invokedUserUpdatePayloadParameters = (payload, then)
+        invokedUserUpdatePayloadParametersList.append((payload, then))
+    }
+    var invokedUserUpdateToken = false
+    var invokedUserUpdateTokenCount = 0
+    var invokedUserUpdateTokenParameters: (token: String, then: NetworkCompletion<UserTokenReply>)?
+    var invokedUserUpdateTokenParametersList = [(token: String, then: NetworkCompletion<UserTokenReply>)]()
+    func userUpdate(token: String,
+    then: @escaping NetworkCompletion<UserTokenReply>) {
+        invokedUserUpdateToken = true
+        invokedUserUpdateTokenCount += 1
+        invokedUserUpdateTokenParameters = (token, then)
+        invokedUserUpdateTokenParametersList.append((token, then))
     }
     var invokedUserVerify = false
     var invokedUserVerifyCount = 0
@@ -271,5 +290,11 @@ final class NetworkServiceSpy: NetworkService {
     func refreshEverything() {
         invokedRefreshEverything = true
         invokedRefreshEverythingCount += 1
+    }
+    var invokedUnthrottle = false
+    var invokedUnthrottleCount = 0
+    func unthrottle() {
+        invokedUnthrottle = true
+        invokedUnthrottleCount += 1
     }
 }

@@ -7,6 +7,13 @@ final class UserProfileVC: ProfileVC {
 
     private typealias Segues = R.segue.userProfileVC
 
+    fileprivate enum Page: Int {
+
+        case about
+        case photos
+        case posts
+    }
+
     @IBOutlet private var closeButton: UIButton?
 
     /// Controllers to be displayed in PagingViewController
@@ -26,20 +33,6 @@ final class UserProfileVC: ProfileVC {
 
         expose()
     }
-
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.dismissUserProfile.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
-        }
-    }
 }
 
 // MARK: - Exposing
@@ -48,6 +41,32 @@ extension UserProfileVC: Exposing {
 
     /// Expose controls to UI tests
     func expose() {
-        UserProfileVCs.close.expose(item: closeButton)
+        UIUserProfile.close.expose(item: closeButton)
+    }
+}
+
+// MARK: - CollectionCellExposing
+
+extension UserProfileVC: CollectionCellExposing {
+
+    /// Expose cell to UI tests
+    ///
+    /// - Parameters:
+    ///   - view: Collection
+    ///   - path: Index path
+    ///   - cell: Cell
+    func expose(view: UICollectionView,
+                path: IndexPath,
+                cell: UICollectionViewCell) {
+        guard let page = Page(rawValue: path.item) else { return }
+
+        switch page {
+        case .about:
+            UIProfilePaging.about.expose(item: cell)
+        case .photos:
+            UIProfilePaging.photos.expose(item: cell)
+        case .posts:
+            UIProfilePaging.posts.expose(item: cell)
+        }
     }
 }

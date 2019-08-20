@@ -5,6 +5,15 @@ import Parchment
 /// Displays user visit tabs
 final class UserCountsPagingVC: FixedPagingViewController, UserCountsPageDataSource, ServiceProvider {
 
+    /// Injected dependencies
+    typealias Model = (list: Checklist, user: User)
+
+    fileprivate enum Page: Int {
+
+        case visited
+        case remaining
+   }
+
     /// Scorecard to display
     var scorecard: Scorecard?
     /// Content state to display
@@ -42,24 +51,36 @@ final class UserCountsPagingVC: FixedPagingViewController, UserCountsPageDataSou
         viewControllers.forEach { $0.dataSource = self }
     }
 
-    /// Unavailable coding constructor
+    /// Unsupported coding constructor
     ///
     /// - Parameter coder: An unarchiver object.
-    @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        return nil
     }
 
-    /// Instrument and inject navigation
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        expose()
+    }
+
+    /// Provide cell
     ///
     /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        default:
-            log.debug("unexpected segue: \(segue.name)")
-        }
+    ///   - collectionView: Collection
+    ///   - indexPath: Index path
+    /// - Returns: Exposed cell
+    override func collectionView(_ collectionView: UICollectionView,
+                                 cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = super.collectionView(collectionView,
+                                        cellForItemAt: indexPath)
+        expose(view: collectionView,
+               path: indexPath,
+               cell: cell)
+        return cell
     }
 }
 
@@ -103,22 +124,36 @@ private extension UserCountsPagingVC {
     }
 }
 
-// MARK: - Injectable
+// MARK: - Exposing
 
-extension UserCountsPagingVC: Injectable {
+extension UserCountsPagingVC: Exposing {
 
-    /// Injected dependencies
-    typealias Model = (list: Checklist, user: User)
-
-    /// Handle dependency injection
-    ///
-    /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
-        return self
+    /// Expose controls to UI tests
+    func expose() {
+        UIUserCountsPaging.menu.expose(item: collectionView)
     }
+}
 
-    /// Enforce dependency injection
-    func requireInjections() {
+// MARK: - CollectionCellExposing
+
+extension UserCountsPagingVC: CollectionCellExposing {
+
+    /// Expose cell to UI tests
+    ///
+    /// - Parameters:
+    ///   - view: Collection
+    ///   - path: Index path
+    ///   - cell: Cell
+    func expose(view: UICollectionView,
+                path: IndexPath,
+                cell: UICollectionViewCell) {
+        guard let page = Page(rawValue: path.item) else { return }
+
+        switch page {
+        case .remaining:
+            UIUserCountsPaging.remaining.expose(item: cell)
+        case .visited:
+            UIUserCountsPaging.visited.expose(item: cell)
+        }
     }
 }

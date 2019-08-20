@@ -13,8 +13,9 @@ final class NearbyVC: UITableViewController, ServiceProvider {
 
     private typealias Segues = R.segue.nearbyVC
 
-    @IBOutlet private var closeButtonItem: UIBarButtonItem?
-    @IBOutlet private var backgroundView: UIView?
+    // verified in requireOutlets
+    @IBOutlet private var closeButtonItem: UIBarButtonItem!
+    @IBOutlet private var backgroundView: UIView!
 
     private var contentState: ContentState = .loading
     private var mappables: [Mappable] = []
@@ -28,7 +29,8 @@ final class NearbyVC: UITableViewController, ServiceProvider {
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
+        requireInjection()
 
         tableView.backgroundView = backgroundView
         tableView.tableFooterView = UIView()
@@ -45,20 +47,6 @@ final class NearbyVC: UITableViewController, ServiceProvider {
 
         show(navBar: animated, style: .standard)
         expose()
-    }
-
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.unwindFromNearby.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
-        }
     }
 }
 
@@ -159,8 +147,8 @@ extension NearbyVC: Exposing {
 
     /// Expose controls to UI tests
     func expose() {
-        NearbyVCs.close.expose(item: closeButtonItem)
-        NearbyVCs.places.expose(item: tableView)
+        UINearby.close.expose(item: closeButtonItem)
+        UINearby.places.expose(item: tableView)
     }
 }
 
@@ -177,7 +165,18 @@ extension NearbyVC: TableCellExposing {
     func expose(view: UITableView,
                 path: IndexPath,
                 cell: UITableViewCell) {
-        NearbyVCs.place(path.row).expose(item: cell)
+        UINearby.place(path.row).expose(item: cell)
+    }
+}
+
+// MARK: - InterfaceBuildable
+
+extension NearbyVC: InterfaceBuildable {
+
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
+        backgroundView.require()
+        closeButtonItem.require()
     }
 }
 
@@ -191,10 +190,9 @@ extension NearbyVC: Injectable {
     /// Handle dependency injection
     ///
     /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
+    func inject(model: Model) {
         let center: CLLocationCoordinate2D
-        if UIApplication.isTakingScreenshots {
+        if UIApplication.isUITesting {
             // "Thailand" first
             // https://www.google.co.th/maps/@,101.6532421,9.14z
             // swiftlint:disable number_separator
@@ -208,7 +206,7 @@ extension NearbyVC: Injectable {
                 guard model.center.distance(from: here) > 10 else {
                     set(mappables: model.mappables,
                         distances: loc.distances)
-                    return self
+                    return
                 }
             }
             center = model.center
@@ -228,13 +226,10 @@ extension NearbyVC: Injectable {
         queue.addOperation(update)
 
         tableView.set(message: contentState)
-        return self
     }
 
     /// Enforce dependency injection
-    func requireInjections() {
-        backgroundView.require()
-    }
+    func requireInjection() { }
 }
 
 // MARK: - NearbyCellDelegate

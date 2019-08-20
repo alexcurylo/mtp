@@ -7,15 +7,15 @@ final class AddPostVC: UIViewController, ServiceProvider {
 
     private typealias Segues = R.segue.addPostVC
 
-    @IBOutlet private var saveButton: UIBarButtonItem?
-
-    @IBOutlet private var locationStack: UIStackView?
-    @IBOutlet private var locationLine: UIStackView?
-    @IBOutlet private var countryLabel: UILabel?
-    @IBOutlet private var locationLabel: UILabel?
-
-    @IBOutlet private var postTitle: UILabel?
-    @IBOutlet private var postTextView: TopLoadingTextView?
+    // verified in requireOutlets
+    @IBOutlet private var closeButton: UIBarButtonItem!
+    @IBOutlet private var saveButton: UIBarButtonItem!
+    @IBOutlet private var locationStack: UIStackView!
+    @IBOutlet private var locationLine: UIStackView!
+    @IBOutlet private var countryLabel: UILabel!
+    @IBOutlet private var locationLabel: UILabel!
+    @IBOutlet private var postTitle: UILabel!
+    @IBOutlet private var postTextView: TopLoadingTextView!
 
     private var country: Country? {
         didSet {
@@ -38,7 +38,8 @@ final class AddPostVC: UIViewController, ServiceProvider {
     /// Prepare for interaction
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjections()
+        requireOutlets()
+        requireInjection()
 
         configure()
         startKeyboardListening()
@@ -47,6 +48,15 @@ final class AddPostVC: UIViewController, ServiceProvider {
     /// Remove observers
     deinit {
         stopKeyboardListening()
+    }
+
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        expose()
     }
 
     /// Stop editing on touch
@@ -65,24 +75,19 @@ final class AddPostVC: UIViewController, ServiceProvider {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case Segues.showCountry.identifier:
-            if let destination = Segues.showCountry(segue: segue)?.destination.topViewController as? LocationSearchVC {
-                destination.inject(mode: .country,
-                                   styler: .standard,
-                                   delegate: self)
-            }
-        case Segues.showLocation.identifier:
-            if let destination = Segues.showLocation(segue: segue)?.destination.topViewController as? LocationSearchVC,
-               let countryId = country?.countryId {
-                destination.inject(mode: .location(country: countryId),
-                                   styler: .standard,
-                                   delegate: self)
-            }
-        case Segues.pop.identifier:
-            break
-        default:
-            log.debug("unexpected segue: \(segue.name)")
+        if let target = Segues.showCountry(segue: segue)?
+                              .destination
+                              .topViewController as? LocationSearchVC {
+            target.inject(mode: .country,
+                          styler: .standard,
+                          delegate: self)
+        } else if let target = Segues.showLocation(segue: segue)?
+                                     .destination
+                                     .topViewController as? LocationSearchVC,
+                  let countryId = country?.countryId {
+            target.inject(mode: .location(country: countryId),
+                          styler: .standard,
+                          delegate: self)
         }
     }
 }
@@ -97,15 +102,14 @@ private extension AddPostVC {
     }
 
     func configureLocation() {
-        countryLabel?.text = country?.placeCountry ?? L.selectCountry()
+        countryLabel.text = country?.placeCountry ?? L.selectCountry()
 
-        guard let locationLine = locationLine else { return }
         if let country = country, country.hasChildren {
-            locationLabel?.text = location?.placeTitle ?? L.selectLocation()
-            locationStack?.addArrangedSubview(locationLine)
+            locationLabel.text = location?.placeTitle ?? L.selectLocation()
+            locationStack.addArrangedSubview(locationLine)
         } else {
-            locationLabel?.text = countryLabel?.text
-            locationStack?.removeArrangedSubview(locationLine)
+            locationLabel.text = countryLabel.text
+            locationStack.removeArrangedSubview(locationLine)
             locationLine.removeFromSuperview()
         }
     }
@@ -118,7 +122,7 @@ private extension AddPostVC {
     }
 
     @discardableResult func updateSave(showError: Bool) -> Bool {
-        payload.post = postTextView?.text ?? ""
+        payload.post = postTextView.text ?? ""
 
         let errorMessage: String
         if payload.post.count < minCharacters {
@@ -134,7 +138,7 @@ private extension AddPostVC {
             note.message(error: errorMessage)
         }
 
-        saveButton?.isEnabled = !payload.post.isEmpty
+        saveButton.isEnabled = !payload.post.isEmpty
         return valid
     }
 
@@ -197,9 +201,9 @@ extension AddPostVC: UITextViewDelegate {
         updateSave(showError: false)
         let remaining = max(0, minCharacters - payload.post.count)
         if remaining > 0 {
-            postTitle?.text = L.postShort(remaining)
+            postTitle.text = L.postShort(remaining)
         } else {
-            postTitle?.text = L.postLong()
+            postTitle.text = L.postLong()
         }
     }
 
@@ -217,6 +221,34 @@ extension AddPostVC: KeyboardListener {
     var keyboardScrollee: UIScrollView? { return postTextView }
 }
 
+// MARK: - Exposing
+
+extension AddPostVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        UIAddPost.close.expose(item: closeButton)
+        UIAddPost.save.expose(item: saveButton)
+    }
+}
+
+// MARK: - InterfaceBuildable
+
+extension AddPostVC: InterfaceBuildable {
+
+    /// Injection enforcement for viewDidLoad
+    func requireOutlets() {
+        closeButton.require()
+        countryLabel.require()
+        locationLabel.require()
+        locationLine.require()
+        locationStack.require()
+        postTitle.require()
+        postTextView.require()
+        saveButton.require()
+    }
+}
+
 // MARK: - Injectable
 
 extension AddPostVC: Injectable {
@@ -227,25 +259,15 @@ extension AddPostVC: Injectable {
     /// Handle dependency injection
     ///
     /// - Parameter model: Dependencies
-    /// - Returns: Chainable self
-    @discardableResult func inject(model: Model) -> Self {
+    func inject(model: Model) {
         if let countryId = model.location?.countryId {
             country = data.get(country: countryId)
         }
         if let locationId = model.location?.placeId {
             location = data.get(location: locationId)
         }
-        return self
     }
 
     /// Enforce dependency injection
-    func requireInjections() {
-        saveButton.require()
-        locationStack.require()
-        locationLine.require()
-        countryLabel.require()
-        locationLabel.require()
-        postTitle.require()
-        postTextView.require()
-    }
+    func requireInjection() { }
 }

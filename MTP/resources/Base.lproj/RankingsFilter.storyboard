@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="HHm-kq-ClN">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="HHm-kq-ClN">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -438,6 +438,7 @@
                     <connections>
                         <outlet property="ageLabel" destination="Mv8-WL-DS0" id="pbL-vN-srk"/>
                         <outlet property="ageSlider" destination="LlX-CO-jQb" id="V3U-Vi-INs"/>
+                        <outlet property="closeButton" destination="sQc-AU-2YS" id="1AS-0P-pD6"/>
                         <outlet property="countryLabel" destination="b9K-D8-0UK" id="1eo-VD-n0g"/>
                         <outlet property="facebookSwitch" destination="dGh-Eo-EcS" id="trZ-h1-gGB"/>
                         <outlet property="femaleButton" destination="Dt8-XX-kg1" id="vvf-ce-m2x"/>

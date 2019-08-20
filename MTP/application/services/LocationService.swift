@@ -1,6 +1,7 @@
 // @copyright Trollwerks Inc.
 
 import CoreLocation
+import UIKit
 
 /// What kind of permission to ask the user for
 enum LocationPermission {
@@ -97,7 +98,13 @@ extension LocationService {
         case .authorizedAlways:
             loc.start(permission: .always)
             if ask == .ask {
-                note.authorizeNotifications { _ in }
+                note.authorizeNotifications { granted in
+                    guard granted else { return }
+
+                    DispatchQueue.main.async {
+                        UIApplication.shared.registerForRemoteNotifications()
+                    }
+                }
             }
         case .authorizedWhenInUse:
             loc.start(permission: .whenInUse)

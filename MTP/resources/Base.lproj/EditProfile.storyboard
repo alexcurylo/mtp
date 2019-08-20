@@ -15,10 +15,12 @@
         <scene sceneID="vMZ-Z6-Wfz">
             <objects>
                 <tableViewController id="Aga-YF-c3F" customClass="EditProfileVC" customModule="MTP" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="jc0-q8-DQp">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" alwaysBounceVertical="YES" contentInsetAdjustmentBehavior="always" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="jc0-q8-DQp">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="vn1-nI-F7r"/>
+                        <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <sections>
                             <tableViewSection id="9vx-ZE-BvJ">
                                 <cells>
@@ -513,6 +515,7 @@
                             <outlet property="delegate" destination="Aga-YF-c3F" id="V77-B2-feL"/>
                         </connections>
                     </tableView>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" title="Edit Profile" id="pKw-8e-Fme">
                         <barButtonItem key="leftBarButtonItem" image="navClose" id="VDz-7c-CfW">
                             <connections>
@@ -532,8 +535,8 @@
                         <outlet property="addLinkButton" destination="j16-UJ-CJ3" id="Foz-ZT-IJy"/>
                         <outlet property="airportTextField" destination="fOe-69-bAq" id="OVb-HE-2dX"/>
                         <outlet property="avatarButton" destination="wuK-ZE-BRx" id="eNb-gs-k0Z"/>
-                        <outlet property="backgroundView" destination="iwS-hn-IzQ" id="Ka6-AL-lbZ"/>
                         <outlet property="birthdayTextField" destination="UXJ-Fc-RR3" id="4GF-aE-jlI"/>
+                        <outlet property="closeButton" destination="VDz-7c-CfW" id="5Yk-3Y-PaL"/>
                         <outlet property="countryStack" destination="6m5-1r-AtQ" id="Zv5-n8-8ju"/>
                         <outlet property="countryTextField" destination="Xfx-7V-Suc" id="Kb3-9S-ILq"/>
                         <outlet property="emailTextField" destination="OkT-tU-k7t" id="AeH-4B-h0U"/>
@@ -548,6 +551,7 @@
                         <outlet property="saveButton" destination="R6r-9m-yTa" id="nEq-g5-H77"/>
                         <outlet property="toolbarBackButton" destination="P4e-oM-bDy" id="tiR-nY-dhX"/>
                         <outlet property="toolbarClearButton" destination="k8j-va-ZDT" id="E0d-FH-eWP"/>
+                        <outlet property="toolbarDoneButton" destination="Ejn-gy-2uF" id="74L-b7-aMW"/>
                         <outlet property="toolbarNextButton" destination="hnU-vs-zqO" id="2v6-a4-Qq5"/>
                     </connections>
                 </tableViewController>
@@ -580,22 +584,6 @@
                 </toolbar>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5ym-7H-jEc" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="af3-oh-FK2" userLabel="Exit" sceneMemberID="exit"/>
-                <view contentMode="scaleToFill" id="iwS-hn-IzQ" customClass="GradientView" customModule="MTP" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <viewLayoutGuide key="safeArea" id="GnB-qP-cjw"/>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="color" keyPath="startColor">
-                            <color key="value" red="0.098039215690000001" green="0.75294117650000003" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="endColor">
-                            <color key="value" red="0.0078431372550000003" green="0.55294117649999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="number" keyPath="orientation">
-                            <integer key="value" value="1"/>
-                        </userDefinedRuntimeAttribute>
-                    </userDefinedRuntimeAttributes>
-                </view>
             </objects>
             <point key="canvasLocation" x="3322.4000000000001" y="303.59820089955025"/>
         </scene>

@@ -6,9 +6,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-### Welcome to the MTP iOS app! I'm Alex, the lead mobile app developer for MTP.
+## [Version 1.0.1, Build 639] - 2019-08-20
 
-The best way to let us know about any problems or suggestions is in the TestFlight app you use to install the MTP app - a little down from the "Install" button you'll see a "Send Beta Feedback" button. That'll let you send us an email with information about your device attached, which will help us reproduce any problems you describe.
+### Fixed
+- Handle missing locations in ranked user scorecards
+
+## [Version 1.0.1, Build 638] - 2019-08-18
+
+### Added
+- Photo tag suggestions from location taken
+- Remote notification support
+
+### Changed
+- Birthdate display removed from My Profile
+- UN visits are checkmarked and have calculation note
+
+### Fixed
+- UN Country count now synced with location visit changes
+- Map region overlay color updated with visit
+- Editing handling improved
+- Error messages improved
+
+## [Version 1.0, Build 637] - 2019-08-07
 
 ### Added
 - Explicit agreement to Terms of Service

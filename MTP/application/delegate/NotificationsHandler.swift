@@ -73,6 +73,58 @@ extension NotificationsHandler: AppLaunchHandler {
     }
 }
 
+// MARK: - AppNotificationsHandler
+
+extension NotificationsHandler: AppNotificationsHandler {
+
+    /// didRegisterForRemoteNotificationsWithDeviceToken
+    ///
+    /// - Parameters:
+    ///   - application: Application
+    ///   - deviceToken: Token
+    func application(_ application: UIApplication,
+                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let token = deviceToken.reduce(into: "") { $0 += String(format: "%.2x", $1) }
+        // dev: 4159c48ab8466e4450b1de594c6df3a0879dc6e754b7faa4ae43467336178a4f
+        net.userUpdate(token: token) { _ in }
+    }
+
+    /// didFailToRegisterForRemoteNotificationsWithError
+    ///
+    /// - Parameters:
+    ///   - application: Application
+    ///   - error: Error
+    func application(_ application: UIApplication,
+                     didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        #if !targetEnvironment(simulator)
+        log.error("register for remote notifications: \(error)")
+        #endif
+    }
+
+    /// didReceiveRemoteNotification
+    ///
+    /// - Parameters:
+    ///   - application: Application
+    ///   - userInfo: Info
+    ///   - completionHandler: Callback
+    func application(_ application: UIApplication,
+                     didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        // called if payload includes content-available
+        // otherwise just willPresent:notification: called in foreground
+        //{
+        //    "aps":{
+        //        "alert":"Test",
+        //        "sound":"default",
+        //        "badge":1,
+        //        "content-available":1
+        //    },
+        //    "test":"value"
+        //}
+    }
+}
+
 // MARK: - UNUserNotificationCenterDelegate
 
 extension NotificationsHandler: UNUserNotificationCenterDelegate {
@@ -108,17 +160,18 @@ extension NotificationsHandler: UNUserNotificationCenterDelegate {
         completionHandler()
     }
 
-    /// <#Description#>
+    /// Present notification
     ///
     /// - Parameters:
-    ///   - center: <#center description#>
-    ///   - notification: <#notification description#>
-    ///   - completionHandler: <#completionHandler description#>
+    ///   - center: UNUserNotificationCenter
+    ///   - notification: Notification to present
+    ///   - completionHandler: Callback
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         willPresent notification: UNNotification,
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
     ) {
+        UIApplication.shared.applicationIconBadgeNumber = 0
         completionHandler( [.alert, .badge, .sound])
     }
 

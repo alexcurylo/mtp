@@ -41,6 +41,11 @@ Generate new localized screenshots
 fastlane ios give_simulators_permissions
 ```
 Prepare simulators for screenshots
+### ios bump
+```
+fastlane ios bump
+```
+Bump version number
 
 ----
 

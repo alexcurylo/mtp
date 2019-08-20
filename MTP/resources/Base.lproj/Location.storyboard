@@ -29,7 +29,7 @@
                                     <view alpha="0.84999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kYs-p9-Rr9" userLabel="Header View">
                                         <rect key="frame" x="8" y="100" width="359" height="59"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="UNE-Im-m0D" userLabel="Name Stack">
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="UNE-Im-m0D" userLabel="Name Stack">
                                                 <rect key="frame" x="16" y="8" width="327" height="43"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lPb-vy-9A3">
@@ -130,7 +130,9 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                     <connections>
                         <outlet property="categoryLabel" destination="2Ug-kF-zMU" id="Vgw-bL-qat"/>
+                        <outlet property="closeButton" destination="TBh-w9-fQ5" id="MC8-h3-oeH"/>
                         <outlet property="distanceLabel" destination="Fa2-gC-vee" id="eUg-24-Dsv"/>
+                        <outlet property="mapButton" destination="HI0-ZI-tIg" id="JZ1-Hi-fom"/>
                         <outlet property="nameLabel" destination="SJO-aU-00l" id="KhR-t6-gik"/>
                         <outlet property="pagesHolder" destination="tVF-2D-1go" id="WXQ-r9-Jl2"/>
                         <outlet property="placeImageView" destination="mFZ-yB-P64" id="vOx-eK-fON"/>
