@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-/// keyboard exposed items
+/// Keyboard exposed items
 enum UIKeyboard: Exposable {
 
     /// Toolbar

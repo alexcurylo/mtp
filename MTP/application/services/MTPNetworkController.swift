@@ -405,6 +405,8 @@ extension MTP: TargetType {
             file = "userPosts-7853"
         case .userRegister:
             file = "userRegister"
+        case .userVerify:
+            file = "userVerify"
         default:
             log.error("sampleData not provided for \(self)")
             return "{}".data(using: String.Encoding.utf8) ?? Data()
@@ -1823,11 +1825,13 @@ struct MTPNetworkController: ServiceProvider {
     ///
     /// - Parameters:
     ///   - id: User ID
+    ///   - stub: Stub behaviour
     ///   - then: Completion
     func userVerify(id: Int,
+                    stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                     then: @escaping NetworkCompletion<String>) {
         let auth = AccessTokenPlugin { self.data.token }
-        let provider = MTPProvider(plugins: [auth])
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
         let endpoint = MTP.userVerify(id: id)
 
         //swiftlint:disable:next closure_body_length

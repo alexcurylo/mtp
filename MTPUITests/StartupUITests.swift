@@ -119,8 +119,8 @@ final class StartupUITests: XCTestCase {
 
         UIWelcome.later.tap()
 
-        // Turn off checkRemindedVerify() guard
-        // and send reminder notice here
+        UIAlert.title("Account not verified - check your email!").wait()
+        UIAlert.button("Resend").tap()
 
         UIMain.myProfile.tap()
 

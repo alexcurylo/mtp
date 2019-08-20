@@ -776,8 +776,9 @@ final class NetworkServiceStub: NetworkServiceImpl {
     ///   - then: Completion
     override func userVerify(id: Int,
                              then: @escaping NetworkCompletion<String>) {
-        log.error("not stubbed yet!")
-        then(.failure(.message("not stubbed yet!")))
+        mtp.userVerify(id: id,
+                       stub: MTPProvider.immediatelyStub,
+                       then: then)
     }
 }
 

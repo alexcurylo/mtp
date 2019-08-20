@@ -114,6 +114,11 @@
 		8C9DD8CE2245034E00D5EAFB /* Injectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9DD8CD2245034D00D5EAFB /* Injectable.swift */; };
 		8CA1ECE722C4434300C3B40B /* WKWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA1ECE622C4434300C3B40B /* WKWebViewController.swift */; };
 		8CA1ECEA22C45A8600C3B40B /* Location.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CA1ECE822C45A8600C3B40B /* Location.storyboard */; };
+		8CA5CE8A230B73960020F7F8 /* UIAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA5CE89230B73960020F7F8 /* UIAlert.swift */; };
+		8CA5CE8B230B78E00020F7F8 /* UIAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA5CE89230B73960020F7F8 /* UIAlert.swift */; };
+		8CA5CE8D230B791C0020F7F8 /* UIAlert+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA5CE8C230B791C0020F7F8 /* UIAlert+Test.swift */; };
+		8CA5CE8F230B92740020F7F8 /* userVerify.json in Resources */ = {isa = PBXBuildFile; fileRef = 8CA5CE8E230B92740020F7F8 /* userVerify.json */; };
+		8CA5CE91230B98DA0020F7F8 /* NotificationsHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA5CE90230B98DA0020F7F8 /* NotificationsHandlerTests.swift */; };
 		8CAE30592239DA7D00E31647 /* world-map.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 8CAE30572239DA7C00E31647 /* world-map.geojson */; };
 		8CAE30642239F4F100E31647 /* WorldMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CAE30632239F4F100E31647 /* WorldMap.swift */; };
 		8CB2A24322E177C90050E368 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB2A24222E177C90050E368 /* Scheduler.swift */; };
@@ -502,6 +507,10 @@
 		8C9DD8CD2245034D00D5EAFB /* Injectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Injectable.swift; sourceTree = "<group>"; };
 		8CA1ECE622C4434300C3B40B /* WKWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKWebViewController.swift; sourceTree = "<group>"; };
 		8CA1ECE922C45A8600C3B40B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Location.storyboard; sourceTree = "<group>"; };
+		8CA5CE89230B73960020F7F8 /* UIAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlert.swift; sourceTree = "<group>"; };
+		8CA5CE8C230B791C0020F7F8 /* UIAlert+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlert+Test.swift"; sourceTree = "<group>"; };
+		8CA5CE8E230B92740020F7F8 /* userVerify.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = userVerify.json; sourceTree = "<group>"; };
+		8CA5CE90230B98DA0020F7F8 /* NotificationsHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsHandlerTests.swift; sourceTree = "<group>"; };
 		8CAE30572239DA7C00E31647 /* world-map.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "world-map.geojson"; sourceTree = "<group>"; };
 		8CAE30632239F4F100E31647 /* WorldMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldMap.swift; sourceTree = "<group>"; };
 		8CB2A24222E177C90050E368 /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = "<group>"; };
@@ -856,6 +865,8 @@
 		8C011F5822E93968002C4133 /* screens */ = {
 			isa = PBXGroup;
 			children = (
+				8CA5CE8C230B791C0020F7F8 /* UIAlert+Test.swift */,
+				8CDC4D5D230A337D00AA422D /* UIKeyboard+Test.swift */,
 				FA03454A230375CC00632322 /* locations */,
 				FA034549230375BB00632322 /* profile */,
 				FA034548230375AD00632322 /* rankings */,
@@ -1000,6 +1011,7 @@
 			children = (
 				8C3EAB872230FD1300CB4886 /* MTPDelegateTests.swift */,
 				8CF239A82305156E006AB7D2 /* ActionHandlerTests.swift */,
+				8CA5CE90230B98DA0020F7F8 /* NotificationsHandlerTests.swift */,
 			);
 			path = delegate;
 			sourceTree = "<group>";
@@ -1110,7 +1122,6 @@
 			isa = PBXGroup;
 			children = (
 				8CD4BD2823024E320041E0C3 /* UIForgotPassword.swift */,
-				8CDC4D53230A301400AA422D /* UIKeyboard.swift */,
 				FA7A66EC2300E894001DCCA2 /* UILogin.swift */,
 				FA7A66F123022527001DCCA2 /* UILoginFail.swift */,
 				FA7A66D122FD9459001DCCA2 /* UIMain.swift */,
@@ -1127,7 +1138,6 @@
 			isa = PBXGroup;
 			children = (
 				8CD4BD2623024DCB0041E0C3 /* UIForgotPassword+Test.swift */,
-				8CDC4D5D230A337D00AA422D /* UIKeyboard+Test.swift */,
 				FA7A66EF2300E914001DCCA2 /* UILogin+Test.swift */,
 				FA7A66F423022650001DCCA2 /* UILoginFail+Test.swift */,
 				8C011F5922E939BA002C4133 /* UIMain+Test.swift */,
@@ -1221,6 +1231,7 @@
 				FA507C2723059DD5000F0EF9 /* userLogin-7853.json */,
 				FA96A87222ECF1E8001423F6 /* userPosts-7853.json */,
 				8C4CDC362305561000A9E497 /* userRegister.json */,
+				8CA5CE8E230B92740020F7F8 /* userVerify.json */,
 			);
 			path = fixtures;
 			sourceTree = "<group>";
@@ -1484,6 +1495,8 @@
 		FA7A66CD22FD9158001DCCA2 /* screens */ = {
 			isa = PBXGroup;
 			children = (
+				8CA5CE89230B73960020F7F8 /* UIAlert.swift */,
+				8CDC4D53230A301400AA422D /* UIKeyboard.swift */,
 				FA0345432303744E00632322 /* locations */,
 				FA0345442303745C00632322 /* profile */,
 				FA0345452303746300632322 /* rankings */,
@@ -1778,6 +1791,7 @@
 				FABA7413213A374F0059ACCA /* ProfilePosts.storyboard in Resources */,
 				FA390132213AB4A90016A362 /* Rankings.storyboard in Resources */,
 				8C0E6A7923055CFD00E7768E /* userRegister.json in Resources */,
+				8CA5CE8F230B92740020F7F8 /* userVerify.json in Resources */,
 				FACB85D32308C14B009650BC /* checkin-whss-1187.json in Resources */,
 				8C0E6A7523055CFD00E7768E /* scorecard-whss-7853.json in Resources */,
 				FA12AB5A22C75FAA00105545 /* UserProfile.storyboard in Resources */,
@@ -1985,6 +1999,7 @@
 				8CE6FC65224C6CB600B24410 /* LocationPhotosVC.swift in Sources */,
 				8C47631823040FA60089EF33 /* UILocationPosts.swift in Sources */,
 				FA7C2010221BA0A1002C6DAB /* Post.swift in Sources */,
+				8CA5CE8A230B73960020F7F8 /* UIAlert.swift in Sources */,
 				8C9DD8CE2245034E00D5EAFB /* Injectable.swift in Sources */,
 				8C617972223F2D79000827D6 /* LocationsFilterVC.swift in Sources */,
 				FA5AC0C521FDD7C00080F84F /* CountSectionHeader.swift in Sources */,
@@ -2205,6 +2220,7 @@
 				FA63A4C423076A1800637BB3 /* RankingsPagingVCTests.swift in Sources */,
 				8C0127FB2232054E00EA2095 /* ServiceHandlerSpy+AppLaunchHandler.swift in Sources */,
 				8CC6B9592304EA2A0089DB89 /* DateTests.swift in Sources */,
+				8CA5CE91230B98DA0020F7F8 /* NotificationsHandlerTests.swift in Sources */,
 				FA6A2CF222F85D4E00444BFA /* StyleServiceSpy.swift in Sources */,
 				FAC8466122AB79AA004F57EC /* NotificationServiceSpy.swift in Sources */,
 				FA63A4C723076A1800637BB3 /* RankingsPageVCTests.swift in Sources */,
@@ -2226,6 +2242,7 @@
 				FA03455E23043C5F00632322 /* UISettings.swift in Sources */,
 				FA03455D23043C3600632322 /* UISettings+Test.swift in Sources */,
 				FA0345792304487000632322 /* UIProfilePhotos.swift in Sources */,
+				8CA5CE8B230B78E00020F7F8 /* UIAlert.swift in Sources */,
 				8CF239B223054C01006AB7D2 /* UITerms.swift in Sources */,
 				FA7A66DE22FD97EC001DCCA2 /* UIUserProfile+Test.swift in Sources */,
 				8C7D71ED2303EA2A005939AC /* UILocationInfo+Test.swift in Sources */,
@@ -2237,6 +2254,7 @@
 				FA034576230446C700632322 /* UILocationSearch+Test.swift in Sources */,
 				FA7A66F32302253B001DCCA2 /* UILoginFail.swift in Sources */,
 				8C011F5C22E93A10002C4133 /* UIMyProfile+Test.swift in Sources */,
+				8CA5CE8D230B791C0020F7F8 /* UIAlert+Test.swift in Sources */,
 				FA03454E2303798100632322 /* UISignupFail+Test.swift in Sources */,
 				8C93FE47230394920054B951 /* UIRankingsPage+Test.swift in Sources */,
 				8CDC4D5A230A332500AA422D /* UIConfirmDelete+Test.swift in Sources */,

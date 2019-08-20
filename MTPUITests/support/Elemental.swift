@@ -4,8 +4,9 @@ import XCTest
 
 protocol Elemental: Exposable {
 
-    var type: XCUIElement.ElementType { get }
     var container: XCUIElementQuery { get }
+    var element: XCUIElement { get }
+    var type: XCUIElement.ElementType { get }
 }
 
 enum ElementalState {
