@@ -393,6 +393,8 @@ extension MTP: TargetType {
         case let .scorecard(list, _):
             //file = "scorecard-\(list.key)-\(user)"
             file = "scorecard-\(list.key)-7853"
+        case .search:
+            file = "search-Fred"
         case .userDelete:
             file = "userDelete"
         case .userGet:
@@ -400,6 +402,10 @@ extension MTP: TargetType {
             file = "userGet-1"
         case .userLogin:
             file = "userLogin-7853"
+        case .userPost:
+            file = "userPostToken"
+        case .userPut:
+            file = "userUpdate"
         case .userPosts:
             //file = "userPosts-\(id)"
             file = "userPosts-7853"
@@ -1407,10 +1413,12 @@ struct MTPNetworkController: ServiceProvider {
     ///
     /// - Parameters:
     ///   - query: Query
+    ///   - stub: Stub behaviour
     ///   - then: Completion
     func search(query: String,
+                stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                 then: @escaping NetworkCompletion<SearchResultJSON>) {
-        let provider = MTPProvider()
+        let provider = MTPProvider(stubClosure: stub)
         let queryParam = query.isEmpty ? nil : query
         let endpoint = MTP.search(query: queryParam)
         provider.request(endpoint) { response in
@@ -1743,11 +1751,13 @@ struct MTPNetworkController: ServiceProvider {
     ///
     /// - Parameters:
     ///   - payload: UserUpdatePayload
+    ///   - stub: Stub behaviour
     ///   - then: Completion
     func userUpdate(payload: UserUpdatePayload,
+                    stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                     then: @escaping NetworkCompletion<UserJSON>) {
         let auth = AccessTokenPlugin { self.data.token }
-        let provider = MTPProvider(plugins: [auth])
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
         let endpoint = MTP.userPut(payload: payload)
 
         //swiftlint:disable:next closure_body_length
@@ -1785,15 +1795,17 @@ struct MTPNetworkController: ServiceProvider {
     ///
     /// - Parameters:
     ///   - token: String
+    ///   - stub: Stub behaviour
     ///   - then: Completion
     func userUpdate(token: String,
+                    stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                     then: @escaping NetworkCompletion<UserTokenReply>) {
         guard let userId = data.user?.id else {
             return then(.failure(.parameter))
         }
 
         let auth = AccessTokenPlugin { self.data.token }
-        let provider = MTPProvider(plugins: [auth])
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
         let endpoint = MTP.userPost(id: userId, token: token)
 
         provider.request(endpoint) { response in

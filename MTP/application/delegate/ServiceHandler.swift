@@ -88,6 +88,14 @@ extension ServiceHandlerStub: AppLaunchHandler {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // swiftlint:disable:previous discouraged_optional_collection
+
+        if let token = ProcessInfo.setting(string: .token),
+           let data = token.data(using: String.Encoding.utf8),
+           let delegate = application.delegate {
+            delegate.application?(application,
+                                  didRegisterForRemoteNotificationsWithDeviceToken: data)
+        }
+
         return true
     }
 }

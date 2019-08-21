@@ -262,6 +262,8 @@ extension LocationsVC: UISearchBarDelegate {
                    textDidChange searchText: String) {
         matches = data.get(mappables: searchText)
         let names = matches.map { $0.title }
+        let ids = (0..<names.count).map { UILocations.result($0).identifier }
+        dropdown.localizationKeysDataSource = ids
         dropdown.dataSource = names
         if names.isEmpty {
             dropdown.hide()

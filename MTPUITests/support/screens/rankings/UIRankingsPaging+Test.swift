@@ -15,7 +15,7 @@ extension UIRankingsPaging: Elemental {
 
     var container: XCUIElementQuery {
         switch self {
-        case .menu: return app
+        case .menu: return all
         default: return UIRankingsPaging.menu.match.query(type: type)
         }
     }

@@ -127,6 +127,8 @@ private extension RankingsVC {
     }
 
     func display(names: [String]) {
+        let ids = (0..<names.count).map { UIRankings.result($0).identifier }
+        dropdown.localizationKeysDataSource = ids
         dropdown.dataSource = names
         if names.isEmpty {
             dropdown.hide()
@@ -171,7 +173,7 @@ extension RankingsVC: Exposing {
         let bar = navigationController?.navigationBar
         UIRankings.nav.expose(item: bar)
         let items = navigationItem.rightBarButtonItems
-        UIRankings.search.expose(item: items?.first)
+        UIRankings.find.expose(item: items?.first)
         UIRankings.filter.expose(item: items?.last)
     }
 }

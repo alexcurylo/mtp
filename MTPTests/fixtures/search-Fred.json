@@ -1,0 +1,187 @@
+{
+    "request": {
+        "query": "Fred"
+    },
+    "data": [
+        {
+            "id": 707,
+            "first_name": "Alfredo",
+            "last_name": "Chen",
+            "type": "users",
+            "label": "Alfredo Chen",
+            "link": "\/users\/707",
+            "full_name": "Alfredo Chen",
+            "country": null,
+            "location": null,
+            "role": 2
+        },
+        {
+            "id": 1278,
+            "first_name": "Wilfred",
+            "last_name": "Wells",
+            "type": "users",
+            "label": "Wilfred Wells",
+            "link": "\/users\/1278",
+            "full_name": "Wilfred Wells",
+            "country": null,
+            "location": null,
+            "role": 2
+        },
+        {
+            "id": 2982,
+            "first_name": "Karl Fredrik",
+            "last_name": "Holm",
+            "type": "users",
+            "label": "Karl Fredrik Holm",
+            "link": "\/users\/2982",
+            "full_name": "Karl Fredrik Holm",
+            "country": null,
+            "location": null,
+            "role": 2
+        },
+        {
+            "id": 3219,
+            "first_name": "Fredrik",
+            "last_name": "Solem",
+            "type": "users",
+            "label": "Fredrik Solem",
+            "link": "\/users\/3219",
+            "full_name": "Fredrik Solem",
+            "country": null,
+            "location": null,
+            "role": 2
+        },
+        {
+            "id": 3704,
+            "first_name": "Fred",
+            "last_name": "Davies",
+            "type": "users",
+            "label": "Fred Davies",
+            "link": "\/users\/3704",
+            "full_name": "Fred Davies",
+            "country": null,
+            "location": null,
+            "role": 2
+        },
+        {
+            "id": 4372,
+            "first_name": "Alfredo",
+            "last_name": "Lizarraga",
+            "type": "users",
+            "label": "Alfredo Lizarraga",
+            "link": "\/users\/4372",
+            "full_name": "Alfredo Lizarraga",
+            "country": null,
+            "location": null,
+            "role": 2
+        },
+        {
+            "id": 5022,
+            "first_name": "Alfred",
+            "last_name": "Malmros",
+            "type": "users",
+            "label": "Alfred Malmros",
+            "link": "\/users\/5022",
+            "full_name": "Alfred Malmros",
+            "country": null,
+            "location": null,
+            "role": 2
+        },
+        {
+            "id": 5123,
+            "first_name": "Manfred",
+            "last_name": "Platzer",
+            "type": "users",
+            "label": "Manfred Platzer",
+            "link": "\/users\/5123",
+            "full_name": "Manfred Platzer",
+            "country": null,
+            "location": null,
+            "role": 2
+        },
+        {
+            "id": 5255,
+            "first_name": "Wilfred",
+            "last_name": "Cooper",
+            "type": "users",
+            "label": "Wilfred Cooper",
+            "link": "\/users\/5255",
+            "full_name": "Wilfred Cooper",
+            "country": null,
+            "location": null,
+            "role": 2
+        },
+        {
+            "id": 6506,
+            "first_name": "Frederic",
+            "last_name": "Dethoor",
+            "type": "users",
+            "label": "Frederic Dethoor",
+            "link": "\/users\/6506",
+            "full_name": "Frederic Dethoor",
+            "country": null,
+            "location": null,
+            "role": 2
+        },
+        {
+            "id": 6530,
+            "first_name": "Frederik",
+            "last_name": "Boriau",
+            "type": "users",
+            "label": "Frederik Boriau",
+            "link": "\/users\/6530",
+            "full_name": "Frederik Boriau",
+            "country": null,
+            "location": null,
+            "role": 2
+        },
+        {
+            "id": 6544,
+            "first_name": "Michael",
+            "last_name": "Frederick",
+            "type": "users",
+            "label": "Michael Frederick",
+            "link": "\/users\/6544",
+            "full_name": "Michael Frederick",
+            "country": null,
+            "location": null,
+            "role": 2
+        },
+        {
+            "id": 6575,
+            "first_name": "Frederik",
+            "last_name": "Cocquyt",
+            "type": "users",
+            "label": "Frederik Cocquyt",
+            "link": "\/users\/6575",
+            "full_name": "Frederik Cocquyt",
+            "country": null,
+            "location": null,
+            "role": 2
+        },
+        {
+            "id": 6617,
+            "first_name": "Karen",
+            "last_name": "Frederick",
+            "type": "users",
+            "label": "Karen Frederick",
+            "link": "\/users\/6617",
+            "full_name": "Karen Frederick",
+            "country": null,
+            "location": null,
+            "role": 2
+        },
+        {
+            "id": 6932,
+            "first_name": "Freddy",
+            "last_name": "Gabriel",
+            "type": "users",
+            "label": "Freddy Gabriel",
+            "link": "\/users\/6932",
+            "full_name": "Freddy Gabriel",
+            "country": null,
+            "location": null,
+            "role": 2
+        }
+    ]
+}

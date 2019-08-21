@@ -13,7 +13,8 @@ final class LocationsUITests: XCTestCase {
     }
 
     func testLocations() {
-        launch(settings: [.loggedIn(true)])
+        launch(settings: [.loggedIn(true),
+                          .token("token")])
 
         UILocations.nearby.tap()
 
@@ -34,5 +35,9 @@ final class LocationsUITests: XCTestCase {
         UILocations.filter.tap()
 
         UILocationsFilter.close.tap()
-    }
+
+        UILocations.search.tap()
+        UILocations.search.type(text: "Fred")
+        UILocations.result(0).tap()
+   }
 }

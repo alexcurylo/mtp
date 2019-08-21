@@ -15,7 +15,7 @@ extension UIMyCountsPaging: Elemental {
 
     var container: XCUIElementQuery {
         switch self {
-        case .menu: return app
+        case .menu: return all
         default: return UIMyCountsPaging.menu.match.query(type: type)
         }
     }

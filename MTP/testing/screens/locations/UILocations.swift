@@ -9,4 +9,12 @@ enum UILocations: Exposable {
     case filter
     /// Nearby bar button
     case nearby
+    /// Search field
+
+    /// Search field
+    case search
+    /// Cancel button
+    case cancel
+    /// Results list item
+    case result(Row)
 }

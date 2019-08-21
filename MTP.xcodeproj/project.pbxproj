@@ -59,6 +59,7 @@
 		8C4763242304156F0089EF33 /* UIAddPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4763222304156F0089EF33 /* UIAddPost.swift */; };
 		8C476326230415980089EF33 /* UIAddPost+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C476325230415980089EF33 /* UIAddPost+Test.swift */; };
 		8C4A6FAF224859A500B33DB9 /* UserCountsPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4A6FAE224859A500B33DB9 /* UserCountsPageVC.swift */; };
+		8C4AA81F230CE6BF00545D46 /* search-Fred.json in Resources */ = {isa = PBXBuildFile; fileRef = 8C4AA81D230CE33200545D46 /* search-Fred.json */; };
 		8C50B16C22374C650013BD34 /* UIViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C50B16B22374C650013BD34 /* UIViewController+Keyboard.swift */; };
 		8C58019E2305097900DE768F /* PlaceLocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C58019D2305097900DE768F /* PlaceLocationTests.swift */; };
 		8C5801A023050CB700DE768F /* PostPayloadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C58019F23050CB700DE768F /* PostPayloadTests.swift */; };
@@ -309,6 +310,8 @@
 		FA63A4C723076A1800637BB3 /* RankingsPageVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA63A4C123076A1800637BB3 /* RankingsPageVCTests.swift */; };
 		FA6A188621EFEF920092C56C /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6A188521EFEF920092C56C /* Observable.swift */; };
 		FA6A2CF222F85D4E00444BFA /* StyleServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6A2CF122F85D4E00444BFA /* StyleServiceSpy.swift */; };
+		FA720120230D7EBF00822228 /* userPostToken.json in Resources */ = {isa = PBXBuildFile; fileRef = FA72011F230D7EBF00822228 /* userPostToken.json */; };
+		FA720122230D820F00822228 /* userUpdate.json in Resources */ = {isa = PBXBuildFile; fileRef = FA720121230D820F00822228 /* userUpdate.json */; };
 		FA74574D210CA5730010F4F4 /* MyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74574C210CA5730010F4F4 /* MyProfileVC.swift */; };
 		FA745753210DA4C60010F4F4 /* MyProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA745755210DA4C60010F4F4 /* MyProfile.storyboard */; };
 		FA745757210DBD910010F4F4 /* UINavigationBar+Transparent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA745756210DBD910010F4F4 /* UINavigationBar+Transparent.swift */; };
@@ -463,6 +466,7 @@
 		8C4763222304156F0089EF33 /* UIAddPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAddPost.swift; sourceTree = "<group>"; };
 		8C476325230415980089EF33 /* UIAddPost+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAddPost+Test.swift"; sourceTree = "<group>"; };
 		8C4A6FAE224859A500B33DB9 /* UserCountsPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCountsPageVC.swift; sourceTree = "<group>"; };
+		8C4AA81D230CE33200545D46 /* search-Fred.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "search-Fred.json"; sourceTree = "<group>"; };
 		8C4CDC362305561000A9E497 /* userRegister.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = userRegister.json; sourceTree = "<group>"; };
 		8C50B16B22374C650013BD34 /* UIViewController+Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Keyboard.swift"; sourceTree = "<group>"; };
 		8C58019D2305097900DE768F /* PlaceLocationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceLocationTests.swift; sourceTree = "<group>"; };
@@ -698,6 +702,8 @@
 		FA63A4C123076A1800637BB3 /* RankingsPageVCTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RankingsPageVCTests.swift; sourceTree = "<group>"; };
 		FA6A188521EFEF920092C56C /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		FA6A2CF122F85D4E00444BFA /* StyleServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleServiceSpy.swift; sourceTree = "<group>"; };
+		FA72011F230D7EBF00822228 /* userPostToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = userPostToken.json; sourceTree = "<group>"; };
+		FA720121230D820F00822228 /* userUpdate.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = userUpdate.json; sourceTree = "<group>"; };
 		FA74574C210CA5730010F4F4 /* MyProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileVC.swift; sourceTree = "<group>"; };
 		FA745754210DA4C60010F4F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyProfile.storyboard; sourceTree = "<group>"; };
 		FA745756210DBD910010F4F4 /* UINavigationBar+Transparent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+Transparent.swift"; sourceTree = "<group>"; };
@@ -1225,12 +1231,15 @@
 				FA96A87A22ECF865001423F6 /* scorecard-restaurants-7853.json */,
 				FA96A87722ECF864001423F6 /* scorecard-uncountries-7853.json */,
 				FA96A87922ECF865001423F6 /* scorecard-whss-7853.json */,
+				8C4AA81D230CE33200545D46 /* search-Fred.json */,
 				8CFBC102230A38D0008844D9 /* userDelete.json */,
 				FA96A88622ED314A001423F6 /* userGet-1.json */,
 				FA0A7B9322E6797400D3EF99 /* userGetByToken.json */,
 				FA507C2723059DD5000F0EF9 /* userLogin-7853.json */,
 				FA96A87222ECF1E8001423F6 /* userPosts-7853.json */,
 				8C4CDC362305561000A9E497 /* userRegister.json */,
+				FA72011F230D7EBF00822228 /* userPostToken.json */,
+				FA720121230D820F00822228 /* userUpdate.json */,
 				8CA5CE8E230B92740020F7F8 /* userVerify.json */,
 			);
 			path = fixtures;
@@ -1779,6 +1788,7 @@
 				FA4DE5FD230985530091119A /* default.realm in Resources */,
 				FA392BC720DF69F50026C828 /* LaunchScreen.storyboard in Resources */,
 				FA74C10F211BB8F00013A840 /* Localizable.strings in Resources */,
+				8C4AA81F230CE6BF00545D46 /* search-Fred.json in Resources */,
 				FA5AC0BB21FDC1060080F84F /* MyCounts.storyboard in Resources */,
 				8C0E6A7123055CFD00E7768E /* scorecard-golfcourses-7853.json in Resources */,
 				FA81361220E8F64500313AB9 /* Settings.bundle in Resources */,
@@ -1803,6 +1813,7 @@
 				FA0345AF23058E3600632322 /* locationPosts-554.json in Resources */,
 				FA392BC220DF69F30026C828 /* Main.storyboard in Resources */,
 				8C0E6A7023055CFD00E7768E /* scorecard-divesites-7853.json in Resources */,
+				FA720120230D7EBF00822228 /* userPostToken.json in Resources */,
 				FA8839552234BDC9002F324F /* LocationSearch.storyboard in Resources */,
 				FAF1853220FA0DEF00CC5D83 /* Root.storyboard in Resources */,
 				8C0E6A7823055CFD00E7768E /* userPosts-7853.json in Resources */,
@@ -1810,6 +1821,7 @@
 				0A2349E36085A3EE89A30019 /* Pods-MTP-metadata.plist in Resources */,
 				8C0E6A6C23055CFD00E7768E /* checklists.json in Resources */,
 				8C0E6A6F23055CFD00E7768E /* scorecard-beaches-7853.json in Resources */,
+				FA720122230D820F00822228 /* userUpdate.json in Resources */,
 				FABA7410213A359C0059ACCA /* ProfilePhotos.storyboard in Resources */,
 				FA32CC7E2100CB75004C1329 /* Signup.storyboard in Resources */,
 				8C0E6A6E23055CFD00E7768E /* rankings.json in Resources */,

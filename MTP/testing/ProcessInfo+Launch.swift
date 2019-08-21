@@ -16,6 +16,8 @@ enum LaunchSettingKey: String {
 
     /// Whether to present as logged in
     case loggedIn
+    /// Token for notifications
+    case token
 }
 
 /// Settings that UI tests can pass on launch
@@ -23,12 +25,16 @@ enum LaunchSetting {
 
     /// Whether to present as logged in
     case loggedIn(Bool)
+    /// Token for notifications
+    case token(String)
 
     /// Conventionally a LaunchSettingKey case
     var key: String {
         switch self {
         case .loggedIn:
             return LaunchSettingKey.loggedIn.rawValue
+        case .token:
+            return LaunchSettingKey.token.rawValue
         }
     }
 
@@ -37,15 +43,14 @@ enum LaunchSetting {
         switch self {
         case .loggedIn(let loggedIn):
             return "\(loggedIn)"
+        case .token(let token):
+            return "\(token)"
         }
     }
 
     /// Construct setting for launch dictionary
     var setting: [String: String] {
-        switch self {
-        case .loggedIn:
-            return [key: value]
-        }
+        return [key: value]
     }
 }
 
@@ -57,14 +62,6 @@ extension ProcessInfo {
     /// - Returns: Whether found
     static func arguments(contain argument: LaunchArgument) -> Bool {
         return processInfo.arguments.contains(argument.rawValue)
-    }
-
-    /// Test for setting existence
-    ///
-    /// - Parameter setting: setting to look for
-    /// - Returns: Whether found
-    static func settings(contain setting: LaunchSetting) -> Bool {
-        return processInfo.environment[setting.key] == setting.value
     }
 
     /// String-extracting convenience

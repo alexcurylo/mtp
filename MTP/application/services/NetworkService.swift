@@ -655,8 +655,9 @@ final class NetworkServiceStub: NetworkServiceImpl {
     ///   - then: Completion
     override func search(query: String,
                          then: @escaping NetworkCompletion<SearchResultJSON>) {
-        log.error("not stubbed yet!")
-        then(.failure(.message("not stubbed yet!")))
+        mtp.search(query: query,
+                   stub: MTPProvider.immediatelyStub,
+                   then: then)
     }
 
     /// Set places visit status
@@ -754,8 +755,9 @@ final class NetworkServiceStub: NetworkServiceImpl {
     ///   - then: Completion
     override func userUpdate(payload: UserUpdatePayload,
                              then: @escaping NetworkCompletion<UserJSON>) {
-        log.error("not stubbed yet!")
-        then(.failure(.message("not stubbed yet!")))
+        mtp.userUpdate(payload: payload,
+                       stub: MTPProvider.immediatelyStub,
+                       then: then)
     }
 
     /// Update user token
@@ -765,8 +767,9 @@ final class NetworkServiceStub: NetworkServiceImpl {
     ///   - then: Completion
     override func userUpdate(token: String,
                              then: @escaping NetworkCompletion<UserTokenReply>) {
-        log.error("not stubbed yet!")
-        then(.failure(.message("not stubbed yet!")))
+        mtp.userUpdate(token: token,
+                       stub: MTPProvider.immediatelyStub,
+                       then: then)
     }
 
     /// Resend verification email

@@ -12,7 +12,7 @@ final class ProfileUITests: XCTestCase {
         super.tearDown()
     }
 
-    func testProfile() {
+    func testMyProfile() {
         launch(settings: [.loggedIn(true)])
 
         UIMain.myProfile.tap()
@@ -51,14 +51,6 @@ final class ProfileUITests: XCTestCase {
 
         UIProfilePaging.about.tap()
 
-        UIMyProfile.edit.tap()
-
-        UIEditProfile.country.tap()
-
-        UILocationSearch.close.tap()
-
-        UIEditProfile.close.tap()
-
         UIMyProfile.settings.tap()
 
         UISettings.faq.tap()
@@ -70,5 +62,45 @@ final class ProfileUITests: XCTestCase {
         UIAppAbout.close.tap()
 
         UISettings.close.tap()
+    }
+
+    func testEditProfile() {
+        launch(settings: [.loggedIn(true)])
+
+        UIMain.myProfile.tap()
+        UIMain.myProfile.wait(for: .selected)
+
+        UIMyProfile.edit.tap()
+
+        UIEditProfile.country.tap()
+
+        UILocationSearch.close.tap()
+
+        UIEditProfile.country.tap()
+
+        let preferNot = 0
+        UILocationSearch.result(preferNot).tap()
+
+        UIEditProfile.country.tap()
+
+        let antigua = 6
+        UILocationSearch.result(antigua).tap()
+
+        UIEditProfile.location.tap()
+
+        let redonda = 2
+        UILocationSearch.result(redonda).tap()
+
+        UIEditProfile.country.tap()
+
+        UILocationSearch.search.tap()
+        UILocationSearch.cancel.tap()
+        UILocationSearch.search.tap()
+        UILocationSearch.search.type(text: "North")
+
+        let northKorea = 0
+        UILocationSearch.result(northKorea).tap()
+
+        UIEditProfile.save.tap()
     }
 }

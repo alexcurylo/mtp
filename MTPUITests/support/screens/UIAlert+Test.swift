@@ -15,7 +15,7 @@ extension UIAlert: Elemental {
     }
 
     var element: XCUIElement {
-        return app[value]
+        return all[value]
     }
 
     private var value: String {

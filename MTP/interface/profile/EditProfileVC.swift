@@ -320,17 +320,18 @@ private extension EditProfileVC {
         guard let links = current.links,
               !links.isEmpty else { return }
 
-        for link in links {
-            display(link: link)
+        for (index, link) in links.enumerated() {
+            display(row: index, link: link)
        }
     }
 
-    func display(link: Link) {
+    func display(row: Int, link: Link) {
         let text = InsetTextField {
             $0.styleForEditProfile()
             $0.text = link.text
             $0.inputAccessoryView = keyboardToolbar
             $0.delegate = self
+            UIEditProfile.linkTitle(row).expose(item: $0)
         }
 
         let holder = UIView {
@@ -343,6 +344,7 @@ private extension EditProfileVC {
             $0.text = link.url
             $0.inputAccessoryView = keyboardToolbar
             $0.delegate = self
+            UIEditProfile.linkUrl(row).expose(item: $0)
         }
         _ = UIButton {
             $0.setImage(R.image.tagDelete(), for: .normal)
@@ -355,6 +357,7 @@ private extension EditProfileVC {
                          action: #selector(deleteLinkTapped),
                          for: .touchUpInside)
             $0.tag = linksStack.arrangedSubviews.count
+            UIEditProfile.linkDelete(row).expose(item: $0)
         }
 
         let linkStack = UIStackView(arrangedSubviews: [text,
@@ -615,11 +618,15 @@ private extension EditProfileVC {
 
     @IBAction func addLinkTapped(_ sender: UIButton) {
         view.endEditing(true)
+
         let link = Link()
-        current.links?.append(link)
+        var links = current.links ?? []
+        let end = links.count
+        links.append(link)
+        current.links = links
 
         tableView.update {
-            display(link: link)
+            display(row: end, link: link)
         }
 
         updateSave(showError: false)
@@ -753,8 +760,19 @@ extension EditProfileVC: Exposing {
     /// Expose controls to UI tests
     func expose() {
         UIEditProfile.close.expose(item: closeButton)
-        UIEditProfile.country.expose(item: countryTextField)
         UIEditProfile.save.expose(item: saveButton)
+
+        UIEditProfile.avatar.expose(item: avatarButton)
+        UIEditProfile.first.expose(item: firstNameTextField)
+        UIEditProfile.last.expose(item: lastNameTextField)
+        UIEditProfile.birthday.expose(item: birthdayTextField)
+        UIEditProfile.gender.expose(item: genderTextField)
+        UIEditProfile.country.expose(item: countryTextField)
+        UIEditProfile.location.expose(item: locationTextField)
+        UIEditProfile.email.expose(item: emailTextField)
+        UIEditProfile.about.expose(item: aboutTextView)
+        UIEditProfile.airport.expose(item: airportTextField)
+        UIEditProfile.linkAdd.expose(item: addLinkButton)
 
         UIKeyboard.toolbar.expose(item: keyboardToolbar)
         UIKeyboard.back.expose(item: toolbarBackButton)

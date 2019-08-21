@@ -19,7 +19,7 @@ extension UIRankingsPage: Elemental {
     var container: XCUIElementQuery {
         switch self {
         case .ranks:
-            return app
+            return all
         case .profile(let list, _),
              .remaining(let list, _),
              .visited(let list, _):
