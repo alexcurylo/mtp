@@ -59,6 +59,7 @@
 		8C4763242304156F0089EF33 /* UIAddPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4763222304156F0089EF33 /* UIAddPost.swift */; };
 		8C476326230415980089EF33 /* UIAddPost+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C476325230415980089EF33 /* UIAddPost+Test.swift */; };
 		8C4A6FAF224859A500B33DB9 /* UserCountsPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4A6FAE224859A500B33DB9 /* UserCountsPageVC.swift */; };
+		8C4AA81F230CE6BF00545D46 /* search-Fred.json in Resources */ = {isa = PBXBuildFile; fileRef = 8C4AA81D230CE33200545D46 /* search-Fred.json */; };
 		8C50B16C22374C650013BD34 /* UIViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C50B16B22374C650013BD34 /* UIViewController+Keyboard.swift */; };
 		8C58019E2305097900DE768F /* PlaceLocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C58019D2305097900DE768F /* PlaceLocationTests.swift */; };
 		8C5801A023050CB700DE768F /* PostPayloadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C58019F23050CB700DE768F /* PostPayloadTests.swift */; };
@@ -463,6 +464,7 @@
 		8C4763222304156F0089EF33 /* UIAddPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAddPost.swift; sourceTree = "<group>"; };
 		8C476325230415980089EF33 /* UIAddPost+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAddPost+Test.swift"; sourceTree = "<group>"; };
 		8C4A6FAE224859A500B33DB9 /* UserCountsPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCountsPageVC.swift; sourceTree = "<group>"; };
+		8C4AA81D230CE33200545D46 /* search-Fred.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "search-Fred.json"; sourceTree = "<group>"; };
 		8C4CDC362305561000A9E497 /* userRegister.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = userRegister.json; sourceTree = "<group>"; };
 		8C50B16B22374C650013BD34 /* UIViewController+Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Keyboard.swift"; sourceTree = "<group>"; };
 		8C58019D2305097900DE768F /* PlaceLocationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceLocationTests.swift; sourceTree = "<group>"; };
@@ -1225,6 +1227,7 @@
 				FA96A87A22ECF865001423F6 /* scorecard-restaurants-7853.json */,
 				FA96A87722ECF864001423F6 /* scorecard-uncountries-7853.json */,
 				FA96A87922ECF865001423F6 /* scorecard-whss-7853.json */,
+				8C4AA81D230CE33200545D46 /* search-Fred.json */,
 				8CFBC102230A38D0008844D9 /* userDelete.json */,
 				FA96A88622ED314A001423F6 /* userGet-1.json */,
 				FA0A7B9322E6797400D3EF99 /* userGetByToken.json */,
@@ -1779,6 +1782,7 @@
 				FA4DE5FD230985530091119A /* default.realm in Resources */,
 				FA392BC720DF69F50026C828 /* LaunchScreen.storyboard in Resources */,
 				FA74C10F211BB8F00013A840 /* Localizable.strings in Resources */,
+				8C4AA81F230CE6BF00545D46 /* search-Fred.json in Resources */,
 				FA5AC0BB21FDC1060080F84F /* MyCounts.storyboard in Resources */,
 				8C0E6A7123055CFD00E7768E /* scorecard-golfcourses-7853.json in Resources */,
 				FA81361220E8F64500313AB9 /* Settings.bundle in Resources */,

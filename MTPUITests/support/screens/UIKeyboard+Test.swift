@@ -18,7 +18,7 @@ extension UIKeyboard: Elemental {
 
     var container: XCUIElementQuery {
         switch self {
-        case .toolbar: return app
+        case .toolbar: return all
         default: return UIKeyboard.toolbar.match.query(type: type)
         }
     }

@@ -8,19 +8,35 @@ extension UIRankings: Elemental {
         switch self {
         case .nav:
             return .navigationBar
-        case .filter,
-             .search:
+        case .cancel,
+             .filter,
+             .find:
             return .button
+        case .result:
+            return .cell
+        case .search:
+            return .searchField
+        }
+    }
+
+    var element: XCUIElement {
+        switch self {
+        case .cancel:
+            return all["Cancel"]
+        case .search:
+            return all["Search travellers"]
+        default:
+            return identified
         }
     }
 
     var container: XCUIElementQuery {
         switch self {
-        case .nav:
-            return app
         case .filter,
-             .search:
+             .find:
             return UIRankings.nav.match.query(type: type)
+        default:
+            return all
         }
     }
 }

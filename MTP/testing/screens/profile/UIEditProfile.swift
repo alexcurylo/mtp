@@ -7,6 +7,9 @@ enum UIEditProfile: Exposable {
     case close
     /// Save bar button
     case save
+
     /// Country edit field
     case country
+    /// Location edit field
+    case location
 }

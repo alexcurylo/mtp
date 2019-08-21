@@ -78,16 +78,27 @@ final class ProfileUITests: XCTestCase {
 
         UIEditProfile.country.tap()
 
-        UILocationSearch.item(0).tap()
+        let preferNot = 0
+        UILocationSearch.result(preferNot).tap()
 
         UIEditProfile.country.tap()
 
-        //UILocationSearch.search.tap()
-        //UILocationSearch.cancel.tap()
-        //UILocationSearch.search.tap()
-        //UILocationSearch.search.type(text: "North")
+        let antigua = 6
+        UILocationSearch.result(antigua).tap()
 
-        UILocationSearch.item(0).tap()
+        UIEditProfile.location.tap()
+
+        let redonda = 2
+        UILocationSearch.result(redonda).tap()
+
+        UIEditProfile.country.tap()
+
+        UILocationSearch.search.tap()
+        UILocationSearch.cancel.tap()
+        UILocationSearch.search.tap()
+        UILocationSearch.search.type(text: "North")
+
+        UILocationSearch.result(0).tap()
 
         UIEditProfile.close.tap()
     }

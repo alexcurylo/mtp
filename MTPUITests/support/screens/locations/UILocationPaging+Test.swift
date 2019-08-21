@@ -17,7 +17,7 @@ extension UILocationPaging: Elemental {
 
     var container: XCUIElementQuery {
         switch self {
-        case .menu: return app
+        case .menu: return all
         default: return UILocationPaging.menu.match.query(type: type)
         }
     }

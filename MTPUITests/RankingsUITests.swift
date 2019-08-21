@@ -18,6 +18,11 @@ final class RankingsUITests: XCTestCase {
         UIMain.rankings.tap()
         UIMain.rankings.wait(for: .selected)
 
+        UIRankingsPaging.page(.uncountries).tap()
+        UIRankingsPaging.page(.golfcourses).tap()
+        UIRankingsPaging.page(.restaurants).tap()
+        UIRankingsPaging.page(.divesites).tap()
+        UIRankingsPaging.page(.beaches).tap()
         UIRankingsPaging.page(.whss).tap()
         UIRankingsPaging.page(.locations).tap()
 
@@ -35,7 +40,11 @@ final class RankingsUITests: XCTestCase {
 
         UIRankingsFilter.close.tap()
 
-        UIRankings.search.tap()
-        UIRankings.search.tap()
+        UIRankings.find.tap()
+        UIRankings.cancel.tap()
+        UIRankings.find.tap()
+        UIRankings.search.type(text: "Fred")
+
+        //UIRankings.result(0).tap()
     }
 }

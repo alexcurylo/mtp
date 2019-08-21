@@ -655,8 +655,9 @@ final class NetworkServiceStub: NetworkServiceImpl {
     ///   - then: Completion
     override func search(query: String,
                          then: @escaping NetworkCompletion<SearchResultJSON>) {
-        log.error("not stubbed yet!")
-        then(.failure(.message("not stubbed yet!")))
+        mtp.search(query: query,
+                   stub: MTPProvider.immediatelyStub,
+                   then: then)
     }
 
     /// Set places visit status

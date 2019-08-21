@@ -753,8 +753,10 @@ extension EditProfileVC: Exposing {
     /// Expose controls to UI tests
     func expose() {
         UIEditProfile.close.expose(item: closeButton)
-        UIEditProfile.country.expose(item: countryTextField)
         UIEditProfile.save.expose(item: saveButton)
+
+        UIEditProfile.country.expose(item: countryTextField)
+        UIEditProfile.location.expose(item: locationTextField)
 
         UIKeyboard.toolbar.expose(item: keyboardToolbar)
         UIKeyboard.back.expose(item: toolbarBackButton)

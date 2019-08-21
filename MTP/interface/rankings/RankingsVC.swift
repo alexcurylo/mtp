@@ -171,7 +171,7 @@ extension RankingsVC: Exposing {
         let bar = navigationController?.navigationBar
         UIRankings.nav.expose(item: bar)
         let items = navigationItem.rightBarButtonItems
-        UIRankings.search.expose(item: items?.first)
+        UIRankings.find.expose(item: items?.first)
         UIRankings.filter.expose(item: items?.last)
     }
 }

@@ -6,11 +6,11 @@ enum UILocationSearch: Exposable {
     /// Close bar button
     case close
 
-    /// Search bar
+    /// Search field
     case search
     /// Cancel button
     case cancel
 
-    /// Tappable list item
-    case item(Row)
+    /// Results list item
+    case result(Row)
 }

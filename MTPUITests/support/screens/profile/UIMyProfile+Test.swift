@@ -17,7 +17,7 @@ extension UIMyProfile: Elemental {
     var container: XCUIElementQuery {
         switch self {
         case .nav:
-            return app
+            return all
         case .edit,
              .settings:
             return UIMyProfile.nav.match.query(type: type)

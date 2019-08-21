@@ -16,7 +16,7 @@ extension UILocations: Elemental {
 
     var container: XCUIElementQuery {
         switch self {
-        case .nav: return app
+        case .nav: return all
         default: return UILocations.nav.match.query(type: type)
         }
     }

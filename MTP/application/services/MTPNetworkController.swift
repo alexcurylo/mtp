@@ -393,6 +393,8 @@ extension MTP: TargetType {
         case let .scorecard(list, _):
             //file = "scorecard-\(list.key)-\(user)"
             file = "scorecard-\(list.key)-7853"
+        case .search:
+            file = "search-Fred"
         case .userDelete:
             file = "userDelete"
         case .userGet:
@@ -1407,10 +1409,12 @@ struct MTPNetworkController: ServiceProvider {
     ///
     /// - Parameters:
     ///   - query: Query
+    ///   - stub: Stub behaviour
     ///   - then: Completion
     func search(query: String,
+                stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                 then: @escaping NetworkCompletion<SearchResultJSON>) {
-        let provider = MTPProvider()
+        let provider = MTPProvider(stubClosure: stub)
         let queryParam = query.isEmpty ? nil : query
         let endpoint = MTP.search(query: queryParam)
         provider.request(endpoint) { response in

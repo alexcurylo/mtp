@@ -9,7 +9,8 @@ extension UIEditProfile: Elemental {
         case .close,
              .save:
             return .button
-        case .country:
+        case .country,
+             .location:
             return .textField
         }
     }

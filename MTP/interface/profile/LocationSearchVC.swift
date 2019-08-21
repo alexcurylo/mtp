@@ -98,7 +98,7 @@ final class LocationSearchVC: RealmSearchViewController {
             for: indexPath)
 
         cell.inject(mode: mode, item: object)
-        UILocationSearch.item(indexPath.row).expose(item: cell)
+        UILocationSearch.result(indexPath.row).expose(item: cell)
 
         return cell
     }

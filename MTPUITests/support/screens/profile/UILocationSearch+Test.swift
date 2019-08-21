@@ -9,7 +9,7 @@ extension UILocationSearch: Elemental {
         case .cancel,
              .close:
             return .button
-        case .item:
+        case .result:
             return .cell
         case .search:
             return .searchField
@@ -19,9 +19,9 @@ extension UILocationSearch: Elemental {
     var element: XCUIElement {
         switch self {
         case .cancel:
-            return app["Cancel"]
+            return all["Cancel"]
         case .search:
-            return XCUIApplication().tables.searchFields["Search"]
+            return all["Search"]
         default:
             return identified
         }
