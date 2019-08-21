@@ -310,6 +310,8 @@
 		FA63A4C723076A1800637BB3 /* RankingsPageVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA63A4C123076A1800637BB3 /* RankingsPageVCTests.swift */; };
 		FA6A188621EFEF920092C56C /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6A188521EFEF920092C56C /* Observable.swift */; };
 		FA6A2CF222F85D4E00444BFA /* StyleServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6A2CF122F85D4E00444BFA /* StyleServiceSpy.swift */; };
+		FA720120230D7EBF00822228 /* userPostToken.json in Resources */ = {isa = PBXBuildFile; fileRef = FA72011F230D7EBF00822228 /* userPostToken.json */; };
+		FA720122230D820F00822228 /* userUpdate.json in Resources */ = {isa = PBXBuildFile; fileRef = FA720121230D820F00822228 /* userUpdate.json */; };
 		FA74574D210CA5730010F4F4 /* MyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74574C210CA5730010F4F4 /* MyProfileVC.swift */; };
 		FA745753210DA4C60010F4F4 /* MyProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA745755210DA4C60010F4F4 /* MyProfile.storyboard */; };
 		FA745757210DBD910010F4F4 /* UINavigationBar+Transparent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA745756210DBD910010F4F4 /* UINavigationBar+Transparent.swift */; };
@@ -700,6 +702,8 @@
 		FA63A4C123076A1800637BB3 /* RankingsPageVCTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RankingsPageVCTests.swift; sourceTree = "<group>"; };
 		FA6A188521EFEF920092C56C /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		FA6A2CF122F85D4E00444BFA /* StyleServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleServiceSpy.swift; sourceTree = "<group>"; };
+		FA72011F230D7EBF00822228 /* userPostToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = userPostToken.json; sourceTree = "<group>"; };
+		FA720121230D820F00822228 /* userUpdate.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = userUpdate.json; sourceTree = "<group>"; };
 		FA74574C210CA5730010F4F4 /* MyProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileVC.swift; sourceTree = "<group>"; };
 		FA745754210DA4C60010F4F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyProfile.storyboard; sourceTree = "<group>"; };
 		FA745756210DBD910010F4F4 /* UINavigationBar+Transparent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+Transparent.swift"; sourceTree = "<group>"; };
@@ -1234,6 +1238,8 @@
 				FA507C2723059DD5000F0EF9 /* userLogin-7853.json */,
 				FA96A87222ECF1E8001423F6 /* userPosts-7853.json */,
 				8C4CDC362305561000A9E497 /* userRegister.json */,
+				FA72011F230D7EBF00822228 /* userPostToken.json */,
+				FA720121230D820F00822228 /* userUpdate.json */,
 				8CA5CE8E230B92740020F7F8 /* userVerify.json */,
 			);
 			path = fixtures;
@@ -1807,6 +1813,7 @@
 				FA0345AF23058E3600632322 /* locationPosts-554.json in Resources */,
 				FA392BC220DF69F30026C828 /* Main.storyboard in Resources */,
 				8C0E6A7023055CFD00E7768E /* scorecard-divesites-7853.json in Resources */,
+				FA720120230D7EBF00822228 /* userPostToken.json in Resources */,
 				FA8839552234BDC9002F324F /* LocationSearch.storyboard in Resources */,
 				FAF1853220FA0DEF00CC5D83 /* Root.storyboard in Resources */,
 				8C0E6A7823055CFD00E7768E /* userPosts-7853.json in Resources */,
@@ -1814,6 +1821,7 @@
 				0A2349E36085A3EE89A30019 /* Pods-MTP-metadata.plist in Resources */,
 				8C0E6A6C23055CFD00E7768E /* checklists.json in Resources */,
 				8C0E6A6F23055CFD00E7768E /* scorecard-beaches-7853.json in Resources */,
+				FA720122230D820F00822228 /* userUpdate.json in Resources */,
 				FABA7410213A359C0059ACCA /* ProfilePhotos.storyboard in Resources */,
 				FA32CC7E2100CB75004C1329 /* Signup.storyboard in Resources */,
 				8C0E6A6E23055CFD00E7768E /* rankings.json in Resources */,

@@ -8,16 +8,25 @@ extension UILocations: Elemental {
         switch self {
         case .nav:
             return .navigationBar
-        case .filter,
+        case .result:
+            return .cell
+        case .cancel,
+             .filter,
              .nearby:
             return .button
+        case .search:
+            return .searchField
         }
     }
 
-    var container: XCUIElementQuery {
+    var element: XCUIElement {
         switch self {
-        case .nav: return all
-        default: return UILocations.nav.match.query(type: type)
+        case .cancel:
+            return UILocations.nav.match.buttons["Cancel"]
+        case .search:
+            return all["Search for a place"]
+        default:
+            return identified
         }
     }
 }

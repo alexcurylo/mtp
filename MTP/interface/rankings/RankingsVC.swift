@@ -127,6 +127,8 @@ private extension RankingsVC {
     }
 
     func display(names: [String]) {
+        let ids = (0..<names.count).map { UIRankings.result($0).identifier }
+        dropdown.localizationKeysDataSource = ids
         dropdown.dataSource = names
         if names.isEmpty {
             dropdown.hide()

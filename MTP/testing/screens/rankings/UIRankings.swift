@@ -14,7 +14,6 @@ enum UIRankings: Exposable {
     case search
     /// Cancel button
     case cancel
-
     /// Results list item
     case result(Row)
 }

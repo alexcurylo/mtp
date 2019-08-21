@@ -98,8 +98,9 @@ final class ProfileUITests: XCTestCase {
         UILocationSearch.search.tap()
         UILocationSearch.search.type(text: "North")
 
-        UILocationSearch.result(0).tap()
+        let northKorea = 0
+        UILocationSearch.result(northKorea).tap()
 
-        UIEditProfile.close.tap()
+        UIEditProfile.save.tap()
     }
 }
