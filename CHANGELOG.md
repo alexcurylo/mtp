@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- Now uses Firebase for analytics and crash reports
+
 ## [Version 1.0.1, Build 639] - 2019-08-20
 
 ### Fixed

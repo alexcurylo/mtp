@@ -41,6 +41,7 @@ Requirements
 - [Coveralls](https://coveralls.io/github/alexcurylo/mtp?branch=develop) for test coverage statistics
 - [Danger](http://danger.systems/ruby/) for automated code review
 - [Fastlane](https://fastlane.tools) for release management
+- [Firebase](https://firebase.google.com/) for analytics and crash reports
 - [Gitter](https://gitter.im/alexcurylo/mtp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) for chat
 - [Jazzy](https://github.com/realm/jazzy) for generating documentation
 - [Slather](https://github.com/SlatherOrg/slather) for test coverage reports

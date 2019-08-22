@@ -137,6 +137,7 @@
 		8CD4BD2723024DCB0041E0C3 /* UIForgotPassword+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD4BD2623024DCB0041E0C3 /* UIForgotPassword+Test.swift */; };
 		8CD4BD2923024E320041E0C3 /* UIForgotPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD4BD2823024E320041E0C3 /* UIForgotPassword.swift */; };
 		8CD4BD2A23024E320041E0C3 /* UIForgotPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD4BD2823024E320041E0C3 /* UIForgotPassword.swift */; };
+		8CD93520230E1F6400BCB549 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8CD9351F230E1F6400BCB549 /* GoogleService-Info.plist */; };
 		8CDBE5EE22C08AD5005A6C18 /* PostPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDBE5ED22C08AD5005A6C18 /* PostPayload.swift */; };
 		8CDC4D54230A301400AA422D /* UIKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDC4D53230A301400AA422D /* UIKeyboard.swift */; };
 		8CDC4D56230A312800AA422D /* ConfirmDeleteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDC4D55230A312800AA422D /* ConfirmDeleteVC.swift */; };
@@ -532,6 +533,7 @@
 		8CD2831822E7EC1000324FDE /* XCUIElementTypeQueryProvider+Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElementTypeQueryProvider+Query.swift"; sourceTree = "<group>"; };
 		8CD4BD2623024DCB0041E0C3 /* UIForgotPassword+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIForgotPassword+Test.swift"; sourceTree = "<group>"; };
 		8CD4BD2823024E320041E0C3 /* UIForgotPassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIForgotPassword.swift; sourceTree = "<group>"; };
+		8CD9351F230E1F6400BCB549 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8CDBE5ED22C08AD5005A6C18 /* PostPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPayload.swift; sourceTree = "<group>"; };
 		8CDC4D53230A301400AA422D /* UIKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKeyboard.swift; sourceTree = "<group>"; };
 		8CDC4D55230A312800AA422D /* ConfirmDeleteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDeleteVC.swift; sourceTree = "<group>"; };
@@ -1395,6 +1397,7 @@
 			children = (
 				FA392BC320DF69F50026C828 /* Assets.xcassets */,
 				FA4DE5FC230985530091119A /* default.realm */,
+				8CD9351F230E1F6400BCB549 /* GoogleService-Info.plist */,
 				FA392BC820DF69F50026C828 /* Info.plist */,
 				FA74C10D211BB8F00013A840 /* Localizable.strings */,
 				FA392BC020DF69F30026C828 /* Main.storyboard */,
@@ -1670,6 +1673,7 @@
 				FA3BD22A2160DE7A007EAF75 /* SwiftLint */,
 				FA392BB520DF69F30026C828 /* Resources */,
 				6488DCB99249CC3516D4C352 /* [CP] Copy Pods Resources */,
+				8CD93521230E244300BCB549 /* Fabric */,
 			);
 			buildRules = (
 			);
@@ -1791,6 +1795,7 @@
 				8C4AA81F230CE6BF00545D46 /* search-Fred.json in Resources */,
 				FA5AC0BB21FDC1060080F84F /* MyCounts.storyboard in Resources */,
 				8C0E6A7123055CFD00E7768E /* scorecard-golfcourses-7853.json in Resources */,
+				8CD93520230E1F6400BCB549 /* GoogleService-Info.plist in Resources */,
 				FA81361220E8F64500313AB9 /* Settings.bundle in Resources */,
 				8CAE30592239DA7D00E31647 /* world-map.geojson in Resources */,
 				FA392BC420DF69F50026C828 /* Assets.xcassets in Resources */,
@@ -1893,6 +1898,25 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		8CD93521230E244300BCB549 /* Fabric */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = Fabric;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\"\n";
 		};
 		9742874D2D96EE610208747B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

@@ -1,5 +1,6 @@
 // @copyright Trollwerks Inc.
 
+import Crashlytics
 import UIKit
 
 /// Handle the user login process
@@ -178,8 +179,9 @@ private extension LoginVC {
                       // swiftlint:disable:next closure_body_length
                       password: password) { [weak self, note] result in
             switch result {
-            case .success:
+            case .success(let user):
                 note.modal(success: L.success())
+                self?.analyze(user: user)
                 DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
                     note.dismissModal()
                     self?.performSegue(withIdentifier: Segues.showMain, sender: self)
@@ -205,6 +207,11 @@ private extension LoginVC {
             note.dismissModal()
             self?.performSegue(withIdentifier: Segues.presentLoginFail, sender: self)
         }
+    }
+
+    func analyze(user: UserJSON) {
+        let userId = user.email.md5Value
+        Crashlytics.sharedInstance().setUserIdentifier(userId)
     }
 }
 

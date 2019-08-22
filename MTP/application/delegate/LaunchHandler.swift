@@ -2,6 +2,7 @@
 
 import AlamofireNetworkActivityIndicator
 import FBSDKCoreKit
+import Firebase
 import SwiftyBeaver
 
 /// Stub for startup construction
@@ -36,6 +37,7 @@ extension LaunchHandler: AppLaunchHandler {
 
         configureLogging()
 
+        configureFirebase()
 
         configureNetworking()
 
@@ -139,5 +141,21 @@ private extension LaunchHandler {
             app,
             didFinishLaunchingWithOptions: options
         )
+    }
+}
+
+// MARK: - Firebase
+
+private extension LaunchHandler {
+
+    // https://www.lordcodes.com/posts/a-modular-analytics-layer-in-swift
+    // https://firebase.google.com/docs/analytics/ios/start
+
+    func configureFirebase() {
+        guard UIApplication.isProduction else { return }
+
+        FirebaseApp.configure()
+
+        //Crashlytics.sharedInstance().crash()
     }
 }
