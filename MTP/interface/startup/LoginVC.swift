@@ -1,6 +1,5 @@
 // @copyright Trollwerks Inc.
 
-import Crashlytics
 import UIKit
 
 /// Handle the user login process
@@ -211,7 +210,7 @@ private extension LoginVC {
 
     func analyze(user: UserJSON) {
         let userId = user.email.md5Value
-        Crashlytics.sharedInstance().setUserIdentifier(userId)
+        report.set(userId: userId)
     }
 }
 

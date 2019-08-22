@@ -17,6 +17,8 @@ protocol ServiceProvider {
     var net: NetworkService { get }
     /// NotificationService
     var note: NotificationService { get }
+    /// ReportingService
+    var report: ReportingService { get }
     /// StyleService
     var style: StyleService { get }
 }
@@ -56,6 +58,11 @@ extension ServiceProvider {
         return ServiceProviderInstances.noteServiceInstance
     }
 
+    /// ReportingService
+    var report: ReportingService {
+        return ServiceProviderInstances.reportServiceInstance
+    }
+
     /// StyleService
     var style: StyleService {
         return ServiceProviderInstances.styleServiceInstance
@@ -79,6 +86,8 @@ enum ServiceProviderInstances {
     static var netServiceInstance: NetworkService!
     /// NotificationService
     static var noteServiceInstance: NotificationService!
+    /// ReportingService
+    static var reportServiceInstance: ReportingService!
     /// StyleService
     static var styleServiceInstance: StyleService!
 }

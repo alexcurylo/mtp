@@ -157,6 +157,11 @@ extension String {
             $0 += String(format: "%02x", digest[$1])
         }
     }
+
+    /// Return filename from a path
+    var file: String {
+        return components(separatedBy: "/").last ?? ""
+    }
 }
 
 extension String: LocalizedError {

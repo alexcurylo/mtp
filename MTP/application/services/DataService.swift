@@ -1,6 +1,5 @@
 // @copyright Trollwerks Inc.
 
-import Crashlytics
 import JWTDecode
 import RealmSwift
 
@@ -333,8 +332,8 @@ extension DataService {
 
     /// Log out current user
     func logOut() {
-        Crashlytics.sharedInstance().setUserIdentifier("")
         FacebookButton.logOut()
+        report.set(userId: "")
 
         MTP.unthrottle()
         net.unthrottle()

@@ -376,6 +376,8 @@
 		FAAE29C220EFADC800B43BA9 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAE29C120EFADC700B43BA9 /* R.generated.swift */; };
 		FAAE29C520F05A9600B43BA9 /* UserDefaults+TypeSafety.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAE29C420F05A9600B43BA9 /* UserDefaults+TypeSafety.swift */; };
 		FAB53F8B20DFD618007A80A7 /* MemoryWarner.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB53F8A20DFD618007A80A7 /* MemoryWarner.m */; };
+		FAB5E65F230F4AF0005D294A /* ReportingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB5E65E230F4AF0005D294A /* ReportingService.swift */; };
+		FAB5E661230F4FD9005D294A /* ReportingServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB5E660230F4FD9005D294A /* ReportingServiceSpy.swift */; };
 		FAB5E73922BE4F58002B24C8 /* AddPost.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAB5E73722BE4F58002B24C8 /* AddPost.storyboard */; };
 		FABA740D213A29CD0059ACCA /* ProfileAbout.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABA740B213A29CD0059ACCA /* ProfileAbout.storyboard */; };
 		FABA7410213A359C0059ACCA /* ProfilePhotos.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABA740E213A359C0059ACCA /* ProfilePhotos.storyboard */; };
@@ -780,6 +782,8 @@
 		FAB53F8720DFD617007A80A7 /* MTPTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MTPTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		FAB53F8920DFD618007A80A7 /* MemoryWarner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemoryWarner.h; sourceTree = "<group>"; };
 		FAB53F8A20DFD618007A80A7 /* MemoryWarner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemoryWarner.m; sourceTree = "<group>"; };
+		FAB5E65E230F4AF0005D294A /* ReportingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportingService.swift; sourceTree = "<group>"; };
+		FAB5E660230F4FD9005D294A /* ReportingServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportingServiceSpy.swift; sourceTree = "<group>"; };
 		FAB5E73822BE4F58002B24C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/AddPost.storyboard; sourceTree = "<group>"; };
 		FABA740C213A29CD0059ACCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ProfileAbout.storyboard; sourceTree = "<group>"; };
 		FABA740F213A359C0059ACCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ProfilePhotos.storyboard; sourceTree = "<group>"; };
@@ -924,6 +928,7 @@
 				FA1663AE22E3325B0075DA1A /* NetworkService.swift */,
 				FAC8465A22AB55B6004F57EC /* NotificationService.swift */,
 				FA36FBEE2206461F00616CDE /* RealmDataController.swift */,
+				FAB5E65E230F4AF0005D294A /* ReportingService.swift */,
 				8C76D5DB22028874005CF4CD /* ServiceProvider.swift */,
 				FA4653312115A250005B5A0A /* UserDefaults+DataService.swift */,
 			);
@@ -940,6 +945,7 @@
 				8C0127FE2232089100EA2095 /* LoggingServiceSpy.swift */,
 				8C012802223208FB00EA2095 /* NetworkServiceSpy.swift */,
 				FAC8466022AB79AA004F57EC /* NotificationServiceSpy.swift */,
+				FAB5E660230F4FD9005D294A /* ReportingServiceSpy.swift */,
 				FA6A2CF122F85D4E00444BFA /* StyleServiceSpy.swift */,
 			);
 			path = spies;
@@ -2159,6 +2165,7 @@
 				FA12D682213B963C0053E9BF /* RankingsPageVC.swift in Sources */,
 				FA4653322115A250005B5A0A /* UserDefaults+DataService.swift in Sources */,
 				8C7D71EB2303E9E7005939AC /* UILocationInfo.swift in Sources */,
+				FAB5E65F230F4AF0005D294A /* ReportingService.swift in Sources */,
 				FAA818FE22447EAB00BB9F92 /* LocationVC.swift in Sources */,
 				FA7CCAEF22B848EE0092A95E /* PhotosVC.swift in Sources */,
 				8CA1ECE722C4434300C3B40B /* WKWebViewController.swift in Sources */,
@@ -2237,6 +2244,7 @@
 				FA63A4B72307676900637BB3 /* ProfilePagingVCTests.swift in Sources */,
 				FA63A4AF2307675F00637BB3 /* CountCellItemTests.swift in Sources */,
 				FAE1F11C21437F860002CAB2 /* String+Assert.swift in Sources */,
+				FAB5E661230F4FD9005D294A /* ReportingServiceSpy.swift in Sources */,
 				8CC6B95B2304EBED0089DB89 /* UIImageTests.swift in Sources */,
 				8CC6B9612304F0D90089DB89 /* SearchResultJSONTests.swift in Sources */,
 				FA63A4C223076A1800637BB3 /* RankingCellTests.swift in Sources */,

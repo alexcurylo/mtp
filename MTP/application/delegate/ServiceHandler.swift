@@ -26,6 +26,7 @@ extension ServiceHandler: AppLaunchHandler {
         ServiceProviderInstances.locServiceInstance = LocationServiceImpl()
         ServiceProviderInstances.netServiceInstance = NetworkServiceImpl()
         ServiceProviderInstances.noteServiceInstance = NotificationServiceImpl()
+        ServiceProviderInstances.reportServiceInstance = FirebaseReportingService()
         ServiceProviderInstances.styleServiceInstance = StyleServiceImpl()
 
         return true
@@ -73,6 +74,7 @@ extension ServiceHandlerStub: AppLaunchHandler {
         ServiceProviderInstances.locServiceInstance = LocationServiceStub()
         ServiceProviderInstances.netServiceInstance = NetworkServiceStub()
         ServiceProviderInstances.noteServiceInstance = NotificationServiceStub()
+        ServiceProviderInstances.reportServiceInstance = ReportingServiceStub()
         ServiceProviderInstances.styleServiceInstance = StyleServiceImpl()
 
         return true
