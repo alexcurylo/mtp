@@ -25,7 +25,6 @@ target 'MTP' do
 
   pod 'AlamofireNetworkActivityIndicator'
   pod 'Anchorage'
-  pod 'AppCenter'
   pod 'AXPhotoViewer/Nuke'
   pod 'AXStateButton', :modular_headers => true
   pod 'Bolts', :modular_headers => true, :inhibit_warnings => true

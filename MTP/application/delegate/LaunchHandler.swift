@@ -1,9 +1,6 @@
 // @copyright Trollwerks Inc.
 
 import AlamofireNetworkActivityIndicator
-import AppCenter
-import AppCenterAnalytics
-import AppCenterCrashes
 import FBSDKCoreKit
 import SwiftyBeaver
 
@@ -39,7 +36,6 @@ extension LaunchHandler: AppLaunchHandler {
 
         configureLogging()
 
-        configureAppCenter()
 
         configureNetworking()
 
@@ -127,23 +123,6 @@ private extension LaunchHandler {
                 encryptionKey: "wdybYid5fohynFuy7pzjgcdmmXedin0m")
             swiftyBeaver.addDestination(platform)
         }
-    }
-}
-
-// MARK: - AppCenter
-
-// https://docs.microsoft.com/en-us/appcenter/
-// https://docs.microsoft.com/en-us/appcenter/sdk/crashes/ios
-// https://docs.microsoft.com/en-us/appcenter/sdk/analytics/ios
-
-private extension LaunchHandler {
-
-    func configureAppCenter() {
-        guard UIApplication.isProduction else { return }
-
-        MSAppCenter.start("20cb945f-58b9-4544-a059-424aa3b86820",
-                          withServices: [MSAnalytics.self,
-                                         MSCrashes.self])
     }
 }
 
