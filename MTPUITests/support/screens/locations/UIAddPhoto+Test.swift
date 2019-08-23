@@ -6,7 +6,9 @@ extension UIAddPhoto: Elemental {
 
     var type: XCUIElement.ElementType {
         switch self {
-        case .close,
+        case .camera,
+             .close,
+             .image,
              .save:
             return .button
         }

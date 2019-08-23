@@ -404,7 +404,9 @@ extension AddPhotoVC: Exposing {
 
     /// Expose controls to UI tests
     func expose() {
+        UIAddPhoto.camera.expose(item: cameraButton)
         UIAddPhoto.close.expose(item: closeButton)
+        UIAddPhoto.image.expose(item: imageButton)
         UIAddPhoto.save.expose(item: saveButton)
     }
 }

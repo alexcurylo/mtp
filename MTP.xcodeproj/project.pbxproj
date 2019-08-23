@@ -36,6 +36,9 @@
 		8C0F242B22432076005BD5DC /* UserCountsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0F242A22432076005BD5DC /* UserCountsVC.swift */; };
 		8C177A0722FA671700E4433C /* MenuAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C177A0622FA671700E4433C /* MenuAction.swift */; };
 		8C1A267E22AE019400DAFC7B /* SearchResultJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1A267D22AE019400DAFC7B /* SearchResultJSON.swift */; };
+		8C25468D230F85A5003A1B99 /* XCUIElement+Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C25468C230F85A5003A1B99 /* XCUIElement+Coordinate.swift */; };
+		8C25480D230F8F67003A1B99 /* uploadPhoto.json in Resources */ = {isa = PBXBuildFile; fileRef = 8C25480C230F8F66003A1B99 /* uploadPhoto.json */; };
+		8C25480F230FACCB003A1B99 /* postPublish.json in Resources */ = {isa = PBXBuildFile; fileRef = 8C25480E230FACCB003A1B99 /* postPublish.json */; };
 		8C3EA1FF22DD540F008DD858 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EA1FE22DD540F008DD858 /* SnapshotHelper.swift */; };
 		8C3EA813222F64F100CB4886 /* TopLoadingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */; };
 		8C3EAA1C2230BFA500CB4886 /* InsetTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EAA1B2230BFA500CB4886 /* InsetTextField.swift */; };
@@ -450,6 +453,9 @@
 		8C0F242A22432076005BD5DC /* UserCountsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCountsVC.swift; sourceTree = "<group>"; };
 		8C177A0622FA671700E4433C /* MenuAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuAction.swift; sourceTree = "<group>"; };
 		8C1A267D22AE019400DAFC7B /* SearchResultJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultJSON.swift; sourceTree = "<group>"; };
+		8C25468C230F85A5003A1B99 /* XCUIElement+Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+Coordinate.swift"; sourceTree = "<group>"; };
+		8C25480C230F8F66003A1B99 /* uploadPhoto.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = uploadPhoto.json; sourceTree = "<group>"; };
+		8C25480E230FACCB003A1B99 /* postPublish.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = postPublish.json; sourceTree = "<group>"; };
 		8C3EA1FE22DD540F008DD858 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
 		8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLoadingTextView.swift; sourceTree = "<group>"; };
 		8C3EAA1B2230BFA500CB4886 /* InsetTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetTextField.swift; sourceTree = "<group>"; };
@@ -895,6 +901,7 @@
 				8CD2831622E7DEE800324FDE /* Elemental.swift */,
 				8C3EA1FE22DD540F008DD858 /* SnapshotHelper.swift */,
 				FA32CC7120FAC863004C1329 /* XCTestCase+Launch.swift */,
+				8C25468C230F85A5003A1B99 /* XCUIElement+Coordinate.swift */,
 				8CD2831822E7EC1000324FDE /* XCUIElementTypeQueryProvider+Query.swift */,
 			);
 			path = support;
@@ -1231,6 +1238,7 @@
 				FA0345AE23058E3600632322 /* locationPosts-554.json */,
 				8CFBC104230A3C61008844D9 /* passwordReset.json */,
 				FA96A87422ECF440001423F6 /* photos-7853-1.json */,
+				8C25480E230FACCB003A1B99 /* postPublish.json */,
 				FA96A88422ED213E001423F6 /* rankings.json */,
 				FA96A87C22ECF865001423F6 /* scorecard-beaches-7853.json */,
 				FA96A87822ECF865001423F6 /* scorecard-divesites-7853.json */,
@@ -1240,6 +1248,7 @@
 				FA96A87722ECF864001423F6 /* scorecard-uncountries-7853.json */,
 				FA96A87922ECF865001423F6 /* scorecard-whss-7853.json */,
 				8C4AA81D230CE33200545D46 /* search-Fred.json */,
+				8C25480C230F8F66003A1B99 /* uploadPhoto.json */,
 				8CFBC102230A38D0008844D9 /* userDelete.json */,
 				FA96A88622ED314A001423F6 /* userGet-1.json */,
 				FA0A7B9322E6797400D3EF99 /* userGetByToken.json */,
@@ -1815,6 +1824,7 @@
 				8CA5CE8F230B92740020F7F8 /* userVerify.json in Resources */,
 				FACB85D32308C14B009650BC /* checkin-whss-1187.json in Resources */,
 				8C0E6A7523055CFD00E7768E /* scorecard-whss-7853.json in Resources */,
+				8C25480F230FACCB003A1B99 /* postPublish.json in Resources */,
 				FA12AB5A22C75FAA00105545 /* UserProfile.storyboard in Resources */,
 				8C0E6A6D23055CFD00E7768E /* photos-7853-1.json in Resources */,
 				8C617975223F2E1E000827D6 /* LocationsFilter.storyboard in Resources */,
@@ -1831,6 +1841,7 @@
 				FAB5E73922BE4F58002B24C8 /* AddPost.storyboard in Resources */,
 				0A2349E36085A3EE89A30019 /* Pods-MTP-metadata.plist in Resources */,
 				8C0E6A6C23055CFD00E7768E /* checklists.json in Resources */,
+				8C25480D230F8F67003A1B99 /* uploadPhoto.json in Resources */,
 				8C0E6A6F23055CFD00E7768E /* scorecard-beaches-7853.json in Resources */,
 				FA720122230D820F00822228 /* userUpdate.json in Resources */,
 				FABA7410213A359C0059ACCA /* ProfilePhotos.storyboard in Resources */,
@@ -2345,6 +2356,7 @@
 				FA7A66D022FD93A1001DCCA2 /* UILocations.swift in Sources */,
 				FA0345992304CB8800632322 /* UIMyCounts.swift in Sources */,
 				FA03459B2304CBC100632322 /* UIMyCounts+Test.swift in Sources */,
+				8C25468D230F85A5003A1B99 /* XCUIElement+Coordinate.swift in Sources */,
 				FA0345672304435B00632322 /* UIFaq.swift in Sources */,
 				FA7A66C822FD843D001DCCA2 /* StartupUITests.swift in Sources */,
 				FA034570230444C500632322 /* UICountsPage+Test.swift in Sources */,

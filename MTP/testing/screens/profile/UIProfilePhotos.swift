@@ -1,5 +1,9 @@
 // @copyright Trollwerks Inc.
 
 /// ProfilePhotosVC exposed items
-/// Currently placeholder override of PhotosVC
-enum UIProfilePhotos: Exposable { }
+/// Also contains UIPhotos
+enum UIProfilePhotos: Exposable {
+
+    /// Close bar button
+    case close
+}

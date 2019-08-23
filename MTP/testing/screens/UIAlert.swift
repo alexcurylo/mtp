@@ -1,12 +1,10 @@
 // @copyright Trollwerks Inc.
 
-/// Elements found in alerts
+/// Elements found in alerts, system dialogs, etc.
 enum UIAlert: Exposable {
 
-    /// Title
-    case title(String)
-    /// Subtitie
-    case subtitle(String)
-    /// Button
+    /// ElementType.button
     case button(String)
+    /// ElementType.staticText
+    case text(String)
 }

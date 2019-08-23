@@ -9,6 +9,11 @@ extension UIAddPost: Elemental {
         case .close,
              .save:
             return .button
+        case .country,
+             .location:
+            return .textField
+        case .post:
+            return .textView
         }
     }
 }

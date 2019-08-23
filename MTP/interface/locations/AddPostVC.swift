@@ -229,6 +229,10 @@ extension AddPostVC: Exposing {
     func expose() {
         UIAddPost.close.expose(item: closeButton)
         UIAddPost.save.expose(item: saveButton)
+
+        UIAddPost.country.expose(item: countryLabel)
+        UIAddPost.location.expose(item: locationLabel)
+        UIAddPost.post.expose(item: postTextView)
     }
 }
 

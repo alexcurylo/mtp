@@ -686,8 +686,11 @@ final class NetworkServiceStub: NetworkServiceImpl {
                          caption: String?,
                          location id: Int?,
                          then: @escaping NetworkCompletion<PhotoReply>) {
-        log.error("not stubbed yet!")
-        then(.failure(.message("not stubbed yet!")))
+        mtp.upload(photo: photo,
+                   caption: caption,
+                   location: id,
+                   stub: MTPProvider.immediatelyStub,
+                   then: then)
     }
 
     /// Publish post
@@ -697,8 +700,9 @@ final class NetworkServiceStub: NetworkServiceImpl {
     ///   - then: Completion
     override func postPublish(payload: PostPayload,
                               then: @escaping NetworkCompletion<PostReply>) {
-        log.error("not stubbed yet!")
-        then(.failure(.message("not stubbed yet!")))
+        mtp.postPublish(payload: payload,
+                        stub: MTPProvider.immediatelyStub,
+                        then: then)
     }
 
     /// Delete user account

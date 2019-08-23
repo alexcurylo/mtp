@@ -388,6 +388,8 @@ extension MTP: TargetType {
             file = "passwordReset"
         case .photos(_, let page):
             file = "photos-7853-\(page)"
+        case .postPublish:
+            file = "postPublish"
         case .rankings:
             file = "rankings"
         case let .scorecard(list, _):
@@ -395,6 +397,8 @@ extension MTP: TargetType {
             file = "scorecard-\(list.key)-7853"
         case .search:
             file = "search-Fred"
+        case .upload:
+            file = "uploadPhoto"
         case .userDelete:
             file = "userDelete"
         case .userGet:
@@ -1329,15 +1333,17 @@ struct MTPNetworkController: ServiceProvider {
     ///
     /// - Parameters:
     ///   - payload: Post payload
+    ///   - stub: Stub behaviour
     ///   - then: Completion
     func postPublish(payload: PostPayload,
+                     stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                      then: @escaping NetworkCompletion<PostReply>) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
         }
 
         let auth = AccessTokenPlugin { self.data.token }
-        let provider = MTPProvider(plugins: [auth])
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
         let endpoint = MTP.postPublish(payload: payload)
 
         func parse(success response: Response) {
@@ -1449,17 +1455,19 @@ struct MTPNetworkController: ServiceProvider {
     ///   - photo: Data
     ///   - caption: String
     ///   - id: Location ID if any
+    ///   - stub: Stub behaviour
     ///   - then: Completion
     func upload(photo: Data,
                 caption: String?,
                 location id: Int?,
+                stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                 then: @escaping NetworkCompletion<PhotoReply>) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
         }
 
         let auth = AccessTokenPlugin { self.data.token }
-        let provider = MTPProvider(plugins: [auth])
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
         let endpoint = MTP.upload(photo: photo,
                                   caption: caption,
                                   location: id)

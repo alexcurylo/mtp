@@ -25,6 +25,15 @@ final class LocationsUITests: XCTestCase {
 
         UILocationPaging.posts.tap()
 
+        UIPosts.add.tap()
+
+        UIAddPost.post.tap()
+        (0...6).forEach { _ in
+            UIAddPost.post.type(text: "This is a test post. ")
+        }
+
+        UIAddPost.save.tap()
+
         UILocation.close.tap()
 
         let gaggan = 3

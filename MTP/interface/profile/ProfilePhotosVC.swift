@@ -65,6 +65,15 @@ final class ProfilePhotosVC: PhotosVC {
         update()
     }
 
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        expose()
+    }
+
     /// Instrument and inject navigation
     ///
     /// - Parameters:
@@ -153,6 +162,19 @@ private extension ProfilePhotosVC {
         performSegue(withIdentifier: Segues.cancelChoose.identifier, sender: self)
     }
 }
+
+// MARK: - Exposing
+
+extension ProfilePhotosVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        let items = navigationItem.leftBarButtonItems
+        UIProfilePhotos.close.expose(item: items?.first)
+    }
+}
+
+// MARK: - UserInjectable
 
 extension ProfilePhotosVC: UserInjectable {
 
