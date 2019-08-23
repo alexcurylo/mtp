@@ -25,12 +25,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 
-+ (void)updateFilters:(nullable NSArray<NSDictionary<NSString *, id> *> *)restrictiveRules
-    restrictiveParams:(nullable NSDictionary<NSString *, id> *)restrictiveParams;
-+ (nullable NSString *)getMatchedDataTypeWithEventName:(NSString *)eventName
-                                              paramKey:(NSString *)paramKey
-                                            paramValue:(id)paramValue;
-+ (BOOL)isDeprecatedEvent:(NSString *)eventName;
++ (void)updateFilters:(nullable NSDictionary<NSString *, id> *)restrictiveParams;
+
++ (void)processEvents:(NSMutableArray<NSDictionary<NSString *, id> *> *)events;
++ (nullable NSDictionary<NSString *, id> *)processParameters:(nullable NSDictionary<NSString *, id> *)parameters
+                                                   eventName:(NSString *)eventName;
 
 @end
 

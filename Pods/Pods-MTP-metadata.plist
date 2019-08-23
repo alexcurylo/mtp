@@ -431,7 +431,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			<key>summary</key>
 			<string>Official Facebook SDK for iOS to access Facebook Platform core features</string>
 			<key>version</key>
-			<string>5.2.3</string>
+			<string>5.4.1</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -475,7 +475,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			<key>summary</key>
 			<string>Official Facebook SDK for iOS to access Facebook Platform with features like Login, Share and Message Dialog, App Links, and Graph API</string>
 			<key>version</key>
-			<string>5.2.3</string>
+			<string>5.4.1</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -3443,7 +3443,7 @@ SOFTWARE.
 			<key>summary</key>
 			<string>A simple banner and pop-up displayer for iOS. Written in Swift.</string>
 			<key>version</key>
-			<string>1.1.1</string>
+			<string>1.1.2</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -3489,7 +3489,7 @@ SOFTWARE.
 			<key>summary</key>
 			<string>Convenient logging during development &amp; release in Swift 2, 3, 4 &amp; 5.</string>
 			<key>version</key>
-			<string>1.7.0</string>
+			<string>1.7.1</string>
 		</dict>
 		<dict>
 			<key>authors</key>

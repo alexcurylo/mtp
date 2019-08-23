@@ -17,24 +17,20 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
+#import "FBSDKError.h"
 
-typedef void (^FBSDKURLSessionTaskBlock)(NSError *error,
-                                         NSURLResponse *response,
-                                         NSData *responseData)
-NS_SWIFT_NAME(URLSessionTaskBlock);
+NS_ASSUME_NONNULL_BEGIN
 
-NS_SWIFT_NAME(URLSessionTask)
-@interface FBSDKURLSessionTask : NSObject
+@interface FBSDKErrorReport : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 
-- (instancetype)initWithRequest:(NSURLRequest *)request
-                    fromSession:(NSURLSession *)session
-              completionHandler:(FBSDKURLSessionTaskBlock)handler
-NS_DESIGNATED_INITIALIZER;
-
-- (void)cancel;
-- (void)start;
++ (void)enable;
++ (void)saveError:(NSInteger)errorCode
+      errorDomain:(NSErrorDomain)errorDomain
+          message:(nullable NSString *)message;
 
 @end
+
+NS_ASSUME_NONNULL_END

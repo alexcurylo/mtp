@@ -29,13 +29,13 @@ PODS:
     - FacebookCore (~> 0.8.0)
     - FBSDKCoreKit (~> 5.0)
     - FBSDKLoginKit (~> 5.0)
-  - FBSDKCoreKit (5.2.3):
-    - FBSDKCoreKit/Basics (= 5.2.3)
-    - FBSDKCoreKit/Core (= 5.2.3)
-  - FBSDKCoreKit/Basics (5.2.3)
-  - FBSDKCoreKit/Core (5.2.3):
+  - FBSDKCoreKit (5.4.1):
+    - FBSDKCoreKit/Basics (= 5.4.1)
+    - FBSDKCoreKit/Core (= 5.4.1)
+  - FBSDKCoreKit/Basics (5.4.1)
+  - FBSDKCoreKit/Core (5.4.1):
     - FBSDKCoreKit/Basics
-  - FBSDKLoginKit (5.2.3):
+  - FBSDKLoginKit (5.4.1):
     - FBSDKCoreKit (~> 5.0)
   - Firebase/Analytics (6.7.0):
     - Firebase/Core
@@ -129,10 +129,10 @@ PODS:
   - RealmSwift (3.17.3):
     - Realm (= 3.17.3)
   - Result (4.1.0)
-  - SwiftEntryKit (1.1.1):
+  - SwiftEntryKit (1.1.2):
     - QuickLayout (= 3.0.0)
   - SwiftLint (0.34.0)
-  - SwiftyBeaver (1.7.0)
+  - SwiftyBeaver (1.7.1)
 
 DEPENDENCIES:
   - ABFRealmMapView (from `https://github.com/alexcurylo/ABFRealmMapView`)
@@ -236,8 +236,8 @@ SPEC CHECKSUMS:
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   FacebookCore: 563bb4cbcd7dd86cf89f3729252140bf256aacaa
   FacebookLogin: 8b966ae661e95e7dba837d7cc49cc464ce003dba
-  FBSDKCoreKit: 5154c35d9058fd7dfa0445ba19e194c4b172fc32
-  FBSDKLoginKit: dc98b6bf12334f1a42f28d0457fffc9aa3d1eca5
+  FBSDKCoreKit: 5144671077d67f07d7d243dbc7fd57a171f73954
+  FBSDKLoginKit: ff38b353b6843353f090028eb1b895c78aa82796
   Firebase: 291d7b0a7b393f252358083b5d224884126fa46d
   FirebaseAnalytics: 843c7f64a8f9c79f0d03281197ebe7bb1d58d477
   FirebaseCore: 32b48f41c84a56fbde73b35ed01a830b3b6dc048
@@ -264,9 +264,9 @@ SPEC CHECKSUMS:
   RealmMapView: 610909ee919ab5bb8239f2ed4b51313a77250f98
   RealmSwift: b7fdc2d18616621c31df5c7a398a45a2163f8eb0
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
-  SwiftEntryKit: df2d08f3ba46b3972ce163537a64e87c2518f611
+  SwiftEntryKit: 08bf114650b41d4d825924211943b6a80801e823
   SwiftLint: 79d48a17c6565dc286c37efb8322c7b450f95c67
-  SwiftyBeaver: 4cc0080d2e23f980652e28978db11a5c9da39165
+  SwiftyBeaver: da5e573ad583586c18236324c36900990afe1733
 
 PODFILE CHECKSUM: bc8f36a80a387b5fb845af7e4780b80a7deca406
 
