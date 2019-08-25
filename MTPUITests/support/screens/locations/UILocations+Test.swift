@@ -11,11 +11,16 @@ extension UILocations: Elemental {
         case .result:
             return .cell
         case .cancel,
+             .close,
+             .directions,
              .filter,
+             .more,
              .nearby:
             return .button
         case .search:
             return .searchField
+        case .visit:
+            return .switch
         }
     }
 

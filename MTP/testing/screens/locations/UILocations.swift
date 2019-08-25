@@ -17,4 +17,13 @@ enum UILocations: Exposable {
     case cancel
     /// Results list item
     case result(Row)
+
+    /// Callout close
+    case close
+    /// Callout switch
+    case visit
+    /// Callout directions
+    case directions
+    /// Callout More Info
+    case more
 }

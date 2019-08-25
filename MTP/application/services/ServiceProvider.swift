@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-// https://medium.com/@neobeppe/how-to-dismantle-a-massive-singleton-ios-app-a3fb75f7d18f
+import UIKit
 
 /// Provider of application-wide services
 protocol ServiceProvider {
@@ -66,6 +66,16 @@ extension ServiceProvider {
     /// StyleService
     var style: StyleService {
         return ServiceProviderInstances.styleServiceInstance
+    }
+}
+
+extension UIViewController: ServiceProvider {
+
+    /// Report screen name
+    ///
+    /// - Parameter name: Name of screen
+    func report(screen name: String) {
+        report.screen(name: name, vc: classForCoder)
     }
 }
 

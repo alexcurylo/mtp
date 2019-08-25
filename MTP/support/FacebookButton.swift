@@ -1,5 +1,6 @@
 // @copyright Trollwerks Inc.
 
+import FacebookCore
 import FacebookLogin
 import FBSDKLoginKit
 
@@ -21,12 +22,6 @@ final class FacebookButton: UIButton, ServiceProvider {
     /// - Parameter aDecoder: Decoder
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
-    }
-
-    /// Prepare for Interface Builder
-    override func prepareForInterfaceBuilder() {
-        super.prepareForInterfaceBuilder()
         setup()
     }
 
@@ -63,6 +58,11 @@ final class FacebookButton: UIButton, ServiceProvider {
     /// Log out of Facebook
     static func logOut() {
         LoginManager().logOut()
+    }
+
+    /// Currently logged in user
+    static var current: AccessToken? {
+        return AccessToken.current
     }
 }
 

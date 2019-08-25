@@ -19,6 +19,14 @@ final class LocationsUITests: XCTestCase {
         UILocations.nearby.tap()
 
         let thailand = 0
+        UINearby.place(thailand).tap()
+
+        // how can we expose callout items?
+        //UILocations.close.tap()
+        //UILocations.visit.tap()
+        //wait(for: 2)
+
+        UILocations.nearby.tap()
         UINearby.place(thailand).doubleTap()
 
         UILocationPaging.photos.tap()

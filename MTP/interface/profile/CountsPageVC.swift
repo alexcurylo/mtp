@@ -6,7 +6,7 @@ import Parchment
 // swiftlint:disable file_length
 
 /// Base class for displaying visit counts
-class CountsPageVC: UIViewController, ServiceProvider {
+class CountsPageVC: UIViewController {
 
     /// List displayed
     let list: Checklist

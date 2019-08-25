@@ -14,7 +14,7 @@ xcode_scheme: MTP
 gemfile: Gemfile
 
 env:
-  global:
+ global:
   - LANG=en_US.UTF-8
   - IOS_WORKSPACE=MTP.xcworkspace
   - IOS_SCHEME=MTP
@@ -22,24 +22,22 @@ env:
   - IOS_DESTINATION='platform=iOS Simulator,name=iPhone 5S'
 
 branches:
-  except:
-    - feature/xcode-beta
+ except:
+  - feature/xcode-beta
 
 cache:
-  - bundler
-  - cocoapods
+ - bundler
+ - cocoapods
 
 before_install:
  - gem update --system
  - gem install bundler
- - bundle install
-#- brew update
-#- brew install swiftlint || true
+#- bundle install
 
 #install:
 # - bundle exec pod install
 # suppress automatic pod install:
-install: skip
+#install: skip
 
 script:
  - >
@@ -59,5 +57,5 @@ script:
     | xcpretty -f `xcpretty-travis-formatter`
 
 after_success:
-  - bundle exec slather
-# - bundle exec danger --verbose
+ - bundle exec slather
+#- bundle exec danger --verbose

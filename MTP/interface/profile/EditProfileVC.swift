@@ -6,7 +6,7 @@ import RealmSwift
 // swiftlint:disable file_length
 
 /// Edit logged in user info and upload to MTP
-final class EditProfileVC: UITableViewController, ServiceProvider {
+final class EditProfileVC: UITableViewController {
 
     private typealias Segues = R.segue.editProfileVC
 
@@ -64,6 +64,14 @@ final class EditProfileVC: UITableViewController, ServiceProvider {
 
         show(navBar: animated, style: .standard)
         expose()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "Edit Profile")
     }
 
     /// Apply corner rounding on each layout

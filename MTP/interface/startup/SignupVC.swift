@@ -6,7 +6,7 @@ import UIKit
 // swiftlint:disable file_length
 
 /// Handle the user signup process
-final class SignupVC: UIViewController, ServiceProvider {
+final class SignupVC: UIViewController {
 
     private typealias Segues = R.segue.signupVC
 
@@ -69,6 +69,14 @@ final class SignupVC: UIViewController, ServiceProvider {
         show(navBar: animated, style: .login)
         navigationController?.delegate = self
         expose()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "Sign Up")
     }
 
     /// Prepare for hide

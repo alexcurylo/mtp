@@ -6,24 +6,34 @@
 // swiftlint:disable all
 
 final class ReportingServiceSpy: ReportingService {
-    var invokedReport = false
-    var invokedReportCount = 0
-    var invokedReportParameters: (event: AnalyticsEvent, Void)?
-    var invokedReportParametersList = [(event: AnalyticsEvent, Void)]()
-    func report(event: AnalyticsEvent) {
-        invokedReport = true
-        invokedReportCount += 1
-        invokedReportParameters = (event, ())
-        invokedReportParametersList.append((event, ()))
+    var invokedScreen = false
+    var invokedScreenCount = 0
+    var invokedScreenParameters: (name: String, vc: AnyClass?)?
+    var invokedScreenParametersList = [(name: String, vc: AnyClass?)]()
+    func screen(name: String, vc: AnyClass?) {
+        invokedScreen = true
+        invokedScreenCount += 1
+        invokedScreenParameters = (name, vc)
+        invokedScreenParametersList.append((name, vc))
     }
-    var invokedSet = false
-    var invokedSetCount = 0
-    var invokedSetParameters: (userId: String, Void)?
-    var invokedSetParametersList = [(userId: String, Void)]()
-    func set(userId: String) {
-        invokedSet = true
-        invokedSetCount += 1
-        invokedSetParameters = (userId, ())
-        invokedSetParametersList.append((userId, ()))
+    var invokedEvent = false
+    var invokedEventCount = 0
+    var invokedEventParameters: (event: AnalyticsEvent, Void)?
+    var invokedEventParametersList = [(event: AnalyticsEvent, Void)]()
+    func event(_ event: AnalyticsEvent) {
+        invokedEvent = true
+        invokedEventCount += 1
+        invokedEventParameters = (event, ())
+        invokedEventParametersList.append((event, ()))
+    }
+    var invokedUser = false
+    var invokedUserCount = 0
+    var invokedUserParameters: (email: String, Void)?
+    var invokedUserParametersList = [(email: String, Void)]()
+    func user(email: String) {
+        invokedUser = true
+        invokedUserCount += 1
+        invokedUserParameters = (email, ())
+        invokedUserParametersList.append((email, ()))
     }
 }

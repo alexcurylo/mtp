@@ -152,7 +152,7 @@ private enum UrlsHandledByApp {
 }
 
 /// Provides WKWebView hosting support
-class WKWebViewController: UIViewController, ServiceProvider {
+class WKWebViewController: UIViewController {
 
     /// Default initializer
     init() {

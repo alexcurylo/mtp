@@ -16,7 +16,7 @@ protocol RankingsPageVCDelegate: RankingCellDelegate {
 }
 
 /// Displays logged in user visit counts
-final class RankingsPageVC: UIViewController, ServiceProvider {
+final class RankingsPageVC: UIViewController {
 
     private enum Layout {
         static let headerHeight = CGFloat(98)
@@ -80,6 +80,14 @@ final class RankingsPageVC: UIViewController, ServiceProvider {
     /// - Parameter coder: An unarchiver object.
     required init?(coder: NSCoder) {
         return nil
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "Rankings Page")
     }
 
     /// Refresh collection view on layout

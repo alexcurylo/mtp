@@ -1,12 +1,25 @@
 // @copyright Trollwerks Inc.
 
 import Firebase
+import UIKit
 
 /// Analytics and crash reporting
-protocol ReportingService {
+protocol ReportingService: AnyObject {
 
-    func report(event: AnalyticsEvent)
-    func set(userId: String)
+    /// Report screen name
+    ///
+    /// - Parameters:
+    ///   - name: Name of screen
+    ///   - vc: Class to describe
+    func screen(name: String, vc: AnyClass?)
+    /// Report an event
+    ///
+    /// - Parameter event: Event to report
+    func event(_ event: AnalyticsEvent)
+    /// Set user identifier
+    ///
+    /// - Parameter email: Email
+    func user(email: String)
 }
 
 /// Reportable events
@@ -42,24 +55,56 @@ enum AnalyticsEvent: Equatable {
 }
 
 /// Production implementation of ReportingService
-final class FirebaseReportingService: ReportingService {
+class FirebaseReportingService: ReportingService {
 
     // https://firebase.google.com/docs/analytics/ios/events
+    // https://firebase.google.com/docs/analytics/configure-data-collection
     // Suggested events: see the FIREventNames.h header file.
     // Prescribed parameters: see the FIRParameterNames.h header file.
+    // https://support.google.com/firebase/answer/6317498
+    // https://firebase.google.com/docs/analytics/ios/events
+    // https://firebase.google.com/docs/analytics/ios/properties
 
     private let eventMapper = AnalyticsEventMapper()
+    fileprivate var enabled: Bool { return true }
 
-    func report(event: AnalyticsEvent) {
+    init() {
+        Analytics.setAnalyticsCollectionEnabled(enabled)
+    }
+
+    /// Report screen name
+    ///
+    /// - Parameters:
+    ///   - name: Name of screen
+    ///   - vc: Class to describe
+    func screen(name: String, vc: AnyClass?) {
+        Analytics.setScreenName(name, screenClass: vc?.description())
+    }
+
+    /// Report an event
+    ///
+    /// - Parameter event: Event to report
+    func event(_ event: AnalyticsEvent) {
         let name = eventMapper.eventName(for: event)
         let parameters = eventMapper.parameters(for: event)
+        send(name: name, parameters: parameters)
+    }
+
+    fileprivate func send(name: String,
+                          parameters: [String: String]) {
         Analytics.logEvent(name, parameters: parameters)
     }
 
-    func set(userId: String) {
-        let signedIn = !userId.isEmpty
+    /// Set user email
+    ///
+    /// - Parameter email: Email
+    func user(email: String) {
+        let userId = email.md5Value
+        Analytics.setUserID(userId)
         Crashlytics.sharedInstance().setUserIdentifier(userId)
-        report(event: signedIn ? .userSignedIn : .userSignedOut)
+
+        let signedIn = !userId.isEmpty
+        event(signedIn ? .userSignedIn : .userSignedOut)
     }
 }
 
@@ -105,10 +150,9 @@ private extension Dictionary {
 #if DEBUG
 
 /// Stub for testing
-final class ReportingServiceStub: ReportingService {
+final class ReportingServiceStub: FirebaseReportingService {
 
-    func report(event: AnalyticsEvent) { }
-    func set(userId: String) { }
+    override fileprivate var enabled: Bool { return false }
 }
 
 #endif

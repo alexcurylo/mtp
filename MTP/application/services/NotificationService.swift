@@ -519,12 +519,12 @@ private extension NotificationServiceImpl {
         case (.locations, true):
             body = L.checkinInsideNow(name)
         case (.locations, false):
-            let when = triggered.toStringWithRelativeTime()
+            let when = triggered.relative
             body = L.checkinInsidePast(name, when)
         case (_, true):
             body = L.checkinNearNow(name)
         case (_, false):
-            let when = triggered.toStringWithRelativeTime()
+            let when = triggered.relative
             body = L.checkinInsidePast(name, when)
         }
 

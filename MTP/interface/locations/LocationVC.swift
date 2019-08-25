@@ -3,7 +3,7 @@
 import Anchorage
 
 /// More Info page for map POIs
-final class LocationVC: UIViewController, ServiceProvider {
+final class LocationVC: UIViewController {
 
     private typealias Segues = R.segue.locationVC
 
@@ -37,6 +37,14 @@ final class LocationVC: UIViewController, ServiceProvider {
 
         show(navBar: animated, style: .standard)
         expose()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "Location")
     }
 }
 

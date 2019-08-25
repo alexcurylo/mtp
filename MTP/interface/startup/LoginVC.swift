@@ -3,7 +3,7 @@
 import UIKit
 
 /// Handle the user login process
-final class LoginVC: UIViewController, ServiceProvider {
+final class LoginVC: UIViewController {
 
     private typealias Segues = R.segue.loginVC
 
@@ -44,6 +44,14 @@ final class LoginVC: UIViewController, ServiceProvider {
 
         emailTextField.text = data.email
         expose()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "Log In")
     }
 
     /// Prepare for hide
@@ -209,8 +217,7 @@ private extension LoginVC {
     }
 
     func analyze(user: UserJSON) {
-        let userId = user.email.md5Value
-        report.set(userId: userId)
+        report.user(email: user.email)
     }
 }
 

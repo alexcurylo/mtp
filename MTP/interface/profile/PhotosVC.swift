@@ -14,7 +14,7 @@ protocol PhotoSelectionDelegate: AnyObject {
 }
 
 /// Base class for location and user photo display
-class PhotosVC: UICollectionViewController, ServiceProvider {
+class PhotosVC: UICollectionViewController {
 
     @IBOutlet private var saveButton: UIBarButtonItem?
 

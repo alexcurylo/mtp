@@ -3,7 +3,7 @@
 import UIKit
 
 /// Notify user of signup failure
-final class SignupFailVC: UIViewController, ServiceProvider {
+final class SignupFailVC: UIViewController {
 
     private typealias Segues = R.segue.signupFailVC
 
@@ -45,6 +45,8 @@ final class SignupFailVC: UIViewController, ServiceProvider {
     /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        report(screen: "Sign Up Fail")
+
         revealAlert()
     }
 

@@ -47,8 +47,7 @@ protocol RealmSearchResultsDelegate: AnyObject {
 /// Base class for displaying searchable Realm object lists
 class RealmSearchViewController: UITableViewController,
                                  RealmSearchResultsDataSource,
-                                 RealmSearchResultsDelegate,
-                                 ServiceProvider {
+                                 RealmSearchResultsDelegate {
 
     // swiftlint:disable:next implicitly_unwrapped_optional
     private var resultsDataSource: RealmSearchResultsDataSource!

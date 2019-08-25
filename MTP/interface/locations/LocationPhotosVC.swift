@@ -104,13 +104,17 @@ private extension LocationPhotosVC {
     }
 
     func update() {
+        guard isImplemented else {
+            contentState = .unknown
+            collectionView.set(message: L.unimplemented(), color: .darkText)
+            return
+        }
+
         update(photos: mappable)
         collectionView.reloadData()
 
         if photoCount > 0 {
             contentState = .data
-        } else if !isImplemented {
-            contentState = .unimplemented
         } else {
             contentState = updated ? .empty : .loading
         }

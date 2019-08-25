@@ -3,7 +3,7 @@
 import UIKit
 
 /// Display user details
-final class ProfileAboutVC: UITableViewController, UserInjectable, ServiceProvider {
+final class ProfileAboutVC: UITableViewController, UserInjectable {
 
     private typealias Segues = R.segue.profileAboutVC
 
@@ -58,6 +58,14 @@ final class ProfileAboutVC: UITableViewController, UserInjectable, ServiceProvid
 
         update()
         expose()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "Profile About")
     }
 
     /// Instrument and inject navigation

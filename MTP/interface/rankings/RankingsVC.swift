@@ -5,7 +5,7 @@ import DropDown
 import Parchment
 
 /// Root class for the Rankings tab
-final class RankingsVC: UIViewController, ServiceProvider {
+final class RankingsVC: UIViewController {
 
     private typealias Segues = R.segue.rankingsVC
 
@@ -60,6 +60,14 @@ final class RankingsVC: UIViewController, ServiceProvider {
 
         show(navBar: animated, style: .standard)
         expose()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "Rankings")
     }
 
     /// Instrument and inject navigation
