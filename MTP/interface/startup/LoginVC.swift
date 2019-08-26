@@ -185,39 +185,37 @@ private extension LoginVC {
         net.userLogin(email: email,
                       // swiftlint:disable:next closure_body_length
                       password: password) { [weak self, note] result in
+            guard let self = self else { return note.dismissModal() }
+
             switch result {
             case .success(let user):
                 note.modal(success: L.success())
-                self?.analyze(user: user)
+                self.report.user(signIn: user.email, signUp: nil)
                 DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
                     note.dismissModal()
                     self?.performSegue(withIdentifier: Segues.showMain, sender: self)
                 }
                 return
             case .failure(.deviceOffline):
-                self?.errorMessage = L.deviceOfflineError(operation)
+                self.errorMessage = L.deviceOfflineError(operation)
             case .failure(.serverOffline):
-                self?.errorMessage = L.serverOfflineError(operation)
+                self.errorMessage = L.serverOfflineError(operation)
             case .failure(.decoding):
                 // reported by 1.0 users
-                //self?.errorMessage = L.decodingError(operation)
-                self?.errorMessage = L.decodingLoginError()
+                //self.errorMessage = L.decodingError(operation)
+                self.errorMessage = L.decodingLoginError()
             case .failure(.status):
-                self?.errorMessage = L.statusError(operation)
+                self.errorMessage = L.statusError(operation)
             case .failure(.message(let message)):
-                self?.errorMessage = message
+                self.errorMessage = message
             case .failure(.network(let message)):
-                self?.errorMessage = L.networkError(operation, message)
+                self.errorMessage = L.networkError(operation, message)
             default:
-                self?.errorMessage = L.unexpectedError(operation)
+                self.errorMessage = L.unexpectedError(operation)
             }
             note.dismissModal()
-            self?.performSegue(withIdentifier: Segues.presentLoginFail, sender: self)
+            self.performSegue(withIdentifier: Segues.presentLoginFail, sender: self)
         }
-    }
-
-    func analyze(user: UserJSON) {
-        report.user(email: user.email)
     }
 }
 

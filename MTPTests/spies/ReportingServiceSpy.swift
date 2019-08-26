@@ -6,16 +6,6 @@
 // swiftlint:disable all
 
 final class ReportingServiceSpy: ReportingService {
-    var invokedScreen = false
-    var invokedScreenCount = 0
-    var invokedScreenParameters: (name: String, vc: AnyClass?)?
-    var invokedScreenParametersList = [(name: String, vc: AnyClass?)]()
-    func screen(name: String, vc: AnyClass?) {
-        invokedScreen = true
-        invokedScreenCount += 1
-        invokedScreenParameters = (name, vc)
-        invokedScreenParametersList.append((name, vc))
-    }
     var invokedEvent = false
     var invokedEventCount = 0
     var invokedEventParameters: (event: AnalyticsEvent, Void)?
@@ -26,14 +16,24 @@ final class ReportingServiceSpy: ReportingService {
         invokedEventParameters = (event, ())
         invokedEventParametersList.append((event, ()))
     }
+    var invokedScreen = false
+    var invokedScreenCount = 0
+    var invokedScreenParameters: (name: String, vc: AnyClass)?
+    var invokedScreenParametersList = [(name: String, vc: AnyClass)]()
+    func screen(name: String, vc: AnyClass) {
+        invokedScreen = true
+        invokedScreenCount += 1
+        invokedScreenParameters = (name, vc)
+        invokedScreenParametersList.append((name, vc))
+    }
     var invokedUser = false
     var invokedUserCount = 0
-    var invokedUserParameters: (email: String, Void)?
-    var invokedUserParametersList = [(email: String, Void)]()
-    func user(email: String) {
+    var invokedUserParameters: (signIn: String?, signUp: AnalyticsEvent.Method?)?
+    var invokedUserParametersList = [(signIn: String?, signUp: AnalyticsEvent.Method?)]()
+    func user(signIn: String?, signUp: AnalyticsEvent.Method?) {
         invokedUser = true
         invokedUserCount += 1
-        invokedUserParameters = (email, ())
-        invokedUserParametersList.append((email, ()))
+        invokedUserParameters = (signIn, signUp)
+        invokedUserParametersList.append((signIn, signUp))
     }
 }
