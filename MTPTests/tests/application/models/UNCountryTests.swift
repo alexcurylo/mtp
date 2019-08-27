@@ -30,6 +30,9 @@ final class UNCountryTests: XCTestCase {
         // then
         json.description.assert(equal: "Marshall Islands")
         json.debugDescription.assert(equal: completeDebugDescription)
+        XCTAssertNil(sut.placeParent)
+        XCTAssertEqual(sut.placeSubtitle, "")
+        XCTAssertFalse(sut.placeIsCountry)
 
         XCTAssertEqual(sut.placeCountry, "Marshall Islands")
         XCTAssertEqual(sut.placeCountry, sut.placeTitle)

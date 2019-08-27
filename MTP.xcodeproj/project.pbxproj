@@ -49,6 +49,8 @@
 		8C3EAB8C2231100400CB4886 /* Array+Type.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EAB8B2231100400CB4886 /* Array+Type.swift */; };
 		8C3EAB8E2231100B00CB4886 /* ArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EAB8D2231100B00CB4886 /* ArrayTests.swift */; };
 		8C3EAB922231249E00CB4886 /* InjectableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EAB912231249E00CB4886 /* InjectableTests.swift */; };
+		8C4198B223151C1A00496C07 /* CountryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4198B123151C1900496C07 /* CountryTests.swift */; };
+		8C4198B423152B6600496C07 /* PlaceInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4198B323152B6600496C07 /* PlaceInfoTests.swift */; };
 		8C47631323040E270089EF33 /* UILocationPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C47631223040E270089EF33 /* UILocationPhotos.swift */; };
 		8C47631523040EA60089EF33 /* UILocationPhotos+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C47631423040EA60089EF33 /* UILocationPhotos+Test.swift */; };
 		8C47631623040EC90089EF33 /* UILocationPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C47631223040E270089EF33 /* UILocationPhotos.swift */; };
@@ -469,6 +471,8 @@
 		8C3EAB8B2231100400CB4886 /* Array+Type.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Type.swift"; sourceTree = "<group>"; };
 		8C3EAB8D2231100B00CB4886 /* ArrayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayTests.swift; sourceTree = "<group>"; };
 		8C3EAB912231249E00CB4886 /* InjectableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectableTests.swift; sourceTree = "<group>"; };
+		8C4198B123151C1900496C07 /* CountryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryTests.swift; sourceTree = "<group>"; };
+		8C4198B323152B6600496C07 /* PlaceInfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoTests.swift; sourceTree = "<group>"; };
 		8C47631223040E270089EF33 /* UILocationPhotos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILocationPhotos.swift; sourceTree = "<group>"; };
 		8C47631423040EA60089EF33 /* UILocationPhotos+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILocationPhotos+Test.swift"; sourceTree = "<group>"; };
 		8C47631723040FA60089EF33 /* UILocationPosts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILocationPosts.swift; sourceTree = "<group>"; };
@@ -1024,8 +1028,10 @@
 			isa = PBXGroup;
 			children = (
 				8CC6B95C2304EE070089DB89 /* FaqJSONTests.swift */,
+				8C4198B123151C1900496C07 /* CountryTests.swift */,
 				FA949BFE2306D47400B9DF6D /* MilestonesTests.swift */,
 				8CC6B95E2304F0060089DB89 /* OperationReplyTests.swift */,
+				8C4198B323152B6600496C07 /* PlaceInfoTests.swift */,
 				8C58019D2305097900DE768F /* PlaceLocationTests.swift */,
 				8C58019F23050CB700DE768F /* PostPayloadTests.swift */,
 				FA620DD52308C8DD00F64926 /* RestaurantTests.swift */,
@@ -2261,6 +2267,7 @@
 				8C012801223208CC00EA2095 /* DataServiceSpy.swift in Sources */,
 				FAEF787B2312266A0086D77E /* FacebookButtonTests.swift in Sources */,
 				8CC91BBE2305122B002F74FA /* LocationTrackerSpy.swift in Sources */,
+				8C4198B423152B6600496C07 /* PlaceInfoTests.swift in Sources */,
 				8C58019E2305097900DE768F /* PlaceLocationTests.swift in Sources */,
 				FA63A4B72307676900637BB3 /* ProfilePagingVCTests.swift in Sources */,
 				8C84D87123135F5F0070BD55 /* WHSTests.swift in Sources */,
@@ -2294,6 +2301,7 @@
 				8CF239A92305156E006AB7D2 /* ActionHandlerTests.swift in Sources */,
 				FA0BE96C210C5F3300797224 /* ViewTests.swift in Sources */,
 				8CF239AB230519C8006AB7D2 /* HTTPURLResponseTests.swift in Sources */,
+				8C4198B223151C1A00496C07 /* CountryTests.swift in Sources */,
 				FA63A4AA2307610A00637BB3 /* CountSectionHeaderTests.swift in Sources */,
 				8C0127FD2232084600EA2095 /* ApplicationServiceSpy.swift in Sources */,
 			);
