@@ -296,7 +296,8 @@ extension CountsPageVC: CountCellGroupDelegate {
 private extension CountsPageVC {
 
     typealias GroupModel = (region: String, country: String, count: Int, visited: Int)
-    typealias CellModel = (identifier: String, place: PlaceInfo?, group: GroupModel?)
+    typealias ItemModel = (place: PlaceInfo, isChild: Bool)
+    typealias CellModel = (identifier: String, item: ItemModel?, group: GroupModel?)
 
     func infoHeader(at indexPath: IndexPath) -> UICollectionReusableView {
         let view = collectionView.dequeueReusableSupplementaryView(
@@ -356,16 +357,16 @@ private extension CountsPageVC {
 
         switch cell {
         case let counter as CountCellItem:
-            guard let place = cellModel.place else { break }
+            guard let item = cellModel.item else { break }
             let model = CountItemModel(
-                title: place.placeTitle,
-                subtitle: list.isSubtitled ? place.placeCountry : "",
+                title: item.place.placeTitle,
+                subtitle: list.isSubtitled ? item.place.placeCountry : "",
                 list: list,
-                id: place.placeId,
-                parentId: place.placeParent?.placeId,
+                id: item.place.placeId,
+                parentId: item.place.placeParent?.placeId,
                 isVisitable: isEditable,
                 isLast: isLast,
-                isCombined: list == .locations && place.placeIsCountry,
+                isCombined: list == .locations && item.place.placeIsCountry && !item.isChild,
                 path: viewPath
             )
             counter.inject(model: model)
@@ -442,7 +443,7 @@ private extension CountsPageVC {
             return countryModel(of: indexPath)
         default:
             let regionPlaces = regionsPlaces[regions[indexPath.section]] ?? []
-            return (CountCellItem.reuseIdentifier, regionPlaces[indexPath.row], nil)
+            return (CountCellItem.reuseIdentifier, (regionPlaces[indexPath.row], false), nil)
         }
     }
 
@@ -468,14 +469,14 @@ private extension CountsPageVC {
 
             for place in countryParents {
                 if countdown == 0 {
-                    return (CountCellItem.reuseIdentifier, place, nil)
+                    return (CountCellItem.reuseIdentifier, (place, false), nil)
                 }
                 countdown -= 1
 
                 let placeChildren = countryChildren[place.placeId] ?? []
                 for child in placeChildren {
                     if countdown == 0 {
-                        return (CountCellItem.reuseIdentifier, child, nil)
+                        return (CountCellItem.reuseIdentifier, (child, true), nil)
                     }
                     countdown -= 1
                 }
@@ -491,10 +492,13 @@ private extension CountsPageVC {
 
         let regionCountries = countries[region] ?? []
         for country in regionCountries {
-            let countryPlaces = countriesPlaces[region]?[country] ?? []
+            let regionPlaces = countriesPlaces[region] ?? [:]
+            let countryPlaces = regionPlaces[country] ?? []
             if countdown == 0 {
-                if let place = countryPlaces.first, place.placeIsCountry {
-                    return (CountCellItem.reuseIdentifier, place, nil)
+                if countryPlaces.count == 1,
+                   let place = countryPlaces.first,
+                   place.placeIsCountry {
+                    return (CountCellItem.reuseIdentifier, (place, false), nil)
                 }
 
                 let visited = countriesVisited[region]?[country] ?? 0
@@ -510,7 +514,7 @@ private extension CountsPageVC {
 
             for place in countryPlaces {
                 if countdown == 0 {
-                    return (CountCellItem.reuseIdentifier, place, nil)
+                    return (CountCellItem.reuseIdentifier, (place, true), nil)
                 }
                 countdown -= 1
             }

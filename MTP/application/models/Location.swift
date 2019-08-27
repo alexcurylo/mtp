@@ -187,11 +187,16 @@ extension LocationJSON: CustomDebugStringConvertible {
         guard let other = object as? Location else { return false }
         guard !isSameObject(as: other) else { return true }
 
-        return countryId == other.countryId &&
+        return adminLevel == other.adminLevel &&
+               airports == other.airports &&
+               countryId == other.countryId &&
                placeCountry == other.placeCountry &&
                placeId == other.placeId &&
                placeRegion == other.placeRegion &&
-               placeTitle == other.placeTitle
+               placeTitle == other.placeTitle &&
+               rank == other.rank &&
+               rankUn == other.rankUn &&
+               weatherhist == other.weatherhist
     }
 }
 
