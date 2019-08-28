@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [Version 1.0.2, Build 640] - 2019-08-29
+
 ### Added
 - Tapping named place list cells reveals place on map
 - Double-tapping named place list cells opens place information screen
