@@ -1844,7 +1844,7 @@ services.&lt;/p&gt;
 			<key>summary</key>
 			<string>Google iOS SDK data transport.</string>
 			<key>version</key>
-			<string>1.1.2</string>
+			<string>1.1.3</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -3443,7 +3443,7 @@ SOFTWARE.
 			<key>summary</key>
 			<string>A simple banner and pop-up displayer for iOS. Written in Swift.</string>
 			<key>version</key>
-			<string>1.1.2</string>
+			<string>1.1.3</string>
 		</dict>
 		<dict>
 			<key>authors</key>
