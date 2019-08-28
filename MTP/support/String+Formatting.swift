@@ -162,6 +162,18 @@ extension String {
     var file: String {
         return components(separatedBy: "/").last ?? ""
     }
+
+    /// Truncates the string to the specified length number of characters
+    /// and appends an optional trailing string if longer.
+    ///
+    /// - Parameters:
+    ///   - length: Desired maximum length of a string
+    ///   - trailing: A 'String' that will be appended after the truncation
+    /// - Returns: Truncated String
+    func truncate(length: Int,
+                  trailing: String = "…") -> String {
+        return (count > length) ? prefix(length) + trailing : self
+    }
 }
 
 extension String: LocalizedError {

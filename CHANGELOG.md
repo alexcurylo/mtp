@@ -7,10 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Changed
-- Now uses Firebase for analytics and crash reports
+- Integrates Firebase for analytics and crash reports
 
 ### Fixed
 - Handles mixed country and territory counts display (Serbia/Kosovo, Denmark/Faroes)
+- Improves networking error messages
 
 ## [Version 1.0.1, Build 639] - 2019-08-20
 

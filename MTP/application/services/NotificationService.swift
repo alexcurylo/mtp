@@ -837,8 +837,13 @@ extension NotificationServiceImpl {
             errorMessage = L.serverOfflineError(operation)
         case .decoding:
             errorMessage = L.decodingErrorReport(operation)
-        case .status:
-            errorMessage = L.statusErrorReport(operation)
+        case .status(let code):
+            switch code {
+            case 503:
+                errorMessage = L.serviceUnavailableError()
+            default:
+                errorMessage = L.statusErrorReport(operation, code)
+            }
         case .message(let message):
             errorMessage = message
         case .network(let message):

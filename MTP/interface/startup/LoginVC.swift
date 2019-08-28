@@ -204,8 +204,13 @@ private extension LoginVC {
                 // reported by 1.0 users
                 //self.errorMessage = L.decodingError(operation)
                 self.errorMessage = L.decodingLoginError()
-            case .failure(.status):
-                self.errorMessage = L.statusError(operation)
+            case .failure(.status(let code)):
+                switch code {
+                case 503:
+                    self.errorMessage = L.serviceUnavailableError()
+                default:
+                    self.errorMessage = L.statusErrorReport(operation, code)
+                }
             case .failure(.message(let message)):
                 self.errorMessage = message
             case .failure(.network(let message)):

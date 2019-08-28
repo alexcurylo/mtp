@@ -18,11 +18,12 @@
 "serverOfflineError" = "Could not %@ - network connection is weak. Please try again later.";
 "decodingError" = "Could not %@ - results were not understood.";
 "decodingErrorReport" = "Could not %@ - results were not understood. Please report the problem with ‘Contact Us’ on the ‘Settings’ page.";
-"statusError" = "Could not %@ - a status error was received.";
-"statusErrorReport" = "Could not %@ - a status error was received. Please report the problem with ‘Contact Us’ on the ‘Settings’ page.";
+"statusError" = "Could not %1$@ - a status error (%2$ld) was received.";
+"statusErrorReport" = "Could not %1$@ - a status error (%2$ld) was received. Please report the problem with ‘Contact Us’ on the ‘Settings’ page.";
 "unexpectedError" = "Could not %@ - an unexpected error occurred.";
 "unexpectedErrorReport" = "Could not %@ - an unexpected error occurred. Please report the problem with ‘Contact Us’ on the ‘Settings’ page.";
 "decodingLoginError" = "Sorry - due to higher than expected demand, the MTP server is temporarily down. Please try again later.";
+"serviceUnavailableError" = "Sorry - due to higher than expected demand, the MTP server is temporarily down. Please try again later.";
 "deleteAccount" = "delete account";
 "deletingAccount" = "Deleting account…";
 "logIn" = "log in";

@@ -433,8 +433,13 @@ private extension SignupVC {
                 self.errorMessage = L.serverOfflineError(operation)
             case .failure(.decoding):
                 self.errorMessage = L.decodingError(operation)
-            case .failure(.status):
-                self.errorMessage = L.statusError(operation)
+            case .failure(.status(let code)):
+                switch code {
+                case 503:
+                    self.errorMessage = L.serviceUnavailableError()
+                default:
+                    self.errorMessage = L.statusErrorReport(operation, code)
+                }
             case .failure(.message(let message)):
                 self.errorMessage = message
             case .failure(.network(let message)):

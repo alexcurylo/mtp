@@ -98,7 +98,9 @@ final class AddPhotoVC: UIViewController {
         report(screen: "Add Photo")
 
         if PHPhotoLibrary.authorizationStatus() == .notDetermined {
-            PHPhotoLibrary.requestAuthorization { _ in }
+            if !UIApplication.isTesting {
+                PHPhotoLibrary.requestAuthorization { _ in }
+            }
         }
     }
 

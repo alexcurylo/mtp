@@ -6,6 +6,9 @@ import Alamofire
 import Moya
 import enum Result.Result
 
+private typealias SuccessHandler = (Moya.Response) -> Void
+private typealias FailureHandler = (MoyaError) -> Void
+
 /// MTP.travel API endpoints
 enum MTP: Hashable {
 
@@ -439,6 +442,11 @@ extension MTP: TargetType {
         let request = try? MoyaProvider.defaultEndpointMapping(for: self).urlRequest()
         return request?.url
     }
+
+    /// Convenience etag accessor
+    var etag: String {
+        return data.etags[path] ?? ""
+    }
 }
 
 extension MTP: AccessTokenAuthorizable {
@@ -482,13 +490,6 @@ extension MTP: AccessTokenAuthorizable {
              .whs:
             return .none
         }
-    }
-}
-
-extension MTP: ServiceProvider {
-
-    private var etag: String {
-        return data.etags[path] ?? ""
     }
 }
 
@@ -540,60 +541,6 @@ struct MTPNetworkController: ServiceProvider {
         }
     }
 
-    private func checkIn(list: Checklist,
-                         id: Int,
-                         stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
-                         then: @escaping NetworkCompletion<Bool>) {
-        guard data.isLoggedIn else {
-            return then(.failure(.parameter))
-        }
-
-        let auth = AccessTokenPlugin { self.data.token }
-        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
-        let endpoint = MTP.checkIn(list: list, id: id)
-        provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
-            switch result {
-            case .success:
-                return then(.success(true))
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
-            case .failure(let error):
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
-            }
-        }
-    }
-
-    private func checkOut(list: Checklist,
-                          id: Int,
-                          stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
-                          then: @escaping NetworkCompletion<Bool>) {
-        guard data.isLoggedIn else {
-            return then(.failure(.parameter))
-        }
-
-        let auth = AccessTokenPlugin { self.data.token }
-        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
-        let endpoint = MTP.checkOut(list: list, id: id)
-        provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
-            switch result {
-            case .success:
-                return then(.success(true))
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
-            case .failure(let error):
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
-            }
-        }
-    }
-
     /// Load beaches
     func loadBeaches(then: @escaping NetworkCompletion<[PlaceJSON]> = { _ in }) {
         let provider = MTPProvider()
@@ -602,34 +549,34 @@ struct MTPNetworkController: ServiceProvider {
             return then(.failure(.throttle))
         }
 
-        //swiftlint:disable:next closure_body_length
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let beaches = try response.map([PlaceJSON].self,
+                                               using: JSONDecoder.mtp)
+                self.data.set(beaches: beaches)
+                self.report(success: endpoint)
+                return then(.success(beaches))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             endpoint.markResponded()
             switch result {
             case .success(let response):
-                guard response.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                do {
-                    let beaches = try response.map([PlaceJSON].self,
-                                                   using: JSONDecoder.mtp)
-                    self.data.set(beaches: beaches)
-                    return then(.success(beaches))
-                } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
-                }
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                guard error.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
@@ -652,38 +599,38 @@ struct MTPNetworkController: ServiceProvider {
             return then(.failure(.throttle))
         }
 
-        //swiftlint:disable:next closure_body_length
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let visited = try response.map(Checked.self,
+                                               using: JSONDecoder.mtp)
+                let trigger = self.data.visited == nil
+                self.data.visited = visited
+                if trigger {
+                    self.loc.calculateDistances()
+                }
+                self.report(success: endpoint)
+                return then(.success(visited))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             endpoint.markResponded()
             switch result {
             case .success(let response):
-                guard response.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                do {
-                    let visited = try response.map(Checked.self,
-                                                   using: JSONDecoder.mtp)
-                    let trigger = self.data.visited == nil
-                    self.data.visited = visited
-                    if trigger {
-                        self.loc.calculateDistances()
-                    }
-                    return then(.success(visited))
-                } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
-                }
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                guard error.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
@@ -696,34 +643,34 @@ struct MTPNetworkController: ServiceProvider {
             return then(.failure(.throttle))
         }
 
-        //swiftlint:disable:next closure_body_length
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let divesites = try response.map([PlaceJSON].self,
+                                                 using: JSONDecoder.mtp)
+                self.data.set(divesites: divesites)
+                self.report(success: endpoint)
+                return then(.success(divesites))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             endpoint.markResponded()
             switch result {
             case .success(let response):
-                guard response.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                do {
-                    let divesites = try response.map([PlaceJSON].self,
-                                                     using: JSONDecoder.mtp)
-                    self.data.set(divesites: divesites)
-                    return then(.success(divesites))
-                } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
-                }
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                guard error.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
@@ -736,34 +683,34 @@ struct MTPNetworkController: ServiceProvider {
             return then(.failure(.throttle))
         }
 
-        //swiftlint:disable:next closure_body_length
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let golfcourses = try response.map([PlaceJSON].self,
+                                                   using: JSONDecoder.mtp)
+                self.data.set(golfcourses: golfcourses)
+                self.report(success: endpoint)
+                return then(.success(golfcourses))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             endpoint.markResponded()
             switch result {
             case .success(let response):
-                guard response.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                do {
-                    let golfcourses = try response.map([PlaceJSON].self,
-                                                       using: JSONDecoder.mtp)
-                    self.data.set(golfcourses: golfcourses)
-                    return then(.success(golfcourses))
-                } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
-                }
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                guard error.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
@@ -776,34 +723,34 @@ struct MTPNetworkController: ServiceProvider {
             return then(.failure(.throttle))
         }
 
-        //swiftlint:disable:next closure_body_length
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let locations = try response.map([LocationJSON].self,
+                                                 using: JSONDecoder.mtp)
+                self.data.set(locations: locations)
+                self.report(success: endpoint)
+                return then(.success(locations))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             endpoint.markResponded()
             switch result {
             case .success(let response):
-                guard response.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                do {
-                    let locations = try response.map([LocationJSON].self,
-                                                     using: JSONDecoder.mtp)
-                    self.data.set(locations: locations)
-                    return then(.success(locations))
-                } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
-                }
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                guard error.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
@@ -825,34 +772,34 @@ struct MTPNetworkController: ServiceProvider {
             return then(.failure(.throttle))
         }
 
-        //swiftlint:disable:next closure_body_length
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let photos = try response.map(PhotosInfoJSON.self,
+                                              using: JSONDecoder.mtp)
+                self.data.set(location: id, photos: photos)
+                self.report(success: endpoint)
+                return then(.success(photos))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             endpoint.markResponded()
             switch result {
             case .success(let response):
-                guard response.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                do {
-                    let photos = try response.map(PhotosInfoJSON.self,
-                                                  using: JSONDecoder.mtp)
-                    self.data.set(location: id, photos: photos)
-                    return then(.success(photos))
-                } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
-                }
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                guard error.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
@@ -895,58 +842,6 @@ struct MTPNetworkController: ServiceProvider {
                    then: then)
     }
 
-    private func loadPhotos(id: Int?,
-                            page: Int,
-                            reload: Bool,
-                            stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
-                            then: @escaping NetworkCompletion<PhotosPageInfoJSON>) {
-        guard data.isLoggedIn else {
-            return then(.failure(.parameter))
-        }
-
-        let auth = AccessTokenPlugin { self.data.token }
-        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
-        let endpoint = MTP.photos(user: id, page: page)
-        guard reload || !endpoint.isThrottled else {
-            return then(.failure(.throttle))
-        }
-
-        //swiftlint:disable:next closure_body_length
-        provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
-            endpoint.markResponded()
-            switch result {
-            case .success(let response):
-                guard response.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                do {
-                    let info = try response.map(PhotosPageInfoJSON.self,
-                                                using: JSONDecoder.mtp)
-                    if let id = id {
-                        self.data.set(photos: page, user: id, info: info)
-                    } else if let userId = self.data.user?.id {
-                        self.data.set(photos: page, user: userId, info: info)
-                    }
-                    return then(.success(info))
-                } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
-                }
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
-            case .failure(let error):
-                guard error.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
-            }
-        }
-    }
-
     /// Load location posts
     ///
     /// - Parameters:
@@ -962,34 +857,34 @@ struct MTPNetworkController: ServiceProvider {
             return then(.failure(.throttle))
         }
 
-        //swiftlint:disable:next closure_body_length
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let posts = try response.map(PostsJSON.self,
+                                             using: JSONDecoder.mtp)
+                self.data.set(location: id, posts: posts.data)
+                self.report(success: endpoint)
+                return then(.success(posts))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             endpoint.markResponded()
             switch result {
             case .success(let response):
-                guard response.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                do {
-                    let posts = try response.map(PostsJSON.self,
-                                                 using: JSONDecoder.mtp)
-                    self.data.set(location: id, posts: posts.data)
-                    return then(.success(posts))
-                } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
-                }
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                guard error.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
@@ -1014,34 +909,34 @@ struct MTPNetworkController: ServiceProvider {
             return then(.failure(.throttle))
         }
 
-        //swiftlint:disable:next closure_body_length
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let posts = try response.map(PostsJSON.self,
+                                             using: JSONDecoder.mtp)
+                self.data.set(posts: posts.data)
+                self.report(success: endpoint)
+                return then(.success(posts))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             endpoint.markResponded()
             switch result {
             case .success(let response):
-                guard response.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                do {
-                    let posts = try response.map(PostsJSON.self,
-                                                 using: JSONDecoder.mtp)
-                    self.data.set(posts: posts.data)
-                    return then(.success(posts))
-                } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
-                }
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                guard error.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
@@ -1064,38 +959,41 @@ struct MTPNetworkController: ServiceProvider {
         }
         let endpoint = MTP.rankings(query: query)
 
-        //swiftlint:disable:next closure_body_length
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let info = try response.map(RankingsPageInfoJSON.self,
+                                            using: JSONDecoder.mtp)
+                self.data.set(rankings: query, info: info)
+                self.report(success: endpoint)
+                return then(.success(info))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             switch result {
             case .success(let response):
-                guard response.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                do {
-                    let info = try response.map(RankingsPageInfoJSON.self,
-                                                using: JSONDecoder.mtp)
-                    self.data.set(rankings: query, info: info)
-                    return then(.success(info))
-                } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
-                }
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                guard error.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
 
     /// Load restaurants
+    ///
+    /// - Parameters:
+    ///   - then: Completion
     func loadRestaurants(then: @escaping NetworkCompletion<[RestaurantJSON]> = { _ in }) {
         let provider = MTPProvider()
         let endpoint = MTP.restaurant
@@ -1103,34 +1001,34 @@ struct MTPNetworkController: ServiceProvider {
             return then(.failure(.throttle))
         }
 
-        //swiftlint:disable:next closure_body_length
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let restaurants = try response.map([RestaurantJSON].self,
+                                                   using: JSONDecoder.mtp)
+                self.data.set(restaurants: restaurants)
+                self.report(success: endpoint)
+                return then(.success(restaurants))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             endpoint.markResponded()
             switch result {
             case .success(let response):
-                guard response.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                do {
-                    let restaurants = try response.map([RestaurantJSON].self,
-                                                       using: JSONDecoder.mtp)
-                    self.data.set(restaurants: restaurants)
-                    return then(.success(restaurants))
-                } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
-                }
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                guard error.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
@@ -1149,33 +1047,33 @@ struct MTPNetworkController: ServiceProvider {
         let provider = MTPProvider(stubClosure: stub)
         let endpoint = MTP.scorecard(list: list, user: id)
 
-        //swiftlint:disable:next closure_body_length
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let scorecard = try response.map(ScorecardWrapperJSON.self,
+                                                 using: JSONDecoder.mtp)
+                self.data.set(scorecard: scorecard)
+                self.report(success: endpoint)
+                return then(.success(scorecard.data))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             switch result {
             case .success(let response):
-                guard response.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                do {
-                    let scorecard = try response.map(ScorecardWrapperJSON.self,
-                                                     using: JSONDecoder.mtp)
-                    self.data.set(scorecard: scorecard)
-                    return then(.success(scorecard.data))
-                } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
-                }
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                guard error.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
@@ -1188,39 +1086,42 @@ struct MTPNetworkController: ServiceProvider {
             return then(.failure(.throttle))
         }
 
-        //swiftlint:disable:next closure_body_length
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let settings = try response.map(SettingsJSON.self,
+                                                using: JSONDecoder.mtp)
+                self.data.set(milestones: settings)
+                self.report(success: endpoint)
+                return then(.success(settings))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             endpoint.markResponded()
             switch result {
             case .success(let response):
-                guard response.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                do {
-                    let settings = try response.map(SettingsJSON.self,
-                                                    using: JSONDecoder.mtp)
-                    self.data.set(milestones: settings)
-                    return then(.success(settings))
-                } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
-                }
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                guard error.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
 
     /// Load UN countries
+    ///
+    /// - Parameters:
+    ///   - then: Completion
     func loadUNCountries(then: @escaping NetworkCompletion<[LocationJSON]> = { _ in }) {
         let provider = MTPProvider()
         let endpoint = MTP.unCountry
@@ -1228,34 +1129,34 @@ struct MTPNetworkController: ServiceProvider {
             return then(.failure(.throttle))
         }
 
-        //swiftlint:disable:next closure_body_length
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let uncountries = try response.map([LocationJSON].self,
+                                                   using: JSONDecoder.mtp)
+                self.data.set(uncountries: uncountries)
+                self.report(success: endpoint)
+                return then(.success(uncountries))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             endpoint.markResponded()
             switch result {
             case .success(let response):
-                guard response.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                do {
-                    let uncountries = try response.map([LocationJSON].self,
-                                                       using: JSONDecoder.mtp)
-                    self.data.set(uncountries: uncountries)
-                    return then(.success(uncountries))
-                } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
-                }
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                guard error.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
@@ -1275,39 +1176,42 @@ struct MTPNetworkController: ServiceProvider {
             return then(.failure(.throttle))
         }
 
-        //swiftlint:disable:next closure_body_length
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let user = try response.map(UserJSON.self,
+                                            using: JSONDecoder.mtp)
+                self.data.set(user: user)
+                self.report(success: endpoint)
+                return then(.success(user))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             endpoint.markResponded()
             switch result {
             case .success(let response):
-                do {
-                    guard response.modified(from: endpoint) else {
-                        return then(.failure(.notModified))
-                    }
-                    let user = try response.map(UserJSON.self,
-                                                using: JSONDecoder.mtp)
-                    self.data.set(user: user)
-                    return then(.success(user))
-                } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
-                }
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                guard error.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
 
     /// Load WHS
+    ///
+    /// - Parameters:
+    ///   - then: Completion
     func loadWHS(then: @escaping NetworkCompletion<[WHSJSON]> = { _ in }) {
         let provider = MTPProvider()
         let endpoint = MTP.whs
@@ -1315,34 +1219,34 @@ struct MTPNetworkController: ServiceProvider {
             return then(.failure(.throttle))
         }
 
-        //swiftlint:disable:next closure_body_length
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let whss = try response.map([WHSJSON].self,
+                                            using: JSONDecoder.mtp)
+                self.data.set(whss: whss)
+                self.report(success: endpoint)
+                return then(.success(whss))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             endpoint.markResponded()
             switch result {
             case .success(let response):
-                guard response.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                do {
-                    let whss = try response.map([WHSJSON].self,
-                                                using: JSONDecoder.mtp)
-                    self.data.set(whss: whss)
-                    return then(.success(whss))
-                } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
-                }
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                guard error.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
@@ -1364,39 +1268,34 @@ struct MTPNetworkController: ServiceProvider {
         let provider = MTPProvider(stubClosure: stub, plugins: [auth])
         let endpoint = MTP.postPublish(payload: payload)
 
-        func parse(success response: Response) {
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
             do {
                 let reply = try response.map(PostReply.self,
                                              using: JSONDecoder.mtp)
                 self.data.set(post: reply)
+                self.report(success: endpoint)
                 return then(.success(reply))
             } catch {
                 do {
                     let reply = try response.map(OperationReply.self,
                                                  using: JSONDecoder.mtp)
-                    return then(.failure(.message(reply.message)))
+                    problem = .message(reply.message)
                 } catch {
-                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                    problem = .decoding(error.localizedDescription)
                 }
             }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
         }
 
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             switch result {
             case .success(let response):
-                return parse(success: response)
-            case .failure(.underlying(AFError.responseValidationFailed, _)):
-                self.log.error("API rejection: \(endpoint.path)")
-                return then(.failure(.status))
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
@@ -1411,26 +1310,35 @@ struct MTPNetworkController: ServiceProvider {
         let provider = MTPProvider()
         let queryParam = query.isEmpty ? nil : query
         let endpoint = MTP.countriesSearch(query: queryParam)
-        provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
-            switch result {
-            case .success(let response):
+
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                let countries = try response.map([CountryJSON].self,
+                                                 using: JSONDecoder.mtp)
+                self.data.set(countries: countries)
+                self.report(success: endpoint)
+                return then(.success(countries))
+            } catch {
                 do {
-                    let countries = try response.map([CountryJSON].self,
-                                                     using: JSONDecoder.mtp)
-                    self.data.set(countries: countries)
-                    return then(.success(countries))
+                    let reply = try response.map(OperationReply.self,
+                                                 using: JSONDecoder.mtp)
+                    problem = .message(reply.message)
                 } catch {
                     self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
+                    problem = .decoding(error.localizedDescription)
                 }
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
+        provider.request(endpoint) { result in
+            switch result {
+            case .success(let response):
+                success(response)
             case .failure(let error):
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
@@ -1447,25 +1355,33 @@ struct MTPNetworkController: ServiceProvider {
         let provider = MTPProvider(stubClosure: stub)
         let queryParam = query.isEmpty ? nil : query
         let endpoint = MTP.search(query: queryParam)
+
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let results = try response.map(SearchResultJSON.self,
+                                               using: JSONDecoder.mtp)
+                self.report(success: endpoint)
+                return then(.success(results))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             switch result {
             case .success(let response):
-                do {
-                    let results = try response.map(SearchResultJSON.self,
-                                                   using: JSONDecoder.mtp)
-                    return then(.success(results))
-                } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
-                }
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
@@ -1493,40 +1409,35 @@ struct MTPNetworkController: ServiceProvider {
                                   caption: caption,
                                   location: id)
 
-        func parse(success response: Response) {
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
             do {
                 let replies = try response.map([PhotoReply].self,
                                                using: JSONDecoder.mtp)
                 let reply = try unwrap(replies.first)
                 self.data.set(photo: reply)
+                self.report(success: endpoint)
                 return then(.success(reply))
             } catch {
                 do {
                     let reply = try response.map(OperationReply.self,
                                                  using: JSONDecoder.mtp)
-                    return then(.failure(.message(reply.message)))
+                    problem = .message(reply.message)
                 } catch {
-                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                    problem = .decoding(error.localizedDescription)
                 }
             }
-        }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+       }
 
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             switch result {
             case .success(let response):
-                return parse(success: response)
-            case .failure(.underlying(AFError.responseValidationFailed, _)):
-                self.log.error("API rejection: \(endpoint.path)")
-                return then(.failure(.status))
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
@@ -1548,33 +1459,36 @@ struct MTPNetworkController: ServiceProvider {
         let provider = MTPProvider(stubClosure: stub, plugins: [auth])
         let endpoint = MTP.userDelete(id: userId)
 
-        //swiftlint:disable:next closure_body_length
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let reply = try response.map(OperationReply.self,
+                                             using: JSONDecoder.mtp)
+                if reply.isSuccess {
+                    self.report(success: endpoint)
+                    return then(.success(reply.message))
+                } else {
+                    problem = .message(reply.message)
+                }
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             switch result {
             case .success(let response):
-                do {
-                    let reply = try response.map(OperationReply.self,
-                                                 using: JSONDecoder.mtp)
-                    if reply.isSuccess {
-                        return then(.success(reply.message))
-                    } else {
-                        return then(.failure(.message(reply.message)))
-                    }
-                } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
-                }
-            case .failure(.underlying(AFError.responseValidationFailed, _)):
-                self.log.error("API rejection: \(endpoint.path)")
-                return then(.failure(.status))
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
@@ -1597,33 +1511,36 @@ struct MTPNetworkController: ServiceProvider {
         let provider = MTPProvider(stubClosure: stub)
         let endpoint = MTP.passwordReset(email: email)
 
-        //swiftlint:disable:next closure_body_length
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let reply = try response.map(PasswordResetReply.self,
+                                             using: JSONDecoder.mtp)
+                if reply.isSuccess {
+                    self.report(success: endpoint)
+                    return then(.success(reply.message))
+                } else {
+                    problem = .message(reply.message)
+                }
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             switch result {
             case .success(let response):
-                do {
-                    let reply = try response.map(PasswordResetReply.self,
-                                                 using: JSONDecoder.mtp)
-                    if reply.isSuccess {
-                        return then(.success(reply.message))
-                    } else {
-                        return then(.failure(.message(reply.message)))
-                    }
-                } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
-                }
-            case .failure(.underlying(AFError.responseValidationFailed, _)):
-                self.log.error("API rejection: \(endpoint.path)")
-                return then(.failure(.status))
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
@@ -1648,34 +1565,34 @@ struct MTPNetworkController: ServiceProvider {
             return then(.failure(.throttle))
         }
 
-        //swiftlint:disable:next closure_body_length
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let user = try response.map(UserJSON.self,
+                                            using: JSONDecoder.mtp)
+                self.data.user = user
+                self.report(success: endpoint)
+                return then(.success(user))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             endpoint.markResponded()
             switch result {
             case .success(let response):
-                do {
-                    guard response.modified(from: endpoint) else {
-                        return then(.failure(.notModified))
-                    }
-                    let user = try response.map(UserJSON.self,
-                                                using: JSONDecoder.mtp)
-                    self.data.user = user
-                    return then(.success(user))
-                } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
-                }
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                guard error.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
@@ -1698,38 +1615,36 @@ struct MTPNetworkController: ServiceProvider {
         let provider = MTPProvider(stubClosure: stub)
         let endpoint = MTP.userLogin(email: email, password: password)
 
-        func parse(success response: Response) {
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
             do {
                 let user = try response.map(UserJSON.self,
                                             using: JSONDecoder.mtp)
                 guard let token = user.token else { throw NetworkError.token }
-                data.token = token
-                data.user = user
+                self.data.token = token
+                self.data.user = user
+                self.report(success: endpoint)
                 return then(.success(user))
             } catch {
                 do {
                     let reply = try response.map(OperationReply.self,
                                                  using: JSONDecoder.mtp)
-                    return then(.failure(.message(reply.message)))
+                    problem = .message(reply.message)
                 } catch {
-                    log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                    problem = .decoding(error.localizedDescription)
                 }
             }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
         }
 
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             switch result {
             case .success(let response):
-                return parse(success: response)
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message) \(error)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
@@ -1750,34 +1665,35 @@ struct MTPNetworkController: ServiceProvider {
         let provider = MTPProvider(stubClosure: stub)
         let endpoint = MTP.userRegister(payload: payload)
 
-        func parse(response: Response) {
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
             do {
                 let user = try response.map(UserJSON.self,
                                             using: JSONDecoder.mtp)
                 guard let token = user.token else { throw NetworkError.token }
-                data.token = token
-                data.user = user
-                userGetByToken { _ in
+                self.data.token = token
+                self.data.user = user
+                self.report(success: endpoint)
+                self.userGetByToken { _ in
                     then(.success(user))
                 }
+                return
+            } catch let error as NetworkError {
+                problem = error
             } catch {
-                log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                return then(.failure(.decoding))
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
             }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
         }
 
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             switch result {
             case .success(let response):
-                return parse(response: response)
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+               success(response)
             case .failure(let error):
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
@@ -1795,34 +1711,34 @@ struct MTPNetworkController: ServiceProvider {
         let provider = MTPProvider(stubClosure: stub, plugins: [auth])
         let endpoint = MTP.userPut(payload: payload)
 
-        //swiftlint:disable:next closure_body_length
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                let reply = try response.map(UserUpdateReply.self,
+                                             using: JSONDecoder.mtp)
+                if reply.isSuccess {
+                    self.data.user = reply.user
+                    self.report(success: endpoint)
+                    return then(.success(reply.user))
+                } else {
+                    problem = .message(reply.message)
+                }
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             switch result {
             case .success(let response):
-                do {
-                    let reply = try response.map(UserUpdateReply.self,
-                                                 using: JSONDecoder.mtp)
-                    if reply.isSuccess {
-                        self.data.user = reply.user
-                        return then(.success(reply.user))
-                    } else {
-                        return then(.failure(.message(reply.message)))
-                    }
-                } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
-                }
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                guard error.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
@@ -1844,28 +1760,29 @@ struct MTPNetworkController: ServiceProvider {
         let provider = MTPProvider(stubClosure: stub, plugins: [auth])
         let endpoint = MTP.userPost(id: userId, token: token)
 
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                let reply = try response.map(UserTokenReply.self,
+                                             using: JSONDecoder.mtp)
+                self.report(success: endpoint)
+                return then(.success(reply))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             switch result {
             case .success(let response):
-                do {
-                    let reply = try response.map(UserTokenReply.self,
-                                                 using: JSONDecoder.mtp)
-                    return then(.success(reply))
-                } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
-                }
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                guard error.modified(from: endpoint) else {
-                    return then(.failure(.notModified))
-                }
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
@@ -1883,100 +1800,187 @@ struct MTPNetworkController: ServiceProvider {
         let provider = MTPProvider(stubClosure: stub, plugins: [auth])
         let endpoint = MTP.userVerify(id: id)
 
-        //swiftlint:disable:next closure_body_length
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                let reply = try response.map(OperationReply.self,
+                                             using: JSONDecoder.mtp)
+                if reply.isSuccess {
+                    self.report(success: endpoint)
+                    return then(.success(reply.message))
+                } else {
+                    problem = .message(reply.message)
+                }
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
         provider.request(endpoint) { result in
-            self.report.event(.api(endpoint: endpoint, result: result))
             switch result {
             case .success(let response):
-                do {
-                    let reply = try response.map(OperationReply.self,
-                                                 using: JSONDecoder.mtp)
-                    if reply.isSuccess {
-                        return then(.success(reply.message))
-                    } else {
-                        return then(.failure(.message(reply.message)))
-                    }
-                } catch {
-                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                    return then(.failure(.decoding))
-                }
-            case .failure(.underlying(AFError.responseValidationFailed, _)):
-                self.log.error("API rejection: \(endpoint.path)")
-                return then(.failure(.status))
-            case let .failure(.underlying(error, response)):
-                let problem = self.parse(error: error, response: response)
-                return then(.failure(problem))
+                success(response)
             case .failure(let error):
-                let message = error.errorDescription ?? L.unknown()
-                self.log.error("failure: \(endpoint.path) \(message)")
-                return then(.failure(.network(message)))
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
 }
 
-// MARK: - Support
-
-private extension MoyaError {
-
-    func modified(from endpoint: MTP) -> Bool {
-        guard let response = response,
-             response.statusCode != 304 else {
-                endpoint.markReceived()
-                return false
-        }
-        return true
-    }
-}
-
-extension Response: ServiceProvider {
-
-    fileprivate func modified(from endpoint: MTP) -> Bool {
-        guard let response = response else {
-            // expected in a stubbed response
-            return true
-        }
-
-        endpoint.markReceived()
-
-        guard response.statusCode != 304 else {
-                return false
-        }
-        if let header = response.find(header: "Not-Modified"),
-           header == "1" {
-            return false
-        }
-        // This is the internal caching
-        if let body = try? mapString(),
-           body == "{\"status\":\"Not-Modified\"}" {
-            return false
-        }
-
-        if let etag = response.find(header: "Etag") {
-            data.etags[endpoint.path] = etag
-        }
-
-        return true
-    }
-
-    fileprivate var toString: String {
-        return (try? mapString()) ?? "mapString failed"
-    }
-}
+// MARK: - Private
 
 private extension MTPNetworkController {
+
+    func report(success endpoint: MTP) {
+        report.event(.api(endpoint: endpoint,
+                          success: true,
+                          code: 0,
+                          message: ""))
+    }
+
+    func report(failure endpoint: MTP,
+                problem: NetworkError) {
+        log.error("API \(endpoint): \(problem.errorDescription ?? "")")
+        report.event(.api(endpoint: endpoint,
+                          success: false,
+                          code: problem.code,
+                          message: problem.message))
+    }
+
+    func problem(with endpoint: MTP,
+                 from moya: MoyaError) -> NetworkError {
+        guard moya.modified(from: endpoint) else { return .notModified }
+
+        let problem: NetworkError
+        switch moya {
+        case .statusCode(let response):
+            problem = .status(response.statusCode)
+        case let .underlying(error, response):
+            problem = self.parse(error: error, response: response)
+        default:
+            problem = .network(moya.errorDescription ?? L.unknown())
+        }
+        report(failure: endpoint, problem: problem)
+        return problem
+    }
+
+    func checkIn(list: Checklist,
+                 id: Int,
+                 stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
+                 then: @escaping NetworkCompletion<Bool>) {
+        guard data.isLoggedIn else { return then(.failure(.parameter)) }
+
+        let auth = AccessTokenPlugin { self.data.token }
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
+        let endpoint = MTP.checkIn(list: list, id: id)
+
+        let success: SuccessHandler = { _ in
+            self.report(success: endpoint)
+            then(.success(true))
+        }
+
+        provider.request(endpoint) { result in
+            switch result {
+            case .success(let response):
+                success(response)
+            case .failure(let error):
+                then(.failure(self.problem(with: endpoint, from: error)))
+            }
+        }
+    }
+
+    func checkOut(list: Checklist,
+                  id: Int,
+                  stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
+                  then: @escaping NetworkCompletion<Bool>) {
+        guard data.isLoggedIn else { return then(.failure(.parameter)) }
+
+        let auth = AccessTokenPlugin { self.data.token }
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
+        let endpoint = MTP.checkOut(list: list, id: id)
+
+        let success: SuccessHandler = { _ in
+            self.report(success: endpoint)
+            then(.success(true))
+        }
+
+        provider.request(endpoint) { result in
+            switch result {
+            case .success(let response):
+                success(response)
+            case .failure(let error):
+                then(.failure(self.problem(with: endpoint, from: error)))
+            }
+        }
+    }
+
+    func loadPhotos(id: Int?,
+                    page: Int,
+                    reload: Bool,
+                    stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
+                    then: @escaping NetworkCompletion<PhotosPageInfoJSON>) {
+        guard data.isLoggedIn else { return then(.failure(.parameter)) }
+
+        let auth = AccessTokenPlugin { self.data.token }
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
+        let endpoint = MTP.photos(user: id, page: page)
+        guard reload || !endpoint.isThrottled else {
+            return then(.failure(.throttle))
+        }
+
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let info = try response.map(PhotosPageInfoJSON.self,
+                                            using: JSONDecoder.mtp)
+                if let id = id {
+                    self.data.set(photos: page, user: id, info: info)
+                } else if let userId = self.data.user?.id {
+                    self.data.set(photos: page, user: userId, info: info)
+                }
+                self.report(success: endpoint)
+                return then(.success(info))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
+        provider.request(endpoint) { result in
+            endpoint.markResponded()
+            switch result {
+            case .success(let response):
+                success(response)
+            case .failure(let error):
+                then(.failure(self.problem(with: endpoint, from: error)))
+            }
+        }
+    }
 
     func parse(error: Error?,
                response: Response?) -> NetworkError {
         if let aferror = error as? AFError?,
-           case let .responseValidationFailed(.unacceptableStatusCode(code))? = aferror {
+            case let .responseValidationFailed(.unacceptableStatusCode(code))? = aferror {
             switch code {
             case 304:
                 return .notModified
             case 409: // Conflict - found in signup
+                // expect message in OperationReply below
                 break
             default:
-                return .status
+                return .status(code)
             }
         }
 
@@ -1997,10 +2001,12 @@ private extension MTPNetworkController {
             return .message(reply.message)
         } catch {
             self.log.error("decoding error response: \(error)\n-\n\(response.toString)")
-            return .decoding
+            return .decoding(error.localizedDescription)
         }
     }
 }
+
+// MARK: - Support
 
 private var active: Set<MTP> = []
 private var received: [MTP: Date] = [:]
@@ -2033,3 +2039,124 @@ private extension MTP {
         received[self] = Date().toUTC
     }
 }
+
+private extension MoyaError {
+
+    func modified(from endpoint: MTP) -> Bool {
+        guard let response = response,
+            response.statusCode != 304 else {
+                endpoint.markReceived()
+                return false
+        }
+        return true
+    }
+}
+
+private extension Response {
+
+    func modified(from endpoint: MTP) -> Bool {
+        guard let response = response else {
+            // expected in a stubbed response
+            return true
+        }
+
+        endpoint.markReceived()
+
+        guard response.statusCode != 304 else {
+            return false
+        }
+        if let header = response.find(header: "Not-Modified"),
+            header == "1" {
+            return false
+        }
+        // This is the internal caching
+        if let body = try? mapString(),
+            body == "{\"status\":\"Not-Modified\"}" {
+            return false
+        }
+
+        if let etag = response.find(header: "Etag") {
+            data.etags[endpoint.path] = etag
+        }
+
+        // expect x-ratelimit-limit = 60
+        // check x-ratelimit-remaining?
+
+        return true
+    }
+
+    var toString: String {
+        return (try? mapString()) ?? "mapString failed"
+    }
+}
+
+extension NetworkError: LocalizedError {
+
+    /// Loggable description of NetworkError
+    public var errorDescription: String? {
+        return "🔥\(code)💬\(message)"
+    }
+}
+
+private extension NetworkError {
+
+    var code: Int {
+        switch self {
+        case .unknown:
+            return 1_010
+        case .decoding:
+            return 1_020
+        case .deviceOffline:
+            return 1_030
+        case .message:
+            return 1_040
+        case .network:
+            return 1_050
+        case .notModified:
+            return 1_060
+        case .parameter:
+            return 1_070
+        case .serverOffline:
+            return 1_080
+        case .status(let status):
+            return status
+        case .throttle:
+            return 1_090
+        case .token:
+            return 1_100
+        }
+    }
+
+    var message: String {
+        switch self {
+        case .unknown:
+            return "unknown"
+        case .decoding(let message):
+            return message
+        case .deviceOffline:
+            return "device offline"
+        case .message(let message):
+            return message
+        case .network(let message):
+            return message
+        case .notModified:
+            return "not modified"
+        case .parameter:
+            return "parameter invalid"
+        case .serverOffline:
+            return "server offline"
+        case .status(let status):
+            return "status \(status)"
+        case .throttle:
+            return "network throttled"
+        case .token:
+            return "user token not found"
+        }
+    }
+}
+
+// MARK: - ServiceProvider conformance
+
+extension MTP: ServiceProvider { }
+
+extension Response: ServiceProvider { }

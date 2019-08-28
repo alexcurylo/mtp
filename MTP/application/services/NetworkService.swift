@@ -10,7 +10,7 @@ enum NetworkError: Swift.Error {
     /// unknown
     case unknown
     /// decoding
-    case decoding
+    case decoding(String)
     /// deviceOffline
     case deviceOffline
     /// message(String)
@@ -24,7 +24,7 @@ enum NetworkError: Swift.Error {
     /// serverOffline
     case serverOffline
     /// status
-    case status
+    case status(Int)
     /// throttle
     case throttle
     /// token

@@ -28,7 +28,10 @@ protocol ReportingService: AnyObject {
 enum AnalyticsEvent {
 
     /// API called
-    case api(endpoint: MTP, result: Result<Moya.Response, MoyaError>)
+    case api(endpoint: MTP,
+             success: Bool,
+             code: Int,
+             message: String)
     /// login
     case login
     // search
@@ -53,22 +56,22 @@ enum AnalyticsEvent {
         switch self {
         case .login:
             return [:]
-        case let .api(endpoint, result):
-            let success: NSNumber
-            if case .success = result {
-                success = 1
-            } else {
-                success = 0
-            }
+        case let .api(endpoint, success, code, message):
             return [ .endpoint: endpoint.parameter,
-                     .success: success ]
+                     .etag: endpoint.etag.truncate(length: 20),
+                     .success: success ? 1 : 0,
+                     .code: code,
+                     .message: message.truncate(length: 30) ]
         case .signup(let method):
            return [ .method: method.rawValue]
         }
     }
 
     fileprivate enum Parameter: String {
+        case code
         case endpoint
+        case etag
+        case message
         case method
         case success
     }
@@ -160,7 +163,10 @@ private struct AnalyticsEventMapper {
 
     func parameterName(for parameter: AnalyticsEvent.Parameter) -> String {
         switch parameter {
-        case .endpoint:
+        case .code,
+             .endpoint,
+             .etag,
+             .message:
             return parameter.rawValue
         case .method:
             return AnalyticsParameterMethod
