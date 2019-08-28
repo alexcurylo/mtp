@@ -706,7 +706,7 @@ private extension NotificationServiceImpl {
         guard canNotifyForeground else { return }
 
         congratulating = mappable
-        app.route(to: mappable)
+        app.route(reveal: mappable)
 
         alert(foreground: note) {
             self.congratulating = nil

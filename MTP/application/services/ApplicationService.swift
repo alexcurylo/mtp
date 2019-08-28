@@ -10,15 +10,15 @@ protocol ApplicationService {
     /// - Parameter url: URL to launch
     func launch(url: URL)
 
-    /// Route to display a Mappable in Locations
+    /// Route to reveal a Mappable in Locations
     ///
-    /// - Parameter mappable: Mappable to display
-    func route(to mappable: Mappable)
+    /// - Parameter mappable: Mappable to reveal
+    func route(reveal mappable: Mappable)
 
-    /// Route to display a User in Locations
+    /// Route to show a Mappable in Locations
     ///
-    /// - Parameter user: User to display
-    func route(to user: User?)
+    /// - Parameter mappable: Mappable to show
+    func route(show mappable: Mappable)
 
     /// Route to an enumerated destination
     ///
@@ -67,18 +67,18 @@ extension UIApplication: ApplicationService {
         open(url, options: [:], completionHandler: nil)
     }
 
-    /// Route to display a Mappable in Locations
+    /// Route to reveal a Mappable in Locations
     ///
-    /// - Parameter mappable: Mappable to display
-    func route(to mappable: Mappable) {
-        MainTBC.route(to: mappable)
+    /// - Parameter mappable: Mappable to reveal
+    func route(reveal mappable: Mappable) {
+        MainTBC.route(reveal: mappable)
     }
 
-    /// Route to display a User in Locations
+    /// Route to show a Mappable in Locations
     ///
-    /// - Parameter user: User to display
-    func route(to user: User?) {
-        MainTBC.route(to: user)
+    /// - Parameter mappable: Mappable to show
+    func route(show mappable: Mappable) {
+        MainTBC.route(show: mappable)
     }
 
     /// Route to an enumerated destination
