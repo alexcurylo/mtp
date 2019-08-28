@@ -13,7 +13,7 @@ final class WHSTests: XCTestCase {
         let whss = realm.whss
 
         // then
-        XCTAssertEqual(whss.count, 1_257)
+        XCTAssertEqual(whss.count, 1_314)
     }
 
     func testDecodingComplete() throws {
@@ -61,23 +61,10 @@ final class WHSTests: XCTestCase {
         // when
         let json = try JSONDecoder.mtp.decode(WHSJSON.self,
                                               from: data)
-        let sut = try unwrap(WHS(from: json, realm: realm))
-        let map = try unwrap(sut.map)
+        let sut = WHS(from: json, realm: realm)
 
         // then
-        XCTAssertEqual(sut.placeId, 1)
-        XCTAssertEqual(sut.placeId, map.checklistId)
-        XCTAssertEqual(map.checklist, .whss)
-        map.region.assert(equal: "unknown")
-        map.country.assert(equal: "unknown")
-        map.title.assert(equal: "Galapagos Islands")
-        map.subtitle.assert(equal: "")
-        map.image.assert(equal: "https://whc.unesco.org/uploads/sites/gallery/original/site_0001_0001.jpg")
-        map.website.assert(equal: "https://whc.unesco.org/en/list/1")
-        // swiftlint:disable number_separator
-        XCTAssertEqual(map.latitude, -0.81667)
-        XCTAssertEqual(map.longitude, -91)
-        XCTAssertEqual(map.visitors, 1064)
+        XCTAssertNil(sut)
     }
 
     func testDecodingOnlyCountry() throws {

@@ -19,7 +19,7 @@ final class PlaceInfoTests: XCTestCase {
         XCTAssertEqual(beaches.count, 159)
         XCTAssertEqual(divesites.count, 99)
         XCTAssertEqual(golfcourses.count, 100)
-        XCTAssertEqual(mappables.count, 3_210)
+        XCTAssertEqual(mappables.count, 3_267)
     }
 
     func testBeachDecoding() throws {

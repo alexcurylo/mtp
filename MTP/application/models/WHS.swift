@@ -106,15 +106,13 @@ extension WHSJSON: CustomDebugStringConvertible {
             region = location.placeRegion
             subtitle = location.description
         } else if let notLocation = realm.country(id: locationId) {
-            log.error("WHS \(from.id) placed in country: WHS \(placeId)")
+            log.warning("WHS \(from.id) placed in country: WHS \(placeId)")
             country = notLocation.placeCountry
             region = L.unknown()
             subtitle = country
         } else {
-            log.error("WHS \(from.id) missing location")
-            country = L.unknown()
-            region = L.unknown()
-            subtitle = ""
+            log.warning("WHS \(from.id) missing location")
+            return nil
         }
         map = Mappable(checklist: .whss,
                        checklistId: from.id,
