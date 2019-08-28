@@ -14,7 +14,7 @@ private protocol FaqCellDelegate: AnyObject {
 }
 
 /// Display the website FAQ as a collapsible table
-final class FaqVC: UITableViewController, ServiceProvider {
+final class FaqVC: UITableViewController {
 
     private typealias Segues = R.segue.faqVC
 
@@ -104,6 +104,14 @@ final class FaqVC: UITableViewController, ServiceProvider {
 
         show(navBar: animated, style: .standard)
         expose()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "FAQ")
     }
 }
 

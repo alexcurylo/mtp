@@ -6,7 +6,7 @@ import UIKit
 // swiftlint:disable file_length
 
 /// Handle the user signup process
-final class SignupVC: UIViewController, ServiceProvider {
+final class SignupVC: UIViewController {
 
     private typealias Segues = R.segue.signupVC
 
@@ -40,6 +40,7 @@ final class SignupVC: UIViewController, ServiceProvider {
     private var agreed = false
     private var country: Country?
     private var location: Location?
+    private var method: AnalyticsEvent.Method = .email
 
     private let genders = [L.selectGender(),
                            L.male(),
@@ -69,6 +70,14 @@ final class SignupVC: UIViewController, ServiceProvider {
         show(navBar: animated, style: .login)
         navigationController?.delegate = self
         expose()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "Sign Up")
     }
 
     /// Prepare for hide
@@ -221,7 +230,7 @@ private extension SignupVC {
 
             self.credentialsStack.removeArrangedSubview(self.facebookStack)
             self.facebookStack.removeFromSuperview()
-
+            self.method = .facebook
             self.populate(with: info)
         }
     }
@@ -407,31 +416,39 @@ private extension SignupVC {
 
         // swiftlint:disable:next closure_body_length
         net.userRegister(payload: payload) { [weak self, note] result in
+            guard let self = self else { return note.dismissModal() }
+
             switch result {
-            case .success:
+            case .success(let user):
                 note.modal(success: L.success())
+                self.report.user(signIn: user.email, signUp: self.method)
                 DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
                     note.dismissModal()
                     self?.performSegue(withIdentifier: Segues.showWelcome, sender: self)
                 }
                 return
             case .failure(.deviceOffline):
-                self?.errorMessage = L.deviceOfflineError(operation)
+                self.errorMessage = L.deviceOfflineError(operation)
             case .failure(.serverOffline):
-                self?.errorMessage = L.serverOfflineError(operation)
+                self.errorMessage = L.serverOfflineError(operation)
             case .failure(.decoding):
-                self?.errorMessage = L.decodingError(operation)
-            case .failure(.status):
-                self?.errorMessage = L.statusError(operation)
+                self.errorMessage = L.decodingError(operation)
+            case .failure(.status(let code)):
+                switch code {
+                case 503:
+                    self.errorMessage = L.serviceUnavailableError()
+                default:
+                    self.errorMessage = L.statusErrorReport(operation, code)
+                }
             case .failure(.message(let message)):
-                self?.errorMessage = message
+                self.errorMessage = message
             case .failure(.network(let message)):
-                self?.errorMessage = L.networkError(operation, message)
+                self.errorMessage = L.networkError(operation, message)
             default:
-                self?.errorMessage = L.unexpectedError(operation)
+                self.errorMessage = L.unexpectedError(operation)
             }
             note.dismissModal()
-            self?.performSegue(withIdentifier: Segues.presentSignupFail, sender: self)
+            self.performSegue(withIdentifier: Segues.presentSignupFail, sender: self)
         }
     }
 }

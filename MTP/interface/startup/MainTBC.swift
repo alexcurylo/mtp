@@ -3,7 +3,7 @@
 import UIKit
 
 /// Root view for logged in user
-final class MainTBC: UITabBarController, ServiceProvider {
+final class MainTBC: UITabBarController {
 
     private typealias Segues = R.segue.myProfileVC
 
@@ -38,6 +38,8 @@ final class MainTBC: UITabBarController, ServiceProvider {
     /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        report(screen: "Main Tab Bar")
+
         checkDestination()
     }
 

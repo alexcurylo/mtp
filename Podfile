@@ -25,15 +25,17 @@ target 'MTP' do
 
   pod 'AlamofireNetworkActivityIndicator'
   pod 'Anchorage'
-  pod 'AppCenter'
   pod 'AXPhotoViewer/Nuke'
   pod 'AXStateButton', :modular_headers => true
   pod 'Bolts', :modular_headers => true, :inhibit_warnings => true
+  pod 'Crashlytics'
   pod 'DropDown'
+  pod 'Fabric'
   pod 'FacebookCore'
   pod 'FacebookLogin'
   pod 'FBSDKCoreKit', :modular_headers => true
   pod 'FBSDKLoginKit', :modular_headers => true
+  pod 'Firebase/Analytics'
   pod 'FLAnimatedImage', :modular_headers => true, :inhibit_warnings => true
   pod 'JWTDecode'
   pod 'KRProgressHUD'

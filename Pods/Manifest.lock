@@ -5,14 +5,6 @@ PODS:
   - AlamofireNetworkActivityIndicator (2.4.0):
     - Alamofire (~> 4.8)
   - Anchorage (4.3.1)
-  - AppCenter (2.2.0):
-    - AppCenter/Analytics (= 2.2.0)
-    - AppCenter/Crashes (= 2.2.0)
-  - AppCenter/Analytics (2.2.0):
-    - AppCenter/Core
-  - AppCenter/Core (2.2.0)
-  - AppCenter/Crashes (2.2.0):
-    - AppCenter/Core
   - AXPhotoViewer/Core (1.7.1):
     - AXStateButton (>= 1.1.3)
     - FLAnimatedImage (>= 1.0.0)
@@ -27,22 +19,84 @@ PODS:
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
+  - Crashlytics (3.13.4):
+    - Fabric (~> 1.10.2)
   - DropDown (2.3.13)
+  - Fabric (1.10.2)
   - FacebookCore (0.8.0):
     - FBSDKCoreKit (~> 5.0)
   - FacebookLogin (0.8.0):
     - FacebookCore (~> 0.8.0)
     - FBSDKCoreKit (~> 5.0)
     - FBSDKLoginKit (~> 5.0)
-  - FBSDKCoreKit (5.2.3):
-    - FBSDKCoreKit/Basics (= 5.2.3)
-    - FBSDKCoreKit/Core (= 5.2.3)
-  - FBSDKCoreKit/Basics (5.2.3)
-  - FBSDKCoreKit/Core (5.2.3):
+  - FBSDKCoreKit (5.4.1):
+    - FBSDKCoreKit/Basics (= 5.4.1)
+    - FBSDKCoreKit/Core (= 5.4.1)
+  - FBSDKCoreKit/Basics (5.4.1)
+  - FBSDKCoreKit/Core (5.4.1):
     - FBSDKCoreKit/Basics
-  - FBSDKLoginKit (5.2.3):
+  - FBSDKLoginKit (5.4.1):
     - FBSDKCoreKit (~> 5.0)
+  - Firebase/Analytics (6.7.0):
+    - Firebase/Core
+  - Firebase/Core (6.7.0):
+    - Firebase/CoreOnly
+    - FirebaseAnalytics (= 6.1.1)
+  - Firebase/CoreOnly (6.7.0):
+    - FirebaseCore (= 6.2.1)
+  - FirebaseAnalytics (6.1.1):
+    - FirebaseCore (~> 6.2)
+    - FirebaseInstanceID (~> 4.2)
+    - GoogleAppMeasurement (= 6.1.1)
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
+    - GoogleUtilities/MethodSwizzler (~> 6.0)
+    - GoogleUtilities/Network (~> 6.0)
+    - "GoogleUtilities/NSData+zlib (~> 6.0)"
+    - nanopb (~> 0.3)
+  - FirebaseCore (6.2.1):
+    - FirebaseCoreDiagnostics (~> 1.0)
+    - FirebaseCoreDiagnosticsInterop (~> 1.0)
+    - GoogleUtilities/Environment (~> 6.2)
+    - GoogleUtilities/Logger (~> 6.2)
+  - FirebaseCoreDiagnostics (1.0.1):
+    - FirebaseCoreDiagnosticsInterop (~> 1.0)
+    - GoogleDataTransportCCTSupport (~> 1.0)
+    - GoogleUtilities/Environment (~> 6.2)
+    - GoogleUtilities/Logger (~> 6.2)
+  - FirebaseCoreDiagnosticsInterop (1.0.0)
+  - FirebaseInstanceID (4.2.3):
+    - FirebaseCore (~> 6.0)
+    - GoogleUtilities/Environment (~> 6.0)
+    - GoogleUtilities/UserDefaults (~> 6.0)
   - FLAnimatedImage (1.0.12)
+  - GoogleAppMeasurement (6.1.1):
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
+    - GoogleUtilities/MethodSwizzler (~> 6.0)
+    - GoogleUtilities/Network (~> 6.0)
+    - "GoogleUtilities/NSData+zlib (~> 6.0)"
+    - nanopb (~> 0.3)
+  - GoogleDataTransport (1.1.2)
+  - GoogleDataTransportCCTSupport (1.0.2):
+    - GoogleDataTransport (~> 1.1)
+    - nanopb
+  - GoogleUtilities/AppDelegateSwizzler (6.2.5):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+  - GoogleUtilities/Environment (6.2.5)
+  - GoogleUtilities/Logger (6.2.5):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/MethodSwizzler (6.2.5):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/Network (6.2.5):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (6.2.5)"
+  - GoogleUtilities/Reachability (6.2.5):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (6.2.5):
+    - GoogleUtilities/Logger
   - JWTDecode (2.3.0)
   - KRActivityIndicatorView (3.0.2)
   - KRProgressHUD (3.4.1):
@@ -52,6 +106,11 @@ PODS:
   - Moya/Core (13.0.1):
     - Alamofire (~> 4.1)
     - Result (~> 4.1)
+  - nanopb (0.3.901):
+    - nanopb/decode (= 0.3.901)
+    - nanopb/encode (= 0.3.901)
+  - nanopb/decode (0.3.901)
+  - nanopb/encode (0.3.901)
   - Nuke (7.6.3)
   - Nuke-Alamofire-Plugin (4.2):
     - Alamofire (~> 4.0)
@@ -70,24 +129,26 @@ PODS:
   - RealmSwift (3.17.3):
     - Realm (= 3.17.3)
   - Result (4.1.0)
-  - SwiftEntryKit (1.1.1):
+  - SwiftEntryKit (1.1.2):
     - QuickLayout (= 3.0.0)
   - SwiftLint (0.34.0)
-  - SwiftyBeaver (1.7.0)
+  - SwiftyBeaver (1.7.1)
 
 DEPENDENCIES:
   - ABFRealmMapView (from `https://github.com/alexcurylo/ABFRealmMapView`)
   - AlamofireNetworkActivityIndicator
   - Anchorage
-  - AppCenter
   - AXPhotoViewer/Nuke
   - AXStateButton
   - Bolts
+  - Crashlytics
   - DropDown
+  - Fabric
   - FacebookCore
   - FacebookLogin
   - FBSDKCoreKit
   - FBSDKLoginKit
+  - Firebase/Analytics
   - FLAnimatedImage
   - JWTDecode
   - KRProgressHUD
@@ -109,20 +170,32 @@ SPEC REPOS:
     - Alamofire
     - AlamofireNetworkActivityIndicator
     - Anchorage
-    - AppCenter
     - AXPhotoViewer
     - AXStateButton
     - Bolts
+    - Crashlytics
     - DropDown
+    - Fabric
     - FacebookCore
     - FacebookLogin
     - FBSDKCoreKit
     - FBSDKLoginKit
+    - Firebase
+    - FirebaseAnalytics
+    - FirebaseCore
+    - FirebaseCoreDiagnostics
+    - FirebaseCoreDiagnosticsInterop
+    - FirebaseInstanceID
     - FLAnimatedImage
+    - GoogleAppMeasurement
+    - GoogleDataTransport
+    - GoogleDataTransportCCTSupport
+    - GoogleUtilities
     - JWTDecode
     - KRActivityIndicatorView
     - KRProgressHUD
     - Moya
+    - nanopb
     - Nuke
     - Nuke-Alamofire-Plugin
     - Parchment
@@ -155,20 +228,32 @@ SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   AlamofireNetworkActivityIndicator: 9acc3de3ca6645bf0efed462396b0df13dd3e7b8
   Anchorage: a187da0bc9b07440637d42c8744b8c82a4490295
-  AppCenter: c809e69d93218b9861b4f8e54ded8dcf4d2131e7
   AXPhotoViewer: f4b021c6e43b0b9dbc7b30cf8b9a4f577d0c1f51
   AXStateButton: 6c515a433e37551505046429b5be04c12daa8c07
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
+  Crashlytics: 2dfd686bcb918dc10ee0e76f7f853fe42c7bd552
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
+  Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   FacebookCore: 563bb4cbcd7dd86cf89f3729252140bf256aacaa
   FacebookLogin: 8b966ae661e95e7dba837d7cc49cc464ce003dba
-  FBSDKCoreKit: 5154c35d9058fd7dfa0445ba19e194c4b172fc32
-  FBSDKLoginKit: dc98b6bf12334f1a42f28d0457fffc9aa3d1eca5
+  FBSDKCoreKit: 5144671077d67f07d7d243dbc7fd57a171f73954
+  FBSDKLoginKit: ff38b353b6843353f090028eb1b895c78aa82796
+  Firebase: 291d7b0a7b393f252358083b5d224884126fa46d
+  FirebaseAnalytics: 843c7f64a8f9c79f0d03281197ebe7bb1d58d477
+  FirebaseCore: 32b48f41c84a56fbde73b35ed01a830b3b6dc048
+  FirebaseCoreDiagnostics: 4c04ae09d0ab027c30179828c6bb47764df1bd13
+  FirebaseCoreDiagnosticsInterop: 6829da2b8d1fc795ff1bd99df751d3788035d2cb
+  FirebaseInstanceID: 8b42755db950682e7de0d167bc6fb26a57b244af
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
+  GoogleAppMeasurement: 86a82f0e1f20b8eedf8e20326530138fd71409de
+  GoogleDataTransport: 9c3d63ed82f882a9a74d4be67dd7ad01bf046102
+  GoogleDataTransportCCTSupport: 6b545f7149111180763dc18c6f372c963de4a310
+  GoogleUtilities: e7dc37039b19df7fe543479d3e4a02ac8d11bb69
   JWTDecode: fb77675c8049c1a7e9433c7cf448c3ce33ee4ac7
   KRActivityIndicatorView: a2022d5d3e366207d2690f6bcc550f83aa91241b
   KRProgressHUD: 115363b48feb530ab1f36c4146ed22e779e0f5aa
   Moya: f4a4b80ff2f8a4ffc208dfb31cd91636622fee6e
+  nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Nuke: 44130e95e09463f8773ae4b96b90de1eba6b3350
   Nuke-Alamofire-Plugin: ee83df6e81e70488ca33033ac98b3f86a2ab1597
   Parchment: d3a7b367c529fa6ef51aa43f5717a7ff36d4b1f5
@@ -179,10 +264,10 @@ SPEC CHECKSUMS:
   RealmMapView: 610909ee919ab5bb8239f2ed4b51313a77250f98
   RealmSwift: b7fdc2d18616621c31df5c7a398a45a2163f8eb0
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
-  SwiftEntryKit: df2d08f3ba46b3972ce163537a64e87c2518f611
+  SwiftEntryKit: 08bf114650b41d4d825924211943b6a80801e823
   SwiftLint: 79d48a17c6565dc286c37efb8322c7b450f95c67
-  SwiftyBeaver: 4cc0080d2e23f980652e28978db11a5c9da39165
+  SwiftyBeaver: da5e573ad583586c18236324c36900990afe1733
 
-PODFILE CHECKSUM: 9d04e93867505da9d3ef2abba917dc81a86045be
+PODFILE CHECKSUM: bc8f36a80a387b5fb845af7e4780b80a7deca406
 
 COCOAPODS: 1.7.5

@@ -80,8 +80,8 @@ private extension LocationPostsVC {
 
     func update() {
         guard isImplemented else {
-            contentState = .unimplemented
-            tableView.set(message: contentState, color: .darkText)
+            contentState = .unknown
+            tableView.set(message: L.unimplemented(), color: .darkText)
             return
         }
 
@@ -91,8 +91,6 @@ private extension LocationPostsVC {
 
         if !models.isEmpty {
             contentState = .data
-        } else if !isImplemented {
-            contentState = .unimplemented
         } else {
             contentState = updated ? .empty : .loading
         }

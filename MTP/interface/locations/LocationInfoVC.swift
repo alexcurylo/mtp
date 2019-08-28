@@ -3,7 +3,7 @@
 import UIKit
 
 /// Displays location information
-final class LocationInfoVC: UITableViewController, ServiceProvider {
+final class LocationInfoVC: UITableViewController {
 
     // verified in requireOutlets
     @IBOutlet private var regionLabel: UILabel!
@@ -27,6 +27,14 @@ final class LocationInfoVC: UITableViewController, ServiceProvider {
         requireInjection()
 
         configure()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "Location Info")
     }
 }
 

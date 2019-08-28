@@ -3,7 +3,7 @@
 import Parchment
 
 /// Displays location info tabs
-final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
+final class LocationPagingVC: FixedPagingViewController {
 
     fileprivate enum Page: Int {
 
@@ -87,6 +87,14 @@ final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         expose()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "Location Paging")
     }
 
     /// Provide cell

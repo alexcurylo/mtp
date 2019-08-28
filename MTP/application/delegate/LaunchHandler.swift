@@ -1,10 +1,8 @@
 // @copyright Trollwerks Inc.
 
 import AlamofireNetworkActivityIndicator
-import AppCenter
-import AppCenterAnalytics
-import AppCenterCrashes
 import FBSDKCoreKit
+import Firebase
 import SwiftyBeaver
 
 /// Stub for startup construction
@@ -39,7 +37,7 @@ extension LaunchHandler: AppLaunchHandler {
 
         configureLogging()
 
-        configureAppCenter()
+        configureFirebase()
 
         configureNetworking()
 
@@ -130,23 +128,6 @@ private extension LaunchHandler {
     }
 }
 
-// MARK: - AppCenter
-
-// https://docs.microsoft.com/en-us/appcenter/
-// https://docs.microsoft.com/en-us/appcenter/sdk/crashes/ios
-// https://docs.microsoft.com/en-us/appcenter/sdk/analytics/ios
-
-private extension LaunchHandler {
-
-    func configureAppCenter() {
-        guard UIApplication.isProduction else { return }
-
-        MSAppCenter.start("20cb945f-58b9-4544-a059-424aa3b86820",
-                          withServices: [MSAnalytics.self,
-                                         MSCrashes.self])
-    }
-}
-
 // MARK: - Facebook
 
 // https://developers.facebook.com/docs/swift/login
@@ -160,5 +141,21 @@ private extension LaunchHandler {
             app,
             didFinishLaunchingWithOptions: options
         )
+    }
+}
+
+// MARK: - Firebase
+
+private extension LaunchHandler {
+
+    // https://www.lordcodes.com/posts/a-modular-analytics-layer-in-swift
+    // https://firebase.google.com/docs/analytics/ios/start
+
+    func configureFirebase() {
+        guard UIApplication.isProduction else { return }
+
+        FirebaseApp.configure()
+
+        //Crashlytics.sharedInstance().crash()
     }
 }

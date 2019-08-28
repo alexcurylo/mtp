@@ -3,7 +3,7 @@
 import UIKit
 
 /// Notify user of login failure
-final class LoginFailVC: UIViewController, ServiceProvider {
+final class LoginFailVC: UIViewController {
 
     private typealias Segues = R.segue.loginFailVC
 
@@ -49,6 +49,8 @@ final class LoginFailVC: UIViewController, ServiceProvider {
     /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        report(screen: "Login Fail")
+
         revealAlert()
     }
 

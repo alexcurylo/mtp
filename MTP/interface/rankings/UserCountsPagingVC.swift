@@ -3,7 +3,7 @@
 import Parchment
 
 /// Displays user visit tabs
-final class UserCountsPagingVC: FixedPagingViewController, UserCountsPageDataSource, ServiceProvider {
+final class UserCountsPagingVC: FixedPagingViewController, UserCountsPageDataSource {
 
     /// Injected dependencies
     typealias Model = (list: Checklist, user: User)
@@ -63,8 +63,15 @@ final class UserCountsPagingVC: FixedPagingViewController, UserCountsPageDataSou
     /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         expose()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "User Counts")
     }
 
     /// Provide cell

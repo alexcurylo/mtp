@@ -7,7 +7,7 @@ import MapKit
 // swiftlint:disable file_length
 
 /// Root controller for the map displaying tab
-final class LocationsVC: UIViewController, ServiceProvider {
+final class LocationsVC: UIViewController {
 
     private typealias Segues = R.segue.locationsVC
 
@@ -69,6 +69,7 @@ final class LocationsVC: UIViewController, ServiceProvider {
     /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        report(screen: "Locations")
 
         mtpMapView.refreshMapView()
         updateTracking()

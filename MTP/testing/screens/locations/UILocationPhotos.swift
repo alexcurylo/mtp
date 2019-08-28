@@ -1,5 +1,5 @@
 // @copyright Trollwerks Inc.
 
 /// LocationPhotosVC exposed items
-/// Currently placeholder override of PhotosVC
+/// Also contains UIPhotos
 enum UILocationPhotos: Exposable { }

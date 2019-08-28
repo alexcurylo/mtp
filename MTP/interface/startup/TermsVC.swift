@@ -3,7 +3,7 @@
 import UIKit
 
 /// Display Terms of Use document and consent
-final class TermsVC: UIViewController, ServiceProvider {
+final class TermsVC: UIViewController {
 
     private typealias Segues = R.segue.termsVC
 
@@ -23,6 +23,14 @@ final class TermsVC: UIViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         expose()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "Terms")
     }
 }
 

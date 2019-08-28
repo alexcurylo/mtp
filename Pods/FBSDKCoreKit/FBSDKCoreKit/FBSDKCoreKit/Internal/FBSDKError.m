@@ -19,9 +19,14 @@
 #import "FBSDKError.h"
 
 #import "FBSDKConstants.h"
+#import "FBSDKErrorReport.h"
+#import "FBSDKFeatureManager.h"
 #import "FBSDKInternalUtility.h"
+#import "FBSDKSettings.h"
 
 @implementation FBSDKError
+
+static BOOL isErrorReportEnabled = NO;
 
 #pragma mark - Class Methods
 
@@ -70,6 +75,10 @@
   [FBSDKBasicUtility dictionary:fullUserInfo setObject:message forKey:FBSDKErrorDeveloperMessageKey];
   [FBSDKBasicUtility dictionary:fullUserInfo setObject:underlyingError forKey:NSUnderlyingErrorKey];
   userInfo = fullUserInfo.count ? [fullUserInfo copy] : nil;
+  if (isErrorReportEnabled) {
+    [FBSDKErrorReport saveError:code errorDomain:domain message:message];
+  }
+
   return [[NSError alloc] initWithDomain:domain code:code userInfo:userInfo];
 }
 
@@ -193,6 +202,11 @@
     default:
       return NO;
   }
+}
+
++ (void)enableErrorReport
+{
+  isErrorReportEnabled = YES;
 }
 
 @end

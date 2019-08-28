@@ -3,7 +3,7 @@
 import Anchorage
 
 /// Base class for user and location post pages
-class PostsVC: UITableViewController, ServiceProvider {
+class PostsVC: UITableViewController {
 
     /// Display a user's posts
     var canCreate: Bool {

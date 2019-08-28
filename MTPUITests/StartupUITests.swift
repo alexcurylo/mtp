@@ -119,7 +119,7 @@ final class StartupUITests: XCTestCase {
 
         UIWelcome.later.tap()
 
-        UIAlert.title("Account not verified - check your email!").wait()
+        UIAlert.text("Account not verified - check your email!").wait()
         UIAlert.button("Resend").tap()
 
         UIMain.myProfile.tap()

@@ -3,7 +3,7 @@
 import RealmSwift
 
 /// Handles selection of rankings criteria
-final class RankingsFilterVC: UITableViewController, ServiceProvider {
+final class RankingsFilterVC: UITableViewController {
 
     private typealias Segues = R.segue.rankingsFilterVC
 
@@ -38,6 +38,14 @@ final class RankingsFilterVC: UITableViewController, ServiceProvider {
         configure()
         expose()
    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "Rankings Filter")
+    }
 
     /// Instrument and inject navigation
     ///

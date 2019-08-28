@@ -3,7 +3,7 @@
 import MessageUI
 
 /// Miscellaneous account and app operations
-final class SettingsVC: UITableViewController, ServiceProvider {
+final class SettingsVC: UITableViewController {
 
     private typealias Segues = R.segue.settingsVC
 
@@ -43,6 +43,8 @@ final class SettingsVC: UITableViewController, ServiceProvider {
     /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        report(screen: "Settings")
+
         if !reportMessage.isEmpty {
             email(title: L.reportSubject(), body: reportMessage)
             reportMessage = ""

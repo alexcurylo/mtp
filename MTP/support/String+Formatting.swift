@@ -1,5 +1,6 @@
 // @copyright Trollwerks Inc.
 
+import CommonCrypto
 import UIKit
 
 /// Convenience for localizable string typesafe access
@@ -138,6 +139,40 @@ extension String {
                       .characterEncoding: String.Encoding.utf8.rawValue],
             documentAttributes: nil
         )
+    }
+
+    /// Hash for analytics user identifier
+    var md5Value: String {
+        let length = Int(CC_MD5_DIGEST_LENGTH)
+        var digest = [UInt8](repeating: 0, count: length)
+
+        if let data = data(using: .utf8) {
+            _ = data.withUnsafeBytes { body -> String in
+                CC_MD5(body.baseAddress, CC_LONG(data.count), &digest)
+                return ""
+            }
+        }
+
+        return (0 ..< length).reduce(into: "") {
+            $0 += String(format: "%02x", digest[$1])
+        }
+    }
+
+    /// Return filename from a path
+    var file: String {
+        return components(separatedBy: "/").last ?? ""
+    }
+
+    /// Truncates the string to the specified length number of characters
+    /// and appends an optional trailing string if longer.
+    ///
+    /// - Parameters:
+    ///   - length: Desired maximum length of a string
+    ///   - trailing: A 'String' that will be appended after the truncation
+    /// - Returns: Truncated String
+    func truncate(length: Int,
+                  trailing: String = "…") -> String {
+        return (count > length) ? prefix(length) + trailing : self
     }
 }
 

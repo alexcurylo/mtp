@@ -7,4 +7,9 @@ enum UIAddPhoto: Exposable {
     case close
     /// Save bar button
     case save
+
+    /// Camera button
+    case camera
+    /// Image button
+    case image
 }

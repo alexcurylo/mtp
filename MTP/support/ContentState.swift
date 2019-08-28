@@ -13,8 +13,6 @@ enum ContentState {
     case error
     /// Content is being loaded
     case loading
-    /// Content source is not implemented
-    case unimplemented
     /// Mismanaged state
     case unknown
 }
@@ -64,13 +62,16 @@ extension ContentStateMessagingView {
             set(message: L.errorState(), color: color)
         case .loading:
             set(message: L.loading(), color: color)
-        case .unimplemented:
-            set(message: L.unimplemented(), color: color)
         }
     }
 
-    private func set(message: String,
-                     color: UIColor) {
+    /// Set a message
+    ///
+    /// - Parameters:
+    ///   - message: String
+    ///   - color: Color
+    func set(message: String,
+             color: UIColor) {
         guard let backgroundView = backgroundView else { return }
         setMessageNone()
 

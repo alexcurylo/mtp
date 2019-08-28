@@ -4,7 +4,7 @@ import Anchorage
 import Parchment
 
 /// Displays logged in user visit counts
-final class MyCountsVC: UIViewController, ServiceProvider {
+final class MyCountsVC: UIViewController {
 
     // verified in requireOutlets
     @IBOutlet private var pagesHolder: UIView!
@@ -18,6 +18,14 @@ final class MyCountsVC: UIViewController, ServiceProvider {
         requireOutlets()
 
         configurePagesHolder()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "My Counts")
     }
 }
 

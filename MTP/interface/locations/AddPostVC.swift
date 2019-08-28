@@ -3,7 +3,7 @@
 import RealmSwift
 
 /// Handles creation and uploading of new posts to MTP
-final class AddPostVC: UIViewController, ServiceProvider {
+final class AddPostVC: UIViewController {
 
     private typealias Segues = R.segue.addPostVC
 
@@ -55,8 +55,15 @@ final class AddPostVC: UIViewController, ServiceProvider {
     /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         expose()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "Add Post")
     }
 
     /// Stop editing on touch
@@ -229,6 +236,10 @@ extension AddPostVC: Exposing {
     func expose() {
         UIAddPost.close.expose(item: closeButton)
         UIAddPost.save.expose(item: saveButton)
+
+        UIAddPost.country.expose(item: countryLabel)
+        UIAddPost.location.expose(item: locationLabel)
+        UIAddPost.post.expose(item: postTextView)
     }
 }
 

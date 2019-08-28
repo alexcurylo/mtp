@@ -333,6 +333,8 @@ extension DataService {
     /// Log out current user
     func logOut() {
         FacebookButton.logOut()
+        report.user(signIn: nil, signUp: nil)
+
         MTP.unthrottle()
         net.unthrottle()
 

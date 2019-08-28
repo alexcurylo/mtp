@@ -185,10 +185,3 @@ struct ConsoleLoggingService: LoggingService {
         return DateFormatter.stampTime.string(from: Date())
     }
 }
-
-private extension String {
-
-    var file: String {
-        return components(separatedBy: "/").last ?? ""
-    }
-}

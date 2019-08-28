@@ -4,7 +4,7 @@ import Anchorage
 import Parchment
 
 /// Allow user to review and edit all visits
-final class UserCountsVC: UIViewController, ServiceProvider {
+final class UserCountsVC: UIViewController {
 
     /// Visited or remaining tab
     enum Tab: Int {
@@ -51,6 +51,14 @@ final class UserCountsVC: UIViewController, ServiceProvider {
 
         observe()
         expose()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "User Counts")
     }
 }
 

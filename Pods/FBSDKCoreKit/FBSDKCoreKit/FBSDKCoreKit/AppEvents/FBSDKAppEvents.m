@@ -30,6 +30,7 @@
 #import "FBSDKConstants.h"
 #import "FBSDKDynamicFrameworkLoader.h"
 #import "FBSDKError.h"
+#import "FBSDKFeatureManager.h"
 #import "FBSDKGraphRequest+Internal.h"
 #import "FBSDKInternalUtility.h"
 #import "FBSDKLogger.h"
@@ -282,6 +283,8 @@ NSString *const FBSDKAppEventsDialogShareContentTypeMessengerGenericTemplate    
 NSString *const FBSDKAppEventsDialogShareContentTypeMessengerMediaTemplate            = @"MediaTemplate";
 NSString *const FBSDKAppEventsDialogShareContentTypeMessengerOpenGraphMusicTemplate   = @"OpenGraphMusicTemplate";
 NSString *const FBSDKAppEventsDialogShareContentTypeUnknown                           = @"Unknown";
+
+NSString *const FBSDKGateKeeperAppEventsKillSwitch                                    = @"app_events_killswitch";
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 
@@ -1063,7 +1066,11 @@ static NSString *g_overrideAppID = nil;
       [FBSDKPaymentObserver stopObservingTransactions];
     }
 #if !TARGET_OS_TV
-    [self enableCodelessEvents];
+    [FBSDKFeatureManager checkFeature:FBSDKFeatureCodelessEvents completionBlock:^(BOOL enabled) {
+      if (enabled) {
+        [self enableCodelessEvents];
+      }
+    }];
 #endif
     if (callback) {
       callback();
@@ -1079,7 +1086,6 @@ static NSString *g_overrideAppID = nil;
 {
   // Kill events if kill-switch is enabled
   if ([FBSDKGateKeeperManager boolForKey:FBSDKGateKeeperAppEventsKillSwitch
-                                   appID:[FBSDKSettings appID]
                             defaultValue:NO]) {
     [FBSDKLogger singleShotLogEntry:FBSDKLoggingBehaviorAppEvents
                        formatString:@"FBSDKAppEvents: KillSwitch is enabled and fail to log app event: %@",
@@ -1116,30 +1122,10 @@ static NSString *g_overrideAppID = nil;
     return;
   }
 
-  NSMutableDictionary<NSString *, id> *params = [NSMutableDictionary dictionary];
-  NSMutableDictionary<NSString *, NSString *> *restrictedParams = [NSMutableDictionary dictionary];
+  parameters = [FBSDKRestrictiveDataFilterManager processParameters:parameters
+                                                          eventName:eventName];
 
-  if (parameters) {
-    for (NSString *key in [parameters keyEnumerator]) {
-      NSString *type = [FBSDKRestrictiveDataFilterManager getMatchedDataTypeWithEventName:eventName
-                                                                                 paramKey:key
-                                                                               paramValue:parameters[key]];
-      if (type) {
-        [restrictedParams setObject:type forKey:key];
-      } else {
-        [params setObject:parameters[key] forKey:key];
-      }
-    }
-  }
-
-  if ([[restrictedParams allKeys] count] > 0) {
-    NSString *restrictedParamsJSONString = [FBSDKBasicUtility JSONStringForObject:restrictedParams
-                                                                            error:NULL
-                                                             invalidObjectHandler:NULL];
-    [FBSDKBasicUtility dictionary:params setObject:restrictedParamsJSONString forKey:@"_restrictedParams"];
-  }
-
-  NSMutableDictionary<NSString *, id> *eventDictionary = [NSMutableDictionary dictionaryWithDictionary:params];
+  NSMutableDictionary<NSString *, id> *eventDictionary = [NSMutableDictionary dictionaryWithDictionary:parameters];
   eventDictionary[FBSDKAppEventParameterEventName] = eventName;
   if (!eventDictionary[FBSDKAppEventParameterLogTime]) {
     eventDictionary[FBSDKAppEventParameterLogTime] = @([FBSDKAppEventsUtility unixTimeNow]);

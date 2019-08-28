@@ -72,6 +72,26 @@ final class ProfileUITests: XCTestCase {
 
         UIMyProfile.edit.tap()
 
+        UIEditProfile.avatar.tap()
+
+        UIPhotos.add.tap()
+
+        UIAddPhoto.image.tap()
+
+        // Camera Roll
+        wait(for: 2)
+        app.tap(x: 50, y: 200)
+        // first picture
+        wait(for: 2)
+        app.tap(x: 50, y: 100)
+        // Choose
+        wait(for: 2)
+        app.tap(x: -50, y: -20)
+
+        UIAddPhoto.save.tap()
+
+        UIProfilePhotos.close.tap()
+
         UIEditProfile.country.tap()
 
         UILocationSearch.close.tap()

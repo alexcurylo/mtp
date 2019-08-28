@@ -6,10 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- Integrates Firebase for analytics and crash reports
+
+### Fixed
+- Handles mixed country and territory counts display (Serbia/Kosovo, Denmark/Faroes)
+- Improves networking error messages
+
 ## [Version 1.0.1, Build 639] - 2019-08-20
 
 ### Fixed
-- Handle missing locations in ranked user scorecards
+- Handles missing locations in ranked user scorecards
 
 ## [Version 1.0.1, Build 638] - 2019-08-18
 

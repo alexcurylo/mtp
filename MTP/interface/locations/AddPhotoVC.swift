@@ -21,7 +21,7 @@ protocol AddPhotoDelegate: AnyObject {
 }
 
 /// Handles creation and uploading of new photos to MTP
-final class AddPhotoVC: UIViewController, ServiceProvider {
+final class AddPhotoVC: UIViewController {
 
     private typealias Segues = R.segue.addPhotoVC
 
@@ -95,9 +95,12 @@ final class AddPhotoVC: UIViewController, ServiceProvider {
     /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        report(screen: "Add Photo")
 
         if PHPhotoLibrary.authorizationStatus() == .notDetermined {
-            PHPhotoLibrary.requestAuthorization { _ in }
+            if !UIApplication.isTesting {
+                PHPhotoLibrary.requestAuthorization { _ in }
+            }
         }
     }
 
@@ -404,7 +407,9 @@ extension AddPhotoVC: Exposing {
 
     /// Expose controls to UI tests
     func expose() {
+        UIAddPhoto.camera.expose(item: cameraButton)
         UIAddPhoto.close.expose(item: closeButton)
+        UIAddPhoto.image.expose(item: imageButton)
         UIAddPhoto.save.expose(item: saveButton)
     }
 }
