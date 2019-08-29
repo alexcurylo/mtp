@@ -127,3 +127,7 @@ function_parameter_count: 6
 
 cyclomatic_complexity:
   ignores_case_statements: true
+
+nesting:
+  type_level:
+    warning: 2

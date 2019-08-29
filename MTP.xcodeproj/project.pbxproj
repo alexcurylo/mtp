@@ -131,6 +131,7 @@
 		8CAE30642239F4F100E31647 /* WorldMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CAE30632239F4F100E31647 /* WorldMap.swift */; };
 		8CB2A24322E177C90050E368 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB2A24222E177C90050E368 /* Scheduler.swift */; };
 		8CB3487A22FC067D006C5C56 /* DataServiceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB3487922FC067D006C5C56 /* DataServiceObserver.swift */; };
+		8CBBEB6C2317D30000E4F5E1 /* UncertainValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBBEB6B2317D30000E4F5E1 /* UncertainValueTests.swift */; };
 		8CC6B9592304EA2A0089DB89 /* DateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC6B9582304EA2A0089DB89 /* DateTests.swift */; };
 		8CC6B95B2304EBED0089DB89 /* UIImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC6B95A2304EBED0089DB89 /* UIImageTests.swift */; };
 		8CC6B95D2304EE070089DB89 /* FaqJSONTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC6B95C2304EE070089DB89 /* FaqJSONTests.swift */; };
@@ -161,6 +162,7 @@
 		8CE6FC64224C6CB600B24410 /* LocationInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6FC61224C6CB500B24410 /* LocationInfoVC.swift */; };
 		8CE6FC65224C6CB600B24410 /* LocationPhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6FC62224C6CB600B24410 /* LocationPhotosVC.swift */; };
 		8CE6FC66224C6CB600B24410 /* LocationPostsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6FC63224C6CB600B24410 /* LocationPostsVC.swift */; };
+		8CED2C44231765B10093AA29 /* userLogin-fail.json in Resources */ = {isa = PBXBuildFile; fileRef = 8CED2C43231765B10093AA29 /* userLogin-fail.json */; };
 		8CF239A92305156E006AB7D2 /* ActionHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF239A82305156E006AB7D2 /* ActionHandlerTests.swift */; };
 		8CF239AB230519C8006AB7D2 /* HTTPURLResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF239AA230519C8006AB7D2 /* HTTPURLResponseTests.swift */; };
 		8CF239AD2305496C006AB7D2 /* TermsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF239AC2305496C006AB7D2 /* TermsVC.swift */; };
@@ -537,6 +539,7 @@
 		8CAE30632239F4F100E31647 /* WorldMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldMap.swift; sourceTree = "<group>"; };
 		8CB2A24222E177C90050E368 /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = "<group>"; };
 		8CB3487922FC067D006C5C56 /* DataServiceObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataServiceObserver.swift; sourceTree = "<group>"; };
+		8CBBEB6B2317D30000E4F5E1 /* UncertainValueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UncertainValueTests.swift; sourceTree = "<group>"; };
 		8CC6B9582304EA2A0089DB89 /* DateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTests.swift; sourceTree = "<group>"; };
 		8CC6B95A2304EBED0089DB89 /* UIImageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageTests.swift; sourceTree = "<group>"; };
 		8CC6B95C2304EE070089DB89 /* FaqJSONTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaqJSONTests.swift; sourceTree = "<group>"; };
@@ -565,6 +568,7 @@
 		8CE6FC61224C6CB500B24410 /* LocationInfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationInfoVC.swift; sourceTree = "<group>"; };
 		8CE6FC62224C6CB600B24410 /* LocationPhotosVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationPhotosVC.swift; sourceTree = "<group>"; };
 		8CE6FC63224C6CB600B24410 /* LocationPostsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationPostsVC.swift; sourceTree = "<group>"; };
+		8CED2C43231765B10093AA29 /* userLogin-fail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "userLogin-fail.json"; sourceTree = "<group>"; };
 		8CF239A82305156E006AB7D2 /* ActionHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionHandlerTests.swift; sourceTree = "<group>"; };
 		8CF239AA230519C8006AB7D2 /* HTTPURLResponseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPURLResponseTests.swift; sourceTree = "<group>"; };
 		8CF239AC2305496C006AB7D2 /* TermsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsVC.swift; sourceTree = "<group>"; };
@@ -1001,6 +1005,7 @@
 				8C3EAB852230FCEE00CB4886 /* RoutingAppDelegateTests.swift */,
 				FA74C112211C61580013A840 /* StringTests.swift */,
 				8CC6B95A2304EBED0089DB89 /* UIImageTests.swift */,
+				8CBBEB6B2317D30000E4F5E1 /* UncertainValueTests.swift */,
 				FA0BE96B210C5F3300797224 /* ViewTests.swift */,
 				FA3BD2282160D6BC007EAF75 /* WithableTests.swift */,
 			);
@@ -1267,6 +1272,7 @@
 				8CFBC102230A38D0008844D9 /* userDelete.json */,
 				FA96A88622ED314A001423F6 /* userGet-1.json */,
 				FA0A7B9322E6797400D3EF99 /* userGetByToken.json */,
+				8CED2C43231765B10093AA29 /* userLogin-fail.json */,
 				FA507C2723059DD5000F0EF9 /* userLogin-7853.json */,
 				FA96A87222ECF1E8001423F6 /* userPosts-7853.json */,
 				8C4CDC362305561000A9E497 /* userRegister.json */,
@@ -1870,6 +1876,7 @@
 				8CFBC103230A38D1008844D9 /* userDelete.json in Resources */,
 				FA32CC892100CC6B004C1329 /* Login.storyboard in Resources */,
 				8CE6FC56224C6C1B00B24410 /* LocationPhotos.storyboard in Resources */,
+				8CED2C44231765B10093AA29 /* userLogin-fail.json in Resources */,
 				FA8A65AF217ED3BA00BC0DFE /* RankingsFilter.storyboard in Resources */,
 				FA0F816722BF1D1400C00898 /* AddPhoto.storyboard in Resources */,
 				FA507C2823059DD6000F0EF9 /* userLogin-7853.json in Resources */,
@@ -2261,6 +2268,7 @@
 				FA620DD62308C8DD00F64926 /* RestaurantTests.swift in Sources */,
 				8C3EAB882230FD1300CB4886 /* MTPDelegateTests.swift in Sources */,
 				FA63A4B52307676900637BB3 /* CountsPageVCTests.swift in Sources */,
+				8CBBEB6C2317D30000E4F5E1 /* UncertainValueTests.swift in Sources */,
 				FAB53F8B20DFD618007A80A7 /* MemoryWarner.m in Sources */,
 				FA63A4B02307675F00637BB3 /* CountInfoHeaderTests.swift in Sources */,
 				8C3EAB922231249E00CB4886 /* InjectableTests.swift in Sources */,

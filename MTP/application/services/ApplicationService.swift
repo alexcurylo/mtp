@@ -30,6 +30,9 @@ protocol ApplicationService {
 
     /// Dismiss any presented controllers
     func dismissPresentations()
+
+    /// Application version(build) string
+    var version: String { get }
 }
 
 /// Enumerated routing destinations
@@ -100,5 +103,14 @@ extension UIApplication: ApplicationService {
     /// Dismiss any presented controllers
     func dismissPresentations() {
         MainTBC.dismissPresentations()
+    }
+
+    /// Application version(build) string
+    var version: String {
+        let keys = StringKey.infoDictionarySettingsKeys
+        let header = L.appVersion(
+            keys[0].infoDictionaryString ?? "",
+            keys[1].infoDictionaryString ?? "")
+        return header
     }
 }

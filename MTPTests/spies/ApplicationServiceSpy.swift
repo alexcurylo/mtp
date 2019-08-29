@@ -6,6 +6,14 @@
 // swiftlint:disable all
 
 final class ApplicationServiceSpy: ApplicationService {
+    var invokedVersionGetter = false
+    var invokedVersionGetterCount = 0
+    var stubbedVersion: String! = ""
+    var version: String {
+        invokedVersionGetter = true
+        invokedVersionGetterCount += 1
+        return stubbedVersion
+    }
     var invokedLaunch = false
     var invokedLaunchCount = 0
     var invokedLaunchParameters: (url: URL, Void)?

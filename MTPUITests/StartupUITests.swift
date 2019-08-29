@@ -48,9 +48,17 @@ final class StartupUITests: XCTestCase {
         UILogin.toggle.tap()
         UILogin.toggle.tap()
         UILogin.password.tap()
-        UILogin.password.type(text: "password")
+        UILogin.password.type(text: "fail")
         UILogin.login.tap()
-    }
+
+        UILoginFail.message.tap()
+
+        UIForgotPassword.cancel.tap()
+
+        UILogin.password.tap()
+        UILogin.password.type(text: "succeed")
+        UILogin.login.tap()
+   }
 
     // swiftlint:disable:next function_body_length
     func testSignupEmail() {

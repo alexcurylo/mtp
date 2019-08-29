@@ -36,7 +36,8 @@ struct StringKey: Hashable, RawRepresentable, ExpressibleByStringLiteral {
                 .cfBundleVersion]
     }
 
-    fileprivate var infoDictionaryString: String? {
+    /// Settings key value from Info.plist
+    var infoDictionaryString: String? {
         return Bundle.main.object(forInfoDictionaryKey: rawValue) as? String
     }
 }

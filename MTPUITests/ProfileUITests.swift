@@ -79,7 +79,7 @@ final class ProfileUITests: XCTestCase {
         UIAddPhoto.image.tap()
 
         // Camera Roll
-        wait(for: 2)
+        wait(for: 6)
         app.tap(x: 50, y: 200)
         // first picture
         wait(for: 2)

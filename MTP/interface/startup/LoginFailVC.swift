@@ -27,7 +27,9 @@ final class LoginFailVC: UIViewController {
         requireOutlets()
         requireInjection()
 
-        if !errorMessage.isEmpty {
+        if errorMessage.isEmpty {
+            isSwitchable = true
+        } else {
             messageLabel.text = errorMessage
             isSwitchable = false
         }

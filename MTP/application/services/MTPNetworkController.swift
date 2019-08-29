@@ -407,8 +407,13 @@ extension MTP: TargetType {
         case .userGet:
             //file = "userGet-\(id)"
             file = "userGet-1"
-        case .userLogin:
-            file = "userLogin-7853"
+        case .userLogin(_, let password):
+            switch password {
+            case "fail":
+                file = "userLogin-fail"
+            default:
+                file = "userLogin-7853"
+            }
         case .userPost:
             file = "userPostToken"
         case .userPut:

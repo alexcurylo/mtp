@@ -58,6 +58,7 @@ enum AnalyticsEvent {
             return [:]
         case let .api(endpoint, success, code, message):
             return [ .endpoint: endpoint.parameter,
+                     .path: endpoint.path.truncate(length: 30),
                      .etag: endpoint.etag.truncate(length: 20),
                      .success: success ? 1 : 0,
                      .code: code,
@@ -73,6 +74,7 @@ enum AnalyticsEvent {
         case etag
         case message
         case method
+        case path
         case success
     }
 }
@@ -166,7 +168,8 @@ private struct AnalyticsEventMapper {
         case .code,
              .endpoint,
              .etag,
-             .message:
+             .message,
+             .path:
             return parameter.rawValue
         case .method:
             return AnalyticsParameterMethod

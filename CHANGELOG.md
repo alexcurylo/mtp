@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Version information in About The App
+- Version and runtime information in Contact Us
+- Path parameter to API events
+
+### Fixed
+- Wrong password login attempt now brings up designed dialog
+
 ## [Version 1.0.2, Build 640] - 2019-08-29
 
 ### Added
