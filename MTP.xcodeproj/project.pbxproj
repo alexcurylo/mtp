@@ -320,6 +320,7 @@
 		FA63A4C723076A1800637BB3 /* RankingsPageVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA63A4C123076A1800637BB3 /* RankingsPageVCTests.swift */; };
 		FA6A188621EFEF920092C56C /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6A188521EFEF920092C56C /* Observable.swift */; };
 		FA6A2CF222F85D4E00444BFA /* StyleServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6A2CF122F85D4E00444BFA /* StyleServiceSpy.swift */; };
+		FA6F4B6B2318740100CEE21F /* PhotoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6F4B6A2318740100CEE21F /* PhotoTests.swift */; };
 		FA720120230D7EBF00822228 /* userPostToken.json in Resources */ = {isa = PBXBuildFile; fileRef = FA72011F230D7EBF00822228 /* userPostToken.json */; };
 		FA720122230D820F00822228 /* userUpdate.json in Resources */ = {isa = PBXBuildFile; fileRef = FA720121230D820F00822228 /* userUpdate.json */; };
 		FA74574D210CA5730010F4F4 /* MyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74574C210CA5730010F4F4 /* MyProfileVC.swift */; };
@@ -725,6 +726,7 @@
 		FA63A4C123076A1800637BB3 /* RankingsPageVCTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RankingsPageVCTests.swift; sourceTree = "<group>"; };
 		FA6A188521EFEF920092C56C /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		FA6A2CF122F85D4E00444BFA /* StyleServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleServiceSpy.swift; sourceTree = "<group>"; };
+		FA6F4B6A2318740100CEE21F /* PhotoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoTests.swift; sourceTree = "<group>"; };
 		FA72011F230D7EBF00822228 /* userPostToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = userPostToken.json; sourceTree = "<group>"; };
 		FA720121230D820F00822228 /* userUpdate.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = userUpdate.json; sourceTree = "<group>"; };
 		FA74574C210CA5730010F4F4 /* MyProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileVC.swift; sourceTree = "<group>"; };
@@ -1032,12 +1034,13 @@
 		8CC6B9522304E4C40089DB89 /* models */ = {
 			isa = PBXGroup;
 			children = (
-				8CC6B95C2304EE070089DB89 /* FaqJSONTests.swift */,
 				8C4198B123151C1900496C07 /* CountryTests.swift */,
+				8CC6B95C2304EE070089DB89 /* FaqJSONTests.swift */,
 				FA949BFE2306D47400B9DF6D /* MilestonesTests.swift */,
 				8CC6B95E2304F0060089DB89 /* OperationReplyTests.swift */,
 				8C4198B323152B6600496C07 /* PlaceInfoTests.swift */,
 				8C58019D2305097900DE768F /* PlaceLocationTests.swift */,
+				FA6F4B6A2318740100CEE21F /* PhotoTests.swift */,
 				8C58019F23050CB700DE768F /* PostPayloadTests.swift */,
 				FA620DD52308C8DD00F64926 /* RestaurantTests.swift */,
 				8CC6B9602304F0D90089DB89 /* SearchResultJSONTests.swift */,
@@ -2265,6 +2268,7 @@
 				8C3EAB8E2231100B00CB4886 /* ArrayTests.swift in Sources */,
 				8CC6B95D2304EE070089DB89 /* FaqJSONTests.swift in Sources */,
 				FA63A4C323076A1800637BB3 /* RankingHeaderTests.swift in Sources */,
+				FA6F4B6B2318740100CEE21F /* PhotoTests.swift in Sources */,
 				FA620DD62308C8DD00F64926 /* RestaurantTests.swift in Sources */,
 				8C3EAB882230FD1300CB4886 /* MTPDelegateTests.swift in Sources */,
 				FA63A4B52307676900637BB3 /* CountsPageVCTests.swift in Sources */,
