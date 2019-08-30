@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [Version 1.0.2, Build 641] - 2019-08-30
+
 ### Added
 - Version information in About The App
 - Version and runtime information in Contact Us
