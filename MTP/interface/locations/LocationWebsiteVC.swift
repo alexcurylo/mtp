@@ -38,6 +38,14 @@ final class LocationWebsiteVC: WKWebViewController {
         configure()
     }
 
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "Location WebView")
+    }
+
     /// Handle navigation completing
     ///
     /// - Parameters:

@@ -62,7 +62,7 @@ struct SearchResultItemJSON: Codable {
 extension SearchResultItemJSON: CustomStringConvertible {
 
     var description: String {
-        return "SearchResultItemJSON"
+        return "SearchResultItemJSON \(id)"
     }
 }
 

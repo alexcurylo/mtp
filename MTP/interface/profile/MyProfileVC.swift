@@ -20,7 +20,7 @@ final class MyProfileVC: ProfileVC {
 
     /// Controllers to be displayed in PagingViewController
     override var pages: [UIViewController] {
-        return [
+        return super.pages + [
             R.storyboard.profileAbout.about(),
             R.storyboard.myCounts.myCounts(),
             R.storyboard.profilePhotos.photos(),

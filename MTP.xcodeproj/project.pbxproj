@@ -132,6 +132,10 @@
 		8CB2A24322E177C90050E368 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB2A24222E177C90050E368 /* Scheduler.swift */; };
 		8CB3487A22FC067D006C5C56 /* DataServiceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB3487922FC067D006C5C56 /* DataServiceObserver.swift */; };
 		8CBBEB6C2317D30000E4F5E1 /* UncertainValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBBEB6B2317D30000E4F5E1 /* UncertainValueTests.swift */; };
+		8CBBEB6E2318C28C00E4F5E1 /* LinkTappableTextViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBBEB6D2318C28C00E4F5E1 /* LinkTappableTextViewTests.swift */; };
+		8CBBECF42318DBC100E4F5E1 /* WKWebViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBBECF32318DBC100E4F5E1 /* WKWebViewControllerTests.swift */; };
+		8CBBECF62319005A00E4F5E1 /* XCTestCase+Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBBECF52319005900E4F5E1 /* XCTestCase+Window.swift */; };
+		8CBBECF82319040600E4F5E1 /* NSCoder+Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBBECF72319040600E4F5E1 /* NSCoder+Empty.swift */; };
 		8CC6B9592304EA2A0089DB89 /* DateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC6B9582304EA2A0089DB89 /* DateTests.swift */; };
 		8CC6B95B2304EBED0089DB89 /* UIImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC6B95A2304EBED0089DB89 /* UIImageTests.swift */; };
 		8CC6B95D2304EE070089DB89 /* FaqJSONTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC6B95C2304EE070089DB89 /* FaqJSONTests.swift */; };
@@ -541,6 +545,10 @@
 		8CB2A24222E177C90050E368 /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = "<group>"; };
 		8CB3487922FC067D006C5C56 /* DataServiceObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataServiceObserver.swift; sourceTree = "<group>"; };
 		8CBBEB6B2317D30000E4F5E1 /* UncertainValueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UncertainValueTests.swift; sourceTree = "<group>"; };
+		8CBBEB6D2318C28C00E4F5E1 /* LinkTappableTextViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkTappableTextViewTests.swift; sourceTree = "<group>"; };
+		8CBBECF32318DBC100E4F5E1 /* WKWebViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WKWebViewControllerTests.swift; sourceTree = "<group>"; };
+		8CBBECF52319005900E4F5E1 /* XCTestCase+Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Window.swift"; sourceTree = "<group>"; };
+		8CBBECF72319040600E4F5E1 /* NSCoder+Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSCoder+Empty.swift"; sourceTree = "<group>"; };
 		8CC6B9582304EA2A0089DB89 /* DateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTests.swift; sourceTree = "<group>"; };
 		8CC6B95A2304EBED0089DB89 /* UIImageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageTests.swift; sourceTree = "<group>"; };
 		8CC6B95C2304EE070089DB89 /* FaqJSONTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaqJSONTests.swift; sourceTree = "<group>"; };
@@ -1003,6 +1011,7 @@
 				FAEF787A2312266A0086D77E /* FacebookButtonTests.swift */,
 				8CF239AA230519C8006AB7D2 /* HTTPURLResponseTests.swift */,
 				8C3EAB912231249E00CB4886 /* InjectableTests.swift */,
+				8CBBEB6D2318C28C00E4F5E1 /* LinkTappableTextViewTests.swift */,
 				8C5801A123050FBC00DE768F /* LocationTrackerTests.swift */,
 				8C3EAB852230FCEE00CB4886 /* RoutingAppDelegateTests.swift */,
 				FA74C112211C61580013A840 /* StringTests.swift */,
@@ -1010,6 +1019,7 @@
 				8CBBEB6B2317D30000E4F5E1 /* UncertainValueTests.swift */,
 				FA0BE96B210C5F3300797224 /* ViewTests.swift */,
 				FA3BD2282160D6BC007EAF75 /* WithableTests.swift */,
+				8CBBECF32318DBC100E4F5E1 /* WKWebViewControllerTests.swift */,
 			);
 			path = support;
 			sourceTree = "<group>";
@@ -1673,8 +1683,10 @@
 				FAB53F8A20DFD618007A80A7 /* MemoryWarner.m */,
 				FA392BD320DF69F50026C828 /* Info.plist */,
 				FAB53F8720DFD617007A80A7 /* MTPTests-Bridging-Header.h */,
+				8CBBECF72319040600E4F5E1 /* NSCoder+Empty.swift */,
 				8C0127FA2232054E00EA2095 /* ServiceHandlerSpy+AppLaunchHandler.swift */,
 				FAE1F11B21437F860002CAB2 /* String+Assert.swift */,
+				8CBBECF52319005900E4F5E1 /* XCTestCase+Window.swift */,
 			);
 			path = support;
 			sourceTree = "<group>";
@@ -2273,6 +2285,8 @@
 				8C3EAB882230FD1300CB4886 /* MTPDelegateTests.swift in Sources */,
 				FA63A4B52307676900637BB3 /* CountsPageVCTests.swift in Sources */,
 				8CBBEB6C2317D30000E4F5E1 /* UncertainValueTests.swift in Sources */,
+				8CBBECF42318DBC100E4F5E1 /* WKWebViewControllerTests.swift in Sources */,
+				8CBBECF82319040600E4F5E1 /* NSCoder+Empty.swift in Sources */,
 				FAB53F8B20DFD618007A80A7 /* MemoryWarner.m in Sources */,
 				FA63A4B02307675F00637BB3 /* CountInfoHeaderTests.swift in Sources */,
 				8C3EAB922231249E00CB4886 /* InjectableTests.swift in Sources */,
@@ -2286,6 +2300,7 @@
 				FA63A4AF2307675F00637BB3 /* CountCellItemTests.swift in Sources */,
 				FAE1F11C21437F860002CAB2 /* String+Assert.swift in Sources */,
 				FAB5E661230F4FD9005D294A /* ReportingServiceSpy.swift in Sources */,
+				8CBBECF62319005A00E4F5E1 /* XCTestCase+Window.swift in Sources */,
 				8CC6B95B2304EBED0089DB89 /* UIImageTests.swift in Sources */,
 				8CC6B9612304F0D90089DB89 /* SearchResultJSONTests.swift in Sources */,
 				FA63A4C223076A1800637BB3 /* RankingCellTests.swift in Sources */,
@@ -2298,6 +2313,7 @@
 				FA63A4C523076A1800637BB3 /* UserCountsPageVCTests.swift in Sources */,
 				8C012803223208FB00EA2095 /* NetworkServiceSpy.swift in Sources */,
 				FA63A4C623076A1800637BB3 /* UserCountsPagingVCTests.swift in Sources */,
+				8CBBEB6E2318C28C00E4F5E1 /* LinkTappableTextViewTests.swift in Sources */,
 				FA63A4B62307676900637BB3 /* MyCountsPagingVCTests.swift in Sources */,
 				FA63A4B12307675F00637BB3 /* CountCellGroupTests.swift in Sources */,
 				FA949BFF2306D47400B9DF6D /* MilestonesTests.swift in Sources */,

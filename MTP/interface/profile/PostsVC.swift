@@ -348,12 +348,11 @@ final class PostHeader: UITableViewHeaderFooterView {
                                                        right: 8)
     }
 
-    /// Decoding intializer
+    /// Unsupported coding constructor
     ///
-    /// - Parameter aDecoder: Decoder
-    @available(*, unavailable)
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    /// - Parameter coder: An unarchiver object.
+    required init?(coder: NSCoder) {
+        return nil
     }
 
     /// Empty display

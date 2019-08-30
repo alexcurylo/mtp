@@ -104,16 +104,15 @@ final class UncertainValueTests: XCTestCase {
     func testUncertainDecodingWrong() throws {
         // given
         struct SUT: Codable {
-            let value: UncertainValue<Int, String>
+            let value: UncertainValue<Int, [String]>
         }
         let fixture = Data(#"{"value":["not":"valid"]}"#.utf8)
 
         // when
-        let sut = try? JSONDecoder().decode(SUT.self,
-                                            from: fixture)
+        XCTAssertThrowsError(try JSONDecoder().decode(SUT.self,
+                                                      from: fixture))
 
         // then
-        XCTAssertNil(sut)
     }
 
     func testUncertainDecodingNull() throws {
