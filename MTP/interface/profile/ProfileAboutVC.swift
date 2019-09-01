@@ -43,11 +43,12 @@ final class ProfileAboutVC: UITableViewController, UserInjectable {
    override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
-        guard let inset = mapImageView.superview?.frame.origin.x else { return }
-        let width = tableView.bounds.width - (inset * 2)
-        if mapWidth != width {
-            update(map: width)
-         }
+        if let inset = mapImageView.superview?.frame.origin.x {
+            let width = tableView.bounds.width - (inset * 2)
+            if mapWidth != width {
+                update(map: width)
+             }
+        }
     }
 
     /// Prepare for reveal
@@ -123,8 +124,6 @@ private extension ProfileAboutVC {
     }
 
     func observe() {
-        guard locationsObserver == nil else { return }
-
         locationsObserver = Checklist.locations.observer { [weak self] _ in
             self?.update()
         }
@@ -320,7 +319,9 @@ extension ProfileAboutVC: Injectable {
     func inject(model: Model) {
         user = model
         isSelf = model.isSelf
-        observe()
+        if locationsObserver == nil {
+            observe()
+        }
 
         if isSelf {
             reloadVisits()

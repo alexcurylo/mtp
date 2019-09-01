@@ -58,14 +58,12 @@ extension UserProfileVC: CollectionCellExposing {
     func expose(view: UICollectionView,
                 path: IndexPath,
                 cell: UICollectionViewCell) {
-        guard let page = Page(rawValue: path.item) else { return }
-
-        switch page {
-        case .about:
+        switch Page(rawValue: path.item) {
+        case .about?:
             UIProfilePaging.about.expose(item: cell)
-        case .photos:
+        case .photos?:
             UIProfilePaging.photos.expose(item: cell)
-        case .posts:
+        default:
             UIProfilePaging.posts.expose(item: cell)
         }
     }

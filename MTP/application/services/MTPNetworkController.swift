@@ -387,8 +387,12 @@ extension MTP: TargetType {
         case .locationPosts:
             //file = "locationPosts-\(location)"
             file = "locationPosts-554"
-        case .passwordReset:
-            file = "passwordReset"
+        case .passwordReset(let email):
+            if email.contains("error") {
+                file = "error999"
+            } else {
+                file = "passwordReset"
+            }
         case .photos(_, let page):
             file = "photos-7853-\(page)"
         case .postPublish:

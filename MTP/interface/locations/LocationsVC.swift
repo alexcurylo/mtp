@@ -7,7 +7,7 @@ import MapKit
 // swiftlint:disable file_length
 
 /// Root controller for the map displaying tab
-final class LocationsVC: UIViewController {
+class LocationsVC: UIViewController {
 
     private typealias Segues = R.segue.locationsVC
 

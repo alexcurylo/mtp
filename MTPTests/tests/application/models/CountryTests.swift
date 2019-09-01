@@ -5,17 +5,6 @@ import XCTest
 
 final class CountryTests: XCTestCase {
 
-    func testSeed() {
-        // given
-        let realm = RealmDataController()
-
-        // when
-        let countries = realm.countries
-
-        // then
-        XCTAssertEqual(countries.count, 206)
-    }
-
     func testPlaceholderAll() throws {
         // given
         let all = Country.all

@@ -5,17 +5,6 @@ import XCTest
 
 final class UNCountryTests: XCTestCase {
 
-    func testSeed() {
-        // given
-        let realm = RealmDataController()
-
-        // when
-        let uncountries = realm.uncountries
-
-        // then
-        XCTAssertEqual(uncountries.count, 193)
-    }
-
     func testDecodingComplete() throws {
         // given
         let realm = RealmDataController()

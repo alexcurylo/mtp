@@ -56,6 +56,7 @@ class PostsVC: UITableViewController {
             tableView.estimatedSectionHeaderHeight = 1
             tableView.sectionHeaderHeight = 1
         }
+        UIPosts.posts.expose(item: tableView)
     }
 
     /// Construct cell models
@@ -281,8 +282,9 @@ extension PostsVC: PostCellDelegate {
     ///
     /// - Parameter block: PostCellModel to block
     func tapped(block: PostCellModel?) {
-        data.block(user: block?.user?.userId ?? 0)
-        app.dismissPresentations()
+        if data.block(user: block?.user?.userId ?? 0) {
+            app.dismissPresentations()
+        }
     }
 }
 

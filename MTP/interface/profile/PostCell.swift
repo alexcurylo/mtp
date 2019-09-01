@@ -152,7 +152,9 @@ final class PostCell: UITableViewCell, ServiceProvider {
         setText(html: model.body)
 
         setExpanded()
-    }
+
+        UIPosts.post(model.index).expose(item: self)
+   }
 
     /// Empty display
     override func prepareForReuse() {

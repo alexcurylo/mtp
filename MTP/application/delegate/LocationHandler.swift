@@ -5,10 +5,10 @@ import RealmSwift
 import UIKit
 
 /// Handle things to do on location changes
-final class LocationHandler: NSObject, AppHandler, ServiceProvider {
+class LocationHandler: NSObject, AppHandler, ServiceProvider {
 
     /// Application's locationManager instance
-    let locationManager = CLLocationManager {
+    var locationManager = CLLocationManager {
         $0.distanceFilter = 50
         $0.desiredAccuracy = kCLLocationAccuracyHundredMeters
     }

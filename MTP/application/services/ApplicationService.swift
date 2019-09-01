@@ -107,10 +107,11 @@ extension UIApplication: ApplicationService {
 
     /// Application version(build) string
     var version: String {
-        let keys = StringKey.infoDictionarySettingsKeys
-        let header = L.appVersion(
-            keys[0].infoDictionaryString ?? "",
-            keys[1].infoDictionaryString ?? "")
+        var header = ""
+        if let app = StringKey.appVersion.string,
+           let build = StringKey.appBuild.string {
+            header = L.appVersion(app, build)
+        }
         return header
     }
 }

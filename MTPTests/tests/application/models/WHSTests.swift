@@ -5,17 +5,6 @@ import XCTest
 
 final class WHSTests: XCTestCase {
 
-    func testSeed() {
-        // given
-        let realm = RealmDataController()
-
-        // when
-        let whss = realm.whss
-
-        // then
-        XCTAssertEqual(whss.count, 1_314)
-    }
-
     func testDecodingComplete() throws {
         // given
         let realm = RealmDataController()

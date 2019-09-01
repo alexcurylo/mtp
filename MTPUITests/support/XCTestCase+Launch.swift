@@ -36,6 +36,11 @@ extension XCTestCase {
         let wait = XCTestExpectation(description: "wait")
         _ = XCTWaiter.wait(for: [wait], timeout: seconds)
     }
+
+    func delete(_ count: Int) -> String {
+        return String(repeating: XCUIKeyboardKey.delete.rawValue,
+                      count: count)
+    }
 }
 
 extension XCUIApplication {

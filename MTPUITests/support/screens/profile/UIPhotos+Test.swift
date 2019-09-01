@@ -8,6 +8,10 @@ extension UIPhotos: Elemental {
         switch self {
         case .add:
             return .button
+        case .photos:
+            return .collectionView
+        case .photo:
+            return .cell
         }
     }
 }

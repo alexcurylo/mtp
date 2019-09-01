@@ -55,9 +55,9 @@ extension Date {
         } else if compare(.isThisYear) {
             amount = Double(abs(since(Date(), in: .month)))
             if isPast {
-                time = amount == 1 || compare(.isLastMonth) ? .oneMonthPast : .monthsPast
+                time = amount < 2 || compare(.isLastMonth) ? .oneMonthPast : .monthsPast
             } else {
-                time = amount == 1 || compare(.isNextMonth) ? .oneMonthFuture : .monthsFuture
+                time = amount < 2 || compare(.isNextMonth) ? .oneMonthFuture : .monthsFuture
             }
         } else if isPast {
             amount = Double(abs(since(Date(), in: .year)))

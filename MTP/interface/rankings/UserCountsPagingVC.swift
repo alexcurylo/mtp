@@ -154,12 +154,10 @@ extension UserCountsPagingVC: CollectionCellExposing {
     func expose(view: UICollectionView,
                 path: IndexPath,
                 cell: UICollectionViewCell) {
-        guard let page = Page(rawValue: path.item) else { return }
-
-        switch page {
-        case .remaining:
+        switch  Page(rawValue: path.item) {
+        case .remaining?:
             UIUserCountsPaging.remaining.expose(item: cell)
-        case .visited:
+        default:
             UIUserCountsPaging.visited.expose(item: cell)
         }
     }
