@@ -70,7 +70,7 @@ struct UnwrapError<T>: LocalizedError {
     let line: UInt
 
     var errorDescription: String? {
-        return "failed to unwrap \(T.self) at line \(line) in file \(file)."
+        return "failed to unwrap \(T.self) at line \(line) in file \(String(file).file)"
     }
 }
 

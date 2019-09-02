@@ -6,6 +6,14 @@
 // swiftlint:disable all
 
 final class ApplicationServiceSpy: ApplicationService {
+    var invokedVersionGetter = false
+    var invokedVersionGetterCount = 0
+    var stubbedVersion: String! = ""
+    var version: String {
+        invokedVersionGetter = true
+        invokedVersionGetterCount += 1
+        return stubbedVersion
+    }
     var invokedLaunch = false
     var invokedLaunchCount = 0
     var invokedLaunchParameters: (url: URL, Void)?
@@ -16,35 +24,35 @@ final class ApplicationServiceSpy: ApplicationService {
         invokedLaunchParameters = (url, ())
         invokedLaunchParametersList.append((url, ()))
     }
-    var invokedRouteToMappable = false
-    var invokedRouteToMappableCount = 0
-    var invokedRouteToMappableParameters: (mappable: Mappable, Void)?
-    var invokedRouteToMappableParametersList = [(mappable: Mappable, Void)]()
-    func route(to mappable: Mappable) {
-        invokedRouteToMappable = true
-        invokedRouteToMappableCount += 1
-        invokedRouteToMappableParameters = (mappable, ())
-        invokedRouteToMappableParametersList.append((mappable, ()))
+    var invokedRouteReveal = false
+    var invokedRouteRevealCount = 0
+    var invokedRouteRevealParameters: (mappable: Mappable, Void)?
+    var invokedRouteRevealParametersList = [(mappable: Mappable, Void)]()
+    func route(reveal mappable: Mappable) {
+        invokedRouteReveal = true
+        invokedRouteRevealCount += 1
+        invokedRouteRevealParameters = (mappable, ())
+        invokedRouteRevealParametersList.append((mappable, ()))
     }
-    var invokedRouteToUser = false
-    var invokedRouteToUserCount = 0
-    var invokedRouteToUserParameters: (user: User?, Void)?
-    var invokedRouteToUserParametersList = [(user: User?, Void)]()
-    func route(to user: User?) {
-        invokedRouteToUser = true
-        invokedRouteToUserCount += 1
-        invokedRouteToUserParameters = (user, ())
-        invokedRouteToUserParametersList.append((user, ()))
+    var invokedRouteShow = false
+    var invokedRouteShowCount = 0
+    var invokedRouteShowParameters: (mappable: Mappable, Void)?
+    var invokedRouteShowParametersList = [(mappable: Mappable, Void)]()
+    func route(show mappable: Mappable) {
+        invokedRouteShow = true
+        invokedRouteShowCount += 1
+        invokedRouteShowParameters = (mappable, ())
+        invokedRouteShowParametersList.append((mappable, ()))
     }
-    var invokedRouteToRoute = false
-    var invokedRouteToRouteCount = 0
-    var invokedRouteToRouteParameters: (route: Route, Void)?
-    var invokedRouteToRouteParametersList = [(route: Route, Void)]()
+    var invokedRouteTo = false
+    var invokedRouteToCount = 0
+    var invokedRouteToParameters: (route: Route, Void)?
+    var invokedRouteToParametersList = [(route: Route, Void)]()
     func route(to route: Route) {
-        invokedRouteToRoute = true
-        invokedRouteToRouteCount += 1
-        invokedRouteToRouteParameters = (route, ())
-        invokedRouteToRouteParametersList.append((route, ()))
+        invokedRouteTo = true
+        invokedRouteToCount += 1
+        invokedRouteToParameters = (route, ())
+        invokedRouteToParametersList.append((route, ()))
     }
     var invokedEndEditing = false
     var invokedEndEditingCount = 0

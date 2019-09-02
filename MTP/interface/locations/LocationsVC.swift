@@ -7,7 +7,7 @@ import MapKit
 // swiftlint:disable file_length
 
 /// Root controller for the map displaying tab
-final class LocationsVC: UIViewController, ServiceProvider {
+class LocationsVC: UIViewController {
 
     private typealias Segues = R.segue.locationsVC
 
@@ -69,6 +69,7 @@ final class LocationsVC: UIViewController, ServiceProvider {
     /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        report(screen: "Locations")
 
         mtpMapView.refreshMapView()
         updateTracking()
@@ -262,6 +263,8 @@ extension LocationsVC: UISearchBarDelegate {
                    textDidChange searchText: String) {
         matches = data.get(mappables: searchText)
         let names = matches.map { $0.title }
+        let ids = (0..<names.count).map { UILocations.result($0).identifier }
+        dropdown.localizationKeysDataSource = ids
         dropdown.dataSource = names
         if names.isEmpty {
             dropdown.hide()

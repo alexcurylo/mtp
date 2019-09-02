@@ -4,7 +4,7 @@ import Anchorage
 import Parchment
 
 /// Base class for local and remote user profiles
-class ProfileVC: UIViewController, ServiceProvider {
+class ProfileVC: UIViewController {
 
     // verified in requireOutlets
     @IBOutlet private var headerView: UIView!

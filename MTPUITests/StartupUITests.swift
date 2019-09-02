@@ -31,10 +31,18 @@ final class StartupUITests: XCTestCase {
         UILoginFail.ok.tap()
 
         UILogin.email.tap()
-        UILogin.email.type(text: "test@test.com")
+        UILogin.email.type(text: "test@test.comerror")
         UILogin.forgot.tap()
 
         UIForgotPassword.cancel.tap()
+
+        UILogin.forgot.tap()
+
+        UIForgotPassword.send.tap()
+
+        wait(for: 8) // error display
+        UILogin.email.tap()
+        UILogin.email.type(text: delete(5))
 
         UILogin.forgot.tap()
 
@@ -48,9 +56,17 @@ final class StartupUITests: XCTestCase {
         UILogin.toggle.tap()
         UILogin.toggle.tap()
         UILogin.password.tap()
-        UILogin.password.type(text: "password")
+        UILogin.password.type(text: "fail")
         UILogin.login.tap()
-    }
+
+        UILoginFail.message.tap()
+
+        UIForgotPassword.cancel.tap()
+
+        UILogin.password.tap()
+        UILogin.password.type(text: "succeed")
+        UILogin.login.tap()
+   }
 
     // swiftlint:disable:next function_body_length
     func testSignupEmail() {
@@ -119,8 +135,8 @@ final class StartupUITests: XCTestCase {
 
         UIWelcome.later.tap()
 
-        UIAlert.title("Account not verified - check your email!").wait()
-        UIAlert.button("Resend").tap()
+        UISystem.text("Account not verified - check your email!").wait()
+        UISystem.button("Resend").tap()
 
         UIMain.myProfile.tap()
 

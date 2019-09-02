@@ -3,7 +3,7 @@
 import Parchment
 
 /// Holder of profile pages
-final class ProfilePagingVC: FixedPagingViewController, ServiceProvider {
+final class ProfilePagingVC: FixedPagingViewController {
 
     /// Provider of UI test exposition
     weak var exposer: CollectionCellExposing?
@@ -30,6 +30,14 @@ final class ProfilePagingVC: FixedPagingViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         expose()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "Profile Paging")
     }
 
     /// Provide cell

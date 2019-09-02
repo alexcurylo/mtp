@@ -3,7 +3,7 @@
 import Anchorage
 
 /// Application root containing signup and logged in UI
-final class RootVC: UIViewController, ServiceProvider {
+final class RootVC: UIViewController {
 
     private typealias Segues = R.segue.rootVC
 
@@ -45,6 +45,7 @@ final class RootVC: UIViewController, ServiceProvider {
     /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        report(screen: "Root")
 
         let bottom = credentialsBottom.constant
         if bottom < 0 {

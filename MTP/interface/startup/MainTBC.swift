@@ -3,7 +3,7 @@
 import UIKit
 
 /// Root view for logged in user
-final class MainTBC: UITabBarController, ServiceProvider {
+final class MainTBC: UITabBarController {
 
     private typealias Segues = R.segue.myProfileVC
 
@@ -38,17 +38,30 @@ final class MainTBC: UITabBarController, ServiceProvider {
     /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        report(screen: "Main Tab Bar")
+
         checkDestination()
     }
 
-    /// Route to display a Mappable in Locations
+    /// Route to reveal a Mappable in Locations
     ///
-    /// - Parameter mappable: Mappable to display
-    static func route(to mappable: Mappable) {
+    /// - Parameter mappable: Mappable to reveal
+    static func route(reveal mappable: Mappable) {
         guard let current = MainTBC.current else { return }
 
         current.dismiss(presentations: current)
         current.locations?.reveal(mappable: mappable, callout: true)
+        current.selectedIndex = Route.locations.tabIndex
+    }
+
+    /// Route to show a Mappable in Locations
+    ///
+    /// - Parameter mappable: Mappable to show
+    static func route(show mappable: Mappable) {
+        guard let current = MainTBC.current else { return }
+
+        current.dismiss(presentations: current)
+        current.locations?.show(mappable: mappable)
         current.selectedIndex = Route.locations.tabIndex
     }
 

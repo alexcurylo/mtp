@@ -1,35 +1,15 @@
-Build 637 notes:
+Screenshots of the checkin notifications that the user can opt into background location for can be seen at
 
-> - Require that users agree to terms (EULA)
+https://github.com/alexcurylo/mtp/blob/develop/fastlane/metadata/background_notifications.png
+https://github.com/alexcurylo/mtp/blob/develop/fastlane/metadata/background_checkin.png
+https://github.com/alexcurylo/mtp/blob/develop/fastlane/metadata/background_congratulations.png
 
-This was stated on the signup page, but now requires the Terms of Use be viewed and explicitly agreed to.
+Video of background operation can be found at https://github.com/alexcurylo/mtp/blob/develop/fastlane/metadata/MTPBackgroundOperation.mov
 
-> and these terms must make it clear that there is no tolerance for objectionable content or abusive users
+The Terms of Use that must be agreed to when signing up cover 'no tolerance for objectionable content or abusive users' in the "PROHIBITED ACTIVITIES" section, and consent for use of all provided data under the "CONTRIBUTION LICENSE" section.
 
-The "PROHIBITED ACTIVITIES" section of the Terms Of Use covers this.
+Long-pressing any post or photo will brings up a menu for 'filtering objectionable content', `flag objectionable content` and 'block abusive users'.
 
-> - A method for filtering objectionable content
+Users cannot view other users’ locations.
 
-Long-pressing any post or photo will now bring up a menu with "Hide" as the first option.
-
-> - A mechanism for users to flag objectionable content  The developer must act on objectionable content reports within 24 hours by removing the content and ejecting the user who provided the offending content
-
-And "Report" is the second item on that menu, which will send us an email with the offending content's ID to be removed and ejected within 24 hours.
-
-> - A mechanism for users to block abusive users
-
-And "Block User" is the third item on that menu, which will hide all UGC from that user and blank out their space on leaderboards.
-
-> - Can users view other users’ locations?
-
-No.
-
-> - How does your app obtain users’ consent for the leaderboard?
-
-Consent for use of all user provided data is granted in the "CONTRIBUTION LICENSE" section of the Terms of Use.
-
-Build 636 notes:
-
-There are no Siri Shortcuts in this application.
-
-Requested video of background operation can be found at https://www.icloud.com/iclouddrive/0tLfhQDm778RPjixEXmP0lRnw#MTPBackground
+There are no Siri Shortcuts in this app.

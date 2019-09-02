@@ -8,6 +8,10 @@ extension UIPosts: Elemental {
         switch self {
         case .add:
             return .button
+        case .posts:
+            return .table
+        case .post:
+            return .cell
         }
     }
 }

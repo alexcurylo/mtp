@@ -3,7 +3,7 @@
 import UIKit
 
 /// Static text display of application information
-final class AppAboutVC: UIViewController, ServiceProvider {
+final class AppAboutVC: UIViewController {
 
     private typealias Segues = R.segue.appAboutVC
 
@@ -15,7 +15,7 @@ final class AppAboutVC: UIViewController, ServiceProvider {
         super.viewDidLoad()
         requireOutlets()
 
-        aboutTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 0, right: 8)
+        configure()
     }
 
     /// Prepare for reveal
@@ -26,6 +26,27 @@ final class AppAboutVC: UIViewController, ServiceProvider {
 
         show(navBar: animated, style: .standard)
         expose()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "App About")
+    }
+}
+
+// MARK: - Private
+
+private extension AppAboutVC {
+
+    func configure() {
+        aboutTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 0, right: 8)
+
+        let start = aboutTextView.beginningOfDocument
+        aboutTextView.selectedTextRange = aboutTextView.textRange(from: start, to: start)
+        aboutTextView.insertText("\(app.version)\n\n")
     }
 }
 

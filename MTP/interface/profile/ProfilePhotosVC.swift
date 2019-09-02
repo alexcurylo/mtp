@@ -46,9 +46,8 @@ final class ProfilePhotosVC: PhotosVC {
         let photoId = page.photoIds[photoIndex]
         if blockedPhotos.contains(photoId) {
             return Photo()
-        } else {
-            return data.get(photo: photoId)
         }
+        return data.get(photo: photoId)
     }
 
     /// Create a new Photo
@@ -63,6 +62,15 @@ final class ProfilePhotosVC: PhotosVC {
         requireInjection()
 
         update()
+    }
+
+    /// Prepare for reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        expose()
     }
 
     /// Instrument and inject navigation
@@ -153,6 +161,19 @@ private extension ProfilePhotosVC {
         performSegue(withIdentifier: Segues.cancelChoose.identifier, sender: self)
     }
 }
+
+// MARK: - Exposing
+
+extension ProfilePhotosVC: Exposing {
+
+    /// Expose controls to UI tests
+    func expose() {
+        let items = navigationItem.leftBarButtonItems
+        UIProfilePhotos.close.expose(item: items?.first)
+    }
+}
+
+// MARK: - UserInjectable
 
 extension ProfilePhotosVC: UserInjectable {
 

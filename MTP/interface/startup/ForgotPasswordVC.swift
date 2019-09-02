@@ -3,7 +3,7 @@
 import KRProgressHUD
 
 /// Handle prompting MTP for password reset link
-final class ForgotPasswordVC: UIViewController, ServiceProvider {
+final class ForgotPasswordVC: UIViewController {
 
     private typealias Segues = R.segue.forgotPasswordVC
 
@@ -43,6 +43,8 @@ final class ForgotPasswordVC: UIViewController, ServiceProvider {
     /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        report(screen: "Forgot Password")
+
         revealAlert()
     }
 

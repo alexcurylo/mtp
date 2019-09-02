@@ -152,7 +152,7 @@ private enum UrlsHandledByApp {
 }
 
 /// Provides WKWebView hosting support
-class WKWebViewController: UIViewController, ServiceProvider {
+class WKWebViewController: UIViewController {
 
     /// Default initializer
     init() {
@@ -322,11 +322,15 @@ class WKWebViewController: UIViewController, ServiceProvider {
         UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     }()
 
+    private var isObserving = false
+
     /// Remove observers
     deinit {
-        webView.removeObserver(self, forKeyPath: estimatedProgressKeyPath)
-        if websiteTitleInNavigationBar {
-            webView.removeObserver(self, forKeyPath: titleKeyPath)
+        if isObserving {
+            webView.removeObserver(self, forKeyPath: estimatedProgressKeyPath)
+            if websiteTitleInNavigationBar {
+                webView.removeObserver(self, forKeyPath: titleKeyPath)
+            }
         }
     }
 
@@ -345,10 +349,17 @@ class WKWebViewController: UIViewController, ServiceProvider {
         webView.allowsBackForwardNavigationGestures = true
         webView.isMultipleTouchEnabled = true
 
-        webView.addObserver(self, forKeyPath: estimatedProgressKeyPath, options: .new, context: nil)
+        webView.addObserver(self,
+                            forKeyPath: estimatedProgressKeyPath,
+                            options: .new,
+                            context: nil)
         if websiteTitleInNavigationBar {
-            webView.addObserver(self, forKeyPath: titleKeyPath, options: .new, context: nil)
+            webView.addObserver(self,
+                                forKeyPath: titleKeyPath,
+                                options: .new,
+                                context: nil)
         }
+        isObserving = true
 
         webView.customUserAgent = self.customUserAgent ?? self.userAgent ?? self.originalUserAgent
 
@@ -364,8 +375,6 @@ class WKWebViewController: UIViewController, ServiceProvider {
 
         if let s = self.source {
             self.load(source: s)
-        } else {
-            log.error("[\(type(of: self))][Error] Invalid url")
         }
     }
 
@@ -430,15 +439,15 @@ extension WKWebViewController {
 
     /// Load from source
     ///
-    /// - Parameter s: source
-    func load(source s: WKWebSource) {
-        switch s {
+    /// - Parameter source: source
+    func load(source: WKWebSource) {
+        switch source {
         case .remote(let url):
-            self.load(remote: url)
+            load(remote: url)
         case let .file(url, access: access):
-            self.load(file: url, access: access)
+            load(file: url, access: access)
         case let .string(str, base: base):
-            self.load(string: str, base: base)
+            load(string: str, base: base)
         }
     }
 
@@ -482,7 +491,7 @@ fileprivate extension WKWebViewController {
     var availableCookies: [HTTPCookie] {
         return cookies.filter { cookie in
             var result = true
-            let url = self.source?.remoteURL
+            let url = source?.remoteURL
             if let host = url?.host, !cookie.domain.hasSuffix(host) {
                 result = false
             }
@@ -731,8 +740,8 @@ fileprivate extension WKWebViewController {
         webView.stopLoading()
         if webView.url != nil {
             webView.reload()
-        } else if let s = self.source {
-            self.load(source: s)
+        } else if let source = source {
+            load(source: source)
         }
     }
 
@@ -741,12 +750,10 @@ fileprivate extension WKWebViewController {
     }
 
     @objc func activityDidClick(sender: AnyObject) {
-        guard let s = self.source else {
-            return
-        }
+        guard let source = source else { return }
 
         let items: [Any]
-        switch s {
+        switch source {
         case .remote(let u):
             items = [u]
         case .file(let u, access: _):
@@ -762,7 +769,7 @@ fileprivate extension WKWebViewController {
 
     @objc func doneDidClick(sender: AnyObject) {
         var canDismiss = true
-        if let url = self.source?.url {
+        if let url = source?.url {
             canDismiss = delegate?.webView?(controller: self, canDismiss: url) ?? true
         }
         if canDismiss {

@@ -3,7 +3,7 @@
 import RealmSwift
 
 /// Selection dialog for POI types to show
-final class LocationsFilterVC: UITableViewController, ServiceProvider {
+final class LocationsFilterVC: UITableViewController {
 
     private typealias Segues = R.segue.locationsFilterVC
 
@@ -42,6 +42,14 @@ final class LocationsFilterVC: UITableViewController, ServiceProvider {
 
         show(navBar: animated, style: .standard)
         expose()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "Locations Filter")
     }
 
     /// Instrument and inject navigation

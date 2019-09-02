@@ -71,7 +71,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     /// Block a user
     ///
     /// - Parameter id: User ID
-    func block(user id: Int)
+    func block(user id: Int) -> Bool
 
     /// Get country
     ///
@@ -333,6 +333,8 @@ extension DataService {
     /// Log out current user
     func logOut() {
         FacebookButton.logOut()
+        report.user(signIn: nil, signUp: nil)
+
         MTP.unthrottle()
         net.unthrottle()
 
@@ -432,14 +434,15 @@ class DataServiceImpl: DataService {
     /// Block a user
     ///
     /// - Parameter id: User ID
-    func block(user id: Int) {
-        guard id != user?.id else {
+    func block(user id: Int) -> Bool {
+        guard id > 0, id != user?.id else {
             note.message(error: L.blockSelf())
-            return
+            return false
         }
         if !blockedUsers.contains(id) {
             blockedUsers.append(id)
         }
+        return true
     }
 
     /// Countries
@@ -1093,7 +1096,10 @@ final class DataServiceStub: DataServiceImpl {
     override init() {
         super.init()
 
-        self.email = ""
+        blockedPhotos = []
+        blockedPosts = []
+        blockedUsers = []
+        email = ""
     }
 }
 

@@ -17,7 +17,7 @@ extension UIMain: Elemental {
 
     var container: XCUIElementQuery {
         switch self {
-        case .bar: return app
+        case .bar: return all
         default: return UIMain.bar.match.query(type: type)
         }
     }

@@ -113,13 +113,11 @@ final class MTPDelegateTests: XCTestCase {
             return XCTFail("missing infoDictionary")
         }
 
-        // AppCenter
+        // Facebook
         let urlType = (infoPlist["CFBundleURLTypes"] as? [AnyObject])?.first as? [String: AnyObject]
         let urlScheme = (urlType?["CFBundleURLSchemes"] as? [String])?.first
-        let appcenter = "appcenter-20cb945f-58b9-4544-a059-424aa3b86820"
-        appcenter.assert(equal: urlScheme)
-
-        // Facebook
+        let facebook = "fb970945913071007"
+        facebook.assert(equal: urlScheme)
         XCTAssertNotNil(infoPlist["FacebookAppID"])
         XCTAssertNotNil(infoPlist["FacebookDisplayName"])
         XCTAssertNotNil(infoPlist["LSApplicationQueriesSchemes"])

@@ -3,7 +3,7 @@
 import Parchment
 
 /// Displays location info tabs
-final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
+final class LocationPagingVC: FixedPagingViewController {
 
     fileprivate enum Page: Int {
 
@@ -23,9 +23,8 @@ final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
                 let vc = R.storyboard.locationInfo.locationInfo()
                 vc?.inject(model: model)
                 return vc
-            } else {
-                return LocationWebsiteVC(mappable: model)
             }
+            return LocationWebsiteVC(mappable: model)
         }
 
         #if NONLOCATIONS_CAN_POST
@@ -37,18 +36,16 @@ final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
                 let vc = R.storyboard.locationPhotos.locationPhotos()
                 vc?.inject(model: model)
                 return vc
-            } else {
-                return nil
             }
+            return nil
         }
         var third: UIViewController? {
             if model.canPost {
                 let vc = R.storyboard.locationPosts.locationPosts()
                 vc?.inject(model: model)
                 return vc
-            } else {
-                return nil
             }
+            return nil
         }
         #endif
 
@@ -87,6 +84,14 @@ final class LocationPagingVC: FixedPagingViewController, ServiceProvider {
         super.viewWillAppear(animated)
 
         expose()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "Location Paging")
     }
 
     /// Provide cell
@@ -164,14 +169,12 @@ extension LocationPagingVC: CollectionCellExposing {
     func expose(view: UICollectionView,
                 path: IndexPath,
                 cell: UICollectionViewCell) {
-        guard let page = Page(rawValue: path.item) else { return }
-
-        switch page {
-        case .first:
+        switch Page(rawValue: path.item) {
+        case .first?:
             UILocationPaging.first.expose(item: cell)
-        case .photos:
+        case .photos?:
             UILocationPaging.photos.expose(item: cell)
-        case .posts:
+        default:
             UILocationPaging.posts.expose(item: cell)
         }
     }

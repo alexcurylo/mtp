@@ -1,0 +1,10 @@
+{
+    "data": {
+        "id": 2,
+        "user_id": "7853",
+        "type": "apn_device_token",
+        "value": "4159c48ab8466e4450b1de594c6df3a0879dc6e754b7faa4ae43467336178a4f",
+        "created_at": "2019-08-15 23:08:20",
+        "updated_at": "2019-08-15 23:08:20"
+    }
+}

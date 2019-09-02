@@ -1,9 +1,25 @@
 // @copyright Trollwerks Inc.
 
+import FacebookCore
 import FacebookLogin
 import FBSDKLoginKit
 
 // https://developers.facebook.com/docs/facebook-login/ios/advanced/#custom-login-button
+
+/// Abstract Facebook SDK for testing
+protocol FBLoginManager {
+
+    /// Abstract Facebook SDK login
+    ///
+    /// - Parameters:
+    ///   - permissions: Array of read permissions
+    ///   - viewController: View controller to present from
+    ///   - completion: Optional callback
+    func logIn(permissions: [Permission],
+               viewController: UIViewController?,
+               completion: LoginResultBlock?)
+}
+extension LoginManager: FBLoginManager { }
 
 /// Button for Facebook login
 final class FacebookButton: UIButton, ServiceProvider {
@@ -24,24 +40,26 @@ final class FacebookButton: UIButton, ServiceProvider {
         setup()
     }
 
-    /// Prepare for Interface Builder
-    override func prepareForInterfaceBuilder() {
-        super.prepareForInterfaceBuilder()
-        setup()
-    }
-
     /// Perform Facebook login
     ///
     /// - Parameters:
     ///   - vc: Containing view controller
+    ///   - mock: Testing injection
     ///   - then: Callback
     func login(vc: UIViewController,
+               mock: FBLoginManager? = nil,
                then: @escaping (RegistrationPayload?) -> Void) {
-        guard !UIApplication.isTesting else {
+        let manager: FBLoginManager
+        switch (UIApplication.isTesting, mock) {
+        case (false, _):
+            manager = LoginManager()
+        case (true, let mock?):
+            manager = mock
+        default:
             return then(nil)
         }
 
-        LoginManager().logIn(
+        manager.logIn(
             permissions: [ .publicProfile, .email, .userBirthday, .userGender ],
             viewController: vc
         ) { [weak self] result in
@@ -64,6 +82,11 @@ final class FacebookButton: UIButton, ServiceProvider {
     static func logOut() {
         LoginManager().logOut()
     }
+
+    /// Currently logged in user
+    static var current: AccessToken? {
+        return AccessToken.current
+    }
 }
 
 // MARK: - Private
@@ -76,6 +99,10 @@ private extension FacebookButton {
     }
 
     func requestInfo(then: @escaping (RegistrationPayload?) -> Void) {
+        guard !UIApplication.isTesting else {
+            return then(nil)
+        }
+
         let request = GraphRequest(graphPath: "/me",
                                    parameters: ["fields": "birthday,email,first_name,gender,last_name"],
                                    httpMethod: .get)

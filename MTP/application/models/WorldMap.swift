@@ -8,7 +8,6 @@ private struct GeoJSON: Codable {
 
     struct Feature: Codable {
 
-        // swiftlint:disable:next nesting
         struct Geometry: Codable {
 
             let coordinates: [[CLLocationCoordinate2D]]
@@ -21,7 +20,6 @@ private struct GeoJSON: Codable {
             }
         }
 
-        // swiftlint:disable:next nesting
         struct Properties: Codable {
 
             let locationName: String

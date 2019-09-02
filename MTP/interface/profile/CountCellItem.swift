@@ -191,13 +191,35 @@ private extension CountCellItem {
         visit.addTarget(self,
                         action: #selector(toggleVisit),
                         for: .valueChanged)
+
+        let doubleTap = UITapGestureRecognizer(target: self,
+                                               action: #selector(cellDoubleTapped))
+        doubleTap.numberOfTapsRequired = 2
+        addGestureRecognizer(doubleTap)
+        let tap = UITapGestureRecognizer(target: self,
+                                         action: #selector(cellTapped))
+        addGestureRecognizer(tap)
+        tap.require(toFail: doubleTap)
+    }
+
+    var item: Checklist.Item? {
+        if let id = model?.id,
+           let list = model?.list {
+            return (list, id)
+        }
+        return nil
+    }
+
+    var mappable: Mappable? {
+        if let item = item {
+            return data.get(mappable: item)
+        }
+        return nil
     }
 
     @objc func toggleVisit(_ sender: UISwitch) {
-        guard let id = model?.id,
-              let list = model?.list else { return }
+        guard let item = item else { return }
 
-        let item = (list, id)
         let visited = sender.isOn
         note.set(item: item,
                  visited: visited,
@@ -205,6 +227,18 @@ private extension CountCellItem {
             if case .failure = result {
                 sender?.isOn = !visited
             }
+        }
+    }
+
+    @objc func cellTapped(_ sender: UIButton) {
+        if let mappable = mappable {
+            app.route(reveal: mappable)
+        }
+    }
+
+    @objc func cellDoubleTapped(_ sender: UIButton) {
+        if let mappable = mappable {
+            app.route(show: mappable)
         }
     }
 }

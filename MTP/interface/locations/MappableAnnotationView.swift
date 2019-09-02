@@ -64,6 +64,7 @@ final class MappableAnnotationView: MKMarkerAnnotationView, MappingAnnotationVie
     private let visitSwitch = UISwitch {
         $0.styleAsFilter()
         $0.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        UILocations.visit.expose(item: $0)
     }
 
     private let nameLabel = UILabel {
@@ -92,6 +93,7 @@ final class MappableAnnotationView: MKMarkerAnnotationView, MappingAnnotationVie
         $0.startColor = .dodgerBlue
         $0.endColor = .azureRadiance
         $0.cornerRadius = 4
+        UILocations.directions.expose(item: $0)
 
         let title = L.directions()
         $0.setTitle(title, for: .normal)
@@ -104,6 +106,7 @@ final class MappableAnnotationView: MKMarkerAnnotationView, MappingAnnotationVie
         $0.startColor = .dodgerBlue
         $0.endColor = .azureRadiance
         $0.cornerRadius = 4
+        UILocations.more.expose(item: $0)
 
         let title = L.showMore()
         $0.setTitle(title, for: .normal)
@@ -140,12 +143,11 @@ final class MappableAnnotationView: MKMarkerAnnotationView, MappingAnnotationVie
         observe()
     }
 
-    /// Decoding intializer
+    /// Unsupported coding constructor
     ///
-    /// - Parameter aDecoder: Decoder
-    @available(*, unavailable)
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    /// - Parameter coder: An unarchiver object.
+    required init?(coder: NSCoder) {
+        return nil
     }
 
     /// Prepare for display
@@ -290,6 +292,7 @@ private extension MappableAnnotationView {
             $0.addTarget(self,
                          action: #selector(closeTapped),
                          for: .touchUpInside)
+            UILocations.close.expose(item: $0)
         }
 
         return holder

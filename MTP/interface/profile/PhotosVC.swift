@@ -14,9 +14,13 @@ protocol PhotoSelectionDelegate: AnyObject {
 }
 
 /// Base class for location and user photo display
-class PhotosVC: UICollectionViewController, ServiceProvider {
+class PhotosVC: UICollectionViewController {
 
-    @IBOutlet private var saveButton: UIBarButtonItem?
+    @IBOutlet private var saveButton: UIBarButtonItem? {
+        didSet {
+            UIPhotos.save.expose(item: saveButton)
+        }
+    }
 
     /// Whether we can select a photo
     enum Mode {
@@ -124,6 +128,7 @@ private extension PhotosVC {
             saveButton.require().isEnabled = false
         }
         collectionView.backgroundView = background
+        UIPhotos.photos.expose(item: collectionView)
     }
 
     @IBAction func addTapped(_ sender: GradientButton) {
@@ -209,15 +214,18 @@ extension PhotosVC {
             for: indexPath
         )
 
-        let model = photo(at: indexPath.item)
-        cell.inject(photo: model,
+        let model = PhotoCellModel(
+            index: indexPath.item,
+            photo: photo(at: indexPath.item)
+        )
+        cell.inject(model: model,
                     delegate: self,
                     isScrolling: isScrolling)
         if isScrolling {
             scrollingCells.insert(cell)
         }
 
-        let selected = model.uuid == current && !original.isEmpty
+        let selected = model.photo?.uuid == current && !original.isEmpty
         if selected && !cell.isSelected {
             cell.isSelected = true
             collectionView.selectItem(at: indexPath,
@@ -387,8 +395,9 @@ extension PhotosVC: PhotoCellDelegate {
     ///
     /// - Parameter block: Photo to block
     func tapped(block: Photo?) {
-        data.block(user: block?.userId ?? 0)
-        app.route(to: .locations)
+        if data.block(user: block?.userId ?? 0) {
+            app.route(to: .locations)
+        }
     }
 }
 

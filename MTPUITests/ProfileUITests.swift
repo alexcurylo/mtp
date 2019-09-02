@@ -12,7 +12,8 @@ final class ProfileUITests: XCTestCase {
         super.tearDown()
     }
 
-    func testProfile() {
+    //swiftlint:disable:next function_body_length
+    func testMyProfile() {
         launch(settings: [.loggedIn(true)])
 
         UIMain.myProfile.tap()
@@ -22,6 +23,14 @@ final class ProfileUITests: XCTestCase {
 
         UICountsPage.region(0).tap()
         UICountsPage.group(0, 1).tap()
+
+        UIUserCountsPaging.remaining.tap()
+
+        UIUserCounts.close.tap()
+
+        UIProfileAbout.remaining.tap()
+
+        UIUserCountsPaging.visited.tap()
 
         UIUserCounts.close.tap()
 
@@ -39,25 +48,55 @@ final class ProfileUITests: XCTestCase {
 
         UIProfilePaging.photos.tap()
 
+        UIPhotos.photo(0).showMenu()
+
+        UISystem.menu("Hide").tap()
+
+        UIPhotos.photo(0).showMenu()
+
+        UISystem.menu("Report").tap()
+        UISystem.button("OK").tap()
+
+        UISettings.close.tap()
+
+        UIProfilePaging.photos.tap()
+
+        UIPhotos.photo(0).showMenu()
+
+        UISystem.menu("Block user").tap()
+
+        UISystem.button("OK").tap()
+
         UIPhotos.add.tap()
 
         UIAddPhoto.close.tap()
 
         UIProfilePaging.posts.tap()
 
+        UIPosts.post(0).showMenu()
+
+        UISystem.menu("Hide").tap()
+
+        UIPosts.post(0).showMenu()
+
+        UISystem.menu("Report").tap()
+        UISystem.button("OK").tap()
+
+        UISettings.close.tap()
+
+        UIProfilePaging.posts.tap()
+
+        UIPosts.post(0).showMenu()
+
+        UISystem.menu("Block user").tap()
+
+        UISystem.button("OK").tap()
+
         UIPosts.add.tap()
 
         UIAddPost.close.tap()
 
         UIProfilePaging.about.tap()
-
-        UIMyProfile.edit.tap()
-
-        UIEditProfile.country.tap()
-
-        UILocationSearch.close.tap()
-
-        UIEditProfile.close.tap()
 
         UIMyProfile.settings.tap()
 
@@ -70,5 +109,70 @@ final class ProfileUITests: XCTestCase {
         UIAppAbout.close.tap()
 
         UISettings.close.tap()
+    }
+
+    func testEditProfile() {
+        launch(settings: [.loggedIn(true)])
+
+        UIMain.myProfile.tap()
+        UIMain.myProfile.wait(for: .selected)
+
+        UIMyProfile.edit.tap()
+
+        UIEditProfile.avatar.tap()
+
+        UIPhotos.add.tap()
+
+        UIAddPhoto.image.tap()
+
+        // Camera Roll
+        wait(for: 6)
+        app.tap(x: 50, y: 200)
+        // first picture
+        wait(for: 2)
+        app.tap(x: 50, y: 100)
+        // Choose
+        wait(for: 2)
+        app.tap(x: -50, y: -20)
+
+        UIAddPhoto.save.tap()
+
+        UIProfilePhotos.close.tap()
+
+        UIEditProfile.avatar.tap()
+
+        UIPhotos.photo(0).tap()
+        UIPhotos.save.tap()
+
+        UIEditProfile.country.tap()
+
+        UILocationSearch.close.tap()
+
+        UIEditProfile.country.tap()
+
+        let preferNot = 0
+        UILocationSearch.result(preferNot).tap()
+
+        UIEditProfile.country.tap()
+
+        let antigua = 6
+        UILocationSearch.result(antigua).tap()
+
+        UIEditProfile.location.tap()
+
+        let redonda = 2
+        UILocationSearch.result(redonda).tap()
+
+        UIEditProfile.country.tap()
+
+        UILocationSearch.search.tap()
+        UILocationSearch.cancel.tap()
+        UILocationSearch.search.tap()
+        UILocationSearch.search.type(text: "North")
+
+        let northKorea = 0
+        UILocationSearch.result(northKorea).tap()
+
+        UIEditProfile.save.tap()
     }
 }

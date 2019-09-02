@@ -3,7 +3,7 @@
 import Anchorage
 
 /// Base class for user and location post pages
-class PostsVC: UITableViewController, ServiceProvider {
+class PostsVC: UITableViewController {
 
     /// Display a user's posts
     var canCreate: Bool {
@@ -56,6 +56,7 @@ class PostsVC: UITableViewController, ServiceProvider {
             tableView.estimatedSectionHeaderHeight = 1
             tableView.sectionHeaderHeight = 1
         }
+        UIPosts.posts.expose(item: tableView)
     }
 
     /// Construct cell models
@@ -281,8 +282,9 @@ extension PostsVC: PostCellDelegate {
     ///
     /// - Parameter block: PostCellModel to block
     func tapped(block: PostCellModel?) {
-        data.block(user: block?.user?.userId ?? 0)
-        app.dismissPresentations()
+        if data.block(user: block?.user?.userId ?? 0) {
+            app.dismissPresentations()
+        }
     }
 }
 
@@ -348,12 +350,11 @@ final class PostHeader: UITableViewHeaderFooterView {
                                                        right: 8)
     }
 
-    /// Decoding intializer
+    /// Unsupported coding constructor
     ///
-    /// - Parameter aDecoder: Decoder
-    @available(*, unavailable)
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    /// - Parameter coder: An unarchiver object.
+    required init?(coder: NSCoder) {
+        return nil
     }
 
     /// Empty display

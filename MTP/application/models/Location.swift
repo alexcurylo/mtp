@@ -17,17 +17,15 @@ enum AdminLevel: Int {
 /// Location info received from MTP endpoints
 struct LocationJSON: Codable, Equatable {
 
-    /// Filter for current data
-    let active: String
+    fileprivate let active: String
     fileprivate let adminLevel: Int
     fileprivate let airports: String?
     /// Unique ID of country
     /// null or 0 in index 190-192 of un-country
     let countryId: Int?
-    /// Name to display in UI
-    let countryName: String
+    fileprivate let countryName: String
     private let distance: Double?
-    /// UUID of main image
+    // UUID of main image
     fileprivate let featuredImg: String?
     /// Unique ID of location
     let id: Int
@@ -39,10 +37,8 @@ struct LocationJSON: Codable, Equatable {
     fileprivate let rank: Int
     fileprivate let rankUn: Int
     private let regionId: Int
-    /// Region containing this country
-    let regionName: String
-    /// Number of MTP visitors
-    let visitors: Int
+    fileprivate let regionName: String
+    fileprivate let visitors: Int
     private let visitorsUn: Int
     private let weather: String?
     fileprivate let weatherhist: String?
@@ -191,11 +187,16 @@ extension LocationJSON: CustomDebugStringConvertible {
         guard let other = object as? Location else { return false }
         guard !isSameObject(as: other) else { return true }
 
-        return countryId == other.countryId &&
+        return adminLevel == other.adminLevel &&
+               airports == other.airports &&
+               countryId == other.countryId &&
                placeCountry == other.placeCountry &&
                placeId == other.placeId &&
                placeRegion == other.placeRegion &&
-               placeTitle == other.placeTitle
+               placeTitle == other.placeTitle &&
+               rank == other.rank &&
+               rankUn == other.rankUn &&
+               weatherhist == other.weatherhist
     }
 }
 
@@ -260,5 +261,23 @@ extension Location {
     /// Map marker longitude
     var longitude: CLLocationDegrees {
         return map?.longitude ?? 0
+    }
+}
+
+extension UNCountry {
+
+    /// Constructor from MTP endpoint data
+    convenience init?(from: LocationJSON) {
+        guard from.active == "Y" else {
+            return nil
+        }
+        self.init()
+
+        placeId = from.id
+        // all match except country Swaziland, location eSwatini (Swaziland)
+        placeCountry = from.countryName
+        placeImage = from.featuredImg ?? ""
+        placeVisitors = from.visitors
+        placeRegion = from.regionName
     }
 }

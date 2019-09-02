@@ -1,7 +1,7 @@
 // @copyright Trollwerks Inc.
 
 /// Excchange visit status with MTP endpoint
-struct Checked: Codable, ServiceProvider {
+struct Checked: Codable, Equatable, ServiceProvider {
 
     /// Visited beaches
     var beaches: [Int] = []

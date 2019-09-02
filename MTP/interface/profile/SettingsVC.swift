@@ -3,7 +3,7 @@
 import MessageUI
 
 /// Miscellaneous account and app operations
-final class SettingsVC: UITableViewController, ServiceProvider {
+final class SettingsVC: UITableViewController {
 
     private typealias Segues = R.segue.settingsVC
 
@@ -43,6 +43,8 @@ final class SettingsVC: UITableViewController, ServiceProvider {
     /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        report(screen: "Settings")
+
         if !reportMessage.isEmpty {
             email(title: L.reportSubject(), body: reportMessage)
             reportMessage = ""
@@ -105,25 +107,35 @@ private extension SettingsVC {
         email(title: L.contactSubject())
     }
 
-    func report(body: String? = nil) {
+    func report(body: String = "") {
         email(title: L.reportSubject(), body: body)
     }
 
     func email(title: String,
-               body: String? = nil) {
+               body: String = "") {
         guard MFMailComposeViewController.canSendMail() else {
             note.message(error: L.setupEmail())
             return
         }
+
+        let line1 = app.version
+        let line2: String = {
+            var size = 0
+            sysctlbyname("hw.machine", nil, &size, nil, 0)
+            var machine = [CChar](repeating: 0, count: Int(size))
+            sysctlbyname("hw.machine", &machine, &size, nil, 0)
+            return String(cString: machine)
+        }()
+        let device = UIDevice.current
+        let line3 = String(format: "%@ %@", device.systemName, device.systemVersion)
+        let message = "\(body)\n\n\(line1)\n\(line2)\n\(line3)"
 
         style.styler.system.styleAppearanceNavBar()
         let composeVC = MFMailComposeViewController {
             $0.mailComposeDelegate = self
             $0.setToRecipients([L.contactAddress()])
             $0.setSubject(title)
-            if let body = body {
-                $0.setMessageBody(body, isHTML: false)
-            }
+            $0.setMessageBody(message, isHTML: false)
         }
         composeVC.navigationBar.set(style: .system)
 

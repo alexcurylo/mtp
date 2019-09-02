@@ -18,7 +18,7 @@ extension UINearby: Elemental {
     var container: XCUIElementQuery {
         switch self {
         case .close,
-             .places: return app
+             .places: return all
         case .place:
             return UINearby.places.match.query(type: type)
         }

@@ -213,12 +213,6 @@ extension UIColor {
         setup()
     }
 
-    /// Prepare for Interface Builder
-    override func prepareForInterfaceBuilder() {
-        super.prepareForInterfaceBuilder()
-        setup()
-    }
-
     private func setup() {
         apply(gradient: [startColor, endColor],
               orientation: GradientOrientation(rawValue: orientation))
@@ -312,12 +306,6 @@ extension UIColor {
     /// - Parameter aDecoder: Decoder
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
-    }
-
-    /// Prepare for Interface Builder
-    override func prepareForInterfaceBuilder() {
-        super.prepareForInterfaceBuilder()
         setup()
     }
 

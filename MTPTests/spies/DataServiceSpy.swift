@@ -431,6 +431,14 @@ final class DataServiceSpy: DataService {
         invokedNoteGetterCount += 1
         return stubbedNote
     }
+    var invokedReportGetter = false
+    var invokedReportGetterCount = 0
+    var stubbedReport: ReportingService!
+    var report: ReportingService {
+        invokedReportGetter = true
+        invokedReportGetterCount += 1
+        return stubbedReport
+    }
     var invokedStyleGetter = false
     var invokedStyleGetterCount = 0
     var stubbedStyle: StyleService!
@@ -463,11 +471,13 @@ final class DataServiceSpy: DataService {
     var invokedBlockUserCount = 0
     var invokedBlockUserParameters: (id: Int, Void)?
     var invokedBlockUserParametersList = [(id: Int, Void)]()
-    func block(user id: Int) {
+    var stubbedBlockUserResult: Bool! = false
+    func block(user id: Int) -> Bool {
         invokedBlockUser = true
         invokedBlockUserCount += 1
         invokedBlockUserParameters = (id, ())
         invokedBlockUserParametersList.append((id, ()))
+        return stubbedBlockUserResult
     }
     var invokedGetCountry = false
     var invokedGetCountryCount = 0
@@ -643,7 +653,8 @@ final class DataServiceSpy: DataService {
     var invokedGetScorecardParameters: (list: Checklist, id: Int?)?
     var invokedGetScorecardParametersList = [(list: Checklist, id: Int?)]()
     var stubbedGetScorecardResult: Scorecard!
-    func get(scorecard list: Checklist, user id: Int?) -> Scorecard? {
+    func get(scorecard list: Checklist,
+    user id: Int?) -> Scorecard? {
         invokedGetScorecard = true
         invokedGetScorecardCount += 1
         invokedGetScorecardParameters = (list, id)

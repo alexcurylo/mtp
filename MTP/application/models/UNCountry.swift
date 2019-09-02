@@ -25,20 +25,6 @@ import RealmSwift
     override static func primaryKey() -> String? {
         return "placeId"
     }
-
-    /// Constructor from MTP endpoint data
-    convenience init?(from: LocationJSON) {
-        guard from.active == "Y" else {
-            return nil
-        }
-        self.init()
-
-        placeId = from.id
-        // all match except country Swaziland, location eSwatini (Swaziland)
-        placeCountry = from.countryName
-        placeVisitors = from.visitors
-        placeRegion = from.regionName
-    }
 }
 
 extension UNCountry: PlaceInfo {

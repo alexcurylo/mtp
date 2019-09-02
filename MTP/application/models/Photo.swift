@@ -21,7 +21,7 @@ struct PhotoReply: Codable {
 extension PhotoReply: CustomStringConvertible {
 
     var description: String {
-        return "photo \(id) - \(uuid): \(String(describing: desc))"
+        return "photo \(id) - \(uuid)"
     }
 }
 
@@ -35,7 +35,7 @@ extension PhotoReply: CustomDebugStringConvertible {
         location: \(String(describing: location))
         locationId: \(String(describing: locationId))
         mime: \(mime)
-        name: \(name)
+        name: \(name.isEmpty ? "empty" : name)
         type: \(type)
         uploaded: \(uploaded)
         url: \(url)
@@ -58,7 +58,7 @@ struct PhotosInfoJSON: Codable {
 extension PhotosInfoJSON: CustomStringConvertible {
 
     var description: String {
-        return "PhotosInfoJSON"
+        return "PhotosInfoJSON (\(data.count))"
     }
 }
 
@@ -98,8 +98,8 @@ extension PhotosPageInfoJSON: CustomDebugStringConvertible {
         return """
         < PhotosPageInfoJSON: \(description):
         code: \(code)
-        data: \(data.debugDescription))
-        paging: \(paging.debugDescription))
+        paging: \(paging.debugDescription)
+        data: \(data.debugDescription)
         /PhotosPageInfoJSON >
         """
     }
@@ -153,10 +153,10 @@ struct OwnerJSON: Codable {
 /// Photo info received from MTP endpoints
 struct PhotoJSON: Codable {
 
-    private struct PivotJSON: Codable {
-        let fileId: Int
-        let userId: Int
-    }
+    //private struct PivotJSON: Codable {
+        //let fileId: Int
+        //let userId: Int
+    //}
 
     fileprivate let createdAt: Date
     fileprivate let desc: String?
@@ -166,7 +166,7 @@ struct PhotoJSON: Codable {
     fileprivate let mime: String
     fileprivate let name: String
     fileprivate let owner: OwnerJSON? // only in location photos
-    private let pivot: PivotJSON? // not in location photos
+    //private let pivot: PivotJSON? // not in location photos
     fileprivate let type: String
     fileprivate let updatedAt: Date
     fileprivate let userId: Int
@@ -191,12 +191,11 @@ extension PhotoJSON: CustomDebugStringConvertible {
         location: \(String(describing: location))
         locationId: \(String(describing: locationId))
         mime: \(mime)
-        name: \(name)
-        pivot: \(String(describing: pivot))
+        name: \(name.isEmpty ? "empty" : name)
         type: \(type)
         updatedAt: \(updatedAt)
         userId: \(userId)
-        uuid: \(uuid)
+        uuid: \(uuid.isEmpty ? "empty" : uuid)
         /PhotoJSON >
         """
     }

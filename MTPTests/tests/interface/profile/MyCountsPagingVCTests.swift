@@ -5,7 +5,10 @@ import XCTest
 
 final class MyCountsPagingVCTests: XCTestCase {
 
-    func _testInitWithCoder() {
-        // placeholder if MyCountsPagingCell exposed
+    func testInitCellWithCoder() {
+        // when
+        let sut = MyCountsPagingCell(coder: NSCoder())
+        // then
+        XCTAssertNil(sut)
     }
 }

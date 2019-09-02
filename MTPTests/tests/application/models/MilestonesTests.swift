@@ -5,26 +5,6 @@ import XCTest
 
 final class MilestonesTests: XCTestCase {
 
-    func testSeed() {
-        // given
-        let realm = RealmDataController()
-
-        // when
-        let lists = Checklist.allCases.compactMap {
-            realm.milestones(list: $0)
-        }
-
-        // then
-        XCTAssertEqual(lists.count, Checklist.allCases.count)
-        for (index, list) in Checklist.allCases.enumerated() {
-            let milestones = lists[index]
-            XCTAssertEqual(list, milestones.checklist)
-            XCTAssertEqual(thresholds[index], milestones.thresholds.count)
-            XCTAssertFalse(milestones.milestone(count: 1).isEmpty)
-            XCTAssertTrue(milestones.milestone(count: 99).isEmpty)
-        }
-    }
-
     func testDecoding() throws {
         // given
         let data = try unwrap(settingsString.data(using: .utf8))
@@ -38,6 +18,7 @@ final class MilestonesTests: XCTestCase {
 
         // then
         XCTAssertEqual(lists.count, Checklist.allCases.count)
+        let thresholds = RealmDataControllerTests.thresholds
         for (index, list) in Checklist.allCases.enumerated() {
             let milestones = lists[index]
             XCTAssertEqual(list, milestones.checklist)
@@ -45,16 +26,6 @@ final class MilestonesTests: XCTestCase {
         }
     }
 }
-
-private let thresholds = [
-    9,
-    8,
-    6,
-    4,
-    5,
-    5,
-    7
-]
 
 private let settingsString = """
 {

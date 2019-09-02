@@ -4,7 +4,7 @@ import XCTest
 
 extension XCUIElement.ElementType {
 
-    var app: XCUIElementQuery {
+    var all: XCUIElementQuery {
         return XCUIApplication().query(type: self)
     }
 }

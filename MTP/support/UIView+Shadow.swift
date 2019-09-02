@@ -41,12 +41,6 @@ private extension UIView {
         setup()
     }
 
-    /// Prepare for Interface Builder
-    override func prepareForInterfaceBuilder() {
-        super.prepareForInterfaceBuilder()
-        setup()
-    }
-
     private func setup() {
         cornerRadius = 5
         applyShadow()

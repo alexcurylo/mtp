@@ -3,7 +3,7 @@
 import UIKit
 
 /// Display user details
-final class ProfileAboutVC: UITableViewController, UserInjectable, ServiceProvider {
+final class ProfileAboutVC: UITableViewController, UserInjectable {
 
     private typealias Segues = R.segue.profileAboutVC
 
@@ -43,11 +43,12 @@ final class ProfileAboutVC: UITableViewController, UserInjectable, ServiceProvid
    override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
-        guard let inset = mapImageView.superview?.frame.origin.x else { return }
-        let width = tableView.bounds.width - (inset * 2)
-        if mapWidth != width {
-            update(map: width)
-         }
+        if let inset = mapImageView.superview?.frame.origin.x {
+            let width = tableView.bounds.width - (inset * 2)
+            if mapWidth != width {
+                update(map: width)
+             }
+        }
     }
 
     /// Prepare for reveal
@@ -58,6 +59,14 @@ final class ProfileAboutVC: UITableViewController, UserInjectable, ServiceProvid
 
         update()
         expose()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "Profile About")
     }
 
     /// Instrument and inject navigation
@@ -115,8 +124,6 @@ private extension ProfileAboutVC {
     }
 
     func observe() {
-        guard locationsObserver == nil else { return }
-
         locationsObserver = Checklist.locations.observer { [weak self] _ in
             self?.update()
         }
@@ -312,7 +319,9 @@ extension ProfileAboutVC: Injectable {
     func inject(model: Model) {
         user = model
         isSelf = model.isSelf
-        observe()
+        if locationsObserver == nil {
+            observe()
+        }
 
         if isSelf {
             reloadVisits()

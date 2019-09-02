@@ -3,7 +3,7 @@
 import UIKit
 
 /// Display successful signup message
-final class WelcomeVC: UIViewController, ServiceProvider {
+final class WelcomeVC: UIViewController {
 
     private typealias Segues = R.segue.welcomeVC
 
@@ -25,6 +25,14 @@ final class WelcomeVC: UIViewController, ServiceProvider {
 
         hide(navBar: animated)
         expose()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "Welcome")
     }
 
     /// Instrument and inject navigation

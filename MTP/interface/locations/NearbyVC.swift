@@ -9,7 +9,7 @@ private protocol NearbyCellDelegate: AnyObject {
 }
 
 /// Lists POI by distance from map center
-final class NearbyVC: UITableViewController, ServiceProvider {
+final class NearbyVC: UITableViewController {
 
     private typealias Segues = R.segue.nearbyVC
 
@@ -47,6 +47,14 @@ final class NearbyVC: UITableViewController, ServiceProvider {
 
         show(navBar: animated, style: .standard)
         expose()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "Nearby")
     }
 }
 

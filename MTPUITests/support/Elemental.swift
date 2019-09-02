@@ -19,15 +19,19 @@ enum ElementalState {
 
 extension Elemental {
 
-    var app: XCUIElementQuery {
-        return type.app
+    var all: XCUIElementQuery {
+        return type.all
     }
 
     var container: XCUIElementQuery {
-        return app
+        return all
     }
 
     var element: XCUIElement {
+        return identified
+    }
+
+    var identified: XCUIElement {
         return container.element(matching: type, identifier: identifier)
     }
 
@@ -128,6 +132,10 @@ extension Elemental {
                thenDragTo otherElement: XCUIElement) {
         wait().press(forDuration: duration,
                      thenDragTo: otherElement)
+    }
+
+    func showMenu() {
+        wait().press(forDuration: 1)
     }
 
     func swipeUp() {

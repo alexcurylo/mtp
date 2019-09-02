@@ -3,7 +3,7 @@
 import UIKit
 
 /// Full screen dialog to confirm account deletion
-final class ConfirmDeleteVC: UIViewController, ServiceProvider {
+final class ConfirmDeleteVC: UIViewController {
 
     private typealias Segues = R.segue.confirmDeleteVC
 
@@ -16,6 +16,14 @@ final class ConfirmDeleteVC: UIViewController, ServiceProvider {
         super.viewDidLoad()
         requireOutlets()
         expose()
+    }
+
+    /// Actions to take after reveal
+    ///
+    /// - Parameter animated: Whether animating
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        report(screen: "Confirm Delete")
     }
 }
 
