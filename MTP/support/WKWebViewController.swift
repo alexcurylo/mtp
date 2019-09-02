@@ -322,7 +322,7 @@ class WKWebViewController: UIViewController {
         UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     }()
 
-    var isObserving = false
+    private var isObserving = false
 
     /// Remove observers
     deinit {

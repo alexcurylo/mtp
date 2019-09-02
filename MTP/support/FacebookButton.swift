@@ -6,6 +6,7 @@ import FBSDKLoginKit
 
 // https://developers.facebook.com/docs/facebook-login/ios/advanced/#custom-login-button
 
+/// Abstract Facebook SDK for testing
 protocol FBLoginManager {
 
     /// Abstract Facebook SDK login

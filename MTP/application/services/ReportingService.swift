@@ -94,6 +94,7 @@ class FirebaseReportingService: ReportingService {
     private let eventMapper = AnalyticsEventMapper()
     fileprivate var enabled: Bool { return true }
 
+    /// Default constructor
     init() {
         Analytics.setAnalyticsCollectionEnabled(enabled)
     }
