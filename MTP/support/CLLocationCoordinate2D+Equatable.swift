@@ -115,7 +115,10 @@ struct ClusterRegion {
         return max(latitudeDelta, longitudeDelta)
     }
 
-    private init(coordinates: [CLLocationCoordinate2D]) {
+    /// Construct region from coordinates
+    ///
+    /// - Parameter coordinates: Coordinates
+    init(coordinates: [CLLocationCoordinate2D]) {
         if let first = coordinates.first {
             left = first.longitude
             top = first.latitude
@@ -128,11 +131,6 @@ struct ClusterRegion {
             right = max(right, next.longitude)
             bottom = max(bottom, next.latitude)
         }
-    }
-
-    private init(cluster: MKClusterAnnotation) {
-        let coordinates = cluster.memberAnnotations.map { $0.coordinate }
-        self.init(coordinates: coordinates)
     }
 
     /// Construct region from an annotation

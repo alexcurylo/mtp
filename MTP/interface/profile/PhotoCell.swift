@@ -24,6 +24,15 @@ protocol PhotoCellDelegate: AnyObject {
     func tapped(block: Photo?)
 }
 
+/// Data model for post cell
+struct PhotoCellModel {
+
+    /// Photo index
+    let index: Int
+    /// Photo
+    let photo: Photo?
+}
+
 /// Displays pictures in Photos tabs
 final class PhotoCell: UICollectionViewCell, ServiceProvider {
 
@@ -56,12 +65,13 @@ final class PhotoCell: UICollectionViewCell, ServiceProvider {
     ///   - model: Data model
     ///   - delegate: Delegate
     ///   - isScrolling: Whether to load immediately
-    func inject(photo: Photo?,
+    func inject(model: PhotoCellModel,
                 delegate: PhotoCellDelegate,
                 isScrolling: Bool) {
-        self.photo = photo
+        photo = model.photo
         self.delegate = delegate
         self.isScrolling = isScrolling
+        UIPhotos.photo(model.index).expose(item: self)
     }
 
     /// Empty display

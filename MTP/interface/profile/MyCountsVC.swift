@@ -33,8 +33,6 @@ final class MyCountsVC: UIViewController {
 
 private extension MyCountsVC {
 
-    @IBAction func unwindToCounts(segue: UIStoryboardSegue) { }
-
     func configurePagesHolder() {
         pagingVC.configure()
 
@@ -85,10 +83,8 @@ extension MyCountsVC: PagingViewControllerDataSource {
     /// - Returns: Typed view controller
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  pagingItemForIndex index: Int) -> T {
-        guard let result = pages[index] as? T else {
-            fatalError("ListPagingItem type failure")
-        }
-        return result
+        //swiftlint:disable:next force_cast
+        return pages[index] as! T
     }
 
     /// Provide Parchment with page count
@@ -122,19 +118,21 @@ extension MyCountsVC: PagingViewControllerDelegate {
     ///   - startingViewController: Start view controller
     ///   - destinationViewController: Finish view controller
     ///   - progress: Float
-    func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
-                                 isScrollingFromItem currentPagingItem: T,
-                                 toItem upcomingPagingItem: T?,
-                                 startingViewController: UIViewController,
-                                 destinationViewController: UIViewController?,
-                                 progress: CGFloat) {
-        guard let destinationViewController = destinationViewController as? MyCountsPageVC else { return }
-        guard let startingViewController = startingViewController as? MyCountsPageVC else { return }
-
-        let from = pagingVC.menuHeight(for: startingViewController.collectionView)
-        let to = pagingVC.menuHeight(for: destinationViewController.collectionView)
-        let height = ((to - from) * abs(progress)) + from
-        update(menu: height)
+    func pagingViewController<T>(
+        _ pagingViewController: PagingViewController<T>,
+        isScrollingFromItem currentPagingItem: T,
+        toItem upcomingPagingItem: T?,
+        startingViewController: UIViewController,
+        destinationViewController: UIViewController?,
+        progress: CGFloat
+    ) {
+        if let fromView = (startingViewController as? MyCountsPageVC)?.collectionView,
+            let toView = (destinationViewController as? MyCountsPageVC)?.collectionView {
+            let from = pagingVC.menuHeight(for: fromView)
+            let to = pagingVC.menuHeight(for: toView)
+            let height = ((to - from) * abs(progress)) + from
+            update(menu: height)
+        }
     }
 }
 

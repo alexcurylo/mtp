@@ -21,8 +21,7 @@ extension Exposable {
     ///
     /// - Parameter item: Thing to expose
     func expose(item: UIAccessibilityIdentification?) {
-        guard let item = item else { return }
-        item.accessibilityIdentifier = identifier
+        item?.accessibilityIdentifier = identifier
     }
 }
 
@@ -32,8 +31,7 @@ extension UIAccessibilityIdentification {
     ///
     /// - Parameter exposable: Identifier provider
     func expose(as exposable: Exposable?) {
-        guard let identifier = exposable?.identifier else { return }
-        accessibilityIdentifier = identifier
+        accessibilityIdentifier = exposable?.identifier
     }
 }
 
@@ -74,6 +72,9 @@ protocol TableCellExposing: AnyObject {
 
 /// Index of ranking cells
 typealias Rank = Int
+
+/// Order of media collections
+typealias Order = Int
 
 /// Section of count cells
 typealias Section = Int

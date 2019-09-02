@@ -5,17 +5,6 @@ import XCTest
 
 final class RestaurantTests: XCTestCase {
 
-    func testSeed() {
-        // given
-        let realm = RealmDataController()
-
-        // when
-        let restaurants = realm.restaurants
-
-        // then
-        XCTAssertEqual(restaurants.count, 704)
-    }
-
     func testDecodingComplete() throws {
         // given
         let realm = RealmDataController()

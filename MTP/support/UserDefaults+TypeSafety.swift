@@ -5,8 +5,10 @@ import UIKit
 /// Typesafe wrapper for stringly typed APIs
 struct StringKey: Hashable, RawRepresentable, ExpressibleByStringLiteral {
 
-    private static let cfBundleShortVersionString: StringKey = "CFBundleShortVersionString"
-    private static let cfBundleVersion: StringKey = "CFBundleVersion"
+    /// Info.plist application version
+    static let appVersion: StringKey = "CFBundleShortVersionString"
+    /// Info.plist application build
+    static let appBuild: StringKey = "CFBundleVersion"
 
     /// Text value
     var rawValue: String
@@ -32,12 +34,18 @@ struct StringKey: Hashable, RawRepresentable, ExpressibleByStringLiteral {
 
     /// Settings keys we expect to find in Info.plist
     static var infoDictionarySettingsKeys: [StringKey] {
-        return [.cfBundleShortVersionString,
-                .cfBundleVersion]
+        return [.appVersion,
+                .appBuild]
     }
 
-    fileprivate var infoDictionaryString: String? {
+    /// Settings key value from Info.plist
+    var infoString: String? {
         return Bundle.main.object(forInfoDictionaryKey: rawValue) as? String
+    }
+
+    /// Settings key value from UserDefaults
+    var string: String? {
+        return UserDefaults.standard.string(forKey: rawValue)
     }
 }
 
@@ -45,7 +53,7 @@ private extension Array where Element == StringKey {
 
     func copyToUserDefaults() {
         let defaults = UserDefaults.standard
-        forEach { defaults[$0] = $0.infoDictionaryString }
+        forEach { defaults[$0] = $0.infoString }
         defaults.synchronize()
     }
 }
@@ -70,15 +78,14 @@ extension UserDefaults {
     ///
     /// - Parameter defaults: Defaults
     func register(defaults: [StringKey: Any]) {
-        let mapped = Dictionary(uniqueKeysWithValues: defaults.map { key, value -> (String, Any) in
+        let mapped = defaults.map { key, value -> (String, Any) in
             if let color = value as? UIColor {
                 return (key.rawValue, NSKeyedArchiver.archivedData(withRootObject: color))
-            } else {
-                return (key.rawValue, value)
             }
-        })
+            return (key.rawValue, value)
+        }
 
-        register(defaults: mapped)
+        register(defaults: Dictionary(uniqueKeysWithValues: mapped))
     }
 }
 
@@ -89,7 +96,7 @@ extension UserDefaults {
     /// - Parameter key: Key string
     subscript<T>(key: StringKey) -> T? {
         get { return value(forKey: key) }
-        set { set(newValue, forKey: key.rawValue) }
+        set { set(newValue, forKey: key) }
     }
 
     /// Bool subscript access
@@ -128,7 +135,23 @@ extension UserDefaults {
     ///
     /// - Parameter key: Key string
     subscript(key: StringKey) -> CGFloat {
-        get { return CGFloat(float(forKey: key) as Float) }
+        get { return cgFloat(forKey: key) }
+        set { set(newValue, forKey: key.rawValue) }
+    }
+
+    /// Color subscript access
+    ///
+    /// - Parameter key: Key string
+    subscript(key: StringKey) -> UIColor? {
+        get { return color(forKey: key) }
+        set { set(color: newValue, forKey: key) }
+    }
+
+    /// URL subscript access
+    ///
+    /// - Parameter key: Key string
+    subscript(key: StringKey) -> URL? {
+        get { return url(forKey: key) }
         set { set(newValue, forKey: key.rawValue) }
     }
 }
@@ -163,8 +186,8 @@ extension UserDefaults {
     ///
     /// - Parameter key: Key string
     /// - Returns: CGFloat
-    func float(forKey key: StringKey) -> CGFloat {
-        return CGFloat(float(forKey: key) as Float)
+    func cgFloat(forKey key: StringKey) -> CGFloat {
+        return CGFloat(double(forKey: key.rawValue))
     }
 
     /// double access convenience
@@ -183,30 +206,18 @@ extension UserDefaults {
         return url(forKey: key.rawValue)
     }
 
-    /// Date access convenience
-    ///
-    /// - Parameter key: Key string
-    /// - Returns: Date if present
-    func date(forKey key: StringKey) -> Date? {
-        return object(forKey: key.rawValue) as? Date
-    }
-
-    /// String access convenience
-    ///
-    /// - Parameter key: Key string
-    /// - Returns: String if present
-    func string(forKey key: StringKey) -> String? {
-        return string(forKey: key.rawValue)
-    }
-
     /// Color setting convenience
     ///
     /// - Parameters:
     ///   - color: Value to store
     ///   - key: Key string
-    func set(_ color: UIColor, forKey key: StringKey) {
-        let data = NSKeyedArchiver.archivedData(withRootObject: color)
-        set(data, forKey: key.rawValue)
+    func set(color: UIColor?, forKey key: StringKey) {
+        if let color = color {
+            let data = NSKeyedArchiver.archivedData(withRootObject: color)
+            set(data, forKey: key.rawValue)
+        } else {
+            set(nil, forKey: key.rawValue)
+        }
     }
 
     /// Color access convenience
@@ -227,25 +238,23 @@ extension UserDefaults {
     ///   - object: Codable Object
     ///   - forKey: Key string
     /// - Throws: UserDefaults Error
-    func set<T: Codable>(object: T, forKey: String) throws {
-
+    func set<T: Codable>(object: T,
+                         forKey: String) throws {
         let jsonData = try JSONEncoder().encode(object)
-
         set(jsonData, forKey: forKey)
     }
 
-    /// Get Codable object into UserDefaults
+    /// Get Codable object from UserDefaults
     ///
     /// - Parameters:
     ///   - object: Codable Object
     ///   - forKey: Key string
     /// - Throws: UserDefaults Error
-    func get<T: Codable>(objectType: T.Type, forKey: String) throws -> T? {
-
+    func get<T: Codable>(objectType: T.Type,
+                         forKey: String) throws -> T? {
         guard let result = value(forKey: forKey) as? Data else {
             return nil
         }
-
         return try JSONDecoder().decode(objectType, from: result)
     }
 }

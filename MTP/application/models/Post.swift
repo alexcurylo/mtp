@@ -16,7 +16,7 @@ struct PostsJSON: Codable {
 extension PostsJSON: CustomStringConvertible {
 
     var description: String {
-        return "PostsJSON: \(data.count)"
+        return "PostsJSON (\(data.count))"
     }
 }
 

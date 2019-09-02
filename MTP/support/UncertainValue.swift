@@ -30,6 +30,8 @@ struct UncertainValue<T: Codable, U: Codable>: Codable {
     /// Convenience access to Double if present
     var doubleValue: Double? {
         switch value {
+        case let intValue as Int:
+            return Double(intValue)
         case let doubleValue as Double:
             return doubleValue
         case let stringValue as String:

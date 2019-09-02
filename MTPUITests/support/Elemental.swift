@@ -134,6 +134,10 @@ extension Elemental {
                      thenDragTo: otherElement)
     }
 
+    func showMenu() {
+        wait().press(forDuration: 1)
+    }
+
     func swipeUp() {
         wait().swipeUp()
     }

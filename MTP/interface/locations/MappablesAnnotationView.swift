@@ -93,12 +93,11 @@ final class MappablesAnnotationView: MKAnnotationView, MappingAnnotationView, Se
         centerOffset = CGPoint(x: 0, y: -10)
     }
 
-    /// Decoding intializer
+    /// Unsupported coding constructor
     ///
-    /// - Parameter aDecoder: Decoder
-    @available(*, unavailable)
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    /// - Parameter coder: An unarchiver object.
+    required init?(coder: NSCoder) {
+        return nil
     }
 
     /// Prepare for display

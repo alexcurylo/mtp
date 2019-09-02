@@ -61,10 +61,9 @@ final class MyCountsPagingVC: PagingViewController<ListPagingItem> {
     ///
     /// - Parameter height: Menu height
     func update(menu height: CGFloat) {
-        guard let pagingView = view as? MyCountsPagingView else {
-            fatalError("MyCountsPagingView type failure")
+        if let pagingView = view as? MyCountsPagingView {
+            pagingView.menuHeightConstraint?.constant = height
         }
-        pagingView.menuHeightConstraint?.constant = height
 
         menuItemSize = .fixed(
             width: Layout.itemSize.width,
@@ -119,7 +118,8 @@ private class MyCountsPagingView: PagingView {
     }
 }
 
-private class MyCountsPagingCell: PagingCell {
+/// MyCounts menu cell
+class MyCountsPagingCell: PagingCell {
 
     private let imageView = UIImageView {
         $0.contentMode = .scaleAspectFit
@@ -158,16 +158,20 @@ private class MyCountsPagingCell: PagingCell {
         return nil
     }
 
+    /// Set menu display
+    ///
+    /// - Parameters:
+    ///   - pagingItem: PagingItem
+    ///   - selected: Is this cell selected?
+    ///   - options: Options
     override func setPagingItem(_ pagingItem: PagingItem,
                                 selected: Bool,
                                 options: PagingOptions) {
-        guard let item = pagingItem as? ListPagingItem else {
-            fatalError("ListPagingItem type failure")
+        if let item = pagingItem as? ListPagingItem {
+            imageView.image = item.list.image
+            titleLabel.text = item.list.title
+            UIMyCountsPaging.page(ChecklistIndex(list: item.list)).expose(item: self)
         }
-
-        imageView.image = item.list.image
-        titleLabel.text = item.list.title
-        UIMyCountsPaging.page(ChecklistIndex(list: item.list)).expose(item: self)
 
         if selected {
             contentView.backgroundColor = UIColor(white: 1, alpha: 0.6)

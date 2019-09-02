@@ -212,7 +212,12 @@ private extension LoginVC {
                     self.errorMessage = L.statusErrorReport(operation, code)
                 }
             case .failure(.message(let message)):
-                self.errorMessage = message
+                let serverSaysWrong = "Wrong username or password!"
+                if message == serverSaysWrong {
+                    self.errorMessage = ""
+                } else {
+                    self.errorMessage = message
+                }
             case .failure(.network(let message)):
                 self.errorMessage = L.networkError(operation, message)
             default:

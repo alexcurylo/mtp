@@ -1,1 +1,9 @@
+Thanks to all our early adopters for joining the Most Traveled People! This update enhances your experience with:
 
+- Tapping named place list cells reveals the place on map
+- Double-tapping named place list cells opens the place information screen
+
+And addresses some inconveniences:
+
+- Corrects mixed country and territory visit list display (Serbia/Kosovo, Denmark/Faroe Islands)
+- Improves networking error handling

@@ -12,6 +12,7 @@ final class ProfileUITests: XCTestCase {
         super.tearDown()
     }
 
+    //swiftlint:disable:next function_body_length
     func testMyProfile() {
         launch(settings: [.loggedIn(true)])
 
@@ -22,6 +23,14 @@ final class ProfileUITests: XCTestCase {
 
         UICountsPage.region(0).tap()
         UICountsPage.group(0, 1).tap()
+
+        UIUserCountsPaging.remaining.tap()
+
+        UIUserCounts.close.tap()
+
+        UIProfileAbout.remaining.tap()
+
+        UIUserCountsPaging.visited.tap()
 
         UIUserCounts.close.tap()
 
@@ -39,11 +48,49 @@ final class ProfileUITests: XCTestCase {
 
         UIProfilePaging.photos.tap()
 
+        UIPhotos.photo(0).showMenu()
+
+        UISystem.menu("Hide").tap()
+
+        UIPhotos.photo(0).showMenu()
+
+        UISystem.menu("Report").tap()
+        UISystem.button("OK").tap()
+
+        UISettings.close.tap()
+
+        UIProfilePaging.photos.tap()
+
+        UIPhotos.photo(0).showMenu()
+
+        UISystem.menu("Block user").tap()
+
+        UISystem.button("OK").tap()
+
         UIPhotos.add.tap()
 
         UIAddPhoto.close.tap()
 
         UIProfilePaging.posts.tap()
+
+        UIPosts.post(0).showMenu()
+
+        UISystem.menu("Hide").tap()
+
+        UIPosts.post(0).showMenu()
+
+        UISystem.menu("Report").tap()
+        UISystem.button("OK").tap()
+
+        UISettings.close.tap()
+
+        UIProfilePaging.posts.tap()
+
+        UIPosts.post(0).showMenu()
+
+        UISystem.menu("Block user").tap()
+
+        UISystem.button("OK").tap()
 
         UIPosts.add.tap()
 
@@ -79,7 +126,7 @@ final class ProfileUITests: XCTestCase {
         UIAddPhoto.image.tap()
 
         // Camera Roll
-        wait(for: 2)
+        wait(for: 6)
         app.tap(x: 50, y: 200)
         // first picture
         wait(for: 2)
@@ -91,6 +138,11 @@ final class ProfileUITests: XCTestCase {
         UIAddPhoto.save.tap()
 
         UIProfilePhotos.close.tap()
+
+        UIEditProfile.avatar.tap()
+
+        UIPhotos.photo(0).tap()
+        UIPhotos.save.tap()
 
         UIEditProfile.country.tap()
 

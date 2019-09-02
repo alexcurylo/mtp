@@ -6,6 +6,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [Version 1.0.2, Build 641] - 2019-08-30
+
+### Added
+- Version information in About The App
+- Version and runtime information in Contact Us
+- Path parameter to API events
+
+### Fixed
+- Wrong password login attempt now brings up designed dialog
+
+## [Version 1.0.2, Build 640] - 2019-08-29
+
+### Added
+- Tapping named place list cells reveals place on map
+- Double-tapping named place list cells opens place information screen
+
 ### Changed
 - Integrates Firebase for analytics and crash reports
 

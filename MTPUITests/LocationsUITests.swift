@@ -47,6 +47,7 @@ final class LocationsUITests: XCTestCase {
         let gaggan = 3
         UINearby.place(gaggan).doubleTap()
 
+        wait(for: 5) // title change notification
         UILocation.map.tap()
 
         UILocations.filter.tap()

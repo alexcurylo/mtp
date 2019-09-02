@@ -166,9 +166,10 @@ private extension RankingsVC {
         let info = searchResults[searchKey]?[index]
         searchBarCancelButtonClicked(searchBar)
 
-        guard let person = info else { return }
-        profileModel = data.get(user: person.id) ?? User(from: person)
-        performSegue(withIdentifier: Segues.showUserProfile, sender: self)
+        if let person = info {
+            profileModel = data.get(user: person.id) ?? User(from: person)
+            performSegue(withIdentifier: Segues.showUserProfile, sender: self)
+        }
     }
 }
 
@@ -219,10 +220,8 @@ extension RankingsVC: PagingViewControllerDataSource {
     /// - Returns: Typed view controller
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  pagingItemForIndex index: Int) -> T {
-        guard let result = pages[index] as? T else {
-            fatalError("ListPagingItem type failure")
-        }
-        return result
+        //swiftlint:disable:next force_cast
+        return pages[index] as! T
     }
 
     /// Provide Parchment with page count
@@ -288,19 +287,21 @@ extension RankingsVC: PagingViewControllerDelegate {
     ///   - startingViewController: Start view controller
     ///   - destinationViewController: Finish view controller
     ///   - progress: Float
-    func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
-                                 isScrollingFromItem currentPagingItem: T,
-                                 toItem upcomingPagingItem: T?,
-                                 startingViewController: UIViewController,
-                                 destinationViewController: UIViewController?,
-                                 progress: CGFloat) {
-        guard let destinationViewController = destinationViewController as? RankingsPageVC else { return }
-        guard let startingViewController = startingViewController as? RankingsPageVC else { return }
-
-        let from = pagingVC.menuHeight(for: startingViewController.collectionView)
-        let to = pagingVC.menuHeight(for: destinationViewController.collectionView)
-        let height = ((to - from) * abs(progress)) + from
-        update(menu: height)
+    func pagingViewController<T>(
+        _ pagingViewController: PagingViewController<T>,
+        isScrollingFromItem currentPagingItem: T,
+        toItem upcomingPagingItem: T?,
+        startingViewController: UIViewController,
+        destinationViewController: UIViewController?,
+        progress: CGFloat
+    ) {
+        if let fromView = (startingViewController as? RankingsPageVC)?.collectionView,
+            let toView = (destinationViewController as? RankingsPageVC)?.collectionView {
+            let from = pagingVC.menuHeight(for: fromView)
+            let to = pagingVC.menuHeight(for: toView)
+            let height = ((to - from) * abs(progress)) + from
+            update(menu: height)
+        }
     }
 }
 

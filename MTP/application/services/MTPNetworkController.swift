@@ -387,8 +387,12 @@ extension MTP: TargetType {
         case .locationPosts:
             //file = "locationPosts-\(location)"
             file = "locationPosts-554"
-        case .passwordReset:
-            file = "passwordReset"
+        case .passwordReset(let email):
+            if email.contains("error") {
+                file = "error999"
+            } else {
+                file = "passwordReset"
+            }
         case .photos(_, let page):
             file = "photos-7853-\(page)"
         case .postPublish:
@@ -407,8 +411,13 @@ extension MTP: TargetType {
         case .userGet:
             //file = "userGet-\(id)"
             file = "userGet-1"
-        case .userLogin:
-            file = "userLogin-7853"
+        case .userLogin(_, let password):
+            switch password {
+            case "fail":
+                file = "userLogin-fail"
+            default:
+                file = "userLogin-7853"
+            }
         case .userPost:
             file = "userPostToken"
         case .userPut:

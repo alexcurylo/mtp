@@ -7,8 +7,8 @@ enum Disclosure {
 
     /// Undisclosed
     case close
-    /// Nothing to disclose
-    case empty
+    // Nothing to disclose
+    //case empty
     /// Disclosed
     case expand
 
@@ -17,8 +17,8 @@ enum Disclosure {
         switch self {
         case .close:
             return R.image.arrowUp()
-        case .empty:
-            return nil
+        //case .empty:
+            //return nil
         case .expand:
             return R.image.arrowDown()
        }

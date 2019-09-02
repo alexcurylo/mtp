@@ -174,6 +174,15 @@ extension String {
                   trailing: String = "…") -> String {
         return (count > length) ? prefix(length) + trailing : self
     }
+
+    /// Initialize with StaticString such as `#file`
+    ///
+    /// - Parameter staticString: Compile time string
+    init(_ staticString: StaticString) {
+        self = staticString.withUTF8Buffer {
+            String(decoding: $0, as: UTF8.self)
+        }
+    }
 }
 
 extension String: LocalizedError {

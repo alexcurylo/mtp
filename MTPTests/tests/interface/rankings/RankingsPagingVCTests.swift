@@ -5,7 +5,10 @@ import XCTest
 
 final class RankingsPagingVCTests: XCTestCase {
 
-    func _testInitWithCoder() {
-        // placeholder if RankingPagingCell exposed
+    func testInitCellWithCoder() {
+        // when
+        let sut = RankingPagingCell(coder: NSCoder())
+        // then
+        XCTAssertNil(sut)
     }
 }

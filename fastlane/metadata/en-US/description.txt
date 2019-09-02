@@ -8,7 +8,7 @@ FEATURES INCLUDE:
 
 - Map and list-based display of over 3400 MTP checklist travel destinations
 
-- Automated check-ion notifications based on geolocation (both foreground and background)
+- Automated check in notifications based on geolocation (both foreground and background)
 
 - Nearest destinations, sorted by distance
 
