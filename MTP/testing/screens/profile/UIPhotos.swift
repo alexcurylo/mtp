@@ -5,6 +5,8 @@ enum UIPhotos: Exposable {
 
     /// Add button
     case add
+    /// Save button
+    case save
 
     /// Photos collection
     case photos

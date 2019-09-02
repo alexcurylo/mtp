@@ -6,7 +6,8 @@ extension UIPhotos: Elemental {
 
     var type: XCUIElement.ElementType {
         switch self {
-        case .add:
+        case .add,
+             .save:
             return .button
         case .photos:
             return .collectionView

@@ -46,9 +46,8 @@ final class ProfilePhotosVC: PhotosVC {
         let photoId = page.photoIds[photoIndex]
         if blockedPhotos.contains(photoId) {
             return Photo()
-        } else {
-            return data.get(photo: photoId)
         }
+        return data.get(photo: photoId)
     }
 
     /// Create a new Photo

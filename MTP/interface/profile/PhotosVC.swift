@@ -16,7 +16,11 @@ protocol PhotoSelectionDelegate: AnyObject {
 /// Base class for location and user photo display
 class PhotosVC: UICollectionViewController {
 
-    @IBOutlet private var saveButton: UIBarButtonItem?
+    @IBOutlet private var saveButton: UIBarButtonItem? {
+        didSet {
+            UIPhotos.save.expose(item: saveButton)
+        }
+    }
 
     /// Whether we can select a photo
     enum Mode {

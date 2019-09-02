@@ -24,6 +24,14 @@ final class ProfileUITests: XCTestCase {
         UICountsPage.region(0).tap()
         UICountsPage.group(0, 1).tap()
 
+        UIUserCountsPaging.remaining.tap()
+
+        UIUserCounts.close.tap()
+
+        UIProfileAbout.remaining.tap()
+
+        UIUserCountsPaging.visited.tap()
+
         UIUserCounts.close.tap()
 
         UIProfilePaging.counts.tap()
@@ -130,6 +138,11 @@ final class ProfileUITests: XCTestCase {
         UIAddPhoto.save.tap()
 
         UIProfilePhotos.close.tap()
+
+        UIEditProfile.avatar.tap()
+
+        UIPhotos.photo(0).tap()
+        UIPhotos.save.tap()
 
         UIEditProfile.country.tap()
 
