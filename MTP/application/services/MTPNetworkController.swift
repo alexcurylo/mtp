@@ -506,7 +506,7 @@ extension MTP: AccessTokenAuthorizable {
 typealias MTPProvider = MoyaProvider<MTP>
 
 /// Calls the MTP API via Moya
-struct MTPNetworkController: ServiceProvider {
+class MTPNetworkController: ServiceProvider {
     // swiftlint:disable:previous type_body_length
 
     /// Set places visit status

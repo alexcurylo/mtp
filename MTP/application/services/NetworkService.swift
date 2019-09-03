@@ -198,11 +198,18 @@ protocol NetworkService: ServiceProvider {
 /// Production implementation of NetworkService
 class NetworkServiceImpl: NetworkService {
 
-    fileprivate let mtp = MTPNetworkController()
+    fileprivate let mtp: MTPNetworkController
     private var queue = OperationQueue {
         $0.name = "refresh"
         $0.maxConcurrentOperationCount = 1
         $0.qualityOfService = .utility
+    }
+
+    /// Construction by injection
+    ///
+    /// - Parameter controller: MTPNetworkController
+    init(controller: MTPNetworkController = MTPNetworkController()) {
+        mtp = controller
     }
 
     fileprivate func refreshData() {

@@ -69,12 +69,14 @@
 		8C58019E2305097900DE768F /* PlaceLocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C58019D2305097900DE768F /* PlaceLocationTests.swift */; };
 		8C5801A023050CB700DE768F /* PostPayloadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C58019F23050CB700DE768F /* PostPayloadTests.swift */; };
 		8C5801A223050FBC00DE768F /* LocationTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5801A123050FBC00DE768F /* LocationTrackerTests.swift */; };
+		8C584D5A231DF892009D115E /* MTPNetworkControllerSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C584D59231DF892009D115E /* MTPNetworkControllerSpy.swift */; };
 		8C5ECE0221FE9B3600322ABF /* Checklist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5ECE0121FE9B3600322ABF /* Checklist.swift */; };
 		8C5ECE9E21FEE6F800322ABF /* CountCellGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5ECE9D21FEE6F800322ABF /* CountCellGroup.swift */; };
 		8C5ECF3A21FFE49800322ABF /* RankingsQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5ECF3921FFE49800322ABF /* RankingsQuery.swift */; };
 		8C617972223F2D79000827D6 /* LocationsFilterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C617971223F2D79000827D6 /* LocationsFilterVC.swift */; };
 		8C617975223F2E1E000827D6 /* LocationsFilter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C617973223F2E1E000827D6 /* LocationsFilter.storyboard */; };
 		8C6F7C0722D8079B004565BD /* Timestamps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6F7C0622D8079B004565BD /* Timestamps.swift */; };
+		8C75F937231DF4760024A4CD /* NetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C75F936231DF4760024A4CD /* NetworkServiceTests.swift */; };
 		8C76D5DC22028874005CF4CD /* ServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C76D5DB22028874005CF4CD /* ServiceProvider.swift */; };
 		8C76D8EC2207CD36005CF4CD /* RankingsPageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C76D8EB2207CD36005CF4CD /* RankingsPageInfo.swift */; };
 		8C7D71CB2303B690005939AC /* UIUserCountsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7D71CA2303B690005939AC /* UIUserCountsPage.swift */; };
@@ -514,12 +516,14 @@
 		8C58019D2305097900DE768F /* PlaceLocationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceLocationTests.swift; sourceTree = "<group>"; };
 		8C58019F23050CB700DE768F /* PostPayloadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPayloadTests.swift; sourceTree = "<group>"; };
 		8C5801A123050FBC00DE768F /* LocationTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTrackerTests.swift; sourceTree = "<group>"; };
+		8C584D59231DF892009D115E /* MTPNetworkControllerSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPNetworkControllerSpy.swift; sourceTree = "<group>"; };
 		8C5ECE0121FE9B3600322ABF /* Checklist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checklist.swift; sourceTree = "<group>"; };
 		8C5ECE9D21FEE6F800322ABF /* CountCellGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountCellGroup.swift; sourceTree = "<group>"; };
 		8C5ECF3921FFE49800322ABF /* RankingsQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsQuery.swift; sourceTree = "<group>"; };
 		8C617971223F2D79000827D6 /* LocationsFilterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsFilterVC.swift; sourceTree = "<group>"; };
 		8C617974223F2E1E000827D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LocationsFilter.storyboard; sourceTree = "<group>"; };
 		8C6F7C0622D8079B004565BD /* Timestamps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timestamps.swift; sourceTree = "<group>"; };
+		8C75F936231DF4760024A4CD /* NetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceTests.swift; sourceTree = "<group>"; };
 		8C76D5DB22028874005CF4CD /* ServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProvider.swift; sourceTree = "<group>"; };
 		8C76D8EB2207CD36005CF4CD /* RankingsPageInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsPageInfo.swift; sourceTree = "<group>"; };
 		8C7D71CA2303B690005939AC /* UIUserCountsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIUserCountsPage.swift; sourceTree = "<group>"; };
@@ -1018,6 +1022,7 @@
 				FA6F4B76231B1FA500CEE21F /* LocationsVCSpy.swift */,
 				8CC91BBD2305122B002F74FA /* LocationTrackerSpy.swift */,
 				8C0127FE2232089100EA2095 /* LoggingServiceSpy.swift */,
+				8C584D59231DF892009D115E /* MTPNetworkControllerSpy.swift */,
 				8C012802223208FB00EA2095 /* NetworkServiceSpy.swift */,
 				FAC8466022AB79AA004F57EC /* NotificationServiceSpy.swift */,
 				FAB5E660230F4FD9005D294A /* ReportingServiceSpy.swift */,
@@ -1126,6 +1131,7 @@
 			children = (
 				FA97F938231B4AFD00E450DD /* ApplicationServiceTests.swift */,
 				FA6F4B72231A755A00CEE21F /* LocationServiceTests.swift */,
+				8C75F936231DF4760024A4CD /* NetworkServiceTests.swift */,
 				FA97F936231B385100E450DD /* RealmDataControllerTests.swift */,
 			);
 			path = services;
@@ -2371,6 +2377,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA63A4B92307685800637BB3 /* MyCountsPageVCTests.swift in Sources */,
+				8C75F937231DF4760024A4CD /* NetworkServiceTests.swift in Sources */,
 				FA97F937231B385100E450DD /* RealmDataControllerTests.swift in Sources */,
 				FA97F93B231B524A00E450DD /* PhotosVCTests.swift in Sources */,
 				8CC6B95F2304F0060089DB89 /* OperationReplyTests.swift in Sources */,
@@ -2398,6 +2405,7 @@
 				8CBE5065231CC5F80058D810 /* CwlCatchBadInstruction.swift in Sources */,
 				8C012801223208CC00EA2095 /* DataServiceSpy.swift in Sources */,
 				FAEF787B2312266A0086D77E /* FacebookButtonTests.swift in Sources */,
+				8C584D5A231DF892009D115E /* MTPNetworkControllerSpy.swift in Sources */,
 				8CC91BBE2305122B002F74FA /* LocationTrackerSpy.swift in Sources */,
 				FA912905231C838B00C7DD3B /* CLLocationCoordinate2DTests.swift in Sources */,
 				8C4198B423152B6600496C07 /* PlaceInfoTests.swift in Sources */,
