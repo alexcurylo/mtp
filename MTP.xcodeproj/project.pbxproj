@@ -398,6 +398,8 @@
 		FA8A65AF217ED3BA00BC0DFE /* RankingsFilter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA8A65AD217ED3BA00BC0DFE /* RankingsFilter.storyboard */; };
 		FA912905231C838B00C7DD3B /* CLLocationCoordinate2DTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA912904231C838B00C7DD3B /* CLLocationCoordinate2DTests.swift */; };
 		FA912907231DD7A400C7DD3B /* RankingsPageInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA912906231DD7A400C7DD3B /* RankingsPageInfoTests.swift */; };
+		FA912909231F101D00C7DD3B /* LocationHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA912908231F101D00C7DD3B /* LocationHandlerTests.swift */; };
+		FA91290B231F143D00C7DD3B /* StateHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA91290A231F143D00C7DD3B /* StateHandlerTests.swift */; };
 		FA949BFF2306D47400B9DF6D /* MilestonesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA949BFE2306D47400B9DF6D /* MilestonesTests.swift */; };
 		FA9656CF22BE32D500DA050F /* AddPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9656CE22BE32D500DA050F /* AddPostVC.swift */; };
 		FA97F937231B385100E450DD /* RealmDataControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA97F936231B385100E450DD /* RealmDataControllerTests.swift */; };
@@ -822,6 +824,8 @@
 		FA8A65AE217ED3BA00BC0DFE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/RankingsFilter.storyboard; sourceTree = "<group>"; };
 		FA912904231C838B00C7DD3B /* CLLocationCoordinate2DTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate2DTests.swift; sourceTree = "<group>"; };
 		FA912906231DD7A400C7DD3B /* RankingsPageInfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsPageInfoTests.swift; sourceTree = "<group>"; };
+		FA912908231F101D00C7DD3B /* LocationHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationHandlerTests.swift; sourceTree = "<group>"; };
+		FA91290A231F143D00C7DD3B /* StateHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateHandlerTests.swift; sourceTree = "<group>"; };
 		FA949BFE2306D47400B9DF6D /* MilestonesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestonesTests.swift; sourceTree = "<group>"; };
 		FA9656CE22BE32D500DA050F /* AddPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostVC.swift; sourceTree = "<group>"; };
 		FA96A87022ECEF11001423F6 /* checklists.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = checklists.json; sourceTree = "<group>"; };
@@ -1163,7 +1167,9 @@
 			children = (
 				8C3EAB872230FD1300CB4886 /* MTPDelegateTests.swift */,
 				8CF239A82305156E006AB7D2 /* ActionHandlerTests.swift */,
+				FA912908231F101D00C7DD3B /* LocationHandlerTests.swift */,
 				8CA5CE90230B98DA0020F7F8 /* NotificationsHandlerTests.swift */,
+				FA91290A231F143D00C7DD3B /* StateHandlerTests.swift */,
 			);
 			path = delegate;
 			sourceTree = "<group>";
@@ -2381,6 +2387,7 @@
 				FA97F937231B385100E450DD /* RealmDataControllerTests.swift in Sources */,
 				FA97F93B231B524A00E450DD /* PhotosVCTests.swift in Sources */,
 				8CC6B95F2304F0060089DB89 /* OperationReplyTests.swift in Sources */,
+				FA912909231F101D00C7DD3B /* LocationHandlerTests.swift in Sources */,
 				FA6F4B6F23194FA800CEE21F /* UserDefaultsTests.swift in Sources */,
 				8C3EAB862230FCEE00CB4886 /* RoutingAppDelegateTests.swift in Sources */,
 				8CBE5067231CC5F80058D810 /* CwlDarwinDefinitions.swift in Sources */,
@@ -2395,6 +2402,7 @@
 				FA912907231DD7A400C7DD3B /* RankingsPageInfoTests.swift in Sources */,
 				FA6F4B73231A755A00CEE21F /* LocationServiceTests.swift in Sources */,
 				8CBBEB6C2317D30000E4F5E1 /* UncertainValueTests.swift in Sources */,
+				FA91290B231F143D00C7DD3B /* StateHandlerTests.swift in Sources */,
 				8CBE5064231CC5F80058D810 /* CwlMachBadInstructionHandler.m in Sources */,
 				8CBE506D231CCF210058D810 /* CwlCatchException.swift in Sources */,
 				8CBBECF42318DBC100E4F5E1 /* WKWebViewControllerTests.swift in Sources */,

@@ -23,4 +23,18 @@ final class StringTests: XCTestCase {
         XCTAssertEqual("w******r@test.com", "whatever@test.com".hiddenName)
         XCTAssertEqual("w******r@test@wrong.com", "whatever@test@wrong.com".hiddenName)
     }
+
+    func testNamable() throws {
+        // given
+        let expected = "Array<String>"
+        let sut = ["test"]
+
+        // when
+        let classType = [String].typeName
+        let instanceType = sut.typeName
+
+        // then
+        classType.assert(equal: expected)
+        instanceType.assert(equal: expected)
+    }
 }
