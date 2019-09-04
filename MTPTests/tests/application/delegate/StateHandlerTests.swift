@@ -17,7 +17,7 @@ final class StateHandlerTests: XCTestCase {
     func testTransitions() throws {
         // given
         let app = UIApplication.shared
-        UIApplication.shared.applicationIconBadgeNumber = 5
+        app.applicationIconBadgeNumber = 5
         let sut = StateHandler()
 
         // when
@@ -28,7 +28,7 @@ final class StateHandlerTests: XCTestCase {
         sut.applicationWillTerminate(app)
 
         // then
-        XCTAssertEqual(UIApplication.shared.applicationIconBadgeNumber, 0)
+        XCTAssertEqual(app.applicationIconBadgeNumber, 0)
         // check everything refreshed too
     }
 }
