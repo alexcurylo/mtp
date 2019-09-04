@@ -70,6 +70,7 @@
 		8C5801A023050CB700DE768F /* PostPayloadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C58019F23050CB700DE768F /* PostPayloadTests.swift */; };
 		8C5801A223050FBC00DE768F /* LocationTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5801A123050FBC00DE768F /* LocationTrackerTests.swift */; };
 		8C584D5A231DF892009D115E /* MTPNetworkControllerSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C584D59231DF892009D115E /* MTPNetworkControllerSpy.swift */; };
+		8C5855EE231F4329009D115E /* FacebookSDKClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5855ED231F4329009D115E /* FacebookSDKClient.swift */; };
 		8C5ECE0221FE9B3600322ABF /* Checklist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5ECE0121FE9B3600322ABF /* Checklist.swift */; };
 		8C5ECE9E21FEE6F800322ABF /* CountCellGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5ECE9D21FEE6F800322ABF /* CountCellGroup.swift */; };
 		8C5ECF3A21FFE49800322ABF /* RankingsQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5ECF3921FFE49800322ABF /* RankingsQuery.swift */; };
@@ -519,6 +520,7 @@
 		8C58019F23050CB700DE768F /* PostPayloadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPayloadTests.swift; sourceTree = "<group>"; };
 		8C5801A123050FBC00DE768F /* LocationTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTrackerTests.swift; sourceTree = "<group>"; };
 		8C584D59231DF892009D115E /* MTPNetworkControllerSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPNetworkControllerSpy.swift; sourceTree = "<group>"; };
+		8C5855ED231F4329009D115E /* FacebookSDKClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FacebookSDKClient.swift; path = MTP/sdks/FacebookSDKClient.swift; sourceTree = SOURCE_ROOT; };
 		8C5ECE0121FE9B3600322ABF /* Checklist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checklist.swift; sourceTree = "<group>"; };
 		8C5ECE9D21FEE6F800322ABF /* CountCellGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountCellGroup.swift; sourceTree = "<group>"; };
 		8C5ECF3921FFE49800322ABF /* RankingsQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsQuery.swift; sourceTree = "<group>"; };
@@ -1035,6 +1037,15 @@
 			path = spies;
 			sourceTree = "<group>";
 		};
+		8C5855EC231F4040009D115E /* sdks */ = {
+			isa = PBXGroup;
+			children = (
+				8C5855ED231F4329009D115E /* FacebookSDKClient.swift */,
+			);
+			name = sdks;
+			path = resources;
+			sourceTree = "<group>";
+		};
 		8CBE5056231CC5F70058D810 /* CwlPreconditionTesting */ = {
 			isa = PBXGroup;
 			children = (
@@ -1495,6 +1506,7 @@
 				FA392BEB20DFA5570026C828 /* application */,
 				FA392BEC20DFA56B0026C828 /* interface */,
 				FA392BED20DFA5810026C828 /* resources */,
+				8C5855EC231F4040009D115E /* sdks */,
 				FAAE29C320F0570000B43BA9 /* support */,
 				FA4257E122E7C460006CE4AC /* testing */,
 			);
@@ -2372,6 +2384,7 @@
 				FA44CDF822B5CBFC00F33D34 /* UITableView+Updating.swift in Sources */,
 				FA0345922304C9C300632322 /* UIMyCountsPaging.swift in Sources */,
 				FA7A66D522FD95FB001DCCA2 /* UIMyProfile.swift in Sources */,
+				8C5855EE231F4329009D115E /* FacebookSDKClient.swift in Sources */,
 				FA46377E210DE1E60007382D /* SettingsVC.swift in Sources */,
 				FA62BAEB2247A9A0009FDC4E /* CountsPageVC.swift in Sources */,
 				8C7D71E62303E25A005939AC /* UILocation.swift in Sources */,

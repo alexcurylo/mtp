@@ -9,7 +9,9 @@ xcodeproj: MTP.xcodeproj
 scheme: MTP
 
 ignore:
+ - docs/*
  - MTP/resources/*
+ - MTP/sdks/*
  - MTPTests/*
  - MTPUITests/*
  - Pods/*
