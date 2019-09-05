@@ -176,6 +176,8 @@
 		8CE6FC64224C6CB600B24410 /* LocationInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6FC61224C6CB500B24410 /* LocationInfoVC.swift */; };
 		8CE6FC65224C6CB600B24410 /* LocationPhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6FC62224C6CB600B24410 /* LocationPhotosVC.swift */; };
 		8CE6FC66224C6CB600B24410 /* LocationPostsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6FC63224C6CB600B24410 /* LocationPostsVC.swift */; };
+		8CEC654F23208AD80041D63A /* NotificationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CEC654E23208AD80041D63A /* NotificationServiceTests.swift */; };
+		8CEC655123208EAA0041D63A /* UNUserNotificationCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CEC655023208EAA0041D63A /* UNUserNotificationCenterProtocol.swift */; };
 		8CED2C44231765B10093AA29 /* userLogin-fail.json in Resources */ = {isa = PBXBuildFile; fileRef = 8CED2C43231765B10093AA29 /* userLogin-fail.json */; };
 		8CF239A92305156E006AB7D2 /* ActionHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF239A82305156E006AB7D2 /* ActionHandlerTests.swift */; };
 		8CF239AB230519C8006AB7D2 /* HTTPURLResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF239AA230519C8006AB7D2 /* HTTPURLResponseTests.swift */; };
@@ -614,6 +616,8 @@
 		8CE6FC61224C6CB500B24410 /* LocationInfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationInfoVC.swift; sourceTree = "<group>"; };
 		8CE6FC62224C6CB600B24410 /* LocationPhotosVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationPhotosVC.swift; sourceTree = "<group>"; };
 		8CE6FC63224C6CB600B24410 /* LocationPostsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationPostsVC.swift; sourceTree = "<group>"; };
+		8CEC654E23208AD80041D63A /* NotificationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServiceTests.swift; sourceTree = "<group>"; };
+		8CEC655023208EAA0041D63A /* UNUserNotificationCenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNUserNotificationCenterProtocol.swift; sourceTree = "<group>"; };
 		8CED2C43231765B10093AA29 /* userLogin-fail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "userLogin-fail.json"; sourceTree = "<group>"; };
 		8CF239A82305156E006AB7D2 /* ActionHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionHandlerTests.swift; sourceTree = "<group>"; };
 		8CF239AA230519C8006AB7D2 /* HTTPURLResponseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPURLResponseTests.swift; sourceTree = "<group>"; };
@@ -1041,6 +1045,7 @@
 			isa = PBXGroup;
 			children = (
 				8C5855ED231F4329009D115E /* FacebookSDKClient.swift */,
+				8CEC655023208EAA0041D63A /* UNUserNotificationCenterProtocol.swift */,
 			);
 			name = sdks;
 			path = resources;
@@ -1147,6 +1152,7 @@
 				FA97F938231B4AFD00E450DD /* ApplicationServiceTests.swift */,
 				FA6F4B72231A755A00CEE21F /* LocationServiceTests.swift */,
 				8C75F936231DF4760024A4CD /* NetworkServiceTests.swift */,
+				8CEC654E23208AD80041D63A /* NotificationServiceTests.swift */,
 				FA97F936231B385100E450DD /* RealmDataControllerTests.swift */,
 			);
 			path = services;
@@ -2290,6 +2296,7 @@
 				8C3EAB8C2231100400CB4886 /* Array+Type.swift in Sources */,
 				FA03459D2304CC3000632322 /* UIProfileAbout.swift in Sources */,
 				FA9A71DF20F1D3FA005F6A57 /* LaunchHandler.swift in Sources */,
+				8CEC655123208EAA0041D63A /* UNUserNotificationCenterProtocol.swift in Sources */,
 				8CE6FC66224C6CB600B24410 /* LocationPostsVC.swift in Sources */,
 				FA0345A22304CD9800632322 /* UIPhotos.swift in Sources */,
 				FA40F754225B06D50056182E /* FaqVC.swift in Sources */,
@@ -2419,6 +2426,7 @@
 				8CBE5064231CC5F80058D810 /* CwlMachBadInstructionHandler.m in Sources */,
 				8CBE506D231CCF210058D810 /* CwlCatchException.swift in Sources */,
 				8CBBECF42318DBC100E4F5E1 /* WKWebViewControllerTests.swift in Sources */,
+				8CEC654F23208AD80041D63A /* NotificationServiceTests.swift in Sources */,
 				8CBBECF82319040600E4F5E1 /* NSCoder+Empty.swift in Sources */,
 				FAB53F8B20DFD618007A80A7 /* MemoryWarner.m in Sources */,
 				FA63A4B02307675F00637BB3 /* CountInfoHeaderTests.swift in Sources */,

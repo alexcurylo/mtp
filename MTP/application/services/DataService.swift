@@ -309,12 +309,13 @@ extension DataService {
 
     /// Is there a logged in user?
     var isLoggedIn: Bool {
+        #if DEBUG
         if let loggedIn = ProcessInfo.setting(bool: .loggedIn) {
             return loggedIn
         } else if UIApplication.isUnitTesting {
             return false
         }
-
+        #endif
         guard !token.isEmpty else { return false }
         guard let jwt = try? decode(jwt: token),
               !jwt.expired else {

@@ -254,9 +254,14 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
     private var asking = false
     private var remindedVerify = false
 
-    private var center: UNUserNotificationCenter {
+    private let center: UNUserNotificationCenterProtocol = {
+        #if DEBUG
+        if UIApplication.isUnitTesting {
+            return UNUserNotificationCenterStub()
+        }
+        #endif
         return UNUserNotificationCenter.current()
-    }
+    }()
 
     /// Default constructor
     init() {
@@ -340,14 +345,9 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
     func background(then: @escaping () -> Void) {
         guard UIApplication.shared.isBackground else { return }
 
-        center.getNotificationSettings { settings in
-            switch settings.authorizationStatus {
-            case .authorized:
-                DispatchQueue.main.async {
-                    then()
-                }
-            default:
-                break
+        center.getNotificationStatus { status in
+            if status == .authorized {
+                DispatchQueue.main.async { then() }
             }
         }
     }

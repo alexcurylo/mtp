@@ -22,11 +22,13 @@ import UIKit
 
     private var runtimeHandlers: Handlers = {
         var runtime: Runtime = .production
+        #if DEBUG
         if UIApplication.isUITesting {
             runtime = .uiTesting
         } else if UIApplication.isUnitTesting {
             runtime = .unitTesting
         }
+        #endif
         return MTPDelegate.runtimeHandlers(for: runtime)
     }()
 
