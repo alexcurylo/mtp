@@ -299,6 +299,8 @@
 		FA4653322115A250005B5A0A /* UserDefaults+DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653312115A250005B5A0A /* UserDefaults+DataService.swift */; };
 		FA4653342115ADC6005B5A0A /* MTPNetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653332115ADC6005B5A0A /* MTPNetworkController.swift */; };
 		FA4DE5FD230985530091119A /* default.realm in Resources */ = {isa = PBXBuildFile; fileRef = FA4DE5FC230985530091119A /* default.realm */; };
+		FA4EE1452323462600A8D533 /* OfflineRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4EE1442323462600A8D533 /* OfflineRequestManager.swift */; };
+		FA4EE1472323467900A8D533 /* OfflineRequestManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4EE1462323467900A8D533 /* OfflineRequestManagerTests.swift */; };
 		FA4FBFFB22E7327100FE0902 /* AppStoreSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4FBFFA22E7327100FE0902 /* AppStoreSnapshotTests.swift */; };
 		FA507C2823059DD6000F0EF9 /* userLogin-7853.json in Resources */ = {isa = PBXBuildFile; fileRef = FA507C2723059DD5000F0EF9 /* userLogin-7853.json */; };
 		FA54272822D62936005DF1CC /* MappablesAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA54272722D62936005DF1CC /* MappablesAnnotationView.swift */; };
@@ -734,6 +736,8 @@
 		FA4B7FE021E38970006AF8E2 /* MTP.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MTP.entitlements; sourceTree = "<group>"; };
 		FA4B7FE121E38BF3006AF8E2 /* apple-app-site-association */ = {isa = PBXFileReference; lastKnownFileType = text; path = "apple-app-site-association"; sourceTree = "<group>"; };
 		FA4DE5FC230985530091119A /* default.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = default.realm; sourceTree = "<group>"; };
+		FA4EE1442323462600A8D533 /* OfflineRequestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineRequestManager.swift; sourceTree = "<group>"; };
+		FA4EE1462323467900A8D533 /* OfflineRequestManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineRequestManagerTests.swift; sourceTree = "<group>"; };
 		FA4F1C5B20DFA67700B8A1ED /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		FA4F1C5C20DFA67700B8A1ED /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FA4F1C5D20DFA69000B8A1ED /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -1124,6 +1128,7 @@
 				8C3EAB912231249E00CB4886 /* InjectableTests.swift */,
 				8CBBEB6D2318C28C00E4F5E1 /* LinkTappableTextViewTests.swift */,
 				8C5801A123050FBC00DE768F /* LocationTrackerTests.swift */,
+				FA4EE1462323467900A8D533 /* OfflineRequestManagerTests.swift */,
 				8C3EAB852230FCEE00CB4886 /* RoutingAppDelegateTests.swift */,
 				FA74C112211C61580013A840 /* StringTests.swift */,
 				8CC6B95A2304EBED0089DB89 /* UIImageTests.swift */,
@@ -1745,6 +1750,7 @@
 				FAE1F11D2143B29F0002CAB2 /* LocationTracker.swift */,
 				FA6386A622D181C7001B4424 /* Namable.swift */,
 				FA6A188521EFEF920092C56C /* Observable.swift */,
+				FA4EE1442323462600A8D533 /* OfflineRequestManager.swift */,
 				FA8833E02209BF570037C796 /* RealmSearchViewController.swift */,
 				FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */,
 				8C3EAB832230FCC200CB4886 /* RoutingAppDelegate.swift */,
@@ -2249,6 +2255,7 @@
 				FA03458C2304B44600632322 /* UIProfilePaging.swift in Sources */,
 				8C91D293222CBFE20063C587 /* SignupFailVC.swift in Sources */,
 				8C1A267E22AE019400DAFC7B /* SearchResultJSON.swift in Sources */,
+				FA4EE1452323462600A8D533 /* OfflineRequestManager.swift in Sources */,
 				8C4A6FAF224859A500B33DB9 /* UserCountsPageVC.swift in Sources */,
 				FA88395722351C30002F324F /* UIImage+Color.swift in Sources */,
 				FA7A66F223022527001DCCA2 /* UILoginFail.swift in Sources */,
@@ -2426,6 +2433,7 @@
 				8CBE5064231CC5F80058D810 /* CwlMachBadInstructionHandler.m in Sources */,
 				8CBE506D231CCF210058D810 /* CwlCatchException.swift in Sources */,
 				8CBBECF42318DBC100E4F5E1 /* WKWebViewControllerTests.swift in Sources */,
+				FA4EE1472323467900A8D533 /* OfflineRequestManagerTests.swift in Sources */,
 				8CEC654F23208AD80041D63A /* NotificationServiceTests.swift in Sources */,
 				8CBBECF82319040600E4F5E1 /* NSCoder+Empty.swift in Sources */,
 				FAB53F8B20DFD618007A80A7 /* MemoryWarner.m in Sources */,
