@@ -29,6 +29,7 @@ target 'MTP' do
   pod 'AXStateButton', :modular_headers => true
   pod 'Bolts', :modular_headers => true, :inhibit_warnings => true
   pod 'Crashlytics'
+  pod 'Connectivity'
   pod 'DropDown'
   pod 'Fabric'
   pod 'FacebookCore'
