@@ -131,7 +131,7 @@ PODS:
   - Result (4.1.0)
   - SwiftEntryKit (1.1.3):
     - QuickLayout (= 3.0.0)
-  - SwiftLint (0.34.0)
+  - SwiftLint (0.35.0)
   - SwiftyBeaver (1.7.1)
 
 DEPENDENCIES:
@@ -265,7 +265,7 @@ SPEC CHECKSUMS:
   RealmSwift: b7fdc2d18616621c31df5c7a398a45a2163f8eb0
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
   SwiftEntryKit: be00509cf6e1e88b57bb96cf2114b09cf20ee84a
-  SwiftLint: 79d48a17c6565dc286c37efb8322c7b450f95c67
+  SwiftLint: 5553187048b900c91aa03552807681bb6b027846
   SwiftyBeaver: da5e573ad583586c18236324c36900990afe1733
 
 PODFILE CHECKSUM: bc8f36a80a387b5fb845af7e4780b80a7deca406

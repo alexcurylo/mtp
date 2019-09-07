@@ -693,9 +693,9 @@ fileprivate extension WKWebViewController {
 
         var valid = false
         for cookie in cookies {
-            valid = !requestCookies.filter {
+            valid = requestCookies.contains {
                 $0[0] == cookie.name && $0[1] == cookie.value
-            }.isEmpty
+            }
             if !valid {
                 break
             }
