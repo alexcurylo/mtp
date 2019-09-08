@@ -44,13 +44,15 @@ struct Note {
         }
     }
 
-    /// Information passed in notification user info
+    /// Information passed in notification and request user info
     enum ChecklistItemInfo: String {
 
         /// Checklist
         case list
         /// ID
         case id
+        /// Visited
+        case visited
 
         /// Dictionary key
         var key: String { return rawValue }
@@ -313,8 +315,8 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
             return
         }
 
+        #if NOT_QUEUED
         modal(info: L.updatingVisit())
-
         net.set(items: items,
                 visited: visited) { result in
             switch result {
@@ -337,6 +339,18 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
                 }
             }
         }
+        #else
+        net.set(items: items,
+                visited: visited) { _ in }
+        DispatchQueue.main.async {
+            self.data.set(items: items,
+                          visited: visited)
+            if congratulate {
+                self.congratulate(item: first)
+            }
+            then(.success(true))
+        }
+        #endif
     }
 
     /// Execute if in background

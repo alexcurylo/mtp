@@ -21,6 +21,8 @@ enum NetworkError: Swift.Error {
     case notModified
     /// parameter
     case parameter
+    /// queued
+    case queued
     /// serverOffline
     case serverOffline
     /// status
@@ -193,23 +195,39 @@ protocol NetworkService: ServiceProvider {
 
     /// Reset user throttling
     func unthrottle()
+
+    /// Direct accessor for queued requests
+    var mtp: MTPNetworkController { get }
 }
 
 /// Production implementation of NetworkService
 class NetworkServiceImpl: NetworkService {
 
-    fileprivate let mtp: MTPNetworkController
+    let mtp: MTPNetworkController
+
     private var queue = OperationQueue {
         $0.name = "refresh"
         $0.maxConcurrentOperationCount = 1
         $0.qualityOfService = .utility
     }
+    private lazy var offlineRequestManager: OfflineRequestManager = {
+        let manager: OfflineRequestManager
+        if UIApplication.isTesting {
+            manager = OfflineRequestManager.manager(withFileName: "test_manager")
+        } else {
+            manager = OfflineRequestManager.defaultManager
+        }
+        manager.simultaneousRequestCap = 1
+        manager.submissionInterval = 60
+        return manager
+    }()
 
     /// Construction by injection
     ///
     /// - Parameter controller: MTPNetworkController
     init(controller: MTPNetworkController = MTPNetworkController()) {
         mtp = controller
+        offlineRequestManager.delegate = self
     }
 
     fileprivate func refreshData() {
@@ -357,7 +375,11 @@ class NetworkServiceImpl: NetworkService {
     func set(items: [Checklist.Item],
              visited: Bool,
              then: @escaping NetworkCompletion<Bool>) {
-        mtp.set(items: items, visited: visited, then: then)
+        for item in items {
+            let request = MTPVisitedRequest(item: item, visited: visited)
+            offlineRequestManager.queueRequest(request)
+        }
+        then(.failure(.queued))
     }
 
     /// Upload photo
@@ -480,6 +502,138 @@ class NetworkServiceImpl: NetworkService {
     func unthrottle() {
         MTP.unthrottle()
         lastRefreshUser = nil
+    }
+}
+
+// MARK: - OfflineRequestManagerDelegate
+
+extension NetworkServiceImpl: OfflineRequestManagerDelegate {
+
+    /// Method that the delegate uses to generate OfflineRequest objects from dictionaries written to disk
+    ///
+    /// - Parameter dictionary: dictionary saved to disk associated with an unfinished request
+    /// - Returns: OfflineRequest object to be queued
+    func offlineRequest(withDictionary dictionary: [String: Any]) -> OfflineRequest? {
+        return MTPVisitedRequest(dictionary: dictionary)
+    }
+
+    /// Callback indicating the OfflineRequestManager's current progress
+    ///
+    /// - Parameters:
+    ///   - manager: OfflineRequestManager instance
+    ///   - progress: current progress for all ongoing requests (ranges from 0 to 1)
+    func offlineRequestManager(_ manager: OfflineRequestManager,
+                               didUpdateProgress progress: Double) {
+    }
+
+    /// Callback indicating the OfflineRequestManager's current connection status
+    ///
+    /// - Parameters:
+    ///   - manager: OfflineRequestManager instance
+    ///   - connected: value indicating whether there is currently connectivity
+    func offlineRequestManager(_ manager: OfflineRequestManager,
+                               didUpdateConnectionStatus connected: Bool) {
+    }
+
+    /// Callback that can be used to block a request attempt
+    ///
+    ///   - manager: OfflineRequestManager instance
+    ///   - request: OfflineRequest to be performed
+    /// - Returns: value indicating whether the OfflineRequestManager should move forward with the request attempt
+    func offlineRequestManager(_ manager: OfflineRequestManager,
+                               shouldAttemptRequest request: OfflineRequest) -> Bool {
+        return true
+    }
+
+    /// Callback to reconfigure and reattempt an OfflineRequest
+    /// after a failure not related to connectivity issues
+    ///
+    /// - Parameters:
+    ///   - manager: OfflineRequestManager instance
+    ///   - request: OfflineRequest that failed
+    ///   - error: NSError associated with the failure
+    /// - Returns: value indicating whether the OfflineRequestManager should reattempt the OfflineRequest action
+    func offlineRequestManager(_ manager: OfflineRequestManager,
+                               shouldReattemptRequest request: OfflineRequest,
+                               withError error: Error) -> Bool {
+        return true
+    }
+
+    /// Callback indicating that the OfflineRequest action has started
+    ///
+    /// - Parameters:
+    ///   - manager: OfflineRequestManager instance
+    ///   - request: OfflineRequest that started its action
+    func offlineRequestManager(_ manager: OfflineRequestManager,
+                               didStartRequest request: OfflineRequest) {
+    }
+
+    /// Callback indicating that the OfflineRequest action has successfully finished
+    ///
+    /// - Parameters:
+    ///   - manager: OfflineRequestManager instance
+    ///   - request: OfflineRequest that finished its action
+    func offlineRequestManager(_ manager: OfflineRequestManager,
+                               didFinishRequest request: OfflineRequest) {
+    }
+
+    /// Callback indicating that the OfflineRequest action has failed for reasons unrelated to connectivity
+    ///
+    /// - Parameters:
+    ///   - manager: OfflineRequestManager instance
+    ///   - request: OfflineRequest that failed
+    ///   - error: NSError associated with the failure
+    func offlineRequestManager(_ manager: OfflineRequestManager,
+                               requestDidFail request: OfflineRequest,
+                               withError error: Error) {
+    }
+}
+
+final class MTPVisitedRequest: NSObject, OfflineRequest, ServiceProvider {
+
+    let item: Checklist.Item
+    let visited: Bool
+
+    init(item: Checklist.Item, visited: Bool) {
+        self.item = item
+        self.visited = visited
+        super.init()
+    }
+
+    /// Dictionary methods are required for saving to disk in the case of app termination
+    required convenience init?(dictionary: [String: Any]) {
+        guard let listValue = dictionary[Note.ChecklistItemInfo.list.key] as? Int,
+              let list = Checklist(rawValue: listValue),
+              let id = dictionary[Note.ChecklistItemInfo.id.key] as? Int,
+              let visited = dictionary[Note.ChecklistItemInfo.visited.key] as? Bool else {
+            return nil
+        }
+
+        self.init(item: (list, id), visited: visited)
+    }
+
+    var dictionary: [String: Any] {
+        let info: NotificationService.Info = [
+            Note.ChecklistItemInfo.list.key: item.list.rawValue,
+            Note.ChecklistItemInfo.id.key: item.id,
+            Note.ChecklistItemInfo.visited.key: visited
+        ]
+        return info
+    }
+
+    func perform(completion: @escaping (Error?) -> Void) {
+        net.mtp.set(items: [item], visited: visited) { result in
+            switch result {
+            case .success:
+                completion(nil)
+            case .failure(let error):
+                completion(error)
+            }
+        }
+    }
+
+    func shouldAttemptResubmission(forError error: Error) -> Bool {
+        return true
     }
 }
 

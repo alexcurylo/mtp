@@ -2133,6 +2133,8 @@ private extension NetworkError {
             return 1_090
         case .token:
             return 1_100
+        case .queued:
+            return 2_000
         }
     }
 
@@ -2160,7 +2162,9 @@ private extension NetworkError {
             return "network throttled"
         case .token:
             return "user token not found"
-        }
+        case .queued:
+            return "queued for later"
+       }
     }
 }
 

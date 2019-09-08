@@ -15,22 +15,18 @@ protocol DictionaryRepresentable {
     /// Optional initializer that is necessary for recovering outstanding requests from disk when restarting the app
     init?(dictionary: [String: Any])
 
-    /// Optionally provides a dictionary to be written to disk;
+    /// Provides a dictionary to be written to disk;
     /// This dictionary is what will be passed to the initializer above
     ///
     /// - Returns: Dictionary containing information to retry if the app is terminated
-    var dictionaryRepresentation: [String: Any]? { get }
-    // swiftlint:disable:previous discouraged_optional_collection
+    var dictionary: [String: Any] { get }
 }
 
 private extension DictionaryRepresentable {
 
     init?(dictionary: [String: Any]) { return nil }
 
-    // swiftlint:disable:next discouraged_optional_collection
-    var dictionaryRepresentation: [String: Any]? {
-        return nil
-    }
+    var dictionary: [String: Any] { return [:] }
 }
 
 /// Protocol for objects enqueued in OfflineRequestManager to perform operations
@@ -301,9 +297,7 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
     #if USE_ALAMOFIRE
     var reachabilityManager = NetworkReachabilityManager()
     #else
-    var reachabilityManager: Connectivity? = Connectivity {
-        $0.framework = .network
-    }
+    var reachabilityManager: Connectivity?
     #endif
 
     /// Time limit in seconds before OfflineRequestManager will kill an ongoing OfflineRequest
@@ -397,7 +391,7 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
         return manager
     }
 
-    /// instantiates the OfflineRequestManager already written to disk if possible; Exposed for testing
+    /// Instantiates the OfflineRequestManager already written to disk if possible
     static func archivedManager(fileName: String = defaultFileName) -> OfflineRequestManager? {
         do {
             guard let fileURL = fileURL(fileName: fileName),
@@ -408,7 +402,9 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
 
             archivedManager.fileName = fileName
             return archivedManager
-        } catch { return nil }
+        } catch {
+            return nil
+        }
     }
 
     private static func fileURL(fileName: String) -> URL? {
@@ -429,15 +425,18 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
         }
         reachabilityManager?.startListening()
         #else
-        reachabilityManager?.checkConnectivity { [weak self] connectivity in
+        let connectivity = Connectivity(shouldUseHTTPS: true)
+        connectivity.framework = .network
+        connectivity.checkConnectivity { [weak self] connectivity in
             self?.update(connectivity: connectivity.status)
         }
         let connectivityChanged: (Connectivity) -> Void = { [weak self] connectivity in
             self?.update(connectivity: connectivity.status)
         }
-        reachabilityManager?.whenConnected = connectivityChanged
-        reachabilityManager?.whenDisconnected = connectivityChanged
-        reachabilityManager?.startNotifier()
+        connectivity.whenConnected = connectivityChanged
+        connectivity.whenDisconnected = connectivityChanged
+        connectivity.startNotifier()
+        reachabilityManager = connectivity
         #endif
 
         submissionTimer?.invalidate()
@@ -450,7 +449,7 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
     }
 
     #if USE_ALAMOFIRE
-    func update(connectivity status: NetworkReachabilityStatus) {
+    func update(connectivity status: NetworkReachabilityManager.NetworkReachabilityStatus) {
         connected = status != .notReachable
     }
     #else
@@ -485,9 +484,12 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
     /// attempts to perform the next OfflineRequest action in the queue
     @objc func attemptSubmission() {
         guard let request = incompleteRequests.first(where: { incompleteRequest in
-            !ongoingRequests.contains(where: { $0.id == incompleteRequest.id })
-        }), ongoingRequests.count < simultaneousRequestCap,
-            shouldAttemptRequest(request) else { return }
+                !ongoingRequests.contains(where: { $0.id == incompleteRequest.id })
+              }),
+              ongoingRequests.count < simultaneousRequestCap,
+              shouldAttemptRequest(request) else {
+            return
+        }
 
         registerBackgroundTask()
 
@@ -501,7 +503,7 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
         request.perform { [weak self] error in
             guard let self = self,
                   let request = self.ongoingRequests.first(where: { $0.id == request.id }) else {
-                    return  // ignore if we have cleared requests
+                    return // ignore if we have cleared requests
             }
 
             self.removeOngoingRequest(request)
@@ -511,13 +513,12 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
 
             if let error = error {
                 if (error as NSError).isNetworkError {
-                    return      //will retry on the next attemptSubmission call
+                    // keep at front of queue for next attemptSubmission
+                    return
                 } else if request.shouldAttemptResubmission(forError: error) == true ||
-                    self.delegate?.offlineRequestManager(self,
-                                                         shouldReattemptRequest: request,
-                                                         withError: error) == true {
-
-                    self.attemptSubmission()
+                          self.delegate?.offlineRequestManager(self,
+                                                               shouldReattemptRequest: request,
+                                                               withError: error) == true {
                     return
                 }
             }
@@ -609,7 +610,8 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
     /// - Parameters:
     ///   - request: OfflineRequest to be queued
     ///   - startImmediately: indicates whether an attempt should be made immediately or deferred until the next timer
-    func queueRequest(_ request: OfflineRequest, startImmediately: Bool = true) {
+    func queueRequest(_ request: OfflineRequest,
+                      startImmediately: Bool = true) {
         queueRequests([request], startImmediately: startImmediately)
     }
 
@@ -618,10 +620,11 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
     /// - Parameters:
     ///   - request: Array of OfflineRequest objects to be queued
     ///   - startImmediately: indicates whether an attempt should be made immediately or deferred until the next timer
-    func queueRequests(_ requests: [OfflineRequest], startImmediately: Bool = true) {
+    func queueRequests(_ requests: [OfflineRequest],
+                       startImmediately: Bool = true) {
         addRequests(requests)
 
-        if requests.contains(where: { $0.dictionaryRepresentation != nil }) {
+        if requests.contains(where: { !$0.dictionary.isEmpty }) {
             saveToDisk()
         }
 
@@ -646,7 +649,11 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
     /// Writes the OfflineRequestManager instances to the Documents directory
     func saveToDisk() {
         guard let path = OfflineRequestManager.fileURL(fileName: fileName)?.path else { return }
-        incompleteRequestDictionaries = incompleteRequests.compactMap { $0.dictionaryRepresentation }
+
+        incompleteRequestDictionaries = incompleteRequests.compactMap {
+            let dictionary = $0.dictionary
+            return dictionary.isEmpty ? nil : dictionary
+        }
         NSKeyedArchiver.archiveRootObject(self, toFile: path)
     }
 

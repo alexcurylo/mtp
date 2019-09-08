@@ -6,6 +6,14 @@
 // swiftlint:disable all
 
 final class NetworkServiceSpy: NetworkService {
+    var invokedMtpGetter = false
+    var invokedMtpGetterCount = 0
+    var stubbedMtp: MTPNetworkController!
+    var mtp: MTPNetworkController {
+        invokedMtpGetter = true
+        invokedMtpGetterCount += 1
+        return stubbedMtp
+    }
     var invokedAppGetter = false
     var invokedAppGetterCount = 0
     var stubbedApp: ApplicationService!
@@ -53,6 +61,14 @@ final class NetworkServiceSpy: NetworkService {
         invokedNoteGetter = true
         invokedNoteGetterCount += 1
         return stubbedNote
+    }
+    var invokedReportGetter = false
+    var invokedReportGetterCount = 0
+    var stubbedReport: ReportingService!
+    var report: ReportingService {
+        invokedReportGetter = true
+        invokedReportGetterCount += 1
+        return stubbedReport
     }
     var invokedStyleGetter = false
     var invokedStyleGetterCount = 0

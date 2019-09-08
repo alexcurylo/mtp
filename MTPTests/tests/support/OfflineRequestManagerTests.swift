@@ -17,8 +17,14 @@ final class OfflineRequestManagerTests: XCTestCase {
 
         let manager = OfflineRequestManager.manager(withFileName: testFileName)
         sut = manager
+        manager.clearAllRequests()
         manager.simultaneousRequestCap = 1
+        manager.submissionInterval = 0.2
+        #if USE_ALAMOFIRE
         manager.reachabilityManager?.stopListening()
+        #else
+        manager.reachabilityManager?.stopNotifier()
+        #endif
         manager.reachabilityManager = nil
         manager.saveToDisk()
         let delegate = OfflineRequestManagerListener()
@@ -43,23 +49,36 @@ final class OfflineRequestManagerTests: XCTestCase {
         manager.queueRequest(MockRequest())
 
         // when
-        var archived = try unwrap(OfflineRequestManager.archivedManager(fileName: testFileName))
-        archived.delegate = OfflineRequestManagerListener()
-        XCTAssertEqual(archived.totalRequestCount, 2)
-        archived.attemptSubmission()
+        let archive1 = try unwrap(OfflineRequestManager.archivedManager(fileName: testFileName))
+        #if USE_ALAMOFIRE
+        archive1.reachabilityManager?.stopListening()
+        #else
+        archive1.reachabilityManager?.stopNotifier()
+        #endif
+        archive1.reachabilityManager = nil
 
-        let request = try unwrap(archived.ongoingRequests.first as? MockRequest)
+        archive1.delegate = OfflineRequestManagerListener()
+        XCTAssertEqual(archive1.totalRequestCount, 2)
+        archive1.attemptSubmission()
+
+        let request = try unwrap(archive1.ongoingRequests.first as? MockRequest)
          XCTAssertNil(request.dictionary[key])
-        request.dictionary[key] = value
+        request.mock[key] = value
         request.save()
 
-        archived = try unwrap(OfflineRequestManager.archivedManager(fileName: testFileName))
-        archived.delegate = OfflineRequestManagerListener()
-        XCTAssertEqual(archived.totalRequestCount, 2)
-        archived.attemptSubmission()
+        let archive2 = try unwrap(OfflineRequestManager.archivedManager(fileName: testFileName))
+        #if USE_ALAMOFIRE
+        archive2.reachabilityManager?.stopListening()
+        #else
+        archive2.reachabilityManager?.stopNotifier()
+        #endif
+        archive2.reachabilityManager = nil
+        archive2.delegate = OfflineRequestManagerListener()
+        XCTAssertEqual(archive2.totalRequestCount, 2)
+        archive2.attemptSubmission()
 
         // then
-        let adjustedRequest = try unwrap(archived.ongoingRequests.first as? MockRequest)
+        let adjustedRequest = try unwrap(archive2.ongoingRequests.first as? MockRequest)
         XCTAssertEqual(adjustedRequest.dictionary[key] as? String, value)
     }
 
@@ -341,7 +360,7 @@ final class OfflineRequestManagerTests: XCTestCase {
 private class MockRequest: OfflineRequest {
 
     var error: NSError?
-    var dictionary: [String: Any] = [:]
+    var mock: [String: Any] = [:]
     var complete = false
 
     static let progressIncrement = 0.2
@@ -352,16 +371,15 @@ private class MockRequest: OfflineRequest {
     var stalled = false
 
     init() {
-        self.dictionary = [:]
+        mock = ["index": 1]
     }
 
     required init?(dictionary: [String: Any]) {
-        self.dictionary = dictionary
+        mock = dictionary
     }
 
-    // swiftlint:disable:next discouraged_optional_collection
-    var dictionaryRepresentation: [String: Any]? {
-        return dictionary
+    var dictionary: [String: Any] {
+        return mock
     }
 
     func perform(completion: @escaping (Error?) -> Void) {
