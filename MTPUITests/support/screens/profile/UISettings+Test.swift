@@ -12,6 +12,7 @@ extension UISettings: Elemental {
              .delete,
              .faq,
              .logout,
+             .network,
              .review,
              .share:
             return .button

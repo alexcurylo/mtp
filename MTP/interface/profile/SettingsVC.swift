@@ -10,12 +10,13 @@ final class SettingsVC: UITableViewController {
     // verified in requireOutlets
     @IBOutlet private var backgroundView: UIView!
     @IBOutlet private var aboutButton: UIButton!
-    @IBOutlet private var contactButton: UIButton!
-    @IBOutlet private var deleteButton: UIButton!
-    @IBOutlet private var faqButton: UIButton!
-    @IBOutlet private var logoutButton: UIButton!
-    @IBOutlet private var reviewButton: UIButton!
     @IBOutlet private var shareButton: UIButton!
+    @IBOutlet private var reviewButton: UIButton!
+    @IBOutlet private var faqButton: UIButton!
+    @IBOutlet private var contactButton: UIButton!
+    @IBOutlet private var networkButton: UIButton!
+    @IBOutlet private var logoutButton: UIButton!
+    @IBOutlet private var deleteButton: UIButton!
 
     private var reportMessage = ""
 
@@ -90,7 +91,7 @@ private extension SettingsVC {
         present(share, animated: true)
     }
 
-    @IBAction func rateTapped(_ sender: UIButton) {
+    @IBAction func reviewTapped(_ sender: UIButton) {
         guard let url = productUrl else { return }
 
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
@@ -105,6 +106,10 @@ private extension SettingsVC {
 
     @IBAction func contactTapped(_ sender: UIButton) {
         email(title: L.contactSubject())
+    }
+
+    @IBAction func networkTapped(_ sender: UIButton) {
+        // storyboard segue showNetwork
     }
 
     func report(body: String = "") {
@@ -192,6 +197,7 @@ extension SettingsVC: Exposing {
         UISettings.delete.expose(item: deleteButton)
         UISettings.faq.expose(item: faqButton)
         UISettings.logout.expose(item: logoutButton)
+        UISettings.network.expose(item: networkButton)
         UISettings.review.expose(item: reviewButton)
         UISettings.share.expose(item: shareButton)
     }
@@ -209,6 +215,7 @@ extension SettingsVC: InterfaceBuildable {
         deleteButton.require()
         faqButton.require()
         logoutButton.require()
+        networkButton.require()
         reviewButton.require()
         shareButton.require()
     }

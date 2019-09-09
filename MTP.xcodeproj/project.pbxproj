@@ -357,6 +357,7 @@
 		FA74C113211C61580013A840 /* StringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA74C112211C61580013A840 /* StringTests.swift */; };
 		FA75562E22A4FFCF0006EFC3 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA75562D22A4FFCF0006EFC3 /* ProfileVC.swift */; };
 		FA76D9752131278900EF8E25 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA76D9742131278900EF8E25 /* User.swift */; };
+		FA78366323270EE3006DAC23 /* NetworkVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA78366223270EE3006DAC23 /* NetworkVC.swift */; };
 		FA7A66C822FD843D001DCCA2 /* StartupUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7A66C722FD843D001DCCA2 /* StartupUITests.swift */; };
 		FA7A66CA22FD85C4001DCCA2 /* RankingsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7A66C922FD85C4001DCCA2 /* RankingsUITests.swift */; };
 		FA7A66CC22FD86AB001DCCA2 /* ProfileUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7A66CB22FD86AB001DCCA2 /* ProfileUITests.swift */; };
@@ -798,6 +799,7 @@
 		FA74C112211C61580013A840 /* StringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringTests.swift; sourceTree = "<group>"; };
 		FA75562D22A4FFCF0006EFC3 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		FA76D9742131278900EF8E25 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		FA78366223270EE3006DAC23 /* NetworkVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkVC.swift; sourceTree = "<group>"; };
 		FA7A66C722FD843D001DCCA2 /* StartupUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupUITests.swift; sourceTree = "<group>"; };
 		FA7A66C922FD85C4001DCCA2 /* RankingsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsUITests.swift; sourceTree = "<group>"; };
 		FA7A66CB22FD86AB001DCCA2 /* ProfileUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUITests.swift; sourceTree = "<group>"; };
@@ -1469,6 +1471,7 @@
 				FA62BAEA2247A9A0009FDC4E /* CountsPageVC.swift */,
 				FA46377F210DE94C0007382D /* EditProfileVC.swift */,
 				FA40F753225B06D50056182E /* FaqVC.swift */,
+				FA78366223270EE3006DAC23 /* NetworkVC.swift */,
 				FA8833E22209BF810037C796 /* LocationSearchVC.swift */,
 				FA5AC0C221FDCE200080F84F /* MyCountsPageVC.swift */,
 				FA5AC0BE21FDCB9D0080F84F /* MyCountsPagingVC.swift */,
@@ -2240,6 +2243,7 @@
 				8C8DC74D22AF4343002EA1CD /* FaqJSON.swift in Sources */,
 				FA1663B122E3354C0075DA1A /* HTTPURLResponse+Headers.swift in Sources */,
 				FA5AC0BF21FDCB9D0080F84F /* MyCountsPagingVC.swift in Sources */,
+				FA78366323270EE3006DAC23 /* NetworkVC.swift in Sources */,
 				8CAE30642239F4F100E31647 /* WorldMap.swift in Sources */,
 				FADC1ABA2144FAD70011EE49 /* Date+Formatting.swift in Sources */,
 				FA8833E12209BF570037C796 /* RealmSearchViewController.swift in Sources */,

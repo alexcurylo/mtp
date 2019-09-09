@@ -16,6 +16,8 @@ enum UISettings: Exposable {
     case faq
     /// Contact Us button
     case contact
+    /// Network button
+    case network
     /// Logout button
     case logout
     /// Delete Account button

@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+ - Offline queue for uploading visit changes
+ - Network Status screen in Settings
+
 ## [Version 1.0.2, Build 641] - 2019-08-30
 
 ### Added
