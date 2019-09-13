@@ -197,6 +197,7 @@ extension SettingsVC: Exposing {
         UISettings.delete.expose(item: deleteButton)
         UISettings.faq.expose(item: faqButton)
         UISettings.logout.expose(item: logoutButton)
+        UISettings.menu.expose(item: tableView)
         UISettings.network.expose(item: networkButton)
         UISettings.review.expose(item: reviewButton)
         UISettings.share.expose(item: shareButton)

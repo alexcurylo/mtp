@@ -39,6 +39,9 @@
 		8C25468D230F85A5003A1B99 /* XCUIElement+Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C25468C230F85A5003A1B99 /* XCUIElement+Coordinate.swift */; };
 		8C25480D230F8F67003A1B99 /* uploadPhoto.json in Resources */ = {isa = PBXBuildFile; fileRef = 8C25480C230F8F66003A1B99 /* uploadPhoto.json */; };
 		8C25480F230FACCB003A1B99 /* postPublish.json in Resources */ = {isa = PBXBuildFile; fileRef = 8C25480E230FACCB003A1B99 /* postPublish.json */; };
+		8C27DF27232724670020E0B6 /* UINetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C27DF26232724670020E0B6 /* UINetwork.swift */; };
+		8C27DF29232724B50020E0B6 /* UINetwork+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C27DF28232724B50020E0B6 /* UINetwork+Tests.swift */; };
+		8C27DF2A232725AD0020E0B6 /* UINetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C27DF26232724670020E0B6 /* UINetwork.swift */; };
 		8C3EA1FF22DD540F008DD858 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EA1FE22DD540F008DD858 /* SnapshotHelper.swift */; };
 		8C3EA813222F64F100CB4886 /* TopLoadingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */; };
 		8C3EAA1C2230BFA500CB4886 /* InsetTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EAA1B2230BFA500CB4886 /* InsetTextField.swift */; };
@@ -186,6 +189,7 @@
 		8CF239B123054BD5006AB7D2 /* UITerms+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF239B023054BD5006AB7D2 /* UITerms+Test.swift */; };
 		8CF239B223054C01006AB7D2 /* UITerms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF239AE23054B5B006AB7D2 /* UITerms.swift */; };
 		8CF7381A22FA9DD2006D4C66 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF7381922FA9DD2006D4C66 /* PhotoCell.swift */; };
+		8CF778E7232B13780070253A /* NetworkServiceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF778E6232B13780070253A /* NetworkServiceObserver.swift */; };
 		8CFBC103230A38D1008844D9 /* userDelete.json in Resources */ = {isa = PBXBuildFile; fileRef = 8CFBC102230A38D0008844D9 /* userDelete.json */; };
 		8CFBC105230A3C61008844D9 /* passwordReset.json in Resources */ = {isa = PBXBuildFile; fileRef = 8CFBC104230A3C61008844D9 /* passwordReset.json */; };
 		8CFEE459221FA2120061614B /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFEE458221FA2120061614B /* ImageService.swift */; };
@@ -497,6 +501,8 @@
 		8C25468C230F85A5003A1B99 /* XCUIElement+Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+Coordinate.swift"; sourceTree = "<group>"; };
 		8C25480C230F8F66003A1B99 /* uploadPhoto.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = uploadPhoto.json; sourceTree = "<group>"; };
 		8C25480E230FACCB003A1B99 /* postPublish.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = postPublish.json; sourceTree = "<group>"; };
+		8C27DF26232724670020E0B6 /* UINetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINetwork.swift; sourceTree = "<group>"; };
+		8C27DF28232724B50020E0B6 /* UINetwork+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINetwork+Tests.swift"; sourceTree = "<group>"; };
 		8C3EA1FE22DD540F008DD858 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
 		8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLoadingTextView.swift; sourceTree = "<group>"; };
 		8C3EAA1B2230BFA500CB4886 /* InsetTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetTextField.swift; sourceTree = "<group>"; };
@@ -628,6 +634,7 @@
 		8CF239AE23054B5B006AB7D2 /* UITerms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITerms.swift; sourceTree = "<group>"; };
 		8CF239B023054BD5006AB7D2 /* UITerms+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITerms+Test.swift"; sourceTree = "<group>"; };
 		8CF7381922FA9DD2006D4C66 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
+		8CF778E6232B13780070253A /* NetworkServiceObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceObserver.swift; sourceTree = "<group>"; };
 		8CFBC102230A38D0008844D9 /* userDelete.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = userDelete.json; sourceTree = "<group>"; };
 		8CFBC104230A3C61008844D9 /* passwordReset.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = passwordReset.json; sourceTree = "<group>"; };
 		8CFEE458221FA2120061614B /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
@@ -1018,6 +1025,7 @@
 				8C177A0622FA671700E4433C /* MenuAction.swift */,
 				FA4653332115ADC6005B5A0A /* MTPNetworkController.swift */,
 				FA1663AE22E3325B0075DA1A /* NetworkService.swift */,
+				8CF778E6232B13780070253A /* NetworkServiceObserver.swift */,
 				FAC8465A22AB55B6004F57EC /* NotificationService.swift */,
 				FA36FBEE2206461F00616CDE /* RealmDataController.swift */,
 				FAB5E65E230F4AF0005D294A /* ReportingService.swift */,
@@ -1273,6 +1281,7 @@
 				FA0345912304C9C300632322 /* UIMyCountsPaging.swift */,
 				FA0345972304CB8800632322 /* UIMyCounts.swift */,
 				FA7A66D422FD95FB001DCCA2 /* UIMyProfile.swift */,
+				8C27DF26232724670020E0B6 /* UINetwork.swift */,
 				FA0345A12304CD9800632322 /* UIPhotos.swift */,
 				FA0345A32304CDD500632322 /* UIPosts.swift */,
 				FA03459C2304CC3000632322 /* UIProfileAbout.swift */,
@@ -1360,6 +1369,7 @@
 				8C7D71D22303BEC3005939AC /* UIMyCountsPage+Test.swift */,
 				FA0345942304CA8900632322 /* UIMyCountsPaging+Test.swift */,
 				FA03459A2304CBC100632322 /* UIMyCounts+Test.swift */,
+				8C27DF28232724B50020E0B6 /* UINetwork+Tests.swift */,
 				FA0345A52304CE1900632322 /* UIPhotos+Test.swift */,
 				FA0345A72304CE3000632322 /* UIPosts+Test.swift */,
 				FA03459F2304CC6800632322 /* UIProfileAbout+Test.swift */,
@@ -1471,12 +1481,12 @@
 				FA62BAEA2247A9A0009FDC4E /* CountsPageVC.swift */,
 				FA46377F210DE94C0007382D /* EditProfileVC.swift */,
 				FA40F753225B06D50056182E /* FaqVC.swift */,
-				FA78366223270EE3006DAC23 /* NetworkVC.swift */,
 				FA8833E22209BF810037C796 /* LocationSearchVC.swift */,
 				FA5AC0C221FDCE200080F84F /* MyCountsPageVC.swift */,
 				FA5AC0BE21FDCB9D0080F84F /* MyCountsPagingVC.swift */,
 				FA5AC0BC21FDC80A0080F84F /* MyCountsVC.swift */,
 				FA74574C210CA5730010F4F4 /* MyProfileVC.swift */,
+				FA78366223270EE3006DAC23 /* NetworkVC.swift */,
 				8CF7381922FA9DD2006D4C66 /* PhotoCell.swift */,
 				FA7CCAEE22B848EE0092A95E /* PhotosVC.swift */,
 				FAEB87A0227ED26300858898 /* PostCell.swift */,
@@ -2242,6 +2252,7 @@
 				8CE6F46B224B029500B24410 /* ContentState.swift in Sources */,
 				8C8DC74D22AF4343002EA1CD /* FaqJSON.swift in Sources */,
 				FA1663B122E3354C0075DA1A /* HTTPURLResponse+Headers.swift in Sources */,
+				8CF778E7232B13780070253A /* NetworkServiceObserver.swift in Sources */,
 				FA5AC0BF21FDCB9D0080F84F /* MyCountsPagingVC.swift in Sources */,
 				FA78366323270EE3006DAC23 /* NetworkVC.swift in Sources */,
 				8CAE30642239F4F100E31647 /* WorldMap.swift in Sources */,
@@ -2249,6 +2260,7 @@
 				FA8833E12209BF570037C796 /* RealmSearchViewController.swift in Sources */,
 				FAC8465D22AB6C2A004F57EC /* LocationService.swift in Sources */,
 				FA03455B23043BA700632322 /* UISettings.swift in Sources */,
+				8C27DF27232724670020E0B6 /* UINetwork.swift in Sources */,
 				8CDC4D58230A32B200AA422D /* UIConfirmDelete.swift in Sources */,
 				FAE1F11E2143B29F0002CAB2 /* LocationTracker.swift in Sources */,
 				8C0F242B22432076005BD5DC /* UserCountsVC.swift in Sources */,
@@ -2508,6 +2520,7 @@
 				FA03455E23043C5F00632322 /* UISettings.swift in Sources */,
 				FA03455D23043C3600632322 /* UISettings+Test.swift in Sources */,
 				FA0345792304487000632322 /* UIProfilePhotos.swift in Sources */,
+				8C27DF2A232725AD0020E0B6 /* UINetwork.swift in Sources */,
 				8CA5CE8B230B78E00020F7F8 /* UISystem.swift in Sources */,
 				8CF239B223054C01006AB7D2 /* UITerms.swift in Sources */,
 				FA7A66DE22FD97EC001DCCA2 /* UIUserProfile+Test.swift in Sources */,
@@ -2607,6 +2620,7 @@
 				FA7A66D622FD95FB001DCCA2 /* UIMyProfile.swift in Sources */,
 				FA7A66E622FE2769001DCCA2 /* UIWelcome.swift in Sources */,
 				FA7A66D322FD9459001DCCA2 /* UIMain.swift in Sources */,
+				8C27DF29232724B50020E0B6 /* UINetwork+Tests.swift in Sources */,
 				8C7D71D72303C1C1005939AC /* UILocationsFilter.swift in Sources */,
 				8C476321230412310089EF33 /* UIAddPhoto+Test.swift in Sources */,
 				FA7A66CC22FD86AB001DCCA2 /* ProfileUITests.swift in Sources */,

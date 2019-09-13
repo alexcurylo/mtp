@@ -40,6 +40,8 @@
 "updatingProfile" = "Updating profile…";
 "updateVisit" = "update visit";
 "updatingVisit" = "Updating visit…";
+"connected" = "Connected";
+"notConnected" = "Waiting for connection…";
 
 // list state handling
 

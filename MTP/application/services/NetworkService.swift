@@ -37,7 +37,7 @@ enum NetworkError: Swift.Error {
 typealias NetworkCompletion<T> = (_ result: Result<T, NetworkError>) -> Void
 
 /// Provides network-related functionality
-protocol NetworkService: ServiceProvider {
+protocol NetworkService: Observable, ServiceProvider {
 
     /// Load location photos
     ///
@@ -196,6 +196,9 @@ protocol NetworkService: ServiceProvider {
     /// Reset user throttling
     func unthrottle()
 
+    /// Direct accessor for display initialization
+    var isConnected: Bool { get }
+
     /// Direct accessor for queued requests
     var mtp: MTPNetworkController { get }
 }
@@ -204,6 +207,9 @@ protocol NetworkService: ServiceProvider {
 class NetworkServiceImpl: NetworkService {
 
     let mtp: MTPNetworkController
+
+    /// Direct accessor for queued requests
+    var isConnected: Bool { return offlineRequestManager.connected }
 
     private var queue = OperationQueue {
         $0.name = "refresh"
@@ -524,6 +530,8 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     ///   - progress: current progress for all ongoing requests (ranges from 0 to 1)
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                didUpdateProgress progress: Double) {
+        notify(observers: NetworkServiceChange.progress.rawValue,
+               info: [ StatusKey.value.rawValue: progress ])
     }
 
     /// Callback indicating the OfflineRequestManager's current connection status
@@ -533,6 +541,8 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     ///   - connected: value indicating whether there is currently connectivity
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                didUpdateConnectionStatus connected: Bool) {
+        notify(observers: NetworkServiceChange.connection.rawValue,
+               info: [ StatusKey.value.rawValue: connected ])
     }
 
     /// Callback that can be used to block a request attempt
@@ -566,6 +576,8 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     ///   - request: OfflineRequest that started its action
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                didStartRequest request: OfflineRequest) {
+        notify(observers: NetworkServiceChange.tasks.rawValue,
+               info: [ StatusKey.value.rawValue: manager ])
     }
 
     /// Callback indicating that the OfflineRequest action has successfully finished
@@ -575,6 +587,8 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     ///   - request: OfflineRequest that finished its action
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                didFinishRequest request: OfflineRequest) {
+        notify(observers: NetworkServiceChange.tasks.rawValue,
+               info: [ StatusKey.value.rawValue: manager ])
     }
 
     /// Callback indicating that the OfflineRequest action has failed for reasons unrelated to connectivity
@@ -586,6 +600,8 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                requestDidFail request: OfflineRequest,
                                withError error: Error) {
+        notify(observers: NetworkServiceChange.tasks.rawValue,
+               info: [ StatusKey.value.rawValue: manager ])
     }
 }
 

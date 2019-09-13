@@ -1,12 +1,18 @@
 // @copyright Trollwerks Inc.
 
-import UIKit
+import Anchorage
 
 /// Display network status and pending operations
 final class NetworkVC: UITableViewController {
 
     // verified in requireOutlets
     @IBOutlet private var backgroundView: UIView!
+
+    private let layout = (row: CGFloat(60),
+                          header: CGFloat(40))
+
+    private var tasks: [OfflineRequestManager.Task] = []
+    private var tasksObserver: Observer?
 
     /// Prepare for interaction
     override func viewDidLoad() {
@@ -15,7 +21,12 @@ final class NetworkVC: UITableViewController {
 
         tableView.backgroundView = backgroundView
         tableView.tableFooterView = UIView()
-
+        tableView.register(
+            NetworkHeader.self,
+            forHeaderFooterViewReuseIdentifier: NetworkHeader.reuseIdentifier
+        )
+        tableView.estimatedSectionHeaderHeight = layout.header
+        tableView.sectionHeaderHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = UITableView.automaticDimension
         tableView.rowHeight = UITableView.automaticDimension
     }
@@ -59,7 +70,24 @@ extension NetworkVC {
     /// - Returns: Number of rows in section
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return tasks.count
+    }
+
+    /// Create table header
+    ///
+    /// - Parameters:
+    ///   - tableView: Container
+    ///   - section: Index
+    /// - Returns: NetworkHeader
+    override func tableView(_ tableView: UITableView,
+                            viewForHeaderInSection section: Int) -> UIView? {
+        //swiftlint:disable:next implicitly_unwrapped_optional
+        let header: NetworkHeader! = tableView.dequeueReusableHeaderFooterView(
+            withIdentifier: NetworkHeader.reuseIdentifier) as? NetworkHeader
+
+        header.observe()
+
+        return header
     }
 
     /// Create table cell
@@ -75,8 +103,15 @@ extension NetworkVC {
             withIdentifier: R.reuseIdentifier.networkCell,
             for: indexPath)
 
-        cell.textLabel?.text = "Operation"
-        cell.detailTextLabel?.text = "Info"
+        let task = tasks[indexPath.row]
+        cell.textLabel?.font = Avenir.book.of(size: 17)
+        cell.textLabel?.lineBreakMode = .byWordWrapping
+        cell.textLabel?.numberOfLines = 0
+        cell.textLabel?.text = task.title
+        cell.detailTextLabel?.font = Avenir.bookOblique.of(size: 15)
+        cell.detailTextLabel?.lineBreakMode = .byWordWrapping
+        cell.detailTextLabel?.numberOfLines = 0
+        cell.detailTextLabel?.text = task.subtitle
 
         return cell
     }
@@ -97,6 +132,28 @@ extension NetworkVC {
         return UITableView.automaticDimension
     }
 
+    /// Provide header height
+    ///
+    /// - Parameters:
+    ///   - tableView: Container
+    ///   - section: Index
+    /// - Returns: Height
+    override func tableView(_ tableView: UITableView,
+                            heightForHeaderInSection section: Int) -> CGFloat {
+        return layout.header
+    }
+
+    /// Provide estimated header height
+    ///
+    /// - Parameters:
+    ///   - tableView: Container
+    ///   - section: Index
+    /// - Returns: Height
+    override func tableView(_ tableView: UITableView,
+                            estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        return layout.header
+    }
+
     /// Provide estimated row height
     ///
     /// - Parameters:
@@ -109,6 +166,22 @@ extension NetworkVC {
     }
 }
 
+// MARK: - Private
+
+private extension NetworkVC {
+
+    func observe() {
+        guard tasksObserver == nil else { return }
+
+        tasksObserver = net.observer(of: .tasks) { [weak self] info in
+            guard let manager = info[StatusKey.value.rawValue] as? OfflineRequestManager,
+                  let self = self else { return }
+            self.tasks = manager.tasks
+            self.tableView.reloadData()
+        }
+    }
+}
+
 // MARK: - Exposing
 
 extension NetworkVC: Exposing {
@@ -116,7 +189,7 @@ extension NetworkVC: Exposing {
     /// Expose controls to UI tests
     func expose() {
         let items = navigationItem.leftBarButtonItems
-        UIFaq.close.expose(item: items?.first)
+        UINetwork.close.expose(item: items?.first)
     }
 }
 
@@ -127,5 +200,61 @@ extension NetworkVC: InterfaceBuildable {
     /// Injection enforcement for viewDidLoad
     func requireOutlets() {
         backgroundView.require()
+    }
+}
+
+/// Header of network table
+final class NetworkHeader: UITableViewHeaderFooterView, ServiceProvider {
+
+    /// Dequeueing identifier
+    static let reuseIdentifier = NSStringFromClass(NetworkHeader.self)
+
+    private let status = UILabel {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.font = Avenir.blackOblique.of(size: 16)
+        $0.textColor = .white
+        $0.textAlignment = .center
+    }
+
+    private var isConnected = false {
+        didSet { update() }
+    }
+
+    private var connectionObserver: Observer?
+
+    /// Construct with identifier
+    ///
+    /// - Parameter reuseIdentifier: Identifier
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
+
+        contentView.addSubview(status)
+        status.edgeAnchors == edgeAnchors
+    }
+
+    /// Unsupported coding constructor
+    ///
+    /// - Parameter coder: An unarchiver object.
+    required init?(coder: NSCoder) {
+        return nil
+    }
+
+    func observe() {
+        guard connectionObserver == nil else { return }
+
+        isConnected = net.isConnected
+        connectionObserver = net.observer(of: .connection) { [weak self] info in
+            guard let updated = info[StatusKey.value.rawValue] as? Bool,
+                let self = self else { return }
+            self.isConnected = updated
+        }
+    }
+}
+
+private extension NetworkHeader {
+
+    func update() {
+        status.text = isConnected ? L.connected() : L.notConnected()
+        status.backgroundColor = isConnected ? .visited : .carnation
     }
 }

@@ -123,7 +123,7 @@ extension Observable {
     ///   - changed: What changed
     ///   - info: Attached info
     func notify(observers changed: String,
-                info: [AnyHashable: Any] = [:]) {
+                info: [AnyHashable: Any]) {
         var userInfo = info
         userInfo[statusKey.rawValue] = changed
         NotificationCenter.default.post(

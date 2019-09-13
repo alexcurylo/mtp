@@ -6,6 +6,8 @@ enum UISettings: Exposable {
     /// Close bar button
     case close
 
+    /// Menu table
+    case menu
     /// About button
     case about
     /// Share The App button

@@ -334,17 +334,17 @@ private enum DateComparison {
     //case isThisWeek
     case isNextWeek
     case isLastWeek
-    case isSameWeek(as:Date)
+    case isSameWeek(as: Date)
 
     //case isThisMonth
     case isNextMonth
     case isLastMonth
-    case isSameMonth(as:Date)
+    case isSameMonth(as: Date)
 
     case isThisYear
     case isNextYear
     case isLastYear
-    case isSameYear(as:Date)
+    case isSameYear(as: Date)
 
     //case isInTheFuture
     //case isInThePast

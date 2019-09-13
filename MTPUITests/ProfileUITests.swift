@@ -108,6 +108,10 @@ final class ProfileUITests: XCTestCase {
 
         UIAppAbout.close.tap()
 
+        UISettings.network.tap()
+
+        UINetwork.close.tap()
+
         UISettings.close.tap()
     }
 
