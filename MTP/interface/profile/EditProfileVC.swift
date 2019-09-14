@@ -72,6 +72,15 @@ final class EditProfileVC: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         report(screen: "Edit Profile")
+
+        if !net.isConnected {
+            let question = L.continueOffline(L.updateProfile())
+            note.ask(question: question) { [weak self] answer in
+                if !answer {
+                    self?.performSegue(withIdentifier: Segues.cancelEdits, sender: self)
+                }
+            }
+        }
     }
 
     /// Apply corner rounding on each layout

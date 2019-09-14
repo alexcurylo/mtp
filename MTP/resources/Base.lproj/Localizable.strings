@@ -13,6 +13,7 @@
 
 "unknown" = "unknown";
 "success" = "Success!";
+"continueOffline" = "Your device appears to be offline, and a network connection is required to %@. Would you like to continue anyways?";
 "networkError" = "Could not %1$@ - a network failure occurred: %2$@";
 "deviceOfflineError" = "Could not %@ - your device appears to be offline. Please connect to the Internet.";
 "serverOfflineError" = "Could not %@ - network connection is weak. Please try again later.";

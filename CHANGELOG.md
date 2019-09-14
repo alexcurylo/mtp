@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
  - Offline queue for uploading visit changes
  - Network Status screen in Settings
+ - Warnings when network not available
+
+### Fixed
+- Improved visit status synchronization
 
 ## [Version 1.0.2, Build 641] - 2019-08-30
 

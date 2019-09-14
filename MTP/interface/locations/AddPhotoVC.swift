@@ -102,6 +102,15 @@ final class AddPhotoVC: UIViewController {
                 PHPhotoLibrary.requestAuthorization { _ in }
             }
         }
+
+        if !net.isConnected {
+            let question = L.continueOffline(L.publishPhoto())
+            note.ask(question: question) { [weak self] answer in
+                if !answer {
+                    self?.performSegue(withIdentifier: Segues.pop, sender: self)
+                }
+            }
+        }
     }
 
     /// Stop editing on touch
