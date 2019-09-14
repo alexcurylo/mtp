@@ -51,7 +51,11 @@ struct Note {
         case list
         /// ID
         case id
-        /// Visited
+        /// subtitle
+        case subtitle
+        /// title
+        case title
+        /// visited
         case visited
 
         /// Dictionary key

@@ -40,8 +40,16 @@
 "updatingProfile" = "Updating profile…";
 "updateVisit" = "update visit";
 "updatingVisit" = "Updating visit…";
+"completed" = "Completed";
 "connected" = "Connected";
+"connecting" = "Connecting…";
 "notConnected" = "Waiting for connection…";
+"queued" = "Waiting in queue…";
+"failedError" = "Failed: error %ld (%@)";
+"failedNetwork" = "Failed: network error %ld";
+"failedTimeout" = "Failed: timeout";
+"visitedRequest" = "%@: %@";
+"errorDescription" = "⚠️%ld: %@";
 
 // list state handling
 

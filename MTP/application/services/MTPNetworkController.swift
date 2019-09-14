@@ -2101,9 +2101,9 @@ private extension Response {
 
 extension NetworkError: LocalizedError {
 
-    /// Loggable description of NetworkError
+    /// Displayable description of NetworkError
     public var errorDescription: String? {
-        return "🔥\(code)💬\(message)"
+        return L.errorDescription(code, message)
     }
 }
 

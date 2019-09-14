@@ -43,6 +43,12 @@ protocol OfflineRequest: AnyObject, DictionaryRepresentable {
     /// - Parameter error: Should be equal to what was passed back in the perform(completion:) call
     /// - Returns: Bool indicating whether perform(completion:) should be called again or the request should be dropped
     func shouldAttemptResubmission(forError error: Error) -> Bool
+
+    /// Description for Network Status tab
+    var title: String { get }
+
+    /// Information for Network Status tab
+    var subtitle: String { get set }
 }
 
 private var requestIdKey: UInt8 = 0
@@ -181,6 +187,14 @@ protocol OfflineRequestManagerDelegate: AnyObject {
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                didStartRequest request: OfflineRequest)
 
+    /// Callback indicating that the OfflineRequest status has changed
+    ///
+    /// - Parameters:
+    ///   - manager: OfflineRequestManager instance
+    ///   - request: OfflineRequest that changed its subtitle
+    func offlineRequestManager(_ manager: OfflineRequestManager,
+                               didUpdateRequest request: OfflineRequest)
+
     /// Callback indicating that the OfflineRequest action has successfully finished
     ///
     /// - Parameters:
@@ -297,10 +311,7 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
 
     /// Current task list
     var tasks: [Task] {
-        return incompleteRequests.map {
-             ( title: String(describing: type(of: $0)),
-               subtitle: "" )
-        }
+        return incompleteRequests.map { (title: $0.title, subtitle: $0.subtitle) }
     }
 
     /// NetworkReachabilityManager used to observe connectivity status.
@@ -494,6 +505,7 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
 
     /// attempts to perform the next OfflineRequest action in the queue
     @objc func attemptSubmission() {
+        // swiftlint:disable:previous function_body_length
         guard let request = incompleteRequests.first(where: { incompleteRequest in
                 !ongoingRequests.contains(where: { $0.id == incompleteRequest.id })
               }),
@@ -507,29 +519,44 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
         ongoingRequests.append(request)
         updateProgress()
 
+        request.subtitle = L.connecting()
         request.delegate = self
 
         delegate?.offlineRequestManager(self, didStartRequest: request)
 
+        // swiftlint:disable:next closure_body_length
         request.perform { [weak self] error in
             guard let self = self,
                   let request = self.ongoingRequests.first(where: { $0.id == request.id }) else {
                     return // ignore if we have cleared requests
             }
 
+            request.subtitle = L.completed()
             self.removeOngoingRequest(request)
             NSObject.cancelPreviousPerformRequests(withTarget: self,
                                                    selector: #selector(OfflineRequestManager.killRequest(_:)),
                                                    object: request.id)
 
             if let error = error {
-                if (error as NSError).isNetworkError {
+                let nsError = error as NSError
+                if nsError.isNetworkError {
                     // keep at front of queue for next attemptSubmission
+                    request.subtitle = L.failedNetwork((error as NSError).code)
+                    self.saveToDisk()
+                    self.delegate?.offlineRequestManager(self, didUpdateRequest: request)
+                    return
+                } else if case NetworkError.status(500) = error {
+                    // ignore Internal Server Error for now - hope it's duplicate setting
+                    // as it returns an HTML error page not a JSON result
+                    self.completeRequest(request, error: nil)
                     return
                 } else if request.shouldAttemptResubmission(forError: error) == true ||
                           self.delegate?.offlineRequestManager(self,
                                                                shouldReattemptRequest: request,
                                                                withError: error) == true {
+                    request.subtitle = L.failedError(nsError.code, nsError.localizedDescription)
+                    self.saveToDisk()
+                    self.delegate?.offlineRequestManager(self, didUpdateRequest: request)
                     return
                 }
             }
@@ -544,6 +571,7 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
     @objc func killRequest(_ requestID: String?) {
         guard let request = ongoingRequests.first(where: { $0.id == requestID }) else { return }
         self.removeOngoingRequest(request)
+        request.subtitle = L.failedTimeout()
         completeRequest(request, error: NSError.timeOutError)
     }
 

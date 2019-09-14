@@ -196,20 +196,27 @@ protocol NetworkService: Observable, ServiceProvider {
     /// Reset user throttling
     func unthrottle()
 
-    /// Direct accessor for display initialization
+    /// Direct accessor for connection status
     var isConnected: Bool { get }
 
-    /// Direct accessor for queued requests
+    /// Direct accessor for queued tasks
+    var tasks: [OfflineRequestManager.Task] { get }
+
+    /// Direct accessor for network controller
     var mtp: MTPNetworkController { get }
 }
 
 /// Production implementation of NetworkService
 class NetworkServiceImpl: NetworkService {
 
-    let mtp: MTPNetworkController
-
-    /// Direct accessor for queued requests
+    /// Direct accessor for connection status
     var isConnected: Bool { return offlineRequestManager.connected }
+
+    /// Direct accessor for queued tasks
+    var tasks: [OfflineRequestManager.Task] { return offlineRequestManager.tasks }
+
+    /// Direct accessor for network controller
+    let mtp: MTPNetworkController
 
     private var queue = OperationQueue {
         $0.name = "refresh"
@@ -580,6 +587,17 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
                info: [ StatusKey.value.rawValue: manager ])
     }
 
+    /// Callback indicating that the OfflineRequest status has changed
+    ///
+    /// - Parameters:
+    ///   - manager: OfflineRequestManager instance
+    ///   - request: OfflineRequest that changed its subtitle
+    func offlineRequestManager(_ manager: OfflineRequestManager,
+                               didUpdateRequest request: OfflineRequest) {
+        notify(observers: NetworkServiceChange.tasks.rawValue,
+               info: [ StatusKey.value.rawValue: manager ])
+    }
+
     /// Callback indicating that the OfflineRequest action has successfully finished
     ///
     /// - Parameters:
@@ -605,15 +623,45 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     }
 }
 
+/// Queued visit state operation
 final class MTPVisitedRequest: NSObject, OfflineRequest, ServiceProvider {
 
-    let item: Checklist.Item
-    let visited: Bool
+    private let item: Checklist.Item
+    private let visited: Bool
 
-    init(item: Checklist.Item, visited: Bool) {
+    /// Description for Network Status tab
+    var title: String
+
+    /// Information for Network Status tab
+    var subtitle: String
+
+    /// Memberwise initializer
+    ///
+    /// - Parameters:
+    ///   - item: Place changing status
+    ///   - visited: Visited or not
+    ///   - title: Title if deserialized
+    ///   - subtitle: Subtitle if deserialized
+    init(item: Checklist.Item,
+         visited: Bool,
+         title: String? = nil,
+         subtitle: String? = nil) {
         self.item = item
         self.visited = visited
+        self.title = L.unknown()
+        self.subtitle = subtitle ?? L.queued()
         super.init()
+
+        self.title = title ?? {
+            let operation = visited ? L.visited() : L.notVisited()
+            let name: String
+            if let mappable = data.get(mappable: item) {
+                name = mappable.title
+            } else {
+                name = L.unknown()
+            }
+            return L.visitedRequest(operation, name)
+        }()
     }
 
     /// Dictionary methods are required for saving to disk in the case of app termination
@@ -625,14 +673,19 @@ final class MTPVisitedRequest: NSObject, OfflineRequest, ServiceProvider {
             return nil
         }
 
-        self.init(item: (list, id), visited: visited)
+        self.init(item: (list, id),
+                  visited: visited,
+                  title: dictionary[Note.ChecklistItemInfo.title.key] as? String,
+                  subtitle: dictionary[Note.ChecklistItemInfo.subtitle.key] as? String)
     }
 
     var dictionary: [String: Any] {
         let info: NotificationService.Info = [
             Note.ChecklistItemInfo.list.key: item.list.rawValue,
             Note.ChecklistItemInfo.id.key: item.id,
-            Note.ChecklistItemInfo.visited.key: visited
+            Note.ChecklistItemInfo.visited.key: visited,
+            Note.ChecklistItemInfo.title.key: title,
+            Note.ChecklistItemInfo.subtitle.key: subtitle
         ]
         return info
     }

@@ -11,7 +11,10 @@ final class NetworkVC: UITableViewController {
     private let layout = (row: CGFloat(60),
                           header: CGFloat(40))
 
-    private var tasks: [OfflineRequestManager.Task] = []
+    /// Content state to display
+    var contentState: ContentState = .loading
+    /// Data models
+    private var models: [OfflineRequestManager.Task] = []
     private var tasksObserver: Observer?
 
     /// Prepare for interaction
@@ -29,6 +32,9 @@ final class NetworkVC: UITableViewController {
         tableView.sectionHeaderHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = UITableView.automaticDimension
         tableView.rowHeight = UITableView.automaticDimension
+
+        update()
+        observe()
     }
 
     /// Prepare for reveal
@@ -70,7 +76,7 @@ extension NetworkVC {
     /// - Returns: Number of rows in section
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
-        return tasks.count
+        return models.count
     }
 
     /// Create table header
@@ -103,15 +109,15 @@ extension NetworkVC {
             withIdentifier: R.reuseIdentifier.networkCell,
             for: indexPath)
 
-        let task = tasks[indexPath.row]
+        let model = models[indexPath.row]
         cell.textLabel?.font = Avenir.book.of(size: 17)
         cell.textLabel?.lineBreakMode = .byWordWrapping
         cell.textLabel?.numberOfLines = 0
-        cell.textLabel?.text = task.title
+        cell.textLabel?.text = model.title
         cell.detailTextLabel?.font = Avenir.bookOblique.of(size: 15)
         cell.detailTextLabel?.lineBreakMode = .byWordWrapping
         cell.detailTextLabel?.numberOfLines = 0
-        cell.detailTextLabel?.text = task.subtitle
+        cell.detailTextLabel?.text = model.subtitle
 
         return cell
     }
@@ -170,14 +176,19 @@ extension NetworkVC {
 
 private extension NetworkVC {
 
+    func update() {
+        self.models = net.tasks
+        tableView.reloadData()
+
+        contentState = models.isEmpty ? .empty :  .data
+        tableView.set(message: contentState, color: .darkText)
+    }
+
     func observe() {
         guard tasksObserver == nil else { return }
 
-        tasksObserver = net.observer(of: .tasks) { [weak self] info in
-            guard let manager = info[StatusKey.value.rawValue] as? OfflineRequestManager,
-                  let self = self else { return }
-            self.tasks = manager.tasks
-            self.tableView.reloadData()
+        tasksObserver = net.observer(of: .tasks) { [weak self] _ in
+            self?.update()
         }
     }
 }

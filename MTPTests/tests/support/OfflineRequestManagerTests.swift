@@ -362,6 +362,8 @@ private class MockRequest: OfflineRequest {
     var error: NSError?
     var mock: [String: Any] = [:]
     var complete = false
+    var title: String = "title"
+    var subtitle: String = "subtitle"
 
     static let progressIncrement = 0.2
 
@@ -414,6 +416,7 @@ private class OfflineRequestManagerListener: NSObject, OfflineRequestManagerDele
         case progress(progress: Double)
         case connectionStatus(connected: Bool)
         case started(request: OfflineRequest)
+        case updated(request: OfflineRequest)
         case finished(request: OfflineRequest)
         case failed(request: OfflineRequest, error: Error)
     }
@@ -438,6 +441,11 @@ private class OfflineRequestManagerListener: NSObject, OfflineRequestManagerDele
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                didStartRequest request: OfflineRequest) {
         triggerBlock?(.started(request: request))
+    }
+
+    func offlineRequestManager(_ manager: OfflineRequestManager,
+                               didUpdateRequest request: OfflineRequest) {
+        triggerBlock?(.updated(request: request))
     }
 
     func offlineRequestManager(_ manager: OfflineRequestManager,

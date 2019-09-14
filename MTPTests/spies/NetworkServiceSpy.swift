@@ -14,6 +14,14 @@ final class NetworkServiceSpy: NetworkService {
         invokedIsConnectedGetterCount += 1
         return stubbedIsConnected
     }
+    var invokedTasksGetter = false
+    var invokedTasksGetterCount = 0
+    var stubbedTasks: [OfflineRequestManager.Task]! = []
+    var tasks: [OfflineRequestManager.Task] {
+        invokedTasksGetter = true
+        invokedTasksGetterCount += 1
+        return stubbedTasks
+    }
     var invokedMtpGetter = false
     var invokedMtpGetterCount = 0
     var stubbedMtp: MTPNetworkController!

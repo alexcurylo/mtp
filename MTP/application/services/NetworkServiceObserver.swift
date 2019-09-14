@@ -18,11 +18,11 @@ private class NetworkServiceObserver: ObserverImpl {
     static let notification = Notification.Name("NetworkServiceChange")
     static let statusKey = StatusKey.change
 
-    init(of value: NetworkServiceChange,
+    init(of change: NetworkServiceChange,
          notify: @escaping NotificationHandler) {
         super.init(notification: NetworkServiceObserver.notification,
                    key: NetworkServiceObserver.statusKey,
-                   value: value.rawValue,
+                   value: change.rawValue,
                    notify: notify)
     }
 }
@@ -59,8 +59,8 @@ extension NetworkService {
     ///   - of: NetworkServiceChange
     ///   - handler: Handler
     /// - Returns: Observer
-    func observer(of: NetworkServiceChange,
+    func observer(of change: NetworkServiceChange,
                   handler: @escaping NotificationHandler) -> Observer {
-        return NetworkServiceObserver(of: of, notify: handler)
+        return NetworkServiceObserver(of: change, notify: handler)
     }
 }
