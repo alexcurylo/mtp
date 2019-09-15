@@ -9,8 +9,8 @@ enum NetworkServiceChange: String {
     case connection
     /// progress
     case progress
-    /// tasks
-    case tasks
+    /// requests
+    case requests
 }
 
 private class NetworkServiceObserver: ObserverImpl {

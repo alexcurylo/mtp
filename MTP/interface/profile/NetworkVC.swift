@@ -13,9 +13,12 @@ final class NetworkVC: UITableViewController {
 
     /// Content state to display
     var contentState: ContentState = .loading
-    /// Data models
-    private var models: [OfflineRequestManager.Task] = []
-    private var tasksObserver: Observer?
+
+    /// Description for displaying in alert or table
+    typealias Task = (title: String, subtitle: String)
+
+    private var models: [Task] = []
+    private var requestsObserver: Observer?
 
     /// Prepare for interaction
     override func viewDidLoad() {
@@ -177,7 +180,8 @@ extension NetworkVC {
 private extension NetworkVC {
 
     func update() {
-        self.models = net.tasks
+        self.models = net.requests
+                         .map { (title: $0.title, subtitle: $0.subtitle) }
         tableView.reloadData()
 
         contentState = models.isEmpty ? .empty :  .data
@@ -185,9 +189,9 @@ private extension NetworkVC {
     }
 
     func observe() {
-        guard tasksObserver == nil else { return }
+        guard requestsObserver == nil else { return }
 
-        tasksObserver = net.observer(of: .tasks) { [weak self] _ in
+        requestsObserver = net.observer(of: .requests) { [weak self] _ in
             self?.update()
         }
     }

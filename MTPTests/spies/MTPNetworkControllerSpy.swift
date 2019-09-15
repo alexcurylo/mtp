@@ -290,16 +290,17 @@ final class MTPNetworkControllerSpy: MTPNetworkController {
     }
     var invokedUserGetByToken = false
     var invokedUserGetByTokenCount = 0
-    var invokedUserGetByTokenParameters: (stub: MTPProvider.StubClosure, then: NetworkCompletion<UserJSON>)?
-    var invokedUserGetByTokenParametersList = [(stub: MTPProvider.StubClosure, then: NetworkCompletion<UserJSON>)]()
+    var invokedUserGetByTokenParameters: (reload: Bool, stub: MTPProvider.StubClosure, then: NetworkCompletion<UserJSON>)?
+    var invokedUserGetByTokenParametersList = [(reload: Bool, stub: MTPProvider.StubClosure, then: NetworkCompletion<UserJSON>)]()
     override func userGetByToken(
+    reload: Bool,
     stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
     then: @escaping NetworkCompletion<UserJSON>
     ) {
         invokedUserGetByToken = true
         invokedUserGetByTokenCount += 1
-        invokedUserGetByTokenParameters = (stub, then)
-        invokedUserGetByTokenParametersList.append((stub, then))
+        invokedUserGetByTokenParameters = (reload, stub, then)
+        invokedUserGetByTokenParametersList.append((reload, stub, then))
     }
     var invokedUserLogin = false
     var invokedUserLoginCount = 0

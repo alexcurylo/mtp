@@ -323,16 +323,16 @@ final class RealmDataController: ServiceProvider {
     /// Delete all user photos
     ///
     /// - Parameter id: User ID
-    func deletePhotos(user id: Int) {
+    func delete(photos userId: Int) {
         do {
-            let filter = "userId = \(id)"
+            let filter = "userId = \(userId)"
             let results = realm.objects(PhotosPageInfo.self)
                                .filter(filter)
             try realm.write {
                 realm.delete(results)
             }
         } catch {
-            log.error("deletePhotos: \(error)")
+            log.error("delete(photos:): \(error)")
         }
     }
 
@@ -409,6 +409,22 @@ final class RealmDataController: ServiceProvider {
                            .filter(filter)
                            .sorted(byKeyPath: "page")
         return results
+    }
+
+    /// Delete all rankings for checklist
+    ///
+    /// - Parameter rankings: Checklist
+    func delete(rankings: Checklist) {
+        do {
+            let filter = "dbKey contains 'checklistType=\(rankings)'"
+            let results = realm.objects(RankingsPageInfo.self)
+                               .filter(filter)
+            try realm.write {
+                realm.delete(results)
+            }
+        } catch {
+            log.error("delete(rankings:): \(error)")
+        }
     }
 
     /// Set rankings query

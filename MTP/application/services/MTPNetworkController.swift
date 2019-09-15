@@ -1557,9 +1557,11 @@ class MTPNetworkController: ServiceProvider {
     /// Get logged in user info
     ///
     /// - Parameters:
+    ///   - reload: Force reload
     ///   - stub: Stub behaviour
     ///   - then: Completion
     func userGetByToken(
+        reload: Bool,
         stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
         then: @escaping NetworkCompletion<UserJSON>
     ) {
@@ -1570,7 +1572,7 @@ class MTPNetworkController: ServiceProvider {
         let auth = AccessTokenPlugin { self.data.token }
         let provider = MTPProvider(stubClosure: stub, plugins: [auth])
         let endpoint = MTP.userGetByToken
-        guard !endpoint.isThrottled else {
+        guard reload || !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
 
@@ -1683,7 +1685,7 @@ class MTPNetworkController: ServiceProvider {
                 self.data.token = token
                 self.data.user = user
                 self.report(success: endpoint)
-                self.userGetByToken { _ in
+                self.userGetByToken(reload: true) { _ in
                     then(.success(user))
                 }
                 return

@@ -306,12 +306,9 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
     /// Index of current request within the currently ongoing requests
     private(set) var completedRequestCount = 0
 
-    /// Description for displaying in alert or table
-    typealias Task = (title: String, subtitle: String)
-
-    /// Current task list
-    var tasks: [Task] {
-        return incompleteRequests.map { (title: $0.title, subtitle: $0.subtitle) }
+    /// Current request list
+    var requests: [OfflineRequest] {
+        return incompleteRequests
     }
 
     /// NetworkReachabilityManager used to observe connectivity status.

@@ -199,8 +199,8 @@ protocol NetworkService: Observable, ServiceProvider {
     /// Direct accessor for connection status
     var isConnected: Bool { get }
 
-    /// Direct accessor for queued tasks
-    var tasks: [OfflineRequestManager.Task] { get }
+    /// Direct accessor for queued requests
+    var requests: [OfflineRequest] { get }
 
     /// Direct accessor for network controller
     var mtp: MTPNetworkController { get }
@@ -212,8 +212,8 @@ class NetworkServiceImpl: NetworkService {
     /// Direct accessor for connection status
     var isConnected: Bool { return offlineRequestManager.connected }
 
-    /// Direct accessor for queued tasks
-    var tasks: [OfflineRequestManager.Task] { return offlineRequestManager.tasks }
+    /// Direct accessor for queued requests
+    var requests: [OfflineRequest] { return offlineRequestManager.requests }
 
     /// Direct accessor for network controller
     let mtp: MTPNetworkController
@@ -265,7 +265,7 @@ class NetworkServiceImpl: NetworkService {
               !isThrottled(last: lastRefreshUser, wait: .user) else { return }
 
         lastRefreshUser = Date()
-        mtp.userGetByToken { _ in
+        mtp.userGetByToken(reload: false) { _ in
             self.refreshUserInfo()
         }
     }
@@ -583,7 +583,7 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     ///   - request: OfflineRequest that started its action
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                didStartRequest request: OfflineRequest) {
-        notify(observers: NetworkServiceChange.tasks.rawValue,
+        notify(observers: NetworkServiceChange.requests.rawValue,
                info: [ StatusKey.value.rawValue: manager ])
     }
 
@@ -594,7 +594,7 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     ///   - request: OfflineRequest that changed its subtitle
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                didUpdateRequest request: OfflineRequest) {
-        notify(observers: NetworkServiceChange.tasks.rawValue,
+        notify(observers: NetworkServiceChange.requests.rawValue,
                info: [ StatusKey.value.rawValue: manager ])
     }
 
@@ -605,8 +605,12 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     ///   - request: OfflineRequest that finished its action
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                didFinishRequest request: OfflineRequest) {
-        notify(observers: NetworkServiceChange.tasks.rawValue,
+        notify(observers: NetworkServiceChange.requests.rawValue,
                info: [ StatusKey.value.rawValue: manager ])
+        if let request = request as? MTPVisitedRequest {
+            mtp.userGetByToken(reload: true) { _ in }
+            data.delete(rankings: request.checklist)
+        }
     }
 
     /// Callback indicating that the OfflineRequest action has failed for reasons unrelated to connectivity
@@ -618,7 +622,7 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                requestDidFail request: OfflineRequest,
                                withError error: Error) {
-        notify(observers: NetworkServiceChange.tasks.rawValue,
+        notify(observers: NetworkServiceChange.requests.rawValue,
                info: [ StatusKey.value.rawValue: manager ])
     }
 }
@@ -634,6 +638,14 @@ final class MTPVisitedRequest: NSObject, OfflineRequest, ServiceProvider {
 
     /// Information for Network Status tab
     var subtitle: String
+
+    /// Information for clearing rankings
+    var checklist: Checklist { return item.list }
+
+    /// Test for rank changes pending
+    func changes(list: Checklist) -> Bool {
+        return item.list == list
+    }
 
     /// Memberwise initializer
     ///
@@ -750,7 +762,8 @@ final class NetworkServiceStub: NetworkServiceImpl {
     }
 
     override fileprivate func refreshUser() {
-        mtp.userGetByToken(stub: MTPProvider.immediatelyStub) { _ in }
+        mtp.userGetByToken(reload: false,
+                           stub: MTPProvider.immediatelyStub) { _ in }
         guard let user = data.user else { return }
 
         mtp.loadChecklists(stub: MTPProvider.immediatelyStub) { _ in }

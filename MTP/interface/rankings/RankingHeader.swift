@@ -18,13 +18,11 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
     static let reuseIdentifier = NSStringFromClass(RankingHeader.self)
 
     private enum Layout {
-        static let size = (avatar: CGFloat(25),
-                           updating: CGFloat(15))
+        static let sizeAvatar = CGFloat(25)
         static let cornerRadius = CGFloat(4)
         static let spacing = (rank: CGFloat(8),
-                              label: CGFloat(4),
-                              updating: CGFloat(2))
-        static let updatingColor = UIColor.carnation
+                              label: CGFloat(4))
+        static let updatingColor = UIColor.black
         static let rankFont = (normal: Avenir.medium.of(size: 15),
                                updating: Avenir.mediumOblique.of(size: 15))
         static let insets = UIEdgeInsets(top: spacing.rank,
@@ -38,9 +36,9 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
    }
 
     private let avatarImageView = UIImageView {
-        $0.heightAnchor == Layout.size.avatar
-        $0.widthAnchor == Layout.size.avatar
-        $0.cornerRadius = Layout.size.avatar / 2
+        $0.heightAnchor == Layout.sizeAvatar
+        $0.widthAnchor == Layout.sizeAvatar
+        $0.cornerRadius = Layout.sizeAvatar / 2
         $0.backgroundColor = .mercury
         $0.contentMode = .scaleAspectFill
         $0.setContentHuggingPriority(.required, for: .horizontal)
@@ -63,21 +61,11 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
         $0.font = Avenir.book.of(size: 14)
         $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
-    private let updatingImageView = UIImageView {
-        $0.heightAnchor == Layout.size.updating
-        $0.widthAnchor == Layout.size.updating
+    private let uploadImageView = UIImageView {
         $0.setContentHuggingPriority(.required, for: .horizontal)
-        $0.image = R.image.updating()
+        $0.image = R.image.upload()
         $0.tintColor = Layout.updatingColor
     }
-    private let updatingLabel = UILabel {
-        $0.font = Avenir.lightOblique.of(size: 13)
-        $0.setContentHuggingPriority(.required, for: .horizontal)
-        $0.setContentCompressionResistancePriority(.required, for: .horizontal)
-        $0.allowsDefaultTighteningForTruncation = true
-        $0.textColor = Layout.updatingColor
-    }
-    private var updatingStack: UIStackView?
     private let rankView = UIView {
         $0.backgroundColor = .white
         $0.cornerRadius = Layout.cornerRadius
@@ -94,13 +82,13 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
     private var lines: UIStackView?
 
     private weak var delegate: RankingHeaderDelegate?
-    private let scheduler = Scheduler()
-    private var updating = false
 
-    private var list: Checklist = .locations
+    private var list: Checklist?
     private var rank: Int?
     private var scorecardObserver: Observer?
     private var userObserver: Observer?
+    private var requestsObserver: Observer?
+    private var uploading = false
 
     /// Procedural intializer
     ///
@@ -146,11 +134,7 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
 
         self.list = list
         self.rank = rank
-        scheduler.fire(every: 60) { [weak self, list] in
-            self?.update(timer: list)
-        }
-        update(rank: user)
-
+        update()
         observe()
     }
 
@@ -158,6 +142,7 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
     override func prepareForReuse() {
         super.prepareForReuse()
 
+        list = nil
         configure(current: true)
         delegate = nil
         avatarImageView.prepareForReuse()
@@ -175,40 +160,36 @@ private extension RankingHeader {
         guard scorecardObserver == nil else { return }
 
         scorecardObserver = data.observer(of: .scorecard) { [weak self] _ in
-            guard let self = self,
-                  let user = self.data.user else { return }
-
-            self.update(rank: user)
+            self?.update()
         }
-
         userObserver = data.observer(of: .user) { [weak self] _ in
-            guard let self = self,
-                  let user = self.data.user else { return }
-
-            self.update(rank: user)
+            self?.update()
+        }
+        requestsObserver = net.observer(of: .requests) { [weak self] _ in
+            self?.update()
         }
     }
 
-    func update(rank user: UserJSON) {
+    // swiftlint:disable:next function_body_length
+    func update() {
+        guard let list = list,
+              let user = self.data.user else { return }
         guard !user.isWaiting else {
-            scheduler.stop()
             rankTitle.text = ""
             rankLabel.text = L.verify()
             rankLabel.textColor = Layout.updatingColor
             rankLabel.font = Layout.rankFont.updating
             fractionLabel.text = ""
-            updatingStack?.isHidden = true
+            uploadImageView.isHidden = true
             return
         }
-
         guard user.isComplete else {
-            scheduler.stop()
             rankTitle.text = ""
             rankLabel.text = L.complete()
             rankLabel.textColor = nil
             rankLabel.font = Layout.rankFont.updating
             fractionLabel.text = ""
-            updatingStack?.isHidden = true
+            uploadImageView.isHidden = true
             return
         }
 
@@ -217,13 +198,12 @@ private extension RankingHeader {
         let visitedText = status.visited.grouped
         let totalText = (status.visited + status.remaining).grouped
         guard let rank = rank else {
-            scheduler.stop()
             rankTitle.text = L.myScore()
             rankLabel.text = L.scoreFraction(visitedText, totalText)
             rankLabel.textColor = nil
             rankLabel.font = Layout.rankFont.normal
             fractionLabel.text = ""
-            updatingStack?.isHidden = true
+            uploadImageView.isHidden = true
             return
         }
 
@@ -231,37 +211,28 @@ private extension RankingHeader {
         rankTitle.text = L.myRanking()
         rankLabel.text = L.rankScore(rankText)
         fractionLabel.text = L.rankFraction(visitedText, totalText)
-    }
 
-    func update(timer list: Checklist) {
-        let status = list.rankingsStatus
-        configure(current: status.isCurrent)
-        guard !status.isCurrent else { return }
-
-        updatingLabel.text = L.updateWait(status.wait)
-        guard status.isPending,
-            scheduler.isActive,
-            !updating else { return }
-
-        updating = true
-        data.update(scorecard: list) { [weak self] updated in
-            guard let self = self, self.updating else { return }
-
-            self.updating = false
-            self.configure(current: updated)
-            self.data.update(rankings: list) { _ in }
+        for request in net.requests.compactMap({ $0 as? MTPVisitedRequest }) {
+            if request.changes(list: list) {
+                uploading = true
+                return configure(current: false)
+            }
         }
+        if uploading {
+            data.update(rankings: list) { _ in }
+        }
+        uploading = false
+        configure(current: true)
     }
 
     func configure(current: Bool) {
         if current {
-            updating = false
-            scheduler.stop()
-            updatingStack?.isHidden = true
+            uploading = false
+            uploadImageView.isHidden = true
             rankLabel.textColor = nil
             rankLabel.font = Layout.rankFont.normal
         } else {
-            updatingStack?.isHidden = false
+            uploadImageView.isHidden = false
             rankLabel.textColor = Layout.updatingColor
             rankLabel.font = Layout.rankFont.updating
         }
@@ -276,15 +247,9 @@ private extension RankingHeader {
             $0.alignment = .center
             $0.spacing = Layout.spacing.label
         }
-        let updating = UIStackView(arrangedSubviews: [updatingImageView,
-                                                      updatingLabel]).with {
-            $0.alignment = .center
-            $0.spacing = Layout.spacing.updating
-        }
-        updatingStack = updating
         let rankLine = UIStackView(arrangedSubviews: [avatarImageView,
                                                       labels,
-                                                      updating]).with {
+                                                      uploadImageView]).with {
             $0.spacing = Layout.spacing.rank
             $0.alignment = .center
         }

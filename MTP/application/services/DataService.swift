@@ -274,8 +274,13 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
 
     /// Delete all user photos
     ///
-    /// - Parameter id: User ID
-    func deletePhotos(user id: Int)
+    /// - Parameter userId: User ID
+    func delete(photos userId: Int)
+
+    /// Delete all rankings for checklist
+    ///
+    /// - Parameter rankings: Checklist
+    func delete(rankings: Checklist)
 
     /// Resolve Realm crossthread reference
     ///
@@ -340,7 +345,7 @@ extension DataService {
         net.unthrottle()
 
         if let id = user?.id {
-            deletePhotos(user: id)
+            delete(photos: id)
         }
         blockedPhotos = []
         blockedPosts = []
@@ -951,8 +956,16 @@ class DataServiceImpl: DataService {
     /// Delete all user photos
     ///
     /// - Parameter id: User ID
-    func deletePhotos(user id: Int) {
-        realm.deletePhotos(user: id)
+    func delete(photos userId: Int) {
+        realm.delete(photos: userId)
+    }
+
+    /// Delete all rankings for checklist
+    ///
+    /// - Parameter rankings: Checklist
+    func delete(rankings: Checklist) {
+        realm.delete(rankings: rankings)
+        notify(change: .rankings)
     }
 
     /// Resolve Realm crossthread reference
