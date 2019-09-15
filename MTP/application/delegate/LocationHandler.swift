@@ -216,7 +216,7 @@ private extension LocationHandler {
         guard let here = lastCoordinate?.coordinate,
               distanceUpdate == nil else { return }
         let update = DistancesOperation(center: here,
-                                        mappables: data.mappables,
+                                        mappables: data.visibles,
                                         handler: self,
                                         trigger: trigger,
                                         world: data.worldMap)

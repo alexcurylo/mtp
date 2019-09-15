@@ -9,12 +9,13 @@ final class WHSTests: XCTestCase {
         // given
         let realm = RealmDataController()
         let data = try unwrap(complete.data(using: .utf8))
+        var parents: Set<Int> = []
 
         // when
         let json = try JSONDecoder.mtp.decode(WHSJSON.self,
                                               from: data)
         realm.set(whss: [json])
-        let sut = try unwrap(WHS(from: json, realm: realm))
+        let sut = try unwrap(WHS(from: json, parents: &parents, realm: realm))
         let map = try unwrap(sut.map)
 
         // then
@@ -46,11 +47,12 @@ final class WHSTests: XCTestCase {
         // given
         let realm = RealmDataController()
         let data = try unwrap(incomplete.data(using: .utf8))
+        var parents: Set<Int> = []
 
         // when
         let json = try JSONDecoder.mtp.decode(WHSJSON.self,
                                               from: data)
-        let sut = WHS(from: json, realm: realm)
+        let sut = WHS(from: json, parents: &parents, realm: realm)
 
         // then
         XCTAssertNil(sut)
@@ -60,11 +62,12 @@ final class WHSTests: XCTestCase {
         // given
         let realm = RealmDataController()
         let data = try unwrap(switzerland.data(using: .utf8))
+        var parents: Set<Int> = []
 
         // when
         let json = try JSONDecoder.mtp.decode(WHSJSON.self,
                                               from: data)
-        let sut = try unwrap(WHS(from: json, realm: realm))
+        let sut = try unwrap(WHS(from: json, parents: &parents, realm: realm))
         let map = try unwrap(sut.map)
 
         // then
@@ -77,11 +80,12 @@ final class WHSTests: XCTestCase {
         // given
         let realm = RealmDataController()
         let data = try unwrap(child.data(using: .utf8))
+        var parents: Set<Int> = []
 
         // when
         let json = try JSONDecoder.mtp.decode(WHSJSON.self,
                                               from: data)
-        let sut = try unwrap(WHS(from: json, realm: realm))
+        let sut = try unwrap(WHS(from: json, parents: &parents, realm: realm))
         let map = try unwrap(sut.map)
 
         // then
@@ -95,11 +99,12 @@ final class WHSTests: XCTestCase {
         // given
         let realm = RealmDataController()
         let data = try unwrap(inactive.data(using: .utf8))
+        var parents: Set<Int> = []
 
         // when
         let json = try JSONDecoder.mtp.decode(WHSJSON.self,
                                               from: data)
-        let sut = WHS(from: json, realm: realm)
+        let sut = WHS(from: json, parents: &parents, realm: realm)
 
         // then
         XCTAssertNil(sut)

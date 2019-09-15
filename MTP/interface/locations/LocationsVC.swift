@@ -84,7 +84,7 @@ class LocationsVC: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let nearby = Segues.showNearby(segue: segue)?
                               .destination {
-            nearby.inject(model: (data.mappables,
+            nearby.inject(model: (data.visibles,
                                   mtpMapView.centerCoordinate))
         } else if let show = Segues.showLocation(segue: segue)?
                                    .destination,
@@ -261,7 +261,7 @@ extension LocationsVC: UISearchBarDelegate {
     ///   - searchText: Contents
     func searchBar(_ searchBar: UISearchBar,
                    textDidChange searchText: String) {
-        matches = data.get(mappables: searchText)
+        matches = data.get(visibles: searchText)
         let names = matches.map { $0.title }
         let ids = (0..<names.count).map { UILocations.result($0).identifier }
         dropdown.localizationKeysDataSource = ids

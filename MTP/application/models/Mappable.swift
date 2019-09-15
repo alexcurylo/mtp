@@ -118,6 +118,8 @@ protocol Mapper {
     dynamic var subtitle: String = ""
     /// title
     dynamic var title: String = ""
+    /// visible
+    dynamic var visible: Bool = true
     /// visitors
     dynamic var visitors: Int = 0
     /// website

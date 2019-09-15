@@ -37,8 +37,8 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var locations: [Location] { get }
     /// Displayed types
     var mapDisplay: ChecklistFlags { get set }
-    /// Mappables
-    var mappables: [Mappable] { get }
+    /// Get all places
+    var visibles: [Mappable] { get }
     /// Notified timestamps
     var notified: Timestamps? { get set }
     /// Restaurants
@@ -103,16 +103,21 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     /// - Parameter item: list and ID
     /// - Returns: Place if found
     func get(mappable item: Checklist.Item) -> Mappable?
+    /// Get visible place
+    ///
+    /// - Parameter item: list and ID
+    /// - Returns: Place if found
+    func get(visible item: Checklist.Item) -> Mappable?
     /// Get places
     ///
     /// - Parameter list: Checklist
     /// - Returns: Places in list
-    func get(mappables list: Checklist) -> [Mappable]
+    func get(visibles list: Checklist) -> [Mappable]
     /// Get matching places
     ///
     /// - Parameter matching: String
     /// - Returns: Places matching
-    func get(mappables matching: String) -> [Mappable]
+    func get(visibles matching: String) -> [Mappable]
     /// Get milestones
     ///
     /// - Parameter list: Checklist
@@ -576,25 +581,33 @@ class DataServiceImpl: DataService {
         return realm.mappable(item: item)
     }
 
-    /// Mappables
-    var mappables: [Mappable] {
-        return realm.mappables(list: nil)
+    /// Get visible place
+    ///
+    /// - Parameter item: list and ID
+    /// - Returns: Place if found
+    func get(visible item: Checklist.Item) -> Mappable? {
+        return realm.mappable(item: item, visible: true)
+    }
+
+    /// Get all places
+    var visibles: [Mappable] {
+        return realm.mappables(list: nil, visible: true)
     }
 
     /// Get places
     ///
     /// - Parameter list: list
     /// - Returns: Places in list
-    func get(mappables list: Checklist) -> [Mappable] {
-        return realm.mappables(list: list)
+    func get(visibles list: Checklist) -> [Mappable] {
+        return realm.mappables(list: list, visible: true)
     }
 
     /// Get matching places
     ///
     /// - Parameter matching: String
     /// - Returns: Places matching
-    func get(mappables matching: String) -> [Mappable] {
-        return realm.mappables(matching: matching)
+    func get(visibles matching: String) -> [Mappable] {
+        return realm.mappables(matching: matching, visible: true)
     }
 
     /// Set places visited state

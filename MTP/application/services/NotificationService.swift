@@ -429,7 +429,7 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
     ///
     /// - Parameter item: Place
     func congratulate(item: Checklist.Item) {
-        guard let mappable = data.get(mappable: item) else { return }
+        guard let mappable = data.get(visible: item) else { return }
 
         congratulate(mappable: mappable)
     }
@@ -503,7 +503,7 @@ private extension NotificationServiceImpl {
                 triggered.set(key: key, stamped: false)
                 changed = true
                 break
-            } else if let mappable = data.get(mappable: item) {
+            } else if let mappable = data.get(visible: item) {
                 notify(mappable: mappable,
                        triggered: value) { _ in }
                 break

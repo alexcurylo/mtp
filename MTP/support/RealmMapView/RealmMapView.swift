@@ -7,13 +7,13 @@
 import MapKit
 import RealmSwift
 
-typealias ClusterAnnotationView = ABFClusterAnnotationView
-typealias LocationSafeRealmObject = ABFLocationSafeRealmObject
-typealias LocationFetchedResultsController = ABFLocationFetchedResultsController
-typealias ZoomLevel = ABFZoomLevel
-typealias ResultsLimit = ABFResultsLimit
-typealias Annotation = ABFAnnotation
-typealias AnnotationType = ABFAnnotationType
+typealias MappablesAnnotation = ABFAnnotation
+private typealias AnnotationType = ABFAnnotationType
+private typealias ClusterAnnotationView = ABFClusterAnnotationView
+private typealias LocationFetchedResultsController = ABFLocationFetchedResultsController
+private typealias LocationSafeRealmObject = ABFLocationSafeRealmObject
+private typealias ResultsLimit = ABFResultsLimit
+private typealias ZoomLevel = ABFZoomLevel
 
 /// Creates an interface object that inherits MKMapView and manages fetching and displaying
 /// annotations for a Realm Swift object class that contains coordinate data.
@@ -43,8 +43,8 @@ class RealmMapView: MKMapView {
     }
 
     /// The internal controller that fetches the Realm objects
-    var fetchedResultsController: LocationFetchedResultsController = {
-        let controller = ABFLocationFetchedResultsController()
+    fileprivate var fetchedResultsController: LocationFetchedResultsController = {
+        let controller = LocationFetchedResultsController()
 
         return controller
     }()
@@ -89,19 +89,19 @@ class RealmMapView: MKMapView {
 
     /// Max zoom level of the map view to perform clustering on.
     ///
-    /// ABFZoomLevel is inherited from MapKit's Google days:
+    /// ZoomLevel is inherited from MapKit's Google days:
     /// 0 is the entire 2D Earth
     /// 20 is max zoom
     ///
     /// Default is 20, which means clustering will occur at every zoom level if clusterAnnotations is YES
-    var maxZoomLevelForClustering: ZoomLevel = 20
+    fileprivate var maxZoomLevelForClustering: ZoomLevel = 20
 
     /// The limit on how many results from Realm will be added to the map.
     ///
     /// This applies whether or not clustering is enabled.
     ///
     /// Default is -1, or unlimited results.
-    var resultsLimit: ResultsLimit {
+    fileprivate var resultsLimit: ResultsLimit {
         set {
             self.fetchedResultsController.resultsLimit = newValue
         }
@@ -268,7 +268,7 @@ class RealmMapView: MKMapView {
 
     private weak var externalDelegate: MKMapViewDelegate?
 
-    private func addAnnotationsToMapView(_ annotations: Set<ABFAnnotation>) {
+    private func addAnnotationsToMapView(_ annotations: Set<MappablesAnnotation>) {
         let safeObjects = self.fetchedResultsController.safeObjects
         // swiftlint:disable:next closure_body_length
         DispatchQueue.main.async { [weak self] in
@@ -334,7 +334,7 @@ class RealmMapView: MKMapView {
         )
     }
 
-    private func coordinateRegion(_ safeObjects: [ABFLocationSafeRealmObject]) -> MKCoordinateRegion {
+    private func coordinateRegion(_ safeObjects: [LocationSafeRealmObject]) -> MKCoordinateRegion {
         var rect = MKMapRect.null
 
         for safeObject in safeObjects {
@@ -355,8 +355,6 @@ class RealmMapView: MKMapView {
 
 /**
 Delegate proxy that allows the controller to trigger auto refresh and then rebroadcast to main delegate.
-
-:nodoc:
 */
 extension RealmMapView: MKMapViewDelegate {
 
@@ -398,16 +396,17 @@ extension RealmMapView: MKMapViewDelegate {
 
     func mapView(_ mapView: MKMapView,
                  viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if let delegate = self.externalDelegate, let method = delegate.mapView?(mapView, viewFor: annotation) {
+        if let delegate = self.externalDelegate,
+           let method = delegate.mapView?(mapView, viewFor: annotation) {
             return method
-        } else if let fetchedAnnotation = annotation as? ABFAnnotation {
+        } else if let fetchedAnnotation = annotation as? MappablesAnnotation {
             var annotationView = mapView.dequeueReusableAnnotationView(
                 withIdentifier: ABFAnnotationViewReuseId
-            ) as! ABFClusterAnnotationView?
+            ) as! ClusterAnnotationView?
             // swiftlint:disable:previous force_cast
 
             if annotationView == nil {
-                annotationView = ABFClusterAnnotationView(
+                annotationView = ClusterAnnotationView(
                     annotation: fetchedAnnotation, reuseIdentifier: ABFAnnotationViewReuseId
                 )
 
@@ -502,7 +501,7 @@ extension RealmMapView: MKMapViewDelegate {
     }
 }
 
-/// Extension to ABFLocationSafeRealmObject to convert back to original Object type
+/// Extension to LocationSafeRealmObject to convert back to original Object type
 extension LocationSafeRealmObject {
     func toObject<T>(_ type: T.Type) -> T {
         // swiftlint:disable:next force_cast

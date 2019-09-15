@@ -28,7 +28,9 @@ NSPredicate * NSPredicateForCoordinateRegion(MKCoordinateRegion region,
     CLLocationDegrees minLat = centerLat - halfLatDelta;
     CLLocationDegrees maxLong = centerLong + halfLongDelta;
     CLLocationDegrees minLong = centerLong - halfLongDelta;
-    
+
+    NSPredicate *visible = [NSPredicate predicateWithFormat:@"visible = true"];
+
     if (maxLong > 180) {
         // Create overflow region
         CLLocationDegrees overflowLongDelta = maxLong - 180;
@@ -49,11 +51,13 @@ NSPredicate * NSPredicateForCoordinateRegion(MKCoordinateRegion region,
         NSPredicate *overflowPredicate = NSPredicateForCoordinateRegion(overflowRegion, latitudeKeyPath, longitudeKeyPath);
         NSPredicate *boundedPredicate = NSPredicateForCoordinateRegion(boundedRegion, latitudeKeyPath, longitudeKeyPath);
         
-        NSCompoundPredicate *compoundPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:@[overflowPredicate,boundedPredicate]];
-        
-        return compoundPredicate;
+        NSCompoundPredicate *compoundPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:@[overflowPredicate, boundedPredicate]];
+        NSCompoundPredicate *allPredicates = [NSCompoundPredicate andPredicateWithSubpredicates:@[visible, compoundPredicate]];
+
+        return allPredicates;
     }
-    else if (minLong < -180) {
+
+    if (minLong < -180) {
         // Create overflow region
         CLLocationDegrees overflowLongDelta = -minLong - 180;
         CLLocationDegrees halfOverflowLongDelta = overflowLongDelta/2;
@@ -73,14 +77,16 @@ NSPredicate * NSPredicateForCoordinateRegion(MKCoordinateRegion region,
         NSPredicate *overflowPredicate = NSPredicateForCoordinateRegion(overflowRegion, latitudeKeyPath, longitudeKeyPath);
         NSPredicate *boundedPredicate = NSPredicateForCoordinateRegion(boundedRegion, latitudeKeyPath, longitudeKeyPath);
         
-        NSCompoundPredicate *compoundPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:@[overflowPredicate,boundedPredicate]];
-        
-        return compoundPredicate;
+        NSCompoundPredicate *compoundPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:@[overflowPredicate, boundedPredicate]];
+        NSCompoundPredicate *allPredicates = [NSCompoundPredicate andPredicateWithSubpredicates:@[visible, compoundPredicate]];
+
+        return allPredicates;
     }
-    
+
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K < %f AND %K > %f AND %K < %f AND %K > %f",latitudeKeyPath,maxLat,latitudeKeyPath,minLat,longitudeKeyPath,maxLong,longitudeKeyPath,minLong];
-    
-    return predicate;
+    NSCompoundPredicate *allPredicates = [NSCompoundPredicate andPredicateWithSubpredicates:@[visible, predicate]];
+
+    return allPredicates;
 }
 
 @interface ABFLocationFetchRequest ()

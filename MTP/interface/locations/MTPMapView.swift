@@ -2,9 +2,6 @@
 
 import MapKit
 
-/// Typealias for fluency
-typealias MappablesAnnotation = Annotation
-
 extension CLLocationDistance {
 
     /// Default map span for an annotation
@@ -191,8 +188,6 @@ private extension MTPMapView {
         zoomOnFirstRefresh = false
         animateAnnotations = true
         canShowCallout = true
-        maxZoomLevelForClustering = 20
-        resultsLimit = -1
         basePredicate = nil
     }
 

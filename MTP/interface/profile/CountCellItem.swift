@@ -231,13 +231,13 @@ private extension CountCellItem {
     }
 
     @objc func cellTapped(_ sender: UIButton) {
-        if let mappable = mappable {
+        if let mappable = mappable, mappable.visible {
             app.route(reveal: mappable)
         }
     }
 
     @objc func cellDoubleTapped(_ sender: UIButton) {
-        if let mappable = mappable {
+        if let mappable = mappable, mappable.visible {
             app.route(show: mappable)
         }
     }
