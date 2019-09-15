@@ -19,9 +19,6 @@ $iosVersion = '11.0'
 platform :ios, $iosVersion
 
 target 'MTP' do
-
-  pod 'ABFRealmMapView', :git => 'https://github.com/alexcurylo/ABFRealmMapView', :modular_headers => true
-
   pod 'AlamofireNetworkActivityIndicator'
   pod 'Anchorage'
   pod 'AXPhotoViewer/Nuke'

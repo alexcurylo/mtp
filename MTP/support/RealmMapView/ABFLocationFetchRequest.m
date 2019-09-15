@@ -92,8 +92,15 @@ NSPredicate * NSPredicateForCoordinateRegion(MKCoordinateRegion region,
 #pragma mark - ABFLocationFetchRequest
 
 @implementation ABFLocationFetchRequest
-@synthesize entityName = _entityName,
-realmConfiguration = _realmConfiguration;
+
+    @synthesize latitudeKeyPath = _latitudeKeyPath;
+    @synthesize longitudeKeyPath = _longitudeKeyPath;
+    @synthesize region = _region;
+    @synthesize predicate = _predicate;
+    @synthesize sortDescriptors = _sortDescriptors;
+    @synthesize realmForMainThread = _realmForMainThread;
+    @synthesize entityName = _entityName;
+    @synthesize realmConfiguration = _realmConfiguration;
 
 + (instancetype)locationFetchRequestWithEntityName:(NSString *)entityName
                                            inRealm:(RLMRealm *)realm

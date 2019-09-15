@@ -23,6 +23,14 @@ const double ABFNoDistance = DBL_MAX;
 
 @implementation ABFLocationSafeRealmObject
 
+    @synthesize coordinate = _coordinate;
+    @synthesize title = _title;
+    @synthesize subtitle = _subtitle;
+    @synthesize currentDistance = _currentDistance;
+    @synthesize threadSafeReference = _threadSafeReference;
+    @synthesize internalObject = _internalObject;
+    @synthesize realmConfiguration = _realmConfiguration;
+
 #pragma mark - Public Class
 
 + (instancetype)safeLocationObjectFromObject:(RLMObject *)object
@@ -44,7 +52,7 @@ const double ABFNoDistance = DBL_MAX;
 
 - (CLLocationDistance)currentDistance
 {
-    if (_currentDistance) {
+    if (_currentDistance != 0) {
         return _currentDistance;
     }
     
@@ -165,6 +173,13 @@ static NSString *ABFGeoHashWithCoordinate(CLLocationCoordinate2D coordinate,
 
 @implementation ABFAnnotation
 
+    @synthesize internalSafeObjects = _internalSafeObjects;
+    @synthesize geoHash = _geoHash;
+    @synthesize coordinate = _coordinate;
+    @synthesize title = _title;
+    @synthesize subtitle = _subtitle;
+    @synthesize type = _type;
+
 #pragma mark - Public Class
 
 + (instancetype)annotationWithType:(ABFAnnotationType)type
@@ -270,6 +285,9 @@ static NSString *ABFGeoHashWithCoordinate(CLLocationCoordinate2D coordinate,
 
 @implementation ABFLocationSortDescriptor
 
+    @synthesize location = _location;
+    @synthesize nearestFirst = _nearestFirst;
+
 #pragma mark - Public Class
 
 + (instancetype)sortDescriptorWithCenterCoordinate:(CLLocationCoordinate2D)centerCoordinate
@@ -320,7 +338,7 @@ ABFZoomLevel ABFZoomLevelForVisibleMapRect(MKMapRect visibleMapRect)
     double log2VisibleTiles = log2(visibleTiles);
     
     // Convert to ABFZoomLevel
-    NSUInteger zoomLevel = -floor(log2VisibleTiles) + 20;
+    NSUInteger zoomLevel = (NSUInteger)(-floor(log2VisibleTiles) + 20);
     
     return zoomLevel;
 }
@@ -368,6 +386,16 @@ ABFClusterSizeForZoomLevel ABFDefaultClusterSizeForZoomLevel()
 @end
 
 @implementation ABFLocationFetchedResultsController
+
+    @synthesize fetchRequest = _fetchRequest;
+    @synthesize sortDescriptor = _sortDescriptor;
+    @synthesize safeObjects = _safeObjects;
+    @synthesize annotations = _annotations;
+    @synthesize titleKeyPath = _titleKeyPath;
+    @synthesize subtitleKeyPath = _subtitleKeyPath;
+    @synthesize clusterTitleFormatString = _clusterTitleFormatString;
+    @synthesize clusterSizeBlock = _clusterSizeBlock;
+    @synthesize resultsLimit = _resultsLimit;
 
 #pragma mark - Public Instance
 
@@ -433,8 +461,8 @@ ABFClusterSizeForZoomLevel ABFDefaultClusterSizeForZoomLevel()
         MKMapPoint safeObjectPoint = MKMapPointForCoordinate(safeObject.coordinate);
         
         // Get x/y values adjusted for scale factor
-        NSUInteger x = floor(safeObjectPoint.x * scaleFactor);
-        NSUInteger y = floor(safeObjectPoint.y * scaleFactor);
+        NSUInteger x = (NSUInteger)(floor(safeObjectPoint.x * scaleFactor));
+        NSUInteger y = (NSUInteger)(floor(safeObjectPoint.y * scaleFactor));
         
         NSMutableDictionary *yDict = [clusterGrid objectForKey:@(x)];
         
@@ -495,7 +523,7 @@ ABFClusterSizeForZoomLevel ABFDefaultClusterSizeForZoomLevel()
 {
     NSMutableArray *safeObjects = [NSMutableArray arrayWithCapacity:fetchResults.count];
     
-    NSUInteger count = 0;
+    NSInteger count = 0;
     
     for (RLMObject *object in fetchResults) {
         

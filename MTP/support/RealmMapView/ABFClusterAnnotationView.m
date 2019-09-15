@@ -33,7 +33,7 @@ static CGRect ABFCenterRect(CGRect rect, CGPoint center)
 
 static CGFloat ABFScaledValueForValue(CGFloat value)
 {
-    return 1.0 / (1.0 + expf(-1 * ABFScaleFactorAlpha * powf(value, ABFScaleFactorBeta)));
+    return 1.0 / (1.0 + exp(-1 * ABFScaleFactorAlpha * pow(value, ABFScaleFactorBeta)));
 }
 
 #pragma mark - ABFClusterAnnotationView
@@ -43,6 +43,10 @@ static CGFloat ABFScaledValueForValue(CGFloat value)
 @end
 
 @implementation ABFClusterAnnotationView
+
+    @synthesize count = _count;
+    @synthesize color = _color;
+    @synthesize countLabel = _countLabel;
 
 #pragma mark - Class Methods
 
@@ -107,8 +111,8 @@ static CGFloat ABFScaledValueForValue(CGFloat value)
     
     CGRect newBounds = CGRectMake(0,
                                   0,
-                                  roundf(44. * ABFScaledValueForValue(count)),
-                                  roundf(44. * ABFScaledValueForValue(count)));
+                                  round(44. * ABFScaledValueForValue(count)),
+                                  round(44. * ABFScaledValueForValue(count)));
     
     self.frame = ABFCenterRect(newBounds, self.center);
     

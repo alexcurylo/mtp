@@ -398,6 +398,9 @@
 		FA81361220E8F64500313AB9 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FA81361120E8F64500313AB9 /* Settings.bundle */; };
 		FA815B712286D138004B91C8 /* NearbyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA815B702286D138004B91C8 /* NearbyVC.swift */; };
 		FA81D9A0232E1B7F0060DC72 /* RealmMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA81D99F232E1B7E0060DC72 /* RealmMapView.swift */; };
+		FA81D9A5232E27600060DC72 /* ABFClusterAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA81D9A3232E27600060DC72 /* ABFClusterAnnotationView.m */; };
+		FA81D9A8232E27BF0060DC72 /* ABFLocationFetchedResultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA81D9A6232E27BF0060DC72 /* ABFLocationFetchedResultsController.m */; };
+		FA81D9AB232E28670060DC72 /* ABFLocationFetchRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = FA81D9A9232E28660060DC72 /* ABFLocationFetchRequest.m */; };
 		FA835D34210EAC110098C270 /* Styler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA835D33210EAC110098C270 /* Styler.swift */; };
 		FA835D36210F054F0098C270 /* ReplaceTopSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */; };
 		FA8833E12209BF570037C796 /* RealmSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8833E02209BF570037C796 /* RealmSearchViewController.swift */; };
@@ -834,6 +837,13 @@
 		FA81361120E8F64500313AB9 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		FA815B702286D138004B91C8 /* NearbyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyVC.swift; sourceTree = "<group>"; };
 		FA81D99F232E1B7E0060DC72 /* RealmMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmMapView.swift; sourceTree = "<group>"; };
+		FA81D9A2232E275E0060DC72 /* MTP-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MTP-Bridging-Header.h"; sourceTree = "<group>"; };
+		FA81D9A3232E27600060DC72 /* ABFClusterAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABFClusterAnnotationView.m; sourceTree = "<group>"; };
+		FA81D9A4232E27600060DC72 /* ABFClusterAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABFClusterAnnotationView.h; sourceTree = "<group>"; };
+		FA81D9A6232E27BF0060DC72 /* ABFLocationFetchedResultsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABFLocationFetchedResultsController.m; sourceTree = "<group>"; };
+		FA81D9A7232E27BF0060DC72 /* ABFLocationFetchedResultsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABFLocationFetchedResultsController.h; sourceTree = "<group>"; };
+		FA81D9A9232E28660060DC72 /* ABFLocationFetchRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABFLocationFetchRequest.m; sourceTree = "<group>"; };
+		FA81D9AA232E28660060DC72 /* ABFLocationFetchRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABFLocationFetchRequest.h; sourceTree = "<group>"; };
 		FA835D33210EAC110098C270 /* Styler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styler.swift; sourceTree = "<group>"; };
 		FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplaceTopSegue.swift; sourceTree = "<group>"; };
 		FA8833E02209BF570037C796 /* RealmSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmSearchViewController.swift; sourceTree = "<group>"; };
@@ -1713,6 +1723,13 @@
 		FA81D9A1232E1C0A0060DC72 /* RealmMapView */ = {
 			isa = PBXGroup;
 			children = (
+				FA81D9A4232E27600060DC72 /* ABFClusterAnnotationView.h */,
+				FA81D9A3232E27600060DC72 /* ABFClusterAnnotationView.m */,
+				FA81D9A7232E27BF0060DC72 /* ABFLocationFetchedResultsController.h */,
+				FA81D9A6232E27BF0060DC72 /* ABFLocationFetchedResultsController.m */,
+				FA81D9AA232E28660060DC72 /* ABFLocationFetchRequest.h */,
+				FA81D9A9232E28660060DC72 /* ABFLocationFetchRequest.m */,
+				FA81D9A2232E275E0060DC72 /* MTP-Bridging-Header.h */,
 				FA81D99F232E1B7E0060DC72 /* RealmMapView.swift */,
 			);
 			path = RealmMapView;
@@ -1942,6 +1959,7 @@
 				TargetAttributes = {
 					FA392BB620DF69F30026C828 = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1030;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -2298,6 +2316,7 @@
 				FA8833E32209BF810037C796 /* LocationSearchVC.swift in Sources */,
 				8C7D71CB2303B690005939AC /* UIUserCountsPage.swift in Sources */,
 				8C93FE4F23039D690054B951 /* UIRankingsPaging.swift in Sources */,
+				FA81D9AB232E28670060DC72 /* ABFLocationFetchRequest.m in Sources */,
 				FA76D9752131278900EF8E25 /* User.swift in Sources */,
 				FA03457E2304489400632322 /* UIProfile.swift in Sources */,
 				8C76D8EC2207CD36005CF4CD /* RankingsPageInfo.swift in Sources */,
@@ -2383,11 +2402,13 @@
 				FA392BBB20DF69F30026C828 /* ActionHandler.swift in Sources */,
 				FAD2B51C21F4A675009FFDD7 /* Restaurant.swift in Sources */,
 				FA44CDF422B5A13F00F33D34 /* UIView+Shadow.swift in Sources */,
+				FA81D9A5232E27600060DC72 /* ABFClusterAnnotationView.m in Sources */,
 				FA463780210DE94C0007382D /* EditProfileVC.swift in Sources */,
 				FA7A66ED2300E894001DCCA2 /* UILogin.swift in Sources */,
 				FA815B712286D138004B91C8 /* NearbyVC.swift in Sources */,
 				FA254DCB21685D6800FC9360 /* Withable.swift in Sources */,
 				FAD2B51321F45796009FFDD7 /* PlaceLocation.swift in Sources */,
+				FA81D9A8232E27BF0060DC72 /* ABFLocationFetchedResultsController.m in Sources */,
 				FAFBB0CD22A6A5C4001EDB80 /* Milestones.swift in Sources */,
 				8C7D71D02303BE7D005939AC /* UIMyCountsPage.swift in Sources */,
 				FA99615F2136CF3100C85FBC /* ProfilePagingVC.swift in Sources */,
@@ -2886,8 +2907,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAF12300215652AE0099B772 /* MTP_Debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 641;
 				INFOPLIST_FILE = MTP/resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SWIFT_OBJC_BRIDGING_HEADER = "MTP/support/RealmMapView/MTP-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -2896,10 +2925,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAF122FC215652AE0099B772 /* MTP_Release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 641;
 				DEVELOPMENT_TEAM = 37L8D8MJWV;
 				INFOPLIST_FILE = MTP/resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PROVISIONING_PROFILE_SPECIFIER = "MTP-AppStore";
+				SWIFT_OBJC_BRIDGING_HEADER = "MTP/support/RealmMapView/MTP-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
