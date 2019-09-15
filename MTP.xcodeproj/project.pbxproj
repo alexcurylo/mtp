@@ -397,6 +397,7 @@
 		FA7CCAEF22B848EE0092A95E /* PhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7CCAEE22B848EE0092A95E /* PhotosVC.swift */; };
 		FA81361220E8F64500313AB9 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FA81361120E8F64500313AB9 /* Settings.bundle */; };
 		FA815B712286D138004B91C8 /* NearbyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA815B702286D138004B91C8 /* NearbyVC.swift */; };
+		FA81D9A0232E1B7F0060DC72 /* RealmMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA81D99F232E1B7E0060DC72 /* RealmMapView.swift */; };
 		FA835D34210EAC110098C270 /* Styler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA835D33210EAC110098C270 /* Styler.swift */; };
 		FA835D36210F054F0098C270 /* ReplaceTopSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */; };
 		FA8833E12209BF570037C796 /* RealmSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8833E02209BF570037C796 /* RealmSearchViewController.swift */; };
@@ -832,6 +833,7 @@
 		FA7CCAEE22B848EE0092A95E /* PhotosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosVC.swift; sourceTree = "<group>"; };
 		FA81361120E8F64500313AB9 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		FA815B702286D138004B91C8 /* NearbyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyVC.swift; sourceTree = "<group>"; };
+		FA81D99F232E1B7E0060DC72 /* RealmMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmMapView.swift; sourceTree = "<group>"; };
 		FA835D33210EAC110098C270 /* Styler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styler.swift; sourceTree = "<group>"; };
 		FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplaceTopSegue.swift; sourceTree = "<group>"; };
 		FA8833E02209BF570037C796 /* RealmSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmSearchViewController.swift; sourceTree = "<group>"; };
@@ -1708,6 +1710,14 @@
 			path = screens;
 			sourceTree = "<group>";
 		};
+		FA81D9A1232E1C0A0060DC72 /* RealmMapView */ = {
+			isa = PBXGroup;
+			children = (
+				FA81D99F232E1B7E0060DC72 /* RealmMapView.swift */,
+			);
+			path = RealmMapView;
+			sourceTree = "<group>";
+		};
 		FA8A65B0217ED4A300BC0DFE /* profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -1764,6 +1774,7 @@
 				FA6386A622D181C7001B4424 /* Namable.swift */,
 				FA6A188521EFEF920092C56C /* Observable.swift */,
 				FA4EE1442323462600A8D533 /* OfflineRequestManager.swift */,
+				FA81D9A1232E1C0A0060DC72 /* RealmMapView */,
 				FA8833E02209BF570037C796 /* RealmSearchViewController.swift */,
 				FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */,
 				8C3EAB832230FCC200CB4886 /* RoutingAppDelegate.swift */,
@@ -2414,6 +2425,7 @@
 				FA44CDF822B5CBFC00F33D34 /* UITableView+Updating.swift in Sources */,
 				FA0345922304C9C300632322 /* UIMyCountsPaging.swift in Sources */,
 				FA7A66D522FD95FB001DCCA2 /* UIMyProfile.swift in Sources */,
+				FA81D9A0232E1B7F0060DC72 /* RealmMapView.swift in Sources */,
 				8C5855EE231F4329009D115E /* FacebookSDKClient.swift in Sources */,
 				FA46377E210DE1E60007382D /* SettingsVC.swift in Sources */,
 				FA62BAEB2247A9A0009FDC4E /* CountsPageVC.swift in Sources */,

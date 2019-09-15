@@ -90,7 +90,7 @@ extension NetworkVC {
     /// - Returns: NetworkHeader
     override func tableView(_ tableView: UITableView,
                             viewForHeaderInSection section: Int) -> UIView? {
-        //swiftlint:disable:next implicitly_unwrapped_optional
+        // swiftlint:disable:next implicitly_unwrapped_optional
         let header: NetworkHeader! = tableView.dequeueReusableHeaderFooterView(
             withIdentifier: NetworkHeader.reuseIdentifier) as? NetworkHeader
 
@@ -107,7 +107,7 @@ extension NetworkVC {
     /// - Returns: UITableViewCell
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //swiftlint:disable:next implicitly_unwrapped_optional
+        // swiftlint:disable:next implicitly_unwrapped_optional
         let cell: UITableViewCell! = tableView.dequeueReusableCell(
             withIdentifier: R.reuseIdentifier.networkCell,
             for: indexPath)

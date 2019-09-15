@@ -6,7 +6,7 @@
 import Anchorage
 import WebKit
 
-//swiftlint:disable file_length
+// swiftlint:disable file_length
 
 /// Source of web page data
 enum WKWebSource: Equatable {

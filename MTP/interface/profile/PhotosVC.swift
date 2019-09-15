@@ -70,13 +70,13 @@ class PhotosVC: UICollectionViewController {
     /// - Parameter index: Index
     /// - Returns: Photo
     func photo(at index: Int) -> Photo {
-        //swiftlint:disable:previous unavailable_function
+        // swiftlint:disable:previous unavailable_function
         fatalError("photo(at:) has not been overridden")
     }
 
     /// Create a new Photo
     func createPhoto() {
-        //swiftlint:disable:previous unavailable_function
+        // swiftlint:disable:previous unavailable_function
         fatalError("createPhoto has not been overridden")
     }
 
@@ -179,7 +179,7 @@ extension PhotosVC {
     override func collectionView(_ collectionView: UICollectionView,
                                  viewForSupplementaryElementOfKind kind: String,
                                  at indexPath: IndexPath) -> UICollectionReusableView {
-        //swiftlint:disable:next implicitly_unwrapped_optional
+        // swiftlint:disable:next implicitly_unwrapped_optional
         let header: PhotosHeader! = collectionView.dequeueReusableSupplementaryView(
             ofKind: kind,
             withReuseIdentifier: R.reuseIdentifier.photosHeader,
@@ -208,7 +208,7 @@ extension PhotosVC {
     /// - Returns: PhotoCell
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        //swiftlint:disable:next implicitly_unwrapped_optional
+        // swiftlint:disable:next implicitly_unwrapped_optional
         let cell: PhotoCell! = collectionView.dequeueReusableCell(
             withReuseIdentifier: R.reuseIdentifier.photoCell,
             for: indexPath

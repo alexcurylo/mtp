@@ -2,7 +2,6 @@
 
 import Anchorage
 import MapKit
-import RealmMapView
 
 /// Common accessors for single and cluster views
 protocol MappingAnnotationView {

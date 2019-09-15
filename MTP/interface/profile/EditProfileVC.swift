@@ -409,7 +409,7 @@ private extension EditProfileVC {
         }
     }
 
-    //swiftlint:disable:next cyclomatic_complexity
+    // swiftlint:disable:next cyclomatic_complexity
    @IBAction func toolbarBackTapped(_ sender: UIBarButtonItem) {
         let linkTextFields = linksStack.linkTextFields
 
@@ -448,7 +448,7 @@ private extension EditProfileVC {
         }
     }
 
-    //swiftlint:disable:next cyclomatic_complexity
+    // swiftlint:disable:next cyclomatic_complexity
     @IBAction func toolbarNextTapped(_ sender: UIBarButtonItem) {
         let linkTextFields = linksStack.linkTextFields
 

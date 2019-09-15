@@ -12,7 +12,7 @@ final class ProfileUITests: XCTestCase {
         super.tearDown()
     }
 
-    //swiftlint:disable:next function_body_length
+    // swiftlint:disable:next function_body_length
     func testMyProfile() {
         launch(settings: [.loggedIn(true)])
 

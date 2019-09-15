@@ -1,7 +1,6 @@
 // @copyright Trollwerks Inc.
 
 import MapKit
-import RealmMapView
 
 /// Typealias for fluency
 typealias MappablesAnnotation = Annotation

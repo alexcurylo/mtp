@@ -160,7 +160,7 @@ private extension Date {
         case .year:
             dateComp.year = offset
         }
-        //swiftlint:disable:next force_unwrapping
+        // swiftlint:disable:next force_unwrapping
         return Calendar.current.date(byAdding: dateComp, to: self)!
     }
 
@@ -317,7 +317,7 @@ private enum RelativeTime {
         case .yearsFuture: resource = L.yearsFuture
         }
 
-        //swiftlint:disable:next nslocalizedstring_key
+        // swiftlint:disable:next nslocalizedstring_key
         return NSLocalizedString(resource.key,
                                  bundle: resource.bundle,
                                  comment: "")

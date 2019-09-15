@@ -183,7 +183,7 @@ extension RankingsPageVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
-        //swiftlint:disable:next implicitly_unwrapped_optional
+        // swiftlint:disable:next implicitly_unwrapped_optional
         let header: RankingHeader! = collectionView.dequeueReusableSupplementaryView(
             ofKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: RankingHeader.reuseIdentifier,
@@ -216,7 +216,7 @@ extension RankingsPageVC: UICollectionViewDataSource {
     /// - Returns: RankingCell
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        //swiftlint:disable:next implicitly_unwrapped_optional
+        // swiftlint:disable:next implicitly_unwrapped_optional
         let cell: RankingCell! = collectionView.dequeueReusableCell(
             withReuseIdentifier: RankingCell.reuseIdentifier,
             for: indexPath) as? RankingCell
@@ -325,7 +325,7 @@ private extension RankingsPageVC {
 
         var pagedCount = 0
         for pageIndex in 1...first.lastPage {
-            //swiftlint:disable:next last_where
+            // swiftlint:disable:next last_where
             if let page = rankings.filter("page = \(pageIndex)").last {
                 if let pageIndex = page.userIds.index(of: userId) {
                     return pagedCount + pageIndex - 1

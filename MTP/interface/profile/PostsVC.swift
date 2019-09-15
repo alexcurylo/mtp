@@ -148,7 +148,7 @@ extension PostsVC {
     /// - Returns: PostCell
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //swiftlint:disable:next implicitly_unwrapped_optional
+        // swiftlint:disable:next implicitly_unwrapped_optional
         let cell: PostCell! = tableView.dequeueReusableCell(
             withIdentifier: R.reuseIdentifier.postCell,
             for: indexPath)

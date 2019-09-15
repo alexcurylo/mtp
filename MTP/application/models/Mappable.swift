@@ -1,7 +1,6 @@
 // @copyright Trollwerks Inc.
 
 import MapKit
-import RealmMapView
 import RealmSwift
 
 // swiftlint:disable file_length
@@ -97,7 +96,7 @@ protocol Mapper {
     dynamic var checklistValue: Int = Checklist.beaches.rawValue
     /// checklist
     var checklist: Checklist {
-        //swiftlint:disable:next force_unwrapping
+        // swiftlint:disable:next force_unwrapping
         get { return Checklist(rawValue: checklistValue)! }
         set { checklistValue = newValue.rawValue }
     }

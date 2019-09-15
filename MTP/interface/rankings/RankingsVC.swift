@@ -220,7 +220,7 @@ extension RankingsVC: PagingViewControllerDataSource {
     /// - Returns: Typed view controller
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>,
                                  pagingItemForIndex index: Int) -> T {
-        //swiftlint:disable:next force_cast
+        // swiftlint:disable:next force_cast
         return pages[index] as! T
     }
 

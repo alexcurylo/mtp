@@ -105,7 +105,7 @@ extension NearbyVC {
     /// - Returns: UITableViewCell
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //swiftlint:disable:next implicitly_unwrapped_optional
+        // swiftlint:disable:next implicitly_unwrapped_optional
         let cell: NearbyCell! = tableView.dequeueReusableCell(
             withIdentifier: R.reuseIdentifier.nearbyCell,
             for: indexPath)
