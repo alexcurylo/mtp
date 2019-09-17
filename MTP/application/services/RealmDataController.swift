@@ -761,7 +761,7 @@ private extension Migration {
 extension RealmDataController {
 
     /// Save current data for default startup loading
-    func saveToDesktop() {
+    func saveSeedToDesktop() {
         // po Realm.Configuration.defaultConfiguration.fileURL
         do {
             let home = try unwrap(ProcessInfo.processInfo.environment["SIMULATOR_HOST_HOME"])

@@ -503,7 +503,7 @@ class DataServiceImpl: DataService {
         get { return defaults.email }
         set {
             defaults.email = newValue
-            //saveRealm()
+            //saveSeed()
         }
     }
 
@@ -1099,8 +1099,8 @@ private extension DataServiceImpl {
 
     #if targetEnvironment(simulator)
     /// Save current data for default startup loading
-    func saveRealm() {
-        realm.saveToDesktop()
+    func saveSeed() {
+        realm.saveSeedToDesktop()
     }
     #endif
 }
