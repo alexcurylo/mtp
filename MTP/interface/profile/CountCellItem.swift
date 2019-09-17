@@ -222,8 +222,7 @@ private extension CountCellItem {
 
         let visited = sender.isOn
         note.set(item: item,
-                 visited: visited,
-                 congratulate: false) { [weak sender] result in
+                 visited: visited) { [weak sender] result in
             if case .failure = result {
                 sender?.isOn = !visited
             }

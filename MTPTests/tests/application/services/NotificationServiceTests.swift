@@ -17,11 +17,9 @@ final class NotificationServiceTests: MTPTestCase {
         let called = expectation(description: "called")
         sut.authorizeNotifications { _ in called.fulfill() }
         sut.set(item: item,
-                visited: true,
-                congratulate: true) { _ in }
+                visited: true) { _ in }
         sut.set(items: [item],
-                visited: true,
-                congratulate: true) { _ in }
+                visited: true) { _ in }
         sut.ask(question: "test") { _ in }
         sut.checkPending()
         sut.notify(mappable: mappable,

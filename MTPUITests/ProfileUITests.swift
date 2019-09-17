@@ -46,6 +46,8 @@ final class ProfileUITests: XCTestCase {
         UICountsPage.region(1).tap()
         UICountsPage.toggle(1, 0).tap()
 
+        UISystem.button("OK").tap()
+
         UIProfilePaging.photos.tap()
 
         UIPhotos.photo(0).showMenu()

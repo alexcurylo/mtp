@@ -85,22 +85,18 @@ protocol NotificationService {
     /// - Parameters:
     ///   - item: Place
     ///   - visited: Whether visited
-    ///   - congratulate: Whether to congratulate
     ///   - then: Callback
     func set(item: Checklist.Item,
              visited: Bool,
-             congratulate: Bool,
              then: @escaping Completion)
     /// Set visited state
     ///
     /// - Parameters:
     ///   - items: Places
     ///   - visited: Whether visited
-    ///   - congratulate: Whether to congratulate
     ///   - then: Callback
     func set(items: [Checklist.Item],
              visited: Bool,
-             congratulate: Bool,
              then: @escaping Completion)
 
     /// Ask question
@@ -289,17 +285,14 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
     /// - Parameters:
     ///   - item: Place
     ///   - visited: Whether visited
-    ///   - congratulate: Whether to congratulate
     ///   - then: Callback
     func set(item: Checklist.Item,
              visited: Bool,
-             congratulate: Bool,
              then: @escaping Completion) {
         let changes = item.list.changes(id: item.id,
                                         visited: visited)
         set(items: changes,
             visited: visited,
-            congratulate: congratulate,
             then: then)
     }
 
@@ -308,53 +301,25 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
     /// - Parameters:
     ///   - items: Places
     ///   - visited: Whether visited
-    ///   - congratulate: Whether to congratulate
     ///   - then: Callback
     func set(items: [Checklist.Item],
              visited: Bool,
-             congratulate: Bool,
              then: @escaping Completion) {
         guard let first = items.first else {
             then(.success(true))
             return
         }
 
-        #if NOT_QUEUED
-        modal(info: L.updatingVisit())
-        net.set(items: items,
-                visited: visited) { result in
-            switch result {
-            case .success:
-                self.modal(success: L.success())
-                DispatchQueue.main.asyncAfter(deadline: .veryShort) {
-                    self.dismissModal()
-                    self.data.set(items: items,
-                                  visited: visited)
-                    if congratulate {
-                        self.congratulate(item: first)
-                    }
-                    then(.success(true))
-                }
-            case .failure(let error):
-                let message = self.modal(failure: error,
-                                         operation: L.updateVisit())
-                DispatchQueue.main.async {
-                    then(.failure(message))
-                }
-            }
+        if visited {
+            congratulate(item: first)
         }
-        #else
         net.set(items: items,
                 visited: visited) { _ in }
         DispatchQueue.main.async {
             self.data.set(items: items,
                           visited: visited)
-            if congratulate {
-                self.congratulate(item: first)
-            }
             then(.success(true))
         }
-        #endif
     }
 
     /// Execute if in background
@@ -698,7 +663,6 @@ private extension NotificationServiceImpl {
                     self.notifying = nil
                     self.set(item: mappable.item,
                              visited: true,
-                             congratulate: true,
                              then: then)
                 }
         }
@@ -724,8 +688,6 @@ private extension NotificationServiceImpl {
         guard canNotifyForeground else { return }
 
         congratulating = mappable
-        app.route(reveal: mappable)
-
         alert(foreground: note) {
             self.congratulating = nil
             self.checkPending()
@@ -776,7 +738,8 @@ private extension NotificationServiceImpl {
         let title = L.congratulations(mappable.title)
 
         let (single, plural) = mappable.checklist.names(full: true)
-        let (visited, remaining) = mappable.checklist.visitStatus(of: user)
+        let current = mappable.checklist.visitStatus(of: user)
+        let (visited, remaining) = (current.visited + 1, current.remaining - 1)
         let contentVisited = L.status(visited, plural, remaining)
 
         let contentMilestone = mappable.checklist.milestone(visited: visited)

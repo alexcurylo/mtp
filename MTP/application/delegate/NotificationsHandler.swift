@@ -191,8 +191,7 @@ private extension NotificationsHandler {
 
     func handle(checkin item: Checklist.Item) {
         note.set(item: item,
-                 visited: true,
-                 congratulate: true) { result in
+                 visited: true) { result in
             if case let .failure(message) = result {
                 self.note.post(error: message)
             }

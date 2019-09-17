@@ -1,11 +1,6 @@
 // @copyright Trollwerks Inc.
 
-#if USE_ALAMOFIRE
-import Alamofire
-#else
 import Connectivity
-#endif
-import UIKit
 
 // swiftlint:disable file_length
 
@@ -313,11 +308,7 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
 
     /// NetworkReachabilityManager used to observe connectivity status.
     /// Can be set to nil to allow requests to be attempted when offline
-    #if USE_ALAMOFIRE
-    var reachabilityManager = NetworkReachabilityManager()
-    #else
     var reachabilityManager: Connectivity?
-    #endif
 
     /// Time limit in seconds before OfflineRequestManager will kill an ongoing OfflineRequest
     var requestTimeLimit: TimeInterval = 120
@@ -384,13 +375,7 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
 
     deinit {
         submissionTimer?.invalidate()
-
-        #if USE_ALAMOFIRE
-        reachabilityManager?.listener = nil
-        reachabilityManager?.stopListening()
-        #else
         reachabilityManager?.stopNotifier()
-        #endif
     }
 
     func encode(with aCoder: NSCoder) {
@@ -438,12 +423,6 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
     }
 
     private func setup() {
-        #if USE_ALAMOFIRE
-        reachabilityManager?.listener = { [weak self] status in
-            self?.update(connectivity: status)
-        }
-        reachabilityManager?.startListening()
-        #else
         let connectivity = Connectivity(shouldUseHTTPS: true)
         connectivity.framework = .network
         connectivity.checkConnectivity { [weak self] connectivity in
@@ -456,7 +435,6 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
         connectivity.whenDisconnected = connectivityChanged
         connectivity.startNotifier()
         reachabilityManager = connectivity
-        #endif
 
         submissionTimer?.invalidate()
         submissionTimer = Timer.scheduledTimer(timeInterval: submissionInterval,
@@ -467,11 +445,6 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
         submissionTimer?.fire()
     }
 
-    #if USE_ALAMOFIRE
-    func update(connectivity status: NetworkReachabilityManager.NetworkReachabilityStatus) {
-        connected = status != .notReachable
-    }
-    #else
     func update(connectivity status: Connectivity.Status) {
         switch status {
         case .connected,
@@ -485,7 +458,6 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
             connected = false
         }
     }
-    #endif
 
     private func registerBackgroundTask() {
         if backgroundTask == nil {
@@ -590,9 +562,6 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
     private func shouldAttemptRequest(_ request: OfflineRequest) -> Bool {
         let reachable: Bool
         if let manager = reachabilityManager {
-            #if USE_ALAMOFIRE
-            reachable = manager.networkReachabilityStatus != .notReachable
-            #else
             switch manager.status {
             case .connected,
                  .connectedViaCellular,
@@ -604,7 +573,6 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
                  .notConnected:
                 reachable = false
             }
-            #endif
         } else {
             reachable = connected
         }

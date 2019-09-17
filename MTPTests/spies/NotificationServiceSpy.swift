@@ -18,34 +18,32 @@ final class NotificationServiceSpy: NotificationService {
     }
     var invokedSetItem = false
     var invokedSetItemCount = 0
-    var invokedSetItemParameters: (item: Checklist.Item, visited: Bool, congratulate: Bool)?
-    var invokedSetItemParametersList = [(item: Checklist.Item, visited: Bool, congratulate: Bool)]()
+    var invokedSetItemParameters: (item: Checklist.Item, visited: Bool)?
+    var invokedSetItemParametersList = [(item: Checklist.Item, visited: Bool)]()
     var stubbedSetItemThenResult: (Result<Bool, String>, Void)?
     func set(item: Checklist.Item,
     visited: Bool,
-    congratulate: Bool,
     then: @escaping Completion) {
         invokedSetItem = true
         invokedSetItemCount += 1
-        invokedSetItemParameters = (item, visited, congratulate)
-        invokedSetItemParametersList.append((item, visited, congratulate))
+        invokedSetItemParameters = (item, visited)
+        invokedSetItemParametersList.append((item, visited))
         if let result = stubbedSetItemThenResult {
             then(result.0)
         }
     }
     var invokedSetItems = false
     var invokedSetItemsCount = 0
-    var invokedSetItemsParameters: (items: [Checklist.Item], visited: Bool, congratulate: Bool)?
-    var invokedSetItemsParametersList = [(items: [Checklist.Item], visited: Bool, congratulate: Bool)]()
+    var invokedSetItemsParameters: (items: [Checklist.Item], visited: Bool)?
+    var invokedSetItemsParametersList = [(items: [Checklist.Item], visited: Bool)]()
     var stubbedSetItemsThenResult: (Result<Bool, String>, Void)?
     func set(items: [Checklist.Item],
     visited: Bool,
-    congratulate: Bool,
     then: @escaping Completion) {
         invokedSetItems = true
         invokedSetItemsCount += 1
-        invokedSetItemsParameters = (items, visited, congratulate)
-        invokedSetItemsParametersList.append((items, visited, congratulate))
+        invokedSetItemsParameters = (items, visited)
+        invokedSetItemsParametersList.append((items, visited))
         if let result = stubbedSetItemsThenResult {
             then(result.0)
         }
@@ -65,11 +63,11 @@ final class NotificationServiceSpy: NotificationService {
             then(result.0)
         }
     }
-    var invokedCheckTriggered = false
-    var invokedCheckTriggeredCount = 0
+    var invokedCheckPending = false
+    var invokedCheckPendingCount = 0
     func checkPending() {
-        invokedCheckTriggered = true
-        invokedCheckTriggeredCount += 1
+        invokedCheckPending = true
+        invokedCheckPendingCount += 1
     }
     var invokedNotify = false
     var invokedNotifyCount = 0
