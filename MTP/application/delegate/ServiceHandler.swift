@@ -49,19 +49,11 @@ extension ServiceHandler: AppLaunchHandler {
 // MARK: - Testing
 
 #if DEBUG
+/// :nodoc:
+struct ServiceHandlerStub: AppLaunchHandler {
 
-/// Stub for testing
-struct ServiceHandlerStub: AppHandler { }
-
-extension ServiceHandlerStub: AppLaunchHandler {
-
-    /// willFinishLaunchingWithOptions handler
-    ///
-    /// - Parameters:
-    ///   - application: UIApplication
-    ///   - launchOptions: Options
-    /// - Returns: Success
-    public func application(
+    /// :nodoc:
+    func application(
         _ application: UIApplication,
         willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // swiftlint:disable:previous discouraged_optional_collection
@@ -80,13 +72,8 @@ extension ServiceHandlerStub: AppLaunchHandler {
         return true
     }
 
-    /// didFinishLaunching handler
-    ///
-    /// - Parameters:
-    ///   - application: UIApplication
-    ///   - launchOptions: Options
-    /// - Returns: Success
-    public func application(
+    /// :nodoc:
+    func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // swiftlint:disable:previous discouraged_optional_collection
@@ -101,9 +88,4 @@ extension ServiceHandlerStub: AppLaunchHandler {
         return true
     }
 }
-
-/// Forward declaration for handler construction in app delegate
-/// ServiceHandlerSpy+AppLaunchHandler in test target sets spy instances
-struct ServiceHandlerSpy: AppHandler { }
-
 #endif

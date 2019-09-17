@@ -1,13 +1,13 @@
 // @copyright Trollwerks Inc.
 
 @testable import MTP
+import XCTest
 
-extension ServiceHandlerSpy: AppLaunchHandler {
+class MTPTestCase: XCTestCase {
 
-    public func application(
-        _ application: UIApplication,
-        // swiftlint:disable:next discouraged_optional_collection
-        willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    override class func setUp() {
+        super.setUp()
+        guard ServiceProviderInstances.appServiceInstance == nil else { return }
 
         ServiceProviderInstances.appServiceInstance = ApplicationServiceSpy()
         ServiceProviderInstances.dataServiceInstance = DataServiceSpy()
@@ -17,14 +17,5 @@ extension ServiceHandlerSpy: AppLaunchHandler {
         ServiceProviderInstances.noteServiceInstance = NotificationServiceSpy()
         ServiceProviderInstances.reportServiceInstance = ReportingServiceSpy()
         ServiceProviderInstances.styleServiceInstance = StyleServiceSpy()
-
-        return true
-    }
-
-    public func application(
-        _ application: UIApplication,
-        // swiftlint:disable:next discouraged_optional_collection
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        return true
     }
 }

@@ -3,13 +3,11 @@
 @testable import MTP
 import XCTest
 
-final class MTPDelegateTests: XCTestCase {
+final class MTPDelegateTests: MTPTestCase {
 
     func testUnitTestingHandlerList() throws {
         // given
-        let expected: [String] = [
-            String(describing: ServiceHandlerSpy.self)
-        ]
+        let expected: [String] = []
 
         // when
         let delegate = try unwrap(UIApplication.shared.delegate as? MTPDelegate)

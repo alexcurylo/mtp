@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class NetworkServiceTests: XCTestCase {
+final class NetworkServiceTests: MTPTestCase {
 
     // swiftlint:disable:next function_body_length
     func testService() {

@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class LocationHandlerTests: XCTestCase {
+final class LocationHandlerTests: MTPTestCase {
 
     private var dataService: DataService?
     private var dataSpy: DataServiceSpy?

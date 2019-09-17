@@ -57,12 +57,9 @@ import UIKit
                 NotificationsHandler(),
                 LocationHandler()
             ]
-        case .unitTesting:
-            return [ ServiceHandlerSpy() ]
-        #else
+        #endif
         default:
             return []
-        #endif
         }
     }
 }

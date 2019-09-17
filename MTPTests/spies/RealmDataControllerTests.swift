@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class RealmDataControllerTests: XCTestCase {
+final class RealmDataControllerTests: MTPTestCase {
 
     static let thresholds = [
         9, // .locations

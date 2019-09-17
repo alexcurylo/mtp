@@ -14,7 +14,6 @@
 		8C011F5C22E93A10002C4133 /* UIMyProfile+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C011F5B22E93A10002C4133 /* UIMyProfile+Test.swift */; };
 		8C011F5E22E93A39002C4133 /* UILocations+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C011F5D22E93A39002C4133 /* UILocations+Test.swift */; };
 		8C0127F9223202FA00EA2095 /* ServiceHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127F8223202FA00EA2095 /* ServiceHandler.swift */; };
-		8C0127FB2232054E00EA2095 /* ServiceHandlerSpy+AppLaunchHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127FA2232054E00EA2095 /* ServiceHandlerSpy+AppLaunchHandler.swift */; };
 		8C0127FD2232084600EA2095 /* ApplicationServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127FC2232084600EA2095 /* ApplicationServiceSpy.swift */; };
 		8C0127FF2232089100EA2095 /* LoggingServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0127FE2232089100EA2095 /* LoggingServiceSpy.swift */; };
 		8C012801223208CC00EA2095 /* DataServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C012800223208CC00EA2095 /* DataServiceSpy.swift */; };
@@ -42,6 +41,7 @@
 		8C27DF27232724670020E0B6 /* UINetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C27DF26232724670020E0B6 /* UINetwork.swift */; };
 		8C27DF29232724B50020E0B6 /* UINetwork+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C27DF28232724B50020E0B6 /* UINetwork+Tests.swift */; };
 		8C27DF2A232725AD0020E0B6 /* UINetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C27DF26232724670020E0B6 /* UINetwork.swift */; };
+		8C2F88912330B467005BADE0 /* Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDA496B2330709C00014912 /* Network.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8C3EA1FF22DD540F008DD858 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EA1FE22DD540F008DD858 /* SnapshotHelper.swift */; };
 		8C3EA813222F64F100CB4886 /* TopLoadingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */; };
 		8C3EAA1C2230BFA500CB4886 /* InsetTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EAA1B2230BFA500CB4886 /* InsetTextField.swift */; };
@@ -83,6 +83,7 @@
 		8C75F937231DF4760024A4CD /* NetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C75F936231DF4760024A4CD /* NetworkServiceTests.swift */; };
 		8C76D5DC22028874005CF4CD /* ServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C76D5DB22028874005CF4CD /* ServiceProvider.swift */; };
 		8C76D8EC2207CD36005CF4CD /* RankingsPageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C76D8EB2207CD36005CF4CD /* RankingsPageInfo.swift */; };
+		8C76FC282330AA8200DCC5EB /* MTPTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C76FC272330AA8200DCC5EB /* MTPTestCase.swift */; };
 		8C7D71CB2303B690005939AC /* UIUserCountsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7D71CA2303B690005939AC /* UIUserCountsPage.swift */; };
 		8C7D71CC2303B70B005939AC /* UIUserCountsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7D71CA2303B690005939AC /* UIUserCountsPage.swift */; };
 		8C7D71CE2303B907005939AC /* UIUserCountsPage+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7D71CD2303B907005939AC /* UIUserCountsPage+Test.swift */; };
@@ -163,6 +164,8 @@
 		8CD4BD2923024E320041E0C3 /* UIForgotPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD4BD2823024E320041E0C3 /* UIForgotPassword.swift */; };
 		8CD4BD2A23024E320041E0C3 /* UIForgotPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD4BD2823024E320041E0C3 /* UIForgotPassword.swift */; };
 		8CD93520230E1F6400BCB549 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8CD9351F230E1F6400BCB549 /* GoogleService-Info.plist */; };
+		8CDA496C2330709C00014912 /* Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDA496B2330709C00014912 /* Network.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		8CDA496F233076D700014912 /* Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDA496E233076D700014912 /* Network.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8CDBE5EE22C08AD5005A6C18 /* PostPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDBE5ED22C08AD5005A6C18 /* PostPayload.swift */; };
 		8CDC4D54230A301400AA422D /* UIKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDC4D53230A301400AA422D /* UIKeyboard.swift */; };
 		8CDC4D56230A312800AA422D /* ConfirmDeleteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDC4D55230A312800AA422D /* ConfirmDeleteVC.swift */; };
@@ -494,7 +497,6 @@
 		8C011F5B22E93A10002C4133 /* UIMyProfile+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIMyProfile+Test.swift"; sourceTree = "<group>"; };
 		8C011F5D22E93A39002C4133 /* UILocations+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILocations+Test.swift"; sourceTree = "<group>"; };
 		8C0127F8223202FA00EA2095 /* ServiceHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceHandler.swift; sourceTree = "<group>"; };
-		8C0127FA2232054E00EA2095 /* ServiceHandlerSpy+AppLaunchHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ServiceHandlerSpy+AppLaunchHandler.swift"; sourceTree = "<group>"; };
 		8C0127FC2232084600EA2095 /* ApplicationServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationServiceSpy.swift; sourceTree = "<group>"; };
 		8C0127FE2232089100EA2095 /* LoggingServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingServiceSpy.swift; sourceTree = "<group>"; };
 		8C012800223208CC00EA2095 /* DataServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataServiceSpy.swift; sourceTree = "<group>"; };
@@ -545,6 +547,7 @@
 		8C75F936231DF4760024A4CD /* NetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceTests.swift; sourceTree = "<group>"; };
 		8C76D5DB22028874005CF4CD /* ServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProvider.swift; sourceTree = "<group>"; };
 		8C76D8EB2207CD36005CF4CD /* RankingsPageInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsPageInfo.swift; sourceTree = "<group>"; };
+		8C76FC272330AA8200DCC5EB /* MTPTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPTestCase.swift; sourceTree = "<group>"; };
 		8C7D71CA2303B690005939AC /* UIUserCountsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIUserCountsPage.swift; sourceTree = "<group>"; };
 		8C7D71CD2303B907005939AC /* UIUserCountsPage+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIUserCountsPage+Test.swift"; sourceTree = "<group>"; };
 		8C7D71CF2303BE7D005939AC /* UIMyCountsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIMyCountsPage.swift; sourceTree = "<group>"; };
@@ -615,6 +618,8 @@
 		8CD4BD2623024DCB0041E0C3 /* UIForgotPassword+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIForgotPassword+Test.swift"; sourceTree = "<group>"; };
 		8CD4BD2823024E320041E0C3 /* UIForgotPassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIForgotPassword.swift; sourceTree = "<group>"; };
 		8CD9351F230E1F6400BCB549 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8CDA496B2330709C00014912 /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Network.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/Network.framework; sourceTree = DEVELOPER_DIR; };
+		8CDA496E233076D700014912 /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Network.framework; path = System/Library/Frameworks/Network.framework; sourceTree = SDKROOT; };
 		8CDBE5ED22C08AD5005A6C18 /* PostPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPayload.swift; sourceTree = "<group>"; };
 		8CDC4D53230A301400AA422D /* UIKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKeyboard.swift; sourceTree = "<group>"; };
 		8CDC4D55230A312800AA422D /* ConfirmDeleteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDeleteVC.swift; sourceTree = "<group>"; };
@@ -951,6 +956,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8CDA496F233076D700014912 /* Network.framework in Frameworks */,
 				C1D9A04EB6208ED844515108 /* libPods-MTP.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -959,6 +965,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C2F88912330B467005BADE0 /* Network.framework in Frameworks */,
 				529054A21D10AD8DB1855DB5 /* libPods-MTPTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -967,6 +974,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8CDA496C2330709C00014912 /* Network.framework in Frameworks */,
 				122BA726DE2ED1EC0C4144BB /* libPods-MTPUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -977,6 +985,8 @@
 		88C40F6C54584204BBA2D4C6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8CDA496B2330709C00014912 /* Network.framework */,
+				8CDA496E233076D700014912 /* Network.framework */,
 				EA7B8EF0C9A37C87525A9855 /* libPods-MTP.a */,
 				848B6781D80D51E75A14ECF6 /* libPods-MTPTests.a */,
 				B1C0AF3F035BC227379ED6DE /* libPods-MTPUITests.a */,
@@ -1855,8 +1865,8 @@
 				FAB53F8A20DFD618007A80A7 /* MemoryWarner.m */,
 				FA392BD320DF69F50026C828 /* Info.plist */,
 				FAB53F8720DFD617007A80A7 /* MTPTests-Bridging-Header.h */,
+				8C76FC272330AA8200DCC5EB /* MTPTestCase.swift */,
 				8CBBECF72319040600E4F5E1 /* NSCoder+Empty.swift */,
-				8C0127FA2232054E00EA2095 /* ServiceHandlerSpy+AppLaunchHandler.swift */,
 				FAE1F11B21437F860002CAB2 /* String+Assert.swift */,
 				8CBBECF52319005900E4F5E1 /* XCTestCase+Window.swift */,
 			);
@@ -2521,8 +2531,8 @@
 				FA949BFF2306D47400B9DF6D /* MilestonesTests.swift in Sources */,
 				FA74C113211C61580013A840 /* StringTests.swift in Sources */,
 				FA97F939231B4AFD00E450DD /* ApplicationServiceTests.swift in Sources */,
+				8C76FC282330AA8200DCC5EB /* MTPTestCase.swift in Sources */,
 				FA63A4C423076A1800637BB3 /* RankingsPagingVCTests.swift in Sources */,
-				8C0127FB2232054E00EA2095 /* ServiceHandlerSpy+AppLaunchHandler.swift in Sources */,
 				8CBE506E231CCF210058D810 /* CwlCatchException.m in Sources */,
 				8CC6B9592304EA2A0089DB89 /* DateTests.swift in Sources */,
 				8CA5CE91230B98DA0020F7F8 /* NotificationsHandlerTests.swift in Sources */,

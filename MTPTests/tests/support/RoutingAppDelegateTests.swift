@@ -6,7 +6,7 @@ import CloudKit
 @testable import MTP
 import XCTest
 
-final class RoutingAppDelegateTests: XCTestCase {
+final class RoutingAppDelegateTests: MTPTestCase {
 
     private let liveApp = UIApplication.shared
 

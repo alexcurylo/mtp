@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class OperationReplyTests: XCTestCase {
+final class OperationReplyTests: MTPTestCase {
 
     func testDescription() {
         // given

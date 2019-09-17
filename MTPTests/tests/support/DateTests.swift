@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class DateTests: XCTestCase {
+final class DateTests: MTPTestCase {
 
     func testRelativeStrings() {
         // given

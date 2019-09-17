@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class UIImageTests: XCTestCase {
+final class UIImageTests: MTPTestCase {
 
     func testRoundedImage() {
         // given

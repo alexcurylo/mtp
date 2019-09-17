@@ -6,7 +6,7 @@ import XCTest
 // swiftlint:disable file_length
 
 // swiftlint:disable type_body_length
-final class OfflineRequestManagerTests: XCTestCase {
+final class OfflineRequestManagerTests: MTPTestCase {
 
     private let testFileName = "test_manager"
     private var sut: OfflineRequestManager?
