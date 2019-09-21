@@ -185,9 +185,7 @@ class RealmSearchViewController: UITableViewController,
         resultsDelegate = self
     }
 
-    /// Decoding intializer
-    ///
-    /// - Parameter aDecoder: Decoder
+    /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 

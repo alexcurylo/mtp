@@ -4,12 +4,18 @@ import FacebookCore
 import FacebookLogin
 import FBSDKLoginKit
 
+/// Abstract Facebook SDK for testing
 protocol FacebookSDKClient {
 
+    /// Return implementation
+    /// - Parameter mock: Optional testing mock
     func loginManager(or mock: FacebookLoginManager?) -> FacebookLoginManager
+    /// Return implementation
+    /// - Parameter mock: Optional testing mock
     func infoRequest(or mock: FacebookInfoRequest?) -> FacebookInfoRequest
 }
 
+/// Abstract Facebook SDK for testing
 enum FacebookWrapper {
 
     /// Log out of Facebook
@@ -43,6 +49,8 @@ extension LoginManager: FacebookLoginManager { }
 
 extension FacebookSDKClient {
 
+    /// Return implementation
+    /// - Parameter mock: Optional testing mock
     func loginManager(or mock: FacebookLoginManager?) -> FacebookLoginManager {
         #if DEBUG
         switch (UIApplication.isTesting, mock) {
@@ -57,6 +65,8 @@ extension FacebookSDKClient {
         return LoginManager()
     }
 
+    /// Return implementation
+    /// - Parameter mock: Optional testing mock
     func infoRequest(or mock: FacebookInfoRequest?) -> FacebookInfoRequest {
         #if DEBUG
         switch (UIApplication.isTesting, mock) {

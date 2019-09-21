@@ -26,7 +26,8 @@ final class AppStoreSnapshotTests: XCTestCase {
 
         UILocations.nearby.tap()
 
-        snapshot("02Nearby")
+        // seems memory keeps growing and doesn't idle on iOS 13?
+        //snapshot("02Nearby")
 
         let gaggan = 3
         UINearby.place(gaggan).tap()
@@ -48,7 +49,6 @@ final class AppStoreSnapshotTests: XCTestCase {
         UIRankingsPage.profile(.locations, charles).tap()
 
         wait(for: 5)
-
         snapshot("06UserProfile")
 
         UIUserProfile.close.tap()
@@ -66,7 +66,6 @@ final class AppStoreSnapshotTests: XCTestCase {
         UIProfilePaging.photos.tap()
 
         wait(for: 8)
-
         snapshot("09MyPhotos")
 
         UIProfilePaging.posts.tap()

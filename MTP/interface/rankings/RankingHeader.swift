@@ -99,9 +99,7 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
         configure()
     }
 
-    /// Unsupported coding constructor
-    ///
-    /// - Parameter coder: An unarchiver object.
+    /// :nodoc:
     required init?(coder: NSCoder) {
         return nil
     }

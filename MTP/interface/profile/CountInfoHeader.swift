@@ -73,9 +73,7 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
         observe()
     }
 
-    /// Unsupported coding constructor
-    ///
-    /// - Parameter coder: An unarchiver object.
+    /// :nodoc:
     required init?(coder: NSCoder) {
         return nil
     }

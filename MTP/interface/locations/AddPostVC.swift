@@ -45,7 +45,7 @@ final class AddPostVC: UIViewController {
         startKeyboardListening()
     }
 
-    /// Remove observers
+    /// :nodoc:
     deinit {
         stopKeyboardListening()
     }

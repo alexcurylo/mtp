@@ -45,7 +45,6 @@ target 'MTP' do
   pod 'Realm', :modular_headers => true
   pod 'RealmSwift'
   pod 'SwiftEntryKit', :inhibit_warnings => true
-  pod 'SwiftLint'
   pod 'SwiftyBeaver'
 
   target 'MTPTests' do
@@ -58,15 +57,11 @@ target 'MTP' do
 
 end
 
-plugin 'cocoapods-acknowledgements',
-    :settings_bundle => true,
-    :exclude => [
-        'SwiftLint',
-    ]
+plugin 'cocoapods-acknowledgements', :settings_bundle => true
 
 post_install do |installer|
     installer.pods_project.targets.each do |target|
-        # patch SwiftLint
+        # patch Crashlytics, Fabric, FLAnimatedImage, nanopb
         target.build_configurations.each do |config|
             if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 8.0
                 config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '8.0'

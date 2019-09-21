@@ -253,7 +253,6 @@ private protocol OfflineRequestDelegate: AnyObject {
 
 /// Class for handling outstanding network requests; all data is written to disk in the case of app termination
 final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
-    // swiftlint:disable:previous type_body_length
 
     /// Object listening to all callbacks from the OfflineRequestManager.
     /// Must implement either delegate or requestInstantiationBlock to send archived requests
@@ -277,21 +276,13 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
         }
     }
 
-    private func instantiateInitialRequests(withBlock block: (([String: Any]) -> OfflineRequest?)) {
-        guard incompleteRequests.isEmpty else { return }
-        let requests = incompleteRequestDictionaries.compactMap { block($0) }
-        if !requests.isEmpty {
-            addRequests(requests)
-        }
-    }
-
     /// Property indicating whether there is currently an internet connection
     private(set) var connected: Bool = true {
         didSet {
             delegate?.offlineRequestManager(self, didUpdateConnectionStatus: connected)
 
             if connected {
-                attemptSubmission()
+                attemptNextOperation()
             }
         }
     }
@@ -342,6 +333,7 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
 
     /// Request actions currently being executed
     private(set) var ongoingRequests = [OfflineRequest]()
+    /// Request all queued actions
     private(set) var incompleteRequests = [OfflineRequest]()
     private var incompleteRequestDictionaries = [[String: Any]]()
     private var pendingRequests: [OfflineRequest] {
@@ -357,32 +349,7 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
 
     private var fileName = ""
 
-    override init() {
-        super.init()
-        setup()
-    }
-
-    required convenience init?(coder aDecoder: NSCoder) {
-        let decoded = aDecoder.decodeObject(forKey: OfflineRequestManager.codingKey)
-        guard let requestDicts = decoded as? [[String: Any]] else {
-            print(" error decoding offline request dictionaries")
-            return nil
-        }
-
-        self.init()
-        self.incompleteRequestDictionaries = requestDicts
-    }
-
-    deinit {
-        submissionTimer?.invalidate()
-        reachabilityManager?.stopNotifier()
-    }
-
-    func encode(with aCoder: NSCoder) {
-        aCoder.encode(incompleteRequestDictionaries, forKey: OfflineRequestManager.codingKey)
-    }
-
-    /// Generates a OfflineRequestManager instance tied to a file name in the Documents directory
+    /// Generates an OfflineRequestManager instance tied to a file name in the Documents directory
     /// Creates a new object or pulls up the object written to disk if possible
     static func manager(withFileName fileName: String) -> OfflineRequestManager {
         guard let manager = managers[fileName] else {
@@ -411,69 +378,95 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
         }
     }
 
-    private static func fileURL(fileName: String) -> URL? {
-        do {
-            return try FileManager.default
-                                  .url(for: .documentDirectory,
-                                       in: .userDomainMask,
-                                       appropriateFor: nil,
-                                       create: false)
-                                  .appendingPathComponent(fileName)
-        } catch { return nil }
+    /// :nodoc:
+    override init() {
+        super.init()
+        setup()
     }
 
-    private func setup() {
-        let connectivity = Connectivity(shouldUseHTTPS: true)
-        connectivity.framework = .network
-        connectivity.checkConnectivity { [weak self] connectivity in
-            self?.update(connectivity: connectivity.status)
+    /// :nodoc:
+    required convenience init?(coder aDecoder: NSCoder) {
+        let decoded = aDecoder.decodeObject(forKey: OfflineRequestManager.codingKey)
+        guard let requestDicts = decoded as? [[String: Any]] else {
+            print(" error decoding offline request dictionaries")
+            return nil
         }
-        let connectivityChanged: (Connectivity) -> Void = { [weak self] connectivity in
-            self?.update(connectivity: connectivity.status)
-        }
-        connectivity.whenConnected = connectivityChanged
-        connectivity.whenDisconnected = connectivityChanged
-        connectivity.startNotifier()
-        reachabilityManager = connectivity
 
+        self.init()
+        self.incompleteRequestDictionaries = requestDicts
+    }
+
+    /// :nodoc:
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(incompleteRequestDictionaries, forKey: OfflineRequestManager.codingKey)
+    }
+
+    /// :nodoc:
+    deinit {
         submissionTimer?.invalidate()
-        submissionTimer = Timer.scheduledTimer(timeInterval: submissionInterval,
-                                               target: self,
-                                               selector: #selector(attemptSubmission),
-                                               userInfo: nil,
-                                               repeats: true)
-        submissionTimer?.fire()
+        reachabilityManager?.stopNotifier()
     }
 
-    func update(connectivity status: Connectivity.Status) {
-        switch status {
-        case .connected,
-             .connectedViaCellular,
-             .connectedViaWiFi:
-            connected = true
-        case .connectedViaCellularWithoutInternet,
-             .connectedViaWiFiWithoutInternet,
-             .determining,
-             .notConnected:
-            connected = false
+    /// Enqueues a single OfflineRequest
+    ///
+    /// - Parameters:
+    ///   - request: OfflineRequest to be queued
+    ///   - startImmediately: indicates whether an attempt should be made immediately or deferred until the next timer
+    func queueRequest(_ request: OfflineRequest,
+                      startImmediately: Bool = true) {
+        queueRequests([request], startImmediately: startImmediately)
+    }
+
+    /// Clears out the current OfflineRequest queue and returns to a neutral state
+    func clearAllRequests() {
+        ongoingRequests.forEach { $0.delegate = nil }
+        incompleteRequests.removeAll()
+        ongoingRequests.removeAll()
+        completedRequestCount = 0
+        totalRequestCount = 0
+        progress = 1
+        saveToDisk()
+    }
+
+    /// Writes the OfflineRequestManager instances to the Documents directory
+    func saveToDisk() {
+        guard let path = OfflineRequestManager.fileURL(fileName: fileName)?.path else { return }
+
+        incompleteRequestDictionaries = incompleteRequests.compactMap {
+            let dictionary = $0.dictionary
+            return dictionary.isEmpty ? nil : dictionary
+        }
+        NSKeyedArchiver.archiveRootObject(self, toFile: path)
+    }
+
+    /// Enqueues an array of OfflineRequest objects
+    ///
+    /// - Parameters:
+    ///   - request: Array of OfflineRequest objects to be queued
+    ///   - startImmediately: indicates whether an attempt should be made immediately or deferred until the next timer
+    func queueRequests(_ requests: [OfflineRequest],
+                       startImmediately: Bool = true) {
+        addRequests(requests)
+
+        if requests.contains(where: { !$0.dictionary.isEmpty }) {
+            saveToDisk()
+        }
+
+        if startImmediately {
+            attemptNextOperation()
         }
     }
 
-    private func registerBackgroundTask() {
-        if backgroundTask == nil {
-            backgroundTask = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
-        }
+    /// Allows for adjustment to pending requests before they are executed
+    ///
+    /// - Parameter modifyBlock: block making any necessary adjustments to the array of pending requests
+    func modifyPendingRequests(_ modifyBlock: (([OfflineRequest]) -> [OfflineRequest])) {
+        incompleteRequests = ongoingRequests + modifyBlock(pendingRequests)
+        saveToDisk()
     }
 
-    private func endBackgroundTask() {
-        if let task = backgroundTask {
-            UIApplication.shared.endBackgroundTask(task)
-            backgroundTask = nil
-        }
-    }
-
-    /// attempts to perform the next OfflineRequest action in the queue
-    @objc func attemptSubmission() {
+    /// Take next operation from queue
+    @objc func attemptNextOperation() {
         // swiftlint:disable:previous function_body_length
         guard let request = incompleteRequests.first(where: { incompleteRequest in
                 !ongoingRequests.contains(where: { $0.id == incompleteRequest.id })
@@ -509,7 +502,7 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
             if let error = error {
                 let nsError = error as NSError
                 if nsError.isNetworkError {
-                    // keep at front of queue for next attemptSubmission
+                    // keep at front of queue for next attemptNextOperation
                     request.subtitle = L.failedNetwork((error as NSError).code)
                     self.saveToDisk()
                     self.delegate?.offlineRequestManager(self, didUpdateRequest: request)
@@ -534,9 +527,84 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
         }
 
         perform(#selector(killRequest(_:)), with: request.id, afterDelay: requestTimeLimit)
-        attemptSubmission()
+        attemptNextOperation()
+    }
+}
+
+// MARK: - Private
+
+private extension OfflineRequestManager {
+
+    func instantiateInitialRequests(withBlock block: (([String: Any]) -> OfflineRequest?)) {
+        guard incompleteRequests.isEmpty else { return }
+        let requests = incompleteRequestDictionaries.compactMap { block($0) }
+        if !requests.isEmpty {
+            addRequests(requests)
+        }
     }
 
+    static func fileURL(fileName: String) -> URL? {
+        do {
+            return try FileManager.default
+                                  .url(for: .documentDirectory,
+                                       in: .userDomainMask,
+                                       appropriateFor: nil,
+                                       create: false)
+                                  .appendingPathComponent(fileName)
+        } catch { return nil }
+    }
+
+    func setup() {
+        let connectivity = Connectivity(shouldUseHTTPS: true)
+        connectivity.framework = .network
+        connectivity.checkConnectivity { [weak self] connectivity in
+            self?.update(connectivity: connectivity.status)
+        }
+        let connectivityChanged: (Connectivity) -> Void = { [weak self] connectivity in
+            self?.update(connectivity: connectivity.status)
+        }
+        connectivity.whenConnected = connectivityChanged
+        connectivity.whenDisconnected = connectivityChanged
+        connectivity.startNotifier()
+        reachabilityManager = connectivity
+
+        submissionTimer?.invalidate()
+        submissionTimer = Timer.scheduledTimer(timeInterval: submissionInterval,
+                                               target: self,
+                                               selector: #selector(attemptNextOperation),
+                                               userInfo: nil,
+                                               repeats: true)
+        submissionTimer?.fire()
+    }
+
+    func update(connectivity status: Connectivity.Status) {
+        switch status {
+        case .connected,
+             .connectedViaCellular,
+             .connectedViaWiFi:
+            connected = true
+        case .connectedViaCellularWithoutInternet,
+             .connectedViaWiFiWithoutInternet,
+             .determining,
+             .notConnected:
+            connected = false
+        }
+    }
+
+    func registerBackgroundTask() {
+        if backgroundTask == nil {
+            backgroundTask = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
+        }
+    }
+
+    func endBackgroundTask() {
+        if let task = backgroundTask {
+            UIApplication.shared.endBackgroundTask(task)
+            backgroundTask = nil
+        }
+    }
+
+    /// :nodoc:
     @objc func killRequest(_ requestID: String?) {
         guard let request = ongoingRequests.first(where: { $0.id == requestID }) else { return }
         self.removeOngoingRequest(request)
@@ -544,12 +612,12 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
         completeRequest(request, error: NSError.timeOutError)
     }
 
-    private func removeOngoingRequest(_ request: OfflineRequest) {
+    func removeOngoingRequest(_ request: OfflineRequest) {
         guard let index = ongoingRequests.firstIndex(where: { $0.id == request.id }) else { return }
         ongoingRequests.remove(at: index)
     }
 
-    private func completeRequest(_ request: OfflineRequest, error: Error?) {
+    func completeRequest(_ request: OfflineRequest, error: Error?) {
         self.popRequest(request)
 
         if let error = error {
@@ -559,7 +627,7 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
         }
     }
 
-    private func shouldAttemptRequest(_ request: OfflineRequest) -> Bool {
+    func shouldAttemptRequest(_ request: OfflineRequest) -> Bool {
         let reachable: Bool
         if let manager = reachabilityManager {
             switch manager.status {
@@ -582,7 +650,7 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
         return reachable && delegateAllowed
     }
 
-    private func popRequest(_ request: OfflineRequest) {
+    func popRequest(_ request: OfflineRequest) {
         guard let index = incompleteRequests.firstIndex(where: { $0.id == request.id }) else { return }
         incompleteRequests.remove(at: index)
 
@@ -592,76 +660,18 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
         } else {
             completedRequestCount += 1
             updateProgress()
-            attemptSubmission()
+            attemptNextOperation()
         }
 
         saveToDisk()
     }
 
-    /// Clears out the current OfflineRequest queue and returns to a neutral state
-    func clearAllRequests() {
-        ongoingRequests.forEach { $0.delegate = nil }
-        incompleteRequests.removeAll()
-        ongoingRequests.removeAll()
-        completedRequestCount = 0
-        totalRequestCount = 0
-        progress = 1
-        saveToDisk()
-    }
-
-    /// Enqueues a single OfflineRequest
-    ///
-    /// - Parameters:
-    ///   - request: OfflineRequest to be queued
-    ///   - startImmediately: indicates whether an attempt should be made immediately or deferred until the next timer
-    func queueRequest(_ request: OfflineRequest,
-                      startImmediately: Bool = true) {
-        queueRequests([request], startImmediately: startImmediately)
-    }
-
-    /// Enqueues an array of OfflineRequest objects
-    ///
-    /// - Parameters:
-    ///   - request: Array of OfflineRequest objects to be queued
-    ///   - startImmediately: indicates whether an attempt should be made immediately or deferred until the next timer
-    func queueRequests(_ requests: [OfflineRequest],
-                       startImmediately: Bool = true) {
-        addRequests(requests)
-
-        if requests.contains(where: { !$0.dictionary.isEmpty }) {
-            saveToDisk()
-        }
-
-        if startImmediately {
-            attemptSubmission()
-        }
-    }
-
-    /// Allows for adjustment to pending requests before they are executed
-    ///
-    /// - Parameter modifyBlock: block making any necessary adjustments to the array of pending requests
-    func modifyPendingRequests(_ modifyBlock: (([OfflineRequest]) -> [OfflineRequest])) {
-        incompleteRequests = ongoingRequests + modifyBlock(pendingRequests)
-        saveToDisk()
-    }
-
-    private func addRequests(_ requests: [OfflineRequest]) {
+    func addRequests(_ requests: [OfflineRequest]) {
         incompleteRequests.append(contentsOf: requests)
         totalRequestCount = incompleteRequests.count + completedRequestCount
     }
 
-    /// Writes the OfflineRequestManager instances to the Documents directory
-    func saveToDisk() {
-        guard let path = OfflineRequestManager.fileURL(fileName: fileName)?.path else { return }
-
-        incompleteRequestDictionaries = incompleteRequests.compactMap {
-            let dictionary = $0.dictionary
-            return dictionary.isEmpty ? nil : dictionary
-        }
-        NSKeyedArchiver.archiveRootObject(self, toFile: path)
-    }
-
-    fileprivate func updateProgress() {
+    func updateProgress() {
         let uploadUnit = 1 / max(1.0, Double(totalRequestCount))
 
         let ongoingProgress = ongoingRequests.reduce(0.0) { $0 + $1.progress }

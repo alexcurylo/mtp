@@ -247,11 +247,17 @@ final class NetworkHeader: UITableViewHeaderFooterView, ServiceProvider {
         status.edgeAnchors == edgeAnchors
     }
 
-    /// Unsupported coding constructor
-    ///
-    /// - Parameter coder: An unarchiver object.
+    /// :nodoc:
     required init?(coder: NSCoder) {
         return nil
+    }
+}
+
+private extension NetworkHeader {
+
+    func update() {
+        status.text = isConnected ? L.connected() : L.notConnected()
+        status.backgroundColor = isConnected ? .visited : .carnation
     }
 
     func observe() {
@@ -263,13 +269,5 @@ final class NetworkHeader: UITableViewHeaderFooterView, ServiceProvider {
                 let self = self else { return }
             self.isConnected = updated
         }
-    }
-}
-
-private extension NetworkHeader {
-
-    func update() {
-        status.text = isConnected ? L.connected() : L.notConnected()
-        status.backgroundColor = isConnected ? .visited : .carnation
     }
 }

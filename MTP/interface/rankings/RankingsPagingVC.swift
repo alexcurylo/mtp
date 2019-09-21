@@ -151,9 +151,7 @@ class RankingPagingCell: PagingCell {
         imageView.bottomAnchor <= titleLabel.topAnchor - 6
     }
 
-    /// Unsupported coding constructor
-    ///
-    /// - Parameter coder: An unarchiver object.
+    /// :nodoc:
     required init?(coder: NSCoder) {
         return nil
     }

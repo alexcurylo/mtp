@@ -53,7 +53,7 @@ class ObserverImpl: Observer {
         subscribe()
     }
 
-    /// Remove observers
+    /// :nodoc:
     deinit {
         unsubscribe()
     }

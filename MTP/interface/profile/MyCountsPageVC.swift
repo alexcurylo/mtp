@@ -43,9 +43,7 @@ final class MyCountsPageVC: CountsPageVC {
         super.init(model: model.list)
     }
 
-    /// Unsupported coding constructor
-    ///
-    /// - Parameter coder: An unarchiver object.
+    /// :nodoc:
     required init?(coder: NSCoder) {
         return nil
     }

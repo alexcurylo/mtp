@@ -75,9 +75,7 @@ final class RankingsPageVC: UIViewController {
             withReuseIdentifier: RankingHeader.reuseIdentifier)
     }
 
-    /// Unsupported coding constructor
-    ///
-    /// - Parameter coder: An unarchiver object.
+    /// :nodoc:
     required init?(coder: NSCoder) {
         return nil
     }

@@ -159,9 +159,7 @@ class WKWebViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
 
-    /// Decoding intializer
-    ///
-    /// - Parameter aDecoder: Decoder
+    /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -324,7 +322,7 @@ class WKWebViewController: UIViewController {
 
     private var isObserving = false
 
-    /// Remove observers
+    /// :nodoc:
     deinit {
         if isObserving {
             webView.removeObserver(self, forKeyPath: estimatedProgressKeyPath)

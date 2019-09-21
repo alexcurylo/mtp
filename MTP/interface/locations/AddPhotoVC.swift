@@ -76,7 +76,7 @@ final class AddPhotoVC: UIViewController {
         startKeyboardListening()
     }
 
-    /// Remove observers
+    /// :nodoc:
     deinit {
         stopKeyboardListening()
     }

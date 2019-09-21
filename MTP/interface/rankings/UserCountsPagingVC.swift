@@ -51,9 +51,7 @@ final class UserCountsPagingVC: FixedPagingViewController, UserCountsPageDataSou
         viewControllers.forEach { $0.dataSource = self }
     }
 
-    /// Unsupported coding constructor
-    ///
-    /// - Parameter coder: An unarchiver object.
+    /// :nodoc:
     required init?(coder: NSCoder) {
         return nil
     }

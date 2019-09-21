@@ -437,6 +437,7 @@
 		FABA7410213A359C0059ACCA /* ProfilePhotos.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABA740E213A359C0059ACCA /* ProfilePhotos.storyboard */; };
 		FABA7413213A374F0059ACCA /* ProfilePosts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABA7411213A374F0059ACCA /* ProfilePosts.storyboard */; };
 		FAC159A221EB68AA00564E2D /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC159A121EB68AA00564E2D /* Location.swift */; };
+		FAC749A52335AAAE007B1EF1 /* Mintfile in Resources */ = {isa = PBXBuildFile; fileRef = FAC749A42335AAAE007B1EF1 /* Mintfile */; };
 		FAC8465922AB493E004F57EC /* LocationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8465822AB493E004F57EC /* LocationHandler.swift */; };
 		FAC8465B22AB55B6004F57EC /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8465A22AB55B6004F57EC /* NotificationService.swift */; };
 		FAC8465D22AB6C2A004F57EC /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8465C22AB6C2A004F57EC /* LocationService.swift */; };
@@ -903,6 +904,7 @@
 		FABA740F213A359C0059ACCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ProfilePhotos.storyboard; sourceTree = "<group>"; };
 		FABA7412213A374F0059ACCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ProfilePosts.storyboard; sourceTree = "<group>"; };
 		FAC159A121EB68AA00564E2D /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		FAC749A42335AAAE007B1EF1 /* Mintfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Mintfile; sourceTree = "<group>"; };
 		FAC7A77621FF400300DCED01 /* .codebeatignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .codebeatignore; sourceTree = "<group>"; };
 		FAC7A77721FF43F900DCED01 /* .codebeatsettings */ = {isa = PBXFileReference; lastKnownFileType = text; path = .codebeatsettings; sourceTree = "<group>"; };
 		FAC7A77821FF452500DCED01 /* .swift-version */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".swift-version"; sourceTree = "<group>"; };
@@ -1641,6 +1643,7 @@
 				FAB53F8320DFCB40007A80A7 /* Dangerfile */,
 				8CCA21F622B381A600C1D13B /* fastlane */,
 				FA4F1C5E20DFA74500B8A1ED /* Gemfile */,
+				FAC749A42335AAAE007B1EF1 /* Mintfile */,
 				FA9A71E020F1DD60005F6A57 /* Gemfile.lock */,
 				FA3E366F20DFC0E3002AF4EE /* IDETemplateMacros.plist */,
 				FA4F1C5B20DFA67700B8A1ED /* LICENSE.md */,
@@ -2020,6 +2023,7 @@
 			files = (
 				8CE6FC59224C6C2200B24410 /* LocationInfo.storyboard in Resources */,
 				FAE1F117213BFBA80002CAB2 /* Locations.storyboard in Resources */,
+				FAC749A52335AAAE007B1EF1 /* Mintfile in Resources */,
 				8C0E6A7323055CFD00E7768E /* scorecard-restaurants-7853.json in Resources */,
 				8C0E6A7623055CFD00E7768E /* userGet-1.json in Resources */,
 				8CE6FC5E224C6C4000B24410 /* LocationPosts.storyboard in Resources */,
@@ -2208,7 +2212,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
+			shellScript = "mint run swiftlint\n";
 		};
 		FA3E366D20DFBC61002AF4EE /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2222,7 +2226,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
+			shellScript = "mint run swiftlint\n";
 		};
 		FA3E366E20DFBC86002AF4EE /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2236,7 +2240,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
+			shellScript = "mint run swiftlint\n";
 		};
 		FA81361520E8FE9700313AB9 /* Generate R.generated.swift */ = {
 			isa = PBXShellScriptBuildPhase;

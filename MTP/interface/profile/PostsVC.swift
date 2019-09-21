@@ -350,9 +350,7 @@ final class PostHeader: UITableViewHeaderFooterView {
                                                        right: 8)
     }
 
-    /// Unsupported coding constructor
-    ///
-    /// - Parameter coder: An unarchiver object.
+    /// :nodoc:
     required init?(coder: NSCoder) {
         return nil
     }

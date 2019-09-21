@@ -19,7 +19,7 @@ env:
   - IOS_WORKSPACE=MTP.xcworkspace
   - IOS_SCHEME=MTP
   - IOS_SDK=iphonesimulator13.0
-  - IOS_DESTINATION='platform=iOS Simulator,name=iPhone SE'
+  - IOS_DESTINATION='platform=iOS Simulator,name=iPhone 8'
 
 branches:
  except:

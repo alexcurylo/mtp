@@ -59,7 +59,7 @@ final class OfflineRequestManagerTests: MTPTestCase {
 
         archive1.delegate = OfflineRequestManagerListener()
         XCTAssertEqual(archive1.totalRequestCount, 2)
-        archive1.attemptSubmission()
+        archive1.attemptNextOperation()
 
         let request = try unwrap(archive1.ongoingRequests.first as? MockRequest)
          XCTAssertNil(request.dictionary[key])
@@ -75,7 +75,7 @@ final class OfflineRequestManagerTests: MTPTestCase {
         archive2.reachabilityManager = nil
         archive2.delegate = OfflineRequestManagerListener()
         XCTAssertEqual(archive2.totalRequestCount, 2)
-        archive2.attemptSubmission()
+        archive2.attemptNextOperation()
 
         // then
         let adjustedRequest = try unwrap(archive2.ongoingRequests.first as? MockRequest)

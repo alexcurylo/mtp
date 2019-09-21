@@ -151,9 +151,7 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
         configure()
     }
 
-    /// Unsupported coding constructor
-    ///
-    /// - Parameter coder: An unarchiver object.
+    /// :nodoc:
     required init?(coder: NSCoder) {
         return nil
     }
