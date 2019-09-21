@@ -7,12 +7,7 @@
 //
 
 @import MapKit;
-
-#if __has_include(<RealmMapView/RealmMapView.h>)
 @import Realm;
-#else
-#import <Realm/Realm.h>
-#endif
 
 /**
  *  Converts a MKCoordinate region to an NSPredicate
@@ -25,11 +20,9 @@
  *
  *  @return instance of NSPredicate (can be NSCompoundPredicate, see description for more info)
  */
-NS_ASSUME_NONNULL_BEGIN
-extern NSPredicate * NSPredicateForCoordinateRegion(MKCoordinateRegion region,
-                                                    NSString *latitudeKeyPath,
-                                                    NSString *longitudeKeyPath);
-NS_ASSUME_NONNULL_END
+extern NSPredicate * __nonnull NSPredicateForCoordinateRegion(MKCoordinateRegion region,
+                                                              NSString * __nonnull latitudeKeyPath,
+                                                              NSString * __nonnull longitudeKeyPath);
 
 /**
  *  Location specific subclass of RBQFetchRequest that allows for location fetching on Realm objects that contain latitude and longitude values.

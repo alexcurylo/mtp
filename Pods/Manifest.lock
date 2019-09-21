@@ -1,15 +1,11 @@
 PODS:
-  - Alamofire (4.8.2)
-  - AlamofireNetworkActivityIndicator (2.4.0):
-    - Alamofire (~> 4.8)
   - Anchorage (4.3.1)
+  - AXPhotoViewer (1.7.1):
+    - AXPhotoViewer/Core (= 1.7.1)
   - AXPhotoViewer/Core (1.7.1):
     - AXStateButton (>= 1.1.3)
     - FLAnimatedImage (>= 1.0.0)
     - FLAnimatedImage-tvOS (>= 1.0.16)
-  - AXPhotoViewer/Nuke (1.7.1):
-    - AXPhotoViewer/Core
-    - Nuke (>= 7.0)
   - AXStateButton (1.1.4)
   - Bolts (1.9.0):
     - Bolts/AppLinks (= 1.9.0)
@@ -100,34 +96,23 @@ PODS:
   - KRActivityIndicatorView (3.0.2)
   - KRProgressHUD (3.4.1):
     - KRActivityIndicatorView (= 3.0.2)
-  - Moya (13.0.1):
-    - Moya/Core (= 13.0.1)
-  - Moya/Core (13.0.1):
-    - Alamofire (~> 4.1)
-    - Result (~> 4.1)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
-  - Nuke (7.6.3)
-  - Nuke-Alamofire-Plugin (4.2):
-    - Alamofire (~> 4.0)
-    - Nuke (~> 7.0)
   - Parchment (1.6.0)
   - QuickLayout (3.0.0)
   - R.swift (5.0.3):
     - R.swift.Library (~> 5.0.0)
   - R.swift.Library (5.0.1)
-  - Result (4.1.0)
   - SwiftEntryKit (1.1.3):
     - QuickLayout (= 3.0.0)
   - SwiftyBeaver (1.7.1)
 
 DEPENDENCIES:
-  - AlamofireNetworkActivityIndicator
   - Anchorage
-  - AXPhotoViewer/Nuke
+  - AXPhotoViewer
   - AXStateButton
   - Bolts
   - Connectivity
@@ -142,9 +127,6 @@ DEPENDENCIES:
   - FLAnimatedImage
   - JWTDecode
   - KRProgressHUD
-  - Moya
-  - Nuke
-  - Nuke-Alamofire-Plugin
   - Parchment
   - R.swift
   - R.swift.Library
@@ -153,8 +135,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://cdn.cocoapods.org/:
-    - Alamofire
-    - AlamofireNetworkActivityIndicator
     - Anchorage
     - AXPhotoViewer
     - AXStateButton
@@ -181,21 +161,15 @@ SPEC REPOS:
     - JWTDecode
     - KRActivityIndicatorView
     - KRProgressHUD
-    - Moya
     - nanopb
-    - Nuke
-    - Nuke-Alamofire-Plugin
     - Parchment
     - QuickLayout
     - R.swift
     - R.swift.Library
-    - Result
     - SwiftEntryKit
     - SwiftyBeaver
 
 SPEC CHECKSUMS:
-  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
-  AlamofireNetworkActivityIndicator: 9acc3de3ca6645bf0efed462396b0df13dd3e7b8
   Anchorage: a187da0bc9b07440637d42c8744b8c82a4490295
   AXPhotoViewer: f4b021c6e43b0b9dbc7b30cf8b9a4f577d0c1f51
   AXStateButton: 6c515a433e37551505046429b5be04c12daa8c07
@@ -222,18 +196,14 @@ SPEC CHECKSUMS:
   JWTDecode: fb77675c8049c1a7e9433c7cf448c3ce33ee4ac7
   KRActivityIndicatorView: a2022d5d3e366207d2690f6bcc550f83aa91241b
   KRProgressHUD: 115363b48feb530ab1f36c4146ed22e779e0f5aa
-  Moya: f4a4b80ff2f8a4ffc208dfb31cd91636622fee6e
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
-  Nuke: 44130e95e09463f8773ae4b96b90de1eba6b3350
-  Nuke-Alamofire-Plugin: ee83df6e81e70488ca33033ac98b3f86a2ab1597
   Parchment: d3a7b367c529fa6ef51aa43f5717a7ff36d4b1f5
   QuickLayout: 07b45a72b10083fee3f095990cfed1c1e7b27f0a
   R.swift: f5a87643b91ea569d23d6afb3eee9c743edde239
   R.swift.Library: cfe85d569d9bae6cb262922db130e7c3a7a5fad1
-  Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
   SwiftEntryKit: be00509cf6e1e88b57bb96cf2114b09cf20ee84a
   SwiftyBeaver: da5e573ad583586c18236324c36900990afe1733
 
-PODFILE CHECKSUM: 3e2935d6335fce9b418665036758b88ea9d9380c
+PODFILE CHECKSUM: ba8ee7f75a2e507a13e6fa97924dff1d1498436f
 
 COCOAPODS: 1.7.5

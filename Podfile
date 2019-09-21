@@ -19,9 +19,8 @@ $iosVersion = '11.0'
 platform :ios, $iosVersion
 
 target 'MTP' do
-  pod 'AlamofireNetworkActivityIndicator'
   pod 'Anchorage'
-  pod 'AXPhotoViewer/Nuke'
+  pod 'AXPhotoViewer'
   pod 'AXStateButton', :modular_headers => true
   pod 'Bolts', :modular_headers => true, :inhibit_warnings => true
   pod 'Crashlytics'
@@ -36,9 +35,6 @@ target 'MTP' do
   pod 'FLAnimatedImage', :modular_headers => true, :inhibit_warnings => true
   pod 'JWTDecode'
   pod 'KRProgressHUD'
-  pod 'Moya'
-  pod 'Nuke'
-  pod 'Nuke-Alamofire-Plugin'
   pod 'Parchment', :inhibit_warnings => true
   pod 'R.swift'
   pod 'R.swift.Library'

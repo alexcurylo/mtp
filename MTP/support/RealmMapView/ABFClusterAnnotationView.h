@@ -8,7 +8,7 @@
 
 @import MapKit;
 
-@class RLMResults, ABFLocationSafeRealmObject;
+@class ABFLocationSafeRealmObject;
 
 /**
  *  Creates a circular view to represent a map annotation cluster

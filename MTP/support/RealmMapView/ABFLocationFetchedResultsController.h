@@ -11,7 +11,6 @@
 @import Foundation;
 @import MapKit;
 
-
 /**
  *  Value of ABFLocationSafeRealmObject currentDistance when there is no distance.
  */

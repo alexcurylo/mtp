@@ -305,6 +305,13 @@
 		FA46533021157784005B5A0A /* FacebookButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA46532F21157784005B5A0A /* FacebookButton.swift */; };
 		FA4653322115A250005B5A0A /* UserDefaults+DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653312115A250005B5A0A /* UserDefaults+DataService.swift */; };
 		FA4653342115ADC6005B5A0A /* MTPNetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4653332115ADC6005B5A0A /* MTPNetworkController.swift */; };
+		FA489DA0233654F900185F7D /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = FA489D9F233654F900185F7D /* SwiftPackageProductDependency */; };
+		FA489DA32336569A00185F7D /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = FA489DA22336569A00185F7D /* SwiftPackageProductDependency */; };
+		FA489DA7233659C100185F7D /* NetworkActivityIndicatorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA489DA6233659C100185F7D /* NetworkActivityIndicatorManager.swift */; };
+		FA489DA823365A0500185F7D /* NetworkActivityIndicatorManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA489DA4233659B700185F7D /* NetworkActivityIndicatorManagerTests.swift */; };
+		FA489DAB2336CB1900185F7D /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = FA489DAA2336CB1900185F7D /* SwiftPackageProductDependency */; };
+		FA489DAD2336D07300185F7D /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = FA489DAC2336D07300185F7D /* SwiftPackageProductDependency */; };
+		FA489DB02336D55300185F7D /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = FA489DAF2336D55300185F7D /* SwiftPackageProductDependency */; };
 		FA4DE5FD230985530091119A /* default.realm in Resources */ = {isa = PBXBuildFile; fileRef = FA4DE5FC230985530091119A /* default.realm */; };
 		FA4EE1452323462600A8D533 /* OfflineRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4EE1442323462600A8D533 /* OfflineRequestManager.swift */; };
 		FA4EE1472323467900A8D533 /* OfflineRequestManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4EE1462323467900A8D533 /* OfflineRequestManagerTests.swift */; };
@@ -755,6 +762,8 @@
 		FA46532F21157784005B5A0A /* FacebookButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookButton.swift; sourceTree = "<group>"; };
 		FA4653312115A250005B5A0A /* UserDefaults+DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+DataService.swift"; sourceTree = "<group>"; };
 		FA4653332115ADC6005B5A0A /* MTPNetworkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPNetworkController.swift; sourceTree = "<group>"; };
+		FA489DA4233659B700185F7D /* NetworkActivityIndicatorManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkActivityIndicatorManagerTests.swift; sourceTree = "<group>"; };
+		FA489DA6233659C100185F7D /* NetworkActivityIndicatorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkActivityIndicatorManager.swift; sourceTree = "<group>"; };
 		FA4B7FE021E38970006AF8E2 /* MTP.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MTP.entitlements; sourceTree = "<group>"; };
 		FA4B7FE121E38BF3006AF8E2 /* apple-app-site-association */ = {isa = PBXFileReference; lastKnownFileType = text; path = "apple-app-site-association"; sourceTree = "<group>"; };
 		FA4DE5FC230985530091119A /* default.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = default.realm; sourceTree = "<group>"; };
@@ -964,7 +973,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA489DA0233654F900185F7D /* BuildFile in Frameworks */,
 				FA9FD69523364BD0005818C3 /* BuildFile in Frameworks */,
+				FA489DB02336D55300185F7D /* BuildFile in Frameworks */,
+				FA489DA32336569A00185F7D /* BuildFile in Frameworks */,
 				FA9FD69323364BD0005818C3 /* BuildFile in Frameworks */,
 				8CDA496F233076D700014912 /* Network.framework in Frameworks */,
 				C1D9A04EB6208ED844515108 /* libPods-MTP.a in Frameworks */,
@@ -975,6 +987,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA489DAB2336CB1900185F7D /* BuildFile in Frameworks */,
+				FA489DAD2336D07300185F7D /* BuildFile in Frameworks */,
 				8C2F88912330B467005BADE0 /* Network.framework in Frameworks */,
 				529054A21D10AD8DB1855DB5 /* libPods-MTPTests.a in Frameworks */,
 			);
@@ -1172,6 +1186,7 @@
 				8C3EAB912231249E00CB4886 /* InjectableTests.swift */,
 				8CBBEB6D2318C28C00E4F5E1 /* LinkTappableTextViewTests.swift */,
 				8C5801A123050FBC00DE768F /* LocationTrackerTests.swift */,
+				FA489DA4233659B700185F7D /* NetworkActivityIndicatorManagerTests.swift */,
 				FA4EE1462323467900A8D533 /* OfflineRequestManagerTests.swift */,
 				8C3EAB852230FCEE00CB4886 /* RoutingAppDelegateTests.swift */,
 				FA74C112211C61580013A840 /* StringTests.swift */,
@@ -1812,6 +1827,7 @@
 				FA12AB5622C6D68700105545 /* LinkTappableTextView.swift */,
 				FAE1F11D2143B29F0002CAB2 /* LocationTracker.swift */,
 				FA6386A622D181C7001B4424 /* Namable.swift */,
+				FA489DA6233659C100185F7D /* NetworkActivityIndicatorManager.swift */,
 				FA6A188521EFEF920092C56C /* Observable.swift */,
 				FA4EE1442323462600A8D533 /* OfflineRequestManager.swift */,
 				FA81D9A1232E1C0A0060DC72 /* RealmMapView */,
@@ -1929,6 +1945,9 @@
 			packageProductDependencies = (
 				FA9FD69223364BD0005818C3 /* SwiftPackageProductDependency */,
 				FA9FD69423364BD0005818C3 /* SwiftPackageProductDependency */,
+				FA489D9F233654F900185F7D /* SwiftPackageProductDependency */,
+				FA489DA22336569A00185F7D /* SwiftPackageProductDependency */,
+				FA489DAF2336D55300185F7D /* SwiftPackageProductDependency */,
 			);
 			productName = MTP;
 			productReference = FA392BB720DF69F30026C828 /* MTP.app */;
@@ -1950,6 +1969,10 @@
 				FA392BCF20DF69F50026C828 /* PBXTargetDependency */,
 			);
 			name = MTPTests;
+			packageProductDependencies = (
+				FA489DAA2336CB1900185F7D /* SwiftPackageProductDependency */,
+				FA489DAC2336D07300185F7D /* SwiftPackageProductDependency */,
+			);
 			productName = MTPTests;
 			productReference = FA392BCD20DF69F50026C828 /* MTPTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -2021,6 +2044,9 @@
 			mainGroup = FA392BAE20DF69F30026C828;
 			packageReferences = (
 				FA9FD69123364BD0005818C3 /* RemoteSwiftPackageReference */,
+				FA489D9E233654F900185F7D /* RemoteSwiftPackageReference */,
+				FA489DA12336569A00185F7D /* RemoteSwiftPackageReference */,
+				FA489DAE2336D55300185F7D /* RemoteSwiftPackageReference */,
 			);
 			productRefGroup = FA392BB820DF69F30026C828 /* Products */;
 			projectDirPath = "";
@@ -2460,6 +2486,7 @@
 				8C7D71DB2303C4B8005939AC /* UILocationWebsite.swift in Sources */,
 				FA03455023037B0400632322 /* UISignup.swift in Sources */,
 				FA62BAE922478A6D009FDC4E /* UserCountsPagingVC.swift in Sources */,
+				FA489DA7233659C100185F7D /* NetworkActivityIndicatorManager.swift in Sources */,
 				FA5DBFA8222FF9E300639148 /* RegistrationPayload.swift in Sources */,
 				FA7A66CF22FD922F001DCCA2 /* UILocations.swift in Sources */,
 				FA254DCD2169A2A400FC9360 /* ProfileAboutVC.swift in Sources */,
@@ -2557,6 +2584,7 @@
 				8C76FC282330AA8200DCC5EB /* MTPTestCase.swift in Sources */,
 				FA63A4C423076A1800637BB3 /* RankingsPagingVCTests.swift in Sources */,
 				8CBE506E231CCF210058D810 /* CwlCatchException.m in Sources */,
+				FA489DA823365A0500185F7D /* NetworkActivityIndicatorManagerTests.swift in Sources */,
 				8CC6B9592304EA2A0089DB89 /* DateTests.swift in Sources */,
 				8CA5CE91230B98DA0020F7F8 /* NotificationsHandlerTests.swift in Sources */,
 				FA6A2CF222F85D4E00444BFA /* StyleServiceSpy.swift in Sources */,
@@ -3043,6 +3071,30 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		FA489D9E233654F900185F7D /* RemoteSwiftPackageReference */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.9.0;
+			};
+		};
+		FA489DA12336569A00185F7D /* RemoteSwiftPackageReference */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.0.1;
+			};
+		};
+		FA489DAE2336D55300185F7D /* RemoteSwiftPackageReference */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Nuke.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.2.0;
+			};
+		};
 		FA9FD69123364BD0005818C3 /* RemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-cocoa";
@@ -3054,6 +3106,31 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		FA489D9F233654F900185F7D /* SwiftPackageProductDependency */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA489D9E233654F900185F7D /* RemoteSwiftPackageReference */;
+			productName = Alamofire;
+		};
+		FA489DA22336569A00185F7D /* SwiftPackageProductDependency */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA489DA12336569A00185F7D /* RemoteSwiftPackageReference */;
+			productName = Moya;
+		};
+		FA489DAA2336CB1900185F7D /* SwiftPackageProductDependency */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA9FD69123364BD0005818C3 /* RemoteSwiftPackageReference */;
+			productName = Realm;
+		};
+		FA489DAC2336D07300185F7D /* SwiftPackageProductDependency */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA489D9E233654F900185F7D /* RemoteSwiftPackageReference */;
+			productName = Alamofire;
+		};
+		FA489DAF2336D55300185F7D /* SwiftPackageProductDependency */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA489DAE2336D55300185F7D /* RemoteSwiftPackageReference */;
+			productName = Nuke;
+		};
 		FA9FD69223364BD0005818C3 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = FA9FD69123364BD0005818C3 /* RemoteSwiftPackageReference */;

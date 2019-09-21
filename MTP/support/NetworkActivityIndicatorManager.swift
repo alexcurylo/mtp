@@ -1,3 +1,8 @@
+// @copyright Trollwerks Inc.
+
+// Add as SPM dependency if/when supported
+// https://github.com/Alamofire/AlamofireNetworkActivityIndicator
+
 //
 //  NetworkActivityIndicatorManager.swift
 //
@@ -40,6 +45,7 @@ import UIKit
 /// and hide automatically as Alamofire requests start and complete. You should not ever need to call
 /// `incrementActivityCount` and `decrementActivityCount` yourself.
 public class NetworkActivityIndicatorManager {
+
     private enum ActivityIndicatorState {
         case notActive, delayingStart, active, delayingCompletion
     }
@@ -198,6 +204,7 @@ public class NetworkActivityIndicatorManager {
     }
 
     private func unregisterForNotifications() {
+        // swiftlint:disable:next notification_center_detachment
         NotificationCenter.default.removeObserver(self)
     }
 
