@@ -42,8 +42,6 @@ target 'MTP' do
   pod 'Parchment', :inhibit_warnings => true
   pod 'R.swift'
   pod 'R.swift.Library'
-  pod 'Realm', :modular_headers => true
-  pod 'RealmSwift'
   pod 'SwiftEntryKit', :inhibit_warnings => true
   pod 'SwiftyBeaver'
 

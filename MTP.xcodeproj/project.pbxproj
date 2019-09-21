@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -426,6 +426,8 @@
 		FA9A71DF20F1D3FA005F6A57 /* LaunchHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9A71DE20F1D3FA005F6A57 /* LaunchHandler.swift */; };
 		FA9FD68E23363911005818C3 /* MTPVisitedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9FD68D23363911005818C3 /* MTPVisitedRequest.swift */; };
 		FA9FD69023363A50005818C3 /* MTPPostRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9FD68F23363A50005818C3 /* MTPPostRequest.swift */; };
+		FA9FD69323364BD0005818C3 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = FA9FD69223364BD0005818C3 /* SwiftPackageProductDependency */; };
+		FA9FD69523364BD0005818C3 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = FA9FD69423364BD0005818C3 /* SwiftPackageProductDependency */; };
 		FAA818FE22447EAB00BB9F92 /* LocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA818FD22447EAB00BB9F92 /* LocationVC.swift */; };
 		FAA819002244814900BB9F92 /* LocationPagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA818FF2244814900BB9F92 /* LocationPagingVC.swift */; };
 		FAAE29BF20EE51A700B43BA9 /* UIApplication+Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */; };
@@ -962,6 +964,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA9FD69523364BD0005818C3 /* BuildFile in Frameworks */,
+				FA9FD69323364BD0005818C3 /* BuildFile in Frameworks */,
 				8CDA496F233076D700014912 /* Network.framework in Frameworks */,
 				C1D9A04EB6208ED844515108 /* libPods-MTP.a in Frameworks */,
 			);
@@ -1922,6 +1926,10 @@
 			dependencies = (
 			);
 			name = MTP;
+			packageProductDependencies = (
+				FA9FD69223364BD0005818C3 /* SwiftPackageProductDependency */,
+				FA9FD69423364BD0005818C3 /* SwiftPackageProductDependency */,
+			);
 			productName = MTP;
 			productReference = FA392BB720DF69F30026C828 /* MTP.app */;
 			productType = "com.apple.product-type.application";
@@ -2011,6 +2019,9 @@
 				Base,
 			);
 			mainGroup = FA392BAE20DF69F30026C828;
+			packageReferences = (
+				FA9FD69123364BD0005818C3 /* RemoteSwiftPackageReference */,
+			);
 			productRefGroup = FA392BB820DF69F30026C828 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -2262,7 +2273,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$PODS_ROOT/R.swift/rswift\" generate \"${SRCROOT}/MTP/resources/R.generated.swift\"\necho R.generated.swift generated\n";
+			shellScript = "if mint list | grep -q 'R.swift'; then\n  mint run R.swift rswift generate \"${SRCROOT}/MTP/resources/R.generated.swift\"\nelse\n  #echo \"error: R.swift not installed; run 'mint bootstrap' to install\"\n  #return -1\n  \"$PODS_ROOT/R.swift/rswift\\\" generate \\\"${SRCROOT}/MTP/resources/R.generated.swift\"\nfi\necho R.generated.swift generated\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3030,6 +3041,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FA9FD69123364BD0005818C3 /* RemoteSwiftPackageReference */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-cocoa";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.18.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FA9FD69223364BD0005818C3 /* SwiftPackageProductDependency */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA9FD69123364BD0005818C3 /* RemoteSwiftPackageReference */;
+			productName = Realm;
+		};
+		FA9FD69423364BD0005818C3 /* SwiftPackageProductDependency */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA9FD69123364BD0005818C3 /* RemoteSwiftPackageReference */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FA392BAF20DF69F30026C828 /* Project object */;
 }
