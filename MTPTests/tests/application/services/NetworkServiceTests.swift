@@ -34,7 +34,7 @@ final class NetworkServiceTests: MTPTestCase {
         sut.userUpdate(payload: UserUpdatePayload()) { _ in }
         sut.userUpdate(token: "token") { _ in }
         sut.userVerify(id: 1) { _ in }
-        sut.unthrottle()
+        sut.logout()
         sut.refreshEverything()
 
         // then

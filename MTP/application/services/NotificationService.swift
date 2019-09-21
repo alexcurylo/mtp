@@ -57,6 +57,8 @@ struct Note {
         case title
         /// visited
         case visited
+        /// failures
+        case failures
 
         /// Dictionary key
         var key: String { return rawValue }

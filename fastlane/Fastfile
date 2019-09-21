@@ -96,12 +96,24 @@ platform :ios do
     end
   end
 
-  desc "Bump version number"
+  desc "Bump patch version number"
   lane :bump do
     increment_version_number(
       bump_type: "patch"
-      #bump_type: "minor"
-      #bump_type: "major"
+    )
+  end
+
+  desc "Bump minor version number"
+  lane :bumpMinor do
+    increment_version_number(
+      bump_type: "minor"
+    )
+  end
+
+  desc "Bump major version number"
+  lane :bumpMajor do
+    increment_version_number(
+      bump_type: "major"
     )
   end
 

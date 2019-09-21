@@ -44,6 +44,9 @@ protocol OfflineRequest: AnyObject, DictionaryRepresentable {
 
     /// Information for Network Status tab
     var subtitle: String { get set }
+
+    /// Number of times request has failed
+    var failures: Int { get }
 }
 
 private var requestIdKey: UInt8 = 0
@@ -467,7 +470,6 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
 
     /// Take next operation from queue
     @objc func attemptNextOperation() {
-        // swiftlint:disable:previous function_body_length
         guard let request = incompleteRequests.first(where: { incompleteRequest in
                 !ongoingRequests.contains(where: { $0.id == incompleteRequest.id })
               }),
@@ -486,7 +488,6 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
 
         delegate?.offlineRequestManager(self, didStartRequest: request)
 
-        // swiftlint:disable:next closure_body_length
         request.perform { [weak self] error in
             guard let self = self,
                   let request = self.ongoingRequests.first(where: { $0.id == request.id }) else {
@@ -498,31 +499,20 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
             NSObject.cancelPreviousPerformRequests(withTarget: self,
                                                    selector: #selector(OfflineRequestManager.killRequest(_:)),
                                                    object: request.id)
-
             if let error = error {
                 let nsError = error as NSError
                 if nsError.isNetworkError {
                     // keep at front of queue for next attemptNextOperation
                     request.subtitle = L.failedNetwork((error as NSError).code)
-                    self.saveToDisk()
-                    self.delegate?.offlineRequestManager(self, didUpdateRequest: request)
-                    return
-                } else if case NetworkError.status(500) = error {
-                    // ignore Internal Server Error for now - hope it's duplicate setting
-                    // as it returns an HTML error page not a JSON result
-                    self.completeRequest(request, error: nil)
-                    return
+                    return self.save(retry: request)
                 } else if request.shouldAttemptResubmission(forError: error) == true ||
                           self.delegate?.offlineRequestManager(self,
                                                                shouldReattemptRequest: request,
                                                                withError: error) == true {
                     request.subtitle = L.failedError(nsError.code, nsError.localizedDescription)
-                    self.saveToDisk()
-                    self.delegate?.offlineRequestManager(self, didUpdateRequest: request)
-                    return
+                    return self.save(retry: request)
                 }
             }
-
             self.completeRequest(request, error: error)
         }
 
@@ -534,6 +524,12 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
 // MARK: - Private
 
 private extension OfflineRequestManager {
+
+    func save(retry: OfflineRequest) {
+        saveToDisk()
+        delegate?.offlineRequestManager(self,
+                                        didUpdateRequest: retry)
+    }
 
     func instantiateInitialRequests(withBlock block: (([String: Any]) -> OfflineRequest?)) {
         guard incompleteRequests.isEmpty else { return }

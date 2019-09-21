@@ -63,3 +63,7 @@ PRODUCT_NAME = $(TARGET_NAME)
 // The path to a file specifying code-signing entitlements.
 
 CODE_SIGN_ENTITLEMENTS = MTP.entitlements
+
+VERSIONING_SYSTEM = apple-generic
+
+SWIFT_OBJC_BRIDGING_HEADER = MTP/support/RealmMapView/MTP-Bridging-Header.h

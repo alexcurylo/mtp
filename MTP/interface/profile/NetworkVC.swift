@@ -185,7 +185,7 @@ private extension NetworkVC {
         tableView.reloadData()
 
         contentState = models.isEmpty ? .empty :  .data
-        tableView.set(message: contentState, color: .darkText)
+        tableView.set(message: contentState)
     }
 
     func observe() {

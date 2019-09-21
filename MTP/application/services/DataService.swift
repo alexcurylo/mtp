@@ -346,8 +346,7 @@ extension DataService {
         FacebookWrapper.logOut()
         report.user(signIn: nil, signUp: nil)
 
-        MTP.unthrottle()
-        net.unthrottle()
+        net.logout()
 
         if let id = user?.id {
             delete(photos: id)

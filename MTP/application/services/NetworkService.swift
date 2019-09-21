@@ -193,8 +193,8 @@ protocol NetworkService: Observable, ServiceProvider {
     /// Refresh everything
     func refreshEverything()
 
-    /// Reset user throttling
-    func unthrottle()
+    /// Reset all networking
+    func logout()
 
     /// Direct accessor for connection status
     var isConnected: Bool { get }
@@ -389,7 +389,11 @@ class NetworkServiceImpl: NetworkService {
              visited: Bool,
              then: @escaping NetworkCompletion<Bool>) {
         for item in items {
-            let request = MTPVisitedRequest(item: item, visited: visited)
+            let request = MTPVisitedRequest(item: item,
+                                            visited: visited)
+            if !offlineRequestManager.connected {
+                request.failed()
+            }
             offlineRequestManager.queueRequest(request)
         }
         then(.failure(.queued))
@@ -511,8 +515,9 @@ class NetworkServiceImpl: NetworkService {
         refreshRankings()
     }
 
-    /// Reset user throttling
-    func unthrottle() {
+    /// Reset all networking
+    func logout() {
+        offlineRequestManager.clearAllRequests()
         MTP.unthrottle()
         lastRefreshUser = nil
     }
@@ -627,97 +632,6 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     }
 }
 
-/// Queued visit state operation
-final class MTPVisitedRequest: NSObject, OfflineRequest, ServiceProvider {
-
-    private let item: Checklist.Item
-    private let visited: Bool
-
-    /// Description for Network Status tab
-    var title: String
-
-    /// Information for Network Status tab
-    var subtitle: String
-
-    /// Information for clearing rankings
-    var checklist: Checklist { return item.list }
-
-    /// Test for rank changes pending
-    func changes(list: Checklist) -> Bool {
-        return item.list == list
-    }
-
-    /// Memberwise initializer
-    ///
-    /// - Parameters:
-    ///   - item: Place changing status
-    ///   - visited: Visited or not
-    ///   - title: Title if deserialized
-    ///   - subtitle: Subtitle if deserialized
-    init(item: Checklist.Item,
-         visited: Bool,
-         title: String? = nil,
-         subtitle: String? = nil) {
-        self.item = item
-        self.visited = visited
-        self.title = L.unknown()
-        self.subtitle = subtitle ?? L.queued()
-        super.init()
-
-        self.title = title ?? {
-            let operation = visited ? L.visited() : L.notVisited()
-            let name: String
-            if let mappable = data.get(mappable: item) {
-                name = mappable.title
-            } else {
-                name = L.unknown()
-            }
-            return L.visitedRequest(operation, name)
-        }()
-    }
-
-    /// Dictionary methods are required for saving to disk in the case of app termination
-    required convenience init?(dictionary: [String: Any]) {
-        guard let listValue = dictionary[Note.ChecklistItemInfo.list.key] as? Int,
-              let list = Checklist(rawValue: listValue),
-              let id = dictionary[Note.ChecklistItemInfo.id.key] as? Int,
-              let visited = dictionary[Note.ChecklistItemInfo.visited.key] as? Bool else {
-            return nil
-        }
-
-        self.init(item: (list, id),
-                  visited: visited,
-                  title: dictionary[Note.ChecklistItemInfo.title.key] as? String,
-                  subtitle: dictionary[Note.ChecklistItemInfo.subtitle.key] as? String)
-    }
-
-    var dictionary: [String: Any] {
-        let info: NotificationService.Info = [
-            Note.ChecklistItemInfo.list.key: item.list.rawValue,
-            Note.ChecklistItemInfo.id.key: item.id,
-            Note.ChecklistItemInfo.visited.key: visited,
-            Note.ChecklistItemInfo.title.key: title,
-            Note.ChecklistItemInfo.subtitle.key: subtitle
-        ]
-        return info
-    }
-
-    func perform(completion: @escaping (Error?) -> Void) {
-        net.mtp.set(items: [item], visited: visited) { result in
-            switch result {
-            case .success:
-                completion(nil)
-            case .failure(let error):
-                completion(error)
-            }
-        }
-    }
-
-    func shouldAttemptResubmission(forError error: Error) -> Bool {
-        return true
-    }
-}
-
 // MARK: - Private
 
 private extension NetworkServiceImpl {
@@ -754,7 +668,7 @@ private extension NetworkServiceImpl {
 
 #if DEBUG
 
-/// Stub for testing
+/// :nodoc:
 final class NetworkServiceStub: NetworkServiceImpl {
 
     override fileprivate func refreshData() {
@@ -775,17 +689,12 @@ final class NetworkServiceStub: NetworkServiceImpl {
         }
     }
 
-    /// Refresh first page of each list's rankings
+    /// :nodoc:
     override func refreshRankings() {
         // expect seeded
     }
 
-    /// Load location photos
-    ///
-    /// - Parameters:
-    ///   - id: Location ID
-    ///   - reload: Force reload
-    ///   - then: Completion
+    /// :nodoc:
     override func loadPhotos(location id: Int,
                              reload: Bool,
                              then: @escaping NetworkCompletion<PhotosInfoJSON>) {
@@ -795,12 +704,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                        then: then)
     }
 
-    /// Load logged in user photos
-    ///
-    /// - Parameters:
-    ///   - page: Index
-    ///   - reload: Force reload
-    ///   - then: Completion
+    /// :nodoc:
     override func loadPhotos(page: Int,
                              reload: Bool,
                              then: @escaping NetworkCompletion<PhotosPageInfoJSON>) {
@@ -810,13 +714,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                        then: then)
     }
 
-    /// Load user photos
-    ///
-    /// - Parameters:
-    ///   - id: User ID
-    ///   - page: Index
-    ///   - reload: Force reload
-    ///   - then: Completion
+    /// :nodoc:
     override func loadPhotos(profile id: Int,
                              page: Int,
                              reload: Bool,
@@ -828,11 +726,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                        then: then)
     }
 
-    /// Load location posts
-    ///
-    /// - Parameters:
-    ///   - id: Location ID
-    ///   - then: Completion
+    /// :nodoc:
     override func loadPosts(location id: Int,
                             then: @escaping NetworkCompletion<PostsJSON>) {
         mtp.loadPosts(location: id,
@@ -840,11 +734,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                       then: then)
     }
 
-    /// Load user posts
-    ///
-    /// - Parameters:
-    ///   - id: User ID
-    ///   - then: Completion
+    /// :nodoc:
     override func loadPosts(user id: Int,
                             then: @escaping NetworkCompletion<PostsJSON>) {
         mtp.loadPosts(user: id,
@@ -852,11 +742,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                       then: then)
     }
 
-    /// Load rankings
-    ///
-    /// - Parameters:
-    ///   - query: Filter
-    ///   - then: Completion
+    /// :nodoc:
     override func loadRankings(query: RankingsQuery,
                                then: @escaping NetworkCompletion<RankingsPageInfoJSON>) {
         mtp.loadRankings(query: query,
@@ -864,12 +750,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                          then: then)
     }
 
-    /// Load scorecard
-    ///
-    /// - Parameters:
-    ///   - list: Checklist
-    ///   - id: User ID
-    ///   - then: Completion
+    /// :nodoc:
     override func loadScorecard(list: Checklist,
                                 user id: Int,
                                 then: @escaping NetworkCompletion<ScorecardJSON>) {
@@ -879,11 +760,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                           then: then)
     }
 
-    /// Load user
-    ///
-    /// - Parameters:
-    ///   - id: User ID
-    ///   - then: Completion
+    /// :nodoc:
     override func loadUser(id: Int,
                            then: @escaping NetworkCompletion<UserJSON>) {
         mtp.loadUser(id: id,
@@ -891,11 +768,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                      then: then)
     }
 
-    /// Search
-    ///
-    /// - Parameters:
-    ///   - query: Query
-    ///   - then: Completion
+    /// :nodoc:
     override func search(query: String,
                          then: @escaping NetworkCompletion<SearchResultJSON>) {
         mtp.search(query: query,
@@ -903,12 +776,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                    then: then)
     }
 
-    /// Set places visit status
-    ///
-    /// - Parameters:
-    ///   - items: Places
-    ///   - visited: Whether visited
-    ///   - then: Completion
+    /// :nodoc:
     override func set(items: [Checklist.Item],
                       visited: Bool,
                       then: @escaping NetworkCompletion<Bool>) {
@@ -918,13 +786,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                 then: then)
     }
 
-    /// Upload photo
-    ///
-    /// - Parameters:
-    ///   - photo: Data
-    ///   - caption: String
-    ///   - id: Location ID if any
-    ///   - then: Completion
+    /// :nodoc:
     override func upload(photo: Data,
                          caption: String?,
                          location id: Int?,
@@ -936,11 +798,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                    then: then)
     }
 
-    /// Publish post
-    ///
-    /// - Parameters:
-    ///   - payload: Post payload
-    ///   - then: Completion
+    /// :nodoc:
     override func postPublish(payload: PostPayload,
                               then: @escaping NetworkCompletion<PostReply>) {
         mtp.postPublish(payload: payload,
@@ -948,19 +806,13 @@ final class NetworkServiceStub: NetworkServiceImpl {
                         then: then)
     }
 
-    /// Delete user account
-    ///
-    /// - Parameter then: Completion
+    /// :nodoc:
     override func userDeleteAccount(then: @escaping NetworkCompletion<String>) {
         mtp.userDeleteAccount(stub: MTPProvider.immediatelyStub,
                               then: then)
     }
 
-    /// Send reset password link
-    ///
-    /// - Parameters:
-    ///   - email: Email
-    ///   - then: Completion
+    /// :nodoc:
     override func userForgotPassword(email: String,
                                      then: @escaping NetworkCompletion<String>) {
         mtp.userForgotPassword(email: email,
@@ -968,12 +820,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                                then: then)
     }
 
-    /// Login user
-    ///
-    /// - Parameters:
-    ///   - email: Email
-    ///   - password: Password
-    ///   - then: Completion
+    /// :nodoc:
     override func userLogin(email: String,
                             password: String,
                             then: @escaping NetworkCompletion<UserJSON>) {
@@ -983,11 +830,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                       then: then)
     }
 
-    /// Register new user
-    ///
-    /// - Parameters:
-    ///   - payload: RegistrationPayload
-    ///   - then: Completion
+    /// :nodoc:
     override func userRegister(payload: RegistrationPayload,
                                then: @escaping NetworkCompletion<UserJSON>) {
         mtp.userRegister(payload: payload,
@@ -995,11 +838,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                          then: then)
     }
 
-    /// Update user info
-    ///
-    /// - Parameters:
-    ///   - payload: UserUpdatePayload
-    ///   - then: Completion
+    /// :nodoc:
     override func userUpdate(payload: UserUpdatePayload,
                              then: @escaping NetworkCompletion<UserJSON>) {
         mtp.userUpdate(payload: payload,
@@ -1007,11 +846,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                        then: then)
     }
 
-    /// Update user token
-    ///
-    /// - Parameters:
-    ///   - token: String
-    ///   - then: Completion
+    /// :nodoc:
     override func userUpdate(token: String,
                              then: @escaping NetworkCompletion<UserTokenReply>) {
         mtp.userUpdate(token: token,
@@ -1019,11 +854,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                        then: then)
     }
 
-    /// Resend verification email
-    ///
-    /// - Parameters:
-    ///   - id: User ID
-    ///   - then: Completion
+    /// :nodoc:
     override func userVerify(id: Int,
                              then: @escaping NetworkCompletion<String>) {
         mtp.userVerify(id: id,
@@ -1033,3 +864,123 @@ final class NetworkServiceStub: NetworkServiceImpl {
 }
 
 #endif
+
+/// Queued visit state operation
+final class MTPVisitedRequest: NSObject, OfflineRequest, ServiceProvider {
+
+    private let item: Checklist.Item
+    private let visited: Bool
+
+    /// Description for Network Status tab
+    var title: String
+
+    /// Information for Network Status tab
+    var subtitle: String
+
+    /// Information for clearing rankings
+    var checklist: Checklist { return item.list }
+
+    /// Test for rank changes pending
+    func changes(list: Checklist) -> Bool {
+        return item.list == list
+    }
+
+    /// Number of times request has failed
+    var failures: Int
+
+    /// Memberwise initializer
+    ///
+    /// - Parameters:
+    ///   - item: Place changing status
+    ///   - visited: Visited or not
+    ///   - title: Title if deserialized
+    ///   - subtitle: Subtitle if deserialized
+    ///   - failures: Falures if deserialized
+    init(item: Checklist.Item,
+         visited: Bool,
+         title: String? = nil,
+         subtitle: String? = nil,
+         failures: Int = 0) {
+        self.item = item
+        self.visited = visited
+        self.title = L.unknown()
+        self.subtitle = subtitle ?? L.queued()
+        self.failures = failures
+        super.init()
+
+        self.title = title ?? {
+            let operation = visited ? L.visited() : L.notVisited()
+            let name: String
+            if let mappable = data.get(mappable: item) {
+                name = mappable.title
+            } else {
+                name = L.unknown()
+            }
+            return L.visitedRequest(operation, name)
+        }()
+    }
+
+    /// Dictionary methods are required for saving to disk in the case of app termination
+    required convenience init?(dictionary: [String: Any]) {
+        guard let listValue = dictionary[Note.ChecklistItemInfo.list.key] as? Int,
+              let list = Checklist(rawValue: listValue),
+              let id = dictionary[Note.ChecklistItemInfo.id.key] as? Int,
+              let visited = dictionary[Note.ChecklistItemInfo.visited.key] as? Bool else {
+            return nil
+        }
+
+        let title = dictionary[Note.ChecklistItemInfo.title.key] as? String
+        let subtitle = dictionary[Note.ChecklistItemInfo.subtitle.key] as? String
+        let failures = dictionary[Note.ChecklistItemInfo.failures.key] as? Int ?? 0
+        self.init(item: (list, id),
+                  visited: visited,
+                  title: title,
+                  subtitle: subtitle,
+                  failures: failures)
+    }
+
+    var dictionary: [String: Any] {
+        let info: NotificationService.Info = [
+            Note.ChecklistItemInfo.list.key: item.list.rawValue,
+            Note.ChecklistItemInfo.id.key: item.id,
+            Note.ChecklistItemInfo.visited.key: visited,
+            Note.ChecklistItemInfo.title.key: title,
+            Note.ChecklistItemInfo.subtitle.key: subtitle,
+            Note.ChecklistItemInfo.failures.key: failures
+        ]
+        return info
+    }
+
+    func perform(completion: @escaping (Error?) -> Void) {
+        net.mtp.set(items: [item], visited: visited) { [weak self] result in
+            switch result {
+            case .success:
+                completion(nil)
+            case .failure(let error):
+                switch error {
+                case NetworkError.status(500):
+                    // ignore - expect it's duplicate setting
+                    // as it returns an HTML error page not a JSON result
+                    completion(nil)
+                case .parameter:
+                    // pretend is success
+                    completion(nil)
+                default:
+                     self?.failed()
+                    completion(error)
+                }
+            }
+        }
+    }
+
+    func failed() {
+        if failures == 0 {
+            note.message(error: L.serverRetryError(L.updateVisit()))
+        }
+        failures += 1
+    }
+
+    func shouldAttemptResubmission(forError error: Error) -> Bool {
+        return true
+    }
+}

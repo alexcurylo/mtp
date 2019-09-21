@@ -364,6 +364,7 @@ private class MockRequest: OfflineRequest {
     var complete = false
     var title: String = "title"
     var subtitle: String = "subtitle"
+    var failures: Int = 0
 
     static let progressIncrement = 0.2
 
