@@ -64,15 +64,6 @@ final class AddPostVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         report(screen: "Add Post")
-
-        if !net.isConnected {
-            let question = L.continueOffline(L.publishPost())
-            note.ask(question: question) { [weak self] answer in
-                if !answer {
-                    self?.performSegue(withIdentifier: Segues.pop, sender: self)
-                }
-            }
-        }
     }
 
     /// Stop editing on touch

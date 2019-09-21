@@ -424,6 +424,8 @@
 		FA97F93B231B524A00E450DD /* PhotosVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA97F93A231B524A00E450DD /* PhotosVCTests.swift */; };
 		FA99615F2136CF3100C85FBC /* ProfilePagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA99615E2136CF3100C85FBC /* ProfilePagingVC.swift */; };
 		FA9A71DF20F1D3FA005F6A57 /* LaunchHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9A71DE20F1D3FA005F6A57 /* LaunchHandler.swift */; };
+		FA9FD68E23363911005818C3 /* MTPVisitedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9FD68D23363911005818C3 /* MTPVisitedRequest.swift */; };
+		FA9FD69023363A50005818C3 /* MTPPostRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9FD68F23363A50005818C3 /* MTPPostRequest.swift */; };
 		FAA818FE22447EAB00BB9F92 /* LocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA818FD22447EAB00BB9F92 /* LocationVC.swift */; };
 		FAA819002244814900BB9F92 /* LocationPagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA818FF2244814900BB9F92 /* LocationPagingVC.swift */; };
 		FAAE29BF20EE51A700B43BA9 /* UIApplication+Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */; };
@@ -885,6 +887,8 @@
 		FA9A71E020F1DD60005F6A57 /* Gemfile.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile.lock; sourceTree = "<group>"; };
 		FA9A71E120F1DD6C005F6A57 /* Podfile.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile.lock; sourceTree = "<group>"; };
 		FA9A71E220F2308E005F6A57 /* .jazzy.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .jazzy.yaml; sourceTree = "<group>"; };
+		FA9FD68D23363911005818C3 /* MTPVisitedRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPVisitedRequest.swift; sourceTree = "<group>"; };
+		FA9FD68F23363A50005818C3 /* MTPPostRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPPostRequest.swift; sourceTree = "<group>"; };
 		FAA818FD22447EAB00BB9F92 /* LocationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationVC.swift; sourceTree = "<group>"; };
 		FAA818FF2244814900BB9F92 /* LocationPagingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPagingVC.swift; sourceTree = "<group>"; };
 		FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Environment.swift"; sourceTree = "<group>"; };
@@ -1048,6 +1052,8 @@
 				FA463784210E06230007382D /* LoggingService.swift */,
 				8C177A0622FA671700E4433C /* MenuAction.swift */,
 				FA4653332115ADC6005B5A0A /* MTPNetworkController.swift */,
+				FA9FD68D23363911005818C3 /* MTPVisitedRequest.swift */,
+				FA9FD68F23363A50005818C3 /* MTPPostRequest.swift */,
 				FA1663AE22E3325B0075DA1A /* NetworkService.swift */,
 				8CF778E6232B13780070253A /* NetworkServiceObserver.swift */,
 				FAC8465A22AB55B6004F57EC /* NotificationService.swift */,
@@ -2343,6 +2349,7 @@
 				FAC8465B22AB55B6004F57EC /* NotificationService.swift in Sources */,
 				8CDC4D56230A312800AA422D /* ConfirmDeleteVC.swift in Sources */,
 				8C93FE3D23038F150054B951 /* UIRankingsFilter.swift in Sources */,
+				FA9FD68E23363911005818C3 /* MTPVisitedRequest.swift in Sources */,
 				FA03454C2303795500632322 /* UISignupFail.swift in Sources */,
 				FA0345662304435B00632322 /* UIFaq.swift in Sources */,
 				FA74C111211BBF490013A840 /* String+Formatting.swift in Sources */,
@@ -2391,6 +2398,7 @@
 				FA32CC762100C34E004C1329 /* LoginVC.swift in Sources */,
 				FA46533021157784005B5A0A /* FacebookButton.swift in Sources */,
 				FA745757210DBD910010F4F4 /* UINavigationBar+Transparent.swift in Sources */,
+				FA9FD69023363A50005818C3 /* MTPPostRequest.swift in Sources */,
 				FA21FBA122A4157000190B71 /* UserProfileVC.swift in Sources */,
 				FA03456C2304449100632322 /* UICountsPage.swift in Sources */,
 				8C76D5DC22028874005CF4CD /* ServiceProvider.swift in Sources */,

@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
- - Offline queue for uploading visited places
+ - Offline queue for uploading visits, posts
  - Network Status screen showing queue in Settings
  - Warnings when network not available
 
