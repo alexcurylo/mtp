@@ -410,7 +410,15 @@ class NetworkServiceImpl: NetworkService {
                 caption: String?,
                 location id: Int?,
                 then: @escaping NetworkCompletion<PhotoReply>) {
-        mtp.upload(photo: photo, caption: caption, location: id, then: then)
+        let request = MTPPhotoRequest(photo: photo,
+                                      file: nil,
+                                      caption: caption,
+                                      location: id)
+        if !offlineRequestManager.connected {
+            request.failed()
+        }
+        offlineRequestManager.queueRequest(request)
+        then(.failure(.queued))
     }
 
     /// Publish post
@@ -538,7 +546,20 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     /// - Parameter dictionary: dictionary saved to disk associated with an unfinished request
     /// - Returns: OfflineRequest object to be queued
     func offlineRequest(withDictionary dictionary: [String: Any]) -> OfflineRequest? {
-        return MTPVisitedRequest(dictionary: dictionary)
+        let request: OfflineRequest?
+        if dictionary[Key.list.key] != nil {
+            request = MTPVisitedRequest(dictionary: dictionary)
+        } else if dictionary[Key.post.key] != nil {
+            request = MTPPostRequest(dictionary: dictionary)
+        } else if dictionary[Key.photo.key] != nil {
+            request = MTPPhotoRequest(dictionary: dictionary)
+        } else {
+            request = nil
+        }
+        if request == nil {
+            log.error("Unexpected offline request: \(dictionary)")
+        }
+        return request
     }
 
     /// Callback indicating the OfflineRequestManager's current progress
@@ -618,9 +639,13 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
                                didFinishRequest request: OfflineRequest) {
         notify(observers: NetworkServiceChange.requests.rawValue,
                info: [ StatusKey.value.rawValue: manager ])
-        if let request = request as? MTPVisitedRequest {
+        switch request {
+        case let visit as MTPVisitedRequest:
             mtp.userGetByToken(reload: true) { _ in }
-            data.delete(rankings: request.checklist)
+            data.delete(rankings: visit.checklist)
+        default:
+            // post and photo result handling should handle updating
+            break
         }
     }
 

@@ -449,6 +449,7 @@
 		FA7C2014222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7C2013222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift */; };
 		FA7CCAEF22B848EE0092A95E /* PhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7CCAEE22B848EE0092A95E /* PhotosVC.swift */; };
 		FA7DE1B42337993C00CDD373 /* Connectivity in Frameworks */ = {isa = PBXBuildFile; productRef = FA7DE1B32337993C00CDD373 /* Connectivity */; settings = {ATTRIBUTES = (Weak, ); }; };
+		FA7DE1B623379C0E00CDD373 /* MTPPhotoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DE1B523379C0E00CDD373 /* MTPPhotoRequest.swift */; };
 		FA81361220E8F64500313AB9 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FA81361120E8F64500313AB9 /* Settings.bundle */; };
 		FA815B712286D138004B91C8 /* NearbyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA815B702286D138004B91C8 /* NearbyVC.swift */; };
 		FA81D9A0232E1B7F0060DC72 /* RealmMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA81D99F232E1B7E0060DC72 /* RealmMapView.swift */; };
@@ -939,6 +940,7 @@
 		FA7C2011221C2F20002C6DAB /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		FA7C2013222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate2D+Equatable.swift"; sourceTree = "<group>"; };
 		FA7CCAEE22B848EE0092A95E /* PhotosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosVC.swift; sourceTree = "<group>"; };
+		FA7DE1B523379C0E00CDD373 /* MTPPhotoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPPhotoRequest.swift; sourceTree = "<group>"; };
 		FA81361120E8F64500313AB9 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		FA815B702286D138004B91C8 /* NearbyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyVC.swift; sourceTree = "<group>"; };
 		FA81D99F232E1B7E0060DC72 /* RealmMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmMapView.swift; sourceTree = "<group>"; };
@@ -1162,6 +1164,7 @@
 				FA4653332115ADC6005B5A0A /* MTPNetworkController.swift */,
 				FA9FD68D23363911005818C3 /* MTPVisitedRequest.swift */,
 				FA9FD68F23363A50005818C3 /* MTPPostRequest.swift */,
+				FA7DE1B523379C0E00CDD373 /* MTPPhotoRequest.swift */,
 				FA1663AE22E3325B0075DA1A /* NetworkService.swift */,
 				8CF778E6232B13780070253A /* NetworkServiceObserver.swift */,
 				FAC8465A22AB55B6004F57EC /* NotificationService.swift */,
@@ -2543,6 +2546,7 @@
 				FA835D36210F054F0098C270 /* ReplaceTopSegue.swift in Sources */,
 				8C47631323040E270089EF33 /* UILocationPhotos.swift in Sources */,
 				FA126BE72336EBB800175258 /* AXNetworkIntegrationProtocol.swift in Sources */,
+				FA7DE1B623379C0E00CDD373 /* MTPPhotoRequest.swift in Sources */,
 				8C5ECE9E21FEE6F800322ABF /* CountCellGroup.swift in Sources */,
 				FA25ACE8217C87ED000AE26D /* RankingHeader.swift in Sources */,
 				FA291FD5217ECBC8004140BD /* RankingsFilterVC.swift in Sources */,

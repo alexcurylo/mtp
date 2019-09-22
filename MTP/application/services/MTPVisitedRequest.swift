@@ -59,16 +59,16 @@ final class MTPVisitedRequest: NSObject, OfflineRequest, ServiceProvider {
 
     /// Dictionary methods are required for saving to disk in the case of app termination
     required convenience init?(dictionary: [String: Any]) {
-        guard let listValue = dictionary[Note.ChecklistItemInfo.list.key] as? Int,
+        guard let listValue = dictionary[Key.list.key] as? Int,
               let list = Checklist(rawValue: listValue),
-              let id = dictionary[Note.ChecklistItemInfo.id.key] as? Int,
-              let visited = dictionary[Note.ChecklistItemInfo.visited.key] as? Bool else {
+              let id = dictionary[Key.id.key] as? Int,
+              let visited = dictionary[Key.visited.key] as? Bool else {
             return nil
         }
 
-        let title = dictionary[Note.ChecklistItemInfo.title.key] as? String
-        let subtitle = dictionary[Note.ChecklistItemInfo.subtitle.key] as? String
-        let failures = dictionary[Note.ChecklistItemInfo.failures.key] as? Int ?? 0
+        let title = dictionary[Key.title.key] as? String
+        let subtitle = dictionary[Key.subtitle.key] as? String
+        let failures = dictionary[Key.failures.key] as? Int ?? 0
         self.init(item: (list, id),
                   visited: visited,
                   title: title,
@@ -78,12 +78,12 @@ final class MTPVisitedRequest: NSObject, OfflineRequest, ServiceProvider {
 
     var dictionary: [String: Any] {
         let info: NotificationService.Info = [
-            Note.ChecklistItemInfo.list.key: item.list.rawValue,
-            Note.ChecklistItemInfo.id.key: item.id,
-            Note.ChecklistItemInfo.visited.key: visited,
-            Note.ChecklistItemInfo.title.key: title,
-            Note.ChecklistItemInfo.subtitle.key: subtitle,
-            Note.ChecklistItemInfo.failures.key: failures
+            Key.list.key: item.list.rawValue,
+            Key.id.key: item.id,
+            Key.visited.key: visited,
+            Key.title.key: title,
+            Key.subtitle.key: subtitle,
+            Key.failures.key: failures
         ]
         return info
     }

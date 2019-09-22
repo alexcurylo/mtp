@@ -140,9 +140,9 @@ extension NotificationsHandler: UNUserNotificationCenterDelegate {
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
         let userInfo = response.notification.request.content.userInfo
-        guard let listValue = userInfo[Note.ChecklistItemInfo.list.key] as? Int,
+        guard let listValue = userInfo[Key.list.key] as? Int,
               let list = Checklist(rawValue: listValue),
-              let id = userInfo[Note.ChecklistItemInfo.id.key] as? Int else { return }
+              let id = userInfo[Key.id.key] as? Int else { return }
 
         switch response.actionIdentifier {
         case L.dismissAction():

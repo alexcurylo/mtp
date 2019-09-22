@@ -6,6 +6,38 @@ import UserNotifications
 
 // swiftlint:disable file_length
 
+/// Information serialized in notification user info and operation queues
+enum Key: String {
+
+    /// Checklist
+    case list
+    /// ID
+    case id
+
+    /// subtitle
+    case subtitle
+    /// title
+    case title
+    /// visited
+    case failures
+
+    case visited
+    /// failures
+
+    /// post
+    case post
+
+    /// photo
+    case photo
+    /// caption
+    case caption
+    /// location
+    case location
+
+    /// Dictionary key
+    var key: String { return rawValue }
+}
+
 /// Notification model
 struct Note {
 
@@ -42,28 +74,6 @@ struct Note {
             case .visit: return .min
             }
         }
-    }
-
-    /// Information passed in notification and request user info
-    enum ChecklistItemInfo: String {
-
-        /// Checklist
-        case list
-        /// ID
-        case id
-        /// subtitle
-        case subtitle
-        /// title
-        case title
-        /// visited
-        case visited
-        /// failures
-        case failures
-        /// post
-        case post
-
-        /// Dictionary key
-        var key: String { return rawValue }
     }
 
     fileprivate let title: String
@@ -529,8 +539,8 @@ private extension NotificationServiceImpl {
         let (title, body) = checkinStrings(mappable: mappable,
                                            triggered: triggered)
         let noteInfo: NotificationService.Info = [
-            Note.ChecklistItemInfo.list.key: list.rawValue,
-            Note.ChecklistItemInfo.id.key: id
+            Key.list.key: list.rawValue,
+            Key.id.key: id
         ]
 
         postVisit(title: title, body: body, info: noteInfo)

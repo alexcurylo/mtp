@@ -2,7 +2,7 @@
 
 import Foundation
 
-/// Queued visit state operation
+/// Queued post state operation
 final class MTPPostRequest: NSObject, OfflineRequest, ServiceProvider {
 
     private let payload: PostPayload
@@ -36,14 +36,14 @@ final class MTPPostRequest: NSObject, OfflineRequest, ServiceProvider {
 
     /// Dictionary methods are required for saving to disk in the case of app termination
     required convenience init?(dictionary: [String: Any]) {
-        guard let info = dictionary[Note.ChecklistItemInfo.post.key] as? PostPayloadInfo else {
+        guard let info = dictionary[Key.post.key] as? PostPayloadInfo else {
             return nil
         }
 
         let payload = PostPayload(info: info)
-        let title = dictionary[Note.ChecklistItemInfo.title.key] as? String
-        let subtitle = dictionary[Note.ChecklistItemInfo.subtitle.key] as? String
-        let failures = dictionary[Note.ChecklistItemInfo.failures.key] as? Int ?? 0
+        let title = dictionary[Key.title.key] as? String
+        let subtitle = dictionary[Key.subtitle.key] as? String
+        let failures = dictionary[Key.failures.key] as? Int ?? 0
         self.init(payload: payload,
                   title: title,
                   subtitle: subtitle,
@@ -52,10 +52,10 @@ final class MTPPostRequest: NSObject, OfflineRequest, ServiceProvider {
 
     var dictionary: [String: Any] {
         let info: NotificationService.Info = [
-            Note.ChecklistItemInfo.post.key: PostPayloadInfo(payload: payload),
-            Note.ChecklistItemInfo.title.key: title,
-            Note.ChecklistItemInfo.subtitle.key: subtitle,
-            Note.ChecklistItemInfo.failures.key: failures
+            Key.post.key: PostPayloadInfo(payload: payload),
+            Key.title.key: title,
+            Key.subtitle.key: subtitle,
+            Key.failures.key: failures
         ]
         return info
     }
