@@ -15,6 +15,16 @@ source 'https://cdn.cocoapods.org/'
 # http://blog.cocoapods.org/CocoaPods-1.7.0-beta/
 #install! 'cocoapods', :generate_multiple_pod_projects => true
 
+# SPM progress:
+# https://github.com/Rightpoint/Anchorage/pull/86
+# https://github.com/AssistoLab/DropDown
+# https://github.com/facebook/facebook-swift-sdk/issues/491
+# https://github.com/firebase/firebase-ios-sdk/issues/3136
+# https://github.com/auth0/JWTDecode.swift/pull/93
+# https://github.com/krimpedance/KRProgressHUD
+# https://github.com/rechsteiner/Parchment
+# R.swift is pending release of 5.1
+
 $iosVersion = '11.0'
 platform :ios, $iosVersion
 
@@ -22,7 +32,6 @@ target 'MTP' do
   pod 'Anchorage'
   pod 'Bolts', :modular_headers => true, :inhibit_warnings => true
   pod 'Crashlytics'
-  pod 'Connectivity'
   pod 'DropDown'
   pod 'Fabric'
   pod 'FacebookCore'
@@ -35,8 +44,6 @@ target 'MTP' do
   pod 'Parchment', :inhibit_warnings => true
   pod 'R.swift'
   pod 'R.swift.Library'
-  pod 'SwiftEntryKit', :inhibit_warnings => true
-  pod 'SwiftyBeaver'
 
   target 'MTPTests' do
     inherit! :search_paths

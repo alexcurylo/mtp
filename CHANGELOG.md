@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
- - Offline queue for uploading visits, posts
+ - Offline queue for uploading visits, posts, photos
  - Network Status screen showing queue in Settings
  - Warnings when network not available
+
+### Changed
+- Migrated to Xcode 11 + iOS 13 SDK
 
 ### Fixed
 - Improved visits and rankings server synchronization

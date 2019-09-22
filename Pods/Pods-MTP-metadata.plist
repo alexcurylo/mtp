@@ -107,49 +107,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</string>
 		<dict>
 			<key>authors</key>
 			<dict>
-				<key>Ross Butler</key>
-				<string>github@rwbutler.com</string>
-			</dict>
-			<key>description</key>
-			<string>&lt;p&gt;Connectivity wraps Apple&amp;#39;s Reachability code to provide a reliable measure of whether Internet connectivity is available where Reachability alone can only indicate whether &lt;em&gt;an interface is available that might allow a connection&lt;/em&gt;. Connectivity&amp;#39;s objective is to solve the captive portal problem whereby an iOS device is connected to a Wi-Fi network lacking Internet connectivity. Such situations are commonplace and may occur for example when connecting to a public Wi-Fi network which requires the user to register before use. Connectivity can detect such situations enabling you to react accordingly.&lt;/p&gt;
-</string>
-			<key>homepage</key>
-			<string>https://github.com/rwbutler/Connectivity</string>
-			<key>licenseText</key>
-			<string>Copyright (c) 2017 - 2018 Ross Butler
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-</string>
-			<key>licenseType</key>
-			<string>MIT</string>
-			<key>name</key>
-			<string>Connectivity</string>
-			<key>socialMediaURL</key>
-			<string></string>
-			<key>summary</key>
-			<string>Makes Internet connectivity detection more robust by detecting Wi-Fi networks without Internet access.</string>
-			<key>version</key>
-			<string>3.1.1</string>
-		</dict>
-		<dict>
-			<key>authors</key>
-			<dict>
 				<key>Google</key>
 				<string></string>
 			</dict>
@@ -2258,49 +2215,6 @@ SOFTWARE.
 		<dict>
 			<key>authors</key>
 			<dict>
-				<key>Daniel Huri</key>
-				<string>huri000@gmail.com</string>
-			</dict>
-			<key>description</key>
-			<string>&lt;p&gt;QuickLayout offers an additional way to easily the layout constraints using only code. You can harness the power of QuickLayout to align your interface programmatically without even creating any constraints explicitly.&lt;/p&gt;
-</string>
-			<key>homepage</key>
-			<string>https://github.com/huri000/QuickLayout</string>
-			<key>licenseText</key>
-			<string>Copyright (c) 2017 huri000@gmail.com &lt;huri000@gmail.com&gt;
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-</string>
-			<key>licenseType</key>
-			<string>MIT</string>
-			<key>name</key>
-			<string>QuickLayout</string>
-			<key>socialMediaURL</key>
-			<string></string>
-			<key>summary</key>
-			<string>Written in pure Swift, QuickLayout offers a neat way to manage Auto Layout in code.</string>
-			<key>version</key>
-			<string>3.0.0</string>
-		</dict>
-		<dict>
-			<key>authors</key>
-			<dict>
 				<key>Mathijs Kadijk</key>
 				<string>mkadijk@gmail.com</string>
 			</dict>
@@ -2395,97 +2309,6 @@ THE SOFTWARE.
 			<string>Companion library for R.swift, featuring types used to type resources</string>
 			<key>version</key>
 			<string>5.0.1</string>
-		</dict>
-		<dict>
-			<key>authors</key>
-			<dict>
-				<key>Daniel Huri</key>
-				<string>huri000@gmail.com</string>
-			</dict>
-			<key>description</key>
-			<string>&lt;p&gt;SwiftEntryKit is a banner presenter library for iOS. It can be used to easily display pop-ups and notification-like views within your iOS apps. SwiftEntryKit is highly customizable but also offers a bunch of beautiful presets that can be themed with your app fonts and colors.&lt;/p&gt;
-</string>
-			<key>homepage</key>
-			<string>https://github.com/huri000/SwiftEntryKit</string>
-			<key>licenseText</key>
-			<string>MIT License
-
-Copyright (c) 2018 Daniel Huri, huri000@gmail.com
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-</string>
-			<key>licenseType</key>
-			<string>MIT</string>
-			<key>name</key>
-			<string>SwiftEntryKit</string>
-			<key>socialMediaURL</key>
-			<string></string>
-			<key>summary</key>
-			<string>A simple banner and pop-up displayer for iOS. Written in Swift.</string>
-			<key>version</key>
-			<string>1.1.3</string>
-		</dict>
-		<dict>
-			<key>authors</key>
-			<dict>
-				<key>Sebastian Kreutzberger</key>
-				<string>s.kreutzberger@googlemail.com</string>
-			</dict>
-			<key>description</key>
-			<string>&lt;p&gt;Easy-to-use, extensible &amp;amp; powerful logging &amp;amp; analytics for Swift 2 to Swift 5.
-Great for development &amp;amp; release due to its support for many logging destinations &amp;amp; platforms.&lt;/p&gt;
-</string>
-			<key>homepage</key>
-			<string>https://github.com/SwiftyBeaver/SwiftyBeaver</string>
-			<key>licenseText</key>
-			<string>The MIT License (MIT)
-
-Copyright (c) 2015 Sebastian Kreutzberger
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-</string>
-			<key>licenseType</key>
-			<string>MIT</string>
-			<key>name</key>
-			<string>SwiftyBeaver</string>
-			<key>socialMediaURL</key>
-			<string></string>
-			<key>summary</key>
-			<string>Convenient logging during development &amp; release in Swift 2, 3, 4 &amp; 5.</string>
-			<key>version</key>
-			<string>1.7.1</string>
 		</dict>
 		<dict>
 			<key>authors</key>
