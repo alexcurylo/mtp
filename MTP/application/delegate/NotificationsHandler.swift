@@ -96,9 +96,7 @@ extension NotificationsHandler: AppNotificationsHandler {
     ///   - error: Error
     func application(_ application: UIApplication,
                      didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        #if !targetEnvironment(simulator)
-        log.error("register for remote notifications: \(error)")
-        #endif
+        //log.error("register for remote notifications: \(error)")
     }
 
     /// didReceiveRemoteNotification
@@ -122,6 +120,7 @@ extension NotificationsHandler: AppNotificationsHandler {
         //    },
         //    "test":"value"
         //}
+        completionHandler(.noData)
     }
 }
 
@@ -141,9 +140,9 @@ extension NotificationsHandler: UNUserNotificationCenterDelegate {
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
         let userInfo = response.notification.request.content.userInfo
-        guard let listValue = userInfo[Note.ChecklistItemInfo.list.key] as? Int,
+        guard let listValue = userInfo[Key.list.key] as? Int,
               let list = Checklist(rawValue: listValue),
-              let id = userInfo[Note.ChecklistItemInfo.id.key] as? Int else { return }
+              let id = userInfo[Key.id.key] as? Int else { return }
 
         switch response.actionIdentifier {
         case L.dismissAction():
@@ -171,6 +170,8 @@ extension NotificationsHandler: UNUserNotificationCenterDelegate {
         willPresent notification: UNNotification,
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
     ) {
+        //let encoded = NSKeyedArchiver.archivedData(withRootObject: notification)
+        //print(encoded.hexEncodedString())
         UIApplication.shared.applicationIconBadgeNumber = 0
         completionHandler( [.alert, .badge, .sound])
     }
@@ -190,11 +191,42 @@ private extension NotificationsHandler {
 
     func handle(checkin item: Checklist.Item) {
         note.set(item: item,
-                 visited: true,
-                 congratulate: true) { result in
+                 visited: true) { result in
             if case let .failure(message) = result {
                 self.note.post(error: message)
             }
         }
+    }
+}
+
+private extension Data {
+
+    struct HexEncodingOptions: OptionSet {
+        let rawValue: Int
+        static let upperCase = HexEncodingOptions(rawValue: 1 << 0)
+    }
+
+    func hexEncodedString(options: HexEncodingOptions = []) -> String {
+        let hexDigits = Array((options.contains(.upperCase) ? "0123456789ABCDEF" : "0123456789abcdef").utf16)
+        var chars: [unichar] = []
+        chars.reserveCapacity(2 * count)
+        for byte in self {
+            chars.append(hexDigits[Int(byte / 16)])
+            chars.append(hexDigits[Int(byte % 16)])
+        }
+        return String(utf16CodeUnits: chars, count: chars.count)
+    }
+
+    var hexString: String {
+        return reduce(into: "") { $0 += String(format: "%02x", $1) }
+    }
+
+    private static let hexAlphabet = Array("0123456789abcdef".unicodeScalars)
+
+    func hexEncodedStringFast() -> String {
+        return String(reduce(into: "".unicodeScalars) { result, value in
+            result.append(Data.hexAlphabet[Int(value / 16)])
+            result.append(Data.hexAlphabet[Int(value % 16)])
+        })
     }
 }

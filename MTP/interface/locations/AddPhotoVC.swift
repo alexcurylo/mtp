@@ -10,14 +10,6 @@ protocol AddPhotoDelegate: AnyObject {
 
     /// Enable Location selection
     var isLocatable: Bool { get }
-
-    /// Handle photo addition
-    ///
-    /// - Parameters:
-    ///   - controller: Add Photo controller
-    ///   - reply: Selection description
-    func addPhoto(controller: AddPhotoVC,
-                  didAdd reply: PhotoReply)
 }
 
 /// Handles creation and uploading of new photos to MTP
@@ -76,7 +68,7 @@ final class AddPhotoVC: UIViewController {
         startKeyboardListening()
     }
 
-    /// Remove observers
+    /// :nodoc:
     deinit {
         stopKeyboardListening()
     }
@@ -242,7 +234,7 @@ private extension AddPhotoVC {
 
         let errorMessage: String
         if countryId != 0 && locationId == 0 {
-            errorMessage = L.fixLocation()
+            errorMessage = L.fixLocationProfile()
         } else if photo == nil {
             errorMessage = L.fixPhoto()
         } else {
@@ -261,28 +253,10 @@ private extension AddPhotoVC {
     func upload(photo: Data,
                 caption: String?,
                 location id: Int?) {
-        note.modal(info: L.publishingPhoto())
-
         net.upload(photo: photo,
                    caption: caption,
-                   location: id) { [weak self, note] result in
-            switch result {
-            case .success(let reply):
-                note.modal(success: L.success())
-                DispatchQueue.main.async { [weak self] in
-                    if let self = self {
-                        self.delegate?.addPhoto(controller: self,
-                                                didAdd: reply)
-                    }
-                }
-                DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
-                    note.dismissModal()
-                    self?.performSegue(withIdentifier: Segues.pop, sender: self)
-                }
-            case .failure(let error):
-                note.modal(failure: error,
-                           operation: L.publishPhoto())
-            }
+                   location: id) { [weak self] _ in
+           self?.performSegue(withIdentifier: Segues.pop, sender: self)
         }
     }
 }

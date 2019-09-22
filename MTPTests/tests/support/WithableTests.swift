@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class WithableTests: XCTestCase {
+final class WithableTests: MTPTestCase {
 
     func testWithable() {
         let expected = UIView()

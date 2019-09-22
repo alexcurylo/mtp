@@ -63,9 +63,8 @@ class LocationHandler: NSObject, AppHandler, ServiceProvider {
     /// - Parameter then: Closure
     func broadcast(then: @escaping (LocationTracker) -> Void) {
         DispatchQueue.main.async {
-            self.trackers.forEach {
-                guard let tracker = $0 as? LocationTracker else { return }
-                then(tracker)
+            self.trackers.of(type: LocationTracker.self).forEach {
+                then($0)
             }
         }
     }
@@ -79,11 +78,10 @@ class LocationHandler: NSObject, AppHandler, ServiceProvider {
                    then: @escaping (LocationTracker, Mappable) -> Void) {
         let reference = mappable.reference
         DispatchQueue.main.async {
-            guard let resolved = self.data.resolve(reference: reference) else { return }
-
-            self.trackers.forEach {
-                guard let tracker = $0 as? LocationTracker else { return }
-                then(tracker, resolved)
+            if let resolved = self.data.resolve(reference: reference) {
+                self.trackers.of(type: LocationTracker.self).forEach {
+                    then($0, resolved)
+                }
             }
         }
     }
@@ -218,7 +216,7 @@ private extension LocationHandler {
         guard let here = lastCoordinate?.coordinate,
               distanceUpdate == nil else { return }
         let update = DistancesOperation(center: here,
-                                        mappables: data.mappables,
+                                        mappables: data.visibles,
                                         handler: self,
                                         trigger: trigger,
                                         world: data.worldMap)

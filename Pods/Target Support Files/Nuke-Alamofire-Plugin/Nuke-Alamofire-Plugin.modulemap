@@ -1,6 +1,0 @@
-module NukeAlamofirePlugin {
-  umbrella header "Nuke-Alamofire-Plugin-umbrella.h"
-
-  export *
-  module * { export * }
-}

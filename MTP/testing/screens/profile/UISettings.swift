@@ -6,6 +6,8 @@ enum UISettings: Exposable {
     /// Close bar button
     case close
 
+    /// Menu table
+    case menu
     /// About button
     case about
     /// Share The App button
@@ -16,6 +18,8 @@ enum UISettings: Exposable {
     case faq
     /// Contact Us button
     case contact
+    /// Network button
+    case network
     /// Logout button
     case logout
     /// Delete Account button

@@ -18,7 +18,7 @@ final class LocationInfoVC: UITableViewController {
 
     // verified in requireInjection
     private var location: Location!
-    //swiftlint:disable:previous implicitly_unwrapped_optional
+    // swiftlint:disable:previous implicitly_unwrapped_optional
 
     /// Prepare for interaction
     override func viewDidLoad() {

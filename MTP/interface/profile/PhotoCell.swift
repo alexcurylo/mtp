@@ -38,7 +38,7 @@ final class PhotoCell: UICollectionViewCell, ServiceProvider {
 
     /// Photo displayer
     @IBOutlet var imageView: UIImageView?
-    //swiftlint:disable:previous private_outlet
+    // swiftlint:disable:previous private_outlet
 
     private var photo: Photo?
     private var loaded = false

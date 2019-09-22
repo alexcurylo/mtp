@@ -506,7 +506,7 @@ extension MTP: AccessTokenAuthorizable {
 typealias MTPProvider = MoyaProvider<MTP>
 
 /// Calls the MTP API via Moya
-struct MTPNetworkController: ServiceProvider {
+class MTPNetworkController: ServiceProvider {
     // swiftlint:disable:previous type_body_length
 
     /// Set places visit status
@@ -1557,9 +1557,11 @@ struct MTPNetworkController: ServiceProvider {
     /// Get logged in user info
     ///
     /// - Parameters:
+    ///   - reload: Force reload
     ///   - stub: Stub behaviour
     ///   - then: Completion
     func userGetByToken(
+        reload: Bool,
         stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
         then: @escaping NetworkCompletion<UserJSON>
     ) {
@@ -1570,7 +1572,7 @@ struct MTPNetworkController: ServiceProvider {
         let auth = AccessTokenPlugin { self.data.token }
         let provider = MTPProvider(stubClosure: stub, plugins: [auth])
         let endpoint = MTP.userGetByToken
-        guard !endpoint.isThrottled else {
+        guard reload || !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
 
@@ -1683,7 +1685,7 @@ struct MTPNetworkController: ServiceProvider {
                 self.data.token = token
                 self.data.user = user
                 self.report(success: endpoint)
-                self.userGetByToken { _ in
+                self.userGetByToken(reload: true) { _ in
                     then(.success(user))
                 }
                 return
@@ -2101,9 +2103,9 @@ private extension Response {
 
 extension NetworkError: LocalizedError {
 
-    /// Loggable description of NetworkError
+    /// Displayable description of NetworkError
     public var errorDescription: String? {
-        return "🔥\(code)💬\(message)"
+        return L.errorDescription(code, message)
     }
 }
 
@@ -2133,6 +2135,8 @@ private extension NetworkError {
             return 1_090
         case .token:
             return 1_100
+        case .queued:
+            return 2_000
         }
     }
 
@@ -2160,7 +2164,9 @@ private extension NetworkError {
             return "network throttled"
         case .token:
             return "user token not found"
-        }
+        case .queued:
+            return "queued for later"
+       }
     }
 }
 

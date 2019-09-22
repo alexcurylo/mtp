@@ -154,40 +154,70 @@ final class RealmDataController: ServiceProvider {
 
     /// Get place
     ///
-    /// - Parameter item: list and ID
+    /// - Parameters:
+    ///   - item: list and ID
+    ///   - visible: Whether to restrict to visible items
     /// - Returns: Place if found
-    func mappable(item: Checklist.Item) -> Mappable? {
+    func mappable(item: Checklist.Item,
+                  visible: Bool = false) -> Mappable? {
         let key = Mappable.key(item: item)
+        let filter: String
+        if visible {
+            filter = "dbKey = '\(key)' AND visible = true"
+        } else {
+            filter = "dbKey = '\(key)'"
+        }
         let results = realm.objects(Mappable.self)
-                           .filter("dbKey = '\(key)'")
+                           .filter(filter)
         return results.first
     }
 
     /// Get places
     ///
-    /// - Parameter list: list
+    /// - Parameters:
+    ///   - list: list
+    ///   - visible: Whether to restrict to visible items
     /// - Returns: Places in list
-    func mappables(list: Checklist?) -> [Mappable] {
+    func mappables(list: Checklist?,
+                   visible: Bool = false) -> [Mappable] {
         let results: Results<Mappable>
-        if let value = list?.rawValue {
+        let filter: String
+        switch (list, visible) {
+        case (let list?, true):
+            filter = "checklistValue = \(list.rawValue) AND visible = true"
+        case (let list?, false):
+            filter = "checklistValue = \(list.rawValue)"
+        case (nil, true):
+            filter = "visible = true"
+        case (nil, false):
+            filter = ""
+        }
+        if filter.isEmpty {
             results = realm.objects(Mappable.self)
-                           .filter("checklistValue = \(value)")
-       } else {
+        } else {
             results = realm.objects(Mappable.self)
+                           .filter(filter)
        }
         return Array(results)
     }
 
     /// Get matching places
     ///
-    /// - Parameter matching: String
+    /// - Parameters:
+    ///   - matching: String
+    ///   - visible: Whether to restrict to visible items
     /// - Returns: Places matching
-    func mappables(matching: String) -> [Mappable] {
+    func mappables(matching: String,
+                   visible: Bool = false) -> [Mappable] {
         guard !matching.isEmpty else { return [] }
-
-        let filter = "title contains[cd] '\(matching)'"
+        let filter: String
+        if visible {
+            filter = "title contains[cd] %@ AND visible = true"
+        } else {
+            filter = "title contains[cd] %@"
+        }
         let results = realm.objects(Mappable.self)
-                           .filter(filter)
+                           .filter(filter, matching)
         return Array(results)
     }
 
@@ -323,16 +353,16 @@ final class RealmDataController: ServiceProvider {
     /// Delete all user photos
     ///
     /// - Parameter id: User ID
-    func deletePhotos(user id: Int) {
+    func delete(photos userId: Int) {
         do {
-            let filter = "userId = \(id)"
+            let filter = "userId = \(userId)"
             let results = realm.objects(PhotosPageInfo.self)
                                .filter(filter)
             try realm.write {
                 realm.delete(results)
             }
         } catch {
-            log.error("deletePhotos: \(error)")
+            log.error("delete(photos:): \(error)")
         }
     }
 
@@ -409,6 +439,22 @@ final class RealmDataController: ServiceProvider {
                            .filter(filter)
                            .sorted(byKeyPath: "page")
         return results
+    }
+
+    /// Delete all rankings for checklist
+    ///
+    /// - Parameter rankings: Checklist
+    func delete(rankings: Checklist) {
+        do {
+            let filter = "dbKey contains 'checklistType=\(rankings)'"
+            let results = realm.objects(RankingsPageInfo.self)
+                               .filter(filter)
+            try realm.write {
+                realm.delete(results)
+            }
+        } catch {
+            log.error("delete(rankings:): \(error)")
+        }
     }
 
     /// Set rankings query
@@ -542,9 +588,22 @@ final class RealmDataController: ServiceProvider {
     /// - Parameter whss: API results
     func set(whss: [WHSJSON]) {
         do {
-            let objects = whss.compactMap { WHS(from: $0, realm: self) }
+            var parents: Set<Int> = []
+            let objects = whss.compactMap {
+                WHS(from: $0,
+                    parents: &parents,
+                    realm: self)
+            }
             try realm.write {
                 realm.add(objects, update: .modified)
+            }
+            // set all parents
+            let value = Checklist.whss.rawValue
+            let filter = "checklistValue = \(value) AND checklistId IN %@"
+            let updates = realm.objects(Mappable.self)
+                               .filter(filter, parents)
+            try realm.write {
+                updates.forEach { $0.visible = false }
             }
         } catch {
             log.error("set whss: \(error)")
@@ -580,7 +639,7 @@ private extension RealmDataController {
     func configure() {
         // swiftlint:disable:next trailing_closure
         let config = Realm.Configuration(
-            schemaVersion: 2,
+            schemaVersion: 3,
             migrationBlock: { migration, oldSchemaVersion in
                 self.log.verbose("migrating database \(oldSchemaVersion) to 2")
                 switch oldSchemaVersion {
@@ -590,6 +649,10 @@ private extension RealmDataController {
                     fallthrough
                 case 1:
                     migration.migrate1to2()
+                    // swiftlint:disable:next fallthrough
+                    fallthrough
+                case 2:
+                    migration.migrate2to3()
                     // swiftlint:disable:next fallthrough
                     fallthrough
                 default:
@@ -682,6 +745,14 @@ private extension Migration {
             }
         }
     }
+
+    func migrate2to3() {
+        // apply new defaults: https://github.com/realm/realm-cocoa/issues/1793
+        enumerateObjects(ofType: Mappable.className()) { _, new in
+            // set to 0 by default!
+            new?["visible"] = true
+        }
+    }
 }
 
 // MARK: - Seeding
@@ -690,7 +761,7 @@ private extension Migration {
 extension RealmDataController {
 
     /// Save current data for default startup loading
-    func saveToDesktop() {
+    func saveSeedToDesktop() {
         // po Realm.Configuration.defaultConfiguration.fileURL
         do {
             let home = try unwrap(ProcessInfo.processInfo.environment["SIMULATOR_HOST_HOME"])

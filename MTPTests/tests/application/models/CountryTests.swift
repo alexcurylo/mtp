@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class CountryTests: XCTestCase {
+final class CountryTests: MTPTestCase {
 
     func testPlaceholderAll() throws {
         // given

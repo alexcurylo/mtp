@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class PhotoTests: XCTestCase {
+final class PhotoTests: MTPTestCase {
 
     func testDecodingInfo() throws {
         // given

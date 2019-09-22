@@ -9,7 +9,8 @@ extension UIRankingsPage: Elemental {
         case .ranks:
             return .collectionView
         case .profile:
-            return .staticText
+            //return .staticText // iOS < 13
+            return .button // iOS 13.0
         case .remaining,
              .visited:
             return .button

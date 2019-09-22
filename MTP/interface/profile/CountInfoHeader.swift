@@ -9,19 +9,17 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
     static let reuseIdentifier = NSStringFromClass(CountInfoHeader.self)
 
     private enum Layout {
-        static let updatingSize = CGFloat(15)
         static let spacing = (rank: CGFloat(8),
-                              label: CGFloat(4),
-                              updating: CGFloat(2))
+                              label: CGFloat(4))
         static let insets = UIEdgeInsets(top: 0,
                                          left: 8,
                                          bottom: 0,
                                          right: 0)
         static let titleFont = Avenir.black.of(size: 18)
-        static let updatingColor = UIColor.white
+        static let uploadingColor = UIColor.white
         static let rankFont = (normal: Avenir.heavy.of(size: 16),
                                fraction: Avenir.medium.of(size: 15),
-                               updating: Avenir.mediumOblique.of(size: 15))
+                               uploading: Avenir.mediumOblique.of(size: 15))
         static let infoFont = Avenir.heavy.of(size: 15)
     }
 
@@ -44,24 +42,14 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
         $0.textColor = .white
         $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
-    private let updatingImageView = UIImageView {
-        $0.heightAnchor == Layout.updatingSize
-        $0.widthAnchor == Layout.updatingSize
+    private let uploadImageView = UIImageView {
         $0.setContentHuggingPriority(.required, for: .horizontal)
-        $0.image = R.image.updating()
-        $0.tintColor = Layout.updatingColor
+        $0.image = R.image.upload()
+        $0.tintColor = Layout.uploadingColor
     }
-    private let updatingLabel = UILabel {
-        $0.font = Avenir.bookOblique.of(size: 13)
-        $0.setContentHuggingPriority(.required, for: .horizontal)
-        $0.setContentCompressionResistancePriority(.required, for: .horizontal)
-        $0.allowsDefaultTighteningForTruncation = true
-        $0.textColor = Layout.updatingColor
-    }
-    private var updatingStack: UIStackView?
 
     private let unInfoLabel = UILabel {
-        $0.font = Layout.rankFont.updating
+        $0.font = Layout.rankFont.uploading
         $0.allowsDefaultTighteningForTruncation = true
         $0.adjustsFontSizeToFitWidth = true
         $0.minimumScaleFactor = 0.9
@@ -70,8 +58,10 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
     }
     private var completeStack: UIStackView?
 
-    private let scheduler = Scheduler()
-    private var updating = false
+    private var userObserver: Observer?
+    private var requestsObserver: Observer?
+    private var list: Checklist?
+    private var uploading = false
 
     /// Procedural intializer
     ///
@@ -80,11 +70,10 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
         super.init(frame: frame)
 
         configure()
+        observe()
     }
 
-    /// Unsupported coding constructor
-    ///
-    /// - Parameter coder: An unarchiver object.
+    /// :nodoc:
     required init?(coder: NSCoder) {
         return nil
     }
@@ -93,38 +82,19 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
     ///
     /// - Parameter list: Checklist
     func inject(list: Checklist) {
-        guard let user = data.user else { return }
-
+        self.list = list
         if list == .uncountries {
             completeStack?.addArrangedSubview(unInfoLabel)
         }
 
-        let status = list.visitStatus(of: user)
-        let visitedText = status.visited.grouped
-        let totalText = (status.visited + status.remaining).grouped
-
-        let rank = list.rank(of: user)
-        guard rank > 0 else {
-            rankTitle.text = L.myScore()
-            rankLabel.text = L.scoreFraction(visitedText, totalText)
-            updatingStack?.isHidden = true
-            return
-        }
-
-        let rankText = rank.grouped
-        rankTitle.text = L.myRanking()
-        rankLabel.text = L.rankScore(rankText)
-        fractionLabel.text = L.rankFraction(visitedText, totalText)
-
-        scheduler.fire(every: 60) { [weak self, list] in
-            self?.update(timer: list)
-        }
+        update()
     }
 
     /// Empty display
     override func prepareForReuse() {
         super.prepareForReuse()
 
+        list = nil
         configure(current: true)
         rankTitle.text = nil
         rankLabel.text = nil
@@ -137,36 +107,67 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
 
 private extension CountInfoHeader {
 
-    func update(timer list: Checklist) {
-        let status = list.scorecardStatus
-        configure(current: status.isCurrent)
-        guard !status.isCurrent else { return }
+    func update() {
+        guard let list = list else { return }
 
-        updatingLabel.text = L.updateWait(status.wait)
-        guard status.isPending,
-              scheduler.isActive,
-              !updating else { return }
+        for request in net.requests.compactMap({ $0 as? MTPVisitedRequest }) {
+            if request.changes(list: list) {
+                uploading = true
+                return configure(current: false)
+            }
+        }
+        if uploading {
+            data.update(scorecard: list) { _ in }
+        }
+        uploading = false
+        configure(current: true)
 
-        updating = true
-        data.update(scorecard: list) { [weak self] updated in
-            guard let self = self, self.updating else { return }
+        display()
+    }
 
-            self.updating = false
-            self.configure(current: updated)
+    func display() {
+        guard let list = list,
+              let user = data.user else { return }
+
+        let status = list.visitStatus(of: user)
+        let visitedText = status.visited.grouped
+        let totalText = (status.visited + status.remaining).grouped
+
+        let rank = list.rank(of: user)
+        guard rank > 0 else {
+            rankTitle.text = L.myScore()
+            rankLabel.text = L.scoreFraction(visitedText, totalText)
+            uploadImageView.isHidden = true
+            return
+        }
+
+        let rankText = rank.grouped
+        rankTitle.text = L.myRanking()
+        rankLabel.text = L.rankScore(rankText)
+        fractionLabel.text = L.rankFraction(visitedText, totalText)
+    }
+
+    func observe() {
+        guard userObserver == nil else { return }
+
+        userObserver = data.observer(of: .user) { [weak self] _ in
+            self?.update()
+        }
+        requestsObserver = net.observer(of: .requests) { [weak self] _ in
+            self?.update()
         }
     }
 
     func configure(current: Bool) {
         if current {
-            updating = false
-            scheduler.stop()
-            updatingStack?.isHidden = true
+            uploading = false
+            uploadImageView.isHidden = true
             rankLabel.textColor = .white
             rankLabel.font = Layout.rankFont.normal
         } else {
-            updatingStack?.isHidden = false
-            rankLabel.textColor = Layout.updatingColor
-            rankLabel.font = Layout.rankFont.updating
+            uploadImageView.isHidden = false
+            rankLabel.textColor = Layout.uploadingColor
+            rankLabel.font = Layout.rankFont.uploading
         }
     }
 
@@ -177,14 +178,8 @@ private extension CountInfoHeader {
             $0.alignment = .center
             $0.spacing = Layout.spacing.label
         }
-        let updating = UIStackView(arrangedSubviews: [updatingImageView,
-                                                      updatingLabel]).with {
-            $0.alignment = .center
-            $0.spacing = Layout.spacing.updating
-        }
-        updatingStack = updating
         let infoStack = UIStackView(arrangedSubviews: [labels,
-                                                       updating]).with {
+                                                       uploadImageView]).with {
             $0.spacing = Layout.spacing.rank
             $0.alignment = .center
         }

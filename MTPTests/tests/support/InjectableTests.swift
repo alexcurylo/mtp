@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class InjectableTests: XCTestCase {
+final class InjectableTests: MTPTestCase {
 
     func testUnwrapFailure() throws {
         // given

@@ -2,7 +2,6 @@
 
 import Anchorage
 import MapKit
-import RealmMapView
 
 /// Common accessors for single and cluster views
 protocol MappingAnnotationView {
@@ -93,9 +92,7 @@ final class MappablesAnnotationView: MKAnnotationView, MappingAnnotationView, Se
         centerOffset = CGPoint(x: 0, y: -10)
     }
 
-    /// Unsupported coding constructor
-    ///
-    /// - Parameter coder: An unarchiver object.
+    /// :nodoc:
     required init?(coder: NSCoder) {
         return nil
     }

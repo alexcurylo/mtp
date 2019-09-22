@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class PhotosVCTests: XCTestCase {
+final class PhotosVCTests: MTPTestCase {
 
     func testInitStoryboard() throws {
         // given

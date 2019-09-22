@@ -151,9 +151,7 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
         configure()
     }
 
-    /// Unsupported coding constructor
-    ///
-    /// - Parameter coder: An unarchiver object.
+    /// :nodoc:
     required init?(coder: NSCoder) {
         return nil
     }
@@ -222,8 +220,7 @@ private extension CountCellItem {
 
         let visited = sender.isOn
         note.set(item: item,
-                 visited: visited,
-                 congratulate: false) { [weak sender] result in
+                 visited: visited) { [weak sender] result in
             if case .failure = result {
                 sender?.isOn = !visited
             }
@@ -231,13 +228,13 @@ private extension CountCellItem {
     }
 
     @objc func cellTapped(_ sender: UIButton) {
-        if let mappable = mappable {
+        if let mappable = mappable, mappable.visible {
             app.route(reveal: mappable)
         }
     }
 
     @objc func cellDoubleTapped(_ sender: UIButton) {
-        if let mappable = mappable {
+        if let mappable = mappable, mappable.visible {
             app.route(show: mappable)
         }
     }

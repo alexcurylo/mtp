@@ -53,17 +53,17 @@ extension WHSJSON: CustomDebugStringConvertible {
 /// Realm representation of a WHS place
 @objcMembers final class WHS: Object, PlaceMappable, ServiceProvider {
 
-    private enum Parents: Int {
-        case jesuitMissionsOfTheGuaranis = 275
-        case primevalBeechForestsOfTheCarpathians = 1_133
-        case struveGeodeticArc = 1_187
-    }
-    private enum Children: Int {
-        case tornea = 1_595 // Finland - Struve Geodetic Arc
-    }
-    private enum Singles: Int {
-        case angkor = 668
-    }
+//    private enum Parents: Int {
+//        case jesuitMissionsOfTheGuaranis = 275
+//        case primevalBeechForestsOfTheCarpathians = 1_133
+//        case struveGeodeticArc = 1_187
+//    }
+//    private enum Children: Int {
+//        case tornea = 1_595 // Finland - Struve Geodetic Arc
+//    }
+//    private enum Singles: Int {
+//        case angkor = 668
+//    }
 
     /// Link to the Mappable object for this location
     dynamic var map: Mappable?
@@ -83,6 +83,8 @@ extension WHSJSON: CustomDebugStringConvertible {
 
     /// Constructor from MTP endpoint data
     convenience init?(from: WHSJSON,
+                      // swiftlint:disable:previous function_body_length
+                      parents: inout Set<Int>,
                       realm: RealmDataController) {
         guard from.active == "Y" else { return nil }
         self.init()
@@ -105,14 +107,15 @@ extension WHSJSON: CustomDebugStringConvertible {
             region = location.placeRegion
             subtitle = location.description
         } else if let notLocation = realm.country(id: locationId) {
-            //log.warning("WHS \(from.id) placed in country: WHS \(placeId)")
+            log.warning("WHS \(from.id) placed in country: WHS \(placeId)")
             country = notLocation.placeCountry
             region = L.unknown()
             subtitle = country
         } else {
-            //log.warning("WHS \(from.id) missing location")
+            log.warning("WHS \(from.id) missing location")
             return nil
         }
+
         map = Mappable(checklist: .whss,
                        checklistId: from.id,
                        country: country,
@@ -125,7 +128,12 @@ extension WHSJSON: CustomDebugStringConvertible {
                        title: from.title,
                        visitors: from.visitors,
                        website: website)
-        parentId = from.parentId ?? 0
+        if let parentId = from.parentId {
+            parents.insert(parentId)
+            self.parentId = parentId
+        } else {
+            parentId = 0
+        }
         placeId = from.id
         unescoId = from.unescoId
     }

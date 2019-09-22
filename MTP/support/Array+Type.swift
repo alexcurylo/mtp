@@ -18,3 +18,14 @@ extension Array {
         return lazy.compactMap { $0 as? T }.first
     }
 }
+
+extension Set {
+
+    /// Extract members of types
+    ///
+    /// - Parameter type: Desired type
+    /// - Returns: Array of all members of type
+    func of<T>(type: T.Type) -> [T] {
+        return lazy.compactMap { $0 as? T }
+    }
+}

@@ -39,7 +39,7 @@ class LocationsVC: UIViewController {
 
     private var injectMappable: Mappable?
 
-    /// Remove observers
+    /// :nodoc:
     deinit {
         loc.remove(tracker: self)
     }
@@ -84,7 +84,7 @@ class LocationsVC: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let nearby = Segues.showNearby(segue: segue)?
                               .destination {
-            nearby.inject(model: (data.mappables,
+            nearby.inject(model: (data.visibles,
                                   mtpMapView.centerCoordinate))
         } else if let show = Segues.showLocation(segue: segue)?
                                    .destination,
@@ -261,7 +261,7 @@ extension LocationsVC: UISearchBarDelegate {
     ///   - searchText: Contents
     func searchBar(_ searchBar: UISearchBar,
                    textDidChange searchText: String) {
-        matches = data.get(mappables: searchText)
+        matches = data.get(visibles: searchText)
         let names = matches.map { $0.title }
         let ids = (0..<names.count).map { UILocations.result($0).identifier }
         dropdown.localizationKeysDataSource = ids
@@ -310,22 +310,6 @@ extension LocationsVC: UISearchBarDelegate {
 
 extension LocationsVC: MKMapViewDelegate {
 
-    //func mapView(_ mapView: MKMapView,
-                 //regionWillChangeAnimated: Bool) { }
-    //func mapView(_ mapView: MKMapView,
-                 //regionDidChangeAnimated: Bool) { }
-
-    //func mapViewWillStartLoadingMap(_ mapView: MKMapView) { }
-    //func mapViewDidFinishLoadingMap(_ mapView: MKMapView) { }
-    //func mapViewDidFailLoadingMap(_ mapView: MKMapView) { }
-
-    //func mapViewWillStartRenderingMap(_ mapView: MKMapView) { }
-    //func mapViewDidFinishRenderingMap(_ mapView: MKMapView,
-                                      //fullyRendered: Bool) { }
-
-    //func mapViewWillStartLocatingUser(_ mapView: MKMapView) { }
-    //func mapViewDidStopLocatingUser(_ mapView: MKMapView) { }
-
     /// Update user location
     ///
     /// - Parameters:
@@ -335,11 +319,6 @@ extension LocationsVC: MKMapViewDelegate {
                  didUpdate userLocation: MKUserLocation) {
         mtpMapView.centerOnDevice()
     }
-    //func mapView(_ mapView: MKMapView,
-                 //didFailToLocateUserWithError error: Error) { }
-    //func mapView(_ mapView: MKMapView,
-                 //didChange mode: MKUserTrackingMode,
-                 //animated: Bool) { }
 
     /// Produce annotation view
     ///
@@ -362,13 +341,6 @@ extension LocationsVC: MKMapViewDelegate {
         return nil
     }
 
-    //func mapView(_ mapView: MKMapView,
-                 //didAdd views: [MKAnnotationView]) { }
-
-    //func mapView(_ mapView: MKMapView,
-                 //annotationView view: MKAnnotationView,
-                 //calloutAccessoryControlTapped control: UIControl) { }
-
     /// Handle annoation selection
     ///
     /// - Parameters:
@@ -387,14 +359,6 @@ extension LocationsVC: MKMapViewDelegate {
         }
     }
 
-    //func mapView(_ mapView: MKMapView,
-                 //didDeselect view: MKAnnotationView) { }
-
-    //func mapView(_ mapView: MKMapView,
-                 //annotationView view: MKAnnotationView,
-                 //didChange newState: MKAnnotationView.DragState,
-                 //fromOldState oldState: MKAnnotationView.DragState) { }
-
     /// Provide overlay renderer
     ///
     /// - Parameters:
@@ -410,15 +374,6 @@ extension LocationsVC: MKMapViewDelegate {
             return MKOverlayRenderer(overlay: overlay)
         }
     }
-
-    //func mapView(_ mapView: MKMapView,
-                 //didAdd renderers: [MKOverlayRenderer]) { }
-
-    //func mapView(_ mapView: MKMapView,
-                 //clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
-        //log.error("MKMapView should not be clustering")
-        //return MKClusterAnnotation(memberAnnotations: memberAnnotations)
-    //}
 }
 
 // MARK: - MKUserTrackingButton

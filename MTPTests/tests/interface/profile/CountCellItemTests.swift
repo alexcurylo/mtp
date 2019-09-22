@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class CountCellItemTests: XCTestCase {
+final class CountCellItemTests: MTPTestCase {
 
     func testInitWithCoder() {
         // when

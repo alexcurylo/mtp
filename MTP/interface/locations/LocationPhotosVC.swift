@@ -72,16 +72,6 @@ extension LocationPhotosVC: AddPhotoDelegate {
 
     /// Enable Location selection
     var isLocatable: Bool { return true }
-
-    /// Handle photo addition
-    ///
-    /// - Parameters:
-    ///   - controller: Add Photo controller
-    ///   - reply: Selection description
-    func addPhoto(controller: AddPhotoVC,
-                  didAdd reply: PhotoReply) {
-        refresh(reload: true)
-    }
 }
 
 // MARK: Private

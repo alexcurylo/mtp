@@ -1,5 +1,5 @@
 module: MTP
-module_version: 1.0
+module_version: 1.1
 
 author: Alex Curylo
 author_url: http://everywhs.com
@@ -18,7 +18,7 @@ min_acl: internal
 exclude:
   - "**/*resources*/*.*"
 
-swift_version: 5.0.1
+swift_version: 5.1
 sdk: iphonesimulator
 xcodebuild_arguments:
   - -workspace

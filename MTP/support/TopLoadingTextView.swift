@@ -7,9 +7,7 @@ final class TopLoadingTextView: UITextView {
 
     private var shouldEnableScroll = false
 
-    /// Decoding intializer
-    ///
-    /// - Parameter aDecoder: Decoder
+    /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         shouldEnableScroll = isScrollEnabled

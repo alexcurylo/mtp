@@ -155,6 +155,7 @@ extension MainTBC: Exposing {
             UIMain.myProfile
         ]
         for control in tabBar.subviews where control is UIControl {
+            // this does not appear to work in 13.0
             control.expose(as: buttons.first)
             guard buttons.count > 1 else { return }
             buttons = Array(buttons.dropFirst())

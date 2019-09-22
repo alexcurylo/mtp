@@ -92,16 +92,6 @@ extension ProfilePhotosVC: AddPhotoDelegate {
 
     /// Enable Location selection
     var isLocatable: Bool { return mode == .browser }
-
-    /// Handle photo addition
-    ///
-    /// - Parameters:
-    ///   - controller: Add Photo controller
-    ///   - reply: Selection description
-    func addPhoto(controller: AddPhotoVC,
-                  didAdd reply: PhotoReply) {
-        refresh(page: 1, reload: true)
-    }
 }
 
 // MARK: Private

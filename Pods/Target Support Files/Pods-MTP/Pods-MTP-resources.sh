@@ -97,12 +97,10 @@ EOM
   esac
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_resource "${PODS_ROOT}/AXPhotoViewer/Assets/AXPhotoViewer.xcassets"
   install_resource "${PODS_ROOT}/DropDown/DropDown/resources/DropDownCell.xib"
   install_resource "${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_resource "${PODS_ROOT}/AXPhotoViewer/Assets/AXPhotoViewer.xcassets"
   install_resource "${PODS_ROOT}/DropDown/DropDown/resources/DropDownCell.xib"
   install_resource "${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle"
 fi

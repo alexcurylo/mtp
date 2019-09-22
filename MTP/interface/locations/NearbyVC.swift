@@ -105,7 +105,7 @@ extension NearbyVC {
     /// - Returns: UITableViewCell
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //swiftlint:disable:next implicitly_unwrapped_optional
+        // swiftlint:disable:next implicitly_unwrapped_optional
         let cell: NearbyCell! = tableView.dequeueReusableCell(
             withIdentifier: R.reuseIdentifier.nearbyCell,
             for: indexPath)
@@ -333,8 +333,7 @@ private extension NearbyCell {
 
         let visited = sender.isOn
         note.set(item: mappable.item,
-                 visited: visited,
-                 congratulate: false) { [weak sender] result in
+                 visited: visited) { [weak sender] result in
             if case .failure = result {
                 sender?.isOn = !visited
             }

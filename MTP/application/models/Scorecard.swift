@@ -241,7 +241,7 @@ extension ScorecardJSON: CustomDebugStringConvertible {
     dynamic var checklistValue: Int = Checklist.beaches.rawValue
     /// checklist
     var checklist: Checklist {
-        //swiftlint:disable:next force_unwrapping
+        // swiftlint:disable:next force_unwrapping
         get { return Checklist(rawValue: checklistValue)! }
         set { checklistValue = newValue.rawValue }
     }

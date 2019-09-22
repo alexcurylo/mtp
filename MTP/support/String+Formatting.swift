@@ -5,7 +5,7 @@ import UIKit
 
 /// Convenience for localizable string typesafe access
 typealias L = R.string.localizable
-//swiftlint:disable:previous type_name
+// swiftlint:disable:previous type_name
 
 extension String {
 

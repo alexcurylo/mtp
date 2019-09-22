@@ -12,7 +12,7 @@ final class ProfileUITests: XCTestCase {
         super.tearDown()
     }
 
-    //swiftlint:disable:next function_body_length
+    // swiftlint:disable:next function_body_length
     func testMyProfile() {
         launch(settings: [.loggedIn(true)])
 
@@ -45,6 +45,8 @@ final class ProfileUITests: XCTestCase {
 
         UICountsPage.region(1).tap()
         UICountsPage.toggle(1, 0).tap()
+
+        UISystem.button("OK").tap()
 
         UIProfilePaging.photos.tap()
 
@@ -107,6 +109,10 @@ final class ProfileUITests: XCTestCase {
         UISettings.about.tap()
 
         UIAppAbout.close.tap()
+
+        UISettings.network.tap()
+
+        UINetwork.close.tap()
 
         UISettings.close.tap()
     }

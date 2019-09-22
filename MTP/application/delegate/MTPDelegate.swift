@@ -17,16 +17,18 @@ import UIKit
 
     /// Handlers for the active environment
     override var handlers: Handlers {
-        return runtimeHandlers
+        return super.handlers + runtimeHandlers
     }
 
     private var runtimeHandlers: Handlers = {
         var runtime: Runtime = .production
+        #if DEBUG
         if UIApplication.isUITesting {
             runtime = .uiTesting
         } else if UIApplication.isUnitTesting {
             runtime = .unitTesting
         }
+        #endif
         return MTPDelegate.runtimeHandlers(for: runtime)
     }()
 
@@ -55,12 +57,9 @@ import UIKit
                 NotificationsHandler(),
                 LocationHandler()
             ]
-        case .unitTesting:
-            return [ ServiceHandlerSpy() ]
-        #else
+        #endif
         default:
             return []
-        #endif
         }
     }
 }

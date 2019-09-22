@@ -56,7 +56,7 @@ final class SignupVC: UIViewController {
         startKeyboardListening()
    }
 
-    /// Remove observers
+    /// :nodoc:
     deinit {
         stopKeyboardListening()
     }
@@ -377,7 +377,7 @@ private extension SignupVC {
             //errorMessage = L.fixCountry()
         } else if location == nil {
             if isLocationVisible {
-                errorMessage = L.fixLocation()
+                errorMessage = L.fixLocationProfile()
             } else if let country = country {
                 location = data.get(location: country.countryId)
             }

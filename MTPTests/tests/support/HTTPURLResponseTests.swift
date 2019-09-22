@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class HTTPURLResponseTests: XCTestCase {
+final class HTTPURLResponseTests: MTPTestCase {
 
     func testHasField() throws {
         // given
@@ -38,17 +38,16 @@ private class HTTPURLResponseMock: HTTPURLResponse {
     }
 
     init() {
-        //swiftlint:disable:next force_try
+        // swiftlint:disable:next force_try
         let url = try! unwrap(URL(string: "https://mtp.travel"))
         super.init(url: url,
                    statusCode: 200,
                    httpVersion: nil,
-                   //swiftlint:disable:next force_unwrapping
+                   // swiftlint:disable:next force_unwrapping
                    headerFields: [:])!
     }
 
-    //swiftlint:disable:next unavailable_function
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        return nil
     }
 }

@@ -3,15 +3,17 @@
 @testable import MTP
 import XCTest
 
-final class DateTests: XCTestCase {
+final class DateTests: MTPTestCase {
 
     func testRelativeStrings() {
+        // given
         let minute: Double = 60
         let hour: Double = 3_600
         let day: Double = 86_400
         let week: Double = 604_800
         let year: Double = 31_556_926
 
+        // then
         [
             (-1, "just now"), // .nowPast
             (1, "in a few seconds"), // .nowFuture
@@ -35,8 +37,8 @@ final class DateTests: XCTestCase {
             (week * 2, "in 2 weeks"), // .weeksFuture
             (-week * 4, "last month"), // .oneMonthPast
             (week * 4, "next month"), // .oneMonthFuture
-            (-week * 10, "2 months ago"), // .monthsPast
-            (week * 10, "in 3 months"), // .monthsFuture
+            (-week * 8, "2 months ago"), // .monthsPast
+            (week * 10 - (4 * day), "in 2 months"), // .monthsFuture
             (-year * 1, "last year"), // .oneYearPast
             (year * 1, "next year"), // .oneYearFuture
             (-year * 10, "10 years ago"), // .yearsPast

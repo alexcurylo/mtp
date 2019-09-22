@@ -45,7 +45,17 @@ Prepare simulators for screenshots
 ```
 fastlane ios bump
 ```
-Bump version number
+Bump patch version number
+### ios bumpMinor
+```
+fastlane ios bumpMinor
+```
+Bump minor version number
+### ios bumpMajor
+```
+fastlane ios bumpMajor
+```
+Bump major version number
 
 ----
 

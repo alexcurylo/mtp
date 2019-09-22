@@ -148,7 +148,7 @@ extension PostsVC {
     /// - Returns: PostCell
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //swiftlint:disable:next implicitly_unwrapped_optional
+        // swiftlint:disable:next implicitly_unwrapped_optional
         let cell: PostCell! = tableView.dequeueReusableCell(
             withIdentifier: R.reuseIdentifier.postCell,
             for: indexPath)
@@ -350,9 +350,7 @@ final class PostHeader: UITableViewHeaderFooterView {
                                                        right: 8)
     }
 
-    /// Unsupported coding constructor
-    ///
-    /// - Parameter coder: An unarchiver object.
+    /// :nodoc:
     required init?(coder: NSCoder) {
         return nil
     }
