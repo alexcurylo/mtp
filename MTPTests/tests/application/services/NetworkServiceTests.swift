@@ -5,7 +5,6 @@ import XCTest
 
 final class NetworkServiceTests: MTPTestCase {
 
-    // swiftlint:disable:next function_body_length
     func testService() {
         // given
         let spy = MTPNetworkControllerSpy()

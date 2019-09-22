@@ -59,6 +59,7 @@
 "errorState" = "Error loading data!";
 "loading" = "Loading…";
 "blocked" = "Blocked";
+"tryAgain" = "Try again";
 
 // menu options
 
@@ -169,6 +170,7 @@
 
 "locationCount" = "%1$@ (%2$ld)";
 "locationVisitedCount" = "%1$@ (%2$ld/%3$ld)";
+"indexCount" = "%1$ld of %2$ld";
 
 "locationDescription" = "%1$@, %2$@";
 

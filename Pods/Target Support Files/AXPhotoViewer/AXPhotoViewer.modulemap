@@ -1,6 +1,0 @@
-module AXPhotoViewer {
-  umbrella header "AXPhotoViewer-umbrella.h"
-
-  export *
-  module * { export * }
-}

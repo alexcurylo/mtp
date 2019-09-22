@@ -55,7 +55,6 @@ Requirements
 
 - [Alamofire](https://github.com/Alamofire/Alamofire) and [AlamofireNetworkActivityIndicator](https://github.com/Alamofire/AlamofireNetworkActivityIndicator) for HTTP networking
 - [Anchorage](https://github.com/Raizlabs/Anchorage) for fluent layout declarations
-- [AXPhotoViewer](https://github.com/alexhillc/AXPhotoViewer) for photo lightboxing
 - [DropDown](https://github.com/AssistoLab/DropDown) for live search results
 - [Facebook SDK in Swift](https://github.com/facebook/facebook-sdk-swift)  for Facebook support
 - [JWTDecode](https://github.com/auth0/JWTDecode.swift) for [JSON Web Token](https://jwt.io) management

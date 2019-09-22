@@ -20,8 +20,6 @@ platform :ios, $iosVersion
 
 target 'MTP' do
   pod 'Anchorage'
-  pod 'AXPhotoViewer'
-  pod 'AXStateButton', :modular_headers => true
   pod 'Bolts', :modular_headers => true, :inhibit_warnings => true
   pod 'Crashlytics'
   pod 'Connectivity'
@@ -32,7 +30,6 @@ target 'MTP' do
   pod 'FBSDKCoreKit', :modular_headers => true
   pod 'FBSDKLoginKit', :modular_headers => true
   pod 'Firebase/Analytics'
-  pod 'FLAnimatedImage', :modular_headers => true, :inhibit_warnings => true
   pod 'JWTDecode'
   pod 'KRProgressHUD'
   pod 'Parchment', :inhibit_warnings => true
@@ -55,7 +52,7 @@ plugin 'cocoapods-acknowledgements', :settings_bundle => true
 
 post_install do |installer|
     installer.pods_project.targets.each do |target|
-        # patch Crashlytics, Fabric, FLAnimatedImage, nanopb
+        # patch Crashlytics, Fabric, nanopb
         target.build_configurations.each do |config|
             if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 8.0
                 config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '8.0'

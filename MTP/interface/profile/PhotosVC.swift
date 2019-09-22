@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import AXPhotoViewer
+import UIKit
 
 // swiftlint:disable file_length
 
@@ -478,6 +478,8 @@ private class AXMTPPhoto: NSObject, AXPhotoProtocol {
     var attributedTitle: NSAttributedString? {
         return model.attributedTitle
     }
+    var attributedDescription: NSAttributedString?
+    var attributedCredit: NSAttributedString?
     var url: URL? {
         return model.imageUrl
     }

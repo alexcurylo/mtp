@@ -47,8 +47,7 @@ private class HTTPURLResponseMock: HTTPURLResponse {
                    headerFields: [:])!
     }
 
-    // swiftlint:disable:next unavailable_function
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        return nil
     }
 }

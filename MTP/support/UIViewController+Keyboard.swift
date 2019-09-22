@@ -110,7 +110,8 @@ private struct NotificationDescriptor<Payload> {
 
 private extension NotificationCenter {
 
-    func addObserver<Payload>(with descriptor: NotificationDescriptor<Payload>, block: @escaping (Payload) -> Void) {
+    func addObserver<Payload>(with descriptor: NotificationDescriptor<Payload>,
+                              block: @escaping (Payload) -> Void) {
         addObserver(forName: descriptor.name,
                     object: nil,
                     queue: nil) { note in
