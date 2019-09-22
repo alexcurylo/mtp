@@ -5,7 +5,7 @@ import Foundation
 /// Queued visit state operation
 final class MTPPostRequest: NSObject, OfflineRequest, ServiceProvider {
 
-    private let post: PostPayload
+    private let payload: PostPayload
 
     /// Description for Network Status tab
     var title: String
@@ -19,16 +19,16 @@ final class MTPPostRequest: NSObject, OfflineRequest, ServiceProvider {
     /// Memberwise initializer
     ///
     /// - Parameters:
-    ///   - post: Post to publish
+    ///   - payload: Post to publish
     ///   - title: Title if deserialized
     ///   - subtitle: Subtitle if deserialized
     ///   - failures: Falures if deserialized
-    init(post: PostPayload,
+    init(payload: PostPayload,
          title: String? = nil,
          subtitle: String? = nil,
          failures: Int = 0) {
-        self.post = post
-        self.title = L.publishingPost()
+        self.payload = payload
+        self.title = L.publishingPost(payload.location.location_name)
         self.subtitle = subtitle ?? L.queued()
         self.failures = failures
         super.init()
@@ -36,14 +36,15 @@ final class MTPPostRequest: NSObject, OfflineRequest, ServiceProvider {
 
     /// Dictionary methods are required for saving to disk in the case of app termination
     required convenience init?(dictionary: [String: Any]) {
-        guard let post = dictionary[Note.ChecklistItemInfo.post.key] as? PostPayload else {
+        guard let info = dictionary[Note.ChecklistItemInfo.post.key] as? PostPayloadInfo else {
             return nil
         }
 
+        let payload = PostPayload(info: info)
         let title = dictionary[Note.ChecklistItemInfo.title.key] as? String
         let subtitle = dictionary[Note.ChecklistItemInfo.subtitle.key] as? String
         let failures = dictionary[Note.ChecklistItemInfo.failures.key] as? Int ?? 0
-        self.init(post: post,
+        self.init(payload: payload,
                   title: title,
                   subtitle: subtitle,
                   failures: failures)
@@ -51,7 +52,7 @@ final class MTPPostRequest: NSObject, OfflineRequest, ServiceProvider {
 
     var dictionary: [String: Any] {
         let info: NotificationService.Info = [
-            Note.ChecklistItemInfo.post.key: post,
+            Note.ChecklistItemInfo.post.key: PostPayloadInfo(payload: payload),
             Note.ChecklistItemInfo.title.key: title,
             Note.ChecklistItemInfo.subtitle.key: subtitle,
             Note.ChecklistItemInfo.failures.key: failures
@@ -60,7 +61,7 @@ final class MTPPostRequest: NSObject, OfflineRequest, ServiceProvider {
     }
 
     func perform(completion: @escaping (Error?) -> Void) {
-        net.mtp.postPublish(payload: post) { [weak self] result in
+        net.mtp.postPublish(payload: payload) { [weak self] result in
             switch result {
             case .success:
                 completion(nil)

@@ -35,6 +35,7 @@ final class NetworkVC: UITableViewController {
         tableView.sectionHeaderHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = UITableView.automaticDimension
         tableView.rowHeight = UITableView.automaticDimension
+        tableView.allowsSelection = false
 
         update()
         observe()

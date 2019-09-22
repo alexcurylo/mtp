@@ -31,9 +31,9 @@
 "logIn" = "log in";
 "loggingIn" = "Logging in…";
 "publishPhoto" = "publish photo";
-"publishingPhoto" = "Publishing photo…";
+"publishingPhoto" = "Publishing photo: %@";
 "publishPost" = "publish post";
-"publishingPost" = "Publishing post…";
+"publishingPost" = "Publishing post: %@";
 "resetPassword" = "reset password";
 "resettingPassword" = "Resetting password…";
 "signUp" = "sign up";
@@ -241,8 +241,10 @@
 "fixLastName" = "Please enter a last name!";
 "fixGender" = "Please select a gender! MTP uses this to rank the most traveled people by gender.";
 "fixBirthday" = "Please select a birthday! This is used to rank the most traveled people by age group. Your birthday is not visible to any other members, and only appears in your private profile.";
-"fixCountry" = "Please select a country! This is used to rank the most traveled people by their home location.";
-"fixLocation" = "Please select a location! This is used to rank the most traveled people by their home location.";
+"fixCountryProfile" = "Please select a country! This is used to rank the most traveled people by their home location.";
+"fixLocationProfile" = "Please select a location! This is used to rank the most traveled people by their home location.";
+"fixCountryContent" = "Please select a country!";
+"fixLocationContent" = "Please select a location!";
 "fixPassword" = "Please enter a password of at least 6 characters!";
 "fixConfirmPassword" = "Those passwords do not match!";
 

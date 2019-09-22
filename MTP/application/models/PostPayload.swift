@@ -29,9 +29,19 @@ struct PostPayload: Codable, Hashable {
     /// location
     var location = LocationPayload()
     /// location_id
-    var location_id: Int = 0
+    private var location_id: Int = 0
     /// status
-    var status = "A"
+    private var status = "A"
+
+    /// :nodoc:
+    init() { }
+
+    /// :nodoc:
+    init(info: PostPayloadInfo) {
+        post = info.post
+        location = info.location
+        location_id = location.id
+    }
 
     /// Set Location
     ///
@@ -75,5 +85,48 @@ extension Post {
         post = from.post
         postId = from.id
         userId = from.userId
+    }
+}
+
+/// Payload stored in queue
+final class PostPayloadInfo: NSObject, NSCoding {
+
+    fileprivate let post: String
+    fileprivate let location: LocationPayload
+
+    private static let keys = (post: "post",
+                               location: "location")
+
+    /// :nodoc:
+    init(post: String,
+         location: LocationPayload) {
+        self.post = post
+        self.location = location
+    }
+
+    /// :nodoc:
+    init(payload: PostPayload) {
+        post = payload.post
+        location = payload.location
+    }
+
+    /// :nodoc:
+    required convenience init?(coder decoder: NSCoder) {
+        let post = decoder.decodeObject(forKey: PostPayloadInfo.keys.post)
+        let info = decoder.decodeObject(forKey: PostPayloadInfo.keys.location)
+        // swiftlint:disable:next force_cast
+        let location = LocationPayload(info: info as! LocationPayloadInfo)
+        self.init(
+            // swiftlint:disable:next force_cast
+            post: post as! String,
+            location: location
+        )
+    }
+
+    /// :nodoc:
+    func encode(with coder: NSCoder) {
+        coder.encode(post, forKey: PostPayloadInfo.keys.post)
+        let info = LocationPayloadInfo(payload: location)
+        coder.encode(info, forKey: PostPayloadInfo.keys.location)
     }
 }

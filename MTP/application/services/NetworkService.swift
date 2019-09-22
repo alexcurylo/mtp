@@ -420,7 +420,7 @@ class NetworkServiceImpl: NetworkService {
     ///   - then: Completion
     func postPublish(payload: PostPayload,
                      then: @escaping NetworkCompletion<PostReply>) {
-        let request = MTPPostRequest(post: payload)
+        let request = MTPPostRequest(payload: payload)
         if !offlineRequestManager.connected {
             request.failed()
         }

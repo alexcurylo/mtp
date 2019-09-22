@@ -251,7 +251,7 @@ private extension AddPhotoVC {
 
         let errorMessage: String
         if countryId != 0 && locationId == 0 {
-            errorMessage = L.fixLocation()
+            errorMessage = L.fixLocationProfile()
         } else if photo == nil {
             errorMessage = L.fixPhoto()
         } else {
@@ -270,7 +270,7 @@ private extension AddPhotoVC {
     func upload(photo: Data,
                 caption: String?,
                 location id: Int?) {
-        note.modal(info: L.publishingPhoto())
+        note.modal(info: L.publishingPhoto(""))
 
         net.upload(photo: photo,
                    caption: caption,

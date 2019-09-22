@@ -135,7 +135,7 @@ private extension AddPostVC {
         if payload.post.count < minCharacters {
             errorMessage = L.fixLength(minCharacters)
         } else if !payload.location.isValid {
-            errorMessage = L.fixLocation()
+            errorMessage = L.fixLocationContent()
         } else {
             errorMessage = ""
         }
@@ -150,21 +150,8 @@ private extension AddPostVC {
     }
 
     func upload(payload: PostPayload) {
-        note.modal(info: L.publishingPost())
-
-        net.postPublish(payload: payload) { [weak self, note] result in
-            switch result {
-            case .success:
-                note.modal(success: L.success())
-                DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
-                    note.dismissModal()
-                    self?.performSegue(withIdentifier: Segues.pop, sender: self)
-                }
-                return
-            case .failure(let error):
-                note.modal(failure: error,
-                           operation: L.publishPost())
-            }
+        net.postPublish(payload: payload) { [weak self] _ in
+            self?.performSegue(withIdentifier: Segues.pop, sender: self)
         }
     }
 }
