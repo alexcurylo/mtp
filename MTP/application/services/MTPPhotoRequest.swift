@@ -8,7 +8,8 @@ final class MTPPhotoRequest: NSObject, OfflineRequest, ServiceProvider {
     private var data: Data?
     private let file: String
     private let caption: String?
-    private let location: Int?
+    /// Location to reload if any
+    let location: Int?
 
     /// Description for Network Status tab
     var title: String

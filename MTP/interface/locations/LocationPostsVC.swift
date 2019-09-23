@@ -21,6 +21,9 @@ final class LocationPostsVC: PostsVC {
     }
 
     private var postsObserver: Observer?
+    private var locationPostsObserver: Observer?
+    private var blockedUsersObserver: Observer?
+    private var blockedPostsObserver: Observer?
     private var updated = false
 
     private var profileModel: UserProfileVC.Model?
@@ -100,8 +103,17 @@ private extension LocationPostsVC {
     func observe() {
         guard postsObserver == nil else { return }
 
-        postsObserver = data.observer(of: .locationPosts) { [weak self] _ in
+        postsObserver = data.observer(of: .posts) { [weak self] _ in
             self?.update()
+        }
+        locationPostsObserver = data.observer(of: .locationPosts) { [weak self] _ in
+            self?.update()
+        }
+        blockedPostsObserver = data.observer(of: .blockedPosts) { [weak self] _ in
+             self?.update()
+        }
+        blockedUsersObserver = data.observer(of: .blockedUsers) { [weak self] _ in
+             self?.update()
         }
     }
 }

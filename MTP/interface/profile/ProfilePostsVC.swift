@@ -8,6 +8,7 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
     private typealias Segues = R.segue.profilePostsVC
 
     private var postsObserver: Observer?
+    private var blockedPostsObserver: Observer?
     private var isLoading = true
 
     // verified in requireInjection
@@ -68,6 +69,9 @@ private extension ProfilePostsVC {
         guard postsObserver == nil else { return }
 
         postsObserver = data.observer(of: .posts) { [weak self] _ in
+            self?.update()
+        }
+        blockedPostsObserver = data.observer(of: .blockedPosts) { [weak self] _ in
             self?.update()
         }
     }

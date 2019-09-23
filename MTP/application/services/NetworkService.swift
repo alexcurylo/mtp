@@ -326,7 +326,7 @@ class NetworkServiceImpl: NetworkService {
     ///   - then: Completion
     func loadPosts(location id: Int,
                    then: @escaping NetworkCompletion<PostsJSON>) {
-        mtp.loadPosts(location: id, then: then)
+        mtp.loadPosts(location: id, reload: false, then: then)
     }
 
     /// Load user posts
@@ -335,7 +335,7 @@ class NetworkServiceImpl: NetworkService {
     ///   - id: User ID
     ///   - then: Completion
     func loadPosts(user id: Int, then: @escaping NetworkCompletion<PostsJSON>) {
-        mtp.loadPosts(user: id, then: then)
+        mtp.loadPosts(user: id, reload: false, then: then)
     }
 
     /// Load rankings
@@ -641,11 +641,21 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
                info: [ StatusKey.value.rawValue: manager ])
         switch request {
         case let visit as MTPVisitedRequest:
-            mtp.userGetByToken(reload: true) { _ in }
+            mtp.userGetByToken(reload: true)
             data.delete(rankings: visit.checklist)
+        case let post as MTPPostRequest:
+            if let userId = data.user?.id {
+                mtp.loadPosts(user: userId, reload: true)
+            }
+            let location = post.payload.location_id
+            mtp.loadPosts(location: location, reload: true)
+        case let photo as MTPPhotoRequest:
+            mtp.loadPhotos(page: 1, reload: true)
+            if let location = photo.location {
+                mtp.loadPhotos(location: location, reload: true)
+            }
         default:
-            // post and photo result handling should handle updating
-            break
+            log.warning("Unhandled completed request: \(type(of: request))")
         }
     }
 
@@ -687,7 +697,7 @@ private extension NetworkServiceImpl {
         guard let user = data.user else { return }
 
         add { done in self.mtp.loadChecklists { _ in done() } }
-        add { done in self.mtp.loadPosts(user: user.id) { _ in done() } }
+        add { done in self.mtp.loadPosts(user: user.id, reload: false) { _ in done() } }
         add { done in self.mtp.loadPhotos(page: 1, reload: false) { _ in done() } }
         Checklist.allCases.forEach { list in
             add { done in self.loadScorecard(list: list, user: user.id) { _ in done() } }
@@ -761,6 +771,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
     override func loadPosts(location id: Int,
                             then: @escaping NetworkCompletion<PostsJSON>) {
         mtp.loadPosts(location: id,
+                      reload: false,
                       stub: MTPProvider.immediatelyStub,
                       then: then)
     }
@@ -769,6 +780,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
     override func loadPosts(user id: Int,
                             then: @escaping NetworkCompletion<PostsJSON>) {
         mtp.loadPosts(user: id,
+                      reload: false,
                       stub: MTPProvider.immediatelyStub,
                       then: then)
     }

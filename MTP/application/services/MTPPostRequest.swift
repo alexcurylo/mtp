@@ -5,7 +5,8 @@ import Foundation
 /// Queued post state operation
 final class MTPPostRequest: NSObject, OfflineRequest, ServiceProvider {
 
-    private let payload: PostPayload
+    /// Contains location ID to reload on completion
+    let payload: PostPayload
 
     /// Description for Network Status tab
     var title: String

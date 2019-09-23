@@ -140,7 +140,6 @@ private extension ProfilePhotosVC {
         pagesObserver = data.observer(of: .photoPages) { [weak self] _ in
             self?.update()
         }
-
         blockedPhotosObserver = data.observer(of: .blockedPhotos) { [weak self] _ in
             self?.update()
         }

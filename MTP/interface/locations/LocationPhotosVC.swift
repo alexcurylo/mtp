@@ -14,6 +14,7 @@ final class LocationPhotosVC: PhotosVC {
     private var photos: [Photo] = []
 
     private var photosObserver: Observer?
+    private var locationPhotosObserver: Observer?
     private var blockedUsersObserver: Observer?
     private var blockedPhotosObserver: Observer?
     private var updated = false
@@ -131,14 +132,16 @@ private extension LocationPhotosVC {
     func observe() {
         guard photosObserver == nil else { return }
 
-        photosObserver = data.observer(of: .locationPhotos) { [weak self] info in
+        locationPhotosObserver = data.observer(of: .locationPhotos) { [weak self] info in
             guard let self = self,
                   let updated = info[StatusKey.value.rawValue] as? Int,
                   updated == self.mappable.checklistId else { return }
             self.updated = true
             self.update()
         }
-
+        photosObserver = data.observer(of: .photoPages) { [weak self] _ in
+             self?.update()
+        }
         blockedPhotosObserver = data.observer(of: .blockedPhotos) { [weak self] _ in
             self?.update()
         }
