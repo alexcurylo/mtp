@@ -7,7 +7,7 @@
 [![CocoaPods](https://img.shields.io/cocoapods/v/FacebookCore.svg)](https://cocoapods.org/pods/FacebookCore)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
-Swift-taylored experience to integrate your app with Facebook. Including:
+Swift-tailored experience to integrate your app with Facebook. Including:
 
 - [Facebook Login](https://developers.facebook.com/docs/swift/login) - Authenticate people with their Facebook
   credentials.
@@ -17,8 +17,8 @@ Swift-taylored experience to integrate your app with Facebook. Including:
   your app.
 - [Graph API](https://developers.facebook.com/docs/swift/graph) - Read and write directly to Facebook social graph.
 
-**NOTE:** This SDK is currently in Beta and may be unstable at times. Please also check out our
-[ObjC SDK](https://github.com/facebook/facebook-objc-sdk).
+## Important
+**NOTE:** This SDK is a wrapper around the [ObjC SDK](https://github.com/facebook/facebook-objc-sdk). The project uses [Carthage](https://github.com/Carthage/Carthage) internally for managing the dependencies on the "FBSDK"-prefixed libraries. It is intended to offer an additional layer of type-safety around the original as well as offer support for modern Swift and iOS paradigms. Please see our [roadmap](./ROADMAP.md) for information about the strategy for modernizing this project.
 
 ## Installation
 
@@ -246,6 +246,18 @@ Facebook SDK in Swift is still in beta, and we would love to hear your thoughts 
 All of Facebook SDK for Swift development happens on GitHub. Contributions make for good karma and we welcome new
 contributors with tremendous joy. We request that you read our [contributing guidelines](./CONTRIBUTING.md) before
 submitting a Pull Request.
+
+### Unit Test Terminology
+
+For unit testing we're choosing to follow the test terms put forth by Martin Fowler. 
+This is to avoid confusion as a lot of these terms are commonly misused. 
+
+> * Dummy objects are passed around but never actually used. Usually they are just used to fill parameter lists.
+> * Fake objects actually have working implementations, but usually take some shortcut which makes them not suitable for production (an in memory database is a good example).
+> * Stubs provide canned answers to calls made during the test, usually not responding at all to anything outside what's programmed in for the test.
+> * Spies are stubs that also record some information based on how they were called. One form of this might be an email service that records how many messages it was sent.
+> * Mocks are what we are talking about here: objects pre-programmed with expectations which form a specification of the calls they are expected to receive.
+Source: https://martinfowler.com/articles/mocksArentStubs.html
 
 ## License
 

@@ -23,7 +23,7 @@ source 'https://cdn.cocoapods.org/'
 # https://github.com/auth0/JWTDecode.swift/pull/93
 # https://github.com/krimpedance/KRProgressHUD
 # https://github.com/rechsteiner/Parchment
-# R.swift is pending release of 5.1
+# https://github.com/mac-cain13/R.swift/pull/538 - need SPM tag (before 5.1)
 
 $iosVersion = '11.0'
 platform :ios, $iosVersion
