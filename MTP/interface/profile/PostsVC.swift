@@ -103,31 +103,18 @@ class PostsVC: UITableViewController {
 
 extension PostsVC {
 
-    /// Number of sections
-    ///
-    /// - Parameter tableView: UITableView
-    /// - Returns: Number of sections
+    /// :nodoc:
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    /// Number of rows in section
-    ///
-    /// - Parameters:
-    ///   - tableView: UITableView
-    ///   - section: Section
-    /// - Returns: Number of rows in section
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
         return models.count
     }
 
-    /// Create table header
-    ///
-    /// - Parameters:
-    ///   - tableView: Container
-    ///   - section: Index
-    /// - Returns: PostHeader
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             viewForHeaderInSection section: Int) -> UIView? {
         guard canCreate else { return UIView() }
@@ -140,12 +127,7 @@ extension PostsVC {
         return header
      }
 
-    /// Create table cell
-    ///
-    /// - Parameters:
-    ///   - tableView: Container
-    ///   - indexPath: Index path
-    /// - Returns: PostCell
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // swiftlint:disable:next implicitly_unwrapped_optional
@@ -164,59 +146,32 @@ extension PostsVC {
 
 extension PostsVC {
 
-    /// Provide row height
-    ///
-    /// - Parameters:
-    ///   - tableView: Container
-    ///   - indexPath: Index path
-    /// - Returns: Height
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 
-    /// Provide header height
-    ///
-    /// - Parameters:
-    ///   - tableView: Container
-    ///   - section: Index
-    /// - Returns: Height
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             heightForHeaderInSection section: Int) -> CGFloat {
         return canCreate ? layout.header : 1
     }
 
-    /// Provide estimated header height
-    ///
-    /// - Parameters:
-    ///   - tableView: Container
-    ///   - section: Index
-    /// - Returns: Height
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForHeaderInSection section: Int) -> CGFloat {
         return canCreate ? layout.header : 1
     }
 
-    /// Menu permission
-    ///
-    /// - Parameters:
-    ///   - tableView: Container
-    ///   - indexPath: Index path
-    /// - Returns: Permission
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
         configureMenu()
         return true
     }
 
-    /// Action permission
-    ///
-    /// - Parameters:
-    ///   - tableView: Container
-    ///   - action: Action
-    ///   - indexPath: Index path
-    ///   - sender: Sender
-    /// - Returns: Permission
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             canPerformAction action: Selector,
                             forRowAt indexPath: IndexPath,
@@ -224,13 +179,7 @@ extension PostsVC {
         return MenuAction.isContent(action: action)
     }
 
-    /// Action operation
-    ///
-    /// - Parameters:
-    ///   - tableView: Container
-    ///   - action: Action
-    ///   - indexPath: Index path
-    ///   - sender: Sender
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             performAction action: Selector,
                             forRowAt indexPath: IndexPath,
@@ -337,9 +286,7 @@ final class PostHeader: UITableViewHeaderFooterView {
         }
     }
 
-    /// Construct with identifier
-    ///
-    /// - Parameter reuseIdentifier: Identifier
+    /// :nodoc:
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
 

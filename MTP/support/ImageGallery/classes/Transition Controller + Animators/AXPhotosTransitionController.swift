@@ -12,6 +12,7 @@
 
 import UIKit
 
+/// AXPhotosTransitionController
 class AXPhotosTransitionController: NSObject,
                                     UIViewControllerTransitioningDelegate,
                                     AXPhotosTransitionAnimatorDelegate {
@@ -50,6 +51,7 @@ class AXPhotosTransitionController: NSObject,
         return self.transitionInfo.interactiveDismissalEnabled
     }
 
+    /// :nodoc:
     init(transitionInfo: AXTransitionInfo) {
         self.transitionInfo = transitionInfo
         super.init()

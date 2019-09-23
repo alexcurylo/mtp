@@ -11,6 +11,7 @@
 
 import UIKit
 
+/// AXPhotosTransitionAnimator
 class AXPhotosTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
     let fadeInOutTransitionRatio: Double = 1 / 3
@@ -20,11 +21,13 @@ class AXPhotosTransitionAnimator: NSObject, UIViewControllerAnimatedTransitionin
     let transitionInfo: AXTransitionInfo
     var fadeView: UIView?
 
+    /// :nodoc:
     init(transitionInfo: AXTransitionInfo) {
         self.transitionInfo = transitionInfo
     }
 
     // MARK: - UIViewControllerAnimatedTransitioning
+
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return self.transitionInfo.duration
     }

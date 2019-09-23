@@ -1,23 +1,17 @@
 // @copyright Trollwerks Inc.
 
-// migrated from https://github.com/alexhillc/AXPhotoViewer
-
-//
-//  NukeIntegration.swift
-//  AXPhotoViewer
-//
-//  Created by Alessandro Nakamuta on 15/04/18.
-//  Copyright © 2018 Alessandro Nakamuta. All rights reserved.
-//
-
-#if canImport(Nuke)
 import Nuke
 
+/// NukeIntegration
 final class NukeIntegration: NSObject, AXNetworkIntegrationProtocol {
 
+    private let AXNetworkIntegrationErrorDomain = "AXNetworkIntegrationErrorDomain"
+    private let AXNetworkIntegrationFailedToLoadErrorCode = 6
+
+    /// Delegate
     weak var delegate: AXNetworkIntegrationDelegate?
 
-    fileprivate var retrieveImageTasks = NSMapTable < AXPhotoProtocol,
+    private var retrieveImageTasks = NSMapTable < AXPhotoProtocol,
                                                       ImageTask >(keyOptions: .strongMemory,
                                                                   valueOptions: .strongMemory)
 
@@ -59,8 +53,8 @@ final class NukeIntegration: NSObject, AXNetworkIntegrationProtocol {
                 }
             case .failure:
                 let error = NSError(
-                    domain: AXNetworkIntegrationErrorDomain,
-                    code: AXNetworkIntegrationFailedToLoadErrorCode,
+                    domain: self.AXNetworkIntegrationErrorDomain,
+                    code: self.AXNetworkIntegrationFailedToLoadErrorCode,
                     userInfo: nil
                 )
                 AXDispatchUtils.executeInBackground { [weak self] in
@@ -91,4 +85,14 @@ final class NukeIntegration: NSObject, AXNetworkIntegrationProtocol {
         self.retrieveImageTasks.removeAllObjects()
     }
 }
-#endif
+
+private enum AXDispatchUtils {
+
+    static func executeInBackground(_ block: @escaping () -> Void) {
+        if Thread.isMainThread {
+            DispatchQueue.global().async(execute: block)
+        } else {
+            block()
+        }
+    }
+}

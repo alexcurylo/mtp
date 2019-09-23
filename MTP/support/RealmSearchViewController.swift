@@ -468,20 +468,12 @@ extension RealmSearchViewController {
 
 extension RealmSearchViewController {
 
-    /// Number of sections
-    ///
-    /// - Parameter tableView: UITableView
-    /// - Returns: Number of sections
+    /// :nodoc:
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    /// Number of rows in section
-    ///
-    /// - Parameters:
-    ///   - tableView: UITableView
-    ///   - section: Section
-    /// - Returns: Number of rows in section
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
         if let results = results {

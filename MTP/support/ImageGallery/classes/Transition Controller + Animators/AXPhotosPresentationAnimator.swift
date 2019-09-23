@@ -11,6 +11,7 @@
 
 import UIKit
 
+/// AXPhotosPresentationAnimator
 final class AXPhotosPresentationAnimator: AXPhotosTransitionAnimator {
 
     // MARK: - UIViewControllerAnimatedTransitioning    

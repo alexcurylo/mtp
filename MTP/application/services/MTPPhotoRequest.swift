@@ -57,7 +57,8 @@ final class MTPPhotoRequest: NSObject, OfflineRequest, ServiceProvider {
         super.init()
     }
 
-    /// Dictionary methods are required for saving to disk in the case of app termination
+    /// Initialize from dictionary
+    /// - Parameter dictionary: Dictionary with keys
     required convenience init?(dictionary: [String: Any]) {
         guard let file = dictionary[Key.photo.key] as? String else {
             return nil
@@ -77,6 +78,7 @@ final class MTPPhotoRequest: NSObject, OfflineRequest, ServiceProvider {
                   failures: failures)
     }
 
+    /// NSCoding compliant dictionary for writing to disk
     var dictionary: [String: Any] {
         var info: NotificationService.Info = [
             Key.photo.key: file,
@@ -93,6 +95,8 @@ final class MTPPhotoRequest: NSObject, OfflineRequest, ServiceProvider {
         return info
     }
 
+    /// Perform operation
+    /// - Parameter completion: Completion handler
     func perform(completion: @escaping (Error?) -> Void) {
         guard let data = data else {
             // silently fail
@@ -121,6 +125,7 @@ final class MTPPhotoRequest: NSObject, OfflineRequest, ServiceProvider {
         }
     }
 
+    /// Show message if first failure
     func failed() {
         if failures == 0 {
             note.message(error: L.serverRetryError(L.publishPhoto()))
@@ -128,6 +133,7 @@ final class MTPPhotoRequest: NSObject, OfflineRequest, ServiceProvider {
         failures += 1
     }
 
+    /// :nodoc:
     func shouldAttemptResubmission(forError error: Error) -> Bool {
         return true
     }
@@ -135,6 +141,8 @@ final class MTPPhotoRequest: NSObject, OfflineRequest, ServiceProvider {
 
 extension Data: ServiceProvider {
 
+    /// Create by loading from disk cache
+    /// - Parameter filename: Name
     init?(cache filename: String) {
         let url = Data.cachesDirectory.appendingPathComponent(filename)
         do {
@@ -145,6 +153,8 @@ extension Data: ServiceProvider {
         }
     }
 
+    /// Saves file to disk cache
+    /// - Parameter filename: Name
     func save(cache filename: String) {
         let url = Data.cachesDirectory.appendingPathComponent(filename)
         do {
@@ -154,6 +164,8 @@ extension Data: ServiceProvider {
         }
     }
 
+    /// Deletes file from disk cache
+    /// - Parameter filename: Name
     func delete(cache filename: String) {
         let url = Data.cachesDirectory.appendingPathComponent(filename)
         do {
@@ -163,12 +175,14 @@ extension Data: ServiceProvider {
         }
     }
 
+    /// Convenience accessor for caches directory
     static var cachesDirectory: URL {
         let paths = FileManager.default.urls(for: .cachesDirectory,
                                              in: .userDomainMask)
         return paths[0]
     }
 
+    /// Convenience accessor for user documents directory
     static var documentDirectory: URL {
         let paths = FileManager.default.urls(for: .documentDirectory,
                                              in: .userDomainMask)

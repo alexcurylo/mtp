@@ -14,8 +14,14 @@ import UIKit
 
 // swiftlint:disable file_length
 
+/// AXOverlayView
 final class AXOverlayView: UIView, AXStackableViewContainerDelegate {
     // swiftlint:disable:previous type_body_length
+
+    /// Standard frame duration
+    static let frameAnimDuration: TimeInterval = 0.25
+    private let overlayBarButtonItemSpacing: CGFloat = 20
+    private let overlayForegroundColor = UIColor.black.withAlphaComponent(0.6)
 
     /// The toolbar used to set the `titleView`, `leftBarButtonItems`, `rightBarButtonItems`
     let toolbar = UIToolbar(frame: CGRect(origin: .zero, size: CGSize(width: 320, height: 44)))
@@ -175,11 +181,12 @@ final class AXOverlayView: UIView, AXStackableViewContainerDelegate {
 
     fileprivate var isFirstLayout: Bool = true
 
+    /// :nodoc:
     init() {
         super.init(frame: .zero)
 
         self.topStackContainer = AXStackableViewContainer(views: [], anchoredAt: .top)
-        self.topStackContainer.backgroundColor = AXConstants.overlayForegroundColor
+        self.topStackContainer.backgroundColor = overlayForegroundColor
         self.topStackContainer.delegate = self
         self.addSubview(self.topStackContainer)
 
@@ -188,7 +195,7 @@ final class AXOverlayView: UIView, AXStackableViewContainerDelegate {
         self.topStackContainer.addSubview(self.toolbar)
 
         self.bottomStackContainer = AXStackableViewContainer(views: [], anchoredAt: .bottom)
-        self.bottomStackContainer.backgroundColor = AXConstants.overlayForegroundColor
+        self.bottomStackContainer.backgroundColor = overlayForegroundColor
         self.bottomStackContainer.delegate = self
         self.addSubview(self.bottomStackContainer)
 
@@ -204,14 +211,17 @@ final class AXOverlayView: UIView, AXStackableViewContainerDelegate {
         }
     }
 
+    /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         return nil
     }
 
+    /// :nodoc:
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
 
+    /// :nodoc:
     override func didMoveToWindow() {
         super.didMoveToWindow()
 
@@ -220,6 +230,7 @@ final class AXOverlayView: UIView, AXStackableViewContainerDelegate {
         }
     }
 
+    /// :nodoc:
     override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -241,6 +252,7 @@ final class AXOverlayView: UIView, AXStackableViewContainerDelegate {
         isFirstLayout = false
     }
 
+    /// :nodoc:
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         if let view = super.hitTest(point, with: event) as? UIControl {
             return view
@@ -250,6 +262,9 @@ final class AXOverlayView: UIView, AXStackableViewContainerDelegate {
     }
 
     // MARK: - Completions
+
+    /// PerformAfterShowInterfaceCompletion
+    /// - Parameter closure: Completion
     func performAfterShowInterfaceCompletion(_ closure: @escaping () -> Void) {
         self.showInterfaceCompletions.append(closure)
 
@@ -258,7 +273,7 @@ final class AXOverlayView: UIView, AXStackableViewContainerDelegate {
         }
     }
 
-    func processShowInterfaceCompletions() {
+    private func processShowInterfaceCompletions() {
         for completion in self.showInterfaceCompletions {
             completion()
         }
@@ -267,6 +282,12 @@ final class AXOverlayView: UIView, AXStackableViewContainerDelegate {
     }
 
     // MARK: - Show / hide interface
+
+    /// Show or hide interface
+    /// - Parameter show: Whether to show
+    /// - Parameter animated: Whether to animate
+    /// - Parameter closure: Alongside closure
+    /// - Parameter completion: Completion closure
     func setShowInterface(_ show: Bool,
                           animated: Bool,
                           alongside closure: (() -> Void)? = nil,
@@ -299,7 +320,7 @@ final class AXOverlayView: UIView, AXStackableViewContainerDelegate {
         }
 
         if animated {
-            UIView.animate(withDuration: AXConstants.frameAnimDuration,
+            UIView.animate(withDuration: AXOverlayView.frameAnimDuration,
                            animations: animations,
                            completion: internalCompletion)
         } else {
@@ -310,6 +331,8 @@ final class AXOverlayView: UIView, AXStackableViewContainerDelegate {
 
     // MARK: - AXCaptionViewProtocol
 
+    /// Update caption view
+    /// - Parameter photo: AXPhotoProtocol
     func updateCaptionView(photo: AXPhotoProtocol) {
         self.captionView.applyCaptionInfo(attributedTitle: photo.attributedTitle,
                                           attributedDescription: photo.attributedDescription,
@@ -331,28 +354,35 @@ final class AXOverlayView: UIView, AXStackableViewContainerDelegate {
         }
 
         if self.animateCaptionViewChanges {
-            UIView.animate(withDuration: AXConstants.frameAnimDuration, animations: animations)
+            UIView.animate(withDuration: AXOverlayView.frameAnimDuration,
+                           animations: animations)
         } else {
             animations()
         }
     }
 
     // MARK: - AXStackableViewContainerDelegate
-    func stackableViewContainer(_ stackableViewContainer: AXStackableViewContainer, didAddSubview: UIView) {
-        self.setNeedsLayout()
+
+    /// :nodoc:
+    func stackableViewContainer(_ stackableViewContainer: AXStackableViewContainer,
+                                didAddSubview: UIView) {
+        setNeedsLayout()
     }
 
-    func stackableViewContainer(_ stackableViewContainer: AXStackableViewContainer, willRemoveSubview: UIView) {
+    /// :nodoc:
+    func stackableViewContainer(_ stackableViewContainer: AXStackableViewContainer,
+                                willRemoveSubview: UIView) {
         DispatchQueue.main.async { [weak self] in
             self?.setNeedsLayout()
         }
     }
 
     // MARK: - UIToolbar convenience
-    func updateToolbarBarButtonItems() {
+
+    private func updateToolbarBarButtonItems() {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        fixedSpace.width = AXConstants.overlayBarButtonItemSpacing
+        fixedSpace.width = overlayBarButtonItemSpacing
 
         var barButtonItems = [UIBarButtonItem]()
         if let leftBarButtonItems = self.leftBarButtonItems {
@@ -400,7 +430,7 @@ final class AXOverlayView: UIView, AXStackableViewContainerDelegate {
         self.toolbar.items = barButtonItems
     }
 
-    func updateTitleBarButtonItem() {
+    private func updateTitleBarButtonItem() {
         func defaultAttributes() -> [NSAttributedString.Key: Any] {
             let pointSize: CGFloat = 17.0
             let font = UIFont.systemFont(ofSize: pointSize, weight: UIFont.Weight.semibold)

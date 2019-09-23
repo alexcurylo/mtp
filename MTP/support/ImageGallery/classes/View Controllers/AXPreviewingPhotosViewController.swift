@@ -13,6 +13,7 @@
 import MobileCoreServices
 import UIKit
 
+/// AXPreviewingPhotosViewController
 final class AXPreviewingPhotosViewController: UIViewController, AXNetworkIntegrationDelegate {
 
     /// The photos to display in the `PhotosPreviewingViewController`.
@@ -40,11 +41,14 @@ final class AXPreviewingPhotosViewController: UIViewController, AXNetworkIntegra
     }
 
     // MARK: - Initialization
+
+    /// :nodoc:
     init(dataSource: AXPhotosDataSource) {
         super.init(nibName: nil, bundle: nil)
         self.commonInit(dataSource: dataSource)
     }
 
+    /// :nodoc:
     init(dataSource: AXPhotosDataSource,
          networkIntegration: AXNetworkIntegrationProtocol) {
 
@@ -53,6 +57,7 @@ final class AXPreviewingPhotosViewController: UIViewController, AXNetworkIntegra
                         networkIntegration: networkIntegration)
     }
 
+    /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         return nil
     }
@@ -64,35 +69,26 @@ final class AXPreviewingPhotosViewController: UIViewController, AXNetworkIntegra
 
         var `networkIntegration` = networkIntegration
         if networkIntegration == nil {
-            #if canImport(SDWebImage)
-            networkIntegration = SDWebImageIntegration()
-            #elseif canImport(PINRemoteImage)
-            networkIntegration = PINRemoteImageIntegration()
-            #elseif canImport(AFNetworking)
-            networkIntegration = AFNetworkingIntegration()
-            #elseif canImport(Kingfisher)
-            networkIntegration = KingfisherIntegration()
-            #elseif canImport(Nuke)
             networkIntegration = NukeIntegration()
-            #else
-            networkIntegration = SimpleNetworkIntegration()
-            #endif
         }
 
         self.networkIntegration = networkIntegration
         self.networkIntegration.delegate = self
     }
 
+    /// :nodoc:
     override func loadView() {
         self.view = UIImageView()
     }
 
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         self.imageView.contentMode = .scaleAspectFit
         self.configure(with: self.dataSource.initialPhotoIndex)
     }
 
+    /// :nodoc:
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 

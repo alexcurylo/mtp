@@ -15,8 +15,9 @@ import UIKit
 
 // swiftlint:disable file_length
 
-// swiftlint:disable:next type_body_length
+/// AXPhotosViewController
 final class AXPhotosViewController: UIViewController,
+                                    // swiftlint:disable:previous type_body_length
                                     UIPageViewControllerDelegate,
                                     UIPageViewControllerDataSource,
                                     UIGestureRecognizerDelegate,
@@ -141,16 +142,20 @@ final class AXPhotosViewController: UIViewController,
     fileprivate let notificationCenter = NotificationCenter()
 
     // MARK: - Initialization
+
+    /// :nodoc:
     init() {
         super.init(nibName: nil, bundle: nil)
         self.commonInit()
     }
 
+    /// :nodoc:
     init(dataSource: AXPhotosDataSource?) {
         super.init(nibName: nil, bundle: nil)
         self.commonInit(dataSource: dataSource)
     }
 
+    /// :nodoc:
     init(dataSource: AXPhotosDataSource?,
          pagingConfig: AXPagingConfig?) {
 
@@ -159,6 +164,7 @@ final class AXPhotosViewController: UIViewController,
                         pagingConfig: pagingConfig)
     }
 
+    /// :nodoc:
     init(pagingConfig: AXPagingConfig?,
          transitionInfo: AXTransitionInfo?) {
 
@@ -167,6 +173,7 @@ final class AXPhotosViewController: UIViewController,
                         transitionInfo: transitionInfo)
     }
 
+    /// :nodoc:
     init(dataSource: AXPhotosDataSource?,
          pagingConfig: AXPagingConfig?,
          transitionInfo: AXTransitionInfo?) {
@@ -177,11 +184,13 @@ final class AXPhotosViewController: UIViewController,
                         transitionInfo: transitionInfo)
     }
 
+    /// :nodoc:
     init(networkIntegration: AXNetworkIntegrationProtocol) {
         super.init(nibName: nil, bundle: nil)
         self.commonInit(networkIntegration: networkIntegration)
     }
 
+    /// :nodoc:
     init(dataSource: AXPhotosDataSource?,
          networkIntegration: AXNetworkIntegrationProtocol) {
 
@@ -190,6 +199,7 @@ final class AXPhotosViewController: UIViewController,
                         networkIntegration: networkIntegration)
     }
 
+    /// :nodoc:
     init(dataSource: AXPhotosDataSource?,
          pagingConfig: AXPagingConfig?,
          networkIntegration: AXNetworkIntegrationProtocol) {
@@ -200,6 +210,7 @@ final class AXPhotosViewController: UIViewController,
                         networkIntegration: networkIntegration)
     }
 
+    /// :nodoc:
     init(pagingConfig: AXPagingConfig?,
          transitionInfo: AXTransitionInfo?,
          networkIntegration: AXNetworkIntegrationProtocol) {
@@ -210,6 +221,7 @@ final class AXPhotosViewController: UIViewController,
                         networkIntegration: networkIntegration)
     }
 
+    /// :nodoc:
     init(dataSource: AXPhotosDataSource?,
          pagingConfig: AXPagingConfig?,
          transitionInfo: AXTransitionInfo?,
@@ -222,6 +234,7 @@ final class AXPhotosViewController: UIViewController,
                         networkIntegration: networkIntegration)
     }
 
+    /// :nodoc:
     init(from previewingPhotosViewController: AXPreviewingPhotosViewController) {
         super.init(nibName: nil, bundle: nil)
         self.commonInit(dataSource: previewingPhotosViewController.dataSource,
@@ -229,6 +242,7 @@ final class AXPhotosViewController: UIViewController,
         loadViewIfNeeded()
     }
 
+    /// :nodoc:
     init(from previewingPhotosViewController: AXPreviewingPhotosViewController,
          pagingConfig: AXPagingConfig?) {
 
@@ -239,6 +253,7 @@ final class AXPhotosViewController: UIViewController,
         loadViewIfNeeded()
     }
 
+    /// :nodoc:
     init(from previewingPhotosViewController: AXPreviewingPhotosViewController,
          pagingConfig: AXPagingConfig?,
          transitionInfo: AXTransitionInfo?) {
@@ -251,11 +266,12 @@ final class AXPhotosViewController: UIViewController,
         loadViewIfNeeded()
     }
 
+    /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         return nil
     }
 
-    // init to be used internally by the library
+    /// init to be used internally by the library
     @nonobjc init(dataSource: AXPhotosDataSource? = nil,
                   pagingConfig: AXPagingConfig? = nil,
                   transitionInfo: AXTransitionInfo? = nil,
@@ -268,7 +284,7 @@ final class AXPhotosViewController: UIViewController,
                         networkIntegration: networkIntegration)
     }
 
-    // swiftlint:disable:next function_body_length
+    /// :nodoc:
     fileprivate func commonInit(dataSource ds: AXPhotosDataSource? = nil,
                                 pagingConfig pc: AXPagingConfig? = nil,
                                 transitionInfo ti: AXTransitionInfo? = nil,
@@ -286,19 +302,7 @@ final class AXPhotosViewController: UIViewController,
         }
 
         if ni == nil {
-            #if canImport(SDWebImage)
-            networkIntegration = SDWebImageIntegration()
-            #elseif canImport(PINRemoteImage)
-            networkIntegration = PINRemoteImageIntegration()
-            #elseif canImport(AFNetworking)
-            networkIntegration = AFNetworkingIntegration()
-            #elseif canImport(Kingfisher)
-            networkIntegration = KingfisherIntegration()
-            #elseif canImport(Nuke)
             networkIntegration = NukeIntegration()
-            #else
-            networkIntegration = SimpleNetworkIntegration()
-            #endif
         } else {
             networkIntegration = ni
         }
@@ -329,6 +333,7 @@ final class AXPhotosViewController: UIViewController,
         self.overlayView.rightBarButtonItem = actionBarButtonItem
     }
 
+    /// :nodoc:
     deinit {
         self.recycledViewControllers.removeLifeycleObserver(self)
         self.orderedViewControllers.removeLifeycleObserver(self)

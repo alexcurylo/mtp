@@ -13,10 +13,11 @@ import UIKit
 
 // swiftlint:disable file_length
 
-// swiftlint:disable:next type_body_length
+/// AXPhotosDismissalAnimator
 final class AXPhotosDismissalAnimator: AXPhotosTransitionAnimator, UIViewControllerInteractiveTransitioning {
+    // swiftlint:disable:previous type_body_length
 
-    /// The distance threshold at which the interactive controller will dismiss upon end touches.
+    // The distance threshold at which the interactive controller will dismiss upon end touches.
     fileprivate let dismissalPercentThreshold: CGFloat = 0.14
 
     /// The velocity threshold at which the interactive controller will dismiss upon end touches.

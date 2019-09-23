@@ -34,7 +34,8 @@ final class MTPPostRequest: NSObject, OfflineRequest, ServiceProvider {
         super.init()
     }
 
-    /// Dictionary methods are required for saving to disk in the case of app termination
+    /// Initialize from dictionary
+    /// - Parameter dictionary: Dictionary with keys
     required convenience init?(dictionary: [String: Any]) {
         guard let info = dictionary[Key.post.key] as? PostPayloadInfo else {
             return nil
@@ -50,6 +51,7 @@ final class MTPPostRequest: NSObject, OfflineRequest, ServiceProvider {
                   failures: failures)
     }
 
+    /// NSCoding compliant dictionary for writing to disk
     var dictionary: [String: Any] {
         let info: NotificationService.Info = [
             Key.post.key: PostPayloadInfo(payload: payload),
@@ -60,6 +62,8 @@ final class MTPPostRequest: NSObject, OfflineRequest, ServiceProvider {
         return info
     }
 
+    /// Perform operation
+    /// - Parameter completion: Completion handler
     func perform(completion: @escaping (Error?) -> Void) {
         net.mtp.postPublish(payload: payload) { [weak self] result in
             switch result {
@@ -78,6 +82,7 @@ final class MTPPostRequest: NSObject, OfflineRequest, ServiceProvider {
         }
     }
 
+    /// Show message if first failure
     func failed() {
         if failures == 0 {
             note.message(error: L.serverRetryError(L.publishPost()))
@@ -85,6 +90,7 @@ final class MTPPostRequest: NSObject, OfflineRequest, ServiceProvider {
         failures += 1
     }
 
+    /// :nodoc:
     func shouldAttemptResubmission(forError error: Error) -> Bool {
         return true
     }

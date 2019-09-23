@@ -10,6 +10,7 @@
 //  Copyright © 2017 Alex Hill. All rights reserved.
 //
 
+/// AXOverlayTitleViewProtocol
 protocol AXOverlayTitleViewProtocol: NSObjectProtocol {
 
     /// This method is called by the `AXOverlayView`'s toolbar in order to size the view appropriately for display.

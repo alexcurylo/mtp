@@ -12,6 +12,8 @@
 
 extension UIInterfaceOrientation {
 
+    /// Transformed orientation
+    /// - Parameter transform: transform
     func by(transforming transform: CGAffineTransform) -> UIInterfaceOrientation {
         let angle: Float = atan2f(Float(transform.b), Float(transform.a))
         var multiplier = Int(roundf(angle / (Float.pi / 2)))

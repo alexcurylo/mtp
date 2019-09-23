@@ -12,6 +12,7 @@
 
 import UIKit
 
+/// AXPhotoViewController
 final class AXPhotoViewController: UIViewController, AXPageableViewControllerProtocol, AXZoomingImageViewDelegate {
 
     weak var delegate: AXPhotoViewControllerDelegate?
@@ -27,7 +28,9 @@ final class AXPhotoViewController: UIViewController, AXPageableViewControllerPro
     fileprivate var photo: AXPhotoProtocol?
     fileprivate weak var notificationCenter: NotificationCenter?
 
-    init(loadingView: AXLoadingViewProtocol, notificationCenter: NotificationCenter) {
+    /// :nodoc:
+    init(loadingView: AXLoadingViewProtocol,
+         notificationCenter: NotificationCenter) {
         self.loadingView = loadingView
         self.notificationCenter = notificationCenter
 
@@ -44,18 +47,22 @@ final class AXPhotoViewController: UIViewController, AXPageableViewControllerPro
                                        object: nil)
     }
 
+    /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         return nil
     }
 
+    /// :nodoc:
     deinit {
         self.notificationCenter?.removeObserver(self)
     }
 
+    /// :nodoc:
     override func loadView() {
         self.view = AXZoomingImageView()
     }
 
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -66,6 +73,7 @@ final class AXPhotoViewController: UIViewController, AXPageableViewControllerPro
         }
     }
 
+    /// :nodoc:
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
@@ -120,11 +128,13 @@ final class AXPhotoViewController: UIViewController, AXPageableViewControllerPro
     }
 
     // MARK: - AXPageableViewControllerProtocol
+
     func prepareForReuse() {
         self.zoomingImageView.image = nil
     }
 
     // MARK: - AXZoomingImageViewDelegate
+
     func zoomingImageView(_ zoomingImageView: AXZoomingImageView, maximumZoomScaleFor imageSize: CGSize) -> CGFloat {
         return self.delegate?.photoViewController(self,
                                                   maximumZoomScaleForPhotoAt: self.pageIndex,

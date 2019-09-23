@@ -11,41 +11,51 @@
 
 import UIKit
 
+/// AXStackableViewContainer
 final class AXStackableViewContainer: UIView {
 
+    /// AXStackableViewContainerDelegate
     weak var delegate: AXStackableViewContainerDelegate?
 
-    /// The inset of the contents of the `StackableViewContainer`.
-    /// For internal use only.
+    /// Inset of the contents of the `StackableViewContainer`. For internal use only.
     var contentInset: UIEdgeInsets = .zero
 
-    fileprivate(set) var anchorPoint: AXStackableViewContainerAnchorPoint
+    /// Anchor point
+    private(set) var anchorPoint: AXStackableViewContainerAnchorPoint
 
+    /// Anchor point types
     enum AXStackableViewContainerAnchorPoint: Int {
+
+        /// top
         case top
+        /// bottom
         case bottom
     }
 
+    /// :nodoc:
     init(views: [UIView], anchoredAt point: AXStackableViewContainerAnchorPoint) {
         self.anchorPoint = point
         super.init(frame: .zero)
         views.forEach { self.addSubview($0) }
     }
 
+    /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         return nil
     }
 
+    /// :nodoc:
     override func layoutSubviews() {
         super.layoutSubviews()
         self.computeSize(for: self.frame.size, applySizingLayout: true)
     }
 
+    /// :nodoc:
     override func sizeThatFits(_ size: CGSize) -> CGSize {
         return self.computeSize(for: size, applySizingLayout: false)
     }
 
-    @discardableResult fileprivate func computeSize(for constrainedSize: CGSize, applySizingLayout: Bool) -> CGSize {
+    @discardableResult private func computeSize(for constrainedSize: CGSize, applySizingLayout: Bool) -> CGSize {
         var yOffset: CGFloat = 0
         let xOffset: CGFloat = self.contentInset.left
         var constrainedInsetSize = constrainedSize
@@ -89,26 +99,37 @@ final class AXStackableViewContainer: UIView {
     }
 
     // MARK: - AXStackableViewContainerDelegate
+
+    /// :nodoc:
     override func didAddSubview(_ subview: UIView) {
         super.didAddSubview(subview)
         delegate?.stackableViewContainer(self, didAddSubview: subview)
     }
 
+    /// :nodoc:
     override func willRemoveSubview(_ subview: UIView) {
         super.willRemoveSubview(subview)
         delegate?.stackableViewContainer(self, willRemoveSubview: subview)
     }
 
     // MARK: - Helpers
+
     private func isToolbarOrNavigationBar(_ view: UIView) -> Bool {
         return view is UIToolbar || view is UINavigationBar
     }
 }
 
+/// AXStackableViewContainerDelegate
 protocol AXStackableViewContainerDelegate: AnyObject {
 
+    /// Add notification
+    /// - Parameter stackableViewContainer: Container
+    /// - Parameter didAddSubview: View added
     func stackableViewContainer(_ stackableViewContainer: AXStackableViewContainer,
                                 didAddSubview: UIView)
+    /// Remove notification
+    /// - Parameter stackableViewContainer: Container
+    /// - Parameter willRemoveSubview:  View to remove
     func stackableViewContainer(_ stackableViewContainer: AXStackableViewContainer,
                                 willRemoveSubview: UIView)
 }

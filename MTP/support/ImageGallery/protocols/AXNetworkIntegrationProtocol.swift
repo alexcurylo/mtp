@@ -10,11 +10,10 @@
 //  Copyright © 2017 Alex Hill. All rights reserved.
 //
 
-let AXNetworkIntegrationErrorDomain = "AXNetworkIntegrationErrorDomain"
-let AXNetworkIntegrationFailedToLoadErrorCode = 6
-
+/// AXNetworkIntegrationProtocol
 protocol AXNetworkIntegrationProtocol: AnyObject, NSObjectProtocol {
 
+    /// Delegate
     var delegate: AXNetworkIntegrationDelegate? { get set }
 
     /// This function should load a provided photo,
@@ -32,6 +31,7 @@ protocol AXNetworkIntegrationProtocol: AnyObject, NSObjectProtocol {
     func cancelAllLoads()
 }
 
+/// AXNetworkIntegrationDelegate
 protocol AXNetworkIntegrationDelegate: AnyObject, NSObjectProtocol {
 
     /// Called when a `AXPhoto` successfully finishes loading.

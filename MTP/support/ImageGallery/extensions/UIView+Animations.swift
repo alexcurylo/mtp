@@ -14,6 +14,11 @@ import UIKit
 
 extension UIView {
 
+    /// Animate corner radii
+    /// - Parameter duration: Duration
+    /// - Parameter value: Value
+    /// - Parameter views: UIView list
+    /// - Parameter completion: Completion handler
     class func animateCornerRadii(withDuration duration: TimeInterval,
                                   to value: CGFloat,
                                   views: [UIView],

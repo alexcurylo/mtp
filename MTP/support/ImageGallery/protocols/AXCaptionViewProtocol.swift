@@ -10,6 +10,7 @@
 //  Copyright © 2017 Alex Hill. All rights reserved.
 //
 
+/// AXCaptionViewProtocol
 protocol AXCaptionViewProtocol: NSObjectProtocol {
 
     /// Whether or not the `CaptionView` should animate caption info changes - using `Constants.frameAnimDuration` as
