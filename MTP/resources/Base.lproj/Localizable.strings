@@ -325,3 +325,33 @@
 "oneYearFuture" = "next year";
 "yearsPast" = "%.f years ago";
 "yearsFuture" = "in %.f years";
+
+// feedback
+
+"feedbackQuestion" = "Question";
+"feedbackRequest" = "Request";
+"feedbackBugReport" = "Bug Report";
+"feedbackOther" = "Other";
+"feedbackDevice" = "Device";
+"feedbackiOS" = "iOS";
+"feedbackName" = "Name";
+"feedbackVersion" = "Version";
+"feedbackBuild" = "Build";
+"feedbackDeviceInfo" = "Device Info";
+"feedbackAppInfo" = "App Info";
+"feedbackFeedback" = "Feedback";
+"feedbackTopic" = "Topic";
+"feedbackTopics" = "Topics";
+"feedbackError" = "Error";
+"feedbackMail" = "Mail";
+"feedbackMailConfigurationErrorMessage" ="You do not have a valid e-mail account";
+"feedbackDismiss" ="Dismiss";
+"feedbackAdditionalInfo"="Additional Info";
+"feedbackAttachImageOrVideo" ="Select the feedback attachment (picture)";
+"feedbackCancel" ="Cancel";
+"feedbackCamera" ="Camera";
+"feedbackPhotoLibrary" ="Select from the album";
+"feedbackUserDetail" = "User Detail";
+"feedbackFeedbackGenerationErrorMessage" = "Feedback Generation Error";
+"feedbackUnknownError" = "Unknown Error";
+"feedbackDelete" = "Delete";

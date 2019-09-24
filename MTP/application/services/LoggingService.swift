@@ -3,7 +3,7 @@
 import UIKit
 
 /// Type of log statement
-public enum LoggingLevel: Int, CustomStringConvertible {
+enum LoggingLevel: Int, CustomStringConvertible {
 
     /// Verbose
     case verbose
@@ -16,7 +16,7 @@ public enum LoggingLevel: Int, CustomStringConvertible {
     /// Error
     case error
 
-    public var description: String {
+    var description: String {
         return ["💬", "🛠️", "📌", "⚠️", "💥"][rawValue]
     }
 }

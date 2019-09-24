@@ -12,29 +12,29 @@
 
 #import "AXStateButton.h"
 
-static NSString *_Nonnull AXStateButtonTintColorKey            = @"AXStateButtonTintColor";
-static NSString *_Nonnull AXStateButtonBackgroundColorKey      = @"AXStateButtonBackgroundColor";
-static NSString *_Nonnull AXStateButtonAlphaKey                = @"AXStateButtonAlpha";
-static NSString *_Nonnull AXStateButtonTitleAlphaKey           = @"AXStateButtonTitleAlpha";
-static NSString *_Nonnull AXStateButtonImageAlphaKey           = @"AXStateButtonImageAlpha";
-static NSString *_Nonnull AXStateButtonCornerRadiusKey         = @"AXStateButtonCornerRadius";
-static NSString *_Nonnull AXStateButtonBorderColorKey          = @"AXStateButtonBorderColor";
-static NSString *_Nonnull AXStateButtonBorderWidthKey          = @"AXStateButtonBorderWidth";
-static NSString *_Nonnull AXStateButtonTransformRotationXKey   = @"AXStateButtonTransformRotationX";
-static NSString *_Nonnull AXStateButtonTransformRotationYKey   = @"AXStateButtonTransformRotationY";
-static NSString *_Nonnull AXStateButtonTransformRotationZKey   = @"AXStateButtonTransformRotationZ";
-static NSString *_Nonnull AXStateButtonTransformScaleKey       = @"AXStateButtonTransformScale";
-static NSString *_Nonnull AXStateButtonShadowColorKey          = @"AXStateButtonShadowColor";
-static NSString *_Nonnull AXStateButtonShadowOpacityKey        = @"AXStateButtonShadowOpacity";
-static NSString *_Nonnull AXStateButtonShadowOffsetKey         = @"AXStateButtonShadowOffset";
-static NSString *_Nonnull AXStateButtonShadowRadiusKey         = @"AXStateButtonShadowRadius";
-static NSString *_Nonnull AXStateButtonShadowPathKey           = @"AXStateButtonShadowPath";
+static NSString *_Nonnull AXStateButtonTintColorKey = @"AXStateButtonTintColor";
+static NSString *_Nonnull AXStateButtonBackgroundColorKey = @"AXStateButtonBackgroundColor";
+static NSString *_Nonnull AXStateButtonAlphaKey = @"AXStateButtonAlpha";
+static NSString *_Nonnull AXStateButtonTitleAlphaKey = @"AXStateButtonTitleAlpha";
+static NSString *_Nonnull AXStateButtonImageAlphaKey = @"AXStateButtonImageAlpha";
+static NSString *_Nonnull AXStateButtonCornerRadiusKey = @"AXStateButtonCornerRadius";
+static NSString *_Nonnull AXStateButtonBorderColorKey = @"AXStateButtonBorderColor";
+static NSString *_Nonnull AXStateButtonBorderWidthKey = @"AXStateButtonBorderWidth";
+static NSString *_Nonnull AXStateButtonTransformRotationXKey = @"AXStateButtonTransformRotationX";
+static NSString *_Nonnull AXStateButtonTransformRotationYKey = @"AXStateButtonTransformRotationY";
+static NSString *_Nonnull AXStateButtonTransformRotationZKey = @"AXStateButtonTransformRotationZ";
+static NSString *_Nonnull AXStateButtonTransformScaleKey = @"AXStateButtonTransformScale";
+static NSString *_Nonnull AXStateButtonShadowColorKey = @"AXStateButtonShadowColor";
+static NSString *_Nonnull AXStateButtonShadowOpacityKey = @"AXStateButtonShadowOpacity";
+static NSString *_Nonnull AXStateButtonShadowOffsetKey = @"AXStateButtonShadowOffset";
+static NSString *_Nonnull AXStateButtonShadowRadiusKey = @"AXStateButtonShadowRadius";
+static NSString *_Nonnull AXStateButtonShadowPathKey = @"AXStateButtonShadowPath";
 
-static NSString *_Nonnull AXAnimationDictionaryKey    = @"AXAnimationDictionary";
-static NSString *_Nonnull AXStateBlockKey             = @"AXStateBlock";
+static NSString *_Nonnull AXAnimationDictionaryKey = @"AXAnimationDictionary";
+static NSString *_Nonnull AXStateBlockKey = @"AXStateBlock";
 
-static NSString *_Nonnull AXAnimationDictionaryAnimationKey               = @"AXAnimation";
-static NSString *_Nonnull AXAnimationDictionaryAnimationLayerKeyPathKey   = @"AXAnimationLayerKeyPath";
+static NSString *_Nonnull AXAnimationDictionaryAnimationKey = @"AXAnimation";
+static NSString *_Nonnull AXAnimationDictionaryAnimationLayerKeyPathKey = @"AXAnimationLayerKeyPath";
 
 static NSString *_Nonnull AXAnimationDefaultLayerKeyPath = @"layer";
 

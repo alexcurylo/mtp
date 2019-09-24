@@ -157,7 +157,7 @@ private extension NetworkVC {
                          .map { (title: $0.title, subtitle: $0.subtitle) }
         tableView.reloadData()
 
-        contentState = models.isEmpty ? .empty :  .data
+        contentState = models.isEmpty ? .empty : .data
         tableView.set(message: contentState)
     }
 

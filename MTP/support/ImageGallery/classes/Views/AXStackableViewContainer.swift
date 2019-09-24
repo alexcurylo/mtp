@@ -129,7 +129,7 @@ protocol AXStackableViewContainerDelegate: AnyObject {
                                 didAddSubview: UIView)
     /// Remove notification
     /// - Parameter stackableViewContainer: Container
-    /// - Parameter willRemoveSubview:  View to remove
+    /// - Parameter willRemoveSubview: View to remove
     func stackableViewContainer(_ stackableViewContainer: AXStackableViewContainer,
                                 willRemoveSubview: UIView)
 }

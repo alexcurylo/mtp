@@ -13,7 +13,7 @@ extension ServiceHandler: AppLaunchHandler {
     ///   - application: UIApplication
     ///   - launchOptions: Options
     /// - Returns: Success
-    public func application(
+    func application(
         _ application: UIApplication,
         willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // swiftlint:disable:previous discouraged_optional_collection
@@ -38,7 +38,7 @@ extension ServiceHandler: AppLaunchHandler {
     ///   - application: UIApplication
     ///   - launchOptions: Options
     /// - Returns: Success
-    public func application(
+    func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // swiftlint:disable:previous discouraged_optional_collection
