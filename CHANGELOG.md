@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- Improve offline messaging
+
+### Fixed
+- Corrected network state synchronization
+
 ## [Version 1.1.0, Build 642] - 2019-09-24
 
 ### Added

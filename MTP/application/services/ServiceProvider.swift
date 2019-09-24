@@ -102,3 +102,6 @@ enum ServiceProviderInstances {
     /// StyleService
     static var styleServiceInstance: StyleService!
 }
+
+/// Convenience for service injection, in-constructor operaionts, etc.
+struct Services: ServiceProvider { }

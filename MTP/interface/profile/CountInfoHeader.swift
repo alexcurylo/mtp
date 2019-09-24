@@ -110,6 +110,8 @@ private extension CountInfoHeader {
     func update() {
         guard let list = list else { return }
 
+        display()
+
         for request in net.requests.compactMap({ $0 as? MTPVisitedRequest }) {
             if request.changes(list: list) {
                 uploading = true
@@ -121,8 +123,6 @@ private extension CountInfoHeader {
         }
         uploading = false
         configure(current: true)
-
-        display()
     }
 
     func display() {

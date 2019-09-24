@@ -254,9 +254,7 @@ class RealmMapView: MKMapView {
             self.mapQueue.addOperation(refreshOperation)
         } catch {
             isRefreshingMapCount -= 1
-            #if DEBUG
-            print("configuration error: \(error)")
-            #endif
+            Services().log.error("configuration error: \(error)")
         }
 
         objc_sync_exit(self)

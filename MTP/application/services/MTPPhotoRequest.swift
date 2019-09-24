@@ -129,7 +129,7 @@ final class MTPPhotoRequest: NSObject, OfflineRequest, ServiceProvider {
     /// Show message if first failure
     func failed() {
         if failures == 0 {
-            note.message(error: L.serverRetryError(L.publishPhoto()))
+            note.message(error: L.networkRetry(L.photoPublish()))
         }
         failures += 1
     }
@@ -149,7 +149,7 @@ extension Data: ServiceProvider {
         do {
             self = try Data(contentsOf: url)
         } catch {
-            print("Loading photo failed: \(error)")
+            Services().log.error("Loading photo failed: \(error)")
             return nil
         }
     }

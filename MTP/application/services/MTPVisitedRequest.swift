@@ -117,7 +117,7 @@ final class MTPVisitedRequest: NSObject, OfflineRequest, ServiceProvider {
     /// Show message if first failure
     func failed() {
         if failures == 0 {
-            note.message(error: L.serverRetryError(L.updateVisit()))
+            note.message(error: L.networkRetry(L.visitUpdate()))
         }
         failures += 1
     }
