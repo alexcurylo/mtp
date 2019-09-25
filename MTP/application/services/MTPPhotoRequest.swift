@@ -20,6 +20,11 @@ final class MTPPhotoRequest: NSObject, OfflineRequest, ServiceProvider {
     /// Number of times request has failed
     var failures: Int
 
+    /// convenience filter for location photos status
+    func isAbout(location id: Int) -> Bool {
+        return id == location
+    }
+
     /// Memberwise initializer
     ///
     /// - Parameters:
@@ -51,7 +56,7 @@ final class MTPPhotoRequest: NSObject, OfflineRequest, ServiceProvider {
         }
         self.caption = caption
         self.location = id
-        let description = caption?.truncate(length: 15) ?? L.unknown()
+        let description = caption?.truncate(length: 15) ?? L.none()
         self.title = L.publishingPhoto(description)
         self.subtitle = subtitle ?? L.queued()
         self.failures = failures
@@ -66,7 +71,7 @@ final class MTPPhotoRequest: NSObject, OfflineRequest, ServiceProvider {
         }
 
         let caption = dictionary[Key.caption.key] as? String
-        let location = dictionary[Key.title.key] as? Int
+        let location = dictionary[Key.location.key] as? Int
         let title = dictionary[Key.title.key] as? String
         let subtitle = dictionary[Key.subtitle.key] as? String
         let failures = dictionary[Key.failures.key] as? Int ?? 0

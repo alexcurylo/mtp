@@ -18,6 +18,7 @@ final class RootVC: UIViewController {
         super.viewDidLoad()
         requireOutlets()
 
+        setLightMode()
         setApplicationBackground()
     }
 

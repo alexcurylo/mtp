@@ -37,9 +37,9 @@ class PostsVC: UITableViewController {
     /// Data models
     var models: [PostCellModel] = []
     /// Current post uploads
+    private var configuredMenu = false
     var queuedPosts: [MTPPostRequest] = []
     private var requestsObserver: Observer?
-    private var configuredMenu = false
     private var headerModel: PostHeader.Model = (false, false) {
         didSet {
             if headerModel != oldValue {

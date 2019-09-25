@@ -180,6 +180,10 @@
 
 "unInfo" = "Visits are calculated from MTP Location visits";
 
+// PhotosVC
+
+"addPhoto" = "＋Add new photo";
+
 // PostsVC
 
 "addPost" = "＋Add new post";

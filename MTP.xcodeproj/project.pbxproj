@@ -402,6 +402,7 @@
 		FA4EE1472323467900A8D533 /* OfflineRequestManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4EE1462323467900A8D533 /* OfflineRequestManagerTests.swift */; };
 		FA4FBFFB22E7327100FE0902 /* AppStoreSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4FBFFA22E7327100FE0902 /* AppStoreSnapshotTests.swift */; };
 		FA507C2823059DD6000F0EF9 /* userLogin-7853.json in Resources */ = {isa = PBXBuildFile; fileRef = FA507C2723059DD5000F0EF9 /* userLogin-7853.json */; };
+		FA51034D233B958B00AFC41E /* PhotosHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA51034C233B958B00AFC41E /* PhotosHeader.swift */; };
 		FA54272822D62936005DF1CC /* MappablesAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA54272722D62936005DF1CC /* MappablesAnnotationView.swift */; };
 		FA54272A22D97476005DF1CC /* Date+Relative.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA54272922D97476005DF1CC /* Date+Relative.swift */; };
 		FA5AC0B621FC4EBE0080F84F /* MappableAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0B521FC4EBE0080F84F /* MappableAnnotationView.swift */; };
@@ -952,6 +953,7 @@
 		FA4F1C5E20DFA74500B8A1ED /* Gemfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile; sourceTree = "<group>"; };
 		FA4FBFFA22E7327100FE0902 /* AppStoreSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreSnapshotTests.swift; sourceTree = "<group>"; };
 		FA507C2723059DD5000F0EF9 /* userLogin-7853.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "userLogin-7853.json"; sourceTree = "<group>"; };
+		FA51034C233B958B00AFC41E /* PhotosHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosHeader.swift; sourceTree = "<group>"; };
 		FA54272722D62936005DF1CC /* MappablesAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappablesAnnotationView.swift; sourceTree = "<group>"; };
 		FA54272922D97476005DF1CC /* Date+Relative.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Relative.swift"; sourceTree = "<group>"; };
 		FA5AC0B521FC4EBE0080F84F /* MappableAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappableAnnotationView.swift; sourceTree = "<group>"; };
@@ -2073,6 +2075,7 @@
 				FA74574C210CA5730010F4F4 /* MyProfileVC.swift */,
 				FA78366223270EE3006DAC23 /* NetworkVC.swift */,
 				8CF7381922FA9DD2006D4C66 /* PhotoCell.swift */,
+				FA51034C233B958B00AFC41E /* PhotosHeader.swift */,
 				FA7CCAEE22B848EE0092A95E /* PhotosVC.swift */,
 				FAEB87A0227ED26300858898 /* PostCell.swift */,
 				8C7EE69B233B4BB100EE3C35 /* PostHeader.swift */,
@@ -3053,6 +3056,7 @@
 				FAA818FE22447EAB00BB9F92 /* LocationVC.swift in Sources */,
 				8C522F4C2339A6290056D0CE /* AttachmentItem.swift in Sources */,
 				FA7CCAEF22B848EE0092A95E /* PhotosVC.swift in Sources */,
+				FA51034D233B958B00AFC41E /* PhotosHeader.swift in Sources */,
 				8CA1ECE722C4434300C3B40B /* WKWebViewController.swift in Sources */,
 				FA7C2014222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift in Sources */,
 				FA74C0F02117C60B0013A840 /* ForgotPasswordVC.swift in Sources */,

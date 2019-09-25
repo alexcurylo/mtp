@@ -396,6 +396,7 @@ class NetworkServiceImpl: NetworkService {
             }
             offlineRequestManager.queueRequest(request)
         }
+        requestsChanged()
         then(.failure(.queued))
     }
 
@@ -418,6 +419,7 @@ class NetworkServiceImpl: NetworkService {
             request.failed()
         }
         offlineRequestManager.queueRequest(request)
+        requestsChanged()
         then(.failure(.queued))
     }
 
@@ -433,6 +435,7 @@ class NetworkServiceImpl: NetworkService {
             request.failed()
         }
         offlineRequestManager.queueRequest(request)
+        requestsChanged()
         then(.failure(.queued))
     }
 
@@ -615,8 +618,7 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     ///   - request: OfflineRequest that started its action
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                didStartRequest request: OfflineRequest) {
-        notify(observers: NetworkServiceChange.requests.rawValue,
-               info: [ StatusKey.value.rawValue: manager ])
+        requestsChanged()
     }
 
     /// Callback indicating that the OfflineRequest status has changed
@@ -626,8 +628,7 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     ///   - request: OfflineRequest that changed its subtitle
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                didUpdateRequest request: OfflineRequest) {
-        notify(observers: NetworkServiceChange.requests.rawValue,
-               info: [ StatusKey.value.rawValue: manager ])
+        requestsChanged()
     }
 
     /// Callback indicating that the OfflineRequest action has successfully finished
@@ -637,8 +638,7 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     ///   - request: OfflineRequest that finished its action
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                didFinishRequest request: OfflineRequest) {
-        notify(observers: NetworkServiceChange.requests.rawValue,
-               info: [ StatusKey.value.rawValue: manager ])
+        requestsChanged()
         switch request {
         case let visit as MTPVisitedRequest:
             mtp.userGetByToken(reload: true)
@@ -668,8 +668,7 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                requestDidFail request: OfflineRequest,
                                withError error: Error) {
-        notify(observers: NetworkServiceChange.requests.rawValue,
-               info: [ StatusKey.value.rawValue: manager ])
+        requestsChanged()
     }
 }
 
@@ -702,6 +701,11 @@ private extension NetworkServiceImpl {
         Checklist.allCases.forEach { list in
             add { done in self.loadScorecard(list: list, user: user.id) { _ in done() } }
         }
+    }
+
+    func requestsChanged() {
+        notify(observers: NetworkServiceChange.requests.rawValue,
+               info: [ StatusKey.value.rawValue: offlineRequestManager ])
     }
 }
 

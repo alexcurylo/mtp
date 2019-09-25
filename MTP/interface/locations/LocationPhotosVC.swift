@@ -19,10 +19,16 @@ final class LocationPhotosVC: PhotosVC {
     private var blockedPhotosObserver: Observer?
     private var updated = false
 
-    /// Can create new content
+    /// Whether user can add a new photo
     override var canCreate: Bool {
         return isImplemented
     }
+
+    /// Whether a new post is queued to upload
+    override var isQueued: Bool {
+        return queuedPhotos.contains { $0.isAbout(location: mappable.checklistId) }
+    }
+
     private var isImplemented: Bool {
         return mappable.checklist == .locations
     }
@@ -65,6 +71,26 @@ final class LocationPhotosVC: PhotosVC {
             add.inject(model: (mappable: mappable, delegate: self))
         }
     }
+
+    override func update() {
+        super.update()
+
+        guard isImplemented else {
+            contentState = .unknown
+            collectionView.set(message: L.unimplemented(), color: .darkText)
+            return
+        }
+
+        update(photos: mappable)
+        collectionView.reloadData()
+
+        if photoCount > 0 {
+            contentState = .data
+        } else {
+            contentState = updated ? .empty : .loading
+        }
+        collectionView.set(message: contentState, color: .darkText)
+    }
 }
 
 // MARK: AddPhotoDelegate
@@ -92,24 +118,6 @@ private extension LocationPhotosVC {
                        reload: reload) { [weak self] _ in
             self?.loaded()
         }
-    }
-
-    func update() {
-        guard isImplemented else {
-            contentState = .unknown
-            collectionView.set(message: L.unimplemented(), color: .darkText)
-            return
-        }
-
-        update(photos: mappable)
-        collectionView.reloadData()
-
-        if photoCount > 0 {
-            contentState = .data
-        } else {
-            contentState = updated ? .empty : .loading
-        }
-        collectionView.set(message: contentState, color: .darkText)
     }
 
     func update(photos mappable: Mappable) {

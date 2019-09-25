@@ -20,9 +20,14 @@ final class ProfilePhotosVC: PhotosVC {
     private var isSelf: Bool = false
     private var blockedPhotos: [Int] = []
 
-    /// Display a user's posts
+    /// Whether user can add a new photo
     override var canCreate: Bool {
         return isSelf
+    }
+
+    /// Whether a new photo is queued to upload
+    override var isQueued: Bool {
+        return isSelf && !queuedPhotos.isEmpty
     }
 
     /// How many photos in collection
@@ -84,6 +89,22 @@ final class ProfilePhotosVC: PhotosVC {
             add.inject(model: (mappable: nil, delegate: self))
         }
     }
+
+    override func update() {
+        super.update()
+
+        blockedPhotos = data.blockedPhotos
+        let pages = data.getPhotosPages(user: user.userId)
+        photosPages = pages
+        collectionView.reloadData()
+
+        if photoCount > 0 {
+            contentState = .data
+        } else {
+            contentState = updated ? .empty : .loading
+        }
+        collectionView.set(message: contentState, color: .darkText)
+    }
 }
 
 // MARK: AddPhotoDelegate
@@ -118,20 +139,6 @@ private extension ProfilePhotosVC {
                 self?.loaded()
             }
         }
-    }
-
-    func update() {
-        blockedPhotos = data.blockedPhotos
-        let pages = data.getPhotosPages(user: user.userId)
-        photosPages = pages
-        collectionView.reloadData()
-
-        if photoCount > 0 {
-            contentState = .data
-        } else {
-            contentState = updated ? .empty : .loading
-        }
-        collectionView.set(message: contentState, color: .darkText)
     }
 
     func observe() {
