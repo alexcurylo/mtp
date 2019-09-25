@@ -22,7 +22,7 @@ final class SettingsVC: UITableViewController {
     @IBOutlet private var logoutButton: UIButton!
     @IBOutlet private var deleteButton: UIButton!
 
-    private var reportMessage = ""
+    private var route: Route?
 
     /// Prepare for interaction
     override func viewDidLoad() {
@@ -50,10 +50,15 @@ final class SettingsVC: UITableViewController {
         super.viewDidAppear(animated)
         report(screen: "Settings")
 
-        if !reportMessage.isEmpty {
-            sendFeedback(title: L.reportSubject(), body: reportMessage)
-            reportMessage = ""
+        switch route {
+        case .network?:
+            performSegue(withIdentifier: Segues.showNetwork, sender: self)
+        case .reportContent(let message)? where !message.isEmpty:
+            sendFeedback(title: L.reportSubject(), body: message)
+        default:
+            break
         }
+        route = nil
     }
 
     /// Instrument and inject navigation
@@ -242,13 +247,13 @@ extension SettingsVC: InterfaceBuildable {
 extension SettingsVC: Injectable {
 
     /// Injected dependencies
-    typealias Model = String
+    typealias Model = Route
 
     /// Handle dependency injection
     ///
     /// - Parameter model: Dependencies
     func inject(model: Model) {
-        reportMessage = model
+        route = model
     }
 
     /// Enforce dependency injection

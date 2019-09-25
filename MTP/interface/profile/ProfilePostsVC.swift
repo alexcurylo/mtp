@@ -17,9 +17,14 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
 
     private var isSelf: Bool = false
 
-    /// Can create new content
+    /// Whether user can add a new post
     override var canCreate: Bool {
         return isSelf
+    }
+
+    /// Whether a new post is queued to upload
+    override var isQueued: Bool {
+        return isSelf && !queuedPosts.isEmpty
     }
 
     /// Type of view presenting this controller
@@ -40,19 +45,11 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
         performSegue(withIdentifier: Segues.addPost,
                      sender: self)
     }
-}
 
-// MARK: - Private
+    /// Update contents
+    override func update() {
+        super.update()
 
-private extension ProfilePostsVC {
-
-    func loaded() {
-        isLoading = false
-        update()
-        observe()
-    }
-
-    func update() {
         let posts = data.getPosts(user: user.userId)
         models = cellModels(from: posts)
         tableView.reloadData()
@@ -63,6 +60,17 @@ private extension ProfilePostsVC {
             contentState = isLoading ? .loading : .empty
         }
         tableView.set(message: contentState, color: .darkText)
+    }
+}
+
+// MARK: - Private
+
+private extension ProfilePostsVC {
+
+    func loaded() {
+        isLoading = false
+        update()
+        observe()
     }
 
     func observe() {

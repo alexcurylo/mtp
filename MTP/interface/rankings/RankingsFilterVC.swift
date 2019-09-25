@@ -236,30 +236,3 @@ extension RankingsFilterVC: InterfaceBuildable {
         saveButton.require()
     }
 }
-
-private extension UIButton {
-
-    func set(tintedSelection: Bool) {
-        isSelected = tintedSelection
-        tintColor = tintedSelection ? .azureRadiance : .black
-    }
-
-    func centerImageAndLabel(gap: CGFloat, imageOnTop: Bool) {
-        guard let image = currentImage,
-              let label = titleLabel,
-              let text = label.text else { return }
-
-        let sign: CGFloat = imageOnTop ? 1 : -1
-        titleEdgeInsets = UIEdgeInsets(top: (image.size.height + gap) * sign,
-                                       left: -image.size.width,
-                                       bottom: 0,
-                                       right: 0)
-
-        let font = label.font ?? Avenir.book.of(size: 17)
-        let titleSize = text.size(withAttributes: [NSAttributedString.Key.font: font])
-        imageEdgeInsets = UIEdgeInsets(top: -(titleSize.height + gap) * sign,
-                                       left: 0,
-                                       bottom: 0,
-                                       right: -titleSize.width)
-    }
-}

@@ -126,15 +126,18 @@ private extension MainTBC {
 
     func checkDestination() {
         if let goto = destination {
+            selectedIndex = goto.tabIndex
             switch goto {
-            case .locations, .rankings, .myProfile:
-                selectedIndex = goto.tabIndex
+            case .locations,
+                 .rankings,
+                 .myProfile:
+                break
             case .editProfile:
-                selectedIndex = Route.myProfile.tabIndex
-                myProfile?.performSegue(withIdentifier: Segues.directEdit, sender: self)
-            case .reportContent(let message):
-                selectedIndex = Route.myProfile.tabIndex
-                myProfile?.reportContent(message: message)
+                myProfile?.performSegue(withIdentifier: Segues.directEdit,
+                                        sender: self)
+            case .network,
+                 .reportContent:
+                myProfile?.settings(route: goto)
             }
         }
 

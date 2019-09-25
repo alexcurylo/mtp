@@ -7,10 +7,16 @@ final class LocationPostsVC: PostsVC {
 
     private typealias Segues = R.segue.locationPostsVC
 
-    /// Can create new content
+    /// Whether user can add a new post
     override var canCreate: Bool {
         return isImplemented
     }
+
+    /// Whether a new post is queued to upload
+    override var isQueued: Bool {
+        return queuedPosts.contains { $0.isAbout(location: mappable.checklistId) }
+    }
+
     private var isImplemented: Bool {
         return mappable?.checklist == .locations
     }
@@ -69,19 +75,11 @@ final class LocationPostsVC: PostsVC {
         profileModel = user
         performSegue(withIdentifier: Segues.showUserProfile, sender: self)
     }
-}
 
-// MARK: - Private
+    /// Update contents
+    override func update() {
+        super.update()
 
-private extension LocationPostsVC {
-
-    func loaded() {
-        updated = true
-        update()
-        observe()
-    }
-
-    func update() {
         guard isImplemented else {
             contentState = .unknown
             tableView.set(message: L.unimplemented(), color: .darkText)
@@ -98,6 +96,17 @@ private extension LocationPostsVC {
             contentState = updated ? .empty : .loading
         }
         tableView.set(message: contentState, color: .darkText)
+    }
+}
+
+// MARK: - Private
+
+private extension LocationPostsVC {
+
+    func loaded() {
+        updated = true
+        update()
+        observe()
     }
 
     func observe() {

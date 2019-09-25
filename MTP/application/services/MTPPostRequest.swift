@@ -17,6 +17,11 @@ final class MTPPostRequest: NSObject, OfflineRequest, ServiceProvider {
     /// Number of times request has failed
     var failures: Int
 
+    /// convenience filter for location posts status
+    func isAbout(location id: Int) -> Bool {
+        return id == payload.location_id
+    }
+
     /// Memberwise initializer
     ///
     /// - Parameters:

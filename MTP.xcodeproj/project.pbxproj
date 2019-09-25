@@ -157,6 +157,8 @@
 		8C7D71EB2303E9E7005939AC /* UILocationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7D71EA2303E9E7005939AC /* UILocationInfo.swift */; };
 		8C7D71ED2303EA2A005939AC /* UILocationInfo+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7D71EC2303EA2A005939AC /* UILocationInfo+Test.swift */; };
 		8C7D71EE2303EA61005939AC /* UILocationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7D71EA2303E9E7005939AC /* UILocationInfo.swift */; };
+		8C7EE69A233B179800EE3C35 /* UIButton+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7EE699233B179800EE3C35 /* UIButton+Layout.swift */; };
+		8C7EE69C233B4BB100EE3C35 /* PostHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7EE69B233B4BB100EE3C35 /* PostHeader.swift */; };
 		8C84D87123135F5F0070BD55 /* WHSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C84D87023135F5F0070BD55 /* WHSTests.swift */; };
 		8C84D87323136EA70070BD55 /* UNCountryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C84D87223136EA70070BD55 /* UNCountryTests.swift */; };
 		8C8DB38122817B6800B2BBD3 /* PostsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8DB38022817B6800B2BBD3 /* PostsVC.swift */; };
@@ -714,6 +716,8 @@
 		8C7D71E82303E29B005939AC /* UILocation+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILocation+Test.swift"; sourceTree = "<group>"; };
 		8C7D71EA2303E9E7005939AC /* UILocationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILocationInfo.swift; sourceTree = "<group>"; };
 		8C7D71EC2303EA2A005939AC /* UILocationInfo+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILocationInfo+Test.swift"; sourceTree = "<group>"; };
+		8C7EE699233B179800EE3C35 /* UIButton+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Layout.swift"; sourceTree = "<group>"; };
+		8C7EE69B233B4BB100EE3C35 /* PostHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeader.swift; sourceTree = "<group>"; };
 		8C84D87023135F5F0070BD55 /* WHSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WHSTests.swift; sourceTree = "<group>"; };
 		8C84D87223136EA70070BD55 /* UNCountryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNCountryTests.swift; sourceTree = "<group>"; };
 		8C8DB38022817B6800B2BBD3 /* PostsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsVC.swift; sourceTree = "<group>"; };
@@ -2071,6 +2075,7 @@
 				8CF7381922FA9DD2006D4C66 /* PhotoCell.swift */,
 				FA7CCAEE22B848EE0092A95E /* PhotosVC.swift */,
 				FAEB87A0227ED26300858898 /* PostCell.swift */,
+				8C7EE69B233B4BB100EE3C35 /* PostHeader.swift */,
 				8C8DB38022817B6800B2BBD3 /* PostsVC.swift */,
 				FA254DCC2169A2A400FC9360 /* ProfileAboutVC.swift */,
 				FA99615E2136CF3100C85FBC /* ProfilePagingVC.swift */,
@@ -2375,6 +2380,7 @@
 				8CB2A24222E177C90050E368 /* Scheduler.swift */,
 				8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */,
 				FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */,
+				8C7EE699233B179800EE3C35 /* UIButton+Layout.swift */,
 				FA88395622351C30002F324F /* UIImage+Color.swift */,
 				FA745756210DBD910010F4F4 /* UINavigationBar+Transparent.swift */,
 				FA44CDF722B5CBFC00F33D34 /* UITableView+Updating.swift */,
@@ -2853,6 +2859,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA126BE52336EBB800175258 /* AXPhotoProtocol.swift in Sources */,
+				8C7EE69A233B179800EE3C35 /* UIButton+Layout.swift in Sources */,
 				FA3CEC562132579300791195 /* DataService.swift in Sources */,
 				FA463785210E06230007382D /* LoggingService.swift in Sources */,
 				FA74574D210CA5730010F4F4 /* MyProfileVC.swift in Sources */,
@@ -2968,6 +2975,7 @@
 				FAC8466322AC6D18004F57EC /* KVNOperation.swift in Sources */,
 				8C3EAA1C2230BFA500CB4886 /* InsetTextField.swift in Sources */,
 				8C522F562339A6290056D0CE /* AppNameCell.swift in Sources */,
+				8C7EE69C233B4BB100EE3C35 /* PostHeader.swift in Sources */,
 				8C93FE49230397770054B951 /* UIUserCounts.swift in Sources */,
 				FA0345782304487000632322 /* UIProfilePhotos.swift in Sources */,
 				8C522F572339A6290056D0CE /* AppNameItem.swift in Sources */,
