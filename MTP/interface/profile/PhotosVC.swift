@@ -40,6 +40,16 @@ class PhotosVC: UICollectionViewController {
     /// Mode of presentation
     var mode: Mode = .browser
     private var configuredMenu = false
+    /// Filtered queued network actions
+    var queuedPhotos: [MTPPhotoRequest] = []
+    private var requestsObserver: Observer?
+    private var headerModel: PhotosHeader.Model = (false, false) {
+        didSet {
+            if headerModel != oldValue {
+                collectionView.collectionViewLayout.invalidateLayout()
+            }
+        }
+    }
 
     private var scrollingCells: Set<PhotoCell> = []
     private var isScrolling = false {
@@ -55,8 +65,16 @@ class PhotosVC: UICollectionViewController {
     private var current: String = ""
     private weak var delegate: PhotoSelectionDelegate?
 
-    /// Display a user's posts
+    private let layoutHeader = (create: CGFloat(50),
+                                queued: CGFloat(100))
+
+    /// Whether user can add a new photo
     var canCreate: Bool {
+        return false
+    }
+
+    /// Whether a new photo is queued to upload
+    var isQueued: Bool {
         return false
     }
 
@@ -107,6 +125,14 @@ class PhotosVC: UICollectionViewController {
     func broadcastSelection() {
         delegate?.selected(picture: current)
     }
+
+    /// Track queued photos for possible display
+    func update() {
+        queuedPhotos = net.requests.of(type: MTPPhotoRequest.self)
+        headerModel = (add: canCreate, queue: isQueued)
+
+        observeRequests()
+    }
 }
 
 // MARK: - Private
@@ -129,10 +155,8 @@ private extension PhotosVC {
         }
         collectionView.backgroundView = background
         UIPhotos.photos.expose(item: collectionView)
-    }
 
-    @IBAction func addTapped(_ sender: GradientButton) {
-        createPhoto()
+        update()
     }
 
     func present(fullscreen item: Int) {
@@ -163,19 +187,34 @@ private extension PhotosVC {
         configuredMenu = true
         UIMenuController.shared.menuItems = MenuAction.contentItems
     }
+
+    func observeRequests() {
+        guard requestsObserver == nil else { return }
+
+        requestsObserver = net.observer(of: .requests) { [weak self] _ in
+            self?.update()
+        }
+    }
+}
+
+// MARK: - PhotosHeaderDelegate
+
+extension PhotosVC: PhotosHeaderDelegate {
+
+    func addTapped() {
+        createPhoto()
+    }
+
+    func queueTapped() {
+        app.route(to: .network)
+    }
 }
 
 // MARK: UICollectionViewDataSource
 
 extension PhotosVC {
 
-    /// Provide header
-    ///
-    /// - Parameters:
-    ///   - collectionView: Collection
-    ///   - kind: Expect header
-    ///   - indexPath: Item path
-    /// - Returns: PhotosHeader
+    /// :nodoc:
     override func collectionView(_ collectionView: UICollectionView,
                                  viewForSupplementaryElementOfKind kind: String,
                                  at indexPath: IndexPath) -> UICollectionReusableView {
@@ -186,26 +225,19 @@ extension PhotosVC {
             for: indexPath
         )
 
+        header?.inject(model: headerModel,
+                       delegate: self)
+
         return header
     }
 
-    /// Section items count
-    ///
-    /// - Parameters:
-    ///   - collectionView: Collection
-    ///   - section: Index
-    /// - Returns: Item count
+    /// :nodoc:
     override func collectionView(_ collectionView: UICollectionView,
                                  numberOfItemsInSection section: Int) -> Int {
         return photoCount
     }
 
-    /// Provide cell
-    ///
-    /// - Parameters:
-    ///   - collectionView: Collection
-    ///   - indexPath: Index path
-    /// - Returns: PhotoCell
+    /// :nodoc:
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // swiftlint:disable:next implicitly_unwrapped_optional
@@ -241,12 +273,7 @@ extension PhotosVC {
 
 extension PhotosVC {
 
-    /// Selection permission
-    ///
-    /// - Parameters:
-    ///   - collectionView: Container
-    ///   - indexPath: Index path
-    /// - Returns: Permission
+    /// :nodoc:
     override func collectionView(_ collectionView: UICollectionView,
                                  shouldSelectItemAt indexPath: IndexPath) -> Bool {
         switch mode {
@@ -258,37 +285,21 @@ extension PhotosVC {
         }
     }
 
-    /// Selection handling
-    ///
-    /// - Parameters:
-    ///   - collectionView: Container
-    ///   - indexPath: Index path
+    /// :nodoc:
     override func collectionView(_ collectionView: UICollectionView,
                                  didSelectItemAt indexPath: IndexPath) {
         current = photo(at: indexPath.item).uuid
         saveButton?.isEnabled = original != current
     }
 
-    /// Menu permission
-    ///
-    /// - Parameters:
-    ///   - collectionView: Container
-    ///   - indexPath: Index path
-    /// - Returns: Permission
+    /// :nodoc:
     override func collectionView(_ collectionView: UICollectionView,
                                  shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
         configureMenu()
         return true
     }
 
-    /// Action permission
-    ///
-    /// - Parameters:
-    ///   - collectionView: Container
-    ///   - action: Action
-    ///   - indexPath: Index path
-    ///   - sender: Sender
-    /// - Returns: Permission
+    /// :nodoc:
     override func collectionView(_ collectionView: UICollectionView,
                                  canPerformAction action: Selector,
                                  forItemAt indexPath: IndexPath,
@@ -296,13 +307,7 @@ extension PhotosVC {
         return MenuAction.isContent(action: action)
     }
 
-    /// Action operation
-    ///
-    /// - Parameters:
-    ///   - collectionView: Container
-    ///   - action: Action
-    ///   - indexPath: Index path
-    ///   - sender: Sender
+    /// :nodoc:
     override func collectionView(_ collectionView: UICollectionView,
                                  performAction action: Selector,
                                  forItemAt indexPath: IndexPath,
@@ -315,18 +320,12 @@ extension PhotosVC {
 
 extension PhotosVC {
 
-    /// Flag scrolling to suppress image loading
-    ///
-    /// - Parameter scrollView: Container
+    /// :nodoc:
     override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         isScrolling = true
     }
 
-    /// Unflag scrolling to resume image loading
-    ///
-    /// - Parameters:
-    ///   - scrollView: Container
-    ///   - decelerate: Will taper off
+    /// :nodoc:
     override func scrollViewDidEndDragging(_ scrollView: UIScrollView,
                                            willDecelerate decelerate: Bool) {
         if !decelerate {
@@ -334,32 +333,23 @@ extension PhotosVC {
         }
     }
 
-    /// Unflag scrolling to resume image loading
-    ///
-    /// - Parameter scrollView: Container
+    /// :nodoc:
     override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         isScrolling = false
     }
 
-    /// Flag scrolling to suppress image loading
-    ///
-    /// - Parameter scrollView: Container
-    /// - Returns: Permission
+    /// :nodoc:
     override func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
         isScrolling = true
         return true
     }
 
-    /// Scrolling notfication
-    ///
-    /// - Parameter scrollView: Scrollee
+    /// :nodoc:
     override func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
         isScrolling = false
     }
 
-    /// Unflag scrolling to resume image loading
-    ///
-    /// - Parameter scrollView: Container
+    /// :nodoc:
     override func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         isScrolling = false
     }
@@ -369,31 +359,23 @@ extension PhotosVC {
 
 extension PhotosVC: PhotoCellDelegate {
 
-    /// Clear suspended state
-    ///
-    /// - Parameter cell: Cell
+    /// :nodoc:
     func prepared(forReuse cell: PhotoCell) {
         scrollingCells.remove(cell)
     }
 
-    /// Handle hide action
-    ///
-    /// - Parameter hide: Photo to hide
+    /// :nodoc:
     func tapped(hide: Photo?) {
         data.block(photo: hide?.photoId ?? 0)
     }
 
-    /// Handle report action
-    ///
-    /// - Parameter report: Photo to report
+    /// :nodoc:
     func tapped(report: Photo?) {
         let message = L.reportPhoto(report?.photoId ?? 0)
         app.route(to: .reportContent(message))
     }
 
-    /// Handle block action
-    ///
-    /// - Parameter block: Photo to block
+    /// :nodoc:
     func tapped(block: Photo?) {
         if data.block(user: block?.userId ?? 0) {
             app.route(to: .locations)
@@ -405,31 +387,23 @@ extension PhotosVC: PhotoCellDelegate {
 
 extension PhotosVC: UICollectionViewDelegateFlowLayout {
 
-    /// Provide header size
-    ///
-    /// - Parameters:
-    ///   - collectionView: Collection
-    ///   - collectionViewLayout: Collection layout
-    ///   - section: Section index
-    /// - Returns: Size
+    /// :nodoc:
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         referenceSizeForHeaderInSection: Int) -> CGSize {
-        if canCreate,
-           let flow = collectionViewLayout as? UICollectionViewFlowLayout {
-            return flow.headerReferenceSize
+        switch (canCreate, isQueued) {
+        case (true, true):
+            return CGSize(width: collectionView.frame.width,
+                          height: layoutHeader.queued)
+        case (true, false):
+            return CGSize(width: collectionView.frame.width,
+                          height: layoutHeader.create)
+        case (false, _):
+            return .zero
         }
-
-        return .zero
     }
 
-    /// Provide cell size
-    ///
-    /// - Parameters:
-    ///   - collectionView: Collection
-    ///   - collectionViewLayout: Collection layout
-    ///   - indexPath: Cell path
-    /// - Returns: Size
+    /// :nodoc:
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -442,17 +416,6 @@ extension PhotosVC: UICollectionViewDelegateFlowLayout {
         let spacing = (items - 1) * flow.minimumInteritemSpacing
         let edge = ((width - spacing) / items).rounded(.down)
         return CGSize(width: edge, height: edge)
-    }
-}
-
-/// Header for photos collections
-final class PhotosHeader: UICollectionReusableView {
-    // expect addTapped(_:) hooked up in storyboard
-
-    @IBOutlet private var addPhotoButton: GradientButton? {
-        didSet {
-            UIPhotos.add.expose(item: addPhotoButton)
-        }
     }
 }
 

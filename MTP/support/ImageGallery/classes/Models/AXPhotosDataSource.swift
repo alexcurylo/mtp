@@ -10,11 +10,16 @@
 //  Copyright © 2017 Alex Hill. All rights reserved.
 //
 
+/// AXPhotosDataSource
 class AXPhotosDataSource: NSObject {
 
+    /// AXPhotosPrefetchBehavior
     enum AXPhotosPrefetchBehavior: Int {
+        /// conservative
         case conservative = 0
+        /// regular
         case regular = 2
+        /// aggressive
         case aggressive = 4
     }
 
@@ -27,11 +32,15 @@ class AXPhotosDataSource: NSObject {
     /// The photos to display in the PhotosViewController.
     fileprivate var photos: [AXPhotoProtocol]
 
-    // The initial photo index to display upon presentation.
+    /// The initial photo index to display upon presentation.
     fileprivate(set) var initialPhotoIndex: Int = 0
 
     // MARK: - Initialization
-    init(photos: [AXPhotoProtocol], initialPhotoIndex: Int, prefetchBehavior: AXPhotosPrefetchBehavior) {
+
+    /// :nodoc:
+    init(photos: [AXPhotoProtocol],
+         initialPhotoIndex: Int,
+         prefetchBehavior: AXPhotosPrefetchBehavior) {
         self.photos = photos
         self.prefetchBehavior = prefetchBehavior
 
@@ -43,24 +52,30 @@ class AXPhotosDataSource: NSObject {
         super.init()
     }
 
+    /// :nodoc:
     override convenience init() {
         self.init(photos: [], initialPhotoIndex: 0, prefetchBehavior: .regular)
     }
 
+    /// :nodoc:
     convenience init(photos: [AXPhotoProtocol]) {
         self.init(photos: photos, initialPhotoIndex: 0, prefetchBehavior: .regular)
     }
 
+    /// :nodoc:
     convenience init(photos: [AXPhotoProtocol], initialPhotoIndex: Int) {
         self.init(photos: photos, initialPhotoIndex: initialPhotoIndex, prefetchBehavior: .regular)
     }
 
     // MARK: - DataSource
 
+    /// Number of photos
     var numberOfPhotos: Int {
         return self.photos.count
     }
 
+    /// Photo at index
+    /// - Parameter index: Index
     func photo(at index: Int) -> AXPhotoProtocol? {
         if index < self.photos.count {
             return self.photos[index]

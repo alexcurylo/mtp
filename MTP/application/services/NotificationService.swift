@@ -18,20 +18,20 @@ enum Key: String {
     case subtitle
     /// title
     case title
-    /// visited
+    /// failures
     case failures
 
+    /// MTPVisitedRequest: visited
     case visited
-    /// failures
 
-    /// post
+    /// MTPPostRequest: post
     case post
 
-    /// photo
+    /// MTPPhotoRequest: photo
     case photo
-    /// caption
+    /// MTPPhotoRequest: caption
     case caption
-    /// location
+    /// MTPPhotoRequest: location
     case location
 
     /// Dictionary key

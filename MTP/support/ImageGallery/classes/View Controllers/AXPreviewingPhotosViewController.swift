@@ -13,6 +13,7 @@
 import MobileCoreServices
 import UIKit
 
+/// AXPreviewingPhotosViewController
 final class AXPreviewingPhotosViewController: UIViewController, AXNetworkIntegrationDelegate {
 
     /// The photos to display in the `PhotosPreviewingViewController`.
@@ -31,20 +32,24 @@ final class AXPreviewingPhotosViewController: UIViewController, AXNetworkIntegra
     /// The `NetworkIntegration` passed in at initialization.
     /// This object is used to fetch images asynchronously from a cache or URL.
     /// - Initialized by the end of `commonInit(dataSource:networkIntegration:)`.
-    fileprivate(set) var networkIntegration: AXNetworkIntegrationProtocol!
+    private(set) var networkIntegration: AXNetworkIntegrationProtocol!
     // swiftlint:disable:previous implicitly_unwrapped_optional
 
+    /// imageView
     var imageView: UIImageView {
         // swiftlint:disable:next force_cast
         return self.view as! UIImageView
     }
 
     // MARK: - Initialization
+
+    /// :nodoc:
     init(dataSource: AXPhotosDataSource) {
         super.init(nibName: nil, bundle: nil)
         self.commonInit(dataSource: dataSource)
     }
 
+    /// :nodoc:
     init(dataSource: AXPhotosDataSource,
          networkIntegration: AXNetworkIntegrationProtocol) {
 
@@ -53,46 +58,38 @@ final class AXPreviewingPhotosViewController: UIViewController, AXNetworkIntegra
                         networkIntegration: networkIntegration)
     }
 
+    /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         return nil
     }
 
-    fileprivate func commonInit(dataSource: AXPhotosDataSource,
-                                networkIntegration: AXNetworkIntegrationProtocol? = nil) {
+    private func commonInit(dataSource: AXPhotosDataSource,
+                            networkIntegration: AXNetworkIntegrationProtocol? = nil) {
 
         self.dataSource = dataSource
 
         var `networkIntegration` = networkIntegration
         if networkIntegration == nil {
-            #if canImport(SDWebImage)
-            networkIntegration = SDWebImageIntegration()
-            #elseif canImport(PINRemoteImage)
-            networkIntegration = PINRemoteImageIntegration()
-            #elseif canImport(AFNetworking)
-            networkIntegration = AFNetworkingIntegration()
-            #elseif canImport(Kingfisher)
-            networkIntegration = KingfisherIntegration()
-            #elseif canImport(Nuke)
             networkIntegration = NukeIntegration()
-            #else
-            networkIntegration = SimpleNetworkIntegration()
-            #endif
         }
 
         self.networkIntegration = networkIntegration
         self.networkIntegration.delegate = self
     }
 
+    /// :nodoc:
     override func loadView() {
         self.view = UIImageView()
     }
 
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         self.imageView.contentMode = .scaleAspectFit
         self.configure(with: self.dataSource.initialPhotoIndex)
     }
 
+    /// :nodoc:
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
@@ -107,13 +104,14 @@ final class AXPreviewingPhotosViewController: UIViewController, AXNetworkIntegra
         self.preferredContentSize = newSize
     }
 
-    fileprivate func configure(with index: Int) {
+    private func configure(with index: Int) {
         guard let photo = self.dataSource.photo(at: index) else { return }
         self.networkIntegration.loadPhoto(photo)
     }
 
     // MARK: - AXNetworkIntegrationDelegate
 
+    /// :nodoc:
     func networkIntegration(_ networkIntegration: AXNetworkIntegrationProtocol,
                             loadDidFinishWith photo: AXPhotoProtocol) {
         if let image = photo.image {
@@ -125,6 +123,7 @@ final class AXPreviewingPhotosViewController: UIViewController, AXNetworkIntegra
         }
     }
 
+    /// :nodoc:
     func networkIntegration(_ networkIntegration: AXNetworkIntegrationProtocol,
                             loadDidFailWith error: Error,
                             for photo: AXPhotoProtocol) {
@@ -136,6 +135,7 @@ final class AXPreviewingPhotosViewController: UIViewController, AXNetworkIntegra
         photo.ax_error = error
     }
 
+    /// :nodoc:
     func networkIntegration(_ networkIntegration: AXNetworkIntegrationProtocol,
                             didUpdateLoadingProgress progress: CGFloat,
                             for photo: AXPhotoProtocol) {

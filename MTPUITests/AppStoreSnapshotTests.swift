@@ -26,8 +26,7 @@ final class AppStoreSnapshotTests: XCTestCase {
 
         UILocations.nearby.tap()
 
-        // seems memory keeps growing and doesn't idle on iOS 13?
-        //snapshot("02Nearby")
+        snapshot("02Nearby")
 
         let gaggan = 3
         UINearby.place(gaggan).tap()

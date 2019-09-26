@@ -8,6 +8,7 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
     private typealias Segues = R.segue.profilePostsVC
 
     private var postsObserver: Observer?
+    private var blockedPostsObserver: Observer?
     private var isLoading = true
 
     // verified in requireInjection
@@ -16,9 +17,14 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
 
     private var isSelf: Bool = false
 
-    /// Can create new content
+    /// Whether user can add a new post
     override var canCreate: Bool {
         return isSelf
+    }
+
+    /// Whether a new post is queued to upload
+    override var isQueued: Bool {
+        return isSelf && !queuedPosts.isEmpty
     }
 
     /// Type of view presenting this controller
@@ -39,6 +45,22 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
         performSegue(withIdentifier: Segues.addPost,
                      sender: self)
     }
+
+    /// Update contents
+    override func update() {
+        super.update()
+
+        let posts = data.getPosts(user: user.userId)
+        models = cellModels(from: posts)
+        tableView.reloadData()
+
+        if !models.isEmpty {
+            contentState = .data
+        } else {
+            contentState = isLoading ? .loading : .empty
+        }
+        tableView.set(message: contentState, color: .darkText)
+    }
 }
 
 // MARK: - Private
@@ -51,23 +73,13 @@ private extension ProfilePostsVC {
         observe()
     }
 
-    func update() {
-        let posts = data.getPosts(user: user.userId)
-        models = cellModels(from: posts)
-        tableView.reloadData()
-
-        if !models.isEmpty {
-            contentState = .data
-        } else {
-            contentState = isLoading ? .loading : .empty
-        }
-        tableView.set(message: contentState, color: .darkText)
-    }
-
     func observe() {
         guard postsObserver == nil else { return }
 
         postsObserver = data.observer(of: .posts) { [weak self] _ in
+            self?.update()
+        }
+        blockedPostsObserver = data.observer(of: .blockedPosts) { [weak self] _ in
             self?.update()
         }
     }

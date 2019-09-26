@@ -20,10 +20,10 @@ source 'https://cdn.cocoapods.org/'
 # https://github.com/AssistoLab/DropDown
 # https://github.com/facebook/facebook-swift-sdk/issues/491
 # https://github.com/firebase/firebase-ios-sdk/issues/3136
-# https://github.com/auth0/JWTDecode.swift/pull/93
+# https://github.com/auth0/JWTDecode.swift/issues/92
 # https://github.com/krimpedance/KRProgressHUD
 # https://github.com/rechsteiner/Parchment
-# R.swift is pending release of 5.1
+# https://github.com/mac-cain13/R.swift/pull/538 - need SPM tag (before 5.1)
 
 $iosVersion = '11.0'
 platform :ios, $iosVersion

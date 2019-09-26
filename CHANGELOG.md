@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [Version 1.1.0, Build 643] - 2019-09-26
+
+### Changed
+- Improve offline messaging
+
+### Fixed
+- Corrected network state synchronization
+
+## [Version 1.1.0, Build 642] - 2019-09-24
+
 ### Added
  - Offline queue for uploading visits, posts, photos
  - Network Status screen showing queue in Settings

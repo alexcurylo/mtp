@@ -57,7 +57,8 @@ final class MTPVisitedRequest: NSObject, OfflineRequest, ServiceProvider {
         }()
     }
 
-    /// Dictionary methods are required for saving to disk in the case of app termination
+    /// Initialize from dictionary
+    /// - Parameter dictionary: Dictionary with keys
     required convenience init?(dictionary: [String: Any]) {
         guard let listValue = dictionary[Key.list.key] as? Int,
               let list = Checklist(rawValue: listValue),
@@ -76,6 +77,7 @@ final class MTPVisitedRequest: NSObject, OfflineRequest, ServiceProvider {
                   failures: failures)
     }
 
+    /// NSCoding compliant dictionary for writing to disk
     var dictionary: [String: Any] {
         let info: NotificationService.Info = [
             Key.list.key: item.list.rawValue,
@@ -88,6 +90,8 @@ final class MTPVisitedRequest: NSObject, OfflineRequest, ServiceProvider {
         return info
     }
 
+    /// Perform operation
+    /// - Parameter completion: Completion handler
     func perform(completion: @escaping (Error?) -> Void) {
         net.mtp.set(items: [item], visited: visited) { [weak self] result in
             switch result {
@@ -110,13 +114,15 @@ final class MTPVisitedRequest: NSObject, OfflineRequest, ServiceProvider {
         }
     }
 
+    /// Show message if first failure
     func failed() {
         if failures == 0 {
-            note.message(error: L.serverRetryError(L.updateVisit()))
+            note.message(error: L.networkRetry(L.visitUpdate()))
         }
         failures += 1
     }
 
+    /// :nodoc:
     func shouldAttemptResubmission(forError error: Error) -> Bool {
         return true
     }

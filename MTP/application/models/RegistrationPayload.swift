@@ -241,23 +241,21 @@ final class LocationPayloadInfo: NSObject, NSCoding {
 
     /// :nodoc:
     required convenience init?(coder decoder: NSCoder) {
-        let admin_level = decoder.decodeObject(forKey: LocationPayloadInfo.keys.admin_level)
-        let country_id = decoder.decodeObject(forKey: LocationPayloadInfo.keys.country_id)
-        let country_name = decoder.decodeObject(forKey: LocationPayloadInfo.keys.country_name)
-        let id = decoder.decodeObject(forKey: LocationPayloadInfo.keys.id)
-        let is_mtp_location = decoder.decodeObject(forKey: LocationPayloadInfo.keys.is_mtp_location)
-        let location_name = decoder.decodeObject(forKey: LocationPayloadInfo.keys.location_name)
+        let admin_level = decoder.decodeInteger(forKey: LocationPayloadInfo.keys.admin_level)
+        let country_id = decoder.decodeInteger(forKey: LocationPayloadInfo.keys.country_id)
+        let id = decoder.decodeInteger(forKey: LocationPayloadInfo.keys.id)
+        let is_mtp_location = decoder.decodeInteger(forKey: LocationPayloadInfo.keys.is_mtp_location)
+        guard let country_name = decoder.decodeObject(forKey: LocationPayloadInfo.keys.country_name),
+            let location_name = decoder.decodeObject(forKey: LocationPayloadInfo.keys.location_name) else {
+            return nil
+        }
         self.init(
-            // swiftlint:disable:next force_cast
-            admin_level: admin_level as! Int,
-            // swiftlint:disable:next force_cast
-            country_id: country_id as! Int,
+            admin_level: admin_level,
+            country_id: country_id,
             // swiftlint:disable:next force_cast
             country_name: country_name as! String,
-            // swiftlint:disable:next force_cast
-            id: id as! Int,
-            // swiftlint:disable:next force_cast
-            is_mtp_location: is_mtp_location as! Int,
+            id: id,
+            is_mtp_location: is_mtp_location,
             // swiftlint:disable:next force_cast
             location_name: location_name as! String
         )

@@ -113,27 +113,29 @@ final class MTPNetworkControllerSpy: MTPNetworkController {
     }
     var invokedLoadPostsLocation = false
     var invokedLoadPostsLocationCount = 0
-    var invokedLoadPostsLocationParameters: (id: Int, stub: MTPProvider.StubClosure, then: NetworkCompletion<PostsJSON>)?
-    var invokedLoadPostsLocationParametersList = [(id: Int, stub: MTPProvider.StubClosure, then: NetworkCompletion<PostsJSON>)]()
+    var invokedLoadPostsLocationParameters: (id: Int, reload: Bool, stub: MTPProvider.StubClosure, then: NetworkCompletion<PostsJSON>)?
+    var invokedLoadPostsLocationParametersList = [(id: Int, reload: Bool, stub: MTPProvider.StubClosure, then: NetworkCompletion<PostsJSON>)]()
     override func loadPosts(location id: Int,
+    reload: Bool,
     stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
     then: @escaping NetworkCompletion<PostsJSON> = { _ in }) {
         invokedLoadPostsLocation = true
         invokedLoadPostsLocationCount += 1
-        invokedLoadPostsLocationParameters = (id, stub, then)
-        invokedLoadPostsLocationParametersList.append((id, stub, then))
+        invokedLoadPostsLocationParameters = (id, reload, stub, then)
+        invokedLoadPostsLocationParametersList.append((id, reload, stub, then))
     }
     var invokedLoadPostsUser = false
     var invokedLoadPostsUserCount = 0
-    var invokedLoadPostsUserParameters: (id: Int, stub: MTPProvider.StubClosure, then: NetworkCompletion<PostsJSON>)?
-    var invokedLoadPostsUserParametersList = [(id: Int, stub: MTPProvider.StubClosure, then: NetworkCompletion<PostsJSON>)]()
+    var invokedLoadPostsUserParameters: (id: Int, reload: Bool, stub: MTPProvider.StubClosure, then: NetworkCompletion<PostsJSON>)?
+    var invokedLoadPostsUserParametersList = [(id: Int, reload: Bool, stub: MTPProvider.StubClosure, then: NetworkCompletion<PostsJSON>)]()
     override func loadPosts(user id: Int,
+    reload: Bool,
     stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
     then: @escaping NetworkCompletion<PostsJSON> = { _ in }) {
         invokedLoadPostsUser = true
         invokedLoadPostsUserCount += 1
-        invokedLoadPostsUserParameters = (id, stub, then)
-        invokedLoadPostsUserParametersList.append((id, stub, then))
+        invokedLoadPostsUserParameters = (id, reload, stub, then)
+        invokedLoadPostsUserParametersList.append((id, reload, stub, then))
     }
     var invokedLoadRankings = false
     var invokedLoadRankingsCount = 0

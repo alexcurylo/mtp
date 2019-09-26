@@ -12,23 +12,25 @@
 
 import UIKit
 
-class AXPhotosTransitionController: NSObject,
-                                    UIViewControllerTransitioningDelegate,
-                                    AXPhotosTransitionAnimatorDelegate {
+/// AXPhotosTransitionController
+final class AXPhotosTransitionController: NSObject,
+                                          UIViewControllerTransitioningDelegate,
+                                          AXPhotosTransitionAnimatorDelegate {
 
-    fileprivate static let supportedModalPresentationStyles: [UIModalPresentationStyle] =  [.fullScreen,
-                                                                                            .currentContext,
-                                                                                            .custom,
-                                                                                            .overFullScreen,
-                                                                                            .overCurrentContext]
+    private static let supportedModalPresentationStyles: [UIModalPresentationStyle] =  [.fullScreen,
+                                                                                        .currentContext,
+                                                                                        .custom,
+                                                                                        .overFullScreen,
+                                                                                        .overCurrentContext]
 
+    /// AXPhotosTransitionControllerDelegate
     weak var delegate: AXPhotosTransitionControllerDelegate?
 
     /// Custom animator for presentation.
-    fileprivate var presentationAnimator: AXPhotosPresentationAnimator?
+    private var presentationAnimator: AXPhotosPresentationAnimator?
 
     /// Custom animator for dismissal.
-    fileprivate var dismissalAnimator: AXPhotosDismissalAnimator?
+    private var dismissalAnimator: AXPhotosDismissalAnimator?
 
     /// If this flag is `true`, the transition controller will use gestures to dismiss viewController interactively,
     /// otherwise dismissal will be immediate.
@@ -36,20 +38,21 @@ class AXPhotosTransitionController: NSObject,
 
     /// The transition configuration passed in at initialization.
     /// The controller uses this object to apply customization to the transition.
-    let transitionInfo: AXTransitionInfo
+    private let transitionInfo: AXTransitionInfo
 
-    fileprivate var supportsContextualPresentation: Bool {
+    private var supportsContextualPresentation: Bool {
         return self.transitionInfo.startingView != nil
     }
 
-    fileprivate var supportsContextualDismissal: Bool {
+    private var supportsContextualDismissal: Bool {
         return self.transitionInfo.endingView != nil
     }
 
-    fileprivate var supportsInteractiveDismissal: Bool {
+    private var supportsInteractiveDismissal: Bool {
         return self.transitionInfo.interactiveDismissalEnabled
     }
 
+    /// :nodoc:
     init(transitionInfo: AXTransitionInfo) {
         self.transitionInfo = transitionInfo
         super.init()
@@ -57,6 +60,7 @@ class AXPhotosTransitionController: NSObject,
 
     // MARK: - UIViewControllerTransitioningDelegate
 
+    /// :nodoc:
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         var photosViewController: AXPhotosViewController
         if let dismissed = dismissed as? AXPhotosViewController {
@@ -90,6 +94,7 @@ class AXPhotosTransitionController: NSObject,
         return dismissalAnimator
     }
 
+    /// :nodoc:
     func animationController(forPresented presented: UIViewController,
                              presenting: UIViewController,
                              source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
@@ -119,6 +124,7 @@ class AXPhotosTransitionController: NSObject,
         return self.presentationAnimator
     }
 
+    /// :nodoc:
     func interactionControllerForDismissal(
         using animator: UIViewControllerAnimatedTransitioning
     ) -> UIViewControllerInteractiveTransitioning? {
@@ -134,6 +140,7 @@ class AXPhotosTransitionController: NSObject,
 
     // MARK: - Interaction handling
 
+    /// :nodoc:
     func didPanWithGestureRecognizer(_ sender: UIPanGestureRecognizer,
                                      in viewController: UIViewController) {
         self.dismissalAnimator?.didPanWithGestureRecognizer(sender, in: viewController)
@@ -141,29 +148,41 @@ class AXPhotosTransitionController: NSObject,
 
     // MARK: - AXPhotosTransitionAnimatorDelegate
 
+    /// :nodoc:
     func transitionAnimator(_ animator: AXPhotosTransitionAnimator,
                             didCompletePresentationWith transitionView: UIImageView) {
         self.delegate?.transitionController(self, didCompletePresentationWith: transitionView)
         self.presentationAnimator = nil
     }
 
+    /// :nodoc:
     func transitionAnimator(_ animator: AXPhotosTransitionAnimator,
                             didCompleteDismissalWith transitionView: UIImageView) {
         self.delegate?.transitionController(self, didCompleteDismissalWith: transitionView)
         self.dismissalAnimator = nil
     }
 
+    /// :nodoc:
     func transitionAnimatorDidCancelDismissal(_ animator: AXPhotosTransitionAnimator) {
         self.delegate?.transitionControllerDidCancelDismissal(self)
         self.dismissalAnimator = nil
     }
 }
 
+/// AXPhotosTransitionControllerDelegate
 protocol AXPhotosTransitionControllerDelegate: AnyObject {
 
+    /// Completed presentation
+    /// - Parameter transitionController: AXPhotosTransitionController
+    /// - Parameter transitionView: AXPhotosTransitionController
     func transitionController(_ transitionController: AXPhotosTransitionController,
                               didCompletePresentationWith transitionView: UIImageView)
+    /// Completed dismissal
+    /// - Parameter transitionController: AXPhotosTransitionController
+    /// - Parameter transitionView: AXPhotosTransitionController
     func transitionController(_ transitionController: AXPhotosTransitionController,
                               didCompleteDismissalWith transitionView: UIImageView)
+    /// Cancelled dismissal
+    /// - Parameter transitionController: AXPhotosTransitionController
     func transitionControllerDidCancelDismissal(_ transitionController: AXPhotosTransitionController)
 }

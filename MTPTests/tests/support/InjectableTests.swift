@@ -56,7 +56,7 @@ final class InjectableTests: MTPTestCase {
         // given
         let nilString: String? = nil
         let emptyString: String? = ""
-        let string: String?  = "test"
+        let string: String? = "test"
         // swiftlint:disable discouraged_optional_collection
         let nilArray: [Int]? = nil
         let emptyArray: [Int]? = []

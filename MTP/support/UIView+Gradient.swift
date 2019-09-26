@@ -318,24 +318,3 @@ extension UIColor {
         gradient?.frame = bounds
     }
 }
-
-extension UIEdgeInsets {
-
-    /// Convenience accessor for horizontal inset total
-    var horizontal: CGFloat {
-        return left + right
-    }
-
-    /// Convenience accessor for vertical inset total
-    var vertical: CGFloat {
-        return top + bottom
-    }
-}
-
-extension CGRect {
-
-    /// Convience accessor for shortest edge
-    var minEdge: CGFloat {
-        return min(width, height)
-    }
-}

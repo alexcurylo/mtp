@@ -17,7 +17,7 @@
 "networkError" = "Could not %1$@ - a network failure occurred: %2$@";
 "deviceOfflineError" = "Could not %@ - your device appears to be offline. Please connect to the Internet.";
 "serverOfflineError" = "Could not %@ - network connection is weak. Please try again later.";
-"serverRetryError" = "The network connection is weak. The website will %@ once the signal is stronger.";
+"networkRetry" = "Looks like you are offline. Your %@ throughout MTP once you reconnect to the Internet.";
 "decodingError" = "Could not %@ - results were not understood.";
 "decodingErrorReport" = "Could not %@ - results were not understood. Please report the problem with ‘Contact Us’ on the ‘Settings’ page.";
 "statusError" = "Could not %1$@ - a status error (%2$ld) was received.";
@@ -32,8 +32,11 @@
 "loggingIn" = "Logging in…";
 "publishPhoto" = "publish photo";
 "publishingPhoto" = "Publishing photo: %@";
+"photoPublish" = "photo will publish";
 "publishPost" = "publish post";
 "publishingPost" = "Publishing post: %@";
+"postPublish" = "post will publish";
+"visitUpdate" = "visit will update";
 "resetPassword" = "reset password";
 "resettingPassword" = "Resetting password…";
 "signUp" = "sign up";
@@ -42,6 +45,7 @@
 "updatingProfile" = "Updating profile…";
 "updateVisit" = "update visit";
 "updatingVisit" = "Updating visit…";
+"visitUpdate" = "visit will update";
 "completed" = "Completed";
 "connected" = "Connected";
 "connecting" = "Connecting…";
@@ -175,6 +179,10 @@
 "locationDescription" = "%1$@, %2$@";
 
 "unInfo" = "Visits are calculated from MTP Location visits";
+
+// PhotosVC
+
+"addPhoto" = "＋Add new photo";
 
 // PostsVC
 
@@ -325,3 +333,33 @@
 "oneYearFuture" = "next year";
 "yearsPast" = "%.f years ago";
 "yearsFuture" = "in %.f years";
+
+// feedback
+
+"feedbackQuestion" = "Question";
+"feedbackRequest" = "Request";
+"feedbackBugReport" = "Bug Report";
+"feedbackOther" = "Other";
+"feedbackDevice" = "Device";
+"feedbackiOS" = "iOS";
+"feedbackName" = "Name";
+"feedbackVersion" = "Version";
+"feedbackBuild" = "Build";
+"feedbackDeviceInfo" = "Device Info";
+"feedbackAppInfo" = "App Info";
+"feedbackFeedback" = "Feedback";
+"feedbackTopic" = "Topic";
+"feedbackTopics" = "Topics";
+"feedbackError" = "Error";
+"feedbackMail" = "Mail";
+"feedbackMailConfigurationErrorMessage" ="You do not have a valid e-mail account";
+"feedbackDismiss" ="Dismiss";
+"feedbackAdditionalInfo"="Additional Info";
+"feedbackAttachImageOrVideo" ="Select the feedback attachment (picture)";
+"feedbackCancel" ="Cancel";
+"feedbackCamera" ="Camera";
+"feedbackPhotoLibrary" ="Select from the album";
+"feedbackUserDetail" = "User Detail";
+"feedbackFeedbackGenerationErrorMessage" = "Feedback Generation Error";
+"feedbackUnknownError" = "Unknown Error";
+"feedbackDelete" = "Delete";

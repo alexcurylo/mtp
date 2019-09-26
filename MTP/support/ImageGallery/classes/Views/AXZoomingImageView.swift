@@ -14,12 +14,16 @@ import UIKit
 
 private let ZoomScaleEpsilon: CGFloat = 0.01
 
+/// AXZoomingImageView
 final class AXZoomingImageView: UIScrollView, UIScrollViewDelegate {
 
-    fileprivate(set) var doubleTapGestureRecognizer = UITapGestureRecognizer()
+    /// Double-tap recognizer
+    private(set) var doubleTapGestureRecognizer = UITapGestureRecognizer()
 
+    /// Delegate
     weak var zoomScaleDelegate: AXZoomingImageViewDelegate?
 
+    /// Displayed image
     var image: UIImage? {
         set(value) {
             self.updateImageView(image: value)
@@ -29,45 +33,45 @@ final class AXZoomingImageView: UIScrollView, UIScrollViewDelegate {
         }
     }
 
+    /// :nodoc:
     override var frame: CGRect {
-        didSet {
-            self.updateZoomScale()
-        }
+        didSet { self.updateZoomScale() }
     }
 
-    fileprivate(set) var imageView = UIImageView()
+    /// Displayed image view
+    private(set) var imageView = UIImageView()
 
-    fileprivate var needsUpdateImageView = false
+    private var needsUpdateImageView = false
 
+    /// :nodoc:
     init() {
         super.init(frame: .zero)
 
-        #if os(iOS)
-        self.doubleTapGestureRecognizer.numberOfTapsRequired = 2
-        self.doubleTapGestureRecognizer.addTarget(self, action: #selector(doubleTapAction(_:)))
-        self.doubleTapGestureRecognizer.isEnabled = false
-        self.addGestureRecognizer(self.doubleTapGestureRecognizer)
-        #endif
+        doubleTapGestureRecognizer.numberOfTapsRequired = 2
+        doubleTapGestureRecognizer.addTarget(self, action: #selector(doubleTapAction(_:)))
+        doubleTapGestureRecognizer.isEnabled = false
+        addGestureRecognizer(doubleTapGestureRecognizer)
 
-        self.imageView.layer.masksToBounds = true
-        self.imageView.contentMode = .scaleAspectFit
-        self.addSubview(self.imageView)
+        imageView.layer.masksToBounds = true
+        imageView.contentMode = .scaleAspectFit
+        addSubview(imageView)
 
-        self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        self.showsVerticalScrollIndicator = false
-        self.showsHorizontalScrollIndicator = false
-        self.isScrollEnabled = false
-        self.bouncesZoom = true
-        self.decelerationRate = .fast
-        self.delegate = self
-        self.contentInsetAdjustmentBehavior = .never
+        autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        showsVerticalScrollIndicator = false
+        showsHorizontalScrollIndicator = false
+        isScrollEnabled = false
+        bouncesZoom = true
+        decelerationRate = .fast
+        delegate = self
+        contentInsetAdjustmentBehavior = .never
     }
 
+    /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         return nil
     }
 
-    fileprivate func updateImageView(image: UIImage?) {
+    private func updateImageView(image: UIImage?) {
         self.imageView.transform = .identity
         var imageSize: CGSize = .zero
 
@@ -89,6 +93,7 @@ final class AXZoomingImageView: UIScrollView, UIScrollViewDelegate {
         self.needsUpdateImageView = false
     }
 
+    /// :nodoc:
     override func willRemoveSubview(_ subview: UIView) {
         super.willRemoveSubview(subview)
 
@@ -97,6 +102,7 @@ final class AXZoomingImageView: UIScrollView, UIScrollViewDelegate {
         }
     }
 
+    /// :nodoc:
     override func didAddSubview(_ subview: UIView) {
         super.didAddSubview(subview)
 
@@ -106,14 +112,18 @@ final class AXZoomingImageView: UIScrollView, UIScrollViewDelegate {
     }
 
     // MARK: - UIScrollViewDelegate
+
+    /// :nodoc:
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return self.imageView
     }
 
+    /// :nodoc:
     func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
         scrollView.isScrollEnabled = true
     }
 
+    /// :nodoc:
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         let offsetX = (scrollView.bounds.size.width > scrollView.contentSize.width) ?
             (scrollView.bounds.size.width - scrollView.contentSize.width) / 2 : 0
@@ -123,6 +133,7 @@ final class AXZoomingImageView: UIScrollView, UIScrollViewDelegate {
                                         y: offsetY + (scrollView.contentSize.height / 2))
     }
 
+    /// :nodoc:
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
         guard abs(scale - self.minimumZoomScale) <= ZoomScaleEpsilon else {
             return
@@ -132,7 +143,8 @@ final class AXZoomingImageView: UIScrollView, UIScrollViewDelegate {
     }
 
     // MARK: - Zoom scale
-    fileprivate func updateZoomScale() {
+
+    private func updateZoomScale() {
         let imageSize = self.imageView.image?.size ?? CGSize(width: 1, height: 1)
 
         let scaleWidth = self.bounds.size.width / imageSize.width
@@ -157,6 +169,7 @@ final class AXZoomingImageView: UIScrollView, UIScrollViewDelegate {
     }
 
     // MARK: - UITapGestureRecognizer
+
     @objc fileprivate func doubleTapAction(_ sender: UITapGestureRecognizer) {
         let point = sender.location(in: self.imageView)
 
@@ -179,8 +192,12 @@ final class AXZoomingImageView: UIScrollView, UIScrollViewDelegate {
     }
 }
 
+/// AXZoomingImageViewDelegate
 protocol AXZoomingImageViewDelegate: AnyObject {
 
+    /// Retrieve maximum zoom
+    /// - Parameter zoomingImageView: AXZoomingImageView
+    /// - Parameter imageSize: Image size
     func zoomingImageView(_ zoomingImageView: AXZoomingImageView,
                           maximumZoomScaleFor imageSize: CGSize) -> CGFloat
 }

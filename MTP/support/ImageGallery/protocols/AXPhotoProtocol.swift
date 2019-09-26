@@ -10,7 +10,8 @@
 //  Copyright © 2017 Alex Hill. All rights reserved.
 //
 
-@objc public protocol AXPhotoProtocol: AnyObject, NSObjectProtocol {
+/// AXPhotoProtocol - @objc required for NSMapTable
+@objc protocol AXPhotoProtocol: AnyObject, NSObjectProtocol {
 
     /// The attributed title of the image that will be displayed in the photo's `captionView`.
     var attributedTitle: NSAttributedString? { get }

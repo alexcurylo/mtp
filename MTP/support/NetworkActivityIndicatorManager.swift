@@ -119,10 +119,12 @@ public class NetworkActivityIndicatorManager {
 
     // MARK: - Internal - Initialization
 
+    /// :nodoc:
     init() {
         registerForNotifications()
     }
 
+    /// :nodoc:
     deinit {
         unregisterForNotifications()
 

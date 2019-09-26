@@ -78,20 +78,12 @@ private extension NearbyVC {
 
 extension NearbyVC {
 
-    /// Number of sections
-    ///
-    /// - Parameter tableView: UITableView
-    /// - Returns: Number of sections
+    /// :nodoc:
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    /// Number of rows in section
-    ///
-    /// - Parameters:
-    ///   - tableView: UITableView
-    ///   - section: Section
-    /// - Returns: Number of rows in section
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
         return mappables.count
@@ -126,26 +118,30 @@ extension NearbyVC {
 
 extension NearbyVC {
 
-    /// Provide row height
-    ///
-    /// - Parameters:
-    ///   - tableView: Table
-    ///   - indexPath: Index path
-    /// - Returns: Height
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 
-    /// Provide estimated row height
-    ///
-    /// - Parameters:
-    ///   - tableView: Table
-    ///   - indexPath: Index path
-    /// - Returns: Height
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+
+    /// :nodoc:
+    override func tableView(_ tableView: UITableView,
+                            willDisplay cell: UITableViewCell,
+                            forRowAt indexPath: IndexPath) {
+        (cell as? NearbyCell)?.willDisplay()
+    }
+
+    /// :nodoc:
+    override func tableView(_ tableView: UITableView,
+                            didEndDisplaying cell: UITableViewCell,
+                            forRowAt indexPath: IndexPath) {
+        (cell as? NearbyCell)?.didEndDisplaying()
     }
 }
 
@@ -306,7 +302,6 @@ final class NearbyCell: UITableViewCell, ServiceProvider {
         self.mappable = mappable
         self.delegate = delegate
 
-        placeImage?.load(image: mappable)
         distanceLabel?.text = distance.formatted
         categoryLabel?.text = mappable.checklist.category(full: false).uppercased()
         show(visited: mappable.isVisited)
@@ -314,7 +309,17 @@ final class NearbyCell: UITableViewCell, ServiceProvider {
         countryLabel?.text = mappable.subtitle
         visitorsLabel?.text = L.visitors(mappable.visitors.grouped)
     }
- }
+
+    /// Start loading when display imminent
+    fileprivate func willDisplay() {
+        placeImage?.load(image: mappable)
+    }
+
+    /// Cancel loading when display ends
+    fileprivate func didEndDisplaying() {
+        placeImage?.cancelLoad()
+    }
+}
 
 // MARK: - Private
 

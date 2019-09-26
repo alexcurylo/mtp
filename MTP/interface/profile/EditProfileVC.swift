@@ -125,23 +125,13 @@ final class EditProfileVC: UITableViewController {
 
 extension EditProfileVC {
 
-    /// Provide row height
-    ///
-    /// - Parameters:
-    ///   - tableView: Table
-    ///   - indexPath: Index path
-    /// - Returns: Height
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 
-    /// Provide estimated row height
-    ///
-    /// - Parameters:
-    ///   - tableView: Table
-    ///   - indexPath: Index path
-    /// - Returns: Height
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
@@ -733,28 +723,17 @@ extension EditProfileVC: UIPickerViewDataSource {
 
 extension EditProfileVC: UIPickerViewDelegate {
 
-    /// Title of picker row
-    ///
-    /// - Parameters:
-    ///   - pickerView: Picker view
-    ///   - row: Index
-    ///   - component: Index
-    /// - Returns: Title
-    public func pickerView(_ pickerView: UIPickerView,
-                           titleForRow row: Int,
-                           forComponent component: Int) -> String? {
+    /// :nodoc:
+    func pickerView(_ pickerView: UIPickerView,
+                    titleForRow row: Int,
+                    forComponent component: Int) -> String? {
         return genders[row]
     }
 
-    /// Handle picker selection
-    ///
-    /// - Parameters:
-    ///   - pickerView: Picker view
-    ///   - row: Index
-    ///   - component: Index
-    public func pickerView(_ pickerView: UIPickerView,
-                           didSelectRow row: Int,
-                           inComponent component: Int) {
+    /// :nodoc:
+    func pickerView(_ pickerView: UIPickerView,
+                    didSelectRow row: Int,
+                    inComponent component: Int) {
         guard row > 0 else { return }
 
         genderTextField.text = genders[row]

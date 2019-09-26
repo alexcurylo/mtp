@@ -300,9 +300,9 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
         return incompleteRequests
     }
 
-    /// NetworkReachabilityManager used to observe connectivity status.
+    /// Connectivity used to observe connectivity status.
     /// Can be set to nil to allow requests to be attempted when offline
-    var reachabilityManager: Connectivity?
+    var connectivity: Connectivity?
 
     /// Time limit in seconds before OfflineRequestManager will kill an ongoing OfflineRequest
     var requestTimeLimit: TimeInterval = 120
@@ -391,7 +391,7 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
     required convenience init?(coder aDecoder: NSCoder) {
         let decoded = aDecoder.decodeObject(forKey: OfflineRequestManager.codingKey)
         guard let requestDicts = decoded as? [[String: Any]] else {
-            print(" error decoding offline request dictionaries")
+            Services().log.error("error decoding offline request dictionaries")
             return nil
         }
 
@@ -407,7 +407,7 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
     /// :nodoc:
     deinit {
         submissionTimer?.invalidate()
-        reachabilityManager?.stopNotifier()
+        connectivity?.stopNotifier()
     }
 
     /// Enqueues a single OfflineRequest
@@ -553,16 +553,16 @@ private extension OfflineRequestManager {
     func setup() {
         let connectivity = Connectivity(shouldUseHTTPS: true)
         connectivity.framework = .network
-        connectivity.checkConnectivity { [weak self] connectivity in
-            self?.update(connectivity: connectivity.status)
+        connectivity.checkConnectivity { [weak self] _ in
+            self?.update()
         }
-        let connectivityChanged: (Connectivity) -> Void = { [weak self] connectivity in
-            self?.update(connectivity: connectivity.status)
+        let connectivityChanged: (Connectivity) -> Void = { [weak self] _ in
+            self?.update()
         }
         connectivity.whenConnected = connectivityChanged
         connectivity.whenDisconnected = connectivityChanged
         connectivity.startNotifier()
-        reachabilityManager = connectivity
+        self.connectivity = connectivity
 
         submissionTimer?.invalidate()
         submissionTimer = Timer.scheduledTimer(timeInterval: submissionInterval,
@@ -573,16 +573,20 @@ private extension OfflineRequestManager {
         submissionTimer?.fire()
     }
 
-    func update(connectivity status: Connectivity.Status) {
-        switch status {
-        case .connected,
-             .connectedViaCellular,
-             .connectedViaWiFi:
+    func update() {
+        guard let connectivity = connectivity else { return }
+
+        let status = connectivity.status
+        let isConnected = connectivity.isConnected
+        switch (isConnected, status) {
+        case (true, _):
             connected = true
-        case .connectedViaCellularWithoutInternet,
-             .connectedViaWiFiWithoutInternet,
-             .determining,
-             .notConnected:
+        case (_, .connectedViaCellularWithoutInternet),
+             (_, .connectedViaWiFiWithoutInternet):
+            // https://www.apple.com/library/test/success.html
+            // reachability seems unreliable with spotty connections
+            connected = true
+        default:
             connected = false
         }
     }
@@ -625,8 +629,8 @@ private extension OfflineRequestManager {
 
     func shouldAttemptRequest(_ request: OfflineRequest) -> Bool {
         let reachable: Bool
-        if let manager = reachabilityManager {
-            switch manager.status {
+        if let connectivity = connectivity {
+            switch connectivity.status {
             case .connected,
                  .connectedViaCellular,
                  .connectedViaWiFi:

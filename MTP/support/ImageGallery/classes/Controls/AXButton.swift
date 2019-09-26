@@ -11,9 +11,11 @@
 
 import UIKit
 
-@objc open class AXButton: StateButton {
+/// AXButton
+class AXButton: StateButton {
 
-    public init() {
+    /// :nodoc:
+    init() {
         super.init(frame: .zero)
         self.controlStateAnimationTimingFunction = CAMediaTimingFunction(name: .linear)
         self.controlStateAnimationDuration = 0.1
@@ -25,7 +27,8 @@ import UIKit
         self.setTransformScale(0.95, for: .highlighted)
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    /// :nodoc:
+    required init?(coder aDecoder: NSCoder) {
         return nil
     }
 }

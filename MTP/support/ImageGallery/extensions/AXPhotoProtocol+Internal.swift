@@ -10,12 +10,18 @@
 //  Copyright © 2017 Alex Hill. All rights reserved.
 //
 
+/// Loading state
 enum AXPhotoLoadingState {
 
+    /// Not loaded
     case notLoaded
+    /// Loading
     case loading
+    /// Loaded
     case loaded
+    /// Loading cancelled
     case loadingCancelled
+    /// Loading failed
     case loadingFailed
 }
 
@@ -27,8 +33,10 @@ private enum AssociationKeys {
 }
 
 // MARK: - Internal AXPhotoProtocol extension to be used by the framework.
+
 extension AXPhotoProtocol {
 
+    /// Associated Object: Progress
     var ax_progress: CGFloat {
         get {
             return objc_getAssociatedObject(self, &AssociationKeys.progress) as? CGFloat ?? 0
@@ -38,6 +46,7 @@ extension AXPhotoProtocol {
         }
     }
 
+    /// Associated Object: Error
     var ax_error: Error? {
         get {
             return objc_getAssociatedObject(self, &AssociationKeys.error) as? Error
@@ -47,6 +56,7 @@ extension AXPhotoProtocol {
         }
     }
 
+    /// Associated Object: Loading State
     var ax_loadingState: AXPhotoLoadingState {
         get {
             return objc_getAssociatedObject(self, &AssociationKeys.loadingState) as? AXPhotoLoadingState ?? .notLoaded
@@ -56,6 +66,7 @@ extension AXPhotoProtocol {
         }
     }
 
+    /// Has URL
     var ax_isReducible: Bool {
         return self.url != nil
     }

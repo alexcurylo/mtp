@@ -11,12 +11,15 @@
 
 import UIKit
 
+/// AXPhotosPresentationAnimator
 final class AXPhotosPresentationAnimator: AXPhotosTransitionAnimator {
 
     // MARK: - UIViewControllerAnimatedTransitioning    
 
-    // swiftlint:disable:next function_body_length
+    /// Animate transition
+    /// - Parameter transitionContext: context
     override func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        // swiftlint:disable:previous function_body_length
         guard let to = transitionContext.viewController(forKey: .to),
             let from = transitionContext.viewController(forKey: .from),
             let startingView = self.transitionInfo.startingView else {

@@ -10,10 +10,12 @@
 //  Copyright © 2017 Alex Hill. All rights reserved.
 //
 
+/// AXPageableViewControllerProtocol
 protocol AXPageableViewControllerProtocol: AnyObject {
 
+    /// Page index
     var pageIndex: Int { get set }
 
+    /// Prepare for reuse
     func prepareForReuse()
-    //func prepareForRecycle()
 }

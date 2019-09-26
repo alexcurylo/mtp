@@ -326,7 +326,7 @@ class NetworkServiceImpl: NetworkService {
     ///   - then: Completion
     func loadPosts(location id: Int,
                    then: @escaping NetworkCompletion<PostsJSON>) {
-        mtp.loadPosts(location: id, then: then)
+        mtp.loadPosts(location: id, reload: false, then: then)
     }
 
     /// Load user posts
@@ -335,7 +335,7 @@ class NetworkServiceImpl: NetworkService {
     ///   - id: User ID
     ///   - then: Completion
     func loadPosts(user id: Int, then: @escaping NetworkCompletion<PostsJSON>) {
-        mtp.loadPosts(user: id, then: then)
+        mtp.loadPosts(user: id, reload: false, then: then)
     }
 
     /// Load rankings
@@ -396,6 +396,7 @@ class NetworkServiceImpl: NetworkService {
             }
             offlineRequestManager.queueRequest(request)
         }
+        requestsChanged()
         then(.failure(.queued))
     }
 
@@ -418,6 +419,7 @@ class NetworkServiceImpl: NetworkService {
             request.failed()
         }
         offlineRequestManager.queueRequest(request)
+        requestsChanged()
         then(.failure(.queued))
     }
 
@@ -433,6 +435,7 @@ class NetworkServiceImpl: NetworkService {
             request.failed()
         }
         offlineRequestManager.queueRequest(request)
+        requestsChanged()
         then(.failure(.queued))
     }
 
@@ -615,8 +618,7 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     ///   - request: OfflineRequest that started its action
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                didStartRequest request: OfflineRequest) {
-        notify(observers: NetworkServiceChange.requests.rawValue,
-               info: [ StatusKey.value.rawValue: manager ])
+        requestsChanged()
     }
 
     /// Callback indicating that the OfflineRequest status has changed
@@ -626,8 +628,7 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     ///   - request: OfflineRequest that changed its subtitle
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                didUpdateRequest request: OfflineRequest) {
-        notify(observers: NetworkServiceChange.requests.rawValue,
-               info: [ StatusKey.value.rawValue: manager ])
+        requestsChanged()
     }
 
     /// Callback indicating that the OfflineRequest action has successfully finished
@@ -637,15 +638,24 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     ///   - request: OfflineRequest that finished its action
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                didFinishRequest request: OfflineRequest) {
-        notify(observers: NetworkServiceChange.requests.rawValue,
-               info: [ StatusKey.value.rawValue: manager ])
+        requestsChanged()
         switch request {
         case let visit as MTPVisitedRequest:
-            mtp.userGetByToken(reload: true) { _ in }
+            mtp.userGetByToken(reload: true)
             data.delete(rankings: visit.checklist)
+        case let post as MTPPostRequest:
+            if let userId = data.user?.id {
+                mtp.loadPosts(user: userId, reload: true)
+            }
+            let location = post.payload.location_id
+            mtp.loadPosts(location: location, reload: true)
+        case let photo as MTPPhotoRequest:
+            mtp.loadPhotos(page: 1, reload: true)
+            if let location = photo.location {
+                mtp.loadPhotos(location: location, reload: true)
+            }
         default:
-            // post and photo result handling should handle updating
-            break
+            log.warning("Unhandled completed request: \(type(of: request))")
         }
     }
 
@@ -658,8 +668,7 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                requestDidFail request: OfflineRequest,
                                withError error: Error) {
-        notify(observers: NetworkServiceChange.requests.rawValue,
-               info: [ StatusKey.value.rawValue: manager ])
+        requestsChanged()
     }
 }
 
@@ -687,11 +696,16 @@ private extension NetworkServiceImpl {
         guard let user = data.user else { return }
 
         add { done in self.mtp.loadChecklists { _ in done() } }
-        add { done in self.mtp.loadPosts(user: user.id) { _ in done() } }
+        add { done in self.mtp.loadPosts(user: user.id, reload: false) { _ in done() } }
         add { done in self.mtp.loadPhotos(page: 1, reload: false) { _ in done() } }
         Checklist.allCases.forEach { list in
             add { done in self.loadScorecard(list: list, user: user.id) { _ in done() } }
         }
+    }
+
+    func requestsChanged() {
+        notify(observers: NetworkServiceChange.requests.rawValue,
+               info: [ StatusKey.value.rawValue: offlineRequestManager ])
     }
 }
 
@@ -761,6 +775,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
     override func loadPosts(location id: Int,
                             then: @escaping NetworkCompletion<PostsJSON>) {
         mtp.loadPosts(location: id,
+                      reload: false,
                       stub: MTPProvider.immediatelyStub,
                       then: then)
     }
@@ -769,6 +784,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
     override func loadPosts(user id: Int,
                             then: @escaping NetworkCompletion<PostsJSON>) {
         mtp.loadPosts(user: id,
+                      reload: false,
                       stub: MTPProvider.immediatelyStub,
                       then: then)
     }

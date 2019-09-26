@@ -12,33 +12,35 @@
 
 import UIKit
 
+/// AXCaptionView
 final class AXCaptionView: UIView, AXCaptionViewProtocol {
     // swiftlint:disable:previous type_body_length
 
+    /// AXCaptionViewProtocol
     var animateCaptionInfoChanges: Bool = true
 
-    var titleLabel = UILabel()
-    var descriptionLabel = UILabel()
-    var creditLabel = UILabel()
+    private var titleLabel = UILabel()
+    private var descriptionLabel = UILabel()
+    private var creditLabel = UILabel()
 
-    fileprivate var titleSizingLabel = UILabel()
-    fileprivate var descriptionSizingLabel = UILabel()
-    fileprivate var creditSizingLabel = UILabel()
+    private var titleSizingLabel = UILabel()
+    private var descriptionSizingLabel = UILabel()
+    private var creditSizingLabel = UILabel()
 
-    fileprivate var visibleLabels: [UILabel]
-    fileprivate var visibleSizingLabels: [UILabel]
+    private var visibleLabels: [UILabel]
+    private var visibleSizingLabels: [UILabel]
 
-    fileprivate var needsCaptionLayoutAnim = false
-    fileprivate var isCaptionAnimatingIn = false
-    fileprivate var isCaptionAnimatingOut = false
+    private var needsCaptionLayoutAnim = false
+    private var isCaptionAnimatingIn = false
+    private var isCaptionAnimatingOut = false
 
-    fileprivate var didOverwriteDefaultTitleFontAttributes = false
-    fileprivate var didOverwriteDefaultDescriptionFontAttributes = false
-    fileprivate var didOverwriteDefaultCreditFontAttributes = false
+    private var didOverwriteDefaultTitleFontAttributes = false
+    private var didOverwriteDefaultDescriptionFontAttributes = false
+    private var didOverwriteDefaultCreditFontAttributes = false
 
-    fileprivate var isFirstLayout: Bool = true
+    private var isFirstLayout: Bool = true
 
-    var defaultTitleAttributes: [NSAttributedString.Key: Any] {
+    private var defaultTitleAttributes: [NSAttributedString.Key: Any] {
         let fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .body,
                                                                       compatibleWith: self.traitCollection)
         let font = UIFont.systemFont(ofSize: fontDescriptor.pointSize, weight: UIFont.Weight.bold)
@@ -48,7 +50,7 @@ final class AXCaptionView: UIView, AXCaptionViewProtocol {
         ]
     }
 
-    var defaultDescriptionAttributes: [NSAttributedString.Key: Any] {
+    private var defaultDescriptionAttributes: [NSAttributedString.Key: Any] {
         let fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .body,
                                                                       compatibleWith: self.traitCollection)
         let font = UIFont.systemFont(ofSize: fontDescriptor.pointSize, weight: UIFont.Weight.light)
@@ -58,7 +60,7 @@ final class AXCaptionView: UIView, AXCaptionViewProtocol {
         ]
     }
 
-    var defaultCreditAttributes: [NSAttributedString.Key: Any] {
+    private var defaultCreditAttributes: [NSAttributedString.Key: Any] {
         let fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .caption1,
                                                                       compatibleWith: self.traitCollection)
         let  font = UIFont.systemFont(ofSize: fontDescriptor.pointSize, weight: UIFont.Weight.light)
@@ -68,6 +70,7 @@ final class AXCaptionView: UIView, AXCaptionViewProtocol {
         ]
     }
 
+    /// :nodoc:
     init() {
         self.visibleLabels = [
             self.titleLabel,
@@ -107,14 +110,17 @@ final class AXCaptionView: UIView, AXCaptionViewProtocol {
         }
     }
 
+    /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         return nil
     }
 
+    /// :nodoc:
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
 
+    /// AXCaptionViewProtocol
     func applyCaptionInfo(attributedTitle: NSAttributedString?,
                           attributedDescription: NSAttributedString?,
                           attributedCredit: NSAttributedString?) {
@@ -174,8 +180,9 @@ final class AXCaptionView: UIView, AXCaptionViewProtocol {
         self.needsCaptionLayoutAnim = !self.isFirstLayout
     }
 
-    // swiftlint:disable:next function_body_length
+    /// :nodoc:
     override func layoutSubviews() {
+        // swiftlint:disable:previous function_body_length
         super.layoutSubviews()
 
         self.computeSize(for: self.frame.size, applySizingLayout: true)
@@ -237,7 +244,7 @@ final class AXCaptionView: UIView, AXCaptionViewProtocol {
                 }
 
                 self.isCaptionAnimatingOut = true
-                UIView.animate(withDuration: AXConstants.frameAnimDuration / 2,
+                UIView.animate(withDuration: AXOverlayView.frameAnimDuration / 2,
                                delay: 0,
                                options: [.beginFromCurrentState, .curveEaseOut],
                                animations: animateOut) { finished in
@@ -246,7 +253,7 @@ final class AXCaptionView: UIView, AXCaptionViewProtocol {
                     }
 
                     animateOutCompletion(finished)
-                    UIView.animate(withDuration: AXConstants.frameAnimDuration / 2,
+                    UIView.animate(withDuration: AXOverlayView.frameAnimDuration / 2,
                                    delay: 0,
                                    options: [.beginFromCurrentState, .curveEaseIn],
                                    animations: animateIn,
@@ -267,13 +274,14 @@ final class AXCaptionView: UIView, AXCaptionViewProtocol {
         self.isFirstLayout = false
     }
 
+    /// AXCaptionViewProtocol
     override func sizeThatFits(_ size: CGSize) -> CGSize {
         return self.computeSize(for: size, applySizingLayout: false)
     }
 
-    // swiftlint:disable:next function_body_length
-    @discardableResult fileprivate func computeSize(for constrainedSize: CGSize,
-                                                    applySizingLayout: Bool) -> CGSize {
+    @discardableResult private func computeSize(
+        for constrainedSize: CGSize,
+        applySizingLayout: Bool) -> CGSize {
         if !self.didOverwriteDefaultTitleFontAttributes {
             self.titleSizingLabel.attributedText = makeFontAdjustedAttributedString(
                 for: self.titleSizingLabel.attributedText,
@@ -295,17 +303,10 @@ final class AXCaptionView: UIView, AXCaptionViewProtocol {
             )
         }
 
-        #if os(iOS)
         let TopPadding: CGFloat = 10
         let BottomPadding: CGFloat = 10
         let HorizontalPadding: CGFloat = 15
         let InterLabelSpacing: CGFloat = 2
-        #else
-        let TopPadding: CGFloat = 30
-        let BottomPadding: CGFloat = 0
-        let HorizontalPadding: CGFloat = 0
-        let InterLabelSpacing: CGFloat = 2
-        #endif
 
         let xOffset = HorizontalPadding
         var yOffset: CGFloat = 0

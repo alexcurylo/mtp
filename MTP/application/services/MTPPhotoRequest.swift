@@ -8,7 +8,8 @@ final class MTPPhotoRequest: NSObject, OfflineRequest, ServiceProvider {
     private var data: Data?
     private let file: String
     private let caption: String?
-    private let location: Int?
+    /// Location to reload if any
+    let location: Int?
 
     /// Description for Network Status tab
     var title: String
@@ -18,6 +19,11 @@ final class MTPPhotoRequest: NSObject, OfflineRequest, ServiceProvider {
 
     /// Number of times request has failed
     var failures: Int
+
+    /// convenience filter for location photos status
+    func isAbout(location id: Int) -> Bool {
+        return id == location
+    }
 
     /// Memberwise initializer
     ///
@@ -50,21 +56,22 @@ final class MTPPhotoRequest: NSObject, OfflineRequest, ServiceProvider {
         }
         self.caption = caption
         self.location = id
-        let description = caption?.truncate(length: 15) ?? L.unknown()
+        let description = caption?.truncate(length: 15) ?? L.none()
         self.title = L.publishingPhoto(description)
         self.subtitle = subtitle ?? L.queued()
         self.failures = failures
         super.init()
     }
 
-    /// Dictionary methods are required for saving to disk in the case of app termination
+    /// Initialize from dictionary
+    /// - Parameter dictionary: Dictionary with keys
     required convenience init?(dictionary: [String: Any]) {
         guard let file = dictionary[Key.photo.key] as? String else {
             return nil
         }
 
         let caption = dictionary[Key.caption.key] as? String
-        let location = dictionary[Key.title.key] as? Int
+        let location = dictionary[Key.location.key] as? Int
         let title = dictionary[Key.title.key] as? String
         let subtitle = dictionary[Key.subtitle.key] as? String
         let failures = dictionary[Key.failures.key] as? Int ?? 0
@@ -77,6 +84,7 @@ final class MTPPhotoRequest: NSObject, OfflineRequest, ServiceProvider {
                   failures: failures)
     }
 
+    /// NSCoding compliant dictionary for writing to disk
     var dictionary: [String: Any] {
         var info: NotificationService.Info = [
             Key.photo.key: file,
@@ -93,6 +101,8 @@ final class MTPPhotoRequest: NSObject, OfflineRequest, ServiceProvider {
         return info
     }
 
+    /// Perform operation
+    /// - Parameter completion: Completion handler
     func perform(completion: @escaping (Error?) -> Void) {
         guard let data = data else {
             // silently fail
@@ -121,13 +131,15 @@ final class MTPPhotoRequest: NSObject, OfflineRequest, ServiceProvider {
         }
     }
 
+    /// Show message if first failure
     func failed() {
         if failures == 0 {
-            note.message(error: L.serverRetryError(L.publishPhoto()))
+            note.message(error: L.networkRetry(L.photoPublish()))
         }
         failures += 1
     }
 
+    /// :nodoc:
     func shouldAttemptResubmission(forError error: Error) -> Bool {
         return true
     }
@@ -135,16 +147,20 @@ final class MTPPhotoRequest: NSObject, OfflineRequest, ServiceProvider {
 
 extension Data: ServiceProvider {
 
+    /// Create by loading from disk cache
+    /// - Parameter filename: Name
     init?(cache filename: String) {
         let url = Data.cachesDirectory.appendingPathComponent(filename)
         do {
             self = try Data(contentsOf: url)
         } catch {
-            print("Loading photo failed: \(error)")
+            Services().log.error("Loading photo failed: \(error)")
             return nil
         }
     }
 
+    /// Saves file to disk cache
+    /// - Parameter filename: Name
     func save(cache filename: String) {
         let url = Data.cachesDirectory.appendingPathComponent(filename)
         do {
@@ -154,6 +170,8 @@ extension Data: ServiceProvider {
         }
     }
 
+    /// Deletes file from disk cache
+    /// - Parameter filename: Name
     func delete(cache filename: String) {
         let url = Data.cachesDirectory.appendingPathComponent(filename)
         do {
@@ -163,12 +181,14 @@ extension Data: ServiceProvider {
         }
     }
 
+    /// Convenience accessor for caches directory
     static var cachesDirectory: URL {
         let paths = FileManager.default.urls(for: .cachesDirectory,
                                              in: .userDomainMask)
         return paths[0]
     }
 
+    /// Convenience accessor for user documents directory
     static var documentDirectory: URL {
         let paths = FileManager.default.urls(for: .documentDirectory,
                                              in: .userDomainMask)

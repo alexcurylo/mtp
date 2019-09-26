@@ -20,12 +20,8 @@ final class OfflineRequestManagerTests: MTPTestCase {
         manager.clearAllRequests()
         manager.simultaneousRequestCap = 1
         manager.submissionInterval = 0.2
-        #if USE_ALAMOFIRE
-        manager.reachabilityManager?.stopListening()
-        #else
-        manager.reachabilityManager?.stopNotifier()
-        #endif
-        manager.reachabilityManager = nil
+        manager.connectivity?.stopNotifier()
+        manager.connectivity = nil
         manager.saveToDisk()
         let delegate = OfflineRequestManagerListener()
         manager.delegate = delegate
@@ -50,12 +46,8 @@ final class OfflineRequestManagerTests: MTPTestCase {
 
         // when
         let archive1 = try unwrap(OfflineRequestManager.archivedManager(fileName: testFileName))
-        #if USE_ALAMOFIRE
-        archive1.reachabilityManager?.stopListening()
-        #else
-        archive1.reachabilityManager?.stopNotifier()
-        #endif
-        archive1.reachabilityManager = nil
+        archive1.connectivity?.stopNotifier()
+        archive1.connectivity = nil
 
         archive1.delegate = OfflineRequestManagerListener()
         XCTAssertEqual(archive1.totalRequestCount, 2)
@@ -67,12 +59,8 @@ final class OfflineRequestManagerTests: MTPTestCase {
         request.save()
 
         let archive2 = try unwrap(OfflineRequestManager.archivedManager(fileName: testFileName))
-        #if USE_ALAMOFIRE
-        archive2.reachabilityManager?.stopListening()
-        #else
-        archive2.reachabilityManager?.stopNotifier()
-        #endif
-        archive2.reachabilityManager = nil
+        archive2.connectivity?.stopNotifier()
+        archive2.connectivity = nil
         archive2.delegate = OfflineRequestManagerListener()
         XCTAssertEqual(archive2.totalRequestCount, 2)
         archive2.attemptNextOperation()

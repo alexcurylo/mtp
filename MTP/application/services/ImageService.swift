@@ -101,8 +101,13 @@ extension ImageService where Self: UIView {
 extension UIImageView: ImageService {
 
     /// Cancel request in progress
-    func prepareForReuse() {
+    func cancelLoad() {
         Nuke.cancelRequest(for: self)
+    }
+
+    /// Reset all state
+    func prepareForReuse() {
+        cancelLoad()
         image = nil
         isHidden = false
     }

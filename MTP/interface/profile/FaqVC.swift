@@ -119,20 +119,12 @@ final class FaqVC: UITableViewController {
 
 extension FaqVC {
 
-    /// Number of sections
-    ///
-    /// - Parameter tableView: UITableView
-    /// - Returns: Number of sections
+    /// :nodoc:
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    /// Number of rows in section
-    ///
-    /// - Parameters:
-    ///   - tableView: UITableView
-    ///   - section: Section
-    /// - Returns: Number of rows in section
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
         return faqs.count
@@ -162,23 +154,13 @@ extension FaqVC {
 
 extension FaqVC {
 
-    /// Provide row height
-    ///
-    /// - Parameters:
-    ///   - tableView: Table
-    ///   - indexPath: Index path
-    /// - Returns: Height
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 
-    /// Provide estimated row height
-    ///
-    /// - Parameters:
-    ///   - tableView: Table
-    ///   - indexPath: Index path
-    /// - Returns: Height
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension

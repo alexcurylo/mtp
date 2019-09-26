@@ -10,48 +10,48 @@
 //  Copyright © 2017 Alex Hill. All rights reserved.
 //
 
+/// AXLoadingView
 final class AXLoadingView: UIView, AXLoadingViewProtocol {
 
-    fileprivate(set) var retryButton: AXButton?
+    private var retryButton: AXButton?
 
     /// The error text to show inside of the `retryButton` when displaying an error.
-    var retryText: String {
+    private var retryText: String {
         return L.tryAgain()
     }
 
     /// The attributes that will get applied to the `retryText` when displaying an error.
-    var retryAttributes: [NSAttributedString.Key: Any] {
-        var fontDescriptor: UIFontDescriptor
-        fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .body,
-                                                                  compatibleWith: self.traitCollection)
-    var font: UIFont
-        font = UIFont.systemFont(ofSize: fontDescriptor.pointSize, weight: UIFont.Weight.light)
+    private var retryAttributes: [NSAttributedString.Key: Any] {
+        let fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .body,
+                                                                      compatibleWith: self.traitCollection)
+        let font = UIFont.systemFont(ofSize: fontDescriptor.pointSize,
+                                     weight: UIFont.Weight.light)
         return [
             NSAttributedString.Key.font: font,
             NSAttributedString.Key.foregroundColor: UIColor.white
         ]
     }
 
-    fileprivate(set) var retryHandler: (() -> Void)?
+    private var retryHandler: (() -> Void)?
 
-    fileprivate(set) lazy var indicatorView: UIView = UIActivityIndicatorView(style: .white)
+    private lazy var indicatorView: UIView = UIActivityIndicatorView(style: .white)
 
-    fileprivate(set) var errorImageView: UIImageView?
+    private var errorImageView: UIImageView?
 
     /// The image to show in the `errorImageView` when displaying an error.
-    var errorImage: UIImage? {
+    private var errorImage: UIImage? {
         return R.image.error()
     }
 
-    fileprivate(set) var errorLabel: UILabel?
+    private var errorLabel: UILabel?
 
     /// The error text to show when displaying an error.
-    var errorText: String {
+    private var errorText: String {
         return L.errorState()
     }
 
     /// The attributes that will get applied to the `errorText` when displaying an error.
-    var errorAttributes: [NSAttributedString.Key: Any] {
+    private var errorAttributes: [NSAttributedString.Key: Any] {
         var fontDescriptor: UIFontDescriptor
             fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .body,
                                                                       compatibleWith: self.traitCollection)
@@ -63,6 +63,7 @@ final class AXLoadingView: UIView, AXLoadingViewProtocol {
         ]
     }
 
+    /// :nodoc:
     init() {
         super.init(frame: .zero)
 
@@ -73,26 +74,30 @@ final class AXLoadingView: UIView, AXLoadingViewProtocol {
         }
     }
 
+    /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         return nil
     }
 
+    /// :nodoc:
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
 
+    /// :nodoc:
     override func layoutSubviews() {
         super.layoutSubviews()
         self.computeSize(for: self.frame.size, applySizingLayout: true)
     }
 
+    /// :nodoc:
     override func sizeThatFits(_ size: CGSize) -> CGSize {
         return self.computeSize(for: size, applySizingLayout: false)
     }
 
     // swiftlint:disable:next function_body_length
-    @discardableResult fileprivate func computeSize(for constrainedSize: CGSize,
-                                                    applySizingLayout: Bool) -> CGSize {
+    @discardableResult private func computeSize(for constrainedSize: CGSize,
+                                                applySizingLayout: Bool) -> CGSize {
         func makeAttributedString(_ attributes: [NSAttributedString.Key: Any],
                                   for attributedString: NSAttributedString?) -> NSAttributedString? {
             guard let newAttributedString = attributedString?.mutableCopy() as? NSMutableAttributedString else {
@@ -181,6 +186,7 @@ final class AXLoadingView: UIView, AXLoadingViewProtocol {
         return CGSize(width: constrainedSize.width, height: totalHeight)
     }
 
+    /// AXLoadingViewProtocol
     func startLoading(initialProgress: CGFloat) {
         if self.indicatorView.superview == nil {
             self.addSubview(self.indicatorView)
@@ -192,16 +198,19 @@ final class AXLoadingView: UIView, AXLoadingViewProtocol {
         }
     }
 
+    /// AXLoadingViewProtocol
     func stopLoading() {
         if let indicatorView = self.indicatorView as? UIActivityIndicatorView, indicatorView.isAnimating {
             indicatorView.stopAnimating()
         }
     }
 
+    /// AXLoadingViewProtocol
     func updateProgress(_ progress: CGFloat) {
         // empty for now, need to create a progressive loading indicator
     }
 
+    /// AXLoadingViewProtocol
     func showError(_ error: Error,
                    retryHandler: @escaping () -> Void) {
         stopLoading()
@@ -237,6 +246,7 @@ final class AXLoadingView: UIView, AXLoadingViewProtocol {
         setNeedsLayout()
     }
 
+    /// AXLoadingViewProtocol
     func removeError() {
         if let errorImageView = self.errorImageView {
             errorImageView.removeFromSuperview()
@@ -248,17 +258,16 @@ final class AXLoadingView: UIView, AXLoadingViewProtocol {
             self.errorLabel = nil
         }
 
-        #if os(iOS)
         if let retryButton = self.retryButton {
             retryButton.removeFromSuperview()
             self.retryButton = nil
         }
 
         self.retryHandler = nil
-        #endif
     }
 
     // MARK: - Button actions
+
     @objc fileprivate func retryButtonAction(_ sender: AXButton) {
         self.retryHandler?()
         self.retryHandler = nil

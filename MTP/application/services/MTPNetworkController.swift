@@ -855,14 +855,16 @@ class MTPNetworkController: ServiceProvider {
     ///
     /// - Parameters:
     ///   - id: Location ID
+    ///   - reload: Force reload
     ///   - stub: Stub behaviour
     ///   - then: Completion
     func loadPosts(location id: Int,
+                   reload: Bool,
                    stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                    then: @escaping NetworkCompletion<PostsJSON> = { _ in }) {
         let provider = MTPProvider(stubClosure: stub)
         let endpoint = MTP.locationPosts(location: id)
-        guard !endpoint.isThrottled else {
+        guard reload || !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
 
@@ -902,9 +904,11 @@ class MTPNetworkController: ServiceProvider {
     ///
     /// - Parameters:
     ///   - id: User ID
+    ///   - reload: Force reload
     ///   - stub: Stub behaviour
     ///   - then: Completion
     func loadPosts(user id: Int,
+                   reload: Bool,
                    stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                    then: @escaping NetworkCompletion<PostsJSON> = { _ in }) {
         guard data.isLoggedIn else {
@@ -914,7 +918,7 @@ class MTPNetworkController: ServiceProvider {
         let auth = AccessTokenPlugin { self.data.token }
         let provider = MTPProvider(stubClosure: stub, plugins: [auth])
         let endpoint = MTP.userPosts(id: id)
-        guard !endpoint.isThrottled else {
+        guard reload || !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
 
@@ -1563,7 +1567,7 @@ class MTPNetworkController: ServiceProvider {
     func userGetByToken(
         reload: Bool,
         stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
-        then: @escaping NetworkCompletion<UserJSON>
+        then: @escaping NetworkCompletion<UserJSON> = { _ in }
     ) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
@@ -2104,7 +2108,7 @@ private extension Response {
 extension NetworkError: LocalizedError {
 
     /// Displayable description of NetworkError
-    public var errorDescription: String? {
+    var errorDescription: String? {
         return L.errorDescription(code, message)
     }
 }

@@ -11,16 +11,18 @@
 
 import UIKit
 
+/// AXImageViewTransitionContainer
 final class AXImageViewTransitionContainer: UIView {
 
+    /// :nodoc:
     override var contentMode: UIView.ContentMode {
-        didSet {
-            self.setNeedsLayout()
-        }
+        didSet { setNeedsLayout() }
     }
 
+    /// Transitioning view
     let imageView: UIImageView
 
+    /// :nodoc:
     init(imageView: UIImageView) {
         self.imageView = imageView
         super.init(frame: .zero)
@@ -43,12 +45,14 @@ final class AXImageViewTransitionContainer: UIView {
         self.addSubview(imageView)
     }
 
+    /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         return nil
     }
 
-    // swiftlint:disable:next function_body_length
+    /// :nodoc:
     override func layoutSubviews() {
+        // swiftlint:disable:previous function_body_length
         super.layoutSubviews()
 
         guard let imageSize = self.imageView.image?.size else { return }

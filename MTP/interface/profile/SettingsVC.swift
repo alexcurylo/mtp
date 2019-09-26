@@ -1,6 +1,10 @@
 // @copyright Trollwerks Inc.
 
+#if DIRECT_FEEDBACK
+import UIKit
+#else
 import MessageUI
+#endif
 
 /// Miscellaneous account and app operations
 final class SettingsVC: UITableViewController {
@@ -18,7 +22,7 @@ final class SettingsVC: UITableViewController {
     @IBOutlet private var logoutButton: UIButton!
     @IBOutlet private var deleteButton: UIButton!
 
-    private var reportMessage = ""
+    private var route: Route?
 
     /// Prepare for interaction
     override func viewDidLoad() {
@@ -46,10 +50,15 @@ final class SettingsVC: UITableViewController {
         super.viewDidAppear(animated)
         report(screen: "Settings")
 
-        if !reportMessage.isEmpty {
-            email(title: L.reportSubject(), body: reportMessage)
-            reportMessage = ""
+        switch route {
+        case .network?:
+            performSegue(withIdentifier: Segues.showNetwork, sender: self)
+        case .reportContent(let message)? where !message.isEmpty:
+            sendFeedback(title: L.reportSubject(), body: message)
+        default:
+            break
         }
+        route = nil
     }
 
     /// Instrument and inject navigation
@@ -105,7 +114,7 @@ private extension SettingsVC {
     }
 
     @IBAction func contactTapped(_ sender: UIButton) {
-        email(title: L.contactSubject())
+        sendFeedback(title: L.contactSubject())
     }
 
     @IBAction func networkTapped(_ sender: UIButton) {
@@ -113,11 +122,21 @@ private extension SettingsVC {
     }
 
     func report(body: String = "") {
-        email(title: L.reportSubject(), body: body)
+        sendFeedback(title: L.reportSubject(), body: body)
     }
 
-    func email(title: String,
-               body: String = "") {
+    #if DIRECT_FEEDBACK
+    func sendFeedback(title: String,
+                      body: String = "") {
+        let configuration = FeedbackConfiguration(toRecipients: ["test@example.com"],
+                                                  usesHTML: true)
+        let controller = FeedbackViewController(configuration: configuration)
+        replacedFeedbackSendingAction = sendWithAPI()
+        navigationController?.pushViewController(controller, animated: true)
+    }
+    #else
+    func sendFeedback(title: String,
+                      body: String = "") {
         guard MFMailComposeViewController.canSendMail() else {
             note.message(error: L.setupEmail())
             return
@@ -146,6 +165,7 @@ private extension SettingsVC {
 
         present(composeVC, animated: true, completion: nil)
     }
+    #endif
 
     @IBAction func deleteAccount(segue: UIStoryboardSegue) {
         note.modal(info: L.deletingAccount())
@@ -227,13 +247,13 @@ extension SettingsVC: InterfaceBuildable {
 extension SettingsVC: Injectable {
 
     /// Injected dependencies
-    typealias Model = String
+    typealias Model = Route
 
     /// Handle dependency injection
     ///
     /// - Parameter model: Dependencies
     func inject(model: Model) {
-        reportMessage = model
+        route = model
     }
 
     /// Enforce dependency injection

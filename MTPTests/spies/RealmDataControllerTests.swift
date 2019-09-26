@@ -41,10 +41,10 @@ final class RealmDataControllerTests: MTPTestCase {
         XCTAssertEqual(divesites.count, 99)
         XCTAssertEqual(golfcourses.count, 100)
         XCTAssertEqual(locations.count, 892)
-        XCTAssertEqual(mappables.count, 3_925)
+        XCTAssertEqual(mappables.count, 4_334)
         XCTAssertEqual(restaurants.count, 704)
         XCTAssertEqual(uncountries.count, 193)
-        XCTAssertEqual(whss.count, 1_972)
+        XCTAssertEqual(whss.count, 2_381)
         XCTAssertEqual(lists.count, Checklist.allCases.count)
         let thresholds = RealmDataControllerTests.thresholds
         for (index, list) in Checklist.allCases.enumerated() {

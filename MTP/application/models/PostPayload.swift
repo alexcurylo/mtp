@@ -29,7 +29,7 @@ struct PostPayload: Codable, Hashable {
     /// location
     var location = LocationPayload()
     /// location_id
-    private var location_id: Int = 0
+    var location_id: Int = 0
     /// status
     private var status = "A"
 
@@ -112,8 +112,10 @@ final class PostPayloadInfo: NSObject, NSCoding {
 
     /// :nodoc:
     required convenience init?(coder decoder: NSCoder) {
-        let post = decoder.decodeObject(forKey: PostPayloadInfo.keys.post)
-        let info = decoder.decodeObject(forKey: PostPayloadInfo.keys.location)
+        guard let post = decoder.decodeObject(forKey: PostPayloadInfo.keys.post),
+              let info = decoder.decodeObject(forKey: PostPayloadInfo.keys.location) else {
+          return nil
+        }
         // swiftlint:disable:next force_cast
         let location = LocationPayload(info: info as! LocationPayloadInfo)
         self.init(

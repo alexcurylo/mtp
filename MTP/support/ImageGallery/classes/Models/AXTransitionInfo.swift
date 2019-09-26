@@ -10,6 +10,7 @@
 //  Copyright © 2017 Alex Hill. All rights reserved.
 //
 
+/// AXTransitionInfo
 final class AXTransitionInfo: NSObject {
 
     /// This value determines whether or not the user can dismiss the `PhotosViewController` by panning vertically.
@@ -49,6 +50,7 @@ final class AXTransitionInfo: NSObject {
     /// The duration of the transition.
     var duration: TimeInterval = 0.3
 
+    /// :nodoc:
     init(interactiveDismissalEnabled: Bool,
          startingView: UIImageView?,
          endingView: ((_ photo: AXPhotoProtocol, _ index: Int) -> UIImageView?)?) {
@@ -58,11 +60,13 @@ final class AXTransitionInfo: NSObject {
                         endingView: endingView)
     }
 
+    /// :nodoc:
     convenience init(startingView: UIImageView?,
                      endingView: ((_ photo: AXPhotoProtocol, _ index: Int) -> UIImageView?)?) {
         self.init(interactiveDismissalEnabled: true, startingView: startingView, endingView: endingView)
     }
 
+    /// :nodoc:
     override convenience init() {
         self.init(interactiveDismissalEnabled: true, startingView: nil, endingView: nil)
     }
@@ -71,9 +75,7 @@ final class AXTransitionInfo: NSObject {
                                 startingView: UIImageView?,
                                 endingView: ((_ photo: AXPhotoProtocol, _ index: Int) -> UIImageView?)?) {
 
-        #if os(iOS)
         self.interactiveDismissalEnabled = interactiveDismissalEnabled
-        #endif
 
         if let startingView = startingView {
             guard startingView.bounds != .zero else {
