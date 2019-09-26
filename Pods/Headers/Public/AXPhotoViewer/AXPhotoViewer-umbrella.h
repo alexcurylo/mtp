@@ -1,1 +1,0 @@
-../../../Target Support Files/AXPhotoViewer/AXPhotoViewer-umbrella.h

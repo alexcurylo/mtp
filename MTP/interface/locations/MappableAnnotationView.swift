@@ -143,9 +143,7 @@ final class MappableAnnotationView: MKMarkerAnnotationView, MappingAnnotationVie
         observe()
     }
 
-    /// Unsupported coding constructor
-    ///
-    /// - Parameter coder: An unarchiver object.
+    /// :nodoc:
     required init?(coder: NSCoder) {
         return nil
     }
@@ -207,8 +205,7 @@ private extension MappableAnnotationView {
 
         let visited = sender.isOn
         note.set(item: mappable.item,
-                 visited: visited,
-                 congratulate: false) { [weak sender] result in
+                 visited: visited) { [weak sender] result in
             if case .failure = result {
                 sender?.isOn = !visited
             }

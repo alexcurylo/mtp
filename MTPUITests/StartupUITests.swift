@@ -142,6 +142,8 @@ final class StartupUITests: XCTestCase {
 
         UIMyProfile.settings.tap()
 
+        UISettings.menu.swipeUp()
+
         UISettings.delete.tap()
 
         UIConfirmDelete.cancel.tap()

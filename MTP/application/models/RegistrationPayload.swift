@@ -142,10 +142,11 @@ struct LocationPayload: Codable, Hashable {
     fileprivate let admin_level: Int
     fileprivate let country_id: Int
     fileprivate let country_name: String
-    /// id
+    /// MTP location ID
     let id: Int
     fileprivate let is_mtp_location: Int
-    fileprivate let location_name: String
+    /// MTP location name
+    let location_name: String
 
     /// Is payload valid?
     var isValid: Bool {
@@ -155,7 +156,7 @@ struct LocationPayload: Codable, Hashable {
                !location_name.isEmpty
     }
 
-    /// Default constructor
+    /// :nodoc:
     init() {
         admin_level = 0
         country_id = 0
@@ -165,9 +166,17 @@ struct LocationPayload: Codable, Hashable {
         location_name = ""
     }
 
-    /// Initialize with Country
-    ///
-    /// - Parameter country: Country
+    /// :nodoc:
+    init(info: LocationPayloadInfo) {
+        admin_level = info.admin_level
+        country_id = info.country_id
+        country_name = info.country_name
+        id = info.id
+        is_mtp_location = info.id
+        location_name = info.location_name
+    }
+
+    /// :nodoc:
     init(country: Country) {
         admin_level = AdminLevel.country.rawValue
         country_id = country.countryId
@@ -177,9 +186,7 @@ struct LocationPayload: Codable, Hashable {
         location_name = country.placeCountry
     }
 
-    /// Initialize with Location
-    ///
-    /// - Parameter country: Location
+    /// :nodoc:
     init(location: Location) {
         admin_level = location.adminLevel
         country_id = location.countryId
@@ -187,5 +194,80 @@ struct LocationPayload: Codable, Hashable {
         id = location.placeId
         is_mtp_location = 1
         location_name = location.placeTitle
+    }
+}
+
+/// Payload stored in queue
+final class LocationPayloadInfo: NSObject, NSCoding {
+
+    fileprivate let admin_level: Int
+    fileprivate let country_id: Int
+    fileprivate let country_name: String
+    fileprivate let id: Int
+    fileprivate let is_mtp_location: Int
+    fileprivate let location_name: String
+
+    private static let keys = (admin_level: "admin_level",
+                               country_id: "country_id",
+                               country_name: "country_name",
+                               id: "id",
+                               is_mtp_location: "is_mtp_location",
+                               location_name: "location_name")
+
+    /// :nodoc:
+    init(admin_level: Int,
+         country_id: Int,
+         country_name: String,
+         id: Int,
+         is_mtp_location: Int,
+         location_name: String) {
+        self.admin_level = admin_level
+        self.country_id = country_id
+        self.country_name = country_name
+        self.id = id
+        self.is_mtp_location = is_mtp_location
+        self.location_name = location_name
+    }
+
+    /// :nodoc:
+    init(payload: LocationPayload) {
+        admin_level = payload.admin_level
+        country_id = payload.country_id
+        country_name = payload.country_name
+        id = payload.id
+        is_mtp_location = payload.is_mtp_location
+        location_name = payload.location_name
+    }
+
+    /// :nodoc:
+    required convenience init?(coder decoder: NSCoder) {
+        let admin_level = decoder.decodeInteger(forKey: LocationPayloadInfo.keys.admin_level)
+        let country_id = decoder.decodeInteger(forKey: LocationPayloadInfo.keys.country_id)
+        let id = decoder.decodeInteger(forKey: LocationPayloadInfo.keys.id)
+        let is_mtp_location = decoder.decodeInteger(forKey: LocationPayloadInfo.keys.is_mtp_location)
+        guard let country_name = decoder.decodeObject(forKey: LocationPayloadInfo.keys.country_name),
+            let location_name = decoder.decodeObject(forKey: LocationPayloadInfo.keys.location_name) else {
+            return nil
+        }
+        self.init(
+            admin_level: admin_level,
+            country_id: country_id,
+            // swiftlint:disable:next force_cast
+            country_name: country_name as! String,
+            id: id,
+            is_mtp_location: is_mtp_location,
+            // swiftlint:disable:next force_cast
+            location_name: location_name as! String
+        )
+    }
+
+    /// :nodoc:
+    func encode(with coder: NSCoder) {
+        coder.encode(admin_level, forKey: LocationPayloadInfo.keys.admin_level)
+        coder.encode(country_id, forKey: LocationPayloadInfo.keys.country_id)
+        coder.encode(country_name, forKey: LocationPayloadInfo.keys.country_name)
+        coder.encode(id, forKey: LocationPayloadInfo.keys.id)
+        coder.encode(is_mtp_location, forKey: LocationPayloadInfo.keys.is_mtp_location)
+        coder.encode(location_name, forKey: LocationPayloadInfo.keys.location_name)
     }
 }

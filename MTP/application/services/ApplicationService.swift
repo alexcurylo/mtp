@@ -35,6 +35,17 @@ protocol ApplicationService {
     var version: String { get }
 }
 
+/// Enumerated tabs
+enum Tab: Int {
+
+    /// Locations tab
+    case locations
+    /// Rankings tab
+    case rankings
+    /// My Profile tab
+    case myProfile
+}
+
 /// Enumerated routing destinations
 enum Route {
 
@@ -44,19 +55,23 @@ enum Route {
     case rankings
     /// My Profile tab
     case myProfile
+
     /// Edit Profile presentation in My Profile
     case editProfile
-    /// MFMailComposer from Contact Us in Settings in My Profile
+    /// Network Status in Settings in My Profile
+    case network
+    /// Contact Us in Settings in My Profile
     case reportContent(String)
 
     /// Tab to select for a route
     var tabIndex: Int {
         switch self {
-        case .locations: return 0
-        case .rankings: return 1
+        case .locations: return Tab.locations.rawValue
+        case .rankings: return Tab.rankings.rawValue
         case .myProfile,
              .editProfile,
-             .reportContent: return 2
+             .network,
+             .reportContent: return Tab.myProfile.rawValue
         }
     }
 }

@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class CountsPageVCTests: XCTestCase {
+final class CountsPageVCTests: MTPTestCase {
 
     func testInitWithCoder() {
         // when

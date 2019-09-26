@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class SearchResultJSONTests: XCTestCase {
+final class SearchResultJSONTests: MTPTestCase {
 
     func testDecodingResults() throws {
         // given

@@ -37,8 +37,8 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var locations: [Location] { get }
     /// Displayed types
     var mapDisplay: ChecklistFlags { get set }
-    /// Mappables
-    var mappables: [Mappable] { get }
+    /// Get all places
+    var visibles: [Mappable] { get }
     /// Notified timestamps
     var notified: Timestamps? { get set }
     /// Restaurants
@@ -103,16 +103,21 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     /// - Parameter item: list and ID
     /// - Returns: Place if found
     func get(mappable item: Checklist.Item) -> Mappable?
+    /// Get visible place
+    ///
+    /// - Parameter item: list and ID
+    /// - Returns: Place if found
+    func get(visible item: Checklist.Item) -> Mappable?
     /// Get places
     ///
     /// - Parameter list: Checklist
     /// - Returns: Places in list
-    func get(mappables list: Checklist) -> [Mappable]
+    func get(visibles list: Checklist) -> [Mappable]
     /// Get matching places
     ///
     /// - Parameter matching: String
     /// - Returns: Places matching
-    func get(mappables matching: String) -> [Mappable]
+    func get(visibles matching: String) -> [Mappable]
     /// Get milestones
     ///
     /// - Parameter list: Checklist
@@ -274,8 +279,13 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
 
     /// Delete all user photos
     ///
-    /// - Parameter id: User ID
-    func deletePhotos(user id: Int)
+    /// - Parameter userId: User ID
+    func delete(photos userId: Int)
+
+    /// Delete all rankings for checklist
+    ///
+    /// - Parameter rankings: Checklist
+    func delete(rankings: Checklist)
 
     /// Resolve Realm crossthread reference
     ///
@@ -309,12 +319,13 @@ extension DataService {
 
     /// Is there a logged in user?
     var isLoggedIn: Bool {
+        #if DEBUG
         if let loggedIn = ProcessInfo.setting(bool: .loggedIn) {
             return loggedIn
         } else if UIApplication.isUnitTesting {
             return false
         }
-
+        #endif
         guard !token.isEmpty else { return false }
         guard let jwt = try? decode(jwt: token),
               !jwt.expired else {
@@ -332,14 +343,13 @@ extension DataService {
 
     /// Log out current user
     func logOut() {
-        FacebookButton.logOut()
+        FacebookWrapper.logOut()
         report.user(signIn: nil, signUp: nil)
 
-        MTP.unthrottle()
-        net.unthrottle()
+        net.logout()
 
         if let id = user?.id {
-            deletePhotos(user: id)
+            delete(photos: id)
         }
         blockedPhotos = []
         blockedPosts = []
@@ -492,7 +502,7 @@ class DataServiceImpl: DataService {
         get { return defaults.email }
         set {
             defaults.email = newValue
-            //saveRealm()
+            //saveSeed()
         }
     }
 
@@ -570,25 +580,33 @@ class DataServiceImpl: DataService {
         return realm.mappable(item: item)
     }
 
-    /// Mappables
-    var mappables: [Mappable] {
-        return realm.mappables(list: nil)
+    /// Get visible place
+    ///
+    /// - Parameter item: list and ID
+    /// - Returns: Place if found
+    func get(visible item: Checklist.Item) -> Mappable? {
+        return realm.mappable(item: item, visible: true)
+    }
+
+    /// Get all places
+    var visibles: [Mappable] {
+        return realm.mappables(list: nil, visible: true)
     }
 
     /// Get places
     ///
     /// - Parameter list: list
     /// - Returns: Places in list
-    func get(mappables list: Checklist) -> [Mappable] {
-        return realm.mappables(list: list)
+    func get(visibles list: Checklist) -> [Mappable] {
+        return realm.mappables(list: list, visible: true)
     }
 
     /// Get matching places
     ///
     /// - Parameter matching: String
     /// - Returns: Places matching
-    func get(mappables matching: String) -> [Mappable] {
-        return realm.mappables(matching: matching)
+    func get(visibles matching: String) -> [Mappable] {
+        return realm.mappables(matching: matching, visible: true)
     }
 
     /// Set places visited state
@@ -950,8 +968,16 @@ class DataServiceImpl: DataService {
     /// Delete all user photos
     ///
     /// - Parameter id: User ID
-    func deletePhotos(user id: Int) {
-        realm.deletePhotos(user: id)
+    func delete(photos userId: Int) {
+        realm.delete(photos: userId)
+    }
+
+    /// Delete all rankings for checklist
+    ///
+    /// - Parameter rankings: Checklist
+    func delete(rankings: Checklist) {
+        realm.delete(rankings: rankings)
+        notify(change: .rankings)
     }
 
     /// Resolve Realm crossthread reference
@@ -1072,8 +1098,8 @@ private extension DataServiceImpl {
 
     #if targetEnvironment(simulator)
     /// Save current data for default startup loading
-    func saveRealm() {
-        realm.saveToDesktop()
+    func saveSeed() {
+        realm.saveSeedToDesktop()
     }
     #endif
 }

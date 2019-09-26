@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class PlaceInfoTests: XCTestCase {
+final class PlaceInfoTests: MTPTestCase {
 
     func testBeachDecoding() throws {
         // given

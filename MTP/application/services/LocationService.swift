@@ -169,7 +169,7 @@ class LocationServiceImpl: LocationService {
         var distance: CLLocationDistance = 99_999
         let visited = list.visited
         var nearest: Mappable?
-        for other in data.get(mappables: list) {
+        for other in data.get(visibles: list) {
             guard !visited.contains(other.checklistId),
                   other.checklistId != id else { continue }
 

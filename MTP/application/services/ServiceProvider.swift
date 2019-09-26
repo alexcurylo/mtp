@@ -75,7 +75,17 @@ extension UIViewController: ServiceProvider {
     ///
     /// - Parameter name: Name of screen
     func report(screen name: String) {
+        guard UIApplication.isProduction else { return }
         report.screen(name: name, vc: classForCoder)
+    }
+
+    /// Opt out of Dark Mode
+    func setLightMode() {
+        // placeholder for if/when `UIUserInterfaceStyle` is rejected
+        //if #available(iOS 13.0, *) {
+            //RoutingAppDelegate.shared.window?.overrideUserInterfaceStyle = .light
+            //overrideUserInterfaceStyle = .light
+        //}
     }
 }
 
@@ -101,3 +111,6 @@ enum ServiceProviderInstances {
     /// StyleService
     static var styleServiceInstance: StyleService!
 }
+
+/// Convenience for service injection, in-constructor operaionts, etc.
+struct Services: ServiceProvider { }

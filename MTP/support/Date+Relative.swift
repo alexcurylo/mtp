@@ -160,7 +160,7 @@ private extension Date {
         case .year:
             dateComp.year = offset
         }
-        //swiftlint:disable:next force_unwrapping
+        // swiftlint:disable:next force_unwrapping
         return Calendar.current.date(byAdding: dateComp, to: self)!
     }
 
@@ -317,7 +317,7 @@ private enum RelativeTime {
         case .yearsFuture: resource = L.yearsFuture
         }
 
-        //swiftlint:disable:next nslocalizedstring_key
+        // swiftlint:disable:next nslocalizedstring_key
         return NSLocalizedString(resource.key,
                                  bundle: resource.bundle,
                                  comment: "")
@@ -334,17 +334,17 @@ private enum DateComparison {
     //case isThisWeek
     case isNextWeek
     case isLastWeek
-    case isSameWeek(as:Date)
+    case isSameWeek(as: Date)
 
     //case isThisMonth
     case isNextMonth
     case isLastMonth
-    case isSameMonth(as:Date)
+    case isSameMonth(as: Date)
 
     case isThisYear
     case isNextYear
     case isLastYear
-    case isSameYear(as:Date)
+    case isSameYear(as: Date)
 
     //case isInTheFuture
     //case isInThePast

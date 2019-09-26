@@ -92,7 +92,7 @@ final class LocationSearchVC: RealmSearchViewController {
     override func searchViewController(_ controller: RealmSearchViewController,
                                        cellForObject object: Object,
                                        atIndexPath indexPath: IndexPath) -> UITableViewCell {
-        //swiftlint:disable:next implicitly_unwrapped_optional
+        // swiftlint:disable:next implicitly_unwrapped_optional
         let cell: LocationSearchTableViewCell! = tableView.dequeueReusableCell(
             withIdentifier: R.reuseIdentifier.locationSearchTableViewCell,
             for: indexPath)

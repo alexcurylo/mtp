@@ -173,7 +173,7 @@ private struct RSSFeedsJSON: Codable {
     dynamic var checklistValue: Int = Checklist.beaches.rawValue
     /// checklist
     var checklist: Checklist {
-        //swiftlint:disable:next force_unwrapping
+        // swiftlint:disable:next force_unwrapping
         return Checklist(rawValue: checklistValue)!
     }
 

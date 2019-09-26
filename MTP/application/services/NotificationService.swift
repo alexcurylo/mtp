@@ -6,6 +6,38 @@ import UserNotifications
 
 // swiftlint:disable file_length
 
+/// Information serialized in notification user info and operation queues
+enum Key: String {
+
+    /// Checklist
+    case list
+    /// ID
+    case id
+
+    /// subtitle
+    case subtitle
+    /// title
+    case title
+    /// failures
+    case failures
+
+    /// MTPVisitedRequest: visited
+    case visited
+
+    /// MTPPostRequest: post
+    case post
+
+    /// MTPPhotoRequest: photo
+    case photo
+    /// MTPPhotoRequest: caption
+    case caption
+    /// MTPPhotoRequest: location
+    case location
+
+    /// Dictionary key
+    var key: String { return rawValue }
+}
+
 /// Notification model
 struct Note {
 
@@ -44,18 +76,6 @@ struct Note {
         }
     }
 
-    /// Information passed in notification user info
-    enum ChecklistItemInfo: String {
-
-        /// Checklist
-        case list
-        /// ID
-        case id
-
-        /// Dictionary key
-        var key: String { return rawValue }
-    }
-
     fileprivate let title: String
     fileprivate let message: String
     fileprivate let category: Category
@@ -79,22 +99,18 @@ protocol NotificationService {
     /// - Parameters:
     ///   - item: Place
     ///   - visited: Whether visited
-    ///   - congratulate: Whether to congratulate
     ///   - then: Callback
     func set(item: Checklist.Item,
              visited: Bool,
-             congratulate: Bool,
              then: @escaping Completion)
     /// Set visited state
     ///
     /// - Parameters:
     ///   - items: Places
     ///   - visited: Whether visited
-    ///   - congratulate: Whether to congratulate
     ///   - then: Callback
     func set(items: [Checklist.Item],
              visited: Bool,
-             congratulate: Bool,
              then: @escaping Completion)
 
     /// Ask question
@@ -254,9 +270,14 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
     private var asking = false
     private var remindedVerify = false
 
-    private var center: UNUserNotificationCenter {
+    private let center: UNUserNotificationCenterProtocol = {
+        #if DEBUG
+        if UIApplication.isUnitTesting {
+            return UNUserNotificationCenterStub()
+        }
+        #endif
         return UNUserNotificationCenter.current()
-    }
+    }()
 
     /// Default constructor
     init() {
@@ -278,17 +299,14 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
     /// - Parameters:
     ///   - item: Place
     ///   - visited: Whether visited
-    ///   - congratulate: Whether to congratulate
     ///   - then: Callback
     func set(item: Checklist.Item,
              visited: Bool,
-             congratulate: Bool,
              then: @escaping Completion) {
         let changes = item.list.changes(id: item.id,
                                         visited: visited)
         set(items: changes,
             visited: visited,
-            congratulate: congratulate,
             then: then)
     }
 
@@ -297,40 +315,24 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
     /// - Parameters:
     ///   - items: Places
     ///   - visited: Whether visited
-    ///   - congratulate: Whether to congratulate
     ///   - then: Callback
     func set(items: [Checklist.Item],
              visited: Bool,
-             congratulate: Bool,
              then: @escaping Completion) {
         guard let first = items.first else {
             then(.success(true))
             return
         }
 
-        modal(info: L.updatingVisit())
-
+        if visited {
+            congratulate(item: first)
+        }
         net.set(items: items,
-                visited: visited) { result in
-            switch result {
-            case .success:
-                self.modal(success: L.success())
-                DispatchQueue.main.asyncAfter(deadline: .veryShort) {
-                    self.dismissModal()
-                    self.data.set(items: items,
-                                  visited: visited)
-                    if congratulate {
-                        self.congratulate(item: first)
-                    }
-                    then(.success(true))
-                }
-            case .failure(let error):
-                let message = self.modal(failure: error,
-                                         operation: L.updateVisit())
-                DispatchQueue.main.async {
-                    then(.failure(message))
-                }
-            }
+                visited: visited) { _ in }
+        DispatchQueue.main.async {
+            self.data.set(items: items,
+                          visited: visited)
+            then(.success(true))
         }
     }
 
@@ -340,14 +342,9 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
     func background(then: @escaping () -> Void) {
         guard UIApplication.shared.isBackground else { return }
 
-        center.getNotificationSettings { settings in
-            switch settings.authorizationStatus {
-            case .authorized:
-                DispatchQueue.main.async {
-                    then()
-                }
-            default:
-                break
+        center.getNotificationStatus { status in
+            if status == .authorized {
+                DispatchQueue.main.async { then() }
             }
         }
     }
@@ -411,7 +408,7 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
     ///
     /// - Parameter item: Place
     func congratulate(item: Checklist.Item) {
-        guard let mappable = data.get(mappable: item) else { return }
+        guard let mappable = data.get(visible: item) else { return }
 
         congratulate(mappable: mappable)
     }
@@ -485,7 +482,7 @@ private extension NotificationServiceImpl {
                 triggered.set(key: key, stamped: false)
                 changed = true
                 break
-            } else if let mappable = data.get(mappable: item) {
+            } else if let mappable = data.get(visible: item) {
                 notify(mappable: mappable,
                        triggered: value) { _ in }
                 break
@@ -542,8 +539,8 @@ private extension NotificationServiceImpl {
         let (title, body) = checkinStrings(mappable: mappable,
                                            triggered: triggered)
         let noteInfo: NotificationService.Info = [
-            Note.ChecklistItemInfo.list.key: list.rawValue,
-            Note.ChecklistItemInfo.id.key: id
+            Key.list.key: list.rawValue,
+            Key.id.key: id
         ]
 
         postVisit(title: title, body: body, info: noteInfo)
@@ -680,7 +677,6 @@ private extension NotificationServiceImpl {
                     self.notifying = nil
                     self.set(item: mappable.item,
                              visited: true,
-                             congratulate: true,
                              then: then)
                 }
         }
@@ -706,8 +702,6 @@ private extension NotificationServiceImpl {
         guard canNotifyForeground else { return }
 
         congratulating = mappable
-        app.route(reveal: mappable)
-
         alert(foreground: note) {
             self.congratulating = nil
             self.checkPending()
@@ -758,7 +752,8 @@ private extension NotificationServiceImpl {
         let title = L.congratulations(mappable.title)
 
         let (single, plural) = mappable.checklist.names(full: true)
-        let (visited, remaining) = mappable.checklist.visitStatus(of: user)
+        let current = mappable.checklist.visitStatus(of: user)
+        let (visited, remaining) = (current.visited + 1, current.remaining - 1)
         let contentVisited = L.status(visited, plural, remaining)
 
         let contentMilestone = mappable.checklist.milestone(visited: visited)

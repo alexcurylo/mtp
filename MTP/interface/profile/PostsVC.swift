@@ -5,8 +5,13 @@ import Anchorage
 /// Base class for user and location post pages
 class PostsVC: UITableViewController {
 
-    /// Display a user's posts
+    /// Whether user can add a new post
     var canCreate: Bool {
+        return false
+    }
+
+    /// Whether a new post is queued to upload
+    var isQueued: Bool {
         return false
     }
 
@@ -31,10 +36,22 @@ class PostsVC: UITableViewController {
     var contentState: ContentState = .loading
     /// Data models
     var models: [PostCellModel] = []
+    /// Current post uploads
     private var configuredMenu = false
+    /// Filtered queued network actions
+    var queuedPosts: [MTPPostRequest] = []
+    private var requestsObserver: Observer?
+    private var headerModel: PostHeader.Model = (false, false) {
+        didSet {
+            if headerModel != oldValue {
+                tableView.reloadData()
+            }
+        }
+    }
 
     private let layout = (row: CGFloat(100),
-                          header: CGFloat(50))
+                          header: (create: CGFloat(50),
+                                   queued: CGFloat(100)))
 
     /// Prepare for interaction
     override func viewDidLoad() {
@@ -45,7 +62,7 @@ class PostsVC: UITableViewController {
         tableView.estimatedRowHeight = layout.row
         tableView.rowHeight = UITableView.automaticDimension
         if canCreate {
-            tableView.estimatedSectionHeaderHeight = layout.header
+            tableView.estimatedSectionHeaderHeight = headerHeight
             tableView.sectionHeaderHeight = UITableView.automaticDimension
 
             tableView.register(
@@ -57,6 +74,8 @@ class PostsVC: UITableViewController {
             tableView.sectionHeaderHeight = 1
         }
         UIPosts.posts.expose(item: tableView)
+
+        /// expect descendants to call update() at end
     }
 
     /// Construct cell models
@@ -97,37 +116,46 @@ class PostsVC: UITableViewController {
         }
         return cellModels
     }
+
+    /// Track queued posts for possible display
+    /// Expect descendants to call update() at end of viewDidLoad()
+    func update() {
+        queuedPosts = net.requests.of(type: MTPPostRequest.self)
+        headerModel = (add: canCreate, queue: isQueued)
+
+        observeRequests()
+    }
+}
+
+// MARK: - UITableViewControllerDataSource
+
+extension PostsVC: PostHeaderDelegate {
+
+    func addTapped() {
+        createPost()
+    }
+
+    func queueTapped() {
+        app.route(to: .network)
+    }
 }
 
 // MARK: - UITableViewControllerDataSource
 
 extension PostsVC {
 
-    /// Number of sections
-    ///
-    /// - Parameter tableView: UITableView
-    /// - Returns: Number of sections
+    /// :nodoc:
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    /// Number of rows in section
-    ///
-    /// - Parameters:
-    ///   - tableView: UITableView
-    ///   - section: Section
-    /// - Returns: Number of rows in section
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
         return models.count
     }
 
-    /// Create table header
-    ///
-    /// - Parameters:
-    ///   - tableView: Container
-    ///   - section: Index
-    /// - Returns: PostHeader
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             viewForHeaderInSection section: Int) -> UIView? {
         guard canCreate else { return UIView() }
@@ -135,20 +163,16 @@ extension PostsVC {
         let header = tableView.dequeueReusableHeaderFooterView(
             withIdentifier: PostHeader.reuseIdentifier) as? PostHeader
 
-        header?.delegate = self
+        header?.inject(model: headerModel,
+                       delegate: self)
 
         return header
      }
 
-    /// Create table cell
-    ///
-    /// - Parameters:
-    ///   - tableView: Container
-    ///   - indexPath: Index path
-    /// - Returns: PostCell
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //swiftlint:disable:next implicitly_unwrapped_optional
+        // swiftlint:disable:next implicitly_unwrapped_optional
         let cell: PostCell! = tableView.dequeueReusableCell(
             withIdentifier: R.reuseIdentifier.postCell,
             for: indexPath)
@@ -164,59 +188,32 @@ extension PostsVC {
 
 extension PostsVC {
 
-    /// Provide row height
-    ///
-    /// - Parameters:
-    ///   - tableView: Container
-    ///   - indexPath: Index path
-    /// - Returns: Height
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 
-    /// Provide header height
-    ///
-    /// - Parameters:
-    ///   - tableView: Container
-    ///   - section: Index
-    /// - Returns: Height
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             heightForHeaderInSection section: Int) -> CGFloat {
-        return canCreate ? layout.header : 1
+        return headerHeight
     }
 
-    /// Provide estimated header height
-    ///
-    /// - Parameters:
-    ///   - tableView: Container
-    ///   - section: Index
-    /// - Returns: Height
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        return canCreate ? layout.header : 1
+        return headerHeight
     }
 
-    /// Menu permission
-    ///
-    /// - Parameters:
-    ///   - tableView: Container
-    ///   - indexPath: Index path
-    /// - Returns: Permission
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
         configureMenu()
         return true
     }
 
-    /// Action permission
-    ///
-    /// - Parameters:
-    ///   - tableView: Container
-    ///   - action: Action
-    ///   - indexPath: Index path
-    ///   - sender: Sender
-    /// - Returns: Permission
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             canPerformAction action: Selector,
                             forRowAt indexPath: IndexPath,
@@ -224,13 +221,7 @@ extension PostsVC {
         return MenuAction.isContent(action: action)
     }
 
-    /// Action operation
-    ///
-    /// - Parameters:
-    ///   - tableView: Container
-    ///   - action: Action
-    ///   - indexPath: Index path
-    ///   - sender: Sender
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             performAction action: Selector,
                             forRowAt indexPath: IndexPath,
@@ -292,75 +283,29 @@ extension PostsVC: PostCellDelegate {
 
 private extension PostsVC {
 
-    @IBAction func addTapped(_ sender: GradientButton) {
-        createPost()
+    var headerHeight: CGFloat {
+        switch (canCreate, isQueued) {
+        case (true, true):
+            return layout.header.queued
+        case (true, false):
+            return layout.header.create
+        case (false, _):
+            return 1
+        }
     }
 
-    private func configureMenu() {
+    func configureMenu() {
         guard !configuredMenu else { return }
 
         configuredMenu = true
         UIMenuController.shared.menuItems = MenuAction.contentItems
     }
-}
 
-/// Header of post table
-final class PostHeader: UITableViewHeaderFooterView {
+    func observeRequests() {
+        guard requestsObserver == nil else { return }
 
-    /// Dequeueing identifier
-    static let reuseIdentifier = NSStringFromClass(PostHeader.self)
-
-    private let button = GradientButton {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.orientation = GradientOrientation.horizontal.rawValue
-        $0.startColor = .dodgerBlue
-        $0.endColor = .azureRadiance
-        $0.cornerRadius = 4
-
-        let title = L.addPost()
-        $0.setTitle(title, for: .normal)
-        $0.titleLabel?.font = Avenir.medium.of(size: 15)
-        UIPosts.add.expose(item: $0)
-    }
-
-    fileprivate var delegate: PostsVC? {
-        didSet {
-            if let delegate = delegate {
-                button.addTarget(delegate,
-                                 action: #selector(delegate.addTapped),
-                                 for: .touchUpInside)
-            } else {
-                button.removeTarget(nil,
-                                    action: nil,
-                                    for: .touchUpInside)
-            }
+        requestsObserver = net.observer(of: .requests) { [weak self] _ in
+            self?.update()
         }
-    }
-
-    /// Construct with identifier
-    ///
-    /// - Parameter reuseIdentifier: Identifier
-    override init(reuseIdentifier: String?) {
-        super.init(reuseIdentifier: reuseIdentifier)
-
-        contentView.addSubview(button)
-        button.edgeAnchors == edgeAnchors + EdgeInsets(top: 8,
-                                                       left: 8,
-                                                       bottom: 0,
-                                                       right: 8)
-    }
-
-    /// Unsupported coding constructor
-    ///
-    /// - Parameter coder: An unarchiver object.
-    required init?(coder: NSCoder) {
-        return nil
-    }
-
-    /// Empty display
-    override func prepareForReuse() {
-        super.prepareForReuse()
-
-        delegate = nil
     }
 }

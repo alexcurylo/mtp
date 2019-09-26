@@ -6,6 +6,46 @@
 // swiftlint:disable all
 
 final class NetworkServiceSpy: NetworkService {
+    var invokedIsConnectedGetter = false
+    var invokedIsConnectedGetterCount = 0
+    var stubbedIsConnected: Bool! = false
+    var isConnected: Bool {
+        invokedIsConnectedGetter = true
+        invokedIsConnectedGetterCount += 1
+        return stubbedIsConnected
+    }
+    var invokedRequestsGetter = false
+    var invokedRequestsGetterCount = 0
+    var stubbedRequests: [OfflineRequest]! = []
+    var requests: [OfflineRequest] {
+        invokedRequestsGetter = true
+        invokedRequestsGetterCount += 1
+        return stubbedRequests
+    }
+    var invokedMtpGetter = false
+    var invokedMtpGetterCount = 0
+    var stubbedMtp: MTPNetworkController!
+    var mtp: MTPNetworkController {
+        invokedMtpGetter = true
+        invokedMtpGetterCount += 1
+        return stubbedMtp
+    }
+    var invokedStatusKeyGetter = false
+    var invokedStatusKeyGetterCount = 0
+    var stubbedStatusKey: StatusKey!
+    var statusKey: StatusKey {
+        invokedStatusKeyGetter = true
+        invokedStatusKeyGetterCount += 1
+        return stubbedStatusKey
+    }
+    var invokedNotificationGetter = false
+    var invokedNotificationGetterCount = 0
+    var stubbedNotification: Notification.Name!
+    var notification: Notification.Name {
+        invokedNotificationGetter = true
+        invokedNotificationGetterCount += 1
+        return stubbedNotification
+    }
     var invokedAppGetter = false
     var invokedAppGetterCount = 0
     var stubbedApp: ApplicationService!
@@ -53,6 +93,14 @@ final class NetworkServiceSpy: NetworkService {
         invokedNoteGetter = true
         invokedNoteGetterCount += 1
         return stubbedNote
+    }
+    var invokedReportGetter = false
+    var invokedReportGetterCount = 0
+    var stubbedReport: ReportingService!
+    var report: ReportingService {
+        invokedReportGetter = true
+        invokedReportGetterCount += 1
+        return stubbedReport
     }
     var invokedStyleGetter = false
     var invokedStyleGetterCount = 0
@@ -291,10 +339,21 @@ final class NetworkServiceSpy: NetworkService {
         invokedRefreshEverything = true
         invokedRefreshEverythingCount += 1
     }
-    var invokedUnthrottle = false
-    var invokedUnthrottleCount = 0
-    func unthrottle() {
-        invokedUnthrottle = true
-        invokedUnthrottleCount += 1
+    var invokedLogout = false
+    var invokedLogoutCount = 0
+    func logout() {
+        invokedLogout = true
+        invokedLogoutCount += 1
+    }
+    var invokedNotify = false
+    var invokedNotifyCount = 0
+    var invokedNotifyParameters: (changed: String, info: [AnyHashable: Any])?
+    var invokedNotifyParametersList = [(changed: String, info: [AnyHashable: Any])]()
+    func notify(observers changed: String,
+    info: [AnyHashable: Any]) {
+        invokedNotify = true
+        invokedNotifyCount += 1
+        invokedNotifyParameters = (changed, info)
+        invokedNotifyParametersList.append((changed, info))
     }
 }

@@ -506,7 +506,7 @@ extension MTP: AccessTokenAuthorizable {
 typealias MTPProvider = MoyaProvider<MTP>
 
 /// Calls the MTP API via Moya
-struct MTPNetworkController: ServiceProvider {
+class MTPNetworkController: ServiceProvider {
     // swiftlint:disable:previous type_body_length
 
     /// Set places visit status
@@ -855,14 +855,16 @@ struct MTPNetworkController: ServiceProvider {
     ///
     /// - Parameters:
     ///   - id: Location ID
+    ///   - reload: Force reload
     ///   - stub: Stub behaviour
     ///   - then: Completion
     func loadPosts(location id: Int,
+                   reload: Bool,
                    stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                    then: @escaping NetworkCompletion<PostsJSON> = { _ in }) {
         let provider = MTPProvider(stubClosure: stub)
         let endpoint = MTP.locationPosts(location: id)
-        guard !endpoint.isThrottled else {
+        guard reload || !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
 
@@ -902,9 +904,11 @@ struct MTPNetworkController: ServiceProvider {
     ///
     /// - Parameters:
     ///   - id: User ID
+    ///   - reload: Force reload
     ///   - stub: Stub behaviour
     ///   - then: Completion
     func loadPosts(user id: Int,
+                   reload: Bool,
                    stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
                    then: @escaping NetworkCompletion<PostsJSON> = { _ in }) {
         guard data.isLoggedIn else {
@@ -914,7 +918,7 @@ struct MTPNetworkController: ServiceProvider {
         let auth = AccessTokenPlugin { self.data.token }
         let provider = MTPProvider(stubClosure: stub, plugins: [auth])
         let endpoint = MTP.userPosts(id: id)
-        guard !endpoint.isThrottled else {
+        guard reload || !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
 
@@ -1557,11 +1561,13 @@ struct MTPNetworkController: ServiceProvider {
     /// Get logged in user info
     ///
     /// - Parameters:
+    ///   - reload: Force reload
     ///   - stub: Stub behaviour
     ///   - then: Completion
     func userGetByToken(
+        reload: Bool,
         stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
-        then: @escaping NetworkCompletion<UserJSON>
+        then: @escaping NetworkCompletion<UserJSON> = { _ in }
     ) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
@@ -1570,7 +1576,7 @@ struct MTPNetworkController: ServiceProvider {
         let auth = AccessTokenPlugin { self.data.token }
         let provider = MTPProvider(stubClosure: stub, plugins: [auth])
         let endpoint = MTP.userGetByToken
-        guard !endpoint.isThrottled else {
+        guard reload || !endpoint.isThrottled else {
             return then(.failure(.throttle))
         }
 
@@ -1683,7 +1689,7 @@ struct MTPNetworkController: ServiceProvider {
                 self.data.token = token
                 self.data.user = user
                 self.report(success: endpoint)
-                self.userGetByToken { _ in
+                self.userGetByToken(reload: true) { _ in
                     then(.success(user))
                 }
                 return
@@ -2101,9 +2107,9 @@ private extension Response {
 
 extension NetworkError: LocalizedError {
 
-    /// Loggable description of NetworkError
-    public var errorDescription: String? {
-        return "🔥\(code)💬\(message)"
+    /// Displayable description of NetworkError
+    var errorDescription: String? {
+        return L.errorDescription(code, message)
     }
 }
 
@@ -2133,6 +2139,8 @@ private extension NetworkError {
             return 1_090
         case .token:
             return 1_100
+        case .queued:
+            return 2_000
         }
     }
 
@@ -2160,7 +2168,9 @@ private extension NetworkError {
             return "network throttled"
         case .token:
             return "user token not found"
-        }
+        case .queued:
+            return "queued for later"
+       }
     }
 }
 

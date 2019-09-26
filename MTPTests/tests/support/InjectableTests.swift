@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class InjectableTests: XCTestCase {
+final class InjectableTests: MTPTestCase {
 
     func testUnwrapFailure() throws {
         // given
@@ -56,7 +56,7 @@ final class InjectableTests: XCTestCase {
         // given
         let nilString: String? = nil
         let emptyString: String? = ""
-        let string: String?  = "test"
+        let string: String? = "test"
         // swiftlint:disable discouraged_optional_collection
         let nilArray: [Int]? = nil
         let emptyArray: [Int]? = []

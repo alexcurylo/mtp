@@ -15,18 +15,21 @@ source 'https://cdn.cocoapods.org/'
 # http://blog.cocoapods.org/CocoaPods-1.7.0-beta/
 #install! 'cocoapods', :generate_multiple_pod_projects => true
 
+# SPM progress:
+# https://github.com/Rightpoint/Anchorage/pull/86
+# https://github.com/AssistoLab/DropDown
+# https://github.com/facebook/facebook-swift-sdk/issues/491
+# https://github.com/firebase/firebase-ios-sdk/issues/3136
+# https://github.com/auth0/JWTDecode.swift/issues/92
+# https://github.com/krimpedance/KRProgressHUD
+# https://github.com/rechsteiner/Parchment
+# https://github.com/mac-cain13/R.swift/pull/538 - need SPM tag (before 5.1)
+
 $iosVersion = '11.0'
 platform :ios, $iosVersion
 
 target 'MTP' do
-
-  pod 'ABFRealmMapView', :git => 'https://github.com/alexcurylo/ABFRealmMapView', :modular_headers => true
-  pod 'RealmMapView', :git => 'https://github.com/alexcurylo/ABFRealmMapView'
-
-  pod 'AlamofireNetworkActivityIndicator'
   pod 'Anchorage'
-  pod 'AXPhotoViewer/Nuke'
-  pod 'AXStateButton', :modular_headers => true
   pod 'Bolts', :modular_headers => true, :inhibit_warnings => true
   pod 'Crashlytics'
   pod 'DropDown'
@@ -36,20 +39,11 @@ target 'MTP' do
   pod 'FBSDKCoreKit', :modular_headers => true
   pod 'FBSDKLoginKit', :modular_headers => true
   pod 'Firebase/Analytics'
-  pod 'FLAnimatedImage', :modular_headers => true, :inhibit_warnings => true
   pod 'JWTDecode'
   pod 'KRProgressHUD'
-  pod 'Moya'
-  pod 'Nuke'
-  pod 'Nuke-Alamofire-Plugin'
   pod 'Parchment', :inhibit_warnings => true
   pod 'R.swift'
   pod 'R.swift.Library'
-  pod 'Realm', :modular_headers => true
-  pod 'RealmSwift'
-  pod 'SwiftEntryKit', :inhibit_warnings => true
-  pod 'SwiftLint'
-  pod 'SwiftyBeaver'
 
   target 'MTPTests' do
     inherit! :search_paths
@@ -61,15 +55,11 @@ target 'MTP' do
 
 end
 
-plugin 'cocoapods-acknowledgements',
-    :settings_bundle => true,
-    :exclude => [
-        'SwiftLint',
-    ]
+plugin 'cocoapods-acknowledgements', :settings_bundle => true
 
 post_install do |installer|
     installer.pods_project.targets.each do |target|
-        # patch SwiftLint
+        # patch Crashlytics, Fabric, nanopb
         target.build_configurations.each do |config|
             if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 8.0
                 config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '8.0'

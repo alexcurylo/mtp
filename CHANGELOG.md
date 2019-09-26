@@ -6,6 +6,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [Version 1.1.0, Build 643] - 2019-09-26
+
+### Changed
+- Improve offline messaging
+
+### Fixed
+- Corrected network state synchronization
+
+## [Version 1.1.0, Build 642] - 2019-09-24
+
+### Added
+ - Offline queue for uploading visits, posts, photos
+ - Network Status screen showing queue in Settings
+ - Warnings when network not available
+
+### Changed
+- Migrated to Xcode 11 + iOS 13 SDK
+
+### Fixed
+- Improved visits and rankings server synchronization
+- Improved display of multilocation WHS
+
 ## [Version 1.0.2, Build 641] - 2019-08-30
 
 ### Added

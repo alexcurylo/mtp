@@ -1,18 +1,24 @@
 // @copyright Trollwerks Inc.
 
 import Nuke
-import NukeAlamofirePlugin
+//import NukeAlamofirePlugin
 
 private let _dispatchOnceConfigureNukeWithAlamofire: Void = {
+    /*
+
+     https://github.com/kean/Nuke-Alamofire-Plugin.git
+     looks like v4.3 SPM support should be released soon
+
     let pipeline = ImagePipeline {
         $0.dataLoader = AlamofireDataLoader()
         $0.imageCache = ImageCache.shared
     }
     ImagePipeline.shared = pipeline
+     */
 }()
 
 /// Currently synonym for the Nuke protocol
-protocol ImageService: ImageDisplaying { }
+protocol ImageService: Nuke_ImageDisplaying { }
 
 extension ImageService where Self: UIView {
 
@@ -58,7 +64,7 @@ extension ImageService where Self: UIView {
                 of: #"src="\/api\/files\/preview\?uuid=[A-Za-z0-9+\/=]+\""#,
                 options: .regularExpression
              ) else {
-                display(image: nil)
+                nuke_display(image: nil)
                 return false
         }
 
@@ -74,7 +80,7 @@ extension ImageService where Self: UIView {
         placeholder: UIImage? = R.image.placeholderThumb()
     ) -> Bool {
         guard let url = url else {
-            display(image: placeholder)
+            nuke_display(image: placeholder)
             return false
         }
 
@@ -95,8 +101,13 @@ extension ImageService where Self: UIView {
 extension UIImageView: ImageService {
 
     /// Cancel request in progress
-    func prepareForReuse() {
+    func cancelLoad() {
         Nuke.cancelRequest(for: self)
+    }
+
+    /// Reset all state
+    func prepareForReuse() {
+        cancelLoad()
         image = nil
         isHidden = false
     }
@@ -107,7 +118,7 @@ extension UIButton: ImageService {
     /// Conform UIButton to ImageService
     ///
     /// - Parameter image: image to display
-    open func display(image: Image?) {
+    open func nuke_display(image: Image?) {
         setBackgroundImage(image, for: .normal)
     }
 }

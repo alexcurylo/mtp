@@ -18,6 +18,7 @@ final class RootVC: UIViewController {
         super.viewDidLoad()
         requireOutlets()
 
+        setLightMode()
         setApplicationBackground()
     }
 
@@ -26,8 +27,7 @@ final class RootVC: UIViewController {
     /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        hide(navBar: animated)
+        guard !UIApplication.isUnitTesting else { return }
 
         if data.isLoggedIn {
             credentials.isHidden = true
@@ -45,19 +45,14 @@ final class RootVC: UIViewController {
     /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        guard !UIApplication.isUnitTesting else { return }
+
         report(screen: "Root")
 
         let bottom = credentialsBottom.constant
         if bottom < 0 {
             revealCredentials(bottom: bottom)
         }
-    }
-
-    /// Prepare for hide
-    ///
-    /// - Parameter animated: Whether animating
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
     }
 
     /// Instrument and inject navigation

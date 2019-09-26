@@ -15,6 +15,20 @@ extension UIMain: Elemental {
         }
     }
 
+    var element: XCUIElement {
+        switch self {
+        case .bar:
+            return identified
+        // for 13.0, find by name
+        case .locations:
+            return all["Locations"]
+        case .rankings:
+            return all["Rankings"]
+        case .myProfile:
+            return all["My Profile"]
+        }
+    }
+
     var container: XCUIElementQuery {
         switch self {
         case .bar: return all

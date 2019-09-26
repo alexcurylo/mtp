@@ -72,6 +72,15 @@ final class EditProfileVC: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         report(screen: "Edit Profile")
+
+        if !net.isConnected {
+            let question = L.continueOffline(L.updateProfile())
+            note.ask(question: question) { [weak self] answer in
+                if !answer {
+                    self?.performSegue(withIdentifier: Segues.cancelEdits, sender: self)
+                }
+            }
+        }
     }
 
     /// Apply corner rounding on each layout
@@ -116,23 +125,13 @@ final class EditProfileVC: UITableViewController {
 
 extension EditProfileVC {
 
-    /// Provide row height
-    ///
-    /// - Parameters:
-    ///   - tableView: Table
-    ///   - indexPath: Index path
-    /// - Returns: Height
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 
-    /// Provide estimated row height
-    ///
-    /// - Parameters:
-    ///   - tableView: Table
-    ///   - indexPath: Index path
-    /// - Returns: Height
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
@@ -400,7 +399,7 @@ private extension EditProfileVC {
         }
     }
 
-    //swiftlint:disable:next cyclomatic_complexity
+    // swiftlint:disable:next cyclomatic_complexity
    @IBAction func toolbarBackTapped(_ sender: UIBarButtonItem) {
         let linkTextFields = linksStack.linkTextFields
 
@@ -439,7 +438,7 @@ private extension EditProfileVC {
         }
     }
 
-    //swiftlint:disable:next cyclomatic_complexity
+    // swiftlint:disable:next cyclomatic_complexity
     @IBAction func toolbarNextTapped(_ sender: UIBarButtonItem) {
         let linkTextFields = linksStack.linkTextFields
 
@@ -724,28 +723,17 @@ extension EditProfileVC: UIPickerViewDataSource {
 
 extension EditProfileVC: UIPickerViewDelegate {
 
-    /// Title of picker row
-    ///
-    /// - Parameters:
-    ///   - pickerView: Picker view
-    ///   - row: Index
-    ///   - component: Index
-    /// - Returns: Title
-    public func pickerView(_ pickerView: UIPickerView,
-                           titleForRow row: Int,
-                           forComponent component: Int) -> String? {
+    /// :nodoc:
+    func pickerView(_ pickerView: UIPickerView,
+                    titleForRow row: Int,
+                    forComponent component: Int) -> String? {
         return genders[row]
     }
 
-    /// Handle picker selection
-    ///
-    /// - Parameters:
-    ///   - pickerView: Picker view
-    ///   - row: Index
-    ///   - component: Index
-    public func pickerView(_ pickerView: UIPickerView,
-                           didSelectRow row: Int,
-                           inComponent component: Int) {
+    /// :nodoc:
+    func pickerView(_ pickerView: UIPickerView,
+                    didSelectRow row: Int,
+                    inComponent component: Int) {
         guard row > 0 else { return }
 
         genderTextField.text = genders[row]

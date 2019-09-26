@@ -355,7 +355,7 @@ class RoutingAppDelegate: UIResponder, UIApplicationDelegate {
 
     /// Override point to produce app handlers
     var handlers: Handlers {
-        fatalError("Incorrect RoutingAppDelegate usage: subclass and override `handlers`")
+        return []
     }
 
     /// Typed access to unique handler
@@ -370,16 +370,6 @@ class RoutingAppDelegate: UIResponder, UIApplicationDelegate {
 // MARK: - All members of UIApplicationDelegate as found in 12.0 SDK -
 
 extension RoutingAppDelegate {
-
-    /// didFinishLaunchingWithOptions
-    ///
-    /// - Parameter application: Application
-    func applicationDidFinishLaunching(_ application: UIApplication) {
-        handlers.of(type: AppLaunchHandler.self)
-                .forEach { _ = $0.application(application,
-                                              didFinishLaunchingWithOptions: nil)
-                }
-    }
 
     /// willFinishLaunchingWithOptions
     ///
@@ -686,18 +676,6 @@ extension RoutingAppDelegate {
         handlers.of(type: AppContentHandler.self)
                 .forEach { $0.applicationProtectedDataDidBecomeAvailable(application) }
     }
-
-#if Do_not_implement_use_UITraitCollection_and_UITraitEnvironment_APIs
-    /// supportedInterfaceOrientationsFor
-    ///
-    /// - Parameter application: Application
-    /// - Parameter supportedInterfaceOrientationsFor: Window
-    /// - Returns: Mask
-    func application(_ application: UIApplication,
-                     supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.allButUpsideDown
-    }
-#endif
 
     /// shouldAllowExtensionPointIdentifier
     ///

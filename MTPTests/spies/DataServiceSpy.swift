@@ -207,13 +207,13 @@ final class DataServiceSpy: DataService {
             return stubbedMapDisplay
         }
     }
-    var invokedMappablesGetter = false
-    var invokedMappablesGetterCount = 0
-    var stubbedMappables: [Mappable]! = []
-    var mappables: [Mappable] {
-        invokedMappablesGetter = true
-        invokedMappablesGetterCount += 1
-        return stubbedMappables
+    var invokedVisiblesGetter = false
+    var invokedVisiblesGetterCount = 0
+    var stubbedVisibles: [Mappable]! = []
+    var visibles: [Mappable] {
+        invokedVisiblesGetter = true
+        invokedVisiblesGetterCount += 1
+        return stubbedVisibles
     }
     var invokedNotifiedSetter = false
     var invokedNotifiedSetterCount = 0
@@ -551,29 +551,41 @@ final class DataServiceSpy: DataService {
         invokedGetMappableParametersList.append((item, ()))
         return stubbedGetMappableResult
     }
-    var invokedGetMappablesChecklist = false
-    var invokedGetMappablesChecklistCount = 0
-    var invokedGetMappablesChecklistParameters: (list: Checklist, Void)?
-    var invokedGetMappablesChecklistParametersList = [(list: Checklist, Void)]()
-    var stubbedGetMappablesChecklistResult: [Mappable]! = []
-    func get(mappables list: Checklist) -> [Mappable] {
-        invokedGetMappablesChecklist = true
-        invokedGetMappablesChecklistCount += 1
-        invokedGetMappablesChecklistParameters = (list, ())
-        invokedGetMappablesChecklistParametersList.append((list, ()))
-        return stubbedGetMappablesChecklistResult
+    var invokedGetVisible = false
+    var invokedGetVisibleCount = 0
+    var invokedGetVisibleParameters: (item: Checklist.Item, Void)?
+    var invokedGetVisibleParametersList = [(item: Checklist.Item, Void)]()
+    var stubbedGetVisibleResult: Mappable!
+    func get(visible item: Checklist.Item) -> Mappable? {
+        invokedGetVisible = true
+        invokedGetVisibleCount += 1
+        invokedGetVisibleParameters = (item, ())
+        invokedGetVisibleParametersList.append((item, ()))
+        return stubbedGetVisibleResult
     }
-    var invokedGetMappablesString = false
-    var invokedGetMappablesStringCount = 0
-    var invokedGetMappablesStringParameters: (matching: String, Void)?
-    var invokedGetMappablesStringParametersList = [(matching: String, Void)]()
-    var stubbedGetMappablesStringResult: [Mappable]! = []
-    func get(mappables matching: String) -> [Mappable] {
-        invokedGetMappablesString = true
-        invokedGetMappablesStringCount += 1
-        invokedGetMappablesStringParameters = (matching, ())
-        invokedGetMappablesStringParametersList.append((matching, ()))
-        return stubbedGetMappablesStringResult
+    var invokedGetVisiblesChecklist = false
+    var invokedGetVisiblesChecklistCount = 0
+    var invokedGetVisiblesChecklistParameters: (list: Checklist, Void)?
+    var invokedGetVisiblesChecklistParametersList = [(list: Checklist, Void)]()
+    var stubbedGetVisiblesChecklistResult: [Mappable]! = []
+    func get(visibles list: Checklist) -> [Mappable] {
+        invokedGetVisiblesChecklist = true
+        invokedGetVisiblesChecklistCount += 1
+        invokedGetVisiblesChecklistParameters = (list, ())
+        invokedGetVisiblesChecklistParametersList.append((list, ()))
+        return stubbedGetVisiblesChecklistResult
+    }
+    var invokedGetVisiblesString = false
+    var invokedGetVisiblesStringCount = 0
+    var invokedGetVisiblesStringParameters: (matching: String, Void)?
+    var invokedGetVisiblesStringParametersList = [(matching: String, Void)]()
+    var stubbedGetVisiblesStringResult: [Mappable]! = []
+    func get(visibles matching: String) -> [Mappable] {
+        invokedGetVisiblesString = true
+        invokedGetVisiblesStringCount += 1
+        invokedGetVisiblesStringParameters = (matching, ())
+        invokedGetVisiblesStringParametersList.append((matching, ()))
+        return stubbedGetVisiblesStringResult
     }
     var invokedGetMilestones = false
     var invokedGetMilestonesCount = 0
@@ -907,13 +919,23 @@ final class DataServiceSpy: DataService {
     }
     var invokedDeletePhotos = false
     var invokedDeletePhotosCount = 0
-    var invokedDeletePhotosParameters: (id: Int, Void)?
-    var invokedDeletePhotosParametersList = [(id: Int, Void)]()
-    func deletePhotos(user id: Int) {
+    var invokedDeletePhotosParameters: (userId: Int, Void)?
+    var invokedDeletePhotosParametersList = [(userId: Int, Void)]()
+    func delete(photos userId: Int) {
         invokedDeletePhotos = true
         invokedDeletePhotosCount += 1
-        invokedDeletePhotosParameters = (id, ())
-        invokedDeletePhotosParametersList.append((id, ()))
+        invokedDeletePhotosParameters = (userId, ())
+        invokedDeletePhotosParametersList.append((userId, ()))
+    }
+    var invokedDeleteRankings = false
+    var invokedDeleteRankingsCount = 0
+    var invokedDeleteRankingsParameters: (rankings: Checklist, Void)?
+    var invokedDeleteRankingsParametersList = [(rankings: Checklist, Void)]()
+    func delete(rankings: Checklist) {
+        invokedDeleteRankings = true
+        invokedDeleteRankingsCount += 1
+        invokedDeleteRankingsParameters = (rankings, ())
+        invokedDeleteRankingsParametersList.append((rankings, ()))
     }
     var invokedResolve = false
     var invokedResolveCount = 0

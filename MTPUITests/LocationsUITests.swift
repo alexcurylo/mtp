@@ -55,7 +55,8 @@ final class LocationsUITests: XCTestCase {
         UILocationsFilter.close.tap()
 
         UILocations.search.tap()
-        UILocations.search.type(text: "Fred")
+        // "Fred" types as "FFred" with Xcode 11
+        UILocations.search.type(text: "F")
         UILocations.result(0).tap()
    }
 }

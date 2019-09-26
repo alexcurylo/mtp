@@ -29,7 +29,7 @@ final class MyProfileVC: ProfileVC {
     }
 
     private var userObserver: Observer?
-    private var reportMessage = ""
+    private var settingsRoute: Route?
 
     /// Prepare for interaction
     override func viewDidLoad() {
@@ -54,10 +54,10 @@ final class MyProfileVC: ProfileVC {
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let settings = Segues.showSettings(segue: segue)?
-                                .destination {
-            settings.inject(model: reportMessage)
-            reportMessage = ""
+        if let settings = Segues.showSettings(segue: segue)?.destination,
+           let route = settingsRoute {
+            settings.inject(model: route)
+            settingsRoute = nil
         }
     }
 
@@ -73,11 +73,11 @@ final class MyProfileVC: ProfileVC {
         }
     }
 
-    /// Handle content reporting
+    /// Handle Settings routing
     ///
-    /// - Parameter message: Email body
-    func reportContent(message: String) {
-        reportMessage = message
+    /// - Parameter route: Route to settings
+    func settings(route: Route) {
+        settingsRoute = route
         performSegue(withIdentifier: Segues.showSettings, sender: self)
     }
 }

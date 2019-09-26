@@ -1,5 +1,6 @@
 docs/**
 MTP/resources/**
+MTP/sdks/**
 MTPTests/**
 MTPUITests/**
 Pods/**

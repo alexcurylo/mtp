@@ -1,6 +1,10 @@
 // @copyright Trollwerks Inc.
 
+#if DIRECT_FEEDBACK
+import UIKit
+#else
 import MessageUI
+#endif
 
 /// Miscellaneous account and app operations
 final class SettingsVC: UITableViewController {
@@ -10,14 +14,15 @@ final class SettingsVC: UITableViewController {
     // verified in requireOutlets
     @IBOutlet private var backgroundView: UIView!
     @IBOutlet private var aboutButton: UIButton!
-    @IBOutlet private var contactButton: UIButton!
-    @IBOutlet private var deleteButton: UIButton!
-    @IBOutlet private var faqButton: UIButton!
-    @IBOutlet private var logoutButton: UIButton!
-    @IBOutlet private var reviewButton: UIButton!
     @IBOutlet private var shareButton: UIButton!
+    @IBOutlet private var reviewButton: UIButton!
+    @IBOutlet private var faqButton: UIButton!
+    @IBOutlet private var contactButton: UIButton!
+    @IBOutlet private var networkButton: UIButton!
+    @IBOutlet private var logoutButton: UIButton!
+    @IBOutlet private var deleteButton: UIButton!
 
-    private var reportMessage = ""
+    private var route: Route?
 
     /// Prepare for interaction
     override func viewDidLoad() {
@@ -45,10 +50,15 @@ final class SettingsVC: UITableViewController {
         super.viewDidAppear(animated)
         report(screen: "Settings")
 
-        if !reportMessage.isEmpty {
-            email(title: L.reportSubject(), body: reportMessage)
-            reportMessage = ""
+        switch route {
+        case .network?:
+            performSegue(withIdentifier: Segues.showNetwork, sender: self)
+        case .reportContent(let message)? where !message.isEmpty:
+            sendFeedback(title: L.reportSubject(), body: message)
+        default:
+            break
         }
+        route = nil
     }
 
     /// Instrument and inject navigation
@@ -90,7 +100,7 @@ private extension SettingsVC {
         present(share, animated: true)
     }
 
-    @IBAction func rateTapped(_ sender: UIButton) {
+    @IBAction func reviewTapped(_ sender: UIButton) {
         guard let url = productUrl else { return }
 
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
@@ -104,15 +114,29 @@ private extension SettingsVC {
     }
 
     @IBAction func contactTapped(_ sender: UIButton) {
-        email(title: L.contactSubject())
+        sendFeedback(title: L.contactSubject())
+    }
+
+    @IBAction func networkTapped(_ sender: UIButton) {
+        // storyboard segue showNetwork
     }
 
     func report(body: String = "") {
-        email(title: L.reportSubject(), body: body)
+        sendFeedback(title: L.reportSubject(), body: body)
     }
 
-    func email(title: String,
-               body: String = "") {
+    #if DIRECT_FEEDBACK
+    func sendFeedback(title: String,
+                      body: String = "") {
+        let configuration = FeedbackConfiguration(toRecipients: ["test@example.com"],
+                                                  usesHTML: true)
+        let controller = FeedbackViewController(configuration: configuration)
+        replacedFeedbackSendingAction = sendWithAPI()
+        navigationController?.pushViewController(controller, animated: true)
+    }
+    #else
+    func sendFeedback(title: String,
+                      body: String = "") {
         guard MFMailComposeViewController.canSendMail() else {
             note.message(error: L.setupEmail())
             return
@@ -141,6 +165,7 @@ private extension SettingsVC {
 
         present(composeVC, animated: true, completion: nil)
     }
+    #endif
 
     @IBAction func deleteAccount(segue: UIStoryboardSegue) {
         note.modal(info: L.deletingAccount())
@@ -192,6 +217,8 @@ extension SettingsVC: Exposing {
         UISettings.delete.expose(item: deleteButton)
         UISettings.faq.expose(item: faqButton)
         UISettings.logout.expose(item: logoutButton)
+        UISettings.menu.expose(item: tableView)
+        UISettings.network.expose(item: networkButton)
         UISettings.review.expose(item: reviewButton)
         UISettings.share.expose(item: shareButton)
     }
@@ -209,6 +236,7 @@ extension SettingsVC: InterfaceBuildable {
         deleteButton.require()
         faqButton.require()
         logoutButton.require()
+        networkButton.require()
         reviewButton.require()
         shareButton.require()
     }
@@ -219,13 +247,13 @@ extension SettingsVC: InterfaceBuildable {
 extension SettingsVC: Injectable {
 
     /// Injected dependencies
-    typealias Model = String
+    typealias Model = Route
 
     /// Handle dependency injection
     ///
     /// - Parameter model: Dependencies
     func inject(model: Model) {
-        reportMessage = model
+        route = model
     }
 
     /// Enforce dependency injection

@@ -56,7 +56,7 @@ final class SignupVC: UIViewController {
         startKeyboardListening()
    }
 
-    /// Remove observers
+    /// :nodoc:
     deinit {
         stopKeyboardListening()
     }
@@ -377,7 +377,7 @@ private extension SignupVC {
             //errorMessage = L.fixCountry()
         } else if location == nil {
             if isLocationVisible {
-                errorMessage = L.fixLocation()
+                errorMessage = L.fixLocationProfile()
             } else if let country = country {
                 location = data.get(location: country.countryId)
             }
@@ -636,28 +636,17 @@ extension SignupVC: UIPickerViewDataSource {
 
 extension SignupVC: UIPickerViewDelegate {
 
-    /// Title of picker row
-    ///
-    /// - Parameters:
-    ///   - pickerView: Picker view
-    ///   - row: Index
-    ///   - component: Index
-    /// - Returns: Title
-    public func pickerView(_ pickerView: UIPickerView,
-                           titleForRow row: Int,
-                           forComponent component: Int) -> String? {
+    /// :nodoc:
+    func pickerView(_ pickerView: UIPickerView,
+                    titleForRow row: Int,
+                    forComponent component: Int) -> String? {
         return genders[row]
     }
 
-    /// Handle picker selection
-    ///
-    /// - Parameters:
-    ///   - pickerView: Picker view
-    ///   - row: Index
-    ///   - component: Index
-    public func pickerView(_ pickerView: UIPickerView,
-                           didSelectRow row: Int,
-                           inComponent component: Int) {
+    /// :nodoc:
+    func pickerView(_ pickerView: UIPickerView,
+                    didSelectRow row: Int,
+                    inComponent component: Int) {
         guard row > 0 else { return }
         genderTextField.text = genders[row]
         genderTextField.resignFirstResponder()

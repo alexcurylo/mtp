@@ -6,7 +6,7 @@
 import Anchorage
 import WebKit
 
-//swiftlint:disable file_length
+// swiftlint:disable file_length
 
 /// Source of web page data
 enum WKWebSource: Equatable {
@@ -106,7 +106,7 @@ private enum UrlsHandledByApp {
 }
 
 /// Delegate functions
-@objc protocol WKWebViewControllerDelegate {
+protocol WKWebViewControllerDelegate: AnyObject {
 
     /// Dismissal permission
     ///
@@ -114,31 +114,31 @@ private enum UrlsHandledByApp {
     ///   - controller: WKWebViewController
     ///   - url: Target URL
     /// - Returns: Permission
-    @objc optional func webView(controller: WKWebViewController,
-                                canDismiss url: URL) -> Bool
+    func webView(controller: WKWebViewController,
+                 canDismiss url: URL) -> Bool
     /// Start notification
     ///
     /// - Parameters:
     ///   - controller: WKWebViewController
     ///   - url: Target URL
-    @objc optional func webView(controller: WKWebViewController,
-                                didStart url: URL)
+    func webView(controller: WKWebViewController,
+                 didStart url: URL)
     /// Finish notification
     ///
     /// - Parameters:
     ///   - controller: WKWebViewController
     ///   - url: Target URL
-    @objc optional func webView(controller: WKWebViewController,
-                                didFinish url: URL)
+    func webView(controller: WKWebViewController,
+                 didFinish url: URL)
     /// Failure notification
     ///
     /// - Parameters:
     ///   - controller: WKWebViewController
     ///   - url: Target URL
     ///   - error: Error
-    @objc optional func webView(controller: WKWebViewController,
-                                didFail url: URL,
-                                withError error: Error)
+    func webView(controller: WKWebViewController,
+                 didFail url: URL,
+                 withError error: Error)
     /// Decide Policy
     ///
     /// - Parameters:
@@ -146,9 +146,9 @@ private enum UrlsHandledByApp {
     ///   - url: Target URL
     ///   - navigationType: Navigation type
     /// - Returns: Whether allowed
-    @objc optional func webView(controller: WKWebViewController,
-                                decidePolicy url: URL,
-                                navigationType: NavigationType) -> Bool
+    func webView(controller: WKWebViewController,
+                 decidePolicy url: URL,
+                 navigationType: NavigationType) -> Bool
 }
 
 /// Provides WKWebView hosting support
@@ -159,9 +159,7 @@ class WKWebViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
 
-    /// Decoding intializer
-    ///
-    /// - Parameter aDecoder: Decoder
+    /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -257,11 +255,8 @@ class WKWebViewController: UIViewController {
     fileprivate lazy var originalUserAgent = UIWebView().stringByEvaluatingJavaScript(from: "navigator.userAgent")
 
     fileprivate lazy var backBarButtonItem: UIBarButtonItem = {
-        let bundle = Bundle(for: WKWebViewController.self)
-        return UIBarButtonItem(
-            image: backBarButtonItemImage ?? UIImage(named: "navPageBack",
-                                                     in: bundle,
-                                                     compatibleWith: nil),
+        UIBarButtonItem(
+            image: backBarButtonItemImage ?? R.image.navPageBack(),
             style: .plain,
             target: self,
             action: #selector(backDidClick(sender:))
@@ -269,11 +264,8 @@ class WKWebViewController: UIViewController {
     }()
 
     fileprivate lazy var forwardBarButtonItem: UIBarButtonItem = {
-        let bundle = Bundle(for: WKWebViewController.self)
-        return UIBarButtonItem(
-            image: forwardBarButtonItemImage ?? UIImage(named: "navPageForward",
-                                                        in: bundle,
-                                                        compatibleWith: nil),
+        UIBarButtonItem(
+            image: forwardBarButtonItemImage ?? R.image.navPageForward(),
             style: .plain,
             target: self,
             action: #selector(forwardDidClick(sender:))
@@ -324,7 +316,7 @@ class WKWebViewController: UIViewController {
 
     private var isObserving = false
 
-    /// Remove observers
+    /// :nodoc:
     deinit {
         if isObserving {
             webView.removeObserver(self, forKeyPath: estimatedProgressKeyPath)
@@ -693,9 +685,9 @@ fileprivate extension WKWebViewController {
 
         var valid = false
         for cookie in cookies {
-            valid = !requestCookies.filter {
+            valid = requestCookies.contains {
                 $0[0] == cookie.name && $0[1] == cookie.value
-            }.isEmpty
+            }
             if !valid {
                 break
             }
@@ -770,7 +762,7 @@ fileprivate extension WKWebViewController {
     @objc func doneDidClick(sender: AnyObject) {
         var canDismiss = true
         if let url = source?.url {
-            canDismiss = delegate?.webView?(controller: self, canDismiss: url) ?? true
+            canDismiss = delegate?.webView(controller: self, canDismiss: url) ?? true
         }
         if canDismiss {
             dismiss(animated: true, completion: nil)
@@ -802,7 +794,7 @@ extension WKWebViewController: WKNavigationDelegate {
         progressView.progress = 0
         if let u = webView.url {
             self.url = u
-            delegate?.webView?(controller: self, didStart: u)
+            delegate?.webView(controller: self, didStart: u)
         }
     }
 
@@ -818,7 +810,7 @@ extension WKWebViewController: WKNavigationDelegate {
         progressView.progress = 0
         if let url = webView.url {
             self.url = url
-            delegate?.webView?(controller: self, didFinish: url)
+            delegate?.webView(controller: self, didFinish: url)
         }
     }
 
@@ -836,7 +828,7 @@ extension WKWebViewController: WKNavigationDelegate {
         progressView.progress = 0
         if let url = webView.url {
             self.url = url
-            delegate?.webView?(controller: self, didFail: url, withError: error)
+            delegate?.webView(controller: self, didFail: url, withError: error)
         }
     }
 
@@ -854,7 +846,7 @@ extension WKWebViewController: WKNavigationDelegate {
         progressView.progress = 0
         if let url = webView.url {
             self.url = url
-            delegate?.webView?(controller: self, didFail: url, withError: error)
+            delegate?.webView(controller: self, didFail: url, withError: error)
         }
     }
 
@@ -914,9 +906,9 @@ extension WKWebViewController: WKNavigationDelegate {
         }
 
         if let navigationType = NavigationType(rawValue: navigationAction.navigationType.rawValue),
-           let result = delegate?.webView?(controller: self,
-                                           decidePolicy: u,
-                                           navigationType: navigationType) {
+           let result = delegate?.webView(controller: self,
+                                          decidePolicy: u,
+                                          navigationType: navigationType) {
             actionPolicy = result ? .allow : .cancel
         }
     }

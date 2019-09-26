@@ -1,6 +1,5 @@
 // @copyright Trollwerks Inc.
 
-import AlamofireNetworkActivityIndicator
 import FBSDKCoreKit
 import Firebase
 import SwiftyBeaver

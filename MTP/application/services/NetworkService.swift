@@ -21,6 +21,8 @@ enum NetworkError: Swift.Error {
     case notModified
     /// parameter
     case parameter
+    /// queued
+    case queued
     /// serverOffline
     case serverOffline
     /// status
@@ -35,7 +37,7 @@ enum NetworkError: Swift.Error {
 typealias NetworkCompletion<T> = (_ result: Result<T, NetworkError>) -> Void
 
 /// Provides network-related functionality
-protocol NetworkService: ServiceProvider {
+protocol NetworkService: Observable, ServiceProvider {
 
     /// Load location photos
     ///
@@ -191,18 +193,54 @@ protocol NetworkService: ServiceProvider {
     /// Refresh everything
     func refreshEverything()
 
-    /// Reset user throttling
-    func unthrottle()
+    /// Reset all networking
+    func logout()
+
+    /// Direct accessor for connection status
+    var isConnected: Bool { get }
+
+    /// Direct accessor for queued requests
+    var requests: [OfflineRequest] { get }
+
+    /// Direct accessor for network controller
+    var mtp: MTPNetworkController { get }
 }
 
 /// Production implementation of NetworkService
 class NetworkServiceImpl: NetworkService {
 
-    fileprivate let mtp = MTPNetworkController()
+    /// Direct accessor for connection status
+    var isConnected: Bool { return offlineRequestManager.connected }
+
+    /// Direct accessor for queued requests
+    var requests: [OfflineRequest] { return offlineRequestManager.requests }
+
+    /// Direct accessor for network controller
+    let mtp: MTPNetworkController
+
     private var queue = OperationQueue {
         $0.name = "refresh"
         $0.maxConcurrentOperationCount = 1
         $0.qualityOfService = .utility
+    }
+    private lazy var offlineRequestManager: OfflineRequestManager = {
+        let manager: OfflineRequestManager
+        if UIApplication.isTesting {
+            manager = OfflineRequestManager.manager(withFileName: "test_manager")
+        } else {
+            manager = OfflineRequestManager.defaultManager
+        }
+        manager.simultaneousRequestCap = 1
+        manager.submissionInterval = 60
+        return manager
+    }()
+
+    /// Construction by injection
+    ///
+    /// - Parameter controller: MTPNetworkController
+    init(controller: MTPNetworkController = MTPNetworkController()) {
+        mtp = controller
+        offlineRequestManager.delegate = self
     }
 
     fileprivate func refreshData() {
@@ -227,7 +265,7 @@ class NetworkServiceImpl: NetworkService {
               !isThrottled(last: lastRefreshUser, wait: .user) else { return }
 
         lastRefreshUser = Date()
-        mtp.userGetByToken { _ in
+        mtp.userGetByToken(reload: false) { _ in
             self.refreshUserInfo()
         }
     }
@@ -288,7 +326,7 @@ class NetworkServiceImpl: NetworkService {
     ///   - then: Completion
     func loadPosts(location id: Int,
                    then: @escaping NetworkCompletion<PostsJSON>) {
-        mtp.loadPosts(location: id, then: then)
+        mtp.loadPosts(location: id, reload: false, then: then)
     }
 
     /// Load user posts
@@ -297,7 +335,7 @@ class NetworkServiceImpl: NetworkService {
     ///   - id: User ID
     ///   - then: Completion
     func loadPosts(user id: Int, then: @escaping NetworkCompletion<PostsJSON>) {
-        mtp.loadPosts(user: id, then: then)
+        mtp.loadPosts(user: id, reload: false, then: then)
     }
 
     /// Load rankings
@@ -350,7 +388,16 @@ class NetworkServiceImpl: NetworkService {
     func set(items: [Checklist.Item],
              visited: Bool,
              then: @escaping NetworkCompletion<Bool>) {
-        mtp.set(items: items, visited: visited, then: then)
+        for item in items {
+            let request = MTPVisitedRequest(item: item,
+                                            visited: visited)
+            if !offlineRequestManager.connected {
+                request.failed()
+            }
+            offlineRequestManager.queueRequest(request)
+        }
+        requestsChanged()
+        then(.failure(.queued))
     }
 
     /// Upload photo
@@ -364,7 +411,16 @@ class NetworkServiceImpl: NetworkService {
                 caption: String?,
                 location id: Int?,
                 then: @escaping NetworkCompletion<PhotoReply>) {
-        mtp.upload(photo: photo, caption: caption, location: id, then: then)
+        let request = MTPPhotoRequest(photo: photo,
+                                      file: nil,
+                                      caption: caption,
+                                      location: id)
+        if !offlineRequestManager.connected {
+            request.failed()
+        }
+        offlineRequestManager.queueRequest(request)
+        requestsChanged()
+        then(.failure(.queued))
     }
 
     /// Publish post
@@ -372,8 +428,15 @@ class NetworkServiceImpl: NetworkService {
     /// - Parameters:
     ///   - payload: Post payload
     ///   - then: Completion
-    func postPublish(payload: PostPayload, then: @escaping NetworkCompletion<PostReply>) {
-        mtp.postPublish(payload: payload, then: then)
+    func postPublish(payload: PostPayload,
+                     then: @escaping NetworkCompletion<PostReply>) {
+        let request = MTPPostRequest(payload: payload)
+        if !offlineRequestManager.connected {
+            request.failed()
+        }
+        offlineRequestManager.queueRequest(request)
+        requestsChanged()
+        then(.failure(.queued))
     }
 
     /// Delete user account
@@ -469,10 +532,143 @@ class NetworkServiceImpl: NetworkService {
         refreshRankings()
     }
 
-    /// Reset user throttling
-    func unthrottle() {
+    /// Reset all networking
+    func logout() {
+        offlineRequestManager.clearAllRequests()
         MTP.unthrottle()
         lastRefreshUser = nil
+    }
+}
+
+// MARK: - OfflineRequestManagerDelegate
+
+extension NetworkServiceImpl: OfflineRequestManagerDelegate {
+
+    /// Method that the delegate uses to generate OfflineRequest objects from dictionaries written to disk
+    ///
+    /// - Parameter dictionary: dictionary saved to disk associated with an unfinished request
+    /// - Returns: OfflineRequest object to be queued
+    func offlineRequest(withDictionary dictionary: [String: Any]) -> OfflineRequest? {
+        let request: OfflineRequest?
+        if dictionary[Key.list.key] != nil {
+            request = MTPVisitedRequest(dictionary: dictionary)
+        } else if dictionary[Key.post.key] != nil {
+            request = MTPPostRequest(dictionary: dictionary)
+        } else if dictionary[Key.photo.key] != nil {
+            request = MTPPhotoRequest(dictionary: dictionary)
+        } else {
+            request = nil
+        }
+        if request == nil {
+            log.error("Unexpected offline request: \(dictionary)")
+        }
+        return request
+    }
+
+    /// Callback indicating the OfflineRequestManager's current progress
+    ///
+    /// - Parameters:
+    ///   - manager: OfflineRequestManager instance
+    ///   - progress: current progress for all ongoing requests (ranges from 0 to 1)
+    func offlineRequestManager(_ manager: OfflineRequestManager,
+                               didUpdateProgress progress: Double) {
+        notify(observers: NetworkServiceChange.progress.rawValue,
+               info: [ StatusKey.value.rawValue: progress ])
+    }
+
+    /// Callback indicating the OfflineRequestManager's current connection status
+    ///
+    /// - Parameters:
+    ///   - manager: OfflineRequestManager instance
+    ///   - connected: value indicating whether there is currently connectivity
+    func offlineRequestManager(_ manager: OfflineRequestManager,
+                               didUpdateConnectionStatus connected: Bool) {
+        notify(observers: NetworkServiceChange.connection.rawValue,
+               info: [ StatusKey.value.rawValue: connected ])
+    }
+
+    /// Callback that can be used to block a request attempt
+    ///
+    ///   - manager: OfflineRequestManager instance
+    ///   - request: OfflineRequest to be performed
+    /// - Returns: value indicating whether the OfflineRequestManager should move forward with the request attempt
+    func offlineRequestManager(_ manager: OfflineRequestManager,
+                               shouldAttemptRequest request: OfflineRequest) -> Bool {
+        return true
+    }
+
+    /// Callback to reconfigure and reattempt an OfflineRequest
+    /// after a failure not related to connectivity issues
+    ///
+    /// - Parameters:
+    ///   - manager: OfflineRequestManager instance
+    ///   - request: OfflineRequest that failed
+    ///   - error: NSError associated with the failure
+    /// - Returns: value indicating whether the OfflineRequestManager should reattempt the OfflineRequest action
+    func offlineRequestManager(_ manager: OfflineRequestManager,
+                               shouldReattemptRequest request: OfflineRequest,
+                               withError error: Error) -> Bool {
+        return true
+    }
+
+    /// Callback indicating that the OfflineRequest action has started
+    ///
+    /// - Parameters:
+    ///   - manager: OfflineRequestManager instance
+    ///   - request: OfflineRequest that started its action
+    func offlineRequestManager(_ manager: OfflineRequestManager,
+                               didStartRequest request: OfflineRequest) {
+        requestsChanged()
+    }
+
+    /// Callback indicating that the OfflineRequest status has changed
+    ///
+    /// - Parameters:
+    ///   - manager: OfflineRequestManager instance
+    ///   - request: OfflineRequest that changed its subtitle
+    func offlineRequestManager(_ manager: OfflineRequestManager,
+                               didUpdateRequest request: OfflineRequest) {
+        requestsChanged()
+    }
+
+    /// Callback indicating that the OfflineRequest action has successfully finished
+    ///
+    /// - Parameters:
+    ///   - manager: OfflineRequestManager instance
+    ///   - request: OfflineRequest that finished its action
+    func offlineRequestManager(_ manager: OfflineRequestManager,
+                               didFinishRequest request: OfflineRequest) {
+        requestsChanged()
+        switch request {
+        case let visit as MTPVisitedRequest:
+            mtp.userGetByToken(reload: true)
+            data.delete(rankings: visit.checklist)
+        case let post as MTPPostRequest:
+            if let userId = data.user?.id {
+                mtp.loadPosts(user: userId, reload: true)
+            }
+            let location = post.payload.location_id
+            mtp.loadPosts(location: location, reload: true)
+        case let photo as MTPPhotoRequest:
+            mtp.loadPhotos(page: 1, reload: true)
+            if let location = photo.location {
+                mtp.loadPhotos(location: location, reload: true)
+            }
+        default:
+            log.warning("Unhandled completed request: \(type(of: request))")
+        }
+    }
+
+    /// Callback indicating that the OfflineRequest action has failed for reasons unrelated to connectivity
+    ///
+    /// - Parameters:
+    ///   - manager: OfflineRequestManager instance
+    ///   - request: OfflineRequest that failed
+    ///   - error: NSError associated with the failure
+    func offlineRequestManager(_ manager: OfflineRequestManager,
+                               requestDidFail request: OfflineRequest,
+                               withError error: Error) {
+        requestsChanged()
     }
 }
 
@@ -500,11 +696,16 @@ private extension NetworkServiceImpl {
         guard let user = data.user else { return }
 
         add { done in self.mtp.loadChecklists { _ in done() } }
-        add { done in self.mtp.loadPosts(user: user.id) { _ in done() } }
+        add { done in self.mtp.loadPosts(user: user.id, reload: false) { _ in done() } }
         add { done in self.mtp.loadPhotos(page: 1, reload: false) { _ in done() } }
         Checklist.allCases.forEach { list in
             add { done in self.loadScorecard(list: list, user: user.id) { _ in done() } }
         }
+    }
+
+    func requestsChanged() {
+        notify(observers: NetworkServiceChange.requests.rawValue,
+               info: [ StatusKey.value.rawValue: offlineRequestManager ])
     }
 }
 
@@ -512,7 +713,7 @@ private extension NetworkServiceImpl {
 
 #if DEBUG
 
-/// Stub for testing
+/// :nodoc:
 final class NetworkServiceStub: NetworkServiceImpl {
 
     override fileprivate func refreshData() {
@@ -520,7 +721,8 @@ final class NetworkServiceStub: NetworkServiceImpl {
     }
 
     override fileprivate func refreshUser() {
-        mtp.userGetByToken(stub: MTPProvider.immediatelyStub) { _ in }
+        mtp.userGetByToken(reload: false,
+                           stub: MTPProvider.immediatelyStub) { _ in }
         guard let user = data.user else { return }
 
         mtp.loadChecklists(stub: MTPProvider.immediatelyStub) { _ in }
@@ -532,17 +734,12 @@ final class NetworkServiceStub: NetworkServiceImpl {
         }
     }
 
-    /// Refresh first page of each list's rankings
+    /// :nodoc:
     override func refreshRankings() {
         // expect seeded
     }
 
-    /// Load location photos
-    ///
-    /// - Parameters:
-    ///   - id: Location ID
-    ///   - reload: Force reload
-    ///   - then: Completion
+    /// :nodoc:
     override func loadPhotos(location id: Int,
                              reload: Bool,
                              then: @escaping NetworkCompletion<PhotosInfoJSON>) {
@@ -552,12 +749,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                        then: then)
     }
 
-    /// Load logged in user photos
-    ///
-    /// - Parameters:
-    ///   - page: Index
-    ///   - reload: Force reload
-    ///   - then: Completion
+    /// :nodoc:
     override func loadPhotos(page: Int,
                              reload: Bool,
                              then: @escaping NetworkCompletion<PhotosPageInfoJSON>) {
@@ -567,13 +759,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                        then: then)
     }
 
-    /// Load user photos
-    ///
-    /// - Parameters:
-    ///   - id: User ID
-    ///   - page: Index
-    ///   - reload: Force reload
-    ///   - then: Completion
+    /// :nodoc:
     override func loadPhotos(profile id: Int,
                              page: Int,
                              reload: Bool,
@@ -585,35 +771,25 @@ final class NetworkServiceStub: NetworkServiceImpl {
                        then: then)
     }
 
-    /// Load location posts
-    ///
-    /// - Parameters:
-    ///   - id: Location ID
-    ///   - then: Completion
+    /// :nodoc:
     override func loadPosts(location id: Int,
                             then: @escaping NetworkCompletion<PostsJSON>) {
         mtp.loadPosts(location: id,
+                      reload: false,
                       stub: MTPProvider.immediatelyStub,
                       then: then)
     }
 
-    /// Load user posts
-    ///
-    /// - Parameters:
-    ///   - id: User ID
-    ///   - then: Completion
+    /// :nodoc:
     override func loadPosts(user id: Int,
                             then: @escaping NetworkCompletion<PostsJSON>) {
         mtp.loadPosts(user: id,
+                      reload: false,
                       stub: MTPProvider.immediatelyStub,
                       then: then)
     }
 
-    /// Load rankings
-    ///
-    /// - Parameters:
-    ///   - query: Filter
-    ///   - then: Completion
+    /// :nodoc:
     override func loadRankings(query: RankingsQuery,
                                then: @escaping NetworkCompletion<RankingsPageInfoJSON>) {
         mtp.loadRankings(query: query,
@@ -621,12 +797,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                          then: then)
     }
 
-    /// Load scorecard
-    ///
-    /// - Parameters:
-    ///   - list: Checklist
-    ///   - id: User ID
-    ///   - then: Completion
+    /// :nodoc:
     override func loadScorecard(list: Checklist,
                                 user id: Int,
                                 then: @escaping NetworkCompletion<ScorecardJSON>) {
@@ -636,11 +807,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                           then: then)
     }
 
-    /// Load user
-    ///
-    /// - Parameters:
-    ///   - id: User ID
-    ///   - then: Completion
+    /// :nodoc:
     override func loadUser(id: Int,
                            then: @escaping NetworkCompletion<UserJSON>) {
         mtp.loadUser(id: id,
@@ -648,11 +815,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                      then: then)
     }
 
-    /// Search
-    ///
-    /// - Parameters:
-    ///   - query: Query
-    ///   - then: Completion
+    /// :nodoc:
     override func search(query: String,
                          then: @escaping NetworkCompletion<SearchResultJSON>) {
         mtp.search(query: query,
@@ -660,12 +823,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                    then: then)
     }
 
-    /// Set places visit status
-    ///
-    /// - Parameters:
-    ///   - items: Places
-    ///   - visited: Whether visited
-    ///   - then: Completion
+    /// :nodoc:
     override func set(items: [Checklist.Item],
                       visited: Bool,
                       then: @escaping NetworkCompletion<Bool>) {
@@ -675,13 +833,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                 then: then)
     }
 
-    /// Upload photo
-    ///
-    /// - Parameters:
-    ///   - photo: Data
-    ///   - caption: String
-    ///   - id: Location ID if any
-    ///   - then: Completion
+    /// :nodoc:
     override func upload(photo: Data,
                          caption: String?,
                          location id: Int?,
@@ -693,11 +845,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                    then: then)
     }
 
-    /// Publish post
-    ///
-    /// - Parameters:
-    ///   - payload: Post payload
-    ///   - then: Completion
+    /// :nodoc:
     override func postPublish(payload: PostPayload,
                               then: @escaping NetworkCompletion<PostReply>) {
         mtp.postPublish(payload: payload,
@@ -705,19 +853,13 @@ final class NetworkServiceStub: NetworkServiceImpl {
                         then: then)
     }
 
-    /// Delete user account
-    ///
-    /// - Parameter then: Completion
+    /// :nodoc:
     override func userDeleteAccount(then: @escaping NetworkCompletion<String>) {
         mtp.userDeleteAccount(stub: MTPProvider.immediatelyStub,
                               then: then)
     }
 
-    /// Send reset password link
-    ///
-    /// - Parameters:
-    ///   - email: Email
-    ///   - then: Completion
+    /// :nodoc:
     override func userForgotPassword(email: String,
                                      then: @escaping NetworkCompletion<String>) {
         mtp.userForgotPassword(email: email,
@@ -725,12 +867,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                                then: then)
     }
 
-    /// Login user
-    ///
-    /// - Parameters:
-    ///   - email: Email
-    ///   - password: Password
-    ///   - then: Completion
+    /// :nodoc:
     override func userLogin(email: String,
                             password: String,
                             then: @escaping NetworkCompletion<UserJSON>) {
@@ -740,11 +877,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                       then: then)
     }
 
-    /// Register new user
-    ///
-    /// - Parameters:
-    ///   - payload: RegistrationPayload
-    ///   - then: Completion
+    /// :nodoc:
     override func userRegister(payload: RegistrationPayload,
                                then: @escaping NetworkCompletion<UserJSON>) {
         mtp.userRegister(payload: payload,
@@ -752,11 +885,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                          then: then)
     }
 
-    /// Update user info
-    ///
-    /// - Parameters:
-    ///   - payload: UserUpdatePayload
-    ///   - then: Completion
+    /// :nodoc:
     override func userUpdate(payload: UserUpdatePayload,
                              then: @escaping NetworkCompletion<UserJSON>) {
         mtp.userUpdate(payload: payload,
@@ -764,11 +893,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                        then: then)
     }
 
-    /// Update user token
-    ///
-    /// - Parameters:
-    ///   - token: String
-    ///   - then: Completion
+    /// :nodoc:
     override func userUpdate(token: String,
                              then: @escaping NetworkCompletion<UserTokenReply>) {
         mtp.userUpdate(token: token,
@@ -776,11 +901,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
                        then: then)
     }
 
-    /// Resend verification email
-    ///
-    /// - Parameters:
-    ///   - id: User ID
-    ///   - then: Completion
+    /// :nodoc:
     override func userVerify(id: Int,
                              then: @escaping NetworkCompletion<String>) {
         mtp.userVerify(id: id,

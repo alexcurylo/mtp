@@ -6,7 +6,7 @@ import FBSDKLoginKit
 @testable import MTP
 import XCTest
 
-final class FacebookButtonTests: XCTestCase {
+final class FacebookButtonTests: MTPTestCase {
 
     private var sut: FacebookButton?
 
@@ -75,14 +75,14 @@ final class FacebookButtonTests: XCTestCase {
 
     func testLogout() {
         // when
-        FacebookButton.logOut()
+        FacebookWrapper.logOut()
 
         // then
-        XCTAssertNil(FacebookButton.current)
+        XCTAssertNil(FacebookWrapper.token)
     }
 }
 
-private struct FBLoginManagerMock: FBLoginManager {
+private struct FBLoginManagerMock: FacebookLoginManager {
 
     let result: LoginResult
 

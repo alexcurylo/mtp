@@ -94,9 +94,7 @@ class CountsPageVC: UIViewController {
         configure()
     }
 
-    /// Unsupported coding constructor
-    ///
-    /// - Parameter coder: An unarchiver object.
+    /// :nodoc:
     required init?(coder: NSCoder) {
         return nil
     }
@@ -201,10 +199,7 @@ extension CountsPageVC: UICollectionViewDataSource {
                            model: modelPath)
     }
 
-    /// Number of sections
-    ///
-    /// - Parameter tableView: UITableView
-    /// - Returns: Number of sections
+    /// :nodoc:
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return regions.count + (showsInfo ? 1 : 0)
     }

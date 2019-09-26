@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class StringTests: XCTestCase {
+final class StringTests: MTPTestCase {
 
     override func setUp() {
         super.setUp()
@@ -22,5 +22,19 @@ final class StringTests: XCTestCase {
         XCTAssertEqual("a*c@test.com", "abc@test.com".hiddenName)
         XCTAssertEqual("w******r@test.com", "whatever@test.com".hiddenName)
         XCTAssertEqual("w******r@test@wrong.com", "whatever@test@wrong.com".hiddenName)
+    }
+
+    func testNamable() throws {
+        // given
+        let expected = "Array<String>"
+        let sut = ["test"]
+
+        // when
+        let classType = [String].typeName
+        let instanceType = sut.typeName
+
+        // then
+        classType.assert(equal: expected)
+        instanceType.assert(equal: expected)
     }
 }

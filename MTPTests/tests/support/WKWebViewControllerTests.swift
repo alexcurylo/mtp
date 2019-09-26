@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class WKWebViewControllerTests: XCTestCase {
+final class WKWebViewControllerTests: MTPTestCase {
 
     func testInit() throws {
         let sut = WKWebViewController()

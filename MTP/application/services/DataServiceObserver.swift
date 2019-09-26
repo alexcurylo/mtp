@@ -60,11 +60,11 @@ private class DataServiceObserver: ObserverImpl {
     static let notification = Notification.Name("DataServiceChange")
     static let statusKey = StatusKey.change
 
-    init(of value: DataServiceChange,
+    init(of change: DataServiceChange,
          notify: @escaping NotificationHandler) {
         super.init(notification: DataServiceObserver.notification,
                    key: DataServiceObserver.statusKey,
-                   value: value.rawValue,
+                   value: change.rawValue,
                    notify: notify)
     }
 }
@@ -101,9 +101,9 @@ extension DataService {
     ///   - of: DataServiceChange
     ///   - handler: Handler
     /// - Returns: Observer
-    func observer(of: DataServiceChange,
+    func observer(of change: DataServiceChange,
                   handler: @escaping NotificationHandler) -> Observer {
-        return DataServiceObserver(of: of, notify: handler)
+        return DataServiceObserver(of: change, notify: handler)
     }
 }
 

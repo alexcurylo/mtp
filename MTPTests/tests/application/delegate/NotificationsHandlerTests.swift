@@ -1,9 +1,40 @@
 // @copyright Trollwerks Inc.
 
 @testable import MTP
+import UserNotifications
 import XCTest
 
-final class NotificationsHandlerTests: XCTestCase {
+final class NotificationsHandlerTests: MTPTestCase {
+
+    private var original: UNUserNotificationCenterDelegate?
+
+    override func setUp() {
+        super.setUp()
+        original = UNUserNotificationCenter.current().delegate
+    }
+
+    override func tearDown() {
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        UNUserNotificationCenter.current().delegate = original
+        super.tearDown()
+    }
+
+    func testLaunch() throws {
+        // given
+        let sut = NotificationsHandler()
+
+        // when
+        let will = sut.application(UIApplication.shared,
+                                   willFinishLaunchingWithOptions: [:])
+        let did = sut.application(UIApplication.shared,
+                                  didFinishLaunchingWithOptions: [:])
+
+        // then
+        XCTAssertTrue(will)
+        XCTAssertTrue(did)
+        let actual = try unwrap(UNUserNotificationCenter.current().delegate)
+        XCTAssert(actual === sut)
+    }
 
     func testUpdateToken() throws {
         // given
@@ -13,10 +44,81 @@ final class NotificationsHandlerTests: XCTestCase {
 
         // when
         sut.application(UIApplication.shared,
+                        didFailToRegisterForRemoteNotificationsWithError: "test")
+        sut.application(UIApplication.shared,
                         didRegisterForRemoteNotificationsWithDeviceToken: data)
 
         // then
         let spy = try unwrap(sut.net as? NetworkServiceSpy)
         XCTAssertTrue(spy.invokedUserUpdateToken)
+    }
+
+    func testRemoteNotification() throws {
+        // given
+        let app = UIApplication.shared
+        app.applicationIconBadgeNumber = 5
+        let sut = NotificationsHandler()
+
+        // when
+        var completed = false
+        sut.application(UIApplication.shared,
+                        didReceiveRemoteNotification: [:]) { _ in
+            completed = true
+        }
+
+        // then
+        XCTAssertEqual(app.applicationIconBadgeNumber, 0)
+        XCTAssertTrue(completed)
+    }
+
+    func _testResponse() throws {
+        // need to save a UNNotificationResponse mock
+        //let path = Bundle(for: type(of: self)).path(forResource: "notification", ofType: "mock")
+        //let data = FileManager.default.contents(atPath: path ?? "")
+        //let notification = NSKeyedUnarchiver.unarchiveObject(with: data ?? Data()) as? UNNotification
+    }
+
+    func testPresent() throws {
+        // given
+        let app = UIApplication.shared
+        app.applicationIconBadgeNumber = 5
+        let data = try unwrap(Data(hexString: notVerified))
+        let note = try unwrap(NSKeyedUnarchiver.unarchiveObject(with: data) as? UNNotification)
+        let sut = NotificationsHandler()
+
+        // when
+        var completed = false
+        sut.userNotificationCenter(
+            UNUserNotificationCenter.current(),
+            willPresent: note) { _ in completed = true }
+
+        // then
+        XCTAssertEqual(app.applicationIconBadgeNumber, 0)
+        XCTAssertTrue(completed)
+    }
+}
+
+// swiftlint:disable line_length
+let notVerified = """
+62706c6973743030d4010203040506afb0582476657273696f6e58246f626a65637473592461726368697665725424746f7012000186a0af101a07080f1319236266696a6b6c878b8c8f929b9c9d509ea2a6a7ab55246e756c6cd3090a0b0c0d0e546461746557726571756573745624636c617373800280048019d2100b1112574e532e74696d652341c19036ac749d958003d2141516175a24636c6173736e616d655824636c6173736573564e5344617465a21618584e534f626a656374d51a1b1c1d0b1e1f202122577472696767657257636f6e74656e745c64657374696e6174696f6e735a6964656e74696669657280008005100f80178018df10202425262728292a2b2c2d2e2f3031320b33343536093738393a3b3c3d3e3f40414242421e461e42494a1e461e1e425051424654551e57424a46464242425f60425f101d73686f756c644261636b67726f756e6444656661756c74416374696f6e5e73686f756c6448696465446174655f101f73686f756c6441757468656e74696361746544656661756c74416374696f6e5e65787069726174696f6e446174655f10107468726561644964656e7469666965725f101264656661756c74416374696f6e5469746c655f102673686f756c64537570707265737353796e634469736d697373616c5768656e52656d6f766564557469746c655f101170656f706c654964656e746966696572735469636f6e5f100f73756d6d617279417267756d656e745562616467655f101064656661756c74416374696f6e55524c5f101b73686f756c64537570707265737353637265656e4c6967687455705f101473756d6d617279417267756d656e74436f756e745f102a73686f756c64557365526571756573744964656e746966696572466f724469736d697373616c53796e635f100f6c61756e6368496d6167654e616d655875736572496e666f54626f64795f101263617465676f72794964656e7469666965725f101473686f756c6449676e6f7265446f776e74696d655b6174746163686d656e7473587375627469746c65566865616465725f101b73686f756c64537570707265737344656661756c74416374696f6e5e73686f756c644869646554696d655f101873686f756c6449676e6f7265446f4e6f74446973747572625f1010746f7069634964656e7469666965727355736f756e645f103473686f756c6450726576656e744e6f74696669636174696f6e4469736d697373616c416674657244656661756c74416374696f6e0808088000800a800008800d80068000800a80008000081000801608800a8010800880008009088006800a800a080808800e800b08d2630b64655a4e532e6f626a65637473a08007d214156768574e534172726179a267185f102f596f752061726520696e2043616c69666f726e69612e20446f20796f752077616e7420746f20636865636b20696e3f55766973697450de6d6e6f7071727374750b767778797a1e5042421e1e1e42821e1e1e8659616c657274547970655f1013766962726174696f6e4964656e7469666965725f101e746f6e654d656469614c6962726172794974656d4964656e7469666965725f101873686f756c6449676e6f726552696e6765725377697463685c73686f756c645265706561745a616c657274546f7069635b617564696f566f6c756d655d617564696f43617465676f727958637269746963616c5c746f6e6546696c654e616d655e746f6e654964656e7469666965725f1010766962726174696f6e5061747465726e5f100f6d6178696d756d4475726174696f6e10118000080880008000800008800c800080008000230000000000000000d2141588895f1013554e4e6f74696669636174696f6e536f756e64a28a185f1013554e4e6f74696669636174696f6e536f756e645f101e4d5450204c6f636174696f6e20436865636b696e20417661696c61626c65d2630b8d8ea0800fd214159091554e53536574a29018d393630b94979a574e532e6b657973a2959680118012a29899801380148015526964546c6973741059d214159fa05c4e5344696374696f6e617279a2a1185c4e5344696374696f6e617279d21415a3a45f1015554e4e6f74696669636174696f6e436f6e74656e74a2a5185f1015554e4e6f74696669636174696f6e436f6e74656e745f102432374231334545442d444537352d343736302d423730422d324136353132313733444136d21415a8a95f1015554e4e6f74696669636174696f6e52657175657374a2aa185f1015554e4e6f74696669636174696f6e52657175657374d21415acad5e554e4e6f74696669636174696f6ea2ae185e554e4e6f74696669636174696f6e5f100f4e534b657965644172636869766572d1b1b254726f6f74800100080011001a0023002d003200370054005a00610066006e007500770079007b0080008800910093009800a300ac00b300b600bf00ca00d200da00e700f200f400f600f800fa00fc013f015f016e0190019f01b201c701f001f6020a020f02210227023a0258026f029c02ae02b702bc02d102e802f402fd030403220331034c035f0365039c039d039e039f03a103a303a503a603a803aa03ac03ae03b003b203b303b503b703b803ba03bc03be03c003c203c303c503c703c903ca03cb03cc03ce03d003d103d603e103e203e403e903f103f40426042c042d044a0454046a048b04a604b304be04ca04d804e104ee04fd051005220524052605270528052a052c052e052f053105330535053705400545055b055e05740595059a059b059d05a205a805ab05b205ba05bd05bf05c105c405c605c805ca05cd05d205d405d905e605e905f605fb06130616062e0655065a06720675068d069206a106a406b306c506c806cd000000000000020100000000000000b3000000000000000000000000000006cf
+"""
+
+extension Data {
+
+    // https://stackoverflow.com/questions/26501276/converting-hex-string-to-nsdata-in-swift
+    init?(hexString: String) {
+        let len = hexString.count / 2
+        var data = Data(capacity: len)
+        for i in 0..<len {
+            let j = hexString.index(hexString.startIndex, offsetBy: i * 2)
+            let k = hexString.index(j, offsetBy: 2)
+            let bytes = hexString[j..<k]
+            if var num = UInt8(bytes, radix: 16) {
+                data.append(&num, count: 1)
+            } else {
+                return nil
+            }
+        }
+        self = data
     }
 }

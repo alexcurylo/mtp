@@ -1,10 +1,6 @@
 // @copyright Trollwerks Inc.
 
 import MapKit
-import RealmMapView
-
-/// Typealias for fluency
-typealias MappablesAnnotation = Annotation
 
 extension CLLocationDistance {
 
@@ -69,9 +65,7 @@ final class MTPMapView: RealmMapView, ServiceProvider {
     private var completions: [Completion] = []
     private var visitedObserver: Observer?
 
-    /// Decoding intializer
-    ///
-    /// - Parameter aDecoder: Decoder
+    /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 
@@ -192,8 +186,6 @@ private extension MTPMapView {
         zoomOnFirstRefresh = false
         animateAnnotations = true
         canShowCallout = true
-        maxZoomLevelForClustering = 20
-        resultsLimit = -1
         basePredicate = nil
     }
 

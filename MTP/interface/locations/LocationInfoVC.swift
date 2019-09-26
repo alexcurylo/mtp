@@ -18,7 +18,7 @@ final class LocationInfoVC: UITableViewController {
 
     // verified in requireInjection
     private var location: Location!
-    //swiftlint:disable:previous implicitly_unwrapped_optional
+    // swiftlint:disable:previous implicitly_unwrapped_optional
 
     /// Prepare for interaction
     override func viewDidLoad() {
@@ -42,23 +42,13 @@ final class LocationInfoVC: UITableViewController {
 
 extension LocationInfoVC {
 
-    /// Provide row height
-    ///
-    /// - Parameters:
-    ///   - tableView: Table
-    ///   - indexPath: Index path
-    /// - Returns: Height
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 
-    /// Provide estimated row height
-    ///
-    /// - Parameters:
-    ///   - tableView: Table
-    ///   - indexPath: Index path
-    /// - Returns: Height
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
