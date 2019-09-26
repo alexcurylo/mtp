@@ -1,7 +1,6 @@
 // @copyright Trollwerks Inc.
 
 import Anchorage
-import DropDown
 import Parchment
 
 /// Root class for the Rankings tab
@@ -23,7 +22,7 @@ final class RankingsVC: UIViewController {
     private var countsModel: UserCountsVC.Model?
     private var profileModel: UserProfileVC.Model?
 
-    private let dropdown = DropDown {
+    private let dropdown = Dropdown {
         $0.dismissMode = .manual
         $0.backgroundColor = .white
         $0.selectionBackgroundColor = UIColor(red: 0.649, green: 0.815, blue: 1.0, alpha: 0.2)

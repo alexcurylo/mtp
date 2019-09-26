@@ -17,7 +17,6 @@ source 'https://cdn.cocoapods.org/'
 
 # SPM progress:
 # https://github.com/Rightpoint/Anchorage/pull/86
-# https://github.com/AssistoLab/DropDown
 # https://github.com/facebook/facebook-swift-sdk/issues/491
 # https://github.com/firebase/firebase-ios-sdk/issues/3136
 # https://github.com/auth0/JWTDecode.swift/issues/92
@@ -31,7 +30,6 @@ target 'MTP' do
   pod 'Anchorage'
   pod 'Bolts', :modular_headers => true, :inhibit_warnings => true
   pod 'Crashlytics'
-  pod 'DropDown'
   pod 'Fabric'
   pod 'FacebookCore'
   pod 'FacebookLogin'

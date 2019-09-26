@@ -1,6 +1,10 @@
+// @copyright Trollwerks Inc.
+
+// migrated from https://github.com/AssistoLab/Dropdown
+
 //
-//  DropDown+Appearance.swift
-//  DropDown
+//  Dropdown+Appearance.swift
+//  Dropdown
 //
 //  Created by Kevin Hirsch on 13/06/16.
 //  Copyright © 2016 Kevin Hirsch. All rights reserved.
@@ -8,16 +12,17 @@
 
 import UIKit
 
-extension DropDown {
+extension Dropdown {
 
-	public class func setupDefaultAppearance() {
-		let appearance = DropDown.appearance()
+    /// Set up default appearance
+	class func setupDefaultAppearance() {
+		let appearance = Dropdown.appearance()
 
 		appearance.cellHeight = DPDConstant.UI.RowHeight
 		appearance.backgroundColor = DPDConstant.UI.BackgroundColor
 		appearance.selectionBackgroundColor = DPDConstant.UI.SelectionBackgroundColor
 		appearance.separatorColor = DPDConstant.UI.SeparatorColor
-		appearance.cornerRadius = DPDConstant.UI.CornerRadius
+		appearance.ddCornerRadius = DPDConstant.UI.CornerRadius
 		appearance.shadowColor = DPDConstant.UI.Shadow.Color
 		appearance.shadowOffset = DPDConstant.UI.Shadow.Offset
 		appearance.shadowOpacity = DPDConstant.UI.Shadow.Opacity
@@ -27,5 +32,4 @@ extension DropDown {
         appearance.selectedTextColor = DPDConstant.UI.SelectedTextColor
 		appearance.textFont = DPDConstant.UI.TextFont
 	}
-
 }

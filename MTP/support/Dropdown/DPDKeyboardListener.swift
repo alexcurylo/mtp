@@ -1,6 +1,10 @@
+// @copyright Trollwerks Inc.
+
+// migrated from https://github.com/AssistoLab/Dropdown
+
 //
 //  KeyboardListener.swift
-//  DropDown
+//  Dropdown
 //
 //  Created by Kevin Hirsch on 30/07/15.
 //  Copyright (c) 2015 Kevin Hirsch. All rights reserved.
@@ -8,31 +12,30 @@
 
 import UIKit
 
-internal final class KeyboardListener {
-	
-	static let sharedInstance = KeyboardListener()
-	
+final class DPDKeyboardListener {
+
+	static let sharedInstance = DPDKeyboardListener()
+
 	fileprivate(set) var isVisible = false
 	fileprivate(set) var keyboardFrame = CGRect.zero
 	fileprivate var isListening = false
-	
+
 	deinit {
 		stopListeningToKeyboard()
 	}
-	
 }
 
-//MARK: - Notifications
+// MARK: - Notifications
 
-extension KeyboardListener {
-	
+extension DPDKeyboardListener {
+
 	func startListeningToKeyboard() {
 		if isListening {
 			return
 		}
-		
+
 		isListening = true
-		
+
 		NotificationCenter.default.addObserver(
 			self,
 			selector: #selector(keyboardWillShow(_:)),
@@ -44,25 +47,26 @@ extension KeyboardListener {
 			name: UIResponder.keyboardWillHideNotification,
 			object: nil)
 	}
-	
+
 	func stopListeningToKeyboard() {
 		NotificationCenter.default.removeObserver(self)
 	}
-	
+
 	@objc
 	fileprivate func keyboardWillShow(_ notification: Notification) {
 		isVisible = true
 		keyboardFrame = keyboardFrame(fromNotification: notification)
 	}
-	
+
 	@objc
 	fileprivate func keyboardWillHide(_ notification: Notification) {
 		isVisible = false
 		keyboardFrame = keyboardFrame(fromNotification: notification)
 	}
-	
+
 	fileprivate func keyboardFrame(fromNotification notification: Notification) -> CGRect {
-		return ((notification as NSNotification).userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue ?? CGRect.zero
+        guard let info = (notification as NSNotification).userInfo else { return .zero }
+
+		return (info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue ?? CGRect.zero
 	}
-	
 }
