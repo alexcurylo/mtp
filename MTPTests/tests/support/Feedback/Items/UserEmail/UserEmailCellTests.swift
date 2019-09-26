@@ -12,7 +12,10 @@ final class UserEmailCellTests: XCTestCase {
         let indexPath = IndexPath(row: 0, section: 0)
         let handler = MockUserEmailCellEventHandler()
 
-        UserEmailCell.configure(cell, with: item, for: indexPath, eventHandler: handler)
+        UserEmailCell.configure(cell,
+                                with: item,
+                                for: indexPath,
+                                eventHandler: handler)
         cell.textField.text = "test"
         _ = cell.textField(cell.textField,
                            shouldChangeCharactersIn: NSRange(location: 0, length: 4),

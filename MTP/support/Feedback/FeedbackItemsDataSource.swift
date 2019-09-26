@@ -9,14 +9,17 @@
 
 import UIKit
 
+/// FeedbackItemsDataSource
 final class FeedbackItemsDataSource {
 
-    var sections: [FeedbackItemsSection] = []
+    private var sections: [FeedbackItemsSection] = []
 
+    /// numberOfSections
     var numberOfSections: Int {
         return filteredSections.count
     }
 
+    /// :nodoc:
     init(topics: [TopicProtocol],
          hidesUserEmailCell: Bool = true,
          hidesAttachmentCell: Bool = false,
@@ -35,25 +38,27 @@ final class FeedbackItemsDataSource {
                                                      AppBuildItem(isHidden: hidesAppInfoSection)]))
     }
 
+    /// Section fetcher
+    /// - Parameter section: Section index
     func section(at section: Int) -> FeedbackItemsSection {
         return filteredSections[section]
     }
 }
 
-extension FeedbackItemsDataSource {
+private extension FeedbackItemsDataSource {
 
-    private var filteredSections: [FeedbackItemsSection] {
+    var filteredSections: [FeedbackItemsSection] {
         return sections.filter { section in
             section.items.contains { !$0.isHidden }
         }
     }
 
-    private subscript(indexPath: IndexPath) -> FeedbackItemProtocol {
+    subscript(indexPath: IndexPath) -> FeedbackItemProtocol {
         get { return filteredSections[indexPath.section][indexPath.item] }
         set { filteredSections[indexPath.section][indexPath.item] = newValue }
     }
 
-    private func indexPath<Item>(of type: Item.Type) -> IndexPath? {
+    func indexPath<Item>(of type: Item.Type) -> IndexPath? {
         let filtered = filteredSections
         for section in filtered {
             guard let index = filtered.firstIndex(where: { $0 === section }),
@@ -67,13 +72,14 @@ extension FeedbackItemsDataSource {
 
 extension FeedbackItemsDataSource: FeedbackEditingItemsRepositoryProtocol {
 
+    /// :nodoc:
     func item<Item>(of type: Item.Type) -> Item? {
         guard let indexPath = indexPath(of: type) else { return .none }
         return self[indexPath] as? Item
     }
 
-    @discardableResult
-    func set<Item: FeedbackItemProtocol>(item: Item) -> IndexPath? {
+    /// :nodoc:
+    @discardableResult func set<Item: FeedbackItemProtocol>(item: Item) -> IndexPath? {
         guard let indexPath = indexPath(of: Item.self) else { return .none }
         self[indexPath] = item
         return indexPath
@@ -81,9 +87,13 @@ extension FeedbackItemsDataSource: FeedbackEditingItemsRepositoryProtocol {
 }
 
 final class FeedbackItemsSection {
+
+    /// title
     let title: String?
+    /// items
     var items: [FeedbackItemProtocol]
 
+    /// :nodoc:
     init(title: String? = .none,
          items: [FeedbackItemProtocol] = []) {
         self.title = title
@@ -92,13 +102,18 @@ final class FeedbackItemsSection {
 }
 
 extension FeedbackItemsSection: Collection {
+
+    /// :nodoc:
     var startIndex: Int { return items.startIndex }
+    /// :nodoc:
     var endIndex: Int { return items.endIndex }
 
+    /// :nodoc:
     subscript(position: Int) -> FeedbackItemProtocol {
         get { return items[position] }
         set { items[position] = newValue }
     }
 
+    /// :nodoc:
     func index(after i: Int) -> Int { return items.index(after: i) }
 }

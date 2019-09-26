@@ -35,7 +35,7 @@ protocol ApplicationService {
     var version: String { get }
 }
 
-// Enumerated tabs
+/// Enumerated tabs
 enum Tab: Int {
 
     /// Locations tab

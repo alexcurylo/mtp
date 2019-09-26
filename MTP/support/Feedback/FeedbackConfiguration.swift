@@ -9,19 +9,25 @@
 
 import Foundation
 
+/// FeedbackConfiguration
 final class FeedbackConfiguration {
 
+    /// Subject
     var subject: String?
+    /// additionalDiagnosticContent
     var additionalDiagnosticContent: String?
+    /// toRecipients
     var toRecipients: [String]
+    /// ccRecipients
     var ccRecipients: [String]
+    /// bccRecipients
     var bccRecipients: [String]
+    /// Uses HTML
     var usesHTML: Bool
+    /// Data Source
     var dataSource: FeedbackItemsDataSource
 
-    /*
-    If topics array contains no topics, topics cell is hidden.
-    */
+    /// If topics array contains no topics, topics cell is hidden.
     init(subject: String? = .none,
          additionalDiagnosticContent: String? = .none,
          topics: [TopicProtocol] = TopicItem.defaultTopics,

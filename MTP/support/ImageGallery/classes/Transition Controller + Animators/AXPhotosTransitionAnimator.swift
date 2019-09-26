@@ -14,11 +14,15 @@ import UIKit
 /// AXPhotosTransitionAnimator
 class AXPhotosTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
+    /// Fade transition ratio
     let fadeInOutTransitionRatio: Double = 1 / 3
 
+    /// AXPhotosTransitionAnimatorDelegate
     weak var delegate: AXPhotosTransitionAnimatorDelegate?
 
+    /// fadeView
     let transitionInfo: AXTransitionInfo
+    /// fadeView
     var fadeView: UIView?
 
     /// :nodoc:
@@ -32,8 +36,10 @@ class AXPhotosTransitionAnimator: NSObject, UIViewControllerAnimatedTransitionin
         return self.transitionInfo.duration
     }
 
-    // swiftlint:disable:next unavailable_function
+    /// Animate transition
+    /// - Parameter transitionContext: context
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        // swiftlint:disable:previous unavailable_function
         fatalError("Override in subclass.")
     }
 }

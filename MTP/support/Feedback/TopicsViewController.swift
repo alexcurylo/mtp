@@ -12,41 +12,44 @@
 
 import UIKit
 
+/// TopicsViewController
 final class TopicsViewController: UITableViewController {
 
-    let feedbackEditingService: FeedbackEditingServiceProtocol
-    let topics: [TopicProtocol]
+    private let feedbackEditingService: FeedbackEditingServiceProtocol
+    private let topics: [TopicProtocol]
 
+    /// :nodoc:
     init(service: FeedbackEditingServiceProtocol) {
         self.feedbackEditingService = service
         self.topics = self.feedbackEditingService.topics
         super.init(style: .plain)
     }
 
+    /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         return nil
     }
 
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = L.feedbackTopics()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 }
 
-extension TopicsViewController {
-    // MARK: - Table view data source
+// MARK: - Table view data source
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension TopicsViewController {
+
+    /// :nodoc:
+    override func tableView(_ tableView: UITableView,
+                            numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return topics.count
     }
 
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let identifier = "Cell"
@@ -58,10 +61,13 @@ extension TopicsViewController {
     }
 }
 
-extension TopicsViewController {
-    // MARK: - Table view delegate
+// MARK: - Table view delegate
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+extension TopicsViewController {
+
+    /// :nodoc:
+    override func tableView(_ tableView: UITableView,
+                            didSelectRowAt indexPath: IndexPath) {
         let topic = topics[indexPath.row]
         feedbackEditingService.update(selectedTopic: topic)
         dismiss(animated: true)

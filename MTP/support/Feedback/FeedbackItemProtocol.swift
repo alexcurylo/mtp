@@ -7,9 +7,9 @@
 // Copyright (c) 2017 CAPH TECH. All rights reserved.
 //
 
-import Foundation
-
+/// FeedbackItemProtocol
 protocol FeedbackItemProtocol {
 
+    /// isHidden
     var isHidden: Bool { get }
 }

@@ -14,7 +14,7 @@ protocol PhotosHeaderDelegate: AnyObject {
 /// Header of photos collection
 final class PhotosHeader: UICollectionReusableView, ServiceProvider {
 
-    // Model for which buttons to display
+    /// Model for which buttons to display
     typealias Model = (add: Bool, queue: Bool)
 
     private let addButton = GradientButton {

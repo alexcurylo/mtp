@@ -40,6 +40,7 @@ class PhotosVC: UICollectionViewController {
     /// Mode of presentation
     var mode: Mode = .browser
     private var configuredMenu = false
+    /// Filtered queued network actions
     var queuedPhotos: [MTPPhotoRequest] = []
     private var requestsObserver: Observer?
     private var headerModel: PhotosHeader.Model = (false, false) {

@@ -12,11 +12,15 @@
 
 import UIKit
 
+/// UserEmailCellEventProtocol
 protocol UserEmailCellEventProtocol {
 
+    /// Email change notification
+    /// - Parameter text: New email
     func userEmailTextDidChange(_ text: String?)
 }
 
+/// UserEmailCell
 final class UserEmailCell: UITableViewCell {
 
     private enum Const {
@@ -28,8 +32,10 @@ final class UserEmailCell: UITableViewCell {
 
     private var eventHandler: UserEmailCellEventProtocol?
 
+    /// textField
     let textField = UITextField()
 
+    /// :nodoc:
     override init(style: UITableViewCell.CellStyle,
                   reuseIdentifier: String?) {
         super.init(style: .value1, reuseIdentifier: reuseIdentifier)
@@ -49,11 +55,13 @@ final class UserEmailCell: UITableViewCell {
         textField.heightAnchor.constraint(equalToConstant: Const.Height).isActive = true
     }
 
+    /// :nodoc:
     required init?(coder aDecoder: NSCoder) { super.init(coder: aDecoder) }
 }
 
 extension UserEmailCell: UITextFieldDelegate {
 
+    /// :nodoc:
     func textField(_ textField: UITextField,
                    shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
@@ -64,6 +72,7 @@ extension UserEmailCell: UITextFieldDelegate {
 
 extension UserEmailCell: CellFactoryProtocol {
 
+    /// :nodoc:
     class func configure(_ cell: UserEmailCell,
                          with item: UserEmailItem,
                          for indexPath: IndexPath,

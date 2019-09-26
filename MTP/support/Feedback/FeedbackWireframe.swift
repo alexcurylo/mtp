@@ -11,18 +11,33 @@ import MessageUI
 import MobileCoreServices
 import UIKit
 
+/// FeedbackWireframeProtocol
 protocol FeedbackWireframeProtocol {
 
+    /// showTopicsView
+    /// - Parameter service: FeedbackEditingServiceProtocol
     func showTopicsView(with service: FeedbackEditingServiceProtocol)
+    /// showMailComposer
+    /// - Parameter feedback: Feedback
     func showMailComposer(with feedback: Feedback)
+    /// showAttachmentActionSheet
+    /// - Parameter deleteAction: Action
     func showAttachmentActionSheet(deleteAction: (() -> Void)?)
+    /// showFeedbackGenerationError
     func showFeedbackGenerationError()
+    /// showUnknownErrorAlert
     func showUnknownErrorAlert()
+    /// showMailComposingError
+    /// - Parameter error: Error
     func showMailComposingError(_ error: NSError)
+    /// dismiss
+    /// - Parameter completion: Handler
     func dismiss(completion: (() -> Void)?)
+    /// pop
     func pop()
 }
 
+/// FeedbackWireframe
 final class FeedbackWireframe {
 
     private weak var viewController: UIViewController?
@@ -30,6 +45,7 @@ final class FeedbackWireframe {
     private weak var imagePickerDelegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate)?
     private weak var mailComposerDelegate: MFMailComposeViewControllerDelegate?
 
+    /// :nodoc:
     init(viewController: UIViewController,
          transitioningDelegate: UIViewControllerTransitioningDelegate,
          imagePickerDelegate: UIImagePickerControllerDelegate & UINavigationControllerDelegate,
@@ -43,6 +59,7 @@ final class FeedbackWireframe {
 
 extension FeedbackWireframe: FeedbackWireframeProtocol {
 
+    /// :nodoc:
     func showTopicsView(with service: FeedbackEditingServiceProtocol) {
         let controller = TopicsViewController(service: service)
         controller.modalPresentationStyle = .custom
@@ -51,6 +68,7 @@ extension FeedbackWireframe: FeedbackWireframeProtocol {
         DispatchQueue.main.async { self.viewController?.present(controller, animated: true) }
     }
 
+    /// :nodoc:
     func showMailComposer(with feedback: Feedback) {
         guard MFMailComposeViewController.canSendMail() else { return showMailConfigurationError() }
         let controller = MFMailComposeViewController()
@@ -68,6 +86,7 @@ extension FeedbackWireframe: FeedbackWireframeProtocol {
         viewController?.present(controller, animated: true)
     }
 
+    /// :nodoc:
     func showAttachmentActionSheet(deleteAction: (() -> Void)?) {
         let alertController = UIAlertController(title: .none,
                                                 message: .none,
@@ -102,6 +121,7 @@ extension FeedbackWireframe: FeedbackWireframeProtocol {
         viewController?.present(alertController, animated: true)
     }
 
+    /// :nodoc:
     func showFeedbackGenerationError() {
         let alertController = UIAlertController(title: L.feedbackError(),
                                                 message: L.feedbackFeedbackGenerationErrorMessage(),
@@ -111,6 +131,7 @@ extension FeedbackWireframe: FeedbackWireframeProtocol {
         viewController?.present(alertController, animated: true)
     }
 
+    /// :nodoc:
     func showUnknownErrorAlert() {
         let title = L.feedbackUnknownError()
         let alertController = UIAlertController(title: title,
@@ -121,6 +142,7 @@ extension FeedbackWireframe: FeedbackWireframeProtocol {
         viewController?.present(alertController, animated: true)
     }
 
+    /// :nodoc:
     func showMailComposingError(_ error: NSError) {
         let alertController = UIAlertController(title: L.feedbackError(),
                                                 message: error.localizedDescription,
@@ -130,16 +152,18 @@ extension FeedbackWireframe: FeedbackWireframeProtocol {
         viewController?.present(alertController, animated: true)
     }
 
+    /// :nodoc:
     func dismiss(completion: (() -> Void)?) {
         viewController?.dismiss(animated: true, completion: completion)
     }
 
+    /// :nodoc:
     func pop() { viewController?.navigationController?.popViewController(animated: true) }
 }
 
-extension FeedbackWireframe {
+private extension FeedbackWireframe {
 
-    private func showMailConfigurationError() {
+    func showMailConfigurationError() {
         let alertController = UIAlertController(title: L.feedbackError(),
                                                 message: L.feedbackMailConfigurationErrorMessage(),
                                                 preferredStyle: .alert)
@@ -148,7 +172,7 @@ extension FeedbackWireframe {
         viewController?.present(alertController, animated: true)
     }
 
-    private func showImagePicker(sourceType: UIImagePickerController.SourceType) {
+    func showImagePicker(sourceType: UIImagePickerController.SourceType) {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = sourceType
         imagePicker.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]

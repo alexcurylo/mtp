@@ -38,6 +38,7 @@ class PostsVC: UITableViewController {
     var models: [PostCellModel] = []
     /// Current post uploads
     private var configuredMenu = false
+    /// Filtered queued network actions
     var queuedPosts: [MTPPostRequest] = []
     private var requestsObserver: Observer?
     private var headerModel: PostHeader.Model = (false, false) {

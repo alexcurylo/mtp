@@ -17,7 +17,7 @@ final class PostHeader: UITableViewHeaderFooterView, ServiceProvider {
     /// Dequeueing identifier
     static let reuseIdentifier = NSStringFromClass(PostHeader.self)
 
-    // Model for which buttons to display
+    /// Model for which buttons to display
     typealias Model = (add: Bool, queue: Bool)
 
     private let addButton = GradientButton {

@@ -9,13 +9,21 @@
 
 import UIKit
 
+/// CellFactoryProtocol
 protocol CellFactoryProtocol {
+
     associatedtype Item
     associatedtype Cell: UITableViewCell
     associatedtype EventHandler
 
+    /// reuse Identifier
     static var reuseIdentifier: String { get }
 
+    /// Configure
+    /// - Parameter cell: Cell
+    /// - Parameter item: Item
+    /// - Parameter indexPath: Index path
+    /// - Parameter eventHandler: Event handler
     static func configure(_ cell: Cell,
                           with item: Item,
                           for indexPath: IndexPath,
@@ -23,10 +31,19 @@ protocol CellFactoryProtocol {
 }
 
 extension CellFactoryProtocol {
+
+    /// Default reuseIdentifier
     static var reuseIdentifier: String { return String(describing: self) }
 
+    /// Default suitable
+    /// - Parameter item: Item
     static func suitable(for item: Any) -> Bool { return item is Item }
 
+    /// Default configure
+    /// - Parameter cell: Cell
+    /// - Parameter item: Item
+    /// - Parameter indexPath: Index path
+    /// - Parameter eventHandler: Event handler
     static func configure(_ cell: UITableViewCell,
                           with item: Any,
                           for indexPath: IndexPath,
@@ -40,13 +57,15 @@ extension CellFactoryProtocol {
     }
 }
 
+/// CellFactory
 final class CellFactory {
 
-    let cellType: AnyClass
-    let reuseIdentifier: String
+    fileprivate let cellType: AnyClass
+    fileprivate let reuseIdentifier: String
     private let suitableClosure: (Any) -> Bool
     private let configureCellClosure: (UITableViewCell, Any, IndexPath, Any?) -> UITableViewCell?
 
+    /// :nodoc:
     init<Factory: CellFactoryProtocol>(_ cellFactory: Factory.Type) {
         cellType = Factory.Cell.self
         reuseIdentifier = cellFactory.reuseIdentifier
@@ -54,8 +73,17 @@ final class CellFactory {
         configureCellClosure = cellFactory.configure(_:with:for:eventHandler:)
     }
 
-    func suitable(for item: Any) -> Bool { return suitableClosure(item) }
+    /// Suitability
+    /// - Parameter item: Item
+    func suitable(for item: Any) -> Bool {
+        return suitableClosure(item)
+    }
 
+    /// Configure
+    /// - Parameter cell: Cell
+    /// - Parameter item: Item
+    /// - Parameter indexPath: Index path
+    /// - Parameter eventHandler: Event handler
     func configure(_ cell: UITableViewCell,
                    with item: Any,
                    for indexPath: IndexPath,
@@ -63,7 +91,7 @@ final class CellFactory {
         return configureCellClosure(cell, item, indexPath, eventHandler)
     }
 
-    static func cellFactoryFilter() -> (Any, [CellFactory]) -> CellFactory? {
+    private static func cellFactoryFilter() -> (Any, [CellFactory]) -> CellFactory? {
         var cache = [String: CellFactory]()
         return { item, factories in
             let itemType = String(describing: type(of: item))
@@ -81,10 +109,18 @@ final class CellFactory {
 
 extension UITableView {
 
+    /// Register
+    /// - Parameter cellFactory: Factory
     func register(with cellFactory: CellFactory) {
         register(cellFactory.cellType, forCellReuseIdentifier: cellFactory.reuseIdentifier)
     }
 
+    /// dequeueCell
+    /// - Parameter item: Item
+    /// - Parameter cellFactories: Factories
+    /// - Parameter indexPath: Index path
+    /// - Parameter filter: Filter
+    /// - Parameter eventHandler: Handler
     func dequeueCell(to item: Any,
                      from cellFactories: [CellFactory],
                      for indexPath: IndexPath,

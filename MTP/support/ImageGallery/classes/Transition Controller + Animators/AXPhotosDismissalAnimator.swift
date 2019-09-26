@@ -50,8 +50,10 @@ final class AXPhotosDismissalAnimator: AXPhotosTransitionAnimator, UIViewControl
 
     // MARK: - UIViewControllerAnimatedTransitioning
 
-    // swiftlint:disable:next cyclomatic_complexity function_body_length
+    /// Animate transition
+    /// - Parameter transitionContext: context
     override func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        // swiftlint:disable:previous cyclomatic_complexity function_body_length
         guard let to = transitionContext.viewController(forKey: .to),
             let from = transitionContext.viewController(forKey: .from) else {
                 assertionFailure(

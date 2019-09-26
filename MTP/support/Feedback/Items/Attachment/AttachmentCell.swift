@@ -9,11 +9,15 @@
 
 import UIKit
 
+/// AttachmentCellEventProtocol
 protocol AttachmentCellEventProtocol {
 
+    /// Show image
+    /// - Parameter item: AttachmentItem
     func showImage(of item: AttachmentItem)
 }
 
+/// AttachmentCell
 final class AttachmentCell: UITableViewCell {
 
     private enum Const {
@@ -36,6 +40,7 @@ final class AttachmentCell: UITableViewCell {
 
     private let tapImageViewGestureRecognizer = UITapGestureRecognizer()
 
+    /// :nodoc:
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -69,11 +74,11 @@ final class AttachmentCell: UITableViewCell {
         accessoryType = .disclosureIndicator
     }
 
+    /// :nodoc:
     required init?(coder aDecoder: NSCoder) { super.init(coder: aDecoder) }
-}
 
-extension AttachmentCell {
-
+    /// attViewTapped
+    /// - Parameter gestureRecognizer: UITapGestureRecognizer
     @objc func attViewTapped(_ gestureRecognizer: UITapGestureRecognizer) {
         guard let item = item, item.image != .none else { return }
         eventHandler?.showImage(of: item)
@@ -82,6 +87,7 @@ extension AttachmentCell {
 
 extension AttachmentCell: CellFactoryProtocol {
 
+    /// :nodoc:
     class func configure(_ cell: AttachmentCell,
                          with item: AttachmentItem,
                          for indexPath: IndexPath,

@@ -13,6 +13,9 @@ extension UIButton {
         tintColor = tintedSelection ? tint : .black
     }
 
+    /// Set gap between icon and title in button
+    /// - Parameter gap: Between icon and title
+    /// - Parameter padding: Optionally replace current content insets
     func setInsets(gap: CGFloat,
                    content padding: UIEdgeInsets? = nil) {
         contentEdgeInsets = padding ?? contentEdgeInsets

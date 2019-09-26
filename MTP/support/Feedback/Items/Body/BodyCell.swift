@@ -12,16 +12,21 @@
 
 import UIKit
 
+/// BodyCellEventProtocol
 protocol BodyCellEventProtocol {
 
+    /// bodyCellHeightChanged
     func bodyCellHeightChanged()
+    /// bodyTextDidChange
+    /// - Parameter text: Text
     func bodyTextDidChange(_ text: String?)
 }
 
 final class BodyCell: UITableViewCell {
 
-    var eventHandler: BodyCellEventProtocol?
+    private var eventHandler: BodyCellEventProtocol?
 
+    /// textView
     let textView: UITextView = {
         let result = UITextView(frame: CGRect.zero)
         result.translatesAutoresizingMaskIntoConstraints = false
@@ -30,14 +35,15 @@ final class BodyCell: UITableViewCell {
         result.backgroundColor = .clear
         return result
     }()
-    var heightConstraint: NSLayoutConstraint?
+    private var heightConstraint: NSLayoutConstraint?
 
-    var height: CGFloat {
+    private var height: CGFloat {
         let size = textView.sizeThatFits(CGSize(width: textView.frame.width,
                                                 height: CGFloat.greatestFiniteMagnitude))
         return max(100.0, size.height)
     }
 
+    /// :nodoc:
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -52,12 +58,15 @@ final class BodyCell: UITableViewCell {
         heightConstraint?.isActive = true
     }
 
+    /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         return nil
     }
 }
 
 extension BodyCell: UITextViewDelegate {
+
+    /// :nodoc:
     func textViewDidChange(_ textView: UITextView) {
         heightConstraint?.constant = height
         eventHandler?.bodyCellHeightChanged()
@@ -66,6 +75,8 @@ extension BodyCell: UITextViewDelegate {
 }
 
 extension BodyCell: CellFactoryProtocol {
+
+    /// :nodoc:
     static func configure(_ cell: BodyCell,
                           with item: BodyItem,
                           for indexPath: IndexPath,

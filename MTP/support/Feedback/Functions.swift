@@ -11,6 +11,8 @@ import AVFoundation
 import MobileCoreServices
 import UIKit
 
+/// getMediaFromImagePickerInfo
+/// - Parameter info: Dictionary
 func getMediaFromImagePickerInfo(_ info: [String: Any]) -> Media? {
     let imageType = kUTTypeImage as String
     let movieType = kUTTypeMovie as String
@@ -28,6 +30,8 @@ func getMediaFromImagePickerInfo(_ info: [String: Any]) -> Media? {
     }
 }
 
+/// getMediaFromURL
+/// - Parameter url: URL
 func getMediaFromURL(_ url: URL) -> Media? {
     let asset = AVURLAsset(url: url)
     let generator = AVAssetImageGenerator(asset: asset)
@@ -38,6 +42,8 @@ func getMediaFromURL(_ url: URL) -> Media? {
     return .video(UIImage(cgImage: cgImage), url)
 }
 
+/// push<Item>
+/// - Parameter item: Item
 func push<Item>(_ item: Item?) -> (((Item) -> Void) -> Void)? {
     guard let item = item else { return .none }
     return { closure in closure(item) }

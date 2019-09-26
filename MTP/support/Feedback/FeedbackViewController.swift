@@ -14,11 +14,12 @@ import Dispatch
 import MessageUI
 import UIKit
 
+/// FeedbackViewController
 final class FeedbackViewController: UITableViewController {
 
-    var replacedFeedbackSendingAction: ((Feedback) -> Void)?
-    var feedbackDidFailed: ((MFMailComposeResult, NSError) -> Void)?
-    var configuration: FeedbackConfiguration {
+    private var replacedFeedbackSendingAction: ((Feedback) -> Void)?
+    private var feedbackDidFailed: ((MFMailComposeResult, NSError) -> Void)?
+    private var configuration: FeedbackConfiguration {
         didSet { updateDataSource(configuration: configuration) }
     }
 
@@ -45,6 +46,7 @@ final class FeedbackViewController: UITableViewController {
         return feedbackEditingService.hasAttachedMedia ? action : .none
     }
 
+    /// :nodoc:
     init(configuration: FeedbackConfiguration) {
         self.configuration = configuration
 
@@ -56,10 +58,12 @@ final class FeedbackViewController: UITableViewController {
                                       mailComposerDelegate: self)
     }
 
+    /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         return nil
     }
 
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -78,6 +82,7 @@ final class FeedbackViewController: UITableViewController {
                                                   action: #selector(mailButtonTapped(_:)))
     }
 
+    /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -87,6 +92,7 @@ final class FeedbackViewController: UITableViewController {
         configureLeftBarButtonItem()
     }
 
+    /// :nodoc:
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
@@ -94,26 +100,24 @@ final class FeedbackViewController: UITableViewController {
             self.navigationController?.isNavigationBarHidden = $0
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 }
 
 // MARK: - UITableViewDataSource
 
 extension FeedbackViewController {
 
+    /// :nodoc:
     override func numberOfSections(in tableView: UITableView) -> Int {
         return configuration.dataSource.numberOfSections
     }
 
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
         return configuration.dataSource.section(at: section).count
     }
 
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = configuration.dataSource.section(at: indexPath.section)[indexPath.row]
@@ -123,6 +127,7 @@ extension FeedbackViewController {
                                      eventHandler: self)
     }
 
+    /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             titleForHeaderInSection section: Int) -> String? {
         return configuration.dataSource.section(at: section).title
@@ -133,6 +138,7 @@ extension FeedbackViewController {
 
 extension FeedbackViewController {
 
+    /// :nodoc:
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = configuration.dataSource.section(at: indexPath.section)[indexPath.row]
         switch item {
@@ -148,36 +154,45 @@ extension FeedbackViewController {
 
 extension FeedbackViewController: FeedbackEditingEventProtocol {
 
+    /// :nodoc:
     func updated(at indexPath: IndexPath) {
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
 }
 
 extension FeedbackViewController: UserEmailCellEventProtocol {
+
+    /// :nodoc:
     func userEmailTextDidChange(_ text: String?) {
         feedbackEditingService.update(userEmailText: text)
     }
 }
 
 extension FeedbackViewController: BodyCellEventProtocol {
+
+    /// :nodoc:
     func bodyCellHeightChanged() {
         tableView.beginUpdates()
         tableView.endUpdates()
     }
 
+    /// :nodoc:
     func bodyTextDidChange(_ text: String?) {
         feedbackEditingService.update(bodyText: text)
     }
 }
 
 extension FeedbackViewController: AttachmentCellEventProtocol {
+
+    /// :nodoc:
     func showImage(of item: AttachmentItem) {
         // Pending
     }
 }
 
-extension FeedbackViewController {
-    private func configureLeftBarButtonItem() {
+private extension FeedbackViewController {
+
+    func configureLeftBarButtonItem() {
         if let navigationController = navigationController {
             if navigationController.viewControllers[0] === self {
                 navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
@@ -194,7 +209,7 @@ extension FeedbackViewController {
         }
     }
 
-    private func updateDataSource(configuration: FeedbackConfiguration) { tableView.reloadData() }
+    func updateDataSource(configuration: FeedbackConfiguration) { tableView.reloadData() }
 
     @objc func cancelButtonTapped(_ sender: Any) {
         if let navigationController = navigationController {
@@ -217,7 +232,7 @@ extension FeedbackViewController {
         }
     }
 
-    private func terminate(_ result: MFMailComposeResult, _ error: Error?) {
+    func terminate(_ result: MFMailComposeResult, _ error: Error?) {
         if presentingViewController?.presentedViewController != .none {
             wireframe?.dismiss(completion: .none)
         } else {
@@ -230,12 +245,13 @@ extension FeedbackViewController {
     }
 }
 
-extension FeedbackViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension FeedbackViewController: UIImagePickerControllerDelegate {
 
+    /// :nodoc:
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-// Local variable inserted by Swift 4.2 migrator.
-let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+        // Local variable inserted by Swift 4.2 migrator.
+        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
 
         switch getMediaFromImagePickerInfo(info) {
         case let media?:
@@ -247,13 +263,17 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         }
     }
 
+    /// :nodoc:
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         wireframe?.dismiss(completion: .none)
     }
 }
 
+extension FeedbackViewController: UINavigationControllerDelegate { }
+
 extension FeedbackViewController: MFMailComposeViewControllerDelegate {
 
+    /// :nodoc:
     func mailComposeController(_ controller: MFMailComposeViewController,
                                didFinishWith result: MFMailComposeResult,
                                error: Error?) {
@@ -268,6 +288,7 @@ extension FeedbackViewController: MFMailComposeViewControllerDelegate {
 
 extension FeedbackViewController: UIViewControllerTransitioningDelegate {
 
+    /// :nodoc:
     func presentationController(forPresented presented: UIViewController,
                                 presenting: UIViewController?,
                                 source: UIViewController) -> UIPresentationController? {
