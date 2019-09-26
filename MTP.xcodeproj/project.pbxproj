@@ -403,6 +403,7 @@
 		FA4FBFFB22E7327100FE0902 /* AppStoreSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4FBFFA22E7327100FE0902 /* AppStoreSnapshotTests.swift */; };
 		FA507C2823059DD6000F0EF9 /* userLogin-7853.json in Resources */ = {isa = PBXBuildFile; fileRef = FA507C2723059DD5000F0EF9 /* userLogin-7853.json */; };
 		FA51034D233B958B00AFC41E /* PhotosHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA51034C233B958B00AFC41E /* PhotosHeader.swift */; };
+		FA510350233D5F6C00AFC41E /* Parchment in Frameworks */ = {isa = PBXBuildFile; productRef = FA51034F233D5F6C00AFC41E /* Parchment */; };
 		FA54272822D62936005DF1CC /* MappablesAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA54272722D62936005DF1CC /* MappablesAnnotationView.swift */; };
 		FA54272A22D97476005DF1CC /* Date+Relative.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA54272922D97476005DF1CC /* Date+Relative.swift */; };
 		FA5AC0B621FC4EBE0080F84F /* MappableAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0B521FC4EBE0080F84F /* MappableAnnotationView.swift */; };
@@ -1085,7 +1086,6 @@
 		FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Environment.swift"; sourceTree = "<group>"; };
 		FAAE29C120EFADC700B43BA9 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		FAAE29C420F05A9600B43BA9 /* UserDefaults+TypeSafety.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+TypeSafety.swift"; sourceTree = "<group>"; };
-		FAB53F8320DFCB40007A80A7 /* Dangerfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Dangerfile; sourceTree = "<group>"; };
 		FAB53F8420DFCC03007A80A7 /* .slather.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .slather.yml; sourceTree = "<group>"; };
 		FAB53F8520DFCC03007A80A7 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		FAB53F8620DFCC04007A80A7 /* .coveralls.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .coveralls.yml; sourceTree = "<group>"; };
@@ -1160,6 +1160,7 @@
 				FA9FD69323364BD0005818C3 /* Realm in Frameworks */,
 				FA66CED52337952B00F6FCAA /* Connectivity in Frameworks */,
 				FA66CED2233791EE00F6FCAA /* SwiftEntryKit in Frameworks */,
+				FA510350233D5F6C00AFC41E /* Parchment in Frameworks */,
 				8CDA496F233076D700014912 /* Network.framework in Frameworks */,
 				C1D9A04EB6208ED844515108 /* libPods-MTP.a in Frameworks */,
 				FA66CECF23378EF900F6FCAA /* SwiftyBeaver in Frameworks */,
@@ -2206,7 +2207,6 @@
 				FAB53F8520DFCC03007A80A7 /* .travis.yml */,
 				FA4B7FE121E38BF3006AF8E2 /* apple-app-site-association */,
 				FAD0DA7622DB29DD0042C328 /* CHANGELOG.md */,
-				FAB53F8320DFCB40007A80A7 /* Dangerfile */,
 				8CCA21F622B381A600C1D13B /* fastlane */,
 				FA4F1C5E20DFA74500B8A1ED /* Gemfile */,
 				FAC749A42335AAAE007B1EF1 /* Mintfile */,
@@ -2496,6 +2496,7 @@
 				FA66CECE23378EF900F6FCAA /* SwiftyBeaver */,
 				FA66CED1233791EE00F6FCAA /* SwiftEntryKit */,
 				FA66CED42337952B00F6FCAA /* Connectivity */,
+				FA51034F233D5F6C00AFC41E /* Parchment */,
 			);
 			productName = MTP;
 			productReference = FA392BB720DF69F30026C828 /* MTP.app */;
@@ -2599,6 +2600,7 @@
 				FA66CECD23378EF900F6FCAA /* XCRemoteSwiftPackageReference "SwiftyBeaver" */,
 				FA66CED0233791EE00F6FCAA /* XCRemoteSwiftPackageReference "SwiftEntryKit" */,
 				FA66CED32337952B00F6FCAA /* XCRemoteSwiftPackageReference "connectivity" */,
+				FA51034E233D5F6B00AFC41E /* XCRemoteSwiftPackageReference "Parchment" */,
 			);
 			productRefGroup = FA392BB820DF69F30026C828 /* Products */;
 			projectDirPath = "";
@@ -3734,6 +3736,14 @@
 				minimumVersion = 8.2.0;
 			};
 		};
+		FA51034E233D5F6B00AFC41E /* XCRemoteSwiftPackageReference "Parchment" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/rechsteiner/Parchment";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.7.0;
+			};
+		};
 		FA66CECD23378EF900F6FCAA /* XCRemoteSwiftPackageReference "SwiftyBeaver" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftyBeaver/SwiftyBeaver.git";
@@ -3793,6 +3803,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FA489DAE2336D55300185F7D /* XCRemoteSwiftPackageReference "Nuke" */;
 			productName = Nuke;
+		};
+		FA51034F233D5F6C00AFC41E /* Parchment */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA51034E233D5F6B00AFC41E /* XCRemoteSwiftPackageReference "Parchment" */;
+			productName = Parchment;
 		};
 		FA66CECE23378EF900F6FCAA /* SwiftyBeaver */ = {
 			isa = XCSwiftPackageProductDependency;

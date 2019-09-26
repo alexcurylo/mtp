@@ -94,7 +94,6 @@ PODS:
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
-  - Parchment (1.6.0)
   - R.swift (5.0.3):
     - R.swift.Library (~> 5.0.0)
   - R.swift.Library (5.0.1)
@@ -112,7 +111,6 @@ DEPENDENCIES:
   - Firebase/Analytics
   - JWTDecode
   - KRProgressHUD
-  - Parchment
   - R.swift
   - R.swift.Library
 
@@ -141,7 +139,6 @@ SPEC REPOS:
     - KRActivityIndicatorView
     - KRProgressHUD
     - nanopb
-    - Parchment
     - R.swift
     - R.swift.Library
 
@@ -169,10 +166,9 @@ SPEC CHECKSUMS:
   KRActivityIndicatorView: 3a870da60f321f5a88458658434749829865b401
   KRProgressHUD: 1101587c29484dbeee6a3e661d2fc3b141d96a56
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
-  Parchment: d3a7b367c529fa6ef51aa43f5717a7ff36d4b1f5
   R.swift: f5a87643b91ea569d23d6afb3eee9c743edde239
   R.swift.Library: cfe85d569d9bae6cb262922db130e7c3a7a5fad1
 
-PODFILE CHECKSUM: e66349569babe2d6823489a7b4914e73919bc565
+PODFILE CHECKSUM: f2e0db721ce2adb8d771c11fbaf6db2e0a8dc1f9
 
 COCOAPODS: 1.8.0

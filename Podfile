@@ -22,7 +22,6 @@ source 'https://cdn.cocoapods.org/'
 # https://github.com/firebase/firebase-ios-sdk/issues/3136
 # https://github.com/auth0/JWTDecode.swift/issues/92
 # https://github.com/krimpedance/KRProgressHUD
-# https://github.com/rechsteiner/Parchment
 # https://github.com/mac-cain13/R.swift/pull/538 - need SPM tag (before 5.1)
 
 $iosVersion = '11.0'
@@ -41,7 +40,6 @@ target 'MTP' do
   pod 'Firebase/Analytics'
   pod 'JWTDecode'
   pod 'KRProgressHUD'
-  pod 'Parchment', :inhibit_warnings => true
   pod 'R.swift'
   pod 'R.swift.Library'
 

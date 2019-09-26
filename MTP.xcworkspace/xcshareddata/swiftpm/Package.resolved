@@ -65,6 +65,15 @@
         }
       },
       {
+        "package": "Parchment",
+        "repositoryURL": "https://github.com/rechsteiner/Parchment",
+        "state": {
+          "branch": null,
+          "revision": "c04fce7556de07e0530019577cf39da05e28f2a1",
+          "version": "1.7.0"
+        }
+      },
+      {
         "package": "Quick",
         "repositoryURL": "https://github.com/Quick/Quick.git",
         "state": {
