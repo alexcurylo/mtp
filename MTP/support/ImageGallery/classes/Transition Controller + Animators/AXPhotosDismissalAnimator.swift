@@ -18,35 +18,35 @@ final class AXPhotosDismissalAnimator: AXPhotosTransitionAnimator, UIViewControl
     // swiftlint:disable:previous type_body_length
 
     // The distance threshold at which the interactive controller will dismiss upon end touches.
-    fileprivate let dismissalPercentThreshold: CGFloat = 0.14
+    private let dismissalPercentThreshold: CGFloat = 0.14
 
     /// The velocity threshold at which the interactive controller will dismiss upon end touches.
-    fileprivate let dismissalVelocityYThreshold: CGFloat = 400
+    private let dismissalVelocityYThreshold: CGFloat = 400
 
     /// The velocity threshold at which the interactive controller will dismiss in any direction the user is swiping.
-    fileprivate let dismissalVelocityAnyDirectionThreshold: CGFloat = 1_000
+    private let dismissalVelocityAnyDirectionThreshold: CGFloat = 1_000
 
     // Interactive dismissal transition tracking
-    fileprivate var dismissalPercent: CGFloat = 0
-    fileprivate var directionalDismissalPercent: CGFloat = 0
-    fileprivate var dismissalVelocityY: CGFloat = 1
-    fileprivate var forceImmediateInteractiveDismissal = false
-    fileprivate var completeInteractiveDismissal = false
-    fileprivate weak var dismissalTransitionContext: UIViewControllerContextTransitioning?
+    private var dismissalPercent: CGFloat = 0
+    private var directionalDismissalPercent: CGFloat = 0
+    private var dismissalVelocityY: CGFloat = 1
+    private var forceImmediateInteractiveDismissal = false
+    private var completeInteractiveDismissal = false
+    private weak var dismissalTransitionContext: UIViewControllerContextTransitioning?
 
-    fileprivate var imageViewInitialCenter: CGPoint = .zero
-    fileprivate var imageViewOriginalSuperview: UIView?
-    fileprivate weak var imageView: UIImageView?
+    private var imageViewInitialCenter: CGPoint = .zero
+    private var imageViewOriginalSuperview: UIView?
+    private weak var imageView: UIImageView?
 
-    fileprivate weak var overlayView: AXOverlayView?
-    fileprivate var topStackContainerInitialOriginY: CGFloat = .greatestFiniteMagnitude
-    fileprivate var bottomStackContainerInitialOriginY: CGFloat = .greatestFiniteMagnitude
-    fileprivate var overlayViewOriginalSuperview: UIView?
+    private weak var overlayView: AXOverlayView?
+    private var topStackContainerInitialOriginY: CGFloat = .greatestFiniteMagnitude
+    private var bottomStackContainerInitialOriginY: CGFloat = .greatestFiniteMagnitude
+    private var overlayViewOriginalSuperview: UIView?
 
     /// Pending animations that can occur when interactive dismissal has not been triggered by the system,
     /// but our pan gesture recognizer is receiving touch events.
     /// Processed as soon as the interactive dismissal has been set up.
-    fileprivate var pendingChanges = [() -> Void]()
+    private var pendingChanges = [() -> Void]()
 
     // MARK: - UIViewControllerAnimatedTransitioning
 
@@ -268,9 +268,9 @@ final class AXPhotosDismissalAnimator: AXPhotosTransitionAnimator, UIViewControl
 
     // MARK: - UIViewControllerInteractiveTransitioning
 
-    // swiftlint:disable:next function_body_length cyclomatic_complexity
+    /// :nodoc:
     func startInteractiveTransition(_ transitionContext: UIViewControllerContextTransitioning) {
-        #if os(iOS)
+        // swiftlint:disable:previous function_body_length cyclomatic_complexity
         self.dismissalTransitionContext = transitionContext
 
         guard let to = transitionContext.viewController(forKey: .to),
@@ -383,15 +383,12 @@ final class AXPhotosDismissalAnimator: AXPhotosTransitionAnimator, UIViewControl
         }
 
         self.processPendingChanges()
-        #else
-        fatalError("Interactive animations are not supported on tvOS.")
-        #endif
     }
 
     // MARK: - Cancel interactive transition
 
     // swiftlint:disable:next function_body_length
-    fileprivate func cancelTransition(using transitionContext: UIViewControllerContextTransitioning) {
+    private func cancelTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard let from = transitionContext.viewController(forKey: .from) else {
             assertionFailure("No. ಠ_ಠ")
             return
@@ -483,8 +480,9 @@ final class AXPhotosDismissalAnimator: AXPhotosTransitionAnimator, UIViewControl
 
     // MARK: - Interaction handling
 
-    // swiftlint:disable:next function_body_length
+    /// :nodoc:
     func didPanWithGestureRecognizer(_ sender: UIPanGestureRecognizer,
+                                     // swiftlint:disable:previous function_body_length
                                      in viewController: UIViewController) {
 
         self.dismissalVelocityY = sender.velocity(in: sender.view).y
@@ -592,9 +590,9 @@ final class AXPhotosDismissalAnimator: AXPhotosTransitionAnimator, UIViewControl
     ///   - view: The view that is containing the imageView. Most likely the superview.
     /// - Returns: A tuple containing the final center of the imageView,
     ///            as well as the value that was adjusted from the original `center` value.
-    fileprivate func extrapolateFinalCenter(for view: UIView,
-                                            // swiftlint:disable:previous function_body_length cyclomatic_complexity
-                                            in containingView: UIView) -> (center: CGPoint, changed: CGFloat) {
+    private func extrapolateFinalCenter(for view: UIView,
+                                        // swiftlint:disable:previous function_body_length cyclomatic_complexity
+                                        in containingView: UIView) -> (center: CGPoint, changed: CGFloat) {
 
         let endingOrientation = UIApplication.shared.statusBarOrientation
         let startingOrientation = endingOrientation.by(transforming: view.transform)
@@ -724,7 +722,7 @@ final class AXPhotosDismissalAnimator: AXPhotosTransitionAnimator, UIViewControl
     }
 
     // MARK: - Helpers
-    fileprivate func canPerformContextualDismissal() -> Bool {
+    private func canPerformContextualDismissal() -> Bool {
         guard let endingView = self.transitionInfo.endingView, let endingViewSuperview = endingView.superview else {
             return false
         }
@@ -732,7 +730,7 @@ final class AXPhotosDismissalAnimator: AXPhotosTransitionAnimator, UIViewControl
         return UIScreen.main.bounds.intersects(endingViewSuperview.convert(endingView.frame, to: nil))
     }
 
-    fileprivate func processPendingChanges() {
+    private func processPendingChanges() {
         for animation in self.pendingChanges {
             animation()
         }

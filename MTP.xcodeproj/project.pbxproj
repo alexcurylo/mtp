@@ -1291,18 +1291,18 @@
 		8C522F082339A6290056D0CE /* Feedback */ = {
 			isa = PBXGroup;
 			children = (
-				8C522F092339A6290056D0CE /* FeedbackItemsDataSource.swift */,
-				8C522F0A2339A6290056D0CE /* FeedbackViewController.swift */,
-				8C522F0B2339A6290056D0CE /* Functions.swift */,
-				8C522F0C2339A6290056D0CE /* FeedbackWireframe.swift */,
-				8C522F0D2339A6290056D0CE /* TopicsViewController.swift */,
-				8C522F0E2339A6290056D0CE /* DrawUpPresentationController.swift */,
 				8C522F0F2339A6290056D0CE /* CellFactory.swift */,
+				8C522F0E2339A6290056D0CE /* DrawUpPresentationController.swift */,
+				8C522F362339A6290056D0CE /* Feedback.swift */,
 				8C522F102339A6290056D0CE /* FeedbackConfiguration.swift */,
 				8C522F122339A6290056D0CE /* FeedbackEditing */,
-				8C522F172339A6290056D0CE /* Items */,
 				8C522F352339A6290056D0CE /* FeedbackItemProtocol.swift */,
-				8C522F362339A6290056D0CE /* Feedback.swift */,
+				8C522F092339A6290056D0CE /* FeedbackItemsDataSource.swift */,
+				8C522F0A2339A6290056D0CE /* FeedbackViewController.swift */,
+				8C522F0C2339A6290056D0CE /* FeedbackWireframe.swift */,
+				8C522F0B2339A6290056D0CE /* Functions.swift */,
+				8C522F172339A6290056D0CE /* Items */,
+				8C522F0D2339A6290056D0CE /* TopicsViewController.swift */,
 			);
 			path = Feedback;
 			sourceTree = "<group>";
@@ -1310,10 +1310,10 @@
 		8C522F122339A6290056D0CE /* FeedbackEditing */ = {
 			isa = PBXGroup;
 			children = (
+				8C522F162339A6290056D0CE /* CTFeedbackError.swift */,
+				8C522F152339A6290056D0CE /* FeedbackEditingItemsRepositoryProtocol.swift */,
 				8C522F132339A6290056D0CE /* FeedbackEditingService.swift */,
 				8C522F142339A6290056D0CE /* FeedbackGenerator.swift */,
-				8C522F152339A6290056D0CE /* FeedbackEditingItemsRepositoryProtocol.swift */,
-				8C522F162339A6290056D0CE /* CTFeedbackError.swift */,
 			);
 			path = FeedbackEditing;
 			sourceTree = "<group>";
@@ -1322,14 +1322,14 @@
 			isa = PBXGroup;
 			children = (
 				8C522F182339A6290056D0CE /* AppBuild */,
+				8C522F322339A6290056D0CE /* AppName */,
 				8C522F1B2339A6290056D0CE /* AppVersion */,
-				8C522F1E2339A6290056D0CE /* SystemVersion */,
-				8C522F212339A6290056D0CE /* DeviceName */,
 				8C522F242339A6290056D0CE /* Attachment */,
 				8C522F282339A6290056D0CE /* Body */,
+				8C522F212339A6290056D0CE /* DeviceName */,
+				8C522F1E2339A6290056D0CE /* SystemVersion */,
 				8C522F2B2339A6290056D0CE /* Topic */,
 				8C522F2F2339A6290056D0CE /* UserEmail */,
-				8C522F322339A6290056D0CE /* AppName */,
 			);
 			path = Items;
 			sourceTree = "<group>";
@@ -1364,8 +1364,8 @@
 		8C522F212339A6290056D0CE /* DeviceName */ = {
 			isa = PBXGroup;
 			children = (
-				8C522F222339A6290056D0CE /* DeviceNameItem.swift */,
 				8C522F232339A6290056D0CE /* DeviceNameCell.swift */,
+				8C522F222339A6290056D0CE /* DeviceNameItem.swift */,
 			);
 			path = DeviceName;
 			sourceTree = "<group>";
@@ -1373,8 +1373,8 @@
 		8C522F242339A6290056D0CE /* Attachment */ = {
 			isa = PBXGroup;
 			children = (
-				8C522F252339A6290056D0CE /* AttachmentItem.swift */,
 				8C522F262339A6290056D0CE /* AttachmentCell.swift */,
+				8C522F252339A6290056D0CE /* AttachmentItem.swift */,
 				8C522F272339A6290056D0CE /* Media.swift */,
 			);
 			path = Attachment;
@@ -1392,9 +1392,9 @@
 		8C522F2B2339A6290056D0CE /* Topic */ = {
 			isa = PBXGroup;
 			children = (
+				8C522F2E2339A6290056D0CE /* Topic.swift */,
 				8C522F2C2339A6290056D0CE /* TopicCell.swift */,
 				8C522F2D2339A6290056D0CE /* TopicItem.swift */,
-				8C522F2E2339A6290056D0CE /* Topic.swift */,
 			);
 			path = Topic;
 			sourceTree = "<group>";
@@ -1402,8 +1402,8 @@
 		8C522F2F2339A6290056D0CE /* UserEmail */ = {
 			isa = PBXGroup;
 			children = (
-				8C522F302339A6290056D0CE /* UserEmailItem.swift */,
 				8C522F312339A6290056D0CE /* UserEmailCell.swift */,
+				8C522F302339A6290056D0CE /* UserEmailItem.swift */,
 			);
 			path = UserEmail;
 			sourceTree = "<group>";
@@ -1925,11 +1925,11 @@
 		FA126B8E2336EBB700175258 /* classes */ = {
 			isa = PBXGroup;
 			children = (
-				FA126B8F2336EBB700175258 /* View Controllers */,
-				FA126B932336EBB700175258 /* Models */,
 				FA126B982336EBB700175258 /* Controls */,
-				FA126B9A2336EBB700175258 /* Views */,
+				FA126B932336EBB700175258 /* Models */,
 				FA126BA12336EBB800175258 /* Transition Controller + Animators */,
+				FA126B8F2336EBB700175258 /* View Controllers */,
+				FA126B9A2336EBB700175258 /* Views */,
 			);
 			path = classes;
 			sourceTree = "<group>";

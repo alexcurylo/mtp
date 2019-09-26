@@ -12,19 +12,24 @@
 
 import UIKit
 
+/// DeviceNameCell
 final class DeviceNameCell: UITableViewCell {
 
+    /// :nodoc:
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .value1, reuseIdentifier: reuseIdentifier)
     }
 
+    /// :nodoc:
     required init?(coder aDecoder: NSCoder) { super.init(coder: aDecoder) }
 }
 
 extension DeviceNameCell: CellFactoryProtocol {
 
+    /// :nodoc:
     static let reuseIdentifier: String = "DeviceNameCell"
 
+    /// :nodoc:
     static func configure(_ cell: DeviceNameCell,
                           with item: DeviceNameItem,
                           for indexPath: IndexPath,

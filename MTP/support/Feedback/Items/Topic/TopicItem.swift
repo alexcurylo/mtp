@@ -9,8 +9,10 @@
 
 import Foundation
 
+/// TopicItem
 struct TopicItem: FeedbackItemProtocol {
 
+    /// defaultTopics
     static var defaultTopics: [TopicProtocol] {
         return [Topic.question,
                 Topic.request,
@@ -18,15 +20,21 @@ struct TopicItem: FeedbackItemProtocol {
                 Topic.other]
     }
 
+    /// topicTitle
     var topicTitle: String { return selected?.localizedTitle ?? topics.first?.localizedTitle ?? "" }
+    /// topics
     var topics: [TopicProtocol] = []
+    /// selected
     var selected: TopicProtocol? {
         get { return _selected ?? topics.first }
         set { _selected = newValue }
     }
     private var _selected: TopicProtocol?
+
+    /// isHidden
     let isHidden: Bool
 
+    /// :nodoc:
     init(_ topics: [TopicProtocol]) {
         self.topics = topics
         self.isHidden = topics.isEmpty

@@ -9,10 +9,13 @@
 
 import Foundation
 
+/// DescriptionDeviceNameItem
 struct DeviceNameItem: FeedbackItemProtocol {
 
+    /// isHidden
     let isHidden: Bool = false
 
+    /// deviceName
     var deviceName: String {
         guard let path = Bundle.main.path(forResource: "PlatformNames",
                                           ofType: "plist"),

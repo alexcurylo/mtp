@@ -9,15 +9,19 @@
 
 import Foundation
 
+/// AppVersionItem
 struct AppVersionItem: FeedbackItemProtocol {
 
+    /// version
     var version: String {
         guard let shortVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
             else { return "" }
         return shortVersion
     }
 
+    /// isHidden
     let isHidden: Bool
 
+    /// :nodoc:
     init(isHidden: Bool) { self.isHidden = isHidden }
 }

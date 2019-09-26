@@ -9,8 +9,12 @@
 
 import UIKit
 
+/// SystemVersionItem
 struct SystemVersionItem: FeedbackItemProtocol {
 
+    /// version
     var version: String { return UIDevice.current.systemVersion }
+
+    /// :nodoc:
     let isHidden: Bool = false
 }

@@ -9,15 +9,19 @@
 
 import Foundation
 
+/// AppBuildItem
 struct AppBuildItem: FeedbackItemProtocol {
 
+    /// buildString
     var buildString: String {
         guard let build = Bundle.main.object(forInfoDictionaryKey: kCFBundleVersionKey as String) as? String
             else { return "" }
         return build
     }
 
+    /// isHidden
     let isHidden: Bool
 
+    /// :nodoc:
     init(isHidden: Bool) { self.isHidden = isHidden }
 }

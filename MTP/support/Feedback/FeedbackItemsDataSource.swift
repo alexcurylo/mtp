@@ -86,6 +86,7 @@ extension FeedbackItemsDataSource: FeedbackEditingItemsRepositoryProtocol {
     }
 }
 
+/// FeedbackItemsSection
 final class FeedbackItemsSection {
 
     /// title

@@ -7,8 +7,6 @@
 // Copyright (c) 2017 CAPH TECH. All rights reserved.
 //
 
-import Foundation
-
 /// FeedbackEditingEventProtocol
 protocol FeedbackEditingEventProtocol {
 

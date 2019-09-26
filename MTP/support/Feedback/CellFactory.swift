@@ -12,8 +12,11 @@ import UIKit
 /// CellFactoryProtocol
 protocol CellFactoryProtocol {
 
+    /// Item
     associatedtype Item
+    /// Cell
     associatedtype Cell: UITableViewCell
+    /// EventHandler
     associatedtype EventHandler
 
     /// reuse Identifier

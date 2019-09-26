@@ -22,6 +22,7 @@ protocol BodyCellEventProtocol {
     func bodyTextDidChange(_ text: String?)
 }
 
+/// BodyCell
 final class BodyCell: UITableViewCell {
 
     private var eventHandler: BodyCellEventProtocol?

@@ -9,23 +9,33 @@
 
 import Foundation
 
+/// title
 protocol TopicProtocol {
 
+    /// title
     var title: String { get }
+    /// localizedTitle
     var localizedTitle: String { get }
 }
 
+/// Topic
 enum Topic: String {
 
+        /// question
     case question = "Question"
+        /// request
     case request = "Request"
+        /// other
     case bugReport = "Bug Report"
+        /// other
     case other = "Other"
 }
 
 extension Topic: TopicProtocol {
 
+    /// localizedTitle
     var title: String { return rawValue }
+    /// localizedTitle
     var localizedTitle: String {
         switch self {
         case .question: return L.feedbackQuestion()

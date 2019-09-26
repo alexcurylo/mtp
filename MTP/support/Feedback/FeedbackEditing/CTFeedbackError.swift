@@ -7,9 +7,9 @@
 // Copyright (c) 2017 CAPH TECH. All rights reserved.
 //
 
-import Foundation
-
+/// CTFeedbackError
 enum CTFeedbackError: Error {
 
+    /// unknown
     case unknown
 }

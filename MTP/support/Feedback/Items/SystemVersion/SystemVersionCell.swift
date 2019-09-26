@@ -12,17 +12,21 @@
 
 import UIKit
 
+/// SystemVersionCell
 final class SystemVersionCell: UITableViewCell {
 
+    /// :nodoc:
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .value1, reuseIdentifier: reuseIdentifier)
     }
 
+    /// :nodoc:
     required init?(coder aDecoder: NSCoder) { super.init(coder: aDecoder) }
 }
 
 extension SystemVersionCell: CellFactoryProtocol {
 
+    /// :nodoc:
     class func configure(_ cell: SystemVersionCell,
                          with item: SystemVersionItem,
                          for indexPath: IndexPath,

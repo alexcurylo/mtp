@@ -32,6 +32,8 @@ class AXPhotosTransitionAnimator: NSObject, UIViewControllerAnimatedTransitionin
 
     // MARK: - UIViewControllerAnimatedTransitioning
 
+    /// Transit duration
+    /// - Parameter transitionContext: Context
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return self.transitionInfo.duration
     }
@@ -44,11 +46,20 @@ class AXPhotosTransitionAnimator: NSObject, UIViewControllerAnimatedTransitionin
     }
 }
 
+/// AXPhotosTransitionAnimatorDelegate
 protocol AXPhotosTransitionAnimatorDelegate: AnyObject {
 
+    /// Completed presentation
+    /// - Parameter animator: AXPhotosTransitionAnimator
+    /// - Parameter transitionView: UIImageView
     func transitionAnimator(_ animator: AXPhotosTransitionAnimator,
                             didCompletePresentationWith transitionView: UIImageView)
+    /// Completed dismissal
+    /// - Parameter animator: AXPhotosTransitionAnimator
+    /// - Parameter transitionView: UIImageView
     func transitionAnimator(_ animator: AXPhotosTransitionAnimator,
                             didCompleteDismissalWith transitionView: UIImageView)
+    /// Cancelled dismissal
+    /// - Parameter animator: AXPhotosTransitionAnimator
     func transitionAnimatorDidCancelDismissal(_ animator: AXPhotosTransitionAnimator)
 }

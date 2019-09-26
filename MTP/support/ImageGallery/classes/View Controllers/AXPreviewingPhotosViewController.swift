@@ -32,9 +32,10 @@ final class AXPreviewingPhotosViewController: UIViewController, AXNetworkIntegra
     /// The `NetworkIntegration` passed in at initialization.
     /// This object is used to fetch images asynchronously from a cache or URL.
     /// - Initialized by the end of `commonInit(dataSource:networkIntegration:)`.
-    fileprivate(set) var networkIntegration: AXNetworkIntegrationProtocol!
+    private(set) var networkIntegration: AXNetworkIntegrationProtocol!
     // swiftlint:disable:previous implicitly_unwrapped_optional
 
+    /// imageView
     var imageView: UIImageView {
         // swiftlint:disable:next force_cast
         return self.view as! UIImageView
@@ -62,8 +63,8 @@ final class AXPreviewingPhotosViewController: UIViewController, AXNetworkIntegra
         return nil
     }
 
-    fileprivate func commonInit(dataSource: AXPhotosDataSource,
-                                networkIntegration: AXNetworkIntegrationProtocol? = nil) {
+    private func commonInit(dataSource: AXPhotosDataSource,
+                            networkIntegration: AXNetworkIntegrationProtocol? = nil) {
 
         self.dataSource = dataSource
 
@@ -103,13 +104,14 @@ final class AXPreviewingPhotosViewController: UIViewController, AXNetworkIntegra
         self.preferredContentSize = newSize
     }
 
-    fileprivate func configure(with index: Int) {
+    private func configure(with index: Int) {
         guard let photo = self.dataSource.photo(at: index) else { return }
         self.networkIntegration.loadPhoto(photo)
     }
 
     // MARK: - AXNetworkIntegrationDelegate
 
+    /// :nodoc:
     func networkIntegration(_ networkIntegration: AXNetworkIntegrationProtocol,
                             loadDidFinishWith photo: AXPhotoProtocol) {
         if let image = photo.image {
@@ -121,6 +123,7 @@ final class AXPreviewingPhotosViewController: UIViewController, AXNetworkIntegra
         }
     }
 
+    /// :nodoc:
     func networkIntegration(_ networkIntegration: AXNetworkIntegrationProtocol,
                             loadDidFailWith error: Error,
                             for photo: AXPhotoProtocol) {
@@ -132,6 +135,7 @@ final class AXPreviewingPhotosViewController: UIViewController, AXNetworkIntegra
         photo.ax_error = error
     }
 
+    /// :nodoc:
     func networkIntegration(_ networkIntegration: AXNetworkIntegrationProtocol,
                             didUpdateLoadingProgress progress: CGFloat,
                             for photo: AXPhotoProtocol) {

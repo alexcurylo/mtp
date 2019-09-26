@@ -15,18 +15,23 @@ import UIKit
 /// AXPhotoViewController
 final class AXPhotoViewController: UIViewController, AXPageableViewControllerProtocol, AXZoomingImageViewDelegate {
 
+    /// delegate
     weak var delegate: AXPhotoViewControllerDelegate?
+
+    /// AXPageableViewControllerProtocol
     var pageIndex: Int = 0
 
-    fileprivate(set) var loadingView: AXLoadingViewProtocol?
+    /// loadingView
+    private(set) var loadingView: AXLoadingViewProtocol?
 
+    /// zoomingImageView
     var zoomingImageView: AXZoomingImageView {
         // swiftlint:disable:next force_cast
         return self.view as! AXZoomingImageView
     }
 
-    fileprivate var photo: AXPhotoProtocol?
-    fileprivate weak var notificationCenter: NotificationCenter?
+    private var photo: AXPhotoProtocol?
+    private weak var notificationCenter: NotificationCenter?
 
     /// :nodoc:
     init(loadingView: AXLoadingViewProtocol,
@@ -88,6 +93,8 @@ final class AXPhotoViewController: UIViewController, AXPageableViewControllerPro
                                                       size: loadingViewSize)
     }
 
+    /// Apply photo
+    /// - Parameter photo: Photo
     func applyPhoto(_ photo: AXPhotoProtocol) {
         self.photo = photo
 
@@ -129,12 +136,14 @@ final class AXPhotoViewController: UIViewController, AXPageableViewControllerPro
 
     // MARK: - AXPageableViewControllerProtocol
 
+    /// :nodoc:
     func prepareForReuse() {
         self.zoomingImageView.image = nil
     }
 
     // MARK: - AXZoomingImageViewDelegate
 
+    /// :nodoc:
     func zoomingImageView(_ zoomingImageView: AXZoomingImageView, maximumZoomScaleFor imageSize: CGSize) -> CGFloat {
         return self.delegate?.photoViewController(self,
                                                   maximumZoomScaleForPhotoAt: self.pageIndex,
@@ -144,7 +153,8 @@ final class AXPhotoViewController: UIViewController, AXPageableViewControllerPro
 
     // MARK: - Notifications
 
-    @objc fileprivate func photoLoadingProgressDidUpdate(_ notification: Notification) {
+    /// :nodoc:
+    @objc private func photoLoadingProgressDidUpdate(_ notification: Notification) {
         guard let photo = notification.object as? AXPhotoProtocol else {
             assertionFailure("Photos must conform to the AXPhoto protocol.")
             return
@@ -158,7 +168,8 @@ final class AXPhotoViewController: UIViewController, AXPageableViewControllerPro
         self.loadingView?.updateProgress(progress)
     }
 
-    @objc fileprivate func photoImageDidUpdate(_ notification: Notification) {
+    /// :nodoc:
+    @objc private func photoImageDidUpdate(_ notification: Notification) {
         guard let photo = notification.object as? AXPhotoProtocol else {
             assertionFailure("Photos must conform to the AXPhoto protocol.")
             return
@@ -184,10 +195,20 @@ final class AXPhotoViewController: UIViewController, AXPageableViewControllerPro
     }
 }
 
+/// AXPhotoViewControllerDelegate
 protocol AXPhotoViewControllerDelegate: AnyObject, NSObjectProtocol {
 
-    func photoViewController(_ photoViewController: AXPhotoViewController, retryDownloadFor photo: AXPhotoProtocol)
+    /// Retry download
+    /// - Parameter photoViewController: AXPhotoViewController
+    /// - Parameter photo: photo descriptionAXPhotoProtocol
+    func photoViewController(_ photoViewController: AXPhotoViewController,
+                             retryDownloadFor photo: AXPhotoProtocol)
 
+    /// Set scale and size
+    /// - Parameter photoViewController: AXPhotoViewController
+    /// - Parameter index: Int
+    /// - Parameter minimumZoomScale: CGFloat
+    /// - Parameter imageSize: CGSize
     func photoViewController(_ photoViewController: AXPhotoViewController,
                              maximumZoomScaleForPhotoAt index: Int,
                              minimumZoomScale: CGFloat,

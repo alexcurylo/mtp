@@ -30,7 +30,7 @@ final class AXPhotosViewController: UIViewController,
     /// Overriding this is purely for customizing the look and feel of the button.
     /// Alternatively, you may create your own `UIBarButtonItem`s
     /// and directly set them _and_ their actions on the `overlayView` property.
-    var closeBarButtonItem: UIBarButtonItem {
+    private var closeBarButtonItem: UIBarButtonItem {
         return UIBarButtonItem(barButtonSystemItem: .stop, target: nil, action: nil)
     }
 
@@ -39,23 +39,24 @@ final class AXPhotosViewController: UIViewController,
     /// Overriding this is purely for customizing the look and feel of the button.
     /// Alternatively, you may create your own `UIBarButtonItem`s
     /// and directly set them _and_ their actions on the `overlayView` property.
-    var actionBarButtonItem: UIBarButtonItem {
+    private var actionBarButtonItem: UIBarButtonItem {
         return UIBarButtonItem(barButtonSystemItem: .action, target: nil, action: nil)
     }
 
     /// The internal tap gesture recognizer that is used to initiate and pan interactive dismissals.
-    fileprivate var panGestureRecognizer: UIPanGestureRecognizer?
+    private var panGestureRecognizer: UIPanGestureRecognizer?
 
-    fileprivate var ax_prefersStatusBarHidden: Bool = false
+    private var ax_prefersStatusBarHidden: Bool = false
+    /// :nodoc:
     override var prefersStatusBarHidden: Bool {
         return super.prefersStatusBarHidden || self.ax_prefersStatusBarHidden
     }
-
+    /// :nodoc:
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
 
-    weak var delegate: AXPhotosViewControllerDelegate?
+    private weak var delegate: AXPhotosViewControllerDelegate?
 
     /// The underlying `OverlayView` that is used for displaying photo captions, titles, and actions.
     let overlayView = AXOverlayView()
@@ -105,21 +106,21 @@ final class AXPhotosViewController: UIViewController,
     }
 
     /// The index of the photo currently being shown.
-    fileprivate(set) var currentPhotoIndex: Int = 0 {
+    private(set) var currentPhotoIndex: Int = 0 {
         didSet {
             updateOverlay(for: currentPhotoIndex)
         }
     }
 
     // MARK: - Private/internal variables
-    fileprivate enum SwipeDirection {
+    private enum SwipeDirection {
         case none, left, right
     }
 
     /// If the `PhotosViewController` is being presented in a fullscreen container,
     /// this value is set when the `PhotosViewController`
     /// is added to a parent view controller to allow `PhotosViewController` to be its transitioning delegate.
-    fileprivate weak var containerViewController: UIViewController? {
+    private weak var containerViewController: UIViewController? {
         didSet {
             oldValue?.transitioningDelegate = nil
 
@@ -132,14 +133,14 @@ final class AXPhotosViewController: UIViewController,
         }
     }
 
-    fileprivate var isSizeTransitioning = false
-    fileprivate var isFirstAppearance = true
+    private var isSizeTransitioning = false
+    private var isFirstAppearance = true
 
-    fileprivate var orderedViewControllers = [AXPhotoViewController]()
-    fileprivate var recycledViewControllers = [AXPhotoViewController]()
+    private var orderedViewControllers = [AXPhotoViewController]()
+    private var recycledViewControllers = [AXPhotoViewController]()
 
-    fileprivate var transitionController: AXPhotosTransitionController?
-    fileprivate let notificationCenter = NotificationCenter()
+    private var transitionController: AXPhotosTransitionController?
+    private let notificationCenter = NotificationCenter()
 
     // MARK: - Initialization
 
@@ -285,10 +286,10 @@ final class AXPhotosViewController: UIViewController,
     }
 
     /// :nodoc:
-    fileprivate func commonInit(dataSource ds: AXPhotosDataSource? = nil,
-                                pagingConfig pc: AXPagingConfig? = nil,
-                                transitionInfo ti: AXTransitionInfo? = nil,
-                                networkIntegration ni: AXNetworkIntegrationProtocol? = nil) {
+    private func commonInit(dataSource ds: AXPhotosDataSource? = nil,
+                            pagingConfig pc: AXPagingConfig? = nil,
+                            transitionInfo ti: AXTransitionInfo? = nil,
+                            networkIntegration ni: AXNetworkIntegrationProtocol? = nil) {
         if let ds = ds { dataSource = ds }
         if let pc = pc { pagingConfig = pc }
         if let ti = ti {
@@ -340,6 +341,7 @@ final class AXPhotosViewController: UIViewController,
         self.pageViewController.scrollView.removeContentOffsetObserver(self)
     }
 
+    /// :nodoc:
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
 
@@ -349,6 +351,7 @@ final class AXPhotosViewController: UIViewController,
         self.reduceMemoryForPhotos(at: self.currentPhotoIndex)
     }
 
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -382,6 +385,7 @@ final class AXPhotosViewController: UIViewController,
         }
     }
 
+    /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -398,6 +402,7 @@ final class AXPhotosViewController: UIViewController,
         }
     }
 
+    /// :nodoc:
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
 
@@ -407,6 +412,7 @@ final class AXPhotosViewController: UIViewController,
         }
     }
 
+    /// :nodoc:
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         self.pageViewController.view.frame = self.view.bounds
@@ -418,6 +424,7 @@ final class AXPhotosViewController: UIViewController,
         }
     }
 
+    /// :nodoc:
     override func didMove(toParent parent: UIViewController?) {
         super.didMove(toParent: parent)
 
@@ -430,6 +437,8 @@ final class AXPhotosViewController: UIViewController,
     }
 
     // MARK: - PhotosViewControllerTransitionAnimatorDelegate
+
+    /// :nodoc:
     func transitionController(_ transitionController: AXPhotosTransitionController,
                               didCompletePresentationWith transitionView: UIImageView) {
         guard let photo = self.dataSource.photo(at: self.currentPhotoIndex) else { return }
@@ -441,16 +450,20 @@ final class AXPhotosViewController: UIViewController,
         )
     }
 
+    /// :nodoc:
     func transitionController(_ transitionController: AXPhotosTransitionController,
                               didCompleteDismissalWith transitionView: UIImageView) {
         // empty impl
     }
 
+    /// :nodoc:
     func transitionControllerDidCancelDismissal(_ transitionController: AXPhotosTransitionController) {
         // empty impl
     }
 
     // MARK: - Dismissal
+
+    /// :nodoc:
     override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
         if self.presentedViewController != nil {
             super.dismiss(animated: flag, completion: completion)
@@ -500,7 +513,8 @@ final class AXPhotosViewController: UIViewController,
     }
 
     // MARK: - Page VC Configuration
-    fileprivate func configurePageViewController() {
+
+    private func configurePageViewController() {
         func configure(with viewController: UIViewController, pageIndex: Int) {
             pageViewController.setViewControllers([viewController],
                                                   direction: .forward,
@@ -521,7 +535,8 @@ final class AXPhotosViewController: UIViewController,
     }
 
     // MARK: - Overlay
-    fileprivate func updateOverlay(for photoIndex: Int) {
+
+    private func updateOverlay(for photoIndex: Int) {
         guard let photo = dataSource.photo(at: photoIndex) else { return }
 
         willUpdate(overlayView: overlayView,
@@ -539,13 +554,13 @@ final class AXPhotosViewController: UIViewController,
         overlayView.updateCaptionView(photo: photo)
     }
 
-    fileprivate func updateOverlayInsets() {
+    private func updateOverlayInsets() {
         overlayView.contentInset = view.safeAreaInsets
     }
 
     // MARK: - Gesture recognizers
 
-    @objc fileprivate func didSingleTapWithGestureRecognizer(_ sender: UITapGestureRecognizer) {
+    @objc private func didSingleTapWithGestureRecognizer(_ sender: UITapGestureRecognizer) {
         let show = (self.overlayView.alpha == 0)
         // swiftlint:disable:next trailing_closure
         self.overlayView.setShowInterface(show, animated: true, alongside: { [weak self] in
@@ -556,7 +571,7 @@ final class AXPhotosViewController: UIViewController,
         })
     }
 
-    @objc fileprivate func didPanWithGestureRecognizer(_ sender: UIPanGestureRecognizer) {
+    @objc private func didPanWithGestureRecognizer(_ sender: UIPanGestureRecognizer) {
         if sender.state == .began {
             self.transitionController?.forceInteractiveDismissal = true
             self.dismiss(animated: true, completion: nil)
@@ -565,7 +580,7 @@ final class AXPhotosViewController: UIViewController,
         self.transitionController?.didPanWithGestureRecognizer(sender, in: self.containerViewController ?? self)
     }
 
-    fileprivate func updateStatusBarAppearance(show: Bool) {
+    private func updateStatusBarAppearance(show: Bool) {
         self.ax_prefersStatusBarHidden = !show
         self.setNeedsStatusBarAppearanceUpdate()
         if show {
@@ -579,6 +594,8 @@ final class AXPhotosViewController: UIViewController,
 
     // MARK: - Default bar button actions
 
+    /// Share
+    /// - Parameter barButtonItem: UIBarButtonItem
     @objc func shareAction(_ barButtonItem: UIBarButtonItem) {
         guard let photo = self.dataSource.photo(at: self.currentPhotoIndex) else { return }
 
@@ -609,6 +626,8 @@ final class AXPhotosViewController: UIViewController,
         self.present(activityViewController, animated: true)
     }
 
+    /// Close
+    /// - Parameter sender: UIBarButtonItem
     @objc func closeAction(_ sender: UIBarButtonItem) {
         self.transitionController?.forceInteractiveDismissal = false
         self.dismiss(animated: true)
@@ -616,7 +635,7 @@ final class AXPhotosViewController: UIViewController,
 
     // MARK: - Loading helpers
 
-    fileprivate func loadPhotos(at index: Int) {
+    private func loadPhotos(at index: Int) {
         let numberOfPhotosToLoad = self.dataSource.prefetchBehavior.rawValue
         let startIndex = (((index - (numberOfPhotosToLoad / 2)) >= 0) ? (index - (numberOfPhotosToLoad / 2)) : 0)
         let indexes = startIndex...(startIndex + numberOfPhotosToLoad)
@@ -631,7 +650,7 @@ final class AXPhotosViewController: UIViewController,
         }
     }
 
-    fileprivate func reduceMemoryForPhotos(at index: Int) {
+    private func reduceMemoryForPhotos(at index: Int) {
         let numberOfPhotosToLoad = self.dataSource.prefetchBehavior.rawValue
         let areLower = index - (numberOfPhotosToLoad / 2) - 1 >= 0
         let lowerIndex = areLower ? index - (numberOfPhotosToLoad / 2) - 1 : NSNotFound
@@ -662,7 +681,8 @@ final class AXPhotosViewController: UIViewController,
     }
 
     // MARK: - Reuse / Factory
-    fileprivate func makePhotoViewController(for pageIndex: Int) -> AXPhotoViewController? {
+
+    private func makePhotoViewController(for pageIndex: Int) -> AXPhotoViewController? {
         guard let photo = dataSource.photo(at: pageIndex) else { return nil }
 
         var photoViewController: AXPhotoViewController
@@ -692,7 +712,7 @@ final class AXPhotosViewController: UIViewController,
         return photoViewController
     }
 
-    fileprivate func makeLoadingView(for pageIndex: Int) -> AXLoadingViewProtocol? {
+    private func makeLoadingView(for pageIndex: Int) -> AXLoadingViewProtocol? {
         guard let loadingViewType = self.pagingConfig.loadingViewClass as? UIView.Type else {
             assertionFailure("`loadingViewType` must be a UIView.")
             return nil
@@ -702,7 +722,8 @@ final class AXPhotosViewController: UIViewController,
     }
 
     // MARK: - Recycling
-    fileprivate func recyclePhotoViewController(_ photoViewController: AXPhotoViewController) {
+
+    private func recyclePhotoViewController(_ photoViewController: AXPhotoViewController) {
         if self.recycledViewControllers.contains(photoViewController) {
             return
         }
@@ -716,8 +737,13 @@ final class AXPhotosViewController: UIViewController,
 
     // MARK: - KVO
 
-    // swiftlint:disable:next block_based_kvo
+    /// KVO observation
+    /// - Parameter keyPath: Key path
+    /// - Parameter object: Object observed
+    /// - Parameter change: Change
+    /// - Parameter context: Context
     override func observeValue(forKeyPath keyPath: String?,
+                               // swiftlint:disable:previous block_based_kvo
                                of object: Any?,
                                // swiftlint:disable:next discouraged_optional_collection
                                change: [NSKeyValueChangeKey: Any]?,
@@ -731,9 +757,9 @@ final class AXPhotosViewController: UIViewController,
         }
     }
 
-    fileprivate func lifecycleContextDidUpdate(object: Any?,
-                                               // swiftlint:disable:next discouraged_optional_collection
-                                               change: [NSKeyValueChangeKey: Any]?) {
+    private func lifecycleContextDidUpdate(object: Any?,
+                                           // swiftlint:disable:next discouraged_optional_collection
+                                           change: [NSKeyValueChangeKey: Any]?) {
         guard let photoViewController = object as? AXPhotoViewController else { return }
 
         if change?[.newKey] is NSNull {
@@ -742,9 +768,9 @@ final class AXPhotosViewController: UIViewController,
     }
 
     // swiftlint:disable:next cyclomatic_complexity function_body_length
-    fileprivate func contentOffsetContextDidUpdate(object: Any?,
-                                                   // swiftlint:disable:next discouraged_optional_collection
-                                                   change: [NSKeyValueChangeKey: Any]?) {
+    private func contentOffsetContextDidUpdate(object: Any?,
+                                               // swiftlint:disable:next discouraged_optional_collection
+                                               change: [NSKeyValueChangeKey: Any]?) {
         guard let scrollView = object as? UIScrollView, !self.isSizeTransitioning else { return }
 
         var percent: CGFloat
@@ -826,7 +852,7 @@ final class AXPhotosViewController: UIViewController,
         overlayView.titleView?.tweenBetweenLowIndex(lowIndex, highIndex: highIndex, percent: percent)
     }
 
-    fileprivate func computeVisibleViewControllers(in referenceView: UIScrollView) -> [AXPhotoViewController] {
+    private func computeVisibleViewControllers(in referenceView: UIScrollView) -> [AXPhotoViewController] {
         var visibleViewControllers = [AXPhotoViewController]()
 
         for viewController in orderedViewControllers {
@@ -857,12 +883,15 @@ final class AXPhotosViewController: UIViewController,
     }
 
     // MARK: - UIPageViewControllerDataSource
+
+    /// :nodoc:
     func pageViewController(_ pageViewController: UIPageViewController,
                             willTransitionTo pendingViewControllers: [UIViewController]) {
         guard let viewController = pendingViewControllers.first as? AXPhotoViewController else { return }
         loadPhotos(at: viewController.pageIndex)
     }
 
+    /// :nodoc:
     func pageViewController(_ pageViewController: UIPageViewController,
                             didFinishAnimating finished: Bool,
                             previousViewControllers: [UIViewController],
@@ -871,6 +900,7 @@ final class AXPhotosViewController: UIViewController,
         reduceMemoryForPhotos(at: viewController.pageIndex)
     }
 
+    /// :nodoc:
     func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let uViewController = viewController as? AXPhotoViewController else {
@@ -881,6 +911,7 @@ final class AXPhotosViewController: UIViewController,
         return self.pageViewController(pageViewController, viewControllerAt: uViewController.pageIndex - 1)
     }
 
+    /// :nodoc:
     func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerAfter viewController: UIViewController) -> UIViewController? {
         guard let uViewController = viewController as? AXPhotoViewController else {
@@ -891,6 +922,7 @@ final class AXPhotosViewController: UIViewController,
         return self.pageViewController(pageViewController, viewControllerAt: uViewController.pageIndex + 1)
     }
 
+    /// :nodoc:
     func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerAt index: Int) -> UIViewController? {
         guard index >= 0 && self.dataSource.numberOfPhotos > index else { return nil }
@@ -898,13 +930,17 @@ final class AXPhotosViewController: UIViewController,
     }
 
     // MARK: - AXPhotoViewControllerDelegate
-    func photoViewController(_ photoViewController: AXPhotoViewController, retryDownloadFor photo: AXPhotoProtocol) {
+
+    /// :nodoc:
+    func photoViewController(_ photoViewController: AXPhotoViewController,
+                             retryDownloadFor photo: AXPhotoProtocol) {
         guard photo.ax_loadingState != .loading && photo.ax_loadingState != .loaded else { return }
         photo.ax_error = nil
         photo.ax_loadingState = .loading
         self.networkIntegration.loadPhoto(photo)
     }
 
+    /// :nodoc:
     func photoViewController(_ photoViewController: AXPhotoViewController,
                              maximumZoomScaleForPhotoAt index: Int,
                              minimumZoomScale: CGFloat,
@@ -1015,6 +1051,7 @@ final class AXPhotosViewController: UIViewController,
 
     // MARK: - AXNetworkIntegrationDelegate
 
+    /// :nodoc:
     func networkIntegration(_ networkIntegration: AXNetworkIntegrationProtocol,
                             loadDidFinishWith photo: AXPhotoProtocol) {
         if let image = photo.image {
@@ -1031,6 +1068,7 @@ final class AXPhotosViewController: UIViewController,
         }
     }
 
+    /// :nodoc:
     func networkIntegration(_ networkIntegration: AXNetworkIntegrationProtocol,
                             loadDidFailWith error: Error,
                             for photo: AXPhotoProtocol) {
@@ -1051,6 +1089,7 @@ final class AXPhotosViewController: UIViewController,
         }
     }
 
+    /// :nodoc:
     func networkIntegration(_ networkIntegration: AXNetworkIntegrationProtocol,
                             didUpdateLoadingProgress progress: CGFloat,
                             for photo: AXPhotoProtocol) {
@@ -1063,6 +1102,8 @@ final class AXPhotosViewController: UIViewController,
     }
 
     // MARK: - UIGestureRecognizerDelegate
+
+    /// :nodoc:
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         let currentPhotoIndex = self.currentPhotoIndex
         let dataSource = self.dataSource
@@ -1098,6 +1139,7 @@ final class AXPhotosViewController: UIViewController,
         return false
     }
 
+    /// :nodoc:
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
                            shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
@@ -1108,14 +1150,14 @@ final class AXPhotosViewController: UIViewController,
 
 private var PhotoViewControllerLifecycleContext: UInt8 = 0
 
-fileprivate extension Array where Element: UIViewController {
+private extension Array where Element: UIViewController {
 
     func removeLifeycleObserver(_ observer: NSObject) {
         self.forEach { ($0 as UIViewController).removeLifecycleObserver(observer) }
     }
 }
 
-fileprivate extension UIViewController {
+private extension UIViewController {
 
     func addLifecycleObserver(_ observer: NSObject) {
         self.addObserver(observer,
@@ -1131,7 +1173,7 @@ fileprivate extension UIViewController {
     }
 }
 
-fileprivate extension UIPageViewController {
+private extension UIPageViewController {
 
     var scrollView: UIScrollView {
         guard let scrollView = self.view.subviews.first(where: { $0 is UIScrollView }) as? UIScrollView else {
@@ -1144,7 +1186,7 @@ fileprivate extension UIPageViewController {
 
 private var PhotoViewControllerContentOffsetContext: UInt8 = 0
 
-fileprivate extension UIScrollView {
+private extension UIScrollView {
 
     func addContentOffsetObserver(_ observer: NSObject) {
         self.addObserver(observer,
@@ -1161,6 +1203,8 @@ fileprivate extension UIScrollView {
 }
 
 // MARK: - AXPhotosViewControllerDelegate
+
+/// AXPhotosViewControllerDelegate
 protocol AXPhotosViewControllerDelegate: AnyObject, NSObjectProtocol {
 
     /// Called when the `AXPhotosViewController` navigates to a new photo.
@@ -1253,18 +1297,27 @@ protocol AXPhotosViewControllerDelegate: AnyObject, NSObjectProtocol {
 
 // MARK: - Notification definitions
 
+/// DescriptionAXPhotosViewControllerNotification
 final class AXPhotosViewControllerNotification: NSObject {
 
+    /// ProgressUpdate
     static let ProgressUpdate = Notification.Name.photoLoadingProgressUpdate.rawValue
+    /// ImageUpdate
     static let ImageUpdate = Notification.Name.photoImageUpdate.rawValue
+    /// AXPhotosViewControllerLoadingState
     static let ImageKey = "AXPhotosViewControllerImage"
+    /// AXPhotosViewControllerLoadingState
     static let LoadingStateKey = "AXPhotosViewControllerLoadingState"
+    /// AXPhotosViewControllerError
     static let ProgressKey = "AXPhotosViewControllerProgress"
+    /// AXPhotosViewControllerError
     static let ErrorKey = "AXPhotosViewControllerError"
 }
 
 extension Notification.Name {
 
+    /// AXPhotoLoadingProgressUpdateNotification
     static let photoLoadingProgressUpdate = Notification.Name("AXPhotoLoadingProgressUpdateNotification")
+    /// DescriptionAXPhotoLoadingProgressUpdateNotification
     static let photoImageUpdate = Notification.Name("AXPhotoImageUpdateNotification")
 }

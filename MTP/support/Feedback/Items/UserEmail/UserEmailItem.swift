@@ -9,10 +9,15 @@
 
 import Foundation
 
+/// UserEmailItem
 struct UserEmailItem: FeedbackItemProtocol {
 
-    let isHidden: Bool
+    /// email
     var email: String? = .none
 
+    /// isHidden
+    let isHidden: Bool
+
+    /// :nodoc:
     init(isHidden: Bool) { self.isHidden = isHidden }
 }

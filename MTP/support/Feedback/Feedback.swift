@@ -7,17 +7,25 @@
 // Copyright (c) 2017 CAPH TECH. All rights reserved.
 //
 
-import Foundation
-
+/// Feedback
 struct Feedback {
 
+    /// email
     let email: String?
+    /// to
     let to: [String]
+    /// cc
     let cc: [String]
+    /// bcc
     let bcc: [String]
+    /// subject
     let subject: String
+    /// body
     let body: String
+    /// isHTML
     let isHTML: Bool
+    /// jpeg
     let jpeg: Data?
+    /// mp4
     let mp4: Data?
 }

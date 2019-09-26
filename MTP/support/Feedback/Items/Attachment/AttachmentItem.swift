@@ -9,10 +9,14 @@
 
 import UIKit
 
+/// AttachmentItem
 struct AttachmentItem: FeedbackItemProtocol {
 
+    /// attached
     var attached: Bool { return media != .none }
+    /// media
     var media: Media?
+    /// image
     var image: UIImage? {
         switch media {
         case .image(let i)?: return i
@@ -20,7 +24,10 @@ struct AttachmentItem: FeedbackItemProtocol {
         default: return .none
         }
     }
+
+    /// isHidden
     let isHidden: Bool
 
+    /// :nodoc:
     init(isHidden: Bool) { self.isHidden = isHidden }
 }

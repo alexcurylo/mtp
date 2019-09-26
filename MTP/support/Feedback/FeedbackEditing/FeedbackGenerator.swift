@@ -7,10 +7,12 @@
 // Copyright (c) 2017 CAPH TECH. All rights reserved.
 //
 
-import Foundation
-
+/// FeedbackGenerator
 enum FeedbackGenerator {
 
+    /// Generate
+    /// - Parameter configuration: FeedbackConfiguration
+    /// - Parameter repository: FeedbackEditingItemsRepositoryProtocol
     static func generate(configuration: FeedbackConfiguration,
                          repository: FeedbackEditingItemsRepositoryProtocol) throws -> Feedback {
         guard let deviceName = repository.item(of: DeviceNameItem.self)?.deviceName,
@@ -45,19 +47,23 @@ enum FeedbackGenerator {
                         jpeg: attachment?.jpegData,
                         mp4: attachment?.videoData)
     }
+}
 
-    private static func generateSubject(appName: String, topic: TopicProtocol?) -> String {
+private extension FeedbackGenerator {
+
+    static func generateSubject(appName: String,
+                                topic: TopicProtocol?) -> String {
         return String(format: "%@: %@", appName, topic?.title ?? "")
     }
 
     // swiftlint:disable:next function_parameter_count
-    private static func generateHTML(body: String,
-                                     deviceName: String,
-                                     systemVersion: String,
-                                     appName: String,
-                                     appVersion: String,
-                                     appBuild: String,
-                                     additionalDiagnosticContent: String?) -> String {
+    static func generateHTML(body: String,
+                             deviceName: String,
+                             systemVersion: String,
+                             appName: String,
+                             appVersion: String,
+                             appBuild: String,
+                             additionalDiagnosticContent: String?) -> String {
         let format = """
         <style>td {padding-right: 20px}</style>
  <p>%@</p><br />
@@ -81,13 +87,13 @@ enum FeedbackGenerator {
     }
 
     // swiftlint:disable:next function_parameter_count
-    private static func generateString(body: String,
-                                       deviceName: String,
-                                       systemVersion: String,
-                                       appName: String,
-                                       appVersion: String,
-                                       appBuild: String,
-                                       additionalDiagnosticContent: String?) -> String {
+    static func generateString(body: String,
+                               deviceName: String,
+                               systemVersion: String,
+                               appName: String,
+                               appVersion: String,
+                               appBuild: String,
+                               additionalDiagnosticContent: String?) -> String {
         var content = String(format: "%@\n\n\nDevice: %@\niOS: %@\nApp: %@\nVersion: %@\nBuild: %@",
                              body,
                              deviceName,

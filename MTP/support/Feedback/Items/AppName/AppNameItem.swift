@@ -9,8 +9,10 @@
 
 import Foundation
 
+/// AppBuildItem
 struct AppNameItem: FeedbackItemProtocol {
 
+    /// name
     var name: String {
         if let displayName = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String {
             return displayName
@@ -21,7 +23,9 @@ struct AppNameItem: FeedbackItemProtocol {
         return ""
     }
 
+    /// isHidden
     let isHidden: Bool
 
+    /// :nodoc:
     init(isHidden: Bool) { self.isHidden = isHidden }
 }

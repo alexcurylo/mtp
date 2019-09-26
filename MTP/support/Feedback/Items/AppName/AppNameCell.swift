@@ -12,18 +12,22 @@
 
 import UIKit
 
+/// AppNameCell
 final class AppNameCell: UITableViewCell {
 
+    /// :nodoc:
     override init(style: UITableViewCell.CellStyle,
                   reuseIdentifier: String?) {
         super.init(style: .value1, reuseIdentifier: reuseIdentifier)
     }
 
+    /// :nodoc:
     required init?(coder aDecoder: NSCoder) { super.init(coder: aDecoder) }
 }
 
 extension AppNameCell: CellFactoryProtocol {
 
+    /// :nodoc:
     class func configure(_ cell: AppNameCell,
                          with item: AppNameItem,
                          for indexPath: IndexPath,
