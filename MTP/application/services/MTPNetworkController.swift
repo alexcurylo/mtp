@@ -51,6 +51,8 @@ enum MTP: Hashable {
     case checkOut(list: Checklist, id: Int)
     /// countriesSearch(query: String?)
     case countriesSearch(query: String?)
+    /// contact(payload: ContactPayload)
+    case contact(payload: ContactPayload)
     /// divesite
     case divesite
     /// faq
@@ -136,6 +138,8 @@ extension MTP: TargetType {
             return "me/checklists/\(list.key)"
         case .checklists:
             return "me/checklists"
+        case .contact:
+            return "send-message/contact-form"
         case .countriesSearch:
             return "countries/search"
         case .divesite:
@@ -229,6 +233,7 @@ extension MTP: TargetType {
              .whs:
             return .get
         case .checkIn,
+             .contact,
              .passwordReset,
              .postPublish,
              .upload,
@@ -304,6 +309,8 @@ extension MTP: TargetType {
             return .requestParameters(parameters: ["email": email,
                                                    "password": password],
                                       encoding: JSONEncoding.default)
+        case .contact(let payload):
+            return .requestJSONEncodable(payload)
         case .postPublish(let payload):
             return .requestJSONEncodable(payload)
         case .userPut(let payload):
@@ -466,6 +473,7 @@ extension MTP: AccessTokenAuthorizable {
         case .checkIn,
              .checklists,
              .checkOut,
+             .contact,
              .photos,
              .postPublish,
              .rankings,
@@ -546,6 +554,48 @@ class MTPNetworkController: ServiceProvider {
                 default:
                     then(result)
                 }
+            }
+        }
+    }
+
+    /// Send contact form
+    ///
+    /// - Parameters:
+    ///   - payload: Post payload
+    ///   - stub: Stub behaviour
+    ///   - then: Completion
+    func contact(payload: ContactPayload,
+                 stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
+                 then: @escaping NetworkCompletion<OperationReply>) {
+        guard data.isLoggedIn else {
+            return then(.failure(.parameter))
+        }
+
+        let auth = AccessTokenPlugin { self.data.token }
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
+        let endpoint = MTP.contact(payload: payload)
+
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                let reply = try response.map(OperationReply.self,
+                                             using: JSONDecoder.mtp)
+                self.report(success: endpoint)
+                return then(.success(reply))
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
+        provider.request(endpoint) { result in
+            switch result {
+            case .success(let response):
+                success(response)
+            case .failure(let error):
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }

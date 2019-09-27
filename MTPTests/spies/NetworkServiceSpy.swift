@@ -110,6 +110,17 @@ final class NetworkServiceSpy: NetworkService {
         invokedStyleGetterCount += 1
         return stubbedStyle
     }
+    var invokedContact = false
+    var invokedContactCount = 0
+    var invokedContactParameters: (payload: ContactPayload, then: NetworkCompletion<OperationReply>)?
+    var invokedContactParametersList = [(payload: ContactPayload, then: NetworkCompletion<OperationReply>)]()
+    func contact(payload: ContactPayload,
+    then: @escaping NetworkCompletion<OperationReply>) {
+        invokedContact = true
+        invokedContactCount += 1
+        invokedContactParameters = (payload, then)
+        invokedContactParametersList.append((payload, then))
+    }
     var invokedLoadPhotosLocation = false
     var invokedLoadPhotosLocationCount = 0
     var invokedLoadPhotosLocationParameters: (id: Int, reload: Bool, then: NetworkCompletion<PhotosInfoJSON>)?
