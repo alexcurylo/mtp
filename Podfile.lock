@@ -1,11 +1,5 @@
 PODS:
   - Anchorage (4.3.1)
-  - Bolts (1.9.0):
-    - Bolts/AppLinks (= 1.9.0)
-    - Bolts/Tasks (= 1.9.0)
-  - Bolts/AppLinks (1.9.0):
-    - Bolts/Tasks
-  - Bolts/Tasks (1.9.0)
   - Crashlytics (3.14.0):
     - Fabric (~> 1.10.2)
   - Fabric (1.10.2)
@@ -99,9 +93,7 @@ PODS:
 
 DEPENDENCIES:
   - Anchorage
-  - Bolts
   - Crashlytics
-  - Fabric
   - FacebookCore
   - FacebookLogin
   - FBSDKCoreKit
@@ -115,7 +107,6 @@ DEPENDENCIES:
 SPEC REPOS:
   https://cdn.cocoapods.org/:
     - Anchorage
-    - Bolts
     - Crashlytics
     - Fabric
     - FacebookCore
@@ -141,7 +132,6 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Anchorage: a187da0bc9b07440637d42c8744b8c82a4490295
-  Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   FacebookCore: ba86524b66cfa86d0f8e65d08faa8504a9f732dd
@@ -165,6 +155,6 @@ SPEC CHECKSUMS:
   R.swift: f5a87643b91ea569d23d6afb3eee9c743edde239
   R.swift.Library: cfe85d569d9bae6cb262922db130e7c3a7a5fad1
 
-PODFILE CHECKSUM: 8d94c36b18f23e280c45bb54bc012b0e72fca6ea
+PODFILE CHECKSUM: dd932ec3837155ac72518738734f38f3a8adff3a
 
 COCOAPODS: 1.8.0

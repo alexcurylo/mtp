@@ -28,9 +28,7 @@ platform :ios, $iosVersion
 
 target 'MTP' do
   pod 'Anchorage'
-  pod 'Bolts', :modular_headers => true, :inhibit_warnings => true
   pod 'Crashlytics'
-  pod 'Fabric'
   pod 'FacebookCore'
   pod 'FacebookLogin'
   pod 'FBSDKCoreKit', :modular_headers => true
