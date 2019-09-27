@@ -13,7 +13,8 @@ final class LocationsUITests: XCTestCase {
     }
 
     func testLocations() {
-        launch(settings: [.loggedIn(true),
+        launch(arguments: [.disableWaitIdle],
+               settings: [.loggedIn(true),
                           .token("token")])
 
         UILocations.nearby.tap()
