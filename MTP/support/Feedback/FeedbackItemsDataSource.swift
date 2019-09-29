@@ -21,21 +21,41 @@ final class FeedbackItemsDataSource {
 
     /// :nodoc:
     init(topics: [TopicProtocol],
+         selected topic: TopicProtocol? = nil,
+         body: String? = nil,
          hidesUserEmailCell: Bool = true,
+         hidesUserPhoneCell: Bool = false,
          hidesAttachmentCell: Bool = false,
-         hidesAppInfoSection: Bool = false) {
-        sections.append(FeedbackItemsSection(title: L.feedbackUserDetail(),
-                                             items: [UserEmailItem(isHidden: hidesUserEmailCell)]))
-        sections.append(FeedbackItemsSection(items: [TopicItem(topics), BodyItem()]))
-        sections.append(FeedbackItemsSection(title: L.feedbackAdditionalInfo(),
-                                             items: [AttachmentItem(isHidden: hidesAttachmentCell)]))
-        sections.append(FeedbackItemsSection(title: L.feedbackDeviceInfo(),
-                                             items: [DeviceNameItem(),
-                                                     SystemVersionItem()]))
-        sections.append(FeedbackItemsSection(title: L.feedbackAppInfo(),
-                                             items: [AppNameItem(isHidden: hidesAppInfoSection),
-                                                     AppVersionItem(isHidden: hidesAppInfoSection),
-                                                     AppBuildItem(isHidden: hidesAppInfoSection)]))
+         hidesAppInfoSection: Bool = true) {
+        sections.append(FeedbackItemsSection(
+            title: L.feedbackUserDetail(),
+            items: [UserEmailItem(isHidden: hidesUserEmailCell)])
+        )
+
+        sections.append(FeedbackItemsSection(
+            items: [TopicItem(topics: topics,
+                              selected: topic),
+                    BodyItem(bodyText: body)])
+        )
+
+        sections.append(FeedbackItemsSection(
+            title: L.feedbackAdditionalInfo(),
+            items: [UserPhoneItem(isHidden: hidesUserPhoneCell),
+                    AttachmentItem(isHidden: hidesAttachmentCell)])
+        )
+
+        sections.append(FeedbackItemsSection(
+            title: L.feedbackDeviceInfo(),
+            items: [DeviceNameItem(),
+                    SystemVersionItem()])
+        )
+
+        sections.append(FeedbackItemsSection(
+            title: L.feedbackAppInfo(),
+            items: [AppNameItem(isHidden: hidesAppInfoSection),
+                    AppVersionItem(isHidden: hidesAppInfoSection),
+                    AppBuildItem(isHidden: hidesAppInfoSection)])
+        )
     }
 
     /// Section fetcher

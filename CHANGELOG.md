@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- Contact now uses MTP API
+
 ## [Version 1.1.0, Build 643] - 2019-09-26
 
 ### Changed

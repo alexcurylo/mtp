@@ -9,39 +9,46 @@
 
 import Foundation
 
-/// title
+/// topic
 protocol TopicProtocol {
 
-    /// title
-    var title: String { get }
-    /// localizedTitle
-    var localizedTitle: String { get }
+    /// topicTitle
+    var topicTitle: String { get }
 }
 
 /// Topic
-enum Topic: String {
+enum Topic {
 
-        /// question
-    case question = "Question"
-        /// request
-    case request = "Request"
-        /// other
-    case bugReport = "Bug Report"
-        /// other
-    case other = "Other"
+    /// feature
+    case feature
+    /// report
+    case report
+    /// charles
+    case charles
+    /// other
+    case other
+
+    /// question
+    case question
+    /// request
+    case request
+    /// other
+    case bugReport
 }
 
 extension Topic: TopicProtocol {
 
-    /// localizedTitle
-    var title: String { return rawValue }
-    /// localizedTitle
-    var localizedTitle: String {
+    /// topicTitle
+    var topicTitle: String {
         switch self {
+        case .feature: return L.feedbackFeature()
+        case .report: return L.feedbackReport()
+        case .charles: return L.feedbackCharles()
+        case .other: return L.feedbackOther()
+
         case .question: return L.feedbackQuestion()
         case .request: return L.feedbackRequest()
         case .bugReport: return L.feedbackBugReport()
-        case .other: return L.feedbackOther()
         }
     }
 }

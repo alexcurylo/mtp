@@ -23,7 +23,7 @@ final class OperationReplyTests: MTPTestCase {
         let expected = "code 200: Password reset mail sent!"
 
         // when
-        let sut = try JSONDecoder.mtp.decode(PasswordResetReply.self,
+        let sut = try JSONDecoder.mtp.decode(OperationMessageReply.self,
                                              from: data)
 
         // then
@@ -43,10 +43,9 @@ private let password = """
 """
 
 private let passwordDebugDescription = """
-< PasswordResetReply: code 200: Password reset mail sent!:
+< OperationMessageReply: code 200: Password reset mail sent!:
 code: 200
-data: Optional("passwords.sent")
 message: Password reset mail sent!
 messageType: success
-/PasswordResetReply >
+/OperationMessageReply >
 """

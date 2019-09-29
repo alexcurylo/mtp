@@ -13,9 +13,9 @@ import Foundation
 struct UserEmailItem: FeedbackItemProtocol {
 
     /// email
-    var email: String? = .none
+    var email: String?
 
-    /// isHidden
+    /// :nodoc:
     let isHidden: Bool
 
     /// :nodoc:

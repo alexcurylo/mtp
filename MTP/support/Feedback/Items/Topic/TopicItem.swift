@@ -14,14 +14,16 @@ struct TopicItem: FeedbackItemProtocol {
 
     /// defaultTopics
     static var defaultTopics: [TopicProtocol] {
-        return [Topic.question,
-                Topic.request,
-                Topic.bugReport,
+        return [Topic.feature,
+                Topic.report,
+                Topic.charles,
                 Topic.other]
     }
 
     /// topicTitle
-    var topicTitle: String { return selected?.localizedTitle ?? topics.first?.localizedTitle ?? "" }
+    var topicTitle: String {
+        return selected?.topicTitle ?? topics.first?.topicTitle ?? ""
+    }
     /// topics
     var topics: [TopicProtocol] = []
     /// selected
@@ -31,12 +33,14 @@ struct TopicItem: FeedbackItemProtocol {
     }
     private var _selected: TopicProtocol?
 
-    /// isHidden
+    /// :nodoc:
     let isHidden: Bool
 
     /// :nodoc:
-    init(_ topics: [TopicProtocol]) {
-        self.topics = topics
-        self.isHidden = topics.isEmpty
+    init(topics list: [TopicProtocol],
+         selected topic: TopicProtocol? = nil) {
+        topics = list
+        _selected = topic
+        isHidden = topics.isEmpty
     }
 }

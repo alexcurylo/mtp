@@ -60,7 +60,9 @@ extension LaunchArgument {
         switch self {
         case .takingScreenshots:
             Snapshot.setupSnapshot(app)
-        case .uiTesting:
+        case .disableAnimations,
+             .disableWaitIdle,
+             .uiTesting:
             break
         }
     }

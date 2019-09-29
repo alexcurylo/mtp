@@ -65,6 +65,15 @@
         }
       },
       {
+        "package": "Parchment",
+        "repositoryURL": "https://github.com/rechsteiner/Parchment",
+        "state": {
+          "branch": null,
+          "revision": "c04fce7556de07e0530019577cf39da05e28f2a1",
+          "version": "1.7.0"
+        }
+      },
+      {
         "package": "Quick",
         "repositoryURL": "https://github.com/Quick/Quick.git",
         "state": {
@@ -141,8 +150,8 @@
         "repositoryURL": "https://github.com/SwiftyBeaver/SwiftyBeaver.git",
         "state": {
           "branch": null,
-          "revision": "0660621f44378cd110fcf18525fd042ea11924b4",
-          "version": "1.7.1"
+          "revision": "62d53165ce78738dfdcb4fc32fe47ecdae0e6899",
+          "version": "1.8.0"
         }
       }
     ]

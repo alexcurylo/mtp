@@ -86,6 +86,10 @@ extension NearbyVC {
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
+        if UIApplication.isUITesting {
+            // appears to load all cells in Xcode 11
+            return min(10, mappables.count)
+        }
         return mappables.count
     }
 

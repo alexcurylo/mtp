@@ -46,6 +46,30 @@ extension PhotoReply: CustomDebugStringConvertible {
     }
 }
 
+/// Attachment to ContactPayload
+struct PhotoAttachment: Codable, Hashable {
+
+    private let id: Int
+    private let mime: String
+    private let name: String
+    private let type: String
+    private let uploaded: Int
+    private let url: String
+    private let user_id: Int
+    private let uuid: String
+
+    init(with reply: PhotoReply) {
+        id = reply.id
+        mime = reply.mime
+        name = reply.name
+        type = reply.type
+        uploaded = reply.uploaded
+        url = reply.url
+        user_id = reply.userId
+        uuid = reply.uuid
+    }
+}
+
 /// Photos endpoints reply
 struct PhotosInfoJSON: Codable {
 

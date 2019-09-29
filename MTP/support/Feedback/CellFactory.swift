@@ -55,7 +55,10 @@ extension CellFactoryProtocol {
               let item = item as? Item,
               let eventHandler = eventHandler as? EventHandler
             else { return .none }
-        configure(cell, with: item, for: indexPath, eventHandler: eventHandler)
+        configure(cell,
+                  with: item,
+                  for: indexPath,
+                  eventHandler: eventHandler)
         return cell
     }
 }
@@ -132,7 +135,8 @@ extension UITableView {
         guard let cellFactory = filter(item, cellFactories) else {
             fatalError("dequeueCell")
         }
-        let cell = dequeueReusableCell(withIdentifier: cellFactory.reuseIdentifier, for: indexPath)
+        let cell = dequeueReusableCell(withIdentifier: cellFactory.reuseIdentifier,
+                                       for: indexPath)
         guard let configured = cellFactory.configure(cell,
                                                      with: item,
                                                      for: indexPath,

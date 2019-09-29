@@ -9,7 +9,7 @@
 
 import MessageUI
 import MobileCoreServices
-import UIKit
+import Photos
 
 /// FeedbackWireframeProtocol
 protocol FeedbackWireframeProtocol {
@@ -20,6 +20,11 @@ protocol FeedbackWireframeProtocol {
     /// showMailComposer
     /// - Parameter feedback: Feedback
     func showMailComposer(with feedback: Feedback)
+    /// contact with MTP API
+    /// - Parameter feedback: Feedback
+    /// - Parameter completion: Completion
+    func contact(feedback: Feedback,
+                 completion: @escaping (Result<Bool, Error>) -> Void)
     /// showAttachmentActionSheet
     /// - Parameter deleteAction: Action
     func showAttachmentActionSheet(deleteAction: (() -> Void)?)
@@ -173,9 +178,17 @@ private extension FeedbackWireframe {
     }
 
     func showImagePicker(sourceType: UIImagePickerController.SourceType) {
+        if sourceType == .photoLibrary,
+           PHPhotoLibrary.authorizationStatus() == .notDetermined {
+            if !UIApplication.isTesting {
+                PHPhotoLibrary.requestAuthorization { _ in }
+            }
+        }
+
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = sourceType
-        imagePicker.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
+        imagePicker.mediaTypes = [kUTTypeImage as String]
+                                  //, kUTTypeMovie as String
         imagePicker.allowsEditing = false
         imagePicker.delegate = imagePickerDelegate
         imagePicker.modalPresentationStyle = .formSheet
@@ -184,5 +197,66 @@ private extension FeedbackWireframe {
         presentation?.sourceView = viewController?.view
         presentation?.sourceRect = viewController?.view.frame ?? CGRect.zero
         viewController?.present(imagePicker, animated: true)
+    }
+}
+
+extension FeedbackWireframe: ServiceProvider {
+
+    func contact(feedback: Feedback,
+                 completion: @escaping (Result<Bool, Error>) -> Void) {
+        note.modal(info: L.contactingMTP())
+
+        guard let jpeg = feedback.jpeg else {
+            contact(payload: ContactPayload(
+                        with: feedback,
+                        image: nil,
+                        user: data.user
+                    ),
+                    completion: completion)
+            return
+        }
+
+        net.mtp.upload(
+            photo: jpeg,
+            caption: nil,
+            location: nil) { [weak self] result in
+                guard let self = self else {
+                    Services().note.dismissModal()
+                    return
+                }
+
+                switch result {
+                case .success(let reply):
+                    self.contact(payload: ContactPayload(
+                                    with: feedback,
+                                    image: reply,
+                                    user: self.data.user
+                                 ),
+                                 completion: completion)
+                case .failure(let error):
+                    self.note.modal(failure: error,
+                                    operation: L.contactMTP())
+                    completion(.failure(error))
+                }
+        }
+    }
+
+    private func contact(payload: ContactPayload,
+                         completion: @escaping (Result<Bool, Error>) -> Void) {
+        net.contact(payload: payload) { [note] result in
+             switch result {
+             case .success:
+                 note.modal(success: L.success())
+                 DispatchQueue.main.asyncAfter(deadline: .short) {
+                     note.dismissModal()
+                     completion(.success(true))
+                 }
+                 return
+             case .failure(let error):
+                 note.modal(failure: error,
+                            operation: L.contactMTP())
+                 completion(.failure(error))
+            }
+        }
     }
 }

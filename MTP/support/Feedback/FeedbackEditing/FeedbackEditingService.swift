@@ -26,6 +26,9 @@ protocol FeedbackEditingServiceProtocol {
     /// Upate email
     /// - Parameter userEmailText: Email address
     func update(userEmailText: String?)
+    /// Upate phone
+    /// - Parameter userPhoneText: Phone
+    func update(userPhoneText: String?)
     /// Update body
     /// - Parameter bodyText: Text
     func update(bodyText: String?)
@@ -73,6 +76,14 @@ extension FeedbackEditingService: FeedbackEditingServiceProtocol {
     func update(userEmailText: String?) {
         guard var item = editingItemsRepository.item(of: UserEmailItem.self) else { return }
         item.email = userEmailText
+        editingItemsRepository.set(item: item)
+    }
+
+    /// Upate phone
+    /// - Parameter userPhoneText: Phone
+    func update(userPhoneText: String?) {
+        guard var item = editingItemsRepository.item(of: UserPhoneItem.self) else { return }
+        item.phone = userPhoneText
         editingItemsRepository.set(item: item)
     }
 

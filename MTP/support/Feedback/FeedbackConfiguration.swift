@@ -28,13 +28,16 @@ final class FeedbackConfiguration {
     var dataSource: FeedbackItemsDataSource
 
     /// If topics array contains no topics, topics cell is hidden.
-    init(subject: String? = .none,
-         additionalDiagnosticContent: String? = .none,
+    init(subject: String? = nil,
          topics: [TopicProtocol] = TopicItem.defaultTopics,
+         selected topic: TopicProtocol? = nil,
+         body: String? = nil,
+         additionalDiagnosticContent: String? = nil,
          toRecipients: [String] = [],
          ccRecipients: [String] = [],
          bccRecipients: [String] = [],
          hidesUserEmailCell: Bool = true,
+         hidesUserPhoneCell: Bool = false,
          hidesAttachmentCell: Bool = false,
          hidesAppInfoSection: Bool = false,
          usesHTML: Bool = false) {
@@ -44,9 +47,14 @@ final class FeedbackConfiguration {
         self.ccRecipients = ccRecipients
         self.bccRecipients = bccRecipients
         self.usesHTML = usesHTML
-        self.dataSource = FeedbackItemsDataSource(topics: topics,
-                                                  hidesUserEmailCell: hidesUserEmailCell,
-                                                  hidesAttachmentCell: hidesAttachmentCell,
-                                                  hidesAppInfoSection: hidesAppInfoSection)
+        self.dataSource = FeedbackItemsDataSource(
+            topics: topics,
+            selected: topic,
+            body: body,
+            hidesUserEmailCell: hidesUserEmailCell,
+            hidesUserPhoneCell: hidesUserPhoneCell,
+            hidesAttachmentCell: hidesAttachmentCell,
+            hidesAppInfoSection: hidesAppInfoSection
+        )
     }
 }

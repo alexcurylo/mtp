@@ -19,7 +19,7 @@ struct AppVersionItem: FeedbackItemProtocol {
         return shortVersion
     }
 
-    /// isHidden
+    /// :nodoc:
     let isHidden: Bool
 
     /// :nodoc:

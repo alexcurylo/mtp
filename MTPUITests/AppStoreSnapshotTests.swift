@@ -17,7 +17,9 @@ final class AppStoreSnapshotTests: XCTestCase {
     }
 
     func testAppStoreSnapshots() {
-        launch(arguments: [.takingScreenshots],
+        launch(arguments: [.disableAnimations,
+                           .disableWaitIdle,
+                           .takingScreenshots],
                settings: [.loggedIn(true)])
 
         UIMain.locations.assert(.selected)

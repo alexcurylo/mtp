@@ -39,7 +39,6 @@ Requirements
 - [CocoaPods](https://cocoapods.org/) for code dependency management
 - [Codebeat](https://codebeat.co/projects/github-com-alexcurylo-mtp-develop) for automated code review
 - [Coveralls](https://coveralls.io/github/alexcurylo/mtp?branch=develop) for test coverage statistics
-- [Danger](http://danger.systems/ruby/) for automated code review
 - [Fastlane](https://fastlane.tools) for release management
 - [Firebase](https://firebase.google.com/) for analytics and crash reports
 - [Gitter](https://gitter.im/alexcurylo/mtp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) for chat
@@ -55,7 +54,6 @@ Requirements
 
 - [Alamofire](https://github.com/Alamofire/Alamofire) and [AlamofireNetworkActivityIndicator](https://github.com/Alamofire/AlamofireNetworkActivityIndicator) for HTTP networking
 - [Anchorage](https://github.com/Raizlabs/Anchorage) for fluent layout declarations
-- [DropDown](https://github.com/AssistoLab/DropDown) for live search results
 - [Facebook SDK in Swift](https://github.com/facebook/facebook-sdk-swift)  for Facebook support
 - [JWTDecode](https://github.com/auth0/JWTDecode.swift) for [JSON Web Token](https://jwt.io) management
 - [KRProgressHUD](https://github.com/krimpedance/KRProgressHUD) for progress management

@@ -19,7 +19,7 @@ struct AppBuildItem: FeedbackItemProtocol {
         return build
     }
 
-    /// isHidden
+    /// :nodoc:
     let isHidden: Bool
 
     /// :nodoc:

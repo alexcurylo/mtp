@@ -28,4 +28,6 @@ struct Feedback {
     let jpeg: Data?
     /// mp4
     let mp4: Data?
+    /// phone
+    let phone: String?
 }

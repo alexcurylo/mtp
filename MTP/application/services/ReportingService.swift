@@ -204,6 +204,8 @@ private extension MTP {
             return "load_checklists"
         case .checkOut: // (let list, let id):
             return "check_out"
+        case .contact: // (let payload):
+            return "contact_form"
         case .countriesSearch: // (let query):
             return "search_countries"
         case .divesite:

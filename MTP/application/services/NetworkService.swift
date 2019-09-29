@@ -39,6 +39,13 @@ typealias NetworkCompletion<T> = (_ result: Result<T, NetworkError>) -> Void
 /// Provides network-related functionality
 protocol NetworkService: Observable, ServiceProvider {
 
+    /// Send contact form
+    ///
+    /// - Parameters:
+    ///   - payload: Contact payload
+    ///   - then: Completion
+    func contact(payload: ContactPayload,
+                 then: @escaping NetworkCompletion<String>)
     /// Load location photos
     ///
     /// - Parameters:
@@ -281,6 +288,15 @@ class NetworkServiceImpl: NetworkService {
 
     // MARK: - NetworkService
 
+    /// Send contact form
+    ///
+    /// - Parameters:
+    ///   - payload: Contact payload
+    ///   - then: Completion
+    func contact(payload: ContactPayload,
+                 then: @escaping NetworkCompletion<String>) {
+        mtp.contact(payload: payload, then: then)
+    }
     /// Load location photos
     ///
     /// - Parameters:
@@ -737,6 +753,14 @@ final class NetworkServiceStub: NetworkServiceImpl {
     /// :nodoc:
     override func refreshRankings() {
         // expect seeded
+    }
+
+    /// :nodoc:
+    override func contact(payload: ContactPayload,
+                          then: @escaping NetworkCompletion<String>) {
+        mtp.contact(payload: payload,
+                    stub: MTPProvider.immediatelyStub,
+                    then: then)
     }
 
     /// :nodoc:

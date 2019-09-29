@@ -17,6 +17,13 @@ import UIKit
 /// FeedbackViewController
 final class FeedbackViewController: UITableViewController {
 
+    private enum Delivery {
+        case api
+        case mail
+    }
+
+    private let delivery: Delivery = .api
+
     private var replacedFeedbackSendingAction: ((Feedback) -> Void)?
     private var feedbackDidFailed: ((MFMailComposeResult, NSError) -> Void)?
     private var configuration: FeedbackConfiguration {
@@ -26,6 +33,7 @@ final class FeedbackViewController: UITableViewController {
     private var wireframe: FeedbackWireframeProtocol?
 
     private let cellFactories = [CellFactory(UserEmailCell.self),
+                                 CellFactory(UserPhoneCell.self),
                                  CellFactory(TopicCell.self),
                                  CellFactory(BodyCell.self),
                                  CellFactory(AttachmentCell.self),
@@ -71,15 +79,32 @@ final class FeedbackViewController: UITableViewController {
         tableView.estimatedRowHeight = 44.0
         tableView.keyboardDismissMode = .onDrag
 
+        let backgroundView = GradientView {
+            $0.set(gradient: [.dodgerBlue, .azureRadiance],
+                   orientation: .topRightBottomLeft)
+        }
+        tableView.backgroundView = backgroundView
+
         cellFactories.forEach(tableView.register(with:))
         updateDataSource(configuration: configuration)
 
         title = L.feedbackFeedback()
-        navigationItem
-            .rightBarButtonItem = UIBarButtonItem(title: L.feedbackMail(),
-                                                  style: .plain,
-                                                  target: self,
-                                                  action: #selector(mailButtonTapped(_:)))
+        let actionTitle: String
+        let action: Selector
+        switch delivery {
+        case .api:
+            actionTitle = L.feedbackSend()
+            action = #selector(sendButtonTapped(_:))
+        case .mail:
+            actionTitle = L.feedbackMail()
+            action = #selector(mailButtonTapped(_:))
+        }
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+                title: actionTitle,
+                style: .plain,
+                target: self,
+                action: action
+        )
     }
 
     /// :nodoc:
@@ -139,7 +164,17 @@ extension FeedbackViewController {
 extension FeedbackViewController {
 
     /// :nodoc:
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView,
+                            willDisplayHeaderView view: UIView,
+                            forSection section: Int) {
+        if let headerView = view as? UITableViewHeaderFooterView {
+            headerView.textLabel?.textColor = .white
+        }
+    }
+
+    /// :nodoc:
+    override func tableView(_ tableView: UITableView,
+                            didSelectRowAt indexPath: IndexPath) {
         let item = configuration.dataSource.section(at: indexPath.section)[indexPath.row]
         switch item {
         case _ as TopicItem:
@@ -165,6 +200,14 @@ extension FeedbackViewController: UserEmailCellEventProtocol {
     /// :nodoc:
     func userEmailTextDidChange(_ text: String?) {
         feedbackEditingService.update(userEmailText: text)
+    }
+}
+
+extension FeedbackViewController: UserPhoneCellEventProtocol {
+
+    /// :nodoc:
+    func userPhoneTextDidChange(_ text: String?) {
+        feedbackEditingService.update(userPhoneText: text)
     }
 }
 
@@ -227,6 +270,23 @@ private extension FeedbackViewController {
         do {
             let feedback = try feedbackEditingService.generateFeedback(configuration: configuration)
             (replacedFeedbackSendingAction ?? wireframe?.showMailComposer(with:))?(feedback)
+        } catch {
+            wireframe?.showFeedbackGenerationError()
+        }
+    }
+
+    @objc func sendButtonTapped(_ sender: Any) {
+        view.endEditing(true)
+        do {
+            let feedback = try feedbackEditingService.generateFeedback(configuration: configuration)
+            wireframe?.contact(feedback: feedback) { [weak self] result in
+                switch result {
+                case .success:
+                    self?.navigationController?.popViewController(animated: true)
+                case .failure:
+                    break
+                }
+            }
         } catch {
             wireframe?.showFeedbackGenerationError()
         }

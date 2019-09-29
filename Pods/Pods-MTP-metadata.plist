@@ -52,61 +52,6 @@ SOFTWARE.
 		<dict>
 			<key>authors</key>
 			<dict>
-				<key>Nikita Lutsenko</key>
-				<string>nlutsenko@me.com</string>
-			</dict>
-			<key>description</key>
-			<string>&lt;p&gt;Bolts was designed by Parse and Facebook for our own internal use, and we have decided to open source these libraries to make them available to others. Using these libraries does not require using any Parse services. Nor do they require having a Parse or Facebook developer account.&lt;/p&gt;
-
-&lt;p&gt;The first component in Bolts is &amp;quot;tasks&amp;quot;, which make organization of complex asynchronous code more manageable. A task is kind of like a JavaScript Promise, but available for iOS and Android.&lt;/p&gt;
-</string>
-			<key>homepage</key>
-			<string>https://github.com/BoltsFramework</string>
-			<key>licenseText</key>
-			<string>BSD License
-
-For Bolts software
-
-Copyright (c) 2013-present, Facebook, Inc. All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
-
- * Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer.
-
- * Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
-
- * Neither the name Facebook nor the names of its contributors may be used to
-   endorse or promote products derived from this software without specific
-   prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</string>
-			<key>licenseType</key>
-			<string>BSD</string>
-			<key>name</key>
-			<string>Bolts</string>
-			<key>socialMediaURL</key>
-			<string>https://twitter.com/ParseIt</string>
-			<key>summary</key>
-			<string>Bolts is a collection of low-level libraries designed to make developing mobile apps easier.</string>
-			<key>version</key>
-			<string>1.9.0</string>
-		</dict>
-		<dict>
-			<key>authors</key>
-			<dict>
 				<key>Google</key>
 				<string></string>
 			</dict>
@@ -126,50 +71,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</string>
 			<string>Best and lightest-weight crash reporting for mobile, desktop and tvOS.</string>
 			<key>version</key>
 			<string>3.14.0</string>
-		</dict>
-		<dict>
-			<key>authors</key>
-			<dict>
-				<key>kevin-hirsch</key>
-				<string>kevin.hirsch.be@gmail.com</string>
-			</dict>
-			<key>description</key>
-			<string>&lt;p&gt;This drop down is to overcome the loss of usability and user experience due to the UIPickerView. Material Design did a good job there so this drop down is very inspired by it. It appears at the right location instead of the bottom of the screen as default with UIPickerView and if possible, all options are displayed at once.&lt;/p&gt;
-</string>
-			<key>homepage</key>
-			<string>https://github.com/AssistoLab/DropDown</string>
-			<key>licenseText</key>
-			<string>The MIT License (MIT)
-
-Copyright (c) 2014 kevin-hirsch
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.</string>
-			<key>licenseType</key>
-			<string>MIT</string>
-			<key>name</key>
-			<string>DropDown</string>
-			<key>socialMediaURL</key>
-			<string>http://twitter.com/kevinh6113</string>
-			<key>summary</key>
-			<string>A Material Design drop down</string>
-			<key>version</key>
-			<string>2.3.13</string>
 		</dict>
 		<dict>
 			<key>authors</key>
@@ -2166,51 +2067,6 @@ THE SOFTWARE.
 			<string>A beautiful progress HUD for your iOS.</string>
 			<key>version</key>
 			<string>3.4.2</string>
-		</dict>
-		<dict>
-			<key>authors</key>
-			<dict>
-				<key>Martin Rechsteiner</key>
-				<string>marrechsteiner@gmail.com</string>
-			</dict>
-			<key>description</key>
-			<string>&lt;p&gt;Parchment allows you to page between view controllers while showing menu items that scrolls along with the content. It’s build to be very customizable, it’s well-tested and written fully in Swift.&lt;/p&gt;
-</string>
-			<key>homepage</key>
-			<string>https://github.com/rechsteiner/Parchment</string>
-			<key>licenseText</key>
-			<string>The MIT License (MIT)
-
-Copyright (c) 2016 Martin Rechsteiner
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-</string>
-			<key>licenseType</key>
-			<string>MIT</string>
-			<key>name</key>
-			<string>Parchment</string>
-			<key>socialMediaURL</key>
-			<string>http://twitter.com/rechsteiner</string>
-			<key>summary</key>
-			<string>A flexible paging menu controller with support for infinite data sources.</string>
-			<key>version</key>
-			<string>1.6.0</string>
 		</dict>
 		<dict>
 			<key>authors</key>

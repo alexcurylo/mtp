@@ -28,15 +28,21 @@ private enum MessageType: String {
     case success
 }
 
-/// Reply from the password reset endpoint
-struct PasswordResetReply: Codable {
+/// Reply from the password reset and contact form endpoints
+struct OperationMessageReply: Codable {
 
     /// HTTP result code
     let code: Int
-    private let data: String?
     /// Result message
     let message: String
+    // "Password reset mail sent!"
+    // "Messages have been sent!"
+    /// Message type
     private let messageType: String
+
+    //private let data: String? or Int?
+    // string "passwords.sent" in password reset
+    // int 1 in contact form
 
     /// Whether operation succeeded
     var isSuccess: Bool {
@@ -44,23 +50,22 @@ struct PasswordResetReply: Codable {
     }
 }
 
-extension PasswordResetReply: CustomStringConvertible {
+extension OperationMessageReply: CustomStringConvertible {
 
     var description: String {
         return "code \(code): \(message)"
     }
 }
 
-extension PasswordResetReply: CustomDebugStringConvertible {
+extension OperationMessageReply: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
-        < PasswordResetReply: \(description):
+        < OperationMessageReply: \(description):
         code: \(code)
-        data: \(String(describing: data))
         message: \(message)
         messageType: \(messageType)
-        /PasswordResetReply >
+        /OperationMessageReply >
         """
     }
 }

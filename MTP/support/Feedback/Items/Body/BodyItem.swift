@@ -14,6 +14,7 @@ struct BodyItem: FeedbackItemProtocol {
 
     /// bodyText
     var bodyText: String?
+
     /// :nodoc:
     let isHidden: Bool = false
 }
