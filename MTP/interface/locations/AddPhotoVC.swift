@@ -79,6 +79,7 @@ final class AddPhotoVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        show(navBar: animated, style: .standard)
         expose()
     }
 

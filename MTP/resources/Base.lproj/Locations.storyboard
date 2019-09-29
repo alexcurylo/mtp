@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Sp0-ue-H7z">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Sp0-ue-H7z">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -58,6 +56,8 @@
                         <outlet property="mtpMapView" destination="Wom-tO-qBj" id="j59-om-E0g"/>
                         <outlet property="searchBar" destination="oqm-4d-uVj" id="C6l-Ot-tRj"/>
                         <outlet property="showMoreButton" destination="5oL-Dh-oDr" id="nDc-qv-ynx"/>
+                        <segue destination="qSQ-gF-k5Z" kind="show" identifier="addPhoto" id="CBs-gN-ilt"/>
+                        <segue destination="SvP-2j-gCH" kind="show" identifier="addPost" id="LMv-eI-5Y4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
@@ -88,7 +88,7 @@
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="jwd-FQ-hgM">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -106,7 +106,7 @@
                 <viewControllerPlaceholder storyboardName="LocationsFilter" id="KYO-cN-iEQ" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s16-Fc-9kx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2415" y="-739"/>
+            <point key="canvasLocation" x="2401" y="-606"/>
         </scene>
         <!--Nearby-->
         <scene sceneID="vn5-Xo-sfC">
@@ -281,7 +281,17 @@
                     </userDefinedRuntimeAttributes>
                 </view>
             </objects>
-            <point key="canvasLocation" x="2617" y="-311"/>
+            <point key="canvasLocation" x="2830" y="-528"/>
+        </scene>
+        <!--AddPhoto-->
+        <scene sceneID="mq3-hg-h1Y">
+            <objects>
+                <viewControllerPlaceholder storyboardName="AddPhoto" id="qSQ-gF-k5Z" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="eny-6b-kng"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FXL-MN-IDd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2413" y="-336"/>
         </scene>
         <!--Location-->
         <scene sceneID="PJs-72-dCQ">
@@ -289,7 +299,17 @@
                 <viewControllerPlaceholder storyboardName="Location" id="F85-Be-1xF" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GeT-8k-5hR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2384" y="-837"/>
+            <point key="canvasLocation" x="2432" y="-691"/>
+        </scene>
+        <!--AddPost-->
+        <scene sceneID="dCy-pI-wc4">
+            <objects>
+                <viewControllerPlaceholder storyboardName="AddPost" id="SvP-2j-gCH" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="33c-s3-hTb"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lGu-ph-1fa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2419" y="-455"/>
         </scene>
     </scenes>
     <resources>

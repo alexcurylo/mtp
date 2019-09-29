@@ -23,7 +23,6 @@ final class MainTBC: UITabBarController {
     }
 
     /// Prepare for reveal
-    ///
     /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -34,7 +33,6 @@ final class MainTBC: UITabBarController {
     }
 
     /// Actions to take after reveal
-    ///
     /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -44,7 +42,6 @@ final class MainTBC: UITabBarController {
     }
 
     /// Route to reveal a Mappable in Locations
-    ///
     /// - Parameter mappable: Mappable to reveal
     static func route(reveal mappable: Mappable) {
         guard let current = MainTBC.current else { return }
@@ -55,18 +52,16 @@ final class MainTBC: UITabBarController {
     }
 
     /// Route to show a Mappable in Locations
-    ///
     /// - Parameter mappable: Mappable to show
     static func route(show mappable: Mappable) {
         guard let current = MainTBC.current else { return }
 
         current.dismiss(presentations: current)
-        current.locations?.show(mappable: mappable)
+        current.locations?.show(more: mappable)
         current.selectedIndex = Route.locations.tabIndex
     }
 
     /// Route to display a User in Locations
-    ///
     /// - Parameter user: User to display
     static func route(to user: User?) {
         guard let current = MainTBC.current else { return }
@@ -77,7 +72,6 @@ final class MainTBC: UITabBarController {
     }
 
     /// Route to an enumerated destination
-    ///
     /// - Parameter route: Route case
     static func route(to route: Route) {
         guard let current = MainTBC.current else { return }
@@ -174,7 +168,6 @@ extension MainTBC: Injectable {
     typealias Model = Route
 
     /// Handle dependency injection
-    ///
     /// - Parameter model: Dependencies
     func inject(model: Model) {
         destination = model
@@ -200,7 +193,6 @@ extension UIViewController {
     }
 
     /// Dismiss all currently presented controllers
-    ///
     /// - Parameter from: View controller to unwind to
     func dismiss(presentations from: UIViewController) {
         if let presented = from.presentedViewController {

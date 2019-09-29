@@ -79,6 +79,14 @@ final class LocationServiceSpy: LocationService {
         invokedNoteGetterCount += 1
         return stubbedNote
     }
+    var invokedReportGetter = false
+    var invokedReportGetterCount = 0
+    var stubbedReport: ReportingService!
+    var report: ReportingService {
+        invokedReportGetter = true
+        invokedReportGetterCount += 1
+        return stubbedReport
+    }
     var invokedStyleGetter = false
     var invokedStyleGetterCount = 0
     var stubbedStyle: StyleService!
@@ -169,6 +177,26 @@ final class LocationServiceSpy: LocationService {
         invokedCalculateDistances = true
         invokedCalculateDistancesCount += 1
     }
+    var invokedAddPhoto = false
+    var invokedAddPhotoCount = 0
+    var invokedAddPhotoParameters: (mappable: Mappable, Void)?
+    var invokedAddPhotoParametersList = [(mappable: Mappable, Void)]()
+    func add(photo mappable: Mappable) {
+        invokedAddPhoto = true
+        invokedAddPhotoCount += 1
+        invokedAddPhotoParameters = (mappable, ())
+        invokedAddPhotoParametersList.append((mappable, ()))
+    }
+    var invokedAddPost = false
+    var invokedAddPostCount = 0
+    var invokedAddPostParameters: (mappable: Mappable, Void)?
+    var invokedAddPostParametersList = [(mappable: Mappable, Void)]()
+    func add(post mappable: Mappable) {
+        invokedAddPost = true
+        invokedAddPostCount += 1
+        invokedAddPostParameters = (mappable, ())
+        invokedAddPostParametersList.append((mappable, ()))
+    }
     var invokedClose = false
     var invokedCloseCount = 0
     var invokedCloseParameters: (mappable: Mappable, Void)?
@@ -199,15 +227,25 @@ final class LocationServiceSpy: LocationService {
         invokedRevealParameters = (mappable, callout)
         invokedRevealParametersList.append((mappable, callout))
     }
-    var invokedShow = false
-    var invokedShowCount = 0
-    var invokedShowParameters: (mappable: Mappable, Void)?
-    var invokedShowParametersList = [(mappable: Mappable, Void)]()
-    func show(mappable: Mappable) {
-        invokedShow = true
-        invokedShowCount += 1
-        invokedShowParameters = (mappable, ())
-        invokedShowParametersList.append((mappable, ()))
+    var invokedShowMore = false
+    var invokedShowMoreCount = 0
+    var invokedShowMoreParameters: (mappable: Mappable, Void)?
+    var invokedShowMoreParametersList = [(mappable: Mappable, Void)]()
+    func show(more mappable: Mappable) {
+        invokedShowMore = true
+        invokedShowMoreCount += 1
+        invokedShowMoreParameters = (mappable, ())
+        invokedShowMoreParametersList.append((mappable, ()))
+    }
+    var invokedShowNearby = false
+    var invokedShowNearbyCount = 0
+    var invokedShowNearbyParameters: (mappable: Mappable, Void)?
+    var invokedShowNearbyParametersList = [(mappable: Mappable, Void)]()
+    func show(nearby mappable: Mappable) {
+        invokedShowNearby = true
+        invokedShowNearbyCount += 1
+        invokedShowNearbyParameters = (mappable, ())
+        invokedShowNearbyParametersList.append((mappable, ()))
     }
     var invokedUpdate = false
     var invokedUpdateCount = 0

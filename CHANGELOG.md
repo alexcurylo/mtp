@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Photo, Post, and Nearby buttons to map callouts
+
 ### Changed
 - Contact now uses MTP API
 

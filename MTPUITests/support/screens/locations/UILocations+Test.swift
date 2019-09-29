@@ -10,11 +10,14 @@ extension UILocations: Elemental {
             return .navigationBar
         case .result:
             return .cell
-        case .cancel,
+        case .addPhoto,
+             .addPost,
+             .cancel,
              .close,
              .directions,
              .filter,
              .more,
+             .nearbies,
              .nearby:
             return .button
         case .search:
