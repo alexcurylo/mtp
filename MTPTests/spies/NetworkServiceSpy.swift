@@ -112,10 +112,10 @@ final class NetworkServiceSpy: NetworkService {
     }
     var invokedContact = false
     var invokedContactCount = 0
-    var invokedContactParameters: (payload: ContactPayload, then: NetworkCompletion<OperationReply>)?
-    var invokedContactParametersList = [(payload: ContactPayload, then: NetworkCompletion<OperationReply>)]()
+    var invokedContactParameters: (payload: ContactPayload, then: NetworkCompletion<String>)?
+    var invokedContactParametersList = [(payload: ContactPayload, then: NetworkCompletion<String>)]()
     func contact(payload: ContactPayload,
-    then: @escaping NetworkCompletion<OperationReply>) {
+    then: @escaping NetworkCompletion<String>) {
         invokedContact = true
         invokedContactCount += 1
         invokedContactParameters = (payload, then)

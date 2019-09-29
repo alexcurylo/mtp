@@ -150,8 +150,8 @@
         "repositoryURL": "https://github.com/SwiftyBeaver/SwiftyBeaver.git",
         "state": {
           "branch": null,
-          "revision": "0660621f44378cd110fcf18525fd042ea11924b4",
-          "version": "1.7.1"
+          "revision": "62d53165ce78738dfdcb4fc32fe47ecdae0e6899",
+          "version": "1.8.0"
         }
       }
     ]

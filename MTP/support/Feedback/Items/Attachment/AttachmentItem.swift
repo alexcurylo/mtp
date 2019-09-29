@@ -25,7 +25,7 @@ struct AttachmentItem: FeedbackItemProtocol {
         }
     }
 
-    /// isHidden
+    /// :nodoc:
     let isHidden: Bool
 
     /// :nodoc:

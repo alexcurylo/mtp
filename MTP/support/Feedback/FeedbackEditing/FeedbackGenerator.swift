@@ -13,8 +13,10 @@ enum FeedbackGenerator {
     /// Generate
     /// - Parameter configuration: FeedbackConfiguration
     /// - Parameter repository: FeedbackEditingItemsRepositoryProtocol
-    static func generate(configuration: FeedbackConfiguration,
-                         repository: FeedbackEditingItemsRepositoryProtocol) throws -> Feedback {
+    static func generate(
+        configuration: FeedbackConfiguration,
+        repository: FeedbackEditingItemsRepositoryProtocol
+    ) throws -> Feedback {
         guard let deviceName = repository.item(of: DeviceNameItem.self)?.deviceName,
               let systemVersion = repository.item(of: SystemVersionItem.self)?.version
             else { throw CTFeedbackError.unknown }
@@ -22,6 +24,7 @@ enum FeedbackGenerator {
         let appVersion = repository.item(of: AppVersionItem.self)?.version ?? ""
         let appBuild = repository.item(of: AppBuildItem.self)?.buildString ?? ""
         let email = repository.item(of: UserEmailItem.self)?.email
+        let phone = repository.item(of: UserPhoneItem.self)?.phone
         let topic = repository.item(of: TopicItem.self)?.selected
         let attachment = repository.item(of: AttachmentItem.self)?.media
         let body = repository.item(of: BodyItem.self)?.bodyText ?? ""
@@ -45,7 +48,8 @@ enum FeedbackGenerator {
                         body: formattedBody,
                         isHTML: configuration.usesHTML,
                         jpeg: attachment?.jpegData,
-                        mp4: attachment?.videoData)
+                        mp4: attachment?.videoData,
+                        phone: phone)
     }
 }
 
@@ -53,7 +57,12 @@ private extension FeedbackGenerator {
 
     static func generateSubject(appName: String,
                                 topic: TopicProtocol?) -> String {
-        return String(format: "%@: %@", appName, topic?.title ?? "")
+        let topicTitle = topic?.topicTitle ?? ""
+        if appName.isEmpty {
+            return topicTitle
+        } else {
+            return String(format: "%@: %@", appName, topicTitle)
+        }
     }
 
     // swiftlint:disable:next function_parameter_count

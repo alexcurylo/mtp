@@ -1,5 +1,4 @@
 # references:
-# http://www.objc.io/issue-6/travis-ci.html
 # http://docs.travis-ci.com/user/build-configuration/
 # http://docs.travis-ci.com/user/languages/objective-c/
 # http://www.mokacoding.com/blog/xcodebuild-destination-options/
@@ -52,12 +51,14 @@ script:
     CODE_SIGN_IDENTITY=""
     CODE_SIGNING_REQUIRED=NO
     ONLY_ACTIVE_ARCH=NO
-    ARCHS="x86_64"
-    VALID_ARCHS="x86_64"
+    ARCHS=i386
+    VALID_ARCHS=i386
     GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES
     GCC_GENERATE_TEST_COVERAGE_FILES=YES
     | xcpretty -f `xcpretty-travis-formatter`
 
 after_success:
  - bundle exec slather
-#- bundle exec danger --verbose
+
+#ARCHS="x86_64"
+#VALID_ARCHS="x86_64"

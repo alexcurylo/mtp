@@ -7,8 +7,8 @@ final class FeedbackGeneratorTests: XCTestCase {
 
     func testGenerateNoHTML() throws {
         let configuration = FeedbackConfiguration(subject: "Subject",
-                                                  additionalDiagnosticContent: "Additional",
                                                   topics: TopicItem.defaultTopics,
+                                                  additionalDiagnosticContent: "Additional",
                                                   toRecipients: ["to@example.com"],
                                                   ccRecipients: ["cc@example.com"],
                                                   bccRecipients: ["bcc@example.com"],
@@ -26,8 +26,8 @@ final class FeedbackGeneratorTests: XCTestCase {
 
     func testGenerateNoHTMLWithHidesAppInfoSection() throws {
         let configuration = FeedbackConfiguration(subject: "Subject",
-                                                  additionalDiagnosticContent: "Additional",
                                                   topics: TopicItem.defaultTopics,
+                                                  additionalDiagnosticContent: "Additional",
                                                   toRecipients: ["to@example.com"],
                                                   ccRecipients: ["cc@example.com"],
                                                   bccRecipients: ["bcc@example.com"],
@@ -45,8 +45,8 @@ final class FeedbackGeneratorTests: XCTestCase {
 
     func testGenerateHTML() throws {
         let configuration = FeedbackConfiguration(subject: "Subject",
-                                                  additionalDiagnosticContent: "Additional",
                                                   topics: TopicItem.defaultTopics,
+                                                  additionalDiagnosticContent: "Additional",
                                                   toRecipients: ["to@example.com"],
                                                   ccRecipients: ["cc@example.com"],
                                                   bccRecipients: ["bcc@example.com"],

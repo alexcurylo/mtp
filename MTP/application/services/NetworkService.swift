@@ -45,7 +45,7 @@ protocol NetworkService: Observable, ServiceProvider {
     ///   - payload: Contact payload
     ///   - then: Completion
     func contact(payload: ContactPayload,
-                 then: @escaping NetworkCompletion<OperationReply>)
+                 then: @escaping NetworkCompletion<String>)
     /// Load location photos
     ///
     /// - Parameters:
@@ -294,7 +294,7 @@ class NetworkServiceImpl: NetworkService {
     ///   - payload: Contact payload
     ///   - then: Completion
     func contact(payload: ContactPayload,
-                 then: @escaping NetworkCompletion<OperationReply>) {
+                 then: @escaping NetworkCompletion<String>) {
         mtp.contact(payload: payload, then: then)
     }
     /// Load location photos
@@ -757,7 +757,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
 
     /// :nodoc:
     override func contact(payload: ContactPayload,
-                          then: @escaping NetworkCompletion<OperationReply>) {
+                          then: @escaping NetworkCompletion<String>) {
         mtp.contact(payload: payload,
                     stub: MTPProvider.immediatelyStub,
                     then: then)

@@ -566,7 +566,7 @@ class MTPNetworkController: ServiceProvider {
     ///   - then: Completion
     func contact(payload: ContactPayload,
                  stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
-                 then: @escaping NetworkCompletion<OperationReply>) {
+                 then: @escaping NetworkCompletion<String>) {
         guard data.isLoggedIn else {
             return then(.failure(.parameter))
         }
@@ -578,10 +578,14 @@ class MTPNetworkController: ServiceProvider {
         let success: SuccessHandler = { response in
             let problem: NetworkError
             do {
-                let reply = try response.map(OperationReply.self,
+                let reply = try response.map(OperationMessageReply.self,
                                              using: JSONDecoder.mtp)
-                self.report(success: endpoint)
-                return then(.success(reply))
+                if reply.isSuccess {
+                    self.report(success: endpoint)
+                    return then(.success(reply.message))
+                } else {
+                    problem = .message(reply.message)
+                }
             } catch {
                 self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
                 problem = .decoding(error.localizedDescription)
@@ -1580,7 +1584,7 @@ class MTPNetworkController: ServiceProvider {
                 guard response.modified(from: endpoint) else {
                     throw NetworkError.notModified
                 }
-                let reply = try response.map(PasswordResetReply.self,
+                let reply = try response.map(OperationMessageReply.self,
                                              using: JSONDecoder.mtp)
                 if reply.isSuccess {
                     self.report(success: endpoint)

@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import KRProgressHUD
+import UIKit
 
 /// Handle prompting MTP for password reset link
 final class ForgotPasswordVC: UIViewController {
@@ -70,7 +70,7 @@ private extension ForgotPasswordVC {
         net.userForgotPassword(email: email) { [weak self, note] result in
             switch result {
             case .success(let message):
-                KRProgressHUD.showSuccess(withMessage: message)
+                note.modal(success: message)
                 DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
                     note.dismissModal()
                     self?.performSegue(withIdentifier: Segues.dismissForgotPassword, sender: self)

@@ -56,7 +56,7 @@ extension TopicsViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier)
                          ?? UITableViewCell(style: .default, reuseIdentifier: identifier)
         let topic = topics[indexPath.row]
-        cell.textLabel?.text = topic.localizedTitle
+        cell.textLabel?.text = topic.topicTitle
         return cell
     }
 }

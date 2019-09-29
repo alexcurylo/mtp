@@ -37,7 +37,7 @@ final class FeedbackEditingServiceTests: XCTestCase {
     }
 
     func testTopics() throws {
-        try XCTUnwrap(itemsRepository).set(item: TopicItem(TopicItem.defaultTopics))
+        try XCTUnwrap(itemsRepository).set(item: TopicItem(topics: TopicItem.defaultTopics))
         let topics = try XCTUnwrap(service).topics
         XCTAssertEqual(topics.count, 4)
     }
@@ -70,7 +70,7 @@ final class FeedbackEditingServiceTests: XCTestCase {
     }
 
     func testUpdateSelectedTopic() throws {
-        try XCTUnwrap(itemsRepository).set(item: TopicItem(TopicItem.defaultTopics))
+        try XCTUnwrap(itemsRepository).set(item: TopicItem(topics: TopicItem.defaultTopics))
         XCTAssertNil(try XCTUnwrap(eventHandler).invokedUpdatedParameters)
         try XCTUnwrap(service).update(selectedTopic: TopicItem.defaultTopics[1])
         XCTAssertEqual(try XCTUnwrap(eventHandler).invokedUpdatedParameters?.indexPath,
@@ -89,8 +89,8 @@ final class FeedbackEditingServiceTests: XCTestCase {
         service = FeedbackEditingService(editingItemsRepository: dataSource,
                                          feedbackEditingEventHandler: try XCTUnwrap(eventHandler))
         let configuration = FeedbackConfiguration(subject: "String",
-                                                  additionalDiagnosticContent: "additional",
                                                   topics: TopicItem.defaultTopics,
+                                                  additionalDiagnosticContent: "additional",
                                                   toRecipients: ["test@example.com"],
                                                   ccRecipients: ["cc@example.com"],
                                                   bccRecipients: ["bcc@example.com"])
