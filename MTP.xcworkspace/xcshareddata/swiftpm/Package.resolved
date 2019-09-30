@@ -105,8 +105,8 @@
         "repositoryURL": "https://github.com/realm/realm-cocoa",
         "state": {
           "branch": null,
-          "revision": "42bb79373687faa52b43eba7388152230a14e37a",
-          "version": "3.18.0"
+          "revision": "69a4f4c73c877bf6df4cc416d1590a5e42426cc0",
+          "version": "3.19.0"
         }
       },
       {
@@ -114,8 +114,8 @@
         "repositoryURL": "https://github.com/realm/realm-core",
         "state": {
           "branch": null,
-          "revision": "3aa55b372577751f30a9aba8534b08e4229b556e",
-          "version": "5.23.3"
+          "revision": "512dfaa4f59930e193c92e00ba1924bde69b19de",
+          "version": "5.23.5"
         }
       },
       {
@@ -150,8 +150,8 @@
         "repositoryURL": "https://github.com/SwiftyBeaver/SwiftyBeaver.git",
         "state": {
           "branch": null,
-          "revision": "e47c8064d8348cc31f5d88da3e1973815dcc1f7a",
-          "version": "1.8.0"
+          "revision": "e8bbe22ad34071b61ab9b53b3a240a8c0de31190",
+          "version": "1.8.1"
         }
       }
     ]

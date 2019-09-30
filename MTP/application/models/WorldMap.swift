@@ -90,8 +90,8 @@ struct WorldMap: ServiceProvider {
     /// - Returns: Map image
     func draw(visits: [Int],
               width: CGFloat) -> UIImage? {
-        let renderWidth: CGFloat = 2000 //width
-        let outline = false //width > 700
+        let renderWidth: CGFloat = width
+        let outline = false // renderWidth > 700
         let offset: Double
         if outline && false {
             let center: Double
@@ -119,11 +119,11 @@ struct WorldMap: ServiceProvider {
                                 size: size,
                                 scaleTransform: scaleTransform,
                                 outline: outline)
-        renderPDF(visits: visits,
-                  origin: origin,
-                  size: size,
-                  scaleTransform: scaleTransform,
-                  outline: outline)
+//        renderPDF(visits: visits,
+//                  origin: origin,
+//                  size: size,
+//                  scaleTransform: scaleTransform,
+//                  outline: outline)
 
         validate()
         return image
