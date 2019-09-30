@@ -27,7 +27,6 @@ struct ChecklistFlags: Codable, Equatable {
     var whss: Bool = true
 
     /// Default constructor
-    ///
     /// - Parameter flagged: Default on or off
     init(flagged: Bool = true) {
         beaches = flagged
@@ -40,7 +39,6 @@ struct ChecklistFlags: Codable, Equatable {
     }
 
     /// Whether a particular list type is shown
-    ///
     /// - Parameter list: The list type
     /// - Returns: Whether shown
     func display(list: Checklist) -> Bool {
