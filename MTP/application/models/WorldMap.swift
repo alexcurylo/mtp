@@ -176,6 +176,7 @@ private extension WorldMap {
 
     static var _maps = 1
 
+    /*
     func renderPDF(visits: [Int],
                    origin: CLLocationCoordinate2D,
                    size: CGSize,
@@ -201,7 +202,6 @@ private extension WorldMap {
         UIGraphicsEndPDFContext()
     }
 
-    /*
     -(UIImage *)renderPDFPageToImage:(int)pageNumber//NSOPERATION?
     {
      //you may not want to permanently (app life) retain doc ref
