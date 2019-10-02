@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [Version 1.2.0, Build 644] - 2019-10-01
+
 ### Added
 - Photo, Post, and Nearby buttons to map callouts
 
