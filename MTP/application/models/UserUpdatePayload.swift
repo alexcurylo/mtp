@@ -101,7 +101,7 @@ struct UserUpdatePayload: Codable, Hashable, UserAvatar {
     /// username
     var username: String = ""
 
-    /// Default constructor
+    /// :nodoc:
     init() { }
 
     /// Constructor from MTP endpoint data

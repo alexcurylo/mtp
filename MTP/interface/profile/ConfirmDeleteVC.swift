@@ -11,16 +11,14 @@ final class ConfirmDeleteVC: UIViewController {
     @IBOutlet private var confirmButton: UIButton!
     @IBOutlet private var cancelButton: GradientButton!
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
         expose()
     }
 
-    /// Actions to take after reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         report(screen: "Confirm Delete")

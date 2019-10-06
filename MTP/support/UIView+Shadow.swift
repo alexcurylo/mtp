@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import UIKit
+import PDFKit
 
 private extension UIView {
 
@@ -50,5 +50,28 @@ private extension UIView {
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)
         updateShadow()
+    }
+}
+
+extension PDFView {
+
+    /// Workaround for iOS 11 compatability``
+    func disableShadow() {
+        if #available(iOS 12.0, *) {
+            pageShadowsEnabled = false
+        } else {
+            removeShadows()
+        }
+    }
+}
+
+private extension UIView {
+
+    /// disableShadow support
+    func removeShadows() {
+        clipsToBounds = true
+        for view in subviews {
+            view.removeShadows()
+        }
     }
 }

@@ -52,7 +52,7 @@ final class LocationPhotosVC: PhotosVC {
                      sender: self)
     }
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjection()
@@ -60,11 +60,7 @@ final class LocationPhotosVC: PhotosVC {
         update()
     }
 
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
+    /// :nodoc:
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let add = Segues.addPhoto(segue: segue)?
                            .destination {

@@ -26,7 +26,7 @@ final class NearbyVC: UITableViewController {
         $0.qualityOfService = .userInteractive
     }
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
@@ -39,9 +39,7 @@ final class NearbyVC: UITableViewController {
         tableView.rowHeight = UITableView.automaticDimension
     }
 
-    /// Prepare for reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -49,9 +47,7 @@ final class NearbyVC: UITableViewController {
         expose()
     }
 
-    /// Actions to take after reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         report(screen: "Nearby")
@@ -329,11 +325,11 @@ final class NearbyCell: UITableViewCell, ServiceProvider {
 
 private extension NearbyCell {
 
-    @IBAction func cellTapped(_ sender: UIButton) {
+    @IBAction func cellTapped(_ sender: UITapGestureRecognizer) {
         mappable?.reveal(callout: true)
     }
 
-    @IBAction func cellDoubleTapped(_ sender: UIButton) {
+    @IBAction func cellDoubleTapped(_ sender: UITapGestureRecognizer) {
         mappable?.show()
     }
 

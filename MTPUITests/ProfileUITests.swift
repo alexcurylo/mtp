@@ -57,7 +57,7 @@ final class ProfileUITests: XCTestCase {
         UIPhotos.photo(0).showMenu()
 
         UISystem.menu("Report").tap()
-        UISystem.button("OK").tap()
+        UISystem.button("Settings").tap()
 
         UISettings.close.tap()
 
@@ -82,7 +82,7 @@ final class ProfileUITests: XCTestCase {
         UIPosts.post(0).showMenu()
 
         UISystem.menu("Report").tap()
-        UISystem.button("OK").tap()
+        UISystem.button("Settings").tap()
 
         UISettings.close.tap()
 

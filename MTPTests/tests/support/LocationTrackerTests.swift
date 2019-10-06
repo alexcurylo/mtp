@@ -4,7 +4,7 @@
 import XCTest
 
 final class LocationTrackerTests: MTPTestCase {
-
+/*
     func testAlert() {
         // given
         let sut = LocationTrackerSpy(nibName: nil, bundle: nil)
@@ -14,5 +14,14 @@ final class LocationTrackerTests: MTPTestCase {
 
         // then
         XCTAssertTrue(sut.invokedPresent)
+
+
+        var invokedPresent = false
+        override func present(_ viewControllerToPresent: UIViewController,
+                              animated flag: Bool,
+                              completion: (() -> Void)? = nil) {
+            invokedPresent = true
+        }
     }
+    */
 }

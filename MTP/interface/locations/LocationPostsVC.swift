@@ -38,7 +38,7 @@ final class LocationPostsVC: PostsVC {
     private var mappable: Mappable!
     // swiftlint:disable:previous implicitly_unwrapped_optional
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjection()
@@ -46,11 +46,7 @@ final class LocationPostsVC: PostsVC {
         update()
     }
 
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
+    /// :nodoc:
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let edit = Segues.addPost(segue: segue)?
                             .destination {

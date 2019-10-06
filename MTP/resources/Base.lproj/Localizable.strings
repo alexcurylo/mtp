@@ -136,11 +136,12 @@
 
 "visited" = "Visited";
 "notVisited" = "Not Visited";
+"directions" = "Directions";
 "showMore" = "Show More";
+"nearby" = "Nearby";
 "website" = "Website";
 "websiteLoading" = "Website Loading…";
 "noWebsite" = "Sorry, no website is available.";
-"directions" = "Directions";
 
 "checkinTitle" = "%@ Checkin Available";
 "checkinInsideNow" = "You are in %@. Do you want to check in?";

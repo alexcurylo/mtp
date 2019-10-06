@@ -9,17 +9,14 @@ import enum Result.Result
 protocol ReportingService: AnyObject {
 
     /// Report an event
-    ///
     /// - Parameter event: Event to report
     func event(_ event: AnalyticsEvent)
     /// Report screen name
-    ///
     /// - Parameters:
     ///   - name: Name of screen
     ///   - vc: Class to describe
     func screen(name: String, vc: AnyClass)
     /// Set user identifier
-    ///
     /// - Parameter email: Email
     func user(signIn: String?, signUp: AnalyticsEvent.Method?)
 }
@@ -94,13 +91,12 @@ class FirebaseReportingService: ReportingService {
     private let eventMapper = AnalyticsEventMapper()
     fileprivate var enabled: Bool { return true }
 
-    /// Default constructor
+    /// :nodoc: 
     init() {
         Analytics.setAnalyticsCollectionEnabled(enabled)
     }
 
     /// Report screen name
-    ///
     /// - Parameters:
     ///   - name: Name of screen
     ///   - vc: Class to describe
@@ -109,7 +105,6 @@ class FirebaseReportingService: ReportingService {
     }
 
     /// Report an event
-    ///
     /// - Parameter event: Event to report
     func event(_ event: AnalyticsEvent) {
         let name = eventMapper.eventName(for: event)
@@ -118,7 +113,6 @@ class FirebaseReportingService: ReportingService {
     }
 
     /// Report sign in + sign up, set identifier
-    ///
     /// - Parameters:
     ///   - signIn: Email
     ///   - signUp: Method

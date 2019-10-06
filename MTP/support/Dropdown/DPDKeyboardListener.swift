@@ -12,14 +12,19 @@
 
 import UIKit
 
+/// DPDKeyboardListener
 final class DPDKeyboardListener {
 
+    /// sharedInstance
 	static let sharedInstance = DPDKeyboardListener()
 
-	fileprivate(set) var isVisible = false
+    /// isVisible
+    fileprivate(set) var isVisible = false
+    /// keyboardFrame
 	fileprivate(set) var keyboardFrame = CGRect.zero
 	fileprivate var isListening = false
 
+    /// :nodoc:
 	deinit {
 		stopListeningToKeyboard()
 	}
@@ -29,6 +34,7 @@ final class DPDKeyboardListener {
 
 extension DPDKeyboardListener {
 
+    /// Start listening to keuboard
 	func startListeningToKeyboard() {
 		if isListening {
 			return
@@ -48,18 +54,17 @@ extension DPDKeyboardListener {
 			object: nil)
 	}
 
+    /// Stop listening to keuboard
 	func stopListeningToKeyboard() {
 		NotificationCenter.default.removeObserver(self)
 	}
 
-	@objc
-	fileprivate func keyboardWillShow(_ notification: Notification) {
+	@objc fileprivate func keyboardWillShow(_ notification: Notification) {
 		isVisible = true
 		keyboardFrame = keyboardFrame(fromNotification: notification)
 	}
 
-	@objc
-	fileprivate func keyboardWillHide(_ notification: Notification) {
+	@objc fileprivate func keyboardWillHide(_ notification: Notification) {
 		isVisible = false
 		keyboardFrame = keyboardFrame(fromNotification: notification)
 	}

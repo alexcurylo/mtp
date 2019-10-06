@@ -9,14 +9,12 @@ final class MappableAnnotationView: MKMarkerAnnotationView, MappingAnnotationVie
     private static var identifier = typeName
 
     /// Register view type
-    ///
     /// - Parameter view: Map view
     static func register(view: MKMapView) {
         view.register(self, forAnnotationViewWithReuseIdentifier: identifier)
     }
 
     /// Factory method for view
-    ///
     /// - Parameters:
     ///   - map: Map view
     ///   - annotation: Place
@@ -41,21 +39,18 @@ final class MappableAnnotationView: MKMarkerAnnotationView, MappingAnnotationVie
     }
 
     private let headerImageView = UIImageView {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.contentMode = .scaleAspectFill
         $0.sizeAnchors == Layout.imageSize
         $0.clipsToBounds = true
     }
 
     private let categoryLabel = UILabel {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
         $0.font = Avenir.medium.of(size: 13)
         $0.textColor = .darkText
     }
 
     private let visitedLabel = UILabel {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setContentHuggingPriority(.required, for: .horizontal)
         $0.font = Avenir.medium.of(size: 13)
         $0.textColor = .darkText
@@ -68,55 +63,65 @@ final class MappableAnnotationView: MKMarkerAnnotationView, MappingAnnotationVie
     }
 
     private let nameLabel = UILabel {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = Avenir.heavy.of(size: 18)
         $0.textColor = .darkText
         $0.numberOfLines = 0
     }
 
     private let locationLabel = UILabel {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = Avenir.heavy.of(size: 14)
         $0.textColor = .darkText
         $0.numberOfLines = 0
     }
 
     private let visitorsLabel = UILabel {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = Avenir.medium.of(size: 13)
         $0.textColor = .darkText
     }
 
-    private let directionsButton = GradientButton {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.orientation = GradientOrientation.horizontal.rawValue
-        $0.startColor = .dodgerBlue
-        $0.endColor = .azureRadiance
+    private let showMoreButton = UIButton {
+        $0.backgroundColor = .azureRadiance
+        $0.tintColor = .white
         $0.cornerRadius = 4
-        UILocations.directions.expose(item: $0)
-
-        let title = L.directions()
-        $0.setTitle(title, for: .normal)
-        $0.titleLabel?.font = Avenir.heavy.of(size: 18)
+        $0.setImage(R.image.buttonInfo(), for: .normal)
+        UILocations.more.expose(item: $0)
     }
 
-    private let showMoreButton = GradientButton {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.orientation = GradientOrientation.horizontal.rawValue
-        $0.startColor = .dodgerBlue
-        $0.endColor = .azureRadiance
+    private let directionsButton = UIButton {
+        $0.backgroundColor = .azureRadiance
+        $0.tintColor = .white
         $0.cornerRadius = 4
-        UILocations.more.expose(item: $0)
+        $0.setImage(R.image.buttonDirections(), for: .normal)
+        UILocations.directions.expose(item: $0)
+    }
 
-        let title = L.showMore()
-        $0.setTitle(title, for: .normal)
-        $0.titleLabel?.font = Avenir.heavy.of(size: 18)
+    private let nearbiesButton = UIButton {
+        $0.backgroundColor = .azureRadiance
+        $0.tintColor = .white
+        $0.cornerRadius = 4
+        $0.setImage(R.image.buttonNearby(), for: .normal)
+        UILocations.nearbies.expose(item: $0)
+    }
+
+    private let addPhotoButton = UIButton {
+        $0.backgroundColor = .azureRadiance
+        $0.tintColor = .white
+        $0.cornerRadius = 4
+        $0.setImage(R.image.buttonCamera(), for: .normal)
+        UILocations.addPhoto.expose(item: $0)
+    }
+
+    private let addPostButton = UIButton {
+        $0.backgroundColor = .azureRadiance
+        $0.tintColor = .white
+        $0.cornerRadius = 4
+        $0.setImage(R.image.pencilWhite(), for: .normal)
+        UILocations.addPost.expose(item: $0)
     }
 
     private var visitedObserver: Observer?
 
     /// Construction by injection
-    ///
     /// - Parameters:
     ///   - annotation: Place
     ///   - reuseIdentifier: Identifier
@@ -133,12 +138,21 @@ final class MappableAnnotationView: MKMarkerAnnotationView, MappingAnnotationVie
         visitSwitch.addTarget(self,
                               action: #selector(toggleVisit),
                               for: .valueChanged)
-        directionsButton.addTarget(self,
-                                   action: #selector(directionsTapped),
-                                   for: .touchUpInside)
         showMoreButton.addTarget(self,
                                  action: #selector(showMoreTapped),
                                  for: .touchUpInside)
+        directionsButton.addTarget(self,
+                                   action: #selector(directionsTapped),
+                                   for: .touchUpInside)
+        nearbiesButton.addTarget(self,
+                                 action: #selector(nearbiesTapped),
+                                 for: .touchUpInside)
+        addPhotoButton.addTarget(self,
+                                 action: #selector(addPhotoTapped),
+                                 for: .touchUpInside)
+        addPostButton.addTarget(self,
+                                action: #selector(addPostTapped),
+                                for: .touchUpInside)
 
         observe()
     }
@@ -221,6 +235,12 @@ private extension MappableAnnotationView {
         return item
     }
 
+    @objc func closeTapped(_ sender: UIButton) {
+        guard let mappable = mappable else { return }
+
+        loc.close(mappable: mappable)
+    }
+
     @objc func directionsTapped(_ sender: GradientButton) {
         let options = [ MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving ]
         mapItem?.openInMaps(launchOptions: options)
@@ -229,13 +249,25 @@ private extension MappableAnnotationView {
     @objc func showMoreTapped(_ sender: GradientButton) {
         guard let mappable = mappable else { return }
 
-        loc.show(mappable: mappable)
+        loc.show(more: mappable)
     }
 
-    @objc func closeTapped(_ sender: UIButton) {
+    @objc func nearbiesTapped(_ sender: GradientButton) {
         guard let mappable = mappable else { return }
 
-        loc.close(mappable: mappable)
+        loc.show(nearby: mappable)
+    }
+
+    @objc func addPhotoTapped(_ sender: GradientButton) {
+        guard let mappable = mappable else { return }
+
+        loc.add(photo: mappable)
+    }
+
+    @objc func addPostTapped(_ sender: GradientButton) {
+        guard let mappable = mappable else { return }
+
+        loc.add(post: mappable)
     }
 
     func show(visited: Bool) {
@@ -246,15 +278,18 @@ private extension MappableAnnotationView {
     var detailView: UIView {
 
         let bottomSpacer = UIView {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.heightAnchor == 2
+                $0.heightAnchor == 2
         }
 
-        let buttons = UIStackView(arrangedSubviews: [directionsButton,
-                                                     showMoreButton
+        let buttons = UIStackView(arrangedSubviews: [showMoreButton,
+                                                     directionsButton,
+                                                     nearbiesButton,
+                                                     addPhotoButton,
+                                                     addPostButton
                                                      ]).with {
             $0.spacing = 8
             $0.distribution = .fillEqually
+            $0.heightAnchor == 40
         }
 
         let stack = UIStackView(arrangedSubviews: [topView,
@@ -273,7 +308,6 @@ private extension MappableAnnotationView {
 
     var topView: UIView {
         let holder = UIView {
-            $0.translatesAutoresizingMaskIntoConstraints = false
             $0.addSubview(headerImageView)
             $0.heightAnchor == Layout.imageSize.height + Layout.closeOutset
             $0.widthAnchor == Layout.imageSize.width

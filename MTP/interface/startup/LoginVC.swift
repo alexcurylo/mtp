@@ -21,7 +21,7 @@ final class LoginVC: UIViewController {
 
     private var errorMessage: String = ""
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
@@ -33,9 +33,7 @@ final class LoginVC: UIViewController {
         passwordTextField.inputAccessoryView = keyboardToolbar
     }
 
-    /// Prepare for reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -46,9 +44,7 @@ final class LoginVC: UIViewController {
         expose()
     }
 
-    /// Actions to take after reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         report(screen: "Log In")
@@ -86,11 +82,7 @@ final class LoginVC: UIViewController {
         }
     }
 
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
+    /// :nodoc:
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         view.endEditing(true)
         if let alert = Segues.presentLoginFail(segue: segue)?

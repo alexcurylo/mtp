@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/rwbutler/connectivity",
         "state": {
           "branch": null,
-          "revision": "491fb7ceb9da21bd92f1d877400ebc91981c2ef4",
-          "version": "3.1.1"
+          "revision": "0fa363ccf8a2a66fddb010b711f0a0d0bb2a7ea8",
+          "version": "3.1.2"
         }
       },
       {
@@ -35,6 +35,24 @@
           "branch": null,
           "revision": "c228db5d2ad1b01ebc84435e823e6cca4e3db98b",
           "version": "1.2.0"
+        }
+      },
+      {
+        "package": "KRActivityIndicatorView",
+        "repositoryURL": "https://github.com/krimpedance/KRActivityIndicatorView.git",
+        "state": {
+          "branch": null,
+          "revision": "0d9f485bc706b1b36509be3a75cbc0727dcc0088",
+          "version": "3.0.4"
+        }
+      },
+      {
+        "package": "KRProgressHUD",
+        "repositoryURL": "https://github.com/krimpedance/KRProgressHUD",
+        "state": {
+          "branch": null,
+          "revision": "95d52f1ab31c1367a7eff988c7b049c05d696750",
+          "version": "3.4.4"
         }
       },
       {
@@ -105,8 +123,8 @@
         "repositoryURL": "https://github.com/realm/realm-cocoa",
         "state": {
           "branch": null,
-          "revision": "42bb79373687faa52b43eba7388152230a14e37a",
-          "version": "3.18.0"
+          "revision": "69a4f4c73c877bf6df4cc416d1590a5e42426cc0",
+          "version": "3.19.0"
         }
       },
       {
@@ -114,8 +132,8 @@
         "repositoryURL": "https://github.com/realm/realm-core",
         "state": {
           "branch": null,
-          "revision": "3aa55b372577751f30a9aba8534b08e4229b556e",
-          "version": "5.23.3"
+          "revision": "512dfaa4f59930e193c92e00ba1924bde69b19de",
+          "version": "5.23.5"
         }
       },
       {
@@ -150,8 +168,8 @@
         "repositoryURL": "https://github.com/SwiftyBeaver/SwiftyBeaver.git",
         "state": {
           "branch": null,
-          "revision": "62d53165ce78738dfdcb4fc32fe47ecdae0e6899",
-          "version": "1.8.0"
+          "revision": "d215a5c97ff9695f4de18a114e760a63a19eb80a",
+          "version": "1.8.2"
         }
       }
     ]

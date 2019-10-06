@@ -14,23 +14,28 @@ import UIKit
 
 // swiftlint:disable file_length
 
+/// Index
 typealias Index = Int
-typealias Closure = () -> Void
+/// SelectionClosure
 typealias SelectionClosure = (Index, String) -> Void
+/// MultiSelectionClosure
 typealias MultiSelectionClosure = ([Index], [String]) -> Void
+/// ConfigurationClosure
 typealias ConfigurationClosure = (Index, String) -> String
+/// CellConfigurationClosure
 typealias CellConfigurationClosure = (Index, String, DropdownCell) -> Void
 private typealias ComputeLayoutTuple = (x: CGFloat, y: CGFloat, width: CGFloat, offscreenHeight: CGFloat)
 
 /// Can be `UIView` or `UIBarButtonItem`.
-@objc
-protocol AnchorView: AnyObject {
+@objc protocol AnchorView: AnyObject {
 
+    /// Plain view
 	var plainView: UIView { get }
 }
 
 extension UIView: AnchorView {
 
+    /// Plain view
 	var plainView: UIView {
 		return self
 	}
@@ -38,6 +43,7 @@ extension UIView: AnchorView {
 
 extension UIBarButtonItem: AnchorView {
 
+    /// Plain view
 	var plainView: UIView {
         // swiftlint:disable:next force_cast
 		return value(forKey: "view") as! UIView
@@ -181,6 +187,8 @@ final class Dropdown: UIView {
     fileprivate var yConstraint: NSLayoutConstraint!
 
     // MARK: Appearance
+
+    /// Cell height
     @objc dynamic var cellHeight = DPDConstant.UI.RowHeight {
         willSet { tableView.rowHeight = newValue }
         didSet { reloadAllComponents() }
@@ -193,6 +201,7 @@ final class Dropdown: UIView {
         }
     }
 
+    /// Background color
     override var backgroundColor: UIColor? {
         get { return tableViewBackgroundColor }
         set {
@@ -455,8 +464,9 @@ final class Dropdown: UIView {
 
     fileprivate var didSetupConstraints = false
 
-    // MARK: - Init's
+    // MARK: - Initialization
 
+    /// :nodoc:
     deinit {
         stopListeningToNotifications()
     }
@@ -502,11 +512,13 @@ final class Dropdown: UIView {
         self.cancelAction = cancelAction
     }
 
+    /// :nodoc:
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
 
+    /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
@@ -654,6 +666,7 @@ extension Dropdown {
         tableViewContainer.addUniversalConstraints(format: "|[tableView]|", views: ["tableView": tableView])
     }
 
+    /// :nodoc:
     override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -910,6 +923,7 @@ extension Dropdown {
         return (layout.canBeDisplayed, layout.offscreenHeight)
     }
 
+    /// :nodoc:
     override func accessibilityPerformEscape() -> Bool {
         switch dismissMode {
         case .automatic, .onTap:
@@ -979,7 +993,7 @@ extension Dropdown {
     and `cellConfiguration` implicitly calls `reloadAllComponents()`.
     */
     func reloadAllComponents() {
-        DispatchQueue.executeOnMainThread {
+        DispatchQueue.toMain {
             self.tableView.reloadData()
             self.setNeedsUpdateConstraints()
         }
@@ -1053,18 +1067,24 @@ extension Dropdown {
     }
 
     // MARK: Objective-C methods for converting the Swift type Index
+
+    /// (Pre)selects a row at a certain index.
     @objc func selectRow(_ index: Int, scrollPosition: UITableView.ScrollPosition = .none) {
         self.selectRow(at: Index(index), scrollPosition: scrollPosition)
     }
 
+    /// Clear selection
     @objc func clearSelection() {
         self.selectRow(at: nil)
     }
 
+    /// Deselect row
+    /// - Parameter index: Index
     @objc func deselectRow(_ index: Int) {
         tableView.deselectRow(at: IndexPath(row: Index(index), section: 0), animated: true)
     }
 
+    /// Selected index path
     @objc var indexPathForSelectedRow: NSIndexPath? {
         return tableView.indexPathForSelectedRow as NSIndexPath?
     }
@@ -1165,6 +1185,7 @@ extension Dropdown: UITableViewDataSource, UITableViewDelegate {
 
 extension Dropdown {
 
+    /// :nodoc:
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let view = super.hitTest(point, with: event)
 
@@ -1176,8 +1197,7 @@ extension Dropdown {
         }
     }
 
-    @objc
-    fileprivate func dismissableViewTapped() {
+    @objc fileprivate func dismissableViewTapped() {
         cancel()
 	}
 }
@@ -1215,14 +1235,4 @@ extension Dropdown {
     fileprivate func keyboardUpdate() {
         self.setNeedsUpdateConstraints()
 	}
-}
-
-private extension DispatchQueue {
-    static func executeOnMainThread(_ closure: @escaping Closure) {
-        if Thread.isMainThread {
-            closure()
-        } else {
-            main.async(execute: closure)
-        }
-    }
 }

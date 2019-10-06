@@ -20,7 +20,7 @@ final class LocationVC: UIViewController {
     private var mappable: Mappable!
     // swiftlint:disable:previous implicitly_unwrapped_optional
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
@@ -30,7 +30,6 @@ final class LocationVC: UIViewController {
     }
 
     /// Prepare for reveal
-    ///
     /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -40,7 +39,6 @@ final class LocationVC: UIViewController {
     }
 
     /// Actions to take after reveal
-    ///
     /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -111,7 +109,6 @@ extension LocationVC: Injectable {
     typealias Model = Mappable
 
     /// Handle dependency injection
-    ///
     /// - Parameter model: Dependencies
     func inject(model: Model) {
         mappable = model

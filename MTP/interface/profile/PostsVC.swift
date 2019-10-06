@@ -53,7 +53,7 @@ class PostsVC: UITableViewController {
                           header: (create: CGFloat(50),
                                    queued: CGFloat(100)))
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
 

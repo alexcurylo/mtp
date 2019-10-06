@@ -35,7 +35,7 @@ final class AddPostVC: UIViewController {
     private let minCharacters = 140
     private var payload = PostPayload()
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
@@ -51,15 +51,15 @@ final class AddPostVC: UIViewController {
     }
 
     /// Prepare for reveal
-    ///
     /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        show(navBar: animated, style: .standard)
         expose()
     }
 
     /// Actions to take after reveal
-    ///
     /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -67,7 +67,6 @@ final class AddPostVC: UIViewController {
     }
 
     /// Stop editing on touch
-    ///
     /// - Parameters:
     ///   - touches: User touches
     ///   - event: Touch event
@@ -77,7 +76,6 @@ final class AddPostVC: UIViewController {
     }
 
     /// Instrument and inject navigation
-    ///
     /// - Parameters:
     ///   - segue: Navigation action
     ///   - sender: Action originator
@@ -161,7 +159,6 @@ private extension AddPostVC {
 extension AddPostVC: LocationSearchDelegate {
 
     /// Handle a location selection
-    ///
     /// - Parameters:
     ///   - controller: source of selection
     ///   - item: Country or Location selected
@@ -184,12 +181,10 @@ extension AddPostVC: LocationSearchDelegate {
 extension AddPostVC: UITextViewDelegate {
 
     /// Respond to edit beginning
-    ///
     /// - Parameter textView: Active edit target
     func textViewDidBeginEditing(_ textView: UITextView) { }
 
     /// Update remaining count
-    ///
     /// - Parameter textView: Active edit target
     func textViewDidChange(_ textView: UITextView) {
         updateSave(showError: false)
@@ -202,7 +197,6 @@ extension AddPostVC: UITextViewDelegate {
     }
 
     /// Respond to edit ending
-    ///
     /// - Parameter textView: Active edit target
     func textViewDidEndEditing(_ textView: UITextView) { }
 }
@@ -255,7 +249,6 @@ extension AddPostVC: Injectable {
     typealias Model = Mappable
 
     /// Handle dependency injection
-    ///
     /// - Parameter model: Dependencies
     func inject(model: Model) {
         if let countryId = model.location?.countryId {

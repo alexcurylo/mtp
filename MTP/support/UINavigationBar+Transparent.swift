@@ -61,11 +61,12 @@ extension UINavigationBar {
     ///
     /// - Parameter style: Style definition
     func set(style: Styler) {
-        tintColor = style.itemColor
-        let attributes = NSAttributedString.attributes(
-            color: style.titleColor,
-            font: style.titleFont)
-        titleTextAttributes = attributes
+        UINavigationBar.style(bar: self,
+                              transparency: style.transparency,
+                              titleFont: style.titleFont,
+                              titleColor: style.titleColor,
+                              itemColor: style.itemColor,
+                              barColor: style.barColor)
     }
 
     /// Style appearance of navigation bar
@@ -80,28 +81,42 @@ extension UINavigationBar {
                                 titleFont: UIFont? = nil,
                                 titleColor: UIColor? = nil,
                                 itemColor: UIColor? = nil,
-                                backgroundColor: UIColor? = nil) {
+                                barColor: UIColor? = nil) {
         let proxy = UINavigationBar.appearance()
+        UINavigationBar.style(bar: proxy,
+                              transparency: transparency,
+                              titleFont: titleFont,
+                              titleColor: titleColor,
+                              itemColor: itemColor,
+                              barColor: barColor)
+    }
 
-        proxy.tintColor = itemColor
-        proxy.barTintColor = backgroundColor
-        let attributes = NSAttributedString.attributes(color: titleColor,
-                                                       font: titleFont)
-        proxy.titleTextAttributes = attributes
+    private static func style(bar: UINavigationBar,
+                              transparency: Transparency? = nil,
+                              titleFont: UIFont? = nil,
+                              titleColor: UIColor? = nil,
+                              itemColor: UIColor? = nil,
+                              barColor: UIColor? = nil) {
+        bar.tintColor = itemColor
+        bar.barTintColor = barColor
+        let attributes = NSAttributedString.attributes(
+            color: titleColor,
+            font: titleFont)
+        bar.titleTextAttributes = attributes
 
         switch transparency {
         case .transparent?:
-            proxy.setBackgroundImage(UIImage(), for: .default)
-            proxy.shadowImage = UIImage()
-            proxy.isTranslucent = true
+            bar.setBackgroundImage(UIImage(), for: .default)
+            bar.shadowImage = UIImage()
+            bar.isTranslucent = true
         case .translucent?:
-            proxy.setBackgroundImage(nil, for: .default)
-            proxy.shadowImage = nil
-            proxy.isTranslucent = true
+            bar.setBackgroundImage(nil, for: .default)
+            bar.shadowImage = nil
+            bar.isTranslucent = true
         case .opaque?:
-            proxy.setBackgroundImage(nil, for: .default)
-            proxy.shadowImage = nil
-            proxy.isTranslucent = false
+            bar.setBackgroundImage(nil, for: .default)
+            bar.shadowImage = nil
+            bar.isTranslucent = false
         case .none:
             break
         }

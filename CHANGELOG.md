@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Expandable visited map viewable when tapped
+
+## [Version 1.2.0, Build 644] - 2019-10-01
+
+### Added
+- Photo, Post, and Nearby buttons to map callouts
+
 ### Changed
 - Contact now uses MTP API
 

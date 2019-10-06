@@ -12,6 +12,7 @@ struct ContactPayload: Codable, Hashable {
     private let message: String
     private let attachments: [PhotoAttachment]
 
+    /// :nodoc:
     init(with feedback: Feedback,
          image: PhotoReply?,
          user: UserJSON?) {
@@ -27,6 +28,7 @@ struct ContactPayload: Codable, Hashable {
         }
     }
 
+    /// :nodoc:
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(category, forKey: .category)

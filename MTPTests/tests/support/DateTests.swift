@@ -37,7 +37,7 @@ final class DateTests: MTPTestCase {
             (week * 2, "in 2 weeks"), // .weeksFuture
             (-week * 4, "last month"), // .oneMonthPast
             (week * 4, "next month"), // .oneMonthFuture
-            (-day * 75, "2 months ago"), // .monthsPast
+            (-day * 55, "2 months ago"), // .monthsPast
             (day * 60, "in 2 months"), // .monthsFuture
             (-year * 1, "last year"), // .oneYearPast
             (year * 1, "next year"), // .oneYearFuture

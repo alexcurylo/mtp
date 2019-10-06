@@ -79,9 +79,6 @@ PODS:
   - GoogleUtilities/UserDefaults (6.3.0):
     - GoogleUtilities/Logger
   - JWTDecode (2.3.0)
-  - KRActivityIndicatorView (3.0.3)
-  - KRProgressHUD (3.4.2):
-    - KRActivityIndicatorView (= 3.0.3)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
@@ -100,7 +97,6 @@ DEPENDENCIES:
   - FBSDKLoginKit
   - Firebase/Analytics
   - JWTDecode
-  - KRProgressHUD
   - R.swift
   - R.swift.Library
 
@@ -124,8 +120,6 @@ SPEC REPOS:
     - GoogleDataTransportCCTSupport
     - GoogleUtilities
     - JWTDecode
-    - KRActivityIndicatorView
-    - KRProgressHUD
     - nanopb
     - R.swift
     - R.swift.Library
@@ -149,12 +143,10 @@ SPEC CHECKSUMS:
   GoogleDataTransportCCTSupport: 7455d07b98851aa63e4c05a34dad356ca588479e
   GoogleUtilities: 9c2c544202301110b29f7974a82e77fdcf12bf51
   JWTDecode: fb77675c8049c1a7e9433c7cf448c3ce33ee4ac7
-  KRActivityIndicatorView: 3a870da60f321f5a88458658434749829865b401
-  KRProgressHUD: 1101587c29484dbeee6a3e661d2fc3b141d96a56
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   R.swift: f5a87643b91ea569d23d6afb3eee9c743edde239
   R.swift.Library: cfe85d569d9bae6cb262922db130e7c3a7a5fad1
 
-PODFILE CHECKSUM: dd932ec3837155ac72518738734f38f3a8adff3a
+PODFILE CHECKSUM: 8ec766c2fa71b5d32fce99b0ab143161f3aca0c2
 
-COCOAPODS: 1.8.1
+COCOAPODS: 1.8.3

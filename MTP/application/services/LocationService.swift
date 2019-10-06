@@ -35,12 +35,10 @@ protocol LocationService: Mapper, ServiceProvider {
     var distances: Distances { get }
 
     /// Distance to a place
-    ///
     /// - Parameter to: Place
     /// - Returns: Distance
     func distance(to: Mappable) -> CLLocationDistance
     /// Calculate nearest place of type
-    ///
     /// - Parameters:
     ///   - list: Checklist
     ///   - id: Place ID
@@ -51,25 +49,20 @@ protocol LocationService: Mapper, ServiceProvider {
                  to coordinate: CLLocationCoordinate2D) -> Mappable?
 
     /// Request permission
-    ///
     /// - Parameter permission: Permission
     func request(permission: LocationPermission)
     /// Start with intended permission
-    ///
     /// - Parameter permission: Permission
     func start(permission: LocationPermission)
 
     /// Insert a typed tracker in our listeners
-    ///
     /// - Parameter tracker: New listener
     func insert<T>(tracker: T) where T: LocationTracker, T: Hashable
     /// Remove a typed tracker from our listeners
-    ///
     /// - Parameter tracker: Former listener
     func remove<T>(tracker: T) where T: LocationTracker, T: Hashable
 
     /// Handle dependency injection
-    ///
     /// - Parameter handler: Location handler
     func inject(handler: LocationHandler)
 
@@ -80,7 +73,6 @@ protocol LocationService: Mapper, ServiceProvider {
 extension LocationService {
 
     /// Distance to a place
-    ///
     /// - Parameter to: Place
     /// - Returns: Distance
     func distance(to: Mappable) -> CLLocationDistance {
@@ -88,7 +80,6 @@ extension LocationService {
     }
 
     /// Start with tracker
-    ///
     /// - Parameter tracker: Tracker
     /// - Returns: Authorization
     @discardableResult func start(tracker: LocationTracker?) -> CLAuthorizationStatus {
@@ -133,7 +124,6 @@ class LocationServiceImpl: LocationService {
     private var manager: CLLocationManager?
 
     /// Handle dependency injection
-    ///
     /// - Parameter handler: Location handler
     func inject(handler: LocationHandler) {
         self.handler = handler
@@ -157,7 +147,6 @@ class LocationServiceImpl: LocationService {
     }
 
     /// Calculate nearest place of type
-    ///
     /// - Parameters:
     ///   - list: Checklist
     ///   - id: Place ID
@@ -183,21 +172,18 @@ class LocationServiceImpl: LocationService {
     }
 
     /// Insert a typed tracker in our listeners
-    ///
     /// - Parameter tracker: New listener
     func insert<T>(tracker: T) where T: LocationTracker, T: Hashable {
         handler?.insert(tracker: tracker)
     }
 
     /// Remove a typed tracker from our listeners
-    ///
     /// - Parameter tracker: Former listener
     func remove<T>(tracker: T) where T: LocationTracker, T: Hashable {
         handler?.remove(tracker: tracker)
     }
 
     /// Request permission
-    ///
     /// - Parameter permission: Permission
     func request(permission: LocationPermission) {
         guard CLLocationManager.locationServicesEnabled(),
@@ -212,7 +198,6 @@ class LocationServiceImpl: LocationService {
     }
 
     /// Start with intended permission
-    ///
     /// - Parameter permission: Permission
     func start(permission: LocationPermission) {
         guard CLLocationManager.locationServicesEnabled(),
@@ -241,15 +226,25 @@ class LocationServiceImpl: LocationService {
 
 extension LocationServiceImpl: Mapper {
 
-    /// Close
-    ///
+    /// Show Add Photo screen
+    /// - Parameter mappable: Place
+    func add(photo mappable: Mappable) {
+        handler?.broadcast(mappable: mappable) { $0.add(photo: $1) }
+    }
+
+    /// Show Add Post screen
+    /// - Parameter mappable: Place
+    func add(post mappable: Mappable) {
+        handler?.broadcast(mappable: mappable) { $0.add(post: $1) }
+    }
+
+    /// Close callout
     /// - Parameter mappable: Place
     func close(mappable: Mappable) {
         handler?.broadcast(mappable: mappable) { $0.close(mappable: $1) }
     }
 
-    /// Notify
-    ///
+    /// Notify of visit
     /// - Parameters:
     ///   - mappable: Place
     ///   - triggered: Date
@@ -257,8 +252,7 @@ extension LocationServiceImpl: Mapper {
         handler?.broadcast(mappable: mappable) { $0.notify(mappable: $1, triggered: triggered) }
     }
 
-    /// Reveal
-    ///
+    /// Reveal on map
     /// - Parameters:
     ///   - mappable: Place
     ///   - callout: Show callout
@@ -266,15 +260,19 @@ extension LocationServiceImpl: Mapper {
         handler?.broadcast(mappable: mappable) { $0.reveal(mappable: $1, callout: callout) }
     }
 
-    /// Show
-    ///
+    /// Show Show More screen
     /// - Parameter mappable: Place
-    func show(mappable: Mappable) {
-        handler?.broadcast(mappable: mappable) { $0.show(mappable: $1) }
+    func show(more mappable: Mappable) {
+        handler?.broadcast(mappable: mappable) { $0.show(more: $1) }
+    }
+
+    /// Show Nearby screen
+    /// - Parameter mappable: Place
+    func show(nearby mappable: Mappable) {
+        handler?.broadcast(mappable: mappable) { $0.show(nearby: $1) }
     }
 
     /// Update
-    ///
     /// - Parameter mappable: Place
     func update(mappable: Mappable) {
         handler?.broadcast(mappable: mappable) { $0.update(mappable: $1) }
@@ -289,12 +287,10 @@ extension LocationServiceImpl: Mapper {
 final class LocationServiceStub: LocationServiceImpl {
 
     /// Request permission
-    ///
     /// - Parameter permission: Permission
     override func request(permission: LocationPermission) { }
 
     /// Start with intended permission
-    ///
     /// - Parameter permission: Permission
     override func start(permission: LocationPermission) { }
 }

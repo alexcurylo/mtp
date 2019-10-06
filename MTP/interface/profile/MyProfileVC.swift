@@ -31,7 +31,7 @@ final class MyProfileVC: ProfileVC {
     private var userObserver: Observer?
     private var settingsRoute: Route?
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         if let user = data.user {
             inject(model: User(from: user))
@@ -39,20 +39,14 @@ final class MyProfileVC: ProfileVC {
         super.viewDidLoad()
     }
 
-    /// Prepare for reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         expose()
     }
 
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
+    /// :nodoc:
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let settings = Segues.showSettings(segue: segue)?.destination,
            let route = settingsRoute {

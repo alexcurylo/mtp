@@ -1,6 +1,0 @@
-module KRProgressHUD {
-  umbrella header "KRProgressHUD-umbrella.h"
-
-  export *
-  module * { export * }
-}

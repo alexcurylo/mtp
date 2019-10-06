@@ -764,14 +764,22 @@ extension RealmDataController {
     func saveSeedToDesktop() {
         // po Realm.Configuration.defaultConfiguration.fileURL
         do {
-            let home = try unwrap(ProcessInfo.processInfo.environment["SIMULATOR_HOST_HOME"])
-            let file = fileURL.lastPathComponent
-            let path = "\(home)/Desktop/\(file)"
-            let destination = URL(fileURLWithPath: path)
+            let destination = try fileURL.lastPathComponent.desktopURL()
             try realm.writeCopy(toFile: destination)
         } catch {
             ConsoleLoggingService().error("saving realm: \(error)")
         }
+    }
+}
+
+extension String {
+
+    /// Provide path to Simulator desktop
+    func desktopURL() throws -> URL {
+        let home = try unwrap(ProcessInfo.processInfo.environment["SIMULATOR_HOST_HOME"])
+        let path = "\(home)/Desktop/\(self)"
+        let destination = URL(fileURLWithPath: path)
+        return destination
     }
 }
 #endif
