@@ -774,6 +774,7 @@ extension RealmDataController {
 
 extension String {
 
+    /// Provide path to Simulator desktop
     func desktopURL() throws -> URL {
         let home = try unwrap(ProcessInfo.processInfo.environment["SIMULATOR_HOST_HOME"])
         let path = "\(home)/Desktop/\(self)"

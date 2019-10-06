@@ -58,6 +58,7 @@ struct PhotoAttachment: Codable, Hashable {
     private let user_id: Int
     private let uuid: String
 
+    /// :nodoc:
     init(with reply: PhotoReply) {
         id = reply.id
         mime = reply.mime
