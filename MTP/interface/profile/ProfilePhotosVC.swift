@@ -61,7 +61,7 @@ final class ProfilePhotosVC: PhotosVC {
                      sender: self)
     }
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjection()
@@ -69,20 +69,14 @@ final class ProfilePhotosVC: PhotosVC {
         update()
     }
 
-    /// Prepare for reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         expose()
     }
 
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
+    /// :nodoc:
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let add = Segues.addPhoto(segue: segue)?
                            .destination {

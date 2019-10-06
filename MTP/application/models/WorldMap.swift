@@ -62,14 +62,22 @@ struct WorldMap: ServiceProvider {
     private let locations: [GeoJSON.Feature]
 
     private typealias Bounds = (west: Double, north: Double, east: Double, south: Double)
-
     private let mapBox: Bounds = (west: -182, north: 84, east: 184, south: -91 )
+    private let clipAntarctica: CGFloat = 0.94
+    private let fullWidth: CGFloat = 3_000
+    private let boxWidth: Double
+    private let boxHeight: Double
+    private let origin: CLLocationCoordinate2D
     #if RECALCULATE_MAPBOX
     private static var calcBox: Bounds = (0, 0, 0, 0)
     #endif
 
     /// :nodoc:
     init() {
+        boxWidth = mapBox.east - mapBox.west
+        boxHeight = mapBox.north - mapBox.south
+        origin = CLLocationCoordinate2D(latitude: mapBox.north,
+                                        longitude: mapBox.west)
         do {
             guard let file = R.file.worldMapGeojson() else { throw "missing map file" }
             let data = try Data(contentsOf: file)
@@ -83,50 +91,27 @@ struct WorldMap: ServiceProvider {
         }
     }
 
-    /// Draw world map for profile
+    /// Render world map profile PDF
     /// - Parameters:
     ///   - visits: Visited locations
     ///   - width: Rendering width
-    /// - Returns: Map image
-    func draw(visits: [Int],
-              width: CGFloat) -> UIImage? {
-        let renderWidth: CGFloat = width
-        let outline = false // renderWidth > 700
-        let offset: Double
-        if outline && false {
-            let center: Double
-            if Int(UIScreen.main.scale).isMultiple(of: 2) {
-                center = 1 / Double(UIScreen.main.scale * 2)
-            } else {
-                center = 0
-            }
-            offset = 0.5 - center
-        } else {
-            offset = 0.0
-        }
-        let origin = CLLocationCoordinate2D(latitude: mapBox.north + offset,
-                                            longitude: mapBox.west + offset)
-        let boxWidth = mapBox.east - mapBox.west
-        let scale = renderWidth / CGFloat(boxWidth)
-        let scaleTransform = CGAffineTransform(scaleX: scale, y: scale)
-        let boxHeight = mapBox.north - mapBox.south
-        let clipAntarctica: CGFloat = 0.94
-        let height = renderWidth * CGFloat(boxHeight / boxWidth) * clipAntarctica
-        let size = CGSize(width: renderWidth, height: height.rounded(.down))
+    /// - Returns: Map PDF
+    func profile(map visits: [Int],
+                 width: CGFloat) -> (pdf: Data, height: CGFloat) {
+        return pdf(visits: visits,
+                   width: width,
+                   outline: false)
+    }
 
-        let image = renderImage(visits: visits,
-                                origin: origin,
-                                size: size,
-                                scaleTransform: scaleTransform,
-                                outline: outline)
-//        renderPDF(visits: visits,
-//                  origin: origin,
-//                  size: size,
-//                  scaleTransform: scaleTransform,
-//                  outline: outline)
-
-        validate()
-        return image
+    /// Render world map full size PDF
+    /// - Parameters:
+    ///   - visits: Visited locations
+    /// - Returns: Map PDF
+    func full(map visits: [Int]) -> Data {
+        let (map, _) = self.pdf(visits: visits,
+                                width: fullWidth,
+                                outline: true)
+        return map
     }
 
     /// Does location contain coordinate?
@@ -174,69 +159,85 @@ struct WorldMap: ServiceProvider {
 
 private extension WorldMap {
 
-    static var _maps = 1
+    func pdf(visits: [Int],
+             width: CGFloat,
+             outline: Bool) -> (pdf: Data, height: CGFloat) {
+        let drawWidth: CGFloat = width
+        let scale = drawWidth / CGFloat(boxWidth)
+        let scaleTransform = CGAffineTransform(scaleX: scale, y: scale)
+        let height = drawWidth * CGFloat(boxHeight / boxWidth) * clipAntarctica
+        let drawHeight = height.rounded(.down)
+        let size = CGSize(width: drawWidth, height: drawHeight)
 
-    /*
-    func renderPDF(visits: [Int],
+        let pdf = drawPDF(visits: visits,
+                          origin: origin,
+                          size: size,
+                          scaleTransform: scaleTransform,
+                          outline: outline)
+
+        validate()
+        return (pdf, drawHeight)
+    }
+
+    func image(visits: [Int],
+               width: CGFloat) -> UIImage? {
+        let drawWidth: CGFloat = width
+        let scale = drawWidth / CGFloat(boxWidth)
+        let scaleTransform = CGAffineTransform(scaleX: scale, y: scale)
+        let height = drawWidth * CGFloat(boxHeight / boxWidth) * clipAntarctica
+        let drawHeight = height.rounded(.down)
+        let size = CGSize(width: drawWidth, height: drawHeight)
+
+        let image = drawImage(visits: visits,
+                              origin: origin,
+                              size: size,
+                              scaleTransform: scaleTransform,
+                              outline: false)
+
+        validate()
+        return image
+    }
+
+    //static var _maps = 1
+
+    func drawPDF(visits: [Int],
+                 origin: CLLocationCoordinate2D,
+                 size: CGSize,
+                 scaleTransform: CGAffineTransform,
+                 outline: Bool) -> Data {
+        let bounds = CGRect(origin: .zero, size: size)
+        let pdf = NSMutableData()
+        UIGraphicsBeginPDFContextToData(pdf, bounds, [:])
+
+        UIGraphicsBeginPDFPage()
+        draw(visits: visits,
+             origin: origin,
+             size: size,
+             scaleTransform: scaleTransform,
+             outline: outline)
+
+        UIGraphicsEndPDFContext()
+
+        //if let url = try? "map\(WorldMap._maps).pdf".desktopURL() {
+            //WorldMap._maps += 1
+            //pdf.write(to: url, atomically: true)
+        //}
+
+        return pdf as Data
+     }
+
+    func drawImage(visits: [Int],
                    origin: CLLocationCoordinate2D,
                    size: CGSize,
                    scaleTransform: CGAffineTransform,
-                   outline: Bool) {
-        return
-        //let pdfData = NSMutableData()
-        //UIGraphicsBeginPDFContextToData(pdfData, aView.bounds , nil)
-
-        guard let path = try? "map\(WorldMap._maps).pdf".desktopURL().path else { return }
-        WorldMap._maps += 1
-        let bounds = CGRect(origin: .zero, size: size)
-        UIGraphicsBeginPDFContextToFile(path, bounds, [:])
-
-        UIGraphicsBeginPDFPage()
-
-        render(visits: visits,
-               origin: origin,
-               size: size,
-               scaleTransform: scaleTransform,
-               outline: outline)
-
-        UIGraphicsEndPDFContext()
-    }
-
-    -(UIImage *)renderPDFPageToImage:(int)pageNumber//NSOPERATION?
-    {
-     //you may not want to permanently (app life) retain doc ref
-
-     CGSize size = CGSizeMake(x,y);
-     UIGraphicsBeginImageContext(size);
-     CGContextRef context = UIGraphicsGetCurrentContext();
-
-     CGContextTranslateCTM(context, 0, 750);
-     CGContextScaleCTM(context, 1.0, -1.0);
-
-     CGPDFPageRef page;  //Move to class member
-
-        page = CGPDFDocumentGetPage (myDocumentRef, pageNumber);
-        CGContextDrawPDFPage (context, page);
-
-     UIImage * pdfImage = UIGraphicsGetImageFromCurrentImageContext();//autoreleased
-     UIGraphicsEndImageContext();
-     return pdfImage;
-
-    }
-    */
-
-    func renderImage(visits: [Int],
-                     origin: CLLocationCoordinate2D,
-                     size: CGSize,
-                     scaleTransform: CGAffineTransform,
-                     outline: Bool) -> UIImage? {
+                   outline: Bool) -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(size, false, 0)
 
-        render(visits: visits,
-               origin: origin,
-               size: size,
-               scaleTransform: scaleTransform,
-               outline: outline)
+        draw(visits: visits,
+             origin: origin,
+             size: size,
+             scaleTransform: scaleTransform,
+             outline: outline)
 
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -244,11 +245,11 @@ private extension WorldMap {
         return image
     }
 
-    func render(visits: [Int],
-                origin: CLLocationCoordinate2D,
-                size: CGSize,
-                scaleTransform: CGAffineTransform,
-                outline: Bool) {
+    func draw(visits: [Int],
+              origin: CLLocationCoordinate2D,
+              size: CGSize,
+              scaleTransform: CGAffineTransform,
+              outline: Bool) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
         context.setShouldAntialias(true)
         context.setLineWidth(0)

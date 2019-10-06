@@ -12,7 +12,7 @@ final class MyCountsVC: UIViewController {
     private let pagingVC = MyCountsPagingVC()
     private let pages = ListPagingItem.pages
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
@@ -20,9 +20,7 @@ final class MyCountsVC: UIViewController {
         configurePagesHolder()
     }
 
-    /// Actions to take after reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         report(screen: "My Counts")

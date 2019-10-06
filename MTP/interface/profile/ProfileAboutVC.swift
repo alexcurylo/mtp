@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import UIKit
+import PDFKit
 
 /// Display user details
 final class ProfileAboutVC: UITableViewController, UserInjectable {
@@ -9,7 +9,10 @@ final class ProfileAboutVC: UITableViewController, UserInjectable {
 
     // verified in requireOutlets
     @IBOutlet private var rankingLabel: UILabel!
-    @IBOutlet private var mapImageView: UIImageView!
+    @IBOutlet private var mapView: PDFView!
+    @IBOutlet private var mapButton: UIButton!
+    @IBOutlet private var mapHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private var mapWidthConstraint: NSLayoutConstraint!
     @IBOutlet private var visitedButton: GradientButton!
     @IBOutlet private var remainingButton: GradientButton!
     @IBOutlet private var bioTextView: UITextView!
@@ -29,56 +32,53 @@ final class ProfileAboutVC: UITableViewController, UserInjectable {
     private var userIdObserver: Observer?
 
     private var countsModel: UserCountsVC.Model?
+    private var mapModel: Data?
 
     private var mapWidth: CGFloat = 0
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
         requireInjection()
+
+        configure()
     }
 
     /// Refresh map on layout
    override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
-        if let inset = mapImageView.superview?.frame.origin.x {
-            let width = tableView.bounds.width - (inset * 2)
-            if mapWidth != width {
-                update(map: width)
-             }
-        }
+        let width = bioTextView.frame.width
+        if mapWidth != width {
+            update(map: width)
+         }
     }
 
-    /// Prepare for reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        update()
+        updateAll()
         expose()
     }
 
-    /// Actions to take after reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         report(screen: "Profile About")
     }
 
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
+    /// :nodoc:
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let profile = Segues.showUserCounts(segue: segue)?
+        if let target = Segues.showUserCounts(segue: segue)?
                               .destination,
-           let countsModel = countsModel {
-            profile.inject(model: countsModel)
+           let model = countsModel {
+            target.inject(model: model)
+        } else if let target = Segues.showVisitedMap(segue: segue)?
+                                     .destination,
+           let model = mapModel {
+            target.inject(model: model)
         }
     }
 }
@@ -104,18 +104,37 @@ extension ProfileAboutVC {
 
 private extension ProfileAboutVC {
 
-    func update() {
-        tableView.update {
-            update(map: mapWidth)
-            update(ranking: user)
-            update(airport: user)
-            update(links: user)
+    func configure() {
+        mapView.displaysPageBreaks = false
+        mapView.pageBreakMargins = .zero
+        mapView.displayBox = .mediaBox
+        mapView.backgroundColor = .white
+        mapView.autoScales = false
+        mapView.maxScaleFactor = 1.0
+        mapView.minScaleFactor = 1.0
+        mapView.disableShadow()
+    }
+
+    func updateVisible() {
+        if tableView.superview != nil {
+            tableView.update {
+                updateAll()
+            }
+        } else {
+            updateAll()
         }
+    }
+
+    func updateAll() {
+        update(map: mapWidth)
+        update(ranking: user)
+        update(airport: user)
+        update(links: user)
     }
 
     func observe() {
         locationsObserver = Checklist.locations.observer { [weak self] _ in
-            self?.update()
+            self?.updateVisible()
         }
         if isSelf {
             userObserver = data.observer(of: .user) { [weak self] _ in
@@ -130,7 +149,7 @@ private extension ProfileAboutVC {
                       let new = self.data.get(user: self.user.userId) else { return }
 
                 self.user = new
-                self.update()
+                self.updateVisible()
             }
         }
     }
@@ -138,22 +157,27 @@ private extension ProfileAboutVC {
     func reloadUser() {
         if let new = data.user {
             user = User(from: new)
-            update()
+            updateVisible()
         }
     }
 
     func reloadVisits() {
         visits = data.visited?.locations ?? []
-        update()
+        update(map: mapWidth, scores: true)
+        updateVisible()
     }
 
-    func update(map width: CGFloat) {
-        guard width > 0 else { return }
+    func update(map width: CGFloat,
+                scores: Bool = false) {
+        guard width > 0, (scores || width != mapWidth) else { return }
 
-        let image = data.worldMap.draw(visits: visits,
-                                       width: width)
-        mapWidth = image?.size.width ?? 0
-        mapImageView.image = image
+        mapWidth = width
+        mapWidthConstraint.constant = width
+        let (pdf, height) = data.worldMap.profile(map: visits,
+                                                  width: width)
+        mapHeightConstraint.constant = height
+        let document = PDFDocument(data: pdf)
+        mapView.document = document
     }
 
     func update(ranking user: User) {
@@ -233,6 +257,11 @@ private extension ProfileAboutVC {
         }
     }
 
+    @IBAction func mapTapped(_ sender: UIButton) {
+        mapModel = data.worldMap.full(map: visits)
+        performSegue(withIdentifier: Segues.showVisitedMap, sender: self)
+    }
+
     @IBAction func linkTapped(_ sender: GradientButton) {
         if let link = sender.accessibilityIdentifier,
            let url = URL(string: link) {
@@ -259,11 +288,12 @@ private extension ProfileAboutVC {
             visits = []
             net.loadScorecard(list: .locations,
                               user: id) { [weak self] _ in
-                                guard let self = self else { return }
-                                if let scorecard = self.data.get(scorecard: .locations, user: id) {
-                                    self.visits = Array(scorecard.visits)
-                                    self.update(map: self.mapWidth)
-                                }
+                guard let self = self else { return }
+                if let scorecard = self.data.get(scorecard: .locations,
+                                                 user: id) {
+                    self.visits = Array(scorecard.visits)
+                    self.update(map: self.mapWidth, scores: true)
+                }
             }
         }
     }
@@ -289,7 +319,10 @@ extension ProfileAboutVC: InterfaceBuildable {
         airportLabel.require()
         bioTextView.require()
         linksStack.require()
-        mapImageView.require()
+        mapButton.require()
+        mapHeightConstraint.require()
+        mapView.require()
+        mapWidthConstraint.require()
         rankingLabel.require()
         remainingButton.require()
         visitedButton.require()

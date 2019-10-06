@@ -13,7 +13,7 @@ final class MainTBC: UITabBarController {
 
     private static var current: MainTBC?
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjection()

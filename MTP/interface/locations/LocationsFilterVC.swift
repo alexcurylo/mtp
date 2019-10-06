@@ -20,7 +20,7 @@ final class LocationsFilterVC: UITableViewController {
     private var original = ChecklistFlags()
     private var current = ChecklistFlags()
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
@@ -34,9 +34,7 @@ final class LocationsFilterVC: UITableViewController {
         configure()
     }
 
-    /// Prepare for reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -44,19 +42,13 @@ final class LocationsFilterVC: UITableViewController {
         expose()
     }
 
-    /// Actions to take after reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         report(screen: "Locations Filter")
     }
 
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
+    /// :nodoc:
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let target = Segues.saveEdits(segue: segue)?
                               .destination {

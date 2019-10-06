@@ -21,14 +21,16 @@ struct StyleServiceImpl: StyleService { }
 /// Type encapsulating various styles to apply
 enum Styler {
 
+    /// Locations tab
+    case locations
     /// Login and Signup
     case login
-    /// Locations tab
-    case map
-    /// Anywhere else in app
+    /// Normal app screen
     case standard
     /// Plain system appearance
     case system
+    /// Visited map screen
+    case visited
 
     /// Set up default appearances
     func styleAppearance() {
@@ -38,11 +40,11 @@ enum Styler {
 
     /// Set up nav bar default appearance
     func styleAppearanceNavBar() {
-        UINavigationBar.styleAppearance(transparency: .transparent,
+        UINavigationBar.styleAppearance(transparency: transparency,
                                         titleFont: titleFont,
                                         titleColor: titleColor,
                                         itemColor: itemColor,
-                                        backgroundColor: nil)
+                                        barColor: barColor)
     }
 
     /// Set up search bar default appearance
@@ -50,33 +52,58 @@ enum Styler {
         UISearchBar.styleAppearance()
      }
 
+    /// Bar transparency
+    var transparency: Transparency {
+        switch self {
+        case .locations,
+             .login,
+             .standard,
+             .system: return .transparent
+        case .visited: return .transparent
+        }
+    }
+
+    /// Bar color
+    var barColor: UIColor? {
+        switch self {
+        case .locations,
+             .login,
+             .standard,
+             .system: return nil
+        case .visited: return nil
+        }
+    }
+
     /// Item color accessor
     var itemColor: UIColor {
         switch self {
+        case .locations: return .azureRadiance
         case .login: return .azureRadiance
-        case .map: return .azureRadiance
         case .standard: return .white
         case .system: return .azureRadiance
+        case .visited: return .white
         }
     }
 
     /// Title color accessor
     var titleColor: UIColor {
         switch self {
+        case .locations: return .azureRadiance
         case .login: return .regalBlue
-        case .map: return .azureRadiance
         case .standard: return .white
         case .system: return .black
+        case .visited: return .white
        }
     }
 
     /// Title font accessor
     var titleFont: UIFont {
         switch self {
+        case .locations: return Avenir.heavy.of(size: 18)
         case .login: return Avenir.heavy.of(size: 18)
-        case .map: return Avenir.heavy.of(size: 18)
         case .standard: return Avenir.black.of(size: 18)
         case .system: return Avenir.medium.of(size: 18)
+        case .visited: return Avenir.black.of(size: 18)
        }
     }
 }

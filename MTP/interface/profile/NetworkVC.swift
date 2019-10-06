@@ -20,7 +20,7 @@ final class NetworkVC: UITableViewController {
     private var models: [Task] = []
     private var requestsObserver: Observer?
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
@@ -41,9 +41,7 @@ final class NetworkVC: UITableViewController {
         observe()
     }
 
-    /// Prepare for reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -51,9 +49,7 @@ final class NetworkVC: UITableViewController {
         expose()
     }
 
-    /// Actions to take after reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         report(screen: "Network")

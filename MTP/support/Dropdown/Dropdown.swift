@@ -15,7 +15,6 @@ import UIKit
 // swiftlint:disable file_length
 
 typealias Index = Int
-typealias Closure = () -> Void
 typealias SelectionClosure = (Index, String) -> Void
 typealias MultiSelectionClosure = ([Index], [String]) -> Void
 typealias ConfigurationClosure = (Index, String) -> String
@@ -979,7 +978,7 @@ extension Dropdown {
     and `cellConfiguration` implicitly calls `reloadAllComponents()`.
     */
     func reloadAllComponents() {
-        DispatchQueue.executeOnMainThread {
+        DispatchQueue.toMain {
             self.tableView.reloadData()
             self.setNeedsUpdateConstraints()
         }
@@ -1215,14 +1214,4 @@ extension Dropdown {
     fileprivate func keyboardUpdate() {
         self.setNeedsUpdateConstraints()
 	}
-}
-
-private extension DispatchQueue {
-    static func executeOnMainThread(_ closure: @escaping Closure) {
-        if Thread.isMainThread {
-            closure()
-        } else {
-            main.async(execute: closure)
-        }
-    }
 }

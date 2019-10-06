@@ -17,7 +17,7 @@ final class NukeIntegration: NSObject, AXNetworkIntegrationProtocol {
 
     func loadPhoto(_ photo: AXPhotoProtocol) {
         if photo.imageData != nil || photo.image != nil {
-            AXDispatchUtils.executeInBackground { [weak self] in
+            DispatchQueue.toBackground { [weak self] in
                 guard let self = self else { return }
                 self.delegate?.networkIntegration(self, loadDidFinishWith: photo)
             }
@@ -27,7 +27,7 @@ final class NukeIntegration: NSObject, AXNetworkIntegrationProtocol {
         guard let url = photo.url else { return }
 
         let progress: ImageTask.ProgressHandler = { [weak self] _, receivedSize, totalSize in
-            AXDispatchUtils.executeInBackground { [weak self] in
+            DispatchQueue.toBackground { [weak self] in
                 guard let self = self else { return }
                 self.delegate?.networkIntegration(self,
                                                   didUpdateLoadingProgress: CGFloat(receivedSize) / CGFloat(totalSize),
@@ -47,7 +47,7 @@ final class NukeIntegration: NSObject, AXNetworkIntegrationProtocol {
                 } else {
                     photo.image = response.image
                 }
-                AXDispatchUtils.executeInBackground { [weak self] in
+                DispatchQueue.toBackground { [weak self] in
                     guard let self = self else { return }
                     self.delegate?.networkIntegration(self, loadDidFinishWith: photo)
                 }
@@ -57,7 +57,7 @@ final class NukeIntegration: NSObject, AXNetworkIntegrationProtocol {
                     code: self.AXNetworkIntegrationFailedToLoadErrorCode,
                     userInfo: nil
                 )
-                AXDispatchUtils.executeInBackground { [weak self] in
+                DispatchQueue.toBackground { [weak self] in
                     guard let self = self else { return }
                     self.delegate?.networkIntegration(self, loadDidFailWith: error, for: photo)
                 }
@@ -83,16 +83,5 @@ final class NukeIntegration: NSObject, AXNetworkIntegrationProtocol {
         }
 
         self.retrieveImageTasks.removeAllObjects()
-    }
-}
-
-private enum AXDispatchUtils {
-
-    static func executeInBackground(_ block: @escaping () -> Void) {
-        if Thread.isMainThread {
-            DispatchQueue.global().async(execute: block)
-        } else {
-            block()
-        }
     }
 }

@@ -48,7 +48,7 @@ final class EditProfileVC: UITableViewController {
                            L.female(),
                            L.preferNot()]
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
@@ -56,9 +56,7 @@ final class EditProfileVC: UITableViewController {
         configure()
     }
 
-    /// Prepare for reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -66,9 +64,7 @@ final class EditProfileVC: UITableViewController {
         expose()
     }
 
-    /// Actions to take after reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         report(screen: "Edit Profile")
@@ -90,11 +86,7 @@ final class EditProfileVC: UITableViewController {
         addLinkButton.round(corners: Layout.bottomCorners)
     }
 
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
+    /// :nodoc:
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         view.endEditing(true)
         if let target = Segues.showCountry(segue: segue)?

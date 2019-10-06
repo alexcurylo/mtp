@@ -114,7 +114,7 @@ class PhotosVC: UICollectionViewController {
         configure()
     }
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
 

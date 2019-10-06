@@ -34,7 +34,7 @@ final class UserCountsVC: UIViewController {
     private var list: Checklist = .locations
     private var selected: Tab = .visited
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
@@ -43,9 +43,7 @@ final class UserCountsVC: UIViewController {
         setupPagesHolder()
     }
 
-    /// Prepare for reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -53,9 +51,7 @@ final class UserCountsVC: UIViewController {
         expose()
     }
 
-    /// Actions to take after reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         report(screen: "User Counts")

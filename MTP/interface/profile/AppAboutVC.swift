@@ -10,7 +10,7 @@ final class AppAboutVC: UIViewController {
     // verified in requireOutlets
     @IBOutlet private var aboutTextView: TopLoadingTextView!
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
@@ -18,9 +18,7 @@ final class AppAboutVC: UIViewController {
         configure()
     }
 
-    /// Prepare for reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -28,9 +26,7 @@ final class AppAboutVC: UIViewController {
         expose()
     }
 
-    /// Actions to take after reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         report(screen: "App About")

@@ -44,7 +44,7 @@ class LocationsVC: UIViewController {
         loc.remove(tracker: self)
     }
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
@@ -59,7 +59,7 @@ class LocationsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        show(navBar: animated, style: .map)
+        show(navBar: animated, style: .locations)
         expose()
     }
 

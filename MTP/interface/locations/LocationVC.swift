@@ -20,7 +20,7 @@ final class LocationVC: UIViewController {
     private var mappable: Mappable!
     // swiftlint:disable:previous implicitly_unwrapped_optional
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()

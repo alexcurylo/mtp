@@ -32,7 +32,7 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
         return .user
     }
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjection()

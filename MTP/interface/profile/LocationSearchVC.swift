@@ -59,7 +59,7 @@ final class LocationSearchVC: RealmSearchViewController {
         configureSearch()
     }
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -70,9 +70,7 @@ final class LocationSearchVC: RealmSearchViewController {
         tableView.rowHeight = UITableView.automaticDimension
     }
 
-    /// Prepare for reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 

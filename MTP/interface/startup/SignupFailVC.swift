@@ -18,7 +18,7 @@ final class SignupFailVC: UIViewController {
     private var errorMessage: String!
     // swiftlint:disable:previous implicitly_unwrapped_optional
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
@@ -29,9 +29,7 @@ final class SignupFailVC: UIViewController {
         }
     }
 
-    /// Prepare for reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -40,9 +38,7 @@ final class SignupFailVC: UIViewController {
         expose()
     }
 
-    /// Actions to take after reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         report(screen: "Sign Up Fail")
@@ -50,11 +46,7 @@ final class SignupFailVC: UIViewController {
         revealAlert()
     }
 
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
+    /// :nodoc:
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Segues.dismissSignupFail.identifier {
             presentingViewController?.show(navBar: true)

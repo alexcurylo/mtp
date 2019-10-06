@@ -35,7 +35,7 @@ final class AddPostVC: UIViewController {
     private let minCharacters = 140
     private var payload = PostPayload()
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
