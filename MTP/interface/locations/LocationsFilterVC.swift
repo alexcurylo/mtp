@@ -16,6 +16,7 @@ final class LocationsFilterVC: UITableViewController {
     @IBOutlet private var golfCoursesSwitch: UISwitch!
     @IBOutlet private var diveSitesSwitch: UISwitch!
     @IBOutlet private var restaurantsSwitch: UISwitch!
+    @IBOutlet private var hotelsSwitch: UISwitch!
 
     private var original = ChecklistFlags()
     private var current = ChecklistFlags()
@@ -74,6 +75,7 @@ private extension LocationsFilterVC {
         golfCoursesSwitch.isOn = filter.golfcourses
         diveSitesSwitch.isOn = filter.divesites
         restaurantsSwitch.isOn = filter.restaurants
+        hotelsSwitch.isOn = filter.hotels
 
         saveButton.isEnabled = false
     }
@@ -119,7 +121,12 @@ private extension LocationsFilterVC {
     @IBAction func switchRestaurants(_ sender: UISwitch) {
         current.restaurants.toggle()
         updateSave()
-   }
+    }
+
+    @IBAction func switchHotels(_ sender: UISwitch) {
+        current.hotels.toggle()
+        updateSave()
+    }
 }
 
 // MARK: - Exposing
@@ -144,6 +151,7 @@ extension LocationsFilterVC: InterfaceBuildable {
         golfCoursesSwitch.require()
         locationsSwitch.require()
         restaurantsSwitch.require()
+        hotelsSwitch.require()
         saveButton.require()
         whsSwitch.require()
     }

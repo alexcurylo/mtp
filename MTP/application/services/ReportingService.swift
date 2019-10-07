@@ -210,6 +210,8 @@ private extension MTP {
             return "load_map"
         case .golfcourse:
             return "load_golfcourses"
+        case .hotels:
+            return "load_hotels"
         case .location:
             return "load_locations"
         case .locationPhotos: // (let location):

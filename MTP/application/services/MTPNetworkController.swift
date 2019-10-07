@@ -61,6 +61,8 @@ enum MTP: Hashable {
     case geoJson(map: Map)
     /// golfcourse
     case golfcourse
+    /// hotels
+    case hotels
     /// location
     case location
     /// locationPhotos(location: Int)
@@ -150,6 +152,8 @@ extension MTP: TargetType {
             return "geojson-files/\(map.rawValue)-map"
         case .golfcourse:
             return "golfcourse"
+        case .hotels:
+            return "hotels"
         case .location:
             return "location"
         case .locationPhotos(let location):
@@ -215,6 +219,7 @@ extension MTP: TargetType {
              .faq,
              .geoJson,
              .golfcourse,
+             .hotels,
              .location,
              .locationPhotos,
              .locationPosts,
@@ -327,6 +332,7 @@ extension MTP: TargetType {
              .faq,
              .geoJson,
              .golfcourse,
+             .hotels, // add ?with=location for location info
              .location,
              .locationPhotos, // &page=1&orderBy=-created_at&limit=6
              .restaurant,
@@ -490,6 +496,7 @@ extension MTP: AccessTokenAuthorizable {
              .faq,
              .geoJson,
              .golfcourse,
+             .hotels,
              .location,
              .locationPhotos,
              .locationPosts,
@@ -757,6 +764,46 @@ class MTPNetworkController: ServiceProvider {
                 self.data.set(golfcourses: golfcourses)
                 self.report(success: endpoint)
                 return then(.success(golfcourses))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
+        provider.request(endpoint) { result in
+            endpoint.markResponded()
+            switch result {
+            case .success(let response):
+                success(response)
+            case .failure(let error):
+                then(.failure(self.problem(with: endpoint, from: error)))
+            }
+        }
+    }
+
+    /// Load hotels
+    func loadHotels(then: @escaping NetworkCompletion<[HotelJSON]> = { _ in }) {
+        let provider = MTPProvider()
+        let endpoint = MTP.hotels
+        guard !endpoint.isThrottled else {
+            return then(.failure(.throttle))
+        }
+
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let hotels = try response.map([HotelJSON].self,
+                                              using: JSONDecoder.mtp)
+                self.data.set(hotels: hotels)
+                self.report(success: endpoint)
+                return then(.success(hotels))
             } catch let error as NetworkError {
                 problem = error
             } catch {

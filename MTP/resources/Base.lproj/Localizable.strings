@@ -128,6 +128,7 @@
 "golfcourse" = "Golf Course";
 "divesite" = "Dive Site";
 "restaurant" = "Restaurant";
+"hotel" = "Hotel";
 
 "visitors" = "MTP Visitors: %@";
 "kilometers" = "%@ km";
@@ -200,6 +201,7 @@
 "golfcourses" = "Golf Courses";
 "divesites" = "Dive Sites";
 "restaurants" = "Restaurants";
+"hotels" = "Top Hotels";
 
 "myRanking" = "My Ranking:";
 "myScore" = "My Score:";

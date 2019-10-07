@@ -19,6 +19,8 @@ enum DataServiceChange: String {
     case divesites
     /// golfcourses
     case golfcourses
+    /// hotels
+    case hotels
     /// locationPhotos
     case locationPhotos
     /// locationPosts
@@ -125,6 +127,8 @@ extension Checklist {
             return .divesites
         case .golfcourses:
             return .golfcourses
+        case .hotels:
+            return .hotels
         case .locations:
             return .locations
         case .restaurants:
