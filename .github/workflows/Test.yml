@@ -1,5 +1,3 @@
-# https://medium.com/rosberryapps/github-actions-ci-for-swift-projects-c129baceed1a
-
 name: Test
 on: [push]
 
@@ -12,7 +10,7 @@ jobs:
         uses: actions/checkout@v1
       - name: Test
         run: |
-          xcodebuild test -quiet -sdk iphonesimulator13.0 -destination 'platform=iOS Simulator,name=iPhone 8' -workspace MTP.xcworkspace -scheme MTP -configuration Debug -derivedDataPath build -enableCodeCoverage YES CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO ARCHS=x86_64 VALID_ARCHS=x86_64
+          xcodebuild test -sdk iphonesimulator13.0 -destination 'platform=iOS Simulator,name=iPhone 8' -workspace MTP.xcworkspace -scheme MTP -configuration Debug -derivedDataPath build -enableCodeCoverage YES CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO ARCHS=x86_64 VALID_ARCHS=x86_64
           bash <(bundle exec slather)
         env: 
           DEVELOPER_DIR: /Applications/Xcode_11.app/Contents/Developer
