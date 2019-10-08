@@ -2873,7 +2873,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mint run swiftlint\n";
+			shellScript = "if [ -x \"$(command -v mint)\" ]; then\n  mint run swiftlint\nelse\n  echo 'skipping swiftlint, mint is not installed - are we on CI?' >&2\nfi\n";
 		};
 		FA3E366D20DFBC61002AF4EE /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2901,7 +2901,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mint run swiftlint\n";
+			shellScript = "if [ -x \"$(command -v mint)\" ]; then\n  mint run swiftlint\nelse\n  echo 'skipping swiftlint, mint is not installed - are we on CI?' >&2\nfi\n";
 		};
 		FA81361520E8FE9700313AB9 /* Generate R.generated.swift */ = {
 			isa = PBXShellScriptBuildPhase;
