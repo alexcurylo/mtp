@@ -48,6 +48,7 @@ final class RealmDataControllerTests: MTPTestCase {
         XCTAssertEqual(restaurants.count, 704)
         XCTAssertEqual(uncountries.count, 193)
         XCTAssertEqual(whss.count, 2_468)
+        continueAfterFailure = false
         XCTAssertEqual(lists.count, Checklist.allCases.count)
         let thresholds = RealmDataControllerTests.thresholds
         for (index, list) in Checklist.allCases.enumerated() {

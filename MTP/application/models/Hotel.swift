@@ -41,7 +41,7 @@ extension HotelJSON: CustomDebugStringConvertible {
         featuredImg: \(String(describing: featuredImg))
         id: \(id)
         lat: \(lat)
-        locationId: \(locationId)
+        locationId: \(String(describing: locationId))
         long: \(long)
         phone: \(phone)
         rank: \(rank)
