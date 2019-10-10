@@ -1,7 +1,8 @@
 # [mtp](https://github.com/alexcurylo/mtp)
 [![Travis](https://travis-ci.org/alexcurylo/mtp.svg?branch=develop)](https://travis-ci.org/alexcurylo/mtp)
+[![Test](https://github.com/alexcurylo/mtp/workflows/Test/badge.svg)](https://github.com/alexcurylo/mtp/actions?workflow=Test)
 [![Issues](https://img.shields.io/github/issues/alexcurylo/mtp.svg)](https://github.com/alexcurylo/mtp/issues)
-[![Xcode](https://img.shields.io/badge/Xcode-11-blue.svg)](https://developer.apple.com/xcode)
+[![Xcode](https://img.shields.io/badge/Xcode-11.1-blue.svg)](https://developer.apple.com/xcode)
 [![Swift](https://img.shields.io/badge/Swift-5.1-orange.svg)](https://swift.org)
 [![MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -25,12 +26,12 @@ Table of Contents
 Purpose
 -------
 
-The [Most Traveled People](https://mtp.travel) iOS app.
+The [Most Traveled People](https://mtp.travel) extreme travel club's [iOS app](https://apps.apple.com/app/id1463245184).
 
 Requirements
 ------------
 
-- Xcode 11 or later
+- Xcode 11.1 or later
 - iOS 11.0 or later
 
 ### Tools:
@@ -41,6 +42,7 @@ Requirements
 - [Coveralls](https://coveralls.io/github/alexcurylo/mtp?branch=develop) for test coverage statistics
 - [Fastlane](https://fastlane.tools) for release management
 - [Firebase](https://firebase.google.com/) for analytics and crash reports
+- [Github Actions](https://github.com/alexcurylo/mtp/actions?workflow=Test) for CI testing
 - [Gitter](https://gitter.im/alexcurylo/mtp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) for chat
 - [Jazzy](https://github.com/realm/jazzy) for generating documentation
 - [Mint](https://github.com/yonaskolb/mint) for tool dependency management
@@ -48,7 +50,7 @@ Requirements
 - [SwiftLint](https://github.com/realm/SwiftLint) for opinionated coding style enforcement
 - [SwiftMockGeneratorForXcode](https://github.com/seanhenry/SwiftMockGeneratorForXcode) for generating mocks
 - [SwiftyBeaver](https://github.com/SwiftyBeaver/SwiftyBeaver) for logging
-- [Travis-CI](https://travis-ci.org/alexcurylo/mtp) for test builds
+- [Travis-CI](https://travis-ci.org/alexcurylo/mtp) for CI testing
 
 ### Libraries:
 
