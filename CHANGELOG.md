@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [Version 1.2.0, Build 645] - 2019-10-10
+
 ### Added
 - Support for Top Hotels checklist
 - Expandable visited map viewable when tapped
