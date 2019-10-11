@@ -1,5 +1,4 @@
 # [mtp](https://github.com/alexcurylo/mtp)
-[![Travis](https://travis-ci.org/alexcurylo/mtp.svg?branch=develop)](https://travis-ci.org/alexcurylo/mtp)
 [![CI](https://github.com/alexcurylo/mtp/workflows/CI/badge.svg)](https://github.com/alexcurylo/mtp/actions?workflow=CI)
 [![Issues](https://img.shields.io/github/issues/alexcurylo/mtp.svg)](https://github.com/alexcurylo/mtp/issues)
 [![Xcode](https://img.shields.io/badge/Xcode-11.1-blue.svg)](https://developer.apple.com/xcode)
@@ -40,18 +39,16 @@ Requirements
 - [Bundler](https://bundler.io/) for Ruby dependency management
 - [CocoaPods](https://cocoapods.org/) for code dependency management
 - [Codebeat](https://codebeat.co/projects/github-com-alexcurylo-mtp-develop) for automated code review
-- [Coveralls](https://coveralls.io/github/alexcurylo/mtp?branch=develop) for test coverage statistics
+- [Codecov](https://codecov.io/gh/alexcurylo/mtp) for test coverage statistics
 - [Fastlane](https://fastlane.tools) for release management
 - [Firebase](https://firebase.google.com/) for analytics and crash reports
-- [Github Actions](https://github.com/alexcurylo/mtp/actions?workflow=Test) for CI testing
+- [Github Actions](https://github.com/alexcurylo/mtp/actions?workflow=CI) for CI testing
 - [Gitter](https://gitter.im/alexcurylo/mtp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) for chat
 - [Jazzy](https://github.com/realm/jazzy) for generating documentation
 - [Mint](https://github.com/yonaskolb/mint) for tool dependency management
-- [Slather](https://github.com/SlatherOrg/slather) for test coverage reports
 - [SwiftLint](https://github.com/realm/SwiftLint) for opinionated coding style enforcement
 - [SwiftMockGeneratorForXcode](https://github.com/seanhenry/SwiftMockGeneratorForXcode) for generating mocks
 - [SwiftyBeaver](https://github.com/SwiftyBeaver/SwiftyBeaver) for logging
-- [Travis-CI](https://travis-ci.org/alexcurylo/mtp) for CI testing
 
 ### Libraries:
 
