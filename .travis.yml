@@ -56,4 +56,4 @@ script:
     | xcpretty -f `xcpretty-travis-formatter`
 
 after_success:
- - bundle exec slather
+ - bash <(curl -s https://codecov.io/bash)

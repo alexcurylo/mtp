@@ -621,6 +621,7 @@
 		8C012800223208CC00EA2095 /* DataServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataServiceSpy.swift; sourceTree = "<group>"; };
 		8C012802223208FB00EA2095 /* NetworkServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceSpy.swift; sourceTree = "<group>"; };
 		8C0F242A22432076005BD5DC /* UserCountsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCountsVC.swift; sourceTree = "<group>"; };
+		8C11C4842350059E00431256 /* codecov.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = codecov.yml; sourceTree = "<group>"; };
 		8C177A0622FA671700E4433C /* MenuAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuAction.swift; sourceTree = "<group>"; };
 		8C1A267D22AE019400DAFC7B /* SearchResultJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultJSON.swift; sourceTree = "<group>"; };
 		8C25468C230F85A5003A1B99 /* XCUIElement+Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+Coordinate.swift"; sourceTree = "<group>"; };
@@ -1151,7 +1152,7 @@
 		FAE1F118214354A80002CAB2 /* Avenir.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Avenir.swift; sourceTree = "<group>"; };
 		FAE1F11B21437F860002CAB2 /* String+Assert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Assert.swift"; sourceTree = "<group>"; };
 		FAE1F11D2143B29F0002CAB2 /* LocationTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTracker.swift; sourceTree = "<group>"; };
-		FAE265FD2349DC200018FE72 /* Test.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; name = Test.yml; path = .github/workflows/Test.yml; sourceTree = "<group>"; };
+		FAE265FD2349DC200018FE72 /* CI.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; name = CI.yml; path = .github/workflows/CI.yml; sourceTree = "<group>"; };
 		FAE265FE2349ED170018FE72 /* Hotel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hotel.swift; sourceTree = "<group>"; };
 		FAEB87A0227ED26300858898 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		FAEF787A2312266A0086D77E /* FacebookButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookButtonTests.swift; sourceTree = "<group>"; };
@@ -2241,6 +2242,8 @@
 				FAB53F8520DFCC03007A80A7 /* .travis.yml */,
 				FA4B7FE121E38BF3006AF8E2 /* apple-app-site-association */,
 				FAD0DA7622DB29DD0042C328 /* CHANGELOG.md */,
+				FAE265FD2349DC200018FE72 /* CI.yml */,
+				8C11C4842350059E00431256 /* codecov.yml */,
 				8CCA21F622B381A600C1D13B /* fastlane */,
 				FA4F1C5E20DFA74500B8A1ED /* Gemfile */,
 				FAC749A42335AAAE007B1EF1 /* Mintfile */,
@@ -2251,7 +2254,6 @@
 				FA3E366A20DFACCD002AF4EE /* Podfile */,
 				FA9A71E120F1DD6C005F6A57 /* Podfile.lock */,
 				FA4F1C5C20DFA67700B8A1ED /* README.md */,
-				FAE265FD2349DC200018FE72 /* Test.yml */,
 				FAF1853520FA16CE00CC5D83 /* TODO.md */,
 				FAF122F6215652AE0099B772 /* xccconfig */,
 			);
