@@ -159,6 +159,14 @@ final class DataServiceSpy: DataService {
         invokedGolfcoursesGetterCount += 1
         return stubbedGolfcourses
     }
+    var invokedHotelsGetter = false
+    var invokedHotelsGetterCount = 0
+    var stubbedHotels: [Hotel]! = []
+    var hotels: [Hotel] {
+        invokedHotelsGetter = true
+        invokedHotelsGetterCount += 1
+        return stubbedHotels
+    }
     var invokedLastRankingsQuerySetter = false
     var invokedLastRankingsQuerySetterCount = 0
     var invokedLastRankingsQuery: RankingsQuery?
@@ -760,6 +768,16 @@ final class DataServiceSpy: DataService {
         invokedSetGolfcoursesCount += 1
         invokedSetGolfcoursesParameters = (golfcourses, ())
         invokedSetGolfcoursesParametersList.append((golfcourses, ()))
+    }
+    var invokedSetHotels = false
+    var invokedSetHotelsCount = 0
+    var invokedSetHotelsParameters: (hotels: [HotelJSON], Void)?
+    var invokedSetHotelsParametersList = [(hotels: [HotelJSON], Void)]()
+    func set(hotels: [HotelJSON]) {
+        invokedSetHotels = true
+        invokedSetHotelsCount += 1
+        invokedSetHotelsParameters = (hotels, ())
+        invokedSetHotelsParametersList.append((hotels, ()))
     }
     var invokedSetItems = false
     var invokedSetItemsCount = 0

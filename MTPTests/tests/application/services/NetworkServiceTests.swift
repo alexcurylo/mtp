@@ -65,6 +65,7 @@ final class NetworkServiceTests: MTPTestCase {
         //XCTAssertTrue(spy.invokedLoadBeaches)
         //XCTAssertTrue(spy.invokedLoadDiveSites)
         //XCTAssertTrue(spy.invokedLoadGolfCourses)
+        //XCTAssertTrue(spy.invokedLoadHotels)
         //XCTAssertTrue(spy.invokedLoadRestaurants)
         //XCTAssertTrue(spy.invokedLoadUNCountries)
         //XCTAssertTrue(spy.invokedLoadWHS)

@@ -110,6 +110,26 @@ final class RealmDataController: ServiceProvider {
         }
     }
 
+    /// Golf courses
+    var hotels: [Hotel] {
+        let results = realm.objects(Hotel.self)
+        return Array(results)
+    }
+
+    /// Set golf courses
+    ///
+    /// - Parameter hotels: API results
+    func set(hotels: [HotelJSON]) {
+        do {
+            let objects = hotels.compactMap { Hotel(from: $0, realm: self) }
+            try realm.write {
+                realm.add(objects, update: .modified)
+            }
+        } catch {
+            log.error("set hotels: \(error)")
+        }
+    }
+
     /// Locations
     var locations: [Location] {
         let results = realm.objects(Location.self)
@@ -639,7 +659,7 @@ private extension RealmDataController {
     func configure() {
         // swiftlint:disable:next trailing_closure
         let config = Realm.Configuration(
-            schemaVersion: 3,
+            schemaVersion: 4,
             migrationBlock: { migration, oldSchemaVersion in
                 self.log.verbose("migrating database \(oldSchemaVersion) to 2")
                 switch oldSchemaVersion {
@@ -653,6 +673,10 @@ private extension RealmDataController {
                     fallthrough
                 case 2:
                     migration.migrate2to3()
+                    // swiftlint:disable:next fallthrough
+                    fallthrough
+                case 3:
+                    migration.migrate3to4()
                     // swiftlint:disable:next fallthrough
                     fallthrough
                 default:
@@ -751,6 +775,16 @@ private extension Migration {
         enumerateObjects(ofType: Mappable.className()) { _, new in
             // set to 0 by default!
             new?["visible"] = true
+        }
+    }
+
+    func migrate3to4() {
+        // apply new defaults: https://github.com/realm/realm-cocoa/issues/1793
+        enumerateObjects(ofType: User.className()) { _, new in
+            new?["orderHotels"] = 0
+            new?["orderTop100Restaurants"] = 0
+            new?["visitHotels"] = 0
+            new?["visitTop100Restaurants"] = 0
         }
     }
 }

@@ -307,6 +307,50 @@ private let settingsString = """
         "max": 9999999999,
         "$$hashKey": "object:123"
         }
+        ],
+        "hotels": [
+          {
+            "name": "Starving",
+            "min": 1,
+            "max": 24,
+            "$$hashKey": "object:118"
+          },
+          {
+            "name": "Hungry",
+            "min": 25,
+            "max": 49,
+            "$$hashKey": "object:119"
+          },
+          {
+            "name": "Epicure",
+            "min": 50,
+            "max": 74,
+            "$$hashKey": "object:120"
+          },
+          {
+            "name": "Gourmand",
+            "min": 75,
+            "max": 99,
+            "$$hashKey": "object:121"
+          },
+          {
+            "name": "Senior Critic",
+            "min": 100,
+            "max": 199,
+            "$$hashKey": "object:122"
+          },
+          {
+            "name": "Master Taster",
+            "min": 200,
+            "max": 299,
+            "$$hashKey": "object:123"
+          },
+          {
+            "name": "Dining Hall of Fame",
+            "min": 300,
+            "max": 9999999999,
+            "$$hashKey": "object:125"
+          }
         ]
     }
 }

@@ -262,6 +262,7 @@ class NetworkServiceImpl: NetworkService {
         add { done in self.mtp.loadBeaches { _ in done() } }
         add { done in self.mtp.loadDiveSites { _ in done() } }
         add { done in self.mtp.loadGolfCourses { _ in done() } }
+        add { done in self.mtp.loadHotels { _ in done() } }
         add { done in self.mtp.loadRestaurants { _ in done() } }
         add { done in self.mtp.loadUNCountries { _ in done() } }
         add { done in self.mtp.loadWHS { _ in done() } }

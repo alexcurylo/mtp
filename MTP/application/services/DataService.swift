@@ -31,6 +31,8 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var etags: [String: String] { get set }
     /// Golf courses
     var golfcourses: [GolfCourse] { get }
+    /// Hotel
+    var hotels: [Hotel] { get }
     /// Rankings filter
     var lastRankingsQuery: RankingsQuery { get set }
     /// Locations
@@ -197,6 +199,10 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     ///
     /// - Parameter golfcourses: API results
     func set(golfcourses: [PlaceJSON])
+    /// Set hotels
+    ///
+    /// - Parameter hotels: API results
+    func set(hotels: [HotelJSON])
     /// Set places visited state
     ///
     /// - Parameters:
@@ -527,12 +533,23 @@ class DataServiceImpl: DataService {
         notify(change: .golfcourses)
     }
 
+    /// Hotels
+    var hotels: [Hotel] {
+        return realm.hotels
+    }
+
+    /// Set hotels
+    ///
+    /// - Parameter hotels: API results
+    func set(hotels: [HotelJSON]) {
+        realm.set(hotels: hotels)
+        notify(change: .hotels)
+    }
+
     /// Rankings filter
     var lastRankingsQuery: RankingsQuery {
         get { return defaults.lastRankingsQuery ?? RankingsQuery() }
-        set {
-            defaults.lastRankingsQuery = newValue
-        }
+        set { defaults.lastRankingsQuery = newValue }
     }
 
     /// Locations

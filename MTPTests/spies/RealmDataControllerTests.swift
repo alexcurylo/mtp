@@ -12,7 +12,8 @@ final class RealmDataControllerTests: MTPTestCase {
         4, // .beaches
         5, // .golfcourses
         5, // .divesites
-        7 // .restaurants
+        7, // .restaurants
+        7 // .hotels
     ]
 
     func testSeed() {
@@ -24,6 +25,7 @@ final class RealmDataControllerTests: MTPTestCase {
         let countries = sut.countries
         let divesites = sut.divesites
         let golfcourses = sut.golfcourses
+        let hotels = sut.hotels
         let locations = sut.locations
         let mappables = sut.mappables(list: nil)
         let restaurants = sut.restaurants
@@ -40,11 +42,13 @@ final class RealmDataControllerTests: MTPTestCase {
         XCTAssertEqual(countries.count, 206)
         XCTAssertEqual(divesites.count, 99)
         XCTAssertEqual(golfcourses.count, 100)
+        XCTAssertEqual(hotels.count, 306)
         XCTAssertEqual(locations.count, 892)
-        XCTAssertEqual(mappables.count, 4_334)
+        XCTAssertEqual(mappables.count, 4_715)
         XCTAssertEqual(restaurants.count, 704)
         XCTAssertEqual(uncountries.count, 193)
-        XCTAssertEqual(whss.count, 2_381)
+        XCTAssertEqual(whss.count, 2_456)
+        continueAfterFailure = false
         XCTAssertEqual(lists.count, Checklist.allCases.count)
         let thresholds = RealmDataControllerTests.thresholds
         for (index, list) in Checklist.allCases.enumerated() {

@@ -1,0 +1,17 @@
+name: CI
+on: [push]
+
+jobs:
+  test:
+    name: CI
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Test
+        run: |
+          xcodebuild test -quiet -sdk iphonesimulator13.0 -destination 'platform=iOS Simulator,name=iPhone 8' -workspace MTP.xcworkspace -scheme MTP -configuration Debug -derivedDataPath build -enableCodeCoverage YES CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO ARCHS=x86_64 VALID_ARCHS=x86_64
+          bash <(curl -s https://codecov.io/bash) -J '^MTP$' -D build/derivedData
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          DEVELOPER_DIR: /Applications/Xcode_11.app/Contents/Developer
