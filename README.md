@@ -1,15 +1,10 @@
 # [mtp](https://github.com/alexcurylo/mtp)
 [![CI](https://github.com/alexcurylo/mtp/workflows/CI/badge.svg)](https://github.com/alexcurylo/mtp/actions?workflow=CI)
-[![Issues](https://img.shields.io/github/issues/alexcurylo/mtp.svg)](https://github.com/alexcurylo/mtp/issues)
-[![Xcode](https://img.shields.io/badge/Xcode-11.1-blue.svg)](https://developer.apple.com/xcode)
-[![Swift](https://img.shields.io/badge/Swift-5.1-orange.svg)](https://swift.org)
-[![MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
+[![coverage](https://codecov.io/gh/alexcurylo/mtp/branch/develop/graphs/badge.svg)](https://codecov.io/gh/alexcurylo/mtp)
 [![codebeat](https://codebeat.co/badges/321a44b1-ff7b-48fd-b8e2-42a5a8d19568)](https://codebeat.co/projects/github-com-alexcurylo-mtp-develop)
-[![codecov.io](https://codecov.io/gh/alexcurylo/mtp/branch/develop/graphs/badge.svg)](https://codecov.io/gh/alexcurylo/mtp)
-[![coverage](https://coveralls.io/repos/github/alexcurylo/mtp/badge.svg?branch=develop)](https://coveralls.io/github/alexcurylo/mtp?branch=develop)
+[![issues](https://img.shields.io/github/issues/alexcurylo/mtp.svg)](https://github.com/alexcurylo/mtp/issues)
 [![docs](https://alexcurylo.github.io/mtp/badge.svg)](https://alexcurylo.github.io/mtp)
-[![Join the chat at https://gitter.im/alexcurylo/mtp](https://badges.gitter.im/alexcurylo/mtp.svg)](https://gitter.im/alexcurylo/mtp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
+[![chat](https://badges.gitter.im/alexcurylo/mtp.svg)](https://gitter.im/alexcurylo/mtp) 
 
 
 Table of Contents
@@ -79,7 +74,7 @@ Generate for local branch with  `bundle exec jazzy` and open with `open ./docs/i
 Roadmap
 -------
 
-Feel free to [open an issue](https://github.com/alexcurylo/mtp/issues/new) if there's something in particular you'd like to see here.
+[Open an issue](https://github.com/alexcurylo/mtp/issues/new) if there's something in particular you'd like to see here.
 
 Author
 ------
@@ -93,4 +88,4 @@ License
 
 The [MIT License](http://opensource.org/licenses/MIT). See the [LICENSE.md](LICENSE.md) file for details.
 
-_Copyright &copy;2018-present Trollwerks Inc._
+_Copyright &copy;2018-2019 Trollwerks Inc._
