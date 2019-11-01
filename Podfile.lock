@@ -84,9 +84,6 @@ PODS:
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
-  - R.swift (5.0.3):
-    - R.swift.Library (~> 5.0.0)
-  - R.swift.Library (5.0.1)
 
 DEPENDENCIES:
   - Anchorage
@@ -97,8 +94,6 @@ DEPENDENCIES:
   - FBSDKLoginKit
   - Firebase/Analytics
   - JWTDecode
-  - R.swift
-  - R.swift.Library
 
 SPEC REPOS:
   https://cdn.cocoapods.org/:
@@ -121,8 +116,6 @@ SPEC REPOS:
     - GoogleUtilities
     - JWTDecode
     - nanopb
-    - R.swift
-    - R.swift.Library
 
 SPEC CHECKSUMS:
   Anchorage: a187da0bc9b07440637d42c8744b8c82a4490295
@@ -144,9 +137,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 9c2c544202301110b29f7974a82e77fdcf12bf51
   JWTDecode: fb77675c8049c1a7e9433c7cf448c3ce33ee4ac7
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
-  R.swift: f5a87643b91ea569d23d6afb3eee9c743edde239
-  R.swift.Library: cfe85d569d9bae6cb262922db130e7c3a7a5fad1
 
-PODFILE CHECKSUM: 8ec766c2fa71b5d32fce99b0ab143161f3aca0c2
+PODFILE CHECKSUM: cf7716f688414c6653aa89ae148969fb459770cb
 
-COCOAPODS: 1.8.3
+COCOAPODS: 1.8.4

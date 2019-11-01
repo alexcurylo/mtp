@@ -20,7 +20,6 @@ source 'https://cdn.cocoapods.org/'
 # https://github.com/facebook/facebook-swift-sdk/issues/491
 # https://github.com/firebase/firebase-ios-sdk/issues/3136
 # https://github.com/auth0/JWTDecode.swift/issues/92
-# https://github.com/mac-cain13/R.swift/pull/538 - need SPM tag (before 5.1)
 
 $iosVersion = '11.0'
 platform :ios, $iosVersion
@@ -34,8 +33,6 @@ target 'MTP' do
   pod 'FBSDKLoginKit', :modular_headers => true
   pod 'Firebase/Analytics'
   pod 'JWTDecode'
-  pod 'R.swift'
-  pod 'R.swift.Library'
 
   target 'MTPTests' do
     inherit! :search_paths
