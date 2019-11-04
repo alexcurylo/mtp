@@ -1168,7 +1168,6 @@
 		FAF12302215652AE0099B772 /* MTP_base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = MTP_base.xcconfig; sourceTree = "<group>"; };
 		FAF1853020FA0C8600CC5D83 /* RootVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootVC.swift; sourceTree = "<group>"; };
 		FAF1853320FA0DEF00CC5D83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Root.storyboard; sourceTree = "<group>"; };
-		FAF1853520FA16CE00CC5D83 /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 		FAF1C67922E9D53500F6636B /* UIRankings+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIRankings+Test.swift"; sourceTree = "<group>"; };
 		FAF1C67D22EA4FBA00F6636B /* UINearby+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINearby+Test.swift"; sourceTree = "<group>"; };
 		FAFBB0CC22A6A5C4001EDB80 /* Milestones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Milestones.swift; sourceTree = "<group>"; };
@@ -2250,7 +2249,6 @@
 				FA3E366A20DFACCD002AF4EE /* Podfile */,
 				FA9A71E120F1DD6C005F6A57 /* Podfile.lock */,
 				FA4F1C5C20DFA67700B8A1ED /* README.md */,
-				FAF1853520FA16CE00CC5D83 /* TODO.md */,
 				FAF122F6215652AE0099B772 /* xccconfig */,
 			);
 			name = metadata;
@@ -3686,6 +3684,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 645;
+				DEAD_CODE_STRIPPING = NO;
 				INFOPLIST_FILE = MTP/resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3704,6 +3703,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 645;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 37L8D8MJWV;
 				INFOPLIST_FILE = MTP/resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
