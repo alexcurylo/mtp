@@ -68,6 +68,8 @@ struct UserUpdatePayload: Codable, Hashable, UserAvatar {
     var rank_divesites: Int?
     /// rank_golfcourses
     var rank_golfcourses: Int?
+    /// rank_hotels
+    var rank_hotels: Int?
     /// rank_locations
     var rank_locations: Int?
     /// rank_restaurants
@@ -86,6 +88,8 @@ struct UserUpdatePayload: Codable, Hashable, UserAvatar {
     var score_divesites: Int?
     /// score_golfcourses
     var score_golfcourses: Int?
+    /// score_hotels
+    var score_hotels: Int?
     /// score_locations
     var score_locations: Int?
     /// score_restaurants
@@ -106,6 +110,7 @@ struct UserUpdatePayload: Codable, Hashable, UserAvatar {
 
     /// Constructor from MTP endpoint data
     init(from: UserJSON) {
+    // swiftlint:disable:previous function_body_length
         airport = from.airport
         bio = from.bio
         if let date = from.birthday {
@@ -132,6 +137,7 @@ struct UserUpdatePayload: Codable, Hashable, UserAvatar {
         rank_beaches = from.rankBeaches
         rank_divesites = from.rankDivesites
         rank_golfcourses = from.rankGolfcourses
+        rank_hotels = from.rankHotels
         rank_locations = from.rankLocations
         rank_restaurants = from.rankRestaurants
         rank_uncountries = from.rankUncountries
@@ -141,6 +147,7 @@ struct UserUpdatePayload: Codable, Hashable, UserAvatar {
         score_beaches = from.scoreBeaches
         score_divesites = from.scoreDivesites
         score_golfcourses = from.scoreGolfcourses
+        score_hotels = from.scoreHotels
         score_locations = from.scoreLocations
         score_restaurants = from.scoreRestaurants
         score_uncountries = from.scoreUncountries

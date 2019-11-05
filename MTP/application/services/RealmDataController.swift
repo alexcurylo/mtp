@@ -110,13 +110,13 @@ final class RealmDataController: ServiceProvider {
         }
     }
 
-    /// Golf courses
+    /// Hotels
     var hotels: [Hotel] {
         let results = realm.objects(Hotel.self)
         return Array(results)
     }
 
-    /// Set golf courses
+    /// Set hotels
     ///
     /// - Parameter hotels: API results
     func set(hotels: [HotelJSON]) {

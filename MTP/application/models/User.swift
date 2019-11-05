@@ -265,6 +265,7 @@ extension UserJSON: CustomDebugStringConvertible {
             rankBeaches: \(String(describing: rankBeaches))
             rankDivesites: \(String(describing: rankDivesites))
             rankGolfcourses: \(String(describing: rankGolfcourses))
+            rankHotels: \(String(describing: rankHotels))
             rankLocations: \(String(describing: rankLocations))
             rankRestaurants: \(String(describing: rankRestaurants))
             rankUncountries: \(String(describing: rankUncountries))
@@ -274,6 +275,7 @@ extension UserJSON: CustomDebugStringConvertible {
             score_beaches: \(String(describing: scoreBeaches))
             score_divesites: \(String(describing: scoreDivesites))
             score_golfcourses: \(String(describing: scoreGolfcourses))
+            score_hotels: \(String(describing: scoreHotels))
             score_locations: \(String(describing: scoreLocations))
             score_restaurants: \(String(describing: scoreRestaurants))
             score_uncountries: \(String(describing: scoreUncountries))
@@ -474,6 +476,7 @@ extension UserAvatar {
         orderBeaches = from.rankBeaches ?? 0
         orderDivesites = from.rankDivesites ?? 0
         orderGolfcourses = from.rankGolfcourses ?? 0
+        orderHotels = from.rankHotels ?? 0
         orderLocations = from.rankLocations ?? 0
         orderRestaurants = from.rankRestaurants ?? 0
         orderUncountries = from.rankUncountries ?? 0
@@ -481,6 +484,7 @@ extension UserAvatar {
         visitBeaches = from.scoreBeaches ?? 0
         visitDivesites = from.scoreDivesites ?? 0
         visitGolfcourses = from.scoreGolfcourses ?? 0
+        visitHotels = from.scoreHotels ?? 0
         visitLocations = from.scoreLocations ?? 0
         visitRestaurants = from.scoreRestaurants ?? 0
         visitUncountries = from.scoreUncountries ?? 0
@@ -528,6 +532,7 @@ extension UserAvatar {
                visitBeaches == other.visitBeaches &&
                visitDivesites == other.visitDivesites &&
                visitGolfcourses == other.visitGolfcourses &&
+               visitHotels == other.visitHotels &&
                visitLocations == other.visitLocations &&
                visitRestaurants == other.visitRestaurants &&
                visitUncountries == other.visitUncountries &&
