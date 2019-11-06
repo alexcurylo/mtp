@@ -231,6 +231,7 @@
 		8CDC4D5B230A335800AA422D /* UIConfirmDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDC4D57230A32B200AA422D /* UIConfirmDelete.swift */; };
 		8CDC4D5C230A335E00AA422D /* UIKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDC4D53230A301400AA422D /* UIKeyboard.swift */; };
 		8CDC4D5E230A337D00AA422D /* UIKeyboard+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDC4D5D230A337D00AA422D /* UIKeyboard+Test.swift */; };
+		8CE2C54223726B8600570A0C /* Karte in Frameworks */ = {isa = PBXBuildFile; productRef = 8CE2C54123726B8600570A0C /* Karte */; };
 		8CE3FC2C222389B600B94EAA /* Scorecard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE3FC2B222389B600B94EAA /* Scorecard.swift */; };
 		8CE6F46B224B029500B24410 /* ContentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6F46A224B029400B24410 /* ContentState.swift */; };
 		8CE6FC56224C6C1B00B24410 /* LocationPhotos.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CE6FC58224C6C1B00B24410 /* LocationPhotos.storyboard */; };
@@ -1183,6 +1184,7 @@
 			files = (
 				8C73B29A236C1BFD004457F9 /* Rswift in Frameworks */,
 				FA9A91D62347FC07006CD75E /* KRProgressHUD in Frameworks */,
+				8CE2C54223726B8600570A0C /* Karte in Frameworks */,
 				FA489DA0233654F900185F7D /* Alamofire in Frameworks */,
 				FA9FD69523364BD0005818C3 /* RealmSwift in Frameworks */,
 				FA489DB02336D55300185F7D /* Nuke in Frameworks */,
@@ -2557,6 +2559,7 @@
 				FA51034F233D5F6C00AFC41E /* Parchment */,
 				FA9A91D52347FC07006CD75E /* KRProgressHUD */,
 				8C73B299236C1BFD004457F9 /* Rswift */,
+				8CE2C54123726B8600570A0C /* Karte */,
 			);
 			productName = MTP;
 			productReference = FA392BB720DF69F30026C828 /* MTP.app */;
@@ -2663,6 +2666,7 @@
 				FA51034E233D5F6B00AFC41E /* XCRemoteSwiftPackageReference "Parchment" */,
 				FA9A91D42347FC07006CD75E /* XCRemoteSwiftPackageReference "KRProgressHUD" */,
 				8C73B298236C1BFD004457F9 /* XCRemoteSwiftPackageReference "R.swift" */,
+				8CE2C54023726B8600570A0C /* XCRemoteSwiftPackageReference "Karte" */,
 			);
 			productRefGroup = FA392BB820DF69F30026C828 /* Products */;
 			projectDirPath = "";
@@ -3795,6 +3799,14 @@
 				minimumVersion = 5.1.0;
 			};
 		};
+		8CE2C54023726B8600570A0C /* XCRemoteSwiftPackageReference "Karte" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kiliankoe/Karte";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.1.0;
+			};
+		};
 		FA489D9E233654F900185F7D /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -3874,6 +3886,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8C73B298236C1BFD004457F9 /* XCRemoteSwiftPackageReference "R.swift" */;
 			productName = Rswift;
+		};
+		8CE2C54123726B8600570A0C /* Karte */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8CE2C54023726B8600570A0C /* XCRemoteSwiftPackageReference "Karte" */;
+			productName = Karte;
 		};
 		FA489D9F233654F900185F7D /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;

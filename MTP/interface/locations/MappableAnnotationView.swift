@@ -237,36 +237,31 @@ private extension MappableAnnotationView {
 
     @objc func closeTapped(_ sender: UIButton) {
         guard let mappable = mappable else { return }
-
         loc.close(mappable: mappable)
     }
 
     @objc func directionsTapped(_ sender: GradientButton) {
-        let options = [ MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving ]
-        mapItem?.openInMaps(launchOptions: options)
+        guard let mappable = mappable else { return }
+        loc.show(directions: mappable)
     }
 
     @objc func showMoreTapped(_ sender: GradientButton) {
         guard let mappable = mappable else { return }
-
         loc.show(more: mappable)
     }
 
     @objc func nearbiesTapped(_ sender: GradientButton) {
         guard let mappable = mappable else { return }
-
         loc.show(nearby: mappable)
     }
 
     @objc func addPhotoTapped(_ sender: GradientButton) {
         guard let mappable = mappable else { return }
-
         loc.add(photo: mappable)
     }
 
     @objc func addPostTapped(_ sender: GradientButton) {
         guard let mappable = mappable else { return }
-
         loc.add(post: mappable)
     }
 

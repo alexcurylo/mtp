@@ -1,6 +1,7 @@
 // @copyright Trollwerks Inc.
 
 import Anchorage
+import Karte
 import MapKit
 
 // swiftlint:disable file_length
@@ -164,6 +165,18 @@ extension LocationsVC: Mapper {
     func reveal(mappable: Mappable, callout: Bool) {
         navigationController?.popToRootViewController(animated: false)
         mtpMapView.zoom(to: mappable, callout: callout)
+    }
+
+    /// Show Directions selector
+    /// - Parameter mappable: Place
+    func show(directions mappable: Mappable) {
+        let destination = Karte.Location(name: mappable.title,
+                                         coordinate: mappable.coordinate)
+        let isPhone = UIDevice.current.userInterfaceIdiom == .phone
+        let alert = Karte.createPicker(destination: destination,
+                                       title: L.directions(),
+                                       style: isPhone ? .actionSheet : .alert)
+        present(alert, animated: true, completion: nil)
     }
 
     /// Show Show More screen

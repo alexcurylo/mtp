@@ -227,6 +227,16 @@ final class LocationServiceSpy: LocationService {
         invokedRevealParameters = (mappable, callout)
         invokedRevealParametersList.append((mappable, callout))
     }
+    var invokedShowDirections = false
+    var invokedShowDirectionsCount = 0
+    var invokedShowDirectionsParameters: (mappable: Mappable, Void)?
+    var invokedShowDirectionsParametersList = [(mappable: Mappable, Void)]()
+    func show(directions mappable: Mappable) {
+        invokedShowDirections = true
+        invokedShowDirectionsCount += 1
+        invokedShowDirectionsParameters = (mappable, ())
+        invokedShowDirectionsParametersList.append((mappable, ()))
+    }
     var invokedShowMore = false
     var invokedShowMoreCount = 0
     var invokedShowMoreParameters: (mappable: Mappable, Void)?

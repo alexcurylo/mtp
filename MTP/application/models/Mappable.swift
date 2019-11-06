@@ -77,6 +77,9 @@ protocol Mapper {
     ///   - mappable: Place
     ///   - callout: Show callout
     func reveal(mappable: Mappable, callout: Bool)
+    /// Show Directions selector
+    /// - Parameter mappable: Place
+    func show(directions mappable: Mappable)
     /// Show Show More screen
     /// - Parameter mappable: Place
     func show(more mappable: Mappable)
