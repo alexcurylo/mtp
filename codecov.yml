@@ -1,11 +1,9 @@
 # Docs: https://docs.codecov.io/docs/codecov-yaml
-# Examples: https://gist.github.com/stevepeak/53bee7b2c326b24a9b4a
 
-coverage:
-  ignore:
-    - docs/*
-    - MTP/resources/*
-    - MTP/sdks/*
-    - MTPTests/*
-    - MTPUITests/*
-    - Pods/*
+ignore:
+  - docs/.*
+  - MTP/resources/.*
+  - MTP/sdks/.*
+  - MTPTests/.*
+  - MTPUITests/.*
+  - Pods/.*

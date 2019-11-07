@@ -1,5 +1,6 @@
 // @copyright Trollwerks Inc.
 
+import FacebookShare
 import PDFKit
 
 /// Displays large scale visited map
@@ -48,6 +49,23 @@ private extension VisitedMapVC {
                               size: CGSize(width: 1, height: 1))
             mapView.go(to: rect, on: page)
         }
+
+        configureFacebookShare()
+    }
+
+    func configureFacebookShare() {
+        guard let ref = pdf?.documentRef,
+              let image = UIImage(pdf: ref) else { return }
+
+        let photo = SharePhoto(image: image, userGenerated: true)
+        let content = SharePhotoContent()
+        content.photos = [photo]
+
+        let button = FBShareButton()
+        button.shareContent = content
+
+        let item = UIBarButtonItem(customView: button)
+        navigationItem.rightBarButtonItems = [item]
     }
 }
 
@@ -89,5 +107,36 @@ extension VisitedMapVC: Injectable {
     /// Enforce dependency injection
     func requireInjection() {
         pdf.require()
+    }
+}
+
+private extension UIImage {
+
+    convenience init?(pdf: CGPDFDocument,
+                      pageNumber: Int = 1) {
+        guard let page = pdf.page(at: pageNumber) else { return nil }
+        let size = page.getBoxRect(.mediaBox).size
+
+        UIGraphicsBeginImageContextWithOptions(size, true, 1)
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        context.saveGState()
+
+        context.setFillColor(UIColor.white.cgColor)
+        context.fill(CGRect(origin: .zero, size: size))
+
+        context.translateBy(x: 0.0, y: size.height)
+        context.scaleBy(x: 1.0, y: -1.0)
+        context.concatenate(page.getDrawingTransform(.mediaBox,
+                                                     rect: CGRect(origin: .zero,
+                                                                  size: size),
+                                                     rotate: 0,
+                                                     preserveAspectRatio: true))
+        context.drawPDFPage(page)
+        context.restoreGState()
+        let pdfImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        guard let cgImage = pdfImage?.cgImage else { return nil }
+        self.init(cgImage: cgImage)
     }
 }

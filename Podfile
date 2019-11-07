@@ -29,8 +29,10 @@ target 'MTP' do
   pod 'Crashlytics'
   pod 'FacebookCore'
   pod 'FacebookLogin'
+  pod 'FacebookShare'
   pod 'FBSDKCoreKit', :modular_headers => true
   pod 'FBSDKLoginKit', :modular_headers => true
+  pod 'FBSDKShareKit', :modular_headers => true
   pod 'Firebase/Analytics'
   pod 'JWTDecode'
 
