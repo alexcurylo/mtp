@@ -73,6 +73,8 @@ enum MTP: Hashable {
     case passwordReset(email: String)
     /// picture(uuid: String, size: Size)
     case picture(uuid: String, size: Size)
+    /// photoDelete(file: Int)
+    case photoDelete(file: Int)
     /// photos(user: Int?, page: Int)
     case photos(user: Int?, page: Int)
     /// postPublish(payload: PostPayload)
@@ -87,11 +89,11 @@ enum MTP: Hashable {
     case search(query: String?)
     /// settings
     case settings
-    /// userDelete(id: Int)
+    /// unCountry
     case unCountry
     /// upload(photo: Data, caption: String?, location: Int?)
     case upload(photo: Data, caption: String?, location: Int?)
-    /// unCountry
+    /// userDelete(id: Int)
     case userDelete(id: Int)
     /// userGet(id: Int)
     case userGet(id: Int)
@@ -160,6 +162,8 @@ extension MTP: TargetType {
             return "locations/\(location)/photos"
         case .locationPosts(let location):
             return "locations/\(location)/posts"
+        case .photoDelete:
+            return "me/photos"
         case .photos(let user?, _):
             return "users/\(user)/photos"
         case .photos:
@@ -210,6 +214,7 @@ extension MTP: TargetType {
     var method: Moya.Method {
         switch self {
         case .checkOut,
+             .photoDelete,
              .userDelete:
             return .delete
         case .beach,
@@ -269,6 +274,9 @@ extension MTP: TargetType {
         case .passwordReset(let email):
             return .requestParameters(parameters: ["email": email],
                                       encoding: URLEncoding(destination: .queryString))
+        case .photoDelete(let file):
+            return .requestParameters(parameters: ["ids": file],
+                                      encoding: URLEncoding.default)
         case .photos(_, let page):
             return .requestParameters(parameters: ["page": page],
                                       encoding: URLEncoding.default)
@@ -480,6 +488,7 @@ extension MTP: AccessTokenAuthorizable {
              .checklists,
              .checkOut,
              .contact,
+             .photoDelete,
              .photos,
              .postPublish,
              .rankings,
@@ -1356,6 +1365,50 @@ class MTPNetworkController: ServiceProvider {
 
         provider.request(endpoint) { result in
             endpoint.markResponded()
+            switch result {
+            case .success(let response):
+                success(response)
+            case .failure(let error):
+                then(.failure(self.problem(with: endpoint, from: error)))
+            }
+        }
+    }
+
+    /// Delete photo
+    ///
+    /// - Parameters:
+    ///   - photo: Int
+    ///   - stub: Stub behaviour
+    ///   - then: Completion
+    func delete(photo: Int,
+                stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
+                then: @escaping NetworkCompletion<Bool>) {
+        let auth = AccessTokenPlugin { self.data.token }
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
+        let endpoint = MTP.photoDelete(file: photo)
+
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                let reply = try response.map(QuietOperationReply.self,
+                                             using: JSONDecoder.mtp)
+                if reply.isSuccess {
+                    self.report(success: endpoint)
+                    return then(.success(reply.isSuccess))
+                } else {
+                    problem = .status(reply.code)
+                }
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
+        provider.request(endpoint) { result in
             switch result {
             case .success(let response):
                 success(response)

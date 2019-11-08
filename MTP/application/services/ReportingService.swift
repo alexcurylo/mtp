@@ -222,6 +222,8 @@ private extension MTP {
             return "password_reset"
         case .picture: // (let uuid, let size):
             return "load_picture"
+        case .photoDelete: // (let file)
+            return "delete_photo"
         case .photos: // (let user, let page):
             return "load_user_photos"
         case .postPublish: // (let payload):

@@ -72,6 +72,8 @@
 "menuHide" = "Hide";
 "menuReport" = "Report";
 "menuBlock" = "Block user";
+"menuEdit" = "Edit";
+"menuDelete" = "Delete";
 "blockSelf" = "You cannot block yourself!";
 
 // AddPhotoVC

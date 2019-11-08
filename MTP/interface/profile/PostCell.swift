@@ -26,6 +26,14 @@ protocol PostCellDelegate: AnyObject {
     ///
     /// - Parameter block: PostCellModel to block
     func tapped(block: PostCellModel?)
+    /// Handle edit action
+    ///
+    /// - Parameter edit: PostCellModel to edit
+    func tapped(edit: PostCellModel?)
+    /// Handle delete action
+    ///
+    /// - Parameter delete: PostCellModel to delete
+    func tapped(delete: PostCellModel?)
 }
 
 /// Type of page presenting this object
@@ -273,16 +281,24 @@ private extension PostCell {
         delegate?.tapped(toggle: model.index)
     }
 
-    @objc func hide(_ sender: AnyObject?) {
+    @objc func menuHide(_ sender: AnyObject?) {
         delegate?.tapped(hide: model)
     }
 
-    @objc func report(_ sender: AnyObject?) {
+    @objc func menuReport(_ sender: AnyObject?) {
         delegate?.tapped(report: model)
     }
 
-    @objc func block(_ sender: AnyObject?) {
+    @objc func menuBlock(_ sender: AnyObject?) {
         delegate?.tapped(block: model)
+    }
+
+    @objc func menuEdit(_ sender: AnyObject?) {
+        delegate?.tapped(edit: model)
+    }
+
+    @objc func menuDelete(_ sender: AnyObject?) {
+        delegate?.tapped(delete: model)
     }
 
     func setExpanded() {

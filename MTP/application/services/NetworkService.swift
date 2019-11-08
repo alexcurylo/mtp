@@ -139,6 +139,13 @@ protocol NetworkService: Observable, ServiceProvider {
                 caption: String?,
                 location id: Int?,
                 then: @escaping NetworkCompletion<PhotoReply>)
+    /// Delete photo
+    ///
+    /// - Parameters:
+    ///   - photo: Int
+    ///   - then: Completion
+    func delete(photo: Int,
+                then: @escaping NetworkCompletion<Bool>)
     /// Publish post
     ///
     /// - Parameters:
@@ -438,6 +445,16 @@ class NetworkServiceImpl: NetworkService {
         offlineRequestManager.queueRequest(request)
         requestsChanged()
         then(.failure(.queued))
+    }
+
+    /// Delete photo
+    ///
+    /// - Parameters:
+    ///   - photo: Int
+    ///   - then: Completion
+    func delete(photo: Int,
+                then: @escaping NetworkCompletion<Bool>) {
+        mtp.delete(photo: photo, then: then)
     }
 
     /// Publish post
@@ -866,6 +883,14 @@ final class NetworkServiceStub: NetworkServiceImpl {
         mtp.upload(photo: photo,
                    caption: caption,
                    location: id,
+                   stub: MTPProvider.immediatelyStub,
+                   then: then)
+    }
+
+    /// :nodoc:
+    override func delete(photo: Int,
+                         then: @escaping NetworkCompletion<Bool>) {
+        mtp.delete(photo: photo,
                    stub: MTPProvider.immediatelyStub,
                    then: then)
     }

@@ -39,7 +39,6 @@ class PhotosVC: UICollectionViewController {
     var contentState: ContentState = .loading
     /// Mode of presentation
     var mode: Mode = .browser
-    private var configuredMenu = false
     /// Filtered queued network actions
     var queuedPhotos: [MTPPhotoRequest] = []
     private var requestsObserver: Observer?
@@ -181,11 +180,12 @@ private extension PhotosVC {
         return (cell as? PhotoCell)?.imageView
     }
 
-    private func configureMenu() {
-        guard !configuredMenu else { return }
-
-        configuredMenu = true
-        UIMenuController.shared.menuItems = MenuAction.contentItems
+    private func configure(menu photo: Photo) {
+        if photo.userId == data.user?.id {
+            UIMenuController.shared.menuItems = MenuAction.myItems
+        } else {
+            UIMenuController.shared.menuItems = MenuAction.theirItems
+        }
     }
 
     func observeRequests() {
@@ -295,7 +295,7 @@ extension PhotosVC {
     /// :nodoc:
     override func collectionView(_ collectionView: UICollectionView,
                                  shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        configureMenu()
+        configure(menu: photo(at: indexPath.item))
         return true
     }
 
@@ -379,6 +379,33 @@ extension PhotosVC: PhotoCellDelegate {
     func tapped(block: Photo?) {
         if data.block(user: block?.userId ?? 0) {
             app.route(to: .locations)
+        }
+    }
+
+    /// :nodoc:
+    func tapped(edit: Photo?) {
+        // TODO: implement edit
+        log.todo("implement edit")
+    }
+
+    /// :nodoc:
+    func tapped(delete: Photo?) {
+        guard let delete = delete else { return }
+        let photoId = delete.photoId
+        let userId = delete.userId
+        let locationId = delete.locationId
+
+        net.delete(photo: photoId) { [net, data] _ in
+            data.delete(photo: photoId)
+            if userId > 0 {
+                data.delete(photos: userId )
+                net.loadPhotos(page: 1,
+                               reload: true) { _ in }
+            }
+            if locationId > 0 {
+                net.loadPhotos(location: locationId,
+                               reload: true) { _ in }
+            }
         }
     }
 }

@@ -370,6 +370,22 @@ final class RealmDataController: ServiceProvider {
         return results
     }
 
+    /// Delete user photo
+    ///
+    /// - Parameter photoId: Photo ID
+    func delete(photo photoId: Int) {
+        do {
+            if let result = realm.object(ofType: Photo.self,
+                                         forPrimaryKey: photoId) {
+                try realm.write {
+                    realm.delete(result)
+                }
+            }
+        } catch {
+            log.error("delete(photo:): \(error)")
+        }
+    }
+
     /// Delete all user photos
     ///
     /// - Parameter id: User ID
