@@ -27,7 +27,7 @@ final class PostHeader: UITableViewHeaderFooterView, ServiceProvider {
         $0.endColor = .azureRadiance
         $0.cornerRadius = 4
 
-        let title = L.addPost()
+        let title = L.addNewPost()
         $0.setTitle(title, for: .normal)
         $0.titleLabel?.font = Avenir.medium.of(size: 15)
         UIPosts.add.expose(item: $0)

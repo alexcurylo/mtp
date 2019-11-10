@@ -220,12 +220,14 @@ private extension MTP {
             return "load_location_posts"
         case .passwordReset: // (let email):
             return "password_reset"
-        case .picture: // (let uuid, let size):
-            return "load_picture"
         case .photoDelete: // (let file)
             return "delete_photo"
+        case .photoPut: // (payload: PhotoUpdatePayload)
+            return "update_photo"
         case .photos: // (let user, let page):
             return "load_user_photos"
+        case .picture: // (let uuid, let size):
+            return "load_picture"
         case .postPublish: // (let payload):
             return "upload_post"
         case .rankings: // (let query):

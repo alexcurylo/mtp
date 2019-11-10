@@ -33,9 +33,13 @@
 "publishPhoto" = "publish photo";
 "publishingPhoto" = "Publishing photo: %@";
 "photoPublish" = "photo will publish";
+"updatePhoto" = "update a photo";
+"updatingPhoto" = "Updating photo…";
 "publishPost" = "publish post";
 "publishingPost" = "Publishing post: %@";
 "postPublish" = "post will publish";
+"updatePost" = "update a post";
+"updatingPost" = "Updating postpho…";
 "visitUpdate" = "visit will update";
 "resetPassword" = "reset password";
 "resettingPassword" = "Resetting password…";
@@ -188,11 +192,15 @@
 
 // PhotosVC
 
-"addPhoto" = "＋Add new photo";
+"addNewPhoto" = "＋Add new photo";
+"addPhoto" = "Add Photo";
+"editPhoto" = "Edit Photo";
 
 // PostsVC
 
-"addPost" = "＋Add new post";
+"addNewPost" = "＋Add new post";
+"addPost" = "Add Post";
+"editPost" = "Edit Post";
 
 // RankingPage
 

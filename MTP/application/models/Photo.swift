@@ -334,3 +334,32 @@ extension PhotoJSON: CustomDebugStringConvertible {
                                   attributes: attributes)
     }
 }
+
+/// Sent to the photo update endpoint
+/// The important parts: desc, location_id
+struct PhotoUpdatePayload: Codable, Hashable {
+
+    private let desc: String
+    /// File ID
+    let id: Int
+    private let location_id: Int
+    private let uuid: String
+    private let user_id: Int
+    // "name": "",
+    // "mime": "image/png",
+    // "type": "image",
+    // "uploaded": 1,
+    // "url": "/api/files/preview?uuid=1SnMcnemk5R87TNTaXe7XW",
+    // "location": { },
+
+    /// Constructor from edited data
+    init(from: Photo,
+         locationId: Int,
+         caption: String) {
+        desc = caption
+        id = from.photoId
+        location_id = locationId
+        uuid = from.uuid
+        user_id = from.userId
+    }
+}

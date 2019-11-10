@@ -28,6 +28,7 @@ final class AddPhotoVC: UIViewController {
     @IBOutlet private var captionTextView: TopLoadingTextView!
     @IBOutlet private var imageButton: UIButton!
     @IBOutlet private var imageView: UIImageView!
+    @IBOutlet private var libraryButton: GradientButton!
     @IBOutlet private var cameraButton: GradientButton!
     @IBOutlet private var facebookButton: GradientButton!
     @IBOutlet private var instagramButton: GradientButton!
@@ -47,6 +48,9 @@ final class AddPhotoVC: UIViewController {
     private var locationId = 0
 
     private var captionText: String = ""
+
+    private var updating: Photo?
+    private var updatingLocation: Location?
 
     private var photo: UIImage? {
         didSet {
@@ -86,9 +90,18 @@ final class AddPhotoVC: UIViewController {
         super.viewDidAppear(animated)
         report(screen: "Add Photo")
 
-        if PHPhotoLibrary.authorizationStatus() == .notDetermined {
-            if !UIApplication.isTesting {
+        if updating == nil {
+            if PHPhotoLibrary.authorizationStatus() == .notDetermined,
+               !UIApplication.isTesting {
                 PHPhotoLibrary.requestAuthorization { _ in }
+            }
+        } else if !net.isConnected {
+            let question = L.continueOffline(L.updatePhoto())
+            note.ask(question: question) { [weak self] answer in
+                if !answer {
+                    self?.performSegue(withIdentifier: Segues.pop,
+                                       sender: self)
+                }
             }
         }
     }
@@ -128,8 +141,18 @@ private extension AddPhotoVC {
     func configure() {
         configureLocation()
 
-        if !UIImagePickerController.isSourceTypeAvailable(.camera) {
+        if let updating = updating {
+            navigationItem.title = L.editPhoto()
+            captionTextView.text = updating.desc
+            imageView?.load(image: updating)
+            imageButton.isHidden = true
+            libraryButton.isHidden = true
             cameraButton.isHidden = true
+        } else {
+            navigationItem.title = L.addPhoto()
+            if !UIImagePickerController.isSourceTypeAvailable(.camera) {
+                cameraButton.isHidden = true
+            }
         }
         facebookButton.isHidden = true
         instagramButton.isHidden = true
@@ -214,12 +237,71 @@ private extension AddPhotoVC {
 
     @IBAction func saveTapped(_ sender: UIBarButtonItem) {
         view.endEditing(true)
-        guard updateSave(showError: true),
-            let data = photo?.jpegData(compressionQuality: 1.0) else { return }
+        guard updateSave(showError: true) else { return }
 
-        upload(photo: data,
-               caption: captionText.isEmpty ? nil : captionText,
-               location: locationId == 0 ? nil: locationId)
+        if updating == nil {
+            upload()
+        } else {
+            update()
+        }
+    }
+
+    func upload() {
+        guard let data = photo?.jpegData(compressionQuality: 0.9) else { return }
+
+        let caption = captionText.isEmpty ? nil : captionText
+        let location = locationId == 0 ? nil: locationId
+        net.upload(photo: data,
+                   caption: caption,
+                   location: location) { [weak self] _ in
+            self?.performSegue(withIdentifier: Segues.pop, sender: self)
+        }
+    }
+
+    func update() {
+        guard let updating = updating else { return }
+
+        let payload = PhotoUpdatePayload(from: updating,
+                                         locationId: locationId,
+                                         caption: captionText)
+
+        note.modal(info: L.updatingPhoto())
+
+        net.photoUpdate(payload: payload) { [weak self, note] result in
+            switch result {
+            case .success:
+                note.modal(success: L.success())
+                DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
+                    note.dismissModal()
+                    self?.finishUpdate()
+                }
+                return
+            case .failure(let error):
+                note.modal(failure: error,
+                           operation: L.updatePhoto())
+            }
+        }
+    }
+
+    func finishUpdate() {
+        guard let updating = updating,
+              let realm = try? Realm() else { return }
+
+        let oldLocation = updating.locationId
+        do {
+            try realm.write {
+                updating.locationId = locationId
+                updating.desc = captionText
+            }
+        } catch {
+            log.error("Edit Photo error: \(error)")
+        }
+        if oldLocation != locationId {
+            data.notify(change: .locationPhotos, object: oldLocation)
+            data.notify(change: .locationPhotos, object: locationId)
+        }
+
+        performSegue(withIdentifier: Segues.pop, sender: self)
     }
 
     @discardableResult func updateSave(showError: Bool) -> Bool {
@@ -228,7 +310,7 @@ private extension AddPhotoVC {
         let errorMessage: String
         if countryId != 0 && locationId == 0 {
             errorMessage = L.fixLocationProfile()
-        } else if photo == nil {
+        } else if updating == nil && photo == nil {
             errorMessage = L.fixPhoto()
         } else {
             errorMessage = ""
@@ -239,18 +321,17 @@ private extension AddPhotoVC {
             note.message(error: errorMessage)
         }
 
-        saveButton.isEnabled = valid
-        return valid
-    }
-
-    func upload(photo: Data,
-                caption: String?,
-                location id: Int?) {
-        net.upload(photo: photo,
-                   caption: caption,
-                   location: id) { [weak self] _ in
-           self?.performSegue(withIdentifier: Segues.pop, sender: self)
+        let changed: Bool
+        if let updating = updating {
+            changed = captionText != updating.desc ||
+                      countryId != updatingLocation?.countryId ||
+                      locationId != updating.locationId
+        } else {
+            changed = true
         }
+
+        saveButton.isEnabled = valid && changed
+        return valid
     }
 }
 
@@ -395,6 +476,7 @@ extension AddPhotoVC: InterfaceBuildable {
         imageButton.require()
         imageView.require()
         instagramButton.require()
+        libraryButton.require()
         locationLabel.require()
         locationLine.require()
         locationStack.require()
@@ -408,14 +490,23 @@ extension AddPhotoVC: InterfaceBuildable {
 extension AddPhotoVC: Injectable {
 
     /// Injected dependencies
-    typealias Model = (mappable: Mappable?, delegate: AddPhotoDelegate)
+    typealias Model = (photo: Photo?,
+                       mappable: Mappable?,
+                       delegate: AddPhotoDelegate)
 
     /// Handle dependency injection
     ///
     /// - Parameter model: Dependencies
     func inject(model: Model) {
-        countryId = model.mappable?.location?.countryId ?? 0
-        locationId = model.mappable?.location?.placeId ?? 0
+        updating = model.photo
+        if let photo = model.photo {
+            updatingLocation = data.get(location: photo.locationId)
+            countryId = updatingLocation?.countryId ?? 0
+            locationId = photo.locationId
+        } else if let location = model.mappable?.location {
+            countryId = location.countryId
+            locationId = location.placeId
+        }
         delegate = model.delegate
     }
 

@@ -63,6 +63,9 @@ Requirements
 Usage
 -----
 
+Install Ruby + Bundler + Mint as system tools, [Homebrew](https://brew.sh) is a good start
+`bundle install` to install the versioned tools in `Gemfile`
+`mint bootstrap` to install the versioned tools in `Mintfile`
 Build the app with the 'MTP' target.
 
 Documentation

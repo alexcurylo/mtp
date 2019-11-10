@@ -1,5 +1,5 @@
-# mint install for global
+# mint install realm/SwiftLint (global)
 realm/SwiftLint@0.36.0
-# run mint bootstrap to install this package without linking it globally (recommended)
+# mint bootstrap (not global)
 # https://github.com/yonaskolb/Mint/issues/144
 https://github.com/mac-cain13/R.swift.git@master

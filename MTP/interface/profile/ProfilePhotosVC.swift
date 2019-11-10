@@ -55,8 +55,9 @@ final class ProfilePhotosVC: PhotosVC {
         return data.get(photo: photoId)
     }
 
-    /// Create a new Photo
-    override func createPhoto() {
+    /// Edit or create a new Photo
+    override func add(photo: Photo?) {
+        injectPhoto = photo
         performSegue(withIdentifier: Segues.addPhoto,
                      sender: self)
     }
@@ -80,7 +81,10 @@ final class ProfilePhotosVC: PhotosVC {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let add = Segues.addPhoto(segue: segue)?
                            .destination {
-            add.inject(model: (mappable: nil, delegate: self))
+            add.inject(model: (photo: injectPhoto,
+                               mappable: nil,
+                               delegate: self))
+            injectPhoto = nil
         }
     }
 

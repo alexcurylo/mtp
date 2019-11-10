@@ -82,6 +82,9 @@ class PhotosVC: UICollectionViewController {
         fatalError("photoCount has not been overridden")
     }
 
+    /// Photo to be edited in Add screen
+    var injectPhoto: Photo?
+
     /// Retrieve an indexed photo
     ///
     /// - Parameter index: Index
@@ -91,10 +94,10 @@ class PhotosVC: UICollectionViewController {
         fatalError("photo(at:) has not been overridden")
     }
 
-    /// Create a new Photo
-    func createPhoto() {
+    /// Edit or create a new Photo
+    func add(photo: Photo?) {
         // swiftlint:disable:previous unavailable_function
-        fatalError("createPhoto has not been overridden")
+        fatalError("add(photo:) has not been overridden")
     }
 
     /// Handle dependency injection
@@ -202,7 +205,7 @@ private extension PhotosVC {
 extension PhotosVC: PhotosHeaderDelegate {
 
     func addTapped() {
-        createPhoto()
+        add(photo: nil)
     }
 
     func queueTapped() {
@@ -384,8 +387,7 @@ extension PhotosVC: PhotoCellDelegate {
 
     /// :nodoc:
     func tapped(edit: Photo?) {
-        // TODO: implement edit
-        log.todo("implement edit")
+        add(photo: edit)
     }
 
     /// :nodoc:

@@ -75,6 +75,8 @@ enum MTP: Hashable {
     case picture(uuid: String, size: Size)
     /// photoDelete(file: Int)
     case photoDelete(file: Int)
+    /// photoPut(payload: PhotoUpdatePayload)
+    case photoPut(payload: PhotoUpdatePayload)
     /// photos(user: Int?, page: Int)
     case photos(user: Int?, page: Int)
     /// postPublish(payload: PostPayload)
@@ -101,7 +103,7 @@ enum MTP: Hashable {
     case userGetByToken
     /// userPosts(id: Int)
     case userPosts(id: Int)
-    /// userPost(payload: UserUpdatePayload)
+    /// userPost(token: String)
     case userPost(id: Int, token: String)
     /// userPut(payload: UserUpdatePayload)
     case userPut(payload: UserUpdatePayload)
@@ -164,6 +166,8 @@ extension MTP: TargetType {
             return "locations/\(location)/posts"
         case .photoDelete:
             return "me/photos"
+        case .photoPut(let payload):
+            return "file/\(payload.id)"
         case .photos(let user?, _):
             return "users/\(user)/photos"
         case .photos:
@@ -251,7 +255,8 @@ extension MTP: TargetType {
              .userPost,
              .userRegister:
             return .post
-        case .userPut:
+        case .photoPut,
+             .userPut:
             return .put
         }
     }
@@ -323,6 +328,8 @@ extension MTP: TargetType {
                                                    "password": password],
                                       encoding: JSONEncoding.default)
         case .contact(let payload):
+            return .requestJSONEncodable(payload)
+        case .photoPut(let payload):
             return .requestJSONEncodable(payload)
         case .postPublish(let payload):
             return .requestJSONEncodable(payload)
@@ -489,6 +496,7 @@ extension MTP: AccessTokenAuthorizable {
              .checkOut,
              .contact,
              .photoDelete,
+             .photoPut,
              .photos,
              .postPublish,
              .rankings,
@@ -534,7 +542,6 @@ class MTPNetworkController: ServiceProvider {
     // swiftlint:disable:previous type_body_length
 
     /// Set places visit status
-    ///
     /// - Parameters:
     ///   - items: Places
     ///   - visited: Whether visited
@@ -575,7 +582,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Send contact form
-    ///
     /// - Parameters:
     ///   - payload: Post payload
     ///   - stub: Stub behaviour
@@ -661,7 +667,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Load checklists
-    ///
     /// - Parameters:
     ///   - stub: Stub behaviour
     ///   - then: Completion
@@ -875,7 +880,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Load location photos
-    ///
     /// - Parameters:
     ///   - id: Location ID
     ///   - reload: Force reload
@@ -924,7 +928,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Load logged in user photos
-    ///
     /// - Parameters:
     ///   - page: Index
     ///   - reload: Force reload
@@ -942,7 +945,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Load user photos
-    ///
     /// - Parameters:
     ///   - id: User ID
     ///   - page: Index
@@ -962,7 +964,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Load location posts
-    ///
     /// - Parameters:
     ///   - id: Location ID
     ///   - reload: Force reload
@@ -1011,7 +1012,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Load user posts
-    ///
     /// - Parameters:
     ///   - id: User ID
     ///   - reload: Force reload
@@ -1065,7 +1065,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Load rankings
-    ///
     /// - Parameters:
     ///   - query: Filter
     ///   - stub: Stub behaviour
@@ -1114,7 +1113,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Load restaurants
-    ///
     /// - Parameters:
     ///   - then: Completion
     func loadRestaurants(then: @escaping NetworkCompletion<[RestaurantJSON]> = { _ in }) {
@@ -1157,7 +1155,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Load scorecard
-    ///
     /// - Parameters:
     ///   - list: Checklist
     ///   - id: User ID
@@ -1242,7 +1239,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Load UN countries
-    ///
     /// - Parameters:
     ///   - then: Completion
     func loadUNCountries(then: @escaping NetworkCompletion<[LocationJSON]> = { _ in }) {
@@ -1285,7 +1281,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Load user
-    ///
     /// - Parameters:
     ///   - id: User ID
     ///   - stub: Stub behaviour
@@ -1332,7 +1327,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Load WHS
-    ///
     /// - Parameters:
     ///   - then: Completion
     func loadWHS(then: @escaping NetworkCompletion<[WHSJSON]> = { _ in }) {
@@ -1374,8 +1368,50 @@ class MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Update photo
+    /// - Parameters:
+    ///   - payload: PhotoUpdatePayload
+    ///   - stub: Stub behaviour
+    ///   - then: Completion
+    func photoUpdate(payload: PhotoUpdatePayload,
+                     stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
+                     then: @escaping NetworkCompletion<Bool>) {
+        let auth = AccessTokenPlugin { self.data.token }
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
+        let endpoint = MTP.photoPut(payload: payload)
+
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                let reply = try response.map(QuietOperationReply.self,
+                                             using: JSONDecoder.mtp)
+                if reply.isSuccess {
+                    self.report(success: endpoint)
+                    return then(.success(reply.isSuccess))
+                } else {
+                    problem = .status(reply.code)
+                }
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
+        provider.request(endpoint) { result in
+            switch result {
+            case .success(let response):
+                success(response)
+            case .failure(let error):
+                then(.failure(self.problem(with: endpoint, from: error)))
+            }
+        }
+    }
+
     /// Delete photo
-    ///
     /// - Parameters:
     ///   - photo: Int
     ///   - stub: Stub behaviour
@@ -1419,7 +1455,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Publish post
-    ///
     /// - Parameters:
     ///   - payload: Post payload
     ///   - stub: Stub behaviour
@@ -1468,7 +1503,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Search countries
-    ///
     /// - Parameters:
     ///   - query: Query
     ///   - then: Completion
@@ -1511,7 +1545,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Search
-    ///
     /// - Parameters:
     ///   - query: Query
     ///   - stub: Stub behaviour
@@ -1554,7 +1587,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Upload photo
-    ///
     /// - Parameters:
     ///   - photo: Data
     ///   - caption: String
@@ -1610,7 +1642,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Delete user account
-    ///
     /// - Parameters:
     ///   - stub: Stub behaviour
     ///   - then: Completion
@@ -1661,7 +1692,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Send reset password link
-    ///
     /// - Parameters:
     ///   - email: Email
     ///   - stub: Stub behaviour
@@ -1713,7 +1743,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Get logged in user info
-    ///
     /// - Parameters:
     ///   - reload: Force reload
     ///   - stub: Stub behaviour
@@ -1767,7 +1796,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Login user
-    ///
     /// - Parameters:
     ///   - email: Email
     ///   - password: Password
@@ -1819,7 +1847,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Register new user
-    ///
     /// - Parameters:
     ///   - payload: RegistrationPayload
     ///   - stub: Stub behaviour
@@ -1868,7 +1895,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Update user info
-    ///
     /// - Parameters:
     ///   - payload: UserUpdatePayload
     ///   - stub: Stub behaviour
@@ -1913,7 +1939,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Update user token
-    ///
     /// - Parameters:
     ///   - token: String
     ///   - stub: Stub behaviour
@@ -1957,7 +1982,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Resend verification email
-    ///
     /// - Parameters:
     ///   - id: User ID
     ///   - stub: Stub behaviour

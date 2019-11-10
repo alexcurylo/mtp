@@ -250,6 +250,28 @@ final class NetworkServiceSpy: NetworkService {
         invokedUploadParameters = (photo, caption, id, then)
         invokedUploadParametersList.append((photo, caption, id, then))
     }
+    var invokedPhotoUpdate = false
+    var invokedPhotoUpdateCount = 0
+    var invokedPhotoUpdateParameters: (payload: PhotoUpdatePayload, then: NetworkCompletion<Bool>)?
+    var invokedPhotoUpdateParametersList = [(payload: PhotoUpdatePayload, then: NetworkCompletion<Bool>)]()
+    func photoUpdate(payload: PhotoUpdatePayload,
+    then: @escaping NetworkCompletion<Bool>) {
+        invokedPhotoUpdate = true
+        invokedPhotoUpdateCount += 1
+        invokedPhotoUpdateParameters = (payload, then)
+        invokedPhotoUpdateParametersList.append((payload, then))
+    }
+    var invokedDelete = false
+    var invokedDeleteCount = 0
+    var invokedDeleteParameters: (photo: Int, then: NetworkCompletion<Bool>)?
+    var invokedDeleteParametersList = [(photo: Int, then: NetworkCompletion<Bool>)]()
+    func delete(photo: Int,
+    then: @escaping NetworkCompletion<Bool>) {
+        invokedDelete = true
+        invokedDeleteCount += 1
+        invokedDeleteParameters = (photo, then)
+        invokedDeleteParametersList.append((photo, then))
+    }
     var invokedPostPublish = false
     var invokedPostPublishCount = 0
     var invokedPostPublishParameters: (payload: PostPayload, then: NetworkCompletion<PostReply>)?
