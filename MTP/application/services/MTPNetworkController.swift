@@ -1383,19 +1383,21 @@ class MTPNetworkController: ServiceProvider {
         let success: SuccessHandler = { response in
             let problem: NetworkError
             do {
-                let reply = try response.map(QuietOperationReply.self,
-                                             using: JSONDecoder.mtp)
-                if reply.isSuccess {
-                    self.report(success: endpoint)
-                    return then(.success(reply.isSuccess))
-                } else {
-                    problem = .status(reply.code)
-                }
+                _ = try response.map(PhotoUpdateReply.self,
+                                     using: JSONDecoder.mtp)
+                self.report(success: endpoint)
+                return then(.success(true))
             } catch let error as NetworkError {
                 problem = error
             } catch {
-                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
-                problem = .decoding(error.localizedDescription)
+                do {
+                    let reply = try response.map(OperationReply.self,
+                                                 using: JSONDecoder.mtp)
+                    problem = .message(reply.message)
+                } catch {
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                    problem = .decoding(error.localizedDescription)
+                }
             }
             self.report(failure: endpoint, problem: problem)
             then(.failure(problem))

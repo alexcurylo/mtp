@@ -342,7 +342,7 @@ struct PhotoUpdatePayload: Codable, Hashable {
     private let desc: String
     /// File ID
     let id: Int
-    private let location_id: Int
+    private let location_id: Int?
     private let uuid: String
     private let user_id: Int
     // "name": "",
@@ -358,8 +358,24 @@ struct PhotoUpdatePayload: Codable, Hashable {
          caption: String) {
         desc = caption
         id = from.photoId
-        location_id = locationId
+        location_id = locationId > 0 ? locationId : nil
         uuid = from.uuid
         user_id = from.userId
     }
+}
+
+/// Reply from the photo update endpoint
+struct PhotoUpdateReply: Codable {
+
+    fileprivate let desc: String?
+    fileprivate let id: Int
+    fileprivate let location: LocationJSON?
+    fileprivate let locationId: UncertainValue<Int, String>?
+    fileprivate let mime: String
+    fileprivate let name: String
+    fileprivate let type: String
+    fileprivate let userId: Int
+    fileprivate let uuid: String
+    // created_at
+    // updated_at
 }
