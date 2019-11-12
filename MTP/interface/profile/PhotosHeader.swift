@@ -24,7 +24,7 @@ final class PhotosHeader: UICollectionReusableView, ServiceProvider {
         $0.endColor = .azureRadiance
         $0.cornerRadius = 4
 
-        let title = L.addPhoto()
+        let title = L.addNewPhoto()
         $0.setTitle(title, for: .normal)
         $0.titleLabel?.font = Avenir.medium.of(size: 15)
         UIPhotos.add.expose(item: $0)

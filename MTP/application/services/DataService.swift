@@ -283,6 +283,11 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     /// - Parameter whss: API results
     func set(whss: [WHSJSON])
 
+    /// Delete user photo
+    ///
+    /// - Parameter photoId: Photo ID
+    func delete(photo photoId: Int)
+
     /// Delete all user photos
     ///
     /// - Parameter userId: User ID
@@ -981,6 +986,13 @@ class DataServiceImpl: DataService {
 
     /// World map
     let worldMap = WorldMap()
+
+    /// Delete user photo
+    ///
+    /// - Parameter photoId: Photo ID
+    func delete(photo photoId: Int) {
+        realm.delete(photo: photoId)
+    }
 
     /// Delete all user photos
     ///

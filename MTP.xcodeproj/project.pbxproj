@@ -132,6 +132,8 @@
 		8C617972223F2D79000827D6 /* LocationsFilterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C617971223F2D79000827D6 /* LocationsFilterVC.swift */; };
 		8C617975223F2E1E000827D6 /* LocationsFilter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C617973223F2E1E000827D6 /* LocationsFilter.storyboard */; };
 		8C6F7C0722D8079B004565BD /* Timestamps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6F7C0622D8079B004565BD /* Timestamps.swift */; };
+		8C73B29A236C1BFD004457F9 /* Rswift in Frameworks */ = {isa = PBXBuildFile; productRef = 8C73B299236C1BFD004457F9 /* Rswift */; };
+		8C73B29C236C1CF6004457F9 /* UNUserNotificationCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C73B29B236C1CF6004457F9 /* UNUserNotificationCenterProtocol.swift */; };
 		8C75F937231DF4760024A4CD /* NetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C75F936231DF4760024A4CD /* NetworkServiceTests.swift */; };
 		8C76D5DC22028874005CF4CD /* ServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C76D5DB22028874005CF4CD /* ServiceProvider.swift */; };
 		8C76D8EC2207CD36005CF4CD /* RankingsPageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C76D8EB2207CD36005CF4CD /* RankingsPageInfo.swift */; };
@@ -229,6 +231,7 @@
 		8CDC4D5B230A335800AA422D /* UIConfirmDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDC4D57230A32B200AA422D /* UIConfirmDelete.swift */; };
 		8CDC4D5C230A335E00AA422D /* UIKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDC4D53230A301400AA422D /* UIKeyboard.swift */; };
 		8CDC4D5E230A337D00AA422D /* UIKeyboard+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDC4D5D230A337D00AA422D /* UIKeyboard+Test.swift */; };
+		8CE2C54223726B8600570A0C /* Karte in Frameworks */ = {isa = PBXBuildFile; productRef = 8CE2C54123726B8600570A0C /* Karte */; };
 		8CE3FC2C222389B600B94EAA /* Scorecard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE3FC2B222389B600B94EAA /* Scorecard.swift */; };
 		8CE6F46B224B029500B24410 /* ContentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6F46A224B029400B24410 /* ContentState.swift */; };
 		8CE6FC56224C6C1B00B24410 /* LocationPhotos.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CE6FC58224C6C1B00B24410 /* LocationPhotos.storyboard */; };
@@ -238,7 +241,6 @@
 		8CE6FC65224C6CB600B24410 /* LocationPhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6FC62224C6CB600B24410 /* LocationPhotosVC.swift */; };
 		8CE6FC66224C6CB600B24410 /* LocationPostsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6FC63224C6CB600B24410 /* LocationPostsVC.swift */; };
 		8CEC654F23208AD80041D63A /* NotificationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CEC654E23208AD80041D63A /* NotificationServiceTests.swift */; };
-		8CEC655123208EAA0041D63A /* UNUserNotificationCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CEC655023208EAA0041D63A /* UNUserNotificationCenterProtocol.swift */; };
 		8CED2C44231765B10093AA29 /* userLogin-fail.json in Resources */ = {isa = PBXBuildFile; fileRef = 8CED2C43231765B10093AA29 /* userLogin-fail.json */; };
 		8CF239A92305156E006AB7D2 /* ActionHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF239A82305156E006AB7D2 /* ActionHandlerTests.swift */; };
 		8CF239AB230519C8006AB7D2 /* HTTPURLResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF239AA230519C8006AB7D2 /* HTTPURLResponseTests.swift */; };
@@ -716,6 +718,7 @@
 		8C617971223F2D79000827D6 /* LocationsFilterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsFilterVC.swift; sourceTree = "<group>"; };
 		8C617974223F2E1E000827D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LocationsFilter.storyboard; sourceTree = "<group>"; };
 		8C6F7C0622D8079B004565BD /* Timestamps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timestamps.swift; sourceTree = "<group>"; };
+		8C73B29B236C1CF6004457F9 /* UNUserNotificationCenterProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UNUserNotificationCenterProtocol.swift; path = MTP/sdks/UNUserNotificationCenterProtocol.swift; sourceTree = SOURCE_ROOT; };
 		8C75F936231DF4760024A4CD /* NetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceTests.swift; sourceTree = "<group>"; };
 		8C76D5DB22028874005CF4CD /* ServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProvider.swift; sourceTree = "<group>"; };
 		8C76D8EB2207CD36005CF4CD /* RankingsPageInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsPageInfo.swift; sourceTree = "<group>"; };
@@ -810,7 +813,6 @@
 		8CE6FC62224C6CB600B24410 /* LocationPhotosVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationPhotosVC.swift; sourceTree = "<group>"; };
 		8CE6FC63224C6CB600B24410 /* LocationPostsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationPostsVC.swift; sourceTree = "<group>"; };
 		8CEC654E23208AD80041D63A /* NotificationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServiceTests.swift; sourceTree = "<group>"; };
-		8CEC655023208EAA0041D63A /* UNUserNotificationCenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNUserNotificationCenterProtocol.swift; sourceTree = "<group>"; };
 		8CED2C43231765B10093AA29 /* userLogin-fail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "userLogin-fail.json"; sourceTree = "<group>"; };
 		8CF239A82305156E006AB7D2 /* ActionHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionHandlerTests.swift; sourceTree = "<group>"; };
 		8CF239AA230519C8006AB7D2 /* HTTPURLResponseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPURLResponseTests.swift; sourceTree = "<group>"; };
@@ -1167,7 +1169,6 @@
 		FAF12302215652AE0099B772 /* MTP_base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = MTP_base.xcconfig; sourceTree = "<group>"; };
 		FAF1853020FA0C8600CC5D83 /* RootVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootVC.swift; sourceTree = "<group>"; };
 		FAF1853320FA0DEF00CC5D83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Root.storyboard; sourceTree = "<group>"; };
-		FAF1853520FA16CE00CC5D83 /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 		FAF1C67922E9D53500F6636B /* UIRankings+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIRankings+Test.swift"; sourceTree = "<group>"; };
 		FAF1C67D22EA4FBA00F6636B /* UINearby+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINearby+Test.swift"; sourceTree = "<group>"; };
 		FAFBB0CC22A6A5C4001EDB80 /* Milestones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Milestones.swift; sourceTree = "<group>"; };
@@ -1181,7 +1182,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C73B29A236C1BFD004457F9 /* Rswift in Frameworks */,
 				FA9A91D62347FC07006CD75E /* KRProgressHUD in Frameworks */,
+				8CE2C54223726B8600570A0C /* Karte in Frameworks */,
 				FA489DA0233654F900185F7D /* Alamofire in Frameworks */,
 				FA9FD69523364BD0005818C3 /* RealmSwift in Frameworks */,
 				FA489DB02336D55300185F7D /* Nuke in Frameworks */,
@@ -1564,7 +1567,7 @@
 			isa = PBXGroup;
 			children = (
 				8C5855ED231F4329009D115E /* FacebookSDKClient.swift */,
-				8CEC655023208EAA0041D63A /* UNUserNotificationCenterProtocol.swift */,
+				8C73B29B236C1CF6004457F9 /* UNUserNotificationCenterProtocol.swift */,
 			);
 			name = sdks;
 			path = resources;
@@ -2240,15 +2243,14 @@
 				8C11C4842350059E00431256 /* codecov.yml */,
 				8CCA21F622B381A600C1D13B /* fastlane */,
 				FA4F1C5E20DFA74500B8A1ED /* Gemfile */,
-				FAC749A42335AAAE007B1EF1 /* Mintfile */,
 				FA9A71E020F1DD60005F6A57 /* Gemfile.lock */,
 				FA3E366F20DFC0E3002AF4EE /* IDETemplateMacros.plist */,
 				FA4F1C5B20DFA67700B8A1ED /* LICENSE.md */,
+				FAC749A42335AAAE007B1EF1 /* Mintfile */,
 				FA4B7FE021E38970006AF8E2 /* MTP.entitlements */,
 				FA3E366A20DFACCD002AF4EE /* Podfile */,
 				FA9A71E120F1DD6C005F6A57 /* Podfile.lock */,
 				FA4F1C5C20DFA67700B8A1ED /* README.md */,
-				FAF1853520FA16CE00CC5D83 /* TODO.md */,
 				FAF122F6215652AE0099B772 /* xccconfig */,
 			);
 			name = metadata;
@@ -2556,6 +2558,8 @@
 				FA66CED42337952B00F6FCAA /* Connectivity */,
 				FA51034F233D5F6C00AFC41E /* Parchment */,
 				FA9A91D52347FC07006CD75E /* KRProgressHUD */,
+				8C73B299236C1BFD004457F9 /* Rswift */,
+				8CE2C54123726B8600570A0C /* Karte */,
 			);
 			productName = MTP;
 			productReference = FA392BB720DF69F30026C828 /* MTP.app */;
@@ -2661,6 +2665,8 @@
 				FA66CED32337952B00F6FCAA /* XCRemoteSwiftPackageReference "connectivity" */,
 				FA51034E233D5F6B00AFC41E /* XCRemoteSwiftPackageReference "Parchment" */,
 				FA9A91D42347FC07006CD75E /* XCRemoteSwiftPackageReference "KRProgressHUD" */,
+				8C73B298236C1BFD004457F9 /* XCRemoteSwiftPackageReference "R.swift" */,
+				8CE2C54023726B8600570A0C /* XCRemoteSwiftPackageReference "Karte" */,
 			);
 			productRefGroup = FA392BB820DF69F30026C828 /* Products */;
 			projectDirPath = "";
@@ -2913,7 +2919,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$PODS_ROOT/R.swift/rswift\" generate \"${SRCROOT}/MTP/resources/R.generated.swift\"\necho R.generated.swift generated\n\n";
+			shellScript = "if mint list | grep -q 'R.swift'; then\n  mint run R.swift rswift generate \"${SRCROOT}/MTP/resources/R.generated.swift\"\nelse\n  echo \"error: R.swift not installed; run 'mint bootstrap' to install\"\n  return -1\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3057,7 +3063,6 @@
 				8C3EAB8C2231100400CB4886 /* Array+Type.swift in Sources */,
 				FA03459D2304CC3000632322 /* UIProfileAbout.swift in Sources */,
 				FA9A71DF20F1D3FA005F6A57 /* LaunchHandler.swift in Sources */,
-				8CEC655123208EAA0041D63A /* UNUserNotificationCenterProtocol.swift in Sources */,
 				8CE6FC66224C6CB600B24410 /* LocationPostsVC.swift in Sources */,
 				FA0345A22304CD9800632322 /* UIPhotos.swift in Sources */,
 				FA40F754225B06D50056182E /* FaqVC.swift in Sources */,
@@ -3180,6 +3185,7 @@
 				FA7A66CF22FD922F001DCCA2 /* UILocations.swift in Sources */,
 				FA254DCD2169A2A400FC9360 /* ProfileAboutVC.swift in Sources */,
 				8C177A0722FA671700E4433C /* MenuAction.swift in Sources */,
+				8C73B29C236C1CF6004457F9 /* UNUserNotificationCenterProtocol.swift in Sources */,
 				FA32CC782100C360004C1329 /* SignupVC.swift in Sources */,
 				FA25ACE6217B54A8000AE26D /* RankingCell.swift in Sources */,
 				8C522F3A2339A6290056D0CE /* FeedbackWireframe.swift in Sources */,
@@ -3681,7 +3687,8 @@
 			baseConfigurationReference = FAF12300215652AE0099B772 /* MTP_Debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 645;
+				CURRENT_PROJECT_VERSION = 646;
+				DEAD_CODE_STRIPPING = NO;
 				INFOPLIST_FILE = MTP/resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3699,7 +3706,8 @@
 			baseConfigurationReference = FAF122FC215652AE0099B772 /* MTP_Release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 645;
+				CURRENT_PROJECT_VERSION = 646;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 37L8D8MJWV;
 				INFOPLIST_FILE = MTP/resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3783,6 +3791,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		8C73B298236C1BFD004457F9 /* XCRemoteSwiftPackageReference "R.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mac-cain13/R.swift.Library";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.0;
+			};
+		};
+		8CE2C54023726B8600570A0C /* XCRemoteSwiftPackageReference "Karte" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kiliankoe/Karte";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.1.0;
+			};
+		};
 		FA489D9E233654F900185F7D /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -3858,6 +3882,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		8C73B299236C1BFD004457F9 /* Rswift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8C73B298236C1BFD004457F9 /* XCRemoteSwiftPackageReference "R.swift" */;
+			productName = Rswift;
+		};
+		8CE2C54123726B8600570A0C /* Karte */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8CE2C54023726B8600570A0C /* XCRemoteSwiftPackageReference "Karte" */;
+			productName = Karte;
+		};
 		FA489D9F233654F900185F7D /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = FA489D9E233654F900185F7D /* XCRemoteSwiftPackageReference "Alamofire" */;

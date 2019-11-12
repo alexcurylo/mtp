@@ -110,13 +110,13 @@ final class RealmDataController: ServiceProvider {
         }
     }
 
-    /// Golf courses
+    /// Hotels
     var hotels: [Hotel] {
         let results = realm.objects(Hotel.self)
         return Array(results)
     }
 
-    /// Set golf courses
+    /// Set hotels
     ///
     /// - Parameter hotels: API results
     func set(hotels: [HotelJSON]) {
@@ -368,6 +368,22 @@ final class RealmDataController: ServiceProvider {
                            .filter(filter)
                            .sorted(byKeyPath: "page")
         return results
+    }
+
+    /// Delete user photo
+    ///
+    /// - Parameter photoId: Photo ID
+    func delete(photo photoId: Int) {
+        do {
+            if let result = realm.object(ofType: Photo.self,
+                                         forPrimaryKey: photoId) {
+                try realm.write {
+                    realm.delete(result)
+                }
+            }
+        } catch {
+            log.error("delete(photo:): \(error)")
+        }
     }
 
     /// Delete all user photos

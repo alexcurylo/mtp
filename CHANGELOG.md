@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [Version 1.2.0, Build 646] - 2019-11-12
+
+- Support for directions with Apple Maps, Google Maps, Citymapper, Transit, Lyft, Uber, Navigon, Waze, DB Navigator, Yandex.Navi and Moovit
+- Expanded visited map can be shared to Facebook
+- Support for editing and deleting photos from popup menu
+
 ## [Version 1.2.0, Build 645] - 2019-10-10
 
 ### Added
@@ -15,7 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Version 1.2.0, Build 644] - 2019-10-01
 
 ### Added
-- Photo, Post, and Nearby buttons to map callouts
+- Photo, Post, and Nearby buttons added to map callouts
 
 ### Changed
 - Contact now uses MTP API

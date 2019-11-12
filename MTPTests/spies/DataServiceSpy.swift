@@ -935,6 +935,16 @@ final class DataServiceSpy: DataService {
         invokedSetWhssParameters = (whss, ())
         invokedSetWhssParametersList.append((whss, ()))
     }
+    var invokedDeletePhoto = false
+    var invokedDeletePhotoCount = 0
+    var invokedDeletePhotoParameters: (photoId: Int, Void)?
+    var invokedDeletePhotoParametersList = [(photoId: Int, Void)]()
+    func delete(photo photoId: Int) {
+        invokedDeletePhoto = true
+        invokedDeletePhotoCount += 1
+        invokedDeletePhotoParameters = (photoId, ())
+        invokedDeletePhotoParametersList.append((photoId, ()))
+    }
     var invokedDeletePhotos = false
     var invokedDeletePhotosCount = 0
     var invokedDeletePhotosParameters: (userId: Int, Void)?

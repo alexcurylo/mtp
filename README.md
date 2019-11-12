@@ -26,7 +26,7 @@ The [Most Traveled People](https://mtp.travel) extreme travel club's [iOS app](h
 Requirements
 ------------
 
-- Xcode 11.1 or later
+- Xcode 11.2 or later
 - iOS 11.0 or later
 
 ### Tools:
@@ -51,6 +51,7 @@ Requirements
 - [Anchorage](https://github.com/Raizlabs/Anchorage) for fluent layout declarations
 - [Facebook SDK in Swift](https://github.com/facebook/facebook-sdk-swift)  for Facebook support
 - [JWTDecode](https://github.com/auth0/JWTDecode.swift) for [JSON Web Token](https://jwt.io) management
+- [Karte](https://github.com/kiliankoe/Karte) for launching directions
 - [KRProgressHUD](https://github.com/krimpedance/KRProgressHUD) for progress management
 - [Moya](https://github.com/Moya/Moya) for network endpoint abstraction
 - [Nuke](https://github.com/kean/Nuke) for networked image loading
@@ -62,6 +63,9 @@ Requirements
 Usage
 -----
 
+Install Ruby + Bundler + Mint as system tools, [Homebrew](https://brew.sh) is a good start
+`bundle install` to install the versioned tools in `Gemfile`
+`mint bootstrap` to install the versioned tools in `Mintfile`
 Build the app with the 'MTP' target.
 
 Documentation

@@ -12,7 +12,6 @@ final class ProfileUITests: XCTestCase {
         super.tearDown()
     }
 
-    // swiftlint:disable:next function_body_length
     func testMyProfile() {
         launch(settings: [.loggedIn(true)])
 
@@ -50,6 +49,7 @@ final class ProfileUITests: XCTestCase {
 
         UIProfilePaging.photos.tap()
 
+        /* switch to Edit + Delete here, move this to locations
         UIPhotos.photo(0).showMenu()
 
         UISystem.menu("Hide").tap()
@@ -68,13 +68,14 @@ final class ProfileUITests: XCTestCase {
         UISystem.menu("Block user").tap()
 
         UISystem.button("OK").tap()
-
+         */
         UIPhotos.add.tap()
 
         UIAddPhoto.close.tap()
 
         UIProfilePaging.posts.tap()
 
+        /* switch to Edit + Delete here, move this to locations
         UIPosts.post(0).showMenu()
 
         UISystem.menu("Hide").tap()
@@ -93,6 +94,7 @@ final class ProfileUITests: XCTestCase {
         UISystem.menu("Block user").tap()
 
         UISystem.button("OK").tap()
+         */
 
         UIPosts.add.tap()
 

@@ -39,7 +39,6 @@ class PhotosVC: UICollectionViewController {
     var contentState: ContentState = .loading
     /// Mode of presentation
     var mode: Mode = .browser
-    private var configuredMenu = false
     /// Filtered queued network actions
     var queuedPhotos: [MTPPhotoRequest] = []
     private var requestsObserver: Observer?
@@ -83,6 +82,9 @@ class PhotosVC: UICollectionViewController {
         fatalError("photoCount has not been overridden")
     }
 
+    /// Photo to be edited in Add screen
+    var injectPhoto: Photo?
+
     /// Retrieve an indexed photo
     ///
     /// - Parameter index: Index
@@ -92,10 +94,10 @@ class PhotosVC: UICollectionViewController {
         fatalError("photo(at:) has not been overridden")
     }
 
-    /// Create a new Photo
-    func createPhoto() {
+    /// Edit or create a new Photo
+    func add(photo: Photo?) {
         // swiftlint:disable:previous unavailable_function
-        fatalError("createPhoto has not been overridden")
+        fatalError("add(photo:) has not been overridden")
     }
 
     /// Handle dependency injection
@@ -181,11 +183,12 @@ private extension PhotosVC {
         return (cell as? PhotoCell)?.imageView
     }
 
-    private func configureMenu() {
-        guard !configuredMenu else { return }
-
-        configuredMenu = true
-        UIMenuController.shared.menuItems = MenuAction.contentItems
+    private func configure(menu photo: Photo) {
+        if photo.userId == data.user?.id {
+            UIMenuController.shared.menuItems = MenuAction.myItems
+        } else {
+            UIMenuController.shared.menuItems = MenuAction.theirItems
+        }
     }
 
     func observeRequests() {
@@ -202,7 +205,7 @@ private extension PhotosVC {
 extension PhotosVC: PhotosHeaderDelegate {
 
     func addTapped() {
-        createPhoto()
+        add(photo: nil)
     }
 
     func queueTapped() {
@@ -295,7 +298,7 @@ extension PhotosVC {
     /// :nodoc:
     override func collectionView(_ collectionView: UICollectionView,
                                  shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        configureMenu()
+        configure(menu: photo(at: indexPath.item))
         return true
     }
 
@@ -379,6 +382,32 @@ extension PhotosVC: PhotoCellDelegate {
     func tapped(block: Photo?) {
         if data.block(user: block?.userId ?? 0) {
             app.route(to: .locations)
+        }
+    }
+
+    /// :nodoc:
+    func tapped(edit: Photo?) {
+        add(photo: edit)
+    }
+
+    /// :nodoc:
+    func tapped(delete: Photo?) {
+        guard let delete = delete else { return }
+        let photoId = delete.photoId
+        let userId = delete.userId
+        let locationId = delete.locationId
+
+        net.delete(photo: photoId) { [net, data] _ in
+            data.delete(photo: photoId)
+            if userId > 0 {
+                data.delete(photos: userId )
+                net.loadPhotos(page: 1,
+                               reload: true) { _ in }
+            }
+            if locationId > 0 {
+                net.loadPhotos(location: locationId,
+                               reload: true) { _ in }
+            }
         }
     }
 }

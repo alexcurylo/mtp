@@ -22,6 +22,14 @@ protocol PhotoCellDelegate: AnyObject {
     ///
     /// - Parameter block: Photo to block
     func tapped(block: Photo?)
+    /// Handle block action
+    ///
+    /// - Parameter edit: Photo to edit
+    func tapped(edit: Photo?)
+    /// Handle delete action
+    ///
+    /// - Parameter delete: Photo to delete
+    func tapped(delete: Photo?)
 }
 
 /// Data model for post cell
@@ -98,15 +106,23 @@ private extension PhotoCell {
         imageView?.load(image: photo)
     }
 
-    @objc func hide(_ sender: AnyObject?) {
+    @objc func menuHide(_ sender: AnyObject?) {
         delegate?.tapped(hide: photo)
     }
 
-    @objc func report(_ sender: AnyObject?) {
+    @objc func menuReport(_ sender: AnyObject?) {
         delegate?.tapped(report: photo)
     }
 
-    @objc func block(_ sender: AnyObject?) {
+    @objc func menuBlock(_ sender: AnyObject?) {
         delegate?.tapped(block: photo)
+    }
+
+    @objc func menuEdit(_ sender: AnyObject?) {
+        delegate?.tapped(edit: photo)
+    }
+
+    @objc func menuDelete(_ sender: AnyObject?) {
+        delegate?.tapped(delete: photo)
     }
 }

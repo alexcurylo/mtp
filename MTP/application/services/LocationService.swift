@@ -260,6 +260,12 @@ extension LocationServiceImpl: Mapper {
         handler?.broadcast(mappable: mappable) { $0.reveal(mappable: $1, callout: callout) }
     }
 
+    /// Show Directions selector
+    /// - Parameter mappable: Place
+    func show(directions mappable: Mappable) {
+        handler?.broadcast(mappable: mappable) { $0.show(directions: $1) }
+    }
+
     /// Show Show More screen
     /// - Parameter mappable: Place
     func show(more mappable: Mappable) {

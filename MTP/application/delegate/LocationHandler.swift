@@ -38,6 +38,7 @@ class LocationHandler: NSObject, AppHandler, ServiceProvider {
     private var beachesObserver: Observer?
     private var divesitesObserver: Observer?
     private var golfcoursesObserver: Observer?
+    private var hotelsObserver: Observer?
     private var locationsObserver: Observer?
     private var restaurantsObserver: Observer?
     private var whssObserver: Observer?
@@ -217,6 +218,9 @@ private extension LocationHandler {
             self.checkDistanceUpdate()
         }
         golfcoursesObserver = Checklist.golfcourses.observer { _ in
+            self.checkDistanceUpdate()
+        }
+        hotelsObserver = Checklist.hotels.observer { _ in
             self.checkDistanceUpdate()
         }
         locationsObserver = Checklist.locations.observer { _ in

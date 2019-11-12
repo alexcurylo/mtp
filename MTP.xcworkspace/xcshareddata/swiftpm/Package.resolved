@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
         "state": {
           "branch": null,
-          "revision": "ce5be6fbc6f51414c49f56fc8e2b7c99253d9f8e",
-          "version": "4.9.0"
+          "revision": "747c8db8d57b68d5e35275f10c92d55f982adbd4",
+          "version": "4.9.1"
         }
       },
       {
@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/rwbutler/connectivity",
         "state": {
           "branch": null,
-          "revision": "0fa363ccf8a2a66fddb010b711f0a0d0bb2a7ea8",
-          "version": "3.1.2"
+          "revision": "02102520a2777b99e9064de23c082e1fffdddc2b",
+          "version": "3.3.0"
         }
       },
       {
@@ -35,6 +35,15 @@
           "branch": null,
           "revision": "c228db5d2ad1b01ebc84435e823e6cca4e3db98b",
           "version": "1.2.0"
+        }
+      },
+      {
+        "package": "Karte",
+        "repositoryURL": "https://github.com/kiliankoe/Karte",
+        "state": {
+          "branch": null,
+          "revision": "ce3531f4f10a162b6d08dd29e974d88a13dd1218",
+          "version": "4.1.0"
         }
       },
       {
@@ -78,8 +87,8 @@
         "repositoryURL": "https://github.com/kean/Nuke.git",
         "state": {
           "branch": null,
-          "revision": "b323dd3d7b82fa973fb7350bb505d7a52795b995",
-          "version": "8.3.0"
+          "revision": "cd495310d8bb0ef73a726d77db19fe7f5530d080",
+          "version": "8.3.1"
         }
       },
       {
@@ -110,6 +119,15 @@
         }
       },
       {
+        "package": "R.swift.Library",
+        "repositoryURL": "https://github.com/mac-cain13/R.swift.Library",
+        "state": {
+          "branch": null,
+          "revision": "4a09ece7d0a30edcd95462ce7d252dd4d3a49843",
+          "version": "5.1.0"
+        }
+      },
+      {
         "package": "ReactiveSwift",
         "repositoryURL": "https://github.com/ReactiveCocoa/ReactiveSwift.git",
         "state": {
@@ -123,8 +141,8 @@
         "repositoryURL": "https://github.com/realm/realm-cocoa",
         "state": {
           "branch": null,
-          "revision": "69a4f4c73c877bf6df4cc416d1590a5e42426cc0",
-          "version": "3.19.0"
+          "revision": "40732f2ec0cdc32d9d3df8219b2e655deb3077f1",
+          "version": "3.21.0"
         }
       },
       {
@@ -159,8 +177,8 @@
         "repositoryURL": "https://github.com/huri000/SwiftEntryKit",
         "state": {
           "branch": null,
-          "revision": "3cc32ac55323829f6099fbc512a8b8ea38e84f65",
-          "version": "1.1.4"
+          "revision": "796981500de29ee72f72ef8e9c46eaed2fe6364e",
+          "version": "1.2.3"
         }
       },
       {
@@ -168,8 +186,8 @@
         "repositoryURL": "https://github.com/SwiftyBeaver/SwiftyBeaver.git",
         "state": {
           "branch": null,
-          "revision": "d215a5c97ff9695f4de18a114e760a63a19eb80a",
-          "version": "1.8.2"
+          "revision": "1d61211e37d28ca00c155fa4e358ada912ca7b80",
+          "version": "1.8.3"
         }
       }
     ]

@@ -28,6 +28,18 @@ private enum MessageType: String {
     case success
 }
 
+/// Reply from delete photo endpoint
+struct QuietOperationReply: Codable {
+
+    /// HTTP result code
+    let code: Int
+
+    /// Whether operation succeeded
+    var isSuccess: Bool {
+        return code == 200
+    }
+}
+
 /// Reply from the password reset and contact form endpoints
 struct OperationMessageReply: Codable {
 

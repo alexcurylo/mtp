@@ -36,8 +36,6 @@ class PostsVC: UITableViewController {
     var contentState: ContentState = .loading
     /// Data models
     var models: [PostCellModel] = []
-    /// Current post uploads
-    private var configuredMenu = false
     /// Filtered queued network actions
     var queuedPosts: [MTPPostRequest] = []
     private var requestsObserver: Observer?
@@ -209,7 +207,7 @@ extension PostsVC {
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
-        configureMenu()
+        configure(menu: models[indexPath.row])
         return true
     }
 
@@ -234,16 +232,12 @@ extension PostsVC {
 
 extension PostsVC: PostCellDelegate {
 
-    /// Profile tapped
-    ///
-    /// - Parameter user: User to display
+    /// :nodoc:
     func tapped(profile user: User) {
         show(user: user)
     }
 
-    /// Display toggle tapped
-    ///
-    /// - Parameter toggle: Model to toggle
+    /// :nodoc:
     func tapped(toggle: Int) {
         guard toggle < models.count else { return }
 
@@ -254,28 +248,34 @@ extension PostsVC: PostCellDelegate {
         }
     }
 
-    /// Handle hide action
-    ///
-    /// - Parameter hide: PostCellModel to hide
+    /// :nodoc:
     func tapped(hide: PostCellModel?) {
         data.block(post: hide?.postId ?? 0)
     }
 
-    /// Handle report action
-    ///
-    /// - Parameter report: PostCellModel to report
+    /// :nodoc:
     func tapped(report: PostCellModel?) {
         let message = L.reportPost(report?.postId ?? 0)
         app.route(to: .reportContent(message))
     }
 
-    /// Handle block action
-    ///
-    /// - Parameter block: PostCellModel to block
+    /// :nodoc:
     func tapped(block: PostCellModel?) {
         if data.block(user: block?.user?.userId ?? 0) {
             app.dismissPresentations()
         }
+    }
+
+    /// :nodoc:
+    func tapped(edit: PostCellModel?) {
+        // TODO: implement edit
+        log.todo("implement edit")
+    }
+
+    /// :nodoc:
+    func tapped(delete: PostCellModel?) {
+        // TODO: implement delete
+        log.todo("implement delete")
     }
 }
 
@@ -294,11 +294,12 @@ private extension PostsVC {
         }
     }
 
-    func configureMenu() {
-        guard !configuredMenu else { return }
-
-        configuredMenu = true
-        UIMenuController.shared.menuItems = MenuAction.contentItems
+    private func configure(menu post: PostCellModel) {
+        if post.user?.userId == data.user?.id {
+            UIMenuController.shared.menuItems = MenuAction.myItems
+        } else {
+            UIMenuController.shared.menuItems = MenuAction.theirItems
+        }
     }
 
     func observeRequests() {
