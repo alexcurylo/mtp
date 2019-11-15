@@ -27,12 +27,6 @@ platform :ios, $iosVersion
 target 'MTP' do
   pod 'Anchorage'
   pod 'Crashlytics'
-  pod 'FacebookCore'
-  pod 'FacebookLogin'
-  pod 'FacebookShare'
-  pod 'FBSDKCoreKit', :modular_headers => true
-  pod 'FBSDKLoginKit', :modular_headers => true
-  pod 'FBSDKShareKit', :modular_headers => true
   pod 'Firebase/Analytics'
   pod 'JWTDecode'
 

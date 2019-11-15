@@ -42,6 +42,9 @@
 		8C27DF29232724B50020E0B6 /* UINetwork+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C27DF28232724B50020E0B6 /* UINetwork+Tests.swift */; };
 		8C27DF2A232725AD0020E0B6 /* UINetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C27DF26232724670020E0B6 /* UINetwork.swift */; };
 		8C2F88912330B467005BADE0 /* Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDA496B2330709C00014912 /* Network.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		8C37FCAB237E49D900F443C6 /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 8C37FCAA237E49D900F443C6 /* FacebookCore */; };
+		8C37FCAD237E49D900F443C6 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 8C37FCAC237E49D900F443C6 /* FacebookLogin */; };
+		8C37FCAF237E49D900F443C6 /* FacebookShare in Frameworks */ = {isa = PBXBuildFile; productRef = 8C37FCAE237E49D900F443C6 /* FacebookShare */; };
 		8C3EA1FF22DD540F008DD858 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EA1FE22DD540F008DD858 /* SnapshotHelper.swift */; };
 		8C3EA813222F64F100CB4886 /* TopLoadingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */; };
 		8C3EAA1C2230BFA500CB4886 /* InsetTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3EAA1B2230BFA500CB4886 /* InsetTextField.swift */; };
@@ -1182,7 +1185,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C37FCAD237E49D900F443C6 /* FacebookLogin in Frameworks */,
 				8C73B29A236C1BFD004457F9 /* Rswift in Frameworks */,
+				8C37FCAB237E49D900F443C6 /* FacebookCore in Frameworks */,
 				FA9A91D62347FC07006CD75E /* KRProgressHUD in Frameworks */,
 				8CE2C54223726B8600570A0C /* Karte in Frameworks */,
 				FA489DA0233654F900185F7D /* Alamofire in Frameworks */,
@@ -1191,6 +1196,7 @@
 				FA489DA32336569A00185F7D /* Moya in Frameworks */,
 				FA9FD69323364BD0005818C3 /* Realm in Frameworks */,
 				FA66CED52337952B00F6FCAA /* Connectivity in Frameworks */,
+				8C37FCAF237E49D900F443C6 /* FacebookShare in Frameworks */,
 				FA66CED2233791EE00F6FCAA /* SwiftEntryKit in Frameworks */,
 				FA510350233D5F6C00AFC41E /* Parchment in Frameworks */,
 				8CDA496F233076D700014912 /* Network.framework in Frameworks */,
@@ -2539,7 +2545,6 @@
 				FA392BB420DF69F30026C828 /* Frameworks */,
 				FA3BD22A2160DE7A007EAF75 /* SwiftLint */,
 				FA392BB520DF69F30026C828 /* Resources */,
-				6488DCB99249CC3516D4C352 /* [CP] Copy Pods Resources */,
 				8CD93521230E244300BCB549 /* Fabric */,
 			);
 			buildRules = (
@@ -2560,6 +2565,9 @@
 				FA9A91D52347FC07006CD75E /* KRProgressHUD */,
 				8C73B299236C1BFD004457F9 /* Rswift */,
 				8CE2C54123726B8600570A0C /* Karte */,
+				8C37FCAA237E49D900F443C6 /* FacebookCore */,
+				8C37FCAC237E49D900F443C6 /* FacebookLogin */,
+				8C37FCAE237E49D900F443C6 /* FacebookShare */,
 			);
 			productName = MTP;
 			productReference = FA392BB720DF69F30026C828 /* MTP.app */;
@@ -2667,6 +2675,7 @@
 				FA9A91D42347FC07006CD75E /* XCRemoteSwiftPackageReference "KRProgressHUD" */,
 				8C73B298236C1BFD004457F9 /* XCRemoteSwiftPackageReference "R.swift" */,
 				8CE2C54023726B8600570A0C /* XCRemoteSwiftPackageReference "Karte" */,
+				8C37FCA9237E49D900F443C6 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 			);
 			productRefGroup = FA392BB820DF69F30026C828 /* Products */;
 			projectDirPath = "";
@@ -2769,23 +2778,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6488DCB99249CC3516D4C352 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MTP/Pods-MTP-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MTP/Pods-MTP-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MTP/Pods-MTP-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		758B7A9DF0E27C737110216C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3791,6 +3783,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		8C37FCA9237E49D900F443C6 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.1;
+			};
+		};
 		8C73B298236C1BFD004457F9 /* XCRemoteSwiftPackageReference "R.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/mac-cain13/R.swift.Library";
@@ -3882,6 +3882,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		8C37FCAA237E49D900F443C6 /* FacebookCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8C37FCA9237E49D900F443C6 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookCore;
+		};
+		8C37FCAC237E49D900F443C6 /* FacebookLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8C37FCA9237E49D900F443C6 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookLogin;
+		};
+		8C37FCAE237E49D900F443C6 /* FacebookShare */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8C37FCA9237E49D900F443C6 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookShare;
+		};
 		8C73B299236C1BFD004457F9 /* Rswift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8C73B298236C1BFD004457F9 /* XCRemoteSwiftPackageReference "R.swift" */;
