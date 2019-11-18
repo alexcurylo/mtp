@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Ignore 400 errors on idempotent visit updates
+- Suspend user data refresh whilst offline actions pending
 
 ## [Version 1.2.0, Build 646] - 2019-11-12
 

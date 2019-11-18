@@ -261,7 +261,8 @@ class NetworkServiceImpl: NetworkService {
 
     fileprivate func refreshUser() {
         guard data.isLoggedIn,
-              !isThrottled(last: lastRefreshUser, wait: .user) else { return }
+              !isThrottled(last: lastRefreshUser, wait: .user),
+              requests.isEmpty else { return }
 
         lastRefreshUser = Date()
         mtp.userGetByToken(reload: false) { _ in
@@ -655,6 +656,9 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
         default:
             log.warning("Unhandled completed request: \(type(of: request))")
         }
+        if requests.isEmpty {
+            refreshUser()
+        }
     }
 
     /// Callback indicating that the OfflineRequest action has failed for reasons unrelated to connectivity
@@ -690,7 +694,8 @@ private extension NetworkServiceImpl {
     }
 
     func refreshUserInfo() {
-        guard let user = data.user else { return }
+        guard let user = data.user,
+                  requests.isEmpty else { return }
 
         add { done in self.mtp.loadChecklists { _ in done() } }
         add { done in self.mtp.loadPosts(user: user.id, reload: false) { _ in done() } }
