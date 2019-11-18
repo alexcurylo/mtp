@@ -228,6 +228,8 @@ private extension MTP {
             return "load_user_photos"
         case .picture: // (let uuid, let size):
             return "load_picture"
+        case .postDelete: // (let post):
+            return "delete_post"
         case .postPublish: // (let payload):
             return "upload_post"
         case .rankings: // (let query):

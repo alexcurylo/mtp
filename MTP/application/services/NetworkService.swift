@@ -74,14 +74,18 @@ protocol NetworkService: Observable, ServiceProvider {
     /// Load location posts
     /// - Parameters:
     ///   - id: Location ID
+    ///   - reload: Force reload
     ///   - then: Completion
     func loadPosts(location id: Int,
+                   reload: Bool,
                    then: @escaping NetworkCompletion<PostsJSON>)
     /// Load user posts
     /// - Parameters:
     ///   - id: User ID
+    ///   - reload: Force reload
     ///   - then: Completion
     func loadPosts(user id: Int,
+                   reload: Bool,
                    then: @escaping NetworkCompletion<PostsJSON>)
     /// Load rankings
     /// - Parameters:
@@ -145,6 +149,12 @@ protocol NetworkService: Observable, ServiceProvider {
     ///   - then: Completion
     func postPublish(payload: PostPayload,
                      then: @escaping NetworkCompletion<PostReply>)
+    /// Delete post
+    /// - Parameters:
+    ///   - oist: Int
+    ///   - then: Completion
+    func delete(post: Int,
+                then: @escaping NetworkCompletion<Bool>)
     /// Delete user account
     /// - Parameter then: Completion
     func userDeleteAccount(then: @escaping NetworkCompletion<String>)
@@ -329,16 +339,19 @@ class NetworkServiceImpl: NetworkService {
     ///   - id: Location ID
     ///   - then: Completion
     func loadPosts(location id: Int,
+                   reload: Bool,
                    then: @escaping NetworkCompletion<PostsJSON>) {
-        mtp.loadPosts(location: id, reload: false, then: then)
+        mtp.loadPosts(location: id, reload: reload, then: then)
     }
 
     /// Load user posts
     /// - Parameters:
     ///   - id: User ID
     ///   - then: Completion
-    func loadPosts(user id: Int, then: @escaping NetworkCompletion<PostsJSON>) {
-        mtp.loadPosts(user: id, reload: false, then: then)
+    func loadPosts(user id: Int,
+                   reload: Bool,
+                   then: @escaping NetworkCompletion<PostsJSON>) {
+        mtp.loadPosts(user: id, reload: reload, then: then)
     }
 
     /// Load rankings
@@ -451,6 +464,15 @@ class NetworkServiceImpl: NetworkService {
         offlineRequestManager.queueRequest(request)
         requestsChanged()
         then(.failure(.queued))
+    }
+
+    /// Delete post
+    /// - Parameters:
+    ///   - oist: Int
+    ///   - then: Completion
+    func delete(post: Int,
+                then: @escaping NetworkCompletion<Bool>) {
+        mtp.delete(post: post, then: then)
     }
 
     /// Delete user account
@@ -728,7 +750,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
         guard let user = data.user else { return }
 
         mtp.loadChecklists(stub: MTPProvider.immediatelyStub) { _ in }
-        loadPosts(user: user.id) { _ in }
+        loadPosts(user: user.id, reload: false) { _ in }
         loadPhotos(profile: user.id, page: 1, reload: false) { _ in }
         Checklist.allCases.forEach { list in
             loadScorecard(list: list,
@@ -783,18 +805,20 @@ final class NetworkServiceStub: NetworkServiceImpl {
 
     /// :nodoc:
     override func loadPosts(location id: Int,
+                            reload: Bool,
                             then: @escaping NetworkCompletion<PostsJSON>) {
         mtp.loadPosts(location: id,
-                      reload: false,
+                      reload: reload,
                       stub: MTPProvider.immediatelyStub,
                       then: then)
     }
 
     /// :nodoc:
     override func loadPosts(user id: Int,
+                            reload: Bool,
                             then: @escaping NetworkCompletion<PostsJSON>) {
         mtp.loadPosts(user: id,
-                      reload: false,
+                      reload: reload,
                       stub: MTPProvider.immediatelyStub,
                       then: then)
     }
@@ -877,6 +901,14 @@ final class NetworkServiceStub: NetworkServiceImpl {
         mtp.postPublish(payload: payload,
                         stub: MTPProvider.immediatelyStub,
                         then: then)
+    }
+
+    /// :nodoc:
+   override func delete(post: Int,
+                        then: @escaping NetworkCompletion<Bool>) {
+        mtp.delete(post: post,
+                   stub: MTPProvider.immediatelyStub,
+                   then: then)
     }
 
     /// :nodoc:

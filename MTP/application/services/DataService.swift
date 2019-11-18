@@ -293,6 +293,16 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     /// - Parameter userId: User ID
     func delete(photos userId: Int)
 
+    /// Delete user post
+    ///
+    /// - Parameter postId: Post ID
+    func delete(post postId: Int)
+
+    /// Delete all user posts
+    ///
+    /// - Parameter userId: User ID
+    func delete(posts userId: Int)
+
     /// Delete all rankings for checklist
     ///
     /// - Parameter rankings: Checklist
@@ -361,6 +371,7 @@ extension DataService {
 
         if let id = user?.id {
             delete(photos: id)
+            delete(posts: id)
         }
         blockedPhotos = []
         blockedPosts = []
@@ -731,7 +742,8 @@ class DataServiceImpl: DataService {
     ///   - posts: API results
     func set(location id: Int,
              posts: [PostJSON]) {
-        realm.set(posts: posts)
+        realm.set(posts: posts,
+                  editorId: user?.id ?? 0)
         notify(change: .locationPosts, object: id)
     }
 
@@ -798,7 +810,8 @@ class DataServiceImpl: DataService {
     ///   - id: Location ID
     ///   - posts: API results
     func set(posts: [PostJSON]) {
-        realm.set(posts: posts)
+        realm.set(posts: posts,
+                  editorId: user?.id ?? 0)
         notify(change: .posts)
     }
 
@@ -1000,6 +1013,20 @@ class DataServiceImpl: DataService {
     func delete(photos userId: Int) {
         realm.delete(photos: userId)
     }
+
+     /// Delete user post
+     ///
+     /// - Parameter postId: Post ID
+     func delete(post postId: Int) {
+         realm.delete(post: postId)
+     }
+
+     /// Delete all user posts
+     ///
+     /// - Parameter id: User ID
+     func delete(posts userId: Int) {
+         realm.delete(posts: userId)
+     }
 
     /// Delete all rankings for checklist
     ///

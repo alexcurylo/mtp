@@ -274,8 +274,22 @@ extension PostsVC: PostCellDelegate {
 
     /// :nodoc:
     func tapped(delete: PostCellModel?) {
-        // TODO: implement delete
-        log.todo("implement delete")
+        guard let delete = delete else { return }
+        let postId = delete.postId
+        let userId = delete.user?.userId ?? 0
+        let locationId = delete.location?.placeId ?? 0
+
+        net.delete(post: postId) { [net, data] _ in
+            data.delete(post: postId)
+            if userId > 0 {
+                net.loadPosts(user: userId,
+                              reload: true) { _ in }
+            }
+            if locationId > 0 {
+                net.loadPosts(location: locationId,
+                              reload: true) { _ in }
+            }
+        }
     }
 }
 

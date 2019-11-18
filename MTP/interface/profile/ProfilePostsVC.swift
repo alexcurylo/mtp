@@ -99,7 +99,8 @@ extension ProfilePostsVC: Injectable {
         user = model
         isSelf = model.isSelf
 
-        net.loadPosts(user: model.userId) { [weak self] _ in
+        net.loadPosts(user: model.userId,
+                      reload: false) { [weak self] _ in
             self?.loaded()
         }
     }

@@ -955,6 +955,26 @@ final class DataServiceSpy: DataService {
         invokedDeletePhotosParameters = (userId, ())
         invokedDeletePhotosParametersList.append((userId, ()))
     }
+    var invokedDeletePost = false
+    var invokedDeletePostCount = 0
+    var invokedDeletePostParameters: (postId: Int, Void)?
+    var invokedDeletePostParametersList = [(postId: Int, Void)]()
+    func delete(post postId: Int) {
+        invokedDeletePost = true
+        invokedDeletePostCount += 1
+        invokedDeletePostParameters = (postId, ())
+        invokedDeletePostParametersList.append((postId, ()))
+    }
+    var invokedDeletePosts = false
+    var invokedDeletePostsCount = 0
+    var invokedDeletePostsParameters: (userId: Int, Void)?
+    var invokedDeletePostsParametersList = [(userId: Int, Void)]()
+    func delete(posts userId: Int) {
+        invokedDeletePosts = true
+        invokedDeletePostsCount += 1
+        invokedDeletePostsParameters = (userId, ())
+        invokedDeletePostsParametersList.append((userId, ()))
+    }
     var invokedDeleteRankings = false
     var invokedDeleteRankingsCount = 0
     var invokedDeleteRankingsParameters: (rankings: Checklist, Void)?

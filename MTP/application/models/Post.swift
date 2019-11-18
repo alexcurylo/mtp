@@ -47,6 +47,12 @@ struct PostJSON: Codable {
     let owner: OwnerJSON? // UserJSON in user endpoint
     /// userId
     let userId: Int // appears filled in even if owner null
+
+    func isValid(editorId: Int) -> Bool {
+        guard owner != nil else { return false }
+        if userId == editorId { return true }
+        return status == MTP.Status.published.rawValue
+    }
 }
 
 extension PostJSON: CustomStringConvertible {
@@ -97,18 +103,13 @@ extension PostJSON: CustomDebugStringConvertible {
     }
 
     /// Constructor from MTP endpoint data
-    convenience init?(from: PostJSON) {
-        guard let text = from.post,
-              !text.isEmpty,
-              from.owner != nil,
-              from.status == MTP.Status.published.rawValue else {
-            return nil
-        }
+    convenience init?(from: PostJSON, editorId: Int) {
+        guard from.isValid(editorId: editorId) else { return nil }
 
         self.init()
 
         locationId = from.locationId
-        post = text
+        post = from.post ?? ""
         postId = from.id
         updatedAt = from.updatedAt
         userId = from.userId

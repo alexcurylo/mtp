@@ -443,11 +443,14 @@ final class RealmDataController: ServiceProvider {
     /// Set posts
     ///
     /// - Parameters:
-    ///   - id: Location ID
     ///   - posts: API results
-    func set(posts: [PostJSON]) {
+    ///   - editorId: logged in user
+    func set(posts: [PostJSON],
+             editorId: Int) {
         do {
-            let objects = posts.compactMap { Post(from: $0) }
+            let objects = posts.compactMap {
+                Post(from: $0, editorId: editorId)
+            }
             let users: [User] = posts.compactMap {
                 guard let owner = $0.owner else { return nil }
                 return User(from: owner, with: user(id: $0.userId))
@@ -462,6 +465,38 @@ final class RealmDataController: ServiceProvider {
             }
         } catch {
             log.error("set posts: \(error)")
+        }
+    }
+
+    /// Delete user post
+    ///
+    /// - Parameter postId: Post ID
+    func delete(post postId: Int) {
+        do {
+            if let result = realm.object(ofType: Post.self,
+                                         forPrimaryKey: postId) {
+                try realm.write {
+                    realm.delete(result)
+                }
+            }
+        } catch {
+            log.error("delete(post:): \(error)")
+        }
+    }
+
+    /// Delete all user posts
+    ///
+    /// - Parameter id: User ID
+    func delete(posts userId: Int) {
+        do {
+            let filter = "userId = \(userId)"
+            let results = realm.objects(Post.self)
+                               .filter(filter)
+            try realm.write {
+                realm.delete(results)
+            }
+        } catch {
+            log.error("delete(posts:): \(error)")
         }
     }
 
