@@ -50,7 +50,9 @@ final class LocationPostsVC: PostsVC {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let edit = Segues.addPost(segue: segue)?
                             .destination {
-            edit.inject(model: mappable)
+            edit.inject(model: (post: injectPost,
+                                mappable: mappable))
+            injectPost = nil
         } else if let profile = Segues.showUserProfile(segue: segue)?
                                       .destination,
                   let profileModel = profileModel {
@@ -58,8 +60,9 @@ final class LocationPostsVC: PostsVC {
         }
     }
 
-    /// Create a new post
-    override func createPost() {
+    /// Edit or create a new post
+    override func add(post: PostCellModel?) {
+        injectPost = post
         performSegue(withIdentifier: Segues.addPost,
                      sender: self)
     }

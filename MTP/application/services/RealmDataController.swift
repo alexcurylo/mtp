@@ -25,7 +25,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Set beaches
-    ///
     /// - Parameter beaches: API results
     func set(beaches: [PlaceJSON]) {
         do {
@@ -45,7 +44,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Get country
-    ///
     /// - Parameter id: country ID
     /// - Returns: Country if found
     func country(id: Int?) -> Country? {
@@ -56,7 +54,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Set countries
-    ///
     /// - Parameter countries: API results
     func set(countries: [CountryJSON]) {
         do {
@@ -77,7 +74,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Set dive sites
-    ///
     /// - Parameter divesites: API results
     func set(divesites: [PlaceJSON]) {
         do {
@@ -97,7 +93,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Set golf courses
-    ///
     /// - Parameter golfcourses: API results
     func set(golfcourses: [PlaceJSON]) {
         do {
@@ -117,7 +112,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Set hotels
-    ///
     /// - Parameter hotels: API results
     func set(hotels: [HotelJSON]) {
         do {
@@ -137,7 +131,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Get filtered locations
-    ///
     /// - Parameter filter: Filter
     /// - Returns: Locations if found
     func locations(filter: String) -> [Location] {
@@ -147,7 +140,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Get location
-    ///
     /// - Parameter id: location ID
     /// - Returns: Location if found
     func location(id: Int?) -> Location? {
@@ -158,7 +150,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Set locations
-    ///
     /// - Parameter locations: API results
     func set(locations: [LocationJSON]) {
         do {
@@ -173,7 +164,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Get place
-    ///
     /// - Parameters:
     ///   - item: list and ID
     ///   - visible: Whether to restrict to visible items
@@ -193,7 +183,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Get places
-    ///
     /// - Parameters:
     ///   - list: list
     ///   - visible: Whether to restrict to visible items
@@ -222,7 +211,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Get matching places
-    ///
     /// - Parameters:
     ///   - matching: String
     ///   - visible: Whether to restrict to visible items
@@ -242,7 +230,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Get milestones
-    ///
     /// - Parameter list: Checklist
     /// - Returns: Milestones if found
     func milestones(list: Checklist) -> Milestones? {
@@ -252,7 +239,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Set milestones
-    ///
     /// - Parameter milestones: API results
     func set(milestones: SettingsJSON) {
         do {
@@ -269,7 +255,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Get photo
-    ///
     /// - Parameter id: ID
     /// - Returns: Photo
     func photo(id: Int) -> Photo? {
@@ -280,7 +265,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Get location photos
-    ///
     /// - Parameter id: location ID
     /// - Returns: Photos if found
     func photos(location: Int) -> [Photo] {
@@ -292,7 +276,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Get user photos by location
-    ///
     /// - Parameters:
     ///   - id: User ID
     ///   - location: Location
@@ -307,7 +290,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Set location photos
-    ///
     /// - Parameters:
     ///   - id: Location ID
     ///   - photos: API results
@@ -324,7 +306,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Set photo
-    ///
     /// - Parameter photo: API result
     func set(photo: PhotoReply) {
         do {
@@ -338,7 +319,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Set photos page
-    ///
     /// - Parameters:
     ///   - page: Index
     ///   - id: User ID
@@ -359,7 +339,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Get user photo pages
-    ///
     /// - Parameter id: User ID
     /// - Returns: Photo pages if found
     func photosPages(user id: Int) -> Results<PhotosPageInfo> {
@@ -371,7 +350,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Delete user photo
-    ///
     /// - Parameter photoId: Photo ID
     func delete(photo photoId: Int) {
         do {
@@ -387,7 +365,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Delete all user photos
-    ///
     /// - Parameter id: User ID
     func delete(photos userId: Int) {
         do {
@@ -403,7 +380,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Get location posts
-    ///
     /// - Parameter id: location ID
     /// - Returns: Posts if found
     func posts(location id: Int) -> [Post] {
@@ -415,7 +391,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Get user posts
-    ///
     /// - Parameter id: User ID
     /// - Returns: Posts if found
     func posts(user id: Int) -> [Post] {
@@ -426,8 +401,15 @@ final class RealmDataController: ServiceProvider {
         return Array(results)
     }
 
+    /// Get post
+    /// - Parameter id: ID
+    /// - Returns: Post
+    func post(id: Int) -> Post? {
+        return realm.object(ofType: Post.self,
+                            forPrimaryKey: id)
+    }
+
     /// Set post
-    ///
     /// - Parameter post: API results
     func set(post: PostReply) {
         do {
@@ -441,7 +423,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Set posts
-    ///
     /// - Parameters:
     ///   - posts: API results
     ///   - editorId: logged in user
@@ -469,7 +450,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Delete user post
-    ///
     /// - Parameter postId: Post ID
     func delete(post postId: Int) {
         do {
@@ -485,7 +465,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Delete all user posts
-    ///
     /// - Parameter id: User ID
     func delete(posts userId: Int) {
         do {
@@ -501,7 +480,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Get rankings pages
-    ///
     /// - Parameter query: Filter query
     /// - Returns: Rankings pages if found
     func rankings(query: RankingsQuery) -> Results<RankingsPageInfo> {
@@ -513,7 +491,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Delete all rankings for checklist
-    ///
     /// - Parameter rankings: Checklist
     func delete(rankings: Checklist) {
         do {
@@ -529,7 +506,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Set rankings query
-    ///
     /// - Parameters:
     ///   - query: Query
     ///   - info: API results
@@ -554,7 +530,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Set restaurants
-    ///
     /// - Parameter restaurants: API results
     func set(restaurants: [RestaurantJSON]) {
         do {
@@ -568,7 +543,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Get user scorecard
-    ///
     /// - Parameters:
     ///   - list: Checklist
     ///   - id: userID
@@ -581,7 +555,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Set scorecard
-    ///
     /// - Parameter scorecard: API results
     func set(scorecard: ScorecardWrapperJSON) {
         do {
@@ -601,7 +574,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Set UN countries
-    ///
     /// - Parameter uncountries: API results
     func set(uncountries: [LocationJSON]) {
         do {
@@ -615,7 +587,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Get user
-    ///
     /// - Parameter id: User ID
     /// - Returns: User if found
     func user(id: Int) -> User? {
@@ -625,7 +596,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Set user
-    ///
     /// - Parameter data: API results
     func set(user data: UserJSON) {
         do {
@@ -645,7 +615,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Get WHS
-    ///
     /// - Parameter id: WHS ID
     /// - Returns: WHS if found
     func whs(id: Int) -> WHS? {
@@ -655,7 +624,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Set WHSs
-    ///
     /// - Parameter whss: API results
     func set(whss: [WHSJSON]) {
         do {
@@ -682,7 +650,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Resolve Realm crossthread reference
-    ///
     /// - Parameter reference: Reference
     /// - Returns: Mappable if found
     func resolve(reference: Mappable.Reference) -> Mappable? {
@@ -690,7 +657,6 @@ final class RealmDataController: ServiceProvider {
     }
 
     /// Update page stamp
-    ///
     /// - Parameter stamp: Page
     func update(stamp: RankingsPageInfo) {
         do {

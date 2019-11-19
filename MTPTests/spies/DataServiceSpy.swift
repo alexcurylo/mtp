@@ -631,6 +631,18 @@ final class DataServiceSpy: DataService {
         invokedGetPhotoParametersList.append((photo, ()))
         return stubbedGetPhotoResult
     }
+    var invokedGetPost = false
+    var invokedGetPostCount = 0
+    var invokedGetPostParameters: (post: Int, Void)?
+    var invokedGetPostParametersList = [(post: Int, Void)]()
+    var stubbedGetPostResult: Post!
+    func get(post: Int) -> Post? {
+        invokedGetPost = true
+        invokedGetPostCount += 1
+        invokedGetPostParameters = (post, ())
+        invokedGetPostParametersList.append((post, ()))
+        return stubbedGetPostResult
+    }
     var invokedGetPosts = false
     var invokedGetPostsCount = 0
     var invokedGetPostsParameters: (id: Int, Void)?

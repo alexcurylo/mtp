@@ -133,7 +133,7 @@ protocol NetworkService: Observable, ServiceProvider {
                 then: @escaping NetworkCompletion<PhotoReply>)
     /// Update photo
     /// - Parameters:
-    ///   - payload: UserUpdatePayload
+    ///   - payload: PhotoUpdatePayload
     ///   - then: Completion
     func photoUpdate(payload: PhotoUpdatePayload,
                      then: @escaping NetworkCompletion<Bool>)
@@ -149,6 +149,12 @@ protocol NetworkService: Observable, ServiceProvider {
     ///   - then: Completion
     func postPublish(payload: PostPayload,
                      then: @escaping NetworkCompletion<PostReply>)
+    /// Update post
+    /// - Parameters:
+    ///   - payload: PostUpdatePayload
+    ///   - then: Completion
+    func postUpdate(payload: PostUpdatePayload,
+                    then: @escaping NetworkCompletion<Bool>)
     /// Delete post
     /// - Parameters:
     ///   - oist: Int
@@ -464,6 +470,15 @@ class NetworkServiceImpl: NetworkService {
         offlineRequestManager.queueRequest(request)
         requestsChanged()
         then(.failure(.queued))
+    }
+
+    /// Update post
+    /// - Parameters:
+    ///   - payload: PostUpdatePayload
+    ///   - then: Completion
+    func postUpdate(payload: PostUpdatePayload,
+                    then: @escaping NetworkCompletion<Bool>) {
+        mtp.postUpdate(payload: payload, then: then)
     }
 
     /// Delete post
@@ -901,6 +916,14 @@ final class NetworkServiceStub: NetworkServiceImpl {
         mtp.postPublish(payload: payload,
                         stub: MTPProvider.immediatelyStub,
                         then: then)
+    }
+
+    /// :nodoc:
+    override func postUpdate(payload: PostUpdatePayload,
+                             then: @escaping NetworkCompletion<Bool>) {
+        mtp.postUpdate(payload: payload,
+                       stub: MTPProvider.immediatelyStub,
+                       then: then)
     }
 
     /// :nodoc:

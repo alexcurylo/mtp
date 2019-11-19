@@ -75,6 +75,28 @@ extension PostPayload: CustomStringConvertible {
     }
 }
 
+/// Payload sent to API endpoint
+struct PostUpdatePayload: Codable, Hashable {
+
+    /// Post ID being updated
+    let id: Int
+    private let location: LocationPayload
+    private let location_id: Int
+    private let post: String
+    private let status = "A"
+    private let user_id: Int
+
+    /// :nodoc:
+    init(from: PostCellModel,
+         with: PostPayload) {
+        id = from.postId
+        location = with.location
+        location_id = with.location_id
+        post = with.post
+        user_id = from.user?.userId ?? 0
+    }
+}
+
 extension Post {
 
     /// Constructor from MTP endpoint data

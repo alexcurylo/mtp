@@ -63,85 +63,72 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var worldMap: WorldMap { get }
 
     /// Block a photo
-    ///
     /// - Parameter id: Photo ID
     func block(photo id: Int)
     /// Block a post
-    ///
     /// - Parameter id: Post ID
     func block(post id: Int)
     /// Block a user
-    ///
     /// - Parameter id: User ID
     func block(user id: Int) -> Bool
 
     /// Get country
-    ///
     /// - Parameter id: country ID
     /// - Returns: Country if found
     func get(country id: Int?) -> Country?
     /// Get location
-    ///
     /// - Parameter id: location ID
     /// - Returns: Location if found
     func get(location id: Int?) -> Location?
     /// Get location photos
-    ///
     /// - Parameter id: location ID
     /// - Returns: Photos if found
     func get(locationPhotos id: Int) -> [Photo]
     /// Get location posts
-    ///
     /// - Parameter id: location ID
     /// - Returns: Posts if found
     func get(locationPosts id: Int) -> [Post]
     /// Get filtered locations
-    ///
     /// - Parameter filter: Filter
     /// - Returns: Locations if found
     func get(locations filter: String) -> [Location]
     /// Get place
-    ///
     /// - Parameter item: list and ID
     /// - Returns: Place if found
     func get(mappable item: Checklist.Item) -> Mappable?
     /// Get visible place
-    ///
     /// - Parameter item: list and ID
     /// - Returns: Place if found
     func get(visible item: Checklist.Item) -> Mappable?
     /// Get places
-    ///
     /// - Parameter list: Checklist
     /// - Returns: Places in list
     func get(visibles list: Checklist) -> [Mappable]
     /// Get matching places
-    ///
     /// - Parameter matching: String
     /// - Returns: Places matching
     func get(visibles matching: String) -> [Mappable]
     /// Get milestones
-    ///
     /// - Parameter list: Checklist
     /// - Returns: Milestones if found
     func get(milestones list: Checklist) -> Milestones?
     /// Get user photo pages
-    ///
     /// - Parameter id: User ID
     /// - Returns: Photo pages if found
     func getPhotosPages(user id: Int) -> Results<PhotosPageInfo>
     /// Get photo
-    ///
     /// - Parameter photo: ID
     /// - Returns: Photo
     func get(photo: Int) -> Photo
+    /// Get post
+    /// - Parameter post: ID
+    /// - Returns: Post if exists
+    func get(post: Int) -> Post?
     /// Get user posts
-    ///
     /// - Parameter id: User ID
     /// - Returns: Posts if found
     func getPosts(user id: Int) -> [Post]
     /// Get user photos by location
-    ///
     /// - Parameters:
     ///   - id: User ID
     ///   - location: Location
@@ -149,12 +136,10 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func get(user id: Int,
              photos location: Int?) -> [Photo]
     /// Get rankings pages
-    ///
     /// - Parameter query: Filter query
     /// - Returns: Rankings pages if found
     func get(rankings query: RankingsQuery) -> Results<RankingsPageInfo>
     /// Get user scorecard
-    ///
     /// - Parameters:
     ///   - list: Checklist
     ///   - id: userID
@@ -162,82 +147,66 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func get(scorecard list: Checklist,
              user id: Int?) -> Scorecard?
     /// Get user
-    ///
     /// - Parameter id: User ID
     /// - Returns: User if found
     func get(user id: Int) -> User?
     /// Get WHS
-    ///
     /// - Parameter id: WHS ID
     /// - Returns: WHS if found
     func get(whs id: Int) -> WHS?
 
     /// Does WHS have children?
-    ///
     /// - Parameter id: WHS ID
     /// - Returns: Parentage
     func hasChildren(whs id: Int) -> Bool
     /// Visited children list
-    ///
     /// - Parameter id: WHS ID
     /// - Returns: Visited children
     func visitedChildren(whs id: Int) -> [WHS]
 
     /// Set beaches
-    ///
     /// - Parameter beaches: API results
     func set(beaches: [PlaceJSON])
     /// Set countries
-    ///
     /// - Parameter countries: API results
     func set(countries: [CountryJSON])
     /// Set dive sites
-    ///
     /// - Parameter divesites: API results
     func set(divesites: [PlaceJSON])
     /// Set golf courses
-    ///
     /// - Parameter golfcourses: API results
     func set(golfcourses: [PlaceJSON])
     /// Set hotels
-    ///
     /// - Parameter hotels: API results
     func set(hotels: [HotelJSON])
     /// Set places visited state
-    ///
     /// - Parameters:
     ///   - items: Places
     ///   - visited: Visited state
     func set(items: [Checklist.Item],
              visited: Bool)
     /// Set locations
-    ///
     /// - Parameter locations: API results
     func set(locations: [LocationJSON])
     /// Set location photos
-    ///
     /// - Parameters:
     ///   - id: Location ID
     ///   - photos: API results
     func set(location id: Int,
              photos: PhotosInfoJSON)
     /// Set location posts
-    ///
     /// - Parameters:
     ///   - id: Location ID
     ///   - photos: API results
     func set(location id: Int,
              posts: [PostJSON])
     /// Set milestones
-    ///
     /// - Parameter milestones: API results
     func set(milestones: SettingsJSON)
     /// Set photo
-    ///
     /// - Parameter photo: API result
     func set(photo: PhotoReply)
     /// Set photos page
-    ///
     /// - Parameters:
     ///   - page: Index
     ///   - id: User ID
@@ -246,90 +215,73 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
              user id: Int,
              info: PhotosPageInfoJSON)
     /// Set post
-    ///
     /// - Parameter post: API results
     func set(post: PostReply)
     /// Set user posts
-    ///
     /// - Parameters:
     ///   - id: Location ID
     ///   - posts: API results
     func set(posts: [PostJSON])
     /// Set restaurants
-    ///
     /// - Parameter restaurants: API results
     func set(restaurants: [RestaurantJSON])
     /// Set rankings query
-    ///
     /// - Parameters:
     ///   - query: Query
     ///   - info: API results
     func set(rankings query: RankingsQuery,
              info: RankingsPageInfoJSON)
     /// Set scorecard
-    ///
     /// - Parameter scorecard: API results
     func set(scorecard: ScorecardWrapperJSON)
     /// Set UN countries
-    ///
     /// - Parameter uncountries: API results
     func set(uncountries: [LocationJSON])
     /// Set user
-    ///
     /// - Parameter data: API results
     func set(user data: UserJSON)
     /// Set WHSs
-    ///
     /// - Parameter whss: API results
     func set(whss: [WHSJSON])
 
     /// Delete user photo
-    ///
     /// - Parameter photoId: Photo ID
     func delete(photo photoId: Int)
 
     /// Delete all user photos
-    ///
     /// - Parameter userId: User ID
     func delete(photos userId: Int)
 
     /// Delete user post
-    ///
     /// - Parameter postId: Post ID
     func delete(post postId: Int)
 
     /// Delete all user posts
-    ///
     /// - Parameter userId: User ID
     func delete(posts userId: Int)
 
     /// Delete all rankings for checklist
-    ///
     /// - Parameter rankings: Checklist
     func delete(rankings: Checklist)
 
     /// Resolve Realm crossthread reference
-    ///
     /// - Parameter reference: Reference
     /// - Returns: Mappable if found
     func resolve(reference: Mappable.Reference) -> Mappable?
 
     /// Update rankings
-    ///
     /// - Parameters:
     ///   - rankings: Checklist
     ///   - then: Completion
     func update(rankings: Checklist,
                 then: @escaping Completion)
     /// Update scorecard
-    ///
     /// - Parameters:
     ///   - rankings: Checklist
     ///   - then: Completion
     func update(scorecard: Checklist,
                 then: @escaping Completion)
     /// Update page stamp
-    ///
     /// - Parameter stamp: Page
     func update(stamp: RankingsPageInfo?)
 }
@@ -403,7 +355,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Set beaaches
-    ///
     /// - Parameter beaches: API results
     func set(beaches: [PlaceJSON]) {
         realm.set(beaches: beaches)
@@ -446,7 +397,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Block a photo
-    ///
     /// - Parameter id: Photo ID
     func block(photo id: Int) {
         if !blockedPhotos.contains(id) {
@@ -455,7 +405,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Block a post
-    ///
     /// - Parameter id: Post ID
     func block(post id: Int) {
         if !blockedPosts.contains(id) {
@@ -464,7 +413,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Block a user
-    ///
     /// - Parameter id: User ID
     func block(user id: Int) -> Bool {
         guard id > 0, id != user?.id else {
@@ -483,7 +431,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Get country
-    ///
     /// - Parameter id: country ID
     /// - Returns: Country if found
     func get(country id: Int?) -> Country? {
@@ -491,7 +438,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Set countries
-    ///
     /// - Parameter countries: API results
     func set(countries: [CountryJSON]) {
         realm.set(countries: countries)
@@ -503,7 +449,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Set dive sites
-    ///
     /// - Parameter divesites: API results
     func set(divesites: [PlaceJSON]) {
         realm.set(divesites: divesites)
@@ -542,7 +487,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Set golf courses
-    ///
     /// - Parameter golfcourses: API results
     func set(golfcourses: [PlaceJSON]) {
         realm.set(golfcourses: golfcourses)
@@ -555,7 +499,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Set hotels
-    ///
     /// - Parameter hotels: API results
     func set(hotels: [HotelJSON]) {
         realm.set(hotels: hotels)
@@ -574,7 +517,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Get location
-    ///
     /// - Parameter id: location ID
     /// - Returns: Location if found
     func get(location id: Int?) -> Location? {
@@ -582,7 +524,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Get location photos
-    ///
     /// - Parameter id: location ID
     /// - Returns: Photos if found
     func get(locationPhotos id: Int) -> [Photo] {
@@ -590,7 +531,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Get location posts
-    ///
     /// - Parameter id: location ID
     /// - Returns: Posts if found
     func get(locationPosts id: Int) -> [Post] {
@@ -598,7 +538,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Get filtered locations
-    ///
     /// - Parameter filter: Filter
     /// - Returns: Locations if found
     func get(locations filter: String) -> [Location] {
@@ -606,7 +545,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Get place
-    ///
     /// - Parameter item: list and ID
     /// - Returns: Place if found
     func get(mappable item: Checklist.Item) -> Mappable? {
@@ -614,7 +552,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Get visible place
-    ///
     /// - Parameter item: list and ID
     /// - Returns: Place if found
     func get(visible item: Checklist.Item) -> Mappable? {
@@ -627,7 +564,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Get places
-    ///
     /// - Parameter list: list
     /// - Returns: Places in list
     func get(visibles list: Checklist) -> [Mappable] {
@@ -635,7 +571,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Get matching places
-    ///
     /// - Parameter matching: String
     /// - Returns: Places matching
     func get(visibles matching: String) -> [Mappable] {
@@ -643,7 +578,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Set places visited state
-    ///
     /// - Parameters:
     ///   - items: Places
     ///   - visited: Visited state
@@ -671,7 +605,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Set locations
-    ///
     /// - Parameter locations: API results
     func set(locations: [LocationJSON]) {
         realm.set(locations: locations)
@@ -696,7 +629,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Get user photo pages
-    ///
     /// - Parameter id: User ID
     /// - Returns: Photo pages if found
     func getPhotosPages(user id: Int) -> Results<PhotosPageInfo> {
@@ -704,15 +636,20 @@ class DataServiceImpl: DataService {
     }
 
     /// Get photo
-    ///
     /// - Parameter photo: ID
     /// - Returns: Photo
     func get(photo: Int) -> Photo {
         return realm.photo(id: photo) ?? Photo()
     }
 
+    /// Get post
+    /// - Parameter post: ID
+    /// - Returns: Post if exists
+    func get(post: Int) -> Post? {
+        return realm.post(id: post)
+    }
+
     /// Get user photos by location
-    ///
     /// - Parameters:
     ///   - id: User ID
     ///   - location: Location
@@ -725,7 +662,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Set location photos
-    ///
     /// - Parameters:
     ///   - id: Location ID
     ///   - photos: API results
@@ -736,7 +672,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Set location posts
-    ///
     /// - Parameters:
     ///   - id: Location ID
     ///   - posts: API results
@@ -748,7 +683,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Get milestones
-    ///
     /// - Parameter list: Checklist
     /// - Returns: Milestones if found
     func get(milestones list: Checklist) -> Milestones? {
@@ -756,7 +690,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Set milestones
-    ///
     /// - Parameter milestones: API results
     func set(milestones: SettingsJSON) {
         realm.set(milestones: milestones)
@@ -764,7 +697,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Set photo
-    ///
     /// - Parameter photo: API result
     func set(photo: PhotoReply) {
         realm.set(photo: photo)
@@ -772,7 +704,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Set photos page
-    ///
     /// - Parameters:
     ///   - page: Index
     ///   - id: User ID
@@ -789,7 +720,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Get user posts
-    ///
     /// - Parameter id: User ID
     /// - Returns: Posts if found
     func getPosts(user id: Int) -> [Post] {
@@ -797,7 +727,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Set post
-    ///
     /// - Parameter post: API results
     func set(post: PostReply) {
         realm.set(post: post)
@@ -805,7 +734,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Set user posts
-    ///
     /// - Parameters:
     ///   - id: Location ID
     ///   - posts: API results
@@ -816,7 +744,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Get rankings pages
-    ///
     /// - Parameter query: Filter query
     /// - Returns: Rankings pages if found
     func get(rankings query: RankingsQuery) -> Results<RankingsPageInfo> {
@@ -824,7 +751,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Set rankings query
-    ///
     /// - Parameters:
     ///   - query: Query
     ///   - info: API results
@@ -849,7 +775,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Set restaurants
-    ///
     /// - Parameter restaurants: API results
     func set(restaurants: [RestaurantJSON]) {
         realm.set(restaurants: restaurants)
@@ -857,7 +782,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Get user scorecard
-    ///
     /// - Parameters:
     ///   - list: Checklist
     ///   - id: userID
@@ -869,7 +793,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Set scorecard
-    ///
     /// - Parameter scorecard: API results
     func set(scorecard: ScorecardWrapperJSON) {
         realm.set(scorecard: scorecard)
@@ -903,7 +826,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Set UN countries
-    ///
     /// - Parameter uncountries: API results
     func set(uncountries: [LocationJSON]) {
         realm.set(uncountries: uncountries)
@@ -932,7 +854,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Get user
-    ///
     /// - Parameter id: User ID
     /// - Returns: User if found
     func get(user id: Int) -> User? {
@@ -953,7 +874,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Get WHS
-    ///
     /// - Parameter id: WHS ID
     /// - Returns: WHS if found
     func get(whs id: Int) -> WHS? {
@@ -961,7 +881,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Does WHS have children?
-    ///
     /// - Parameter id: WHS ID
     /// - Returns: Parentage
     func hasChildren(whs id: Int) -> Bool {
@@ -969,7 +888,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Visited children list
-    ///
     /// - Parameter id: WHS ID
     /// - Returns: Visited children
     func visitedChildren(whs id: Int) -> [WHS] {
@@ -990,7 +908,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Set WHSs
-    ///
     /// - Parameter whss: API results
     func set(whss: [WHSJSON]) {
         realm.set(whss: whss)
@@ -1001,35 +918,30 @@ class DataServiceImpl: DataService {
     let worldMap = WorldMap()
 
     /// Delete user photo
-    ///
     /// - Parameter photoId: Photo ID
     func delete(photo photoId: Int) {
         realm.delete(photo: photoId)
     }
 
     /// Delete all user photos
-    ///
     /// - Parameter id: User ID
     func delete(photos userId: Int) {
         realm.delete(photos: userId)
     }
 
      /// Delete user post
-     ///
-     /// - Parameter postId: Post ID
+      /// - Parameter postId: Post ID
      func delete(post postId: Int) {
          realm.delete(post: postId)
      }
 
      /// Delete all user posts
-     ///
-     /// - Parameter id: User ID
+      /// - Parameter id: User ID
      func delete(posts userId: Int) {
          realm.delete(posts: userId)
      }
 
     /// Delete all rankings for checklist
-    ///
     /// - Parameter rankings: Checklist
     func delete(rankings: Checklist) {
         realm.delete(rankings: rankings)
@@ -1037,7 +949,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Resolve Realm crossthread reference
-    ///
     /// - Parameter reference: Reference
     /// - Returns: Mappable if found
     func resolve(reference: Mappable.Reference) -> Mappable? {
@@ -1045,7 +956,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Update rankings
-    ///
     /// - Parameters:
     ///   - rankings: Checklist
     ///   - then: Completion
@@ -1071,7 +981,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Update scorecard
-    ///
     /// - Parameters:
     ///   - rankings: Checklist
     ///   - then: Completion
@@ -1099,7 +1008,6 @@ class DataServiceImpl: DataService {
     }
 
     /// Update page stamp
-    ///
     /// - Parameter stamp: Page
     func update(stamp: RankingsPageInfo?) {
         guard let stamp = stamp else { return }

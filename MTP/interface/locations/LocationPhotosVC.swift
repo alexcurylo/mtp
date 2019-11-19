@@ -46,7 +46,7 @@ final class LocationPhotosVC: PhotosVC {
         return photos[index]
     }
 
-    /// Edit or create a new Photo
+    /// Edit or create a new photo
     override func add(photo: Photo?) {
         injectPhoto = photo
         performSegue(withIdentifier: Segues.addPhoto,

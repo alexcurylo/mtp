@@ -232,6 +232,8 @@ private extension MTP {
             return "delete_post"
         case .postPublish: // (let payload):
             return "upload_post"
+        case .postPut: // (payload: PostUpdatePayload)
+            return "update_post"
         case .rankings: // (let query):
             return "load_rankings"
         case .restaurant:

@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Support for editing and deleting posts from popup menu
+
 ### Fixed
 - Ignore 400 errors on idempotent visit updates
 - Suspend user data refresh whilst offline actions pending

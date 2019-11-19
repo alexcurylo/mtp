@@ -285,6 +285,17 @@ final class NetworkServiceSpy: NetworkService {
         invokedPostPublishParameters = (payload, then)
         invokedPostPublishParametersList.append((payload, then))
     }
+    var invokedPostUpdate = false
+    var invokedPostUpdateCount = 0
+    var invokedPostUpdateParameters: (payload: PostUpdatePayload, then: NetworkCompletion<Bool>)?
+    var invokedPostUpdateParametersList = [(payload: PostUpdatePayload, then: NetworkCompletion<Bool>)]()
+    func postUpdate(payload: PostUpdatePayload,
+    then: @escaping NetworkCompletion<Bool>) {
+        invokedPostUpdate = true
+        invokedPostUpdateCount += 1
+        invokedPostUpdateParameters = (payload, then)
+        invokedPostUpdateParametersList.append((payload, then))
+    }
     var invokedDeletePost = false
     var invokedDeletePostCount = 0
     var invokedDeletePostParameters: (post: Int, then: NetworkCompletion<Bool>)?
