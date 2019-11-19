@@ -79,6 +79,10 @@ enum MTP: Hashable {
     case photoPut(payload: PhotoUpdatePayload)
     /// photos(user: Int?, page: Int)
     case photos(user: Int?, page: Int)
+    /// postDelete(post: Int)
+    case postDelete(post: Int)
+    /// postPut(payload: PostUpdatePayload)
+    case postPut(payload: PostUpdatePayload)
     /// postPublish(payload: PostPayload)
     case postPublish(payload: PostPayload)
     /// rankings(query: RankingsQuery)
@@ -174,6 +178,10 @@ extension MTP: TargetType {
             return "users/me/photos"
         case .picture:
             return "files/preview"
+        case .postDelete(let post):
+            return "location-posts/\(post)"
+        case .postPut(let payload):
+            return "location-posts/\(payload.id)"
         case .postPublish:
             return "location-posts"
         case .rankings:
@@ -219,6 +227,7 @@ extension MTP: TargetType {
         switch self {
         case .checkOut,
              .photoDelete,
+             .postDelete,
              .userDelete:
             return .delete
         case .beach,
@@ -256,6 +265,7 @@ extension MTP: TargetType {
              .userRegister:
             return .post
         case .photoPut,
+             .postPut,
              .userPut:
             return .put
         }
@@ -333,6 +343,8 @@ extension MTP: TargetType {
             return .requestJSONEncodable(payload)
         case .postPublish(let payload):
             return .requestJSONEncodable(payload)
+        case .postPut(let payload):
+            return .requestJSONEncodable(payload)
         case .userPut(let payload):
             return .requestJSONEncodable(payload)
         case .userRegister(let payload):
@@ -350,6 +362,7 @@ extension MTP: TargetType {
              .hotels, // add ?with=location for location info
              .location,
              .locationPhotos, // &page=1&orderBy=-created_at&limit=6
+             .postDelete,
              .restaurant,
              .scorecard,
              .search,
@@ -498,7 +511,9 @@ extension MTP: AccessTokenAuthorizable {
              .photoDelete,
              .photoPut,
              .photos,
+             .postDelete,
              .postPublish,
+             .postPut,
              .rankings,
              .upload,
              .userDelete,
@@ -1492,6 +1507,78 @@ class MTPNetworkController: ServiceProvider {
             }
             self.report(failure: endpoint, problem: problem)
             then(.failure(problem))
+        }
+
+        provider.request(endpoint) { result in
+            switch result {
+            case .success(let response):
+                success(response)
+            case .failure(let error):
+                then(.failure(self.problem(with: endpoint, from: error)))
+            }
+        }
+    }
+
+    /// Update post
+    /// - Parameters:
+    ///   - payload: PostUpdatePayload
+    ///   - stub: Stub behaviour
+    ///   - then: Completion
+    func postUpdate(payload: PostUpdatePayload,
+                    stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
+                    then: @escaping NetworkCompletion<Bool>) {
+        let auth = AccessTokenPlugin { self.data.token }
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
+        let endpoint = MTP.postPut(payload: payload)
+
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                // updated response in /data
+                let reply = try response.map(OperationReply.self,
+                                             using: JSONDecoder.mtp)
+                if reply.isSuccess {
+                    self.report(success: endpoint)
+                    return then(.success(true))
+                } else {
+                    problem = .message(reply.message)
+                }
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
+        provider.request(endpoint) { result in
+            switch result {
+            case .success(let response):
+                success(response)
+            case .failure(let error):
+                then(.failure(self.problem(with: endpoint, from: error)))
+            }
+        }
+    }
+
+    /// Delete post
+    /// - Parameters:
+    ///   - post: Int
+    ///   - stub: Stub behaviour
+    ///   - then: Completion
+    func delete(post: Int,
+                stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
+                then: @escaping NetworkCompletion<Bool>) {
+        let auth = AccessTokenPlugin { self.data.token }
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
+        let endpoint = MTP.postDelete(post: post)
+
+        let success: SuccessHandler = { response in
+            // apparently this returns a simple "1" or "0"
+            self.report(success: endpoint)
+            return then(.success(true))
         }
 
         provider.request(endpoint) { result in

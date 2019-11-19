@@ -6,8 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Support for editing and deleting posts from popup menu
+
+### Fixed
+- Ignore 400 errors on idempotent visit updates
+- Suspend user data refresh whilst offline actions pending
+
 ## [Version 1.2.0, Build 646] - 2019-11-12
 
+### Added
 - Support for directions with Apple Maps, Google Maps, Citymapper, Transit, Lyft, Uber, Navigon, Waze, DB Navigator, Yandex.Navi and Moovit
 - Expanded visited map can be shared to Facebook
 - Support for editing and deleting photos from popup menu

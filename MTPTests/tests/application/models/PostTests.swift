@@ -13,9 +13,11 @@ final class PostTests: MTPTestCase {
         // when
         let json = try JSONDecoder.mtp.decode(PostsJSON.self,
                                               from: data)
-        realm.set(posts: json.data)
+        realm.set(posts: json.data,
+                  editorId: 0)
         let postJson = json.data[0]
-        let sut = try unwrap(Post(from: postJson))
+        let sut = try unwrap(Post(from: postJson,
+                                  editorId: 0))
 
         // then
         json.description.assert(equal: "PostsJSON (1)")
@@ -38,7 +40,8 @@ final class PostTests: MTPTestCase {
         // when
         let json = try JSONDecoder.mtp.decode(PostJSON.self,
                                               from: data)
-        let sut = Post(from: json)
+        let sut = Post(from: json,
+                       editorId: 0)
 
         // then
         XCTAssertNil(sut)

@@ -15,14 +15,18 @@ class PostsVC: UITableViewController {
         return false
     }
 
+    /// Post to be edited in Add screen
+    var injectPost: PostCellModel?
+
     /// Type of view presenting this controller
     var presenter: Presenter {
         fatalError("presenter has not been overridden")
     }
 
-    /// Create a new post
-    func createPost() {
-        // override to implement
+    /// Edit or create a new Post
+    func add(post: PostCellModel?) {
+        // swiftlint:disable:previous unavailable_function
+        fatalError("add(post:) has not been overridden")
     }
 
     /// Present user profile
@@ -130,7 +134,7 @@ class PostsVC: UITableViewController {
 extension PostsVC: PostHeaderDelegate {
 
     func addTapped() {
-        createPost()
+        add(post: nil)
     }
 
     func queueTapped() {
@@ -268,14 +272,27 @@ extension PostsVC: PostCellDelegate {
 
     /// :nodoc:
     func tapped(edit: PostCellModel?) {
-        // TODO: implement edit
-        log.todo("implement edit")
+        add(post: edit)
     }
 
     /// :nodoc:
     func tapped(delete: PostCellModel?) {
-        // TODO: implement delete
-        log.todo("implement delete")
+        guard let delete = delete else { return }
+        let postId = delete.postId
+        let userId = delete.user?.userId ?? 0
+        let locationId = delete.location?.placeId ?? 0
+
+        net.delete(post: postId) { [net, data] _ in
+            data.delete(post: postId)
+            if userId > 0 {
+                net.loadPosts(user: userId,
+                              reload: true) { _ in }
+            }
+            if locationId > 0 {
+                net.loadPosts(location: locationId,
+                              reload: true) { _ in }
+            }
+        }
     }
 }
 

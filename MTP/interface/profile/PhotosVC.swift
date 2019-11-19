@@ -94,7 +94,7 @@ class PhotosVC: UICollectionViewController {
         fatalError("photo(at:) has not been overridden")
     }
 
-    /// Edit or create a new Photo
+    /// Edit or create a new photo
     func add(photo: Photo?) {
         // swiftlint:disable:previous unavailable_function
         fatalError("add(photo:) has not been overridden")

@@ -40,8 +40,19 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
         update()
     }
 
-    /// Create a new post
-    override func createPost() {
+    /// :nodoc:
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let edit = Segues.addPost(segue: segue)?
+                            .destination {
+            edit.inject(model: (post: injectPost,
+                                mappable: nil))
+            injectPost = nil
+        }
+    }
+
+    /// Edit or create a new post
+    override func add(post: PostCellModel?) {
+        injectPost = post
         performSegue(withIdentifier: Segues.addPost,
                      sender: self)
     }
@@ -99,7 +110,8 @@ extension ProfilePostsVC: Injectable {
         user = model
         isSelf = model.isSelf
 
-        net.loadPosts(user: model.userId) { [weak self] _ in
+        net.loadPosts(user: model.userId,
+                      reload: false) { [weak self] _ in
             self?.loaded()
         }
     }

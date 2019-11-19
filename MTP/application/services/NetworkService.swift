@@ -74,14 +74,18 @@ protocol NetworkService: Observable, ServiceProvider {
     /// Load location posts
     /// - Parameters:
     ///   - id: Location ID
+    ///   - reload: Force reload
     ///   - then: Completion
     func loadPosts(location id: Int,
+                   reload: Bool,
                    then: @escaping NetworkCompletion<PostsJSON>)
     /// Load user posts
     /// - Parameters:
     ///   - id: User ID
+    ///   - reload: Force reload
     ///   - then: Completion
     func loadPosts(user id: Int,
+                   reload: Bool,
                    then: @escaping NetworkCompletion<PostsJSON>)
     /// Load rankings
     /// - Parameters:
@@ -129,7 +133,7 @@ protocol NetworkService: Observable, ServiceProvider {
                 then: @escaping NetworkCompletion<PhotoReply>)
     /// Update photo
     /// - Parameters:
-    ///   - payload: UserUpdatePayload
+    ///   - payload: PhotoUpdatePayload
     ///   - then: Completion
     func photoUpdate(payload: PhotoUpdatePayload,
                      then: @escaping NetworkCompletion<Bool>)
@@ -145,6 +149,18 @@ protocol NetworkService: Observable, ServiceProvider {
     ///   - then: Completion
     func postPublish(payload: PostPayload,
                      then: @escaping NetworkCompletion<PostReply>)
+    /// Update post
+    /// - Parameters:
+    ///   - payload: PostUpdatePayload
+    ///   - then: Completion
+    func postUpdate(payload: PostUpdatePayload,
+                    then: @escaping NetworkCompletion<Bool>)
+    /// Delete post
+    /// - Parameters:
+    ///   - oist: Int
+    ///   - then: Completion
+    func delete(post: Int,
+                then: @escaping NetworkCompletion<Bool>)
     /// Delete user account
     /// - Parameter then: Completion
     func userDeleteAccount(then: @escaping NetworkCompletion<String>)
@@ -261,7 +277,8 @@ class NetworkServiceImpl: NetworkService {
 
     fileprivate func refreshUser() {
         guard data.isLoggedIn,
-              !isThrottled(last: lastRefreshUser, wait: .user) else { return }
+              !isThrottled(last: lastRefreshUser, wait: .user),
+              requests.isEmpty else { return }
 
         lastRefreshUser = Date()
         mtp.userGetByToken(reload: false) { _ in
@@ -328,16 +345,19 @@ class NetworkServiceImpl: NetworkService {
     ///   - id: Location ID
     ///   - then: Completion
     func loadPosts(location id: Int,
+                   reload: Bool,
                    then: @escaping NetworkCompletion<PostsJSON>) {
-        mtp.loadPosts(location: id, reload: false, then: then)
+        mtp.loadPosts(location: id, reload: reload, then: then)
     }
 
     /// Load user posts
     /// - Parameters:
     ///   - id: User ID
     ///   - then: Completion
-    func loadPosts(user id: Int, then: @escaping NetworkCompletion<PostsJSON>) {
-        mtp.loadPosts(user: id, reload: false, then: then)
+    func loadPosts(user id: Int,
+                   reload: Bool,
+                   then: @escaping NetworkCompletion<PostsJSON>) {
+        mtp.loadPosts(user: id, reload: reload, then: then)
     }
 
     /// Load rankings
@@ -450,6 +470,24 @@ class NetworkServiceImpl: NetworkService {
         offlineRequestManager.queueRequest(request)
         requestsChanged()
         then(.failure(.queued))
+    }
+
+    /// Update post
+    /// - Parameters:
+    ///   - payload: PostUpdatePayload
+    ///   - then: Completion
+    func postUpdate(payload: PostUpdatePayload,
+                    then: @escaping NetworkCompletion<Bool>) {
+        mtp.postUpdate(payload: payload, then: then)
+    }
+
+    /// Delete post
+    /// - Parameters:
+    ///   - oist: Int
+    ///   - then: Completion
+    func delete(post: Int,
+                then: @escaping NetworkCompletion<Bool>) {
+        mtp.delete(post: post, then: then)
     }
 
     /// Delete user account
@@ -655,6 +693,9 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
         default:
             log.warning("Unhandled completed request: \(type(of: request))")
         }
+        if requests.isEmpty {
+            refreshUser()
+        }
     }
 
     /// Callback indicating that the OfflineRequest action has failed for reasons unrelated to connectivity
@@ -690,7 +731,8 @@ private extension NetworkServiceImpl {
     }
 
     func refreshUserInfo() {
-        guard let user = data.user else { return }
+        guard let user = data.user,
+                  requests.isEmpty else { return }
 
         add { done in self.mtp.loadChecklists { _ in done() } }
         add { done in self.mtp.loadPosts(user: user.id, reload: false) { _ in done() } }
@@ -723,7 +765,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
         guard let user = data.user else { return }
 
         mtp.loadChecklists(stub: MTPProvider.immediatelyStub) { _ in }
-        loadPosts(user: user.id) { _ in }
+        loadPosts(user: user.id, reload: false) { _ in }
         loadPhotos(profile: user.id, page: 1, reload: false) { _ in }
         Checklist.allCases.forEach { list in
             loadScorecard(list: list,
@@ -778,18 +820,20 @@ final class NetworkServiceStub: NetworkServiceImpl {
 
     /// :nodoc:
     override func loadPosts(location id: Int,
+                            reload: Bool,
                             then: @escaping NetworkCompletion<PostsJSON>) {
         mtp.loadPosts(location: id,
-                      reload: false,
+                      reload: reload,
                       stub: MTPProvider.immediatelyStub,
                       then: then)
     }
 
     /// :nodoc:
     override func loadPosts(user id: Int,
+                            reload: Bool,
                             then: @escaping NetworkCompletion<PostsJSON>) {
         mtp.loadPosts(user: id,
-                      reload: false,
+                      reload: reload,
                       stub: MTPProvider.immediatelyStub,
                       then: then)
     }
@@ -872,6 +916,22 @@ final class NetworkServiceStub: NetworkServiceImpl {
         mtp.postPublish(payload: payload,
                         stub: MTPProvider.immediatelyStub,
                         then: then)
+    }
+
+    /// :nodoc:
+    override func postUpdate(payload: PostUpdatePayload,
+                             then: @escaping NetworkCompletion<Bool>) {
+        mtp.postUpdate(payload: payload,
+                       stub: MTPProvider.immediatelyStub,
+                       then: then)
+    }
+
+    /// :nodoc:
+   override func delete(post: Int,
+                        then: @escaping NetworkCompletion<Bool>) {
+        mtp.delete(post: post,
+                   stub: MTPProvider.immediatelyStub,
+                   then: then)
     }
 
     /// :nodoc:

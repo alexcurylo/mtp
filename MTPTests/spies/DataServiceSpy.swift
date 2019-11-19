@@ -631,6 +631,18 @@ final class DataServiceSpy: DataService {
         invokedGetPhotoParametersList.append((photo, ()))
         return stubbedGetPhotoResult
     }
+    var invokedGetPost = false
+    var invokedGetPostCount = 0
+    var invokedGetPostParameters: (post: Int, Void)?
+    var invokedGetPostParametersList = [(post: Int, Void)]()
+    var stubbedGetPostResult: Post!
+    func get(post: Int) -> Post? {
+        invokedGetPost = true
+        invokedGetPostCount += 1
+        invokedGetPostParameters = (post, ())
+        invokedGetPostParametersList.append((post, ()))
+        return stubbedGetPostResult
+    }
     var invokedGetPosts = false
     var invokedGetPostsCount = 0
     var invokedGetPostsParameters: (id: Int, Void)?
@@ -954,6 +966,26 @@ final class DataServiceSpy: DataService {
         invokedDeletePhotosCount += 1
         invokedDeletePhotosParameters = (userId, ())
         invokedDeletePhotosParametersList.append((userId, ()))
+    }
+    var invokedDeletePost = false
+    var invokedDeletePostCount = 0
+    var invokedDeletePostParameters: (postId: Int, Void)?
+    var invokedDeletePostParametersList = [(postId: Int, Void)]()
+    func delete(post postId: Int) {
+        invokedDeletePost = true
+        invokedDeletePostCount += 1
+        invokedDeletePostParameters = (postId, ())
+        invokedDeletePostParametersList.append((postId, ()))
+    }
+    var invokedDeletePosts = false
+    var invokedDeletePostsCount = 0
+    var invokedDeletePostsParameters: (userId: Int, Void)?
+    var invokedDeletePostsParametersList = [(userId: Int, Void)]()
+    func delete(posts userId: Int) {
+        invokedDeletePosts = true
+        invokedDeletePostsCount += 1
+        invokedDeletePostsParameters = (userId, ())
+        invokedDeletePostsParametersList.append((userId, ()))
     }
     var invokedDeleteRankings = false
     var invokedDeleteRankingsCount = 0

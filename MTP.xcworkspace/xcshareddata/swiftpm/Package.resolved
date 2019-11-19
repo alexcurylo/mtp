@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/rwbutler/connectivity",
         "state": {
           "branch": null,
-          "revision": "02102520a2777b99e9064de23c082e1fffdddc2b",
-          "version": "3.3.0"
+          "revision": "30f3b6083c45b168fc9b83a20700e5f5f6f8eb98",
+          "version": "3.3.2"
         }
       },
       {
@@ -35,6 +35,15 @@
           "branch": null,
           "revision": "c228db5d2ad1b01ebc84435e823e6cca4e3db98b",
           "version": "1.2.0"
+        }
+      },
+      {
+        "package": "Facebook",
+        "repositoryURL": "https://github.com/facebook/facebook-ios-sdk",
+        "state": {
+          "branch": null,
+          "revision": "0cf22477948042b741cae0fc16192951ae655101",
+          "version": "5.10.1"
         }
       },
       {

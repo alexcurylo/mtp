@@ -98,10 +98,9 @@ class LocationsVC: UIViewController {
             injectMappable = nil
         } else if let post = Segues.addPost(segue: segue)?
                                    .destination {
-            if let mappable = injectMappable {
-                post.inject(model: mappable)
-                injectMappable = nil
-            }
+            post.inject(model: (post: nil,
+                                mappable: injectMappable))
+            injectMappable = nil
         }
     }
 

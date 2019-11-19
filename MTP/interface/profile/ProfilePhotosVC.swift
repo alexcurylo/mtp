@@ -55,7 +55,7 @@ final class ProfilePhotosVC: PhotosVC {
         return data.get(photo: photoId)
     }
 
-    /// Edit or create a new Photo
+    /// Edit or create a new photo
     override func add(photo: Photo?) {
         injectPhoto = photo
         performSegue(withIdentifier: Segues.addPhoto,

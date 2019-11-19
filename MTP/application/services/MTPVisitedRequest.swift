@@ -99,7 +99,8 @@ final class MTPVisitedRequest: NSObject, OfflineRequest, ServiceProvider {
                 completion(nil)
             case .failure(let error):
                 switch error {
-                case NetworkError.status(500):
+                case NetworkError.status(400),
+                     NetworkError.status(500):
                     // ignore - expect it's duplicate setting
                     // as it returns an HTML error page not a JSON result
                     completion(nil)
