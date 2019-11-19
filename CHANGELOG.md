@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [Version 1.2.0, Build 647] - 2019-11-19
+
 ### Added
 - Support for editing and deleting posts from popup menu
 
