@@ -36,11 +36,23 @@ struct QuietOperationReply: Codable {
 
     /// Whether operation succeeded
     var isSuccess: Bool {
-        return code == 200
+        code == 200
     }
 }
 
-/// Reply from the password reset and contact form endpoints
+/// Reply from delete photo endpoint
+struct CodelessOperationReply: Codable {
+
+    /// Result message
+    let message: String
+
+    /// Whether operation succeeded
+    var isSuccess: Bool {
+        !message.isEmpty
+    }
+}
+
+/// Reply from the payssword reset and contact form endpoints
 struct OperationMessageReply: Codable {
 
     /// HTTP result code

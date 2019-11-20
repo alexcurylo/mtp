@@ -8,7 +8,7 @@ import RealmSwift
 protocol UserAvatar {
 
     /// gender
-    var gender: String { get }
+    var gender: String? { get }
     /// picture
     var picture: String? { get }
 }
@@ -75,13 +75,13 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
     /// birthday
     let birthday: Date?
     /// country
-    let country: LocationJSON?
+    let country: PlaceLocation?
     /// countryId
     let countryId: Int?
     /// createdAt
     let createdAt: Date
     /// email
-    let email: String
+    let email: String?
     /// facebookEmail
     let facebookEmail: String?
     /// facebookId
@@ -93,7 +93,7 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
     /// fullName
     let fullName: String
     /// gender
-    let gender: String
+    let gender: String?
     /// id
     let id: Int
     /// lastLogIn
@@ -104,7 +104,7 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
     let links: [Link]?
     // swiftlint:disable:previous discouraged_optional_collection
     /// location
-    let location: LocationJSON?
+    let location: PlaceLocation?
     /// locationId
     let locationId: Int?
     /// picture
@@ -248,13 +248,13 @@ extension UserJSON: CustomDebugStringConvertible {
             country: \(String(describing: country))
             country_id: \(String(describing: countryId))
             created_at: \(createdAt)
-            email: \(email)
+            email: \(String(describing: email))
             facebook_email: \(String(describing: facebookEmail))
             facebook_id: \(String(describing: facebookId))
             facebook_user_token: \(String(describing: facebookUserToken))
             first_name: \(firstName)
             full_name: \(fullName)
-            gender: \(gender)
+            gender: \(String(describing: gender))
             id: \(id)
             last_log_in: \(String(describing: lastLogIn))
             last_name: \(lastName)
@@ -401,7 +401,7 @@ extension UserAvatar {
     /// fullName
     dynamic var fullName: String = ""
     /// gender
-    dynamic var gender: String = ""
+    dynamic var gender: String?
     /// locationName
     dynamic var locationName: String = ""
     /// picture

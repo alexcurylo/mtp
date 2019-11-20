@@ -1535,7 +1535,7 @@ class MTPNetworkController: ServiceProvider {
             let problem: NetworkError
             do {
                 // updated response in /data
-                let reply = try response.map(OperationReply.self,
+                let reply = try response.map(CodelessOperationReply.self,
                                              using: JSONDecoder.mtp)
                 if reply.isSuccess {
                     self.report(success: endpoint)

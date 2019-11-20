@@ -532,7 +532,7 @@ private extension EditProfileVC {
             //errorMessage = L.fixCountry()
         //} else if current.location_id == 0 {
             //errorMessage = L.fixLocation()
-        } else if !current.email.isValidEmail {
+        } else if !(current.email ?? "").isValidEmail {
             errorMessage = L.fixEmail()
         } else if current.bio?.isEmpty ?? true {
             errorMessage = L.fixBio()

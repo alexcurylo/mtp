@@ -5,8 +5,6 @@ import RealmSwift
 /// Posts endpoints reply
 struct PostsJSON: Codable {
 
-    /// HTTP result code
-    let code: Int
     /// List of posts
     let data: [PostJSON]
     // swiftlint:disable:next discouraged_optional_boolean
@@ -25,7 +23,6 @@ extension PostsJSON: CustomDebugStringConvertible {
     var debugDescription: String {
         return """
         < PostsJSON: \(description):
-        code: \(code)
         paging: \(String(describing: paging))
         data: \(data.debugDescription)
         /PostsJSON >
@@ -38,7 +35,7 @@ struct PostJSON: Codable {
 
     fileprivate let createdAt: Date
     fileprivate let id: Int
-    fileprivate let location: PlaceLocation // LocationJSON in user endpoint
+    fileprivate let location: PlaceLocation
     fileprivate let locationId: Int
     fileprivate let post: String?
     fileprivate let status: String

@@ -71,7 +71,7 @@ private struct ScorecardRankedUserJSON: Codable {
     /// id
     let id: Int
     let lastName: String
-    let location: LocationJSON?
+    let location: PlaceLocation?
     let locationId: Int?
     let picture: String?
     let rankBeaches: Int?
@@ -140,7 +140,7 @@ private struct ScorecardUserJSON: Codable {
     let gender: String
     let id: Int
     let lastName: String
-    let location: LocationJSON?
+    let location: PlaceLocation?
     let locationId: Int?
     let picture: String?
     let rankBeaches: Int?

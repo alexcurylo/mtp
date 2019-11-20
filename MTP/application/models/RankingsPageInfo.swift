@@ -85,7 +85,7 @@ extension RankingsPageJSON: CustomDebugStringConvertible {
 struct RankedUserJSON: Codable {
 
     fileprivate let birthday: Date?
-    fileprivate let country: LocationJSON?
+    fileprivate let country: PlaceLocation?
     fileprivate let currentRank: Int
     fileprivate let firstName: String
     /// fullName
@@ -94,7 +94,7 @@ struct RankedUserJSON: Codable {
     /// id
     let id: Int
     fileprivate let lastName: String
-    fileprivate let location: LocationJSON?
+    fileprivate let location: PlaceLocation?
     fileprivate let locationId: Int?
     fileprivate let picture: String?
     fileprivate let rankBeaches: Int?

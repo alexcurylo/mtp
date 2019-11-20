@@ -7,7 +7,7 @@ struct PhotoReply: Codable {
 
     fileprivate let desc: String?
     fileprivate let id: Int
-    fileprivate let location: LocationJSON?
+    fileprivate let location: PlaceLocation?
     fileprivate let locationId: UncertainValue<Int, String>?
     fileprivate let mime: String
     fileprivate let name: String
@@ -74,8 +74,6 @@ struct PhotoAttachment: Codable, Hashable {
 /// Photos endpoints reply
 struct PhotosInfoJSON: Codable {
 
-    /// HTTP result code
-    let code: Int
     /// List of photos
     let data: [PhotoJSON]
 }
@@ -92,7 +90,6 @@ extension PhotosInfoJSON: CustomDebugStringConvertible {
     var debugDescription: String {
         return """
         < PhotosInfoJSON: \(description):
-        code: \(code)
         data: \(data.debugDescription))
         /PhotosInfoJSON >
         """
@@ -102,8 +99,6 @@ extension PhotosInfoJSON: CustomDebugStringConvertible {
 /// Photos page info received from MTP endpoints
 struct PhotosPageInfoJSON: Codable {
 
-    /// HTTP result code
-    let code: Int
     /// List of photos
     let data: [PhotoJSON]
     /// Paging info
@@ -122,7 +117,6 @@ extension PhotosPageInfoJSON: CustomDebugStringConvertible {
     var debugDescription: String {
         return """
         < PhotosPageInfoJSON: \(description):
-        code: \(code)
         paging: \(paging.debugDescription)
         data: \(data.debugDescription)
         /PhotosPageInfoJSON >
@@ -164,14 +158,14 @@ extension PhotosPageJSON: CustomDebugStringConvertible {
 
 /// Post or photo owner info received from MTP endpoints
 struct OwnerJSON: Codable {
-    //let country: String? // UserJSON in user endpoints, null in location
+    //let country: String? // PlaceLocation in user endpoint, null in location
     fileprivate let firstName: String
     /// fullName
     let fullName: String
     /// id
     let id: Int
     fileprivate let lastName: String
-    //let location: String? // LocationJSON in user endpoint, null in location
+    //let location: String? // PlaceLocation in user endpoint, null in location
     fileprivate let role: Int
 }
 
@@ -186,7 +180,7 @@ struct PhotoJSON: Codable {
     fileprivate let createdAt: Date
     fileprivate let desc: String?
     fileprivate let id: Int
-    fileprivate let location: LocationJSON? // still has 30 items
+    fileprivate let location: PlaceLocation?
     fileprivate let locationId: Int?
     fileprivate let mime: String
     fileprivate let name: String
@@ -369,7 +363,7 @@ struct PhotoUpdateReply: Codable {
 
     fileprivate let desc: String?
     fileprivate let id: Int
-    fileprivate let location: LocationJSON?
+    fileprivate let location: PlaceLocation?
     fileprivate let locationId: UncertainValue<Int, String>?
     fileprivate let mime: String
     fileprivate let name: String

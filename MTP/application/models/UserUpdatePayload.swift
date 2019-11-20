@@ -33,7 +33,7 @@ struct UserUpdatePayload: Codable, Hashable, UserAvatar {
     /// created_at
     var created_at: String = ""
     /// email
-    var email: String = ""
+    var email: String?
     /// facebook_email
     var facebook_email: String?
     /// facebook_id
@@ -48,7 +48,7 @@ struct UserUpdatePayload: Codable, Hashable, UserAvatar {
     /// full_name
     var full_name: String = ""
     /// gender
-    var gender: String = ""
+    var gender: String?
     /// id
     var id: Int = 0
     /// last_log_in

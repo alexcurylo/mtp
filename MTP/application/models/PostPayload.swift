@@ -6,7 +6,7 @@ import Foundation
 struct PostReply: Codable {
 
     fileprivate let id: Int
-    fileprivate let location: LocationJSON
+    fileprivate let location: PlaceLocation
     fileprivate let locationId: Int
     fileprivate let owner: UserJSON
     fileprivate let post: String

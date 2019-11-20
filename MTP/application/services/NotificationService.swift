@@ -425,8 +425,9 @@ private extension NotificationServiceImpl {
               let user = data.user,
               user.isWaiting else { return true }
 
+        let email = user.email ?? ""
         let note = Note(title: L.verify(),
-                        message: L.verifyInstructions(user.email),
+                        message: L.verifyInstructions(email),
                         category: .information)
         askForeground(question: note,
                       yes: L.ok(),
