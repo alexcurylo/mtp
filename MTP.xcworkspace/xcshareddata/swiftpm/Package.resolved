@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/rwbutler/connectivity",
         "state": {
           "branch": null,
-          "revision": "30f3b6083c45b168fc9b83a20700e5f5f6f8eb98",
-          "version": "3.3.2"
+          "revision": "b8ab6b1b3e1c50617cb9ce581264e5002949bd14",
+          "version": "3.3.3"
         }
       },
       {
@@ -42,8 +42,8 @@
         "repositoryURL": "https://github.com/facebook/facebook-ios-sdk",
         "state": {
           "branch": null,
-          "revision": "0cf22477948042b741cae0fc16192951ae655101",
-          "version": "5.10.1"
+          "revision": "ccac7865167b6c12bdf71e2e9b81ad86c3e78ed3",
+          "version": "5.11.1"
         }
       },
       {
@@ -96,8 +96,8 @@
         "repositoryURL": "https://github.com/kean/Nuke.git",
         "state": {
           "branch": null,
-          "revision": "cd495310d8bb0ef73a726d77db19fe7f5530d080",
-          "version": "8.3.1"
+          "revision": "051fb936fbc0176655acb1085b15be477f3d5015",
+          "version": "8.4.0"
         }
       },
       {
