@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [Version 1.2.0, Build 648] - 2019-11-20
+
 ### Fixed
 - Handle removed JSON fields
 
