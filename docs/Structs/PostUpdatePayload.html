@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ConsoleLoggingService Structure Reference</title>
+    <title>PostUpdatePayload Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Struct/ConsoleLoggingService" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Struct/PostUpdatePayload" class="dashAnchor"></a>
 
-    <a title="ConsoleLoggingService Structure Reference"></a>
+    <a title="PostUpdatePayload Structure Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">MTP Reference</a>
       <img class="carat" src="../img/carat.png" />
-      ConsoleLoggingService Structure Reference
+      PostUpdatePayload Structure Reference
     </p>
 
     <div class="content-wrapper">
@@ -1699,14 +1699,14 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>ConsoleLoggingService</h1>
+            <h1>PostUpdatePayload</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">ConsoleLoggingService</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/LoggingService.html">LoggingService</a></span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">PostUpdatePayload</span> <span class="p">:</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">Hashable</span></code></pre>
 
                 </div>
               </div>
-            <p>Wraps console print</p>
+            <p>Payload sent to API endpoint</p>
 
           </div>
         </section>
@@ -1718,9 +1718,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:3MTP14LoggingServiceP6custom5level7message4file8function4line7contextyAA0B5LevelO_ypyXKS2SSiypSgtF"></a>
-                    <a name="//apple_ref/swift/Method/custom(level:message:file:function:line:context:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:3MTP14LoggingServiceP6custom5level7message4file8function4line7contextyAA0B5LevelO_ypyXKS2SSiypSgtF">custom(level:message:file:function:line:context:)</a>
+                    <a name="/s:3MTP17PostUpdatePayloadV2idSivp"></a>
+                    <a name="//apple_ref/swift/Property/id" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3MTP17PostUpdatePayloadV2idSivp">id</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1728,23 +1728,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Post ID being updated</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">custom</span><span class="p">(</span><span class="nv">level</span><span class="p">:</span> <span class="kt"><a href="../Enums/LoggingLevel.html">LoggingLevel</a></span><span class="p">,</span>
-            <span class="nv">message</span><span class="p">:</span> <span class="kd">@autoclosure</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="p">,</span>
-            <span class="nv">file</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-            <span class="nv">function</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-            <span class="nv">line</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span>
-            <span class="nv">context</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/application/services/LoggingService.swift#L174-L182">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/application/models/PostPayload.swift#L82">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
