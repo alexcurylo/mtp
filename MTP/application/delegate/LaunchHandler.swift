@@ -20,6 +20,8 @@ extension LaunchHandler: AppLaunchHandler {
     func application(_ application: UIApplication,
                      // swiftlint:disable:next discouraged_optional_collection
                      willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        ProcessInfo.startup()
+
         return true
     }
 

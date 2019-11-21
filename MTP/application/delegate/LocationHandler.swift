@@ -21,14 +21,12 @@ class LocationHandler: NSObject, AppHandler, ServiceProvider {
     private var trackers: Set<AnyHashable> = []
 
     /// Insert a typed tracker in our listeners
-    ///
     /// - Parameter tracker: New listener
     func insert<T>(tracker: T) where T: LocationTracker, T: Hashable {
         trackers.insert(AnyHashable(tracker))
     }
 
     /// Remove a typed tracker from our listeners
-    ///
     /// - Parameter tracker: Former listener
     func remove<T>(tracker: T) where T: LocationTracker, T: Hashable {
         trackers.remove(tracker)
@@ -40,6 +38,7 @@ class LocationHandler: NSObject, AppHandler, ServiceProvider {
     private var beachesObserver: Observer?
     private var divesitesObserver: Observer?
     private var golfcoursesObserver: Observer?
+    private var hotelsObserver: Observer?
     private var locationsObserver: Observer?
     private var restaurantsObserver: Observer?
     private var whssObserver: Observer?
@@ -59,7 +58,6 @@ class LocationHandler: NSObject, AppHandler, ServiceProvider {
     private var lastFilter: Date?
 
     /// Broadcast to all trackers
-    ///
     /// - Parameter then: Closure
     func broadcast(then: @escaping (LocationTracker) -> Void) {
         DispatchQueue.main.async {
@@ -70,7 +68,6 @@ class LocationHandler: NSObject, AppHandler, ServiceProvider {
     }
 
     /// Broadcast to all trackers
-    ///
     /// - Parameters:
     ///   - mappable: Place
     ///   - then: Closure
@@ -100,7 +97,6 @@ class LocationHandler: NSObject, AppHandler, ServiceProvider {
 extension LocationHandler: AppLaunchHandler {
 
     /// willFinishLaunchingWithOptions
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - launchOptions: Launch options
@@ -116,7 +112,6 @@ extension LocationHandler: AppLaunchHandler {
     }
 
     /// didFinishLaunchingWithOptions
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - launchOptions: Launch options
@@ -136,7 +131,6 @@ extension LocationHandler: AppLaunchHandler {
 extension LocationHandler: CLLocationManagerDelegate {
 
     /// Updated locations
-    ///
     /// - Parameters:
     ///   - manager: Location manager
     ///   - locations: Locations list
@@ -158,41 +152,14 @@ extension LocationHandler: CLLocationManagerDelegate {
         lastFilter = Date()
     }
 
-    //func locationManager(_ manager: CLLocationManager,
-                         //didUpdateHeading newHeading: CLHeading) { }
     /// Should display heading calibraion
-    ///
     /// - Parameter manager: Location manager
     /// - Returns: true
     func locationManagerShouldDisplayHeadingCalibration(_ manager: CLLocationManager) -> Bool {
         return true
     }
 
-    //func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) { }
-    //func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) { }
-    //func locationManager(_ manager: CLLocationManager,
-                         //didDetermineState state: CLRegionState,
-                         //for region: CLRegion) { }
-    //func locationManager(_ manager: CLLocationManager,
-                         //didEnterRegion region: CLRegion) { }
-    //func locationManager(_ manager: CLLocationManager,
-                         //didExitRegion region: CLRegion) { }
-    //func locationManager(_ manager: CLLocationManager,
-                         //didRangeBeacons beacons: [CLBeacon],
-                         //in region: CLBeaconRegion) { }
-    //func locationManager(_ manager: CLLocationManager,
-                         //rangingBeaconsDidFailFor region: CLBeaconRegion,
-                         //withError error: Error) { }
-    //func locationManager(_ manager: CLLocationManager,
-                         //didFailWithError error: Error) { }
-    //func locationManager(_ manager: CLLocationManager,
-                         //didStartMonitoringFor region: CLRegion) { }
-    //func locationManager(_ manager: CLLocationManager,
-                         //monitoringDidFailFor region: CLRegion?,
-                         //withError error: Error) { }
-
     /// Broadcast authorization change
-    ///
     /// - Parameters:
     ///   - manager: Location manager
     ///   - status: New authorization
@@ -200,11 +167,6 @@ extension LocationHandler: CLLocationManagerDelegate {
                          didChangeAuthorization status: CLAuthorizationStatus) {
         broadcast { $0.authorization(changed: status) }
     }
-
-    //func locationManager(_ manager: CLLocationManager,
-                         //didFinishDeferredUpdatesWithError error: Error?) { }
-    //func locationManager(_ manager: CLLocationManager,
-                         //didVisit visit: CLVisit) { }
 }
 
 // MARK: - Private
@@ -258,6 +220,9 @@ private extension LocationHandler {
         golfcoursesObserver = Checklist.golfcourses.observer { _ in
             self.checkDistanceUpdate()
         }
+        hotelsObserver = Checklist.hotels.observer { _ in
+            self.checkDistanceUpdate()
+        }
         locationsObserver = Checklist.locations.observer { _ in
             self.checkDistanceUpdate()
         }
@@ -283,7 +248,6 @@ final class DistancesOperation: KVNOperation {
     private let world: WorldMap
 
     /// Construction by injection
-    ///
     /// - Parameters:
     ///   - center: Where to measure from
     ///   - mappables: Places to measure

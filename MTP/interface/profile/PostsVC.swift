@@ -15,14 +15,18 @@ class PostsVC: UITableViewController {
         return false
     }
 
+    /// Post to be edited in Add screen
+    var injectPost: PostCellModel?
+
     /// Type of view presenting this controller
     var presenter: Presenter {
         fatalError("presenter has not been overridden")
     }
 
-    /// Create a new post
-    func createPost() {
-        // override to implement
+    /// Edit or create a new Post
+    func add(post: PostCellModel?) {
+        // swiftlint:disable:previous unavailable_function
+        fatalError("add(post:) has not been overridden")
     }
 
     /// Present user profile
@@ -36,8 +40,6 @@ class PostsVC: UITableViewController {
     var contentState: ContentState = .loading
     /// Data models
     var models: [PostCellModel] = []
-    /// Current post uploads
-    private var configuredMenu = false
     /// Filtered queued network actions
     var queuedPosts: [MTPPostRequest] = []
     private var requestsObserver: Observer?
@@ -53,7 +55,7 @@ class PostsVC: UITableViewController {
                           header: (create: CGFloat(50),
                                    queued: CGFloat(100)))
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -132,7 +134,7 @@ class PostsVC: UITableViewController {
 extension PostsVC: PostHeaderDelegate {
 
     func addTapped() {
-        createPost()
+        add(post: nil)
     }
 
     func queueTapped() {
@@ -209,7 +211,7 @@ extension PostsVC {
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
-        configureMenu()
+        configure(menu: models[indexPath.row])
         return true
     }
 
@@ -234,16 +236,12 @@ extension PostsVC {
 
 extension PostsVC: PostCellDelegate {
 
-    /// Profile tapped
-    ///
-    /// - Parameter user: User to display
+    /// :nodoc:
     func tapped(profile user: User) {
         show(user: user)
     }
 
-    /// Display toggle tapped
-    ///
-    /// - Parameter toggle: Model to toggle
+    /// :nodoc:
     func tapped(toggle: Int) {
         guard toggle < models.count else { return }
 
@@ -254,27 +252,46 @@ extension PostsVC: PostCellDelegate {
         }
     }
 
-    /// Handle hide action
-    ///
-    /// - Parameter hide: PostCellModel to hide
+    /// :nodoc:
     func tapped(hide: PostCellModel?) {
         data.block(post: hide?.postId ?? 0)
     }
 
-    /// Handle report action
-    ///
-    /// - Parameter report: PostCellModel to report
+    /// :nodoc:
     func tapped(report: PostCellModel?) {
         let message = L.reportPost(report?.postId ?? 0)
         app.route(to: .reportContent(message))
     }
 
-    /// Handle block action
-    ///
-    /// - Parameter block: PostCellModel to block
+    /// :nodoc:
     func tapped(block: PostCellModel?) {
         if data.block(user: block?.user?.userId ?? 0) {
             app.dismissPresentations()
+        }
+    }
+
+    /// :nodoc:
+    func tapped(edit: PostCellModel?) {
+        add(post: edit)
+    }
+
+    /// :nodoc:
+    func tapped(delete: PostCellModel?) {
+        guard let delete = delete else { return }
+        let postId = delete.postId
+        let userId = delete.user?.userId ?? 0
+        let locationId = delete.location?.placeId ?? 0
+
+        net.delete(post: postId) { [net, data] _ in
+            data.delete(post: postId)
+            if userId > 0 {
+                net.loadPosts(user: userId,
+                              reload: true) { _ in }
+            }
+            if locationId > 0 {
+                net.loadPosts(location: locationId,
+                              reload: true) { _ in }
+            }
         }
     }
 }
@@ -294,11 +311,12 @@ private extension PostsVC {
         }
     }
 
-    func configureMenu() {
-        guard !configuredMenu else { return }
-
-        configuredMenu = true
-        UIMenuController.shared.menuItems = MenuAction.contentItems
+    private func configure(menu post: PostCellModel) {
+        if post.user?.userId == data.user?.id {
+            UIMenuController.shared.menuItems = MenuAction.myItems
+        } else {
+            UIMenuController.shared.menuItems = MenuAction.theirItems
+        }
     }
 
     func observeRequests() {

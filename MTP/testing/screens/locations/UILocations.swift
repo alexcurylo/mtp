@@ -18,8 +18,14 @@ enum UILocations: Exposable {
     /// Results list item
     case result(Row)
 
+    /// Callout Add Photo
+    case addPhoto
+    /// Callout Add Post
+    case addPost
     /// Callout close
     case close
+    /// Callout Nearbies
+    case nearbies
     /// Callout switch
     case visit
     /// Callout directions

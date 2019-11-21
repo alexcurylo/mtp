@@ -16,11 +16,12 @@ final class LocationsFilterVC: UITableViewController {
     @IBOutlet private var golfCoursesSwitch: UISwitch!
     @IBOutlet private var diveSitesSwitch: UISwitch!
     @IBOutlet private var restaurantsSwitch: UISwitch!
+    @IBOutlet private var hotelsSwitch: UISwitch!
 
     private var original = ChecklistFlags()
     private var current = ChecklistFlags()
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
@@ -34,9 +35,7 @@ final class LocationsFilterVC: UITableViewController {
         configure()
     }
 
-    /// Prepare for reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -44,19 +43,13 @@ final class LocationsFilterVC: UITableViewController {
         expose()
     }
 
-    /// Actions to take after reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         report(screen: "Locations Filter")
     }
 
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
+    /// :nodoc:
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let target = Segues.saveEdits(segue: segue)?
                               .destination {
@@ -82,6 +75,7 @@ private extension LocationsFilterVC {
         golfCoursesSwitch.isOn = filter.golfcourses
         diveSitesSwitch.isOn = filter.divesites
         restaurantsSwitch.isOn = filter.restaurants
+        hotelsSwitch.isOn = filter.hotels
 
         saveButton.isEnabled = false
     }
@@ -127,7 +121,12 @@ private extension LocationsFilterVC {
     @IBAction func switchRestaurants(_ sender: UISwitch) {
         current.restaurants.toggle()
         updateSave()
-   }
+    }
+
+    @IBAction func switchHotels(_ sender: UISwitch) {
+        current.hotels.toggle()
+        updateSave()
+    }
 }
 
 // MARK: - Exposing
@@ -152,6 +151,7 @@ extension LocationsFilterVC: InterfaceBuildable {
         golfCoursesSwitch.require()
         locationsSwitch.require()
         restaurantsSwitch.require()
+        hotelsSwitch.require()
         saveButton.require()
         whsSwitch.require()
     }

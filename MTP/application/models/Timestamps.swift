@@ -25,7 +25,7 @@ extension Timestamps {
         /// Wait until it should be valid
         let wait: Int
 
-        /// Default constructor
+        /// :nodoc:
         init() {
             isCurrent = true
             wait = 0
@@ -51,7 +51,6 @@ extension Timestamps {
     static var rankUpdateMinutes = 60
 
     /// Get item's timestamp
-    ///
     /// - Parameter item: Item
     /// - Returns: Timestamp if found
     func stamp(item: Checklist.Item) -> Date? {
@@ -59,7 +58,6 @@ extension Timestamps {
     }
 
     /// Convenience timestamp check
-    ///
     /// - Parameter item: Item
     /// - Returns: Whether timestamped
     func isStamped(item: Checklist.Item) -> Bool {
@@ -67,7 +65,6 @@ extension Timestamps {
     }
 
     /// Set timestamps for checklist
-    ///
     /// - Parameters:
     ///   - list: Checklist
     ///   - stamped: Whether timestampled
@@ -78,7 +75,6 @@ extension Timestamps {
     }
 
     /// Set timestamps for item
-    ///
     /// - Parameters:
     ///   - item: Item
     ///   - stamped: Whether stamped
@@ -91,7 +87,6 @@ extension Timestamps {
     }
 
     /// Set specific key stamp
-    ///
     /// - Parameters:
     ///   - key: Item key
     ///   - stamped: Whether stamped
@@ -107,7 +102,6 @@ extension Timestamps {
     }
 
     /// Are rankings waiting for an update?
-    ///
     /// - Parameter rankings: Checklist
     /// - Returns: Whether waiting
     func waiting(rankings: Checklist) -> Bool {
@@ -115,7 +109,6 @@ extension Timestamps {
     }
 
     /// How many minutes to wait
-    ///
     /// - Parameter rankings: Checklist
     /// - Returns: Minutes to wait
     func wait(rankings: Checklist) -> Int {
@@ -128,7 +121,6 @@ extension Timestamps {
     }
 
     /// Fetch current status
-    ///
     /// - Parameter rankings: Checklist
     /// - Returns: UpdateStatus
     func updateStatus(rankings: Checklist) -> UpdateStatus {
@@ -137,7 +129,6 @@ extension Timestamps {
     }
 
     /// Clear waiting state if expired
-    ///
     /// - Parameter rankings: Checklist
     /// - Returns: Whether cleared
     mutating func clear(rankings: Checklist) -> Bool {
@@ -148,7 +139,6 @@ extension Timestamps {
     }
 
     /// Are scorecards waiting for an update?
-    ///
     /// - Parameter scorecard: Checklist
     /// - Returns: Whether waiting
     func waiting(scorecard: Checklist) -> Bool {
@@ -156,7 +146,6 @@ extension Timestamps {
     }
 
     /// How many minutes to wait
-    ///
     /// - Parameter scorecard: Checklist
     /// - Returns: Minutes to wait
     func wait(scorecard: Checklist) -> Int {
@@ -169,7 +158,6 @@ extension Timestamps {
     }
 
     /// Fetch current status
-    ///
     /// - Parameter scorecard: Checklist
     /// - Returns: UpdateStatus
     func updateStatus(scorecard: Checklist) -> UpdateStatus {
@@ -178,7 +166,6 @@ extension Timestamps {
     }
 
     /// Clear waiting state if expired
-    ///
     /// - Parameter scorecard: Checklist
     /// - Returns: Whether cleared
     mutating func clear(scorecard: Checklist) -> Bool {

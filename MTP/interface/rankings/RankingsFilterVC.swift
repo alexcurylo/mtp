@@ -24,7 +24,7 @@ final class RankingsFilterVC: UITableViewController {
     private var original: RankingsQuery?
     private var current: RankingsQuery?
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
@@ -39,19 +39,13 @@ final class RankingsFilterVC: UITableViewController {
         expose()
    }
 
-    /// Actions to take after reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         report(screen: "Rankings Filter")
     }
 
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
+    /// :nodoc:
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let target = Segues.showCountry(segue: segue)?
                               .destination

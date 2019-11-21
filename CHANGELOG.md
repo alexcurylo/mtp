@@ -6,6 +6,46 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [Version 1.2.0, Build 649] - 2019-11-21
+
+### Fixed
+- Clearly label signup personal data fields as optional
+
+## [Version 1.2.0, Build 648] - 2019-11-20
+
+### Fixed
+- Handle removed JSON fields
+
+## [Version 1.2.0, Build 647] - 2019-11-19
+
+### Added
+- Support for editing and deleting posts from popup menu
+
+### Fixed
+- Ignore 400 errors on idempotent visit updates
+- Suspend user data refresh whilst offline actions pending
+
+## [Version 1.2.0, Build 646] - 2019-11-12
+
+### Added
+- Support for directions with Apple Maps, Google Maps, Citymapper, Transit, Lyft, Uber, Navigon, Waze, DB Navigator, Yandex.Navi and Moovit
+- Expanded visited map can be shared to Facebook
+- Support for editing and deleting photos from popup menu
+
+## [Version 1.2.0, Build 645] - 2019-10-10
+
+### Added
+- Support for Top Hotels checklist
+- Expandable visited map viewable when tapped
+
+## [Version 1.2.0, Build 644] - 2019-10-01
+
+### Added
+- Photo, Post, and Nearby buttons added to map callouts
+
+### Changed
+- Contact now uses MTP API
+
 ## [Version 1.1.0, Build 643] - 2019-09-26
 
 ### Changed

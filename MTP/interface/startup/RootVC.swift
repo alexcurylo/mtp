@@ -13,7 +13,7 @@ final class RootVC: UIViewController {
     @IBOutlet private var loginButton: UIButton!
     @IBOutlet private var signupButton: UIButton!
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
@@ -22,9 +22,7 @@ final class RootVC: UIViewController {
         setApplicationBackground()
     }
 
-    /// Prepare for reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         guard !UIApplication.isUnitTesting else { return }
@@ -40,9 +38,7 @@ final class RootVC: UIViewController {
        }
     }
 
-    /// Actions to take after reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         guard !UIApplication.isUnitTesting else { return }
@@ -55,11 +51,7 @@ final class RootVC: UIViewController {
         }
     }
 
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
+    /// :nodoc:
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let main = Segues.showMain(segue: segue)?
                             .destination {

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Ych-JX-8p4">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Ych-JX-8p4">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m9S-7g-1LD">
-                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="574"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
@@ -62,7 +60,7 @@
                         <outlet property="pagesHolder" destination="m9S-7g-1LD" id="Sq6-Xa-yhU"/>
                         <outlet property="searchBar" destination="Ir8-ev-07f" id="jWx-q3-Zpc"/>
                         <segue destination="5QJ-vG-I2d" kind="custom" identifier="showUserCounts" customClass="TabPresentSegue" customModule="MTP" customModuleProvider="target" id="hwV-qy-OXL"/>
-                        <segue destination="f8e-a6-gwc" kind="custom" identifier="showUserProfile" customClass="TabPresentSegue" customModule="MTP" customModuleProvider="target" id="K3A-db-5HT"/>
+                        <segue destination="f8e-a6-gwc" kind="show" identifier="showUserProfile" id="K3A-db-5HT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
@@ -85,7 +83,7 @@
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="U2y-Kv-T0N">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -103,7 +101,7 @@
                 <viewControllerPlaceholder storyboardName="RankingsFilter" id="9hP-FM-Thd" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ykR-Xr-gmL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2723" y="59"/>
+            <point key="canvasLocation" x="2738" y="-104"/>
         </scene>
         <!--UserCounts-->
         <scene sceneID="f8s-67-bmd">
@@ -111,15 +109,17 @@
                 <viewControllerPlaceholder storyboardName="UserCounts" id="5QJ-vG-I2d" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="koh-Uo-g04" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2710" y="-33"/>
+            <point key="canvasLocation" x="2725" y="31"/>
         </scene>
         <!--UserProfile-->
         <scene sceneID="Gfr-WF-0wI">
             <objects>
-                <viewControllerPlaceholder storyboardName="UserProfile" id="f8e-a6-gwc" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="UserProfile" id="f8e-a6-gwc" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="OO6-TV-PhG"/>
+                </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l4t-j1-Jen" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2708" y="-179"/>
+            <point key="canvasLocation" x="2722" y="-35"/>
         </scene>
     </scenes>
     <resources>

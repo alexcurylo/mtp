@@ -99,6 +99,8 @@ enum ChecklistIndex: Int, CustomStringConvertible {
     case divesites
     /// Checklist .restaurants as 6
     case restaurants
+    /// Checklist .hotels as 7
+    case hotels
 
     var description: String {
         return "\(rawValue)"

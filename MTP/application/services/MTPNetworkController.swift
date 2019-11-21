@@ -51,6 +51,8 @@ enum MTP: Hashable {
     case checkOut(list: Checklist, id: Int)
     /// countriesSearch(query: String?)
     case countriesSearch(query: String?)
+    /// contact(payload: ContactPayload)
+    case contact(payload: ContactPayload)
     /// divesite
     case divesite
     /// faq
@@ -59,6 +61,8 @@ enum MTP: Hashable {
     case geoJson(map: Map)
     /// golfcourse
     case golfcourse
+    /// hotels
+    case hotels
     /// location
     case location
     /// locationPhotos(location: Int)
@@ -69,8 +73,16 @@ enum MTP: Hashable {
     case passwordReset(email: String)
     /// picture(uuid: String, size: Size)
     case picture(uuid: String, size: Size)
+    /// photoDelete(file: Int)
+    case photoDelete(file: Int)
+    /// photoPut(payload: PhotoUpdatePayload)
+    case photoPut(payload: PhotoUpdatePayload)
     /// photos(user: Int?, page: Int)
     case photos(user: Int?, page: Int)
+    /// postDelete(post: Int)
+    case postDelete(post: Int)
+    /// postPut(payload: PostUpdatePayload)
+    case postPut(payload: PostUpdatePayload)
     /// postPublish(payload: PostPayload)
     case postPublish(payload: PostPayload)
     /// rankings(query: RankingsQuery)
@@ -83,11 +95,11 @@ enum MTP: Hashable {
     case search(query: String?)
     /// settings
     case settings
-    /// userDelete(id: Int)
+    /// unCountry
     case unCountry
     /// upload(photo: Data, caption: String?, location: Int?)
     case upload(photo: Data, caption: String?, location: Int?)
-    /// unCountry
+    /// userDelete(id: Int)
     case userDelete(id: Int)
     /// userGet(id: Int)
     case userGet(id: Int)
@@ -95,7 +107,7 @@ enum MTP: Hashable {
     case userGetByToken
     /// userPosts(id: Int)
     case userPosts(id: Int)
-    /// userPost(payload: UserUpdatePayload)
+    /// userPost(token: String)
     case userPost(id: Int, token: String)
     /// userPut(payload: UserUpdatePayload)
     case userPut(payload: UserUpdatePayload)
@@ -136,6 +148,8 @@ extension MTP: TargetType {
             return "me/checklists/\(list.key)"
         case .checklists:
             return "me/checklists"
+        case .contact:
+            return "send-message/contact-form"
         case .countriesSearch:
             return "countries/search"
         case .divesite:
@@ -146,18 +160,28 @@ extension MTP: TargetType {
             return "geojson-files/\(map.rawValue)-map"
         case .golfcourse:
             return "golfcourse"
+        case .hotels:
+            return "hotels"
         case .location:
             return "location"
         case .locationPhotos(let location):
             return "locations/\(location)/photos"
         case .locationPosts(let location):
             return "locations/\(location)/posts"
+        case .photoDelete:
+            return "me/photos"
+        case .photoPut(let payload):
+            return "file/\(payload.id)"
         case .photos(let user?, _):
             return "users/\(user)/photos"
         case .photos:
             return "users/me/photos"
         case .picture:
             return "files/preview"
+        case .postDelete(let post):
+            return "location-posts/\(post)"
+        case .postPut(let payload):
+            return "location-posts/\(payload.id)"
         case .postPublish:
             return "location-posts"
         case .rankings:
@@ -202,6 +226,8 @@ extension MTP: TargetType {
     var method: Moya.Method {
         switch self {
         case .checkOut,
+             .photoDelete,
+             .postDelete,
              .userDelete:
             return .delete
         case .beach,
@@ -211,6 +237,7 @@ extension MTP: TargetType {
              .faq,
              .geoJson,
              .golfcourse,
+             .hotels,
              .location,
              .locationPhotos,
              .locationPosts,
@@ -229,6 +256,7 @@ extension MTP: TargetType {
              .whs:
             return .get
         case .checkIn,
+             .contact,
              .passwordReset,
              .postPublish,
              .upload,
@@ -236,7 +264,9 @@ extension MTP: TargetType {
              .userPost,
              .userRegister:
             return .post
-        case .userPut:
+        case .photoPut,
+             .postPut,
+             .userPut:
             return .put
         }
     }
@@ -259,6 +289,9 @@ extension MTP: TargetType {
         case .passwordReset(let email):
             return .requestParameters(parameters: ["email": email],
                                       encoding: URLEncoding(destination: .queryString))
+        case .photoDelete(let file):
+            return .requestParameters(parameters: ["ids": file],
+                                      encoding: URLEncoding.default)
         case .photos(_, let page):
             return .requestParameters(parameters: ["page": page],
                                       encoding: URLEncoding.default)
@@ -304,7 +337,13 @@ extension MTP: TargetType {
             return .requestParameters(parameters: ["email": email,
                                                    "password": password],
                                       encoding: JSONEncoding.default)
+        case .contact(let payload):
+            return .requestJSONEncodable(payload)
+        case .photoPut(let payload):
+            return .requestJSONEncodable(payload)
         case .postPublish(let payload):
+            return .requestJSONEncodable(payload)
+        case .postPut(let payload):
             return .requestJSONEncodable(payload)
         case .userPut(let payload):
             return .requestJSONEncodable(payload)
@@ -320,8 +359,10 @@ extension MTP: TargetType {
              .faq,
              .geoJson,
              .golfcourse,
+             .hotels, // add ?with=location for location info
              .location,
              .locationPhotos, // &page=1&orderBy=-created_at&limit=6
+             .postDelete,
              .restaurant,
              .scorecard,
              .search,
@@ -466,8 +507,13 @@ extension MTP: AccessTokenAuthorizable {
         case .checkIn,
              .checklists,
              .checkOut,
+             .contact,
+             .photoDelete,
+             .photoPut,
              .photos,
+             .postDelete,
              .postPublish,
+             .postPut,
              .rankings,
              .upload,
              .userDelete,
@@ -482,6 +528,7 @@ extension MTP: AccessTokenAuthorizable {
              .faq,
              .geoJson,
              .golfcourse,
+             .hotels,
              .location,
              .locationPhotos,
              .locationPosts,
@@ -510,7 +557,6 @@ class MTPNetworkController: ServiceProvider {
     // swiftlint:disable:previous type_body_length
 
     /// Set places visit status
-    ///
     /// - Parameters:
     ///   - items: Places
     ///   - visited: Whether visited
@@ -546,6 +592,51 @@ class MTPNetworkController: ServiceProvider {
                 default:
                     then(result)
                 }
+            }
+        }
+    }
+
+    /// Send contact form
+    /// - Parameters:
+    ///   - payload: Post payload
+    ///   - stub: Stub behaviour
+    ///   - then: Completion
+    func contact(payload: ContactPayload,
+                 stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
+                 then: @escaping NetworkCompletion<String>) {
+        guard data.isLoggedIn else {
+            return then(.failure(.parameter))
+        }
+
+        let auth = AccessTokenPlugin { self.data.token }
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
+        let endpoint = MTP.contact(payload: payload)
+
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                let reply = try response.map(OperationMessageReply.self,
+                                             using: JSONDecoder.mtp)
+                if reply.isSuccess {
+                    self.report(success: endpoint)
+                    return then(.success(reply.message))
+                } else {
+                    problem = .message(reply.message)
+                }
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
+        provider.request(endpoint) { result in
+            switch result {
+            case .success(let response):
+                success(response)
+            case .failure(let error):
+                then(.failure(self.problem(with: endpoint, from: error)))
             }
         }
     }
@@ -591,7 +682,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Load checklists
-    ///
     /// - Parameters:
     ///   - stub: Stub behaviour
     ///   - then: Completion
@@ -724,6 +814,46 @@ class MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Load hotels
+    func loadHotels(then: @escaping NetworkCompletion<[HotelJSON]> = { _ in }) {
+        let provider = MTPProvider()
+        let endpoint = MTP.hotels
+        guard !endpoint.isThrottled else {
+            return then(.failure(.throttle))
+        }
+
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let hotels = try response.map([HotelJSON].self,
+                                              using: JSONDecoder.mtp)
+                self.data.set(hotels: hotels)
+                self.report(success: endpoint)
+                return then(.success(hotels))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
+        provider.request(endpoint) { result in
+            endpoint.markResponded()
+            switch result {
+            case .success(let response):
+                success(response)
+            case .failure(let error):
+                then(.failure(self.problem(with: endpoint, from: error)))
+            }
+        }
+    }
+
     /// Load locations
     func loadLocations(then: @escaping NetworkCompletion<[LocationJSON]> = { _ in }) {
         let provider = MTPProvider()
@@ -765,7 +895,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Load location photos
-    ///
     /// - Parameters:
     ///   - id: Location ID
     ///   - reload: Force reload
@@ -814,7 +943,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Load logged in user photos
-    ///
     /// - Parameters:
     ///   - page: Index
     ///   - reload: Force reload
@@ -832,7 +960,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Load user photos
-    ///
     /// - Parameters:
     ///   - id: User ID
     ///   - page: Index
@@ -852,7 +979,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Load location posts
-    ///
     /// - Parameters:
     ///   - id: Location ID
     ///   - reload: Force reload
@@ -901,7 +1027,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Load user posts
-    ///
     /// - Parameters:
     ///   - id: User ID
     ///   - reload: Force reload
@@ -955,7 +1080,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Load rankings
-    ///
     /// - Parameters:
     ///   - query: Filter
     ///   - stub: Stub behaviour
@@ -1004,7 +1128,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Load restaurants
-    ///
     /// - Parameters:
     ///   - then: Completion
     func loadRestaurants(then: @escaping NetworkCompletion<[RestaurantJSON]> = { _ in }) {
@@ -1047,7 +1170,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Load scorecard
-    ///
     /// - Parameters:
     ///   - list: Checklist
     ///   - id: User ID
@@ -1132,7 +1254,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Load UN countries
-    ///
     /// - Parameters:
     ///   - then: Completion
     func loadUNCountries(then: @escaping NetworkCompletion<[LocationJSON]> = { _ in }) {
@@ -1175,7 +1296,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Load user
-    ///
     /// - Parameters:
     ///   - id: User ID
     ///   - stub: Stub behaviour
@@ -1222,7 +1342,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Load WHS
-    ///
     /// - Parameters:
     ///   - then: Completion
     func loadWHS(then: @escaping NetworkCompletion<[WHSJSON]> = { _ in }) {
@@ -1264,8 +1383,95 @@ class MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Update photo
+    /// - Parameters:
+    ///   - payload: PhotoUpdatePayload
+    ///   - stub: Stub behaviour
+    ///   - then: Completion
+    func photoUpdate(payload: PhotoUpdatePayload,
+                     stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
+                     then: @escaping NetworkCompletion<Bool>) {
+        let auth = AccessTokenPlugin { self.data.token }
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
+        let endpoint = MTP.photoPut(payload: payload)
+
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                _ = try response.map(PhotoUpdateReply.self,
+                                     using: JSONDecoder.mtp)
+                self.report(success: endpoint)
+                return then(.success(true))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                do {
+                    let reply = try response.map(OperationReply.self,
+                                                 using: JSONDecoder.mtp)
+                    problem = .message(reply.message)
+                } catch {
+                    self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                    problem = .decoding(error.localizedDescription)
+                }
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
+        provider.request(endpoint) { result in
+            switch result {
+            case .success(let response):
+                success(response)
+            case .failure(let error):
+                then(.failure(self.problem(with: endpoint, from: error)))
+            }
+        }
+    }
+
+    /// Delete photo
+    /// - Parameters:
+    ///   - photo: Int
+    ///   - stub: Stub behaviour
+    ///   - then: Completion
+    func delete(photo: Int,
+                stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
+                then: @escaping NetworkCompletion<Bool>) {
+        let auth = AccessTokenPlugin { self.data.token }
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
+        let endpoint = MTP.photoDelete(file: photo)
+
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                let reply = try response.map(QuietOperationReply.self,
+                                             using: JSONDecoder.mtp)
+                if reply.isSuccess {
+                    self.report(success: endpoint)
+                    return then(.success(reply.isSuccess))
+                } else {
+                    problem = .status(reply.code)
+                }
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
+        provider.request(endpoint) { result in
+            switch result {
+            case .success(let response):
+                success(response)
+            case .failure(let error):
+                then(.failure(self.problem(with: endpoint, from: error)))
+            }
+        }
+    }
+
     /// Publish post
-    ///
     /// - Parameters:
     ///   - payload: Post payload
     ///   - stub: Stub behaviour
@@ -1313,8 +1519,79 @@ class MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Update post
+    /// - Parameters:
+    ///   - payload: PostUpdatePayload
+    ///   - stub: Stub behaviour
+    ///   - then: Completion
+    func postUpdate(payload: PostUpdatePayload,
+                    stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
+                    then: @escaping NetworkCompletion<Bool>) {
+        let auth = AccessTokenPlugin { self.data.token }
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
+        let endpoint = MTP.postPut(payload: payload)
+
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                // updated response in /data
+                let reply = try response.map(CodelessOperationReply.self,
+                                             using: JSONDecoder.mtp)
+                if reply.isSuccess {
+                    self.report(success: endpoint)
+                    return then(.success(true))
+                } else {
+                    problem = .message(reply.message)
+                }
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
+        provider.request(endpoint) { result in
+            switch result {
+            case .success(let response):
+                success(response)
+            case .failure(let error):
+                then(.failure(self.problem(with: endpoint, from: error)))
+            }
+        }
+    }
+
+    /// Delete post
+    /// - Parameters:
+    ///   - post: Int
+    ///   - stub: Stub behaviour
+    ///   - then: Completion
+    func delete(post: Int,
+                stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
+                then: @escaping NetworkCompletion<Bool>) {
+        let auth = AccessTokenPlugin { self.data.token }
+        let provider = MTPProvider(stubClosure: stub, plugins: [auth])
+        let endpoint = MTP.postDelete(post: post)
+
+        let success: SuccessHandler = { response in
+            // apparently this returns a simple "1" or "0"
+            self.report(success: endpoint)
+            return then(.success(true))
+        }
+
+        provider.request(endpoint) { result in
+            switch result {
+            case .success(let response):
+                success(response)
+            case .failure(let error):
+                then(.failure(self.problem(with: endpoint, from: error)))
+            }
+        }
+    }
+
     /// Search countries
-    ///
     /// - Parameters:
     ///   - query: Query
     ///   - then: Completion
@@ -1357,7 +1634,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Search
-    ///
     /// - Parameters:
     ///   - query: Query
     ///   - stub: Stub behaviour
@@ -1400,7 +1676,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Upload photo
-    ///
     /// - Parameters:
     ///   - photo: Data
     ///   - caption: String
@@ -1456,7 +1731,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Delete user account
-    ///
     /// - Parameters:
     ///   - stub: Stub behaviour
     ///   - then: Completion
@@ -1507,7 +1781,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Send reset password link
-    ///
     /// - Parameters:
     ///   - email: Email
     ///   - stub: Stub behaviour
@@ -1530,7 +1803,7 @@ class MTPNetworkController: ServiceProvider {
                 guard response.modified(from: endpoint) else {
                     throw NetworkError.notModified
                 }
-                let reply = try response.map(PasswordResetReply.self,
+                let reply = try response.map(OperationMessageReply.self,
                                              using: JSONDecoder.mtp)
                 if reply.isSuccess {
                     self.report(success: endpoint)
@@ -1559,7 +1832,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Get logged in user info
-    ///
     /// - Parameters:
     ///   - reload: Force reload
     ///   - stub: Stub behaviour
@@ -1613,7 +1885,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Login user
-    ///
     /// - Parameters:
     ///   - email: Email
     ///   - password: Password
@@ -1665,7 +1936,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Register new user
-    ///
     /// - Parameters:
     ///   - payload: RegistrationPayload
     ///   - stub: Stub behaviour
@@ -1714,7 +1984,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Update user info
-    ///
     /// - Parameters:
     ///   - payload: UserUpdatePayload
     ///   - stub: Stub behaviour
@@ -1759,7 +2028,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Update user token
-    ///
     /// - Parameters:
     ///   - token: String
     ///   - stub: Stub behaviour
@@ -1803,7 +2071,6 @@ class MTPNetworkController: ServiceProvider {
     }
 
     /// Resend verification email
-    ///
     /// - Parameters:
     ///   - id: User ID
     ///   - stub: Stub behaviour

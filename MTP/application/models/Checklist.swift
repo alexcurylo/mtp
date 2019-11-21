@@ -9,7 +9,7 @@ import UIKit
 struct ChecklistFlags: Codable, Equatable {
 
     /// number types that are mappable
-    static let mappableCount = 6
+    static let mappableCount = 7
 
     /// Whether to show beaches
     var beaches: Bool = true
@@ -17,6 +17,8 @@ struct ChecklistFlags: Codable, Equatable {
     var divesites: Bool = true
     /// Whether to show golfcourses
     var golfcourses: Bool = true
+    /// Whether to show hotels
+    var hotels: Bool = true
     /// Whether to show locations
     var locations: Bool = true
     /// Whether to show restaurants
@@ -27,12 +29,12 @@ struct ChecklistFlags: Codable, Equatable {
     var whss: Bool = true
 
     /// Default constructor
-    ///
     /// - Parameter flagged: Default on or off
     init(flagged: Bool = true) {
         beaches = flagged
         divesites = flagged
         golfcourses = flagged
+        hotels = flagged
         locations = flagged
         restaurants = flagged
         uncountries = flagged
@@ -40,7 +42,6 @@ struct ChecklistFlags: Codable, Equatable {
     }
 
     /// Whether a particular list type is shown
-    ///
     /// - Parameter list: The list type
     /// - Returns: Whether shown
     func display(list: Checklist) -> Bool {
@@ -48,6 +49,7 @@ struct ChecklistFlags: Codable, Equatable {
         case .beaches: return beaches
         case .divesites: return divesites
         case .golfcourses: return golfcourses
+        case .hotels: return hotels
         case .locations: return locations
         case .restaurants: return restaurants
         case .uncountries: return uncountries
@@ -60,11 +62,11 @@ struct ChecklistFlags: Codable, Equatable {
 enum Checklist: Int, CaseIterable, ServiceProvider {
     // swiftlint:disable:previous type_body_length
 
-    /// MTP locations
+    /// MTP Locations
     case locations
-    /// UN countries
+    /// UN Countries
     case uncountries
-    /// WHSs
+    /// World Heritage Sites
     case whss
     /// Beaches
     case beaches
@@ -74,14 +76,13 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
     case divesites
     /// Restaurants
     case restaurants
+    /// Top Hotels
+    case hotels
 
     /// Individual item identifier
     typealias Item = (list: Checklist, id: Int)
     /// Current count of visits
     typealias VisitStatus = (visited: Int, remaining: Int)
-
-    /// How long to display updating status after a visit change
-    static var rankUpdateMinutes = 60
 
     /// Constructor from text key found in JSON
     init?(key: String) {
@@ -93,6 +94,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         case "golfcourses": self = .golfcourses
         case "divesites": self = .divesites
         case "restaurants": self = .restaurants
+        case "hotels": self = .hotels
         default: return nil
         }
     }
@@ -107,6 +109,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         case .golfcourses: return "golfcourses"
         case .divesites: return "divesites"
         case .restaurants: return "restaurants"
+        case .hotels: return "hotels"
         }
     }
 
@@ -128,6 +131,8 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
             marker = R.color.divesites()
         case .restaurants:
             marker = R.color.restaurants()
+        case .hotels:
+            marker = R.color.hotels()
         }
         // swiftlint:disable:next force_unwrapping
         return marker!
@@ -151,6 +156,8 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
             image = R.image.listDive()
         case .restaurants:
             image = R.image.listRestaurants()
+        case .hotels:
+            image = R.image.listHotels()
         }
         // swiftlint:disable:next force_unwrapping
         return image!
@@ -232,6 +239,8 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
             places = data.divesites
         case .restaurants:
             places = data.restaurants
+        case .hotels:
+            places = data.hotels
         }
         return places
     }
@@ -293,6 +302,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         case .beaches,
              .divesites,
              .golfcourses,
+             .hotels,
              .locations,
              .restaurants:
             break
@@ -319,6 +329,8 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
             return user.rankDivesites ?? 0
         case .restaurants:
             return user.rankRestaurants ?? 0
+        case .hotels:
+            return user.rankHotels ?? 0
         }
     }
 
@@ -339,6 +351,8 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
             return user.orderDivesites
         case .restaurants:
             return user.orderRestaurants
+        case .hotels:
+            return user.orderHotels
         }
     }
 
@@ -365,6 +379,8 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
             total = data.divesites.count
         case .restaurants:
             total = data.restaurants.count
+        case .hotels:
+            total = data.hotels.count
         }
         let complete = visits(of: user)
         return (complete, total - complete)
@@ -387,6 +403,8 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
             return L.divesites()
         case .restaurants:
             return L.restaurants()
+        case .hotels:
+            return L.hotels()
         }
     }
 
@@ -407,6 +425,8 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
             return L.divesite()
         case .restaurants:
             return L.restaurant()
+        case .hotels:
+            return L.hotel()
         }
     }
 
@@ -427,6 +447,8 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
             return user.visitDivesites
         case .restaurants:
             return user.visitRestaurants
+        case .hotels:
+            return user.visitHotels
         }
     }
 
@@ -447,6 +469,8 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
             return user.orderDivesites
         case .restaurants:
             return user.orderRestaurants
+        case .hotels:
+            return user.orderHotels
         }
     }
 
@@ -469,6 +493,8 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
             return visited.divesites
         case .restaurants:
             return visited.restaurants
+        case .hotels:
+            return visited.hotels ?? []
         }
     }
 
@@ -489,6 +515,8 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
             return 1_600
         case .restaurants:
             return 100
+        case .hotels:
+            return 300
         }
     }
 
@@ -509,6 +537,8 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
             return (L.divesite(), L.divesites())
         case .restaurants:
             return (L.restaurant(), L.restaurants())
+        case .hotels:
+            return (L.hotel(), L.hotels())
         }
     }
 
@@ -590,6 +620,8 @@ extension Checklist {
             return .regionSubtitled
         case .restaurants:
             return .regionSubtitled // by region/country/location on website
+        case .hotels:
+            return .regionSubtitled // by brand or region/country on website
         }
     }
 
@@ -612,6 +644,7 @@ extension ChecklistIndex {
         case .golfcourses: self = .golfcourses
         case .divesites: self = .divesites
         case .restaurants: self = .restaurants
+        case .hotels: self = .hotels
         }
     }
 }

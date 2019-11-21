@@ -6,7 +6,7 @@ import Foundation
 struct PostReply: Codable {
 
     fileprivate let id: Int
-    fileprivate let location: LocationJSON
+    fileprivate let location: PlaceLocation
     fileprivate let locationId: Int
     fileprivate let owner: UserJSON
     fileprivate let post: String
@@ -72,6 +72,28 @@ extension PostPayload: CustomStringConvertible {
 
     var description: String {
         return "post for \(location_id): \(post)"
+    }
+}
+
+/// Payload sent to API endpoint
+struct PostUpdatePayload: Codable, Hashable {
+
+    /// Post ID being updated
+    let id: Int
+    private let location: LocationPayload
+    private let location_id: Int
+    private let post: String
+    private let status = "A"
+    private let user_id: Int
+
+    /// :nodoc:
+    init(from: PostCellModel,
+         with: PostPayload) {
+        id = from.postId
+        location = with.location
+        location_id = with.location_id
+        post = with.post
+        user_id = from.user?.userId ?? 0
     }
 }
 

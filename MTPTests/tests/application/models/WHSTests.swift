@@ -141,7 +141,7 @@ active: Y
 featuredImg: Optional("3XQOh9uvWhBRlBqchvV9xy")
 id: 1
 lat: -0.81667
-location: Optional(< PlaceLocation: Ecuador (930)
+location: Optional(< PlaceLocation: Galapagos Islands, Ecuador
 countryId: 930
 countryName: Ecuador
 id: 18

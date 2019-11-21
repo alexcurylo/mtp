@@ -1,0 +1,26 @@
+name: CI
+on: [push]
+
+jobs:
+  test:
+    name: CI
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Install
+        run: |
+          brew install mint
+          mint bootstrap
+      - name: Test
+        run: |
+          xcodebuild test -quiet -workspace $WORKSPACE -scheme $SCHEME -destination 'platform=iOS Simulator,name=iPhone 8' -configuration Debug -enableCodeCoverage YES CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO ARCHS=x86_64 VALID_ARCHS=x86_64
+        env:
+          DEVELOPER_DIR: /Applications/Xcode_11.2.app/Contents/Developer
+          WORKSPACE: MTP.xcworkspace
+          SCHEME: MTP
+      - name: Coverage
+        run: |
+          bash <(curl -s https://codecov.io/bash) -J '^MTP$'
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

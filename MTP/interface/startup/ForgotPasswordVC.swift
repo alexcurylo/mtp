@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-import KRProgressHUD
+import UIKit
 
 /// Handle prompting MTP for password reset link
 final class ForgotPasswordVC: UIViewController {
@@ -17,7 +17,7 @@ final class ForgotPasswordVC: UIViewController {
 
     private var email: String = ""
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
@@ -27,9 +27,7 @@ final class ForgotPasswordVC: UIViewController {
         messageLabel.text = message
     }
 
-    /// Prepare for reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -38,9 +36,7 @@ final class ForgotPasswordVC: UIViewController {
         expose()
     }
 
-    /// Actions to take after reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         report(screen: "Forgot Password")
@@ -48,11 +44,7 @@ final class ForgotPasswordVC: UIViewController {
         revealAlert()
     }
 
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
+    /// :nodoc:
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Segues.dismissForgotPassword.identifier {
             presentingViewController?.show(navBar: true)
@@ -70,7 +62,7 @@ private extension ForgotPasswordVC {
         net.userForgotPassword(email: email) { [weak self, note] result in
             switch result {
             case .success(let message):
-                KRProgressHUD.showSuccess(withMessage: message)
+                note.modal(success: message)
                 DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
                     note.dismissModal()
                     self?.performSegue(withIdentifier: Segues.dismissForgotPassword, sender: self)

@@ -159,6 +159,14 @@ final class DataServiceSpy: DataService {
         invokedGolfcoursesGetterCount += 1
         return stubbedGolfcourses
     }
+    var invokedHotelsGetter = false
+    var invokedHotelsGetterCount = 0
+    var stubbedHotels: [Hotel]! = []
+    var hotels: [Hotel] {
+        invokedHotelsGetter = true
+        invokedHotelsGetterCount += 1
+        return stubbedHotels
+    }
     var invokedLastRankingsQuerySetter = false
     var invokedLastRankingsQuerySetterCount = 0
     var invokedLastRankingsQuery: RankingsQuery?
@@ -623,6 +631,18 @@ final class DataServiceSpy: DataService {
         invokedGetPhotoParametersList.append((photo, ()))
         return stubbedGetPhotoResult
     }
+    var invokedGetPost = false
+    var invokedGetPostCount = 0
+    var invokedGetPostParameters: (post: Int, Void)?
+    var invokedGetPostParametersList = [(post: Int, Void)]()
+    var stubbedGetPostResult: Post!
+    func get(post: Int) -> Post? {
+        invokedGetPost = true
+        invokedGetPostCount += 1
+        invokedGetPostParameters = (post, ())
+        invokedGetPostParametersList.append((post, ()))
+        return stubbedGetPostResult
+    }
     var invokedGetPosts = false
     var invokedGetPostsCount = 0
     var invokedGetPostsParameters: (id: Int, Void)?
@@ -760,6 +780,16 @@ final class DataServiceSpy: DataService {
         invokedSetGolfcoursesCount += 1
         invokedSetGolfcoursesParameters = (golfcourses, ())
         invokedSetGolfcoursesParametersList.append((golfcourses, ()))
+    }
+    var invokedSetHotels = false
+    var invokedSetHotelsCount = 0
+    var invokedSetHotelsParameters: (hotels: [HotelJSON], Void)?
+    var invokedSetHotelsParametersList = [(hotels: [HotelJSON], Void)]()
+    func set(hotels: [HotelJSON]) {
+        invokedSetHotels = true
+        invokedSetHotelsCount += 1
+        invokedSetHotelsParameters = (hotels, ())
+        invokedSetHotelsParametersList.append((hotels, ()))
     }
     var invokedSetItems = false
     var invokedSetItemsCount = 0
@@ -917,6 +947,16 @@ final class DataServiceSpy: DataService {
         invokedSetWhssParameters = (whss, ())
         invokedSetWhssParametersList.append((whss, ()))
     }
+    var invokedDeletePhoto = false
+    var invokedDeletePhotoCount = 0
+    var invokedDeletePhotoParameters: (photoId: Int, Void)?
+    var invokedDeletePhotoParametersList = [(photoId: Int, Void)]()
+    func delete(photo photoId: Int) {
+        invokedDeletePhoto = true
+        invokedDeletePhotoCount += 1
+        invokedDeletePhotoParameters = (photoId, ())
+        invokedDeletePhotoParametersList.append((photoId, ()))
+    }
     var invokedDeletePhotos = false
     var invokedDeletePhotosCount = 0
     var invokedDeletePhotosParameters: (userId: Int, Void)?
@@ -926,6 +966,26 @@ final class DataServiceSpy: DataService {
         invokedDeletePhotosCount += 1
         invokedDeletePhotosParameters = (userId, ())
         invokedDeletePhotosParametersList.append((userId, ()))
+    }
+    var invokedDeletePost = false
+    var invokedDeletePostCount = 0
+    var invokedDeletePostParameters: (postId: Int, Void)?
+    var invokedDeletePostParametersList = [(postId: Int, Void)]()
+    func delete(post postId: Int) {
+        invokedDeletePost = true
+        invokedDeletePostCount += 1
+        invokedDeletePostParameters = (postId, ())
+        invokedDeletePostParametersList.append((postId, ()))
+    }
+    var invokedDeletePosts = false
+    var invokedDeletePostsCount = 0
+    var invokedDeletePostsParameters: (userId: Int, Void)?
+    var invokedDeletePostsParametersList = [(userId: Int, Void)]()
+    func delete(posts userId: Int) {
+        invokedDeletePosts = true
+        invokedDeletePostsCount += 1
+        invokedDeletePostsParameters = (userId, ())
+        invokedDeletePostsParametersList.append((userId, ()))
     }
     var invokedDeleteRankings = false
     var invokedDeleteRankingsCount = 0

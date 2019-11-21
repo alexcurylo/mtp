@@ -1,14 +1,10 @@
 # [mtp](https://github.com/alexcurylo/mtp)
-[![Travis](https://travis-ci.org/alexcurylo/mtp.svg?branch=develop)](https://travis-ci.org/alexcurylo/mtp)
-[![Issues](https://img.shields.io/github/issues/alexcurylo/mtp.svg)](https://github.com/alexcurylo/mtp/issues)
-[![Xcode](https://img.shields.io/badge/Xcode-11-blue.svg)](https://developer.apple.com/xcode)
-[![Swift](https://img.shields.io/badge/Swift-5.1-orange.svg)](https://swift.org)
-[![MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
+[![CI](https://github.com/alexcurylo/mtp/workflows/CI/badge.svg)](https://github.com/alexcurylo/mtp/actions?workflow=CI)
+[![coverage](https://codecov.io/gh/alexcurylo/mtp/branch/develop/graphs/badge.svg)](https://codecov.io/gh/alexcurylo/mtp)
 [![codebeat](https://codebeat.co/badges/321a44b1-ff7b-48fd-b8e2-42a5a8d19568)](https://codebeat.co/projects/github-com-alexcurylo-mtp-develop)
-[![coverage](https://coveralls.io/repos/github/alexcurylo/mtp/badge.svg?branch=develop)](https://coveralls.io/github/alexcurylo/mtp?branch=develop)
+[![issues](https://img.shields.io/github/issues/alexcurylo/mtp.svg)](https://github.com/alexcurylo/mtp/issues)
 [![docs](https://alexcurylo.github.io/mtp/badge.svg)](https://alexcurylo.github.io/mtp)
-[![Join the chat at https://gitter.im/alexcurylo/mtp](https://badges.gitter.im/alexcurylo/mtp.svg)](https://gitter.im/alexcurylo/mtp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
+[![chat](https://badges.gitter.im/alexcurylo/mtp.svg)](https://gitter.im/alexcurylo/mtp) 
 
 
 Table of Contents
@@ -25,12 +21,12 @@ Table of Contents
 Purpose
 -------
 
-The [Most Traveled People](https://mtp.travel) iOS app.
+The [Most Traveled People](https://mtp.travel) extreme travel club's [iOS app](https://apps.apple.com/app/id1463245184).
 
 Requirements
 ------------
 
-- Xcode 11 or later
+- Xcode 11.2 or later
 - iOS 11.0 or later
 
 ### Tools:
@@ -38,26 +34,24 @@ Requirements
 - [Bundler](https://bundler.io/) for Ruby dependency management
 - [CocoaPods](https://cocoapods.org/) for code dependency management
 - [Codebeat](https://codebeat.co/projects/github-com-alexcurylo-mtp-develop) for automated code review
-- [Coveralls](https://coveralls.io/github/alexcurylo/mtp?branch=develop) for test coverage statistics
-- [Danger](http://danger.systems/ruby/) for automated code review
+- [Codecov](https://codecov.io/gh/alexcurylo/mtp) for test coverage statistics
 - [Fastlane](https://fastlane.tools) for release management
 - [Firebase](https://firebase.google.com/) for analytics and crash reports
+- [Github Actions](https://github.com/alexcurylo/mtp/actions?workflow=CI) for CI testing
 - [Gitter](https://gitter.im/alexcurylo/mtp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) for chat
 - [Jazzy](https://github.com/realm/jazzy) for generating documentation
 - [Mint](https://github.com/yonaskolb/mint) for tool dependency management
-- [Slather](https://github.com/SlatherOrg/slather) for test coverage reports
 - [SwiftLint](https://github.com/realm/SwiftLint) for opinionated coding style enforcement
 - [SwiftMockGeneratorForXcode](https://github.com/seanhenry/SwiftMockGeneratorForXcode) for generating mocks
 - [SwiftyBeaver](https://github.com/SwiftyBeaver/SwiftyBeaver) for logging
-- [Travis-CI](https://travis-ci.org/alexcurylo/mtp) for test builds
 
 ### Libraries:
 
 - [Alamofire](https://github.com/Alamofire/Alamofire) and [AlamofireNetworkActivityIndicator](https://github.com/Alamofire/AlamofireNetworkActivityIndicator) for HTTP networking
 - [Anchorage](https://github.com/Raizlabs/Anchorage) for fluent layout declarations
-- [DropDown](https://github.com/AssistoLab/DropDown) for live search results
 - [Facebook SDK in Swift](https://github.com/facebook/facebook-sdk-swift)  for Facebook support
 - [JWTDecode](https://github.com/auth0/JWTDecode.swift) for [JSON Web Token](https://jwt.io) management
+- [Karte](https://github.com/kiliankoe/Karte) for launching directions
 - [KRProgressHUD](https://github.com/krimpedance/KRProgressHUD) for progress management
 - [Moya](https://github.com/Moya/Moya) for network endpoint abstraction
 - [Nuke](https://github.com/kean/Nuke) for networked image loading
@@ -69,7 +63,10 @@ Requirements
 Usage
 -----
 
-Build the app with the 'MTP' target.
+- Install Ruby + Bundler + Mint as system tools, [Homebrew](https://brew.sh) is a good start
+- `bundle install` to install the versioned tools in `Gemfile`
+- `mint bootstrap` to install the versioned tools in `Mintfile`
+- Build the app with the 'MTP' target.
 
 Documentation
 -------------
@@ -81,7 +78,7 @@ Generate for local branch with  `bundle exec jazzy` and open with `open ./docs/i
 Roadmap
 -------
 
-Feel free to [open an issue](https://github.com/alexcurylo/mtp/issues/new) if there's something in particular you'd like to see here.
+[Open an issue](https://github.com/alexcurylo/mtp/issues/new) if there's something in particular you'd like to see here.
 
 Author
 ------
@@ -95,4 +92,4 @@ License
 
 The [MIT License](http://opensource.org/licenses/MIT). See the [LICENSE.md](LICENSE.md) file for details.
 
-_Copyright &copy;2018-present Trollwerks Inc._
+_Copyright &copy;2018-2019 Trollwerks Inc._

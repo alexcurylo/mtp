@@ -5,7 +5,8 @@ import UIKit
 /// Root class for remote user profile
 final class UserProfileVC: ProfileVC {
 
-    private typealias Segues = R.segue.userProfileVC
+    // verified in requireOutlets
+    @IBOutlet private var closeButton: UIBarButtonItem!
 
     fileprivate enum Page: Int {
 
@@ -13,8 +14,6 @@ final class UserProfileVC: ProfileVC {
         case photos
         case posts
     }
-
-    @IBOutlet private var closeButton: UIButton?
 
     /// Controllers to be displayed in PagingViewController
     override var pages: [UIViewController] {
@@ -25,12 +24,15 @@ final class UserProfileVC: ProfileVC {
         ].compactMap { $0 }
     }
 
-    /// Prepare for reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
+     override func viewDidLoad() {
+         super.viewDidLoad()
+         closeButton.require()
+    }
+
+    /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         expose()
     }
 }

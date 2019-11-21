@@ -232,8 +232,9 @@ extension UIColor {
         case .login:
             set(gradient: [.frenchPass, .white],
                 orientation: .vertical)
-        case .map, .system:
-            break
+        case .locations,
+             .system,
+             .visited: break
         case .standard:
             set(gradient: [.dodgerBlue, .azureRadiance],
                 orientation: .topRightBottomLeft)

@@ -28,15 +28,45 @@ private enum MessageType: String {
     case success
 }
 
-/// Reply from the password reset endpoint
-struct PasswordResetReply: Codable {
+/// Reply from delete photo endpoint
+struct QuietOperationReply: Codable {
 
     /// HTTP result code
     let code: Int
-    private let data: String?
+
+    /// Whether operation succeeded
+    var isSuccess: Bool {
+        code == 200
+    }
+}
+
+/// Reply from delete photo endpoint
+struct CodelessOperationReply: Codable {
+
     /// Result message
     let message: String
+
+    /// Whether operation succeeded
+    var isSuccess: Bool {
+        !message.isEmpty
+    }
+}
+
+/// Reply from the payssword reset and contact form endpoints
+struct OperationMessageReply: Codable {
+
+    /// HTTP result code
+    let code: Int
+    /// Result message
+    let message: String
+    // "Password reset mail sent!"
+    // "Messages have been sent!"
+    /// Message type
     private let messageType: String
+
+    //private let data: String? or Int?
+    // string "passwords.sent" in password reset
+    // int 1 in contact form
 
     /// Whether operation succeeded
     var isSuccess: Bool {
@@ -44,23 +74,22 @@ struct PasswordResetReply: Codable {
     }
 }
 
-extension PasswordResetReply: CustomStringConvertible {
+extension OperationMessageReply: CustomStringConvertible {
 
     var description: String {
         return "code \(code): \(message)"
     }
 }
 
-extension PasswordResetReply: CustomDebugStringConvertible {
+extension OperationMessageReply: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return """
-        < PasswordResetReply: \(description):
+        < OperationMessageReply: \(description):
         code: \(code)
-        data: \(String(describing: data))
         message: \(message)
         messageType: \(messageType)
-        /PasswordResetReply >
+        /OperationMessageReply >
         """
     }
 }

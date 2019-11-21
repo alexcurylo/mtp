@@ -1,7 +1,7 @@
 # references:
 # https://github.com/realm/SwiftLint#configuration
 #
-# `swiftlint rules` last updated version 0.34.0
+# `swiftlint rules` last updated version 0.37.0
 #
 # Disable an individual warning with [next|previous]:
 # // swiftlint:disable:previous line_length
@@ -21,11 +21,11 @@ opt_in_rules:
   - contains_over_filter_count
   - contains_over_filter_is_empty
   - contains_over_first_not_nil
+  - contains_over_range_nil_comparison
   - convenience_type
   - discouraged_object_literal
   - discouraged_optional_boolean
   - discouraged_optional_collection
-  - duplicate_enum_cases
   - empty_collection_literal
   - empty_count
   - empty_string
@@ -43,6 +43,7 @@ opt_in_rules:
   - file_name
 #- file_types_order
   - first_where
+  - flatmap_over_map_reduce
   - force_unwrapping
   - function_default_parameter_at_end
   - identical_operands
@@ -82,11 +83,12 @@ opt_in_rules:
   - quick_discouraged_call
   - quick_discouraged_focused_test
   - quick_discouraged_pending_test
+  - raw_value_for_camel_cased_codable_enum
   - reduce_into
   - redundant_nil_coalescing
   - redundant_type_annotation
-  - required_enum_case
 #- required_deinit
+  - required_enum_case
   - single_test_class
   - sorted_first_last
   - sorted_imports

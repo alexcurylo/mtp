@@ -21,7 +21,7 @@ final class LoginFailVC: UIViewController {
 
     private var isSwitchable: Bool = true
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
@@ -35,9 +35,7 @@ final class LoginFailVC: UIViewController {
         }
     }
 
-    /// Prepare for reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -46,9 +44,7 @@ final class LoginFailVC: UIViewController {
         expose()
     }
 
-    /// Actions to take after reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         report(screen: "Login Fail")
@@ -72,11 +68,7 @@ final class LoginFailVC: UIViewController {
         }
     }
 
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
+    /// :nodoc:
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Segues.dismissLoginFail.identifier {
             presentingViewController?.show(navBar: true)

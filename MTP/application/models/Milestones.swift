@@ -86,6 +86,7 @@ private struct MilestonesJSON: Codable {
     let beaches: [ThresholdsJSON]
     let divesites: [ThresholdsJSON]
     let golfcourses: [ThresholdsJSON]
+    let hotels: [ThresholdsJSON]
     let locations: [ThresholdsJSON]
     let restaurants: [ThresholdsJSON]
     let uncountries: [ThresholdsJSON]
@@ -107,6 +108,8 @@ private struct MilestonesJSON: Codable {
             return divesites
         case .restaurants:
             return restaurants
+        case .hotels:
+            return hotels
         }
     }
 }

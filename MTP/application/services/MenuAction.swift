@@ -6,17 +6,27 @@ import UIKit
 enum MenuAction: String {
 
     /// Hide triggering content
-    case hide = "hide:"
+    case hide = "menuHide:"
     /// Report triggering content
-    case report = "report:"
+    case report = "menuReport:"
     /// Block triggering user
-    case block = "block:"
+    case block = "menuBlock:"
+
+    /// Edit content
+    case edit = "menuEdit:"
+    /// Delete content
+    case delete = "menuDelete:"
 
     /// Actions for dealing with UGC as per Apple's requirements
-    static let contentItems = [
+    static let theirItems = [
         UIMenuItem(title: L.menuHide(), action: MenuAction.hide.selector()),
         UIMenuItem(title: L.menuReport(), action: MenuAction.report.selector()),
         UIMenuItem(title: L.menuBlock(), action: MenuAction.block.selector())
+    ]
+    /// Actions for editing our own content
+    static let myItems = [
+        UIMenuItem(title: L.menuEdit(), action: MenuAction.edit.selector()),
+        UIMenuItem(title: L.menuDelete(), action: MenuAction.delete.selector())
     ]
 
     /// Is a menu action one of our content actions?
@@ -27,10 +37,12 @@ enum MenuAction: String {
         switch action {
         case MenuAction.block.selector(),
              MenuAction.hide.selector(),
-             MenuAction.report.selector():
+             MenuAction.report.selector(),
+             MenuAction.edit.selector(),
+             MenuAction.delete.selector():
             return true
         default:
-        return false
+            return false
         }
     }
 

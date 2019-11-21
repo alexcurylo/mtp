@@ -80,9 +80,7 @@ final class RankingsPageVC: UIViewController {
         return nil
     }
 
-    /// Actions to take after reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         report(screen: "Rankings Page")

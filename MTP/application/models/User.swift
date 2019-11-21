@@ -8,7 +8,7 @@ import RealmSwift
 protocol UserAvatar {
 
     /// gender
-    var gender: String { get }
+    var gender: String? { get }
     /// picture
     var picture: String? { get }
 }
@@ -24,10 +24,14 @@ protocol UserInfo: UserAvatar {
     var orderDivesites: Int { get }
     /// orderGolfcourses
     var orderGolfcourses: Int { get }
+    /// orderHotels
+    var orderHotels: Int { get }
     /// orderLocations
     var orderLocations: Int { get }
     /// orderRestaurants
     var orderRestaurants: Int { get }
+    /// orderTop100Restaurants
+    var orderTop100Restaurants: Int { get }
     /// orderUncountries
     var orderUncountries: Int { get }
     /// orderWhss
@@ -38,10 +42,14 @@ protocol UserInfo: UserAvatar {
     var visitDivesites: Int { get }
     /// visitGolfcourses
     var visitGolfcourses: Int { get }
+    /// visitHotels
+    var visitHotels: Int { get }
     /// visitLocations
     var visitLocations: Int { get }
     /// visitRestaurants
     var visitRestaurants: Int { get }
+    /// visitTop100Restaurants
+    var visitTop100Restaurants: Int { get }
     /// visitUncountries
     var visitUncountries: Int { get }
     /// visitWhss
@@ -67,13 +75,13 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
     /// birthday
     let birthday: Date?
     /// country
-    let country: LocationJSON?
+    let country: PlaceLocation?
     /// countryId
     let countryId: Int?
     /// createdAt
     let createdAt: Date
     /// email
-    let email: String
+    let email: String?
     /// facebookEmail
     let facebookEmail: String?
     /// facebookId
@@ -85,7 +93,7 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
     /// fullName
     let fullName: String
     /// gender
-    let gender: String
+    let gender: String?
     /// id
     let id: Int
     /// lastLogIn
@@ -93,46 +101,54 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
     /// lastName
     let lastName: String
     /// links
-    let links: [Link]? // not in signup
+    let links: [Link]?
     // swiftlint:disable:previous discouraged_optional_collection
     /// location
-    let location: LocationJSON?
+    let location: PlaceLocation?
     /// locationId
     let locationId: Int?
     /// picture
     let picture: String?
     /// rankBeaches
-    let rankBeaches: Int? // not in signup
+    let rankBeaches: Int?
     /// rankDivesites
-    let rankDivesites: Int? // not in signup
+    let rankDivesites: Int?
     /// rankGolfcourses
-    let rankGolfcourses: Int? // not in signup
+    let rankGolfcourses: Int?
+    /// rankHotels
+    let rankHotels: Int?
     /// rankLocations
-    let rankLocations: Int? // not in signup
+    let rankLocations: Int?
     /// rankRestaurants
-    let rankRestaurants: Int? // not in signup
+    let rankRestaurants: Int?
+    /// rankTop100Restaurants
+    let rankTop100Restaurants: Int?
     /// rankUncountries
-    let rankUncountries: Int? // not in signup
+    let rankUncountries: Int?
     /// rankWhss
-    let rankWhss: Int? // not in signup
+    let rankWhss: Int?
     /// role
     let role: Int
     /// score
-    let score: Int? // not in signup
+    let score: Int?
     /// scoreBeaches
-    let scoreBeaches: Int? // not in signup
+    let scoreBeaches: Int?
     /// scoreDivesites
-    let scoreDivesites: Int? // not in signup
+    let scoreDivesites: Int?
     /// scoreGolfcourses
-    let scoreGolfcourses: Int? // not in signup
+    let scoreGolfcourses: Int?
+    /// scoreHotels
+    let scoreHotels: Int?
     /// scoreLocations
-    let scoreLocations: Int? // not in signup
+    let scoreLocations: Int?
     /// scoreRestaurants
-    let scoreRestaurants: Int? // not in signup
+    let scoreRestaurants: Int?
+    /// scoreTop100Restaurants
+    let scoreTop100Restaurants: Int?
     /// scoreUncountries
-    let scoreUncountries: Int? // not in signup
+    let scoreUncountries: Int?
     /// scoreWhss
-    let scoreWhss: Int? // not in signup
+    let scoreWhss: Int?
     /// status
     let status: String
     /// token
@@ -190,8 +206,10 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
                         rankBeaches: rankBeaches,
                         rankDivesites: rankDivesites,
                         rankGolfcourses: rankGolfcourses,
+                        rankHotels: rankHotels,
                         rankLocations: rankLocations,
                         rankRestaurants: rankRestaurants,
+                        rankTop100Restaurants: rankTop100Restaurants,
                         rankUncountries: rankUncountries,
                         rankWhss: rankWhss,
                         role: role,
@@ -199,8 +217,10 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
                         scoreBeaches: visited.beaches.count,
                         scoreDivesites: visited.divesites.count,
                         scoreGolfcourses: visited.golfcourses.count,
+                        scoreHotels: visited.hotels?.count ?? 0,
                         scoreLocations: visited.locations.count,
                         scoreRestaurants: visited.restaurants.count,
+                        scoreTop100Restaurants: visited.top100restaurants?.count ?? 0,
                         scoreUncountries: visited.uncountries.count,
                         scoreWhss: whsScore,
                         status: status,
@@ -228,13 +248,13 @@ extension UserJSON: CustomDebugStringConvertible {
             country: \(String(describing: country))
             country_id: \(String(describing: countryId))
             created_at: \(createdAt)
-            email: \(email)
+            email: \(String(describing: email))
             facebook_email: \(String(describing: facebookEmail))
             facebook_id: \(String(describing: facebookId))
             facebook_user_token: \(String(describing: facebookUserToken))
             first_name: \(firstName)
             full_name: \(fullName)
-            gender: \(gender)
+            gender: \(String(describing: gender))
             id: \(id)
             last_log_in: \(String(describing: lastLogIn))
             last_name: \(lastName)
@@ -245,6 +265,7 @@ extension UserJSON: CustomDebugStringConvertible {
             rankBeaches: \(String(describing: rankBeaches))
             rankDivesites: \(String(describing: rankDivesites))
             rankGolfcourses: \(String(describing: rankGolfcourses))
+            rankHotels: \(String(describing: rankHotels))
             rankLocations: \(String(describing: rankLocations))
             rankRestaurants: \(String(describing: rankRestaurants))
             rankUncountries: \(String(describing: rankUncountries))
@@ -254,6 +275,7 @@ extension UserJSON: CustomDebugStringConvertible {
             score_beaches: \(String(describing: scoreBeaches))
             score_divesites: \(String(describing: scoreDivesites))
             score_golfcourses: \(String(describing: scoreGolfcourses))
+            score_hotels: \(String(describing: scoreHotels))
             score_locations: \(String(describing: scoreLocations))
             score_restaurants: \(String(describing: scoreRestaurants))
             score_uncountries: \(String(describing: scoreUncountries))
@@ -275,15 +297,19 @@ extension UserJSON: UserInfo {
     var orderBeaches: Int { return rankBeaches ?? 0 }
     var orderDivesites: Int { return rankDivesites ?? 0 }
     var orderGolfcourses: Int { return rankGolfcourses ?? 0 }
+    var orderHotels: Int { return rankHotels ?? 0 }
     var orderLocations: Int { return rankLocations ?? 0 }
     var orderRestaurants: Int { return rankRestaurants ?? 0 }
+    var orderTop100Restaurants: Int { return rankTop100Restaurants ?? 0 }
     var orderUncountries: Int { return rankUncountries ?? 0 }
     var orderWhss: Int { return rankWhss ?? 0 }
     var visitBeaches: Int { return scoreBeaches ?? 0 }
     var visitDivesites: Int { return scoreDivesites ?? 0 }
     var visitGolfcourses: Int { return scoreGolfcourses ?? 0 }
+    var visitHotels: Int { return scoreHotels ?? 0 }
     var visitLocations: Int { return scoreLocations ?? 0 }
     var visitRestaurants: Int { return scoreRestaurants ?? 0 }
+    var visitTop100Restaurants: Int { return scoreTop100Restaurants ?? 0 }
     var visitUncountries: Int { return scoreUncountries ?? 0 }
     var visitWhss: Int { return scoreWhss ?? 0 }
 }
@@ -375,7 +401,7 @@ extension UserAvatar {
     /// fullName
     dynamic var fullName: String = ""
     /// gender
-    dynamic var gender: String = ""
+    dynamic var gender: String?
     /// locationName
     dynamic var locationName: String = ""
     /// picture
@@ -386,10 +412,14 @@ extension UserAvatar {
     dynamic var orderDivesites: Int = 0
     /// orderGolfcourses
     dynamic var orderGolfcourses: Int = 0
+    /// orderHotels
+    dynamic var orderHotels: Int = 0
     /// orderLocations
     dynamic var orderLocations: Int = 0
     /// orderRestaurants
     dynamic var orderRestaurants: Int = 0
+    /// orderTop100Restaurants
+    dynamic var orderTop100Restaurants: Int = 0
     /// orderUncountries
     dynamic var orderUncountries: Int = 0
     /// orderWhss
@@ -402,10 +432,14 @@ extension UserAvatar {
     dynamic var visitDivesites: Int = 0
     /// visitGolfcourses
     dynamic var visitGolfcourses: Int = 0
+    /// visitHotels
+    dynamic var visitHotels: Int = 0
     /// visitLocations
     dynamic var visitLocations: Int = 0
     /// visitRestaurants
     dynamic var visitRestaurants: Int = 0
+    /// visitTop100Restaurants
+    dynamic var visitTop100Restaurants: Int = 0
     /// visitUncountries
     dynamic var visitUncountries: Int = 0
     /// visitWhss
@@ -442,6 +476,7 @@ extension UserAvatar {
         orderBeaches = from.rankBeaches ?? 0
         orderDivesites = from.rankDivesites ?? 0
         orderGolfcourses = from.rankGolfcourses ?? 0
+        orderHotels = from.rankHotels ?? 0
         orderLocations = from.rankLocations ?? 0
         orderRestaurants = from.rankRestaurants ?? 0
         orderUncountries = from.rankUncountries ?? 0
@@ -449,6 +484,7 @@ extension UserAvatar {
         visitBeaches = from.scoreBeaches ?? 0
         visitDivesites = from.scoreDivesites ?? 0
         visitGolfcourses = from.scoreGolfcourses ?? 0
+        visitHotels = from.scoreHotels ?? 0
         visitLocations = from.scoreLocations ?? 0
         visitRestaurants = from.scoreRestaurants ?? 0
         visitUncountries = from.scoreUncountries ?? 0
@@ -496,6 +532,7 @@ extension UserAvatar {
                visitBeaches == other.visitBeaches &&
                visitDivesites == other.visitDivesites &&
                visitGolfcourses == other.visitGolfcourses &&
+               visitHotels == other.visitHotels &&
                visitLocations == other.visitLocations &&
                visitRestaurants == other.visitRestaurants &&
                visitUncountries == other.visitUncountries &&

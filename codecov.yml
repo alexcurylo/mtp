@@ -1,0 +1,9 @@
+# Docs: https://docs.codecov.io/docs/codecov-yaml
+
+ignore:
+  - docs/.*
+  - MTP/resources/.*
+  - MTP/sdks/.*
+  - MTPTests/.*
+  - MTPUITests/.*
+  - Pods/.*

@@ -1,10 +1,6 @@
 // @copyright Trollwerks Inc.
 
-#if DIRECT_FEEDBACK
 import UIKit
-#else
-import MessageUI
-#endif
 
 /// Miscellaneous account and app operations
 final class SettingsVC: UITableViewController {
@@ -24,7 +20,7 @@ final class SettingsVC: UITableViewController {
 
     private var route: Route?
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
@@ -33,9 +29,7 @@ final class SettingsVC: UITableViewController {
         tableView.backgroundView = backgroundView
     }
 
-    /// Prepare for reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -43,9 +37,7 @@ final class SettingsVC: UITableViewController {
         expose()
     }
 
-    /// Actions to take after reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         report(screen: "Settings")
@@ -54,18 +46,14 @@ final class SettingsVC: UITableViewController {
         case .network?:
             performSegue(withIdentifier: Segues.showNetwork, sender: self)
         case .reportContent(let message)? where !message.isEmpty:
-            sendFeedback(title: L.reportSubject(), body: message)
+            report(body: message)
         default:
             break
         }
         route = nil
     }
 
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
+    /// :nodoc:
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Segues.logout.identifier {
             data.logOut()
@@ -114,58 +102,45 @@ private extension SettingsVC {
     }
 
     @IBAction func contactTapped(_ sender: UIButton) {
-        sendFeedback(title: L.contactSubject())
+        sendFeedback(topic: Topic.feature)
+    }
+
+    func report(body: String) {
+        sendFeedback(topic: Topic.report, body: body)
+    }
+
+    func sendFeedback(topic: TopicProtocol,
+                      body: String = "") {
+        if net.isConnected {
+            composeFeedback(topic: topic, body: body)
+        } else {
+            let question = L.continueOffline(L.contactMTP())
+            note.ask(question: question) { [weak self] answer in
+                if answer {
+                    self?.composeFeedback(topic: topic, body: body)
+                }
+            }
+        }
+    }
+
+    func composeFeedback(topic: TopicProtocol,
+                         body: String) {
+        let configuration = FeedbackConfiguration(
+            selected: topic,
+            body: body
+        )
+        let controller = FeedbackViewController(configuration: configuration)
+        navigationController?.pushViewController(controller,
+                                                 animated: true)
     }
 
     @IBAction func networkTapped(_ sender: UIButton) {
         // storyboard segue showNetwork
     }
 
-    func report(body: String = "") {
-        sendFeedback(title: L.reportSubject(), body: body)
+    @IBAction func logoutTapped(_ sender: UIButton) {
+        // storyboard segue logout
     }
-
-    #if DIRECT_FEEDBACK
-    func sendFeedback(title: String,
-                      body: String = "") {
-        let configuration = FeedbackConfiguration(toRecipients: ["test@example.com"],
-                                                  usesHTML: true)
-        let controller = FeedbackViewController(configuration: configuration)
-        replacedFeedbackSendingAction = sendWithAPI()
-        navigationController?.pushViewController(controller, animated: true)
-    }
-    #else
-    func sendFeedback(title: String,
-                      body: String = "") {
-        guard MFMailComposeViewController.canSendMail() else {
-            note.message(error: L.setupEmail())
-            return
-        }
-
-        let line1 = app.version
-        let line2: String = {
-            var size = 0
-            sysctlbyname("hw.machine", nil, &size, nil, 0)
-            var machine = [CChar](repeating: 0, count: Int(size))
-            sysctlbyname("hw.machine", &machine, &size, nil, 0)
-            return String(cString: machine)
-        }()
-        let device = UIDevice.current
-        let line3 = String(format: "%@ %@", device.systemName, device.systemVersion)
-        let message = "\(body)\n\n\(line1)\n\(line2)\n\(line3)"
-
-        style.styler.system.styleAppearanceNavBar()
-        let composeVC = MFMailComposeViewController {
-            $0.mailComposeDelegate = self
-            $0.setToRecipients([L.contactAddress()])
-            $0.setSubject(title)
-            $0.setMessageBody(message, isHTML: false)
-        }
-        composeVC.navigationBar.set(style: .system)
-
-        present(composeVC, animated: true, completion: nil)
-    }
-    #endif
 
     @IBAction func deleteAccount(segue: UIStoryboardSegue) {
         note.modal(info: L.deletingAccount())
@@ -184,22 +159,6 @@ private extension SettingsVC {
                            operation: L.deleteAccount())
             }
         }
-    }
-}
-
-extension SettingsVC: MFMailComposeViewControllerDelegate {
-
-    /// Handle mail compose result
-    ///
-    /// - Parameters:
-    ///   - controller: Mail editor
-    ///   - result: Result
-    ///   - error: Error if any
-    func mailComposeController(_ controller: MFMailComposeViewController,
-                               didFinishWith result: MFMailComposeResult,
-                               error: Error?) {
-        style.styler.standard.styleAppearanceNavBar()
-        controller.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -258,17 +217,4 @@ extension SettingsVC: Injectable {
 
     /// Enforce dependency injection
     func requireInjection() { }
-}
-
-extension MFMailComposeViewController {
-
-    /// Fix nav bar for mail controller
-    ///
-    /// - Parameter animated: Animated appearance?
-    override open func viewWillAppear(_ animated: Bool) {
-        // swiftlint:disable:previous override_in_extension
-        super.viewWillAppear(animated)
-
-        show(navBar: animated, style: .system)
-    }
 }

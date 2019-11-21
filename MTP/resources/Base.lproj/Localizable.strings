@@ -33,9 +33,13 @@
 "publishPhoto" = "publish photo";
 "publishingPhoto" = "Publishing photo: %@";
 "photoPublish" = "photo will publish";
+"updatePhoto" = "update a photo";
+"updatingPhoto" = "Updating photo…";
 "publishPost" = "publish post";
 "publishingPost" = "Publishing post: %@";
 "postPublish" = "post will publish";
+"updatePost" = "update a post";
+"updatingPost" = "Updating postpho…";
 "visitUpdate" = "visit will update";
 "resetPassword" = "reset password";
 "resettingPassword" = "Resetting password…";
@@ -43,6 +47,8 @@
 "signingUp" = "Signing up…";
 "updateProfile" = "update profile";
 "updatingProfile" = "Updating profile…";
+"contactMTP" = "contact MTP";
+"contactingMTP" = "Contacting MTP…";
 "updateVisit" = "update visit";
 "updatingVisit" = "Updating visit…";
 "visitUpdate" = "visit will update";
@@ -70,6 +76,8 @@
 "menuHide" = "Hide";
 "menuReport" = "Report";
 "menuBlock" = "Block user";
+"menuEdit" = "Edit";
+"menuDelete" = "Delete";
 "blockSelf" = "You cannot block yourself!";
 
 // AddPhotoVC
@@ -126,6 +134,7 @@
 "golfcourse" = "Golf Course";
 "divesite" = "Dive Site";
 "restaurant" = "Restaurant";
+"hotel" = "Hotel";
 
 "visitors" = "MTP Visitors: %@";
 "kilometers" = "%@ km";
@@ -134,11 +143,12 @@
 
 "visited" = "Visited";
 "notVisited" = "Not Visited";
+"directions" = "Directions";
 "showMore" = "Show More";
+"nearby" = "Nearby";
 "website" = "Website";
 "websiteLoading" = "Website Loading…";
 "noWebsite" = "Sorry, no website is available.";
-"directions" = "Directions";
 
 "checkinTitle" = "%@ Checkin Available";
 "checkinInsideNow" = "You are in %@. Do you want to check in?";
@@ -182,11 +192,15 @@
 
 // PhotosVC
 
-"addPhoto" = "＋Add new photo";
+"addNewPhoto" = "＋Add new photo";
+"addPhoto" = "Add Photo";
+"editPhoto" = "Edit Photo";
 
 // PostsVC
 
-"addPost" = "＋Add new post";
+"addNewPost" = "＋Add new post";
+"addPost" = "Add Post";
+"editPost" = "Edit Post";
 
 // RankingPage
 
@@ -197,6 +211,7 @@
 "golfcourses" = "Golf Courses";
 "divesites" = "Dive Sites";
 "restaurants" = "Restaurants";
+"hotels" = "Top Hotels";
 
 "myRanking" = "My Ranking:";
 "myScore" = "My Score:";
@@ -232,9 +247,7 @@
 
 // SettingsVC
 
-"contactAddress" = "admin@mtp.travel";
 "contactSubject" = "Hello from The App!";
-"setupEmail" = "Please set up an email account on your device to contact us with!";
 "reportSubject" = "Objectionable Content Report";
 "reportPhoto" = "This is a report of objectionable content found in the application to be removed within 24 hours - photo ID #%ld.";
 "reportPost" = "This is a report of objectionable content found in the application to be removed within 24 hours - post ID #%ld.";
@@ -336,10 +349,13 @@
 
 // feedback
 
+"feedbackFeature" = "New Feature Suggestion";
+"feedbackReport" = "Report A Problem";
+"feedbackCharles" = "Message For Charles";
+"feedbackOther" = "Other";
 "feedbackQuestion" = "Question";
 "feedbackRequest" = "Request";
 "feedbackBugReport" = "Bug Report";
-"feedbackOther" = "Other";
 "feedbackDevice" = "Device";
 "feedbackiOS" = "iOS";
 "feedbackName" = "Name";
@@ -352,13 +368,15 @@
 "feedbackTopics" = "Topics";
 "feedbackError" = "Error";
 "feedbackMail" = "Mail";
-"feedbackMailConfigurationErrorMessage" ="You do not have a valid e-mail account";
-"feedbackDismiss" ="Dismiss";
-"feedbackAdditionalInfo"="Additional Info";
-"feedbackAttachImageOrVideo" ="Select the feedback attachment (picture)";
-"feedbackCancel" ="Cancel";
-"feedbackCamera" ="Camera";
-"feedbackPhotoLibrary" ="Select from the album";
+"feedbackSend" = "Send";
+"feedbackMailConfigurationErrorMessage" = "Please set up an email account on your device to contact us with!";
+"feedbackDismiss" = "Dismiss";
+"feedbackAdditionalInfo" = "Additional Info";
+"feedbackPhone" = "Phone";
+"feedbackAttachImageOrVideo" = "Attach an image";
+"feedbackCancel" = "Cancel";
+"feedbackCamera" = "Open Camera";
+"feedbackPhotoLibrary" = "Open Photo Library";
 "feedbackUserDetail" = "User Detail";
 "feedbackFeedbackGenerationErrorMessage" = "Feedback Generation Error";
 "feedbackUnknownError" = "Unknown Error";

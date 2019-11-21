@@ -163,7 +163,7 @@ country: Brazil
 featuredImg: Optional("3Ed2354d9SZHiWtPwAVLBc")
 id: 1
 lat: -3.854125
-location: Brazil (165)
+location: Fernando de Noronha, Brazil
 locationId: 227
 long: -32.444118
 notes: Optional("")
@@ -206,7 +206,7 @@ country: Australia
 featuredImg: nil
 id: 1
 lat: -19.452278
-location: Australia (917)
+location: Queensland, Australia
 locationId: 60
 long: 147.47927
 notes: nil
@@ -253,7 +253,7 @@ country: USA
 featuredImg: Optional("5ENPv3Rf31ZtPJXfJ97z2a")
 id: 1
 lat: 39.78658
-location: United States (977)
+location: New Jersey, United States
 locationId: 119
 long: -74.969097
 notes: Optional("")

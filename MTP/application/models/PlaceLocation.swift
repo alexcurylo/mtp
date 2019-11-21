@@ -3,7 +3,7 @@
 import Foundation
 
 /// version of Location found in place results
-struct PlaceLocation: Codable {
+struct PlaceLocation: Codable, Equatable {
 
     /// countryId
     let countryId: Int
@@ -22,7 +22,12 @@ struct PlaceLocation: Codable {
 extension PlaceLocation: CustomStringConvertible {
 
     var description: String {
-        return "\(String(describing: countryName)) (\(String(describing: countryId)))"
+        if !countryName.isEmpty
+           && !locationName.isEmpty
+           && countryName != locationName {
+            return L.locationDescription(locationName, countryName)
+        }
+        return locationName.isEmpty ? countryName : locationName
     }
 }
 

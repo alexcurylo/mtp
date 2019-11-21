@@ -14,7 +14,7 @@ final class PlaceLocationTests: MTPTestCase {
                                 regionId: 0,
                                 regionName: "Africa")
         let expected = """
-                       < PlaceLocation: Angola (0)
+                       < PlaceLocation: Angola
                        countryId: 0
                        countryName: Angola
                        id: 0
@@ -25,7 +25,7 @@ final class PlaceLocationTests: MTPTestCase {
                        """
 
         // then
-        sut.description.assert(equal: "Angola (0)")
+        sut.description.assert(equal: "Angola")
         sut.debugDescription.assert(equal: expected)
     }
 }

@@ -7,7 +7,7 @@ struct PhotoReply: Codable {
 
     fileprivate let desc: String?
     fileprivate let id: Int
-    fileprivate let location: LocationJSON?
+    fileprivate let location: PlaceLocation?
     fileprivate let locationId: UncertainValue<Int, String>?
     fileprivate let mime: String
     fileprivate let name: String
@@ -46,11 +46,34 @@ extension PhotoReply: CustomDebugStringConvertible {
     }
 }
 
+/// Attachment to ContactPayload
+struct PhotoAttachment: Codable, Hashable {
+
+    private let id: Int
+    private let mime: String
+    private let name: String
+    private let type: String
+    private let uploaded: Int
+    private let url: String
+    private let user_id: Int
+    private let uuid: String
+
+    /// :nodoc:
+    init(with reply: PhotoReply) {
+        id = reply.id
+        mime = reply.mime
+        name = reply.name
+        type = reply.type
+        uploaded = reply.uploaded
+        url = reply.url
+        user_id = reply.userId
+        uuid = reply.uuid
+    }
+}
+
 /// Photos endpoints reply
 struct PhotosInfoJSON: Codable {
 
-    /// HTTP result code
-    let code: Int
     /// List of photos
     let data: [PhotoJSON]
 }
@@ -67,7 +90,6 @@ extension PhotosInfoJSON: CustomDebugStringConvertible {
     var debugDescription: String {
         return """
         < PhotosInfoJSON: \(description):
-        code: \(code)
         data: \(data.debugDescription))
         /PhotosInfoJSON >
         """
@@ -77,8 +99,6 @@ extension PhotosInfoJSON: CustomDebugStringConvertible {
 /// Photos page info received from MTP endpoints
 struct PhotosPageInfoJSON: Codable {
 
-    /// HTTP result code
-    let code: Int
     /// List of photos
     let data: [PhotoJSON]
     /// Paging info
@@ -97,7 +117,6 @@ extension PhotosPageInfoJSON: CustomDebugStringConvertible {
     var debugDescription: String {
         return """
         < PhotosPageInfoJSON: \(description):
-        code: \(code)
         paging: \(paging.debugDescription)
         data: \(data.debugDescription)
         /PhotosPageInfoJSON >
@@ -139,14 +158,14 @@ extension PhotosPageJSON: CustomDebugStringConvertible {
 
 /// Post or photo owner info received from MTP endpoints
 struct OwnerJSON: Codable {
-    //let country: String? // UserJSON in user endpoints, null in location
+    //let country: String? // PlaceLocation in user endpoint, null in location
     fileprivate let firstName: String
     /// fullName
     let fullName: String
     /// id
     let id: Int
     fileprivate let lastName: String
-    //let location: String? // LocationJSON in user endpoint, null in location
+    //let location: String? // PlaceLocation in user endpoint, null in location
     fileprivate let role: Int
 }
 
@@ -161,7 +180,7 @@ struct PhotoJSON: Codable {
     fileprivate let createdAt: Date
     fileprivate let desc: String?
     fileprivate let id: Int
-    fileprivate let location: LocationJSON? // still has 30 items
+    fileprivate let location: PlaceLocation?
     fileprivate let locationId: Int?
     fileprivate let mime: String
     fileprivate let name: String
@@ -308,4 +327,49 @@ extension PhotoJSON: CustomDebugStringConvertible {
         return NSAttributedString(string: desc,
                                   attributes: attributes)
     }
+}
+
+/// Sent to the photo update endpoint
+/// The important parts: desc, location_id
+struct PhotoUpdatePayload: Codable, Hashable {
+
+    private let desc: String
+    /// File ID
+    let id: Int
+    private let location_id: Int?
+    private let uuid: String
+    private let user_id: Int
+    // "name": "",
+    // "mime": "image/png",
+    // "type": "image",
+    // "uploaded": 1,
+    // "url": "/api/files/preview?uuid=1SnMcnemk5R87TNTaXe7XW",
+    // "location": { },
+
+    /// Constructor from edited data
+    init(from: Photo,
+         locationId: Int,
+         caption: String) {
+        desc = caption
+        id = from.photoId
+        location_id = locationId > 0 ? locationId : nil
+        uuid = from.uuid
+        user_id = from.userId
+    }
+}
+
+/// Reply from the photo update endpoint
+struct PhotoUpdateReply: Codable {
+
+    fileprivate let desc: String?
+    fileprivate let id: Int
+    fileprivate let location: PlaceLocation?
+    fileprivate let locationId: UncertainValue<Int, String>?
+    fileprivate let mime: String
+    fileprivate let name: String
+    fileprivate let type: String
+    fileprivate let userId: Int
+    fileprivate let uuid: String
+    // created_at
+    // updated_at
 }

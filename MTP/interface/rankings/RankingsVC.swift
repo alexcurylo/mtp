@@ -1,7 +1,6 @@
 // @copyright Trollwerks Inc.
 
 import Anchorage
-import DropDown
 import Parchment
 
 /// Root class for the Rankings tab
@@ -23,7 +22,7 @@ final class RankingsVC: UIViewController {
     private var countsModel: UserCountsVC.Model?
     private var profileModel: UserProfileVC.Model?
 
-    private let dropdown = DropDown {
+    private let dropdown = Dropdown {
         $0.dismissMode = .manual
         $0.backgroundColor = .white
         $0.selectionBackgroundColor = UIColor(red: 0.649, green: 0.815, blue: 1.0, alpha: 0.2)
@@ -43,7 +42,7 @@ final class RankingsVC: UIViewController {
     private var searchResults: [String: [SearchResultItemJSON]] = [:]
     private var searchKey: String = ""
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
@@ -52,9 +51,7 @@ final class RankingsVC: UIViewController {
         configureSearchBar()
     }
 
-    /// Prepare for reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -62,19 +59,13 @@ final class RankingsVC: UIViewController {
         expose()
     }
 
-    /// Actions to take after reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         report(screen: "Rankings")
     }
 
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
+    /// :nodoc:
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let counts = Segues.showUserCounts(segue: segue)?
                               .destination,

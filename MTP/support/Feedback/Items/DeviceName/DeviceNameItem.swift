@@ -12,9 +12,6 @@ import Foundation
 /// DescriptionDeviceNameItem
 struct DeviceNameItem: FeedbackItemProtocol {
 
-    /// isHidden
-    let isHidden: Bool = false
-
     /// deviceName
     var deviceName: String {
         guard let path = Bundle.main.path(forResource: "PlatformNames",
@@ -25,6 +22,9 @@ struct DeviceNameItem: FeedbackItemProtocol {
         let rawPlatform = platform
         return dictionary[rawPlatform] ?? rawPlatform
     }
+
+    /// :nodoc:
+    let isHidden: Bool = false
 
     private var platform: String {
         var mib: [Int32] = [CTL_HW, HW_MACHINE]

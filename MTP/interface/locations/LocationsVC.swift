@@ -1,7 +1,7 @@
 // @copyright Trollwerks Inc.
 
 import Anchorage
-import DropDown
+import Karte
 import MapKit
 
 // swiftlint:disable file_length
@@ -20,7 +20,7 @@ class LocationsVC: UIViewController {
 
     private var trackingButton: MKUserTrackingButton?
 
-    private let dropdown = DropDown {
+    private let dropdown = Dropdown {
         $0.dismissMode = .manual
         $0.backgroundColor = .white
         $0.selectionBackgroundColor = UIColor(red: 0.649, green: 0.815, blue: 1.0, alpha: 0.2)
@@ -38,13 +38,14 @@ class LocationsVC: UIViewController {
     private var matches: [Mappable] = []
 
     private var injectMappable: Mappable?
+    private var injectCenter: CLLocationCoordinate2D?
 
     /// :nodoc:
     deinit {
         loc.remove(tracker: self)
     }
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
@@ -55,17 +56,15 @@ class LocationsVC: UIViewController {
     }
 
     /// Prepare for reveal
-    ///
     /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        show(navBar: animated, style: .map)
+        show(navBar: animated, style: .locations)
         expose()
     }
 
     /// Actions to take after reveal
-    ///
     /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -77,19 +76,30 @@ class LocationsVC: UIViewController {
     }
 
     /// Instrument and inject navigation
-    ///
     /// - Parameters:
     ///   - segue: Navigation action
     ///   - sender: Action originator
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let nearby = Segues.showNearby(segue: segue)?
                               .destination {
-            nearby.inject(model: (data.visibles,
-                                  mtpMapView.centerCoordinate))
+            let center = injectCenter ?? mtpMapView.centerCoordinate
+            injectCenter = nil
+            nearby.inject(model: (data.visibles, center))
         } else if let show = Segues.showLocation(segue: segue)?
                                    .destination,
                   let inject = injectMappable {
             show.inject(model: inject)
+            injectMappable = nil
+        } else if let photo = Segues.addPhoto(segue: segue)?
+                                    .destination {
+            photo.inject(model: (photo: nil,
+                                 mappable: injectMappable,
+                                 delegate: self))
+            injectMappable = nil
+        } else if let post = Segues.addPost(segue: segue)?
+                                   .destination {
+            post.inject(model: (post: nil,
+                                mappable: injectMappable))
             injectMappable = nil
         }
     }
@@ -100,7 +110,6 @@ class LocationsVC: UIViewController {
     }
 
     /// Reveal user
-    ///
     /// - Parameter user: User to display
     func reveal(user: User?) {
         guard let name = user?.locationName, !name.isEmpty else { return }
@@ -118,15 +127,29 @@ class LocationsVC: UIViewController {
 
 extension LocationsVC: Mapper {
 
-    /// Close
-    ///
+    /// Show Add Photo screen
+    /// - Parameter mappable: Place
+    func add(photo mappable: Mappable) {
+        injectMappable = mappable
+        performSegue(withIdentifier: Segues.addPhoto,
+                     sender: self)
+    }
+
+    /// Show Add Post screen
+    /// - Parameter mappable: Place
+    func add(post mappable: Mappable) {
+        injectMappable = mappable
+        performSegue(withIdentifier: Segues.addPost,
+                     sender: self)
+    }
+
+    /// Close callout
     /// - Parameter mappable: Place
     func close(mappable: Mappable) {
         mtpMapView.close(mappable: mappable)
     }
 
-    /// Notify
-    ///
+    /// Notify of visit
     /// - Parameters:
     ///   - mappable: Place
     ///   - triggered: Date
@@ -135,8 +158,7 @@ extension LocationsVC: Mapper {
                     triggered: triggered) { _ in }
     }
 
-    /// Reveal
-    ///
+    /// Reveal on map
     /// - Parameters:
     ///   - mappable: Place
     ///   - callout: Show callout
@@ -145,18 +167,36 @@ extension LocationsVC: Mapper {
         mtpMapView.zoom(to: mappable, callout: callout)
     }
 
-    /// Show
-    ///
+    /// Show Directions selector
     /// - Parameter mappable: Place
-    func show(mappable: Mappable) {
+    func show(directions mappable: Mappable) {
+        let destination = Karte.Location(name: mappable.title,
+                                         coordinate: mappable.coordinate)
+        let isPhone = UIDevice.current.userInterfaceIdiom == .phone
+        let alert = Karte.createPicker(destination: destination,
+                                       title: L.directions(),
+                                       style: isPhone ? .actionSheet : .alert)
+        present(alert, animated: true, completion: nil)
+    }
+
+    /// Show Show More screen
+    /// - Parameter mappable: Place
+    func show(more mappable: Mappable) {
         injectMappable = mappable
         close(mappable: mappable)
         performSegue(withIdentifier: Segues.showLocation,
                      sender: self)
     }
 
+    /// Show Nearby screen
+    /// - Parameter mappable: Place
+    func show(nearby mappable: Mappable) {
+        injectCenter = mappable.coordinate
+        performSegue(withIdentifier: Segues.showNearby,
+                     sender: self)
+    }
+
     /// Update
-    ///
     /// - Parameter mappable: Place
     func update(mappable: Mappable) {
         mtpMapView.update(mappable: mappable)
@@ -173,14 +213,12 @@ extension LocationsVC: LocationTracker {
     }
 
     /// Authorization changed
-    ///
     /// - Parameter changed: New status
     func authorization(changed: CLAuthorizationStatus) {
         updateTracking()
     }
 
     /// Location changed
-    ///
     /// - Parameter changed: New location
     func location(changed: CLLocation) { }
 }
@@ -255,7 +293,6 @@ extension LocationsVC: Exposing {
 extension LocationsVC: UISearchBarDelegate {
 
     /// Changed search text notification
-    ///
     /// - Parameters:
     ///   - searchBar: Searcher
     ///   - searchText: Contents
@@ -276,21 +313,18 @@ extension LocationsVC: UISearchBarDelegate {
     }
 
     /// Begin search editing
-    ///
     /// - Parameter searchBar: Searcher
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)
     }
 
     /// Handle search button click
-    ///
     /// - Parameter searchBar: Searcher
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBarCancelButtonClicked(searchBar)
     }
 
     /// Handle cancel button click
-    ///
     /// - Parameter searchBar: Searcher
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
@@ -299,7 +333,6 @@ extension LocationsVC: UISearchBarDelegate {
     }
 
     /// Search ended notification
-    ///
     /// - Parameter searchBar: Searcher
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = false
@@ -311,7 +344,6 @@ extension LocationsVC: UISearchBarDelegate {
 extension LocationsVC: MKMapViewDelegate {
 
     /// Update user location
-    ///
     /// - Parameters:
     ///   - mapView: Map view
     ///   - userLocation: Location
@@ -321,7 +353,6 @@ extension LocationsVC: MKMapViewDelegate {
     }
 
     /// Produce annotation view
-    ///
     /// - Parameters:
     ///   - mapView: Map view
     ///   - annotation: Annotation
@@ -342,7 +373,6 @@ extension LocationsVC: MKMapViewDelegate {
     }
 
     /// Handle annoation selection
-    ///
     /// - Parameters:
     ///   - mapView: Map view
     ///   - view: Annotation view
@@ -360,7 +390,6 @@ extension LocationsVC: MKMapViewDelegate {
     }
 
     /// Provide overlay renderer
-    ///
     /// - Parameters:
     ///   - mapView: Map view
     ///   - overlay: Overlay
@@ -374,6 +403,14 @@ extension LocationsVC: MKMapViewDelegate {
             return MKOverlayRenderer(overlay: overlay)
         }
     }
+}
+
+// MARK: - MKUserTrackingButton
+
+extension LocationsVC: AddPhotoDelegate {
+
+    /// Enable Location selection
+    var isLocatable: Bool { return true }
 }
 
 // MARK: - MKUserTrackingButton

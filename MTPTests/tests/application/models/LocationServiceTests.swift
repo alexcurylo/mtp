@@ -17,9 +17,12 @@ final class LocationServiceTests: MTPTestCase {
         sut.calculateDistances()
         sut.insert(tracker: tracker)
         sut.close(mappable: mappable)
+        sut.add(photo: mappable)
+        sut.add(post: mappable)
         sut.notify(mappable: mappable, triggered: Date())
         sut.reveal(mappable: mappable, callout: true)
-        sut.show(mappable: mappable)
+        sut.show(more: mappable)
+        sut.show(nearby: mappable)
         sut.update(mappable: mappable)
         sut.remove(tracker: tracker)
 

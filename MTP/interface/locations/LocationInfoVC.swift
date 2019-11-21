@@ -20,7 +20,7 @@ final class LocationInfoVC: UITableViewController {
     private var location: Location!
     // swiftlint:disable:previous implicitly_unwrapped_optional
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
@@ -29,9 +29,7 @@ final class LocationInfoVC: UITableViewController {
         configure()
     }
 
-    /// Actions to take after reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         report(screen: "Location Info")

@@ -23,7 +23,7 @@ struct AppNameItem: FeedbackItemProtocol {
         return ""
     }
 
-    /// isHidden
+    /// :nodoc:
     let isHidden: Bool
 
     /// :nodoc:

@@ -39,8 +39,13 @@ typealias NetworkCompletion<T> = (_ result: Result<T, NetworkError>) -> Void
 /// Provides network-related functionality
 protocol NetworkService: Observable, ServiceProvider {
 
+    /// Send contact form
+    /// - Parameters:
+    ///   - payload: Contact payload
+    ///   - then: Completion
+    func contact(payload: ContactPayload,
+                 then: @escaping NetworkCompletion<String>)
     /// Load location photos
-    ///
     /// - Parameters:
     ///   - id: Location ID
     ///   - reload: Force reload
@@ -49,7 +54,6 @@ protocol NetworkService: Observable, ServiceProvider {
                     reload: Bool,
                     then: @escaping NetworkCompletion<PhotosInfoJSON>)
     /// Load logged in user photos
-    ///
     /// - Parameters:
     ///   - page: Index
     ///   - reload: Force reload
@@ -58,7 +62,6 @@ protocol NetworkService: Observable, ServiceProvider {
                     reload: Bool,
                     then: @escaping NetworkCompletion<PhotosPageInfoJSON>)
     /// Load user photos
-    ///
     /// - Parameters:
     ///   - id: User ID
     ///   - page: Index
@@ -69,28 +72,28 @@ protocol NetworkService: Observable, ServiceProvider {
                     reload: Bool,
                     then: @escaping NetworkCompletion<PhotosPageInfoJSON>)
     /// Load location posts
-    ///
     /// - Parameters:
     ///   - id: Location ID
+    ///   - reload: Force reload
     ///   - then: Completion
     func loadPosts(location id: Int,
+                   reload: Bool,
                    then: @escaping NetworkCompletion<PostsJSON>)
     /// Load user posts
-    ///
     /// - Parameters:
     ///   - id: User ID
+    ///   - reload: Force reload
     ///   - then: Completion
     func loadPosts(user id: Int,
+                   reload: Bool,
                    then: @escaping NetworkCompletion<PostsJSON>)
     /// Load rankings
-    ///
     /// - Parameters:
     ///   - query: Filter
     ///   - then: Completion
     func loadRankings(query: RankingsQuery,
                       then: @escaping NetworkCompletion<RankingsPageInfoJSON>)
     /// Load scorecard
-    ///
     /// - Parameters:
     ///   - list: Checklist
     ///   - id: User ID
@@ -99,21 +102,18 @@ protocol NetworkService: Observable, ServiceProvider {
                        user id: Int,
                        then: @escaping NetworkCompletion<ScorecardJSON>)
     /// Load user
-    ///
     /// - Parameters:
     ///   - id: User ID
     ///   - then: Completion
     func loadUser(id: Int,
                   then: @escaping NetworkCompletion<UserJSON>)
     /// Search
-    ///
     /// - Parameters:
     ///   - query: Query
     ///   - then: Completion
     func search(query: String,
                 then: @escaping NetworkCompletion<SearchResultJSON>)
     /// Set places visit status
-    ///
     /// - Parameters:
     ///   - items: Places
     ///   - visited: Whether visited
@@ -122,7 +122,6 @@ protocol NetworkService: Observable, ServiceProvider {
              visited: Bool,
              then: @escaping NetworkCompletion<Bool>)
     /// Upload photo
-    ///
     /// - Parameters:
     ///   - photo: Data
     ///   - caption: String
@@ -132,26 +131,46 @@ protocol NetworkService: Observable, ServiceProvider {
                 caption: String?,
                 location id: Int?,
                 then: @escaping NetworkCompletion<PhotoReply>)
+    /// Update photo
+    /// - Parameters:
+    ///   - payload: PhotoUpdatePayload
+    ///   - then: Completion
+    func photoUpdate(payload: PhotoUpdatePayload,
+                     then: @escaping NetworkCompletion<Bool>)
+    /// Delete photo
+    /// - Parameters:
+    ///   - photo: Int
+    ///   - then: Completion
+    func delete(photo: Int,
+                then: @escaping NetworkCompletion<Bool>)
     /// Publish post
-    ///
     /// - Parameters:
     ///   - payload: Post payload
     ///   - then: Completion
     func postPublish(payload: PostPayload,
                      then: @escaping NetworkCompletion<PostReply>)
+    /// Update post
+    /// - Parameters:
+    ///   - payload: PostUpdatePayload
+    ///   - then: Completion
+    func postUpdate(payload: PostUpdatePayload,
+                    then: @escaping NetworkCompletion<Bool>)
+    /// Delete post
+    /// - Parameters:
+    ///   - oist: Int
+    ///   - then: Completion
+    func delete(post: Int,
+                then: @escaping NetworkCompletion<Bool>)
     /// Delete user account
-    ///
     /// - Parameter then: Completion
     func userDeleteAccount(then: @escaping NetworkCompletion<String>)
     /// Send reset password link
-    ///
     /// - Parameters:
     ///   - email: Email
     ///   - then: Completion
     func userForgotPassword(email: String,
                             then: @escaping NetworkCompletion<String>)
     /// Login user
-    ///
     /// - Parameters:
     ///   - email: Email
     ///   - password: Password
@@ -160,28 +179,24 @@ protocol NetworkService: Observable, ServiceProvider {
                    password: String,
                    then: @escaping NetworkCompletion<UserJSON>)
     /// Register new user
-    ///
     /// - Parameters:
     ///   - payload: RegistrationPayload
     ///   - then: Completion
     func userRegister(payload: RegistrationPayload,
                       then: @escaping NetworkCompletion<UserJSON>)
     /// Update user info
-    ///
     /// - Parameters:
     ///   - payload: UserUpdatePayload
     ///   - then: Completion
     func userUpdate(payload: UserUpdatePayload,
                     then: @escaping NetworkCompletion<UserJSON>)
     /// Update user token
-    ///
     /// - Parameters:
     ///   - token: String
     ///   - then: Completion
     func userUpdate(token: String,
                     then: @escaping NetworkCompletion<UserTokenReply>)
     /// Resend verification email
-    ///
     /// - Parameters:
     ///   - id: User ID
     ///   - then: Completion
@@ -236,7 +251,6 @@ class NetworkServiceImpl: NetworkService {
     }()
 
     /// Construction by injection
-    ///
     /// - Parameter controller: MTPNetworkController
     init(controller: MTPNetworkController = MTPNetworkController()) {
         mtp = controller
@@ -255,6 +269,7 @@ class NetworkServiceImpl: NetworkService {
         add { done in self.mtp.loadBeaches { _ in done() } }
         add { done in self.mtp.loadDiveSites { _ in done() } }
         add { done in self.mtp.loadGolfCourses { _ in done() } }
+        add { done in self.mtp.loadHotels { _ in done() } }
         add { done in self.mtp.loadRestaurants { _ in done() } }
         add { done in self.mtp.loadUNCountries { _ in done() } }
         add { done in self.mtp.loadWHS { _ in done() } }
@@ -262,7 +277,8 @@ class NetworkServiceImpl: NetworkService {
 
     fileprivate func refreshUser() {
         guard data.isLoggedIn,
-              !isThrottled(last: lastRefreshUser, wait: .user) else { return }
+              !isThrottled(last: lastRefreshUser, wait: .user),
+              requests.isEmpty else { return }
 
         lastRefreshUser = Date()
         mtp.userGetByToken(reload: false) { _ in
@@ -281,8 +297,15 @@ class NetworkServiceImpl: NetworkService {
 
     // MARK: - NetworkService
 
+    /// Send contact form
+    /// - Parameters:
+    ///   - payload: Contact payload
+    ///   - then: Completion
+    func contact(payload: ContactPayload,
+                 then: @escaping NetworkCompletion<String>) {
+        mtp.contact(payload: payload, then: then)
+    }
     /// Load location photos
-    ///
     /// - Parameters:
     ///   - id: Location ID
     ///   - reload: Force reload
@@ -294,7 +317,6 @@ class NetworkServiceImpl: NetworkService {
     }
 
     /// Load logged in user photos
-    ///
     /// - Parameters:
     ///   - page: Index
     ///   - reload: Force reload
@@ -306,7 +328,6 @@ class NetworkServiceImpl: NetworkService {
     }
 
     /// Load user photos
-    ///
     /// - Parameters:
     ///   - id: User ID
     ///   - page: Index
@@ -320,26 +341,26 @@ class NetworkServiceImpl: NetworkService {
     }
 
     /// Load location posts
-    ///
     /// - Parameters:
     ///   - id: Location ID
     ///   - then: Completion
     func loadPosts(location id: Int,
+                   reload: Bool,
                    then: @escaping NetworkCompletion<PostsJSON>) {
-        mtp.loadPosts(location: id, reload: false, then: then)
+        mtp.loadPosts(location: id, reload: reload, then: then)
     }
 
     /// Load user posts
-    ///
     /// - Parameters:
     ///   - id: User ID
     ///   - then: Completion
-    func loadPosts(user id: Int, then: @escaping NetworkCompletion<PostsJSON>) {
-        mtp.loadPosts(user: id, reload: false, then: then)
+    func loadPosts(user id: Int,
+                   reload: Bool,
+                   then: @escaping NetworkCompletion<PostsJSON>) {
+        mtp.loadPosts(user: id, reload: reload, then: then)
     }
 
     /// Load rankings
-    ///
     /// - Parameters:
     ///   - query: Filter
     ///   - then: Completion
@@ -349,7 +370,6 @@ class NetworkServiceImpl: NetworkService {
     }
 
     /// Load scorecard
-    ///
     /// - Parameters:
     ///   - list: Checklist
     ///   - id: User ID
@@ -361,7 +381,6 @@ class NetworkServiceImpl: NetworkService {
     }
 
     /// Load user
-    ///
     /// - Parameters:
     ///   - id: User ID
     ///   - then: Completion
@@ -370,7 +389,6 @@ class NetworkServiceImpl: NetworkService {
     }
 
     /// Search
-    ///
     /// - Parameters:
     ///   - query: Query
     ///   - then: Completion
@@ -380,7 +398,6 @@ class NetworkServiceImpl: NetworkService {
     }
 
     /// Set places visit status
-    ///
     /// - Parameters:
     ///   - items: Places
     ///   - visited: Whether visited
@@ -401,7 +418,6 @@ class NetworkServiceImpl: NetworkService {
     }
 
     /// Upload photo
-    ///
     /// - Parameters:
     ///   - photo: Data
     ///   - caption: String
@@ -423,8 +439,25 @@ class NetworkServiceImpl: NetworkService {
         then(.failure(.queued))
     }
 
+    /// Update photo
+    /// - Parameters:
+    ///   - payload: UserUpdatePayload
+    ///   - then: Completion
+    func photoUpdate(payload: PhotoUpdatePayload,
+                     then: @escaping NetworkCompletion<Bool>) {
+        mtp.photoUpdate(payload: payload, then: then)
+    }
+
+    /// Delete photo
+    /// - Parameters:
+    ///   - photo: Int
+    ///   - then: Completion
+    func delete(photo: Int,
+                then: @escaping NetworkCompletion<Bool>) {
+        mtp.delete(photo: photo, then: then)
+    }
+
     /// Publish post
-    ///
     /// - Parameters:
     ///   - payload: Post payload
     ///   - then: Completion
@@ -439,15 +472,31 @@ class NetworkServiceImpl: NetworkService {
         then(.failure(.queued))
     }
 
+    /// Update post
+    /// - Parameters:
+    ///   - payload: PostUpdatePayload
+    ///   - then: Completion
+    func postUpdate(payload: PostUpdatePayload,
+                    then: @escaping NetworkCompletion<Bool>) {
+        mtp.postUpdate(payload: payload, then: then)
+    }
+
+    /// Delete post
+    /// - Parameters:
+    ///   - oist: Int
+    ///   - then: Completion
+    func delete(post: Int,
+                then: @escaping NetworkCompletion<Bool>) {
+        mtp.delete(post: post, then: then)
+    }
+
     /// Delete user account
-    ///
     /// - Parameter then: Completion
     func userDeleteAccount(then: @escaping NetworkCompletion<String>) {
         mtp.userDeleteAccount(then: then)
     }
 
     /// Send reset password link
-    ///
     /// - Parameters:
     ///   - email: Email
     ///   - then: Completion
@@ -457,7 +506,6 @@ class NetworkServiceImpl: NetworkService {
     }
 
     /// Login user
-    ///
     /// - Parameters:
     ///   - email: Email
     ///   - password: Password
@@ -474,7 +522,6 @@ class NetworkServiceImpl: NetworkService {
     }
 
     /// Register new user
-    ///
     /// - Parameters:
     ///   - payload: RegistrationPayload
     ///   - then: Completion
@@ -484,7 +531,6 @@ class NetworkServiceImpl: NetworkService {
     }
 
     /// Update user info
-    ///
     /// - Parameters:
     ///   - payload: UserUpdatePayload
     ///   - then: Completion
@@ -494,7 +540,6 @@ class NetworkServiceImpl: NetworkService {
     }
 
     /// Update user token
-    ///
     /// - Parameters:
     ///   - token: String
     ///   - then: Completion
@@ -504,7 +549,6 @@ class NetworkServiceImpl: NetworkService {
     }
 
     /// Resend verification email
-    ///
     /// - Parameters:
     ///   - id: User ID
     ///   - then: Completion
@@ -545,7 +589,6 @@ class NetworkServiceImpl: NetworkService {
 extension NetworkServiceImpl: OfflineRequestManagerDelegate {
 
     /// Method that the delegate uses to generate OfflineRequest objects from dictionaries written to disk
-    ///
     /// - Parameter dictionary: dictionary saved to disk associated with an unfinished request
     /// - Returns: OfflineRequest object to be queued
     func offlineRequest(withDictionary dictionary: [String: Any]) -> OfflineRequest? {
@@ -566,7 +609,6 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     }
 
     /// Callback indicating the OfflineRequestManager's current progress
-    ///
     /// - Parameters:
     ///   - manager: OfflineRequestManager instance
     ///   - progress: current progress for all ongoing requests (ranges from 0 to 1)
@@ -577,7 +619,6 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     }
 
     /// Callback indicating the OfflineRequestManager's current connection status
-    ///
     /// - Parameters:
     ///   - manager: OfflineRequestManager instance
     ///   - connected: value indicating whether there is currently connectivity
@@ -588,7 +629,6 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     }
 
     /// Callback that can be used to block a request attempt
-    ///
     ///   - manager: OfflineRequestManager instance
     ///   - request: OfflineRequest to be performed
     /// - Returns: value indicating whether the OfflineRequestManager should move forward with the request attempt
@@ -599,7 +639,6 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
 
     /// Callback to reconfigure and reattempt an OfflineRequest
     /// after a failure not related to connectivity issues
-    ///
     /// - Parameters:
     ///   - manager: OfflineRequestManager instance
     ///   - request: OfflineRequest that failed
@@ -612,7 +651,6 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     }
 
     /// Callback indicating that the OfflineRequest action has started
-    ///
     /// - Parameters:
     ///   - manager: OfflineRequestManager instance
     ///   - request: OfflineRequest that started its action
@@ -622,7 +660,6 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     }
 
     /// Callback indicating that the OfflineRequest status has changed
-    ///
     /// - Parameters:
     ///   - manager: OfflineRequestManager instance
     ///   - request: OfflineRequest that changed its subtitle
@@ -632,7 +669,6 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     }
 
     /// Callback indicating that the OfflineRequest action has successfully finished
-    ///
     /// - Parameters:
     ///   - manager: OfflineRequestManager instance
     ///   - request: OfflineRequest that finished its action
@@ -657,10 +693,12 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
         default:
             log.warning("Unhandled completed request: \(type(of: request))")
         }
+        if requests.isEmpty {
+            refreshUser()
+        }
     }
 
     /// Callback indicating that the OfflineRequest action has failed for reasons unrelated to connectivity
-    ///
     /// - Parameters:
     ///   - manager: OfflineRequestManager instance
     ///   - request: OfflineRequest that failed
@@ -693,7 +731,8 @@ private extension NetworkServiceImpl {
     }
 
     func refreshUserInfo() {
-        guard let user = data.user else { return }
+        guard let user = data.user,
+                  requests.isEmpty else { return }
 
         add { done in self.mtp.loadChecklists { _ in done() } }
         add { done in self.mtp.loadPosts(user: user.id, reload: false) { _ in done() } }
@@ -726,7 +765,7 @@ final class NetworkServiceStub: NetworkServiceImpl {
         guard let user = data.user else { return }
 
         mtp.loadChecklists(stub: MTPProvider.immediatelyStub) { _ in }
-        loadPosts(user: user.id) { _ in }
+        loadPosts(user: user.id, reload: false) { _ in }
         loadPhotos(profile: user.id, page: 1, reload: false) { _ in }
         Checklist.allCases.forEach { list in
             loadScorecard(list: list,
@@ -737,6 +776,14 @@ final class NetworkServiceStub: NetworkServiceImpl {
     /// :nodoc:
     override func refreshRankings() {
         // expect seeded
+    }
+
+    /// :nodoc:
+    override func contact(payload: ContactPayload,
+                          then: @escaping NetworkCompletion<String>) {
+        mtp.contact(payload: payload,
+                    stub: MTPProvider.immediatelyStub,
+                    then: then)
     }
 
     /// :nodoc:
@@ -773,18 +820,20 @@ final class NetworkServiceStub: NetworkServiceImpl {
 
     /// :nodoc:
     override func loadPosts(location id: Int,
+                            reload: Bool,
                             then: @escaping NetworkCompletion<PostsJSON>) {
         mtp.loadPosts(location: id,
-                      reload: false,
+                      reload: reload,
                       stub: MTPProvider.immediatelyStub,
                       then: then)
     }
 
     /// :nodoc:
     override func loadPosts(user id: Int,
+                            reload: Bool,
                             then: @escaping NetworkCompletion<PostsJSON>) {
         mtp.loadPosts(user: id,
-                      reload: false,
+                      reload: reload,
                       stub: MTPProvider.immediatelyStub,
                       then: then)
     }
@@ -846,11 +895,43 @@ final class NetworkServiceStub: NetworkServiceImpl {
     }
 
     /// :nodoc:
+    override func photoUpdate(payload: PhotoUpdatePayload,
+                              then: @escaping NetworkCompletion<Bool>) {
+        mtp.photoUpdate(payload: payload,
+                        stub: MTPProvider.immediatelyStub,
+                        then: then)
+    }
+
+    /// :nodoc:
+    override func delete(photo: Int,
+                         then: @escaping NetworkCompletion<Bool>) {
+        mtp.delete(photo: photo,
+                   stub: MTPProvider.immediatelyStub,
+                   then: then)
+    }
+
+    /// :nodoc:
     override func postPublish(payload: PostPayload,
                               then: @escaping NetworkCompletion<PostReply>) {
         mtp.postPublish(payload: payload,
                         stub: MTPProvider.immediatelyStub,
                         then: then)
+    }
+
+    /// :nodoc:
+    override func postUpdate(payload: PostUpdatePayload,
+                             then: @escaping NetworkCompletion<Bool>) {
+        mtp.postUpdate(payload: payload,
+                       stub: MTPProvider.immediatelyStub,
+                       then: then)
+    }
+
+    /// :nodoc:
+   override func delete(post: Int,
+                        then: @escaping NetworkCompletion<Bool>) {
+        mtp.delete(post: post,
+                   stub: MTPProvider.immediatelyStub,
+                   then: then)
     }
 
     /// :nodoc:

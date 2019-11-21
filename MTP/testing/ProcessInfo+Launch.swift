@@ -1,10 +1,14 @@
 // @copyright Trollwerks Inc.
 
-import Foundation
+import UIKit
 
 /// Arguments that UI tests can pass on launch
 enum LaunchArgument: String {
 
+    /// Disable UI animations
+    case disableAnimations
+    /// Disable waitForQuiescenceIncludingAnimationsIdle
+    case disableWaitIdle
     /// Taking screenshots with fastlane
     case takingScreenshots
     /// Launched by UI tests
@@ -81,4 +85,30 @@ extension ProcessInfo {
         guard let value = processInfo.environment[key.rawValue] else { return nil }
         return Bool(value)
     }
+
+    /// Apply launch arguments
+    static func startup() {
+        if arguments(contain: .disableAnimations) {
+            UIView.setAnimationsEnabled(false)
+        }
+        if arguments(contain: .disableWaitIdle) {
+            _dispatchOnceSwizzleWaitIdle
+        }
+    }
+
+    /// for swizzling out waitForQuiescenceIncludingAnimationsIdle
+    @objc fileprivate static func doNothing() { return }
 }
+
+private let _dispatchOnceSwizzleWaitIdle: Void = {
+    let waitMethod = Selector(("waitForQuiescenceIncludingAnimationsIdle:"))
+    // does not appear to find XCUIApplicationProcess in Xcode 11
+    guard let uiTestRunner = objc_getClass("XCUIApplicationProcess") as? AnyClass,
+          let original = class_getInstanceMethod(uiTestRunner,
+                                                 waitMethod),
+          let replaced = class_getInstanceMethod(ProcessInfo.self,
+                                                 #selector(ProcessInfo.doNothing))  else {
+        return
+    }
+    method_exchangeImplementations(original, replaced)
+}()

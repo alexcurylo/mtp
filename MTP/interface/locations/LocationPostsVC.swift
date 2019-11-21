@@ -38,7 +38,7 @@ final class LocationPostsVC: PostsVC {
     private var mappable: Mappable!
     // swiftlint:disable:previous implicitly_unwrapped_optional
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjection()
@@ -46,15 +46,13 @@ final class LocationPostsVC: PostsVC {
         update()
     }
 
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
+    /// :nodoc:
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let edit = Segues.addPost(segue: segue)?
                             .destination {
-            edit.inject(model: mappable)
+            edit.inject(model: (post: injectPost,
+                                mappable: mappable))
+            injectPost = nil
         } else if let profile = Segues.showUserProfile(segue: segue)?
                                       .destination,
                   let profileModel = profileModel {
@@ -62,8 +60,9 @@ final class LocationPostsVC: PostsVC {
         }
     }
 
-    /// Create a new post
-    override func createPost() {
+    /// Edit or create a new post
+    override func add(post: PostCellModel?) {
+        injectPost = post
         performSegue(withIdentifier: Segues.addPost,
                      sender: self)
     }
@@ -141,7 +140,8 @@ extension LocationPostsVC: Injectable {
         mappable = model
 
         if isImplemented {
-            net.loadPosts(location: model.checklistId) { [weak self] _ in
+            net.loadPosts(location: model.checklistId,
+                          reload: false) { [weak self] _ in
                 self?.loaded()
             }
         }

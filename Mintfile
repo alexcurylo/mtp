@@ -1,4 +1,5 @@
-realm/SwiftLint@0.35.0
-#"Library installation instructions don't work yet because there isn't a tag for an SPM release. But that will be fixed before the R.swift 5.1 release."
-#https://github.com/mac-cain13/R.swift/pull/538
-#mac-cain13/R.swift
+# mint install realm/SwiftLint (global)
+realm/SwiftLint@0.37.0
+# mint bootstrap (not global)
+# https://github.com/yonaskolb/Mint/issues/144
+https://github.com/mac-cain13/R.swift.git@master

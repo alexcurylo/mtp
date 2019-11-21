@@ -13,12 +13,16 @@ import UIKit
 final class TopicCell: UITableViewCell {
 
     /// :nodoc:
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: .value1, reuseIdentifier: TopicCell.reuseIdentifier)
+    override init(style: UITableViewCell.CellStyle,
+                  reuseIdentifier: String?) {
+        super.init(style: .value1,
+                   reuseIdentifier: TopicCell.reuseIdentifier)
     }
 
     /// :nodoc:
-    required init?(coder aDecoder: NSCoder) { super.init(coder: aDecoder) }
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
 }
 
 extension TopicCell: CellFactoryProtocol {

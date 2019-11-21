@@ -17,8 +17,8 @@ final class NetworkServiceTests: MTPTestCase {
         sut.loadPhotos(location: 1, reload: true) { _ in }
         sut.loadPhotos(page: 1, reload: true) { _ in }
         sut.loadPhotos(profile: 1, page: 1, reload: true) { _ in }
-        sut.loadPosts(location: 1) { _ in }
-        sut.loadPosts(user: 1) { _ in }
+        sut.loadPosts(location: 1, reload: true) { _ in }
+        sut.loadPosts(user: 1, reload: true) { _ in }
         sut.loadRankings(query: query) { _ in }
         sut.loadScorecard(list: .locations, user: 1) { _ in }
         sut.loadUser(id: 1) { _ in }
@@ -65,6 +65,7 @@ final class NetworkServiceTests: MTPTestCase {
         //XCTAssertTrue(spy.invokedLoadBeaches)
         //XCTAssertTrue(spy.invokedLoadDiveSites)
         //XCTAssertTrue(spy.invokedLoadGolfCourses)
+        //XCTAssertTrue(spy.invokedLoadHotels)
         //XCTAssertTrue(spy.invokedLoadRestaurants)
         //XCTAssertTrue(spy.invokedLoadUNCountries)
         //XCTAssertTrue(spy.invokedLoadWHS)

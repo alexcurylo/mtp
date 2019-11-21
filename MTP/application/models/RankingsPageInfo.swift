@@ -85,7 +85,7 @@ extension RankingsPageJSON: CustomDebugStringConvertible {
 struct RankedUserJSON: Codable {
 
     fileprivate let birthday: Date?
-    fileprivate let country: LocationJSON?
+    fileprivate let country: PlaceLocation?
     fileprivate let currentRank: Int
     fileprivate let firstName: String
     /// fullName
@@ -94,12 +94,13 @@ struct RankedUserJSON: Codable {
     /// id
     let id: Int
     fileprivate let lastName: String
-    fileprivate let location: LocationJSON?
+    fileprivate let location: PlaceLocation?
     fileprivate let locationId: Int?
     fileprivate let picture: String?
     fileprivate let rankBeaches: Int?
     fileprivate let rankDivesites: Int?
     fileprivate let rankGolfcourses: Int?
+    fileprivate let rankHotels: Int?
     fileprivate let rankLocations: Int?
     fileprivate let rankRestaurants: Int?
     fileprivate let rankUncountries: Int?
@@ -108,6 +109,7 @@ struct RankedUserJSON: Codable {
     fileprivate let scoreBeaches: Int?
     fileprivate let scoreDivesites: Int?
     fileprivate let scoreGolfcourses: Int?
+    fileprivate let scoreHotels: Int?
     fileprivate let scoreLocations: Int?
     fileprivate let scoreRestaurants: Int?
     fileprivate let scoreUncountries: Int?
@@ -140,6 +142,7 @@ extension RankedUserJSON: CustomDebugStringConvertible {
         rankBeaches: \(String(describing: rankBeaches))
         rankDivesites: \(String(describing: rankDivesites))
         rankGolfcourses: \(String(describing: rankGolfcourses))
+        rankHotels: \(String(describing: rankHotels))
         rankLocations: \(String(describing: rankLocations))
         rankRestaurants: \(String(describing: rankRestaurants))
         rankUncountries: \(String(describing: rankUncountries))
@@ -148,6 +151,7 @@ extension RankedUserJSON: CustomDebugStringConvertible {
         scoreBeaches: \(String(describing: scoreBeaches))
         scoreDivesites: \(String(describing: scoreDivesites))
         scoreGolfcourses: \(String(describing: scoreGolfcourses))
+        scoreHotels: \(String(describing: scoreHotels))
         scoreLocations: \(String(describing: scoreLocations))
         scoreRestaurants: \(String(describing: scoreRestaurants))
         scoreUncountries: \(String(describing: scoreUncountries))
@@ -231,6 +235,7 @@ extension User {
         orderBeaches = from.rankBeaches ?? existing?.orderBeaches ?? 0
         orderDivesites = from.rankDivesites ?? existing?.orderDivesites ?? 0
         orderGolfcourses = from.rankGolfcourses ?? existing?.orderGolfcourses ?? 0
+        orderHotels = from.rankHotels ?? existing?.orderHotels ?? 0
         orderLocations = from.rankLocations ?? existing?.orderLocations ?? 0
         orderRestaurants = from.rankRestaurants ?? existing?.orderRestaurants ?? 0
         orderUncountries = from.rankUncountries ?? existing?.orderUncountries ?? 0
@@ -239,6 +244,7 @@ extension User {
         visitBeaches = from.scoreBeaches ?? existing?.visitBeaches ?? 0
         visitDivesites = from.scoreDivesites ?? existing?.visitDivesites ?? 0
         visitGolfcourses = from.scoreGolfcourses ?? existing?.visitGolfcourses ?? 0
+        visitHotels = from.scoreHotels ?? existing?.visitHotels ?? 0
         visitLocations = from.scoreLocations ?? existing?.visitLocations ?? 0
         visitRestaurants = from.scoreRestaurants ?? existing?.visitRestaurants ?? 0
         visitUncountries = from.scoreUncountries ?? existing?.visitUncountries ?? 0

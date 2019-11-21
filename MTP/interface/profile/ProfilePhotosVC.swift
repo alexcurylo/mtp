@@ -55,13 +55,14 @@ final class ProfilePhotosVC: PhotosVC {
         return data.get(photo: photoId)
     }
 
-    /// Create a new Photo
-    override func createPhoto() {
+    /// Edit or create a new photo
+    override func add(photo: Photo?) {
+        injectPhoto = photo
         performSegue(withIdentifier: Segues.addPhoto,
                      sender: self)
     }
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjection()
@@ -69,24 +70,21 @@ final class ProfilePhotosVC: PhotosVC {
         update()
     }
 
-    /// Prepare for reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         expose()
     }
 
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
+    /// :nodoc:
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let add = Segues.addPhoto(segue: segue)?
                            .destination {
-            add.inject(model: (mappable: nil, delegate: self))
+            add.inject(model: (photo: injectPhoto,
+                               mappable: nil,
+                               delegate: self))
+            injectPhoto = nil
         }
     }
 

@@ -1,5 +1,5 @@
 module: MTP
-module_version: 1.1
+module_version: 1.2
 
 author: Alex Curylo
 author_url: http://everywhs.com
@@ -10,7 +10,7 @@ theme: fullwidth
 clean: true
 
 readme: README.md
-copyright: '© 2018-present [Trollwerks Inc.](http://trollwerks.com/) under [MIT license](https://github.com/alexcurylo/mtp/blob/master/LICENSE.md).'
+copyright: '© 2018-2019 [Trollwerks Inc.](http://trollwerks.com/) under [MIT license](https://github.com/alexcurylo/mtp/blob/master/LICENSE.md).'
 
 skip_undocumented: false
 hide_documentation_coverage: false
@@ -18,7 +18,7 @@ min_acl: internal
 exclude:
   - "**/*resources*/*.*"
 
-swift_version: 5.1
+swift_version: 5.1.2
 sdk: iphonesimulator
 xcodebuild_arguments:
   - -workspace

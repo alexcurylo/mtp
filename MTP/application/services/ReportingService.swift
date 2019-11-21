@@ -9,17 +9,14 @@ import enum Result.Result
 protocol ReportingService: AnyObject {
 
     /// Report an event
-    ///
     /// - Parameter event: Event to report
     func event(_ event: AnalyticsEvent)
     /// Report screen name
-    ///
     /// - Parameters:
     ///   - name: Name of screen
     ///   - vc: Class to describe
     func screen(name: String, vc: AnyClass)
     /// Set user identifier
-    ///
     /// - Parameter email: Email
     func user(signIn: String?, signUp: AnalyticsEvent.Method?)
 }
@@ -94,13 +91,12 @@ class FirebaseReportingService: ReportingService {
     private let eventMapper = AnalyticsEventMapper()
     fileprivate var enabled: Bool { return true }
 
-    /// Default constructor
+    /// :nodoc: 
     init() {
         Analytics.setAnalyticsCollectionEnabled(enabled)
     }
 
     /// Report screen name
-    ///
     /// - Parameters:
     ///   - name: Name of screen
     ///   - vc: Class to describe
@@ -109,7 +105,6 @@ class FirebaseReportingService: ReportingService {
     }
 
     /// Report an event
-    ///
     /// - Parameter event: Event to report
     func event(_ event: AnalyticsEvent) {
         let name = eventMapper.eventName(for: event)
@@ -118,7 +113,6 @@ class FirebaseReportingService: ReportingService {
     }
 
     /// Report sign in + sign up, set identifier
-    ///
     /// - Parameters:
     ///   - signIn: Email
     ///   - signUp: Method
@@ -204,6 +198,8 @@ private extension MTP {
             return "load_checklists"
         case .checkOut: // (let list, let id):
             return "check_out"
+        case .contact: // (let payload):
+            return "contact_form"
         case .countriesSearch: // (let query):
             return "search_countries"
         case .divesite:
@@ -214,6 +210,8 @@ private extension MTP {
             return "load_map"
         case .golfcourse:
             return "load_golfcourses"
+        case .hotels:
+            return "load_hotels"
         case .location:
             return "load_locations"
         case .locationPhotos: // (let location):
@@ -222,12 +220,20 @@ private extension MTP {
             return "load_location_posts"
         case .passwordReset: // (let email):
             return "password_reset"
-        case .picture: // (let uuid, let size):
-            return "load_picture"
+        case .photoDelete: // (let file)
+            return "delete_photo"
+        case .photoPut: // (payload: PhotoUpdatePayload)
+            return "update_photo"
         case .photos: // (let user, let page):
             return "load_user_photos"
+        case .picture: // (let uuid, let size):
+            return "load_picture"
+        case .postDelete: // (let post):
+            return "delete_post"
         case .postPublish: // (let payload):
             return "upload_post"
+        case .postPut: // (payload: PostUpdatePayload)
+            return "update_post"
         case .rankings: // (let query):
             return "load_rankings"
         case .restaurant:

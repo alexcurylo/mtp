@@ -121,7 +121,7 @@ featuredImg: Optional("6tOez5EOtH18mZfwtlKNoC")
 id: 1
 isTop100: 0
 lat: 43.307133
-location: Optional(< PlaceLocation: Spain (965)
+location: Optional(< PlaceLocation: Euskadi (Basque Country), Spain
 countryId: 965
 countryName: Spain
 id: 262

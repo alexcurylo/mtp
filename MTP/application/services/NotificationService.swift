@@ -90,12 +90,10 @@ protocol NotificationService {
     typealias Info = [String: Any]
 
     /// Ask user for authorization
-    ///
     /// - Parameter then: Callback
     func authorizeNotifications(then: @escaping (Bool) -> Void)
 
     /// Set visited state
-    ///
     /// - Parameters:
     ///   - item: Place
     ///   - visited: Whether visited
@@ -104,7 +102,6 @@ protocol NotificationService {
              visited: Bool,
              then: @escaping Completion)
     /// Set visited state
-    ///
     /// - Parameters:
     ///   - items: Places
     ///   - visited: Whether visited
@@ -114,7 +111,6 @@ protocol NotificationService {
              then: @escaping Completion)
 
     /// Ask question
-    ///
     /// - Parameters:
     ///   - question: Question
     ///   - then: Callback
@@ -124,7 +120,6 @@ protocol NotificationService {
     /// Check for pending notifications
     func checkPending()
     /// Queue visited notification
-    ///
     /// - Parameters:
     ///   - mappable: Place
     ///   - triggered: Last triggered
@@ -133,23 +128,19 @@ protocol NotificationService {
                 triggered: Date,
                 then: @escaping Completion)
     /// Queue congratulations
-    ///
     /// - Parameter item: Place
     func congratulate(item: Checklist.Item)
     /// Queue congratulations
-    ///
     /// - Parameter mappable: Place
     func congratulate(mappable: Mappable)
 
     /// Post information
-    ///
     /// - Parameters:
     ///   - title: String
     ///   - body: String
     func postInfo(title: String?,
                   body: String?)
     /// Post visit
-    ///
     /// - Parameters:
     ///   - title: String
     ///   - body: String
@@ -158,15 +149,12 @@ protocol NotificationService {
                    body: String,
                    info: Info)
     /// Post error
-    ///
     /// - Parameter error: String
     func post(error: String)
     /// Execute if in background
-    ///
     /// - Parameter then: Action closure
     func background(then: @escaping () -> Void)
     /// Custom post
-    ///
     /// - Parameters:
     ///   - title: String
     ///   - subtitle: String
@@ -180,19 +168,15 @@ protocol NotificationService {
               info: Info)
 
     /// Show success
-    ///
     /// - Parameter success: String
     func modal(success: String)
     /// Show info
-    ///
     /// - Parameter info: String
     func modal(info: String)
     /// Show error
-    ///
     /// - Parameter error: String
     func modal(error: String)
     /// Network failure modal
-    ///
     /// - Parameters:
     ///   - failure: NetworkError
     ///   - operation: String
@@ -202,7 +186,6 @@ protocol NotificationService {
     func dismissModal()
 
     /// Show error
-    ///
     /// - Parameter error: String
     func message(error: String)
     /// Show unimplemented alert
@@ -214,7 +197,6 @@ protocol NotificationService {
 extension NotificationService {
 
     /// Post information
-    ///
     /// - Parameters:
     ///   - title: String
     ///   - body: String
@@ -228,7 +210,6 @@ extension NotificationService {
     }
 
     /// Post visit
-    ///
     /// - Parameters:
     ///   - title: String
     ///   - body: String
@@ -244,7 +225,6 @@ extension NotificationService {
     }
 
     /// Post error
-    ///
     /// - Parameter error: String
     func post(error: String) {
         post(title: L.errorState(),
@@ -279,13 +259,12 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
         return UNUserNotificationCenter.current()
     }()
 
-    /// Default constructor
+    /// :nodoc: 
     init() {
         KRProgressHUD.styleAppearance()
     }
 
     /// Ask user for authorization
-    ///
     /// - Parameter then: Callback
     func authorizeNotifications(then: @escaping (Bool) -> Void) {
         let options: UNAuthorizationOptions = [.alert, .badge, .carPlay, .sound]
@@ -295,7 +274,6 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
     }
 
     /// Set visited state
-    ///
     /// - Parameters:
     ///   - item: Place
     ///   - visited: Whether visited
@@ -311,7 +289,6 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
     }
 
     /// Set visited state
-    ///
     /// - Parameters:
     ///   - items: Places
     ///   - visited: Whether visited
@@ -337,7 +314,6 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
     }
 
     /// Execute if in background
-    ///
     /// - Parameter then: Action closure
     func background(then: @escaping () -> Void) {
         guard UIApplication.shared.isBackground else { return }
@@ -350,7 +326,6 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
     }
 
     /// Custom post
-    ///
     /// - Parameters:
     ///   - title: String
     ///   - subtitle: String
@@ -376,7 +351,6 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
     }
 
     /// Ask question
-    ///
     /// - Parameters:
     ///   - question: Question
     ///   - then: Callback
@@ -389,7 +363,6 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
     }
 
     /// Queue visited notification
-    ///
     /// - Parameters:
     ///   - mappable: Place
     ///   - triggered: Last triggered
@@ -405,7 +378,6 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
     }
 
     /// Queue congratulations
-    ///
     /// - Parameter item: Place
     func congratulate(item: Checklist.Item) {
         guard let mappable = data.get(visible: item) else { return }
@@ -414,7 +386,6 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
     }
 
     /// Queue congratulations
-    ///
     /// - Parameter mappable: Place
     func congratulate(mappable: Mappable) {
         guard let note = congratulations(for: mappable) else { return }
@@ -430,7 +401,6 @@ class NotificationServiceImpl: NotificationService, ServiceProvider {
     }
 
     /// Show error
-    ///
     /// - Parameter error: String
     func message(error: String) {
         let note = Note(title: error,
@@ -455,8 +425,9 @@ private extension NotificationServiceImpl {
               let user = data.user,
               user.isWaiting else { return true }
 
+        let email = user.email ?? ""
         let note = Note(title: L.verify(),
-                        message: L.verifyInstructions(user.email),
+                        message: L.verifyInstructions(email),
                         category: .information)
         askForeground(question: note,
                       yes: L.ok(),
@@ -794,7 +765,6 @@ private extension NotificationServiceImpl {
 extension NotificationServiceImpl {
 
     /// Show success
-    ///
     /// - Parameter success: String
     func modal(success: String) {
         showingModal = true
@@ -802,7 +772,6 @@ extension NotificationServiceImpl {
     }
 
     /// Show info
-    ///
     /// - Parameter info: String
     func modal(info: String) {
         showingModal = true
@@ -810,7 +779,6 @@ extension NotificationServiceImpl {
     }
 
     /// Show error
-    ///
     /// - Parameter error: String
     func modal(error: String) {
         showingModal = true
@@ -818,7 +786,6 @@ extension NotificationServiceImpl {
     }
 
     /// Network failure modal
-    ///
     /// - Parameters:
     ///   - failure: NetworkError
     ///   - operation: String
@@ -921,7 +888,6 @@ private extension EKAttributes {
 final class NotificationServiceStub: NotificationServiceImpl {
 
     /// Ask user for authorization
-    ///
     /// - Parameter then: Callback
     override func authorizeNotifications(then: @escaping (Bool) -> Void) {
         then(false)

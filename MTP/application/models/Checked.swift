@@ -1,6 +1,6 @@
 // @copyright Trollwerks Inc.
 
-/// Excchange visit status with MTP endpoint
+/// Exchange visit status with MTP endpoint
 struct Checked: Codable, Equatable, ServiceProvider {
 
     /// Visited beaches
@@ -9,10 +9,16 @@ struct Checked: Codable, Equatable, ServiceProvider {
     var divesites: [Int] = []
     /// Visited golfcourses
     var golfcourses: [Int] = []
+    /// Visited hotels
+    var hotels: [Int]? = [] // added in version 1.2.0
+    // swiftlint:disable:previous discouraged_optional_collection
     /// Visited locations
     var locations: [Int] = []
     /// Visited restaurants
     var restaurants: [Int] = []
+    /// Visited top 100 restaurants
+    var top100restaurants: [Int]? = [] // added in version 1.2.0
+    // swiftlint:disable:previous discouraged_optional_collection
     /// Visited uncountries
     var uncountries: [Int] = []
     /// Visited whss
@@ -29,6 +35,8 @@ struct Checked: Codable, Equatable, ServiceProvider {
             return divesites
         case .golfcourses:
             return golfcourses
+        case .hotels:
+            return hotels ?? []
         case .locations:
             return locations
         case .restaurants:
@@ -73,6 +81,10 @@ private extension Checked {
             set(array: &divesites, id: id, checked: checked)
         case .restaurants:
             set(array: &restaurants, id: id, checked: checked)
+        case .hotels:
+            if hotels == nil { hotels = [] }
+            // swiftlint:disable:next force_unwrapping
+            set(array: &hotels!, id: id, checked: checked)
         }
     }
 
@@ -96,8 +108,10 @@ extension Checked: CustomStringConvertible {
         \(beaches.count) beaches \
         \(divesites.count) divesites \
         \(golfcourses.count) golfcourses \
+        \(hotels?.count ?? 0) hotels \
         \(locations.count) locations \
         \(restaurants.count) restaurants \
+        \(top100restaurants?.count ?? 0) top100restaurants \
         \(uncountries.count) uncountries \
         \(whss.count) whss
         """
@@ -112,8 +126,10 @@ extension Checked: CustomDebugStringConvertible {
         beaches: \(beaches.debugDescription)
         divesites: \(divesites.debugDescription)
         golfcourses: \(golfcourses.debugDescription)
+        hotels: \(hotels.debugDescription)
         locations: \(locations.debugDescription)
         restaurants: \(restaurants.debugDescription)
+        top100restaurants: \(top100restaurants.debugDescription)
         uncountries: \(uncountries.debugDescription)
         whss: \(whss.debugDescription)
         /Checklists >

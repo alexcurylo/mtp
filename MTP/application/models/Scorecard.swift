@@ -19,6 +19,7 @@ private struct LabelPairs: Codable {
     let beaches: String
     let divesites: String
     let golfcourses: String
+    let hotels: String
     let locations: String
     let restaurants: String
     let uncountries: String
@@ -30,6 +31,7 @@ private struct ScorecardRankedUsersWrapper: Codable {
     let beaches: ScorecardRankedUsers?
     let divesites: ScorecardRankedUsers?
     let golfcourses: ScorecardRankedUsers?
+    let hotels: ScorecardRankedUsers?
     let locations: ScorecardRankedUsers?
     let restaurants: ScorecardRankedUsers?
     let uncountries: ScorecardRankedUsers?
@@ -69,12 +71,13 @@ private struct ScorecardRankedUserJSON: Codable {
     /// id
     let id: Int
     let lastName: String
-    let location: LocationJSON?
+    let location: PlaceLocation?
     let locationId: Int?
     let picture: String?
     let rankBeaches: Int?
     let rankDivesites: Int?
     let rankGolfcourses: Int?
+    let rankHotels: Int?
     let rankLocations: Int?
     let rankRestaurants: Int?
     let rankUncountries: Int?
@@ -83,6 +86,7 @@ private struct ScorecardRankedUserJSON: Codable {
     let scoreBeaches: Int?
     let scoreDivesites: Int?
     let scoreGolfcourses: Int?
+    let scoreHotels: Int?
     let scoreLocations: Int?
     let scoreRestaurants: Int?
     let scoreUncountries: Int?
@@ -95,19 +99,21 @@ private struct RanksWrapper: Codable {
     let beaches: ScorecardRanks?
     let divesites: ScorecardRanks?
     let golfcourses: ScorecardRanks?
+    let hotels: ScorecardRanks?
     let locations: ScorecardRanks?
     let restaurants: ScorecardRanks?
     let uncountries: ScorecardRanks?
     let whss: ScorecardRanks?
 
     var ranks: ScorecardRanks? {
-        return beaches ??
-               divesites ??
-               golfcourses ??
-               locations ??
-               restaurants ??
-               uncountries ??
-               whss
+        if beaches != nil { return beaches }
+        if divesites != nil { return divesites }
+        if golfcourses != nil { return golfcourses }
+        if hotels != nil { return hotels }
+        if locations != nil { return locations }
+        if restaurants != nil { return restaurants }
+        if uncountries != nil { return uncountries }
+        return whss
     }
 }
 
@@ -134,12 +140,13 @@ private struct ScorecardUserJSON: Codable {
     let gender: String
     let id: Int
     let lastName: String
-    let location: LocationJSON?
+    let location: PlaceLocation?
     let locationId: Int?
     let picture: String?
     let rankBeaches: Int?
     let rankDivesites: Int?
     let rankGolfcourses: Int?
+    let rankHotels: Int?
     let rankLocations: Int?
     let rankRestaurants: Int?
     let rankUncountries: Int?
@@ -147,6 +154,7 @@ private struct ScorecardUserJSON: Codable {
     let scoreBeaches: Int?
     let scoreDivesites: Int?
     let scoreGolfcourses: Int?
+    let scoreHotels: Int?
     let scoreLocations: Int?
     let scoreRestaurants: Int?
     let scoreUncountries: Int?
@@ -177,6 +185,7 @@ struct ScorecardJSON: Codable {
         case scoreBeaches
         case scoreDivesites
         case scoreGolfcourses
+        case scoreHotels
         case scoreLocations
         case scoreRestaurants
         case scoreUncountries
@@ -196,6 +205,7 @@ struct ScorecardJSON: Codable {
     fileprivate let scoreBeaches: Int?
     fileprivate let scoreDivesites: Int?
     fileprivate let scoreGolfcourses: Int?
+    fileprivate let scoreHotels: Int?
     fileprivate let scoreLocations: Int?
     fileprivate let scoreRestaurants: Int?
     fileprivate let scoreUncountries: Int?

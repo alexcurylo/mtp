@@ -24,7 +24,7 @@ class ProfileVC: UIViewController {
 
     private var headerObservation: NSKeyValueObservation?
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
@@ -37,9 +37,7 @@ class ProfileVC: UIViewController {
         observe()
     }
 
-    /// Prepare for reveal
-    ///
-    /// - Parameter animated: Whether animating
+    /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 

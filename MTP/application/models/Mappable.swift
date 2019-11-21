@@ -58,28 +58,35 @@ extension PlaceMappable {
 /// Actions that a Mappable displayer can handle
 protocol Mapper {
 
-    /// Close
-    ///
+    /// Show Add Photo screen
+    /// - Parameter mappable: Place
+    func add(photo mappable: Mappable)
+    /// Show Add Post screen
+    /// - Parameter mappable: Place
+    func add(post mappable: Mappable)
+    /// Close callout
     /// - Parameter mappable: Place
     func close(mappable: Mappable)
-    /// Notify
-    ///
+    /// Notify of visit
     /// - Parameters:
     ///   - mappable: Place
     ///   - triggered: Date
     func notify(mappable: Mappable, triggered: Date)
-    /// Reveal
-    ///
+    /// Reveal on map
     /// - Parameters:
     ///   - mappable: Place
     ///   - callout: Show callout
     func reveal(mappable: Mappable, callout: Bool)
-    /// Show
-    ///
+    /// Show Directions selector
     /// - Parameter mappable: Place
-    func show(mappable: Mappable)
+    func show(directions mappable: Mappable)
+    /// Show Show More screen
+    /// - Parameter mappable: Place
+    func show(more mappable: Mappable)
+    /// Show Nearby screen
+    /// - Parameter mappable: Place
+    func show(nearby mappable: Mappable)
     /// Update
-    ///
     /// - Parameter mappable: Place
     func update(mappable: Mappable)
 }
@@ -129,14 +136,12 @@ protocol Mapper {
     dynamic var dbKey: Key = ""
 
     /// Realm unique identifier
-    ///
     /// - Returns: unique identifier
     override static func primaryKey() -> String? {
         return "dbKey"
     }
 
     /// Unique key for database
-    ///
     /// - Parameter item: Item
     /// - Returns: Unique key
     static func key(item: Checklist.Item) -> Key {
@@ -187,15 +192,14 @@ protocol Mapper {
     }
 
     /// Reveal on map
-    ///
     /// - Parameter callout: Whether to pop up info
     func reveal(callout: Bool) {
         loc.reveal(mappable: self, callout: callout)
     }
 
-    /// Show on map
+    /// Go tot Show More screen
     func show() {
-        loc.show(mappable: self)
+        loc.show(more: self)
     }
 
     /// Convenience nearest accessor
@@ -231,7 +235,6 @@ protocol Mapper {
     }
 
     /// Intialize by injection
-    ///
     /// - Parameters:
     ///   - checklist: Checklist
     ///   - checklistId: Int
@@ -267,7 +270,6 @@ protocol Mapper {
     }
 
     /// Fill in location related data
-    ///
     /// - Parameters:
     ///   - locationId: Int
     ///   - realm: RealmDataController
@@ -288,7 +290,6 @@ protocol Mapper {
     }
 
     /// Intialize by injection
-    ///
     /// - Parameters:
     ///   - checklist: Checklist
     ///   - checklistId: Int
@@ -344,7 +345,6 @@ protocol Mapper {
     }
 
     /// Trigger visit notification
-    ///
     /// - Parameter distance: Distance
     func trigger(distance: CLLocationDistance) {
         guard checklist.triggerDistance > 0 else { return }
@@ -354,7 +354,6 @@ protocol Mapper {
     }
 
     /// Trigger visit notification
-    ///
     /// - Parameters:
     ///   - contains: Coordinate
     ///   - world: World Map
@@ -370,7 +369,6 @@ protocol Mapper {
     }
 
     /// Equality operator
-    ///
     /// - Parameter object: Other object
     /// - Returns: equality
     override func isEqual(_ object: Any?) -> Bool {
@@ -445,7 +443,6 @@ private extension Mappable {
 extension Mappable.Key: ServiceProvider {
 
     /// Unique key for database
-    ///
     /// - Parameter item: Item
     /// - Returns: Unique key
     static func key(item: Checklist.Item) -> Mappable.Key {

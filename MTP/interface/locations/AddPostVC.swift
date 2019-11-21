@@ -32,10 +32,28 @@ final class AddPostVC: UIViewController {
         }
     }
 
+    private var countryId: Int? {
+        didSet {
+            country = data.get(country: countryId)
+        }
+    }
+    private var locationId: Int? {
+        didSet {
+            location = data.get(location: locationId)
+        }
+    }
+    private var updating: PostCellModel? {
+        didSet {
+            countryId = updating?.location?.countryId
+            locationId = updating?.location?.placeId
+            payload.post = updating?.body ?? ""
+        }
+    }
+
     private let minCharacters = 140
     private var payload = PostPayload()
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireOutlets()
@@ -51,23 +69,32 @@ final class AddPostVC: UIViewController {
     }
 
     /// Prepare for reveal
-    ///
     /// - Parameter animated: Whether animating
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        show(navBar: animated, style: .standard)
         expose()
     }
 
     /// Actions to take after reveal
-    ///
     /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         report(screen: "Add Post")
+
+        if updating != nil, !net.isConnected {
+            let question = L.continueOffline(L.updatePost())
+            note.ask(question: question) { [weak self] answer in
+                if !answer {
+                    self?.performSegue(withIdentifier: Segues.pop,
+                                       sender: self)
+                }
+            }
+        }
     }
 
     /// Stop editing on touch
-    ///
     /// - Parameters:
     ///   - touches: User touches
     ///   - event: Touch event
@@ -77,7 +104,6 @@ final class AddPostVC: UIViewController {
     }
 
     /// Instrument and inject navigation
-    ///
     /// - Parameters:
     ///   - segue: Navigation action
     ///   - sender: Action originator
@@ -91,7 +117,7 @@ final class AddPostVC: UIViewController {
         } else if let target = Segues.showLocation(segue: segue)?
                                      .destination
                                      .topViewController as? LocationSearchVC,
-                  let countryId = country?.countryId {
+                  let countryId = countryId {
             target.inject(mode: .location(country: countryId),
                           styler: .standard,
                           delegate: self)
@@ -104,8 +130,16 @@ final class AddPostVC: UIViewController {
 private extension AddPostVC {
 
     func configure() {
+        if let updating = updating {
+            navigationItem.title = L.editPost()
+            postTextView.text = updating.body
+        } else {
+            navigationItem.title = L.addPost()
+        }
+
         configureLocation()
         updateSave(showError: false)
+        updateRemaining()
     }
 
     func configureLocation() {
@@ -125,7 +159,11 @@ private extension AddPostVC {
         view.endEditing(true)
         guard updateSave(showError: true) else { return }
 
-        upload(payload: payload)
+        if updating == nil {
+            upload()
+        } else {
+            update()
+        }
     }
 
     @discardableResult func updateSave(showError: Bool) -> Bool {
@@ -145,14 +183,80 @@ private extension AddPostVC {
             note.message(error: errorMessage)
         }
 
-        saveButton.isEnabled = !payload.post.isEmpty
+        let changed: Bool
+        if let updating = updating {
+            changed = payload.post != updating.body ||
+                      countryId != updating.location?.countryId ||
+                      locationId != updating.location?.placeId
+        } else {
+            changed = true
+        }
+
+        saveButton.isEnabled = valid && changed
         return valid
     }
 
-    func upload(payload: PostPayload) {
+    func updateRemaining() {
+        let remaining = max(0, minCharacters - payload.post.count)
+        if remaining > 0 {
+            postTitle.text = L.postShort(remaining)
+        } else {
+            postTitle.text = L.postLong()
+        }
+    }
+
+    func upload() {
         net.postPublish(payload: payload) { [weak self] _ in
             self?.performSegue(withIdentifier: Segues.pop, sender: self)
         }
+    }
+
+    func update() {
+        guard let updating = updating else { return }
+
+        let update = PostUpdatePayload(from: updating,
+                                       with: payload)
+
+        note.modal(info: L.updatingPost())
+
+        net.postUpdate(payload: update) { [weak self, note] result in
+            switch result {
+            case .success:
+                note.modal(success: L.success())
+                DispatchQueue.main.asyncAfter(deadline: .short) { [weak self] in
+                    note.dismissModal()
+                    self?.finishUpdate()
+                }
+                return
+            case .failure(let error):
+                note.modal(failure: error,
+                           operation: L.updatePost())
+            }
+        }
+    }
+
+    func finishUpdate() {
+        guard let updating = updating,
+              let locationId = locationId,
+              let post = data.get(post: updating.postId),
+              let realm = try? Realm() else { return }
+
+        let oldLocation = updating.location?.placeId
+        do {
+            try realm.write {
+                post.locationId = locationId
+                post.post = payload.post
+            }
+        } catch {
+            log.error("Edit Post error: \(error)")
+        }
+        if oldLocation != locationId {
+            data.notify(change: .locationPosts, object: oldLocation)
+            data.notify(change: .locationPosts, object: locationId)
+        }
+        data.notify(change: .posts, object: locationId)
+
+        performSegue(withIdentifier: Segues.pop, sender: self)
     }
 }
 
@@ -161,7 +265,6 @@ private extension AddPostVC {
 extension AddPostVC: LocationSearchDelegate {
 
     /// Handle a location selection
-    ///
     /// - Parameters:
     ///   - controller: source of selection
     ///   - item: Country or Location selected
@@ -169,9 +272,11 @@ extension AddPostVC: LocationSearchDelegate {
                         didSelect item: Object) {
         switch item {
         case let countryItem as Country:
-            country = countryItem
+            countryId = countryItem.countryId
+            locationId = countryItem.hasChildren ? 0 : countryId
         case let locationItem as Location:
-            location = locationItem
+            countryId = locationItem.countryId
+            locationId = locationItem.placeId
         default:
             log.error("unknown item type selected")
         }
@@ -184,25 +289,17 @@ extension AddPostVC: LocationSearchDelegate {
 extension AddPostVC: UITextViewDelegate {
 
     /// Respond to edit beginning
-    ///
     /// - Parameter textView: Active edit target
     func textViewDidBeginEditing(_ textView: UITextView) { }
 
     /// Update remaining count
-    ///
     /// - Parameter textView: Active edit target
     func textViewDidChange(_ textView: UITextView) {
         updateSave(showError: false)
-        let remaining = max(0, minCharacters - payload.post.count)
-        if remaining > 0 {
-            postTitle.text = L.postShort(remaining)
-        } else {
-            postTitle.text = L.postLong()
-        }
+        updateRemaining()
     }
 
     /// Respond to edit ending
-    ///
     /// - Parameter textView: Active edit target
     func textViewDidEndEditing(_ textView: UITextView) { }
 }
@@ -252,17 +349,16 @@ extension AddPostVC: InterfaceBuildable {
 extension AddPostVC: Injectable {
 
     /// Injected dependencies
-    typealias Model = Mappable
+    typealias Model = (post: PostCellModel?, mappable: Mappable?)
 
     /// Handle dependency injection
-    ///
     /// - Parameter model: Dependencies
     func inject(model: Model) {
-        if let countryId = model.location?.countryId {
-            country = data.get(country: countryId)
-        }
-        if let locationId = model.location?.placeId {
-            location = data.get(location: locationId)
+        if let post = model.post {
+            updating = post
+        } else {
+            countryId = model.mappable?.location?.countryId
+            locationId = model.mappable?.location?.placeId
         }
     }
 

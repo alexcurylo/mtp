@@ -46,13 +46,14 @@ final class LocationPhotosVC: PhotosVC {
         return photos[index]
     }
 
-    /// Create a new Photo
-    override func createPhoto() {
+    /// Edit or create a new photo
+    override func add(photo: Photo?) {
+        injectPhoto = photo
         performSegue(withIdentifier: Segues.addPhoto,
                      sender: self)
     }
 
-    /// Prepare for interaction
+    /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
         requireInjection()
@@ -60,15 +61,14 @@ final class LocationPhotosVC: PhotosVC {
         update()
     }
 
-    /// Instrument and inject navigation
-    ///
-    /// - Parameters:
-    ///   - segue: Navigation action
-    ///   - sender: Action originator
+    /// :nodoc:
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let add = Segues.addPhoto(segue: segue)?
                            .destination {
-            add.inject(model: (mappable: mappable, delegate: self))
+            add.inject(model: (photo: injectPhoto,
+                               mappable: mappable,
+                               delegate: self))
+            injectPhoto = nil
         }
     }
 

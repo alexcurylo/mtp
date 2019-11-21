@@ -113,6 +113,7 @@ picture: Optional("3V9ixGSBAMBnZ2dee8vhcM")
 rankBeaches: nil
 rankDivesites: nil
 rankGolfcourses: nil
+rankHotels: nil
 rankLocations: nil
 rankRestaurants: nil
 rankUncountries: nil
@@ -121,6 +122,7 @@ role: 2
 scoreBeaches: nil
 scoreDivesites: nil
 scoreGolfcourses: nil
+scoreHotels: nil
 scoreLocations: nil
 scoreRestaurants: nil
 scoreUncountries: nil
