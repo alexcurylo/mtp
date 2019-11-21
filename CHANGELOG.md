@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [Version 1.2.0, Build 649] - 2019-11-21
+
 ### Fixed
 - Clearly label signup personal data fields as optional
 
