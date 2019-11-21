@@ -22,7 +22,6 @@ final class PostTests: MTPTestCase {
         // then
         json.description.assert(equal: "PostsJSON (1)")
         json.debugDescription.assert(equal: completeDebugDescription)
-        XCTAssertEqual(json.code, 200)
         XCTAssertEqual(json.data.count, 1)
 
         postJson.description.assert(equal: "PostJSON: 9999, 7053")
@@ -84,7 +83,6 @@ private let complete = """
 
 private let completeDebugDescription = """
 < PostsJSON: PostsJSON (1):
-code: 200
 paging: nil
 data: [\(completeFirstDebugDescription)]
 /PostsJSON >
@@ -94,7 +92,7 @@ private let completeFirstDebugDescription = """
 < PostJSON: PostJSON: 9999, 7053:
 createdAt: 2019-05-11 23:03:27 +0000
 id: 7053
-location: Thailand (554)
+location: Thailand
 locationId: 9999
 post: Optional("Traveled to Phuket and Bangcok december 2017")
 status: A

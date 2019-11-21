@@ -14,8 +14,13 @@ jobs:
           mint bootstrap
       - name: Test
         run: |
-          xcodebuild test -quiet -sdk iphonesimulator13.0 -destination 'platform=iOS Simulator,name=iPhone 8' -workspace MTP.xcworkspace -scheme MTP -configuration Debug -enableCodeCoverage YES CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO ARCHS=x86_64 VALID_ARCHS=x86_64
+          xcodebuild test -quiet -workspace $WORKSPACE -scheme $SCHEME -destination 'platform=iOS Simulator,name=iPhone 8' -configuration Debug -enableCodeCoverage YES CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO ARCHS=x86_64 VALID_ARCHS=x86_64
+        env:
+          DEVELOPER_DIR: /Applications/Xcode_11.2.app/Contents/Developer
+          WORKSPACE: MTP.xcworkspace
+          SCHEME: MTP
+      - name: Coverage
+        run: |
           bash <(curl -s https://codecov.io/bash) -J '^MTP$'
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-          DEVELOPER_DIR: /Applications/Xcode_11.app/Contents/Developer

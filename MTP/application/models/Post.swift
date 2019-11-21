@@ -45,6 +45,7 @@ struct PostJSON: Codable {
     /// userId
     let userId: Int // appears filled in even if owner null
 
+    /// Can this entry be displayed?
     func isValid(editorId: Int) -> Bool {
         guard owner != nil else { return false }
         if userId == editorId { return true }

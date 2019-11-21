@@ -29,7 +29,6 @@ final class PhotoTests: MTPTestCase {
         // then
         json.description.assert(equal: "PhotosInfoJSON (1)")
         json.debugDescription.assert(equal: completeInfoDebugDescription)
-        XCTAssertEqual(json.code, 200)
         XCTAssertEqual(json.data.count, 1)
 
         photoJson.description.assert(equal: "PhotoJSON: 3210 profile_img")
@@ -60,7 +59,6 @@ final class PhotoTests: MTPTestCase {
         // then
         json.description.assert(equal: "PhotosPageInfoJSON: 1")
         json.debugDescription.assert(equal: completePageInfoDebugDescription)
-        XCTAssertEqual(json.code, 200)
         XCTAssertEqual(json.data.count, 1)
         XCTAssertEqual(json.paging.perPage, 25)
         json.paging.description.assert(equal: "PhotosPageJSON: 1 1")
@@ -174,7 +172,6 @@ private let completeInfo = """
 
 private let completeInfoDebugDescription = """
 < PhotosInfoJSON: PhotosInfoJSON (1):
-code: 200
 data: [\(completeInfoFirstDebugDescription)])
 /PhotosInfoJSON >
 """
@@ -184,30 +181,14 @@ private let completeInfoFirstDebugDescription = """
 createdAt: 2018-09-06 09:49:18 +0000
 desc: Optional("Salt workers")
 id: 3210
-location: Optional(< LocationJSON: Thailand:
-active: Y
-admin_level: 2
-airports: Optional("BKK, DMK")
-countryId: Optional(554)
+location: Optional(< PlaceLocation: Thailand
+countryId: 554
 countryName: Thailand
-distance: Optional(520.0)
-featuredImg: Optional("13UZEYS9ZaX2oSsJxMTXJd")
 id: 554
-is_mtp_location: 1
-is_un: 1
-lat: Optional(15.870032)
 location_name: Thailand
-lon: Optional(100.992541)
-rank: 877
-rankUn: 175
 region_id: 983
 region_name: Asia
-visitors: 10498
-visitorsUn: 10498
-weather: Optional("global/stations/48456")
-weatherhist: Optional("65484")
-zoom: Optional(5)
-/LocationJSON >)
+/PlaceLocation >)
 locationId: Optional(554)
 mime: image/jpeg
 name: profile_img
@@ -249,7 +230,6 @@ private let completePageInfo = """
 
 private let completePageInfoDebugDescription = """
 < PhotosPageInfoJSON: PhotosPageInfoJSON: 1:
-code: 200
 paging: \(completePageInfoPagingDebugDescription)
 data: [\(completePageInfoFirstDebugDescription)]
 /PhotosPageInfoJSON >
@@ -331,30 +311,14 @@ let completeUploadDebugDescription = """
 < PhotoReply: photo 67211 - ybfmMqxCCnpQY2UF7ZRpL:
 desc: Optional("The Golden Buddha in Bangkok is very golden")
 id: 67211
-location: Optional(< LocationJSON: Thailand:
-active: Y
-admin_level: 2
-airports: Optional("BKK, DMK")
-countryId: Optional(554)
+location: Optional(< PlaceLocation: Thailand
+countryId: 554
 countryName: Thailand
-distance: Optional(520.0)
-featuredImg: Optional("13UZEYS9ZaX2oSsJxMTXJd")
 id: 554
-is_mtp_location: 1
-is_un: 1
-lat: Optional(15.870032)
 location_name: Thailand
-lon: Optional(100.992541)
-rank: 877
-rankUn: 175
 region_id: 983
 region_name: Asia
-visitors: 10548
-visitorsUn: 10548
-weather: Optional("global/stations/48456")
-weatherhist: Optional("65484")
-zoom: Optional(5)
-/LocationJSON >)
+/PlaceLocation >)
 locationId: Optional(MTP.UncertainValue<Swift.Int, Swift.String>(tValue: Optional(554), uValue: nil))
 mime: image/jpeg
 name: test
