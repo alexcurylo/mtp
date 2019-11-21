@@ -87,7 +87,6 @@ opt_in_rules:
   - reduce_into
   - redundant_nil_coalescing
   - redundant_type_annotation
-  - required_enum_case
 #- required_deinit
   - required_enum_case
   - single_test_class
