@@ -14,9 +14,10 @@ jobs:
           mint bootstrap
       - name: Test
         run: |
-          xcodebuild test -quiet -sdk iphonesimulator13.0 -destination 'platform=iOS Simulator,name=iPhone 8' -workspace $WORKSPACE -scheme $SCHEME -configuration Debug -enableCodeCoverage YES CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO ARCHS=x86_64 VALID_ARCHS=x86_64
+          xcodebuild test -quiet -workspace $WORKSPACE -scheme $SCHEME -destination $DESTINATION -configuration Debug -enableCodeCoverage YES CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO ARCHS=x86_64 VALID_ARCHS=x86_64
         env:
           DEVELOPER_DIR: /Applications/Xcode_11.2.app/Contents/Developer
+          DESTINATION: 'platform=iOS Simulator,name=iPhone 8'
           WORKSPACE: MTP.xcworkspace
           SCHEME: MTP
       - name: Coverage
