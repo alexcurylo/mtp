@@ -20,6 +20,7 @@ jobs:
           WORKSPACE: MTP.xcworkspace
           SCHEME: MTP
       - name: Coverage
+        run: |
           bash <(curl -s https://codecov.io/bash) -J '^MTP$'
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
