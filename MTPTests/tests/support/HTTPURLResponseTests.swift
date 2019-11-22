@@ -7,7 +7,7 @@ final class HTTPURLResponseTests: MTPTestCase {
 
     func testHasField() throws {
         // given
-        let sut = try unwrap(HTTPURLResponseMock())
+        let sut = try XCTUnwrap(HTTPURLResponseMock())
 
         // when
         let result = sut.find(header: HTTPURLResponseMock.key)
@@ -18,7 +18,7 @@ final class HTTPURLResponseTests: MTPTestCase {
 
     func testNotHasField() throws {
         // given
-        let sut = try unwrap(HTTPURLResponseMock())
+        let sut = try XCTUnwrap(HTTPURLResponseMock())
 
         // when
         let result = sut.find(header: "not-here")

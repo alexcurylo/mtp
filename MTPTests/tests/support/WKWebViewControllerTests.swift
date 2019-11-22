@@ -36,7 +36,7 @@ final class WKWebViewControllerTests: MTPTestCase {
 
     func testInitWithCoder() throws {
         // given
-        let sut = try unwrap(WKWebViewController(coder: NSCoder.empty))
+        let sut = try XCTUnwrap(WKWebViewController(coder: NSCoder.empty))
         let source = WKWebSource.string("test", base: nil)
 
         // when
@@ -50,7 +50,7 @@ final class WKWebViewControllerTests: MTPTestCase {
 
     func testInitWithSource() throws {
         // given
-        let url = try unwrap(URL(string: "file://test"))
+        let url = try XCTUnwrap(URL(string: "file://test"))
         let source = WKWebSource.file(url, access: url)
 
         // when
@@ -66,13 +66,13 @@ final class WKWebViewControllerTests: MTPTestCase {
 
     func testInitWithUrl() throws {
         // given
-        let url = try unwrap(URL(string: "http://mtp.travel"))
+        let url = try XCTUnwrap(URL(string: "http://mtp.travel"))
 
         // when
         let sut = WKWebViewController(url: url)
 
         // then
-        let source = try unwrap(sut.source)
+        let source = try XCTUnwrap(sut.source)
         XCTAssertEqual(source.url, url)
         XCTAssertEqual(source.absoluteString, url.absoluteString)
         XCTAssertEqual(source.remoteURL, url)

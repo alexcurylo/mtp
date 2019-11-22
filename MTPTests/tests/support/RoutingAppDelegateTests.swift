@@ -29,7 +29,7 @@ final class RoutingAppDelegateTests: MTPTestCase {
 
         XCTAssertEqual(mock.totalCalls, 2)
 
-        let handler = try unwrap(mock.handlers.firstOf(type: MockAppLaunchHandler.self))
+        let handler = try XCTUnwrap(mock.handlers.firstOf(type: MockAppLaunchHandler.self))
         XCTAssertEqual(handler.callCountWillFinish, 1)
         XCTAssertEqual(handler.callCountDidFinish, 1)
     }
@@ -45,7 +45,7 @@ final class RoutingAppDelegateTests: MTPTestCase {
 
         XCTAssertEqual(mock.totalCalls, 5)
 
-        let handler = try unwrap(mock.handlers.firstOf(type: MockAppStateHandler.self))
+        let handler = try XCTUnwrap(mock.handlers.firstOf(type: MockAppStateHandler.self))
         XCTAssertEqual(handler.callCountWillEnterForeground, 1)
         XCTAssertEqual(handler.callCountDidBecomeActive, 1)
         XCTAssertEqual(handler.callCountWillResignActive, 1)
@@ -57,13 +57,13 @@ final class RoutingAppDelegateTests: MTPTestCase {
         let mock = MockActualDelegate()
 
         let didOpen = mock.application(liveApp,
-                                       open: try unwrap(URL(string: "test.com")),
+                                       open: try XCTUnwrap(URL(string: "test.com")),
                                        options: [:])
 
         XCTAssertTrue(didOpen)
         XCTAssertEqual(mock.totalCalls, 1)
 
-        let handler = try unwrap(mock.handlers.firstOf(type: MockAppOpenURLHandler.self))
+        let handler = try XCTUnwrap(mock.handlers.firstOf(type: MockAppOpenURLHandler.self))
         XCTAssertEqual(handler.callCountOpen, 1)
     }
 
@@ -74,7 +74,7 @@ final class RoutingAppDelegateTests: MTPTestCase {
 
         XCTAssertEqual(mock.totalCalls, 1)
 
-        let handler = try unwrap(mock.handlers.firstOf(type: MockAppMemoryHandler.self))
+        let handler = try XCTUnwrap(mock.handlers.firstOf(type: MockAppMemoryHandler.self))
         XCTAssertEqual(handler.callCountDidReceiveMemoryWarning, 1)
     }
 
@@ -85,7 +85,7 @@ final class RoutingAppDelegateTests: MTPTestCase {
 
         XCTAssertEqual(mock.totalCalls, 1)
 
-        let handler = try unwrap(mock.handlers.firstOf(type: MockAppTimeChangeHandler.self))
+        let handler = try XCTUnwrap(mock.handlers.firstOf(type: MockAppTimeChangeHandler.self))
         XCTAssertEqual(handler.callCountSignificantTimeChange, 1)
     }
 
@@ -104,7 +104,7 @@ final class RoutingAppDelegateTests: MTPTestCase {
 
         XCTAssertEqual(mock.totalCalls, 4)
 
-        let handler = try unwrap(mock.handlers.firstOf(type: MockAppStatusBarHandler.self))
+        let handler = try XCTUnwrap(mock.handlers.firstOf(type: MockAppStatusBarHandler.self))
         XCTAssertEqual(handler.callCountWillChangeStatusBarOrientation, 1)
         XCTAssertEqual(handler.callCountDidChangeStatusBarOrientation, 1)
         XCTAssertEqual(handler.callCountWillChangeStatusBarFrame, 1)
@@ -123,7 +123,7 @@ final class RoutingAppDelegateTests: MTPTestCase {
 
         XCTAssertEqual(mock.totalCalls, 3)
 
-        let handler = try unwrap(mock.handlers.firstOf(type: MockAppNotificationsHandler.self))
+        let handler = try XCTUnwrap(mock.handlers.firstOf(type: MockAppNotificationsHandler.self))
         XCTAssertEqual(handler.callCountDidRegisterForRemoteNotificationsWithDeviceToken, 1)
         XCTAssertEqual(handler.callCountDidFailToRegisterForRemoteNotificationsWithError, 1)
         XCTAssertEqual(handler.callCountDidReceiveRemoteNotificationWithFetch, 1)
@@ -136,7 +136,7 @@ final class RoutingAppDelegateTests: MTPTestCase {
 
         XCTAssertEqual(mock.totalCalls, 1)
 
-        let handler = try unwrap(mock.handlers.firstOf(type: MockAppBackgroundFetchHandler.self))
+        let handler = try XCTUnwrap(mock.handlers.firstOf(type: MockAppBackgroundFetchHandler.self))
         XCTAssertEqual(handler.callCountPerformFetchWithCompletionHandler, 1)
     }
 
@@ -148,7 +148,7 @@ final class RoutingAppDelegateTests: MTPTestCase {
 
         XCTAssertEqual(mock.totalCalls, 1)
 
-        let handler = try unwrap(mock.handlers.firstOf(type: MockAppBackgroundURLSessionHandler.self))
+        let handler = try XCTUnwrap(mock.handlers.firstOf(type: MockAppBackgroundURLSessionHandler.self))
         XCTAssertEqual(handler.callCountHandleEventsForBackgroundURLSession, 1)
     }
 
@@ -160,7 +160,7 @@ final class RoutingAppDelegateTests: MTPTestCase {
 
         XCTAssertEqual(mock.totalCalls, 1)
 
-        let handler = try unwrap(mock.handlers.firstOf(type: MockAppShortcutHandler.self))
+        let handler = try XCTUnwrap(mock.handlers.firstOf(type: MockAppShortcutHandler.self))
         XCTAssertEqual(handler.callCountPerformAction, 1)
     }
 
@@ -170,7 +170,7 @@ final class RoutingAppDelegateTests: MTPTestCase {
         mock.application(liveApp,
                          handleWatchKitExtensionRequest: [:]) { _ in }
 
-        let handler = try unwrap(mock.handlers.firstOf(type: MockAppWatchHandler.self))
+        let handler = try XCTUnwrap(mock.handlers.firstOf(type: MockAppWatchHandler.self))
         XCTAssertEqual(handler.callCountHandleRequest, 1)
     }
 
@@ -181,7 +181,7 @@ final class RoutingAppDelegateTests: MTPTestCase {
 
         XCTAssertEqual(mock.totalCalls, 1)
 
-        let handler = try unwrap(mock.handlers.firstOf(type: MockAppHealthHandler.self))
+        let handler = try XCTUnwrap(mock.handlers.firstOf(type: MockAppHealthHandler.self))
         XCTAssertEqual(handler.callCountShouldRequest, 1)
     }
 
@@ -193,7 +193,7 @@ final class RoutingAppDelegateTests: MTPTestCase {
 
         XCTAssertEqual(mock.totalCalls, 2)
 
-        let handler = try unwrap(mock.handlers.firstOf(type: MockAppContentHandler.self))
+        let handler = try XCTUnwrap(mock.handlers.firstOf(type: MockAppContentHandler.self))
         XCTAssertEqual(handler.callCountWillBecomeUnavailable, 1)
         XCTAssertEqual(handler.callCountDidBecomeAvailable, 1)
     }
@@ -207,7 +207,7 @@ final class RoutingAppDelegateTests: MTPTestCase {
 
         XCTAssertEqual(mock.totalCalls, 1)
 
-        let handler = try unwrap(mock.handlers.firstOf(type: MockAppExtensionHandler.self))
+        let handler = try XCTUnwrap(mock.handlers.firstOf(type: MockAppExtensionHandler.self))
         XCTAssertEqual(handler.callCountShouldAllow, 1)
     }
 
@@ -231,7 +231,7 @@ final class RoutingAppDelegateTests: MTPTestCase {
 
         XCTAssertEqual(mock.totalCalls, 5)
 
-        let handler = try unwrap(mock.handlers.firstOf(type: MockAppRestorationHandler.self))
+        let handler = try XCTUnwrap(mock.handlers.firstOf(type: MockAppRestorationHandler.self))
         XCTAssertEqual(handler.callCountViewController, 1)
         XCTAssertEqual(handler.callCountShouldSave, 1)
         XCTAssertEqual(handler.callCountShouldRestore, 1)
@@ -257,7 +257,7 @@ final class RoutingAppDelegateTests: MTPTestCase {
 
         XCTAssertEqual(mock.totalCalls, 4)
 
-        let handler = try unwrap(mock.handlers.firstOf(type: MockAppContinuityHandler.self))
+        let handler = try XCTUnwrap(mock.handlers.firstOf(type: MockAppContinuityHandler.self))
         XCTAssertEqual(handler.callCountWillContinue, 1)
         XCTAssertEqual(handler.callCountContinue, 1)
         XCTAssertEqual(handler.callCountDidFailToContinue, 1)
@@ -272,7 +272,7 @@ final class RoutingAppDelegateTests: MTPTestCase {
 
         XCTAssertEqual(mock.totalCalls, 1)
 
-        let handler = try unwrap(mock.handlers.firstOf(type: MockAppCloudKitHandler.self))
+        let handler = try XCTUnwrap(mock.handlers.firstOf(type: MockAppCloudKitHandler.self))
         XCTAssertEqual(handler.callCountDidAccept, 1)
     }
 }

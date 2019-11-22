@@ -7,7 +7,7 @@ final class MilestonesTests: MTPTestCase {
 
     func testDecoding() throws {
         // given
-        let data = try unwrap(settingsString.data(using: .utf8))
+        let data = try XCTUnwrap(settingsString.data(using: .utf8))
 
         // when
         let json = try JSONDecoder.mtp.decode(SettingsJSON.self,

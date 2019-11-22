@@ -33,7 +33,7 @@ final class LocationHandlerTests: MTPTestCase {
         // given
         let app = UIApplication.shared
         let sut = LocationHandler()
-        let spy = try unwrap(locSpy)
+        let spy = try XCTUnwrap(locSpy)
 
         // when
         let will = sut.application(app, willFinishLaunchingWithOptions: [:])
@@ -50,7 +50,7 @@ final class LocationHandlerTests: MTPTestCase {
         // given
         let tracker = LocationsVC()
         let realm = RealmDataController()
-        let mappable = try unwrap(realm.mappable(item: (.locations, 1)))
+        let mappable = try XCTUnwrap(realm.mappable(item: (.locations, 1)))
         let sut = LocationHandler()
 
         // when
@@ -67,6 +67,6 @@ final class LocationHandlerTests: MTPTestCase {
 
         // then
         waitForExpectations(timeout: 2, handler: nil)
-        XCTAssertTrue(try unwrap(dataSpy).invokedResolve)
+        XCTAssertTrue(try XCTUnwrap(dataSpy).invokedResolve)
     }
 }

@@ -9,7 +9,7 @@ final class PhotoTests: MTPTestCase {
         // given
         let locationId = 9_999
         let realm = RealmDataController()
-        let data = try unwrap(completeInfo.data(using: .utf8))
+        let data = try XCTUnwrap(completeInfo.data(using: .utf8))
         let expectedImage = MTP.picture(uuid: "6uMTYDtfMXxLWVEj4JaTnC",
                                         size: .any).requestUrl
         let attributes = NSAttributedString.attributes(
@@ -47,7 +47,7 @@ final class PhotoTests: MTPTestCase {
         // given
         let userId = 999_999
         let realm = RealmDataController()
-        let data = try unwrap(completePageInfo.data(using: .utf8))
+        let data = try XCTUnwrap(completePageInfo.data(using: .utf8))
 
         // when
         let json = try JSONDecoder.mtp.decode(PhotosPageInfoJSON.self,
@@ -76,7 +76,7 @@ final class PhotoTests: MTPTestCase {
 
     func testCompleteDecodingReply() throws {
         // given
-        let data = try unwrap(completeUpload.data(using: .utf8))
+        let data = try XCTUnwrap(completeUpload.data(using: .utf8))
 
         // when
         let json = try JSONDecoder.mtp.decode(PhotoReply.self,
@@ -93,7 +93,7 @@ final class PhotoTests: MTPTestCase {
 
     func testIncompleteDecodingReply() throws {
         // given
-        let data = try unwrap(incompleteUpload.data(using: .utf8))
+        let data = try XCTUnwrap(incompleteUpload.data(using: .utf8))
 
         // when
         let json = try JSONDecoder.mtp.decode(PhotoReply.self,

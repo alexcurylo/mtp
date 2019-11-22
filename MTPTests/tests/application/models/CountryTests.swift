@@ -19,13 +19,13 @@ final class CountryTests: MTPTestCase {
     func testDecoding() throws {
         // given
         let realm = RealmDataController()
-        let data = try unwrap(complete.data(using: .utf8))
+        let data = try XCTUnwrap(complete.data(using: .utf8))
 
         // when
         let json = try JSONDecoder.mtp.decode(CountryJSON.self,
                                               from: data)
         realm.set(countries: [json])
-        let sut = try unwrap(Country(from: json))
+        let sut = try XCTUnwrap(Country(from: json))
         let different = Country(value: sut).with { $0.placeCountry = "different" }
 
         // then

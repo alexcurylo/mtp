@@ -40,12 +40,12 @@ final class OfflineRequestManagerTests: MTPTestCase {
         // given
         let key = "test"
         let value = "value"
-        let manager = try unwrap(sut)
+        let manager = try XCTUnwrap(sut)
         manager.queueRequest(MockRequest())
         manager.queueRequest(MockRequest())
 
         // when
-        let archive1 = try unwrap(OfflineRequestManager.archivedManager(fileName: testFileName))
+        let archive1 = try XCTUnwrap(OfflineRequestManager.archivedManager(fileName: testFileName))
         archive1.connectivity?.stopNotifier()
         archive1.connectivity = nil
 
@@ -53,12 +53,12 @@ final class OfflineRequestManagerTests: MTPTestCase {
         XCTAssertEqual(archive1.totalRequestCount, 2)
         archive1.attemptNextOperation()
 
-        let request = try unwrap(archive1.ongoingRequests.first as? MockRequest)
+        let request = try XCTUnwrap(archive1.ongoingRequests.first as? MockRequest)
          XCTAssertNil(request.dictionary[key])
         request.mock[key] = value
         request.save()
 
-        let archive2 = try unwrap(OfflineRequestManager.archivedManager(fileName: testFileName))
+        let archive2 = try XCTUnwrap(OfflineRequestManager.archivedManager(fileName: testFileName))
         archive2.connectivity?.stopNotifier()
         archive2.connectivity = nil
         archive2.delegate = OfflineRequestManagerListener()
@@ -66,13 +66,13 @@ final class OfflineRequestManagerTests: MTPTestCase {
         archive2.attemptNextOperation()
 
         // then
-        let adjustedRequest = try unwrap(archive2.ongoingRequests.first as? MockRequest)
+        let adjustedRequest = try XCTUnwrap(archive2.ongoingRequests.first as? MockRequest)
         XCTAssertEqual(adjustedRequest.dictionary[key] as? String, value)
     }
 
     func testShouldIndicateWhenARequestHasStarted() throws {
         // given
-        let manager = try unwrap(sut)
+        let manager = try XCTUnwrap(sut)
         let request = MockRequest()
         let called = expectation(description: "called")
         listener?.triggerBlock = { type in
@@ -95,7 +95,7 @@ final class OfflineRequestManagerTests: MTPTestCase {
 
     func testShouldIndicateWhenARequestHasFinished() throws {
         // given
-        let manager = try unwrap(sut)
+        let manager = try XCTUnwrap(sut)
         let request = MockRequest()
         let called = expectation(description: "called")
         listener?.triggerBlock = { type in
@@ -118,7 +118,7 @@ final class OfflineRequestManagerTests: MTPTestCase {
 
     func testShouldIndicateWhenARequestHasFailed() throws {
         // given
-        let manager = try unwrap(sut)
+        let manager = try XCTUnwrap(sut)
         let request = MockRequest()
         let result = NSError(domain: "test", code: -1, userInfo: nil)
         request.error = result
@@ -144,7 +144,7 @@ final class OfflineRequestManagerTests: MTPTestCase {
 
     func testShouldUpdateSingleRequestProgress() throws {
         // given
-        let manager = try unwrap(sut)
+        let manager = try XCTUnwrap(sut)
         let request = MockRequest()
         let called = expectation(description: "called")
         var i = 0.0
@@ -174,7 +174,7 @@ final class OfflineRequestManagerTests: MTPTestCase {
 
     func testShouldUpdateMultipleRequestProgressScaledToTotalRequests() throws {
         // given
-        let manager = try unwrap(sut)
+        let manager = try XCTUnwrap(sut)
         let requests = [MockRequest(),
                         MockRequest(),
                         MockRequest()]
@@ -207,7 +207,7 @@ final class OfflineRequestManagerTests: MTPTestCase {
 
     func testShouldNotReattempt() throws {
         // given
-        let manager = try unwrap(sut)
+        let manager = try XCTUnwrap(sut)
         let request = MockRequest()
         let result = NSError(domain: "test", code: -1, userInfo: nil)
         request.error = result
@@ -231,7 +231,7 @@ final class OfflineRequestManagerTests: MTPTestCase {
 
     func testShouldReconfigureByRequestAndSucceed() throws {
         // given
-        let manager = try unwrap(sut)
+        let manager = try XCTUnwrap(sut)
         let request = MockRequest()
         let result = NSError(domain: "test", code: -1, userInfo: nil)
         request.error = result
@@ -256,7 +256,7 @@ final class OfflineRequestManagerTests: MTPTestCase {
 
     func testShouldReconfigureByDelegateAndSucceed() throws {
         // given
-        let manager = try unwrap(sut)
+        let manager = try XCTUnwrap(sut)
         let request = MockRequest()
         let result = NSError(domain: "test", code: -1, userInfo: nil)
         request.error = result
@@ -287,7 +287,7 @@ final class OfflineRequestManagerTests: MTPTestCase {
 
     func testShouldKillStalledRequestAfterWaiting() throws {
         // given
-        let manager = try unwrap(sut)
+        let manager = try XCTUnwrap(sut)
         manager.requestTimeLimit = 1
         let request = MockRequest()
         request.stalled = true
@@ -313,17 +313,17 @@ final class OfflineRequestManagerTests: MTPTestCase {
 
     func testCanAdjustQueuedRequestsUntilInProgress() throws {
         // given
-        let manager = try unwrap(sut)
-        manager.queueRequest(try unwrap(MockRequest(dictionary: ["name": "request1"])))
-        manager.queueRequest(try unwrap(MockRequest(dictionary: ["name": "request2"])))
-        manager.queueRequest(try unwrap(MockRequest(dictionary: ["name": "request3"])))
+        let manager = try XCTUnwrap(sut)
+        manager.queueRequest(try XCTUnwrap(MockRequest(dictionary: ["name": "request1"])))
+        manager.queueRequest(try XCTUnwrap(MockRequest(dictionary: ["name": "request2"])))
+        manager.queueRequest(try XCTUnwrap(MockRequest(dictionary: ["name": "request3"])))
 
         // when
         XCTAssertEqual(manager.ongoingRequests.count, 1)
         XCTAssertEqual(manager.incompleteRequests.count, 3)
-        let start2 = try unwrap(manager.incompleteRequests[1] as? MockRequest)
+        let start2 = try XCTUnwrap(manager.incompleteRequests[1] as? MockRequest)
         XCTAssertEqual(start2.dictionary["name"] as? String, "request2")
-        let start3 = try unwrap(manager.incompleteRequests[2] as? MockRequest)
+        let start3 = try XCTUnwrap(manager.incompleteRequests[2] as? MockRequest)
         XCTAssertEqual(start3.dictionary["name"] as? String, "request3")
         manager.modifyPendingRequests { pendingRequests -> [OfflineRequest] in
             XCTAssertEqual(pendingRequests.count, 2)
@@ -340,7 +340,7 @@ final class OfflineRequestManagerTests: MTPTestCase {
         // then
         XCTAssertEqual(manager.ongoingRequests.count, 1)
         XCTAssertEqual(manager.incompleteRequests.count, 2)
-        let finish2 = try unwrap(manager.incompleteRequests[1] as? MockRequest)
+        let finish2 = try XCTUnwrap(manager.incompleteRequests[1] as? MockRequest)
         XCTAssertEqual(finish2.dictionary["name"] as? String, "request2 + request3")
     }
 }

@@ -8,7 +8,7 @@ final class PostTests: MTPTestCase {
     func testDecodingPosts() throws {
         // given
         let realm = RealmDataController()
-        let data = try unwrap(complete.data(using: .utf8))
+        let data = try XCTUnwrap(complete.data(using: .utf8))
 
         // when
         let json = try JSONDecoder.mtp.decode(PostsJSON.self,
@@ -16,8 +16,8 @@ final class PostTests: MTPTestCase {
         realm.set(posts: json.data,
                   editorId: 0)
         let postJson = json.data[0]
-        let sut = try unwrap(Post(from: postJson,
-                                  editorId: 0))
+        let sut = try XCTUnwrap(Post(from: postJson,
+                                     editorId: 0))
 
         // then
         json.description.assert(equal: "PostsJSON (1)")
@@ -34,7 +34,7 @@ final class PostTests: MTPTestCase {
 
     func testIncompleteDecodingReply() throws {
         // given
-        let data = try unwrap(incomplete.data(using: .utf8))
+        let data = try XCTUnwrap(incomplete.data(using: .utf8))
 
         // when
         let json = try JSONDecoder.mtp.decode(PostJSON.self,
