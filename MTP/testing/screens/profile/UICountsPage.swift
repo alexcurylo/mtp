@@ -11,4 +11,7 @@ enum UICountsPage: Exposable {
     case item(Section, Row)
     /// Visisted switch in item cell
     case toggle(Section, Row)
+
+    /// Group by brand switch in hotel header
+    case brand
 }

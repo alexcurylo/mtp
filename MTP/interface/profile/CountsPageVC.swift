@@ -23,6 +23,7 @@ class CountsPageVC: UIViewController {
     private enum Layout {
         static let headerHeight = CGFloat(25)
         static let unHeaderHeight = CGFloat(40)
+        static let hotelHeaderHeight = CGFloat(52)
         static let lineHeight = CGFloat(32)
         static let margin = CGFloat(8)
         static let collectionInsets = UIEdgeInsets(top: margin,
@@ -85,7 +86,6 @@ class CountsPageVC: UIViewController {
     private var countriesExpanded: [RegionKey: CountryExpanded] = [:]
 
     /// Construction by injection
-    ///
     /// - Parameter model: Injected model
     init(model: Checklist) {
         list = model
@@ -134,7 +134,6 @@ class CountsPageVC: UIViewController {
 extension CountsPageVC: UICollectionViewDelegateFlowLayout {
 
     /// Provide header size
-    ///
     /// - Parameters:
     ///   - collectionView: Collection
     ///   - collectionViewLayout: Collection layout
@@ -144,10 +143,13 @@ extension CountsPageVC: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         referenceSizeForHeaderInSection section: Int) -> CGSize {
         let height: CGFloat
-        switch (section, showsInfo) {
-        case (infoSection, true):
-            let isUn = list == .uncountries
-            height = isUn ? Layout.unHeaderHeight : Layout.headerHeight
+        switch (section, showsInfo, list) {
+        case (infoSection, true, .uncountries):
+            height = Layout.unHeaderHeight
+        case (infoSection, true, .hotels):
+            height = Layout.hotelHeaderHeight
+        case (infoSection, true, _):
+            height = Layout.headerHeight
         default:
             height = Layout.lineHeight
         }
@@ -156,7 +158,6 @@ extension CountsPageVC: UICollectionViewDelegateFlowLayout {
     }
 
     /// Provide cell size
-    ///
     /// - Parameters:
     ///   - collectionView: Collection
     ///   - collectionViewLayout: Collection layout
@@ -175,7 +176,6 @@ extension CountsPageVC: UICollectionViewDelegateFlowLayout {
 extension CountsPageVC: UICollectionViewDataSource {
 
     /// Provide header
-    ///
     /// - Parameters:
     ///   - collectionView: Collection
     ///   - kind: Expect header
@@ -205,7 +205,6 @@ extension CountsPageVC: UICollectionViewDataSource {
     }
 
     /// Section items count
-    ///
     /// - Parameters:
     ///   - collectionView: Collection
     ///   - section: Index
@@ -223,7 +222,6 @@ extension CountsPageVC: UICollectionViewDataSource {
     }
 
     /// Provide cell
-    ///
     /// - Parameters:
     ///   - collectionView: Collection
     ///   - indexPath: Index path
@@ -249,7 +247,6 @@ extension CountsPageVC: UICollectionViewDataSource {
 extension CountsPageVC: CountSectionHeaderDelegate {
 
     /// Toggle expanded state of region
-    ///
     /// - Parameter region: Region
     func toggle(region: String) {
         if let isExpanded = regionsExpanded[region],
@@ -268,7 +265,6 @@ extension CountsPageVC: CountSectionHeaderDelegate {
 extension CountsPageVC: CountCellGroupDelegate {
 
     /// Toggle expanded state of country
-    ///
     /// - Parameters:
     ///   - region: Region
     ///   - country: Country

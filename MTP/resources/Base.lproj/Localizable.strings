@@ -189,6 +189,7 @@
 "locationDescription" = "%1$@, %2$@";
 
 "unInfo" = "Visits are calculated from MTP Location visits";
+"groupBrand" = "Group hotels by brand:";
 
 // PhotosVC
 

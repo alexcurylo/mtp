@@ -31,8 +31,10 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var etags: [String: String] { get set }
     /// Golf courses
     var golfcourses: [GolfCourse] { get }
-    /// Hotel
+    /// Hotels
     var hotels: [Hotel] { get }
+    /// Group hotels by brand?
+    var hotelsGroupBrand: Bool { get set }
     /// Rankings filter
     var lastRankingsQuery: RankingsQuery { get set }
     /// Locations
@@ -331,6 +333,7 @@ extension DataService {
         dismissed = nil
         email = ""
         etags = [:]
+        hotelsGroupBrand = false
         lastRankingsQuery = RankingsQuery()
         notified = nil
         set(posts: [])
@@ -496,6 +499,14 @@ class DataServiceImpl: DataService {
     /// Hotels
     var hotels: [Hotel] {
         return realm.hotels
+    }
+
+    /// Group hotels by brand?
+    var hotelsGroupBrand: Bool {
+        get { return defaults.hotelsGroupBrand }
+        set {
+            defaults.hotelsGroupBrand = newValue
+        }
     }
 
     /// Set hotels

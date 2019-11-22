@@ -48,7 +48,7 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
         $0.tintColor = Layout.uploadingColor
     }
 
-    private let unInfoLabel = UILabel {
+    private lazy var unInfoLabel = UILabel {
         $0.font = Layout.rankFont.uploading
         $0.allowsDefaultTighteningForTruncation = true
         $0.adjustsFontSizeToFitWidth = true
@@ -56,6 +56,27 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
         $0.textColor = .white
         $0.text = L.unInfo()
     }
+
+    private lazy var brandLabel = UILabel {
+        $0.setContentHuggingPriority(.required, for: .horizontal)
+        $0.font = Layout.rankFont.uploading
+        $0.allowsDefaultTighteningForTruncation = true
+        $0.adjustsFontSizeToFitWidth = true
+        $0.minimumScaleFactor = 0.9
+        $0.textColor = .white
+        $0.text = L.groupBrand()
+    }
+    private lazy var brandSwitch = UISwitch {
+        $0.setContentHuggingPriority(.required, for: .horizontal)
+        $0.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        $0.addTarget(self,
+                     action: #selector(toggleBrand),
+                     for: .valueChanged)
+        $0.isOn = data.hotelsGroupBrand
+        UICountsPage.brand.expose(item: $0)
+    }
+    private var brandStack: UIStackView?
+
     private var completeStack: UIStackView?
 
     private var userObserver: Observer?
@@ -64,7 +85,6 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
     private var uploading = false
 
     /// Procedural intializer
-    ///
     /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -79,12 +99,18 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
     }
 
     /// Handle dependency injection
-    ///
     /// - Parameter list: Checklist
     func inject(list: Checklist) {
         self.list = list
-        if list == .uncountries {
+        switch list {
+        case .uncountries:
             completeStack?.addArrangedSubview(unInfoLabel)
+        case .hotels:
+            if let brandStack = brandStack {
+                completeStack?.addArrangedSubview(brandStack)
+            }
+        default:
+            break
         }
 
         update()
@@ -100,12 +126,18 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
         rankLabel.text = nil
         fractionLabel.text = nil
         unInfoLabel.removeFromSuperview()
+        brandStack?.removeFromSuperview()
     }
 }
 
 // MARK: - Private
 
 private extension CountInfoHeader {
+
+    @objc func toggleBrand(_ sender: UISwitch) {
+        data.hotelsGroupBrand = sender.isOn
+        print("\(data.hotelsGroupBrand)")
+    }
 
     func update() {
         guard let list = list else { return }
@@ -180,18 +212,28 @@ private extension CountInfoHeader {
         }
         let infoStack = UIStackView(arrangedSubviews: [labels,
                                                        uploadImageView]).with {
-            $0.spacing = Layout.spacing.rank
             $0.alignment = .center
+            $0.spacing = Layout.spacing.rank
         }
 
         let stack = UIStackView(arrangedSubviews: [infoStack]).with {
-            $0.spacing = 2
             $0.axis = .vertical
             $0.distribution = .fillEqually
+            $0.spacing = 2
         }
         completeStack = stack
 
         addSubview(stack)
         stack.edgeAnchors == edgeAnchors + Layout.insets
+
+        let rightPadding = UIView {
+            $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        }
+        brandStack = UIStackView(arrangedSubviews: [brandLabel,
+                                                    brandSwitch,
+                                                    rightPadding]).with {
+            $0.alignment = .bottom
+            $0.spacing = Layout.spacing.label
+        }
     }
 }

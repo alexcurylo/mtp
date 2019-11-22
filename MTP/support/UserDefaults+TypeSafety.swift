@@ -14,14 +14,12 @@ struct StringKey: Hashable, RawRepresentable, ExpressibleByStringLiteral {
     var rawValue: String
 
     /// Raw value constructor
-    ///
     /// - Parameter rawValue: Key string
     init(rawValue: String) {
         self.rawValue = rawValue
     }
 
     /// String literal constructor
-    ///
     /// - Parameter value: Key string
     init(stringLiteral value: String) {
         self.rawValue = value
@@ -61,21 +59,18 @@ private extension Array where Element == StringKey {
 extension UserDefaults {
 
     /// Typed value setting
-    ///
     /// - Parameter key: Key string
     func set<T>(_ value: T?, forKey key: StringKey) {
         set(value, forKey: key.rawValue)
     }
 
     /// Typed value access
-    ///
     /// - Parameter key: Key string
     func value<T>(forKey key: StringKey) -> T? {
         return value(forKey: key.rawValue) as? T
     }
 
     /// Default setting convenience
-    ///
     /// - Parameter defaults: Defaults
     func register(defaults: [StringKey: Any]) {
         let mapped = defaults.map { key, value -> (String, Any) in
@@ -92,7 +87,6 @@ extension UserDefaults {
 extension UserDefaults {
 
     /// Typed subscript access
-    ///
     /// - Parameter key: Key string
     subscript<T>(key: StringKey) -> T? {
         get { return value(forKey: key) }
@@ -100,7 +94,6 @@ extension UserDefaults {
     }
 
     /// Bool subscript access
-    ///
     /// - Parameter key: Key string
     subscript(key: StringKey) -> Bool {
         get { return bool(forKey: key) }
@@ -108,7 +101,6 @@ extension UserDefaults {
     }
 
     /// Int subscript access
-    ///
     /// - Parameter key: Key string
     subscript(key: StringKey) -> Int {
         get { return integer(forKey: key) }
@@ -116,7 +108,6 @@ extension UserDefaults {
     }
 
     /// Double subscript access
-    ///
     /// - Parameter key: Key string
     subscript(key: StringKey) -> Double {
         get { return double(forKey: key) }
@@ -124,7 +115,6 @@ extension UserDefaults {
     }
 
     /// Float subscript access
-    ///
     /// - Parameter key: Key string
     subscript(key: StringKey) -> Float {
         get { return float(forKey: key) }
@@ -132,7 +122,6 @@ extension UserDefaults {
     }
 
     /// CGFloat subscript access
-    ///
     /// - Parameter key: Key string
     subscript(key: StringKey) -> CGFloat {
         get { return cgFloat(forKey: key) }
@@ -140,7 +129,6 @@ extension UserDefaults {
     }
 
     /// Color subscript access
-    ///
     /// - Parameter key: Key string
     subscript(key: StringKey) -> UIColor? {
         get { return color(forKey: key) }
@@ -148,7 +136,6 @@ extension UserDefaults {
     }
 
     /// URL subscript access
-    ///
     /// - Parameter key: Key string
     subscript(key: StringKey) -> URL? {
         get { return url(forKey: key) }
@@ -159,7 +146,6 @@ extension UserDefaults {
 extension UserDefaults {
 
     /// Bool access convenience
-    ///
     /// - Parameter key: Key string
     /// - Returns: Bool
     func bool(forKey key: StringKey) -> Bool {
@@ -167,7 +153,6 @@ extension UserDefaults {
     }
 
     /// Int access convenience
-    ///
     /// - Parameter key: Key string
     /// - Returns: Int
     func integer(forKey key: StringKey) -> Int {
@@ -175,7 +160,6 @@ extension UserDefaults {
     }
 
     /// Float access convenience
-    ///
     /// - Parameter key: Key string
     /// - Returns: Float
     func float(forKey key: StringKey) -> Float {
@@ -183,7 +167,6 @@ extension UserDefaults {
     }
 
     /// CGFloat access convenience
-    ///
     /// - Parameter key: Key string
     /// - Returns: CGFloat
     func cgFloat(forKey key: StringKey) -> CGFloat {
@@ -191,7 +174,6 @@ extension UserDefaults {
     }
 
     /// double access convenience
-    ///
     /// - Parameter key: Key string
     /// - Returns: double
     func double(forKey key: StringKey) -> Double {
@@ -199,7 +181,6 @@ extension UserDefaults {
     }
 
     /// URL access convenience
-    ///
     /// - Parameter key: Key string
     /// - Returns: URL if present
     func url(forKey key: StringKey) -> URL? {
@@ -207,7 +188,6 @@ extension UserDefaults {
     }
 
     /// Color setting convenience
-    ///
     /// - Parameters:
     ///   - color: Value to store
     ///   - key: Key string
@@ -221,7 +201,6 @@ extension UserDefaults {
     }
 
     /// Color access convenience
-    ///
     /// - Parameter key: Key string
     /// - Returns: UIColor if present
     func color(forKey key: StringKey) -> UIColor? {
@@ -233,7 +212,6 @@ extension UserDefaults {
 extension UserDefaults {
 
     /// Set Codable object into UserDefaults
-    ///
     /// - Parameters:
     ///   - object: Codable Object
     ///   - forKey: Key string
@@ -245,7 +223,6 @@ extension UserDefaults {
     }
 
     /// Get Codable object from UserDefaults
-    ///
     /// - Parameters:
     ///   - object: Codable Object
     ///   - forKey: Key string
