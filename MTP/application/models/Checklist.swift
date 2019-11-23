@@ -635,7 +635,7 @@ extension Checklist {
         case .divesites:
             return .regionSubtitled
         case .restaurants:
-            return .regionCountry
+            return .regionCountryLocation
         case .hotels:
             if data.hotelsGroupBrand {
                 return .brandRegionCountry

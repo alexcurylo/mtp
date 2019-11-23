@@ -3,7 +3,7 @@
 import Anchorage
 
 /// Display model for count group
-struct CountItemModel {
+struct CountItemModel: CountCellModel {
 
     /// Title
     let title: String
@@ -54,7 +54,8 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
 
     /// Handle dependency injection
     /// - Parameter model: Data model
-    func inject(model: CountItemModel) {
+    func inject(model: CountCellModel) {
+        guard let model = model as? CountItemModel else { return }
         self.model = model
 
         let font: UIFont

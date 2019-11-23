@@ -37,7 +37,7 @@ protocol CountCellGroupDelegate: AnyObject {
 }
 
 /// Display model for count group
-struct CountGroupModel {
+struct CountGroupModel: CountCellModel {
 
     /// Region
     let region: String
@@ -68,7 +68,8 @@ final class CountCellGroup: UICollectionViewCell {
 
     /// Handle dependency injection
     /// - Parameter model: Data model
-    func inject(model: CountGroupModel) {
+    func inject(model: CountCellModel) {
+        guard let model = model as? CountGroupModel else { return }
         self.model = model
 
         if let visited = model.visited {
