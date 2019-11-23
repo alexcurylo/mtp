@@ -33,7 +33,6 @@ import UIKit
     }()
 
     /// Handlers for environment
-    ///
     /// - Parameter runtime: Environment descriptor
     /// - Returns: Appropriate handler collection
     static func runtimeHandlers(for runtime: Runtime) -> Handlers {

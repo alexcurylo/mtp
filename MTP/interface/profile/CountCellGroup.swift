@@ -29,7 +29,6 @@ enum Disclosure {
 protocol CountCellGroupDelegate: AnyObject {
 
     /// Toggle expanded state of country
-    ///
     /// - Parameters:
     ///   - region: Region
     ///   - country: Country
@@ -68,7 +67,6 @@ final class CountCellGroup: UICollectionViewCell {
     private var model: CountGroupModel?
 
     /// Handle dependency injection
-    ///
     /// - Parameter model: Data model
     func inject(model: CountGroupModel) {
         self.model = model
@@ -103,9 +101,7 @@ final class CountCellGroup: UICollectionViewCell {
         $0.font = Layout.font
     }
 
-    /// Procedural intializer
-    ///
-    /// - Parameter frame: Display frame
+    /// :nodoc:
     override init(frame: CGRect) {
         super.init(frame: frame)
 

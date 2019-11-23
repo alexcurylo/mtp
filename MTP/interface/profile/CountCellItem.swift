@@ -53,7 +53,6 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
     private var model: CountItemModel?
 
     /// Handle dependency injection
-    ///
     /// - Parameter model: Data model
     func inject(model: CountItemModel) {
         self.model = model
@@ -142,9 +141,7 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
         $0.image = R.image.checkmarkBlue()
     }
 
-    /// Procedural intializer
-    ///
-    /// - Parameter frame: Display frame
+    /// :nodoc:
     override init(frame: CGRect) {
         super.init(frame: frame)
 

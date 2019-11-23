@@ -6,7 +6,6 @@ import Anchorage
 protocol CountSectionHeaderDelegate: AnyObject {
 
     /// Toggle expanded state of region
-    ///
     /// - Parameter region: Region
     func toggle(region: String)
 }
@@ -36,7 +35,6 @@ final class CountSectionHeader: UICollectionReusableView {
     private var model: CountSectionModel?
 
     /// Handle dependency injection
-    ///
     /// - Parameter model: Data model
     func inject(model: CountSectionModel) {
         self.model = model
@@ -73,7 +71,6 @@ final class CountSectionHeader: UICollectionReusableView {
     }
 
     /// Procedural intializer
-    ///
     /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)

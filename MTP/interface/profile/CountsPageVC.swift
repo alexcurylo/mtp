@@ -8,8 +8,8 @@ import Parchment
 /// Base class for displaying visit counts
 class CountsPageVC: UIViewController {
 
-    /// List displayed
-    let list: Checklist
+    // Overridable
+
     /// Whether counts are editable
     var isEditable: Bool { return false }
     /// Places to display
@@ -17,25 +17,12 @@ class CountsPageVC: UIViewController {
     /// Places that have been visited
     var visited: [Int] { return [] }
 
-    private let infoSection = 0
-    private var showsInfo: Bool { return isEditable }
+    // Available to subclasses
 
-    private enum Layout {
-        static let headerHeight = CGFloat(25)
-        static let unHeaderHeight = CGFloat(40)
-        static let hotelHeaderHeight = CGFloat(52)
-        static let lineHeight = CGFloat(32)
-        static let margin = CGFloat(8)
-        static let collectionInsets = UIEdgeInsets(top: margin,
-                                                   left: margin,
-                                                   bottom: 0,
-                                                   right: 0)
-        static let sectionInsets = UIEdgeInsets(top: 0,
-                                                left: 0,
-                                                bottom: margin,
-                                                right: 0)
-        static let cellSpacing = CGFloat(0)
-    }
+    /// List displayed
+    let checklist: Checklist
+    /// Current hierarchy of list
+    var hierarchy: Hierarchy
 
     /// Container of count items
     let collectionView: UICollectionView = {
@@ -66,6 +53,26 @@ class CountsPageVC: UIViewController {
         return collectionView
     }()
 
+    private let infoSection = 0
+    private var showsInfo: Bool { return isEditable }
+
+    private enum Layout {
+        static let headerHeight = CGFloat(25)
+        static let unHeaderHeight = CGFloat(40)
+        static let hotelHeaderHeight = CGFloat(52)
+        static let lineHeight = CGFloat(32)
+        static let margin = CGFloat(8)
+        static let collectionInsets = UIEdgeInsets(top: margin,
+                                                   left: margin,
+                                                   bottom: 0,
+                                                   right: 0)
+        static let sectionInsets = UIEdgeInsets(top: 0,
+                                                left: 0,
+                                                bottom: margin,
+                                                right: 0)
+        static let cellSpacing = CGFloat(0)
+    }
+
     private typealias RegionKey = String
     private typealias CountryKey = String
     private typealias ParentKey = Int
@@ -88,7 +95,8 @@ class CountsPageVC: UIViewController {
     /// Construction by injection
     /// - Parameter model: Injected model
     init(model: Checklist) {
-        list = model
+        checklist = model
+        hierarchy = model.hierarchy
         super.init(nibName: nil, bundle: nil)
 
         configure()
@@ -119,6 +127,7 @@ class CountsPageVC: UIViewController {
 
     /// Update UI state
     func update() {
+        hierarchy = checklist.hierarchy
         count(places: places, visited: visited)
         collectionView.reloadData()
     }
@@ -143,7 +152,7 @@ extension CountsPageVC: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         referenceSizeForHeaderInSection section: Int) -> CGSize {
         let height: CGFloat
-        switch (section, showsInfo, list) {
+        switch (section, showsInfo, checklist) {
         case (infoSection, true, .uncountries):
             height = Layout.unHeaderHeight
         case (infoSection, true, .hotels):
@@ -297,7 +306,7 @@ private extension CountsPageVC {
             for: indexPath)
 
         if let header = view as? CountInfoHeader {
-             header.inject(list: list)
+             header.inject(list: checklist)
         }
 
         return view
@@ -315,8 +324,8 @@ private extension CountsPageVC {
             let region = regions[modelPath.section]
 
             let count: Int
-            switch list {
-            case .whss:
+            switch hierarchy {
+            case .regionCountryWhs:
                 let parents = countriesPlaces[region]?.values.flatMap { $0 }.map { $0.placeId }
                 count = Set<Int>(parents ?? []).count
             default:
@@ -349,15 +358,19 @@ private extension CountsPageVC {
         switch cell {
         case let counter as CountCellItem:
             guard let item = cellModel.item else { break }
+            let subtitle = hierarchy.isSubtitled ? item.place.placeCountry : ""
+            let combined = hierarchy.isCombined &&
+                           item.place.placeIsCountry &&
+                           !item.isChild
             let model = CountItemModel(
                 title: item.place.placeTitle,
-                subtitle: list.isSubtitled ? item.place.placeCountry : "",
-                list: list,
+                subtitle: subtitle,
+                list: checklist,
                 id: item.place.placeId,
                 parentId: item.place.placeParent?.placeId,
                 isVisitable: isEditable,
                 isLast: isLast,
-                isCombined: list == .locations && item.place.placeIsCountry && !item.isChild,
+                isCombined: combined,
                 path: viewPath
             )
             counter.inject(model: model)
@@ -390,8 +403,11 @@ private extension CountsPageVC {
                 return 0
         }
 
-        switch list {
-        case .whss:
+        switch hierarchy {
+        case .region,
+             .regionSubtitled:
+            return regionPlaces.count
+        case .regionCountryWhs:
             let regionCountries = countries[region] ?? []
             var regionParents = 0
             var regionChildren = 0
@@ -406,7 +422,8 @@ private extension CountsPageVC {
                 regionChildren += families.values.reduce(0) { $0 + $1.count }
             }
             return regionCountries.count + regionParents + regionChildren
-        case .locations:
+        case .regionCountry,
+             .regionCountryCombined:
             let regionCountries = countries[region] ?? []
             var regionChildren = 0
             for country in regionCountries {
@@ -421,21 +438,27 @@ private extension CountsPageVC {
                 regionChildren += countryPlaces.count
             }
             return regionCountries.count + regionChildren
-        default:
-            return regionPlaces.count
         }
     }
 
     func model(of indexPath: IndexPath) -> CellModel {
-        switch list {
-        case .whss:
+        switch hierarchy {
+        case .regionCountryWhs:
             return childrenModel(of: indexPath)
-        case .locations:
+        case .regionCountry,
+             .regionCountryCombined:
             return countryModel(of: indexPath)
-        default:
-            let regionPlaces = regionsPlaces[regions[indexPath.section]] ?? []
-            return (CountCellItem.reuseIdentifier, (regionPlaces[indexPath.row], false), nil)
+        case .region,
+             .regionSubtitled:
+            return regionModel(of: indexPath)
         }
+    }
+
+    func regionModel(of indexPath: IndexPath) -> CellModel {
+        let regionPlaces = regionsPlaces[regions[indexPath.section]] ?? []
+        return (CountCellItem.reuseIdentifier,
+                (regionPlaces[indexPath.row], false),
+                nil)
     }
 
     func childrenModel(of indexPath: IndexPath) -> CellModel {
@@ -534,8 +557,6 @@ private extension CountsPageVC {
     func count(region: String,
                places: [PlaceInfo],
                visited: [Int]) {
-        let groupCountries = !list.isSubtitled
-
         let regionPlaces = places.sorted {
             $0.placeTitle.uppercased() < $1.placeTitle.uppercased()
         }
@@ -547,7 +568,7 @@ private extension CountsPageVC {
         }
         regionsVisited[region] = regionVisited
 
-        guard groupCountries else { return }
+        guard hierarchy.isGroupingByCountry else { return }
 
         let childPlaces = Dictionary(grouping: regionPlaces) { $0.placeCountry }
         let (parentPlaces, parentFamilies) = groupChildren(countries: childPlaces)
@@ -568,7 +589,15 @@ private extension CountsPageVC {
     }
 
     private func groupChildren(countries: CountryPlaces) -> (CountryPlaces, CountryFamilies?) {
-        guard list == .whss else { return (countries, nil) }
+        switch hierarchy {
+        case .regionCountry,
+             .regionCountryWhs:
+            break
+        case .region,
+             .regionCountryCombined,
+             .regionSubtitled:
+            return (countries, nil)
+        }
 
         var parentPlaces: CountryPlaces = [:]
         var parentFamilies: CountryFamilies = [:]

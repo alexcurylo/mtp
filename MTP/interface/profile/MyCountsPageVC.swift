@@ -52,7 +52,7 @@ final class MyCountsPageVC: CountsPageVC {
     override func observe() {
         super.observe()
 
-        placesObserver = list.observer { [weak self] _ in
+        placesObserver = checklist.observer { [weak self] _ in
             self?.update()
         }
 
@@ -61,7 +61,7 @@ final class MyCountsPageVC: CountsPageVC {
         visitedObserver = data.observer(of: .visited) { [weak self] _ in
             guard let self = self else { return }
 
-            self.listVisited = self.list.visited
+            self.listVisited = self.checklist.visited
             self.update()
         }
     }

@@ -61,7 +61,7 @@ final class UserCountsPageVC: CountsPageVC {
     override func update() {
         super.update()
 
-        status = list.visitStatus(of: user)
+        status = checklist.visitStatus(of: user)
         title = tab.title(status: status)
 
         let state: ContentState
@@ -92,7 +92,7 @@ private extension UserCountsPageVC {
         }
 
         let showVisited = tab == .visited
-        let places = list.places
+        let places = checklist.places
         guard !listVisited.isEmpty else {
             listPlaces = showVisited ? [] : places
             return

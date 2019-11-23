@@ -25,7 +25,6 @@ struct Checked: Codable, Equatable, ServiceProvider {
     var whss: [Int] = []
 
     /// Index by checklist
-    ///
     /// - Parameter list: Checklist
     subscript(list: Checklist) -> [Int] {
         switch list {
@@ -49,7 +48,6 @@ struct Checked: Codable, Equatable, ServiceProvider {
     }
 
     /// Set visited status
-    ///
     /// - Parameters:
     ///   - item: Item to set
     ///   - visited: Status to set
