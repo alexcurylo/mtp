@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- Hotels now sorted by region>country or brand/region/country
+- Restaurants now sorted by region>country>location
+
 ## [Version 1.2.0, Build 649] - 2019-11-21
 
 ### Fixed

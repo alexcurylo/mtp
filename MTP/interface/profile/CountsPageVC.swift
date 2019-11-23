@@ -78,8 +78,7 @@ class CountsPageVC: UIViewController {
         checklist = model
         super.init(nibName: nil, bundle: nil)
 
-        viewModel = RegionCountryViewModel(checklist: model,
-                                           isEditable: isEditable)
+        build()
         configure()
     }
 
@@ -108,7 +107,9 @@ class CountsPageVC: UIViewController {
 
     /// Update UI state
     func update() {
-        viewModel.hierarchy = checklist.hierarchy
+        if viewModel.hierarchy != checklist.hierarchy {
+            build()
+        }
         viewModel.sort(places: places, visited: visited)
         collectionView.reloadData()
     }
@@ -259,6 +260,12 @@ extension CountsPageVC: CountCellGroupDelegate {
 // MARK: - Private
 
 private extension CountsPageVC {
+
+    func build() {
+        let builder = CountsViewModelBuilder(checklist: checklist,
+                                             isEditable: isEditable)
+        viewModel = builder.build()
+    }
 
     func infoHeader(at indexPath: IndexPath) -> UICollectionReusableView {
         let view = collectionView.dequeueReusableSupplementaryView(

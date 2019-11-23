@@ -575,6 +575,8 @@
 		FAD2B51821F48AB8009FFDD7 /* PlaceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51721F48AB8009FFDD7 /* PlaceInfo.swift */; };
 		FAD2B51A21F492B3009FFDD7 /* UncertainValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51921F492B3009FFDD7 /* UncertainValue.swift */; };
 		FAD2B51C21F4A675009FFDD7 /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51B21F4A675009FFDD7 /* Restaurant.swift */; };
+		FAD395702389402A000633DC /* CountsTwoLevelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3956F2389402A000633DC /* CountsTwoLevelViewModel.swift */; };
+		FAD3957223894D30000633DC /* CountsThreeLevelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3957123894D30000633DC /* CountsThreeLevelViewModel.swift */; };
 		FADC1ABA2144FAD70011EE49 /* Date+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */; };
 		FADC1ABE2145E9760011EE49 /* ProfilePhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADC1ABD2145E9760011EE49 /* ProfilePhotosVC.swift */; };
 		FAE1F117213BFBA80002CAB2 /* Locations.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAE1F115213BFBA80002CAB2 /* Locations.storyboard */; };
@@ -1152,6 +1154,8 @@
 		FAD2B51721F48AB8009FFDD7 /* PlaceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfo.swift; sourceTree = "<group>"; };
 		FAD2B51921F492B3009FFDD7 /* UncertainValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UncertainValue.swift; sourceTree = "<group>"; };
 		FAD2B51B21F4A675009FFDD7 /* Restaurant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
+		FAD3956F2389402A000633DC /* CountsTwoLevelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountsTwoLevelViewModel.swift; sourceTree = "<group>"; };
+		FAD3957123894D30000633DC /* CountsThreeLevelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountsThreeLevelViewModel.swift; sourceTree = "<group>"; };
 		FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Formatting.swift"; sourceTree = "<group>"; };
 		FADC1ABD2145E9760011EE49 /* ProfilePhotosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePhotosVC.swift; sourceTree = "<group>"; };
 		FAE1F116213BFBA80002CAB2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Locations.storyboard; sourceTree = "<group>"; };
@@ -2112,6 +2116,8 @@
 				FA5AC0C621FDD8AA0080F84F /* CountCellItem.swift */,
 				FAC9057222CB8E9A001296DE /* CountInfoHeader.swift */,
 				FA5AC0C421FDD7C00080F84F /* CountSectionHeader.swift */,
+				FAD3957123894D30000633DC /* CountsThreeLevelViewModel.swift */,
+				FAD3956F2389402A000633DC /* CountsTwoLevelViewModel.swift */,
 				FA5FEA7E238911F0008C319F /* CountsViewModel.swift */,
 				FA62BAEA2247A9A0009FDC4E /* CountsPageVC.swift */,
 				FA46377F210DE94C0007382D /* EditProfileVC.swift */,
@@ -2966,6 +2972,7 @@
 				8C8DC74D22AF4343002EA1CD /* FaqJSON.swift in Sources */,
 				FA1663B122E3354C0075DA1A /* HTTPURLResponse+Headers.swift in Sources */,
 				8C522F4E2339A6290056D0CE /* Media.swift in Sources */,
+				FAD395702389402A000633DC /* CountsTwoLevelViewModel.swift in Sources */,
 				8CF778E7232B13780070253A /* NetworkServiceObserver.swift in Sources */,
 				FA5AC0BF21FDCB9D0080F84F /* MyCountsPagingVC.swift in Sources */,
 				8C522F3B2339A6290056D0CE /* TopicsViewController.swift in Sources */,
@@ -3057,6 +3064,7 @@
 				8CDC4D54230A301400AA422D /* UIKeyboard.swift in Sources */,
 				8C7D71E12303DA98005939AC /* UILocationPaging.swift in Sources */,
 				FAFEDA522129602800DA3DB8 /* WelcomeVC.swift in Sources */,
+				FAD3957223894D30000633DC /* CountsThreeLevelViewModel.swift in Sources */,
 				8C522F502339A6290056D0CE /* BodyItem.swift in Sources */,
 				8C3EAB8C2231100400CB4886 /* Array+Type.swift in Sources */,
 				FA03459D2304CC3000632322 /* UIProfileAbout.swift in Sources */,
