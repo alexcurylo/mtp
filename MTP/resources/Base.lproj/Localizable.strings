@@ -141,6 +141,7 @@
 "meters" = "%@ m";
 "away" = "%@ away";
 
+"myLocation" = "My Location";
 "visited" = "Visited";
 "notVisited" = "Not Visited";
 "directions" = "Directions";

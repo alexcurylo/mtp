@@ -170,10 +170,18 @@ extension LocationsVC: Mapper {
     /// Show Directions selector
     /// - Parameter mappable: Place
     func show(directions mappable: Mappable) {
+        let origin: Karte.Location?
+        if let current = loc.current {
+            origin = Karte.Location(name: L.myLocation(),
+                                    coordinate: current)
+        } else {
+            origin = nil
+        }
         let destination = Karte.Location(name: mappable.title,
                                          coordinate: mappable.coordinate)
         let isPhone = UIDevice.current.userInterfaceIdiom == .phone
-        let alert = Karte.createPicker(destination: destination,
+        let alert = Karte.createPicker(origin: origin,
+                                       destination: destination,
                                        title: L.directions(),
                                        style: isPhone ? .actionSheet : .alert)
         present(alert, animated: true, completion: nil)
