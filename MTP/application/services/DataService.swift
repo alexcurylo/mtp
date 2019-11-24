@@ -504,9 +504,7 @@ class DataServiceImpl: DataService {
     /// Group hotels by brand?
     var hotelsGroupBrand: Bool {
         get { return defaults.hotelsGroupBrand }
-        set {
-            defaults.hotelsGroupBrand = newValue
-        }
+        set { defaults.hotelsGroupBrand = newValue }
     }
 
     /// Set hotels
@@ -1101,6 +1099,7 @@ final class DataServiceStub: DataServiceImpl {
         blockedPosts = []
         blockedUsers = []
         email = ""
+        hotelsGroupBrand = false
     }
 }
 

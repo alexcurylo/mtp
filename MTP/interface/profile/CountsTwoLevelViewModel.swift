@@ -5,21 +5,18 @@ struct CountsTwoLevelViewModel: CountsViewModel {
 
     /// :nodoc:
     var hierarchy: Hierarchy
-
     /// :nodoc:
     var sectionCount: Int { return regions.count }
-
     private let checklist: Checklist
     private let isEditable: Bool
 
-    private typealias RegionKey = String
-    private typealias CountryKey = String
-    private typealias CountryPlaces = [CountryKey: [PlaceInfo]]
-    private typealias CountryVisits = [CountryKey: Int]
-    private typealias CountryExpanded = [CountryKey: Bool]
-    private typealias ParentKey = Int
-    private typealias CountryFamilies = [CountryKey: [ParentKey: [PlaceInfo]]]
-
+    fileprivate typealias RegionKey = String
+    fileprivate typealias CountryKey = String
+    fileprivate typealias CountryPlaces = [CountryKey: [PlaceInfo]]
+    fileprivate typealias CountryVisits = [CountryKey: Int]
+    fileprivate typealias CountryExpanded = [CountryKey: Bool]
+    fileprivate typealias ParentKey = Int
+    fileprivate typealias CountryFamilies = [CountryKey: [ParentKey: [PlaceInfo]]]
     private var regions: [RegionKey] = []
     private var regionsPlaces: [RegionKey: [PlaceInfo]] = [:]
     private var regionsVisited: [RegionKey: Int] = [:]
@@ -42,8 +39,8 @@ struct CountsTwoLevelViewModel: CountsViewModel {
     }
 
     /// :nodoc:
-    func itemCount(section: Int) -> Int {
-        let region = regions[section]
+    func itemCount(section index: Int) -> Int {
+        let region = regions[index]
         guard let isExpanded = regionsExpanded[region],
             isExpanded == true,
             let regionPlaces = regionsPlaces[region] else {
@@ -85,15 +82,14 @@ struct CountsTwoLevelViewModel: CountsViewModel {
                 regionChildren += countryPlaces.count
             }
             return regionCountries.count + regionChildren
-        case .brandRegionCountry,
-             .regionCountryLocation:
+        default:
             fatalError("incorrect 2 level model: \(hierarchy)")
         }
     }
 
     /// :nodoc:
-    func header(model section: Int) -> CountSectionModel {
-        let region = regions[section]
+    func header(section index: Int) -> CountSectionModel {
+        let region = regions[index]
 
         let count: Int
         switch hierarchy {
@@ -104,14 +100,12 @@ struct CountsTwoLevelViewModel: CountsViewModel {
             count = regionsPlaces[region]?.count ?? 0
         }
 
-        let model = CountSectionModel(
-            region: region,
+        return CountSectionModel(
+            section: region,
             visited: isEditable ? regionsVisited[region, default: 0] : nil,
             count: count,
             isExpanded: regionsExpanded[region, default: false]
         )
-
-        return model
     }
 
     /// :nodoc:
@@ -125,8 +119,7 @@ struct CountsTwoLevelViewModel: CountsViewModel {
         case .region,
              .regionSubtitled:
             return regionInfo(path: path)
-        case .brandRegionCountry,
-             .regionCountryLocation:
+        default:
             fatalError("incorrect 2 level model: \(hierarchy)")
         }
     }
@@ -150,7 +143,8 @@ struct CountsTwoLevelViewModel: CountsViewModel {
     }
 
     /// :nodoc:
-    mutating func toggle(region: String) {
+    mutating func toggle(section: String) {
+        let region = section
         if let isExpanded = regionsExpanded[region],
            isExpanded == true {
             regionsExpanded[region] = false
@@ -161,8 +155,10 @@ struct CountsTwoLevelViewModel: CountsViewModel {
     }
 
     /// :nodoc:
-    mutating func toggle(region: String,
-                         country: String) {
+    mutating func toggle(section: String,
+                         group: String) {
+        let region = section
+        let country = group
         var expanded = countriesExpanded[region] ?? [:]
         if let isExpanded = expanded[country],
            isExpanded == true {
@@ -172,6 +168,11 @@ struct CountsTwoLevelViewModel: CountsViewModel {
         }
         countriesExpanded[region] = expanded
     }
+
+    /// :nodoc:
+    mutating func toggle(section: String,
+                         group: String,
+                         subgroup: String) { }
 }
 
 // MARK: - Private
@@ -180,8 +181,7 @@ private extension CountsTwoLevelViewModel {
 
     func isLast(path: IndexPath) -> Bool {
         let count = itemCount(section: path.section)
-        let isLast = path.row == count - 1
-        return isLast
+        return path.row == count - 1
     }
 
     func groupInfo(path: IndexPath,
@@ -191,8 +191,9 @@ private extension CountsTwoLevelViewModel {
                    visited: Int) -> CellInfo {
         let expanded = countriesExpanded[region]?[country] ?? false
         let model = CountGroupModel(
-            region: region,
-            country: country,
+            section: region,
+            group: country,
+            subgroup: nil,
             visited: isEditable ? visited : nil,
             count: count,
             disclose: expanded ? .close : .expand,
@@ -207,15 +208,13 @@ private extension CountsTwoLevelViewModel {
                   place: PlaceInfo,
                   isChild: Bool) -> CellInfo {
         let subtitle = hierarchy.isSubtitled ? place.placeCountry : ""
-        let combined = hierarchy.isCombined &&
-                       place.placeIsCountry &&
-                       !isChild
+        let combined = hierarchy.isCombined && place.placeIsCountry && !isChild
         let model = CountItemModel(
             title: place.placeTitle,
             subtitle: subtitle,
             list: checklist,
             id: place.placeId,
-            parentId: place.placeParent?.placeId,
+            depth: place.placeParent == nil ? 0 : 1,
             isVisitable: isEditable,
             isLast: isLast(path: path),
             isCombined: combined,
@@ -305,9 +304,7 @@ private extension CountsTwoLevelViewModel {
             countdown -= 1
 
             guard let isExpanded = countriesExpanded[region]?[country],
-                isExpanded == true else {
-                    continue
-            }
+                  isExpanded == true else { continue }
 
             for place in countryPlaces {
                 if countdown == 0 {
@@ -356,7 +353,7 @@ private extension CountsTwoLevelViewModel {
         countriesVisited[region] = countryVisits
     }
 
-    private func groupChildren(countries: CountryPlaces) -> (CountryPlaces, CountryFamilies?) {
+    func groupChildren(countries: CountryPlaces) -> (CountryPlaces, CountryFamilies?) {
         switch hierarchy {
         case .regionCountry,
              .regionCountryWhs:
@@ -365,8 +362,7 @@ private extension CountsTwoLevelViewModel {
              .regionCountryCombined,
              .regionSubtitled:
             return (countries, nil)
-        case .brandRegionCountry,
-             .regionCountryLocation:
+        default:
             fatalError("incorrect 2 level model: \(hierarchy)")
         }
 

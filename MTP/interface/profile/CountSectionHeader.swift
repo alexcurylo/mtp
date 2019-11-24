@@ -5,16 +5,16 @@ import Anchorage
 /// Notify of display state changes
 protocol CountSectionHeaderDelegate: AnyObject {
 
-    /// Toggle expanded state of region
-    /// - Parameter region: Region
-    func toggle(region: String)
+    /// Toggle expanded state of section
+    /// - Parameter section: Name
+    func toggle(section: String)
 }
 
 /// Display model for count section
 struct CountSectionModel {
 
-    /// Region
-    var region: String
+    /// Region or brand
+    var section: String
     /// Number visited
     var visited: Int?
     /// Number total
@@ -43,9 +43,9 @@ final class CountSectionHeader: UICollectionReusableView {
         disclosure.image = disclose.image
 
         if let visited = model.visited {
-            label.text = L.locationVisitedCount(model.region, visited, model.count)
+            label.text = L.locationVisitedCount(model.section, visited, model.count)
         } else {
-            label.text = L.locationCount(model.region, model.count)
+            label.text = L.locationCount(model.section, model.count)
         }
 
         let rounded: ViewCorners = model.isExpanded ? .top(radius: Layout.cornerRadius)
@@ -116,8 +116,8 @@ private extension CountSectionHeader {
     }
 
     @objc func tapped(_ sender: UIGestureRecognizer) {
-        if let region = model?.region {
-            delegate?.toggle(region: region)
+        if let section = model?.section {
+            delegate?.toggle(section: section)
         }
     }
 }

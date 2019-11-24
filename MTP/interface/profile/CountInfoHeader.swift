@@ -2,11 +2,22 @@
 
 import Anchorage
 
+/// Notify of display state changes
+protocol CountInfoHeaderDelegate: AnyObject {
+
+    /// Toggle grouping hierarchy between brand and region
+    /// - Parameter brand: Whether section header should be brand
+    func toggle(brand: Bool)
+}
+
 /// Counts information header
 final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
 
     /// Dequeueing identifier
     static let reuseIdentifier = NSStringFromClass(CountInfoHeader.self)
+
+    /// Delegate
+    weak var delegate: CountInfoHeaderDelegate?
 
     private enum Layout {
         static let spacing = (rank: CGFloat(8),
@@ -136,7 +147,7 @@ private extension CountInfoHeader {
 
     @objc func toggleBrand(_ sender: UISwitch) {
         data.hotelsGroupBrand = sender.isOn
-        print("\(data.hotelsGroupBrand)")
+        delegate?.toggle(brand: sender.isOn)
     }
 
     func update() {

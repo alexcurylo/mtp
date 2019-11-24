@@ -4,7 +4,7 @@
 enum UICountsPage: Exposable {
 
     /// Counts section header
-    case region(Section)
+    case section(Section)
     /// Expandable cell under header
     case group(Section, Row)
     /// Not expandable cell under header

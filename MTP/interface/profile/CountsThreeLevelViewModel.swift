@@ -5,30 +5,33 @@ struct CountsThreeLevelViewModel: CountsViewModel {
 
     /// :nodoc:
     let hierarchy: Hierarchy
-
     /// :nodoc:
-    var sectionCount: Int { return regions.count }
-
+    var sectionCount: Int { return sections.count }
     private let checklist: Checklist
     private let isEditable: Bool
 
-    private typealias RegionKey = String
-    private typealias CountryKey = String
-    private typealias CountryPlaces = [CountryKey: [PlaceInfo]]
-    private typealias CountryVisits = [CountryKey: Int]
-    private typealias CountryExpanded = [CountryKey: Bool]
-    private typealias ParentKey = Int
-    private typealias CountryFamilies = [CountryKey: [ParentKey: [PlaceInfo]]]
+    fileprivate typealias SectionKey = String
+    fileprivate typealias GroupKey = String
+    fileprivate typealias SubgroupKey = String
+    fileprivate typealias GroupPlaces = [GroupKey: [PlaceInfo]]
+    fileprivate typealias GroupVisits = [GroupKey: Int]
+    fileprivate typealias GroupExpanded = [GroupKey: Bool]
+    fileprivate typealias SubgroupPlaces = [SubgroupKey: [PlaceInfo]]
+    fileprivate typealias SubgroupVisits = [SubgroupKey: Int]
+    fileprivate typealias SubgroupExpanded = [SubgroupKey: Bool]
 
-    private var regions: [RegionKey] = []
-    private var regionsPlaces: [RegionKey: [PlaceInfo]] = [:]
-    private var regionsVisited: [RegionKey: Int] = [:]
-    private var regionsExpanded: [RegionKey: Bool] = [:]
-    private var countries: [RegionKey: [CountryKey]] = [:]
-    private var countriesPlaces: [RegionKey: CountryPlaces] = [:]
-    private var countriesVisited: [RegionKey: CountryVisits] = [:]
-    private var countriesExpanded: [RegionKey: CountryExpanded] = [:]
-    private var countriesFamilies: [RegionKey: CountryFamilies] = [:]
+    private var sections: [SectionKey] = []
+    private var sectionsPlaces: [SectionKey: [PlaceInfo]] = [:]
+    private var sectionsVisited: [SectionKey: Int] = [:]
+    private var sectionsExpanded: [SectionKey: Bool] = [:]
+    private var groups: [SectionKey: [GroupKey]] = [:]
+    private var groupsPlaces: [SectionKey: GroupPlaces] = [:]
+    private var groupsVisited: [SectionKey: GroupVisits] = [:]
+    private var groupsExpanded: [SectionKey: GroupExpanded] = [:]
+    private var subgroups: [SectionKey: [GroupKey: [SubgroupKey]]] = [:]
+    private var subgroupsPlaces: [SectionKey: [GroupKey: SubgroupPlaces]] = [:]
+    private var subgroupsVisited: [SectionKey: [GroupKey: SubgroupVisits]] = [:]
+    private var subgroupsExpanded: [SectionKey: [GroupKey: SubgroupExpanded]] = [:]
 
     /// Intialize with parameters
     /// - Parameters:
@@ -42,137 +45,183 @@ struct CountsThreeLevelViewModel: CountsViewModel {
     }
 
     /// :nodoc:
-    func itemCount(section: Int) -> Int {
-        let region = regions[section]
-        guard let isExpanded = regionsExpanded[region],
-            isExpanded == true,
-            let regionPlaces = regionsPlaces[region] else {
-                return 0
+    func itemCount(section index: Int) -> Int {
+        let section = sections[index]
+        guard let isExpanded = sectionsExpanded[section],
+              isExpanded == true,
+              let sectionGroups = groups[section] else { return 0 }
+
+        var total = 0
+        for group in sectionGroups {
+            total += 1
+            guard let isExpanded = groupsExpanded[section]?[group],
+                  isExpanded == true,
+                  let groupSubgroups = subgroups[section]?[group] else {
+                    continue
+            }
+
+            for subgroup in groupSubgroups {
+                if !isCombined(section: section, group: group) {
+                    total += 1
+                }
+                guard let isExpanded = subgroupsExpanded[section]?[group]?[subgroup],
+                      isExpanded == true,
+                      let subgroupPlaces = subgroupsPlaces[section]?[group]?[subgroup] else {
+                        continue
+                }
+
+                total += subgroupPlaces.count
+            }
         }
 
-        switch hierarchy {
-        case .brandRegionCountry,
-             .regionCountryLocation:
-            //fatalError("incorrect 3 level model: \(hierarchy)")
-            fallthrough
-        case .region,
-             .regionSubtitled:
-            return regionPlaces.count
-        case .regionCountryWhs:
-            let regionCountries = countries[region] ?? []
-            var regionParents = 0
-            var regionChildren = 0
-            for country in regionCountries {
-                guard let isExpanded = countriesExpanded[region]?[country],
-                    isExpanded == true,
-                    let parents = countriesPlaces[region]?[country] else {
-                        continue
-                }
-                regionParents += parents.count
-                let families = countriesFamilies[region]?[country] ?? [:]
-                regionChildren += families.values.reduce(0) { $0 + $1.count }
-            }
-            return regionCountries.count + regionParents + regionChildren
-        case .regionCountry,
-             .regionCountryCombined:
-            let regionCountries = countries[region] ?? []
-            var regionChildren = 0
-            for country in regionCountries {
-                guard let isExpanded = countriesExpanded[region]?[country],
-                    isExpanded == true,
-                    let countryPlaces = countriesPlaces[region]?[country] else {
-                        continue
-                }
-                if let place = countryPlaces.first, place.placeIsCountry {
-                    continue
-                }
-                regionChildren += countryPlaces.count
-            }
-            return regionCountries.count + regionChildren
-        }
+        return total
     }
 
     /// :nodoc:
-    func header(model section: Int) -> CountSectionModel {
-        let region = regions[section]
-
-        let count: Int
-        switch hierarchy {
-        case .regionCountryWhs:
-            let parents = countriesPlaces[region]?.values.flatMap { $0 }.map { $0.placeId }
-            count = Set<Int>(parents ?? []).count
-        default:
-            count = regionsPlaces[region]?.count ?? 0
-        }
+    func header(section index: Int) -> CountSectionModel {
+        let section = sections[index]
+        let count = sectionsPlaces[section]?.count ?? 0
 
         let model = CountSectionModel(
-            region: region,
-            visited: isEditable ? regionsVisited[region, default: 0] : nil,
+            section: section,
+            visited: isEditable ? sectionsVisited[section, default: 0] : nil,
             count: count,
-            isExpanded: regionsExpanded[region, default: false]
+            isExpanded: sectionsExpanded[section, default: false]
         )
-
         return model
     }
 
     /// :nodoc:
     func cell(info path: IndexPath) -> CellInfo {
-        switch hierarchy {
-        case .regionCountryWhs:
-            return childrenInfo(path: path)
-        case .regionCountry,
-             .regionCountryCombined:
-            return countryInfo(path: path)
-        case .brandRegionCountry,
-             .regionCountryLocation:
-            //fatalError("incorrect 3 level model: \(hierarchy)")
-            fallthrough
-        case .region,
-             .regionSubtitled:
-            return regionInfo(path: path)
+        let section = sections[path.section]
+        var countdown = path.row
+
+        let sectionGroups = groups[section] ?? []
+        for group in sectionGroups {
+            if countdown == 0 {
+                let groupPlaces = groupsPlaces[section]?[group] ?? []
+                let visited = groupsVisited[section]?[group] ?? 0
+                return groupInfo(path: path,
+                                 section: section,
+                                 group: group,
+                                 subgroup: nil,
+                                 count: groupPlaces.count,
+                                 visited: visited)
+            }
+            countdown -= 1
+
+            guard let isExpanded = groupsExpanded[section]?[group],
+                  isExpanded == true else { continue }
+
+            let groupSubgroups = subgroups[section]?[group] ?? []
+            for subgroup in groupSubgroups {
+                let subgroupPlaces = subgroupsPlaces[section]?[group]?[subgroup] ?? []
+                if !isCombined(section: section, group: group) {
+                    if countdown == 0 {
+                        let visited = subgroupsVisited[section]?[group]?[subgroup] ?? 0
+                        return groupInfo(path: path,
+                                         section: section,
+                                         group: group,
+                                         subgroup: subgroup,
+                                         count: subgroupPlaces.count,
+                                         visited: visited)
+                    }
+                    countdown -= 1
+                }
+
+                guard let isExpanded = subgroupsExpanded[section]?[group]?[subgroup],
+                      isExpanded == true else { continue }
+
+                for place in subgroupPlaces {
+                    if countdown == 0 {
+                        return itemInfo(path: path,
+                                        place: place)
+                    }
+                    countdown -= 1
+                }
+            }
         }
+
+        fatalError("Failed to find cell info: \(path)")
     }
 
     /// :nodoc:
     mutating func sort(places: [PlaceInfo],
                        visited: [Int]) {
-        regionsVisited = [:]
-        countries = [:]
-        countriesPlaces = [:]
-        countriesFamilies = [:]
-        countriesVisited = [:]
+        sectionsVisited = [:]
+        groups = [:]
+        groupsPlaces = [:]
+        groupsVisited = [:]
+        subgroups = [:]
+        subgroupsPlaces = [:]
+        subgroupsVisited = [:]
 
-        regionsPlaces = Dictionary(grouping: places) { $0.placeRegion }
-        regions = regionsPlaces.keys.filter { $0 != Location.all.placeRegion }.sorted()
-        for (region, places) in regionsPlaces {
-            sort(region: region,
+        switch hierarchy {
+        case .regionCountryLocation:
+            sectionsPlaces = Dictionary(grouping: places) { $0.placeRegion }
+        case .brandRegionCountry:
+            sectionsPlaces = Dictionary(grouping: places) {
+                ($0 as? Hotel)?.brandName ?? L.unknown()
+            }
+        default:
+            fatalError("incorrect 3 level model: \(hierarchy)")
+        }
+
+        sections = sectionsPlaces.keys.sorted()
+        for (section, places) in sectionsPlaces {
+            sort(section: section,
                  places: places,
                  visited: visited)
         }
     }
 
     /// :nodoc:
-    mutating func toggle(region: String) {
-        if let isExpanded = regionsExpanded[region],
+    mutating func toggle(section: String) {
+        if let isExpanded = sectionsExpanded[section],
            isExpanded == true {
-            regionsExpanded[region] = false
-            countriesExpanded[region] = nil
+            sectionsExpanded[section] = false
+            groupsExpanded[section] = nil
+            subgroupsExpanded[section] = nil
         } else {
-            regionsExpanded[region] = true
+            sectionsExpanded[section] = true
         }
     }
 
     /// :nodoc:
-    mutating func toggle(region: String,
-                         country: String) {
-        var expanded = countriesExpanded[region] ?? [:]
-        if let isExpanded = expanded[country],
+    mutating func toggle(section: String,
+                         group: String) {
+        var expanded = groupsExpanded[section] ?? [:]
+        if let isExpanded = expanded[group],
            isExpanded == true {
-            expanded[country] = nil
+            expanded[group] = nil
+            subgroupsExpanded[section]?[group] = nil
         } else {
-            expanded[country] = true
+            expanded[group] = true
+            if isCombined(section: section, group: group) {
+                if subgroupsExpanded[section] == nil {
+                    subgroupsExpanded[section] = [:]
+                }
+                subgroupsExpanded[section]?[group] = [group: true]
+            }
         }
-        countriesExpanded[region] = expanded
+        groupsExpanded[section] = expanded
+    }
+
+    /// :nodoc:
+    mutating func toggle(section: String,
+                         group: String,
+                         subgroup: String) {
+        if subgroupsExpanded[section] == nil {
+            subgroupsExpanded[section] = [:]
+        }
+        var expanded = subgroupsExpanded[section]?[group] ?? [:]
+        if let isExpanded = expanded[subgroup],
+           isExpanded == true {
+            expanded[subgroup] = nil
+        } else {
+            expanded[subgroup] = true
+        }
+        subgroupsExpanded[section]?[group] = expanded
     }
 }
 
@@ -180,21 +229,34 @@ struct CountsThreeLevelViewModel: CountsViewModel {
 
 private extension CountsThreeLevelViewModel {
 
+    func isCombined(section: SectionKey,
+                    group: GroupKey) -> Bool {
+        guard let groupSubgroups = subgroups[section]?[group],
+              groupSubgroups.count == 1 else { return false }
+        return group == groupSubgroups.first
+    }
+
     func isLast(path: IndexPath) -> Bool {
         let count = itemCount(section: path.section)
-        let isLast = path.row == count - 1
-        return isLast
+        return path.row == count - 1
     }
 
     func groupInfo(path: IndexPath,
-                   region: String,
-                   country: String,
+                   section: SectionKey,
+                   group: GroupKey,
+                   subgroup: SubgroupKey?,
                    count: Int,
                    visited: Int) -> CellInfo {
-        let expanded = countriesExpanded[region]?[country] ?? false
+        let expanded: Bool
+        if let subgroup = subgroup {
+            expanded = subgroupsExpanded[section]?[group]?[subgroup] ?? false
+        } else {
+            expanded = groupsExpanded[section]?[group] ?? false
+        }
         let model = CountGroupModel(
-            region: region,
-            country: country,
+            section: section,
+            group: group,
+            subgroup: subgroup,
             visited: isEditable ? visited : nil,
             count: count,
             disclose: expanded ? .close : .expand,
@@ -206,194 +268,97 @@ private extension CountsThreeLevelViewModel {
     }
 
     func itemInfo(path: IndexPath,
-                  place: PlaceInfo,
-                  isChild: Bool) -> CellInfo {
-        let subtitle = hierarchy.isSubtitled ? place.placeCountry : ""
-        let combined = hierarchy.isCombined &&
-                       place.placeIsCountry &&
-                       !isChild
+                  place: PlaceInfo) -> CellInfo {
         let model = CountItemModel(
             title: place.placeTitle,
-            subtitle: subtitle,
+            subtitle: "",
             list: checklist,
             id: place.placeId,
-            parentId: place.placeParent?.placeId,
+            depth: 2,
             isVisitable: isEditable,
             isLast: isLast(path: path),
-            isCombined: combined,
+            isCombined: false,
             path: path
         )
         return (identifier: CountCellItem.reuseIdentifier,
                 model: model)
     }
 
-    func regionInfo(path: IndexPath) -> CellInfo {
-        let regionPlaces = regionsPlaces[regions[path.section]] ?? []
-        return itemInfo(path: path,
-                        place: regionPlaces[path.row],
-                        isChild: false)
-    }
-
-    func childrenInfo(path: IndexPath) -> CellInfo {
-        let region = regions[path.section]
-        var countdown = path.row
-
-        let regionCountries = countries[region] ?? []
-        for country in regionCountries {
-            let countryParents = countriesPlaces[region]?[country] ?? []
-            let countryChildren = countriesFamilies[region]?[country] ?? [:]
-            if countdown == 0 {
-                let visited = countriesVisited[region]?[country] ?? 0
-                return groupInfo(path: path,
-                                 region: region,
-                                 country: country,
-                                 count: countryParents.count,
-                                 visited: visited)
-            }
-            countdown -= 1
-
-            guard let isExpanded = countriesExpanded[region]?[country],
-                isExpanded == true else {
-                    continue
-            }
-
-            for place in countryParents {
-                if countdown == 0 {
-                    return itemInfo(path: path,
-                                    place: place,
-                                    isChild: false)
-                }
-                countdown -= 1
-
-                let placeChildren = countryChildren[place.placeId] ?? []
-                for child in placeChildren {
-                    if countdown == 0 {
-                        return itemInfo(path: path,
-                                        place: child,
-                                        isChild: true)
-                    }
-                    countdown -= 1
-                }
-            }
-        }
-
-        fatalError("Failed to find childrenInfo \(path)")
-    }
-
-    func countryInfo(path: IndexPath) -> CellInfo {
-        let region = regions[path.section]
-        var countdown = path.row
-
-        let regionCountries = countries[region] ?? []
-        for country in regionCountries {
-            let regionPlaces = countriesPlaces[region] ?? [:]
-            let countryPlaces = regionPlaces[country] ?? []
-            if countdown == 0 {
-                if countryPlaces.count == 1,
-                   let place = countryPlaces.first,
-                   place.placeIsCountry {
-                    return itemInfo(path: path,
-                                    place: place,
-                                    isChild: false)
-                }
-
-                let visited = countriesVisited[region]?[country] ?? 0
-                return groupInfo(path: path,
-                                 region: region,
-                                 country: country,
-                                 count: countryPlaces.count,
-                                 visited: visited)
-            }
-            countdown -= 1
-
-            guard let isExpanded = countriesExpanded[region]?[country],
-                isExpanded == true else {
-                    continue
-            }
-
-            for place in countryPlaces {
-                if countdown == 0 {
-                    return itemInfo(path: path,
-                                    place: place,
-                                    isChild: true)
-                }
-                countdown -= 1
-            }
-        }
-
-        fatalError("Failed to find childrenInfo \(path)")
-    }
-
-    mutating func sort(region: String,
+    mutating func sort(section: SectionKey,
                        places: [PlaceInfo],
                        visited: [Int]) {
-        let regionPlaces = places.sorted {
-            $0.placeTitle.uppercased() < $1.placeTitle.uppercased()
-        }
-        regionsPlaces[region] = regionPlaces
+        let sortedPlaces = places.sorted { $0.placeTitle < $1.placeTitle }
+        sectionsPlaces[section] = sortedPlaces
+        var sectionVisited = 0
 
-        let regionVisited = regionPlaces.reduce(0) {
-            let parentVisit = $1.placeParent == nil && visited.contains($1.placeId)
-            return $0 + (parentVisit ? 1 : 0)
-        }
-        regionsVisited[region] = regionVisited
+        subgroups[section] = [:]
+        subgroupsPlaces[section] = [:]
+        subgroupsVisited[section] = [:]
 
-        guard hierarchy.isGroupingByCountry else { return }
-
-        let childPlaces = Dictionary(grouping: regionPlaces) { $0.placeCountry }
-        let (parentPlaces, parentFamilies) = groupChildren(countries: childPlaces)
-        countriesPlaces[region] = parentPlaces
-        countriesFamilies[region] = parentFamilies
-        countries[region] = parentPlaces.keys.sorted {
-            $0.uppercased() < $1.uppercased()
+        let groupPlaces: GroupPlaces
+        switch hierarchy {
+        case .regionCountryLocation:
+            groupPlaces = Dictionary(grouping: sortedPlaces) { $0.placeCountry }
+        case .brandRegionCountry:
+            groupPlaces = Dictionary(grouping: sortedPlaces) { $0.placeRegion }
+        default:
+            fatalError("incorrect 3 level model: \(hierarchy)")
         }
-
-        var countryVisits: [CountryKey: Int] = [:]
-        for (country, subplaces) in parentPlaces {
-            let countryVisited = subplaces.reduce(0) {
-                $0 + (visited.contains($1.placeId) ? 1 : 0)
-            }
-            countryVisits[country] = countryVisited
+        groupsPlaces[section] = groupPlaces
+        groups[section] = groupPlaces.keys.sorted()
+        var groupVisits: GroupVisits = [:]
+        for (group, places) in groupPlaces {
+            let visits = sort(section: section,
+                              group: group,
+                              places: places,
+                              visited: visited)
+            groupVisits[group] = visits
+            sectionVisited += visits
         }
-        countriesVisited[region] = countryVisits
+        groupsVisited[section] = groupVisits
+        sectionsVisited[section] = sectionVisited
     }
 
-    private func groupChildren(countries: CountryPlaces) -> (CountryPlaces, CountryFamilies?) {
+    mutating func sort(section: SectionKey,
+                       group: GroupKey,
+                       places: [PlaceInfo],
+                       visited: [Int]) -> Int {
+        let sortedPlaces = places.sorted { $0.placeTitle < $1.placeTitle }
+        var groupVisited = 0
+
+        if subgroups[section] == nil {
+            subgroups[section] = [:]
+        }
+        if subgroupsPlaces[section] == nil {
+            subgroupsPlaces[section] = [:]
+        }
+        if subgroupsVisited[section] == nil {
+            subgroupsVisited[section] = [:]
+        }
+
+        let subgroupPlaces: SubgroupPlaces
         switch hierarchy {
-        case .regionCountry,
-             .regionCountryWhs:
-            break
-        case .brandRegionCountry,
-             .regionCountryLocation:
-            //fatalError("incorrect 3 level model: \(hierarchy)")
-            fallthrough
-        case .region,
-             .regionCountryCombined,
-             .regionSubtitled:
-            return (countries, nil)
-        }
-
-        var parentPlaces: CountryPlaces = [:]
-        var parentFamilies: CountryFamilies = [:]
-        for (country, places) in countries {
-            var parents: [PlaceInfo] = []
-            var families: [ParentKey: [PlaceInfo]] = [:]
-            for place in places {
-                if let parent = place.placeParent {
-                    if !parents.contains { $0 == parent } {
-                        parents.append(parent)
-                    }
-                    var family = families[parent.placeId] ?? []
-                    family.append(place)
-                    families[parent.placeId] = family.sorted { $0.placeTitle < $1.placeTitle }
-                } else if !parents.contains { $0 == place } {
-                    parents.append(place)
-                }
+        case .regionCountryLocation:
+            subgroupPlaces = Dictionary(grouping: sortedPlaces) {
+                $0.placeLocation?.placeTitle ?? L.unknown()
             }
-            parentPlaces[country] = parents.sorted { $0.placeTitle < $1.placeTitle }
-            parentFamilies[country] = families.isEmpty ? nil: families
+        case .brandRegionCountry:
+            subgroupPlaces = Dictionary(grouping: sortedPlaces) { $0.placeCountry }
+        default:
+            fatalError("incorrect 3 level model: \(hierarchy)")
         }
+        subgroupsPlaces[section]?[group] = subgroupPlaces
+        subgroups[section]?[group] = subgroupPlaces.keys.sorted()
+        var subgroupVisits: SubgroupVisits = [:]
+        for (subgroup, places) in subgroupPlaces {
+            let visits = places.reduce(0) {
+                $0 + (visited.contains($1.placeId) ? 1 : 0)
+            }
+            subgroupVisits[subgroup] = visits
+            groupVisited += visits
+        }
+        subgroupsVisited[section]?[group] = subgroupVisits
 
-        return (parentPlaces, parentFamilies.isEmpty ? nil: parentFamilies)
+        return groupVisited
     }
 }

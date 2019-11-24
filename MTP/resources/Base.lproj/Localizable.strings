@@ -189,7 +189,21 @@
 "locationDescription" = "%1$@, %2$@";
 
 "unInfo" = "Visits are calculated from MTP Location visits";
+
 "groupBrand" = "Group hotels by brand:";
+"brandAman" = "Aman";
+"brandFourSeasons" = "Four Seasons";
+"brandJumeriah" = "Jumeriah";
+"brandLeadingHotels" = "Leading Hotels of the World";
+"brandMandarin" = "Mandarin";
+"brandOberoi" = "Oberoi";
+"brandOneOnly" = "One & Only";
+"brandPeninsula" = "The Peninsula";
+"brandRitzCarlton" = "Ritz Carlton";
+"brandSixSenses" = "Six Senses";
+"brandStRegis" = "St. Regis";
+"brandTaj" = "Taj";
+"brandWaldorfAstoria" = "Waldorf Astoria";
 
 // PhotosVC
 

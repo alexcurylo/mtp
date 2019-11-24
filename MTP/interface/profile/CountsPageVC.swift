@@ -233,13 +233,23 @@ extension CountsPageVC: UICollectionViewDataSource {
     }
 }
 
+// MARK: - CountInfoHeaderDelegate
+
+extension CountsPageVC: CountInfoHeaderDelegate {
+
+    /// :nodoc:
+    func toggle(brand: Bool) {
+        update()
+    }
+}
+
 // MARK: - CountSectionHeaderDelegate
 
 extension CountsPageVC: CountSectionHeaderDelegate {
 
      /// :nodoc:
-    func toggle(region: String) {
-        viewModel.toggle(region: region)
+    func toggle(section: String) {
+        viewModel.toggle(section: section)
         collectionView.reloadData()
     }
 }
@@ -249,10 +259,20 @@ extension CountsPageVC: CountSectionHeaderDelegate {
 extension CountsPageVC: CountCellGroupDelegate {
 
     /// :nodoc:
-    func toggle(region: String,
-                country: String) {
-        viewModel.toggle(region: region,
-                         country: country)
+    func toggle(section: String,
+                group: String) {
+        viewModel.toggle(section: section,
+                         group: group)
+        collectionView.reloadData()
+    }
+
+    /// :nodoc:
+    func toggle(section: String,
+                group: String,
+                subgroup: String) {
+        viewModel.toggle(section: section,
+                         group: group,
+                         subgroup: subgroup)
         collectionView.reloadData()
     }
 }
@@ -274,6 +294,7 @@ private extension CountsPageVC {
             for: indexPath)
 
         if let header = view as? CountInfoHeader {
+             header.delegate = self
              header.inject(list: checklist)
         }
 
@@ -289,10 +310,10 @@ private extension CountsPageVC {
 
         if let header = view as? CountSectionHeader {
             header.delegate = self
-            let model = viewModel.header(model: modelPath.section)
+            let model = viewModel.header(section: modelPath.section)
             header.inject(model: model)
 
-            UICountsPage.region(viewPath.section).expose(item: header)
+            UICountsPage.section(viewPath.section).expose(item: header)
         }
 
         return view

@@ -14,10 +14,10 @@ protocol CountsViewModel {
     /// Top level of list: regions or brands
     var sectionCount: Int { get }
     /// Items in top level
-    func itemCount(section: Int) -> Int
+    func itemCount(section index: Int) -> Int
 
     /// Model for section header
-    func header(model section: Int) -> CountSectionModel
+    func header(section index: Int) -> CountSectionModel
 
     /// Info for  cell
     func cell(info path: IndexPath) -> CellInfo
@@ -29,16 +29,24 @@ protocol CountsViewModel {
     mutating func sort(places: [PlaceInfo],
                        visited: [Int])
 
-    /// Toggle expanded state of region
-    /// - Parameter region: Region
-    mutating func toggle(region: String)
+    /// Toggle expanded state of section
+    /// - Parameter section: Section
+    mutating func toggle(section: String)
 
-    /// Toggle expanded state of country
+    /// Toggle expanded state of group: country or region
     /// - Parameters:
-    ///   - region: Region
-    ///   - country: Country
-    mutating func toggle(region: String,
-                         country: String)
+    ///   - section: Section
+    ///   - group: group
+    mutating func toggle(section: String,
+                         group: String)
+
+    /// Toggle expanded state of subgroup: location or country
+    /// - Parameters:
+    ///   - section: Section
+    ///   - group: group
+    mutating func toggle(section: String,
+                         group: String,
+                         subgroup: String)
 }
 
 /// Builder for CountsViewModel
