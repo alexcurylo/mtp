@@ -197,12 +197,7 @@ private extension LoginVC {
                 //self.errorMessage = L.decodingError(operation)
                 self.errorMessage = L.decodingLoginError()
             case .failure(.status(let code)):
-                switch code {
-                case 503:
-                    self.errorMessage = L.serviceUnavailableError()
-                default:
-                    self.errorMessage = L.statusErrorReport(operation, code)
-                }
+                self.errorMessage = L.statusErrorReport(operation, code)
             case .failure(.message(let message)):
                 let serverSaysWrong = "Wrong username or password!"
                 if message == serverSaysWrong {

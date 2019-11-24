@@ -25,7 +25,6 @@
 "unexpectedError" = "Could not %@ - an unexpected error occurred.";
 "unexpectedErrorReport" = "Could not %@ - an unexpected error occurred. Please report the problem with ‘Contact Us’ on the ‘Settings’ page.";
 "decodingLoginError" = "Sorry - due to higher than expected demand, the MTP server is temporarily down. Please try again later.";
-"serviceUnavailableError" = "Sorry - due to higher than expected demand, the MTP server is temporarily down. Please try again later.";
 "deleteAccount" = "delete account";
 "deletingAccount" = "Deleting account…";
 "logIn" = "log in";
