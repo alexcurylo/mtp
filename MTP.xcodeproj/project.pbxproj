@@ -244,6 +244,7 @@
 		8CE6FC64224C6CB600B24410 /* LocationInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6FC61224C6CB500B24410 /* LocationInfoVC.swift */; };
 		8CE6FC65224C6CB600B24410 /* LocationPhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6FC62224C6CB600B24410 /* LocationPhotosVC.swift */; };
 		8CE6FC66224C6CB600B24410 /* LocationPostsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6FC63224C6CB600B24410 /* LocationPostsVC.swift */; };
+		8CEBA086238B793C004E8D20 /* WorldMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CEBA085238B793C004E8D20 /* WorldMapTests.swift */; };
 		8CEC654F23208AD80041D63A /* NotificationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CEC654E23208AD80041D63A /* NotificationServiceTests.swift */; };
 		8CED2C44231765B10093AA29 /* userLogin-fail.json in Resources */ = {isa = PBXBuildFile; fileRef = 8CED2C43231765B10093AA29 /* userLogin-fail.json */; };
 		8CF239A92305156E006AB7D2 /* ActionHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF239A82305156E006AB7D2 /* ActionHandlerTests.swift */; };
@@ -820,6 +821,7 @@
 		8CE6FC61224C6CB500B24410 /* LocationInfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationInfoVC.swift; sourceTree = "<group>"; };
 		8CE6FC62224C6CB600B24410 /* LocationPhotosVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationPhotosVC.swift; sourceTree = "<group>"; };
 		8CE6FC63224C6CB600B24410 /* LocationPostsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationPostsVC.swift; sourceTree = "<group>"; };
+		8CEBA085238B793C004E8D20 /* WorldMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldMapTests.swift; sourceTree = "<group>"; };
 		8CEC654E23208AD80041D63A /* NotificationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServiceTests.swift; sourceTree = "<group>"; };
 		8CED2C43231765B10093AA29 /* userLogin-fail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "userLogin-fail.json"; sourceTree = "<group>"; };
 		8CF239A82305156E006AB7D2 /* ActionHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionHandlerTests.swift; sourceTree = "<group>"; };
@@ -1715,6 +1717,7 @@
 				8C84D87223136EA70070BD55 /* UNCountryTests.swift */,
 				8C6F66DA2384DC1300F06160 /* UserTests.swift */,
 				8C84D87023135F5F0070BD55 /* WHSTests.swift */,
+				8CEBA085238B793C004E8D20 /* WorldMapTests.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -3285,6 +3288,7 @@
 				8C522F7A2339A6460056D0CE /* FeedbackItemsDataSourceTests.swift in Sources */,
 				8CC6B9612304F0D90089DB89 /* SearchResultJSONTests.swift in Sources */,
 				FA63A4C223076A1800637BB3 /* RankingCellTests.swift in Sources */,
+				8CEBA086238B793C004E8D20 /* WorldMapTests.swift in Sources */,
 				8C5801A023050CB700DE768F /* PostPayloadTests.swift in Sources */,
 				FA63A4BB230768F000637BB3 /* LocationPagingVCTests.swift in Sources */,
 				8C522F7F2339A6460056D0CE /* AppBuildCellTests.swift in Sources */,

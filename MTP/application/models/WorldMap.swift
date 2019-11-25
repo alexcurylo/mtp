@@ -108,9 +108,9 @@ struct WorldMap: ServiceProvider {
     ///   - visits: Visited locations
     /// - Returns: Map PDF
     func full(map visits: [Int]) -> Data {
-        let (map, _) = self.pdf(visits: visits,
-                                width: fullWidth,
-                                outline: true)
+        let (map, _) = pdf(visits: visits,
+                           width: fullWidth,
+                           outline: true)
         return map
     }
 

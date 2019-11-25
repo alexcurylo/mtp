@@ -158,6 +158,7 @@ extension MTP: TargetType {
             return "article/faq"
         case .geoJson(let map):
             return "geojson-files/\(map.rawValue)-map"
+            // curl https://mtp.travel/api/geojson-files/{world-map} -o "#1.geojson"
         case .golfcourse:
             return "golfcourse"
         case .hotels:
