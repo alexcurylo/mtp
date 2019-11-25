@@ -59,6 +59,8 @@ private struct GeoJSON: Codable {
 /// World map definition
 struct WorldMap: ServiceProvider {
 
+    private static var paths: [String: (locid: Int, path: UIBezierPath)] = [:]
+
     private let locations: [GeoJSON.Feature]
 
     private typealias Bounds = (west: Double, north: Double, east: Double, south: Double)
@@ -170,7 +172,6 @@ private extension WorldMap {
         let size = CGSize(width: drawWidth, height: drawHeight)
 
         let pdf = drawPDF(visits: visits,
-                          origin: origin,
                           size: size,
                           scaleTransform: scaleTransform,
                           outline: outline)
@@ -189,7 +190,6 @@ private extension WorldMap {
         let size = CGSize(width: drawWidth, height: drawHeight)
 
         let image = drawImage(visits: visits,
-                              origin: origin,
                               size: size,
                               scaleTransform: scaleTransform,
                               outline: false)
@@ -201,7 +201,6 @@ private extension WorldMap {
     //static var _maps = 1
 
     func drawPDF(visits: [Int],
-                 origin: CLLocationCoordinate2D,
                  size: CGSize,
                  scaleTransform: CGAffineTransform,
                  outline: Bool) -> Data {
@@ -211,8 +210,6 @@ private extension WorldMap {
 
         UIGraphicsBeginPDFPage()
         draw(visits: visits,
-             origin: origin,
-             size: size,
              scaleTransform: scaleTransform,
              outline: outline)
 
@@ -227,15 +224,12 @@ private extension WorldMap {
      }
 
     func drawImage(visits: [Int],
-                   origin: CLLocationCoordinate2D,
                    size: CGSize,
                    scaleTransform: CGAffineTransform,
                    outline: Bool) -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(size, false, 0)
 
         draw(visits: visits,
-             origin: origin,
-             size: size,
              scaleTransform: scaleTransform,
              outline: outline)
 
@@ -246,8 +240,6 @@ private extension WorldMap {
     }
 
     func draw(visits: [Int],
-              origin: CLLocationCoordinate2D,
-              size: CGSize,
               scaleTransform: CGAffineTransform,
               outline: Bool) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
@@ -255,9 +247,19 @@ private extension WorldMap {
         context.setLineWidth(0)
         UIColor.white.setStroke()
         locations.forEach { location in
-            guard let path = location.path(at: origin) else { return }
-            path.apply(scaleTransform)
+            let id = location.id
+            let path: UIBezierPath
+            if let cached = Self.paths[id]?.path {
+                path = cached
+            } else if let drawn = location.path(at: origin) {
+                path = drawn
+                let locid = location.properties.locid
+                Self.paths[id] = (locid: locid, path: drawn)
+            } else {
+                return
+            }
 
+            path.apply(scaleTransform)
             let visited = visits.contains(location.properties.locid)
             let color: UIColor = visited ? .azureRadiance : .lightGray
             color.setFill()

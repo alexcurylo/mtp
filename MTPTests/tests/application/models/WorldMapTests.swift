@@ -22,6 +22,7 @@ final class WorldMapTests: MTPTestCase {
         let venezuela = 1_004 // highest ID 19.11.25
         // GeoJSON.Feature implementation:
         // 2.9 GHz 15": 5.925 - 6.287 seconds
+        // 2.7 GHz 13": 6.465 - 7.600 seconds
         measure {
             (1...venezuela).forEach {
                 _ = sut.contains(coordinate: .zero,
@@ -31,8 +32,10 @@ final class WorldMapTests: MTPTestCase {
     }
 
     func testPerformanceDrawFullSize() throws {
-        // GeoJSON.Feature implementation:
+        // GeoJSON.Feature implementation, uncached:
         // 2.9 GHz 15": 2.080 - 2.206 seconds
+        // GeoJSON.Feature implementation, cached:
+        // 2.7 GHz 13": 1.982 - 2.003 seconds
         measure {
             _ = sut.full(map: [])
         }
@@ -41,6 +44,9 @@ final class WorldMapTests: MTPTestCase {
     func testPerformanceDrawProfile() throws {
         // GeoJSON.Feature implementation:
         // 2.9 GHz 15": 1.399 - 1.482 seconds
+        // 2.7 GHz 13": 1.480 - 1.554 seconds
+        // GeoJSON.Feature implementation, cached:
+        // 2.7 GHz 13": 1.300 - 1.357 seconds
         measure {
             _ = sut.profile(map: [],
                             width: 375)
