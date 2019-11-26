@@ -56,30 +56,55 @@ private struct GeoJSON: Codable {
     }
 }
 
+private struct MapBoxCalculator {
+
+    typealias Bounds = (west: CLLocationDegrees,
+                        north: CLLocationDegrees,
+                        east: CLLocationDegrees,
+                        south: CLLocationDegrees)
+
+    static let mapBox: Bounds = (west: -182, north: 84, east: 184, south: -91 )
+
+    private var calcBox: Bounds = (0, 0, 0, 0)
+
+    mutating func add(coordinate: CLLocationCoordinate2D) {
+        calcBox.west = min(calcBox.west, coordinate.longitude)
+        calcBox.north = max(calcBox.north, coordinate.latitude)
+        calcBox.east = max(calcBox.east, coordinate.longitude)
+        calcBox.south = min(calcBox.south, coordinate.latitude)
+    }
+
+    func validate() {
+        assert(Self.mapBox.west == calcBox.west.rounded(.down))
+        assert(Self.mapBox.north == calcBox.north.rounded(.up))
+        assert(Self.mapBox.east == calcBox.east.rounded(.up))
+        assert(Self.mapBox.south == calcBox.south.rounded(.down))
+        print("map box is valid with latest geojson")
+    }
+}
+
+/// For validating geometry when worldMapGeojson is updated
+private var mbc: MapBoxCalculator? //= MapBoxCalculator()
+
 /// World map definition
 struct WorldMap: ServiceProvider {
 
     private static var paths: [String: (locid: Int, path: UIBezierPath)] = [:]
 
     private let locations: [GeoJSON.Feature]
-
-    private typealias Bounds = (west: Double, north: Double, east: Double, south: Double)
-    private let mapBox: Bounds = (west: -182, north: 84, east: 184, south: -91 )
     private let clipAntarctica: CGFloat = 0.94
     private let fullWidth: CGFloat = 3_000
     private let boxWidth: Double
     private let boxHeight: Double
     private let origin: CLLocationCoordinate2D
-    #if RECALCULATE_MAPBOX
-    private static var calcBox: Bounds = (0, 0, 0, 0)
-    #endif
 
     /// :nodoc:
     init() {
-        boxWidth = mapBox.east - mapBox.west
-        boxHeight = mapBox.north - mapBox.south
-        origin = CLLocationCoordinate2D(latitude: mapBox.north,
-                                        longitude: mapBox.west)
+        let box = MapBoxCalculator.mapBox
+        boxWidth = box.east - box.west
+        boxHeight = box.north - box.south
+        origin = CLLocationCoordinate2D(latitude: box.north,
+                                        longitude: box.west)
         do {
             guard let file = R.file.worldMapGeojson() else { throw "missing map file" }
             let data = try Data(contentsOf: file)
@@ -176,7 +201,6 @@ private extension WorldMap {
                           scaleTransform: scaleTransform,
                           outline: outline)
 
-        validate()
         return (pdf, drawHeight)
     }
 
@@ -194,11 +218,8 @@ private extension WorldMap {
                               scaleTransform: scaleTransform,
                               outline: false)
 
-        validate()
         return image
     }
-
-    //static var _maps = 1
 
     func drawPDF(visits: [Int],
                  size: CGSize,
@@ -214,11 +235,6 @@ private extension WorldMap {
              outline: outline)
 
         UIGraphicsEndPDFContext()
-
-        //if let url = try? "map\(WorldMap._maps).pdf".desktopURL() {
-            //WorldMap._maps += 1
-            //pdf.write(to: url, atomically: true)
-        //}
 
         return pdf as Data
      }
@@ -259,24 +275,18 @@ private extension WorldMap {
                 return
             }
 
-            path.apply(scaleTransform)
+            let draw = UIBezierPath(cgPath: path.cgPath)
+            draw.apply(scaleTransform)
             let visited = visits.contains(location.properties.locid)
             let color: UIColor = visited ? .azureRadiance : .lightGray
             color.setFill()
-            path.fill()
+            draw.fill()
             if outline {
-                path.stroke()
+                draw.stroke()
             }
         }
-    }
 
-    func validate() {
-        #if RECALCULATE_MAPBOX
-        assert(mapBox.west == WorldMap.calcBox.west.rounded(.down))
-        assert(mapBox.north == WorldMap.calcBox.north.rounded(.up))
-        assert(mapBox.east == WorldMap.calcBox.east.rounded(.up))
-        assert(mapBox.south == WorldMap.calcBox.south.rounded(.down))
-        #endif
+        mbc?.validate()
     }
 }
 
@@ -308,13 +318,7 @@ private extension GeoJSON.Feature {
     func path(at origin: CLLocationCoordinate2D) -> UIBezierPath? {
         let path = UIBezierPath()
         geometry.coordinates.first?.forEach { coordinate in
-            #if RECALCULATE_MAPBOX
-            WorldMap.calcBox.west = min(WorldMap.calcBox.west, coordinate.longitude)
-            WorldMap.calcBox.north = max(WorldMap.calcBox.north, coordinate.latitude)
-            WorldMap.calcBox.east = max(WorldMap.calcBox.east, coordinate.longitude)
-            WorldMap.calcBox.south = min(WorldMap.calcBox.south, coordinate.latitude)
-            #endif
-
+            mbc?.add(coordinate: coordinate)
             let point = CGPoint(x: coordinate.longitude - origin.longitude,
                                 y: origin.latitude - coordinate.latitude)
             if path.isEmpty {
