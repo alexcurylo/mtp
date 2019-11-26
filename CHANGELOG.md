@@ -7,12 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Changed
+- Hide compass button when map is north oriented
+- Report actual login status error
 - Sort hotels by region>country or brand/region/country
 - Sort Restaurants region>country>location
-- Report actual login status error
 
 ### Fixed
 - Google Maps directions work on first launch
+- Map popups scroll below navigation bar
 
 ## [Version 1.2.0, Build 649] - 2019-11-21
 

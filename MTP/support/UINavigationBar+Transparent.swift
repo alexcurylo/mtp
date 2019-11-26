@@ -13,10 +13,24 @@ enum Transparency {
     case opaque
 }
 
+extension UIView {
+
+    /// Enclosing view controller
+    var parentViewController: UIViewController? {
+        var parentResponder: UIResponder? = self
+        while parentResponder != nil {
+            parentResponder = parentResponder?.next
+            if let viewController = parentResponder as? UIViewController {
+                return viewController
+            }
+        }
+        return nil
+    }
+}
+
 extension UIViewController {
 
     /// Hide navigation bar
-    ///
     /// - Parameter animated: Whether to animate
     func hide(navBar animated: Bool) {
         if let presenter = presentingViewController {
@@ -27,7 +41,6 @@ extension UIViewController {
     }
 
     /// Hide tool bar
-    ///
     /// - Parameter animated: Whether to animate
     func hide(toolBar animated: Bool) {
         if let presenter = presentingViewController {
@@ -38,7 +51,6 @@ extension UIViewController {
     }
 
     /// Show navigation bar
-    ///
     /// - Parameter animated: Whether to animate
     func show(navBar animated: Bool, style: Styler? = nil) {
         if let style = style {
@@ -48,7 +60,6 @@ extension UIViewController {
     }
 
     /// Show tool bar
-    ///
     /// - Parameter animated: Whether to animate
     func show(toolBar animated: Bool) {
         navigationController?.setToolbarHidden(false, animated: animated)
@@ -58,7 +69,6 @@ extension UIViewController {
 extension UINavigationBar {
 
     /// Set predefined style
-    ///
     /// - Parameter style: Style definition
     func set(style: Styler) {
         UINavigationBar.style(bar: self,
@@ -70,7 +80,6 @@ extension UINavigationBar {
     }
 
     /// Style appearance of navigation bar
-    ///
     /// - Parameters:
     ///   - transparency: Transparency
     ///   - titleFont: Title font
