@@ -90,9 +90,10 @@ private var mbc: MapBoxCalculator? //= MapBoxCalculator()
 struct WorldMap: ServiceProvider {
 
     private static var paths: [String: (locid: Int, path: UIBezierPath)] = [:]
+    private static var locationPaths: [Int: UIBezierPath] = [:]
 
     private let locations: [GeoJSON.Feature]
-    private let clipAntarctica: CGFloat = 0.94
+    private let clipAntarctica: CGFloat = 0.94 // clip uneven lower edges
     private let fullWidth: CGFloat = 3_000
     private let boxWidth: Double
     private let boxHeight: Double
@@ -198,7 +199,7 @@ private extension WorldMap {
 
         let pdf = drawPDF(visits: visits,
                           size: size,
-                          scaleTransform: scaleTransform,
+                          scale: scaleTransform,
                           outline: outline)
 
         return (pdf, drawHeight)
@@ -215,7 +216,7 @@ private extension WorldMap {
 
         let image = drawImage(visits: visits,
                               size: size,
-                              scaleTransform: scaleTransform,
+                              scale: scaleTransform,
                               outline: false)
 
         return image
@@ -223,7 +224,7 @@ private extension WorldMap {
 
     func drawPDF(visits: [Int],
                  size: CGSize,
-                 scaleTransform: CGAffineTransform,
+                 scale: CGAffineTransform,
                  outline: Bool) -> Data {
         let bounds = CGRect(origin: .zero, size: size)
         let pdf = NSMutableData()
@@ -231,9 +232,8 @@ private extension WorldMap {
 
         UIGraphicsBeginPDFPage()
         draw(visits: visits,
-             scaleTransform: scaleTransform,
+             scale: scale,
              outline: outline)
-
         UIGraphicsEndPDFContext()
 
         return pdf as Data
@@ -241,14 +241,12 @@ private extension WorldMap {
 
     func drawImage(visits: [Int],
                    size: CGSize,
-                   scaleTransform: CGAffineTransform,
+                   scale: CGAffineTransform,
                    outline: Bool) -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(size, false, 0)
-
         draw(visits: visits,
-             scaleTransform: scaleTransform,
+             scale: scale,
              outline: outline)
-
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
 
@@ -256,37 +254,83 @@ private extension WorldMap {
     }
 
     func draw(visits: [Int],
-              scaleTransform: CGAffineTransform,
+              scale: CGAffineTransform,
               outline: Bool) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
         context.setShouldAntialias(true)
         context.setLineWidth(0)
         UIColor.white.setStroke()
+
+        if Self.locationPaths.isEmpty {
+            drawPaths(visits: visits,
+                      scale: scale,
+                      outline: outline)
+            mbc?.validate()
+        } else {
+            drawLocations(visits: visits,
+                          scale: scale,
+                          outline: outline)
+        }
+    }
+
+    func drawLocations(visits: [Int],
+                       scale: CGAffineTransform,
+                       outline: Bool) {
+        for (locid, path) in Self.locationPaths {
+            draw(path: path,
+                 locid: locid,
+                 visits: visits,
+                 scale: scale,
+                 outline: outline)
+        }
+    }
+
+    func drawPaths(visits: [Int],
+                   scale: CGAffineTransform,
+                   outline: Bool) {
+        // swiftlint:disable:next closure_body_length
         locations.forEach { location in
             let id = location.id
             let path: UIBezierPath
             if let cached = Self.paths[id]?.path {
+                log.error("duplicate id detected: \(id)")
                 path = cached
             } else if let drawn = location.path(at: origin) {
                 path = drawn
                 let locid = location.properties.locid
                 Self.paths[id] = (locid: locid, path: drawn)
+                if let partial = Self.locationPaths[locid] {
+                    partial.append(path)
+                } else {
+                    Self.locationPaths[locid] = path
+                }
             } else {
+                log.error("undrawable id detected: \(id)")
                 return
             }
 
-            let draw = UIBezierPath(cgPath: path.cgPath)
-            draw.apply(scaleTransform)
-            let visited = visits.contains(location.properties.locid)
-            let color: UIColor = visited ? .azureRadiance : .lightGray
-            color.setFill()
-            draw.fill()
-            if outline {
-                draw.stroke()
-            }
+            draw(path: path,
+                 locid: location.properties.locid,
+                 visits: visits,
+                 scale: scale,
+                 outline: outline)
         }
+    }
 
-        mbc?.validate()
+    func draw(path: UIBezierPath,
+              locid: Int,
+              visits: [Int],
+              scale: CGAffineTransform,
+              outline: Bool) {
+        let draw = UIBezierPath(cgPath: path.cgPath)
+        draw.apply(scale)
+        let visited = visits.contains(locid)
+        let color: UIColor = visited ? .azureRadiance : .lightGray
+        color.setFill()
+        draw.fill()
+        if outline {
+            draw.stroke()
+        }
     }
 }
 
