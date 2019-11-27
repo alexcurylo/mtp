@@ -8,15 +8,19 @@ final class VisitedMapVC: UIViewController {
 
     // verified in requireOutlets
     @IBOutlet private var closeButton: UIBarButtonItem!
-    @IBOutlet private var mapView: PDFView!
+    @IBOutlet private var mapViewPDF: WorldMapViewPDF!
+    @IBOutlet private var mapScroll: UIScrollView!
+    @IBOutlet private var mapView: WorldMapView!
 
     private var pdf: PDFDocument?
 
     /// :nodoc:
      override func viewDidLoad() {
-         super.viewDidLoad()
-         requireOutlets()
-         requireInjection()
+        super.viewDidLoad()
+        requireOutlets()
+
+        // TODO: Finish resizable shapes view
+        mapScroll.isHidden = true
 
         configure()
    }
@@ -35,19 +39,18 @@ final class VisitedMapVC: UIViewController {
 private extension VisitedMapVC {
 
     func configure() {
-        mapView.displaysPageBreaks = false
-        mapView.pageBreakMargins = .zero
-        mapView.displayBox = .mediaBox
-        mapView.backgroundColor = .white
-        mapView.disableShadow()
-        mapView.document = pdf
+        let visits = data.visited?.locations ?? []
+        let mapData = data.worldMap.full(map: visits)
+        pdf = PDFDocument(data: mapData)
+        mapViewPDF.document = pdf
+        mapViewPDF.configure()
 
         if let page = pdf?.page(at: 0) {
-            let pageBounds = page.bounds(for: mapView.displayBox)
-            mapView.scaleFactor = mapView.bounds.height / pageBounds.height
+            let pageBounds = page.bounds(for: mapViewPDF.displayBox)
+            mapViewPDF.scaleFactor = mapViewPDF.bounds.height / pageBounds.height
             let rect = CGRect(origin: CGPoint(x: 1_300, y: 0),
                               size: CGSize(width: 1, height: 1))
-            mapView.go(to: rect, on: page)
+            mapViewPDF.go(to: rect, on: page)
         }
 
         configureFacebookShare()
@@ -86,27 +89,9 @@ extension VisitedMapVC: InterfaceBuildable {
     /// Injection enforcement for viewDidLoad
     func requireOutlets() {
         closeButton.require()
+        mapViewPDF.require()
+        mapScroll.require()
         mapView.require()
-    }
-}
-
-// MARK: - Injectable
-
-extension VisitedMapVC: Injectable {
-
-    /// Injected dependencies
-    typealias Model = Data
-
-    /// Handle dependency injection
-    /// - Parameter model: Dependencies
-    func inject(model: Model) {
-        pdf = PDFDocument(data: model)
-        mapView?.document = pdf
-    }
-
-    /// Enforce dependency injection
-    func requireInjection() {
-        pdf.require()
     }
 }
 

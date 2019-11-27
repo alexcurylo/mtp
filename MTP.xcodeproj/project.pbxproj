@@ -41,6 +41,7 @@
 		8C27DF27232724670020E0B6 /* UINetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C27DF26232724670020E0B6 /* UINetwork.swift */; };
 		8C27DF29232724B50020E0B6 /* UINetwork+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C27DF28232724B50020E0B6 /* UINetwork+Tests.swift */; };
 		8C27DF2A232725AD0020E0B6 /* UINetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C27DF26232724670020E0B6 /* UINetwork.swift */; };
+		8C2C2AA3238E05940022D485 /* WorldMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2C2AA2238E05940022D485 /* WorldMapView.swift */; };
 		8C2F88912330B467005BADE0 /* Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDA496B2330709C00014912 /* Network.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8C37FCAB237E49D900F443C6 /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 8C37FCAA237E49D900F443C6 /* FacebookCore */; };
 		8C37FCAD237E49D900F443C6 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 8C37FCAC237E49D900F443C6 /* FacebookLogin */; };
@@ -639,6 +640,7 @@
 		8C25480E230FACCB003A1B99 /* postPublish.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = postPublish.json; sourceTree = "<group>"; };
 		8C27DF26232724670020E0B6 /* UINetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINetwork.swift; sourceTree = "<group>"; };
 		8C27DF28232724B50020E0B6 /* UINetwork+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINetwork+Tests.swift"; sourceTree = "<group>"; };
+		8C2C2AA2238E05940022D485 /* WorldMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldMapView.swift; sourceTree = "<group>"; };
 		8C3EA1FE22DD540F008DD858 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
 		8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLoadingTextView.swift; sourceTree = "<group>"; };
 		8C3EAA1B2230BFA500CB4886 /* InsetTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetTextField.swift; sourceTree = "<group>"; };
@@ -2143,6 +2145,7 @@
 				FA3BD1D1215F7FCD007EAF75 /* ProfilePostsVC.swift */,
 				FA75562D22A4FFCF0006EFC3 /* ProfileVC.swift */,
 				FA46377D210DE1E60007382D /* SettingsVC.swift */,
+				8C2C2AA2238E05940022D485 /* WorldMapView.swift */,
 			);
 			path = profile;
 			sourceTree = "<group>";
@@ -3205,6 +3208,7 @@
 				FAC8465922AB493E004F57EC /* LocationHandler.swift in Sources */,
 				FA36FBED22059E6B00616CDE /* ApplicationService.swift in Sources */,
 				FAAE29C520F05A9600B43BA9 /* UserDefaults+TypeSafety.swift in Sources */,
+				8C2C2AA3238E05940022D485 /* WorldMapView.swift in Sources */,
 				FA7A66E322FE258D001DCCA2 /* UIWelcome.swift in Sources */,
 				FA5AC0C121FDCCDE0080F84F /* ListPagingItem.swift in Sources */,
 				FA126BD22336EBB800175258 /* AXPhotosTransitionController.swift in Sources */,

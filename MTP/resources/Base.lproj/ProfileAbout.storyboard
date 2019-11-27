@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="KFZ-Ed-5Fv">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="KFZ-Ed-5Fv">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -46,7 +46,7 @@
                                                                         <action selector="mapTapped:" destination="KFZ-Ed-5Fv" eventType="touchUpInside" id="061-mC-H6E"/>
                                                                     </connections>
                                                                 </button>
-                                                                <view userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uiK-6k-gN2" customClass="PDFView">
+                                                                <view userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uiK-6k-gN2" customClass="WorldMapView" customModule="MTP" customModuleProvider="target">
                                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                                 </view>
@@ -143,7 +143,7 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="rWM-oX-8Qb">
                                                     <rect key="frame" x="133.5" y="23" width="108.5" height="88"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profileAirport" translatesAutoresizingMaskIntoConstraints="NO" id="PwO-um-VkF">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="profileAirport" translatesAutoresizingMaskIntoConstraints="NO" id="PwO-um-VkF">
                                                             <rect key="frame" x="10.5" y="0.0" width="87" height="28"/>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" text="Home Airport:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KcY-ev-0bk">
@@ -236,7 +236,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XFa-fV-6n8" customClass="PDFView">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pgt-is-Nkk">
+                                <rect key="frame" x="47" y="249" width="280" height="168"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dpq-F1-O2j" customClass="WorldMapView" customModule="MTP" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="1Ia-On-Aa4" firstAttribute="bottom" secondItem="Dpq-F1-O2j" secondAttribute="bottom" id="2dL-Jv-liH"/>
+                                    <constraint firstItem="Dpq-F1-O2j" firstAttribute="top" secondItem="1Ia-On-Aa4" secondAttribute="top" id="4Oh-tA-Wqj"/>
+                                    <constraint firstItem="1Ia-On-Aa4" firstAttribute="trailing" secondItem="Dpq-F1-O2j" secondAttribute="trailing" id="NtG-6W-Tri"/>
+                                    <constraint firstItem="Dpq-F1-O2j" firstAttribute="leading" secondItem="1Ia-On-Aa4" secondAttribute="leading" id="c9Q-c7-m9C"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="O5G-K7-Lqh"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="1Ia-On-Aa4"/>
+                            </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XFa-fV-6n8" customClass="WorldMapViewPDF" customModule="MTP" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </view>
@@ -244,9 +261,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="X3z-cE-JQw" firstAttribute="bottom" secondItem="XFa-fV-6n8" secondAttribute="bottom" id="0RK-5W-JRd"/>
+                            <constraint firstItem="pgt-is-Nkk" firstAttribute="leading" secondItem="X3z-cE-JQw" secondAttribute="leading" id="2kW-an-0zs"/>
+                            <constraint firstItem="pgt-is-Nkk" firstAttribute="top" secondItem="X3z-cE-JQw" secondAttribute="top" id="ADO-50-4cL"/>
+                            <constraint firstItem="X3z-cE-JQw" firstAttribute="bottom" secondItem="pgt-is-Nkk" secondAttribute="bottom" id="Emj-Ju-38K"/>
                             <constraint firstItem="XFa-fV-6n8" firstAttribute="leading" secondItem="X3z-cE-JQw" secondAttribute="leading" id="HUi-NG-s9y"/>
                             <constraint firstItem="X3z-cE-JQw" firstAttribute="trailing" secondItem="XFa-fV-6n8" secondAttribute="trailing" id="VDX-ar-JEL"/>
                             <constraint firstItem="XFa-fV-6n8" firstAttribute="top" secondItem="X3z-cE-JQw" secondAttribute="top" id="g8C-q0-dOd"/>
+                            <constraint firstItem="X3z-cE-JQw" firstAttribute="trailing" secondItem="pgt-is-Nkk" secondAttribute="trailing" id="isg-5x-C8g"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="X3z-cE-JQw"/>
                         <userDefinedRuntimeAttributes>
@@ -271,7 +292,9 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="closeButton" destination="GvT-Zl-PrR" id="MFR-S3-pWH"/>
-                        <outlet property="mapView" destination="XFa-fV-6n8" id="gyO-Jh-QnC"/>
+                        <outlet property="mapScroll" destination="pgt-is-Nkk" id="a9b-9y-DyM"/>
+                        <outlet property="mapView" destination="Dpq-F1-O2j" id="5eI-xP-eFU"/>
+                        <outlet property="mapViewPDF" destination="XFa-fV-6n8" id="gyO-Jh-QnC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KpV-I6-z81" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

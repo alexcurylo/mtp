@@ -127,6 +127,8 @@ extension HotelJSON: CustomDebugStringConvertible {
             return L.brandRitzCarlton()
         case "six_senses":
             return L.brandSixSenses()
+        case "small_luxury_hotels":
+            return L.brandSmallLuxury()
         case "st_regis":
             return L.brandStRegis()
         case "taj":
