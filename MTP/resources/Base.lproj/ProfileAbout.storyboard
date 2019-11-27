@@ -236,22 +236,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pgt-is-Nkk">
-                                <rect key="frame" x="47" y="249" width="280" height="168"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pgt-is-Nkk">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dpq-F1-O2j" customClass="WorldMapView" customModule="MTP" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="623" translatesAutoresizingMaskIntoConstraints="NO" id="Dpq-F1-O2j" customClass="WorldMapView" customModule="MTP" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="1Ia-On-Aa4" firstAttribute="bottom" secondItem="Dpq-F1-O2j" secondAttribute="bottom" id="2dL-Jv-liH"/>
-                                    <constraint firstItem="Dpq-F1-O2j" firstAttribute="top" secondItem="1Ia-On-Aa4" secondAttribute="top" id="4Oh-tA-Wqj"/>
-                                    <constraint firstItem="1Ia-On-Aa4" firstAttribute="trailing" secondItem="Dpq-F1-O2j" secondAttribute="trailing" id="NtG-6W-Tri"/>
-                                    <constraint firstItem="Dpq-F1-O2j" firstAttribute="leading" secondItem="1Ia-On-Aa4" secondAttribute="leading" id="c9Q-c7-m9C"/>
+                                    <constraint firstItem="Dpq-F1-O2j" firstAttribute="top" secondItem="pgt-is-Nkk" secondAttribute="top" id="IbC-Xb-KzD"/>
+                                    <constraint firstItem="Dpq-F1-O2j" firstAttribute="leading" secondItem="pgt-is-Nkk" secondAttribute="leading" id="KoU-fX-OnE"/>
+                                    <constraint firstAttribute="trailing" secondItem="Dpq-F1-O2j" secondAttribute="trailing" id="cto-8L-T0l"/>
+                                    <constraint firstAttribute="bottom" secondItem="Dpq-F1-O2j" secondAttribute="bottom" id="gg4-KQ-unt"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="O5G-K7-Lqh"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="1Ia-On-Aa4"/>
+                                <connections>
+                                    <outlet property="delegate" destination="ZcG-dJ-8xH" id="GDJ-Pj-REp"/>
+                                </connections>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XFa-fV-6n8" customClass="WorldMapViewPDF" customModule="MTP" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="44" width="375" height="623"/>
@@ -261,13 +264,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="X3z-cE-JQw" firstAttribute="bottom" secondItem="XFa-fV-6n8" secondAttribute="bottom" id="0RK-5W-JRd"/>
-                            <constraint firstItem="pgt-is-Nkk" firstAttribute="leading" secondItem="X3z-cE-JQw" secondAttribute="leading" id="2kW-an-0zs"/>
-                            <constraint firstItem="pgt-is-Nkk" firstAttribute="top" secondItem="X3z-cE-JQw" secondAttribute="top" id="ADO-50-4cL"/>
-                            <constraint firstItem="X3z-cE-JQw" firstAttribute="bottom" secondItem="pgt-is-Nkk" secondAttribute="bottom" id="Emj-Ju-38K"/>
+                            <constraint firstAttribute="trailing" secondItem="pgt-is-Nkk" secondAttribute="trailing" id="1fC-1P-CAC"/>
                             <constraint firstItem="XFa-fV-6n8" firstAttribute="leading" secondItem="X3z-cE-JQw" secondAttribute="leading" id="HUi-NG-s9y"/>
+                            <constraint firstItem="pgt-is-Nkk" firstAttribute="top" secondItem="mo5-E3-CaN" secondAttribute="top" id="PzZ-A4-ACd"/>
                             <constraint firstItem="X3z-cE-JQw" firstAttribute="trailing" secondItem="XFa-fV-6n8" secondAttribute="trailing" id="VDX-ar-JEL"/>
+                            <constraint firstItem="pgt-is-Nkk" firstAttribute="leading" secondItem="mo5-E3-CaN" secondAttribute="leading" id="feP-Y8-UPF"/>
                             <constraint firstItem="XFa-fV-6n8" firstAttribute="top" secondItem="X3z-cE-JQw" secondAttribute="top" id="g8C-q0-dOd"/>
-                            <constraint firstItem="X3z-cE-JQw" firstAttribute="trailing" secondItem="pgt-is-Nkk" secondAttribute="trailing" id="isg-5x-C8g"/>
+                            <constraint firstAttribute="bottom" secondItem="pgt-is-Nkk" secondAttribute="bottom" id="pA5-Ju-aTf"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="X3z-cE-JQw"/>
                         <userDefinedRuntimeAttributes>

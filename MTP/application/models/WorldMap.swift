@@ -3,7 +3,7 @@
 import CoreLocation
 import UIKit
 
-/// GeoJSON file definition
+/// MTP world/UN country GeoJSON file definition
 private struct GeoJSON: Codable {
 
     struct Feature: Codable {
@@ -90,13 +90,18 @@ private var mbc: MapBoxCalculator? //= MapBoxCalculator()
 struct WorldMap: ServiceProvider {
 
     private var locationPaths: [Int: UIBezierPath] = [:]
-
     private let locations: [GeoJSON.Feature]
-    private let clipAntarctica: CGFloat = 0.94 // clip uneven lower edges
-    private let fullWidth: CGFloat = 3_000
+    private let fullWidth = CGFloat(3_000)
+    private let clipAntarctica = CGFloat(0.94) // clip uneven lower edges
     private let boxWidth: Double
     private let boxHeight: Double
     private let origin: CLLocationCoordinate2D
+
+    /// Expanded view render size
+    var fullSize: CGSize {
+        CGSize(width: fullWidth,
+               height: height(for: fullWidth))
+    }
 
     /// :nodoc:
     init() {
@@ -140,10 +145,9 @@ struct WorldMap: ServiceProvider {
     ///   - visits: Visited locations
     /// - Returns: Map PDF
     func full(map visits: [Int]) -> Data {
-        let (map, _) = pdf(visits: visits,
-                           width: fullWidth,
-                           outline: true)
-        return map
+        return pdf(visits: visits,
+                   width: fullSize.width,
+                   outline: true)
     }
 
     /// Does location contain coordinate?
@@ -191,19 +195,22 @@ struct WorldMap: ServiceProvider {
 
 private extension WorldMap {
 
+    func height(for width: CGFloat) -> CGFloat {
+        (width * CGFloat(boxHeight / boxWidth) * clipAntarctica).rounded(.down)
+    }
+
     func shapes(view: UIView,
                 visits: [Int],
                 width: CGFloat,
                 outline: Bool) -> CGFloat {
         let drawWidth: CGFloat = width
-        let scale = drawWidth / CGFloat(boxWidth)
-        let scaleTransform = CGAffineTransform(scaleX: scale, y: scale)
-        let height = drawWidth * CGFloat(boxHeight / boxWidth) * clipAntarctica
-        let drawHeight = height.rounded(.down)
+        let drawHeight = height(for: drawWidth)
+        let hScale = drawWidth / CGFloat(boxWidth)
+        let scale = CGAffineTransform(scaleX: hScale, y: hScale)
 
         for (locid, path) in locationPaths {
             let draw = UIBezierPath(cgPath: path.cgPath)
-            draw.apply(scaleTransform)
+            draw.apply(scale)
             let visited = visits.contains(locid)
             let color: UIColor = visited ? .azureRadiance : .lightGray
 
@@ -213,7 +220,7 @@ private extension WorldMap {
             //let bounds = draw.cgPath.boundingBox
             //layer.position = .zero // bounds.origin
             //layer.bounds = CGRect(origin: .zero, size: bounds.size)
-            //layer.style = ["locid": locid]
+            layer.style = ["locid": locid]
             layer.fillColor = color.cgColor
             if outline {
                 layer.lineWidth = 1
@@ -227,20 +234,17 @@ private extension WorldMap {
 
     func pdf(visits: [Int],
              width: CGFloat,
-             outline: Bool) -> (pdf: Data, height: CGFloat) {
+             outline: Bool) -> Data {
         let drawWidth: CGFloat = width
-        let scale = drawWidth / CGFloat(boxWidth)
-        let scaleTransform = CGAffineTransform(scaleX: scale, y: scale)
-        let height = drawWidth * CGFloat(boxHeight / boxWidth) * clipAntarctica
-        let drawHeight = height.rounded(.down)
+        let drawHeight = height(for: drawWidth)
+        let hScale = drawWidth / CGFloat(boxWidth)
+        let scale = CGAffineTransform(scaleX: hScale, y: hScale)
         let size = CGSize(width: drawWidth, height: drawHeight)
 
-        let pdf = drawPDF(visits: visits,
-                          size: size,
-                          scale: scaleTransform,
-                          outline: outline)
-
-        return (pdf, drawHeight)
+        return drawPDF(visits: visits,
+                       size: size,
+                       scale: scale,
+                       outline: outline)
     }
 
     func drawPDF(visits: [Int],

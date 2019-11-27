@@ -2092,6 +2092,7 @@
 				8C0F242A22432076005BD5DC /* UserCountsVC.swift */,
 				FA21FBA022A4157000190B71 /* UserProfileVC.swift */,
 				FA08693C2348C61600FDFCB3 /* VisitedMapVC.swift */,
+				8C2C2AA2238E05940022D485 /* WorldMapView.swift */,
 			);
 			path = rankings;
 			sourceTree = "<group>";
@@ -2145,7 +2146,6 @@
 				FA3BD1D1215F7FCD007EAF75 /* ProfilePostsVC.swift */,
 				FA75562D22A4FFCF0006EFC3 /* ProfileVC.swift */,
 				FA46377D210DE1E60007382D /* SettingsVC.swift */,
-				8C2C2AA2238E05940022D485 /* WorldMapView.swift */,
 			);
 			path = profile;
 			sourceTree = "<group>";

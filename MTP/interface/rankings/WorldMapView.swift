@@ -4,12 +4,21 @@ import PDFKit
 
 final class WorldMapViewPDF: PDFView, ServiceProvider {
 
-    func configure() {
+    func configure(pdf: PDFDocument) {
+        document = pdf
         displaysPageBreaks = false
         pageBreakMargins = .zero
         displayBox = .mediaBox
         backgroundColor = .white
         disableShadow()
+
+        if let page = pdf.page(at: 0) {
+            let pageBounds = page.bounds(for: displayBox)
+            scaleFactor = bounds.height / pageBounds.height
+            let rect = CGRect(origin: CGPoint(x: 1_300, y: 0),
+                              size: CGSize(width: 1, height: 1))
+            go(to: rect, on: page)
+        }
     }
 }
 
