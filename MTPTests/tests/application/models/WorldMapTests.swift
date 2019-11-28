@@ -39,7 +39,7 @@ final class WorldMapTests: MTPTestCase {
         // CAShapeLayer implementation:
         measure {
             let view = UIView()
-            sut.render(map: view,
+            sut.render(layer: view.layer,
                        visits: [],
                        width: 3_000)
         }
@@ -56,7 +56,7 @@ final class WorldMapTests: MTPTestCase {
         // CAShapeLayer implementation:
         measure {
             let view = UIView()
-            sut.render(map: view,
+            sut.render(layer: view.layer,
                        visits: [],
                        width: 375)
         }

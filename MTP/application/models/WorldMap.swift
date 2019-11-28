@@ -194,6 +194,10 @@ private extension WorldMap {
         let scale = width / CGFloat(boxWidth)
         var transform = CGAffineTransform(scaleX: scale, y: scale)
 
+        layer.frame = CGRect(origin: .zero,
+                             size: CGSize(width: width,
+                                          height: height(for: width)))
+
         for (locid, path) in locationPaths {
             let visited = visits.contains(locid)
             let color: UIColor = visited ? .azureRadiance : .lightGray
