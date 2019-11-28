@@ -159,8 +159,8 @@ private extension ProfileAboutVC {
 
         mapWidth = width
         mapWidthConstraint.constant = width
-        let height = mapView.update(map: width, visits: visits)
-        mapHeightConstraint.constant = height
+        mapHeightConstraint.constant = mapView.height(for: width)
+        mapView.update(map: width, visits: visits)
     }
 
     func update(ranking user: User) {

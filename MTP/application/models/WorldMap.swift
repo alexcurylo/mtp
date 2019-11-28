@@ -97,12 +97,6 @@ struct WorldMap: ServiceProvider {
     private let boxHeight: Double
     private let origin: CLLocationCoordinate2D
 
-    /// Expanded view render size
-    var fullSize: CGSize {
-        CGSize(width: fullWidth,
-               height: height(for: fullWidth))
-    }
-
     /// :nodoc:
     init() {
         let box = MapBoxCalculator.mapBox
@@ -125,29 +119,28 @@ struct WorldMap: ServiceProvider {
         }
     }
 
+    /// Expanded view render size
+    var fullSize: CGSize {
+        CGSize(width: fullWidth,
+               height: height(for: fullWidth))
+    }
+
+    /// Render height for width
+    func height(for width: CGFloat) -> CGFloat {
+        (width * CGFloat(boxHeight / boxWidth) * clipAntarctica).rounded(.down)
+    }
+
     /// Render world map profile shapes
     /// - Parameters:
     ///   - map: UIView
     ///   - visits: Visited locations
     ///   - width: Rendering width
-    /// - Returns: Map PDF
-    func profile(map: UIView,
-                 visits: [Int],
-                 width: CGFloat) -> CGFloat {
-        return shapes(view: map,
-                      visits: visits,
-                      width: width,
-                      outline: false)
-    }
-
-    /// Render world map full size PDF
-    /// - Parameters:
-    ///   - visits: Visited locations
-    /// - Returns: Map PDF
-    func full(map visits: [Int]) -> Data {
-        return pdf(visits: visits,
-                   width: fullSize.width,
-                   outline: true)
+    func render(map: UIView,
+                visits: [Int],
+                width: CGFloat) {
+        shapes(view: map,
+               visits: visits,
+               width: width)
     }
 
     /// Does location contain coordinate?
@@ -159,7 +152,6 @@ struct WorldMap: ServiceProvider {
                   location id: Int) -> Bool {
         for location in locations {
             guard location.properties.locid == id else { continue }
-
             if location.contains(coordinate: coordinate) {
                 return true
             }
@@ -195,27 +187,19 @@ struct WorldMap: ServiceProvider {
 
 private extension WorldMap {
 
-    func height(for width: CGFloat) -> CGFloat {
-        (width * CGFloat(boxHeight / boxWidth) * clipAntarctica).rounded(.down)
-    }
-
     func shapes(view: UIView,
                 visits: [Int],
-                width: CGFloat,
-                outline: Bool) -> CGFloat {
-        let drawWidth: CGFloat = width
-        let drawHeight = height(for: drawWidth)
-        let hScale = drawWidth / CGFloat(boxWidth)
-        let scale = CGAffineTransform(scaleX: hScale, y: hScale)
+                width: CGFloat) {
+        let outline = width >= fullWidth
+        let scale = width / CGFloat(boxWidth)
+        var transform = CGAffineTransform(scaleX: scale, y: scale)
 
         for (locid, path) in locationPaths {
-            let draw = UIBezierPath(cgPath: path.cgPath)
-            draw.apply(scale)
             let visited = visits.contains(locid)
             let color: UIColor = visited ? .azureRadiance : .lightGray
 
             let layer = CAShapeLayer()
-            layer.path = draw.cgPath
+            layer.path = path.cgPath.copy(using: &transform)
             // these need setting for proper hit testing?
             //let bounds = draw.cgPath.boundingBox
             //layer.position = .zero // bounds.origin
@@ -227,73 +211,6 @@ private extension WorldMap {
                 layer.strokeColor = UIColor.white.cgColor
             }
             view.layer.addSublayer(layer)
-        }
-
-        return drawHeight
-    }
-
-    func pdf(visits: [Int],
-             width: CGFloat,
-             outline: Bool) -> Data {
-        let drawWidth: CGFloat = width
-        let drawHeight = height(for: drawWidth)
-        let hScale = drawWidth / CGFloat(boxWidth)
-        let scale = CGAffineTransform(scaleX: hScale, y: hScale)
-        let size = CGSize(width: drawWidth, height: drawHeight)
-
-        return drawPDF(visits: visits,
-                       size: size,
-                       scale: scale,
-                       outline: outline)
-    }
-
-    func drawPDF(visits: [Int],
-                 size: CGSize,
-                 scale: CGAffineTransform,
-                 outline: Bool) -> Data {
-        let bounds = CGRect(origin: .zero, size: size)
-        let pdf = NSMutableData()
-        UIGraphicsBeginPDFContextToData(pdf, bounds, [:])
-
-        UIGraphicsBeginPDFPage()
-        draw(visits: visits,
-             scale: scale,
-             outline: outline)
-        UIGraphicsEndPDFContext()
-
-        return pdf as Data
-     }
-
-    func draw(visits: [Int],
-              scale: CGAffineTransform,
-              outline: Bool) {
-        guard let context = UIGraphicsGetCurrentContext() else { return }
-        context.setShouldAntialias(true)
-        context.setLineWidth(0)
-        UIColor.white.setStroke()
-
-        for (locid, path) in locationPaths {
-            draw(path: path,
-                 locid: locid,
-                 visits: visits,
-                 scale: scale,
-                 outline: outline)
-        }
-    }
-
-    func draw(path: UIBezierPath,
-              locid: Int,
-              visits: [Int],
-              scale: CGAffineTransform,
-              outline: Bool) {
-        let draw = UIBezierPath(cgPath: path.cgPath)
-        draw.apply(scale)
-        let visited = visits.contains(locid)
-        let color: UIColor = visited ? .azureRadiance : .lightGray
-        color.setFill()
-        draw.fill()
-        if outline {
-            draw.stroke()
         }
     }
 

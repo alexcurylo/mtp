@@ -36,8 +36,12 @@ final class WorldMapTests: MTPTestCase {
         // 2.9 GHz 15": 2.080 - 2.206 seconds
         // GeoJSON.Feature implementation, cached:
         // 2.7 GHz 13": 1.982 - 2.003 seconds
+        // CAShapeLayer implementation:
         measure {
-            _ = sut.full(map: [])
+            let view = UIView()
+            sut.render(map: view,
+                       visits: [],
+                       width: 3_000)
         }
     }
 
@@ -49,11 +53,12 @@ final class WorldMapTests: MTPTestCase {
         // 2.7 GHz 13": 1.300 - 1.357 seconds
         // UIBezierPath implementation:
         // 2.7 GHz 13": 0.663 - 0.675 seconds
+        // CAShapeLayer implementation:
         measure {
             let view = UIView()
-            _ = sut.profile(map: view,
-                            visits: [],
-                            width: 375)
+            sut.render(map: view,
+                       visits: [],
+                       width: 375)
         }
     }
 }

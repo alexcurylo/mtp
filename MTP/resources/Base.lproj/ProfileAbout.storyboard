@@ -236,7 +236,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pgt-is-Nkk">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" maximumZoomScale="4" translatesAutoresizingMaskIntoConstraints="NO" id="pgt-is-Nkk">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="623" translatesAutoresizingMaskIntoConstraints="NO" id="Dpq-F1-O2j" customClass="WorldMapView" customModule="MTP" customModuleProvider="target">
@@ -256,20 +256,12 @@
                                     <outlet property="delegate" destination="ZcG-dJ-8xH" id="GDJ-Pj-REp"/>
                                 </connections>
                             </scrollView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XFa-fV-6n8" customClass="WorldMapViewPDF" customModule="MTP" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="X3z-cE-JQw" firstAttribute="bottom" secondItem="XFa-fV-6n8" secondAttribute="bottom" id="0RK-5W-JRd"/>
                             <constraint firstAttribute="trailing" secondItem="pgt-is-Nkk" secondAttribute="trailing" id="1fC-1P-CAC"/>
-                            <constraint firstItem="XFa-fV-6n8" firstAttribute="leading" secondItem="X3z-cE-JQw" secondAttribute="leading" id="HUi-NG-s9y"/>
                             <constraint firstItem="pgt-is-Nkk" firstAttribute="top" secondItem="mo5-E3-CaN" secondAttribute="top" id="PzZ-A4-ACd"/>
-                            <constraint firstItem="X3z-cE-JQw" firstAttribute="trailing" secondItem="XFa-fV-6n8" secondAttribute="trailing" id="VDX-ar-JEL"/>
                             <constraint firstItem="pgt-is-Nkk" firstAttribute="leading" secondItem="mo5-E3-CaN" secondAttribute="leading" id="feP-Y8-UPF"/>
-                            <constraint firstItem="XFa-fV-6n8" firstAttribute="top" secondItem="X3z-cE-JQw" secondAttribute="top" id="g8C-q0-dOd"/>
                             <constraint firstAttribute="bottom" secondItem="pgt-is-Nkk" secondAttribute="bottom" id="pA5-Ju-aTf"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="X3z-cE-JQw"/>
@@ -297,7 +289,10 @@
                         <outlet property="closeButton" destination="GvT-Zl-PrR" id="MFR-S3-pWH"/>
                         <outlet property="mapScroll" destination="pgt-is-Nkk" id="a9b-9y-DyM"/>
                         <outlet property="mapView" destination="Dpq-F1-O2j" id="5eI-xP-eFU"/>
-                        <outlet property="mapViewPDF" destination="XFa-fV-6n8" id="gyO-Jh-QnC"/>
+                        <outlet property="mapViewBottomConstraint" destination="pA5-Ju-aTf" id="VSh-bw-cE4"/>
+                        <outlet property="mapViewLeadingConstraint" destination="feP-Y8-UPF" id="xSy-hm-4py"/>
+                        <outlet property="mapViewTopConstraint" destination="PzZ-A4-ACd" id="tO6-pX-SZg"/>
+                        <outlet property="mapViewTrailingConstraint" destination="1fC-1P-CAC" id="f6M-IK-SPf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KpV-I6-z81" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

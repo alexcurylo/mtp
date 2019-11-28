@@ -1,40 +1,29 @@
 // @copyright Trollwerks Inc.
 
-import PDFKit
-
-final class WorldMapViewPDF: PDFView, ServiceProvider {
-
-    func configure(pdf: PDFDocument) {
-        document = pdf
-        displaysPageBreaks = false
-        pageBreakMargins = .zero
-        displayBox = .mediaBox
-        backgroundColor = .white
-        disableShadow()
-
-        if let page = pdf.page(at: 0) {
-            let pageBounds = page.bounds(for: displayBox)
-            scaleFactor = bounds.height / pageBounds.height
-            let rect = CGRect(origin: CGPoint(x: 1_300, y: 0),
-                              size: CGSize(width: 1, height: 1))
-            go(to: rect, on: page)
-        }
-    }
-}
-
+/// World map in CAShapeLayers
 final class WorldMapView: UIView, ServiceProvider {
 
+    /// Configuration
     func configure() {
         backgroundColor = .white
         clipsToBounds = true
     }
 
+    /// Render height for width
+    /// - Parameter width: width
+    func height(for width: CGFloat) -> CGFloat {
+        return data.worldMap.height(for: width)
+    }
+
+    /// Rendering
+    /// - Parameters:
+    ///   - width: Width
+    ///   - visits: Places visited
     func update(map width: CGFloat,
-                visits: [Int]) -> CGFloat {
+                visits: [Int]) {
         layer.sublayers?.removeAll()
-        let height = data.worldMap.profile(map: self,
-                                           visits: visits,
-                                           width: width)
-        return height
+        data.worldMap.render(map: self,
+                             visits: visits,
+                             width: width)
     }
 }
