@@ -72,7 +72,7 @@ private extension VisitedMapVC {
     }
 
     func configureFacebookShare() {
-        guard let image = UIImage(view: mapView,
+        guard let image = UIImage(layer: mapView.shapeLayer,
                                   size: data.worldMap.fullSize) else { return }
 
         //image.save(desktop: "WorldMap")
@@ -143,7 +143,7 @@ extension VisitedMapVC: InterfaceBuildable {
 
 private extension UIImage {
 
-    convenience init?(view: UIView,
+    convenience init?(layer: CALayer,
                       size: CGSize) {
         UIGraphicsBeginImageContextWithOptions(size, true, 1)
         guard let context = UIGraphicsGetCurrentContext() else { return nil }
@@ -151,7 +151,7 @@ private extension UIImage {
         context.setFillColor(UIColor.white.cgColor)
         context.fill(CGRect(origin: .zero, size: size))
 
-        view.layer.render(in: context)
+        layer.render(in: context)
 
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()

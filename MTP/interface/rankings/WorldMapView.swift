@@ -3,6 +3,15 @@
 /// World map in CAShapeLayers
 final class WorldMapView: UIView, ServiceProvider {
 
+    lazy var shapeLayer: CALayer = {
+        let shapes = CALayer()
+        shapes.backgroundColor = UIColor.white.cgColor
+        shapes.frame = CGRect(origin: .zero,
+                              size: data.worldMap.fullSize)
+        layer.addSublayer(shapes)
+        return shapes
+    }()
+
     /// Configuration
     func configure() {
         backgroundColor = .white
@@ -21,8 +30,8 @@ final class WorldMapView: UIView, ServiceProvider {
     ///   - visits: Places visited
     func update(map width: CGFloat,
                 visits: [Int]) {
-        layer.sublayers?.removeAll()
-        data.worldMap.render(map: self,
+        shapeLayer.sublayers?.removeAll()
+        data.worldMap.render(layer: shapeLayer,
                              visits: visits,
                              width: width)
     }

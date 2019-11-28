@@ -135,10 +135,10 @@ struct WorldMap: ServiceProvider {
     ///   - map: UIView
     ///   - visits: Visited locations
     ///   - width: Rendering width
-    func render(map: UIView,
+    func render(layer: CALayer,
                 visits: [Int],
                 width: CGFloat) {
-        shapes(view: map,
+        shapes(layer: layer,
                visits: visits,
                width: width)
     }
@@ -187,7 +187,7 @@ struct WorldMap: ServiceProvider {
 
 private extension WorldMap {
 
-    func shapes(view: UIView,
+    func shapes(layer: CALayer,
                 visits: [Int],
                 width: CGFloat) {
         let outline = width >= fullWidth
@@ -198,19 +198,19 @@ private extension WorldMap {
             let visited = visits.contains(locid)
             let color: UIColor = visited ? .azureRadiance : .lightGray
 
-            let layer = CAShapeLayer()
-            layer.path = path.cgPath.copy(using: &transform)
+            let shape = CAShapeLayer()
+            shape.path = path.cgPath.copy(using: &transform)
             // these need setting for proper hit testing?
             //let bounds = draw.cgPath.boundingBox
-            //layer.position = .zero // bounds.origin
-            //layer.bounds = CGRect(origin: .zero, size: bounds.size)
-            layer.style = ["locid": locid]
-            layer.fillColor = color.cgColor
+            //shape.position = .zero // bounds.origin
+            //shape.bounds = CGRect(origin: .zero, size: bounds.size)
+            shape.style = ["locid": locid]
+            shape.fillColor = color.cgColor
             if outline {
-                layer.lineWidth = 1
-                layer.strokeColor = UIColor.white.cgColor
+                shape.lineWidth = 1
+                shape.strokeColor = UIColor.white.cgColor
             }
-            view.layer.addSublayer(layer)
+            layer.addSublayer(shape)
         }
     }
 
