@@ -89,6 +89,9 @@ private var mbc: MapBoxCalculator? //= MapBoxCalculator()
 /// World map definition
 struct WorldMap: ServiceProvider {
 
+    /// Location ID layer style annotation
+    static let locid = "locid"
+
     private var locationPaths: [Int: UIBezierPath] = [:]
     private let locations: [GeoJSON.Feature]
     private let fullWidth = CGFloat(3_000)
@@ -204,14 +207,15 @@ private extension WorldMap {
 
             let shape = CAShapeLayer()
             shape.path = path.cgPath.copy(using: &transform)
-            // these need setting for proper hit testing?
-            //let bounds = draw.cgPath.boundingBox
-            //shape.position = .zero // bounds.origin
-            //shape.bounds = CGRect(origin: .zero, size: bounds.size)
-            shape.style = ["locid": locid]
+            // bounds needs setting for proper hit testing
+            // 63: frame (0.0, 0.0, 0.0, 0.0) bounds (0.0, 0.0, 0.0, 0.0) position ((0.0, 0.0)
+            //     box (285.7144589230391, 51.89920348478381, 6.815899839575707, 4.123800016916704)
+            // swiftlint:disable:next line_length
+            //print("\(locid): frame \(shape.frame) bounds \(shape.bounds) position (\(shape.position)\n     box \(shape.path!.boundingBox)")
+            shape.style = [Self.locid: locid]
             shape.fillColor = color.cgColor
             if outline {
-                shape.lineWidth = 1
+                shape.lineWidth = 0.25
                 shape.strokeColor = UIColor.white.cgColor
             }
             layer.addSublayer(shape)

@@ -29,6 +29,7 @@ final class VisitedMapVC: UIViewController {
 
         show(navBar: animated, style: .visited)
         expose()
+        zoomToFit()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -52,6 +53,7 @@ extension VisitedMapVC: UIScrollViewDelegate {
     }
 
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        mapView.updateLayers(for: view.bounds.size)
         updateConstraints(for: view.bounds.size)
     }
 }
@@ -66,16 +68,23 @@ private extension VisitedMapVC {
         mapView.sizeAnchors == size
         mapView.configure()
         mapView.update(map: size.width,
-                       visits: visits)
+                       visits: visits,
+                       label: true)
+
+        let doubleTap = UITapGestureRecognizer(target: self,
+                                               action: #selector(doubleTapped))
+        doubleTap.numberOfTapsRequired = 2
+        mapScroll.addGestureRecognizer(doubleTap)
+        let singletap = UITapGestureRecognizer(target: self,
+                                               action: #selector(tapped))
+        mapScroll.addGestureRecognizer(singletap)
+        singletap.require(toFail: doubleTap)
 
         configureFacebookShare()
     }
 
     func configureFacebookShare() {
-        guard let image = UIImage(layer: mapView.shapeLayer,
-                                  size: data.worldMap.fullSize) else { return }
-
-        //image.save(desktop: "WorldMap")
+        guard let image = mapView.image(size: data.worldMap.fullSize) else { return }
 
         let photo = SharePhoto(image: image, userGenerated: true)
         let content = SharePhotoContent()
@@ -92,14 +101,38 @@ private extension VisitedMapVC {
         let widthScale = size.width / mapView.bounds.width
         let heightScale = size.height / mapView.bounds.height
         let minScale = min(widthScale, heightScale)
-        // this is always coming out 1
         mapScroll.minimumZoomScale = minScale
 
-        // TODO Zoom to fit at startup, handle double taps 
+        // handle double taps
         print("zoomScale: \(mapScroll.zoomScale)")
         print("minimumZoomScale: \(mapScroll.minimumZoomScale)")
         print("maximumZoomScale: \(mapScroll.maximumZoomScale)")
         print("contentSize: \(mapScroll.contentSize)")
+    }
+
+    @objc func tapped(_ sender: UITapGestureRecognizer) {
+        mapScroll.zoom(to: zoomRect(scale: mapScroll.zoomScale + 1,
+                                    center: sender.location(in: sender.view)),
+                        animated: true)
+    }
+
+    func zoomRect(scale: CGFloat, center: CGPoint) -> CGRect {
+        // TODO zooms way out instead of centering on tap
+        var zoomRect = CGRect.zero
+        zoomRect.size.height = mapView.frame.size.height / scale
+        zoomRect.size.width = mapView.frame.size.width / scale
+        let newCenter = mapView.convert(center, to: mapScroll)
+        zoomRect.origin.x = newCenter.x - (zoomRect.size.width / 2.0)
+        zoomRect.origin.y = newCenter.y - (zoomRect.size.height / 2.0)
+        return zoomRect
+    }
+
+    @objc func doubleTapped(_ sender: UITapGestureRecognizer) {
+        zoomToFit()
+    }
+
+    func zoomToFit() {
+        // TODO Zoom to fit at startup, double-tap
     }
 
     func updateConstraints(for size: CGSize) {
@@ -139,36 +172,4 @@ extension VisitedMapVC: InterfaceBuildable {
         mapViewBottomConstraint.require()
         mapView.require()
     }
-}
-
-private extension UIImage {
-
-    convenience init?(layer: CALayer,
-                      size: CGSize) {
-        UIGraphicsBeginImageContextWithOptions(size, true, 1)
-        guard let context = UIGraphicsGetCurrentContext() else { return nil }
-
-        context.setFillColor(UIColor.white.cgColor)
-        context.fill(CGRect(origin: .zero, size: size))
-
-        layer.render(in: context)
-
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-
-        guard let cgImage = image?.cgImage else { return nil }
-        self.init(cgImage: cgImage)
-    }
-
-    #if targetEnvironment(simulator)
-    func save(desktop name: String) {
-         do {
-             let destination = try "\(name).png".desktopURL()
-             let png = try unwrap(pngData())
-             try png.write(to: destination)
-         } catch {
-             ConsoleLoggingService().error("saving image: \(error)")
-         }
-     }
-    #endif
 }
