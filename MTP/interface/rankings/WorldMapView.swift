@@ -81,11 +81,9 @@ final class WorldMapView: UIView, ServiceProvider {
             case 750: // Buenos Aires (City)
                 center = CGPoint(x: box.minX,
                                  y: box.maxY )
-                shape.fillColor = UIColor.purple.cgColor
             case 751: // Buenos Aires Province
                 center = CGPoint(x: box.minX + 30,
                                  y: box.maxY - 30)
-                shape.fillColor = UIColor.orange.cgColor
             case 911: // Southern Queen Maud Land
                  center = CGPoint(x: box.center.x,
                                   y: box.center.y - 50)
