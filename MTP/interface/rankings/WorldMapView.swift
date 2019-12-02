@@ -19,6 +19,8 @@ final class WorldMapView: UIView, ServiceProvider {
         return labels
     }()
 
+    private static var titles: [Int: String] = [:]
+
     /// Configuration
     func configure() {
         backgroundColor = .white
@@ -42,6 +44,7 @@ final class WorldMapView: UIView, ServiceProvider {
     ///   - width: Width
     ///   - visits: Places visited
     func update(map width: CGFloat,
+                // swiftlint:disable:previous function_body_length
                 visits: [Int],
                 label: Bool = false) {
         shapeLayer.sublayers?.removeAll()
@@ -50,23 +53,66 @@ final class WorldMapView: UIView, ServiceProvider {
                              width: width)
         guard label else { return }
 
+        let size = CGSize(width: 300, height: 100)
+        let fontSize = CGFloat(16)
+
         labelLayer.sublayers?.removeAll()
+        // swiftlint:disable:next closure_body_length
         shapeLayer.sublayers?.forEach {
             guard let shape = $0 as? CAShapeLayer,
                   let locid = shape.style?[WorldMap.locid] as? Int,
                   let box = shape.path?.boundingBox else { return }
 
+            // deal with edge wrapping and clipping
+            let center: CGPoint
+            switch locid {
+            case 84: // Alaska
+                center = CGPoint(x: box.minX + 200,
+                                 y: box.minY + 50)
+            case 743: // Chukotka Autonomous Okrug
+                center = CGPoint(x: box.maxX - 85,
+                                 y: box.minY + 50)
+            case 17: // Fiji Islands
+                center = CGPoint(x: box.maxX - 5,
+                                 y: box.minY + 15)
+            case 754: // Chubut Province
+                center = CGPoint(x: box.minX + 30,
+                                 y: box.maxY - 15)
+            case 750: // Buenos Aires (City)
+                center = CGPoint(x: box.minX,
+                                 y: box.maxY )
+                shape.fillColor = UIColor.purple.cgColor
+            case 751: // Buenos Aires Province
+                center = CGPoint(x: box.minX + 30,
+                                 y: box.maxY - 30)
+                shape.fillColor = UIColor.orange.cgColor
+            case 911: // Southern Queen Maud Land
+                 center = CGPoint(x: box.center.x,
+                                  y: box.center.y - 50)
+            case 347: // Ross Dependency (to S. Pole)
+                center = CGPoint(x: box.minX + 130,
+                                 y: box.center.y - 10)
+            case 333, // Australian Antarctic Territory (to S. Pole)
+                 341: // Adelie Land (to S. Pole)
+                center = CGPoint(x: box.center.x,
+                                 y: box.center.y - 20)
+            //case 229, // Greenland
+                 //346: // Queen Maud Land (not to South Pole)
+            default:
+                center = box.center
+            }
+
             let text = CenteringLayer()
-            text.frame = CGRect(x: box.center.x - 150,
-                                y: box.center.y - 50,
-                                width: 300,
-                                height: 100)
+            text.frame = CGRect(x: center.x - (size.width / 2),
+                                y: center.y - (size.height / 2),
+                                width: size.width,
+                                height: size.height)
             text.needsDisplayOnBoundsChange = true
             text.rasterizationScale = UIScreen.main.scale
             text.contentsScale = UIScreen.main.scale
             text.alignmentMode = CATextLayerAlignmentMode.center
-            text.fontSize = 16
-            text.font = Avenir.medium.of(size: 16)
+            text.fontSize = fontSize
+            text.font = Avenir.medium.of(size: fontSize)
             text.foregroundColor = UIColor.black.cgColor
             text.isWrapped = true
             text.truncationMode = CATextLayerTruncationMode.end
@@ -86,8 +132,11 @@ final class WorldMapView: UIView, ServiceProvider {
 private extension WorldMapView {
 
     func title(locid: Int) -> String {
-        return ""
-        // TODO Get location title
+        return Self.titles[locid] ?? {
+            guard let title = data.get(location: locid)?.placeTitle else { return "" }
+            Self.titles[locid] = title
+            return title
+        }()
     }
 }
 
