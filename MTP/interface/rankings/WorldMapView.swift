@@ -123,7 +123,7 @@ final class WorldMapView: UIView, ServiceProvider {
     /// - Parameter size: Zoomed size
     func updateLayers(for size: CGSize) {
         // TODO change font size and line width on zoom?
-        print("view.bounds.size: \(size)")
+        print("updateLayers: view.bounds.size: \(size)")
     }
 }
 

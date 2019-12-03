@@ -15,7 +15,7 @@ final class VisitedMapVC: UIViewController {
     @IBOutlet private var mapViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet private var mapView: WorldMapView!
 
-    private var zoomed = false
+    private var initialized = false
 
     /// :nodoc:
      override func viewDidLoad() {
@@ -28,15 +28,16 @@ final class VisitedMapVC: UIViewController {
     /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         show(navBar: animated, style: .visited)
         expose()
-        if !zoomed {
-            zoomed = true
-            zoomToFit()
+        if !initialized {
+            initialized = true
+            updateMinZoomScale(for: displaySize)
+            zoom(toFit: false)
         }
     }
 
+    /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         mapScroll.flashScrollIndicators()
@@ -45,7 +46,7 @@ final class VisitedMapVC: UIViewController {
     /// :nodoc:
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        updateMinZoomScale(for: view.bounds.size)
+        updateMinZoomScale(for: displaySize)
     }
 }
 
@@ -53,19 +54,30 @@ final class VisitedMapVC: UIViewController {
 
 extension VisitedMapVC: UIScrollViewDelegate {
 
-    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        mapView
+    /// :nodoc:
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? { mapView }
+
+    /// :nodoc:
+    func scrollViewDidEndZooming(_ scrollView: UIScrollView,
+                                 with view: UIView?,
+                                 atScale scale: CGFloat) {
+        mapView.updateLayers(for: displaySize)
     }
 
+    /// :nodoc:
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        mapView.updateLayers(for: view.bounds.size)
-        updateConstraints(for: view.bounds.size)
+        // pinning minimum zoom to bounds for now
+        // updateConstraints(for: displaySize)
     }
 }
 
 // MARK: - Private
 
 private extension VisitedMapVC {
+
+    var displaySize: CGSize {
+        view.safeAreaLayoutGuide.layoutFrame.size
+    }
 
     func configure() {
         let visits = data.visited?.locations ?? []
@@ -105,61 +117,38 @@ private extension VisitedMapVC {
     func updateMinZoomScale(for size: CGSize) {
         let widthScale = size.width / mapView.bounds.width
         let heightScale = size.height / mapView.bounds.height
-        let minScale = min(widthScale, heightScale)
+        let minScale = max(widthScale, heightScale)
         mapScroll.minimumZoomScale = minScale
-
-        // handle double taps
-        print("zoomScale: \(mapScroll.zoomScale)")
-        print("minimumZoomScale: \(mapScroll.minimumZoomScale)")
-        print("maximumZoomScale: \(mapScroll.maximumZoomScale)")
-        print("contentSize: \(mapScroll.contentSize)")
     }
 
     @objc func tapped(_ sender: UITapGestureRecognizer) {
-        // TODO location is off
-        /*mapScroll.zoom(to: zoomRect(scale: mapScroll.zoomScale * 1.2,
-                                    center: sender.location(in: sender.view)),
-                        animated: true)*/
-        mapScroll.zoom(toPoint: sender.location(in: sender.view),
-                       scale: mapScroll.zoomScale * 1.5,
+        let tapped = sender.location(in: sender.view)
+        mapScroll.zoom(toPoint: tapped,
+                       scale: mapScroll.zoomScale * 2,
                        animated: true)
-    }
-
-    func zoomRect(scale: CGFloat, center: CGPoint) -> CGRect {
-        let mapBounds = mapView.bounds
-        var zoomRect = CGRect.zero
-        zoomRect.size.height = mapBounds.height / scale
-        zoomRect.size.width = mapBounds.width / scale
-        let newCenter = mapView.convert(center, to: mapScroll)
-        zoomRect.origin.x = newCenter.x - (zoomRect.width / 2)
-        zoomRect.origin.y = newCenter.y - (zoomRect.height / 2)
-        return zoomRect
     }
 
     @objc func doubleTapped(_ sender: UITapGestureRecognizer) {
-        zoomToFit()
+        mapScroll.zoomScale = 1
+        zoom(toFit: true)
     }
 
-    func zoomToFit() {
-        // TODO doesn't zoom right unless called from didAppear
+    func zoom(toFit animate: Bool) {
         let mapBounds = mapView.bounds
         let scale = mapScroll.bounds.height / mapBounds.height
-        //mapScroll.zoomScale = scale
-        /*mapScroll.zoom(to: zoomRect(scale: scale,
-                                    center: mapBounds.center),
-                        animated: true)*/
-        mapScroll.zoom(toPoint: mapBounds.center,
+        let center = mapBounds.center
+        mapScroll.zoom(toPoint: center,
                        scale: scale,
-                       animated: true)
-        print("zoomToFit: \(scale), \(mapScroll.zoomScale)")
+                       animated: animate)
     }
 
     func updateConstraints(for size: CGSize) {
-        let yOffset = max(0, (size.height - mapView.frame.height) / 2)
+        let mapFrame = mapView.frame
+        let yOffset = max(0, (size.height - mapFrame.height) / 2)
         mapViewTopConstraint.constant = yOffset
         mapViewBottomConstraint.constant = yOffset
 
-        let xOffset = max(0, (size.width - mapView.frame.width) / 2)
+        let xOffset = max(0, (size.width - mapFrame.width) / 2)
         mapViewLeadingConstraint.constant = xOffset
         mapViewTrailingConstraint.constant = xOffset
 
@@ -195,27 +184,21 @@ extension VisitedMapVC: InterfaceBuildable {
 
 private extension UIScrollView {
 
-    // https://gist.github.com/TimOliver/71be0a8048af4bd86ede
     func zoom(toPoint zoomPoint: CGPoint,
               scale: CGFloat,
               animated: Bool) {
         var scale = CGFloat.minimum(scale, maximumZoomScale)
         scale = CGFloat.maximum(scale, self.minimumZoomScale)
 
-        var translatedZoomPoint: CGPoint = .zero
-        translatedZoomPoint.x = zoomPoint.x + contentOffset.x
-        translatedZoomPoint.y = zoomPoint.y + contentOffset.y
-
         let zoomFactor = 1.0 / zoomScale
+        let target = CGPoint(x: zoomPoint.x * zoomFactor,
+                             y: zoomPoint.y * zoomFactor)
 
-        translatedZoomPoint.x *= zoomFactor
-        translatedZoomPoint.y *= zoomFactor
-
-        var destinationRect: CGRect = .zero
-        destinationRect.size.width = frame.width / scale
-        destinationRect.size.height = frame.height / scale
-        destinationRect.origin.x = translatedZoomPoint.x - destinationRect.width * 0.5
-        destinationRect.origin.y = translatedZoomPoint.y - destinationRect.height * 0.5
+        var targetRect: CGRect = .zero
+        targetRect.size.width = frame.width / scale
+        targetRect.size.height = frame.height / scale
+        targetRect.origin.x = target.x - targetRect.width * 0.5
+        targetRect.origin.y = target.y - targetRect.height * 0.5
 
         if animated {
             UIView.animate(
@@ -225,7 +208,7 @@ private extension UIScrollView {
                 initialSpringVelocity: 0.6,
                 options: [.allowUserInteraction],
                 animations: { [weak self] in
-                    self?.zoom(to: destinationRect, animated: false)
+                    self?.zoom(to: targetRect, animated: false)
                 },
                 completion: { [weak self] _ in
                     if let self = self,
@@ -238,7 +221,7 @@ private extension UIScrollView {
                 }
             )
         } else {
-            zoom(to: destinationRect, animated: false)
+            zoom(to: targetRect, animated: false)
         }
     }
 }
