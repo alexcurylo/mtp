@@ -12,6 +12,7 @@ final class WorldMapView: UIView, ServiceProvider {
         return shapes
     }()
 
+    #if DRAW_LABELS
     private lazy var labelLayer: CALayer = {
         let labels = CALayer()
         labels.frame = shapeLayer.frame
@@ -20,6 +21,7 @@ final class WorldMapView: UIView, ServiceProvider {
     }()
 
     private static var titles: [Int: String] = [:]
+    #endif
 
     /// Configuration
     func configure() {
@@ -43,14 +45,17 @@ final class WorldMapView: UIView, ServiceProvider {
     /// - Parameters:
     ///   - width: Width
     ///   - visits: Places visited
-    func update(map width: CGFloat,
-                // swiftlint:disable:previous function_body_length
-                visits: [Int],
-                label: Bool = false) {
+    func update(
+        // swiftlint:disable:previous function_body_length
+        map width: CGFloat,
+        visits: [Int]
+        //label: Bool
+    ) {
         shapeLayer.sublayers?.removeAll()
         data.worldMap.render(layer: shapeLayer,
                              visits: visits,
                              width: width)
+        #if DRAW_LABELS
         guard label else { return }
 
         let size = CGSize(width: 300, height: 100)
@@ -115,18 +120,35 @@ final class WorldMapView: UIView, ServiceProvider {
             text.isWrapped = true
             text.truncationMode = CATextLayerTruncationMode.end
             text.string = title(locid: locid)
+            text.isHidden = true
             labelLayer.addSublayer(text)
         }
+        #endif
     }
 
     /// Updating
-    /// - Parameter size: Zoomed size
-    func updateLayers(for size: CGSize) {
-        // TODO change font size and line width on zoom?
-        print("updateLayers: view.bounds.size: \(size)")
+    /// - Parameter scale: Current scale
+    func updateLayers(for scale: CGFloat) {
+        let lineWidth = 1 / scale
+        shapeLayer.sublayers?.forEach {
+            guard let shape = $0 as? CAShapeLayer else { return }
+            shape.lineWidth = lineWidth
+        }
+
+        #if DRAW_LABELS
+        let fontSize = 16 / scale
+        let hidden = fontSize > 12
+        labelLayer.sublayers?.forEach {
+            guard let label = $0 as? CenteringLayer else { return }
+            label.isHidden = hidden
+            label.fontSize = fontSize
+            label.font = Avenir.medium.of(size: fontSize)
+        }
+        #endif
     }
 }
 
+#if DRAW_LABELS
 private extension WorldMapView {
 
     func title(locid: Int) -> String {
@@ -166,6 +188,7 @@ private class CenteringLayer: CATextLayer {
         ctx.restoreGState()
     }
 }
+#endif
 
 private extension UIImage {
 

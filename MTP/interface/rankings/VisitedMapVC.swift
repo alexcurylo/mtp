@@ -61,7 +61,7 @@ extension VisitedMapVC: UIScrollViewDelegate {
     func scrollViewDidEndZooming(_ scrollView: UIScrollView,
                                  with view: UIView?,
                                  atScale scale: CGFloat) {
-        mapView.updateLayers(for: displaySize)
+        mapView.updateLayers(for: scale)
     }
 
     /// :nodoc:
@@ -85,8 +85,7 @@ private extension VisitedMapVC {
         mapView.sizeAnchors == size
         mapView.configure()
         mapView.update(map: size.width,
-                       visits: visits,
-                       label: true)
+                       visits: visits)
 
         let doubleTap = UITapGestureRecognizer(target: self,
                                                action: #selector(doubleTapped))
@@ -222,6 +221,12 @@ private extension UIScrollView {
             )
         } else {
             zoom(to: targetRect, animated: false)
+            if let delegate = self.delegate,
+               let view = delegate.viewForZooming?(in: self) {
+                delegate.scrollViewDidEndZooming?(self,
+                                                  with: view,
+                                                  atScale: scale)
+            }
         }
     }
 }

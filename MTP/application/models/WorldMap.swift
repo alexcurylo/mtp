@@ -215,7 +215,7 @@ private extension WorldMap {
             shape.style = [Self.locid: locid]
             shape.fillColor = color.cgColor
             if outline {
-                shape.lineWidth = 0.25
+                shape.lineWidth = 1
                 shape.strokeColor = UIColor.white.cgColor
             }
             layer.addSublayer(shape)
