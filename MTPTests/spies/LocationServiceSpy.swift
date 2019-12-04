@@ -7,6 +7,14 @@ import CoreLocation
 // swiftlint:disable all
 
 final class LocationServiceSpy: LocationService {
+    var invokedCurrentGetter = false
+    var invokedCurrentGetterCount = 0
+    var stubbedCurrent: CLLocationCoordinate2D!
+    var current: CLLocationCoordinate2D? {
+        invokedCurrentGetter = true
+        invokedCurrentGetterCount += 1
+        return stubbedCurrent
+    }
     var invokedHereGetter = false
     var invokedHereGetterCount = 0
     var stubbedHere: CLLocationCoordinate2D!

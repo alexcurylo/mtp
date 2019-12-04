@@ -27,6 +27,8 @@ typealias Distances = [String: CLLocationDistance]
 /// Provides location-related functionality
 protocol LocationService: Mapper, ServiceProvider {
 
+    /// Current coordinate measured
+    var current: CLLocationCoordinate2D? { get }
     /// Last coordinate measured
     var here: CLLocationCoordinate2D? { get }
     /// Last location contained in
@@ -129,6 +131,11 @@ class LocationServiceImpl: LocationService {
         self.handler = handler
         manager = handler.locationManager
         start(tracker: nil)
+    }
+
+    /// Current coordinate measured
+    var current: CLLocationCoordinate2D? {
+        return manager?.location?.coordinate ?? handler?.lastCoordinate?.coordinate
     }
 
     /// Last coordinate measured

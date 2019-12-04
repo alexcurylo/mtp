@@ -8,7 +8,7 @@ final class RankingsPageInfoTests: MTPTestCase {
     func testDecodingComplete() throws {
         // given
         let realm = RealmDataController()
-        let data = try unwrap(complete.data(using: .utf8))
+        let data = try XCTUnwrap(complete.data(using: .utf8))
         let query = RankingsQuery().with(page: 99_999)
 
         // when
@@ -18,7 +18,7 @@ final class RankingsPageInfoTests: MTPTestCase {
         let page = info.users
         let sut = RankingsPageInfo(query: query, info: info)
         sut.stamp()
-        let userJson = try unwrap(page.data[0])
+        let userJson = try XCTUnwrap(page.data[0])
         let user = User(from: userJson, with: nil)
 
         // then

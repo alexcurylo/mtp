@@ -8,14 +8,14 @@ final class PlaceInfoTests: MTPTestCase {
     func testBeachDecoding() throws {
         // given
         let realm = RealmDataController()
-        let data = try unwrap(completeBeach.data(using: .utf8))
+        let data = try XCTUnwrap(completeBeach.data(using: .utf8))
 
         // when
         let json = try JSONDecoder.mtp.decode(PlaceJSON.self,
                                               from: data)
         realm.set(beaches: [json])
-        let sut = try unwrap(Beach(from: json, realm: realm))
-        let map = try unwrap(sut.map)
+        let sut = try XCTUnwrap(Beach(from: json, realm: realm))
+        let map = try XCTUnwrap(sut.map)
         let dupe: PlaceInfo = Beach(value: sut)
 
         // then
@@ -47,14 +47,14 @@ final class PlaceInfoTests: MTPTestCase {
     func testDiveSiteDecoding() throws {
         // given
         let realm = RealmDataController()
-        let data = try unwrap(completeDiveSite.data(using: .utf8))
+        let data = try XCTUnwrap(completeDiveSite.data(using: .utf8))
 
         // when
         let json = try JSONDecoder.mtp.decode(PlaceJSON.self,
                                               from: data)
         realm.set(divesites: [json])
-        let sut = try unwrap(DiveSite(from: json, realm: realm))
-        let map = try unwrap(sut.map)
+        let sut = try XCTUnwrap(DiveSite(from: json, realm: realm))
+        let map = try XCTUnwrap(sut.map)
 
         // then
         json.description.assert(equal: map.title)
@@ -80,14 +80,14 @@ final class PlaceInfoTests: MTPTestCase {
     func testGolfCourseDecoding() throws {
         // given
         let realm = RealmDataController()
-        let data = try unwrap(completeGolfCourse.data(using: .utf8))
+        let data = try XCTUnwrap(completeGolfCourse.data(using: .utf8))
 
         // when
         let json = try JSONDecoder.mtp.decode(PlaceJSON.self,
                                               from: data)
         realm.set(golfcourses: [json])
-        let sut = try unwrap(GolfCourse(from: json, realm: realm))
-        let map = try unwrap(sut.map)
+        let sut = try XCTUnwrap(GolfCourse(from: json, realm: realm))
+        let map = try XCTUnwrap(sut.map)
 
         // then
         json.description.assert(equal: map.title)
@@ -112,7 +112,7 @@ final class PlaceInfoTests: MTPTestCase {
 
     func testInactiveDecoding() throws {
         // given
-        let data = try unwrap(inactive.data(using: .utf8))
+        let data = try XCTUnwrap(inactive.data(using: .utf8))
         let realm = RealmDataController()
 
         // when

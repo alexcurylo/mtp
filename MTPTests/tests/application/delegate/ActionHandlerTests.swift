@@ -8,7 +8,7 @@ final class ActionHandlerTests: MTPTestCase {
     func testUrl() throws {
         // given
         let sut = ActionHandler()
-        let url = try unwrap(URL(string: "https://mtp.travel"))
+        let url = try XCTUnwrap(URL(string: "https://mtp.travel"))
 
         // when
         let result = sut.application(UIApplication.shared,

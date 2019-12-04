@@ -3,7 +3,7 @@
 import CoreLocation
 import UIKit
 
-/// GeoJSON file definition
+/// MTP world/UN country GeoJSON file definition
 private struct GeoJSON: Codable {
 
     struct Feature: Codable {
@@ -56,28 +56,57 @@ private struct GeoJSON: Codable {
     }
 }
 
+private struct MapBoxCalculator {
+
+    typealias Bounds = (west: CLLocationDegrees,
+                        north: CLLocationDegrees,
+                        east: CLLocationDegrees,
+                        south: CLLocationDegrees)
+
+    static let mapBox: Bounds = (west: -182, north: 84, east: 184, south: -91 )
+
+    private var calcBox: Bounds = (0, 0, 0, 0)
+
+    mutating func add(coordinate: CLLocationCoordinate2D) {
+        calcBox.west = min(calcBox.west, coordinate.longitude)
+        calcBox.north = max(calcBox.north, coordinate.latitude)
+        calcBox.east = max(calcBox.east, coordinate.longitude)
+        calcBox.south = min(calcBox.south, coordinate.latitude)
+    }
+
+    func validate() {
+        assert(Self.mapBox.west == calcBox.west.rounded(.down))
+        assert(Self.mapBox.north == calcBox.north.rounded(.up))
+        assert(Self.mapBox.east == calcBox.east.rounded(.up))
+        assert(Self.mapBox.south == calcBox.south.rounded(.down))
+        print("map box is valid with latest geojson")
+    }
+}
+
+/// For validating geometry when worldMapGeojson is updated
+private var mbc: MapBoxCalculator? //= MapBoxCalculator()
+
 /// World map definition
 struct WorldMap: ServiceProvider {
 
-    private let locations: [GeoJSON.Feature]
+    /// Location ID layer style annotation
+    static let locid = "locid"
 
-    private typealias Bounds = (west: Double, north: Double, east: Double, south: Double)
-    private let mapBox: Bounds = (west: -182, north: 84, east: 184, south: -91 )
-    private let clipAntarctica: CGFloat = 0.94
-    private let fullWidth: CGFloat = 3_000
+    private var locationPaths: [Int: UIBezierPath] = [:]
+    private let locations: [GeoJSON.Feature]
+    private let fullWidth = CGFloat(3_000)
+    private let clipAntarctica = CGFloat(0.94) // clip uneven lower edges
     private let boxWidth: Double
     private let boxHeight: Double
     private let origin: CLLocationCoordinate2D
-    #if RECALCULATE_MAPBOX
-    private static var calcBox: Bounds = (0, 0, 0, 0)
-    #endif
 
     /// :nodoc:
     init() {
-        boxWidth = mapBox.east - mapBox.west
-        boxHeight = mapBox.north - mapBox.south
-        origin = CLLocationCoordinate2D(latitude: mapBox.north,
-                                        longitude: mapBox.west)
+        let box = MapBoxCalculator.mapBox
+        boxWidth = box.east - box.west
+        boxHeight = box.north - box.south
+        origin = CLLocationCoordinate2D(latitude: box.north,
+                                        longitude: box.west)
         do {
             guard let file = R.file.worldMapGeojson() else { throw "missing map file" }
             let data = try Data(contentsOf: file)
@@ -86,32 +115,35 @@ struct WorldMap: ServiceProvider {
             locations = geoJson.features.compactMap {
                 $0.properties.isValid ? $0 : nil
             }
+            createLocationPaths()
+            mbc?.validate()
         } catch {
             locations = []
         }
     }
 
-    /// Render world map profile PDF
-    /// - Parameters:
-    ///   - visits: Visited locations
-    ///   - width: Rendering width
-    /// - Returns: Map PDF
-    func profile(map visits: [Int],
-                 width: CGFloat) -> (pdf: Data, height: CGFloat) {
-        return pdf(visits: visits,
-                   width: width,
-                   outline: false)
+    /// Expanded view render size
+    var fullSize: CGSize {
+        CGSize(width: fullWidth,
+               height: height(for: fullWidth))
     }
 
-    /// Render world map full size PDF
+    /// Render height for width
+    func height(for width: CGFloat) -> CGFloat {
+        (width * CGFloat(boxHeight / boxWidth) * clipAntarctica).rounded(.down)
+    }
+
+    /// Render world map profile shapes
     /// - Parameters:
+    ///   - map: UIView
     ///   - visits: Visited locations
-    /// - Returns: Map PDF
-    func full(map visits: [Int]) -> Data {
-        let (map, _) = self.pdf(visits: visits,
-                                width: fullWidth,
-                                outline: true)
-        return map
+    ///   - width: Rendering width
+    func render(layer: CALayer,
+                visits: [Int],
+                width: CGFloat) {
+        shapes(layer: layer,
+               visits: visits,
+               width: width)
     }
 
     /// Does location contain coordinate?
@@ -123,7 +155,6 @@ struct WorldMap: ServiceProvider {
                   location id: Int) -> Bool {
         for location in locations {
             guard location.properties.locid == id else { continue }
-
             if location.contains(coordinate: coordinate) {
                 return true
             }
@@ -159,122 +190,54 @@ struct WorldMap: ServiceProvider {
 
 private extension WorldMap {
 
-    func pdf(visits: [Int],
-             width: CGFloat,
-             outline: Bool) -> (pdf: Data, height: CGFloat) {
-        let drawWidth: CGFloat = width
-        let scale = drawWidth / CGFloat(boxWidth)
-        let scaleTransform = CGAffineTransform(scaleX: scale, y: scale)
-        let height = drawWidth * CGFloat(boxHeight / boxWidth) * clipAntarctica
-        let drawHeight = height.rounded(.down)
-        let size = CGSize(width: drawWidth, height: drawHeight)
+    func shapes(layer: CALayer,
+                visits: [Int],
+                width: CGFloat) {
+        let outline = width >= fullWidth
+        let scale = width / CGFloat(boxWidth)
+        var transform = CGAffineTransform(scaleX: scale, y: scale)
 
-        let pdf = drawPDF(visits: visits,
-                          origin: origin,
-                          size: size,
-                          scaleTransform: scaleTransform,
-                          outline: outline)
+        layer.frame = CGRect(origin: .zero,
+                             size: CGSize(width: width,
+                                          height: height(for: width)))
 
-        validate()
-        return (pdf, drawHeight)
-    }
-
-    func image(visits: [Int],
-               width: CGFloat) -> UIImage? {
-        let drawWidth: CGFloat = width
-        let scale = drawWidth / CGFloat(boxWidth)
-        let scaleTransform = CGAffineTransform(scaleX: scale, y: scale)
-        let height = drawWidth * CGFloat(boxHeight / boxWidth) * clipAntarctica
-        let drawHeight = height.rounded(.down)
-        let size = CGSize(width: drawWidth, height: drawHeight)
-
-        let image = drawImage(visits: visits,
-                              origin: origin,
-                              size: size,
-                              scaleTransform: scaleTransform,
-                              outline: false)
-
-        validate()
-        return image
-    }
-
-    //static var _maps = 1
-
-    func drawPDF(visits: [Int],
-                 origin: CLLocationCoordinate2D,
-                 size: CGSize,
-                 scaleTransform: CGAffineTransform,
-                 outline: Bool) -> Data {
-        let bounds = CGRect(origin: .zero, size: size)
-        let pdf = NSMutableData()
-        UIGraphicsBeginPDFContextToData(pdf, bounds, [:])
-
-        UIGraphicsBeginPDFPage()
-        draw(visits: visits,
-             origin: origin,
-             size: size,
-             scaleTransform: scaleTransform,
-             outline: outline)
-
-        UIGraphicsEndPDFContext()
-
-        //if let url = try? "map\(WorldMap._maps).pdf".desktopURL() {
-            //WorldMap._maps += 1
-            //pdf.write(to: url, atomically: true)
-        //}
-
-        return pdf as Data
-     }
-
-    func drawImage(visits: [Int],
-                   origin: CLLocationCoordinate2D,
-                   size: CGSize,
-                   scaleTransform: CGAffineTransform,
-                   outline: Bool) -> UIImage? {
-        UIGraphicsBeginImageContextWithOptions(size, false, 0)
-
-        draw(visits: visits,
-             origin: origin,
-             size: size,
-             scaleTransform: scaleTransform,
-             outline: outline)
-
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-
-        return image
-    }
-
-    func draw(visits: [Int],
-              origin: CLLocationCoordinate2D,
-              size: CGSize,
-              scaleTransform: CGAffineTransform,
-              outline: Bool) {
-        guard let context = UIGraphicsGetCurrentContext() else { return }
-        context.setShouldAntialias(true)
-        context.setLineWidth(0)
-        UIColor.white.setStroke()
-        locations.forEach { location in
-            guard let path = location.path(at: origin) else { return }
-            path.apply(scaleTransform)
-
-            let visited = visits.contains(location.properties.locid)
+        for (locid, path) in locationPaths {
+            let visited = visits.contains(locid)
             let color: UIColor = visited ? .azureRadiance : .lightGray
-            color.setFill()
-            path.fill()
+
+            let shape = CAShapeLayer()
+            shape.path = path.cgPath.copy(using: &transform)
+            // bounds needs setting for proper hit testing
+            // 63: frame (0.0, 0.0, 0.0, 0.0) bounds (0.0, 0.0, 0.0, 0.0) position ((0.0, 0.0)
+            //     box (285.7144589230391, 51.89920348478381, 6.815899839575707, 4.123800016916704)
+            // swiftlint:disable:next line_length
+            //print("\(locid): frame \(shape.frame) bounds \(shape.bounds) position (\(shape.position)\n     box \(shape.path!.boundingBox)")
+            shape.style = [Self.locid: locid]
+            shape.fillColor = color.cgColor
             if outline {
-                path.stroke()
+                shape.lineWidth = 1
+                shape.strokeColor = UIColor.white.cgColor
             }
+            layer.addSublayer(shape)
         }
     }
 
-    func validate() {
-        #if RECALCULATE_MAPBOX
-        assert(mapBox.west == WorldMap.calcBox.west.rounded(.down))
-        assert(mapBox.north == WorldMap.calcBox.north.rounded(.up))
-        assert(mapBox.east == WorldMap.calcBox.east.rounded(.up))
-        assert(mapBox.south == WorldMap.calcBox.south.rounded(.down))
-        #endif
+    mutating func createLocationPaths() {
+        locations.forEach { location in
+            let id = location.id
+            let path: UIBezierPath
+            if let drawn = location.path(at: origin) {
+                path = drawn
+                let locid = location.properties.locid
+                if let partial = locationPaths[locid] {
+                    partial.append(path)
+                } else {
+                    locationPaths[locid] = path
+                }
+            } else {
+                log.error("undrawable id detected: \(id)")
+            }
+        }
     }
 }
 
@@ -306,13 +269,7 @@ private extension GeoJSON.Feature {
     func path(at origin: CLLocationCoordinate2D) -> UIBezierPath? {
         let path = UIBezierPath()
         geometry.coordinates.first?.forEach { coordinate in
-            #if RECALCULATE_MAPBOX
-            WorldMap.calcBox.west = min(WorldMap.calcBox.west, coordinate.longitude)
-            WorldMap.calcBox.north = max(WorldMap.calcBox.north, coordinate.latitude)
-            WorldMap.calcBox.east = max(WorldMap.calcBox.east, coordinate.longitude)
-            WorldMap.calcBox.south = min(WorldMap.calcBox.south, coordinate.latitude)
-            #endif
-
+            mbc?.add(coordinate: coordinate)
             let point = CGPoint(x: coordinate.longitude - origin.longitude,
                                 y: origin.latitude - coordinate.latitude)
             if path.isEmpty {

@@ -19,7 +19,7 @@ final class OperationReplyTests: MTPTestCase {
 
     func testPasswordDescription() throws {
         // given
-        let data = try unwrap(password.data(using: .utf8))
+        let data = try XCTUnwrap(password.data(using: .utf8))
         let expected = "code 200: Password reset mail sent!"
 
         // when

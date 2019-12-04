@@ -20,7 +20,7 @@ final class ProfileUITests: XCTestCase {
 
         UIProfileAbout.visited.tap()
 
-        UICountsPage.region(0).tap()
+        UICountsPage.section(0).tap()
         UICountsPage.group(0, 1).tap()
 
         UIUserCountsPaging.remaining.tap()
@@ -41,9 +41,13 @@ final class ProfileUITests: XCTestCase {
         UIMyCountsPaging.page(.golfcourses).tap()
         UIMyCountsPaging.page(.divesites).tap()
         UIMyCountsPaging.page(.restaurants).tap()
+        UIMyCountsPaging.page(.hotels).tap()
 
-        UICountsPage.region(1).tap()
-        UICountsPage.toggle(1, 0).tap()
+        UICountsPage.brand.tap()
+        UICountsPage.section(1).tap()
+        UICountsPage.group(0, 0).tap()
+        UICountsPage.group(0, 1).tap()
+        UICountsPage.toggle(0, 2).tap()
 
         UISystem.button("OK").tap()
 

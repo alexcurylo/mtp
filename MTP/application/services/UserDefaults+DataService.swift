@@ -109,6 +109,12 @@ extension UserDefaults: ServiceProvider {
         }
     }
 
+    /// Group hotels by brand?
+    var hotelsGroupBrand: Bool {
+        get { return bool(forKey: #function) }
+        set { set(newValue, forKey: #function) }
+    }
+
     /// Rankings filter
     var lastRankingsQuery: RankingsQuery? {
         get {

@@ -6,6 +6,8 @@ import MapKit
 /// Annotation view for a single place
 final class MappableAnnotationView: MKMarkerAnnotationView, MappingAnnotationView, ServiceProvider {
 
+    static let twoLineCalloutHeight = CGFloat(365)
+
     private static var identifier = typeName
 
     /// Register view type

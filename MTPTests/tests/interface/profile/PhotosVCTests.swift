@@ -10,7 +10,7 @@ final class PhotosVCTests: MTPTestCase {
         let loaded = R.storyboard.profilePhotos().instantiateInitialViewController()
 
         // when
-        let sut = try unwrap(loaded as? ProfilePhotosVC)
+        let sut = try XCTUnwrap(loaded as? ProfilePhotosVC)
 
         // then
         XCTAssertNotNil(sut)

@@ -8,13 +8,13 @@ final class UNCountryTests: MTPTestCase {
     func testDecodingComplete() throws {
         // given
         let realm = RealmDataController()
-        let data = try unwrap(complete.data(using: .utf8))
+        let data = try XCTUnwrap(complete.data(using: .utf8))
 
         // when
         let json = try JSONDecoder.mtp.decode(LocationJSON.self,
                                               from: data)
         realm.set(uncountries: [json])
-        let sut = try unwrap(UNCountry(from: json))
+        let sut = try XCTUnwrap(UNCountry(from: json))
 
         // then
         json.description.assert(equal: "Marshall Islands")
@@ -38,12 +38,12 @@ final class UNCountryTests: MTPTestCase {
 
     func testDecodingIncomplete() throws {
         // given
-        let data = try unwrap(incomplete.data(using: .utf8))
+        let data = try XCTUnwrap(incomplete.data(using: .utf8))
 
         // when
         let json = try JSONDecoder.mtp.decode(LocationJSON.self,
                                               from: data)
-        let sut = try unwrap(UNCountry(from: json))
+        let sut = try XCTUnwrap(UNCountry(from: json))
 
         // then
         json.description.assert(equal: "Marshall Islands")
@@ -58,7 +58,7 @@ final class UNCountryTests: MTPTestCase {
 
     func testDecodingInactive() throws {
         // given
-        let data = try unwrap(inactive.data(using: .utf8))
+        let data = try XCTUnwrap(inactive.data(using: .utf8))
 
         // when
         let json = try JSONDecoder.mtp.decode(LocationJSON.self,

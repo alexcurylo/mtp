@@ -586,14 +586,30 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
 /// Structure of Counts pages
 enum Hierarchy {
 
-    /// sort by parent
-    case parent
+    /// sort by brand then region then country
+    case brandRegionCountry
     /// sort by region
     case region
-    /// sort by region and children
-    case regionSubgrouped // region/country if 1 else region/country/locations
-    /// display region as cell subtitle
+    /// sort by region and country
+    case regionCountry
+    /// sort by region and country and location
+    case regionCountryLocation
+    /// sort by region and country, collapsing single location to country
+    case regionCountryCombined
+    /// sort by region then country then WHS with possible children
+    case regionCountryWhs
+    /// sort by region and display country as cell subtitle
     case regionSubtitled
+
+    /// Whether to display cell subtitle
+    var isCombined: Bool {
+        return self == .regionCountryCombined
+    }
+
+    /// Whether to group by country
+    var isGroupingByCountry: Bool {
+        return !isSubtitled
+    }
 
     /// Whether to display cell subtitle
     var isSubtitled: Bool {
@@ -607,11 +623,11 @@ extension Checklist {
     var hierarchy: Hierarchy {
         switch self {
         case .locations:
-            return .regionSubgrouped
+            return .regionCountryCombined
         case .uncountries:
             return .region
         case .whss:
-            return .parent
+            return .regionCountryWhs
         case .beaches:
             return .regionSubtitled
         case .golfcourses:
@@ -619,15 +635,14 @@ extension Checklist {
         case .divesites:
             return .regionSubtitled
         case .restaurants:
-            return .regionSubtitled // by region/country/location on website
+            return .regionCountryLocation
         case .hotels:
-            return .regionSubtitled // by brand or region/country on website
+            if data.hotelsGroupBrand {
+                return .brandRegionCountry
+            } else {
+                return .regionCountry
+            }
         }
-    }
-
-    /// Whether to display cell subtitle
-    var isSubtitled: Bool {
-        return hierarchy.isSubtitled
     }
 }
 

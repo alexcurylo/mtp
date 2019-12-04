@@ -8,8 +8,9 @@ final class CountCellGroupTests: MTPTestCase {
     func testInit() {
         // given
         let sut = CountCellGroup()
-        let model = CountGroupModel(region: "region",
-                                    country: "country",
+        let model = CountGroupModel(section: "region",
+                                    group: "country",
+                                    subgroup: nil,
                                     visited: 5,
                                     count: 10,
                                     disclose: .close,
