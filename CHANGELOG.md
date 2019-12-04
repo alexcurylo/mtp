@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [Version 1.2.1, Build 650] - 2019-12-04
+
 ### Changed
 - Hide compass button when map is north oriented
 - Sort hotels by region>country or brand/region/country
