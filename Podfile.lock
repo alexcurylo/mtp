@@ -63,7 +63,6 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (6.3.2):
     - GoogleUtilities/Logger
-  - JWTDecode (2.3.1)
   - nanopb (0.3.9011):
     - nanopb/decode (= 0.3.9011)
     - nanopb/encode (= 0.3.9011)
@@ -74,7 +73,6 @@ DEPENDENCIES:
   - Anchorage
   - Crashlytics
   - Firebase/Analytics
-  - JWTDecode
 
 SPEC REPOS:
   https://cdn.cocoapods.org/:
@@ -91,7 +89,6 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleDataTransportCCTSupport
     - GoogleUtilities
-    - JWTDecode
     - nanopb
 
 SPEC CHECKSUMS:
@@ -108,9 +105,8 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 8e9b210c97d55fbff306cc5468ff91b9cb32dcf5
   GoogleDataTransportCCTSupport: ef79a4728b864946a8aafdbab770d5294faf3b5f
   GoogleUtilities: 547a86735c6f0ee30ad17e94df4fc21f616b71cb
-  JWTDecode: 222f79e3df85a3b02028822fca950058961460e6
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
 
-PODFILE CHECKSUM: 0d1bc6d3183bba743e616c6987aaf532b74df543
+PODFILE CHECKSUM: ecf5c58c233b23d9e1db3da373192b532e19bde4
 
 COCOAPODS: 1.8.4
