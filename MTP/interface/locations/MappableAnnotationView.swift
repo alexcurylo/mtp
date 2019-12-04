@@ -6,6 +6,7 @@ import MapKit
 /// Annotation view for a single place
 final class MappableAnnotationView: MKMarkerAnnotationView, MappingAnnotationView, ServiceProvider {
 
+    /// For offsetting map center to display without overlapping nav bar controls
     static let twoLineCalloutHeight = CGFloat(365)
 
     private static var identifier = typeName
