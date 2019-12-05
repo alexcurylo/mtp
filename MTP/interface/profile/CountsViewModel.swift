@@ -3,8 +3,10 @@
 /// Tagging protocol for count cell models
 protocol CountCellModel { }
 
+/// Abstraction of two and three level hierarchy models
 protocol CountsViewModel {
 
+    /// Dequeue identifier and cell model group
     typealias CellInfo = (identifier: String,
                           model: CountCellModel)
 

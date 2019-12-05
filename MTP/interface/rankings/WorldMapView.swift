@@ -35,6 +35,8 @@ final class WorldMapView: UIView, ServiceProvider {
         return data.worldMap.height(for: width)
     }
 
+    /// Render map for social sharing
+    /// - Parameter size: Expected to  be same as full size
     func image(size: CGSize) -> UIImage? {
         let map = UIImage(layer: shapeLayer, size: size)
         //map?.save(desktop: "WorldMap-\(size.width)")

@@ -609,6 +609,9 @@
                 <a class="nav-group-task-link" href="../Classes/WelcomeVC.html">WelcomeVC</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/WorldMapView.html">WorldMapView</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/ZoomAnimator.html">ZoomAnimator</a>
               </li>
             </ul>
@@ -979,9 +982,6 @@
                 <a class="nav-group-task-link" href="../Extensions/Optional.html">Optional</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Extensions/PDFView.html">PDFView</a>
-              </li>
-              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/ProcessInfo.html">ProcessInfo</a>
               </li>
               <li class="nav-group-task">
@@ -1217,7 +1217,16 @@
                 <a class="nav-group-task-link" href="../Protocols/CountCellGroupDelegate.html">CountCellGroupDelegate</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols.html#/s:3MTP14CountCellModelP">CountCellModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/CountInfoHeaderDelegate.html">CountInfoHeaderDelegate</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/CountSectionHeaderDelegate.html">CountSectionHeaderDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/CountsViewModel.html">CountsViewModel</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/DataService.html">DataService</a>
@@ -1442,6 +1451,15 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/CountryJSON.html">CountryJSON</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CountsThreeLevelViewModel.html">CountsThreeLevelViewModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CountsTwoLevelViewModel.html">CountsTwoLevelViewModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CountsViewModelBuilder.html">CountsViewModelBuilder</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/DeviceNameItem.html">DeviceNameItem</a>
@@ -1702,7 +1720,7 @@
             <h1>CountItemModel</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">CountItemModel</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">CountItemModel</span> <span class="p">:</span> <span class="kt"><a href="../Protocols.html#/s:3MTP14CountCellModelP">CountCellModel</a></span></code></pre>
 
                 </div>
               </div>
@@ -1838,9 +1856,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:3MTP14CountItemModelV8parentIdSiSgvp"></a>
-                    <a name="//apple_ref/swift/Property/parentId" class="dashAnchor"></a>
-                    <a class="token" href="#/s:3MTP14CountItemModelV8parentIdSiSgvp">parentId</a>
+                    <a name="/s:3MTP14CountItemModelV5depthSivp"></a>
+                    <a name="//apple_ref/swift/Property/depth" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3MTP14CountItemModelV5depthSivp">depth</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1848,14 +1866,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Parent ID if any</p>
+                        <p>Tab stops to indent</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">parentId</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">depth</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
 
                         </div>
                       </div>

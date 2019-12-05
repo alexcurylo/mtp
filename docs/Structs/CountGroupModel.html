@@ -609,6 +609,9 @@
                 <a class="nav-group-task-link" href="../Classes/WelcomeVC.html">WelcomeVC</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/WorldMapView.html">WorldMapView</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/ZoomAnimator.html">ZoomAnimator</a>
               </li>
             </ul>
@@ -979,9 +982,6 @@
                 <a class="nav-group-task-link" href="../Extensions/Optional.html">Optional</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Extensions/PDFView.html">PDFView</a>
-              </li>
-              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/ProcessInfo.html">ProcessInfo</a>
               </li>
               <li class="nav-group-task">
@@ -1217,7 +1217,16 @@
                 <a class="nav-group-task-link" href="../Protocols/CountCellGroupDelegate.html">CountCellGroupDelegate</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols.html#/s:3MTP14CountCellModelP">CountCellModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/CountInfoHeaderDelegate.html">CountInfoHeaderDelegate</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/CountSectionHeaderDelegate.html">CountSectionHeaderDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/CountsViewModel.html">CountsViewModel</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/DataService.html">DataService</a>
@@ -1442,6 +1451,15 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/CountryJSON.html">CountryJSON</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CountsThreeLevelViewModel.html">CountsThreeLevelViewModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CountsTwoLevelViewModel.html">CountsTwoLevelViewModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CountsViewModelBuilder.html">CountsViewModelBuilder</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/DeviceNameItem.html">DeviceNameItem</a>
@@ -1702,7 +1720,7 @@
             <h1>CountGroupModel</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">CountGroupModel</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">CountGroupModel</span> <span class="p">:</span> <span class="kt"><a href="../Protocols.html#/s:3MTP14CountCellModelP">CountCellModel</a></span></code></pre>
 
                 </div>
               </div>
@@ -1718,9 +1736,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:3MTP15CountGroupModelV6regionSSvp"></a>
-                    <a name="//apple_ref/swift/Property/region" class="dashAnchor"></a>
-                    <a class="token" href="#/s:3MTP15CountGroupModelV6regionSSvp">region</a>
+                    <a name="/s:3MTP15CountGroupModelV7sectionSSvp"></a>
+                    <a name="//apple_ref/swift/Property/section" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3MTP15CountGroupModelV7sectionSSvp">section</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1728,19 +1746,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Region</p>
+                        <p>Region or brand</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">region</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">section</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/CountCellGroup.swift#L44">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/CountCellGroup.swift#L48">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1748,9 +1766,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:3MTP15CountGroupModelV7countrySSvp"></a>
-                    <a name="//apple_ref/swift/Property/country" class="dashAnchor"></a>
-                    <a class="token" href="#/s:3MTP15CountGroupModelV7countrySSvp">country</a>
+                    <a name="/s:3MTP15CountGroupModelV5groupSSvp"></a>
+                    <a name="//apple_ref/swift/Property/group" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3MTP15CountGroupModelV5groupSSvp">group</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1758,19 +1776,49 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Country</p>
+                        <p>Country or region</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">country</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">group</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/CountCellGroup.swift#L46">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/CountCellGroup.swift#L50">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3MTP15CountGroupModelV8subgroupSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/subgroup" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3MTP15CountGroupModelV8subgroupSSSgvp">subgroup</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Location or country</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">subgroup</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/CountCellGroup.swift#L52">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1800,7 +1848,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/CountCellGroup.swift#L48">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/CountCellGroup.swift#L54">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1830,7 +1878,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/CountCellGroup.swift#L50">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/CountCellGroup.swift#L56">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1860,7 +1908,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/CountCellGroup.swift#L52">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/CountCellGroup.swift#L58">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1890,7 +1938,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/CountCellGroup.swift#L54">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/CountCellGroup.swift#L60">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1920,7 +1968,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/CountCellGroup.swift#L56">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/CountCellGroup.swift#L62">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

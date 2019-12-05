@@ -42,10 +42,10 @@ final class RealmDataControllerTests: MTPTestCase {
         XCTAssertEqual(countries.count, 206)
         XCTAssertEqual(divesites.count, 99)
         XCTAssertEqual(golfcourses.count, 100)
-        XCTAssertEqual(hotels.count, 885)
+        XCTAssertEqual(hotels.count, 1_233)
         XCTAssertEqual(locations.count, 892)
-        XCTAssertEqual(mappables.count, 5_298)
-        XCTAssertEqual(restaurants.count, 706)
+        XCTAssertEqual(mappables.count, 5_645)
+        XCTAssertEqual(restaurants.count, 705)
         XCTAssertEqual(uncountries.count, 193)
         XCTAssertEqual(whss.count, 2_458)
         continueAfterFailure = false

@@ -107,6 +107,7 @@ extension HotelJSON: CustomDebugStringConvertible {
         return placeTitle
     }
 
+    /// Name displayed for user sorting
     var brandName: String {
         switch brand {
         case "aman":
