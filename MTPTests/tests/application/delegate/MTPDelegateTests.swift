@@ -10,7 +10,7 @@ final class MTPDelegateTests: MTPTestCase {
         let expected: [String] = []
 
         // when
-        let delegate = try unwrap(UIApplication.shared.delegate as? MTPDelegate)
+        let delegate = try XCTUnwrap(UIApplication.shared.delegate as? MTPDelegate)
         let actual = delegate.handlers.map { String(describing: type(of: $0)) }
 
         // then

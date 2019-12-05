@@ -2,6 +2,8 @@
 
 import MapKit
 
+// swiftlint:disable file_length
+
 extension CLLocationDistance {
 
     /// Default map span for an annotation
@@ -31,7 +33,7 @@ final class MTPMapView: RealmMapView, ServiceProvider {
 
         showsCompass = false
         return MKCompassButton(mapView: self).with {
-            $0.compassVisibility = .visible
+            $0.compassVisibility = .adaptive
         }
     }
 
@@ -87,27 +89,35 @@ final class MTPMapView: RealmMapView, ServiceProvider {
     }
 
     /// Zoom map to coordinate
-    ///
     /// - Parameter center: Center
     func zoom(to center: CLLocationCoordinate2D) {
         zoom(center: center)
     }
 
     /// Zoom map to place
-    ///
     /// - Parameters:
     ///   - mappable: Place
     ///   - callout: Show callout?
     func zoom(to mappable: Mappable, callout: Bool) {
+        guard callout else {
+            zoom(center: mappable.coordinate)
+            return
+        }
+
+        let calloutHeight = MappableAnnotationView.twoLineCalloutHeight
+        let required = safeAreaInsets.top + calloutHeight
+        let half = frame.height / 2
+        let scroll = (half - required).rounded(.down)
         zoom(center: mappable.coordinate) { [weak self] in
-            if callout {
-                self?.select(mappable: mappable)
+            if scroll < 0 {
+                self?.moveCenter(by: CGPoint(x: 0, y: scroll),
+                                 from: mappable.coordinate)
             }
+            self?.select(mappable: mappable)
         }
     }
 
     /// Close place annotation view
-    ///
     /// - Parameter mappable: Place
     func close(mappable: Mappable) {
         guard let shown = shown(for: mappable) else { return }
@@ -116,7 +126,6 @@ final class MTPMapView: RealmMapView, ServiceProvider {
     }
 
     /// Update place display
-    ///
     /// - Parameter mappable: Place
     func update(mappable: Mappable) {
         guard let contains = contains(mappable: mappable) else { return }
@@ -126,7 +135,6 @@ final class MTPMapView: RealmMapView, ServiceProvider {
     }
 
     /// Handle annotation view display
-    ///
     /// - Parameter view: Place view
     func display(view: MappableAnnotationView) {
         guard let mappable = view.mappable else { return }
@@ -139,7 +147,6 @@ final class MTPMapView: RealmMapView, ServiceProvider {
     }
 
     /// Expand to region covered by annotation
-    ///
     /// - Parameter view: Places view
     func expand(view: MappablesAnnotationView) {
         guard let mapped = view.mapped else { return }
@@ -149,7 +156,6 @@ final class MTPMapView: RealmMapView, ServiceProvider {
     }
 
     /// Refresh region override to expand enough to collect just offscreens
-    ///
     /// - Parameters:
     ///   - refreshRegion: Region to refresh
     ///   - refreshMapRect: Map rect to refresh
@@ -358,7 +364,6 @@ extension MappablesAnnotation {
     }
 
     /// Whether this annotation contains a particular place
-    ///
     /// - Parameter mappable: Place
     /// - Returns: Containment
     func contains(mappable: Mappable) -> Bool {
@@ -366,7 +371,6 @@ extension MappablesAnnotation {
     }
 
     /// Whether this annotation is a particular place
-    ///
     /// - Parameter only: Place
     /// - Returns: Identity
     func shows(only: Mappable) -> Bool {
@@ -383,5 +387,25 @@ private extension MKCoordinateRegion {
         expanded.span.latitudeDelta *= factor
         expanded.span.longitudeDelta *= factor
         return expanded
+    }
+}
+
+private extension MKMapView {
+
+    func moveCenter(by offset: CGPoint,
+                    from target: CLLocationCoordinate2D,
+                    animated: Bool = false) {
+        var point = convert(target, toPointTo: self)
+        point.x = (point.x + offset.x).rounded(.down)
+        point.y = (point.y + offset.y).rounded(.down)
+        let moved = convert(point, toCoordinateFrom: self)
+        setCenter(moved, animated: animated)
+    }
+
+    func centered(by offset: CGPoint) -> CLLocationCoordinate2D {
+        var point = center
+        point.x = (point.x + offset.x).rounded(.down)
+        point.y = (point.y + offset.y).rounded(.down)
+        return convert(point, toCoordinateFrom: self)
     }
 }

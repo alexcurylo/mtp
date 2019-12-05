@@ -3,7 +3,7 @@
 import Anchorage
 
 /// Display model for count group
-struct CountItemModel {
+struct CountItemModel: CountCellModel {
 
     /// Title
     let title: String
@@ -13,8 +13,8 @@ struct CountItemModel {
     let list: Checklist
     /// Item ID
     let id: Int
-    /// Parent ID if any
-    let parentId: Int?
+    /// Tab stops to indent
+    let depth: Int
     /// Whether to show visit state
     let isVisitable: Bool
     /// Whether to round corners
@@ -53,27 +53,32 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
     private var model: CountItemModel?
 
     /// Handle dependency injection
-    ///
     /// - Parameter model: Data model
-    func inject(model: CountItemModel) {
+    func inject(model: CountCellModel) {
+        // swiftlint:disable:previous function_body_length
+        guard let model = model as? CountItemModel else { return }
         self.model = model
 
         let font: UIFont
         if model.list.hasChildren(id: model.id) {
-            labelsIndent?.constant = Layout.parentIndent
-            font = Layout.titleBookFont
+            labelsIndent?.constant = layout.indent.parent
+            font = layout.font.title.book
             visit.isHidden = true
             check.isHidden = true
         } else {
-            if model.parentId != nil {
-                labelsIndent?.constant = Layout.childIndent
-                font = Layout.childFont
-            } else if model.isCombined {
-                labelsIndent?.constant = Layout.combinedIndent
-                font = Layout.titleHeavyFont
-            } else {
-                labelsIndent?.constant = Layout.parentIndent
-                font = Layout.titleMediumFont
+            switch model.depth {
+            case 2: // 3rd level item - restaurant/hotel
+                labelsIndent?.constant = layout.indent.child
+                font = layout.font.title.medium
+            case 1: // 2nd level item - WHS child
+                labelsIndent?.constant = layout.indent.child
+                font = layout.font.child
+            case _ where model.isCombined: // single location country
+                labelsIndent?.constant = layout.indent.combined
+                font = layout.font.title.heavy
+            default:
+                labelsIndent?.constant = layout.indent.parent
+                font = layout.font.title.medium
             }
             visit.isHidden = !model.isVisitable
             if model.isVisitable {
@@ -91,9 +96,10 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
                 check.isHidden = true
             }
         }
+
         titleLabel.attributedText = model.description(
             titleFont: font,
-            subtitleFont: Layout.subtitleFont
+            subtitleFont: layout.font.subtitle
         )
 
         // without this background randomly goes gray?
@@ -107,19 +113,19 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
         UICountsPage.toggle(model.path.section, model.path.row).expose(item: visit)
     }
 
-    private enum Layout {
-        static let rankSize = CGFloat(18)
-        static let margin = CGFloat(8)
-        static let combinedIndent = CGFloat(12)
-        static let parentIndent = CGFloat(16)
-        static let childIndent = CGFloat(24)
-        static let spacing = CGFloat(4)
-        static let titleHeavyFont = Avenir.heavy.of(size: 17)
-        static let titleMediumFont = Avenir.medium.of(size: 16)
-        static let titleBookFont = Avenir.book.of(size: 16)
-        static let childFont = Avenir.oblique.of(size: 15)
-        static let subtitleFont = Avenir.oblique.of(size: 14)
-    }
+    private let layout = (
+        rankSize: CGFloat(18),
+        margin: CGFloat(8),
+        spacing: CGFloat(4),
+        indent: (combined: CGFloat(12),
+                 parent: CGFloat(16),
+                 child: CGFloat(22)),
+        font: (title: (heavy: Avenir.heavy.of(size: 17),
+                       medium: Avenir.medium.of(size: 16),
+                       book: Avenir.book.of(size: 16)),
+               child: Avenir.oblique.of(size: 15),
+               subtitle: Avenir.oblique.of(size: 14))
+    )
 
     private let titleLabel = UILabel {
         $0.allowsDefaultTighteningForTruncation = true
@@ -142,9 +148,7 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
         $0.image = R.image.checkmarkBlue()
     }
 
-    /// Procedural intializer
-    ///
-    /// - Parameter frame: Display frame
+    /// :nodoc:
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -179,13 +183,13 @@ private extension CountCellItem {
         let infos = UIStackView(arrangedSubviews: [titleLabel,
                                                    visit,
                                                    check]).with {
-            $0.spacing = Layout.spacing
+            $0.spacing = layout.spacing
             $0.alignment = .center
         }
         contentView.addSubview(infos)
         infos.centerYAnchor == contentView.centerYAnchor
-        labelsIndent = infos.leadingAnchor == contentView.leadingAnchor + Layout.parentIndent
-        infos.trailingAnchor == contentView.trailingAnchor - Layout.margin
+        labelsIndent = infos.leadingAnchor == contentView.leadingAnchor + layout.indent.parent
+        infos.trailingAnchor == contentView.trailingAnchor - layout.margin
         visit.addTarget(self,
                         action: #selector(toggleVisit),
                         for: .valueChanged)

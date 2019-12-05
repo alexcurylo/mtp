@@ -1,7 +1,5 @@
 // @copyright Trollwerks Inc.
 
-import PDFKit
-
 /// Display user details
 final class ProfileAboutVC: UITableViewController, UserInjectable {
 
@@ -9,7 +7,7 @@ final class ProfileAboutVC: UITableViewController, UserInjectable {
 
     // verified in requireOutlets
     @IBOutlet private var rankingLabel: UILabel!
-    @IBOutlet private var mapView: PDFView!
+    @IBOutlet private var mapView: WorldMapView!
     @IBOutlet private var mapButton: UIButton!
     @IBOutlet private var mapHeightConstraint: NSLayoutConstraint!
     @IBOutlet private var mapWidthConstraint: NSLayoutConstraint!
@@ -32,7 +30,6 @@ final class ProfileAboutVC: UITableViewController, UserInjectable {
     private var userIdObserver: Observer?
 
     private var countsModel: UserCountsVC.Model?
-    private var mapModel: Data?
 
     private var mapWidth: CGFloat = 0
 
@@ -75,10 +72,6 @@ final class ProfileAboutVC: UITableViewController, UserInjectable {
                               .destination,
            let model = countsModel {
             target.inject(model: model)
-        } else if let target = Segues.showVisitedMap(segue: segue)?
-                                     .destination,
-           let model = mapModel {
-            target.inject(model: model)
         }
     }
 }
@@ -105,14 +98,7 @@ extension ProfileAboutVC {
 private extension ProfileAboutVC {
 
     func configure() {
-        mapView.displaysPageBreaks = false
-        mapView.pageBreakMargins = .zero
-        mapView.displayBox = .mediaBox
-        mapView.backgroundColor = .white
-        mapView.autoScales = false
-        mapView.maxScaleFactor = 1.0
-        mapView.minScaleFactor = 1.0
-        mapView.disableShadow()
+        mapView.configure()
     }
 
     func updateVisible() {
@@ -173,11 +159,8 @@ private extension ProfileAboutVC {
 
         mapWidth = width
         mapWidthConstraint.constant = width
-        let (pdf, height) = data.worldMap.profile(map: visits,
-                                                  width: width)
-        mapHeightConstraint.constant = height
-        let document = PDFDocument(data: pdf)
-        mapView.document = document
+        mapHeightConstraint.constant = mapView.height(for: width)
+        mapView.update(map: width, visits: visits)
     }
 
     func update(ranking user: User) {
@@ -258,7 +241,6 @@ private extension ProfileAboutVC {
     }
 
     @IBAction func mapTapped(_ sender: UIButton) {
-        mapModel = data.worldMap.full(map: visits)
         performSegue(withIdentifier: Segues.showVisitedMap, sender: self)
     }
 

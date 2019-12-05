@@ -8,10 +8,10 @@ final class ApplicationServiceTests: MTPTestCase {
     func testService() throws {
         // given
         let sut = UIApplication.shared
-        let url = try unwrap(URL(string: "test"))
+        let url = try XCTUnwrap(URL(string: "test"))
         let mappable = Mappable()
         let loaded = R.storyboard.main().instantiateInitialViewController()
-        let tbc = try unwrap(loaded as? MainTBC)
+        let tbc = try XCTUnwrap(loaded as? MainTBC)
 
         // when
         sut.launch(url: url)

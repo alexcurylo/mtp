@@ -23,16 +23,16 @@ final class UserDefaultsTests: MTPTestCase {
 
     func testInfoDictionary() throws {
         // given
-        let plist = try unwrap(Bundle.main.infoDictionary)
-        let expectedVersion = try unwrap(plist["CFBundleShortVersionString"])
-        let expectedBuild = try unwrap(plist["CFBundleVersion"])
+        let plist = try XCTUnwrap(Bundle.main.infoDictionary)
+        let expectedVersion = try XCTUnwrap(plist["CFBundleShortVersionString"])
+        let expectedBuild = try XCTUnwrap(plist["CFBundleVersion"])
 
         // when
         StringKey.configureSettingsDisplay()
-        let plistVersion = try unwrap(StringKey.appVersion.infoString)
-        let plistBuild = try unwrap(StringKey.appBuild.infoString)
-        let defaultsVersion = try unwrap(StringKey.appVersion.string)
-        let defaultsBuild = try unwrap(StringKey.appBuild.string)
+        let plistVersion = try XCTUnwrap(StringKey.appVersion.infoString)
+        let plistBuild = try XCTUnwrap(StringKey.appBuild.infoString)
+        let defaultsVersion = try XCTUnwrap(StringKey.appVersion.string)
+        let defaultsBuild = try XCTUnwrap(StringKey.appBuild.string)
 
         // then
         plistVersion.assert(equal: expectedVersion)
@@ -54,9 +54,9 @@ final class UserDefaultsTests: MTPTestCase {
         UserDefaults.standard.register(defaults: defaults)
 
         // then
-        let string = try unwrap(stringKey.string)
+        let string = try XCTUnwrap(stringKey.string)
         string.assert(equal: expectedString)
-        let color: UIColor = try unwrap(UserDefaults.standard[colorKey])
+        let color: UIColor = try XCTUnwrap(UserDefaults.standard[colorKey])
         XCTAssertEqual(color, expectedColor)
     }
 

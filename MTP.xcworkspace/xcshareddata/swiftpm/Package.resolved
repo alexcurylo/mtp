@@ -47,6 +47,15 @@
         }
       },
       {
+        "package": "JWTDecode",
+        "repositoryURL": "https://github.com/auth0/JWTDecode.swift",
+        "state": {
+          "branch": null,
+          "revision": "44895b4888a252c74cb4f945f1cee09b907a9f8e",
+          "version": "2.4.0"
+        }
+      },
+      {
         "package": "Karte",
         "repositoryURL": "https://github.com/kiliankoe/Karte",
         "state": {
@@ -83,15 +92,6 @@
         }
       },
       {
-        "package": "Nimble",
-        "repositoryURL": "https://github.com/Quick/Nimble.git",
-        "state": {
-          "branch": null,
-          "revision": "6abeb3f5c03beba2b9e4dbe20886e773b5b629b6",
-          "version": "8.0.4"
-        }
-      },
-      {
         "package": "Nuke",
         "repositoryURL": "https://github.com/kean/Nuke.git",
         "state": {
@@ -107,15 +107,6 @@
           "branch": null,
           "revision": "c04fce7556de07e0530019577cf39da05e28f2a1",
           "version": "1.7.0"
-        }
-      },
-      {
-        "package": "Quick",
-        "repositoryURL": "https://github.com/Quick/Quick.git",
-        "state": {
-          "branch": null,
-          "revision": "33682c2f6230c60614861dfc61df267e11a1602f",
-          "version": "2.2.0"
         }
       },
       {
@@ -150,8 +141,8 @@
         "repositoryURL": "https://github.com/realm/realm-cocoa",
         "state": {
           "branch": null,
-          "revision": "40732f2ec0cdc32d9d3df8219b2e655deb3077f1",
-          "version": "3.21.0"
+          "revision": "11d7853b750f367525b174331e72f5431e15dfcc",
+          "version": "4.1.1"
         }
       },
       {
@@ -159,8 +150,8 @@
         "repositoryURL": "https://github.com/realm/realm-core",
         "state": {
           "branch": null,
-          "revision": "512dfaa4f59930e193c92e00ba1924bde69b19de",
-          "version": "5.23.5"
+          "revision": "d2f6573960c84ebea3e0236047b3d976f95a5d7a",
+          "version": "5.23.6"
         }
       },
       {

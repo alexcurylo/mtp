@@ -7,12 +7,13 @@ extension UICountsPage: Elemental {
 
     var type: XCUIElement.ElementType {
         switch self {
-        case .region:
+        case .section:
             return .other
         case .group,
              .item:
             return .cell
-        case .toggle:
+        case .brand,
+             .toggle:
             return .switch
         }
     }

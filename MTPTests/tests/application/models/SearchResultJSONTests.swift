@@ -7,7 +7,7 @@ final class SearchResultJSONTests: MTPTestCase {
 
     func testDecodingResults() throws {
         // given
-        let data = try unwrap(completeResults.data(using: .utf8))
+        let data = try XCTUnwrap(completeResults.data(using: .utf8))
 
         // when
         let json = try JSONDecoder.mtp.decode(SearchResultJSON.self,

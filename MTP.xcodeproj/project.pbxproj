@@ -41,6 +41,7 @@
 		8C27DF27232724670020E0B6 /* UINetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C27DF26232724670020E0B6 /* UINetwork.swift */; };
 		8C27DF29232724B50020E0B6 /* UINetwork+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C27DF28232724B50020E0B6 /* UINetwork+Tests.swift */; };
 		8C27DF2A232725AD0020E0B6 /* UINetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C27DF26232724670020E0B6 /* UINetwork.swift */; };
+		8C2C2AA3238E05940022D485 /* WorldMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2C2AA2238E05940022D485 /* WorldMapView.swift */; };
 		8C2F88912330B467005BADE0 /* Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDA496B2330709C00014912 /* Network.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8C37FCAB237E49D900F443C6 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 8C37FCAA237E49D900F443C6 /* SwiftPackageProductDependency */; };
 		8C37FCAD237E49D900F443C6 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 8C37FCAC237E49D900F443C6 /* SwiftPackageProductDependency */; };
@@ -221,6 +222,7 @@
 		8CCA5A7322AA6BBB00853903 /* AppAboutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCA5A7222AA6BBB00853903 /* AppAboutVC.swift */; };
 		8CD2831722E7DEE800324FDE /* Elemental.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD2831622E7DEE800324FDE /* Elemental.swift */; };
 		8CD2831922E7EC1000324FDE /* XCUIElementTypeQueryProvider+Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD2831822E7EC1000324FDE /* XCUIElementTypeQueryProvider+Query.swift */; };
+		8CD2F2122397344300471FE6 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 8CD2F2112397344300471FE6 /* SwiftPackageProductDependency */; };
 		8CD4BD2723024DCB0041E0C3 /* UIForgotPassword+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD4BD2623024DCB0041E0C3 /* UIForgotPassword+Test.swift */; };
 		8CD4BD2923024E320041E0C3 /* UIForgotPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD4BD2823024E320041E0C3 /* UIForgotPassword.swift */; };
 		8CD4BD2A23024E320041E0C3 /* UIForgotPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD4BD2823024E320041E0C3 /* UIForgotPassword.swift */; };
@@ -244,6 +246,7 @@
 		8CE6FC64224C6CB600B24410 /* LocationInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6FC61224C6CB500B24410 /* LocationInfoVC.swift */; };
 		8CE6FC65224C6CB600B24410 /* LocationPhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6FC62224C6CB600B24410 /* LocationPhotosVC.swift */; };
 		8CE6FC66224C6CB600B24410 /* LocationPostsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE6FC63224C6CB600B24410 /* LocationPostsVC.swift */; };
+		8CEBA086238B793C004E8D20 /* WorldMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CEBA085238B793C004E8D20 /* WorldMapTests.swift */; };
 		8CEC654F23208AD80041D63A /* NotificationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CEC654E23208AD80041D63A /* NotificationServiceTests.swift */; };
 		8CED2C44231765B10093AA29 /* userLogin-fail.json in Resources */ = {isa = PBXBuildFile; fileRef = 8CED2C43231765B10093AA29 /* userLogin-fail.json */; };
 		8CF239A92305156E006AB7D2 /* ActionHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF239A82305156E006AB7D2 /* ActionHandlerTests.swift */; };
@@ -432,6 +435,7 @@
 		FA5AC0C521FDD7C00080F84F /* CountSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C421FDD7C00080F84F /* CountSectionHeader.swift */; };
 		FA5AC0C721FDD8AA0080F84F /* CountCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C621FDD8AA0080F84F /* CountCellItem.swift */; };
 		FA5DBFA8222FF9E300639148 /* RegistrationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5DBFA7222FF9E300639148 /* RegistrationPayload.swift */; };
+		FA5FEA7F238911F0008C319F /* CountsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5FEA7E238911F0008C319F /* CountsViewModel.swift */; };
 		FA620DD62308C8DD00F64926 /* RestaurantTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA620DD52308C8DD00F64926 /* RestaurantTests.swift */; };
 		FA62BAE522471780009FDC4E /* StateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA62BAE422471780009FDC4E /* StateHandler.swift */; };
 		FA62BAE922478A6D009FDC4E /* UserCountsPagingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA62BAE822478A6D009FDC4E /* UserCountsPagingVC.swift */; };
@@ -574,6 +578,8 @@
 		FAD2B51821F48AB8009FFDD7 /* PlaceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51721F48AB8009FFDD7 /* PlaceInfo.swift */; };
 		FAD2B51A21F492B3009FFDD7 /* UncertainValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51921F492B3009FFDD7 /* UncertainValue.swift */; };
 		FAD2B51C21F4A675009FFDD7 /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2B51B21F4A675009FFDD7 /* Restaurant.swift */; };
+		FAD395702389402A000633DC /* CountsTwoLevelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3956F2389402A000633DC /* CountsTwoLevelViewModel.swift */; };
+		FAD3957223894D30000633DC /* CountsThreeLevelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3957123894D30000633DC /* CountsThreeLevelViewModel.swift */; };
 		FADC1ABA2144FAD70011EE49 /* Date+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */; };
 		FADC1ABE2145E9760011EE49 /* ProfilePhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADC1ABD2145E9760011EE49 /* ProfilePhotosVC.swift */; };
 		FAE1F117213BFBA80002CAB2 /* Locations.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAE1F115213BFBA80002CAB2 /* Locations.storyboard */; };
@@ -635,6 +641,7 @@
 		8C25480E230FACCB003A1B99 /* postPublish.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = postPublish.json; sourceTree = "<group>"; };
 		8C27DF26232724670020E0B6 /* UINetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINetwork.swift; sourceTree = "<group>"; };
 		8C27DF28232724B50020E0B6 /* UINetwork+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINetwork+Tests.swift"; sourceTree = "<group>"; };
+		8C2C2AA2238E05940022D485 /* WorldMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldMapView.swift; sourceTree = "<group>"; };
 		8C3EA1FE22DD540F008DD858 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
 		8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLoadingTextView.swift; sourceTree = "<group>"; };
 		8C3EAA1B2230BFA500CB4886 /* InsetTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetTextField.swift; sourceTree = "<group>"; };
@@ -817,6 +824,7 @@
 		8CE6FC61224C6CB500B24410 /* LocationInfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationInfoVC.swift; sourceTree = "<group>"; };
 		8CE6FC62224C6CB600B24410 /* LocationPhotosVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationPhotosVC.swift; sourceTree = "<group>"; };
 		8CE6FC63224C6CB600B24410 /* LocationPostsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationPostsVC.swift; sourceTree = "<group>"; };
+		8CEBA085238B793C004E8D20 /* WorldMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldMapTests.swift; sourceTree = "<group>"; };
 		8CEC654E23208AD80041D63A /* NotificationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServiceTests.swift; sourceTree = "<group>"; };
 		8CED2C43231765B10093AA29 /* userLogin-fail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "userLogin-fail.json"; sourceTree = "<group>"; };
 		8CF239A82305156E006AB7D2 /* ActionHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionHandlerTests.swift; sourceTree = "<group>"; };
@@ -1000,6 +1008,7 @@
 		FA5AC0C421FDD7C00080F84F /* CountSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountSectionHeader.swift; sourceTree = "<group>"; };
 		FA5AC0C621FDD8AA0080F84F /* CountCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountCellItem.swift; sourceTree = "<group>"; };
 		FA5DBFA7222FF9E300639148 /* RegistrationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationPayload.swift; sourceTree = "<group>"; };
+		FA5FEA7E238911F0008C319F /* CountsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountsViewModel.swift; sourceTree = "<group>"; };
 		FA620DD52308C8DD00F64926 /* RestaurantTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantTests.swift; sourceTree = "<group>"; };
 		FA62BAE422471780009FDC4E /* StateHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateHandler.swift; sourceTree = "<group>"; };
 		FA62BAE822478A6D009FDC4E /* UserCountsPagingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCountsPagingVC.swift; sourceTree = "<group>"; };
@@ -1150,6 +1159,8 @@
 		FAD2B51721F48AB8009FFDD7 /* PlaceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfo.swift; sourceTree = "<group>"; };
 		FAD2B51921F492B3009FFDD7 /* UncertainValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UncertainValue.swift; sourceTree = "<group>"; };
 		FAD2B51B21F4A675009FFDD7 /* Restaurant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
+		FAD3956F2389402A000633DC /* CountsTwoLevelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountsTwoLevelViewModel.swift; sourceTree = "<group>"; };
+		FAD3957123894D30000633DC /* CountsThreeLevelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountsThreeLevelViewModel.swift; sourceTree = "<group>"; };
 		FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Formatting.swift"; sourceTree = "<group>"; };
 		FADC1ABD2145E9760011EE49 /* ProfilePhotosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePhotosVC.swift; sourceTree = "<group>"; };
 		FAE1F116213BFBA80002CAB2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Locations.storyboard; sourceTree = "<group>"; };
@@ -1189,6 +1200,7 @@
 			files = (
 				8C37FCAD237E49D900F443C6 /* BuildFile in Frameworks */,
 				8C73B29A236C1BFD004457F9 /* BuildFile in Frameworks */,
+				8CD2F2122397344300471FE6 /* BuildFile in Frameworks */,
 				8C37FCAB237E49D900F443C6 /* BuildFile in Frameworks */,
 				FA9A91D62347FC07006CD75E /* BuildFile in Frameworks */,
 				8CE2C54223726B8600570A0C /* BuildFile in Frameworks */,
@@ -1709,6 +1721,7 @@
 				8C84D87223136EA70070BD55 /* UNCountryTests.swift */,
 				8C6F66DA2384DC1300F06160 /* UserTests.swift */,
 				8C84D87023135F5F0070BD55 /* WHSTests.swift */,
+				8CEBA085238B793C004E8D20 /* WorldMapTests.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -2081,6 +2094,7 @@
 				8C0F242A22432076005BD5DC /* UserCountsVC.swift */,
 				FA21FBA022A4157000190B71 /* UserProfileVC.swift */,
 				FA08693C2348C61600FDFCB3 /* VisitedMapVC.swift */,
+				8C2C2AA2238E05940022D485 /* WorldMapView.swift */,
 			);
 			path = rankings;
 			sourceTree = "<group>";
@@ -2110,6 +2124,9 @@
 				FA5AC0C621FDD8AA0080F84F /* CountCellItem.swift */,
 				FAC9057222CB8E9A001296DE /* CountInfoHeader.swift */,
 				FA5AC0C421FDD7C00080F84F /* CountSectionHeader.swift */,
+				FAD3957123894D30000633DC /* CountsThreeLevelViewModel.swift */,
+				FAD3956F2389402A000633DC /* CountsTwoLevelViewModel.swift */,
+				FA5FEA7E238911F0008C319F /* CountsViewModel.swift */,
 				FA62BAEA2247A9A0009FDC4E /* CountsPageVC.swift */,
 				FA46377F210DE94C0007382D /* EditProfileVC.swift */,
 				FA40F753225B06D50056182E /* FaqVC.swift */,
@@ -2571,6 +2588,7 @@
 				8C37FCAA237E49D900F443C6 /* SwiftPackageProductDependency */,
 				8C37FCAC237E49D900F443C6 /* SwiftPackageProductDependency */,
 				8C37FCAE237E49D900F443C6 /* SwiftPackageProductDependency */,
+				8CD2F2112397344300471FE6 /* SwiftPackageProductDependency */,
 			);
 			productName = MTP;
 			productReference = FA392BB720DF69F30026C828 /* MTP.app */;
@@ -2679,6 +2697,7 @@
 				8C73B298236C1BFD004457F9 /* RemoteSwiftPackageReference */,
 				8CE2C54023726B8600570A0C /* RemoteSwiftPackageReference */,
 				8C37FCA9237E49D900F443C6 /* RemoteSwiftPackageReference */,
+				8CD2F2102397344300471FE6 /* RemoteSwiftPackageReference */,
 			);
 			productRefGroup = FA392BB820DF69F30026C828 /* Products */;
 			projectDirPath = "";
@@ -2870,7 +2889,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ -x \"$(command -v mint)\" ]; then\n  mint run swiftlint\nelse\n  echo 'skipping swiftlint, mint is not installed - are we on CI?' >&2\nfi\n";
+			shellScript = "if [ -x \"$(command -v mint)\" ]; then\n  mint run swiftlint\nelse\n  echo \"error: SwiftLint not installed; 'mint install realm/SwiftLint' to install globally\"\n  return -1\nfi\n";
 		};
 		FA3E366D20DFBC61002AF4EE /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2914,7 +2933,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if mint list | grep -q 'R.swift'; then\n  mint run R.swift rswift generate \"${SRCROOT}/MTP/resources/R.generated.swift\"\nelse\n  echo \"error: R.swift not installed; run 'mint bootstrap' to install\"\n  return -1\nfi\n";
+			shellScript = "if mint list | grep -q 'R.swift'; then\n  mint run R.swift rswift generate \"${SRCROOT}/MTP/resources/R.generated.swift\"\nelse\n  echo \"error: R.swift not installed; 'mint bootstrap' to install\"\n  return -1\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2963,6 +2982,7 @@
 				8C8DC74D22AF4343002EA1CD /* FaqJSON.swift in Sources */,
 				FA1663B122E3354C0075DA1A /* HTTPURLResponse+Headers.swift in Sources */,
 				8C522F4E2339A6290056D0CE /* Media.swift in Sources */,
+				FAD395702389402A000633DC /* CountsTwoLevelViewModel.swift in Sources */,
 				8CF778E7232B13780070253A /* NetworkServiceObserver.swift in Sources */,
 				FA5AC0BF21FDCB9D0080F84F /* MyCountsPagingVC.swift in Sources */,
 				8C522F3B2339A6290056D0CE /* TopicsViewController.swift in Sources */,
@@ -3054,6 +3074,7 @@
 				8CDC4D54230A301400AA422D /* UIKeyboard.swift in Sources */,
 				8C7D71E12303DA98005939AC /* UILocationPaging.swift in Sources */,
 				FAFEDA522129602800DA3DB8 /* WelcomeVC.swift in Sources */,
+				FAD3957223894D30000633DC /* CountsThreeLevelViewModel.swift in Sources */,
 				8C522F502339A6290056D0CE /* BodyItem.swift in Sources */,
 				8C3EAB8C2231100400CB4886 /* Array+Type.swift in Sources */,
 				FA03459D2304CC3000632322 /* UIProfileAbout.swift in Sources */,
@@ -3167,6 +3188,7 @@
 				8C522F512339A6290056D0CE /* TopicCell.swift in Sources */,
 				FA6386A522D17EBA001B4424 /* Mappable.swift in Sources */,
 				FAD2B51A21F492B3009FFDD7 /* UncertainValue.swift in Sources */,
+				FA5FEA7F238911F0008C319F /* CountsViewModel.swift in Sources */,
 				FA126BD32336EBB800175258 /* AXPhotosTransitionAnimator.swift in Sources */,
 				FAE1F119214354A80002CAB2 /* Avenir.swift in Sources */,
 				8C522F472339A6290056D0CE /* AppVersionItem.swift in Sources */,
@@ -3190,6 +3212,7 @@
 				FAC8465922AB493E004F57EC /* LocationHandler.swift in Sources */,
 				FA36FBED22059E6B00616CDE /* ApplicationService.swift in Sources */,
 				FAAE29C520F05A9600B43BA9 /* UserDefaults+TypeSafety.swift in Sources */,
+				8C2C2AA3238E05940022D485 /* WorldMapView.swift in Sources */,
 				FA7A66E322FE258D001DCCA2 /* UIWelcome.swift in Sources */,
 				FA5AC0C121FDCCDE0080F84F /* ListPagingItem.swift in Sources */,
 				FA126BD22336EBB800175258 /* AXPhotosTransitionController.swift in Sources */,
@@ -3273,6 +3296,7 @@
 				8C522F7A2339A6460056D0CE /* FeedbackItemsDataSourceTests.swift in Sources */,
 				8CC6B9612304F0D90089DB89 /* SearchResultJSONTests.swift in Sources */,
 				FA63A4C223076A1800637BB3 /* RankingCellTests.swift in Sources */,
+				8CEBA086238B793C004E8D20 /* WorldMapTests.swift in Sources */,
 				8C5801A023050CB700DE768F /* PostPayloadTests.swift in Sources */,
 				FA63A4BB230768F000637BB3 /* LocationPagingVCTests.swift in Sources */,
 				8C522F7F2339A6460056D0CE /* AppBuildCellTests.swift in Sources */,
@@ -3683,13 +3707,14 @@
 			baseConfigurationReference = FAF12300215652AE0099B772 /* MTP_Debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 649;
+				CURRENT_PROJECT_VERSION = 650;
 				DEAD_CODE_STRIPPING = NO;
 				INFOPLIST_FILE = MTP/resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.2.1;
 				SWIFT_OBJC_BRIDGING_HEADER = "MTP/support/RealmMapView/MTP-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -3702,7 +3727,7 @@
 			baseConfigurationReference = FAF122FC215652AE0099B772 /* MTP_Release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 649;
+				CURRENT_PROJECT_VERSION = 650;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 37L8D8MJWV;
 				INFOPLIST_FILE = MTP/resources/Info.plist;
@@ -3710,6 +3735,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.2.1;
 				PROVISIONING_PROFILE_SPECIFIER = "MTP-AppStore";
 				SWIFT_OBJC_BRIDGING_HEADER = "MTP/support/RealmMapView/MTP-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -3803,6 +3829,14 @@
 				minimumVersion = 5.1.0;
 			};
 		};
+		8CD2F2102397344300471FE6 /* RemoteSwiftPackageReference */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/auth0/JWTDecode.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.0;
+			};
+		};
 		8CE2C54023726B8600570A0C /* RemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kiliankoe/Karte";
@@ -3880,7 +3914,7 @@
 			repositoryURL = "https://github.com/realm/realm-cocoa";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 3.18.0;
+				minimumVersion = 4.1.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -3905,6 +3939,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8C73B298236C1BFD004457F9 /* RemoteSwiftPackageReference */;
 			productName = Rswift;
+		};
+		8CD2F2112397344300471FE6 /* SwiftPackageProductDependency */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8CD2F2102397344300471FE6 /* RemoteSwiftPackageReference */;
+			productName = JWTDecode;
 		};
 		8CE2C54123726B8600570A0C /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;

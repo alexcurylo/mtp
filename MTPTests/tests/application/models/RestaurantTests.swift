@@ -8,14 +8,14 @@ final class RestaurantTests: MTPTestCase {
     func testDecodingComplete() throws {
         // given
         let realm = RealmDataController()
-        let data = try unwrap(complete.data(using: .utf8))
+        let data = try XCTUnwrap(complete.data(using: .utf8))
 
         // when
         let json = try JSONDecoder.mtp.decode(RestaurantJSON.self,
                                               from: data)
         realm.set(restaurants: [json])
-        let sut = try unwrap(Restaurant(from: json, realm: realm))
-        let map = try unwrap(sut.map)
+        let sut = try XCTUnwrap(Restaurant(from: json, realm: realm))
+        let map = try XCTUnwrap(sut.map)
 
         // then
         json.description.assert(equal: map.title)
@@ -41,13 +41,13 @@ final class RestaurantTests: MTPTestCase {
     func testDecodingIncomplete() throws {
         // given
         let realm = RealmDataController()
-        let data = try unwrap(incomplete.data(using: .utf8))
+        let data = try XCTUnwrap(incomplete.data(using: .utf8))
 
         // when
         let json = try JSONDecoder.mtp.decode(RestaurantJSON.self,
                                               from: data)
-        let sut = try unwrap(Restaurant(from: json, realm: realm))
-        let map = try unwrap(sut.map)
+        let sut = try XCTUnwrap(Restaurant(from: json, realm: realm))
+        let map = try XCTUnwrap(sut.map)
 
         // then
         XCTAssertEqual(sut.placeId, 1)
@@ -68,7 +68,7 @@ final class RestaurantTests: MTPTestCase {
     func testDecodingInactive() throws {
         // given
         let realm = RealmDataController()
-        let data = try unwrap(inactive.data(using: .utf8))
+        let data = try XCTUnwrap(inactive.data(using: .utf8))
 
         // when
         let json = try JSONDecoder.mtp.decode(RestaurantJSON.self,

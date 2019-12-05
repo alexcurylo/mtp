@@ -167,6 +167,26 @@ final class DataServiceSpy: DataService {
         invokedHotelsGetterCount += 1
         return stubbedHotels
     }
+    var invokedHotelsGroupBrandSetter = false
+    var invokedHotelsGroupBrandSetterCount = 0
+    var invokedHotelsGroupBrand: Bool?
+    var invokedHotelsGroupBrandList = [Bool]()
+    var invokedHotelsGroupBrandGetter = false
+    var invokedHotelsGroupBrandGetterCount = 0
+    var stubbedHotelsGroupBrand: Bool! = false
+    var hotelsGroupBrand: Bool {
+        set {
+            invokedHotelsGroupBrandSetter = true
+            invokedHotelsGroupBrandSetterCount += 1
+            invokedHotelsGroupBrand = newValue
+            invokedHotelsGroupBrandList.append(newValue)
+        }
+        get {
+            invokedHotelsGroupBrandGetter = true
+            invokedHotelsGroupBrandGetterCount += 1
+            return stubbedHotelsGroupBrand
+        }
+    }
     var invokedLastRankingsQuerySetter = false
     var invokedLastRankingsQuerySetterCount = 0
     var invokedLastRankingsQuery: RankingsQuery?

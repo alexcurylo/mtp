@@ -7,8 +7,6 @@ enum Disclosure {
 
     /// Undisclosed
     case close
-    // Nothing to disclose
-    //case empty
     /// Disclosed
     case expand
 
@@ -17,8 +15,6 @@ enum Disclosure {
         switch self {
         case .close:
             return R.image.arrowUp()
-        //case .empty:
-            //return nil
         case .expand:
             return R.image.arrowDown()
        }
@@ -28,22 +24,32 @@ enum Disclosure {
 /// Notify of display state changes
 protocol CountCellGroupDelegate: AnyObject {
 
-    /// Toggle expanded state of country
-    ///
+    /// Toggle expanded state of group
     /// - Parameters:
-    ///   - region: Region
-    ///   - country: Country
-    func toggle(region: String,
-                country: String)
+    ///   - section: Name
+    ///   - group: Name
+    func toggle(section: String,
+                group: String)
+
+    /// Toggle expanded state of subgroup
+    /// - Parameters:
+    ///   - section: Name
+    ///   - group: Name
+    ///   - subgroup: Name
+    func toggle(section: String,
+                group: String,
+                subgroup: String)
 }
 
 /// Display model for count group
-struct CountGroupModel {
+struct CountGroupModel: CountCellModel {
 
-    /// Region
-    let region: String
-    /// Country
-    let country: String
+    /// Region or brand
+    let section: String
+    /// Country or region
+    let group: String
+    /// Location or country
+    let subgroup: String?
     /// Number visited
     let visited: Int?
     /// Number total
@@ -68,17 +74,20 @@ final class CountCellGroup: UICollectionViewCell {
     private var model: CountGroupModel?
 
     /// Handle dependency injection
-    ///
     /// - Parameter model: Data model
-    func inject(model: CountGroupModel) {
+    func inject(model: CountCellModel) {
+        guard let model = model as? CountGroupModel else { return }
         self.model = model
 
+        let title = model.subgroup ?? model.group
         if let visited = model.visited {
-            label.text = L.locationVisitedCount(model.country, visited, model.count)
+            label.text = L.locationVisitedCount(title, visited, model.count)
         } else {
-            label.text = L.locationCount(model.country, model.count)
+            label.text = L.locationCount(title, model.count)
         }
         disclosure.image = model.disclose.image
+        let isSubgroup = model.subgroup != nil
+        indentConstraint?.constant = isSubgroup ? layout.inset.subgroup : layout.inset.group
 
         let rounded: ViewCorners = model.isLast ? .bottom(radius: CountCellItem.cellCornerRadius)
                                                 : .square
@@ -87,25 +96,22 @@ final class CountCellGroup: UICollectionViewCell {
         UICountsPage.group(model.path.section, model.path.row).expose(item: self)
     }
 
-    private enum Layout {
-        static let insets = UIEdgeInsets(top: 0,
-                                         left: 12,
-                                         bottom: 0,
-                                         right: 0)
-        static let font = Avenir.heavy.of(size: 17)
-    }
-
+    private let layout = (
+        inset: (
+            group: CGFloat(12),
+            subgroup: CGFloat(16)
+        ),
+        font: Avenir.heavy.of(size: 17)
+    )
+    private var indentConstraint: NSLayoutConstraint?
     private let disclosure = UIImageView {
         $0.setContentHuggingPriority(.required, for: .horizontal)
     }
-
-    private let label = UILabel {
-        $0.font = Layout.font
+    private lazy var label = UILabel {
+        $0.font = layout.font
     }
 
-    /// Procedural intializer
-    ///
-    /// - Parameter frame: Display frame
+    /// :nodoc:
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -141,7 +147,9 @@ private extension CountCellGroup {
             $0.spacing = 5
         }
         contentView.addSubview(stack)
-        stack.edgeAnchors == contentView.edgeAnchors + Layout.insets
+        stack.verticalAnchors == contentView.verticalAnchors
+        stack.rightAnchor == contentView.rightAnchor
+        indentConstraint = stack.leftAnchor == contentView.leftAnchor
 
         let tap = UITapGestureRecognizer(target: self,
                                          action: #selector(tapped))
@@ -149,9 +157,15 @@ private extension CountCellGroup {
     }
 
     @objc func tapped(_ sender: UIGestureRecognizer) {
-        if let model = model {
-            delegate?.toggle(region: model.region,
-                             country: model.country)
+        guard let model = model else { return }
+
+        if let subgroup = model.subgroup {
+            delegate?.toggle(section: model.section,
+                             group: model.group,
+                             subgroup: subgroup)
+        } else {
+            delegate?.toggle(section: model.section,
+                             group: model.group)
         }
     }
 }

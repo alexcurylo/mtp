@@ -16,6 +16,8 @@ fastlane_version "2.131.0"
 #update_fastlane
 default_platform(:ios)
 
+ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "180"
+
 platform :ios do
 
   before_all do

@@ -609,6 +609,9 @@
                 <a class="nav-group-task-link" href="Classes/WelcomeVC.html">WelcomeVC</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/WorldMapView.html">WorldMapView</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Classes/ZoomAnimator.html">ZoomAnimator</a>
               </li>
             </ul>
@@ -979,9 +982,6 @@
                 <a class="nav-group-task-link" href="Extensions/Optional.html">Optional</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Extensions/PDFView.html">PDFView</a>
-              </li>
-              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Extensions/ProcessInfo.html">ProcessInfo</a>
               </li>
               <li class="nav-group-task">
@@ -1217,7 +1217,16 @@
                 <a class="nav-group-task-link" href="Protocols/CountCellGroupDelegate.html">CountCellGroupDelegate</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols.html#/s:3MTP14CountCellModelP">CountCellModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/CountInfoHeaderDelegate.html">CountInfoHeaderDelegate</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Protocols/CountSectionHeaderDelegate.html">CountSectionHeaderDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/CountsViewModel.html">CountsViewModel</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Protocols/DataService.html">DataService</a>
@@ -1442,6 +1451,15 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/CountryJSON.html">CountryJSON</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/CountsThreeLevelViewModel.html">CountsThreeLevelViewModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/CountsTwoLevelViewModel.html">CountsTwoLevelViewModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/CountsViewModelBuilder.html">CountsViewModelBuilder</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/DeviceNameItem.html">DeviceNameItem</a>
@@ -1917,7 +1935,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/application/models/Checked.swift#L4-L60">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/application/models/Checked.swift#L4-L58">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3432,7 +3450,7 @@ expect everything in UserJSON except country, location structs</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/application/models/WorldMap.swift#L60-L156">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/application/models/WorldMap.swift#L90-L187">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3566,12 +3584,12 @@ expect everything in UserJSON except country, location structs</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">CountGroupModel</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">CountGroupModel</span> <span class="p">:</span> <span class="kt"><a href="Protocols.html#/s:3MTP14CountCellModelP">CountCellModel</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/CountCellGroup.swift#L41-L57">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/CountCellGroup.swift#L45-L63">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3601,7 +3619,7 @@ expect everything in UserJSON except country, location structs</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">CountItemModel</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">CountItemModel</span> <span class="p">:</span> <span class="kt"><a href="Protocols.html#/s:3MTP14CountCellModelP">CountCellModel</a></span></code></pre>
 
                         </div>
                       </div>
@@ -3641,7 +3659,112 @@ expect everything in UserJSON except country, location structs</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/CountSectionHeader.swift#L15-L25">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/CountSectionHeader.swift#L14-L24">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3MTP25CountsThreeLevelViewModelV"></a>
+                    <a name="//apple_ref/swift/Struct/CountsThreeLevelViewModel" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3MTP25CountsThreeLevelViewModelV">CountsThreeLevelViewModel</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>View model for region&gt;country&gt;location and brand&gt;region&gt;country counts</p>
+
+                        <a href="Structs/CountsThreeLevelViewModel.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">CountsThreeLevelViewModel</span> <span class="p">:</span> <span class="kt"><a href="Protocols/CountsViewModel.html">CountsViewModel</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/CountsThreeLevelViewModel.swift#L4-L226">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3MTP23CountsTwoLevelViewModelV"></a>
+                    <a name="//apple_ref/swift/Struct/CountsTwoLevelViewModel" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3MTP23CountsTwoLevelViewModelV">CountsTwoLevelViewModel</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>View model for region and region&gt;country counts</p>
+
+                        <a href="Structs/CountsTwoLevelViewModel.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">CountsTwoLevelViewModel</span> <span class="p">:</span> <span class="kt"><a href="Protocols/CountsViewModel.html">CountsViewModel</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/CountsTwoLevelViewModel.swift#L4-L176">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3MTP22CountsViewModelBuilderV"></a>
+                    <a name="//apple_ref/swift/Struct/CountsViewModelBuilder" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3MTP22CountsViewModelBuilderV">CountsViewModelBuilder</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Builder for CountsViewModel</p>
+
+                        <a href="Structs/CountsViewModelBuilder.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">CountsViewModelBuilder</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/interface/profile/CountsViewModel.swift#L55-L86">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4337,7 +4460,7 @@ Such as possibly quoted numbers</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/UserDefaults+TypeSafety.swift#L6-L50">Show on GitHub</a>
+                        <a href="https://github.com/alexcurylo/mtp/tree/master/MTP/support/UserDefaults+TypeSafety.swift#L6-L48">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
