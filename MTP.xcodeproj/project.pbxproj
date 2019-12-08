@@ -3716,7 +3716,7 @@
 			baseConfigurationReference = FAF12300215652AE0099B772 /* MTP_Debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 650;
+				CURRENT_PROJECT_VERSION = 651;
 				DEAD_CODE_STRIPPING = NO;
 				INFOPLIST_FILE = MTP/resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3736,7 +3736,7 @@
 			baseConfigurationReference = FAF122FC215652AE0099B772 /* MTP_Release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 650;
+				CURRENT_PROJECT_VERSION = 651;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 37L8D8MJWV;
 				INFOPLIST_FILE = MTP/resources/Info.plist;
