@@ -6,7 +6,6 @@ import UIKit
 final class LinkTappableTextView: UITextView {
 
     /// Procedural intializer
-    ///
     /// - Parameter frame: Display frame
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
@@ -19,7 +18,6 @@ final class LinkTappableTextView: UITextView {
     }
 
     /// Hit test
-    ///
     /// - Parameters:
     ///   - point: Point tapped
     ///   - event: Event for tap

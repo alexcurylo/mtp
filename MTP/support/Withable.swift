@@ -12,7 +12,6 @@ protocol Withable {
 extension Withable {
 
     /// Construct a new instance and configure
-    ///
     /// - Parameter configure: configuration closure/function
     /// - Returns: configured object
     init(with configure: (inout Self) -> Void) {
@@ -21,7 +20,6 @@ extension Withable {
     }
 
     /// Construct a copy and configure
-    ///
     /// - Parameter configure: configuration closure/function
     /// - Returns: configured copy of object
     func with(_ configure: (inout Self) -> Void) -> Self {
@@ -34,7 +32,6 @@ extension Withable {
 extension Optional where Wrapped: Withable {
 
     /// Construct a copy or original and configure
-    ///
     /// - Parameter configure: configuration closure/function
     /// - Returns: configured object
     func with(_ configure: (inout Wrapped) -> Void) -> Wrapped {

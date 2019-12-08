@@ -175,7 +175,6 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
     }
 
     /// Copy and update visit counts
-    ///
     /// - Parameter visited: New visit counts
     /// - Returns: Copy with visited applied
     func updated(visited: Checked) -> UserJSON {
@@ -350,7 +349,6 @@ struct Link: Codable, Hashable {
     }
 
     /// Initialize by injection
-    ///
     /// - Parameters:
     ///   - text: text
     ///   - url: url
@@ -458,9 +456,7 @@ extension UserAvatar {
         return userId == data.user?.id
     }
 
-    /// Realm unique identifier
-    ///
-    /// - Returns: unique identifier
+    /// :nodoc:
     override static func primaryKey() -> String? {
         return "userId"
     }
@@ -519,7 +515,6 @@ extension UserAvatar {
     }
 
     /// Equality operator
-    ///
     /// - Parameter object: Other object
     /// - Returns: equality
     override func isEqual(_ object: Any?) -> Bool {

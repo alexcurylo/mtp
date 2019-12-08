@@ -116,9 +116,7 @@ extension LocationJSON: CustomDebugStringConvertible {
     /// For use in constructing weather information URL
     dynamic var weatherhist: String = ""
 
-    /// Realm unique identifier
-    ///
-    /// - Returns: unique identifier
+    /// :nodoc:
     override static func primaryKey() -> String? {
         return "placeId"
     }
@@ -180,7 +178,6 @@ extension LocationJSON: CustomDebugStringConvertible {
     }
 
     /// Equality operator
-    ///
     /// - Parameter object: Other object
     /// - Returns: equality
     override func isEqual(_ object: Any?) -> Bool {

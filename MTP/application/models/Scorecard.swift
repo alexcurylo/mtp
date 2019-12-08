@@ -284,15 +284,12 @@ extension ScorecardJSON: CustomDebugStringConvertible {
     /// visits
     let visits = List<Int>()
 
-    /// Realm unique identifier
-    ///
-    /// - Returns: unique identifier
+    /// :nodoc:
     override static func primaryKey() -> String? {
         return "dbKey"
     }
 
     /// Unique key for database
-    ///
     /// - Parameter item: Item
     /// - Returns: Unique key
     static func key(list: Checklist, user: Int) -> String {
@@ -338,7 +335,6 @@ extension ScorecardJSON: CustomDebugStringConvertible {
     }
 
     /// Rank in query if matches
-    ///
     /// - Parameter filter: Filter
     /// - Returns: Rank if present
     func rank(filter: RankingsQuery) -> Int? {

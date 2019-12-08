@@ -65,7 +65,6 @@ final class PostHeader: UITableViewHeaderFooterView, ServiceProvider {
     }
 
     /// Handle dependency injection
-    ///
     /// - Parameters:
     ///   - model: Show add button and/or queue button?
     ///   - delegate: PostHeaderDelegate

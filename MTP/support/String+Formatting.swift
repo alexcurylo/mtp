@@ -43,7 +43,6 @@ extension String {
     }
 
     /// Create attributed string with specified traits
-    ///
     /// - Parameters:
     ///   - font: Font
     ///   - color: Color
@@ -58,7 +57,6 @@ extension String {
     }
 
     /// Convert HTML doc to NSAttributedString if possible
-    ///
     /// - Parameters:
     ///   - font: default font
     ///   - color: default color
@@ -165,7 +163,6 @@ extension String {
 
     /// Truncates the string to the specified length number of characters
     /// and appends an optional trailing string if longer.
-    ///
     /// - Parameters:
     ///   - length: Desired maximum length of a string
     ///   - trailing: A 'String' that will be appended after the truncation
@@ -176,7 +173,6 @@ extension String {
     }
 
     /// Initialize with StaticString such as `#file`
-    ///
     /// - Parameter staticString: Compile time string
     init(_ staticString: StaticString) {
         self = staticString.withUTF8Buffer {
@@ -214,7 +210,6 @@ extension NSAttributedString {
     typealias Attributes = [NSAttributedString.Key: Any]
 
     /// Wrap attribute values in Attributes
-    ///
     /// - Parameters:
     ///   - color: Color
     ///   - font: Font
@@ -271,7 +266,6 @@ private extension UIColor {
 extension StringProtocol {
 
     /// Allow string subscripting by Int closed range
-    ///
     /// - Parameter bounds: Range to subscript
     subscript(bounds: CountableClosedRange<Int>) -> SubSequence {
         let start = index(startIndex, offsetBy: bounds.lowerBound)
@@ -280,7 +274,6 @@ extension StringProtocol {
     }
 
     /// Allow string subscripting by Int range
-    ///
     /// - Parameter bounds: Range to subscript
     subscript(bounds: CountableRange<Int>) -> SubSequence {
         let start = index(startIndex, offsetBy: bounds.lowerBound)

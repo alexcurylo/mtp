@@ -13,7 +13,6 @@ final class LocationPagingVC: FixedPagingViewController {
     }
 
     /// Provide pages container
-    ///
     /// - Parameter model: Model to populate pages
     /// - Returns: LocationPagingVC
     static func profile(model: Mappable) -> LocationPagingVC {
@@ -59,7 +58,6 @@ final class LocationPagingVC: FixedPagingViewController {
     }
 
     /// Construction by injection
-    ///
     /// - Parameter viewControllers: Controllers
     override init(viewControllers: [UIViewController]) {
         super.init(viewControllers: viewControllers)
@@ -89,7 +87,6 @@ final class LocationPagingVC: FixedPagingViewController {
     }
 
     /// Provide cell
-    ///
     /// - Parameters:
     ///   - collectionView: Collection
     ///   - indexPath: Index path
@@ -133,7 +130,6 @@ private extension LocationPagingVC {
 extension LocationPagingVC: TitleChangeDelegate {
 
     /// Notify of title change
-    ///
     /// - Parameter title: New title
     func changed(title: String) {
         reloadMenu()
@@ -155,7 +151,6 @@ extension LocationPagingVC: Exposing {
 extension LocationPagingVC: CollectionCellExposing {
 
     /// Expose cell to UI tests
-    ///
     /// - Parameters:
     ///   - view: Collection
     ///   - path: Index path

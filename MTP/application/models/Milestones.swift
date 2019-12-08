@@ -147,9 +147,7 @@ private struct RSSFeedsJSON: Codable {
     /// dbKey
     dynamic var dbKey: String = ""
 
-    /// Realm unique identifier
-    ///
-    /// - Returns: unique identifier
+    /// :nodoc:
     override static func primaryKey() -> String? {
         return "dbKey"
     }
@@ -183,9 +181,7 @@ private struct RSSFeedsJSON: Codable {
     /// thresholds
     let thresholds = List<Threshold>()
 
-    /// Realm unique identifier
-    ///
-    /// - Returns: unique identifier
+    /// :nodoc:
     override static func primaryKey() -> String? {
         return "checklistValue"
     }
@@ -206,7 +202,6 @@ private struct RSSFeedsJSON: Codable {
     }
 
     /// Milestone text if any
-    ///
     /// - Parameter count: New count
     /// - Returns: Milestone text if appropriate
     func milestone(count: Int) -> String {

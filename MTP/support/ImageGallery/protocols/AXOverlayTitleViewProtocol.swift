@@ -18,7 +18,6 @@ protocol AXOverlayTitleViewProtocol: NSObjectProtocol {
 
     /// Called when swipe progress between photos is updated.
     /// This method can be implemented to update your [progressive] title view with a new position.
-    ///
     /// - Parameters:
     ///   - low: The low photo index that is being swiped. (high - 1)
     ///   - high: The high photo index that is being swiped. (low + 1)

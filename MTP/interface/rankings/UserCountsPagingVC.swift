@@ -22,7 +22,6 @@ final class UserCountsPagingVC: FixedPagingViewController, UserCountsPageDataSou
     private let model: Model
 
     /// Provide pages container
-    ///
     /// - Parameter model: Model to populate pages
     /// - Returns: UserCountsPagingVC
     static func profile(model: Model) -> UserCountsPagingVC {
@@ -37,7 +36,6 @@ final class UserCountsPagingVC: FixedPagingViewController, UserCountsPageDataSou
     }
 
     /// Construction by injection
-    ///
     /// - Parameters:
     ///   - model: Injected model
     ///   - viewControllers: Controllers
@@ -69,7 +67,6 @@ final class UserCountsPagingVC: FixedPagingViewController, UserCountsPageDataSou
     }
 
     /// Provide cell
-    ///
     /// - Parameters:
     ///   - collectionView: Collection
     ///   - indexPath: Index path
@@ -140,7 +137,6 @@ extension UserCountsPagingVC: Exposing {
 extension UserCountsPagingVC: CollectionCellExposing {
 
     /// Expose cell to UI tests
-    ///
     /// - Parameters:
     ///   - view: Collection
     ///   - path: Index path

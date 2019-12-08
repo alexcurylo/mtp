@@ -179,7 +179,6 @@ extension LocationInfoVC: Injectable {
     typealias Model = Mappable
 
     /// Handle dependency injection
-    ///
     /// - Parameter model: Dependencies
     func inject(model: Model) {
         if model.checklist == .locations {

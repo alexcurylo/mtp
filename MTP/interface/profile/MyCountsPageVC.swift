@@ -6,7 +6,6 @@ import UIKit
 protocol MyCountsPageVCDelegate: AnyObject {
 
     /// Scroll notification
-    ///
     /// - Parameter rankingsPageVC: Scrollee
     func didScroll(myCountsPageVC: MyCountsPageVC)
 }
@@ -34,7 +33,6 @@ final class MyCountsPageVC: CountsPageVC {
     private var placesObserver: Observer?
 
     /// Construction by injection
-    ///
     /// - Parameter model: Injected model
     init(model: Model) {
         delegate = model.delegate
@@ -72,7 +70,6 @@ final class MyCountsPageVC: CountsPageVC {
 extension MyCountsPageVC {
 
     /// Scrolling notfication
-    ///
     /// - Parameter scrollView: Scrollee
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         delegate?.didScroll(myCountsPageVC: self)

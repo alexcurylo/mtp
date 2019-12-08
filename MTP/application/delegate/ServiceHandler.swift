@@ -8,7 +8,6 @@ struct ServiceHandler: AppHandler { }
 extension ServiceHandler: AppLaunchHandler {
 
     /// willFinishLaunchingWithOptions handler
-    ///
     /// - Parameters:
     ///   - application: UIApplication
     ///   - launchOptions: Options
@@ -33,7 +32,6 @@ extension ServiceHandler: AppLaunchHandler {
     }
 
     /// didFinishLaunching handler
-    ///
     /// - Parameters:
     ///   - application: UIApplication
     ///   - launchOptions: Options

@@ -52,7 +52,6 @@ extension UserProfileVC: Exposing {
 extension UserProfileVC: CollectionCellExposing {
 
     /// Expose cell to UI tests
-    ///
     /// - Parameters:
     ///   - view: Collection
     ///   - path: Index path

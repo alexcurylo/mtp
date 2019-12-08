@@ -53,14 +53,12 @@ final class MappablesAnnotationView: MKAnnotationView, MappingAnnotationView, Se
     private static var identifier = typeName
 
     /// Register view type
-    ///
     /// - Parameter view: Map view
     static func register(view: MKMapView) {
         view.register(self, forAnnotationViewWithReuseIdentifier: identifier)
     }
 
     /// Factory method for view
-    ///
     /// - Parameters:
     ///   - map: Map view
     ///   - annotation: Place
@@ -79,7 +77,6 @@ final class MappablesAnnotationView: MKAnnotationView, MappingAnnotationView, Se
     }
 
     /// Construction by injection
-    ///
     /// - Parameters:
     ///   - annotation: Place
     ///   - reuseIdentifier: Identifier

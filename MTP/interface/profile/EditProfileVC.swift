@@ -135,7 +135,6 @@ extension EditProfileVC {
 extension EditProfileVC: UITextFieldDelegate {
 
     /// Begin editing text field
-    ///
     /// - Parameter textField: UITextField
     /// - Returns: Permission
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -179,7 +178,6 @@ extension EditProfileVC: UITextFieldDelegate {
     }
 
     /// Handle return key
-    ///
     /// - Parameter textField: UITextField
     /// - Returns: Permission
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -194,7 +192,6 @@ extension EditProfileVC: UITextFieldDelegate {
 extension EditProfileVC: UITextViewDelegate {
 
     /// Respond to edit beginning
-    ///
     /// - Parameter textView: Active edit target
     func textViewDidBeginEditing(_ textView: UITextView) {
         toolbarBackButton.isEnabled = true
@@ -203,14 +200,12 @@ extension EditProfileVC: UITextViewDelegate {
     }
 
     /// Update savability
-    ///
     /// - Parameter textView: Active edit target
     func textViewDidChange(_ textView: UITextView) {
         updateSave(showError: false)
     }
 
     /// Respond to edit ending
-    ///
     /// - Parameter textView: Active edit target
     func textViewDidEndEditing(_ textView: UITextView) { }
 }
@@ -637,7 +632,6 @@ private extension EditProfileVC {
 extension EditProfileVC: PhotoSelectionDelegate {
 
     /// Notify of selection
-    ///
     /// - Parameter picture: Selected picture
     func selected(picture: String) {
         current.picture = picture
@@ -651,7 +645,6 @@ extension EditProfileVC: PhotoSelectionDelegate {
 extension EditProfileVC: LocationSearchDelegate {
 
     /// Handle a location selection
-    ///
     /// - Parameters:
     ///   - controller: source of selection
     ///   - item: Country or Location selected
@@ -692,7 +685,6 @@ extension EditProfileVC: LocationSearchDelegate {
 extension EditProfileVC: UIPickerViewDataSource {
 
     /// Number of picker components
-    ///
     /// - Parameter pickerView: Picker view
     /// - Returns: 1
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -700,7 +692,6 @@ extension EditProfileVC: UIPickerViewDataSource {
     }
 
     /// Number of rows in picker component
-    ///
     /// - Parameters:
     ///   - pickerView: Picker view
     ///   - component: Index

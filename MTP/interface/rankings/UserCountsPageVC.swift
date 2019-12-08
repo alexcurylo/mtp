@@ -36,7 +36,6 @@ final class UserCountsPageVC: CountsPageVC {
     private var status: Checklist.VisitStatus
 
     /// Construction by injection
-    ///
     /// - Parameter model: Injected model
     init(model: Model) {
         tab = model.tab
@@ -107,7 +106,6 @@ private extension UserCountsPageVC {
 extension UserCountsVC.Tab {
 
     /// Provide title from status
-    ///
     /// - Parameter status: Visit counts
     /// - Returns: Formatted string
     func title(status: Checklist.VisitStatus) -> String {
@@ -120,7 +118,6 @@ extension UserCountsVC.Tab {
     }
 
     /// Provide score for tab
-    ///
     /// - Parameter status: Visit counts
     /// - Returns: Int
     func score(status: Checklist.VisitStatus) -> Int {
@@ -133,7 +130,6 @@ extension UserCountsVC.Tab {
     }
 
     /// Provide title from scorecard
-    ///
     /// - Parameter scorecard: Scorecard
     /// - Returns: Formatted string
     func title(scorecard: Scorecard) -> String {
@@ -146,7 +142,6 @@ extension UserCountsVC.Tab {
     }
 
     /// Provide score for tab
-    ///
     /// - Parameter scorecard: Scorecard
     /// - Returns: Int
     func score(scorecard: Scorecard) -> Int {

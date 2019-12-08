@@ -35,7 +35,6 @@ enum FacebookWrapper {
 protocol FacebookLoginManager {
 
     /// Abstract Facebook login
-    ///
     /// - Parameters:
     ///   - permissions: Array of read permissions
     ///   - viewController: View controller to present from
@@ -99,7 +98,6 @@ private final class FacebookLoginManagerStub: FacebookLoginManager {
 protocol FacebookInfoRequest {
 
     /// Abstract Facebook info request
-    ///
     /// - Parameter completionHandler: GraphRequestBlock
     /// - Returns: GraphRequestConnection
     @discardableResult func start(completionHandler: GraphRequestBlock?) -> GraphRequestConnection

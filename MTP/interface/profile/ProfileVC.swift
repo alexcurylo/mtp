@@ -130,7 +130,6 @@ extension ProfileVC: Injectable {
     typealias Model = User
 
     /// Handle dependency injection
-    ///
     /// - Parameter model: Dependencies
     func inject(model: Model) {
         let updating = user != nil
@@ -150,7 +149,6 @@ extension ProfileVC: Injectable {
 protocol UserInjectable {
 
     /// Inject a User
-    ///
     /// - Parameter model: User
     func inject(model: User)
 }

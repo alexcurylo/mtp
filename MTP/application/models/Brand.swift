@@ -42,13 +42,12 @@ struct BrandJSON: Codable, CustomStringConvertible {
     /// title
     dynamic var title: String = ""
 
-    /// Realm unique identifier
-    ///
-    /// - Returns: unique identifier
+    /// :nodoc:
     override static func primaryKey() -> String? {
         "slug"
     }
 
+    /// Constructor from MTP endpoint data
     convenience init(from: BrandJSON) {
         self.init()
 

@@ -13,7 +13,6 @@ class KVNOperation: Operation {
     override var isExecuting: Bool { return _executing }
 
     /// Set executing state
-    ///
     /// - Parameter executing: Executing state
     func execute(_ executing: Bool) {
         _executing = executing
@@ -27,7 +26,6 @@ class KVNOperation: Operation {
     override var isFinished: Bool { return _finished }
 
     /// Set finished state
-    ///
     /// - Parameter finished: Finished state
     func finish(_ finished: Bool) {
         _finished = finished
@@ -79,7 +77,6 @@ final class AsyncBlockOperation: KVNOperation {
     private let operation: Operation
 
     /// Initialize with block
-    ///
     /// - Parameter operation: Block to execute
     init(operation: @escaping Operation) {
         self.operation = operation

@@ -6,7 +6,6 @@ import RealmSwift
 protocol LocationSearchDelegate: AnyObject {
 
     /// Handle a location selection
-    ///
     /// - Parameters:
     ///   - controller: source of selection
     ///   - item: Country or Location selected
@@ -42,7 +41,6 @@ final class LocationSearchVC: RealmSearchViewController {
     private let backgroundView = GradientView()
 
     /// Handle dependency injection
-    ///
     /// - Parameters:
     ///   - mode: Selection mode
     ///   - styler: Style provider
@@ -81,7 +79,6 @@ final class LocationSearchVC: RealmSearchViewController {
     // MARK: - RealmSearchResultsDataSource
 
     /// Cell for Object
-    ///
     /// - Parameters:
     ///   - controller: RealmSearchViewController
     ///   - object: Realm Object
@@ -104,7 +101,6 @@ final class LocationSearchVC: RealmSearchViewController {
     // MARK: - RealmSearchResultsDelegate
 
     /// Did select Object
-    ///
     /// - Parameters:
     ///   - controller: RealmSearchViewController
     ///   - object: Realm Object
@@ -184,7 +180,6 @@ final class LocationSearchTableViewCell: UITableViewCell {
     }
 
     /// Handle dependency injection
-    ///
     /// - Parameters:
     ///   - mode: Selection mode
     ///   - item: Realm object to display

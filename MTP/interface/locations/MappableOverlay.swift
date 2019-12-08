@@ -21,7 +21,6 @@ final class MappableOverlay: MKPolygon {
     }
 
     /// Whether this overlay matches a place
-    ///
     /// - Parameter mappable: Place
     /// - Returns: Identity
     func shows(mappable: Mappable) -> Bool {
@@ -40,7 +39,6 @@ final class MappableOverlay: MKPolygon {
     }
 
     /// Factory method - as of iOS 12 SDK MKPolygon has no designated initializers
-    ///
     /// - Parameters:
     ///   - mappable: Place
     ///   - coordinates: Place coordinate list
