@@ -15,6 +15,14 @@ final class DataServiceSpy: DataService {
         invokedBeachesGetterCount += 1
         return stubbedBeaches
     }
+    var invokedBrandsGetter = false
+    var invokedBrandsGetterCount = 0
+    var stubbedBrands: [String: String]! = [:]
+    var brands: [String: String] {
+        invokedBrandsGetter = true
+        invokedBrandsGetterCount += 1
+        return stubbedBrands
+    }
     var invokedBlockedPhotosSetter = false
     var invokedBlockedPhotosSetterCount = 0
     var invokedBlockedPhotos: [Int]?
@@ -770,6 +778,16 @@ final class DataServiceSpy: DataService {
         invokedSetBeachesCount += 1
         invokedSetBeachesParameters = (beaches, ())
         invokedSetBeachesParametersList.append((beaches, ()))
+    }
+    var invokedSetBrands = false
+    var invokedSetBrandsCount = 0
+    var invokedSetBrandsParameters: (brands: [BrandJSON], Void)?
+    var invokedSetBrandsParametersList = [(brands: [BrandJSON], Void)]()
+    func set(brands: [BrandJSON]) {
+        invokedSetBrands = true
+        invokedSetBrandsCount += 1
+        invokedSetBrandsParameters = (brands, ())
+        invokedSetBrandsParametersList.append((brands, ()))
     }
     var invokedSetCountries = false
     var invokedSetCountriesCount = 0

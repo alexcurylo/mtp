@@ -37,6 +37,25 @@ final class RealmDataController: ServiceProvider {
         }
     }
 
+    /// Beaches
+    var brands: [Brand] {
+        let results = realm.objects(Brand.self)
+        return Array(results)
+    }
+
+    /// Set brands
+    /// - Parameter brands: API results
+    func set(brands: [BrandJSON]) {
+        do {
+            let objects = brands.compactMap { Brand(from: $0) }
+            try realm.write {
+                realm.add(objects, update: .modified)
+            }
+        } catch {
+            log.error("set brands: \(error)")
+        }
+    }
+
     /// Countries
     var countries: [Country] {
         let results = realm.objects(Country.self)

@@ -15,12 +15,12 @@ final class PlaceLocationTests: MTPTestCase {
                                 regionName: "Africa")
         let expected = """
                        < PlaceLocation: Angola
-                       countryId: 0
-                       countryName: Angola
+                       countryId: Optional(0)
+                       countryName: Optional("Angola")
                        id: 0
-                       location_name: Angola
-                       region_id: 0
-                       region_name: Africa
+                       location_name: Optional("Angola")
+                       region_id: Optional(0)
+                       region_name: Optional("Africa")
                        /PlaceLocation >
                        """
 

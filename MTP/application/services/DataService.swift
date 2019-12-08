@@ -13,6 +13,8 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
 
     /// Beaches
     var beaches: [Beach] { get }
+    /// Brands
+    var brands: [String: String] { get }
     /// Blocked photos
     var blockedPhotos: [Int] { get set }
     /// Blocked posts
@@ -169,6 +171,9 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     /// Set beaches
     /// - Parameter beaches: API results
     func set(beaches: [PlaceJSON])
+    /// Set brands
+    /// - Parameter brands: API results
+    func set(brands: [BrandJSON])
     /// Set countries
     /// - Parameter countries: API results
     func set(countries: [CountryJSON])
@@ -313,7 +318,7 @@ extension DataService {
 
     /// Are visits loaded?
     var isVisitsLoaded: Bool {
-        return visited != nil
+        visited != nil
     }
 
     /// Log out current user
@@ -354,10 +359,10 @@ class DataServiceImpl: DataService {
 
     /// Beaches
     var beaches: [Beach] {
-        return realm.beaches
+        realm.beaches
     }
 
-    /// Set beaaches
+    /// Set beaches
     /// - Parameter beaches: API results
     func set(beaches: [PlaceJSON]) {
         realm.set(beaches: beaches)
@@ -366,7 +371,7 @@ class DataServiceImpl: DataService {
 
     /// Blocked photos
     var blockedPhotos: [Int] {
-        get { return defaults.blockedPhotos }
+        get { defaults.blockedPhotos }
         set {
             defaults.blockedPhotos = newValue
             notify(change: .blockedPhotos)
@@ -377,7 +382,7 @@ class DataServiceImpl: DataService {
 
     /// Blocked posts
     var blockedPosts: [Int] {
-        get { return defaults.blockedPosts }
+        get { defaults.blockedPosts }
         set {
             defaults.blockedPosts = newValue
             notify(change: .blockedPosts)
@@ -388,7 +393,7 @@ class DataServiceImpl: DataService {
 
     /// Blocked users
     var blockedUsers: [Int] {
-        get { return defaults.blockedUsers }
+        get { defaults.blockedUsers }
         set {
             defaults.blockedUsers = newValue
             notify(change: .blockedUsers)
@@ -428,16 +433,30 @@ class DataServiceImpl: DataService {
         return true
     }
 
+    /// Brands
+    var brands: [String: String] {
+        realm.brands.reduce(into: [String: String]()) { result, brand in
+            result[brand.slug] = brand.title
+        }
+    }
+
+    /// Set brands
+    /// - Parameter brands: API results
+    func set(brands: [BrandJSON]) {
+        realm.set(brands: brands)
+        notify(change: .brands)
+    }
+
     /// Countries
     var countries: [Country] {
-        return realm.countries
+        realm.countries
     }
 
     /// Get country
     /// - Parameter id: country ID
     /// - Returns: Country if found
     func get(country id: Int?) -> Country? {
-        return realm.country(id: id)
+        realm.country(id: id)
     }
 
     /// Set countries
@@ -448,7 +467,7 @@ class DataServiceImpl: DataService {
 
     /// Dive sites
     var divesites: [DiveSite] {
-        return realm.divesites
+        realm.divesites
     }
 
     /// Set dive sites
@@ -460,7 +479,7 @@ class DataServiceImpl: DataService {
 
     /// Dismissed timestamps
     var dismissed: Timestamps? {
-        get { return defaults.dismissed }
+        get { defaults.dismissed }
         set {
             defaults.dismissed = newValue
             notify(change: .dismissed)
@@ -469,7 +488,7 @@ class DataServiceImpl: DataService {
 
     /// Email stash during signup
     var email: String {
-        get { return defaults.email }
+        get { defaults.email }
         set {
             defaults.email = newValue
             //saveSeed()
@@ -478,7 +497,7 @@ class DataServiceImpl: DataService {
 
     /// If-None-Match cache
     var etags: [String: String] {
-        get { return defaults.etags }
+        get { defaults.etags }
         set {
             defaults.etags = newValue
         }
@@ -486,7 +505,7 @@ class DataServiceImpl: DataService {
 
     /// Golf courses
     var golfcourses: [GolfCourse] {
-        return realm.golfcourses
+        realm.golfcourses
     }
 
     /// Set golf courses
@@ -498,12 +517,12 @@ class DataServiceImpl: DataService {
 
     /// Hotels
     var hotels: [Hotel] {
-        return realm.hotels
+        realm.hotels
     }
 
     /// Group hotels by brand?
     var hotelsGroupBrand: Bool {
-        get { return defaults.hotelsGroupBrand }
+        get { defaults.hotelsGroupBrand }
         set { defaults.hotelsGroupBrand = newValue }
     }
 
@@ -516,74 +535,74 @@ class DataServiceImpl: DataService {
 
     /// Rankings filter
     var lastRankingsQuery: RankingsQuery {
-        get { return defaults.lastRankingsQuery ?? RankingsQuery() }
+        get { defaults.lastRankingsQuery ?? RankingsQuery() }
         set { defaults.lastRankingsQuery = newValue }
     }
 
     /// Locations
     var locations: [Location] {
-        return realm.locations
+        realm.locations
     }
 
     /// Get location
     /// - Parameter id: location ID
     /// - Returns: Location if found
     func get(location id: Int?) -> Location? {
-        return realm.location(id: id)
+        realm.location(id: id)
     }
 
     /// Get location photos
     /// - Parameter id: location ID
     /// - Returns: Photos if found
     func get(locationPhotos id: Int) -> [Photo] {
-        return realm.photos(location: id)
+        realm.photos(location: id)
     }
 
     /// Get location posts
     /// - Parameter id: location ID
     /// - Returns: Posts if found
     func get(locationPosts id: Int) -> [Post] {
-        return realm.posts(location: id)
+        realm.posts(location: id)
     }
 
     /// Get filtered locations
     /// - Parameter filter: Filter
     /// - Returns: Locations if found
     func get(locations filter: String) -> [Location] {
-        return realm.locations(filter: filter)
+        realm.locations(filter: filter)
     }
 
     /// Get place
     /// - Parameter item: list and ID
     /// - Returns: Place if found
     func get(mappable item: Checklist.Item) -> Mappable? {
-        return realm.mappable(item: item)
+        realm.mappable(item: item)
     }
 
     /// Get visible place
     /// - Parameter item: list and ID
     /// - Returns: Place if found
     func get(visible item: Checklist.Item) -> Mappable? {
-        return realm.mappable(item: item, visible: true)
+        realm.mappable(item: item, visible: true)
     }
 
     /// Get all places
     var visibles: [Mappable] {
-        return realm.mappables(list: nil, visible: true)
+        realm.mappables(list: nil, visible: true)
     }
 
     /// Get places
     /// - Parameter list: list
     /// - Returns: Places in list
     func get(visibles list: Checklist) -> [Mappable] {
-        return realm.mappables(list: list, visible: true)
+        realm.mappables(list: list, visible: true)
     }
 
     /// Get matching places
     /// - Parameter matching: String
     /// - Returns: Places matching
     func get(visibles matching: String) -> [Mappable] {
-        return realm.mappables(matching: matching, visible: true)
+        realm.mappables(matching: matching, visible: true)
     }
 
     /// Set places visited state
@@ -622,7 +641,7 @@ class DataServiceImpl: DataService {
 
     /// Displayed types
     var mapDisplay: ChecklistFlags {
-        get { return defaults.mapDisplay ?? ChecklistFlags() }
+        get { defaults.mapDisplay ?? ChecklistFlags() }
         set {
             defaults.mapDisplay = newValue
         }
@@ -630,7 +649,7 @@ class DataServiceImpl: DataService {
 
     /// Notified timestamps
     var notified: Timestamps? {
-        get { return defaults.notified }
+        get { defaults.notified }
         set {
             defaults.notified = newValue
             notify(change: .notified)
@@ -641,21 +660,21 @@ class DataServiceImpl: DataService {
     /// - Parameter id: User ID
     /// - Returns: Photo pages if found
     func getPhotosPages(user id: Int) -> Results<PhotosPageInfo> {
-        return realm.photosPages(user: id)
+        realm.photosPages(user: id)
     }
 
     /// Get photo
     /// - Parameter photo: ID
     /// - Returns: Photo
     func get(photo: Int) -> Photo {
-        return realm.photo(id: photo) ?? Photo()
+        realm.photo(id: photo) ?? Photo()
     }
 
     /// Get post
     /// - Parameter post: ID
     /// - Returns: Post if exists
     func get(post: Int) -> Post? {
-        return realm.post(id: post)
+        realm.post(id: post)
     }
 
     /// Get user photos by location
@@ -695,7 +714,7 @@ class DataServiceImpl: DataService {
     /// - Parameter list: Checklist
     /// - Returns: Milestones if found
     func get(milestones list: Checklist) -> Milestones? {
-        return realm.milestones(list: list)
+        realm.milestones(list: list)
     }
 
     /// Set milestones
@@ -732,7 +751,7 @@ class DataServiceImpl: DataService {
     /// - Parameter id: User ID
     /// - Returns: Posts if found
     func getPosts(user id: Int) -> [Post] {
-        return realm.posts(user: id)
+        realm.posts(user: id)
     }
 
     /// Set post
@@ -756,7 +775,7 @@ class DataServiceImpl: DataService {
     /// - Parameter query: Filter query
     /// - Returns: Rankings pages if found
     func get(rankings query: RankingsQuery) -> Results<RankingsPageInfo> {
-        return realm.rankings(query: query)
+        realm.rankings(query: query)
     }
 
     /// Set rankings query
@@ -780,7 +799,7 @@ class DataServiceImpl: DataService {
 
     /// Restaurants
     var restaurants: [Restaurant] {
-        return realm.restaurants
+        realm.restaurants
     }
 
     /// Set restaurants
@@ -814,15 +833,13 @@ class DataServiceImpl: DataService {
 
     /// Login token
     var token: String {
-        get { return defaults.token }
-        set {
-            defaults.token = newValue
-        }
+        get { defaults.token }
+        set { defaults.token = newValue }
     }
 
     /// Triggered timestamps
     var triggered: Timestamps? {
-        get { return defaults.triggered }
+        get { defaults.triggered }
         set {
             defaults.triggered = newValue
             notify(change: .triggered)
@@ -831,7 +848,7 @@ class DataServiceImpl: DataService {
 
     /// UN Countries
     var uncountries: [UNCountry] {
-        return realm.uncountries
+        realm.uncountries
     }
 
     /// Set UN countries
@@ -843,7 +860,7 @@ class DataServiceImpl: DataService {
 
     /// Updated timestamps
     var updated: Timestamps? {
-        get { return defaults.updated }
+        get { defaults.updated }
         set {
             defaults.updated = newValue
             notify(change: .updated)
@@ -852,7 +869,7 @@ class DataServiceImpl: DataService {
 
     /// User info
     var user: UserJSON? {
-        get { return defaults.user }
+        get { defaults.user }
         set {
             defaults.user = newValue
             notify(change: .user)
@@ -866,12 +883,12 @@ class DataServiceImpl: DataService {
     /// - Parameter id: User ID
     /// - Returns: User if found
     func get(user id: Int) -> User? {
-        return realm.user(id: id)
+        realm.user(id: id)
     }
 
     /// User visits
     var visited: Checked? {
-        get { return defaults.visited }
+        get { defaults.visited }
         set {
             defaults.visited = newValue
             if let oldUser = user,
@@ -886,14 +903,14 @@ class DataServiceImpl: DataService {
     /// - Parameter id: WHS ID
     /// - Returns: WHS if found
     func get(whs id: Int) -> WHS? {
-        return realm.whs(id: id)
+        realm.whs(id: id)
     }
 
     /// Does WHS have children?
     /// - Parameter id: WHS ID
     /// - Returns: Parentage
     func hasChildren(whs id: Int) -> Bool {
-        return !children(whs: id).isEmpty
+        !children(whs: id).isEmpty
     }
 
     /// Visited children list
@@ -913,7 +930,7 @@ class DataServiceImpl: DataService {
 
     /// WHSs
     var whss: [WHS] {
-        return realm.whss
+        realm.whss
     }
 
     /// Set WHSs
@@ -961,7 +978,7 @@ class DataServiceImpl: DataService {
     /// - Parameter reference: Reference
     /// - Returns: Mappable if found
     func resolve(reference: Mappable.Reference) -> Mappable? {
-        return realm.resolve(reference: reference)
+        realm.resolve(reference: reference)
     }
 
     /// Update rankings
@@ -1059,7 +1076,7 @@ private extension DataServiceImpl {
     }
 
     func children(whs id: Int) -> [WHS] {
-        return realm.whss.filter { $0.parentId == id }
+        realm.whss.filter { $0.parentId == id }
     }
 
     func clear(updates: Checklist) {

@@ -263,6 +263,7 @@ class NetworkServiceImpl: NetworkService {
         lastRefreshData = Date()
 
         add { done in self.mtp.loadSettings { _ in done() } }
+        add { done in self.mtp.loadBrands { _ in done() } }
         add { done in self.mtp.searchCountries { _ in done() } }
         add { done in self.mtp.loadLocations { _ in done() } }
 
