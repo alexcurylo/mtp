@@ -24,7 +24,7 @@
 "statusErrorReport" = "Could not %1$@ - a status error (%2$ld) was received. Please report the problem with ‘Contact Us’ on the ‘Settings’ page.";
 "unexpectedError" = "Could not %@ - an unexpected error occurred.";
 "unexpectedErrorReport" = "Could not %@ - an unexpected error occurred. Please report the problem with ‘Contact Us’ on the ‘Settings’ page.";
-"decodingLoginError" = "Sorry - due to higher than expected demand, the MTP server is temporarily down. Please try again later.";
+"decodingLoginError" = "Sorry - the server response could not be understood. Please report the problem to admin@mtp.travel";
 "deleteAccount" = "delete account";
 "deletingAccount" = "Deleting account…";
 "logIn" = "log in";
