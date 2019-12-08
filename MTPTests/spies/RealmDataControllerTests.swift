@@ -22,6 +22,7 @@ final class RealmDataControllerTests: MTPTestCase {
 
         // when
         let beaches = sut.beaches
+        let brands = sut.brands
         let countries = sut.countries
         let divesites = sut.divesites
         let golfcourses = sut.golfcourses
@@ -39,12 +40,13 @@ final class RealmDataControllerTests: MTPTestCase {
 
         // then
         XCTAssertEqual(beaches.count, 159)
+        XCTAssertEqual(brands.count, 14)
         XCTAssertEqual(countries.count, 206)
         XCTAssertEqual(divesites.count, 99)
         XCTAssertEqual(golfcourses.count, 100)
-        XCTAssertEqual(hotels.count, 1_233)
+        XCTAssertEqual(hotels.count, 1_438)
         XCTAssertEqual(locations.count, 892)
-        XCTAssertEqual(mappables.count, 5_645)
+        XCTAssertEqual(mappables.count, 5_850)
         XCTAssertEqual(restaurants.count, 705)
         XCTAssertEqual(uncountries.count, 193)
         XCTAssertEqual(whss.count, 2_458)
