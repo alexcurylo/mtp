@@ -26,7 +26,9 @@ struct BrandsJSON: Codable {
 /// Brand info
 struct BrandJSON: Codable, CustomStringConvertible {
 
+    /// Key found in Hotel JSON
     let slug: String
+    /// Display title for user
     let title: String
 
     var description: String {
