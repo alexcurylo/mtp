@@ -182,12 +182,12 @@ createdAt: 2018-09-06 09:49:18 +0000
 desc: Optional("Salt workers")
 id: 3210
 location: Optional(< PlaceLocation: Thailand
-countryId: 554
-countryName: Thailand
+countryId: Optional(554)
+countryName: Optional("Thailand")
 id: 554
-location_name: Thailand
-region_id: 983
-region_name: Asia
+location_name: Optional("Thailand")
+region_id: Optional(983)
+region_name: Optional("Asia")
 /PlaceLocation >)
 locationId: Optional(554)
 mime: image/jpeg
@@ -312,12 +312,12 @@ let completeUploadDebugDescription = """
 desc: Optional("The Golden Buddha in Bangkok is very golden")
 id: 67211
 location: Optional(< PlaceLocation: Thailand
-countryId: 554
-countryName: Thailand
+countryId: Optional(554)
+countryName: Optional("Thailand")
 id: 554
-location_name: Thailand
-region_id: 983
-region_name: Asia
+location_name: Optional("Thailand")
+region_id: Optional(983)
+region_name: Optional("Asia")
 /PlaceLocation >)
 locationId: Optional(MTP.UncertainValue<Swift.Int, Swift.String>(tValue: Optional(554), uValue: nil))
 mime: image/jpeg

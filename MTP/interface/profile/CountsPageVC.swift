@@ -72,6 +72,8 @@ class CountsPageVC: UIViewController {
     // swiftlint:disable:next implicitly_unwrapped_optional
     private var viewModel: CountsViewModel!
 
+    private var brandsObserver: Observer?
+
     /// Construction by injection
     /// - Parameter model: Injected model
     init(model: Checklist) {
@@ -117,6 +119,16 @@ class CountsPageVC: UIViewController {
     /// Set up data change observations
     func observe() {
         // to be overridden
+
+        guard brandsObserver == nil else { return }
+
+        brandsObserver = data.observer(of: .brands) { [weak self] _ in
+            guard let self = self else { return }
+            if self.viewModel.hierarchy == .brandRegionCountry {
+                self.build()
+                self.update()
+            }
+        }
     }
 }
 

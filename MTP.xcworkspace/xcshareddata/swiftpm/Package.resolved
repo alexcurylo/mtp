@@ -42,8 +42,8 @@
         "repositoryURL": "https://github.com/facebook/facebook-ios-sdk",
         "state": {
           "branch": null,
-          "revision": "ccac7865167b6c12bdf71e2e9b81ad86c3e78ed3",
-          "version": "5.11.1"
+          "revision": "03ff7fef5847f36af6c940d43043af74418fc5ea",
+          "version": "5.12.0"
         }
       },
       {
@@ -186,8 +186,8 @@
         "repositoryURL": "https://github.com/SwiftyBeaver/SwiftyBeaver.git",
         "state": {
           "branch": null,
-          "revision": "1d61211e37d28ca00c155fa4e358ada912ca7b80",
-          "version": "1.8.3"
+          "revision": "2f2b7ac0b675e9d0ac696758f15bbff97eb65a31",
+          "version": "1.8.4"
         }
       }
     ]

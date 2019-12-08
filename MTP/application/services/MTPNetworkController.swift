@@ -43,6 +43,8 @@ enum MTP: Hashable {
 
     /// beach
     case beach
+    /// brands
+    case brands
     /// checkIn(list: Checklist, id: Int)
     case checkIn(list: Checklist, id: Int)
     /// checklists
@@ -143,6 +145,8 @@ extension MTP: TargetType {
         switch self {
         case .beach:
             return "beach"
+        case .brands:
+            return "checklists/attributes/hotels"
         case .checkIn(let list, _),
              .checkOut(let list, _):
             return "me/checklists/\(list.key)"
@@ -232,6 +236,7 @@ extension MTP: TargetType {
              .userDelete:
             return .delete
         case .beach,
+             .brands,
              .checklists,
              .countriesSearch,
              .divesite,
@@ -354,6 +359,7 @@ extension MTP: TargetType {
             return .requestParameters(parameters: ["preventCache": "1"],
                                       encoding: URLEncoding.default)
         case .beach,
+             .brands,
              .checklists,
              .countriesSearch,
              .divesite,
@@ -524,6 +530,7 @@ extension MTP: AccessTokenAuthorizable {
              .userVerify:
             return .bearer
         case .beach,
+             .brands,
              .countriesSearch,
              .divesite,
              .faq,
@@ -661,6 +668,47 @@ class MTPNetworkController: ServiceProvider {
                 self.data.set(beaches: beaches)
                 self.report(success: endpoint)
                 return then(.success(beaches))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
+        provider.request(endpoint) { result in
+            endpoint.markResponded()
+            switch result {
+            case .success(let response):
+                success(response)
+            case .failure(let error):
+                then(.failure(self.problem(with: endpoint, from: error)))
+            }
+        }
+    }
+
+    /// Load brands
+    func loadBrands(then: @escaping NetworkCompletion<[BrandJSON]> = { _ in }) {
+        let provider = MTPProvider()
+        let endpoint = MTP.brands
+        guard !endpoint.isThrottled else {
+            return then(.failure(.throttle))
+        }
+
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let brandsData = try response.map(BrandsJSON.self,
+                                                  using: JSONDecoder.mtp)
+                let brands = brandsData.data.brands
+                self.data.set(brands: brands)
+                self.report(success: endpoint)
+                return then(.success(brands))
             } catch let error as NetworkError {
                 problem = error
             } catch {

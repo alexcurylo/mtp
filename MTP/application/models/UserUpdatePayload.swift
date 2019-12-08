@@ -31,7 +31,7 @@ struct UserUpdatePayload: Codable, Hashable, UserAvatar {
     /// country_id
     var country_id: Int = 0
     /// created_at
-    var created_at: String = ""
+    var created_at: String?
     /// email
     var email: String?
     /// facebook_email
@@ -46,7 +46,7 @@ struct UserUpdatePayload: Codable, Hashable, UserAvatar {
     /// first_name
     var first_name: String = ""
     /// full_name
-    var full_name: String = ""
+    var full_name: String?
     /// gender
     var gender: String?
     /// id
@@ -79,7 +79,7 @@ struct UserUpdatePayload: Codable, Hashable, UserAvatar {
     /// rank_whss
     var rank_whss: Int?
     /// role
-    var role: Int = 0
+    var role: Int?
     /// score
     var score: Int?
     /// score_beaches
@@ -99,11 +99,11 @@ struct UserUpdatePayload: Codable, Hashable, UserAvatar {
     /// score
     var score_whss: Int?
     /// status
-    var status: String = ""
+    var status: String?
     /// updated_at
-    var updated_at: String = ""
+    var updated_at: String?
     /// username
-    var username: String = ""
+    var username: String?
 
     /// :nodoc:
     init() { }
@@ -119,7 +119,9 @@ struct UserUpdatePayload: Codable, Hashable, UserAvatar {
             birthday = nil
         }
         country_id = from.countryId ?? 0
-        created_at = DateFormatter.mtpTime.string(from: from.createdAt)
+        if let createdAt = from.createdAt {
+            created_at = DateFormatter.mtpTime.string(from: createdAt)
+        }
         email = from.email
         facebook_email = from.facebookEmail
         facebook_id = from.facebookId
@@ -153,7 +155,9 @@ struct UserUpdatePayload: Codable, Hashable, UserAvatar {
         score_uncountries = from.scoreUncountries
         score_whss = from.scoreWhss
         status = from.status
-        updated_at = DateFormatter.mtpTime.string(from: from.updatedAt)
+        if let updatedAt = from.updatedAt {
+            updated_at = DateFormatter.mtpTime.string(from: updatedAt)
+        }
         username = from.username
     }
 }

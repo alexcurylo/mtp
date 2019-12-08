@@ -7,6 +7,8 @@ enum DataServiceChange: String {
 
     /// beaches
     case beaches
+    /// brands
+    case brands
     /// blockedPhotos
     case blockedPhotos
     /// blockedPosts

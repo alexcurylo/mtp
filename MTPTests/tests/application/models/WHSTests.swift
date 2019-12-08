@@ -142,12 +142,12 @@ featuredImg: Optional("3XQOh9uvWhBRlBqchvV9xy")
 id: 1
 lat: -0.81667
 location: Optional(< PlaceLocation: Galapagos Islands, Ecuador
-countryId: 930
-countryName: Ecuador
+countryId: Optional(930)
+countryName: Optional("Ecuador")
 id: 18
-location_name: Galapagos Islands
-region_id: 992
-region_name: South America
+location_name: Optional("Galapagos Islands")
+region_id: Optional(992)
+region_name: Optional("South America")
 /PlaceLocation >)
 locationId: Optional(18)
 long: -91.0

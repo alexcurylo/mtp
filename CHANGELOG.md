@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- Only 'id', 'first_name', 'last_name' and location/country id' required in user info JSON
+- Hotel brand names now loaded from server
+
 ## [Version 1.2.1, Build 650] - 2019-12-04
 
 ### Changed
