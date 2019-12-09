@@ -109,7 +109,6 @@ private enum UrlsHandledByApp {
 protocol WKWebViewControllerDelegate: AnyObject {
 
     /// Dismissal permission
-    ///
     /// - Parameters:
     ///   - controller: WKWebViewController
     ///   - url: Target URL
@@ -117,21 +116,18 @@ protocol WKWebViewControllerDelegate: AnyObject {
     func webView(controller: WKWebViewController,
                  canDismiss url: URL) -> Bool
     /// Start notification
-    ///
     /// - Parameters:
     ///   - controller: WKWebViewController
     ///   - url: Target URL
     func webView(controller: WKWebViewController,
                  didStart url: URL)
     /// Finish notification
-    ///
     /// - Parameters:
     ///   - controller: WKWebViewController
     ///   - url: Target URL
     func webView(controller: WKWebViewController,
                  didFinish url: URL)
     /// Failure notification
-    ///
     /// - Parameters:
     ///   - controller: WKWebViewController
     ///   - url: Target URL
@@ -140,7 +136,6 @@ protocol WKWebViewControllerDelegate: AnyObject {
                  didFail url: URL,
                  withError error: Error)
     /// Decide Policy
-    ///
     /// - Parameters:
     ///   - controller: WKWebViewController
     ///   - url: Target URL
@@ -165,7 +160,6 @@ class WKWebViewController: UIViewController {
     }
 
     /// Source initializer
-    ///
     /// - Parameter source: source
     init(source: WKWebSource?) {
         super.init(nibName: nil, bundle: nil)
@@ -173,7 +167,6 @@ class WKWebViewController: UIViewController {
     }
 
     /// URL initializer
-    ///
     /// - Parameter url: URL
     init(url: URL) {
         super.init(nibName: nil, bundle: nil)
@@ -378,7 +371,6 @@ class WKWebViewController: UIViewController {
     }
 
     /// Prepare for hide
-    ///
     /// - Parameter animated: Whether animating
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -387,7 +379,6 @@ class WKWebViewController: UIViewController {
     }
 
     /// KVO observation
-    ///
     /// - Parameters:
     ///   - keyPath: Path observed
     ///   - object: Object observed
@@ -428,7 +419,6 @@ class WKWebViewController: UIViewController {
 extension WKWebViewController {
 
     /// Load from source
-    ///
     /// - Parameter source: source
     func load(source: WKWebSource) {
         switch source {
@@ -442,14 +432,12 @@ extension WKWebViewController {
     }
 
     /// Load from remote URL
-    ///
     /// - Parameter remote: URL
     func load(remote: URL) {
         webView.load(createRequest(url: remote))
     }
 
     /// Load from file
-    ///
     /// - Parameters:
     ///   - file: File
     ///   - access: Read access
@@ -458,7 +446,6 @@ extension WKWebViewController {
     }
 
     /// Load from string
-    ///
     /// - Parameters:
     ///   - string: Page to load
     ///   - base: Base URL
@@ -781,7 +768,6 @@ extension WKWebViewController: WKUIDelegate { }
 extension WKWebViewController: WKNavigationDelegate {
 
     /// Start navigation
-    ///
     /// - Parameters:
     ///   - webView: Host view
     ///   - navigation: Navigation type
@@ -797,7 +783,6 @@ extension WKWebViewController: WKNavigationDelegate {
     }
 
     /// Finish navigation
-    ///
     /// - Parameters:
     ///   - webView: Host view
     ///   - navigation: Navigation type
@@ -813,7 +798,6 @@ extension WKWebViewController: WKNavigationDelegate {
     }
 
     /// Fail provisional navigation
-    ///
     /// - Parameters:
     ///   - webView: Host view
     ///   - navigation: Navigation type
@@ -831,7 +815,6 @@ extension WKWebViewController: WKNavigationDelegate {
     }
 
     /// Fail navigation
-    ///
     /// - Parameters:
     ///   - webView: Host view
     ///   - navigation: Navigation type
@@ -849,7 +832,6 @@ extension WKWebViewController: WKNavigationDelegate {
     }
 
     /// Handle challenge
-    ///
     /// - Parameters:
     ///   - webView: Host view
     ///   - challenge: Challenge
@@ -867,7 +849,6 @@ extension WKWebViewController: WKNavigationDelegate {
     }
 
     /// Decide navigation policy
-    ///
     /// - Parameters:
     ///   - webView: Host view
     ///   - navigationAction: Action

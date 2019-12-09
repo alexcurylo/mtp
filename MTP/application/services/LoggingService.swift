@@ -25,7 +25,6 @@ enum LoggingLevel: Int, CustomStringConvertible {
 protocol LoggingService {
 
     /// Wrap point for log API integration
-    ///
     /// - Parameters:
     ///   - level: LoggingLevel
     ///   - message: Describable autoclosure
@@ -44,7 +43,6 @@ protocol LoggingService {
 extension LoggingService {
 
     /// Todo logging convenience
-    ///
     /// - Parameters:
     ///   - message: String
     ///   - file: File marker
@@ -63,7 +61,6 @@ extension LoggingService {
     }
 
     /// Verbose logging wrapper
-    ///
     /// - Parameters:
     ///   - message: String
     ///   - file: File marker
@@ -84,7 +81,6 @@ extension LoggingService {
     }
 
     /// Debug logging wrapper
-    ///
     /// - Parameters:
     ///   - message: String
     ///   - file: File marker
@@ -105,7 +101,6 @@ extension LoggingService {
     }
 
     /// Info logging wrapper
-    ///
     /// - Parameters:
     ///   - message: String
     ///   - file: File marker
@@ -126,7 +121,6 @@ extension LoggingService {
     }
 
     /// Warning logging wrapper
-    ///
     /// - Parameters:
     ///   - message: String
     ///   - file: File marker
@@ -147,7 +141,6 @@ extension LoggingService {
     }
 
     /// Error logging wrapper
-    ///
     /// - Parameters:
     ///   - message: String
     ///   - file: File marker

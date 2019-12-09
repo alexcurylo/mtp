@@ -12,7 +12,6 @@ struct LaunchHandler: AppHandler, ServiceProvider { }
 extension LaunchHandler: AppLaunchHandler {
 
     /// willFinishLaunchingWithOptions
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - launchOptions: Launch options
@@ -26,7 +25,6 @@ extension LaunchHandler: AppLaunchHandler {
     }
 
     /// didFinishLaunchingWithOptions
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - launchOptions: Launch options
@@ -81,7 +79,6 @@ private let swiftyBeaver = SwiftyBeaver.self
 struct SwiftyBeaverLoggingService: LoggingService {
 
     /// Wrap point for log API integration
-    ///
     /// - Parameters:
     ///   - level: LoggingLevel
     ///   - message: Describable autoclosure

@@ -90,7 +90,6 @@ extension NearbyVC {
     }
 
     /// Create table cell
-    ///
     /// - Parameters:
     ///   - tableView: UITableView
     ///   - indexPath: Index Path
@@ -161,7 +160,6 @@ extension NearbyVC: Exposing {
 extension NearbyVC: TableCellExposing {
 
     /// Expose cell to UI tests
-    ///
     /// - Parameters:
     ///   - view: Collection
     ///   - path: Index path
@@ -192,7 +190,6 @@ extension NearbyVC: Injectable {
     typealias Model = (mappables: [Mappable], center: CLLocationCoordinate2D)
 
     /// Handle dependency injection
-    ///
     /// - Parameter model: Dependencies
     func inject(model: Model) {
         let center: CLLocationCoordinate2D

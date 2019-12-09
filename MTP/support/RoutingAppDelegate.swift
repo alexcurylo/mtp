@@ -12,7 +12,6 @@ protocol AppHandler { }
 /// Adopt to have launch notifications routed
 protocol AppLaunchHandler: AppHandler {
     /// willFinishLaunchingWithOptions
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - launchOptions: Launch options
@@ -21,7 +20,6 @@ protocol AppLaunchHandler: AppHandler {
                      // swiftlint:disable:next discouraged_optional_collection
                      willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool
     /// didFinishLaunchingWithOptions
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - launchOptions: Launch options
@@ -34,23 +32,18 @@ protocol AppLaunchHandler: AppHandler {
 /// Adopt to have state notifications routed
 protocol AppStateHandler: AppHandler {
     /// Enter foreground handler
-    ///
     /// - Parameter application: Application
     func applicationWillEnterForeground(_ application: UIApplication)
     /// Become active handler
-    ///
     /// - Parameter application: Application
     func applicationDidBecomeActive(_ application: UIApplication)
     /// Resign active handler
-    ///
     /// - Parameter application: Application
     func applicationWillResignActive(_ application: UIApplication)
     /// Enter background handler
-    ///
     /// - Parameter application: Application
     func applicationDidEnterBackground(_ application: UIApplication)
     /// Terminate handler
-    ///
     /// - Parameter application: Application
     func applicationWillTerminate(_ application: UIApplication)
 }
@@ -58,7 +51,6 @@ protocol AppStateHandler: AppHandler {
 /// Adopt to have open URL notifications routed
 protocol AppOpenURLHandler: AppHandler {
     /// Open URL handler
-    ///
     /// - Parameters:
     ///   - app: Application
     ///   - url: URL
@@ -72,7 +64,6 @@ protocol AppOpenURLHandler: AppHandler {
 /// Adopt to have memory warning notifications routed
 protocol AppMemoryHandler: AppHandler {
     /// Memory warning handler
-    ///
     /// - Parameter application: Application
     func applicationDidReceiveMemoryWarning(_ application: UIApplication)
 }
@@ -80,7 +71,6 @@ protocol AppMemoryHandler: AppHandler {
 /// Adopt to have time change notifications routed
 protocol AppTimeChangeHandler: AppHandler {
     /// App time change handler
-    ///
     /// - Parameter application: Application
     func applicationSignificantTimeChange(_ application: UIApplication)
 }
@@ -88,7 +78,6 @@ protocol AppTimeChangeHandler: AppHandler {
 /// Adopt to have status bar notifications routed
 protocol AppStatusBarHandler: AppHandler {
     /// willChangeStatusBarOrientation
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - newStatusBarOrientation: Orientation
@@ -97,21 +86,18 @@ protocol AppStatusBarHandler: AppHandler {
                      willChangeStatusBarOrientation newStatusBarOrientation: UIInterfaceOrientation,
                      duration: TimeInterval)
     /// didChangeStatusBarOrientation
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - oldStatusBarOrientation: Orientation
     func application(_ application: UIApplication,
                      didChangeStatusBarOrientation oldStatusBarOrientation: UIInterfaceOrientation)
     /// willChangeStatusBarFrame
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - newStatusBarFrame: Frame
     func application(_ application: UIApplication,
                      willChangeStatusBarFrame newStatusBarFrame: CGRect)
     /// didChangeStatusBarFrame
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - oldStatusBarFrame: Frame
@@ -122,21 +108,18 @@ protocol AppStatusBarHandler: AppHandler {
 /// Adopt to have remote notifications routed
 protocol AppNotificationsHandler: AppHandler {
     /// didRegisterForRemoteNotificationsWithDeviceToken
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - deviceToken: Token
     func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data)
     /// didFailToRegisterForRemoteNotificationsWithError
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - error: Error
     func application(_ application: UIApplication,
                      didFailToRegisterForRemoteNotificationsWithError error: Error)
     /// didReceiveRemoteNotification
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - userInfo: Info
@@ -149,7 +132,6 @@ protocol AppNotificationsHandler: AppHandler {
 /// Adopt to have background fetch notifications routed
 protocol AppBackgroundFetchHandler: AppHandler {
     /// performFetchWithCompletionHandler
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - completionHandler: Callback
@@ -160,7 +142,6 @@ protocol AppBackgroundFetchHandler: AppHandler {
 /// Adopt to have background URL session notifications routed
 protocol AppBackgroundURLSessionHandler: AppHandler {
     /// handleEventsForBackgroundURLSession
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - identifier: Identifier
@@ -173,7 +154,6 @@ protocol AppBackgroundURLSessionHandler: AppHandler {
 /// Adopt to have shortcut notifications routed
 protocol AppShortcutHandler: AppHandler {
     /// performActionFor shortcutItem
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - shortcutItem: Item
@@ -186,7 +166,6 @@ protocol AppShortcutHandler: AppHandler {
 /// Adopt to have watch notifications routed
 protocol AppWatchHandler: AppHandler {
     /// handleWatchKitExtensionRequest
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - userInfo: Info
@@ -201,7 +180,6 @@ protocol AppWatchHandler: AppHandler {
 /// Adopt to have health notifications routed
 protocol AppHealthHandler: AppHandler {
     /// applicationShouldRequestHealthAuthorization
-    ///
     /// - Parameter application: Application
     func applicationShouldRequestHealthAuthorization(_ application: UIApplication)
 }
@@ -209,7 +187,6 @@ protocol AppHealthHandler: AppHandler {
 /// Adopt to have Siri notifications routed
 protocol AppSiriHandler: AppHandler {
     /// handle intent
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - intent: Intent
@@ -222,11 +199,9 @@ protocol AppSiriHandler: AppHandler {
 /// Adopt to have data notifications routed
 protocol AppContentHandler: AppHandler {
     /// applicationProtectedDataWillBecomeUnavailable
-    ///
     /// - Parameter application: Application
     func applicationProtectedDataWillBecomeUnavailable(_ application: UIApplication)
     /// applicationProtectedDataDidBecomeAvailable
-    ///
     /// - Parameter application: Application
     func applicationProtectedDataDidBecomeAvailable(_ application: UIApplication)
 }
@@ -234,7 +209,6 @@ protocol AppContentHandler: AppHandler {
 /// Adopt to have extension notifications routed
 protocol AppExtensionHandler: AppHandler {
     /// shouldAllowExtensionPointIdentifier
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - extensionPointIdentifier: Identifier
@@ -247,7 +221,6 @@ protocol AppExtensionHandler: AppHandler {
 /// Adopt to have restoration notifications routed
 protocol AppRestorationHandler: AppHandler {
     /// viewControllerWithRestorationIdentifierPath
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - identifierComponents: Components
@@ -257,7 +230,6 @@ protocol AppRestorationHandler: AppHandler {
                      viewControllerWithRestorationIdentifierPath identifierComponents: [Any],
                      coder: NSCoder) -> UIViewController?
     /// shouldSaveApplicationState
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - coder: Coder
@@ -265,7 +237,6 @@ protocol AppRestorationHandler: AppHandler {
     func application(_ application: UIApplication,
                      shouldSaveApplicationState coder: NSCoder) -> Bool
     /// shouldRestoreApplicationState
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - coder: Coder
@@ -273,14 +244,12 @@ protocol AppRestorationHandler: AppHandler {
     func application(_ application: UIApplication,
                      shouldRestoreApplicationState coder: NSCoder) -> Bool
     /// willEncodeRestorableStateWith
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - coder: Coder
     func application(_ application: UIApplication,
                      willEncodeRestorableStateWith coder: NSCoder)
     /// didDecodeRestorableStateWith
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - coder: Coder
@@ -291,7 +260,6 @@ protocol AppRestorationHandler: AppHandler {
 /// Adopt to have continuity notifications routed
 protocol AppContinuityHandler: AppHandler {
     /// willContinueUserActivityWithType
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - userActivityType: Activity
@@ -299,7 +267,6 @@ protocol AppContinuityHandler: AppHandler {
     func application(_ application: UIApplication,
                      willContinueUserActivityWithType userActivityType: String) -> Bool
     /// continue userActivity
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - userActivity: Activity
@@ -310,7 +277,6 @@ protocol AppContinuityHandler: AppHandler {
                      // swiftlint:disable:next discouraged_optional_collection
                      restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool
     /// didFailToContinueUserActivityWithType
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - userActivityType: Activity
@@ -319,7 +285,6 @@ protocol AppContinuityHandler: AppHandler {
                      didFailToContinueUserActivityWithType userActivityType: String,
                      error: Error)
     /// didUpdate userActivity
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - userActivity: Activity
@@ -330,7 +295,6 @@ protocol AppContinuityHandler: AppHandler {
 /// Adopt to have CloudKit notifications routed
 protocol AppCloudKitHandler: AppHandler {
     /// userDidAcceptCloudKitShareWith
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - cloudKitShareMetadata: Metadata
@@ -359,7 +323,6 @@ class RoutingAppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     /// Typed access to unique handler
-    ///
     /// - Parameter type: Handler type
     /// - Returns: First instance of type if found
     static func handler<T>(type: T.Type) -> T? {
@@ -372,7 +335,6 @@ class RoutingAppDelegate: UIResponder, UIApplicationDelegate {
 extension RoutingAppDelegate {
 
     /// willFinishLaunchingWithOptions
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - launchOptions: Launch options
@@ -388,7 +350,6 @@ extension RoutingAppDelegate {
     }
 
     /// didFinishLaunchingWithOptions
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - launchOptions: Launch options
@@ -404,7 +365,6 @@ extension RoutingAppDelegate {
     }
 
     /// Enter foreground handler
-    ///
     /// - Parameter application: Application
     func applicationWillEnterForeground(_ application: UIApplication) {
         handlers.of(type: AppStateHandler.self)
@@ -412,7 +372,6 @@ extension RoutingAppDelegate {
     }
 
     /// Become active handler
-    ///
     /// - Parameter application: Application
     func applicationDidBecomeActive(_ application: UIApplication) {
         handlers.of(type: AppStateHandler.self)
@@ -420,7 +379,6 @@ extension RoutingAppDelegate {
     }
 
     /// Resign active handler
-    ///
     /// - Parameter application: Application
     func applicationWillResignActive(_ application: UIApplication) {
         handlers.of(type: AppStateHandler.self)
@@ -428,7 +386,6 @@ extension RoutingAppDelegate {
     }
 
     /// Enter background handler
-    ///
     /// - Parameter application: Application
     func applicationDidEnterBackground(_ application: UIApplication) {
         handlers.of(type: AppStateHandler.self)
@@ -436,7 +393,6 @@ extension RoutingAppDelegate {
     }
 
     /// Terminate handler
-    ///
     /// - Parameter application: Application
     func applicationWillTerminate(_ application: UIApplication) {
         handlers.of(type: AppStateHandler.self)
@@ -444,7 +400,6 @@ extension RoutingAppDelegate {
     }
 
     /// Open URL handler
-    ///
     /// - Parameters:
     ///   - app: Application
     ///   - url: URL
@@ -462,7 +417,6 @@ extension RoutingAppDelegate {
     }
 
     /// Memory warning handler
-    ///
     /// - Parameter application: Application
     func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
         handlers.of(type: AppMemoryHandler.self)
@@ -470,7 +424,6 @@ extension RoutingAppDelegate {
     }
 
     /// App time change handler
-    ///
     /// - Parameter application: Application
     func applicationSignificantTimeChange(_ application: UIApplication) {
         handlers.of(type: AppTimeChangeHandler.self)
@@ -478,7 +431,6 @@ extension RoutingAppDelegate {
     }
 
     /// willChangeStatusBarOrientation
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - newStatusBarOrientation: Orientation
@@ -494,7 +446,6 @@ extension RoutingAppDelegate {
     }
 
     /// didChangeStatusBarOrientation
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - oldStatusBarOrientation: Orientation
@@ -507,7 +458,6 @@ extension RoutingAppDelegate {
     }
 
     /// willChangeStatusBarFrame
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - newStatusBarFrame: Frame
@@ -520,7 +470,6 @@ extension RoutingAppDelegate {
     }
 
     /// didChangeStatusBarFrame
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - oldStatusBarFrame: Frame
@@ -533,7 +482,6 @@ extension RoutingAppDelegate {
     }
 
     /// didRegisterForRemoteNotificationsWithDeviceToken
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - deviceToken: Token
@@ -546,7 +494,6 @@ extension RoutingAppDelegate {
     }
 
     /// didFailToRegisterForRemoteNotificationsWithError
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - error: Error
@@ -559,7 +506,6 @@ extension RoutingAppDelegate {
     }
 
     /// didReceiveRemoteNotification
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - userInfo: Info
@@ -575,7 +521,6 @@ extension RoutingAppDelegate {
     }
 
     /// performFetchWithCompletionHandler
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - completionHandler: Callback
@@ -588,7 +533,6 @@ extension RoutingAppDelegate {
     }
 
     /// handleEventsForBackgroundURLSession
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - identifier: Identifier
@@ -604,7 +548,6 @@ extension RoutingAppDelegate {
     }
 
     /// performActionFor shortcutItem
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - shortcutItem: Item
@@ -620,7 +563,6 @@ extension RoutingAppDelegate {
     }
 
     /// handleWatchKitExtensionRequest
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - userInfo: Info
@@ -638,7 +580,6 @@ extension RoutingAppDelegate {
     }
 
     /// applicationShouldRequestHealthAuthorization
-    ///
     /// - Parameter application: Application
     func applicationShouldRequestHealthAuthorization(_ application: UIApplication) {
         handlers.of(type: AppHealthHandler.self)
@@ -646,7 +587,6 @@ extension RoutingAppDelegate {
     }
 
     /// handle intent
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - intent: Intent
@@ -662,7 +602,6 @@ extension RoutingAppDelegate {
     }
 
     /// applicationProtectedDataWillBecomeUnavailable
-    ///
     /// - Parameter application: Application
     func applicationProtectedDataWillBecomeUnavailable(_ application: UIApplication) {
         handlers.of(type: AppContentHandler.self)
@@ -670,7 +609,6 @@ extension RoutingAppDelegate {
     }
 
     /// applicationProtectedDataDidBecomeAvailable
-    ///
     /// - Parameter application: Application
     func applicationProtectedDataDidBecomeAvailable(_ application: UIApplication) {
         handlers.of(type: AppContentHandler.self)
@@ -678,7 +616,6 @@ extension RoutingAppDelegate {
     }
 
     /// shouldAllowExtensionPointIdentifier
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - extensionPointIdentifier: Identifier
@@ -694,7 +631,6 @@ extension RoutingAppDelegate {
     }
 
     /// viewControllerWithRestorationIdentifierPath
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - identifierComponents: Components
@@ -713,7 +649,6 @@ extension RoutingAppDelegate {
     }
 
     /// shouldSaveApplicationState
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - coder: Coder
@@ -728,7 +663,6 @@ extension RoutingAppDelegate {
     }
 
     /// shouldRestoreApplicationState
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - coder: Coder
@@ -743,7 +677,6 @@ extension RoutingAppDelegate {
     }
 
     /// willEncodeRestorableStateWith
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - coder: Coder
@@ -756,7 +689,6 @@ extension RoutingAppDelegate {
     }
 
     /// didDecodeRestorableStateWith
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - coder: Coder
@@ -769,7 +701,6 @@ extension RoutingAppDelegate {
     }
 
     /// willContinueUserActivityWithType
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - userActivityType: Activity
@@ -784,7 +715,6 @@ extension RoutingAppDelegate {
     }
 
     /// continue userActivity
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - userActivity: Activity
@@ -803,7 +733,6 @@ extension RoutingAppDelegate {
     }
 
     /// didFailToContinueUserActivityWithType
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - userActivityType: Activity
@@ -819,7 +748,6 @@ extension RoutingAppDelegate {
     }
 
     /// didUpdate userActivity
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - userActivity: Activity
@@ -832,7 +760,6 @@ extension RoutingAppDelegate {
     }
 
     /// userDidAcceptCloudKitShareWith
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - cloudKitShareMetadata: Metadata

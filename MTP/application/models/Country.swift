@@ -44,9 +44,7 @@ extension CountryJSON: CustomDebugStringConvertible {
     /// UN country containing place
     dynamic var placeCountry: String = ""
 
-    /// Realm unique identifier
-    ///
-    /// - Returns: unique identifier
+    /// :nodoc:
     override static func primaryKey() -> String? {
         return "countryId"
     }
@@ -78,7 +76,6 @@ extension CountryJSON: CustomDebugStringConvertible {
     }
 
     /// Equality operator
-    ///
     /// - Parameter object: Other object
     /// - Returns: equality
     override func isEqual(_ object: Any?) -> Bool {

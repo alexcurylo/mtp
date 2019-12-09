@@ -79,7 +79,7 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
     /// countryId
     let countryId: Int?
     /// createdAt
-    let createdAt: Date
+    let createdAt: Date?
     /// email
     let email: String?
     /// facebookEmail
@@ -91,7 +91,7 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
     /// firstName
     let firstName: String
     /// fullName
-    let fullName: String
+    let fullName: String?
     /// gender
     let gender: String?
     /// id
@@ -128,7 +128,7 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
     /// rankWhss
     let rankWhss: Int?
     /// role
-    let role: Int
+    let role: Int?
     /// score
     let score: Int?
     /// scoreBeaches
@@ -150,17 +150,20 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
     /// scoreWhss
     let scoreWhss: Int?
     /// status
-    let status: String
+    let status: String?
     /// token
     let token: String? // found only in login + signup responses
     /// updatedAt
-    let updatedAt: Date
+    let updatedAt: Date?
     /// username
-    let username: String
+    let username: String?
 
     /// Convenience status accessor
     var isWaiting: Bool {
-        return Status(rawValue: status) == .waiting
+        if let status = status {
+            return Status(rawValue: status) == .waiting
+        }
+        return false
     }
 
     /// Can rankings be displayed?
@@ -172,7 +175,6 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
     }
 
     /// Copy and update visit counts
-    ///
     /// - Parameter visited: New visit counts
     /// - Returns: Copy with visited applied
     func updated(visited: Checked) -> UserJSON {
@@ -233,7 +235,7 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
 extension UserJSON: CustomStringConvertible {
 
     var description: String {
-        return "\(username) (\(id))"
+        return "\(String(describing: username)) (\(id))"
     }
 }
 
@@ -247,13 +249,13 @@ extension UserJSON: CustomDebugStringConvertible {
             birthday: \(String(describing: birthday))
             country: \(String(describing: country))
             country_id: \(String(describing: countryId))
-            created_at: \(createdAt)
+            created_at: \(String(describing: createdAt))
             email: \(String(describing: email))
             facebook_email: \(String(describing: facebookEmail))
             facebook_id: \(String(describing: facebookId))
             facebook_user_token: \(String(describing: facebookUserToken))
             first_name: \(firstName)
-            full_name: \(fullName)
+            full_name: \(String(describing: fullName))
             gender: \(String(describing: gender))
             id: \(id)
             last_log_in: \(String(describing: lastLogIn))
@@ -270,7 +272,7 @@ extension UserJSON: CustomDebugStringConvertible {
             rankRestaurants: \(String(describing: rankRestaurants))
             rankUncountries: \(String(describing: rankUncountries))
             rankWhss: \(String(describing: rankWhss))
-            role: \(role)
+            role: \(String(describing: role))
             score: \(String(describing: score))
             score_beaches: \(String(describing: scoreBeaches))
             score_divesites: \(String(describing: scoreDivesites))
@@ -280,10 +282,10 @@ extension UserJSON: CustomDebugStringConvertible {
             score_restaurants: \(String(describing: scoreRestaurants))
             score_uncountries: \(String(describing: scoreUncountries))
             score_whss: \(String(describing: scoreWhss))
-            status: \(status)
+            status: \(String(describing: status))
             token: \(String(describing: token))
-            updated_at: \(updatedAt)
-            username: \(username)
+            updated_at: \(String(describing: updatedAt))
+            username: \(String(describing: username))
         /User >
         """
     }
@@ -347,7 +349,6 @@ struct Link: Codable, Hashable {
     }
 
     /// Initialize by injection
-    ///
     /// - Parameters:
     ///   - text: text
     ///   - url: url
@@ -455,9 +456,7 @@ extension UserAvatar {
         return userId == data.user?.id
     }
 
-    /// Realm unique identifier
-    ///
-    /// - Returns: unique identifier
+    /// :nodoc:
     override static func primaryKey() -> String? {
         return "userId"
     }
@@ -468,7 +467,7 @@ extension UserAvatar {
 
         airport = from.airport ?? ""
         bio = from.bio ?? ""
-        fullName = from.fullName
+        fullName = from.fullName ?? "\(from.firstName) \(from.lastName)"
         gender = from.gender
         userId = from.id
         locationName = from.location?.description ?? ""
@@ -516,7 +515,6 @@ extension UserAvatar {
     }
 
     /// Equality operator
-    ///
     /// - Parameter object: Other object
     /// - Returns: equality
     override func isEqual(_ object: Any?) -> Bool {

@@ -123,7 +123,6 @@ extension UserCountsVC: Injectable {
     typealias Model = (list: Checklist, user: User, tab: Tab)
 
     /// Handle dependency injection
-    ///
     /// - Parameter model: Dependencies
     func inject(model: Model) {
         list = model.list

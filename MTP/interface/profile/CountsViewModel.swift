@@ -52,7 +52,7 @@ protocol CountsViewModel {
 }
 
 /// Builder for CountsViewModel
-struct CountsViewModelBuilder {
+struct CountsViewModelBuilder: ServiceProvider {
 
     private let checklist: Checklist
     private let isEditable: Bool
@@ -70,10 +70,14 @@ struct CountsViewModelBuilder {
     /// Return appropriate view model
     func build() -> CountsViewModel {
         switch checklist.hierarchy {
-        case .brandRegionCountry,
-             .regionCountryLocation:
+        case .brandRegionCountry:
             return CountsThreeLevelViewModel(checklist: checklist,
-                                             isEditable: isEditable)
+                                             isEditable: isEditable,
+                                             brands: data.brands)
+        case .regionCountryLocation:
+            return CountsThreeLevelViewModel(checklist: checklist,
+                                             isEditable: isEditable,
+                                             brands: [:])
         case .region,
              .regionCountry,
              .regionCountryCombined,

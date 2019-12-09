@@ -9,7 +9,6 @@ struct ActionHandler: AppHandler { }
 extension ActionHandler: AppOpenURLHandler {
 
     /// Open URL handler
-    ///
     /// - Parameters:
     ///   - app: Application
     ///   - url: URL
@@ -27,7 +26,6 @@ extension ActionHandler: AppOpenURLHandler {
 extension ActionHandler {
 
     /// Handle Facebook URL
-    ///
     /// - Parameters:
     ///   - app: Application
     ///   - url: URL

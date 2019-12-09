@@ -6,7 +6,6 @@ import Anchorage
 protocol RankingHeaderDelegate: AnyObject {
 
     /// Tap notification
-    ///
     /// - Parameter header: Tapped header
     func tapped(header: RankingHeader)
 }
@@ -91,7 +90,6 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
     private var uploading = false
 
     /// Procedural intializer
-    ///
     /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -105,7 +103,6 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
     }
 
     /// Inject display data
-    ///
     /// - Parameters:
     ///   - rank: Rank if any
     ///   - list: Checklist

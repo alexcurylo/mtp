@@ -87,7 +87,6 @@ extension RankingsFilterVC {
 extension RankingsFilterVC: LocationSearchDelegate {
 
     /// Handle a location selection
-    ///
     /// - Parameters:
     ///   - controller: source of selection
     ///   - item: Country or Location selected

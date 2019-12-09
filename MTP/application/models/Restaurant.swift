@@ -69,9 +69,7 @@ extension RestaurantJSON: CustomDebugStringConvertible {
     /// placeId
     dynamic var placeId: Int = 0
 
-    /// Realm unique identifier
-    ///
-    /// - Returns: unique identifier
+    /// :nodoc:
     override static func primaryKey() -> String? {
         return "placeId"
     }

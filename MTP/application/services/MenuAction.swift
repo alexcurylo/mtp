@@ -30,7 +30,6 @@ enum MenuAction: String {
     ]
 
     /// Is a menu action one of our content actions?
-    ///
     /// - Parameter action: Action selector
     /// - Returns: Whether it is a content action
     static func isContent(action: Selector) -> Bool {

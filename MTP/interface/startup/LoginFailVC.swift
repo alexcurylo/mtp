@@ -53,7 +53,6 @@ final class LoginFailVC: UIViewController {
     }
 
     /// Allow navigation
-    ///
     /// - Parameters:
     ///   - identifier: Segue identifier
     ///   - sender: Action originator
@@ -141,7 +140,6 @@ extension LoginFailVC: Injectable {
     typealias Model = String
 
     /// Handle dependency injection
-    ///
     /// - Parameter model: Dependencies
     func inject(model: Model) {
         errorMessage = model

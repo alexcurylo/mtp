@@ -122,12 +122,12 @@ id: 1
 isTop100: 0
 lat: 43.307133
 location: Optional(< PlaceLocation: Euskadi (Basque Country), Spain
-countryId: 965
-countryName: Spain
+countryId: Optional(965)
+countryName: Optional("Spain")
 id: 262
-location_name: Euskadi (Basque Country)
-region_id: 987
-region_name: Europe
+location_name: Optional("Euskadi (Basque Country)")
+region_id: Optional(987)
+region_name: Optional("Europe")
 /PlaceLocation >)
 locationId: 262
 long: -2.043636

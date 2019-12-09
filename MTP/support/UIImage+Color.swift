@@ -5,7 +5,6 @@ import UIKit
 extension UIImage {
 
     /// Create a flat color image
-    ///
     /// - Parameters:
     ///   - color: UIColor
     ///   - size: CGSize
@@ -21,7 +20,6 @@ extension UIImage {
     }
 
     /// Return a rounded copy
-    ///
     /// - Parameter cornerRadius: Point radius
     /// - Returns: Image if created
     func rounded(cornerRadius: Int) -> UIImage? {

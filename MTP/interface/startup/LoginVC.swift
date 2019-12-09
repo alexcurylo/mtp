@@ -51,7 +51,6 @@ final class LoginVC: UIViewController {
     }
 
     /// Prepare for hide
-    ///
     /// - Parameter animated: Whether animating
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -61,7 +60,6 @@ final class LoginVC: UIViewController {
    }
 
     /// Allow navigation
-    ///
     /// - Parameters:
     ///   - identifier: Segue identifier
     ///   - sender: Action originator
@@ -221,7 +219,6 @@ private extension LoginVC {
 extension LoginVC: UITextFieldDelegate {
 
     /// Begin editing text field
-    ///
     /// - Parameter textField: UITextField
     /// - Returns: Permission
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -240,7 +237,6 @@ extension LoginVC: UITextFieldDelegate {
     }
 
     /// Handle return key
-    ///
     /// - Parameter textField: UITextField
     /// - Returns: Permission
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -262,7 +258,6 @@ extension LoginVC: UITextFieldDelegate {
 extension LoginVC: UINavigationControllerDelegate {
 
     /// Animation controller for navigation
-    ///
     /// - Parameters:
     ///   - navigationController: Enclosing controller
     ///   - operation: Operation
@@ -286,7 +281,6 @@ extension LoginVC: UINavigationControllerDelegate {
 extension LoginVC: UIViewControllerTransitioningDelegate {
 
     /// Animation controller for transition
-    ///
     /// - Parameters:
     ///   - presented: Presented controller
     ///   - presenting: Presenting controller
@@ -299,7 +293,6 @@ extension LoginVC: UIViewControllerTransitioningDelegate {
     }
 
     /// Animation controller for dismissal
-    ///
     /// - Parameter dismissed: View controller
     /// - Returns: Animator
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {

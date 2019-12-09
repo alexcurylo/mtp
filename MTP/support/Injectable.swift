@@ -16,7 +16,6 @@ protocol Injectable {
     associatedtype Model
 
     /// Inject dependencies
-    ///
     /// - Parameter model: Dependencies
     func inject(model: Model)
 
@@ -27,7 +26,6 @@ protocol Injectable {
 extension Optional {
 
     /// Catastrophic unwrap
-    ///
     /// - Parameters:
     ///   - file: Diagnostic filename
     ///   - line: Diagnostic line number

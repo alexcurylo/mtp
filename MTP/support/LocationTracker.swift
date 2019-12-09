@@ -11,11 +11,9 @@ protocol LocationTracker: Mapper, ServiceProvider {
     /// Show alert asking for authorization
     func alertLocationAccessNeeded()
     /// Authorization changed
-    ///
     /// - Parameter changed: New status
     func authorization(changed: CLAuthorizationStatus)
     /// Location changed
-    ///
     /// - Parameter changed: New location
     func location(changed: CLLocation)
 }

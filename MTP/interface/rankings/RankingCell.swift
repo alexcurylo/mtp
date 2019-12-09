@@ -6,17 +6,14 @@ import Anchorage
 protocol RankingCellDelegate: AnyObject {
 
     /// Profile tapped
-    ///
     /// - Parameter user: User to display
     func tapped(profile user: User)
     /// Remaining tapped
-    ///
     /// - Parameters:
     ///   - user: User to display
     ///   - list: List to display
     func tapped(remaining user: User, list: Checklist)
     /// Visited tapped
-    ///
     /// - Parameters:
     ///   - user: User to display
     ///   - list: List to display
@@ -82,7 +79,6 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
     private weak var delegate: RankingCellDelegate?
 
     /// Procedural intializer
-    ///
     /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -96,7 +92,6 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
     }
 
     /// Inject display data
-    ///
     /// - Parameters:
     ///   - user: User if available
     ///   - rank: Rank
@@ -146,7 +141,6 @@ final class RankingCell: UICollectionViewCell, ServiceProvider {
     }
 
     /// Expose cell to UI tests
-    ///
     /// - Parameters:
     ///   - list: ChecklistIndex
     ///   - item: Index

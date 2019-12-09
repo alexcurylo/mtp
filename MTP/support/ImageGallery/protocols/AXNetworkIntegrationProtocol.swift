@@ -18,12 +18,10 @@ protocol AXNetworkIntegrationProtocol: AnyObject, NSObjectProtocol {
 
     /// This function should load a provided photo,
     /// calling all necessary `AXNetworkIntegrationDelegate` delegate methods.
-    ///
     /// - Parameter photo: The photo to load.
     func loadPhoto(_ photo: AXPhotoProtocol)
 
     /// This function should cancel the load (if possible) for the provided photo.
-    ///
     /// - Parameter photo: The photo load to cancel.
     func cancelLoad(for photo: AXPhotoProtocol)
 
@@ -35,7 +33,6 @@ protocol AXNetworkIntegrationProtocol: AnyObject, NSObjectProtocol {
 protocol AXNetworkIntegrationDelegate: AnyObject, NSObjectProtocol {
 
     /// Called when a `AXPhoto` successfully finishes loading.
-    ///
     /// - Parameters:
     ///   - networkIntegration: The `NetworkIntegration` that was performing the load.
     ///   - photo: The related `Photo`.
@@ -45,7 +42,6 @@ protocol AXNetworkIntegrationDelegate: AnyObject, NSObjectProtocol {
                             loadDidFinishWith photo: AXPhotoProtocol)
 
     /// Called when a `AXPhoto` fails to load.
-    ///
     /// - Parameters:
     ///   - networkIntegration: The `NetworkIntegration` that was performing the load.
     ///   - error: The error that the load failed with.
@@ -56,7 +52,6 @@ protocol AXNetworkIntegrationDelegate: AnyObject, NSObjectProtocol {
                             for photo: AXPhotoProtocol)
 
     /// Called when a `AXPhoto`'s loading progress is updated.
-    ///
     /// - Parameters:
     ///   - networkIntegration: The `NetworkIntegration` that is performing the load.
     ///   - progress: The progress of the `AXPhoto` load represented as a percentage. Exists on a scale from 0..1. 

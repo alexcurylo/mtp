@@ -70,9 +70,7 @@ extension HotelJSON: CustomDebugStringConvertible {
     /// Difficulty rank
     dynamic var rank: Int = 0
 
-    /// Realm unique identifier
-    ///
-    /// - Returns: unique identifier
+    /// :nodoc:
     override static func primaryKey() -> String? {
         return "placeId"
     }
@@ -105,42 +103,5 @@ extension HotelJSON: CustomDebugStringConvertible {
 
     override var description: String {
         return placeTitle
-    }
-
-    /// Name displayed for user sorting
-    var brandName: String {
-        switch brand {
-        case "aman":
-            return L.brandAman()
-        case "four_seasons_hotel":
-            return L.brandFourSeasons()
-        case "jumeriah":
-            return L.brandJumeriah()
-        case "leading_hotels":
-            return L.brandLeadingHotels()
-        case "mandarin_oriental":
-            return L.brandMandarin()
-        case "oberoi":
-            return L.brandOberoi()
-        case "one_only":
-            return L.brandOneOnly()
-        case "ritz_carlton":
-            return L.brandRitzCarlton()
-        case "six_senses":
-            return L.brandSixSenses()
-        case "small_luxury_hotels":
-            return L.brandSmallLuxury()
-        case "st_regis":
-            return L.brandStRegis()
-        case "taj":
-            return L.brandTaj()
-        case "the_peninsula":
-            return L.brandPeninsula()
-        case "waldorf_astoria":
-            return L.brandWaldorfAstoria()
-        default:
-            log.error("need brand name: \(brand)")
-            return L.unknown()
-        }
     }
 }

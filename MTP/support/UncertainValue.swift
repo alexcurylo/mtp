@@ -42,21 +42,18 @@ struct UncertainValue<T: Codable, U: Codable>: Codable {
     }
 
     /// Initalize with first type
-    ///
     /// - Parameter value: Value
     init(with value: T) {
         tValue = value
     }
 
     /// Initalize with second type
-    ///
     /// - Parameter value: Value
     init(with value: U) {
         uValue = value
     }
 
     /// Initialize with decoder
-    ///
     /// - Parameter decoder: Decoder
     /// - Throws: Decoding error
     init(from decoder: Decoder) throws {
@@ -73,7 +70,6 @@ struct UncertainValue<T: Codable, U: Codable>: Codable {
     }
 
     /// Encode to encoder
-    ///
     /// - Parameter encoder: Encoder
     /// - Throws: Encoding error
     func encode(to encoder: Encoder) throws {
@@ -92,7 +88,6 @@ struct UncertainValue<T: Codable, U: Codable>: Codable {
 struct JSONNull: Codable {
 
     /// Initialize with decoder
-    ///
     /// - Parameter decoder: Decoder
     /// - Throws: Decoding error
     init(from decoder: Decoder) throws {
@@ -106,7 +101,6 @@ struct JSONNull: Codable {
     }
 
     /// Encode to encoder
-    ///
     /// - Parameter encoder: Encoder
     /// - Throws: Encoding error
     func encode(to encoder: Encoder) throws {

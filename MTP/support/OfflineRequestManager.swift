@@ -12,7 +12,6 @@ protocol DictionaryRepresentable {
 
     /// Provides a dictionary to be written to disk;
     /// This dictionary is what will be passed to the initializer above
-    ///
     /// - Returns: Dictionary containing information to retry if the app is terminated
     var dictionary: [String: Any] { get }
 }
@@ -28,13 +27,11 @@ private extension DictionaryRepresentable {
 protocol OfflineRequest: AnyObject, DictionaryRepresentable {
 
     /// Called whenever the request manager instructs the object to perform its network request
-    ///
     /// - Parameter completion: completion fired when done, either with an Error or nothing in the case of success
     func perform(completion: @escaping (Error?) -> Swift.Void)
 
     /// Allows the OfflineRequest object to recover from an error if desired
     /// Only called if the error is not network related
-    ///
     /// - Parameter error: Should be equal to what was passed back in the perform(completion:) call
     /// - Returns: Bool indicating whether perform(completion:) should be called again or the request should be dropped
     func shouldAttemptResubmission(forError error: Error) -> Bool
@@ -96,7 +93,6 @@ extension OfflineRequest {
     }
 
     /// Provides the current progress (0 to 1) on the ongoing request
-    ///
     /// - Parameter progress: current request progress
     func updateProgress(to progress: Double) {
         delegate?.request(self, didUpdateTo: progress)
@@ -107,7 +103,6 @@ extension OfflineRequest {
 private extension OfflineRequest where Self: NSObject {
 
     /// Generates a dictionary using the values associated with the given key paths
-    ///
     /// - Parameter keyPaths: key paths of the properties to include in the dictionary
     /// - Returns: dictionary of the key paths and their associated values
     func dictionary(withKeyPaths keyPaths: [String]) -> [String: Any] {
@@ -117,7 +112,6 @@ private extension OfflineRequest where Self: NSObject {
     }
 
     /// Parses through the provided dictionary and sets the appropriate values if they are found
-    ///
     /// - Parameters:
     ///   - dictionary: dictionary containing values for the key paths
     ///   - keyPaths: array of key paths
@@ -136,13 +130,11 @@ private extension OfflineRequest where Self: NSObject {
 protocol OfflineRequestManagerDelegate: AnyObject {
 
     /// Method that the delegate uses to generate OfflineRequest objects from dictionaries written to disk
-    ///
     /// - Parameter dictionary: dictionary saved to disk associated with an unfinished request
     /// - Returns: OfflineRequest object to be queued
     func offlineRequest(withDictionary dictionary: [String: Any]) -> OfflineRequest?
 
     /// Callback indicating the OfflineRequestManager's current progress
-    ///
     /// - Parameters:
     ///   - manager: OfflineRequestManager instance
     ///   - progress: current progress for all ongoing requests (ranges from 0 to 1)
@@ -150,7 +142,6 @@ protocol OfflineRequestManagerDelegate: AnyObject {
                                didUpdateProgress progress: Double)
 
     /// Callback indicating the OfflineRequestManager's current connection status
-    ///
     /// - Parameters:
     ///   - manager: OfflineRequestManager instance
     ///   - connected: value indicating whether there is currently connectivity
@@ -158,7 +149,6 @@ protocol OfflineRequestManagerDelegate: AnyObject {
                                didUpdateConnectionStatus connected: Bool)
 
     /// Callback that can be used to block a request attempt
-    ///
     ///   - manager: OfflineRequestManager instance
     ///   - request: OfflineRequest to be performed
     /// - Returns: value indicating whether the OfflineRequestManager should move forward with the request attempt
@@ -167,7 +157,6 @@ protocol OfflineRequestManagerDelegate: AnyObject {
 
     /// Callback to reconfigure and reattempt an OfflineRequest
     /// after a failure not related to connectivity issues
-    ///
     /// - Parameters:
     ///   - manager: OfflineRequestManager instance
     ///   - request: OfflineRequest that failed
@@ -178,7 +167,6 @@ protocol OfflineRequestManagerDelegate: AnyObject {
                                withError error: Error) -> Bool
 
     /// Callback indicating that the OfflineRequest action has started
-    ///
     /// - Parameters:
     ///   - manager: OfflineRequestManager instance
     ///   - request: OfflineRequest that started its action
@@ -186,7 +174,6 @@ protocol OfflineRequestManagerDelegate: AnyObject {
                                didStartRequest request: OfflineRequest)
 
     /// Callback indicating that the OfflineRequest status has changed
-    ///
     /// - Parameters:
     ///   - manager: OfflineRequestManager instance
     ///   - request: OfflineRequest that changed its subtitle
@@ -194,7 +181,6 @@ protocol OfflineRequestManagerDelegate: AnyObject {
                                didUpdateRequest request: OfflineRequest)
 
     /// Callback indicating that the OfflineRequest action has successfully finished
-    ///
     /// - Parameters:
     ///   - manager: OfflineRequestManager instance
     ///   - request: OfflineRequest that finished its action
@@ -202,7 +188,6 @@ protocol OfflineRequestManagerDelegate: AnyObject {
                                didFinishRequest request: OfflineRequest)
 
     /// Callback indicating that the OfflineRequest action has failed for reasons unrelated to connectivity
-    ///
     /// - Parameters:
     ///   - manager: OfflineRequestManager instance
     ///   - request: OfflineRequest that failed
@@ -237,19 +222,16 @@ extension OfflineRequestManagerDelegate {
 private protocol OfflineRequestDelegate: AnyObject {
 
     /// Callback indicating the OfflineRequest's current progress
-    ///
     /// - Parameters:
     ///   - request: OfflineRequest instance
     ///   - progress: current progress (ranges from 0 to 1)
     func request(_ request: OfflineRequest, didUpdateTo progress: Double)
 
     /// Callback to save the current state of incomplete requests to disk
-    ///
     /// - Parameter request: OfflineRequest that has updated and needs to be rewritten to disk
     func requestNeedsSave(_ request: OfflineRequest)
 
     /// Callback indicating that the OfflineRequestManager should give the request more time to complete
-    ///
     /// - Parameter request: OfflineRequest that is continuing to process and needs more time to complete
     func requestSentHeartbeat(_ request: OfflineRequest)
 }
@@ -411,7 +393,6 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
     }
 
     /// Enqueues a single OfflineRequest
-    ///
     /// - Parameters:
     ///   - request: OfflineRequest to be queued
     ///   - startImmediately: indicates whether an attempt should be made immediately or deferred until the next timer
@@ -443,7 +424,6 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
     }
 
     /// Enqueues an array of OfflineRequest objects
-    ///
     /// - Parameters:
     ///   - request: Array of OfflineRequest objects to be queued
     ///   - startImmediately: indicates whether an attempt should be made immediately or deferred until the next timer
@@ -461,7 +441,6 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
     }
 
     /// Allows for adjustment to pending requests before they are executed
-    ///
     /// - Parameter modifyBlock: block making any necessary adjustments to the array of pending requests
     func modifyPendingRequests(_ modifyBlock: (([OfflineRequest]) -> [OfflineRequest])) {
         incompleteRequests = ongoingRequests + modifyBlock(pendingRequests)

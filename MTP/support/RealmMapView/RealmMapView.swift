@@ -23,7 +23,6 @@ class RealmMapView: MKMapView {
     // MARK: - Properties
 
     /// The configuration for the Realm in which the entity resides
-    ///
     /// Default is [RLMRealmConfiguration defaultConfiguration]
     var realmConfiguration: Realm.Configuration {
         set {
@@ -61,12 +60,10 @@ class RealmMapView: MKMapView {
     @IBInspectable var longitudeKeyPath: String?
 
     /// The key path on fetched Realm objects for the title of the annotation view
-    ///
     /// If nil, then no title will be shown
     @IBInspectable var titleKeyPath: String?
 
     /// The key path on fetched Realm objects for the subtitle of the annotation view
-    ///
     /// If nil, then no subtitle
     @IBInspectable var subtitleKeyPath: String?
 
@@ -81,7 +78,6 @@ class RealmMapView: MKMapView {
     @IBInspectable var zoomOnFirstRefresh: Bool = true
 
     /// If enabled, annotation views will be animated when added to the map.
-    ///
     /// Default is YES
     @IBInspectable var animateAnnotations: Bool = true
 
@@ -90,18 +86,14 @@ class RealmMapView: MKMapView {
     @IBInspectable var canShowCallout: Bool = true
 
     /// Max zoom level of the map view to perform clustering on.
-    ///
     /// ZoomLevel is inherited from MapKit's Google days:
     /// 0 is the entire 2D Earth
     /// 20 is max zoom
-    ///
     /// Default is 20, which means clustering will occur at every zoom level if clusterAnnotations is YES
     fileprivate var maxZoomLevelForClustering: ZoomLevel = 20
 
     /// The limit on how many results from Realm will be added to the map.
-    ///
     /// This applies whether or not clustering is enabled.
-    ///
     /// Default is -1, or unlimited results.
     fileprivate var resultsLimit: ResultsLimit {
         set {
@@ -397,7 +389,6 @@ extension RealmMapView: MKMapViewDelegate {
     }
 
     /// Produce annotation view
-    ///
     /// - Parameters:
     ///   - mapView: Map view
     ///   - annotation: Annotation
@@ -454,7 +445,6 @@ extension RealmMapView: MKMapViewDelegate {
     }
 
     /// Handle annoation selection
-    ///
     /// - Parameters:
     ///   - mapView: Map view
     ///   - view: Annotation view
@@ -478,7 +468,6 @@ extension RealmMapView: MKMapViewDelegate {
     }
 
     /// Update user location
-    ///
     /// - Parameters:
     ///   - mapView: Map view
     ///   - userLocation: Location
@@ -509,7 +498,6 @@ extension RealmMapView: MKMapViewDelegate {
     }
 
     /// Provide overlay renderer
-    ///
     /// - Parameters:
     ///   - mapView: Map view
     ///   - overlay: Overlay

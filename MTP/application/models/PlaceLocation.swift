@@ -2,32 +2,36 @@
 
 import Foundation
 
-/// version of Location found in place results
+/// version of Location found in place and user results
 struct PlaceLocation: Codable, Equatable {
 
     /// countryId
-    let countryId: Int
+    let countryId: Int?
     /// countryName
-    let countryName: String
+    let countryName: String?
     /// id
     let id: Int
     /// locationName
-    let locationName: String
+    let locationName: String?
     /// regionId
-    let regionId: Int
+    let regionId: Int?
     /// regionName
-    let regionName: String
+    let regionName: String?
 }
 
 extension PlaceLocation: CustomStringConvertible {
 
     var description: String {
-        if !countryName.isEmpty
-           && !locationName.isEmpty
-           && countryName != locationName {
-            return L.locationDescription(locationName, countryName)
+        let country = countryName ?? ""
+        let location = locationName ?? ""
+        if !country.isEmpty
+           && !location.isEmpty
+           && country != location {
+            return L.locationDescription(location, country)
         }
-        return locationName.isEmpty ? countryName : locationName
+        if !location.isEmpty { return location }
+        if !country.isEmpty { return country }
+        return L.unknown()
     }
 }
 
@@ -39,7 +43,7 @@ extension PlaceLocation: CustomDebugStringConvertible {
         countryId: \(String(describing: countryId))
         countryName: \(String(describing: countryName))
         id: \(id)
-        location_name: \(locationName)
+        location_name: \(String(describing: locationName))
         region_id: \(String(describing: regionId))
         region_name: \(String(describing: regionName))
         /PlaceLocation >

@@ -115,7 +115,6 @@ extension SignupFailVC: Injectable {
     typealias Model = String
 
     /// Handle dependency injection
-    ///
     /// - Parameter model: Dependencies
     func inject(model: Model) {
         errorMessage = model

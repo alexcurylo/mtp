@@ -6,7 +6,6 @@ import MapKit
 extension CLLocationCoordinate2D: Codable {
 
     /// Initialize with decoder
-    ///
     /// - Parameter decoder: Decoder
     /// - Throws: Decoding error
     public init(from decoder: Decoder) throws {
@@ -17,7 +16,6 @@ extension CLLocationCoordinate2D: Codable {
     }
 
     /// Encode to encoder
-    ///
     /// - Parameter encoder: Encoder
     /// - Throws: Encoding error
     public func encode(to encoder: Encoder) throws {
@@ -30,7 +28,6 @@ extension CLLocationCoordinate2D: Codable {
 extension CLLocationCoordinate2D: Equatable {
 
     /// Equality operator
-    ///
     /// - Parameters:
     ///   - lhs: A thing
     ///   - rhs: Another thing
@@ -58,7 +55,6 @@ extension CLLocationCoordinate2D {
     }
 
     /// Distance calculation
-    ///
     /// - Parameter from: CLLocationCoordinate2D
     /// - Returns: Distance
     func distance(from: CLLocationCoordinate2D) -> CLLocationDistance {
@@ -66,7 +62,6 @@ extension CLLocationCoordinate2D {
     }
 
     /// Distance calculation
-    ///
     /// - Parameter from: CLLocation
     /// - Returns: Distance
     func distance(from: CLLocation) -> CLLocationDistance {
@@ -116,7 +111,6 @@ struct ClusterRegion {
     }
 
     /// Construct region from coordinates
-    ///
     /// - Parameter coordinates: Coordinates
     init(coordinates: [CLLocationCoordinate2D]) {
         if let first = coordinates.first {
@@ -134,7 +128,6 @@ struct ClusterRegion {
     }
 
     /// Construct region from an annotation
-    ///
     /// - Parameter mappables: MappablesAnnotation
     init(mappables: MappablesAnnotation) {
         let coordinates = mappables.mappables.map { $0.coordinate }

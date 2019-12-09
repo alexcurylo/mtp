@@ -22,7 +22,6 @@ final class Scheduler {
     }
 
     /// Schedule repeating with immediate execution
-    ///
     /// - Parameters:
     ///   - seconds: Seconds between firing
     ///   - then: Action to take on scheduling
@@ -33,7 +32,6 @@ final class Scheduler {
    }
 
     /// Schedule repeating without immediate execution
-    ///
     /// - Parameters:
     ///   - seconds: Seconds between firing
     ///   - then: Action to take on scheduling
@@ -49,7 +47,6 @@ final class Scheduler {
     }
 
     /// Schedule once
-    ///
     /// - Parameters:
     ///   - seconds: Seconds between firing
     ///   - then: Action to take on scheduling

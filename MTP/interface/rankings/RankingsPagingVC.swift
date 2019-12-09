@@ -21,7 +21,6 @@ final class RankingsPagingVC: PagingViewController<ListPagingItem> {
     }
 
     /// Menu height
-    ///
     /// - Parameter scrollView: Menu container
     /// - Returns: Height
     func menuHeight(for scrollView: UIScrollView) -> CGFloat {
@@ -58,7 +57,6 @@ final class RankingsPagingVC: PagingViewController<ListPagingItem> {
     }
 
     /// Update menu height
-    ///
     /// - Parameter height: Menu height
     func update(menu height: CGFloat) {
         if let pagingView = view as? RankingPagingView {
@@ -133,7 +131,6 @@ class RankingPagingCell: PagingCell {
     }
 
     /// Procedural intializer
-    ///
     /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -157,7 +154,6 @@ class RankingPagingCell: PagingCell {
     }
 
     /// Set menu display
-    ///
     /// - Parameters:
     ///   - pagingItem: PagingItem
     ///   - selected: Is this cell selected?

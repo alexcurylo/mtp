@@ -192,6 +192,8 @@ private extension MTP {
         switch self {
         case .beach:
             return "load_beaches"
+        case .brands:
+            return "load_brands"
         case .checkIn: // (let list, let id):
             return "check_in"
         case .checklists:

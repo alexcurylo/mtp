@@ -33,15 +33,20 @@ struct CountsThreeLevelViewModel: CountsViewModel {
     private var subgroupsVisited: [SectionKey: [GroupKey: SubgroupVisits]] = [:]
     private var subgroupsExpanded: [SectionKey: [GroupKey: SubgroupExpanded]] = [:]
 
+    private let brands: [String: String]
+
     /// Intialize with parameters
     /// - Parameters:
     ///   - hierarchy: Current hierarchy
     ///   - isEditable: Is user's own counts
+    ///   - brands: Hotel brands
     init(checklist: Checklist,
-         isEditable: Bool) {
+         isEditable: Bool,
+         brands: [String: String]) {
         self.checklist = checklist
         hierarchy = checklist.hierarchy
         self.isEditable = isEditable
+        self.brands = brands
     }
 
     /// :nodoc:
@@ -161,7 +166,7 @@ struct CountsThreeLevelViewModel: CountsViewModel {
             sectionsPlaces = Dictionary(grouping: places) { $0.placeRegion }
         case .brandRegionCountry:
             sectionsPlaces = Dictionary(grouping: places) {
-                ($0 as? Hotel)?.brandName ?? L.unknown()
+                brand(name: $0 as? Hotel)
             }
         default:
             fatalError("incorrect 3 level model: \(hierarchy)")
@@ -228,6 +233,11 @@ struct CountsThreeLevelViewModel: CountsViewModel {
 // MARK: - Private
 
 private extension CountsThreeLevelViewModel {
+
+    func brand(name hotel: Hotel?) -> String {
+        guard let hotel = hotel else { return L.unknown() }
+        return brands[hotel.brand] ?? L.unknown()
+    }
 
     func isCombined(section: SectionKey,
                     group: GroupKey) -> Bool {

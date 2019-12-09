@@ -23,7 +23,6 @@ final class MTPPostRequest: NSObject, OfflineRequest, ServiceProvider {
     }
 
     /// Memberwise initializer
-    ///
     /// - Parameters:
     ///   - payload: Post to publish
     ///   - title: Title if deserialized

@@ -30,7 +30,6 @@ class PostsVC: UITableViewController {
     }
 
     /// Present user profile
-    ///
     /// - Parameter user: User to present
     func show(user: User) {
         // override to implement
@@ -81,7 +80,6 @@ class PostsVC: UITableViewController {
     }
 
     /// Construct cell models
-    ///
     /// - Parameter posts: List of posts
     /// - Returns: List of displayable models
     func cellModels(from posts: [Post]) -> [PostCellModel] {

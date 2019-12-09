@@ -6,7 +6,6 @@ import UIKit
 final class FacebookButton: UIButton, FacebookSDKClient, ServiceProvider {
 
     /// Procedural intializer
-    ///
     /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -20,7 +19,6 @@ final class FacebookButton: UIButton, FacebookSDKClient, ServiceProvider {
     }
 
     /// Perform Facebook login
-    ///
     /// - Parameters:
     ///   - vc: Containing view controller
     ///   - mock: Testing injection

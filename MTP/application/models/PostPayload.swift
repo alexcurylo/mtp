@@ -44,7 +44,6 @@ struct PostPayload: Codable, Hashable {
     }
 
     /// Set Location
-    ///
     /// - Parameter place: Location
     mutating func set(location place: Location?) {
         if let place = place {
@@ -56,7 +55,6 @@ struct PostPayload: Codable, Hashable {
     }
 
     /// Set Country
-    ///
     /// - Parameter place: Country
     mutating func set(country place: Country?) {
         if let place = place, !place.hasChildren {

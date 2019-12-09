@@ -6,28 +6,22 @@ import UIKit
 protocol PhotoCellDelegate: AnyObject {
 
     /// Clear suspended state
-    ///
     /// - Parameter cell: Cell
     func prepared(forReuse cell: PhotoCell)
 
     /// Handle hide action
-    ///
     /// - Parameter hide: Photo to hide
     func tapped(hide: Photo?)
     /// Handle report action
-    ///
     /// - Parameter report: Photo to report
     func tapped(report: Photo?)
     /// Handle block action
-    ///
     /// - Parameter block: Photo to block
     func tapped(block: Photo?)
     /// Handle block action
-    ///
     /// - Parameter edit: Photo to edit
     func tapped(edit: Photo?)
     /// Handle delete action
-    ///
     /// - Parameter delete: Photo to delete
     func tapped(delete: Photo?)
 }
@@ -68,7 +62,6 @@ final class PhotoCell: UICollectionViewCell, ServiceProvider {
     }
 
     /// Handle dependency injection
-    ///
     /// - Parameters:
     ///   - model: Data model
     ///   - delegate: Delegate

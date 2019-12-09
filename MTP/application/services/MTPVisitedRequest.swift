@@ -26,7 +26,6 @@ final class MTPVisitedRequest: NSObject, OfflineRequest, ServiceProvider {
     var failures: Int
 
     /// Memberwise initializer
-    ///
     /// - Parameters:
     ///   - item: Place changing status
     ///   - visited: Visited or not

@@ -40,7 +40,6 @@ extension NetworkService {
     }
 
     /// Notify change listeners
-    ///
     /// - Parameters:
     ///   - change: NetworkServiceChange
     ///   - object: Attachment if any
@@ -54,7 +53,6 @@ extension NetworkService {
     }
 
     /// Create network change observer
-    ///
     /// - Parameters:
     ///   - of: NetworkServiceChange
     ///   - handler: Handler

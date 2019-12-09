@@ -584,7 +584,6 @@ final class AXPhotosDismissalAnimator: AXPhotosTransitionAnimator, UIViewControl
     }
 
     /// Extrapolate  "final" offscreen center value for an image view in a view given  starting and ending orientations.
-    ///
     /// - Parameters:
     ///   - imageView: The image view to retrieve the final offscreen center value for.
     ///   - view: The view that is containing the imageView. Most likely the superview.
