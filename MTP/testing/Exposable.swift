@@ -18,7 +18,6 @@ extension Exposable {
     }
 
     /// Assign accessibility identifier to item
-    ///
     /// - Parameter item: Thing to expose
     func expose(item: UIAccessibilityIdentification?) {
         item?.accessibilityIdentifier = identifier
@@ -28,7 +27,6 @@ extension Exposable {
 extension UIAccessibilityIdentification {
 
     /// Assign accessibility identifier to ourselves
-    ///
     /// - Parameter exposable: Identifier provider
     func expose(as exposable: Exposable?) {
         accessibilityIdentifier = exposable?.identifier
@@ -46,7 +44,6 @@ protocol Exposing {
 protocol CollectionCellExposing: AnyObject {
 
     /// Conventional call for exposing cell once created
-    ///
     /// - Parameters:
     ///   - view: Container
     ///   - path: Will be encoded in accessibility identifier
@@ -60,7 +57,6 @@ protocol CollectionCellExposing: AnyObject {
 protocol TableCellExposing: AnyObject {
 
     /// Conventional call for exposing cell once created
-    ///
     /// - Parameters:
     ///   - view: Container
     ///   - path: Will be encoded in accessibility identifier

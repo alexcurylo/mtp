@@ -135,10 +135,8 @@ public class NetworkActivityIndicatorManager {
     // MARK: - Activity Count
 
     /// Increments the number of active network requests.
-    ///
     /// If this number was zero before incrementing, the network activity indicator will start spinning after
     /// the `startDelay`.
-    ///
     /// Generally, this method should not need to be used directly.
     public func incrementActivityCount() {
         lock.lock() ; defer { lock.unlock() }
@@ -148,10 +146,8 @@ public class NetworkActivityIndicatorManager {
     }
 
     /// Decrements the number of active network requests.
-    ///
     /// If the number of active requests is zero after calling this method, the network activity indicator will stop
     /// spinning after the `completionDelay`.
-    ///
     /// Generally, this method should not need to be used directly.
     public func decrementActivityCount() {
         lock.lock() ; defer { lock.unlock() }

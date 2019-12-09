@@ -9,7 +9,6 @@ import RealmSwift
 protocol RealmSearchResultsDataSource {
 
     /// Cell for Object
-    ///
     /// - Parameters:
     ///   - controller: RealmSearchViewController
     ///   - object: Realm Object
@@ -24,7 +23,6 @@ protocol RealmSearchResultsDataSource {
 protocol RealmSearchResultsDelegate: AnyObject {
 
     /// Will select Object
-    ///
     /// - Parameters:
     ///   - controller: RealmSearchViewController
     ///   - object: Realm Object
@@ -34,7 +32,6 @@ protocol RealmSearchResultsDelegate: AnyObject {
                               atIndexPath indexPath: IndexPath)
 
     /// Did select Object
-    ///
     /// - Parameters:
     ///   - controller: RealmSearchViewController
     ///   - object: Realm Object
@@ -163,7 +160,6 @@ class RealmSearchViewController: UITableViewController,
     // MARK: - Initialization
 
     /// Default initializer
-    ///
     /// - Parameters:
     ///   - nibNameOrNil: Nib name (optional)
     ///   - nibBundleOrNil: Nib bundle (optional
@@ -176,7 +172,6 @@ class RealmSearchViewController: UITableViewController,
     }
 
     /// Style initializer
-    ///
     /// - Parameter style: Table style
     override init(style: UITableView.Style) {
         super.init(style: style)
@@ -229,7 +224,6 @@ class RealmSearchViewController: UITableViewController,
     // MARK: - RealmSearchResultsDataSource
 
     /// Cell for Object
-    ///
     /// - Parameters:
     ///   - controller: RealmSearchViewController
     ///   - object: Realm Object
@@ -246,7 +240,6 @@ class RealmSearchViewController: UITableViewController,
     // MARK: - RealmSearchResultsDelegate
 
     /// Did select Object
-    ///
     /// - Parameters:
     ///   - controller: RealmSearchViewController
     ///   - object: Realm Object
@@ -258,7 +251,6 @@ class RealmSearchViewController: UITableViewController,
     }
 
     /// Will select Object
-    ///
     /// - Parameters:
     ///   - controller: RealmSearchViewController
     ///   - object: Realm Object
@@ -422,7 +414,6 @@ private extension RealmSearchViewController {
 extension RealmSearchViewController {
 
     /// Will Select Row AT
-    ///
     /// - Parameters:
     ///   - tableView: UITableView
     ///   - indexPath: Index path
@@ -443,7 +434,6 @@ extension RealmSearchViewController {
     }
 
     /// Will Select Row AT
-    ///
     /// - Parameters:
     ///   - tableView: UITableView
     ///   - indexPath: Index path
@@ -482,7 +472,6 @@ extension RealmSearchViewController {
     }
 
     /// Create table cell
-    ///
     /// - Parameters:
     ///   - tableView: UITableView
     ///   - indexPath: Index Path
@@ -508,7 +497,6 @@ extension RealmSearchViewController {
 extension RealmSearchViewController: UISearchResultsUpdating {
 
     /// Update search results
-    ///
     /// - Parameter searchController: UISearchController
     func updateSearchResults(for searchController: UISearchController) {
         refreshSearchResults()

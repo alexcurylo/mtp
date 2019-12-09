@@ -11,7 +11,6 @@ final class NotificationsHandler: NSObject, AppHandler, ServiceProvider { }
 extension NotificationsHandler: AppLaunchHandler {
 
     /// willFinishLaunchingWithOptions
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - launchOptions: Launch options
@@ -23,7 +22,6 @@ extension NotificationsHandler: AppLaunchHandler {
     }
 
     /// didFinishLaunchingWithOptions
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - launchOptions: Launch options
@@ -78,7 +76,6 @@ extension NotificationsHandler: AppLaunchHandler {
 extension NotificationsHandler: AppNotificationsHandler {
 
     /// didRegisterForRemoteNotificationsWithDeviceToken
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - deviceToken: Token
@@ -90,7 +87,6 @@ extension NotificationsHandler: AppNotificationsHandler {
     }
 
     /// didFailToRegisterForRemoteNotificationsWithError
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - error: Error
@@ -100,7 +96,6 @@ extension NotificationsHandler: AppNotificationsHandler {
     }
 
     /// didReceiveRemoteNotification
-    ///
     /// - Parameters:
     ///   - application: Application
     ///   - userInfo: Info
@@ -129,7 +124,6 @@ extension NotificationsHandler: AppNotificationsHandler {
 extension NotificationsHandler: UNUserNotificationCenterDelegate {
 
     /// Handle user response
-    ///
     /// - Parameters:
     ///   - center: UNUserNotificationCenter
     ///   - response: user response
@@ -160,7 +154,6 @@ extension NotificationsHandler: UNUserNotificationCenterDelegate {
     }
 
     /// Present notification
-    ///
     /// - Parameters:
     ///   - center: UNUserNotificationCenter
     ///   - notification: Notification to present

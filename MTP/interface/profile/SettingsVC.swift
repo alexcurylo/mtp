@@ -209,7 +209,6 @@ extension SettingsVC: Injectable {
     typealias Model = Route
 
     /// Handle dependency injection
-    ///
     /// - Parameter model: Dependencies
     func inject(model: Model) {
         route = model

@@ -34,7 +34,6 @@ class ObserverImpl: Observer {
     private let notify: NotificationHandler
 
     /// Create an Observer
-    ///
     /// - Parameters:
     ///   - notification: name of our notiication
     ///   - key: type of change
@@ -78,7 +77,6 @@ class ObserverImpl: Observer {
     }
 
     /// Shim Notification to callback
-    ///
     /// - Parameter notification: Notification Center note
     @objc func receive(notification: Notification) {
         if let userInfo = notification.userInfo,
@@ -107,7 +105,6 @@ protocol Observable {
     var notification: Notification.Name { get }
 
     /// Trigger observing action
-    ///
     /// - Parameters:
     ///   - changed: What changed
     ///   - info: Attached info
@@ -118,7 +115,6 @@ protocol Observable {
 extension Observable {
 
     /// Trigger observing action
-    ///
     /// - Parameters:
     ///   - changed: What changed
     ///   - info: Attached info

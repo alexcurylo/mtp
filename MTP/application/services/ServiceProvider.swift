@@ -72,7 +72,6 @@ extension ServiceProvider {
 extension UIViewController: ServiceProvider {
 
     /// Report screen name
-    ///
     /// - Parameter name: Name of screen
     func report(screen name: String) {
         guard UIApplication.isProduction else { return }

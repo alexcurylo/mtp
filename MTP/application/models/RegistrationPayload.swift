@@ -44,7 +44,6 @@ struct RegistrationPayload: Codable, Hashable {
     }
 
     /// Initialize with data
-    ///
     /// - Parameters:
     ///   - birthday: YYYY-MM-DD
     ///   - country: Country of residence
@@ -88,7 +87,6 @@ struct RegistrationPayload: Codable, Hashable {
     }
 
     /// Initialize with Facebook data
-    ///
     /// - Parameter response: Provided by Facebook SDK
     init(facebook response: [String: Any]) {
         if let dateString = response["birthday"] as? String,

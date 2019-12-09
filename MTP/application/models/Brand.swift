@@ -26,7 +26,9 @@ struct BrandsJSON: Codable {
 /// Brand info
 struct BrandJSON: Codable, CustomStringConvertible {
 
+    /// Key found in Hotel JSON
     let slug: String
+    /// Display title for user
     let title: String
 
     var description: String {
@@ -42,13 +44,12 @@ struct BrandJSON: Codable, CustomStringConvertible {
     /// title
     dynamic var title: String = ""
 
-    /// Realm unique identifier
-    ///
-    /// - Returns: unique identifier
+    /// :nodoc:
     override static func primaryKey() -> String? {
         "slug"
     }
 
+    /// Constructor from MTP endpoint data
     convenience init(from: BrandJSON) {
         self.init()
 

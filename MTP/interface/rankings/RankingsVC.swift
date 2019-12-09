@@ -183,7 +183,6 @@ extension RankingsVC: Exposing {
 extension RankingsVC: PagingViewControllerDataSource {
 
     /// Create page by index
-    ///
     /// - Parameters:
     ///   - pagingViewController: Page holder
     ///   - index: Index
@@ -204,7 +203,6 @@ extension RankingsVC: PagingViewControllerDataSource {
     }
 
     /// Provide Parchment with typed page
-    ///
     /// - Parameters:
     ///   - pagingViewController: Page holder
     ///   - index: Index
@@ -216,7 +214,6 @@ extension RankingsVC: PagingViewControllerDataSource {
     }
 
     /// Provide Parchment with page count
-    ///
     /// - Parameter in: Page holder
     /// - Returns: Page count
     func numberOfViewControllers<T>(in: PagingViewController<T>) -> Int {
@@ -229,7 +226,6 @@ extension RankingsVC: PagingViewControllerDataSource {
 extension RankingsVC: RankingsPageVCDelegate {
 
     /// Scroll notification
-    ///
     /// - Parameter rankingsPageVC: Scrollee
     func didScroll(rankingsPageVC: RankingsPageVC) {
         let height = pagingVC.menuHeight(for: rankingsPageVC.collectionView)
@@ -237,7 +233,6 @@ extension RankingsVC: RankingsPageVCDelegate {
     }
 
     /// Profile tapped
-    ///
     /// - Parameter user: User to display
     func tapped(profile user: User) {
         profileModel = user
@@ -245,7 +240,6 @@ extension RankingsVC: RankingsPageVCDelegate {
     }
 
     /// Remaining tapped
-    ///
     /// - Parameters:
     ///   - user: User to display
     ///   - list: List to display
@@ -255,7 +249,6 @@ extension RankingsVC: RankingsPageVCDelegate {
     }
 
     /// Visited tapped
-    ///
     /// - Parameters:
     ///   - user: User to display
     ///   - list: List to display
@@ -270,7 +263,6 @@ extension RankingsVC: RankingsPageVCDelegate {
 extension RankingsVC: PagingViewControllerDelegate {
 
     /// Handle page change progress
-    ///
     /// - Parameters:
     ///   - pagingViewController: Page holder
     ///   - currentPagingItem: Current typed page item
@@ -301,7 +293,6 @@ extension RankingsVC: PagingViewControllerDelegate {
 extension RankingsVC: UISearchBarDelegate {
 
     /// Changed search text notification
-    ///
     /// - Parameters:
     ///   - searchBar: Searcher
     ///   - searchText: Contents
@@ -320,21 +311,18 @@ extension RankingsVC: UISearchBarDelegate {
     }
 
     /// Begin search editing
-    ///
     /// - Parameter searchBar: Searcher
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)
     }
 
     /// Handle search button click
-    ///
     /// - Parameter searchBar: Searcher
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBarCancelButtonClicked(searchBar)
     }
 
     /// Handle cancel button click
-    ///
     /// - Parameter searchBar: Searcher
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
@@ -344,7 +332,6 @@ extension RankingsVC: UISearchBarDelegate {
     }
 
     /// Search ended notification
-    ///
     /// - Parameter searchBar: Searcher
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = false

@@ -107,7 +107,6 @@ final class AddPhotoVC: UIViewController {
     }
 
     /// Stop editing on touch
-    ///
     /// - Parameters:
     ///   - touches: User touches
     ///   - event: Touch event
@@ -340,7 +339,6 @@ private extension AddPhotoVC {
 extension AddPhotoVC: LocationSearchDelegate {
 
     /// Handle a location selection
-    ///
     /// - Parameters:
     ///   - controller: source of selection
     ///   - item: Country or Location selected
@@ -365,12 +363,10 @@ extension AddPhotoVC: LocationSearchDelegate {
 extension AddPhotoVC: UITextViewDelegate {
 
     /// Respond to edit beginning
-    ///
     /// - Parameter textView: Active edit target
     func textViewDidBeginEditing(_ textView: UITextView) { }
 
     /// Detect return key to end editing
-    ///
     /// - Parameters:
     ///   - textView: Active edit target
     ///   - _: Replacement range
@@ -389,14 +385,12 @@ extension AddPhotoVC: UITextViewDelegate {
     }
 
     /// Respond to text changes
-    ///
     /// - Parameter textView: Active edit target
     func textViewDidChange(_ textView: UITextView) {
         updateSave(showError: false)
     }
 
     /// Respond to edit ending
-    ///
     /// - Parameter textView: Active edit target
     func textViewDidEndEditing(_ textView: UITextView) {
         updateSave(showError: false)
@@ -416,7 +410,6 @@ extension AddPhotoVC: KeyboardListener {
 extension AddPhotoVC: UIImagePickerControllerDelegate {
 
     /// Receive system provided image
-    ///
     /// - Parameters:
     ///   - picker: The system photo picker
     ///   - info: Picking results
@@ -438,7 +431,6 @@ extension AddPhotoVC: UIImagePickerControllerDelegate {
     }
 
     /// Handle image picking cancel
-    ///
     ///   - picker: The system photo picker
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true)
@@ -495,7 +487,6 @@ extension AddPhotoVC: Injectable {
                        delegate: AddPhotoDelegate)
 
     /// Handle dependency injection
-    ///
     /// - Parameter model: Dependencies
     func inject(model: Model) {
         updating = model.photo

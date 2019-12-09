@@ -319,7 +319,6 @@ extension ProfileAboutVC: Injectable {
     typealias Model = User
 
     /// Handle dependency injection
-    ///
     /// - Parameter model: Dependencies
     func inject(model: Model) {
         user = model

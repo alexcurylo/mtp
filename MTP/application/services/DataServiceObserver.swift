@@ -86,7 +86,6 @@ extension DataService {
     }
 
     /// Notify change listeners
-    ///
     /// - Parameters:
     ///   - change: DataServiceChange
     ///   - object: Attachment if any
@@ -100,7 +99,6 @@ extension DataService {
     }
 
     /// Create data change observer
-    ///
     /// - Parameters:
     ///   - of: DataServiceChange
     ///   - handler: Handler
@@ -114,7 +112,6 @@ extension DataService {
 extension Checklist {
 
     /// Create data change observer
-    ///
     /// - Parameter handler: Handler
     /// - Returns: Observer
     func observer(handler: @escaping NotificationHandler) -> Observer {

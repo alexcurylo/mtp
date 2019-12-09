@@ -241,9 +241,7 @@ extension PhotoJSON: CustomDebugStringConvertible {
     /// photoIds
     let photoIds = List<Int>()
 
-    /// Realm unique identifier
-    ///
-    /// - Returns: unique identifier
+    /// :nodoc:
     override static func primaryKey() -> String? {
         return "dbKey"
     }
@@ -280,9 +278,7 @@ extension PhotoJSON: CustomDebugStringConvertible {
     /// uuid
     dynamic var uuid: String = ""
 
-    /// Realm unique identifier
-    ///
-    /// - Returns: unique identifier
+    /// :nodoc:
     override static func primaryKey() -> String? {
         return "photoId"
     }

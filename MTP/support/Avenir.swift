@@ -31,7 +31,6 @@ enum Avenir: String, ServiceProvider {
     case blackOblique = "Avenir-BlackOblique"
 
     /// Font provider
-    ///
     /// - Parameter size: Points
     /// - Returns: Font
     func of(size: CGFloat) -> UIFont {

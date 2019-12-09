@@ -68,7 +68,6 @@ final class TabPresentSegue: UIStoryboardSegue {
 final class FadeInAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
     /// Transition duration
-    ///
     /// - Parameter transitionContext: context
     /// - Returns: 0.35 seconds
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -76,7 +75,6 @@ final class FadeInAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     }
 
     /// Perform transition
-    ///
     /// - Parameter transitionContext: context
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard let to = transitionContext.view(forKey: .to) else {
@@ -106,7 +104,6 @@ final class FadeInAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 final class ZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
     /// Transition duration
-    ///
     /// - Parameter transitionContext: context
     /// - Returns: 1 second
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -114,7 +111,6 @@ final class ZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     }
 
     /// Perform transition
-    ///
     /// - Parameter transitionContext: context
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard let from = transitionContext.view(forKey: .from),

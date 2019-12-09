@@ -26,7 +26,6 @@ final class MTPPhotoRequest: NSObject, OfflineRequest, ServiceProvider {
     }
 
     /// Memberwise initializer
-    ///
     /// - Parameters:
     ///   - photo: Photo to publish
     ///   - caption: Caption if any

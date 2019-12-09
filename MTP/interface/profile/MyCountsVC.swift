@@ -54,7 +54,6 @@ private extension MyCountsVC {
 extension MyCountsVC: PagingViewControllerDataSource {
 
     /// Create page by index
-    ///
     /// - Parameters:
     ///   - pagingViewController: Page holder
     ///   - index: Index
@@ -74,7 +73,6 @@ extension MyCountsVC: PagingViewControllerDataSource {
     }
 
     /// Provide Parchment with typed page
-    ///
     /// - Parameters:
     ///   - pagingViewController: Page holder
     ///   - index: Index
@@ -86,7 +84,6 @@ extension MyCountsVC: PagingViewControllerDataSource {
     }
 
     /// Provide Parchment with page count
-    ///
     /// - Parameter in: Page holder
     /// - Returns: Page count
     func numberOfViewControllers<T>(in: PagingViewController<T>) -> Int {
@@ -97,7 +94,6 @@ extension MyCountsVC: PagingViewControllerDataSource {
 extension MyCountsVC: MyCountsPageVCDelegate {
 
     /// Scroll notification
-    ///
     /// - Parameter rankingsPageVC: Scrollee
     func didScroll(myCountsPageVC: MyCountsPageVC) {
         let height = pagingVC.menuHeight(for: myCountsPageVC.collectionView)
@@ -108,7 +104,6 @@ extension MyCountsVC: MyCountsPageVCDelegate {
 extension MyCountsVC: PagingViewControllerDelegate {
 
     /// Handle page change progress
-    ///
     /// - Parameters:
     ///   - pagingViewController: Page holder
     ///   - currentPagingItem: Current typed page item

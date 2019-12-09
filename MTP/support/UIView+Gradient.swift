@@ -50,7 +50,6 @@ extension UIView {
     }
 
     /// Apply a gradient
-    ///
     /// - Parameters:
     ///   - colors: Start to end color array
     ///   - orientation: Orientation
@@ -128,7 +127,6 @@ extension UIView {
 extension UIColor {
 
     /// Convenience component initializer
-    ///
     /// - Parameters:
     ///   - r: Red, 0...255
     ///   - g: Green, 0...255
@@ -142,7 +140,6 @@ extension UIColor {
     }
 
     /// Convenience Int RGB initializer
-    ///
     /// - Parameter rgb: 3 byte RGB
     convenience init(rgb: Int) {
         self.init(r: (rgb >> 16) & 0xFF,
@@ -151,7 +148,6 @@ extension UIColor {
     }
 
     /// Convenience Int ARGB initializer
-    ///
     /// - Parameter rgb: 4 byte ARGB
     convenience init(argb: Int) {
         self.init(r: (argb >> 16) & 0xFF,
@@ -186,7 +182,6 @@ extension UIColor {
     }
 
     /// Simple gradient setter
-    ///
     /// - Parameters:
     ///   - colors: Color array
     ///   - direction: GradientOrientation
@@ -198,7 +193,6 @@ extension UIColor {
     }
 
     /// Procedural intializer
-    ///
     /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -217,7 +211,6 @@ extension UIColor {
     }
 
     /// Update screen rendering
-    ///
     /// - Parameter layer: Our layer
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)
@@ -225,7 +218,6 @@ extension UIColor {
     }
 
     /// Set predefined style
-    ///
     /// - Parameter style: Style definition
     func set(style: Styler) {
         switch style {
@@ -267,7 +259,6 @@ extension UIColor {
     }
 
     /// Factory for gradient buttons triggering URL navigation
-    ///
     /// - Parameters:
     ///   - title: Button title
     ///   - link: Triggered link
@@ -293,7 +284,6 @@ extension UIColor {
     }
 
     /// Procedural intializer
-    ///
     /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -312,7 +302,6 @@ extension UIColor {
     }
 
     /// Update screen rendering
-    ///
     /// - Parameter layer: Our layer
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)

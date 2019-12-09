@@ -8,7 +8,6 @@ import UIKit
 protocol PhotoSelectionDelegate: AnyObject {
 
     /// Notify of selection
-    ///
     /// - Parameter picture: Selected picture
     func selected(picture: String)
 }
@@ -86,7 +85,6 @@ class PhotosVC: UICollectionViewController {
     var injectPhoto: Photo?
 
     /// Retrieve an indexed photo
-    ///
     /// - Parameter index: Index
     /// - Returns: Photo
     func photo(at index: Int) -> Photo {
@@ -101,7 +99,6 @@ class PhotosVC: UICollectionViewController {
     }
 
     /// Handle dependency injection
-    ///
     /// - Parameters:
     ///   - mode: Presentation mode
     ///   - selection: Starting selection if any

@@ -77,7 +77,6 @@ final class SignupVC: UIViewController {
     }
 
     /// Prepare for hide
-    ///
     /// - Parameter animated: Whether animating
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -445,7 +444,6 @@ private extension SignupVC {
 extension SignupVC: UITextFieldDelegate {
 
     /// Begin editing text field
-    ///
     /// - Parameter textField: UITextField
     /// - Returns: Permission
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -477,7 +475,6 @@ extension SignupVC: UITextFieldDelegate {
     }
 
     /// Handle return key
-    ///
     /// - Parameter textField: UITextField
     /// - Returns: Permission
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -517,7 +514,6 @@ extension SignupVC: UITextFieldDelegate {
 extension SignupVC: UINavigationControllerDelegate {
 
     /// Animation controller for navigation
-    ///
     /// - Parameters:
     ///   - navigationController: Enclosing controller
     ///   - operation: Operation
@@ -541,7 +537,6 @@ extension SignupVC: UINavigationControllerDelegate {
 extension SignupVC: LocationSearchDelegate {
 
     /// Handle a location selection
-    ///
     /// - Parameters:
     ///   - controller: source of selection
     ///   - item: Country or Location selected
@@ -574,7 +569,6 @@ extension SignupVC: LocationSearchDelegate {
 extension SignupVC: UIViewControllerTransitioningDelegate {
 
     /// Animation controller for transition
-    ///
     /// - Parameters:
     ///   - presented: Presented controller
     ///   - presenting: Presenting controller
@@ -587,7 +581,6 @@ extension SignupVC: UIViewControllerTransitioningDelegate {
     }
 
     /// Animation controller for dismissal
-    ///
     /// - Parameter dismissed: View controller
     /// - Returns: Animator
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
@@ -600,7 +593,6 @@ extension SignupVC: UIViewControllerTransitioningDelegate {
 extension SignupVC: UIPickerViewDataSource {
 
     /// Number of picker components
-    ///
     /// - Parameter pickerView: Picker view
     /// - Returns: 1
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -608,7 +600,6 @@ extension SignupVC: UIPickerViewDataSource {
     }
 
     /// Number of rows in picker component
-    ///
     /// - Parameters:
     ///   - pickerView: Picker view
     ///   - component: Index

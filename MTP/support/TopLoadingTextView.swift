@@ -22,7 +22,6 @@ final class TopLoadingTextView: UITextView {
 
     #if WRAP_AROUND_IMAGES
     /// Implement text wrapping
-    ///
     /// - Parameter rect: Bounds to exclude
     func exclude(rect: CGRect?) {
         guard let rect = rect else {

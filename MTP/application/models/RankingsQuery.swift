@@ -100,7 +100,6 @@ struct RankingsQuery: Codable, Hashable, ServiceProvider {
     var locationId: Int?
 
     /// Copy changing list and page
-    ///
     /// - Parameters:
     ///   - list: Checklist
     ///   - page: Index
@@ -116,7 +115,6 @@ struct RankingsQuery: Codable, Hashable, ServiceProvider {
     }
 
     /// Initalize for checklist
-    ///
     /// - Parameter list: Checklist
     init(list: Checklist = .locations) {
         checklistKey = list.key
@@ -253,7 +251,6 @@ extension RankingsQuery {
     }
 
     /// Update with new geography
-    ///
     /// - Parameter item: Country or Location expected
     /// - Returns: Success
     mutating func update(with item: Object) -> Bool {

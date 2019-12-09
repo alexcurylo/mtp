@@ -492,7 +492,6 @@ final class AXPhotosViewController: UIViewController,
     // MARK: - Navigation
 
     /// Convenience method to programmatically navigate to a photo
-    ///
     /// - Parameters:
     ///   - photoIndex: The index of the photo to navigate to
     ///   - animated: Whether or not to animate the transition
@@ -954,9 +953,7 @@ final class AXPhotosViewController: UIViewController,
     /// Called when the `AXPhotosViewController` navigates to a new photo.
     /// This is defined as when the swipe percent between pages
     /// is greater than the threshold (>0.5).
-    ///
     /// If you override this and fail to call super, the corresponding delegate method **will not be called!**
-    ///
     /// - Parameters:
     ///   - photo: The `AXPhoto` that was navigated to.
     ///   - index: The `index` in the dataSource of the `AXPhoto` being transitioned to.
@@ -967,9 +964,7 @@ final class AXPhotosViewController: UIViewController,
     /// Called when the `AXPhotosViewController` is configuring its `OverlayView`
     /// for a new photo. This should be used to update the
     /// the overlay's title or any other overlay-specific properties.
-    ///
     /// If you override this and fail to call super, the corresponding delegate method **will not be called!**
-    ///
     /// - Parameters:
     ///   - overlayView: The `AXOverlayView` that is being updated.
     ///   - photo: The `AXPhoto` the overlay is being configured for.
@@ -986,9 +981,7 @@ final class AXPhotosViewController: UIViewController,
     /// Called when the `AXPhotoViewController` will show/hide its `OverlayView`.
     /// This method will be called inside of an
     /// animation context, so perform any coordinated animations here.
-    ///
     /// If you override this and fail to call super, the corresponding delegate method **will not be called!**
-    ///
     /// - Parameters:
     ///   - overlayView: The `AXOverlayView` whose visibility is changing.
     ///   - visible: A boolean that denotes whether or not the overlay will be visible or invisible.
@@ -1006,9 +999,7 @@ final class AXPhotosViewController: UIViewController,
     ///  `imageSize` to extrapolate a `maximumZoomScale` to return.
     /// If the `minimumZoomScale` is returned (ie. `minimumZoomScale` == `maximumZoomScale`),
     ///  zooming will be disabled for this image.
-    ///
     /// If you override this and fail to call super, the corresponding delegate method **will not be called!**
-    ///
     /// - Parameters:
     ///   - photo: The `Photo` that the zoom scale will affect.
     ///   - minimumZoomScale: The minimum zoom scale that is calculated by the library. This value cannot be changed.
@@ -1024,10 +1015,8 @@ final class AXPhotosViewController: UIViewController,
     /// Called when the action button is tapped for a photo.
     /// If you override this and fail to call super, the corresponding
     /// delegate method **will not be called!**
-    ///
     /// - Parameters:
     ///   - photo: The related `AXPhoto`.
-    ///
     /// - Returns:
     ///   true if the action button tap was handled, false if the default action button behavior
     ///   should be invoked.
@@ -1041,7 +1030,6 @@ final class AXPhotosViewController: UIViewController,
 
     /// Called when an action button action is completed. If you override this and fail to call super, the corresponding
     /// delegate method **will not be called!**
-    ///
     /// - Parameters:
     ///   - photo: The related `AXPhoto`.
     /// - Note: This is only called for the default action.
@@ -1210,7 +1198,6 @@ protocol AXPhotosViewControllerDelegate: AnyObject, NSObjectProtocol {
     /// Called when the `AXPhotosViewController` navigates to a new photo.
     /// This is defined as when the swipe percent between pages
     /// is greater than the threshold (>0.5).
-    ///
     /// - Parameters:
     ///   - photosViewController: The `AXPhotosViewController` that is navigating.
     ///   - photo: The `AXPhoto` that was navigated to.
@@ -1222,7 +1209,6 @@ protocol AXPhotosViewControllerDelegate: AnyObject, NSObjectProtocol {
     /// Called when the `AXPhotosViewController` is configuring its `OverlayView` for a new photo.
     /// This should be used to update the
     /// the overlay's title or any other overlay-specific properties.
-    ///
     /// - Parameters:
     ///   - photosViewController: The `AXPhotosViewController` that is updating the overlay.
     ///   - overlayView: The `AXOverlayView` that is being updated.
@@ -1238,7 +1224,6 @@ protocol AXPhotosViewControllerDelegate: AnyObject, NSObjectProtocol {
     /// Called when the `AXPhotoViewController` will show/hide its `OverlayView`.
     /// This method will be called inside of an
     /// animation context, so perform any coordinated animations here.
-    ///
     /// - Parameters:
     ///   - photosViewController: The `AXPhotosViewController` that is updating the overlay visibility.
     ///   - overlayView: The `AXOverlayView` whose visibility is changing.
@@ -1253,7 +1238,6 @@ protocol AXPhotosViewControllerDelegate: AnyObject, NSObjectProtocol {
     /// `minimumZoomScale` and `imageSize` to extrapolate a `maximumZoomScale` to return.
     /// If the `minimumZoomScale` is returned (ie. `minimumZoomScale` == `maximumZoomScale`),
     /// zooming will be disabled for this image.
-    ///
     /// - Parameters:
     ///   - photosViewController: The `AXPhotosViewController` that is updating the photo's zoom scale.
     ///   - photo: The `AXPhoto` that the zoom scale will affect.
@@ -1267,7 +1251,6 @@ protocol AXPhotosViewControllerDelegate: AnyObject, NSObjectProtocol {
 
     /// Called when the action button is tapped for a photo.
     /// If no implementation is provided, will fall back to default action.
-    ///
     /// - Parameters:
     ///   - photosViewController: The `AXPhotosViewController` handling the action.
     ///   - photo: The related `Photo`.
@@ -1275,7 +1258,6 @@ protocol AXPhotosViewControllerDelegate: AnyObject, NSObjectProtocol {
                               handleActionButtonTappedFor photo: AXPhotoProtocol)
 
     /// Called when an action button action is completed.
-    ///
     /// - Parameters:
     ///   - photosViewController: The `AXPhotosViewController` that handled the action.
     ///   - photo: The related `AXPhoto`.
@@ -1285,12 +1267,10 @@ protocol AXPhotosViewControllerDelegate: AnyObject, NSObjectProtocol {
                               for photo: AXPhotoProtocol)
 
     /// Called just before the `AXPhotosViewController` begins its dismissal
-    ///
     /// - Parameter photosViewController: The view controller being dismissed
     func photosViewControllerWillDismiss(_ photosViewController: AXPhotosViewController)
 
     /// Called after the `AXPhotosViewController` completes its dismissal
-    ///
     /// - Parameter photosViewController: The dismissed view controller
     func photosViewControllerDidDismiss(_ photosViewController: AXPhotosViewController)
 }

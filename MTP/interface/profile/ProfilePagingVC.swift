@@ -9,7 +9,6 @@ final class ProfilePagingVC: FixedPagingViewController {
     weak var exposer: CollectionCellExposing?
 
     /// Construction by injection
-    ///
     /// - Parameter viewControllers: Controllers
     override init(viewControllers: [UIViewController]) {
         super.init(viewControllers: viewControllers)
@@ -35,7 +34,6 @@ final class ProfilePagingVC: FixedPagingViewController {
     }
 
     /// Provide cell
-    ///
     /// - Parameters:
     ///   - collectionView: Collection
     ///   - indexPath: Index path

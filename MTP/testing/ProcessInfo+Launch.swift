@@ -61,7 +61,6 @@ enum LaunchSetting {
 extension ProcessInfo {
 
     /// Test for argument existence
-    ///
     /// - Parameter argument: argument to look for
     /// - Returns: Whether found
     static func arguments(contain argument: LaunchArgument) -> Bool {
@@ -69,7 +68,6 @@ extension ProcessInfo {
     }
 
     /// String-extracting convenience
-    ///
     /// - Parameter key: Key to look for
     /// - Returns: String value if found
     static func setting(string key: LaunchSettingKey) -> String? {
@@ -77,7 +75,6 @@ extension ProcessInfo {
     }
 
     /// Bool-extracting convenience
-    ///
     /// - Parameter key: Key to look for
     /// - Returns: Bool value if found
     static func setting(bool key: LaunchSettingKey) -> Bool? {

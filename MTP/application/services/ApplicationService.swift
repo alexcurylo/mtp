@@ -6,22 +6,18 @@ import UIKit
 protocol ApplicationService {
 
     /// Launches URL externally
-    ///
     /// - Parameter url: URL to launch
     func launch(url: URL)
 
     /// Route to reveal a Mappable in Locations
-    ///
     /// - Parameter mappable: Mappable to reveal
     func route(reveal mappable: Mappable)
 
     /// Route to show a Mappable in Locations
-    ///
     /// - Parameter mappable: Mappable to show
     func route(show mappable: Mappable)
 
     /// Route to an enumerated destination
-    ///
     /// - Parameter route: Route case
     func route(to route: Route)
 
@@ -79,28 +75,24 @@ enum Route {
 extension UIApplication: ApplicationService {
 
     /// Launches URL externally
-    ///
     /// - Parameter url: URL to launch
     func launch(url: URL) {
         open(url, options: [:], completionHandler: nil)
     }
 
     /// Route to reveal a Mappable in Locations
-    ///
     /// - Parameter mappable: Mappable to reveal
     func route(reveal mappable: Mappable) {
         MainTBC.route(reveal: mappable)
     }
 
     /// Route to show a Mappable in Locations
-    ///
     /// - Parameter mappable: Mappable to show
     func route(show mappable: Mappable) {
         MainTBC.route(show: mappable)
     }
 
     /// Route to an enumerated destination
-    ///
     /// - Parameter route: Route case
     func route(to route: Route) {
         MainTBC.route(to: route)

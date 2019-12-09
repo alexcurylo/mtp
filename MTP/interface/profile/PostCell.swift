@@ -6,32 +6,25 @@ import Anchorage
 protocol PostCellDelegate: AnyObject {
 
     /// Profile tapped
-    ///
     /// - Parameter user: User to display
     func tapped(profile user: User)
     /// Display toggle tapped
-    ///
     /// - Parameter toggle: Model to toggle
     func tapped(toggle: Int)
 
     /// Handle hide action
-    ///
     /// - Parameter hide: PostCellModel to hide
     func tapped(hide: PostCellModel?)
     /// Handle report action
-    ///
     /// - Parameter report: PostCellModel to report
     func tapped(report: PostCellModel?)
     /// Handle block action
-    ///
     /// - Parameter block: PostCellModel to block
     func tapped(block: PostCellModel?)
     /// Handle edit action
-    ///
     /// - Parameter edit: PostCellModel to edit
     func tapped(edit: PostCellModel?)
     /// Handle delete action
-    ///
     /// - Parameter delete: PostCellModel to delete
     func tapped(delete: PostCellModel?)
 }
@@ -113,7 +106,6 @@ final class PostCell: UITableViewCell, ServiceProvider {
     }
 
     /// Handle dependency injection
-    ///
     /// - Parameters:
     ///   - model: Data model
     ///   - delegate: Delegate

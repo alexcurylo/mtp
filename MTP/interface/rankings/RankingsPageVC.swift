@@ -10,7 +10,6 @@ import RealmSwift
 protocol RankingsPageVCDelegate: RankingCellDelegate {
 
     /// Scroll notification
-    ///
     /// - Parameter rankingsPageVC: Scrollee
     func didScroll(rankingsPageVC: RankingsPageVC)
 }
@@ -56,7 +55,6 @@ final class RankingsPageVC: UIViewController {
     private var blockedObserver: Observer?
 
     /// Construction with paging options
-    ///
     /// - Parameter options: Options
     init(options: PagingOptions) {
         super.init(nibName: nil, bundle: nil)
@@ -93,7 +91,6 @@ final class RankingsPageVC: UIViewController {
     }
 
     /// Handle dependency injection
-    ///
     /// - Parameters:
     ///   - list: Checklist
     ///   - insets: Edge instets
@@ -125,7 +122,6 @@ final class RankingsPageVC: UIViewController {
 extension RankingsPageVC: UICollectionViewDelegateFlowLayout {
 
     /// Provide header size
-    ///
     /// - Parameters:
     ///   - collectionView: Collection
     ///   - collectionViewLayout: Collection layout
@@ -139,7 +135,6 @@ extension RankingsPageVC: UICollectionViewDelegateFlowLayout {
     }
 
     /// Provide cell size
-    ///
     /// - Parameters:
     ///   - collectionView: Collection
     ///   - collectionViewLayout: Collection layout
@@ -158,7 +153,6 @@ extension RankingsPageVC: UICollectionViewDelegateFlowLayout {
 extension RankingsPageVC {
 
     /// Scrolling notfication
-    ///
     /// - Parameter scrollView: Scrollee
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         delegate?.didScroll(rankingsPageVC: self)
@@ -170,7 +164,6 @@ extension RankingsPageVC {
 extension RankingsPageVC: UICollectionViewDataSource {
 
     /// Provide header
-    ///
     /// - Parameters:
     ///   - collectionView: Collection
     ///   - kind: Expect header
@@ -194,7 +187,6 @@ extension RankingsPageVC: UICollectionViewDataSource {
     }
 
     /// Section items count
-    ///
     /// - Parameters:
     ///   - collectionView: Collection
     ///   - section: Index
@@ -205,7 +197,6 @@ extension RankingsPageVC: UICollectionViewDataSource {
     }
 
     /// Provide cell
-    ///
     /// - Parameters:
     ///   - collectionView: Collection
     ///   - indexPath: Index path
@@ -237,7 +228,6 @@ extension RankingsPageVC: UICollectionViewDataSource {
 extension RankingsPageVC: RankingHeaderDelegate {
 
     /// Tap notification
-    ///
     /// - Parameter header: Tapped header
     func tapped(header: RankingHeader) {
         guard let index = myIndex else { return }
@@ -421,7 +411,6 @@ extension RankingsPageVC: Exposing {
 extension RankingsPageVC: CollectionCellExposing {
 
     /// Expose cell to UI tests
-    ///
     /// - Parameters:
     ///   - view: Collection
     ///   - path: Index path

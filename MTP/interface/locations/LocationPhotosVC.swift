@@ -39,7 +39,6 @@ final class LocationPhotosVC: PhotosVC {
     }
 
     /// Retrieve an indexed photo
-    ///
     /// - Parameter index: Index
     /// - Returns: Photo
     override func photo(at index: Int) -> Photo {
@@ -167,7 +166,6 @@ extension LocationPhotosVC: Injectable {
     typealias Model = Mappable
 
     /// Handle dependency injection
-    ///
     /// - Parameter model: Dependencies
     func inject(model: Model) {
         mappable = model

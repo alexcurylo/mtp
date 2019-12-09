@@ -11,7 +11,6 @@ import UIKit
     @IBInspectable var vInset: CGFloat = 0
 
     /// Return text rect
-    ///
     /// - Parameter bounds: Field bounds
     /// - Returns: Inset bounds
     override func textRect(forBounds bounds: CGRect) -> CGRect {
@@ -20,7 +19,6 @@ import UIKit
     }
 
     /// Return editing rect
-    ///
     /// - Parameter bounds: Field bounds
     /// - Returns: Inset bounds
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
@@ -29,7 +27,6 @@ import UIKit
     }
 
     /// Return placeholder rect
-    ///
     /// - Parameter bounds: Field bounds
     /// - Returns: Inset bounds
     override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
@@ -37,7 +34,6 @@ import UIKit
     }
 
     /// Return left view rect
-    ///
     /// - Parameter bounds: Field bounds
     /// - Returns: Inset bounds
     override func leftViewRect(forBounds bounds: CGRect) -> CGRect {
@@ -46,7 +42,6 @@ import UIKit
     }
 
     /// Return clear button rect
-    ///
     /// - Parameter bounds: Field bounds
     /// - Returns: Inset bounds
     override func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
@@ -55,7 +50,6 @@ import UIKit
     }
 
     /// Return right view rect
-    ///
     /// - Parameter bounds: Field bounds
     /// - Returns: Inset bounds
     override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
@@ -63,7 +57,6 @@ import UIKit
     }
 
     /// Fill and disable
-    ///
     /// - Parameter text: Text to fill with
     func disable(text: String) {
         self.text = text
@@ -99,7 +92,6 @@ final class InsetTextFieldGradient: InsetTextField {
     }
 
     /// Procedural intializer
-    ///
     /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -118,7 +110,6 @@ final class InsetTextFieldGradient: InsetTextField {
     }
 
     /// Update screen rendering
-    ///
     /// - Parameter layer: Our layer
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)

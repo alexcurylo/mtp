@@ -36,7 +36,6 @@ final class ProfilePhotosVC: PhotosVC {
     }
 
     /// Retrieve an indexed photo
-    ///
     /// - Parameter index: Index
     /// - Returns: Photo
     override func photo(at index: Int) -> Photo {
@@ -175,7 +174,6 @@ extension ProfilePhotosVC: UserInjectable {
     typealias Model = User
 
     /// Handle dependency injection
-    ///
     /// - Parameter model: Dependencies
     func inject(model: Model) {
         user = model

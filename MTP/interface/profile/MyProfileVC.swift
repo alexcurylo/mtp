@@ -68,7 +68,6 @@ final class MyProfileVC: ProfileVC {
     }
 
     /// Handle Settings routing
-    ///
     /// - Parameter route: Route to settings
     func settings(route: Route) {
         settingsRoute = route
@@ -94,7 +93,6 @@ extension MyProfileVC: Exposing {
 extension MyProfileVC: CollectionCellExposing {
 
     /// Expose cell to UI tests
-    ///
     /// - Parameters:
     ///   - view: Collection
     ///   - path: Index path

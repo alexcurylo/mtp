@@ -38,7 +38,6 @@ extension UIView {
     }
 
     /// Apply corner rounding
-    ///
     /// - Parameter corners: Which corners to round
     func round(corners: ViewCorners) {
         switch corners {

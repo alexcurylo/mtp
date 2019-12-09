@@ -68,7 +68,6 @@ final class LocationPostsVC: PostsVC {
     }
 
     /// Present user profile
-    ///
     /// - Parameter user: User to present
     override func show(user: User) {
         profileModel = user
@@ -134,7 +133,6 @@ extension LocationPostsVC: Injectable {
     typealias Model = Mappable
 
     /// Handle dependency injection
-    ///
     /// - Parameter model: Dependencies
     func inject(model: Model) {
         mappable = model

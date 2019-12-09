@@ -6,7 +6,6 @@ import UIKit
 private protocol FaqCellDelegate: AnyObject {
 
     /// Toggle visible state
-    ///
     /// - Parameters:
     ///   - faq: Index
     ///   - visible: Visibility
@@ -127,7 +126,6 @@ extension FaqVC {
     }
 
     /// Create table cell
-    ///
     /// - Parameters:
     ///   - tableView: UITableView
     ///   - indexPath: Index Path

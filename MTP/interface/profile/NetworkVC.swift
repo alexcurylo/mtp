@@ -72,7 +72,6 @@ extension NetworkVC {
     }
 
     /// Create table header
-    ///
     /// - Parameters:
     ///   - tableView: Container
     ///   - section: Index
@@ -89,7 +88,6 @@ extension NetworkVC {
     }
 
     /// Create table cell
-    ///
     /// - Parameters:
     ///   - tableView: UITableView
     ///   - indexPath: Index Path

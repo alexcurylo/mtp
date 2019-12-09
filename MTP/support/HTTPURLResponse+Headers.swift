@@ -5,7 +5,6 @@ import Foundation
 extension HTTPURLResponse {
 
     /// Find header
-    ///
     /// - Parameter header: Header to find
     /// - Returns: Value if found
     func find(header: String) -> String? {

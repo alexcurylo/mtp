@@ -21,7 +21,6 @@ enum ContentState {
 protocol ContentStateMessaging {
 
     /// Display an appropriate message if any
-    ///
     /// - Parameters:
     ///   - state: ContentState
     ///   - color: Color suggestion
@@ -47,7 +46,6 @@ extension ContentStateMessagingView {
     }
 
     /// Set a content state message
-    ///
     /// - Parameters:
     ///   - state: ContentState
     ///   - color: Color suggestion
@@ -66,7 +64,6 @@ extension ContentStateMessagingView {
     }
 
     /// Set a message
-    ///
     /// - Parameters:
     ///   - message: String
     ///   - color: Color

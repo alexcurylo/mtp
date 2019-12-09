@@ -24,7 +24,6 @@ private extension UIView {
 @IBDesignable final class ShadowView: UIView {
 
     /// Procedural intializer
-    ///
     /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -43,7 +42,6 @@ private extension UIView {
     }
 
     /// Update screen rendering
-    ///
     /// - Parameter layer: Our layer
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)

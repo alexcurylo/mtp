@@ -9,14 +9,12 @@ struct ListPagingItem: PagingItem, Hashable, Comparable {
     let list: Checklist
 
     /// Implement Hashable
-    ///
     /// - Parameter hasher: Hasher
     func hash(into hasher: inout Hasher) {
         hasher.combine(list)
     }
 
     /// Equality operator
-    ///
     /// - Parameters:
     ///   - lhs: A thing
     ///   - rhs: Another thing
@@ -26,7 +24,6 @@ struct ListPagingItem: PagingItem, Hashable, Comparable {
     }
 
     /// Less than operator
-    ///
     /// - Parameters:
     ///   - lhs: A thing
     ///   - rhs: Another thing

@@ -7,7 +7,6 @@ import WebKit
 protocol TitleChangeDelegate: AnyObject {
 
     /// Notify of title change
-    ///
     /// - Parameter title: New title
     func changed(title: String)
 }
@@ -19,7 +18,6 @@ final class LocationWebsiteVC: WKWebViewController {
     weak var titleDelegate: TitleChangeDelegate?
 
     /// Construction by injection
-    ///
     /// - Parameter mappable: Place
     init(mappable: Mappable) {
         var source: WKWebSource?
@@ -43,7 +41,6 @@ final class LocationWebsiteVC: WKWebViewController {
     }
 
     /// Handle navigation completing
-    ///
     /// - Parameters:
     ///   - webView: Page displayer
     ///   - navigation: Navigation type
