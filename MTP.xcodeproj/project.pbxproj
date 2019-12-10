@@ -35,6 +35,7 @@
 		8C0F242B22432076005BD5DC /* UserCountsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0F242A22432076005BD5DC /* UserCountsVC.swift */; };
 		8C177A0722FA671700E4433C /* MenuAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C177A0622FA671700E4433C /* MenuAction.swift */; };
 		8C1A267E22AE019400DAFC7B /* SearchResultJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1A267D22AE019400DAFC7B /* SearchResultJSON.swift */; };
+		8C1B47FC239F5D5100C4FBEC /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1B47FB239F5D5000C4FBEC /* Secrets.swift */; };
 		8C25468D230F85A5003A1B99 /* XCUIElement+Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C25468C230F85A5003A1B99 /* XCUIElement+Coordinate.swift */; };
 		8C25480D230F8F67003A1B99 /* uploadPhoto.json in Resources */ = {isa = PBXBuildFile; fileRef = 8C25480C230F8F66003A1B99 /* uploadPhoto.json */; };
 		8C25480F230FACCB003A1B99 /* postPublish.json in Resources */ = {isa = PBXBuildFile; fileRef = 8C25480E230FACCB003A1B99 /* postPublish.json */; };
@@ -637,6 +638,8 @@
 		8C11C4842350059E00431256 /* codecov.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = codecov.yml; sourceTree = "<group>"; };
 		8C177A0622FA671700E4433C /* MenuAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuAction.swift; sourceTree = "<group>"; };
 		8C1A267D22AE019400DAFC7B /* SearchResultJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultJSON.swift; sourceTree = "<group>"; };
+		8C1B47FB239F5D5000C4FBEC /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
+		8C1B47FF239F5EF700C4FBEC /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Secrets.plist; path = ../../secrets/mtp/mtp/Secrets.plist; sourceTree = "<group>"; };
 		8C25468C230F85A5003A1B99 /* XCUIElement+Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+Coordinate.swift"; sourceTree = "<group>"; };
 		8C25480C230F8F66003A1B99 /* uploadPhoto.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = uploadPhoto.json; sourceTree = "<group>"; };
 		8C25480E230FACCB003A1B99 /* postPublish.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = postPublish.json; sourceTree = "<group>"; };
@@ -1169,7 +1172,6 @@
 		FAE1F118214354A80002CAB2 /* Avenir.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Avenir.swift; sourceTree = "<group>"; };
 		FAE1F11B21437F860002CAB2 /* String+Assert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Assert.swift"; sourceTree = "<group>"; };
 		FAE1F11D2143B29F0002CAB2 /* LocationTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTracker.swift; sourceTree = "<group>"; };
-		FAE265FD2349DC200018FE72 /* CI.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; name = CI.yml; path = .github/workflows/CI.yml; sourceTree = "<group>"; };
 		FAE265FE2349ED170018FE72 /* Hotel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hotel.swift; sourceTree = "<group>"; };
 		FAEB87A0227ED26300858898 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		FAEF787A2312266A0086D77E /* FacebookButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookButtonTests.swift; sourceTree = "<group>"; };
@@ -2267,7 +2269,6 @@
 				FAC7A77821FF452500DCED01 /* .swift-version */,
 				FA4B7FE121E38BF3006AF8E2 /* apple-app-site-association */,
 				FAD0DA7622DB29DD0042C328 /* CHANGELOG.md */,
-				FAE265FD2349DC200018FE72 /* CI.yml */,
 				8C11C4842350059E00431256 /* codecov.yml */,
 				8CCA21F622B381A600C1D13B /* fastlane */,
 				FA4F1C5E20DFA74500B8A1ED /* Gemfile */,
@@ -2279,6 +2280,7 @@
 				FA3E366A20DFACCD002AF4EE /* Podfile */,
 				FA9A71E120F1DD6C005F6A57 /* Podfile.lock */,
 				FA4F1C5C20DFA67700B8A1ED /* README.md */,
+				8C1B47FF239F5EF700C4FBEC /* Secrets.plist */,
 				FAF122F6215652AE0099B772 /* xccconfig */,
 			);
 			name = metadata;
@@ -2455,9 +2457,10 @@
 				FA8833E02209BF570037C796 /* RealmSearchViewController.swift */,
 				FA835D35210F054F0098C270 /* ReplaceTopSegue.swift */,
 				8C3EAB832230FCC200CB4886 /* RoutingAppDelegate.swift */,
+				8CB2A24222E177C90050E368 /* Scheduler.swift */,
+				8C1B47FB239F5D5000C4FBEC /* Secrets.swift */,
 				FA835D33210EAC110098C270 /* Styler.swift */,
 				FA74C110211BBF490013A840 /* String+Formatting.swift */,
-				8CB2A24222E177C90050E368 /* Scheduler.swift */,
 				8C3EA812222F64F100CB4886 /* TopLoadingTextView.swift */,
 				FAAE29BE20EE51A700B43BA9 /* UIApplication+Environment.swift */,
 				8C7EE699233B179800EE3C35 /* UIButton+Layout.swift */,
@@ -2569,6 +2572,7 @@
 				FA3BD22A2160DE7A007EAF75 /* SwiftLint */,
 				FA392BB520DF69F30026C828 /* Resources */,
 				8CD93521230E244300BCB549 /* Fabric */,
+				8C1B4801239F601A00C4FBEC /* Copy Secrets */,
 			);
 			buildRules = (
 			);
@@ -2821,6 +2825,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		8C1B4801239F601A00C4FBEC /* Copy Secrets */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Secrets";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SECRETS=\"${SRCROOT}/../../secrets/mtp/mtp/Secrets.plist\"\nAPP=\"${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}/Secrets.plist\"\nif [ -f \"$SECRETS\" ]; then\n    cp -f \"$SECRETS\" \"$APP\"\n    echo \"copied Secrets.plist: $APP\"\nelse\n    echo \"Secrets.plist not found at $SECRETS, all secrets will be 'MISSING'\"\nfi\n";
+		};
 		8CD93521230E244300BCB549 /* Fabric */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2966,6 +2988,7 @@
 				8CA5CE8A230B73960020F7F8 /* UISystem.swift in Sources */,
 				8C9DD8CE2245034E00D5EAFB /* Injectable.swift in Sources */,
 				8C617972223F2D79000827D6 /* LocationsFilterVC.swift in Sources */,
+				8C1B47FC239F5D5100C4FBEC /* Secrets.swift in Sources */,
 				FA126BC82336EBB800175258 /* AXPagingConfig.swift in Sources */,
 				FA5AC0C521FDD7C00080F84F /* CountSectionHeader.swift in Sources */,
 				FA7A66E822FE2C1D001DCCA2 /* UIRoot.swift in Sources */,

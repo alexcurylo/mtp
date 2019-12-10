@@ -118,9 +118,9 @@ private extension LaunchHandler {
 
         if UIApplication.isProduction {
             let platform = SBPlatformDestination(
-                appID: "YbnQz9",
-                appSecret: "qyictm2bUy3Kvqi0dUpgysuUayuuJ1Py",
-                encryptionKey: "wdybYid5fohynFuy7pzjgcdmmXedin0m")
+                appID: Secrets.sbAppID.secret,
+                appSecret: Secrets.sbAppSecret.secret,
+                encryptionKey: Secrets.sbEncryptionKey.secret)
             swiftyBeaver.addDestination(platform)
         }
     }
