@@ -41,7 +41,6 @@ final class ProfilePhotosVC: PhotosVC {
     override func photo(at index: Int) -> Photo {
         let pageIndex = (index / PhotosPageInfo.perPage) + 1
         let photoIndex = index % PhotosPageInfo.perPage
-        // swiftlint:disable:next first_where
         guard let page = photosPages?.filter("page = \(pageIndex)").first else {
             refresh(page: pageIndex, reload: true)
             return Photo()

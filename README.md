@@ -26,7 +26,7 @@ The [Most Traveled People](https://mtp.travel) extreme travel club's [iOS app](h
 Requirements
 ------------
 
-- Xcode 11.2 or later
+- Xcode 11.3 or later
 - iOS 11.0 or later
 
 ### Tools:

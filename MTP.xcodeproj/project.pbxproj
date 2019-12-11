@@ -928,6 +928,7 @@
 		FA1663AE22E3325B0075DA1A /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		FA1663B022E3354C0075DA1A /* HTTPURLResponse+Headers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPURLResponse+Headers.swift"; sourceTree = "<group>"; };
 		FA17A292239CBFE0003C50CB /* Brand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brand.swift; sourceTree = "<group>"; };
+		FA20437823A1216E00C4171A /* .github */ = {isa = PBXFileReference; lastKnownFileType = folder; path = .github; sourceTree = "<group>"; };
 		FA2172D722BE038C00CE4F40 /* MappableOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappableOverlay.swift; sourceTree = "<group>"; };
 		FA21FB9E22A3F25400190B71 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/UserCounts.storyboard; sourceTree = "<group>"; };
 		FA21FBA022A4157000190B71 /* UserProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileVC.swift; sourceTree = "<group>"; };
@@ -2263,6 +2264,7 @@
 			children = (
 				FAC7A77621FF400300DCED01 /* .codebeatignore */,
 				FAC7A77721FF43F900DCED01 /* .codebeatsettings */,
+				FA20437823A1216E00C4171A /* .github */,
 				FA4F1C5D20DFA69000B8A1ED /* .gitignore */,
 				FA9A71E220F2308E005F6A57 /* .jazzy.yaml */,
 				FA3E366B20DFB484002AF4EE /* .swiftlint.yml */,
