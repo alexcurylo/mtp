@@ -9,6 +9,6 @@
 
 #include "Pods/Target Support Files/Pods-MTP/Pods-MTP.release.xcconfig"
 
-PROVISIONING_PROFILE_SPECIFIER = MTP-AdHoc
+PROVISIONING_PROFILE_SPECIFIER = MTP-AppStore
 
 EXCLUDED_SOURCE_FILE_NAMES = "MTPTests/fixtures/*"
