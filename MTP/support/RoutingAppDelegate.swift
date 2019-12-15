@@ -75,36 +75,6 @@ protocol AppTimeChangeHandler: AppHandler {
     func applicationSignificantTimeChange(_ application: UIApplication)
 }
 
-/// Adopt to have status bar notifications routed
-protocol AppStatusBarHandler: AppHandler {
-    /// willChangeStatusBarOrientation
-    /// - Parameters:
-    ///   - application: Application
-    ///   - newStatusBarOrientation: Orientation
-    ///   - duration: Duration
-    func application(_ application: UIApplication,
-                     willChangeStatusBarOrientation newStatusBarOrientation: UIInterfaceOrientation,
-                     duration: TimeInterval)
-    /// didChangeStatusBarOrientation
-    /// - Parameters:
-    ///   - application: Application
-    ///   - oldStatusBarOrientation: Orientation
-    func application(_ application: UIApplication,
-                     didChangeStatusBarOrientation oldStatusBarOrientation: UIInterfaceOrientation)
-    /// willChangeStatusBarFrame
-    /// - Parameters:
-    ///   - application: Application
-    ///   - newStatusBarFrame: Frame
-    func application(_ application: UIApplication,
-                     willChangeStatusBarFrame newStatusBarFrame: CGRect)
-    /// didChangeStatusBarFrame
-    /// - Parameters:
-    ///   - application: Application
-    ///   - oldStatusBarFrame: Frame
-    func application(_ application: UIApplication,
-                     didChangeStatusBarFrame oldStatusBarFrame: CGRect)
-}
-
 /// Adopt to have remote notifications routed
 protocol AppNotificationsHandler: AppHandler {
     /// didRegisterForRemoteNotificationsWithDeviceToken
@@ -127,16 +97,6 @@ protocol AppNotificationsHandler: AppHandler {
     func application(_ application: UIApplication,
                      didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void)
-}
-
-/// Adopt to have background fetch notifications routed
-protocol AppBackgroundFetchHandler: AppHandler {
-    /// performFetchWithCompletionHandler
-    /// - Parameters:
-    ///   - application: Application
-    ///   - completionHandler: Callback
-    func application(_ application: UIApplication,
-                     performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void)
 }
 
 /// Adopt to have background URL session notifications routed
@@ -236,6 +196,13 @@ protocol AppRestorationHandler: AppHandler {
     /// - Returns: Permission
     func application(_ application: UIApplication,
                      shouldSaveApplicationState coder: NSCoder) -> Bool
+    /// shouldSaveSecureApplicationState
+    /// - Parameters:
+    ///   - application: Application
+    ///   - coder: Coder
+    /// - Returns: Permission
+    func application(_ application: UIApplication,
+                     shouldSaveSecureApplicationState coder: NSCoder) -> Bool
     /// shouldRestoreApplicationState
     /// - Parameters:
     ///   - application: Application
@@ -243,6 +210,13 @@ protocol AppRestorationHandler: AppHandler {
     /// - Returns: Permission
     func application(_ application: UIApplication,
                      shouldRestoreApplicationState coder: NSCoder) -> Bool
+    /// shouldRestoreSecureApplicationState
+    /// - Parameters:
+    ///   - application: Application
+    ///   - coder: Coder
+    /// - Returns: Permission
+    func application(_ application: UIApplication,
+                     shouldRestoreSecureApplicationState coder: NSCoder) -> Bool
     /// willEncodeRestorableStateWith
     /// - Parameters:
     ///   - application: Application
@@ -302,6 +276,27 @@ protocol AppCloudKitHandler: AppHandler {
                      userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShare.Metadata)
 }
 
+#if ADOPT_UISCENESESSION
+/// Adopt to have UISceneSession notifications routed
+protocol AppSceneSessionHandler: AppHandler {
+    /// configurationForConnecting
+    /// - Parameters:
+    ///   - application: Application
+    ///   - connectingSceneSession: Session
+    ///   - options: Options
+    /// - Returns: Configuration
+    func application(_ application: UIApplication,
+                     configurationForConnecting connectingSceneSession: UISceneSession,
+                     options: UIScene.ConnectionOptions) -> UISceneConfiguration
+    /// didDiscardSceneSessions
+    /// - Parameters:
+    ///   - application: Application
+    ///   - sceneSessions: Sessions
+    func application(_ application: UIApplication,
+                     didDiscardSceneSessions sceneSessions: Set<UISceneSession>)
+}
+#endif
+
 /// Override `RoutingAppDelegate` to return app's list of `handlers`
 class RoutingAppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -311,22 +306,20 @@ class RoutingAppDelegate: UIResponder, UIApplicationDelegate {
     /// Typed access to global delegate
     @objc static var shared: RoutingAppDelegate = {
         // swiftlint:disable:next force_cast
-        return UIApplication.shared.delegate as! RoutingAppDelegate
+        UIApplication.shared.delegate as! RoutingAppDelegate
     }()
 
     /// Application's window
     var window: UIWindow?
 
     /// Override point to produce app handlers
-    var handlers: Handlers {
-        return []
-    }
+    var handlers: Handlers { [] }
 
     /// Typed access to unique handler
     /// - Parameter type: Handler type
     /// - Returns: First instance of type if found
     static func handler<T>(type: T.Type) -> T? {
-        return RoutingAppDelegate.shared.handlers.firstOf(type: T.self)
+        RoutingAppDelegate.shared.handlers.firstOf(type: T.self)
     }
 }
 
@@ -342,11 +335,11 @@ extension RoutingAppDelegate {
     func application(_ application: UIApplication,
                      // swiftlint:disable:next discouraged_optional_collection line_length
                      willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-        return handlers.of(type: AppLaunchHandler.self)
-                       .map { $0.application(application,
-                                             willFinishLaunchingWithOptions: launchOptions)
-                       }
-                       .allSatisfy { $0 }
+        handlers.of(type: AppLaunchHandler.self)
+                .map { $0.application(application,
+                                      willFinishLaunchingWithOptions: launchOptions)
+                }
+                .allSatisfy { $0 }
     }
 
     /// didFinishLaunchingWithOptions
@@ -357,11 +350,11 @@ extension RoutingAppDelegate {
     func application(_ application: UIApplication,
                      // swiftlint:disable:next discouraged_optional_collection line_length
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-        return handlers.of(type: AppLaunchHandler.self)
-                       .map { $0.application(application,
-                                             didFinishLaunchingWithOptions: launchOptions)
-                       }
-                       .allSatisfy { $0 }
+        handlers.of(type: AppLaunchHandler.self)
+                .map { $0.application(application,
+                                      didFinishLaunchingWithOptions: launchOptions)
+                }
+                .allSatisfy { $0 }
     }
 
     /// Enter foreground handler
@@ -408,12 +401,12 @@ extension RoutingAppDelegate {
     func application(_ app: UIApplication,
                      open url: URL,
                      options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-     return handlers.of(type: AppOpenURLHandler.self)
-                    .map { $0.application(app,
-                                          open: url,
-                                          options: options)
-                    }
-                    .contains { $0 }
+     handlers.of(type: AppOpenURLHandler.self)
+             .map { $0.application(app,
+                                   open: url,
+                                   options: options)
+             }
+             .contains { $0 }
     }
 
     /// Memory warning handler
@@ -428,57 +421,6 @@ extension RoutingAppDelegate {
     func applicationSignificantTimeChange(_ application: UIApplication) {
         handlers.of(type: AppTimeChangeHandler.self)
                 .forEach { $0.applicationSignificantTimeChange(application) }
-    }
-
-    /// willChangeStatusBarOrientation
-    /// - Parameters:
-    ///   - application: Application
-    ///   - newStatusBarOrientation: Orientation
-    ///   - duration: Duration
-    func application(_ application: UIApplication,
-                     willChangeStatusBarOrientation newStatusBarOrientation: UIInterfaceOrientation,
-                     duration: TimeInterval) {
-        handlers.of(type: AppStatusBarHandler.self)
-                .forEach { $0.application(application,
-                                          willChangeStatusBarOrientation: newStatusBarOrientation,
-                                          duration: duration)
-                }
-    }
-
-    /// didChangeStatusBarOrientation
-    /// - Parameters:
-    ///   - application: Application
-    ///   - oldStatusBarOrientation: Orientation
-    func application(_ application: UIApplication,
-                     didChangeStatusBarOrientation oldStatusBarOrientation: UIInterfaceOrientation) {
-        handlers.of(type: AppStatusBarHandler.self)
-                 .forEach { $0.application(application,
-                                           didChangeStatusBarOrientation: oldStatusBarOrientation)
-                 }
-    }
-
-    /// willChangeStatusBarFrame
-    /// - Parameters:
-    ///   - application: Application
-    ///   - newStatusBarFrame: Frame
-    func application(_ application: UIApplication,
-                     willChangeStatusBarFrame newStatusBarFrame: CGRect) {
-        handlers.of(type: AppStatusBarHandler.self)
-                 .forEach { $0.application(application,
-                                           willChangeStatusBarFrame: newStatusBarFrame)
-                 }
-    }
-
-    /// didChangeStatusBarFrame
-    /// - Parameters:
-    ///   - application: Application
-    ///   - oldStatusBarFrame: Frame
-    func application(_ application: UIApplication,
-                     didChangeStatusBarFrame oldStatusBarFrame: CGRect) {
-        handlers.of(type: AppStatusBarHandler.self)
-                .forEach { $0.application(application,
-                                          didChangeStatusBarFrame: oldStatusBarFrame)
-                }
     }
 
     /// didRegisterForRemoteNotificationsWithDeviceToken
@@ -518,18 +460,6 @@ extension RoutingAppDelegate {
                                            didReceiveRemoteNotification: userInfo,
                                            fetchCompletionHandler: completionHandler)
                  }
-    }
-
-    /// performFetchWithCompletionHandler
-    /// - Parameters:
-    ///   - application: Application
-    ///   - completionHandler: Callback
-    func application(_ application: UIApplication,
-                     performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        handlers.of(type: AppBackgroundFetchHandler.self)
-                .forEach { $0.application(application,
-                                          performFetchWithCompletionHandler: completionHandler)
-                }
     }
 
     /// handleEventsForBackgroundURLSession
@@ -623,11 +553,11 @@ extension RoutingAppDelegate {
     func application(_ application: UIApplication,
                      // swiftlint:disable:next line_length
                      shouldAllowExtensionPointIdentifier extensionPointIdentifier: UIApplication.ExtensionPointIdentifier) -> Bool {
-        return handlers.of(type: AppExtensionHandler.self)
-                       .map { $0.application(application,
-                                             shouldAllowExtensionPointIdentifier: extensionPointIdentifier)
-                       }
-                       .allSatisfy { $0 }
+        handlers.of(type: AppExtensionHandler.self)
+                .map { $0.application(application,
+                                      shouldAllowExtensionPointIdentifier: extensionPointIdentifier)
+                }
+                .allSatisfy { $0 }
     }
 
     /// viewControllerWithRestorationIdentifierPath
@@ -639,7 +569,7 @@ extension RoutingAppDelegate {
     func application(_ application: UIApplication,
                      viewControllerWithRestorationIdentifierPath identifierComponents: [Any],
                      coder: NSCoder) -> UIViewController? {
-        return handlers
+        handlers
             .of(type: AppRestorationHandler.self)
             .compactMap { $0.application(application,
                                          viewControllerWithRestorationIdentifierPath: identifierComponents,
@@ -648,32 +578,60 @@ extension RoutingAppDelegate {
             .first
     }
 
-    /// shouldSaveApplicationState
+    /// shouldSaveApplicationState -- deprecated in 13.2
     /// - Parameters:
     ///   - application: Application
     ///   - coder: Coder
     /// - Returns: Permission
     func application(_ application: UIApplication,
                      shouldSaveApplicationState coder: NSCoder) -> Bool {
-        return handlers.of(type: AppRestorationHandler.self)
-                       .map { $0.application(application,
-                                             shouldSaveApplicationState: coder)
-                       }
-                       .contains { $0 }
+        handlers.of(type: AppRestorationHandler.self)
+                .map { $0.application(application,
+                                      shouldSaveApplicationState: coder)
+                }
+                .contains { $0 }
     }
 
-    /// shouldRestoreApplicationState
+    /// shouldSaveSecureApplicationState
+    /// - Parameters:
+    ///   - application: Application
+    ///   - coder: Coder
+    /// - Returns: Permission
+    func application(_ application: UIApplication,
+                     shouldSaveSecureApplicationState coder: NSCoder) -> Bool {
+        handlers.of(type: AppRestorationHandler.self)
+                .map { $0.application(application,
+                                      shouldSaveSecureApplicationState: coder)
+                }
+                .contains { $0 }
+    }
+
+    /// shouldRestoreApplicationState -- deprecated in 13.2
     /// - Parameters:
     ///   - application: Application
     ///   - coder: Coder
     /// - Returns: Permission
     func application(_ application: UIApplication,
                      shouldRestoreApplicationState coder: NSCoder) -> Bool {
-        return handlers.of(type: AppRestorationHandler.self)
-                       .map { $0.application(application,
-                                             shouldRestoreApplicationState: coder)
-                       }
-                       .contains { $0 }
+        handlers.of(type: AppRestorationHandler.self)
+                .map { $0.application(application,
+                                      shouldRestoreApplicationState: coder)
+                }
+                .contains { $0 }
+    }
+
+    /// shouldRestoreSecureApplicationState
+    /// - Parameters:
+    ///   - application: Application
+    ///   - coder: Coder
+    /// - Returns: Permission
+    func application(_ application: UIApplication,
+                     shouldRestoreSecureApplicationState coder: NSCoder) -> Bool {
+        handlers.of(type: AppRestorationHandler.self)
+                .map { $0.application(application,
+                                      shouldRestoreSecureApplicationState: coder)
+                }
+                .contains { $0 }
     }
 
     /// willEncodeRestorableStateWith
@@ -707,11 +665,11 @@ extension RoutingAppDelegate {
     /// - Returns: Permission
     func application(_ application: UIApplication,
                      willContinueUserActivityWithType userActivityType: String) -> Bool {
-        return handlers.of(type: AppContinuityHandler.self)
-                       .map { $0.application(application,
-                                             willContinueUserActivityWithType: userActivityType)
-                       }
-                       .contains { $0 }
+        handlers.of(type: AppContinuityHandler.self)
+                .map { $0.application(application,
+                                      willContinueUserActivityWithType: userActivityType)
+                }
+                .contains { $0 }
     }
 
     /// continue userActivity
@@ -724,12 +682,12 @@ extension RoutingAppDelegate {
                      continue userActivity: NSUserActivity,
                      // swiftlint:disable:next discouraged_optional_collection
                      restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        return handlers.of(type: AppContinuityHandler.self)
-                       .map { $0.application(application,
-                                             continue: userActivity,
-                                             restorationHandler: restorationHandler)
-                       }
-                       .contains { $0 }
+        handlers.of(type: AppContinuityHandler.self)
+                .map { $0.application(application,
+                                      continue: userActivity,
+                                      restorationHandler: restorationHandler)
+                }
+                .contains { $0 }
     }
 
     /// didFailToContinueUserActivityWithType
@@ -770,4 +728,36 @@ extension RoutingAppDelegate {
                                           userDidAcceptCloudKitShareWith: cloudKitShareMetadata)
                 }
     }
+
+    #if ADOPT_UISCENESESSION
+    /// configurationForConnecting
+    /// - Parameters:
+    ///   - application: Application
+    ///   - connectingSceneSession: Session
+    ///   - options: Options
+    /// - Returns: Configuration
+    func application(_ application: UIApplication,
+                     configurationForConnecting connectingSceneSession: UISceneSession,
+                     options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        let configs = handlers
+            .of(type: AppSceneSessionHandler.self)
+            .compactMap { $0.application(application,
+                                         configurationForConnecting: connectingSceneSession,
+                                         options: options)
+            }
+        return configs.first ?? connectingSceneSession.configuration
+    }
+
+    /// didDiscardSceneSessions
+    /// - Parameters:
+    ///   - application: Application
+    ///   - sceneSessions: Sessions
+    func application(_ application: UIApplication,
+                     didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
+        handlers.of(type: AppSceneSessionHandler.self)
+                .forEach { $0.application(application,
+                                          didDiscardSceneSessions: sceneSessions)
+                }
+    }
+    #endif
 }

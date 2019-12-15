@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class WHSTests: MTPTestCase {
+final class WHSTests: TestCase {
 
     func testDecodingComplete() throws {
         // given
@@ -92,7 +92,6 @@ final class WHSTests: MTPTestCase {
         XCTAssertEqual(sut.placeId, 1701)
         sut.description.assert(equal: map.title)
         XCTAssertTrue(sut.hasParent)
-        XCTAssertNil(sut.parent)
     }
 
     func testDecodingInactive() throws {

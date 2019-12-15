@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class RankingHeaderTests: MTPTestCase {
+final class RankingHeaderTests: TestCase {
 
     func testInitWithCoder() {
         // when

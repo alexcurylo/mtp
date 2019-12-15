@@ -4,7 +4,7 @@ import MapKit
 @testable import MTP
 import XCTest
 
-final class CLLocationCoordinate2DTests: MTPTestCase {
+final class CLLocationCoordinate2DTests: TestCase {
 
     func testCodable() throws {
         // given

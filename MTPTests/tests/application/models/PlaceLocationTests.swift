@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class PlaceLocationTests: MTPTestCase {
+final class PlaceLocationTests: TestCase {
 
     func testDescription() {
         // given

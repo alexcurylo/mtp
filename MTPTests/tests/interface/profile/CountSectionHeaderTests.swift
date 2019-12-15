@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class CountSectionHeaderTests: MTPTestCase {
+final class CountSectionHeaderTests: TestCase {
 
     func testInitWithCoder() {
         // when

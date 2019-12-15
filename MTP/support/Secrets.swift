@@ -13,9 +13,8 @@ enum Secrets: String {
     case sbEncryptionKey
 
     private static var file: SecretsFile? = {
-        guard let url = Bundle.main.url(forResource: "Secrets", withExtension: "plist"),
-              let data = try? Data(contentsOf: url) else { return nil }
-        return try? PropertyListDecoder().decode(SecretsFile.self, from: data)
+        load(secrets: Bundle.main.url(forResource: "Secrets",
+                                      withExtension: "plist"))
     }()
 
     /// Secret value
@@ -31,6 +30,18 @@ enum Secrets: String {
         case .sbEncryptionKey:
             return file.sbEncryptionKey
         }
+    }
+
+    /// Inject secrets file location
+    /// - Parameter secrets: URL of possible secrets
+    static func inject(secrets: URL?) {
+        Self.file = load(secrets: secrets)
+    }
+
+    private static func load(secrets: URL?) -> SecretsFile? {
+        guard let url = secrets,
+              let data = try? Data(contentsOf: url) else { return nil }
+        return try? PropertyListDecoder().decode(SecretsFile.self, from: data)
     }
 }
 

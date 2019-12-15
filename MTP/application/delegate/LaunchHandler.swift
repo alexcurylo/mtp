@@ -5,20 +5,22 @@ import Firebase
 import SwiftyBeaver
 
 /// Stub for startup construction
-struct LaunchHandler: AppHandler, ServiceProvider { }
+struct LaunchHandler: AppHandler { }
 
 // MARK: - AppLaunchHandler
 
-extension LaunchHandler: AppLaunchHandler {
+extension LaunchHandler: AppLaunchHandler, ServiceProvider {
 
     /// willFinishLaunchingWithOptions
     /// - Parameters:
     ///   - application: Application
     ///   - launchOptions: Launch options
     /// - Returns: Success
-    func application(_ application: UIApplication,
-                     // swiftlint:disable:next discouraged_optional_collection
-                     willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(
+        _ application: UIApplication,
+        // swiftlint:disable:next discouraged_optional_collection
+        willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
         ProcessInfo.startup()
 
         return true
@@ -29,12 +31,14 @@ extension LaunchHandler: AppLaunchHandler {
     ///   - application: Application
     ///   - launchOptions: Launch options
     /// - Returns: Success
-    func application(_ application: UIApplication,
-                     // swiftlint:disable:next discouraged_optional_collection
-                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(
+        _ application: UIApplication,
+        // swiftlint:disable:next discouraged_optional_collection
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
         let options = launchOptions ?? [:]
 
-        configureLogging()
+        configure(logging: UIApplication.isProduction)
 
         configureFirebase()
 
@@ -92,7 +96,7 @@ struct SwiftyBeaverLoggingService: LoggingService {
                 function: String,
                 line: Int,
                 context: Any?) {
-        let sbLevel = SwiftyBeaver.Level(rawValue: level.rawValue) ?? .verbose
+        let sbLevel = SwiftyBeaver.Level(from: level)
         swiftyBeaver.custom(level: sbLevel,
                             message: message(),
                             file: file,
@@ -102,10 +106,24 @@ struct SwiftyBeaverLoggingService: LoggingService {
     }
 }
 
-private extension LaunchHandler {
+private extension SwiftyBeaver.Level {
 
-    func configureLogging() {
+    init(from: LoggingLevel) {
+        switch from {
+        case .verbose: self = .verbose
+        case .debug: self = .debug
+        case .info: self = .info
+        case .warning: self = .warning
+        case .error: self = .error
+        }
+    }
+}
 
+extension LaunchHandler {
+
+    /// Configure logging
+    /// - Parameter production: Is this production environment?
+    func configure(logging production: Bool) {
         let console = ConsoleDestination()
         swiftyBeaver.addDestination(console)
 
@@ -116,7 +134,7 @@ private extension LaunchHandler {
         }
         swiftyBeaver.addDestination(file)
 
-        if UIApplication.isProduction {
+        if production {
             let platform = SBPlatformDestination(
                 appID: Secrets.sbAppID.secret,
                 appSecret: Secrets.sbAppSecret.secret,

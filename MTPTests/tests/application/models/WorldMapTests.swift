@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class WorldMapTests: MTPTestCase {
+final class WorldMapTests: TestCase {
 
     // swiftlint:disable:next implicitly_unwrapped_optional
     private var sut: WorldMap!

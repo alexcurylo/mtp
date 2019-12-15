@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class ViewTests: MTPTestCase {
+final class ViewTests: TestCase {
 
     override func setUp() {
         super.setUp()

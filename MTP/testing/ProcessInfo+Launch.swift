@@ -88,18 +88,19 @@ extension ProcessInfo {
         if arguments(contain: .disableAnimations) {
             UIView.setAnimationsEnabled(false)
         }
-        if arguments(contain: .disableWaitIdle) {
-            _dispatchOnceSwizzleWaitIdle
-        }
+        //if arguments(contain: .disableWaitIdle) { _dispatchOnceSwizzleWaitIdle }
+
+        _ = ProcessInfo.setting(bool: .loggedIn)
+        _ = ProcessInfo.setting(string: .token)
     }
 
     /// for swizzling out waitForQuiescenceIncludingAnimationsIdle
-    @objc fileprivate static func doNothing() { return }
+    //@objc fileprivate static func doNothing() { return }
 }
 
+/* does not appear to find XCUIApplicationProcess in Xcode 11
 private let _dispatchOnceSwizzleWaitIdle: Void = {
     let waitMethod = Selector(("waitForQuiescenceIncludingAnimationsIdle:"))
-    // does not appear to find XCUIApplicationProcess in Xcode 11
     guard let uiTestRunner = objc_getClass("XCUIApplicationProcess") as? AnyClass,
           let original = class_getInstanceMethod(uiTestRunner,
                                                  waitMethod),
@@ -109,3 +110,4 @@ private let _dispatchOnceSwizzleWaitIdle: Void = {
     }
     method_exchangeImplementations(original, replaced)
 }()
+*/

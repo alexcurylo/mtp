@@ -4,7 +4,7 @@
 import UserNotifications
 import XCTest
 
-final class NotificationsHandlerTests: MTPTestCase {
+final class NotificationsHandlerTests: TestCase {
 
     private var original: UNUserNotificationCenterDelegate?
 

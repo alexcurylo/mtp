@@ -4,7 +4,7 @@
 import UserNotifications
 import XCTest
 
-final class NotificationServiceTests: MTPTestCase {
+final class NotificationServiceTests: TestCase {
 
     func testService() throws {
         // given
