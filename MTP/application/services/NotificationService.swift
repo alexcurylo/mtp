@@ -238,6 +238,32 @@ extension NotificationService {
     func unimplemented() {
         message(error: L.unimplemented())
     }
+
+    /// Strings for notifications
+    /// - Parameters:
+    ///   - mappable: Thing visitable
+    ///   - triggered: Date
+    func checkinStrings(mappable: Mappable,
+                        triggered: Date) -> (String, String) {
+        let title = L.checkinTitle(mappable.checklist.category(full: true))
+
+        let name = mappable.title
+        let body: String
+        switch (mappable.checklist, mappable.isHere) {
+        case (.locations, true):
+            body = L.checkinInsideNow(name)
+        case (.locations, false):
+            let when = triggered.relative
+            body = L.checkinInsidePast(name, when)
+        case (_, true):
+            body = L.checkinNearNow(name)
+        case (_, false):
+            let when = triggered.relative
+            body = L.checkinNearPast(name, when)
+        }
+
+        return (title, body)
+    }
 }
 
 /// Production implementation of NotificationService
@@ -475,28 +501,6 @@ private extension NotificationServiceImpl {
             self.postVisit(mappable: mappable,
                            triggered: triggered)
         }
-    }
-
-    func checkinStrings(mappable: Mappable,
-                        triggered: Date) -> (String, String) {
-        let title = L.checkinTitle(mappable.checklist.category(full: true))
-
-        let name = mappable.title
-        let body: String
-        switch (mappable.checklist, mappable.isHere) {
-        case (.locations, true):
-            body = L.checkinInsideNow(name)
-        case (.locations, false):
-            let when = triggered.relative
-            body = L.checkinInsidePast(name, when)
-        case (_, true):
-            body = L.checkinNearNow(name)
-        case (_, false):
-            let when = triggered.relative
-            body = L.checkinInsidePast(name, when)
-        }
-
-        return (title, body)
     }
 
     func postVisit(mappable: Mappable,

@@ -47,4 +47,40 @@ final class NotificationServiceTests: TestCase {
         waitForExpectations(timeout: 1, handler: nil)
         failure.assert(equal: expected)
     }
+
+    func testCheckinStrings() throws {
+        // given
+        let visiting = "A Place"
+        let sut = NotificationServiceImpl()
+        // swiftlint:disable:next closure_body_length
+        Checklist.allCases.forEach { list in
+            let map = MappableStub()
+            map.stubbedChecklist = list
+            map.stubbedTitle = visiting
+            let title = L.checkinTitle(list.category(full: true))
+
+            // when
+            map.stubbedIsHere = true
+            let now = sut.checkinStrings(mappable: map,
+                                         triggered: Date())
+            map.stubbedIsHere = false
+            let when = Date() - 120
+            let past = sut.checkinStrings(mappable: map,
+                                          triggered: when)
+            let time = when.relative
+
+            // then
+            XCTAssertEqual(now.0, title)
+            let nowMessage = list == .locations
+                ? L.checkinInsideNow(visiting)
+                : L.checkinNearNow(visiting)
+            XCTAssertEqual(now.1, nowMessage)
+
+            XCTAssertEqual(past.0, title)
+            let pastMessage = list == .locations
+                ? L.checkinInsidePast(visiting, time)
+                : L.checkinNearPast(visiting, time)
+            XCTAssertEqual(past.1, pastMessage)
+        }
+    }
 }

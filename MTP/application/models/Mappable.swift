@@ -92,7 +92,7 @@ protocol Mapper {
 }
 
 /// Realm representation of a mappable place
-@objcMembers final class Mappable: Object, ServiceProvider {
+@objcMembers class Mappable: Object, ServiceProvider {
 
     /// Typealias for fluency
     typealias Key = String

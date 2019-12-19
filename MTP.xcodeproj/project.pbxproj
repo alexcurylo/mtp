@@ -362,6 +362,7 @@
 		FA2172D822BE038C00CE4F40 /* MappableOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2172D722BE038C00CE4F40 /* MappableOverlay.swift */; };
 		FA21FB9F22A3F25400190B71 /* UserCounts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA21FB9D22A3F25400190B71 /* UserCounts.storyboard */; };
 		FA21FBA122A4157000190B71 /* UserProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA21FBA022A4157000190B71 /* UserProfileVC.swift */; };
+		FA248F1423AC201F00C76F3D /* MappableStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA248F1323AC201F00C76F3D /* MappableStub.swift */; };
 		FA254DCB21685D6800FC9360 /* Withable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA254DCA21685D6800FC9360 /* Withable.swift */; };
 		FA254DCD2169A2A400FC9360 /* ProfileAboutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA254DCC2169A2A400FC9360 /* ProfileAboutVC.swift */; };
 		FA25ACE6217B54A8000AE26D /* RankingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA25ACE5217B54A8000AE26D /* RankingCell.swift */; };
@@ -939,6 +940,7 @@
 		FA2172D722BE038C00CE4F40 /* MappableOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappableOverlay.swift; sourceTree = "<group>"; };
 		FA21FB9E22A3F25400190B71 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/UserCounts.storyboard; sourceTree = "<group>"; };
 		FA21FBA022A4157000190B71 /* UserProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileVC.swift; sourceTree = "<group>"; };
+		FA248F1323AC201F00C76F3D /* MappableStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappableStub.swift; sourceTree = "<group>"; };
 		FA254DCA21685D6800FC9360 /* Withable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Withable.swift; sourceTree = "<group>"; };
 		FA254DCC2169A2A400FC9360 /* ProfileAboutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAboutVC.swift; sourceTree = "<group>"; };
 		FA25ACE5217B54A8000AE26D /* RankingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingCell.swift; sourceTree = "<group>"; };
@@ -1351,6 +1353,7 @@
 				FA6F4B76231B1FA500CEE21F /* LocationsVCSpy.swift */,
 				8CC91BBD2305122B002F74FA /* LocationTrackerSpy.swift */,
 				8C0127FE2232089100EA2095 /* LoggingServiceSpy.swift */,
+				FA248F1323AC201F00C76F3D /* MappableStub.swift */,
 				8C584D59231DF892009D115E /* MTPNetworkControllerSpy.swift */,
 				8C012802223208FB00EA2095 /* NetworkServiceSpy.swift */,
 				FAC8466022AB79AA004F57EC /* NotificationServiceSpy.swift */,
@@ -3338,6 +3341,7 @@
 				FA912905231C838B00C7DD3B /* CLLocationCoordinate2DTests.swift in Sources */,
 				8C4198B423152B6600496C07 /* PlaceInfoTests.swift in Sources */,
 				8C58019E2305097900DE768F /* PlaceLocationTests.swift in Sources */,
+				FA248F1423AC201F00C76F3D /* MappableStub.swift in Sources */,
 				FA63A4B72307676900637BB3 /* ProfilePagingVCTests.swift in Sources */,
 				8C84D87123135F5F0070BD55 /* WHSTests.swift in Sources */,
 				FA63A4AF2307675F00637BB3 /* CountCellItemTests.swift in Sources */,
