@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class PostPayloadTests: MTPTestCase {
+final class PostPayloadTests: TestCase {
 
     func testDescription() {
         // given

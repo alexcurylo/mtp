@@ -6,7 +6,7 @@ import FBSDKLoginKit
 @testable import MTP
 import XCTest
 
-final class FacebookButtonTests: MTPTestCase {
+final class FacebookButtonTests: TestCase {
 
     private var sut: FacebookButton?
 

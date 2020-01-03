@@ -154,7 +154,7 @@
 "checkinInsideNow" = "You are in %@. Do you want to check in?";
 "checkinNearNow" = "You are near %@. Do you want to check in?";
 "checkinInsidePast" = "You were in %1$@ %2$@. Do you want to check in?";
-"checkinNearPast" = "You were near %@ %$2@. Do you want to check in?";
+"checkinNearPast" = "You were near %1$@ %2$@. Do you want to check in?";
 "checkinAction" = "Check in";
 "dismissAction" = "Dismiss";
 "congratulations" = "Congratulations on visiting %@!";

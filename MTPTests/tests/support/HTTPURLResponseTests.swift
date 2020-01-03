@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class HTTPURLResponseTests: MTPTestCase {
+final class HTTPURLResponseTests: TestCase {
 
     func testHasField() throws {
         // given

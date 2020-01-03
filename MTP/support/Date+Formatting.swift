@@ -53,7 +53,7 @@ extension DateFormatter {
         $0.locale = Locale(identifier: "en_US_POSIX")
     }
 
-    /// Format local times like Facebook API
+    /// Format local times for timestamps
     static var stampTime = DateFormatter {
         $0.dateFormat = "yy.MM.dd HH:mm:ss.SSS"
         $0.calendar = Calendar(identifier: .iso8601)

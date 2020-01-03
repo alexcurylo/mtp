@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-class MTPTestCase: XCTestCase {
+class TestCase: XCTestCase {
 
     override class func setUp() {
         super.setUp()
@@ -17,5 +17,10 @@ class MTPTestCase: XCTestCase {
         ServiceProviderInstances.noteServiceInstance = NotificationServiceSpy()
         ServiceProviderInstances.reportServiceInstance = ReportingServiceSpy()
         ServiceProviderInstances.styleServiceInstance = StyleServiceSpy()
+    }
+
+    func wait(for seconds: TimeInterval) {
+        let wait = XCTestExpectation(description: "wait")
+        _ = XCTWaiter.wait(for: [wait], timeout: seconds)
     }
 }

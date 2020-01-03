@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class NetworkServiceTests: MTPTestCase {
+final class NetworkServiceTests: TestCase {
 
     func testService() {
         // given

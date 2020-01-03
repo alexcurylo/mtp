@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class RankingsPageInfoTests: MTPTestCase {
+final class RankingsPageInfoTests: TestCase {
 
     func testDecodingComplete() throws {
         // given

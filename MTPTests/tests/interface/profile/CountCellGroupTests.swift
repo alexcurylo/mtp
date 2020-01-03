@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class CountCellGroupTests: MTPTestCase {
+final class CountCellGroupTests: TestCase {
 
     func testInit() {
         // given

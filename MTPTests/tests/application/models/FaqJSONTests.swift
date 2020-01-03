@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class FaqJSONTests: MTPTestCase {
+final class FaqJSONTests: TestCase {
 
     func testDescription() {
         // given

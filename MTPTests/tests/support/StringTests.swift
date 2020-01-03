@@ -3,14 +3,26 @@
 @testable import MTP
 import XCTest
 
-final class StringTests: MTPTestCase {
+final class StringTests: TestCase {
 
-    override func setUp() {
-        super.setUp()
+    func testFile() {
+        // given
+        let path = "some/long/path/file.txt"
+        let file = "file.pdf"
+        let empty = ""
+
+        // then
+        XCTAssertEqual("file.txt", path.file)
+        XCTAssertEqual("file.pdf", file.file)
+        XCTAssertEqual("", empty.file)
     }
 
-    override func tearDown() {
-        super.tearDown()
+    func testError() {
+        // given
+        let error: LocalizedError = "test error"
+
+        // then
+        XCTAssertEqual("test error", error.errorDescription)
     }
 
     func testHiddenName() {

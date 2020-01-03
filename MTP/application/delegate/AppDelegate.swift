@@ -3,7 +3,7 @@
 import UIKit
 
 /// Our routing application delegate
-@UIApplicationMain final class MTPDelegate: RoutingAppDelegate {
+@UIApplicationMain final class AppDelegate: RoutingAppDelegate {
 
     /// Runtime environments our app delegate recognizes
     enum Runtime {
@@ -29,7 +29,7 @@ import UIKit
             runtime = .unitTesting
         }
         #endif
-        return MTPDelegate.runtimeHandlers(for: runtime)
+        return AppDelegate.runtimeHandlers(for: runtime)
     }()
 
     /// Handlers for environment
@@ -46,8 +46,8 @@ import UIKit
                 NotificationsHandler(),
                 LocationHandler()
             ]
-        #if DEBUG
         case .uiTesting:
+            #if DEBUG
             return [
                 ServiceHandlerStub(),
                 LaunchHandler(),
@@ -56,8 +56,11 @@ import UIKit
                 NotificationsHandler(),
                 LocationHandler()
             ]
-        #endif
-        default:
+            #else
+            return []
+            #endif
+        case .unitTesting:
+            // Spies set up in TestCase.setUp()
             return []
         }
     }

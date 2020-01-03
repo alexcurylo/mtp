@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [Version 1.2.3, Build 652] - 2019-12-20
+
+### Fixed
+- Correct strings for non-location visit notifications
+
 ## [Version 1.2.2, Build 651] - 2019-12-08
 
 ### Fixed

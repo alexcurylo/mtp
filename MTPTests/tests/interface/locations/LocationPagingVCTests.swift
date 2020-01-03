@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class LocationPagingVCTests: MTPTestCase {
+final class LocationPagingVCTests: TestCase {
 
     func testInitWithCoder() {
         // when
