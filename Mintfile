@@ -2,4 +2,4 @@
 realm/SwiftLint@0.37.0
 # mint bootstrap (not global)
 # https://github.com/yonaskolb/Mint/issues/144
-https://github.com/mac-cain13/R.swift.git@master
+https://github.com/mac-cain13/R.swift.git@v5.1.0

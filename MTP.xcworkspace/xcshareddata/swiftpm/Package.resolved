@@ -42,8 +42,8 @@
         "repositoryURL": "https://github.com/facebook/facebook-ios-sdk",
         "state": {
           "branch": null,
-          "revision": "03ff7fef5847f36af6c940d43043af74418fc5ea",
-          "version": "5.12.0"
+          "revision": "54219ba9f5c7bdaabdd92aeac10023731e09efc8",
+          "version": "5.13.1"
         }
       },
       {
@@ -141,8 +141,8 @@
         "repositoryURL": "https://github.com/realm/realm-cocoa",
         "state": {
           "branch": null,
-          "revision": "11d7853b750f367525b174331e72f5431e15dfcc",
-          "version": "4.1.1"
+          "revision": "963dbe558b802e3b9b78b810dcbceea3b4853ec9",
+          "version": "4.3.0"
         }
       },
       {
