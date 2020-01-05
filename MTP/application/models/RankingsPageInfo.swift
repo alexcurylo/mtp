@@ -105,7 +105,6 @@ struct RankedUserJSON: Codable {
     fileprivate let rankRestaurants: Int?
     fileprivate let rankUncountries: Int?
     fileprivate let rankWhss: Int?
-    fileprivate let role: Int
     fileprivate let scoreBeaches: Int?
     fileprivate let scoreDivesites: Int?
     fileprivate let scoreGolfcourses: Int?
@@ -147,7 +146,6 @@ extension RankedUserJSON: CustomDebugStringConvertible {
         rankRestaurants: \(String(describing: rankRestaurants))
         rankUncountries: \(String(describing: rankUncountries))
         rankWhss: \(String(describing: rankWhss))
-        role: \(role)
         scoreBeaches: \(String(describing: scoreBeaches))
         scoreDivesites: \(String(describing: scoreDivesites))
         scoreGolfcourses: \(String(describing: scoreGolfcourses))

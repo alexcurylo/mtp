@@ -437,6 +437,7 @@
 		FA5AC0C321FDCE200080F84F /* MyCountsPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C221FDCE200080F84F /* MyCountsPageVC.swift */; };
 		FA5AC0C521FDD7C00080F84F /* CountSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C421FDD7C00080F84F /* CountSectionHeader.swift */; };
 		FA5AC0C721FDD8AA0080F84F /* CountCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C621FDD8AA0080F84F /* CountCellItem.swift */; };
+		FA5CF57023C15CA800B625FF /* GeoJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5CF56F23C15CA800B625FF /* GeoJSON.swift */; };
 		FA5DBFA8222FF9E300639148 /* RegistrationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5DBFA7222FF9E300639148 /* RegistrationPayload.swift */; };
 		FA5FEA7F238911F0008C319F /* CountsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5FEA7E238911F0008C319F /* CountsViewModel.swift */; };
 		FA620DD62308C8DD00F64926 /* RestaurantTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA620DD52308C8DD00F64926 /* RestaurantTests.swift */; };
@@ -1022,6 +1023,7 @@
 		FA5AC0C221FDCE200080F84F /* MyCountsPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCountsPageVC.swift; sourceTree = "<group>"; };
 		FA5AC0C421FDD7C00080F84F /* CountSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountSectionHeader.swift; sourceTree = "<group>"; };
 		FA5AC0C621FDD8AA0080F84F /* CountCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountCellItem.swift; sourceTree = "<group>"; };
+		FA5CF56F23C15CA800B625FF /* GeoJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoJSON.swift; sourceTree = "<group>"; };
 		FA5DBFA7222FF9E300639148 /* RegistrationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationPayload.swift; sourceTree = "<group>"; };
 		FA5FEA7E238911F0008C319F /* CountsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountsViewModel.swift; sourceTree = "<group>"; };
 		FA620DD52308C8DD00F64926 /* RestaurantTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantTests.swift; sourceTree = "<group>"; };
@@ -2523,6 +2525,7 @@
 				8C8A8A72233D9EA500EFB035 /* ContactPayload.swift */,
 				FA8833E4220CE7350037C796 /* Country.swift */,
 				8C8DC74C22AF4343002EA1CD /* FaqJSON.swift */,
+				FA5CF56F23C15CA800B625FF /* GeoJSON.swift */,
 				FAE265FE2349ED170018FE72 /* Hotel.swift */,
 				FAC159A121EB68AA00564E2D /* Location.swift */,
 				FA6386A422D17EBA001B4424 /* Mappable.swift */,
@@ -3116,6 +3119,7 @@
 				8C3EAA1C2230BFA500CB4886 /* InsetTextField.swift in Sources */,
 				8C522F562339A6290056D0CE /* AppNameCell.swift in Sources */,
 				8C7EE69C233B4BB100EE3C35 /* PostHeader.swift in Sources */,
+				FA5CF57023C15CA800B625FF /* GeoJSON.swift in Sources */,
 				8C93FE49230397770054B951 /* UIUserCounts.swift in Sources */,
 				FA0345782304487000632322 /* UIProfilePhotos.swift in Sources */,
 				8C522F572339A6290056D0CE /* AppNameItem.swift in Sources */,
