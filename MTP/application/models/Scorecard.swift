@@ -82,7 +82,6 @@ private struct ScorecardRankedUserJSON: Codable {
     let rankRestaurants: Int?
     let rankUncountries: Int?
     let rankWhss: Int?
-    let role: Int
     let scoreBeaches: Int?
     let scoreDivesites: Int?
     let scoreGolfcourses: Int?

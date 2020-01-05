@@ -27,7 +27,6 @@ final class WHSTests: TestCase {
         XCTAssertNil(sut.parent)
         XCTAssertNil(sut.placeParent)
         XCTAssertFalse(sut.hasParent)
-        XCTAssertFalse(sut.visited)
 
         XCTAssertEqual(sut.placeId, map.checklistId)
         XCTAssertEqual(map.checklist, .whss)

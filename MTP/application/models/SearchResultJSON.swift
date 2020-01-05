@@ -50,7 +50,6 @@ struct SearchResultItemJSON: Codable {
     fileprivate let link: String
     fileprivate let location: String?
     fileprivate let locationName: String?
-    fileprivate let role: Int?
     fileprivate let type: String
 
     /// Is this a location search result?
@@ -80,7 +79,6 @@ extension SearchResultItemJSON: CustomDebugStringConvertible {
         link: \(link)
         location: \(String(describing: location))
         locationName: \(String(describing: locationName))
-        role: \(String(describing: role))
         type: \(type)
         /SearchResultItemJSON >
         """
