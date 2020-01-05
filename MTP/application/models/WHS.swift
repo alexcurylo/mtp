@@ -105,12 +105,12 @@ extension WHSJSON: CustomDebugStringConvertible {
             region = location.placeRegion
             subtitle = location.description
         } else if let notLocation = realm.country(id: locationId) {
-            log.warning("WHS \(from.id) placed in country: WHS \(placeId)")
+            log.warning("WHS \(from.id) '\(from.title)' placed in country: \(notLocation.placeCountry)")
             country = notLocation.placeCountry
             region = L.unknown()
             subtitle = country
         } else {
-            log.warning("WHS \(from.id) missing location")
+            log.warning("WHS \(from.id) '\(from.title)' missing location \(locationId ?? -1)")
             return nil
         }
 

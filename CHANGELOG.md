@@ -8,7 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Handle multipolygon world maps
-- Handle user role of "false"
+- Handle deactivating MTP places
+- Handle user role of "false" in rankings
 
 ## [Version 1.2.3, Build 652] - 2019-12-20
 
