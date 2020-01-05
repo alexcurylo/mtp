@@ -250,6 +250,9 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     /// Set WHSs
     /// - Parameter whss: API results
     func set(whss: [WHSJSON])
+    /// Update location features
+    /// - Parameter map: GeoJSON file
+    func set(world map: GeoJSON)
 
     /// Delete user photo
     /// - Parameter photoId: Photo ID
@@ -941,7 +944,14 @@ class DataServiceImpl: DataService {
     }
 
     /// World map
-    let worldMap = WorldMap()
+    var worldMap = WorldMap()
+
+    /// Update location features
+    /// - Parameter map: GeoJSON file
+    func set(world map: GeoJSON) {
+        worldMap.set(world: map)
+        notify(change: .visited)
+    }
 
     /// Delete user photo
     /// - Parameter photoId: Photo ID

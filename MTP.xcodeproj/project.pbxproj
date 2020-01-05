@@ -437,6 +437,7 @@
 		FA5AC0C321FDCE200080F84F /* MyCountsPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C221FDCE200080F84F /* MyCountsPageVC.swift */; };
 		FA5AC0C521FDD7C00080F84F /* CountSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C421FDD7C00080F84F /* CountSectionHeader.swift */; };
 		FA5AC0C721FDD8AA0080F84F /* CountCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C621FDD8AA0080F84F /* CountCellItem.swift */; };
+		FA5B03EF23C1E1D2003EA494 /* Data+FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5B03EE23C1E1D2003EA494 /* Data+FileManager.swift */; };
 		FA5CF57023C15CA800B625FF /* GeoJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5CF56F23C15CA800B625FF /* GeoJSON.swift */; };
 		FA5DBFA8222FF9E300639148 /* RegistrationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5DBFA7222FF9E300639148 /* RegistrationPayload.swift */; };
 		FA5FEA7F238911F0008C319F /* CountsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5FEA7E238911F0008C319F /* CountsViewModel.swift */; };
@@ -1023,6 +1024,7 @@
 		FA5AC0C221FDCE200080F84F /* MyCountsPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCountsPageVC.swift; sourceTree = "<group>"; };
 		FA5AC0C421FDD7C00080F84F /* CountSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountSectionHeader.swift; sourceTree = "<group>"; };
 		FA5AC0C621FDD8AA0080F84F /* CountCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountCellItem.swift; sourceTree = "<group>"; };
+		FA5B03EE23C1E1D2003EA494 /* Data+FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+FileManager.swift"; sourceTree = "<group>"; };
 		FA5CF56F23C15CA800B625FF /* GeoJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoJSON.swift; sourceTree = "<group>"; };
 		FA5DBFA7222FF9E300639148 /* RegistrationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationPayload.swift; sourceTree = "<group>"; };
 		FA5FEA7E238911F0008C319F /* CountsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountsViewModel.swift; sourceTree = "<group>"; };
@@ -2464,6 +2466,7 @@
 				FA126BB82336EBB800175258 /* CGSize+Geometry.swift */,
 				FA7C2013222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift */,
 				8CE6F46A224B029400B24410 /* ContentState.swift */,
+				FA5B03EE23C1E1D2003EA494 /* Data+FileManager.swift */,
 				FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */,
 				FA54272922D97476005DF1CC /* Date+Relative.swift */,
 				FA08693A2348AB0800FDFCB3 /* DispatchQueue+Scheduling.swift */,
@@ -3158,6 +3161,7 @@
 				FAE265FF2349ED170018FE72 /* Hotel.swift in Sources */,
 				FA034572230446A000632322 /* UILocationSearch.swift in Sources */,
 				FAF1853120FA0C8600CC5D83 /* RootVC.swift in Sources */,
+				FA5B03EF23C1E1D2003EA494 /* Data+FileManager.swift in Sources */,
 				FA7C2012221C2F20002C6DAB /* Photo.swift in Sources */,
 				FA9656CF22BE32D500DA050F /* AddPostVC.swift in Sources */,
 				8C8DB38122817B6800B2BBD3 /* PostsVC.swift in Sources */,

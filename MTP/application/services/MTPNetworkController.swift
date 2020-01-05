@@ -1432,6 +1432,46 @@ class MTPNetworkController: ServiceProvider {
         }
     }
 
+    /// Load world map
+    func loadWorldMap(then: @escaping NetworkCompletion<GeoJSON> = { _ in }) {
+        let provider = MTPProvider()
+        let endpoint = MTP.geoJson(map: .world)
+        guard !endpoint.isThrottled else {
+            return then(.failure(.throttle))
+        }
+
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let map = try response.map(GeoJSON.self,
+                                           using: JSONDecoder.mtp)
+                self.data.set(world: map)
+                self.report(success: endpoint)
+                return then(.success(map))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
+        provider.request(endpoint) { result in
+            endpoint.markResponded()
+            switch result {
+            case .success(let response):
+                success(response)
+            case .failure(let error):
+                then(.failure(self.problem(with: endpoint, from: error)))
+            }
+        }
+    }
+
     /// Update photo
     /// - Parameters:
     ///   - payload: PhotoUpdatePayload

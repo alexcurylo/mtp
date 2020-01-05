@@ -8,6 +8,7 @@ struct WorldMap: ServiceProvider {
 
     /// Location ID layer style annotation
     static let locid = "locid"
+    private let mapFile = "world-map.geojson"
 
     private var locationPaths: [Int: UIBezierPath] = [:]
     private var locations: [GeoJSON.Feature] = []
@@ -20,11 +21,16 @@ struct WorldMap: ServiceProvider {
     /// :nodoc:
     init() {
         do {
-            guard let file = R.file.worldMapGeojson() else { throw "missing map file" }
-            let data = try Data(contentsOf: file)
+            let data: Data
+            do {
+                data = try unwrap(Data(docs: mapFile))
+            } catch {
+                guard let file = R.file.worldMapGeojson() else { throw "map" }
+                data = try Data(contentsOf: file)
+            }
             let geoJson = try JSONDecoder.mtp.decode(GeoJSON.self,
                                                      from: data)
-            set(world: geoJson)
+            load(world: geoJson)
         } catch {
             locations = []
         }
@@ -95,6 +101,18 @@ struct WorldMap: ServiceProvider {
     /// Update location features
     /// - Parameter map: GeoJSON file
     mutating func set(world map: GeoJSON) {
+        if let data = try? JSONEncoder().encode(map) {
+            data.save(docs: mapFile)
+            load(world: map)
+        }
+    }
+}
+
+// MARK: - Private
+
+private extension WorldMap {
+
+    mutating func load(world map: GeoJSON) {
         let (features, bounds) = map.drawables
         locations = features
         boxWidth = bounds.east - bounds.west
@@ -104,11 +122,6 @@ struct WorldMap: ServiceProvider {
         locationPaths = [:]
         createLocationPaths()
     }
-}
-
-// MARK: - Private
-
-private extension WorldMap {
 
     func shapes(layer: CALayer,
                 visits: [Int],
