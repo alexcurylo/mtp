@@ -23,7 +23,7 @@ extension ServiceHandler: AppLaunchHandler {
         // swiftlint:disable:next discouraged_optional_collection
         willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        // other services may log
+        // other services may log during construction
         ServiceProviderInstances.logServiceInstance = SwiftyBeaverLoggingService()
 
         ServiceProviderInstances.appServiceInstance = UIApplication.shared
@@ -33,6 +33,9 @@ extension ServiceHandler: AppLaunchHandler {
         ServiceProviderInstances.noteServiceInstance = NotificationServiceImpl()
         ServiceProviderInstances.reportServiceInstance = FirebaseReportingService()
         ServiceProviderInstances.styleServiceInstance = StyleServiceImpl()
+
+        // post-construction setup
+        ServiceProviderInstances.dataServiceInstance.validate()
 
         return true
     }

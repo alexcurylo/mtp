@@ -294,6 +294,9 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     /// Update page stamp
     /// - Parameter stamp: Page
     func update(stamp: RankingsPageInfo?)
+
+    /// Accounts for obsolete Algeria/England/Kazakhstan
+    func validate()
 }
 
 // MARK: - Generic DataService
@@ -357,8 +360,18 @@ extension DataService {
 class DataServiceImpl: DataService {
     // swiftlint:disable:previous type_body_length
 
+    /// World map
+    var worldMap = WorldMap()
+
     private let defaults = UserDefaults.standard
     private let realm = RealmDataController()
+
+    /// Accounts for obsolete Algeria/England/Kazakhstan
+    func validate() {
+        if let visits = defaults.visited {
+            visited = visits
+        }
+    }
 
     /// Beaches
     var beaches: [Beach] {
@@ -640,6 +653,7 @@ class DataServiceImpl: DataService {
     func set(locations: [LocationJSON]) {
         realm.set(locations: locations)
         notify(change: .locations)
+        validate()
     }
 
     /// Displayed types
@@ -893,10 +907,18 @@ class DataServiceImpl: DataService {
     var visited: Checked? {
         get { defaults.visited }
         set {
-            defaults.visited = newValue
-            if let oldUser = user,
-               let visited = newValue {
-                user = oldUser.updated(visited: visited)
+            if var visited = newValue {
+                // Accounts for obsolete Algeria/England/Kazakhstan
+                let filtered = visited.locations.filter { visit in
+                    get(location: visit) != nil
+                }
+                visited.locations = filtered
+                if let oldUser = user {
+                    user = oldUser.updated(visited: visited)
+                }
+                defaults.visited = visited
+            } else {
+                defaults.visited = newValue
             }
             notify(change: .visited)
         }
@@ -942,9 +964,6 @@ class DataServiceImpl: DataService {
         realm.set(whss: whss)
         notify(change: .whss)
     }
-
-    /// World map
-    var worldMap = WorldMap()
 
     /// Update location features
     /// - Parameter map: GeoJSON file
@@ -1117,7 +1136,6 @@ final class DataServiceStub: DataServiceImpl {
         set { }
     }
 
-    /// Default initializer
     /// Clears fields referenced in UI tests
     override init() {
         super.init()

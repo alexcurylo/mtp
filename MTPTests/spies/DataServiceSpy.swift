@@ -1097,6 +1097,12 @@ final class DataServiceSpy: DataService {
         invokedUpdateParameters = (stamp, ())
         invokedUpdateParametersList.append((stamp, ()))
     }
+    var invokedValidate = false
+    var invokedValidateCount = 0
+    func validate() {
+        invokedValidate = true
+        invokedValidateCount += 1
+    }
     var invokedNotify = false
     var invokedNotifyCount = 0
     var invokedNotifyParameters: (changed: String, info: [AnyHashable: Any])?
