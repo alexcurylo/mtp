@@ -173,6 +173,15 @@
         }
       },
       {
+        "package": "Siren",
+        "repositoryURL": "https://github.com/ArtSabintsev/Siren",
+        "state": {
+          "branch": null,
+          "revision": "70ad233b782104592fe90b066807a3930e218eb1",
+          "version": "5.2.3"
+        }
+      },
+      {
         "package": "SwiftEntryKit",
         "repositoryURL": "https://github.com/huri000/SwiftEntryKit",
         "state": {

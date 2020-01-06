@@ -438,6 +438,7 @@
 		FA5AC0C521FDD7C00080F84F /* CountSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C421FDD7C00080F84F /* CountSectionHeader.swift */; };
 		FA5AC0C721FDD8AA0080F84F /* CountCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C621FDD8AA0080F84F /* CountCellItem.swift */; };
 		FA5B03EF23C1E1D2003EA494 /* Data+FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5B03EE23C1E1D2003EA494 /* Data+FileManager.swift */; };
+		FA5B03F223C3E167003EA494 /* Siren in Frameworks */ = {isa = PBXBuildFile; productRef = FA5B03F123C3E167003EA494 /* Siren */; };
 		FA5CF57023C15CA800B625FF /* GeoJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5CF56F23C15CA800B625FF /* GeoJSON.swift */; };
 		FA5DBFA8222FF9E300639148 /* RegistrationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5DBFA7222FF9E300639148 /* RegistrationPayload.swift */; };
 		FA5FEA7F238911F0008C319F /* CountsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5FEA7E238911F0008C319F /* CountsViewModel.swift */; };
@@ -1235,6 +1236,7 @@
 				FA489DA32336569A00185F7D /* Moya in Frameworks */,
 				FA9FD69323364BD0005818C3 /* Realm in Frameworks */,
 				FA66CED52337952B00F6FCAA /* Connectivity in Frameworks */,
+				FA5B03F223C3E167003EA494 /* Siren in Frameworks */,
 				8C37FCAF237E49D900F443C6 /* FacebookShare in Frameworks */,
 				FA66CED2233791EE00F6FCAA /* SwiftEntryKit in Frameworks */,
 				FA510350233D5F6C00AFC41E /* Parchment in Frameworks */,
@@ -2628,6 +2630,7 @@
 				8C37FCAC237E49D900F443C6 /* FacebookLogin */,
 				8C37FCAE237E49D900F443C6 /* FacebookShare */,
 				8CD2F2112397344300471FE6 /* JWTDecode */,
+				FA5B03F123C3E167003EA494 /* Siren */,
 			);
 			productName = MTP;
 			productReference = FA392BB720DF69F30026C828 /* MTP.app */;
@@ -2737,6 +2740,7 @@
 				8CE2C54023726B8600570A0C /* XCRemoteSwiftPackageReference "Karte" */,
 				8C37FCA9237E49D900F443C6 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 				8CD2F2102397344300471FE6 /* XCRemoteSwiftPackageReference "JWTDecode" */,
+				FA5B03F023C3E167003EA494 /* XCRemoteSwiftPackageReference "Siren" */,
 			);
 			productRefGroup = FA392BB820DF69F30026C828 /* Products */;
 			projectDirPath = "";
@@ -3927,6 +3931,14 @@
 				minimumVersion = 1.7.0;
 			};
 		};
+		FA5B03F023C3E167003EA494 /* XCRemoteSwiftPackageReference "Siren" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ArtSabintsev/Siren";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.2.3;
+			};
+		};
 		FA66CECD23378EF900F6FCAA /* XCRemoteSwiftPackageReference "SwiftyBeaver" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftyBeaver/SwiftyBeaver.git";
@@ -4029,6 +4041,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FA51034E233D5F6B00AFC41E /* XCRemoteSwiftPackageReference "Parchment" */;
 			productName = Parchment;
+		};
+		FA5B03F123C3E167003EA494 /* Siren */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA5B03F023C3E167003EA494 /* XCRemoteSwiftPackageReference "Siren" */;
+			productName = Siren;
 		};
 		FA66CECE23378EF900F6FCAA /* SwiftyBeaver */ = {
 			isa = XCSwiftPackageProductDependency;

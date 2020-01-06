@@ -6,10 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Prompt for updating to newest app version
+
 ### Fixed
 - Handle multipolygon world maps
 - Handle deactivating MTP places
 - Handle user role of "false" in rankings
+- Ignore "zoom" in location JSON
 
 ## [Version 1.2.3, Build 652] - 2019-12-20
 
