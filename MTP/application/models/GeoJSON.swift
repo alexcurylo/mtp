@@ -156,7 +156,7 @@ extension GeoJSON {
                 }
             }
         }
-        mbc.validate()
+        _ = mbc.validate()
 
         return (locations, mbc.bounds)
     }
