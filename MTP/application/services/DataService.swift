@@ -296,7 +296,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func update(stamp: RankingsPageInfo?)
 
     /// Accounts for obsolete Algeria/England/Kazakhstan
-    func validate()
+    //func validate()
 }
 
 // MARK: - Generic DataService
@@ -367,11 +367,11 @@ class DataServiceImpl: DataService {
     private let realm = RealmDataController()
 
     /// Accounts for obsolete Algeria/England/Kazakhstan
-    func validate() {
-        if let visits = defaults.visited {
-            visited = visits
-        }
-    }
+    //func validate() {
+        //if let visits = defaults.visited {
+            //visited = visits
+        //}
+    //}
 
     /// Beaches
     var beaches: [Beach] {
@@ -653,7 +653,7 @@ class DataServiceImpl: DataService {
     func set(locations: [LocationJSON]) {
         realm.set(locations: locations)
         notify(change: .locations)
-        validate()
+        //validate()
     }
 
     /// Displayed types
@@ -907,12 +907,12 @@ class DataServiceImpl: DataService {
     var visited: Checked? {
         get { defaults.visited }
         set {
-            if var visited = newValue {
+            if let visited = newValue {
                 // Accounts for obsolete Algeria/England/Kazakhstan
-                let filtered = visited.locations.filter { visit in
-                    get(location: visit) != nil
-                }
-                visited.locations = filtered
+                //let filtered = visited.locations.filter { visit in
+                    //get(location: visit) != nil
+                //}
+                //visited.locations = filtered
                 if let oldUser = user {
                     user = oldUser.updated(visited: visited)
                 }

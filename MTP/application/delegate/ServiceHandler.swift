@@ -35,7 +35,7 @@ extension ServiceHandler: AppLaunchHandler {
         ServiceProviderInstances.styleServiceInstance = StyleServiceImpl()
 
         // post-construction setup
-        ServiceProviderInstances.dataServiceInstance.validate()
+        //ServiceProviderInstances.dataServiceInstance.validate()
 
         return true
     }

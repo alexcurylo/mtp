@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Handle multipolygon world maps
+- Correctly redraw polygons on map updates
 - Handle deactivating MTP places
 - Handle user role of "false" in rankings
 - Ignore "zoom" in location JSON
