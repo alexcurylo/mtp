@@ -31,9 +31,13 @@ final class RealmDataController: ServiceProvider {
         let missing = self.beaches.filter { old in
             !new.contains { $0.placeId == old.placeId }
         }
+        let vanished = mappables(list: .beaches).filter { old in
+            !new.contains { $0.placeId == old.checklistId }
+        }
         do {
             try realm.write {
                 if !missing.isEmpty { realm.delete(missing) }
+                if !vanished.isEmpty { realm.delete(vanished) }
                 realm.add(new, update: .modified)
             }
         } catch {
@@ -111,9 +115,13 @@ final class RealmDataController: ServiceProvider {
         let missing = self.divesites.filter { old in
             !new.contains { $0.placeId == old.placeId }
         }
+        let vanished = mappables(list: .divesites).filter { old in
+            !new.contains { $0.placeId == old.checklistId }
+        }
         do {
             try realm.write {
                 if !missing.isEmpty { realm.delete(missing) }
+                if !vanished.isEmpty { realm.delete(vanished) }
                 realm.add(new, update: .modified)
             }
         } catch {
@@ -134,9 +142,13 @@ final class RealmDataController: ServiceProvider {
         let missing = self.golfcourses.filter { old in
             !new.contains { $0.placeId == old.placeId }
         }
+        let vanished = mappables(list: .golfcourses).filter { old in
+            !new.contains { $0.placeId == old.checklistId }
+        }
         do {
             try realm.write {
                 if !missing.isEmpty { realm.delete(missing) }
+                if !vanished.isEmpty { realm.delete(vanished) }
                 realm.add(new, update: .modified)
             }
         } catch {
@@ -157,9 +169,13 @@ final class RealmDataController: ServiceProvider {
         let missing = self.hotels.filter { old in
             !new.contains { $0.placeId == old.placeId }
         }
+        let vanished = mappables(list: .hotels).filter { old in
+            !new.contains { $0.placeId == old.checklistId }
+        }
         do {
             try realm.write {
                 if !missing.isEmpty { realm.delete(missing) }
+                if !vanished.isEmpty { realm.delete(vanished) }
                 realm.add(new, update: .modified)
             }
         } catch {
@@ -200,9 +216,13 @@ final class RealmDataController: ServiceProvider {
         let missing = self.locations.filter { old in
             !new.contains { $0.placeId == old.placeId }
         }
+        let vanished = mappables(list: .locations).filter { old in
+            !new.contains { $0.placeId == old.checklistId }
+        }
         do {
             try realm.write {
                 if !missing.isEmpty { realm.delete(missing) }
+                if !vanished.isEmpty { realm.delete(vanished) }
                 realm.add(new, update: .modified)
             }
         } catch {
@@ -583,9 +603,13 @@ final class RealmDataController: ServiceProvider {
         let missing = self.restaurants.filter { old in
             !new.contains { $0.placeId == old.placeId }
         }
+        let vanished = mappables(list: .restaurants).filter { old in
+            !new.contains { $0.placeId == old.checklistId }
+        }
         do {
             try realm.write {
                 if !missing.isEmpty { realm.delete(missing) }
+                if !vanished.isEmpty { realm.delete(vanished) }
                 realm.add(new, update: .modified)
             }
         } catch {
@@ -631,9 +655,13 @@ final class RealmDataController: ServiceProvider {
         let missing = self.uncountries.filter { old in
             !new.contains { $0.placeId == old.placeId }
         }
+        let vanished = mappables(list: .uncountries).filter { old in
+            !new.contains { $0.placeId == old.checklistId }
+        }
         do {
             try realm.write {
                 if !missing.isEmpty { realm.delete(missing) }
+                if !vanished.isEmpty { realm.delete(vanished) }
                 realm.add(new, update: .modified)
             }
         } catch {
@@ -690,9 +718,13 @@ final class RealmDataController: ServiceProvider {
         let missing = self.whss.filter { old in
             !new.contains { $0.placeId == old.placeId }
         }
+        let vanished = mappables(list: .whss).filter { old in
+            !new.contains { $0.placeId == old.checklistId }
+        }
         do {
             try realm.write {
                 if !missing.isEmpty { realm.delete(missing) }
+                if !vanished.isEmpty { realm.delete(vanished) }
                 realm.add(new, update: .modified)
             }
             // set all parents
