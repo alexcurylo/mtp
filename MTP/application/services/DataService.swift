@@ -514,9 +514,7 @@ class DataServiceImpl: DataService {
     /// If-None-Match cache
     var etags: [String: String] {
         get { defaults.etags }
-        set {
-            defaults.etags = newValue
-        }
+        set { defaults.etags = newValue }
     }
 
     /// Golf courses
