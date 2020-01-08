@@ -11,7 +11,7 @@ struct GeoJSON: Codable {
 
     /// Point list for a Polygon
     typealias Polygon = [[CLLocationCoordinate2D]]
-    // Point list for a MultiPolygon
+    /// Point list for a MultiPolygon
     typealias MultiPolygon = [Polygon]
 
     /// A path which is part of a location
@@ -143,6 +143,7 @@ struct MapBoxCalculator {
 
 extension GeoJSON {
 
+    /// Provide parsed info for drawing world map
     var drawables: ([Feature], Bounds) {
         let locations = features.compactMap {
             $0.properties.isValid ? $0 : nil

@@ -44,6 +44,10 @@ extension Data: ServiceProvider {
              filename: filename)
     }
 
+    /// Saves file to disk
+    /// - Parameters:
+    ///   - directory: Enclosing directory
+    ///   - filename: Name
     func save(directory: URL,
               filename: String) {
         let url = directory.appendingPathComponent(filename)
