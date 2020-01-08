@@ -62,13 +62,14 @@ final class DateTests: TestCase {
             (week, "next week"), // .oneWeekFuture
             (-week * 2, "2 weeks ago"), // .weeksPast
             (week * 2, "in 2 weeks"), // .weeksFuture
-            (-week * 4, "last month"), // .oneMonthPast
+            // in January returns "last year"
+            //(-week * 4, "last month"), // .oneMonthPast
             // in December returns "next year"
-            //(week * 4, "next month"), // .oneMonthFuture
-            // in November returns "last month"
+            (week * 4, "next month"), // .oneMonthFuture
+            // in January returns "last year"
             //(-day * 55, "2 months ago"), // .monthsPast
             // in November returns "next year"
-            //(day * 60, "in 2 months"), // .monthsFuture
+            (day * 60, "in 2 months"), // .monthsFuture
             (-year * 1, "last year"), // .oneYearPast
             (year * 1, "next year"), // .oneYearFuture
             (-year * 10, "10 years ago"), // .yearsPast

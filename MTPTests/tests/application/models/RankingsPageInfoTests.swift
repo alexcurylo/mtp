@@ -118,7 +118,6 @@ rankLocations: nil
 rankRestaurants: nil
 rankUncountries: nil
 rankWhss: nil
-role: 2
 scoreBeaches: nil
 scoreDivesites: nil
 scoreGolfcourses: nil

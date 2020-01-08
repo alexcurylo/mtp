@@ -437,6 +437,9 @@
 		FA5AC0C321FDCE200080F84F /* MyCountsPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C221FDCE200080F84F /* MyCountsPageVC.swift */; };
 		FA5AC0C521FDD7C00080F84F /* CountSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C421FDD7C00080F84F /* CountSectionHeader.swift */; };
 		FA5AC0C721FDD8AA0080F84F /* CountCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AC0C621FDD8AA0080F84F /* CountCellItem.swift */; };
+		FA5B03EF23C1E1D2003EA494 /* Data+FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5B03EE23C1E1D2003EA494 /* Data+FileManager.swift */; };
+		FA5B03F223C3E167003EA494 /* Siren in Frameworks */ = {isa = PBXBuildFile; productRef = FA5B03F123C3E167003EA494 /* Siren */; };
+		FA5CF57023C15CA800B625FF /* GeoJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5CF56F23C15CA800B625FF /* GeoJSON.swift */; };
 		FA5DBFA8222FF9E300639148 /* RegistrationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5DBFA7222FF9E300639148 /* RegistrationPayload.swift */; };
 		FA5FEA7F238911F0008C319F /* CountsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5FEA7E238911F0008C319F /* CountsViewModel.swift */; };
 		FA620DD62308C8DD00F64926 /* RestaurantTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA620DD52308C8DD00F64926 /* RestaurantTests.swift */; };
@@ -1022,6 +1025,8 @@
 		FA5AC0C221FDCE200080F84F /* MyCountsPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCountsPageVC.swift; sourceTree = "<group>"; };
 		FA5AC0C421FDD7C00080F84F /* CountSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountSectionHeader.swift; sourceTree = "<group>"; };
 		FA5AC0C621FDD8AA0080F84F /* CountCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountCellItem.swift; sourceTree = "<group>"; };
+		FA5B03EE23C1E1D2003EA494 /* Data+FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+FileManager.swift"; sourceTree = "<group>"; };
+		FA5CF56F23C15CA800B625FF /* GeoJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoJSON.swift; sourceTree = "<group>"; };
 		FA5DBFA7222FF9E300639148 /* RegistrationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationPayload.swift; sourceTree = "<group>"; };
 		FA5FEA7E238911F0008C319F /* CountsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountsViewModel.swift; sourceTree = "<group>"; };
 		FA620DD52308C8DD00F64926 /* RestaurantTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantTests.swift; sourceTree = "<group>"; };
@@ -1231,6 +1236,7 @@
 				FA489DA32336569A00185F7D /* Moya in Frameworks */,
 				FA9FD69323364BD0005818C3 /* Realm in Frameworks */,
 				FA66CED52337952B00F6FCAA /* Connectivity in Frameworks */,
+				FA5B03F223C3E167003EA494 /* Siren in Frameworks */,
 				8C37FCAF237E49D900F443C6 /* FacebookShare in Frameworks */,
 				FA66CED2233791EE00F6FCAA /* SwiftEntryKit in Frameworks */,
 				FA510350233D5F6C00AFC41E /* Parchment in Frameworks */,
@@ -2462,6 +2468,7 @@
 				FA126BB82336EBB800175258 /* CGSize+Geometry.swift */,
 				FA7C2013222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift */,
 				8CE6F46A224B029400B24410 /* ContentState.swift */,
+				FA5B03EE23C1E1D2003EA494 /* Data+FileManager.swift */,
 				FADC1AB92144FAD70011EE49 /* Date+Formatting.swift */,
 				FA54272922D97476005DF1CC /* Date+Relative.swift */,
 				FA08693A2348AB0800FDFCB3 /* DispatchQueue+Scheduling.swift */,
@@ -2523,6 +2530,7 @@
 				8C8A8A72233D9EA500EFB035 /* ContactPayload.swift */,
 				FA8833E4220CE7350037C796 /* Country.swift */,
 				8C8DC74C22AF4343002EA1CD /* FaqJSON.swift */,
+				FA5CF56F23C15CA800B625FF /* GeoJSON.swift */,
 				FAE265FE2349ED170018FE72 /* Hotel.swift */,
 				FAC159A121EB68AA00564E2D /* Location.swift */,
 				FA6386A422D17EBA001B4424 /* Mappable.swift */,
@@ -2622,6 +2630,7 @@
 				8C37FCAC237E49D900F443C6 /* FacebookLogin */,
 				8C37FCAE237E49D900F443C6 /* FacebookShare */,
 				8CD2F2112397344300471FE6 /* JWTDecode */,
+				FA5B03F123C3E167003EA494 /* Siren */,
 			);
 			productName = MTP;
 			productReference = FA392BB720DF69F30026C828 /* MTP.app */;
@@ -2731,6 +2740,7 @@
 				8CE2C54023726B8600570A0C /* XCRemoteSwiftPackageReference "Karte" */,
 				8C37FCA9237E49D900F443C6 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 				8CD2F2102397344300471FE6 /* XCRemoteSwiftPackageReference "JWTDecode" */,
+				FA5B03F023C3E167003EA494 /* XCRemoteSwiftPackageReference "Siren" */,
 			);
 			productRefGroup = FA392BB820DF69F30026C828 /* Products */;
 			projectDirPath = "";
@@ -3116,6 +3126,7 @@
 				8C3EAA1C2230BFA500CB4886 /* InsetTextField.swift in Sources */,
 				8C522F562339A6290056D0CE /* AppNameCell.swift in Sources */,
 				8C7EE69C233B4BB100EE3C35 /* PostHeader.swift in Sources */,
+				FA5CF57023C15CA800B625FF /* GeoJSON.swift in Sources */,
 				8C93FE49230397770054B951 /* UIUserCounts.swift in Sources */,
 				FA0345782304487000632322 /* UIProfilePhotos.swift in Sources */,
 				8C522F572339A6290056D0CE /* AppNameItem.swift in Sources */,
@@ -3154,6 +3165,7 @@
 				FAE265FF2349ED170018FE72 /* Hotel.swift in Sources */,
 				FA034572230446A000632322 /* UILocationSearch.swift in Sources */,
 				FAF1853120FA0C8600CC5D83 /* RootVC.swift in Sources */,
+				FA5B03EF23C1E1D2003EA494 /* Data+FileManager.swift in Sources */,
 				FA7C2012221C2F20002C6DAB /* Photo.swift in Sources */,
 				FA9656CF22BE32D500DA050F /* AddPostVC.swift in Sources */,
 				8C8DB38122817B6800B2BBD3 /* PostsVC.swift in Sources */,
@@ -3767,7 +3779,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAF12300215652AE0099B772 /* MTP_Debug.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 652;
+				CURRENT_PROJECT_VERSION = 654;
 				MARKETING_VERSION = 1.2.3;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -3778,7 +3790,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAF122FC215652AE0099B772 /* MTP_Release.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 652;
+				CURRENT_PROJECT_VERSION = 654;
 				MARKETING_VERSION = 1.2.3;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -3919,6 +3931,14 @@
 				minimumVersion = 1.7.0;
 			};
 		};
+		FA5B03F023C3E167003EA494 /* XCRemoteSwiftPackageReference "Siren" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ArtSabintsev/Siren";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.2.3;
+			};
+		};
 		FA66CECD23378EF900F6FCAA /* XCRemoteSwiftPackageReference "SwiftyBeaver" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftyBeaver/SwiftyBeaver.git";
@@ -4021,6 +4041,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FA51034E233D5F6B00AFC41E /* XCRemoteSwiftPackageReference "Parchment" */;
 			productName = Parchment;
+		};
+		FA5B03F123C3E167003EA494 /* Siren */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA5B03F023C3E167003EA494 /* XCRemoteSwiftPackageReference "Siren" */;
+			productName = Siren;
 		};
 		FA66CECE23378EF900F6FCAA /* SwiftyBeaver */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -274,6 +274,8 @@ class NetworkServiceImpl: NetworkService {
         add { done in self.mtp.loadRestaurants { _ in done() } }
         add { done in self.mtp.loadUNCountries { _ in done() } }
         add { done in self.mtp.loadWHS { _ in done() } }
+
+        add { done in self.mtp.loadWorldMap { _ in done() } }
     }
 
     fileprivate func refreshUser() {
@@ -344,6 +346,7 @@ class NetworkServiceImpl: NetworkService {
     /// Load location posts
     /// - Parameters:
     ///   - id: Location ID
+    ///   - reload: Force reload
     ///   - then: Completion
     func loadPosts(location id: Int,
                    reload: Bool,
@@ -354,6 +357,7 @@ class NetworkServiceImpl: NetworkService {
     /// Load user posts
     /// - Parameters:
     ///   - id: User ID
+    ///   - reload: Force reload
     ///   - then: Completion
     func loadPosts(user id: Int,
                    reload: Bool,

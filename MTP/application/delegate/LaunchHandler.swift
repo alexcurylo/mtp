@@ -2,6 +2,7 @@
 
 import FBSDKCoreKit
 import Firebase
+import Siren
 import SwiftyBeaver
 
 /// Stub for startup construction
@@ -50,6 +51,8 @@ extension LaunchHandler: AppLaunchHandler, ServiceProvider {
 
         configureAppearance()
 
+        configureUpgrades()
+
         return true
     }
 }
@@ -70,6 +73,20 @@ private extension LaunchHandler {
 
     func configureAppearance() {
         style.styler.standard.styleAppearance()
+    }
+
+    func configureUpgrades() {
+        var force: Bool { false } // Placeholder for possible API check
+
+        let siren = Siren.shared
+        if force {
+            siren.rulesManager = RulesManager(
+                globalRules: .critical,
+                showAlertAfterCurrentVersionHasBeenReleasedForDays: 0)
+        } else {
+            siren.rulesManager = RulesManager(globalRules: .annoying)
+        }
+        siren.wail()
     }
 }
 
