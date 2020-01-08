@@ -42,7 +42,7 @@ struct LocationJSON: Codable, Equatable {
     private let visitorsUn: Int
     private let weather: String?
     fileprivate let weatherhist: String?
-    private let zoom: Int?
+    //private let zoom: Double?
 }
 
 extension LocationJSON: CustomStringConvertible {
@@ -83,7 +83,6 @@ extension LocationJSON: CustomDebugStringConvertible {
         visitorsUn: \(visitorsUn)
         weather: \(String(describing: weather))
         weatherhist: \(String(describing: weatherhist))
-        zoom: \(String(describing: zoom))
         /LocationJSON >
         """
     }

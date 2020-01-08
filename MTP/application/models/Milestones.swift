@@ -205,7 +205,6 @@ private struct RSSFeedsJSON: Codable {
     /// - Parameter count: New count
     /// - Returns: Milestone text if appropriate
     func milestone(count: Int) -> String {
-        // swiftlint:disable:next first_where
         guard let threshold = thresholds.filter("min = \(count)").first else {
             return ""
         }

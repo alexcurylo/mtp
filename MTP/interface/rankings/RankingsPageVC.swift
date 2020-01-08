@@ -277,7 +277,6 @@ private extension RankingsPageVC {
     }
 
     func page(at index: Int) -> RankingsPageInfo? {
-        // swiftlint:disable:next first_where
         return rankings?.filter("page = \(index)").first
     }
 
@@ -311,7 +310,6 @@ private extension RankingsPageVC {
 
         var pagedCount = 0
         for pageIndex in 1...first.lastPage {
-            // swiftlint:disable:next last_where
             if let page = rankings.filter("page = \(pageIndex)").last {
                 if let pageIndex = page.userIds.index(of: userId) {
                     return pagedCount + pageIndex - 1

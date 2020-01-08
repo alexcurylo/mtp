@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class LinkTappableTextViewTests: MTPTestCase {
+final class LinkTappableTextViewTests: TestCase {
 
     func testInitWithCoder() {
         // when

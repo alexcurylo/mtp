@@ -3,7 +3,13 @@
 import UIKit
 
 /// Stub for startup construction
-struct ServiceHandler: AppHandler { }
+struct ServiceHandler: AppHandler {
+
+    /// Global accessor
+    static var services: ServiceHandler? {
+        RoutingAppDelegate.handler(type: Self.self)
+    }
+}
 
 extension ServiceHandler: AppLaunchHandler {
 
@@ -14,10 +20,10 @@ extension ServiceHandler: AppLaunchHandler {
     /// - Returns: Success
     func application(
         _ application: UIApplication,
-        willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // swiftlint:disable:previous discouraged_optional_collection
-
-        // other services may log
+        // swiftlint:disable:next discouraged_optional_collection
+        willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
+        // other services may log during construction
         ServiceProviderInstances.logServiceInstance = SwiftyBeaverLoggingService()
 
         ServiceProviderInstances.appServiceInstance = UIApplication.shared
@@ -27,6 +33,9 @@ extension ServiceHandler: AppLaunchHandler {
         ServiceProviderInstances.noteServiceInstance = NotificationServiceImpl()
         ServiceProviderInstances.reportServiceInstance = FirebaseReportingService()
         ServiceProviderInstances.styleServiceInstance = StyleServiceImpl()
+
+        // post-construction setup
+        //ServiceProviderInstances.dataServiceInstance.validate()
 
         return true
     }
@@ -38,8 +47,9 @@ extension ServiceHandler: AppLaunchHandler {
     /// - Returns: Success
     func application(
         _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // swiftlint:disable:previous discouraged_optional_collection
+        // swiftlint:disable:next discouraged_optional_collection
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
         return true
     }
 }
@@ -53,8 +63,9 @@ struct ServiceHandlerStub: AppLaunchHandler {
     /// :nodoc:
     func application(
         _ application: UIApplication,
-        willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // swiftlint:disable:previous discouraged_optional_collection
+        // swiftlint:disable:next discouraged_optional_collection
+        willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
 
         // other services may log
         ServiceProviderInstances.logServiceInstance = ConsoleLoggingService()
@@ -73,9 +84,9 @@ struct ServiceHandlerStub: AppLaunchHandler {
     /// :nodoc:
     func application(
         _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // swiftlint:disable:previous discouraged_optional_collection
-
+        // swiftlint:disable:next discouraged_optional_collection
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
         if let token = ProcessInfo.setting(string: .token),
            let data = token.data(using: String.Encoding.utf8),
            let delegate = application.delegate {

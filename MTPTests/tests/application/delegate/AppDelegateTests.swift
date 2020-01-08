@@ -3,14 +3,14 @@
 @testable import MTP
 import XCTest
 
-final class MTPDelegateTests: MTPTestCase {
+final class AppDelegateTests: TestCase {
 
     func testUnitTestingHandlerList() throws {
         // given
         let expected: [String] = []
 
         // when
-        let delegate = try XCTUnwrap(UIApplication.shared.delegate as? MTPDelegate)
+        let delegate = try XCTUnwrap(UIApplication.shared.delegate as? AppDelegate)
         let actual = delegate.handlers.map { String(describing: type(of: $0)) }
 
         // then
@@ -29,7 +29,7 @@ final class MTPDelegateTests: MTPTestCase {
         ]
 
         // when
-        let actual = MTPDelegate.runtimeHandlers(for: .production)
+        let actual = AppDelegate.runtimeHandlers(for: .production)
                                 .map { String(describing: type(of: $0)) }
 
         // then
@@ -48,7 +48,7 @@ final class MTPDelegateTests: MTPTestCase {
         ]
 
         // when
-        let actual = MTPDelegate.runtimeHandlers(for: .uiTesting)
+        let actual = AppDelegate.runtimeHandlers(for: .uiTesting)
                                 .map { String(describing: type(of: $0)) }
 
         // then
@@ -57,7 +57,7 @@ final class MTPDelegateTests: MTPTestCase {
 
     func testAppDelegateConfiguration() {
         let app = UIApplication.shared
-        let delegate = app.delegate as? MTPDelegate
+        let delegate = app.delegate as? AppDelegate
         XCTAssertNotNil(delegate, "sharedApplication().delegate does not exist - set host application")
         XCTAssertNotNil(delegate?.window, "missing main window")
 
@@ -79,7 +79,7 @@ final class MTPDelegateTests: MTPTestCase {
 
     func testAppDelegateDelegation() {
         let app = UIApplication.shared
-        guard let delegate = app.delegate as? MTPDelegate else {
+        guard let delegate = app.delegate as? AppDelegate else {
             return XCTFail("unexpected app delegate class")
         }
 
@@ -119,6 +119,10 @@ final class MTPDelegateTests: MTPTestCase {
         XCTAssertNotNil(infoPlist["FacebookAppID"])
         XCTAssertNotNil(infoPlist["FacebookDisplayName"])
         XCTAssertNotNil(infoPlist["LSApplicationQueriesSchemes"])
+        XCTAssertNotNil(infoPlist["ITSAppUsesNonExemptEncryption"])
+        XCTAssertNotNil(infoPlist["NSCameraUsageDescription"])
+        XCTAssertNotNil(infoPlist["NSPhotoLibraryAddUsageDescription"])
+        XCTAssertNotNil(infoPlist["NSPhotoLibraryUsageDescription"])
 
         // Location Services, iOS 11+
         XCTAssertNotNil(infoPlist["NSLocationAlwaysAndWhenInUseUsageDescription"])

@@ -1,4 +1,5 @@
 docs/**
+fastlane/**
 MTP/resources/**
 MTP/sdks/**
 MTPTests/**

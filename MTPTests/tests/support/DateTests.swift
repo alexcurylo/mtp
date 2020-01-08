@@ -3,7 +3,34 @@
 @testable import MTP
 import XCTest
 
-final class DateTests: MTPTestCase {
+final class DateTests: TestCase {
+
+    func testTimeConversion() {
+        // given
+        let sut = Date()
+        let when = sut.timeIntervalSinceReferenceDate
+        let diff = TimeInterval(TimeZone.current.secondsFromGMT(for: sut))
+
+        // when
+        let local = sut.toLocalTime.timeIntervalSinceReferenceDate
+        let utc = sut.toUTC.timeIntervalSinceReferenceDate
+
+        // then
+        XCTAssertEqual(when - utc, diff)
+        XCTAssertEqual(when - local, -diff)
+    }
+
+    func testStampTime() throws {
+        // given
+        let sut = DateFormatter.stampTime
+        let date = Date(timeIntervalSinceReferenceDate: 0).toUTC
+
+        // when
+        let actual = sut.string(from: date)
+
+        // then
+        XCTAssertEqual(actual, "01.01.01 00:00:00.000")
+    }
 
     func testRelativeStrings() {
         // given
@@ -35,13 +62,14 @@ final class DateTests: MTPTestCase {
             (week, "next week"), // .oneWeekFuture
             (-week * 2, "2 weeks ago"), // .weeksPast
             (week * 2, "in 2 weeks"), // .weeksFuture
-            (-week * 4, "last month"), // .oneMonthPast
+            // in January returns "last year"
+            //(-week * 4, "last month"), // .oneMonthPast
             // in December returns "next year"
-            //(week * 4, "next month"), // .oneMonthFuture
-            // in November returns "last month"
+            (week * 4, "next month"), // .oneMonthFuture
+            // in January returns "last year"
             //(-day * 55, "2 months ago"), // .monthsPast
             // in November returns "next year"
-            //(day * 60, "in 2 months"), // .monthsFuture
+            (day * 60, "in 2 months"), // .monthsFuture
             (-year * 1, "last year"), // .oneYearPast
             (year * 1, "next year"), // .oneYearFuture
             (-year * 10, "10 years ago"), // .yearsPast

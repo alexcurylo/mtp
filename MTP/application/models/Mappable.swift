@@ -92,7 +92,7 @@ protocol Mapper {
 }
 
 /// Realm representation of a mappable place
-@objcMembers final class Mappable: Object, ServiceProvider {
+@objcMembers class Mappable: Object, ServiceProvider {
 
     /// Typealias for fluency
     typealias Key = String
@@ -275,10 +275,21 @@ protocol Mapper {
     ///   - realm: RealmDataController
     func complete(locationId: Int,
                   realm: RealmDataController) {
-        location = realm.location(id: locationId)
-        country = location?.placeCountry ?? L.unknown()
-        region = location?.placeRegion ?? L.unknown()
-        subtitle = location?.description ?? ""
+        if let location = realm.location(id: locationId) {
+            country = location.placeCountry
+            region = location.placeRegion
+            subtitle = location.description
+        } else if let notLocation = realm.country(id: locationId) {
+            log.warning("\(checklist) \(checklistId) '\(title)' placed in country: \(notLocation.placeCountry)")
+            country = notLocation.placeCountry
+            region = L.unknown()
+            subtitle = country
+        } else {
+            log.warning("\(checklist) \(checklistId) '\(title)' missing location \(locationId)")
+            country = L.unknown()
+            region = L.unknown()
+            subtitle = ""
+        }
 
         dbKey = Mappable.key(item: item)
 

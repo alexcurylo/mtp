@@ -27,10 +27,18 @@ final class RealmDataController: ServiceProvider {
     /// Set beaches
     /// - Parameter beaches: API results
     func set(beaches: [PlaceJSON]) {
+        let new = beaches.compactMap { Beach(from: $0, realm: self) }
+        let missing = self.beaches.filter { old in
+            !new.contains { $0.placeId == old.placeId }
+        }
+        let vanished = mappables(list: .beaches).filter { old in
+            !new.contains { $0.placeId == old.checklistId }
+        }
         do {
-            let objects = beaches.compactMap { Beach(from: $0, realm: self) }
             try realm.write {
-                realm.add(objects, update: .modified)
+                if !missing.isEmpty { realm.delete(missing) }
+                if !vanished.isEmpty { realm.delete(vanished) }
+                realm.add(new, update: .modified)
             }
         } catch {
             log.error("set beaches: \(error)")
@@ -46,10 +54,14 @@ final class RealmDataController: ServiceProvider {
     /// Set brands
     /// - Parameter brands: API results
     func set(brands: [BrandJSON]) {
+        let new = brands.compactMap { Brand(from: $0) }
+        let missing = self.brands.filter { old in
+            !new.contains { $0.slug == old.slug }
+        }
         do {
-            let objects = brands.compactMap { Brand(from: $0) }
             try realm.write {
-                realm.add(objects, update: .modified)
+                if !missing.isEmpty { realm.delete(missing) }
+                realm.add(new, update: .modified)
             }
         } catch {
             log.error("set brands: \(error)")
@@ -75,11 +87,15 @@ final class RealmDataController: ServiceProvider {
     /// Set countries
     /// - Parameter countries: API results
     func set(countries: [CountryJSON]) {
+        let new = countries.map { Country(from: $0) }
+                  + [Country.all]
+        let missing = self.countries.filter { old in
+            !new.contains { $0.countryId == old.countryId }
+        }
         do {
-            let objects = countries.map { Country(from: $0) }
             try realm.write {
-                realm.add(Country.all, update: .modified)
-                realm.add(objects, update: .modified)
+                if !missing.isEmpty { realm.delete(missing) }
+                realm.add(new, update: .modified)
             }
         } catch {
             log.error("set countries: \(error)")
@@ -95,10 +111,18 @@ final class RealmDataController: ServiceProvider {
     /// Set dive sites
     /// - Parameter divesites: API results
     func set(divesites: [PlaceJSON]) {
+        let new = divesites.compactMap { DiveSite(from: $0, realm: self) }
+        let missing = self.divesites.filter { old in
+            !new.contains { $0.placeId == old.placeId }
+        }
+        let vanished = mappables(list: .divesites).filter { old in
+            !new.contains { $0.placeId == old.checklistId }
+        }
         do {
-            let objects = divesites.compactMap { DiveSite(from: $0, realm: self) }
             try realm.write {
-                realm.add(objects, update: .modified)
+                if !missing.isEmpty { realm.delete(missing) }
+                if !vanished.isEmpty { realm.delete(vanished) }
+                realm.add(new, update: .modified)
             }
         } catch {
             log.error("set divesites: \(error)")
@@ -114,10 +138,18 @@ final class RealmDataController: ServiceProvider {
     /// Set golf courses
     /// - Parameter golfcourses: API results
     func set(golfcourses: [PlaceJSON]) {
+        let new = golfcourses.compactMap { GolfCourse(from: $0, realm: self) }
+        let missing = self.golfcourses.filter { old in
+            !new.contains { $0.placeId == old.placeId }
+        }
+        let vanished = mappables(list: .golfcourses).filter { old in
+            !new.contains { $0.placeId == old.checklistId }
+        }
         do {
-            let objects = golfcourses.compactMap { GolfCourse(from: $0, realm: self) }
             try realm.write {
-                realm.add(objects, update: .modified)
+                if !missing.isEmpty { realm.delete(missing) }
+                if !vanished.isEmpty { realm.delete(vanished) }
+                realm.add(new, update: .modified)
             }
         } catch {
             log.error("set golfcourses: \(error)")
@@ -133,10 +165,18 @@ final class RealmDataController: ServiceProvider {
     /// Set hotels
     /// - Parameter hotels: API results
     func set(hotels: [HotelJSON]) {
+        let new = hotels.compactMap { Hotel(from: $0, realm: self) }
+        let missing = self.hotels.filter { old in
+            !new.contains { $0.placeId == old.placeId }
+        }
+        let vanished = mappables(list: .hotels).filter { old in
+            !new.contains { $0.placeId == old.checklistId }
+        }
         do {
-            let objects = hotels.compactMap { Hotel(from: $0, realm: self) }
             try realm.write {
-                realm.add(objects, update: .modified)
+                if !missing.isEmpty { realm.delete(missing) }
+                if !vanished.isEmpty { realm.delete(vanished) }
+                realm.add(new, update: .modified)
             }
         } catch {
             log.error("set hotels: \(error)")
@@ -171,11 +211,19 @@ final class RealmDataController: ServiceProvider {
     /// Set locations
     /// - Parameter locations: API results
     func set(locations: [LocationJSON]) {
+        let new = locations.compactMap { Location(from: $0) }
+                  + [Location.all]
+        let missing = self.locations.filter { old in
+            !new.contains { $0.placeId == old.placeId }
+        }
+        let vanished = mappables(list: .locations).filter { old in
+            !new.contains { $0.placeId == old.checklistId }
+        }
         do {
-            let objects = locations.compactMap { Location(from: $0) }
             try realm.write {
-                realm.add(Location.all, update: .modified)
-                realm.add(objects, update: .modified)
+                if !missing.isEmpty { realm.delete(missing) }
+                if !vanished.isEmpty { realm.delete(vanished) }
+                realm.add(new, update: .modified)
             }
         } catch {
             log.error("set locations: \(error)")
@@ -260,11 +308,11 @@ final class RealmDataController: ServiceProvider {
     /// Set milestones
     /// - Parameter milestones: API results
     func set(milestones: SettingsJSON) {
+        let objects = Checklist.allCases.map {
+            Milestones(from: milestones,
+                       list: $0)
+        }
         do {
-            let objects = Checklist.allCases.map {
-                Milestones(from: milestones,
-                           list: $0)
-            }
             try realm.write {
                 realm.add(objects, update: .modified)
             }
@@ -551,10 +599,18 @@ final class RealmDataController: ServiceProvider {
     /// Set restaurants
     /// - Parameter restaurants: API results
     func set(restaurants: [RestaurantJSON]) {
+        let new = restaurants.compactMap { Restaurant(from: $0, realm: self) }
+        let missing = self.restaurants.filter { old in
+            !new.contains { $0.placeId == old.placeId }
+        }
+        let vanished = mappables(list: .restaurants).filter { old in
+            !new.contains { $0.placeId == old.checklistId }
+        }
         do {
-            let objects = restaurants.compactMap { Restaurant(from: $0, realm: self) }
             try realm.write {
-                realm.add(objects, update: .modified)
+                if !missing.isEmpty { realm.delete(missing) }
+                if !vanished.isEmpty { realm.delete(vanished) }
+                realm.add(new, update: .modified)
             }
         } catch {
             log.error("set restaurants: \(error)")
@@ -595,10 +651,18 @@ final class RealmDataController: ServiceProvider {
     /// Set UN countries
     /// - Parameter uncountries: API results
     func set(uncountries: [LocationJSON]) {
+        let new = uncountries.compactMap { UNCountry(from: $0) }
+        let missing = self.uncountries.filter { old in
+            !new.contains { $0.placeId == old.placeId }
+        }
+        let vanished = mappables(list: .uncountries).filter { old in
+            !new.contains { $0.placeId == old.checklistId }
+        }
         do {
-            let objects = uncountries.compactMap { UNCountry(from: $0) }
             try realm.write {
-                realm.add(objects, update: .modified)
+                if !missing.isEmpty { realm.delete(missing) }
+                if !vanished.isEmpty { realm.delete(vanished) }
+                realm.add(new, update: .modified)
             }
         } catch {
             log.error("set uncountries: \(error)")
@@ -645,15 +709,23 @@ final class RealmDataController: ServiceProvider {
     /// Set WHSs
     /// - Parameter whss: API results
     func set(whss: [WHSJSON]) {
+        var parents: Set<Int> = []
+        let new = whss.compactMap {
+            WHS(from: $0,
+                parents: &parents,
+                realm: self)
+        }
+        let missing = self.whss.filter { old in
+            !new.contains { $0.placeId == old.placeId }
+        }
+        let vanished = mappables(list: .whss).filter { old in
+            !new.contains { $0.placeId == old.checklistId }
+        }
         do {
-            var parents: Set<Int> = []
-            let objects = whss.compactMap {
-                WHS(from: $0,
-                    parents: &parents,
-                    realm: self)
-            }
             try realm.write {
-                realm.add(objects, update: .modified)
+                if !missing.isEmpty { realm.delete(missing) }
+                if !vanished.isEmpty { realm.delete(vanished) }
+                realm.add(new, update: .modified)
             }
             // set all parents
             let value = Checklist.whss.rawValue

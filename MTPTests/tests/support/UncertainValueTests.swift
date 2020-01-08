@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class UncertainValueTests: MTPTestCase {
+final class UncertainValueTests: TestCase {
 
     func testUncertainIntValue() {
         // given

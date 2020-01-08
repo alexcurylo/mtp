@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class RealmDataControllerTests: MTPTestCase {
+final class RealmDataControllerTests: TestCase {
 
     static let thresholds = [
         9, // .locations
@@ -40,16 +40,16 @@ final class RealmDataControllerTests: MTPTestCase {
 
         // then
         XCTAssertEqual(beaches.count, 159)
-        XCTAssertEqual(brands.count, 14)
-        XCTAssertEqual(countries.count, 206)
+        XCTAssertEqual(brands.count, 18)
+        XCTAssertEqual(countries.count, 207)
         XCTAssertEqual(divesites.count, 99)
         XCTAssertEqual(golfcourses.count, 100)
-        XCTAssertEqual(hotels.count, 1_438)
-        XCTAssertEqual(locations.count, 892)
-        XCTAssertEqual(mappables.count, 5_850)
-        XCTAssertEqual(restaurants.count, 705)
+        XCTAssertEqual(hotels.count, 1_538)
+        XCTAssertEqual(locations.count, 950)
+        XCTAssertEqual(mappables.count, 6_018)
+        XCTAssertEqual(restaurants.count, 706)
         XCTAssertEqual(uncountries.count, 193)
-        XCTAssertEqual(whss.count, 2_458)
+        XCTAssertEqual(whss.count, 2_467)
         continueAfterFailure = false
         XCTAssertEqual(lists.count, Checklist.allCases.count)
         let thresholds = RealmDataControllerTests.thresholds

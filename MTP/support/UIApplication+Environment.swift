@@ -47,3 +47,17 @@ extension UIApplication {
         return NSClassFromString("XCTestCase") != nil
     }
 }
+
+// MARK: - Development
+
+extension UIApplication {
+
+    #if DEBUG
+    /// Development aid for clearing device cache
+    static func clearLaunchScreenCache() {
+        let cache = NSHomeDirectory()+"/Library/SplashBoard"
+        // swiftlint:disable:next force_try
+        try! FileManager.default.removeItem(atPath: cache)
+    }
+    #endif
+}

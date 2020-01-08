@@ -3,7 +3,7 @@
 @testable import MTP
 import XCTest
 
-final class SearchResultJSONTests: MTPTestCase {
+final class SearchResultJSONTests: TestCase {
 
     func testDecodingResults() throws {
         // given
@@ -70,7 +70,6 @@ lastName: Optional("Chen")
 link: /users/707
 location: nil
 locationName: nil
-role: Optional(2)
 type: users
 /SearchResultItemJSON >
 """

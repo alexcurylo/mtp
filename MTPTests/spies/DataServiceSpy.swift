@@ -985,6 +985,16 @@ final class DataServiceSpy: DataService {
         invokedSetWhssParameters = (whss, ())
         invokedSetWhssParametersList.append((whss, ()))
     }
+    var invokedSetWorld = false
+    var invokedSetWorldCount = 0
+    var invokedSetWorldParameters: (map: GeoJSON, Void)?
+    var invokedSetWorldParametersList = [(map: GeoJSON, Void)]()
+    func set(world map: GeoJSON) {
+        invokedSetWorld = true
+        invokedSetWorldCount += 1
+        invokedSetWorldParameters = (map, ())
+        invokedSetWorldParametersList.append((map, ()))
+    }
     var invokedDeletePhoto = false
     var invokedDeletePhotoCount = 0
     var invokedDeletePhotoParameters: (photoId: Int, Void)?
@@ -1086,6 +1096,12 @@ final class DataServiceSpy: DataService {
         invokedUpdateCount += 1
         invokedUpdateParameters = (stamp, ())
         invokedUpdateParametersList.append((stamp, ()))
+    }
+    var invokedValidate = false
+    var invokedValidateCount = 0
+    func validate() {
+        invokedValidate = true
+        invokedValidateCount += 1
     }
     var invokedNotify = false
     var invokedNotifyCount = 0
