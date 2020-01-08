@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [Version 1.2.3, Build 654] - 2020-01-08
+
 ### Fixed
 - _Really_ handle deactivating MTP places
 
