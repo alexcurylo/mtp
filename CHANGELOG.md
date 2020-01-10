@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- Handle trailing emoji in bios
+
 ## [Version 1.2.3, Build 654] - 2020-01-08
 
 ### Fixed

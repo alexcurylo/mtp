@@ -286,16 +286,23 @@ extension NSMutableAttributedString {
 
     /// Self with whitespace trimmed from beginning and end
     var trimmed: NSAttributedString {
-        let invertedSet = CharacterSet.whitespacesAndNewlines.inverted
-        let startRange = string.rangeOfCharacter(from: invertedSet)
-        let endRange = string.rangeOfCharacter(from: invertedSet, options: .backwards)
-        guard let startLocation = startRange?.upperBound,
-              let endLocation = endRange?.lowerBound else {
-                return NSAttributedString(string: string)
+        guard let result = mutableCopy() as? NSMutableAttributedString else { return self }
+        result.trimCharacters(in: .whitespacesAndNewlines)
+        return result
+    }
+
+    func trimCharacters(in set: CharacterSet) {
+        var range = (string as NSString).rangeOfCharacter(from: set)
+
+        while range.length != 0 && range.location == 0 {
+            replaceCharacters(in: range, with: "")
+            range = (string as NSString).rangeOfCharacter(from: set)
         }
-        let location = string.distance(from: string.startIndex, to: startLocation) - 1
-        let length = string.distance(from: startLocation, to: endLocation) + 2
-        let range = NSRange(location: location, length: length)
-        return attributedSubstring(from: range)
+
+        range = (string as NSString).rangeOfCharacter(from: set, options: .backwards)
+        while range.length != 0 && NSMaxRange(range) == length {
+            replaceCharacters(in: range, with: "")
+            range = (string as NSString).rangeOfCharacter(from: set, options: .backwards)
+        }
     }
 }
