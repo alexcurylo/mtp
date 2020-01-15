@@ -286,6 +286,9 @@ class NetworkServiceImpl: NetworkService {
         if let user = data.user,
            data.fixed.isEmpty {
             mtp.userFix(id: user.id) { _ in
+                if self.data.fixed.isEmpty {
+                    self.data.fixed = "FAIL"
+                }
                 self.refreshUser()
             }
             return
