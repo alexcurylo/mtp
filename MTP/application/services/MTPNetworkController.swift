@@ -103,6 +103,8 @@ enum MTP: Hashable {
     case upload(photo: Data, caption: String?, location: Int?)
     /// userDelete(id: Int)
     case userDelete(id: Int)
+    /// userFix(id: Int)
+    case userFix(id: Int)
     /// userGet(id: Int)
     case userGet(id: Int)
     /// userGetByToken
@@ -205,11 +207,13 @@ extension MTP: TargetType {
             return "un-country"
         case .upload:
             return "files/upload"
-        case .userGetByToken:
-            return "user/getByToken"
         case .userDelete(let id),
              .userGet(let id):
             return "user/\(id)"
+        case .userFix(let id):
+            return "v2/users/\(id)/fix/scores"
+        case .userGetByToken:
+            return "user/getByToken"
         case .userPost(let id, _):
             return "user/\(id)/token"
         case .userPosts(let id):
@@ -255,6 +259,7 @@ extension MTP: TargetType {
              .search,
              .settings,
              .unCountry,
+             .userFix,
              .userGet,
              .userGetByToken,
              .userPosts,
@@ -376,6 +381,7 @@ extension MTP: TargetType {
              .settings,
              .unCountry,
              .userDelete,
+             .userFix,
              .userGet,
              .userGetByToken,
              .userPosts,
@@ -547,6 +553,7 @@ extension MTP: AccessTokenAuthorizable {
              .search,
              .settings,
              .unCountry,
+             .userFix,
              .userGet,
              .userLogin,
              .userPosts,
@@ -1860,6 +1867,52 @@ class MTPNetworkController: ServiceProvider {
         }
 
         provider.request(endpoint) { result in
+            switch result {
+            case .success(let response):
+                success(response)
+            case .failure(let error):
+                then(.failure(self.problem(with: endpoint, from: error)))
+            }
+        }
+    }
+
+    /// Load user, triggering visit rebuild to sort problems like 2020 country changes
+    /// - Parameters:
+    ///   - id: User ID
+    ///   - stub: Stub behaviour
+    ///   - then: Completion
+    func userFix(id: Int,
+                 stub: @escaping MTPProvider.StubClosure = MTPProvider.neverStub,
+                 then: @escaping NetworkCompletion<UserJSON> = { _ in }) {
+        let provider = MTPProvider(stubClosure: stub)
+        let endpoint = MTP.userGet(id: id)
+        guard !endpoint.isThrottled else {
+            return then(.failure(.throttle))
+        }
+
+        let success: SuccessHandler = { response in
+            let problem: NetworkError
+            do {
+                guard response.modified(from: endpoint) else {
+                    throw NetworkError.notModified
+                }
+                let user = try response.map(UserJSON.self,
+                                            using: JSONDecoder.mtp)
+                self.data.fix(user: user)
+                self.report(success: endpoint)
+                return then(.success(user))
+            } catch let error as NetworkError {
+                problem = error
+            } catch {
+                self.log.error("decoding: \(endpoint.path): \(error)\n-\n\(response.toString)")
+                problem = .decoding(error.localizedDescription)
+            }
+            self.report(failure: endpoint, problem: problem)
+            then(.failure(problem))
+        }
+
+        provider.request(endpoint) { result in
+            endpoint.markResponded()
             switch result {
             case .success(let response):
                 success(response)

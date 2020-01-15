@@ -31,6 +31,8 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     var email: String { get set }
     /// If-None-Match cache
     var etags: [String: String] { get set }
+    /// Build that last completed the fixUser API
+    var fixed: String { get set }
     /// Golf courses
     var golfcourses: [GolfCourse] { get }
     /// Hotels
@@ -75,6 +77,10 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     /// Block a user
     /// - Parameter id: User ID
     func block(user id: Int) -> Bool
+
+    /// Set user and mark fixed
+    /// - Parameter data: API results
+    func fix(user data: UserJSON)
 
     /// Get country
     /// - Parameter id: country ID
@@ -343,6 +349,7 @@ extension DataService {
         blockedUsers = []
         dismissed = nil
         email = ""
+        fixed = ""
         etags = [:]
         hotelsGroupBrand = false
         lastRankingsQuery = RankingsQuery()
@@ -509,6 +516,12 @@ class DataServiceImpl: DataService {
             defaults.email = newValue
             //saveSeed()
         }
+    }
+
+    /// Build that last completed the fixUser API
+    var fixed: String {
+        get { defaults.fixed }
+        set { defaults.fixed = newValue }
     }
 
     /// If-None-Match cache
@@ -944,6 +957,13 @@ class DataServiceImpl: DataService {
         return children(whs: id).compactMap {
             visits.contains($0.placeId) ? $0 : nil
         }
+    }
+
+    /// Set user and mark fixed
+    /// - Parameter data: API results
+    func fix(user data: UserJSON) {
+        defaults.user = data
+        fixed = StringKey.appBuild.string ?? L.unknown()
     }
 
     func set(user data: UserJSON) {

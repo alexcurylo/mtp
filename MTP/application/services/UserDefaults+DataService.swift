@@ -90,6 +90,12 @@ extension UserDefaults: ServiceProvider {
         set { set(newValue, forKey: #function) }
     }
 
+    /// Build that triggered user visit fixing
+    var fixed: String {
+        get { return string(forKey: #function) ?? "" }
+        set { set(newValue, forKey: #function) }
+    }
+
     /// If-None-Match cache
     var etags: [String: String] {
         get {

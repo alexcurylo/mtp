@@ -139,6 +139,26 @@ final class DataServiceSpy: DataService {
             return stubbedEmail
         }
     }
+    var invokedFixedSetter = false
+    var invokedFixedSetterCount = 0
+    var invokedFixed: String?
+    var invokedFixedList = [String]()
+    var invokedFixedGetter = false
+    var invokedFixedGetterCount = 0
+    var stubbedFixed: String! = ""
+    var fixed: String {
+        set {
+            invokedFixedSetter = true
+            invokedFixedSetterCount += 1
+            invokedFixed = newValue
+            invokedFixedList.append(newValue)
+        }
+        get {
+            invokedFixedGetter = true
+            invokedFixedGetterCount += 1
+            return stubbedFixed
+        }
+    }
     var invokedEtagsSetter = false
     var invokedEtagsSetterCount = 0
     var invokedEtags: [String: String]?
@@ -964,6 +984,16 @@ final class DataServiceSpy: DataService {
         invokedSetUncountriesCount += 1
         invokedSetUncountriesParameters = (uncountries, ())
         invokedSetUncountriesParametersList.append((uncountries, ()))
+    }
+    var invokedFixUser = false
+    var invokedFixUserCount = 0
+    var invokedFixUserParameters: (data: UserJSON, Void)?
+    var invokedFixUserParametersList = [(data: UserJSON, Void)]()
+    func fix(user data: UserJSON) {
+        invokedFixUser = true
+        invokedFixUserCount += 1
+        invokedFixUserParameters = (data, ())
+        invokedFixUserParametersList.append((data, ()))
     }
     var invokedSetUser = false
     var invokedSetUserCount = 0

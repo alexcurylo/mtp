@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Prompt on upgrade for server to fix visit counts
+
 ## [Version 1.2.4, Build 655] - 2020-01-10
 
 ### Fixed
