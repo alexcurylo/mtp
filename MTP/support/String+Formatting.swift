@@ -291,6 +291,7 @@ extension NSMutableAttributedString {
         return result
     }
 
+    /// Trim a given character set in place
     func trimCharacters(in set: CharacterSet) {
         var range = (string as NSString).rangeOfCharacter(from: set)
 

@@ -283,6 +283,17 @@ class NetworkServiceImpl: NetworkService {
               !isThrottled(last: lastRefreshUser, wait: .user),
               requests.isEmpty else { return }
 
+        if let user = data.user,
+           data.fixed.isEmpty {
+            mtp.userFix(id: user.id) { _ in
+                if self.data.fixed.isEmpty {
+                    self.data.fixed = "FAIL"
+                }
+                self.refreshUser()
+            }
+            return
+        }
+
         lastRefreshUser = Date()
         mtp.userGetByToken(reload: false) { _ in
             self.refreshUserInfo()

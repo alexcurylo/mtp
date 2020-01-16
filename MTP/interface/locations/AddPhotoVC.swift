@@ -51,6 +51,7 @@ final class AddPhotoVC: UIViewController {
 
     private var updating: Photo?
     private var updatingLocation: Location?
+    private var authorizing = false
 
     private var photo: UIImage? {
         didSet {
@@ -91,9 +92,13 @@ final class AddPhotoVC: UIViewController {
         report(screen: "Add Photo")
 
         if updating == nil {
-            if PHPhotoLibrary.authorizationStatus() == .notDetermined,
+            if !authorizing,
+               PHPhotoLibrary.authorizationStatus() == .notDetermined,
                !UIApplication.isTesting {
-                PHPhotoLibrary.requestAuthorization { _ in }
+                authorizing = true
+                PHPhotoLibrary.requestAuthorization { _ in
+                    self.authorizing = false
+                }
             }
         } else if !net.isConnected {
             let question = L.continueOffline(L.updatePhoto())
