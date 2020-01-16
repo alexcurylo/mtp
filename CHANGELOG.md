@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [Version 1.2.4, Build 657] - 2020-01-16
+
 ### Fixed
 - Guard against repeated authorization requests
 
