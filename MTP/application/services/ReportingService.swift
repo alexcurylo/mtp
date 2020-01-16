@@ -252,6 +252,8 @@ private extension MTP {
             return "upload_photo"
         case .userDelete: // (let id):
             return "delete_user"
+        case .userFix: //(let id):
+            return "user_fix"
         case .userGet: // (let id):
             return "load_user_info"
         case .userGetByToken:

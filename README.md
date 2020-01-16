@@ -58,6 +58,7 @@ Requirements
 - [Parchment](https://github.com/rechsteiner/Parchment) for view paging
 - [R.swift](https://github.com/mac-cain13/R.swift/) for typed resource identifiers
 - [Realm](https://github.com/realm/realm-cocoa) for data management
+- [Siren](https://github.com/ArtSabintsev/Siren) for update notifications
 - [SwiftEntryKit](https://github.com/huri000/SwiftEntryKit) for notification management
 
 Usage
@@ -92,4 +93,4 @@ License
 
 The [MIT License](http://opensource.org/licenses/MIT). See the [LICENSE.md](LICENSE.md) file for details.
 
-_Copyright &copy;2018-2019 Trollwerks Inc._
+_Copyright &copy;2018-2020 Trollwerks Inc._

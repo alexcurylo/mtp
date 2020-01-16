@@ -6,6 +6,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [Version 1.2.4, Build 657] - 2020-01-16
+
+### Fixed
+- Guard against repeated authorization requests
+
+## [Version 1.2.4, Build 656] - 2020-01-15
+
+### Added
+- Prompt on upgrade for server to fix visit counts
+
+## [Version 1.2.4, Build 655] - 2020-01-10
+
+### Fixed
+- Handle trailing emoji in bios
+
 ## [Version 1.2.3, Build 654] - 2020-01-08
 
 ### Fixed

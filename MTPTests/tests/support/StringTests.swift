@@ -49,4 +49,24 @@ final class StringTests: TestCase {
         classType.assert(equal: expected)
         instanceType.assert(equal: expected)
     }
+
+    func testTrimmed() {
+        // given
+        [
+            ("plain", "plain"),
+            (" front and back ", "front and back"),
+            ("     ", ""),
+            ("✅start", "✅start"),
+            ("end™️", "end™️"),
+            ("🔔both💤", "🔔both💤")
+        ].forEach { text, result in
+            // when
+            let sut = NSMutableAttributedString(string: text)
+            let expected = NSMutableAttributedString(string: result)
+            let actual = sut.trimmed
+
+            // then
+            XCTAssertEqual(actual, expected)
+        }
+    }
 }
