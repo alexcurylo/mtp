@@ -19,6 +19,7 @@ final class NukeIntegration: NSObject, AXNetworkIntegrationProtocol {
         if photo.imageData != nil || photo.image != nil {
             DispatchQueue.toBackground { [weak self] in
                 guard let self = self else { return }
+
                 self.delegate?.networkIntegration(self, loadDidFinishWith: photo)
             }
             return
@@ -29,6 +30,7 @@ final class NukeIntegration: NSObject, AXNetworkIntegrationProtocol {
         let progress: ImageTask.ProgressHandler = { [weak self] _, receivedSize, totalSize in
             DispatchQueue.toBackground { [weak self] in
                 guard let self = self else { return }
+
                 self.delegate?.networkIntegration(self,
                                                   didUpdateLoadingProgress: CGFloat(receivedSize) / CGFloat(totalSize),
                                                   for: photo)
@@ -49,6 +51,7 @@ final class NukeIntegration: NSObject, AXNetworkIntegrationProtocol {
                 }
                 DispatchQueue.toBackground { [weak self] in
                     guard let self = self else { return }
+
                     self.delegate?.networkIntegration(self, loadDidFinishWith: photo)
                 }
             case .failure:
@@ -59,6 +62,7 @@ final class NukeIntegration: NSObject, AXNetworkIntegrationProtocol {
                 )
                 DispatchQueue.toBackground { [weak self] in
                     guard let self = self else { return }
+
                     self.delegate?.networkIntegration(self, loadDidFailWith: error, for: photo)
                 }
             }

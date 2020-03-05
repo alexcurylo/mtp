@@ -12,7 +12,7 @@ protocol StyleService {
 extension StyleService {
 
     /// Service instance simply returns Styler type
-    var styler: Styler.Type { return Styler.self }
+    var styler: Styler.Type { Styler.self }
 }
 
 /// No actual implementation needed for StyleService adoptees
@@ -191,22 +191,22 @@ extension DispatchTime {
 
     /// 0.25 second
     static var veryShort: DispatchTime {
-        return now() + 0.25
+        now() + 0.25
     }
 
     /// 1 second
     static var short: DispatchTime {
-        return now() + 1
+        now() + 1
     }
 
     /// 4 seconds
     static var medium: DispatchTime {
-        return now() + 4
+        now() + 4
     }
 
     /// 8 seconds
     static var long: DispatchTime {
-        return now() + 8
+        now() + 8
     }
 }
 

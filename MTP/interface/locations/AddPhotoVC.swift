@@ -64,6 +64,7 @@ final class AddPhotoVC: UIViewController {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
+
         requireOutlets()
         requireInjection()
 
@@ -89,8 +90,8 @@ final class AddPhotoVC: UIViewController {
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        report(screen: "Add Photo")
 
+        report(screen: "Add Photo")
         if updating == nil {
             if !authorizing,
                PHPhotoLibrary.authorizationStatus() == .notDetermined,
@@ -407,7 +408,7 @@ extension AddPhotoVC: UITextViewDelegate {
 extension AddPhotoVC: KeyboardListener {
 
     /// Scroll view for keyboard avoidance
-    var keyboardScrollee: UIScrollView? { return captionTextView }
+    var keyboardScrollee: UIScrollView? { captionTextView }
 }
 
 // MARK: - UIImagePickerControllerDelegate

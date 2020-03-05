@@ -108,7 +108,7 @@ private class MockFeedbackEditingItemsRepository: FeedbackEditingItemsRepository
     var stubbedItems: [Any] = []
 
     func item<Item>(of type: Item.Type) -> Item? {
-        return stubbedItems.first { item in item is Item } as? Item
+        stubbedItems.first { item in item is Item } as? Item
     }
 
     @discardableResult

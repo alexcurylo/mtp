@@ -23,6 +23,7 @@ final class LocationVC: UIViewController {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
+
         requireOutlets()
         requireInjection()
 
@@ -42,6 +43,7 @@ final class LocationVC: UIViewController {
     /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         report(screen: "Location")
     }
 }

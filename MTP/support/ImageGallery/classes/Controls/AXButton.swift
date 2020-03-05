@@ -17,6 +17,7 @@ class AXButton: StateButton {
     /// :nodoc:
     init() {
         super.init(frame: .zero)
+
         self.controlStateAnimationTimingFunction = CAMediaTimingFunction(name: .linear)
         self.controlStateAnimationDuration = 0.1
         self.setBorderWidth(1.0, for: .normal)
@@ -28,7 +29,5 @@ class AXButton: StateButton {
     }
 
     /// :nodoc:
-    required init?(coder aDecoder: NSCoder) {
-        return nil
-    }
+    required init?(coder aDecoder: NSCoder) { nil }
 }

@@ -55,6 +55,7 @@ final class AXTransitionInfo: NSObject {
          startingView: UIImageView?,
          endingView: ((_ photo: AXPhotoProtocol, _ index: Int) -> UIImageView?)?) {
         super.init()
+
         self.commonInit(interactiveDismissalEnabled: interactiveDismissalEnabled,
                         startingView: startingView,
                         endingView: endingView)

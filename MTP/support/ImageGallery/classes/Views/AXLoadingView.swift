@@ -17,7 +17,7 @@ final class AXLoadingView: UIView, AXLoadingViewProtocol {
 
     /// The error text to show inside of the `retryButton` when displaying an error.
     private var retryText: String {
-        return L.tryAgain()
+        L.tryAgain()
     }
 
     /// The attributes that will get applied to the `retryText` when displaying an error.
@@ -28,7 +28,7 @@ final class AXLoadingView: UIView, AXLoadingViewProtocol {
                                      weight: UIFont.Weight.light)
         return [
             NSAttributedString.Key.font: font,
-            NSAttributedString.Key.foregroundColor: UIColor.white
+            NSAttributedString.Key.foregroundColor: UIColor.white,
         ]
     }
 
@@ -40,14 +40,14 @@ final class AXLoadingView: UIView, AXLoadingViewProtocol {
 
     /// The image to show in the `errorImageView` when displaying an error.
     private var errorImage: UIImage? {
-        return R.image.error()
+        R.image.error()
     }
 
     private var errorLabel: UILabel?
 
     /// The error text to show when displaying an error.
     private var errorText: String {
-        return L.errorState()
+        L.errorState()
     }
 
     /// The attributes that will get applied to the `errorText` when displaying an error.
@@ -59,7 +59,7 @@ final class AXLoadingView: UIView, AXLoadingViewProtocol {
             font = UIFont.systemFont(ofSize: fontDescriptor.pointSize, weight: UIFont.Weight.light)
         return [
             NSAttributedString.Key.font: font,
-            NSAttributedString.Key.foregroundColor: UIColor.white
+            NSAttributedString.Key.foregroundColor: UIColor.white,
         ]
     }
 
@@ -76,7 +76,7 @@ final class AXLoadingView: UIView, AXLoadingViewProtocol {
 
     /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
-        return nil
+        nil
     }
 
     /// :nodoc:
@@ -87,12 +87,13 @@ final class AXLoadingView: UIView, AXLoadingViewProtocol {
     /// :nodoc:
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.computeSize(for: self.frame.size, applySizingLayout: true)
+
+        computeSize(for: self.frame.size, applySizingLayout: true)
     }
 
     /// :nodoc:
     override func sizeThatFits(_ size: CGSize) -> CGSize {
-        return self.computeSize(for: size, applySizingLayout: false)
+        computeSize(for: size, applySizingLayout: false)
     }
 
     // swiftlint:disable:next function_body_length
@@ -110,8 +111,8 @@ final class AXLoadingView: UIView, AXLoadingViewProtocol {
             return newAttributedString.copy() as? NSAttributedString
         }
 
-        let ImageViewVerticalPadding: CGFloat = 20
-        let VerticalPadding: CGFloat = 10
+        let imageViewVerticalPadding: CGFloat = 20
+        let verticalPadding: CGFloat = 10
         var totalHeight: CGFloat = 0
 
         var indicatorViewSize: CGSize = .zero
@@ -122,7 +123,7 @@ final class AXLoadingView: UIView, AXLoadingViewProtocol {
             if let errorImageView = self.errorImageView {
                 errorImageViewSize = errorImageView.sizeThatFits(constrainedSize)
                 totalHeight += errorImageViewSize.height
-                totalHeight += ImageViewVerticalPadding
+                totalHeight += imageViewVerticalPadding
             }
 
             errorLabel.attributedText = makeAttributedString(self.errorAttributes, for: errorLabel.attributedText)
@@ -137,12 +138,12 @@ final class AXLoadingView: UIView, AXLoadingViewProtocol {
                                                                     for: retryButton.attributedTitle(for: .normal)),
                                                for: .normal)
 
-                let RetryButtonLabelPadding: CGFloat = 10.0
+                let retryButtonLabelPadding: CGFloat = 10.0
                 retryButtonSize = retryButton.titleLabel?.sizeThatFits(constrainedSize) ?? .zero
-                retryButtonSize.width += RetryButtonLabelPadding
-                retryButtonSize.height += RetryButtonLabelPadding
+                retryButtonSize.width += retryButtonLabelPadding
+                retryButtonSize.height += retryButtonLabelPadding
                 totalHeight += retryButtonSize.height
-                totalHeight += VerticalPadding
+                totalHeight += verticalPadding
             }
         } else {
             indicatorViewSize = self.indicatorView.sizeThatFits(constrainedSize)
@@ -159,7 +160,7 @@ final class AXLoadingView: UIView, AXLoadingViewProtocol {
                     errorImageView.frame = CGRect(origin: origin,
                                                   size: errorImageViewSize)
                     yOffset += errorImageViewSize.height
-                    yOffset += ImageViewVerticalPadding
+                    yOffset += imageViewVerticalPadding
                 }
 
                 errorLabel.frame = CGRect(origin: CGPoint(x: floor((constrainedSize.width - errorLabelSize.width) / 2),
@@ -168,7 +169,7 @@ final class AXLoadingView: UIView, AXLoadingViewProtocol {
 
                 if let retryButton = self.retryButton {
                     yOffset += errorLabelSize.height
-                    yOffset += VerticalPadding
+                    yOffset += verticalPadding
                     let origin = CGPoint(x: floor((constrainedSize.width - retryButtonSize.width) / 2),
                                          y: floor(yOffset))
                     retryButton.frame = CGRect(origin: origin,

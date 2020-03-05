@@ -55,22 +55,22 @@ extension PlaceInfo {
 
     /// Only WHS may have parents
     var placeParent: PlaceInfo? {
-        return nil
+        nil
     }
 
     /// Subtitle is usually the MTP location
     var placeSubtitle: String {
-        return placeLocation?.description ?? ""
+        placeLocation?.description ?? ""
     }
 
     /// Only countries are countries
     var placeIsCountry: Bool {
-        return false
+        false
     }
 
     /// Default non-countries to 0
     var placeCountryId: Int {
-        return 0
+        0
     }
 }
 
@@ -98,14 +98,14 @@ struct PlaceJSON: Codable {
 extension PlaceJSON: CustomStringConvertible {
 
     var description: String {
-        return title
+        title
     }
 }
 
 extension PlaceJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < PlaceJSON: \(description):
         active: \(active)
         address: \(String(describing: address))
@@ -136,7 +136,7 @@ extension PlaceJSON: CustomDebugStringConvertible {
 
     /// :nodoc:
     override static func primaryKey() -> String? {
-        return "placeId"
+        "placeId"
     }
 
     /// Constructor from MTP endpoint data
@@ -152,7 +152,7 @@ extension PlaceJSON: CustomDebugStringConvertible {
     }
 
     override var description: String {
-        return placeTitle
+        placeTitle
     }
 }
 
@@ -166,7 +166,7 @@ extension PlaceJSON: CustomDebugStringConvertible {
 
     /// :nodoc:
     override static func primaryKey() -> String? {
-        return "placeId"
+        "placeId"
     }
 
     /// Constructor from MTP endpoint data
@@ -182,7 +182,7 @@ extension PlaceJSON: CustomDebugStringConvertible {
     }
 
     override var description: String {
-        return placeTitle
+        placeTitle
     }
 }
 
@@ -196,7 +196,7 @@ extension PlaceJSON: CustomDebugStringConvertible {
 
     /// :nodoc:
     override static func primaryKey() -> String? {
-        return "placeId"
+        "placeId"
     }
 
     /// Constructor from MTP endpoint data
@@ -212,7 +212,7 @@ extension PlaceJSON: CustomDebugStringConvertible {
     }
 
     override var description: String {
-        return placeTitle
+        placeTitle
     }
 }
 

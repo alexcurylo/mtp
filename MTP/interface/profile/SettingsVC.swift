@@ -23,6 +23,7 @@ final class SettingsVC: UITableViewController {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
+
         requireOutlets()
         requireInjection()
 
@@ -40,10 +41,10 @@ final class SettingsVC: UITableViewController {
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        report(screen: "Settings")
 
+        report(screen: "Settings")
         switch route {
-        case .network?:
+        case .network:
             performSegue(withIdentifier: Segues.showNetwork, sender: self)
         case .reportContent(let message)? where !message.isEmpty:
             report(body: message)
@@ -68,7 +69,7 @@ private extension SettingsVC {
     @IBAction func unwindToSettings(segue: UIStoryboardSegue) { }
 
     var productUrl: URL? {
-        //let posesLink = "https://apps.apple.com/app/id357099619"
+        // let posesLink = "https://apps.apple.com/app/id357099619"
         let mtpLink = "https://apps.apple.com/app/id1463245184"
         return URL(string: mtpLink)
     }
@@ -94,6 +95,7 @@ private extension SettingsVC {
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
         components?.queryItems = [ URLQueryItem(name: "action", value: "write-review") ]
         guard let writeReviewURL = components?.url else { return }
+
         app.launch(url: writeReviewURL)
     }
 

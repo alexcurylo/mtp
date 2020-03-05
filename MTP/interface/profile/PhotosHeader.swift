@@ -85,7 +85,7 @@ private extension PhotosHeader {
 
     func configure() {
         let buttons = UIStackView(arrangedSubviews: [addButton,
-                                                     queueButton
+                                                     queueButton,
                                                      ]).with {
             $0.axis = .vertical
             $0.spacing = 8

@@ -12,7 +12,7 @@ struct UncertainValue<T: Codable, U: Codable>: Codable {
     var uValue: U?
 
     private var value: Any? {
-        return tValue ?? uValue
+        tValue ?? uValue
     }
 
     /// Convenience access to Int if present
@@ -59,10 +59,13 @@ struct UncertainValue<T: Codable, U: Codable>: Codable {
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         guard !container.decodeNil() else { return }
+
         tValue = try? container.decode(T.self)
         guard tValue == nil else { return }
+
         uValue = try? container.decode(U.self)
         guard uValue == nil else { return }
+
         let context = DecodingError.Context(
             codingPath: decoder.codingPath,
             debugDescription: "expected a \(T.self) or \(U.self)")

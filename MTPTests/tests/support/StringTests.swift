@@ -58,7 +58,7 @@ final class StringTests: TestCase {
             ("     ", ""),
             ("✅start", "✅start"),
             ("end™️", "end™️"),
-            ("🔔both💤", "🔔both💤")
+            ("🔔both💤", "🔔both💤"),
         ].forEach { text, result in
             // when
             let sut = NSMutableAttributedString(string: text)

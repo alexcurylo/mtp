@@ -35,7 +35,7 @@ extension ServiceHandler: AppLaunchHandler {
         ServiceProviderInstances.styleServiceInstance = StyleServiceImpl()
 
         // post-construction setup
-        //ServiceProviderInstances.dataServiceInstance.validate()
+        // ServiceProviderInstances.dataServiceInstance.validate()
 
         return true
     }
@@ -50,7 +50,7 @@ extension ServiceHandler: AppLaunchHandler {
         // swiftlint:disable:next discouraged_optional_collection
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        return true
+        true
     }
 }
 

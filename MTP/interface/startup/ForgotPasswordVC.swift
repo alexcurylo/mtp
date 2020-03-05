@@ -20,8 +20,8 @@ final class ForgotPasswordVC: UIViewController {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireOutlets()
 
+        requireOutlets()
         email = data.email
         let message = L.sendLink(email.hiddenName)
         messageLabel.text = message
@@ -39,8 +39,8 @@ final class ForgotPasswordVC: UIViewController {
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        report(screen: "Forgot Password")
 
+        report(screen: "Forgot Password")
         revealAlert()
     }
 

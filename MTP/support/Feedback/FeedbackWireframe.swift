@@ -76,6 +76,7 @@ extension FeedbackWireframe: FeedbackWireframeProtocol {
     /// :nodoc:
     func showMailComposer(with feedback: Feedback) {
         guard MFMailComposeViewController.canSendMail() else { return showMailConfigurationError() }
+
         let controller = MFMailComposeViewController()
         controller.mailComposeDelegate = mailComposerDelegate
         controller.setToRecipients(feedback.to)

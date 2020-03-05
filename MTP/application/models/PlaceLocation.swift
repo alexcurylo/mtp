@@ -38,7 +38,7 @@ extension PlaceLocation: CustomStringConvertible {
 extension PlaceLocation: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < PlaceLocation: \(description)
         countryId: \(String(describing: countryId))
         countryName: \(String(describing: countryName))

@@ -21,7 +21,7 @@ import RealmSwift
 
     /// :nodoc:
     override static func primaryKey() -> String? {
-        return "placeId"
+        "placeId"
     }
 }
 
@@ -29,22 +29,22 @@ extension UNCountry: PlaceInfo {
 
     /// Coordinate for plotting on map
     var placeCoordinate: CLLocationCoordinate2D {
-        return .zero
+        .zero
     }
 
     /// Country's MTP ID
     var placeCountryId: Int {
-        return placeId
+        placeId
     }
 
     /// UUID of main image to display for place
     var placeImageUrl: URL? {
-        return placeImage.mtpImageUrl
+        placeImage.mtpImageUrl
     }
 
     /// Title to display to user
     var placeTitle: String {
-        return placeCountry
+        placeCountry
     }
 
     /// for non-MTP locations, page to load in More Info screen

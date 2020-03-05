@@ -137,10 +137,10 @@ enum MTP: Hashable {
 extension MTP: TargetType {
 
     /// The target's base `URL`.
-    var baseURL: URL { return URL(string: "https://mtp.travel/api/")! }
+    var baseURL: URL { URL(string: "https://mtp.travel/api/")! }
     // swiftlint:disable:previous force_unwrapping
 
-    private var preventCache: Bool { return false }
+    private var preventCache: Bool { false }
 
     /// The path to be appended to `baseURL` to form the full `URL`.
     var path: String {
@@ -310,8 +310,8 @@ extension MTP: TargetType {
             return .requestParameters(parameters: ["uuid": uuid],
                                       encoding: URLEncoding.default)
         case let .picture(uuid, size):
-            return .requestParameters(parameters: ["uuid": uuid,
-                                                   "size": size.rawValue],
+            return .requestParameters(parameters: [ "uuid": uuid,
+                                                    "size": size.rawValue, ],
                                       encoding: URLEncoding.default)
         case .rankings(let query):
             return .requestParameters(parameters: query.parameters,
@@ -320,8 +320,8 @@ extension MTP: TargetType {
             return .requestParameters(parameters: ["query": query],
                                       encoding: URLEncoding.default)
         case .userPost(_, let token):
-            return .requestParameters(parameters: ["type": "apn_device_token",
-                                                   "value": token],
+            return .requestParameters(parameters: [ "type": "apn_device_token",
+                                                    "value": token, ],
                                       encoding: URLEncoding(destination: .queryString))
         case let .upload(photo: photo, caption: caption, location: location):
             let filePart = MultipartFormData(provider: .data(photo),
@@ -345,8 +345,8 @@ extension MTP: TargetType {
             }
             return .uploadMultipart(parts)
         case let .userLogin(email, password):
-            return .requestParameters(parameters: ["email": email,
-                                                   "password": password],
+            return .requestParameters(parameters: [ "email": email,
+                                                    "password": password, ],
                                       encoding: JSONEncoding.default)
         case .contact(let payload):
             return .requestJSONEncodable(payload)
@@ -433,13 +433,13 @@ extension MTP: TargetType {
         case .checklists,
              .userGetByToken:
             file = "\(self)"
-        //case let .photos(user?, page):
-            //file = "photos-\(user)-\(page)"
+        // case let .photos(user?, page):
+            // file = "photos-\(user)-\(page)"
         case .locationPhotos:
-            //file = "locationPhotos-\(location)"
+            // file = "locationPhotos-\(location)"
             file = "locationPhotos-554"
         case .locationPosts:
-            //file = "locationPosts-\(location)"
+            // file = "locationPosts-\(location)"
             file = "locationPosts-554"
         case .passwordReset(let email):
             if email.contains("error") {
@@ -454,7 +454,7 @@ extension MTP: TargetType {
         case .rankings:
             file = "rankings"
         case let .scorecard(list, _):
-            //file = "scorecard-\(list.key)-\(user)"
+            // file = "scorecard-\(list.key)-\(user)"
             file = "scorecard-\(list.key)-7853"
         case .search:
             file = "search-Fred"
@@ -463,7 +463,7 @@ extension MTP: TargetType {
         case .userDelete:
             file = "userDelete"
         case .userGet:
-            //file = "userGet-\(id)"
+            // file = "userGet-\(id)"
             file = "userGet-1"
         case .userLogin(_, let password):
             switch password {
@@ -477,7 +477,7 @@ extension MTP: TargetType {
         case .userPut:
             file = "userUpdate"
         case .userPosts:
-            //file = "userPosts-\(id)"
+            // file = "userPosts-\(id)"
             file = "userPosts-7853"
         case .userRegister:
             file = "userRegister"
@@ -508,7 +508,7 @@ extension MTP: TargetType {
 
     /// Convenience etag accessor
     var etag: String {
-        return data.etags[path] ?? ""
+        data.etags[path] ?? ""
     }
 }
 
@@ -568,8 +568,7 @@ extension MTP: AccessTokenAuthorizable {
 typealias MTPProvider = MoyaProvider<MTP>
 
 /// Calls the MTP API via Moya
-class MTPNetworkController: ServiceProvider {
-    // swiftlint:disable:previous type_body_length
+class MTPNetworkController: ServiceProvider { // swiftlint:disable:this type_body_length
 
     /// Set places visit status
     /// - Parameters:
@@ -2049,6 +2048,7 @@ class MTPNetworkController: ServiceProvider {
                 let user = try response.map(UserJSON.self,
                                             using: JSONDecoder.mtp)
                 guard let token = user.token else { throw NetworkError.token }
+
                 self.data.token = token
                 self.data.user = user
                 self.report(success: endpoint)
@@ -2098,6 +2098,7 @@ class MTPNetworkController: ServiceProvider {
                 let user = try response.map(UserJSON.self,
                                             using: JSONDecoder.mtp)
                 guard let token = user.token else { throw NetworkError.token }
+
                 self.data.token = token
                 self.data.user = user
                 self.report(success: endpoint)
@@ -2410,7 +2411,6 @@ private extension MTPNetworkController {
 
         if let nserror = error as NSError?,
             nserror.domain == NSURLErrorDomain,
-            // swiftlint:disable:next number_separator
             nserror.code == -1009 {
             return .deviceOffline
         }
@@ -2510,7 +2510,7 @@ private extension Response {
     }
 
     var toString: String {
-        return (try? mapString()) ?? "mapString failed"
+        (try? mapString()) ?? "mapString failed"
     }
 }
 
@@ -2518,7 +2518,7 @@ extension NetworkError: LocalizedError {
 
     /// Displayable description of NetworkError
     var errorDescription: String? {
-        return L.errorDescription(code, message)
+        L.errorDescription(code, message)
     }
 }
 
@@ -2527,29 +2527,29 @@ private extension NetworkError {
     var code: Int {
         switch self {
         case .unknown:
-            return 1_010
+            return 1010
         case .decoding:
-            return 1_020
+            return 1020
         case .deviceOffline:
-            return 1_030
+            return 1030
         case .message:
-            return 1_040
+            return 1040
         case .network:
-            return 1_050
+            return 1050
         case .notModified:
-            return 1_060
+            return 1060
         case .parameter:
-            return 1_070
+            return 1070
         case .serverOffline:
-            return 1_080
+            return 1080
         case .status(let status):
             return status
         case .throttle:
-            return 1_090
+            return 1090
         case .token:
-            return 1_100
+            return 1100
         case .queued:
-            return 2_000
+            return 2000
         }
     }
 

@@ -60,9 +60,7 @@ final class BodyCell: UITableViewCell {
     }
 
     /// :nodoc:
-    required init?(coder aDecoder: NSCoder) {
-        return nil
-    }
+    required init?(coder aDecoder: NSCoder) { nil }
 }
 
 extension BodyCell: UITextViewDelegate {

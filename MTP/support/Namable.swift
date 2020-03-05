@@ -15,12 +15,12 @@ extension Namable {
 
     /// name from instance
     var typeName: String {
-        return String(describing: type(of: self))
+        String(describing: type(of: self))
     }
 
     /// name from class
     static var typeName: String {
-        return String(describing: self)
+        String(describing: self)
     }
 }
 

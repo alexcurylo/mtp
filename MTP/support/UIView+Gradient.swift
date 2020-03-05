@@ -17,11 +17,11 @@ enum GradientOrientation: Int {
     case vertical
 
     fileprivate var start: CGPoint {
-        return points.start
+        points.start
     }
 
     fileprivate var end: CGPoint {
-        return points.end
+        points.end
     }
 
     fileprivate var points: GradientPoints {
@@ -44,7 +44,7 @@ extension UIView {
 
     /// Layer with gradient
     var gradient: CAGradientLayer? {
-        return layer.sublayers?.first {
+        layer.sublayers?.first {
             $0.name == UIView.gradientLayerName
         } as? CAGradientLayer
     }
@@ -74,7 +74,7 @@ extension UIView {
     /// Convenience for assigning layer border width
     @IBInspectable var borderWidth: CGFloat {
         get {
-            return layer.borderWidth
+            layer.borderWidth
         }
         set {
             layer.borderWidth = newValue
@@ -196,12 +196,14 @@ extension UIColor {
     /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
+
         setup()
     }
 
     /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+
         setup()
     }
 
@@ -214,6 +216,7 @@ extension UIColor {
     /// - Parameter layer: Our layer
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)
+
         gradient?.frame = bounds
     }
 
@@ -287,12 +290,14 @@ extension UIColor {
     /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
+
         setup()
     }
 
     /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+
         setup()
     }
 
@@ -305,6 +310,7 @@ extension UIColor {
     /// - Parameter layer: Our layer
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)
+
         gradient?.frame = bounds
     }
 }

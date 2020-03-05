@@ -18,9 +18,9 @@ protocol DictionaryRepresentable {
 
 private extension DictionaryRepresentable {
 
-    init?(dictionary: [String: Any]) { return nil }
+    init?(dictionary: [String: Any]) { nil }
 
-    var dictionary: [String: Any] { return [:] }
+    var dictionary: [String: Any] { [:] }
 }
 
 /// Protocol for objects enqueued in OfflineRequestManager to perform operations
@@ -65,12 +65,12 @@ private extension OfflineRequest {
     }
 
     var delegate: OfflineRequestDelegate? {
-        get { return objc_getAssociatedObject(self, &requestDelegateKey) as? OfflineRequestDelegate }
+        get { objc_getAssociatedObject(self, &requestDelegateKey) as? OfflineRequestDelegate }
         set { objc_setAssociatedObject(self, &requestDelegateKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
     }
 
     var progress: Double {
-        get { return objc_getAssociatedObject(self, &requestProgressKey) as? Double ?? 0.0 }
+        get { objc_getAssociatedObject(self, &requestProgressKey) as? Double ?? 0.0 }
         set { objc_setAssociatedObject(self, &requestProgressKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
     }
 }
@@ -78,7 +78,7 @@ private extension OfflineRequest {
 extension OfflineRequest {
 
     func shouldAttemptResubmission(forError error: Error) -> Bool {
-        return false
+        false
     }
 
     /// Prompts the OfflineRequestManager to save to disk
@@ -199,16 +199,16 @@ protocol OfflineRequestManagerDelegate: AnyObject {
 
 extension OfflineRequestManagerDelegate {
 
-    func offlineRequest(withDictionary dictionary: [String: Any]) -> OfflineRequest? { return nil }
+    func offlineRequest(withDictionary dictionary: [String: Any]) -> OfflineRequest? { nil }
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                didUpdateProgress progress: Double) { }
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                didUpdateConnectionStatus connected: Bool) { }
     func offlineRequestManager(_ manager: OfflineRequestManager,
-                               shouldAttemptRequest request: OfflineRequest) -> Bool { return true }
+                               shouldAttemptRequest request: OfflineRequest) -> Bool { true }
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                shouldReattemptRequest request: OfflineRequest,
-                               withError error: Error) -> Bool { return false }
+                               withError error: Error) -> Bool { false }
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                didStartRequest request: OfflineRequest) { }
     func offlineRequestManager(_ manager: OfflineRequestManager,
@@ -279,7 +279,7 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
 
     /// Current request list
     var requests: [OfflineRequest] {
-        return incompleteRequests
+        incompleteRequests
     }
 
     /// Connectivity used to observe connectivity status.
@@ -304,7 +304,7 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
 
     /// Default singleton OfflineRequestManager
     static var defaultManager: OfflineRequestManager {
-        return manager(withFileName: defaultFileName)
+        manager(withFileName: defaultFileName)
     }
 
     private static var managers = [String: OfflineRequestManager]()
@@ -322,7 +322,7 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
     private(set) var incompleteRequests = [OfflineRequest]()
     private var incompleteRequestDictionaries = [[String: Any]]()
     private var pendingRequests: [OfflineRequest] {
-        return incompleteRequests.filter { request in
+        incompleteRequests.filter { request in
             !ongoingRequests.contains { $0.id == request.id }
         }
     }
@@ -366,6 +366,7 @@ final class OfflineRequestManager: NSObject, NSCoding, ServiceProvider {
     /// :nodoc:
     override init() {
         super.init()
+
         setup()
     }
 
@@ -512,6 +513,7 @@ private extension OfflineRequestManager {
 
     func instantiateInitialRequests(withBlock block: (([String: Any]) -> OfflineRequest?)) {
         guard incompleteRequests.isEmpty else { return }
+
         let requests = incompleteRequestDictionaries.compactMap { block($0) }
         if !requests.isEmpty {
             addRequests(requests)
@@ -695,8 +697,8 @@ private extension NSError {
     }
 
     static var timeOutError: NSError {
-        return NSError(domain: "offlineRequestManager",
-                       code: -1,
-                       userInfo: [NSLocalizedDescriptionKey: "Offline Request Timed Out"])
+        NSError(domain: "offlineRequestManager",
+                code: -1,
+                userInfo: [NSLocalizedDescriptionKey: "Offline Request Timed Out"])
     }
 }

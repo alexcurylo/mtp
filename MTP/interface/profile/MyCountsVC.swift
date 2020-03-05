@@ -15,14 +15,15 @@ final class MyCountsVC: UIViewController {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireOutlets()
 
+        requireOutlets()
         configurePagesHolder()
     }
 
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         report(screen: "My Counts")
     }
 }
@@ -87,7 +88,7 @@ extension MyCountsVC: PagingViewControllerDataSource {
     /// - Parameter in: Page holder
     /// - Returns: Page count
     func numberOfViewControllers<T>(in: PagingViewController<T>) -> Int {
-        return pages.count
+        pages.count
     }
 }
 

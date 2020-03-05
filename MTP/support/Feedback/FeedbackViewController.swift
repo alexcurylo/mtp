@@ -32,16 +32,18 @@ final class FeedbackViewController: UITableViewController {
 
     private var wireframe: FeedbackWireframeProtocol?
 
-    private let cellFactories = [CellFactory(UserEmailCell.self),
-                                 CellFactory(UserPhoneCell.self),
-                                 CellFactory(TopicCell.self),
-                                 CellFactory(BodyCell.self),
-                                 CellFactory(AttachmentCell.self),
-                                 CellFactory(DeviceNameCell.self),
-                                 CellFactory(SystemVersionCell.self),
-                                 CellFactory(AppNameCell.self),
-                                 CellFactory(AppVersionCell.self),
-                                 CellFactory(AppBuildCell.self)]
+    private let cellFactories = [
+        CellFactory(UserEmailCell.self),
+        CellFactory(UserPhoneCell.self),
+        CellFactory(TopicCell.self),
+        CellFactory(BodyCell.self),
+        CellFactory(AttachmentCell.self),
+        CellFactory(DeviceNameCell.self),
+        CellFactory(SystemVersionCell.self),
+        CellFactory(AppNameCell.self),
+        CellFactory(AppVersionCell.self),
+        CellFactory(AppBuildCell.self),
+    ]
 
     private lazy var feedbackEditingService: FeedbackEditingServiceProtocol = {
         FeedbackEditingService(editingItemsRepository: configuration.dataSource,
@@ -67,9 +69,7 @@ final class FeedbackViewController: UITableViewController {
     }
 
     /// :nodoc:
-    required init?(coder aDecoder: NSCoder) {
-        return nil
-    }
+    required init?(coder aDecoder: NSCoder) { nil }
 
     /// :nodoc:
     override func viewDidLoad() {
@@ -133,13 +133,13 @@ extension FeedbackViewController {
 
     /// :nodoc:
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return configuration.dataSource.numberOfSections
+        configuration.dataSource.numberOfSections
     }
 
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
-        return configuration.dataSource.section(at: section).count
+        configuration.dataSource.section(at: section).count
     }
 
     /// :nodoc:
@@ -155,7 +155,7 @@ extension FeedbackViewController {
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             titleForHeaderInSection section: Int) -> String? {
-        return configuration.dataSource.section(at: section).title
+        configuration.dataSource.section(at: section).title
     }
 }
 
@@ -352,8 +352,8 @@ extension FeedbackViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController,
                                 presenting: UIViewController?,
                                 source: UIViewController) -> UIPresentationController? {
-        return DrawUpPresentationController(presentedViewController: presented,
-                                            presenting: presenting)
+        DrawUpPresentationController(presentedViewController: presented,
+                                     presenting: presenting)
     }
 }
 
@@ -361,5 +361,5 @@ extension FeedbackViewController: UIViewControllerTransitioningDelegate {
 private func convertFromUIImagePickerControllerInfoKeyDictionary(
     _ input: [UIImagePickerController.InfoKey: Any]
 ) -> [String: Any] {
-	return Dictionary(uniqueKeysWithValues: input.map { key, value in (key.rawValue, value) })
+	Dictionary(uniqueKeysWithValues: input.map { key, value in (key.rawValue, value) })
 }

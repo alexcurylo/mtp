@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
 gem 'cocoapods'
-gem 'cocoapods-acknowledgements'
 gem 'cocoapods-check'
 gem 'fastlane'
 gem 'jazzy'

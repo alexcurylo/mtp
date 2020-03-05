@@ -25,7 +25,7 @@ final class AppDelegateTests: TestCase {
             String(describing: StateHandler.self),
             String(describing: ActionHandler.self),
             String(describing: NotificationsHandler.self),
-            String(describing: LocationHandler.self)
+            String(describing: LocationHandler.self),
         ]
 
         // when
@@ -44,7 +44,7 @@ final class AppDelegateTests: TestCase {
             String(describing: StateHandler.self),
             String(describing: ActionHandler.self),
             String(describing: NotificationsHandler.self),
-            String(describing: LocationHandler.self)
+            String(describing: LocationHandler.self),
         ]
 
         // when
@@ -136,7 +136,6 @@ final class AppDelegateTests: TestCase {
 
         XCTAssertNotNil(R.file.defaultRealm())
         XCTAssertNotNil(R.file.podsMTPMetadataPlist())
-        XCTAssertNotNil(R.file.podsMTPSettingsMetadataPlist())
         XCTAssertNotNil(R.file.settingsBundle())
         XCTAssertNotNil(R.file.worldMapGeojson())
     }

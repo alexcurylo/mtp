@@ -27,8 +27,8 @@ final class PostTests: TestCase {
         postJson.description.assert(equal: "PostJSON: 9999, 7053")
         postJson.debugDescription.assert(equal: completeFirstDebugDescription)
 
-        XCTAssertEqual(sut.locationId, 9_999)
-        XCTAssertEqual(sut.postId, 7_053)
+        XCTAssertEqual(sut.locationId, 9999)
+        XCTAssertEqual(sut.postId, 7053)
         XCTAssertEqual(sut.userId, 42_628)
     }
 

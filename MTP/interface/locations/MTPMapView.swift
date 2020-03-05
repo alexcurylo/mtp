@@ -2,8 +2,6 @@
 
 import MapKit
 
-// swiftlint:disable file_length
-
 extension CLLocationDistance {
 
     /// Default map span for an annotation
@@ -52,8 +50,10 @@ final class MTPMapView: RealmMapView, ServiceProvider {
         let scale = MKScaleView(mapView: self)
         scale.legendAlignment = .trailing
 
-        let stack = UIStackView(arrangedSubviews: [scale,
-                                                   tracker]).with {
+        let stack = UIStackView(arrangedSubviews: [
+            scale,
+            tracker,
+        ]).with {
             $0.axis = .horizontal
             $0.alignment = .center
             $0.spacing = 10
@@ -162,6 +162,7 @@ final class MTPMapView: RealmMapView, ServiceProvider {
     override func refreshMapView(refreshRegion: MKCoordinateRegion? = nil,
                                  refreshMapRect: MKMapRect? = nil) {
         let bigger = refreshRegion ?? region.expanded(by: 1.2)
+        // swiftlint:disable:next empty_line_after_super
         super.refreshMapView(refreshRegion: bigger,
                              refreshMapRect: refreshMapRect)
     }
@@ -339,48 +340,48 @@ extension MappablesAnnotation {
 
     /// Convenience accessor for uniqueness
     var isSingle: Bool {
-        return type == .unique
+        type == .unique
     }
     /// Convenience accessor for multiplicity
     var isMultiple: Bool {
-        return type == .cluster
+        type == .cluster
     }
     /// Number of places
     var count: Int {
-        return safeObjects.count
+        safeObjects.count
     }
 
     /// Convenience accessor for unique place
     var mappable: Mappable? {
-        return isSingle ? mappables[0] : nil
+        isSingle ? mappables[0] : nil
     }
     /// Convenience accessor for place(s) list
     var mappables: [Mappable] {
-        return safeObjects.map { $0.toObject(Mappable.self) }
+        safeObjects.map { $0.toObject(Mappable.self) }
     }
     /// Region containing place(s)
     var region: ClusterRegion {
-        return ClusterRegion(mappables: self)
+        ClusterRegion(mappables: self)
     }
 
     /// Whether this annotation contains a particular place
     /// - Parameter mappable: Place
     /// - Returns: Containment
     func contains(mappable: Mappable) -> Bool {
-        return mappables.contains { $0 == mappable }
+        mappables.contains { $0 == mappable }
     }
 
     /// Whether this annotation is a particular place
     /// - Parameter only: Place
     /// - Returns: Identity
     func shows(only: Mappable) -> Bool {
-        return only == mappable
+        only == mappable
     }
 }
 
 private extension MKCoordinateRegion {
 
-    var mapRect: MKMapRect { return MKMapRect() }
+    var mapRect: MKMapRect { MKMapRect() }
 
     func expanded(by factor: Double) -> MKCoordinateRegion {
         var expanded = self

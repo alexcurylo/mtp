@@ -6,20 +6,20 @@ import RealmSwift
 struct SettingsJSON: Codable {
 
     private enum CodingKeys: String, CodingKey {
-        //case accident = "fill-it-later-accedintal-added-by-pitt"
-        //case defaultEmails = "default-emails"
-        //case locationMap = "location-map"
+        // case accident = "fill-it-later-accedintal-added-by-pitt"
+        // case defaultEmails = "default-emails"
+        // case locationMap = "location-map"
         case milestoneThresholds = "milestone-thresholds"
-        //case rssFeeds = "rss-feeds"
-        //case worldMap = "world-map"
+        // case rssFeeds = "rss-feeds"
+        // case worldMap = "world-map"
     }
 
-    //let accident: String?
-    //let defaultEmails: DefaultEmailsJSON?
-    //let locationMap: MapRenderJSON?
+    // let accident: String?
+    // let defaultEmails: DefaultEmailsJSON?
+    // let locationMap: MapRenderJSON?
     fileprivate let milestoneThresholds: MilestonesJSON
-    //let rssFeeds: RSSFeedsJSON?
-    //let worldMap: MapRenderJSON?
+    // let rssFeeds: RSSFeedsJSON?
+    // let worldMap: MapRenderJSON?
 }
 
 private struct DefaultEmailsJSON: Codable {
@@ -77,7 +77,7 @@ private struct MilestonesJSON: Codable {
 
     struct ThresholdsJSON: Codable {
 
-        //let $$hashKey: String
+        // let $$hashKey: String
         let min: Int
         let max: Int
         let name: String
@@ -122,7 +122,7 @@ private struct RSSFeedsJSON: Codable {
 
     struct FeedJSON: Codable {
 
-        //let $$hashKey: String
+        // let $$hashKey: String
         let icon: String
         let url: String
     }
@@ -149,7 +149,7 @@ private struct RSSFeedsJSON: Codable {
 
     /// :nodoc:
     override static func primaryKey() -> String? {
-        return "dbKey"
+        "dbKey"
     }
 
     fileprivate convenience init(from: MilestonesJSON.ThresholdsJSON,
@@ -183,7 +183,7 @@ private struct RSSFeedsJSON: Codable {
 
     /// :nodoc:
     override static func primaryKey() -> String? {
-        return "checklistValue"
+        "checklistValue"
     }
 
     /// Constructor from MTP endpoint data

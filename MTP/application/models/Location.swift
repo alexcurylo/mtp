@@ -42,7 +42,7 @@ struct LocationJSON: Codable, Equatable {
     private let visitorsUn: Int
     private let weather: String?
     fileprivate let weatherhist: String?
-    //private let zoom: Double?
+    // private let zoom: Double?
 }
 
 extension LocationJSON: CustomStringConvertible {
@@ -60,7 +60,7 @@ extension LocationJSON: CustomStringConvertible {
 extension LocationJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < LocationJSON: \(description):
         active: \(active)
         admin_level: \(adminLevel)
@@ -117,7 +117,7 @@ extension LocationJSON: CustomDebugStringConvertible {
 
     /// :nodoc:
     override static func primaryKey() -> String? {
-        return "placeId"
+        "placeId"
     }
 
     /// Constructor from MTP endpoint data
@@ -200,17 +200,17 @@ extension Location: PlaceInfo {
 
     /// Country's MTP ID
     var placeCountryId: Int {
-        return countryId
+        countryId
     }
 
     /// MTP location containing place
     var placeLocation: Location? {
-        return self
+        self
     }
 
     /// Subtitle to display to user
     var placeSubtitle: String {
-        return map?.subtitle ?? ""
+        map?.subtitle ?? ""
     }
 
     /// Special cases to treat as if they're flattenable
@@ -246,17 +246,17 @@ extension Location {
 
     /// Whether location is country
     var isCountry: Bool {
-        return AdminLevel(rawValue: adminLevel) == .country
+        AdminLevel(rawValue: adminLevel) == .country
     }
 
     /// Map marker latitude
     var latitude: CLLocationDegrees {
-        return map?.latitude ?? 0
+        map?.latitude ?? 0
     }
 
     /// Map marker longitude
     var longitude: CLLocationDegrees {
-        return map?.longitude ?? 0
+        map?.longitude ?? 0
     }
 }
 

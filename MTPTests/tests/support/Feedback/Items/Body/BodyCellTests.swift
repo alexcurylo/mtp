@@ -18,6 +18,7 @@ final class BodyCellTests: XCTestCase {
 }
 
 private class MockBodyCellEventHandler: BodyCellEventProtocol {
+
     var invokedBodyCellHeightChanged = false
     var invokedBodyCellHeightChangedCount = 0
 

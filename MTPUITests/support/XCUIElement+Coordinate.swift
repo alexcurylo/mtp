@@ -5,7 +5,7 @@ import XCTest
 extension XCUIElement {
 
     var origin: XCUICoordinate {
-        return coordinate(withNormalizedOffset: CGVector.zero)
+        coordinate(withNormalizedOffset: CGVector.zero)
     }
 
     func tap(x: CGFloat, y: CGFloat) {

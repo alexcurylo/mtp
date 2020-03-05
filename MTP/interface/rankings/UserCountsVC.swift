@@ -37,9 +37,9 @@ final class UserCountsVC: UIViewController {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
+
         requireOutlets()
         requireInjection()
-
         setupPagesHolder()
     }
 
@@ -54,6 +54,7 @@ final class UserCountsVC: UIViewController {
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         report(screen: "User Counts")
     }
 }

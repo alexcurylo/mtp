@@ -24,14 +24,14 @@ struct WHSJSON: Codable {
 extension WHSJSON: CustomStringConvertible {
 
     var description: String {
-        return "\(String(describing: title)) (\(String(describing: unescoId)))"
+        "\(String(describing: title)) (\(String(describing: unescoId)))"
     }
 }
 
 extension WHSJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < WHSJSON: \(description):
         active: \(active)
         featuredImg: \(String(describing: featuredImg))
@@ -76,7 +76,7 @@ extension WHSJSON: CustomDebugStringConvertible {
 
     /// :nodoc:
     override static func primaryKey() -> String? {
-        return "placeId"
+        "placeId"
     }
 
     /// Constructor from MTP endpoint data
@@ -137,7 +137,7 @@ extension WHSJSON: CustomDebugStringConvertible {
     }
 
     override var description: String {
-        return placeTitle
+        placeTitle
     }
 }
 
@@ -145,7 +145,7 @@ extension WHS: PlaceInfo {
 
     /// For WHS, whether place has a parent place
     var placeParent: PlaceInfo? {
-        return parent
+        parent
     }
 }
 
@@ -153,7 +153,7 @@ extension WHS {
 
     /// Does WHS have a parent?
     var hasParent: Bool {
-        return parentId != 0
+        parentId != 0
     }
 
     /// Parent if any
@@ -166,6 +166,6 @@ extension WHS {
 
     /// Is this WHS visited?
     var visited: Bool {
-        return Checklist.whss.isVisited(id: placeId)
+        Checklist.whss.isVisited(id: placeId)
     }
 }

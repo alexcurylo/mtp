@@ -77,6 +77,7 @@ final class CountCellGroup: UICollectionViewCell {
     /// - Parameter model: Data model
     func inject(model: CountCellModel) {
         guard let model = model as? CountGroupModel else { return }
+
         self.model = model
 
         let title = model.subgroup ?? model.group
@@ -119,9 +120,7 @@ final class CountCellGroup: UICollectionViewCell {
     }
 
     /// :nodoc:
-    required init?(coder: NSCoder) {
-        return nil
-    }
+    required init?(coder: NSCoder) { nil }
 
     /// Empty display
     override func prepareForReuse() {
@@ -141,8 +140,10 @@ private extension CountCellGroup {
     func configure() {
         contentView.backgroundColor = .white
 
-        let stack = UIStackView(arrangedSubviews: [disclosure,
-                                                   label]).with {
+        let stack = UIStackView(arrangedSubviews: [
+            disclosure,
+            label,
+        ]).with {
             $0.alignment = .center
             $0.spacing = 5
         }

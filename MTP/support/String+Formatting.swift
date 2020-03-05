@@ -39,7 +39,7 @@ extension String {
 
     /// Verify password matches MTP conditions
     var isValidPassword: Bool {
-        return count >= 6 // as per signup.blade.php
+        count >= 6 // as per signup.blade.php
     }
 
     /// Create attributed string with specified traits
@@ -68,7 +68,7 @@ extension String {
         guard let attributed = try? NSMutableAttributedString(
             data: data,
             options: [.documentType: NSAttributedString.DocumentType.html,
-                      .characterEncoding: String.Encoding.utf8.rawValue],
+                      .characterEncoding: String.Encoding.utf8.rawValue, ],
             documentAttributes: nil
         ) else { return nil }
 
@@ -92,7 +92,7 @@ extension String {
         let string = try? NSAttributedString(
             data: data,
             options: [.documentType: NSAttributedString.DocumentType.html,
-                      .characterEncoding: String.Encoding.utf8.rawValue],
+                      .characterEncoding: String.Encoding.utf8.rawValue, ],
             documentAttributes: &dict
         )
         return (string, dict)
@@ -113,7 +113,7 @@ extension String {
         return try? NSAttributedString(
             data: data,
             options: [.documentType: NSAttributedString.DocumentType.html,
-                      .characterEncoding: String.Encoding.utf8.rawValue],
+                      .characterEncoding: String.Encoding.utf8.rawValue, ],
             documentAttributes: nil
         )
     }
@@ -134,7 +134,7 @@ extension String {
         return try? NSAttributedString(
             data: data,
             options: [.documentType: NSAttributedString.DocumentType.html,
-                      .characterEncoding: String.Encoding.utf8.rawValue],
+                      .characterEncoding: String.Encoding.utf8.rawValue, ],
             documentAttributes: nil
         )
     }
@@ -158,7 +158,7 @@ extension String {
 
     /// Return filename from a path
     var file: String {
-        return components(separatedBy: "/").last ?? ""
+        components(separatedBy: "/").last ?? ""
     }
 
     /// Truncates the string to the specified length number of characters
@@ -169,7 +169,7 @@ extension String {
     /// - Returns: Truncated String
     func truncate(length: Int,
                   trailing: String = "…") -> String {
-        return (count > length) ? prefix(length) + trailing : self
+        (count > length) ? prefix(length) + trailing : self
     }
 
     /// Initialize with StaticString such as `#file`
@@ -184,7 +184,7 @@ extension String {
 extension String: LocalizedError {
 
     /// Treat a String as self documenting Error
-    public var errorDescription: String? { return self }
+    public var errorDescription: String? { self }
 }
 
 private extension Formatter {
@@ -200,7 +200,7 @@ extension Int {
 
     /// Format in local grouping style
     var grouped: String {
-        return Formatter.grouping.string(for: self) ?? ""
+        Formatter.grouping.string(for: self) ?? ""
     }
 }
 
@@ -230,7 +230,7 @@ extension NSAttributedString {
 
     /// Convenience Range of entire string
     var fullRange: NSRange {
-        return NSRange(string.startIndex..<string.endIndex, in: string)
+        NSRange(string.startIndex..<string.endIndex, in: string)
     }
 }
 
@@ -238,13 +238,12 @@ extension UIFont {
 
     /// Provide assignment attribute
     var attributes: NSAttributedString.Attributes {
-        return [NSAttributedString.Key.font: self]
+        [NSAttributedString.Key.font: self]
     }
 }
 
 private extension UIColor {
 
-    // swiftlint:disable:next large_tuple
     var rgba: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
         var red: CGFloat = 0
         var green: CGFloat = 0
@@ -287,6 +286,7 @@ extension NSMutableAttributedString {
     /// Self with whitespace trimmed from beginning and end
     var trimmed: NSAttributedString {
         guard let result = mutableCopy() as? NSMutableAttributedString else { return self }
+
         result.trimCharacters(in: .whitespacesAndNewlines)
         return result
     }

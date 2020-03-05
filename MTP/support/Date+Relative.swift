@@ -237,19 +237,22 @@ private extension Date {
     }
 
     static func componentFlags() -> Set<Calendar.Component> {
-        return [ .year,
-                 .month,
-                 .day,
-                 .weekOfYear,
-                 .hour,
-                 .minute,
-                 .second,
-                 .weekday,
-                 .weekdayOrdinal,
-                 .weekOfYear] }
+        [
+            .year,
+            .month,
+            .day,
+            .weekOfYear,
+            .hour,
+            .minute,
+            .second,
+            .weekday,
+            .weekdayOrdinal,
+            .weekOfYear,
+        ]
+    }
 
     static func components(_ fromDate: Date) -> DateComponents {
-        return Calendar.current.dateComponents(Date.componentFlags(), from: fromDate)
+        Calendar.current.dateComponents(Date.componentFlags(), from: fromDate)
     }
 }
 
@@ -326,17 +329,17 @@ private enum RelativeTime {
 
 private enum DateComparison {
 
-    //case isToday
-    //case isTomorrow
-    //case isYesterday
-    //case isSameDay(as:Date)
+    // case isToday
+    // case isTomorrow
+    // case isYesterday
+    // case isSameDay(as:Date)
 
-    //case isThisWeek
+    // case isThisWeek
     case isNextWeek
     case isLastWeek
     case isSameWeek(as: Date)
 
-    //case isThisMonth
+    // case isThisMonth
     case isNextMonth
     case isLastMonth
     case isSameMonth(as: Date)
@@ -346,22 +349,22 @@ private enum DateComparison {
     case isLastYear
     case isSameYear(as: Date)
 
-    //case isInTheFuture
-    //case isInThePast
-    //case isEarlier(than:Date)
-    //case isLater(than:Date)
-    //case isWeekday
-    //case isWeekend
+    // case isInTheFuture
+    // case isInThePast
+    // case isEarlier(than:Date)
+    // case isLater(than:Date)
+    // case isWeekday
+    // case isWeekend
 }
 
 private enum DateComponent {
 
-    //case second
-    //case minute
-    //case hour
-    //case day
-    //case weekday
-    //case nthWeekday
+    // case second
+    // case minute
+    // case hour
+    // case day
+    // case weekday
+    // case nthWeekday
     case week
     case month
     case year

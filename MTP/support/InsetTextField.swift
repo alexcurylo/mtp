@@ -14,46 +14,50 @@ import UIKit
     /// - Parameter bounds: Field bounds
     /// - Returns: Inset bounds
     override func textRect(forBounds bounds: CGRect) -> CGRect {
-        return super.textRect(forBounds: bounds)
-                    .insetBy(dx: hInset, dy: vInset)
+        // swiftlint:disable:next empty_line_after_super
+        super.textRect(forBounds: bounds)
+             .insetBy(dx: hInset, dy: vInset)
     }
 
     /// Return editing rect
     /// - Parameter bounds: Field bounds
     /// - Returns: Inset bounds
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        return super.editingRect(forBounds: bounds)
-                    .insetBy(dx: hInset, dy: vInset)
+        // swiftlint:disable:next empty_line_after_super
+        super.editingRect(forBounds: bounds)
+             .insetBy(dx: hInset, dy: vInset)
     }
 
     /// Return placeholder rect
     /// - Parameter bounds: Field bounds
     /// - Returns: Inset bounds
     override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-        return super.placeholderRect(forBounds: bounds)
+        super.placeholderRect(forBounds: bounds)
     }
 
     /// Return left view rect
     /// - Parameter bounds: Field bounds
     /// - Returns: Inset bounds
     override func leftViewRect(forBounds bounds: CGRect) -> CGRect {
-        return super.leftViewRect(forBounds: bounds)
-                    .offsetBy(dx: hInset, dy: vInset)
+        // swiftlint:disable:next empty_line_after_super
+        super.leftViewRect(forBounds: bounds)
+             .offsetBy(dx: hInset, dy: vInset)
     }
 
     /// Return clear button rect
     /// - Parameter bounds: Field bounds
     /// - Returns: Inset bounds
     override func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
-        return super.clearButtonRect(forBounds: bounds)
-            .offsetBy(dx: -hInset, dy: vInset)
+        // swiftlint:disable:next empty_line_after_super
+        super.clearButtonRect(forBounds: bounds)
+             .offsetBy(dx: -hInset, dy: vInset)
     }
 
     /// Return right view rect
     /// - Parameter bounds: Field bounds
     /// - Returns: Inset bounds
     override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
-        return super.rightViewRect(forBounds: bounds)
+        super.rightViewRect(forBounds: bounds)
     }
 
     /// Fill and disable
@@ -95,12 +99,14 @@ final class InsetTextFieldGradient: InsetTextField {
     /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
+
         setup()
     }
 
     /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+
         setup()
     }
 
@@ -113,6 +119,7 @@ final class InsetTextFieldGradient: InsetTextField {
     /// - Parameter layer: Our layer
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)
+
         gradient?.frame = bounds
     }
 }

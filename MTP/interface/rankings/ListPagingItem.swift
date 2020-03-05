@@ -20,7 +20,7 @@ struct ListPagingItem: PagingItem, Hashable, Comparable {
     ///   - rhs: Another thing
     /// - Returns: Equality
     static func == (lhs: ListPagingItem, rhs: ListPagingItem) -> Bool {
-        return lhs.list == rhs.list
+        lhs.list == rhs.list
     }
 
     /// Less than operator
@@ -29,7 +29,7 @@ struct ListPagingItem: PagingItem, Hashable, Comparable {
     ///   - rhs: Another thing
     /// - Returns: Comparison
     static func < (lhs: ListPagingItem, rhs: ListPagingItem) -> Bool {
-        return lhs.list.index < rhs.list.index
+        lhs.list.index < rhs.list.index
     }
 
     /// Provide paging items for Checklist cases

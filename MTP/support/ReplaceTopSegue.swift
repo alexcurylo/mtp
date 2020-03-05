@@ -71,7 +71,7 @@ final class FadeInAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     /// - Parameter transitionContext: context
     /// - Returns: 0.35 seconds
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0.35
+        0.35
     }
 
     /// Perform transition
@@ -106,8 +106,10 @@ final class ZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     /// Transition duration
     /// - Parameter transitionContext: context
     /// - Returns: 1 second
-    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 1
+    func transitionDuration(
+        using transitionContext: UIViewControllerContextTransitioning?
+    ) -> TimeInterval {
+        1
     }
 
     /// Perform transition

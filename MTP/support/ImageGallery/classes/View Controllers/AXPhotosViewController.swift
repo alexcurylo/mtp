@@ -31,7 +31,7 @@ final class AXPhotosViewController: UIViewController,
     /// Alternatively, you may create your own `UIBarButtonItem`s
     /// and directly set them _and_ their actions on the `overlayView` property.
     private var closeBarButtonItem: UIBarButtonItem {
-        return UIBarButtonItem(barButtonSystemItem: .stop, target: nil, action: nil)
+        UIBarButtonItem(barButtonSystemItem: .stop, target: nil, action: nil)
     }
 
     /// The action bar button item that is initially set in the overlay's toolbar.
@@ -40,7 +40,7 @@ final class AXPhotosViewController: UIViewController,
     /// Alternatively, you may create your own `UIBarButtonItem`s
     /// and directly set them _and_ their actions on the `overlayView` property.
     private var actionBarButtonItem: UIBarButtonItem {
-        return UIBarButtonItem(barButtonSystemItem: .action, target: nil, action: nil)
+        UIBarButtonItem(barButtonSystemItem: .action, target: nil, action: nil)
     }
 
     /// The internal tap gesture recognizer that is used to initiate and pan interactive dismissals.
@@ -49,11 +49,11 @@ final class AXPhotosViewController: UIViewController,
     private var ax_prefersStatusBarHidden: Bool = false
     /// :nodoc:
     override var prefersStatusBarHidden: Bool {
-        return super.prefersStatusBarHidden || self.ax_prefersStatusBarHidden
+        super.prefersStatusBarHidden || self.ax_prefersStatusBarHidden
     }
     /// :nodoc:
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        .lightContent
     }
 
     private weak var delegate: AXPhotosViewControllerDelegate?
@@ -147,12 +147,14 @@ final class AXPhotosViewController: UIViewController,
     /// :nodoc:
     init() {
         super.init(nibName: nil, bundle: nil)
+
         self.commonInit()
     }
 
     /// :nodoc:
     init(dataSource: AXPhotosDataSource?) {
         super.init(nibName: nil, bundle: nil)
+
         self.commonInit(dataSource: dataSource)
     }
 
@@ -161,6 +163,7 @@ final class AXPhotosViewController: UIViewController,
          pagingConfig: AXPagingConfig?) {
 
         super.init(nibName: nil, bundle: nil)
+
         self.commonInit(dataSource: dataSource,
                         pagingConfig: pagingConfig)
     }
@@ -170,6 +173,7 @@ final class AXPhotosViewController: UIViewController,
          transitionInfo: AXTransitionInfo?) {
 
         super.init(nibName: nil, bundle: nil)
+
         self.commonInit(pagingConfig: pagingConfig,
                         transitionInfo: transitionInfo)
     }
@@ -180,6 +184,7 @@ final class AXPhotosViewController: UIViewController,
          transitionInfo: AXTransitionInfo?) {
 
         super.init(nibName: nil, bundle: nil)
+
         self.commonInit(dataSource: dataSource,
                         pagingConfig: pagingConfig,
                         transitionInfo: transitionInfo)
@@ -188,6 +193,7 @@ final class AXPhotosViewController: UIViewController,
     /// :nodoc:
     init(networkIntegration: AXNetworkIntegrationProtocol) {
         super.init(nibName: nil, bundle: nil)
+
         self.commonInit(networkIntegration: networkIntegration)
     }
 
@@ -196,6 +202,7 @@ final class AXPhotosViewController: UIViewController,
          networkIntegration: AXNetworkIntegrationProtocol) {
 
         super.init(nibName: nil, bundle: nil)
+
         self.commonInit(dataSource: dataSource,
                         networkIntegration: networkIntegration)
     }
@@ -206,6 +213,7 @@ final class AXPhotosViewController: UIViewController,
          networkIntegration: AXNetworkIntegrationProtocol) {
 
         super.init(nibName: nil, bundle: nil)
+
         self.commonInit(dataSource: dataSource,
                         pagingConfig: pagingConfig,
                         networkIntegration: networkIntegration)
@@ -217,6 +225,7 @@ final class AXPhotosViewController: UIViewController,
          networkIntegration: AXNetworkIntegrationProtocol) {
 
         super.init(nibName: nil, bundle: nil)
+
         self.commonInit(pagingConfig: pagingConfig,
                         transitionInfo: transitionInfo,
                         networkIntegration: networkIntegration)
@@ -229,6 +238,7 @@ final class AXPhotosViewController: UIViewController,
          networkIntegration: AXNetworkIntegrationProtocol) {
 
         super.init(nibName: nil, bundle: nil)
+
         self.commonInit(dataSource: dataSource,
                         pagingConfig: pagingConfig,
                         transitionInfo: transitionInfo,
@@ -238,6 +248,7 @@ final class AXPhotosViewController: UIViewController,
     /// :nodoc:
     init(from previewingPhotosViewController: AXPreviewingPhotosViewController) {
         super.init(nibName: nil, bundle: nil)
+
         self.commonInit(dataSource: previewingPhotosViewController.dataSource,
                         networkIntegration: previewingPhotosViewController.networkIntegration)
         loadViewIfNeeded()
@@ -248,6 +259,7 @@ final class AXPhotosViewController: UIViewController,
          pagingConfig: AXPagingConfig?) {
 
         super.init(nibName: nil, bundle: nil)
+
         self.commonInit(dataSource: previewingPhotosViewController.dataSource,
                         pagingConfig: pagingConfig,
                         networkIntegration: previewingPhotosViewController.networkIntegration)
@@ -260,6 +272,7 @@ final class AXPhotosViewController: UIViewController,
          transitionInfo: AXTransitionInfo?) {
 
         super.init(nibName: nil, bundle: nil)
+
         self.commonInit(dataSource: previewingPhotosViewController.dataSource,
                         pagingConfig: pagingConfig,
                         transitionInfo: transitionInfo,
@@ -268,9 +281,7 @@ final class AXPhotosViewController: UIViewController,
     }
 
     /// :nodoc:
-    required init?(coder aDecoder: NSCoder) {
-        return nil
-    }
+    required init?(coder aDecoder: NSCoder) { nil }
 
     /// init to be used internally by the library
     @nonobjc init(dataSource: AXPhotosDataSource? = nil,
@@ -279,6 +290,7 @@ final class AXPhotosViewController: UIViewController,
                   networkIntegration: AXNetworkIntegrationProtocol? = nil) {
 
         super.init(nibName: nil, bundle: nil)
+
         self.commonInit(dataSource: dataSource,
                         pagingConfig: pagingConfig,
                         transitionInfo: transitionInfo,
@@ -286,15 +298,15 @@ final class AXPhotosViewController: UIViewController,
     }
 
     /// :nodoc:
-    private func commonInit(dataSource ds: AXPhotosDataSource? = nil,
-                            pagingConfig pc: AXPagingConfig? = nil,
-                            transitionInfo ti: AXTransitionInfo? = nil,
-                            networkIntegration ni: AXNetworkIntegrationProtocol? = nil) {
-        if let ds = ds { dataSource = ds }
-        if let pc = pc { pagingConfig = pc }
-        if let ti = ti {
-            transitionInfo = ti
-            if ti.interactiveDismissalEnabled {
+    private func commonInit(dataSource ads: AXPhotosDataSource? = nil,
+                            pagingConfig apc: AXPagingConfig? = nil,
+                            transitionInfo ati: AXTransitionInfo? = nil,
+                            networkIntegration ani: AXNetworkIntegrationProtocol? = nil) {
+        if let ads = ads { dataSource = ads }
+        if let apc = apc { pagingConfig = apc }
+        if let ati = ati {
+            transitionInfo = ati
+            if ati.interactiveDismissalEnabled {
                 panGestureRecognizer = UIPanGestureRecognizer(target: self,
                                                               action: #selector(didPanWithGestureRecognizer(_:)))
                 panGestureRecognizer?.maximumNumberOfTouches = 1
@@ -302,10 +314,10 @@ final class AXPhotosViewController: UIViewController,
             }
         }
 
-        if ni == nil {
+        if ani == nil {
             networkIntegration = NukeIntegration()
         } else {
-            networkIntegration = ni
+            networkIntegration = ani
         }
         networkIntegration.delegate = self
 
@@ -415,11 +427,13 @@ final class AXPhotosViewController: UIViewController,
     /// :nodoc:
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+
         self.pageViewController.view.frame = self.view.bounds
         self.overlayView.frame = self.view.bounds
         self.overlayView.performAfterShowInterfaceCompletion { [weak self] in
             // if being dismissed, let's just return early rather than update insets
             guard let self = self, !self.isBeingDismissed else { return }
+
             self.updateOverlayInsets()
         }
     }
@@ -747,9 +761,9 @@ final class AXPhotosViewController: UIViewController,
                                // swiftlint:disable:next discouraged_optional_collection
                                change: [NSKeyValueChangeKey: Any]?,
                                context: UnsafeMutableRawPointer?) {
-        if context == &PhotoViewControllerLifecycleContext {
+        if context == &photoViewControllerLifecycleContext {
             self.lifecycleContextDidUpdate(object: object, change: change)
-        } else if context == &PhotoViewControllerContentOffsetContext {
+        } else if context == &photoViewControllerContentOffsetContext {
             self.contentOffsetContextDidUpdate(object: object, change: change)
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
@@ -887,6 +901,7 @@ final class AXPhotosViewController: UIViewController,
     func pageViewController(_ pageViewController: UIPageViewController,
                             willTransitionTo pendingViewControllers: [UIViewController]) {
         guard let viewController = pendingViewControllers.first as? AXPhotoViewController else { return }
+
         loadPhotos(at: viewController.pageIndex)
     }
 
@@ -896,6 +911,7 @@ final class AXPhotosViewController: UIViewController,
                             previousViewControllers: [UIViewController],
                             transitionCompleted completed: Bool) {
         guard let viewController = pageViewController.viewControllers?.first as? AXPhotoViewController else { return }
+
         reduceMemoryForPhotos(at: viewController.pageIndex)
     }
 
@@ -1005,11 +1021,13 @@ final class AXPhotosViewController: UIViewController,
     ///   - minimumZoomScale: The minimum zoom scale that is calculated by the library. This value cannot be changed.
     ///   - imageSize: The size of the image that belongs to the `AXPhoto`.
     /// - Returns: A "maximum" zoom scale that >= `minimumZoomScale`.
-    func maximumZoomScale(for photo: AXPhotoProtocol, minimumZoomScale: CGFloat, imageSize: CGSize) -> CGFloat {
-        return self.delegate?.photosViewController(self,
-                                                   maximumZoomScaleFor: photo,
-                                                   minimumZoomScale: minimumZoomScale,
-                                                   imageSize: imageSize) ?? .leastNormalMagnitude
+    func maximumZoomScale(for photo: AXPhotoProtocol,
+                          minimumZoomScale: CGFloat,
+                          imageSize: CGSize) -> CGFloat {
+       delegate?.photosViewController(self,
+                                      maximumZoomScaleFor: photo,
+                                      minimumZoomScale: minimumZoomScale,
+                                      imageSize: imageSize) ?? .leastNormalMagnitude
     }
 
     /// Called when the action button is tapped for a photo.
@@ -1050,7 +1068,7 @@ final class AXPhotosViewController: UIViewController,
                     object: photo,
                     userInfo: [
                         AXPhotosViewControllerNotification.ImageKey: image,
-                        AXPhotosViewControllerNotification.LoadingStateKey: AXPhotoLoadingState.loaded
+                        AXPhotosViewControllerNotification.LoadingStateKey: AXPhotoLoadingState.loaded,
                     ])
             }
         }
@@ -1072,7 +1090,7 @@ final class AXPhotosViewController: UIViewController,
                 object: photo,
                 userInfo: [
                     AXPhotosViewControllerNotification.ErrorKey: error,
-                    AXPhotosViewControllerNotification.LoadingStateKey: AXPhotoLoadingState.loadingFailed
+                    AXPhotosViewControllerNotification.LoadingStateKey: AXPhotoLoadingState.loadingFailed,
                 ])
         }
     }
@@ -1130,13 +1148,13 @@ final class AXPhotosViewController: UIViewController,
     /// :nodoc:
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
                            shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
+        true
     }
 }
 
 // MARK: - Convenience extensions
 
-private var PhotoViewControllerLifecycleContext: UInt8 = 0
+private var photoViewControllerLifecycleContext: UInt8 = 0
 
 private extension Array where Element: UIViewController {
 
@@ -1151,13 +1169,13 @@ private extension UIViewController {
         self.addObserver(observer,
                          forKeyPath: #keyPath(parent),
                          options: .new,
-                         context: &PhotoViewControllerLifecycleContext)
+                         context: &photoViewControllerLifecycleContext)
     }
 
     func removeLifecycleObserver(_ observer: NSObject) {
         self.removeObserver(observer,
                             forKeyPath: #keyPath(parent),
-                            context: &PhotoViewControllerLifecycleContext)
+                            context: &photoViewControllerLifecycleContext)
     }
 }
 
@@ -1172,7 +1190,7 @@ private extension UIPageViewController {
     }
 }
 
-private var PhotoViewControllerContentOffsetContext: UInt8 = 0
+private var photoViewControllerContentOffsetContext: UInt8 = 0
 
 private extension UIScrollView {
 
@@ -1180,13 +1198,13 @@ private extension UIScrollView {
         self.addObserver(observer,
                          forKeyPath: #keyPath(contentOffset),
                          options: .new,
-                         context: &PhotoViewControllerContentOffsetContext)
+                         context: &photoViewControllerContentOffsetContext)
     }
 
     func removeContentOffsetObserver(_ observer: NSObject) {
         self.removeObserver(observer,
                             forKeyPath: #keyPath(contentOffset),
-                            context: &PhotoViewControllerContentOffsetContext)
+                            context: &photoViewControllerContentOffsetContext)
     }
 }
 

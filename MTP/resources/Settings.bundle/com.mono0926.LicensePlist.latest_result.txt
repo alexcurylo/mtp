@@ -1,0 +1,114 @@
+name: Crashlytics, nameSpecified: 
+body: Fabric: Copyright 20…
+version: 3.14.0
+
+name: Fabric, nameSpecified: 
+body: Fabric: Copyright 20…
+version: 1.10.2
+
+name: Firebase, nameSpecified: 
+body: 
+                   …
+version: 6.18.0
+
+name: FirebaseAnalytics, nameSpecified: 
+body: Copyright 2020 Googl…
+version: 6.3.0
+
+name: FirebaseCore, nameSpecified: 
+body: 
+                   …
+version: 6.6.3
+
+name: FirebaseCoreDiagnostics, nameSpecified: 
+body: 
+                   …
+version: 1.2.1
+
+name: FirebaseCoreDiagnosticsInterop, nameSpecified: 
+body: 
+                   …
+version: 1.2.0
+
+name: FirebaseInstallations, nameSpecified: 
+body: 
+                   …
+version: 1.1.0
+
+name: GoogleAppMeasurement, nameSpecified: 
+body: Copyright 2020 Googl…
+version: 6.3.0
+
+name: GoogleDataTransport, nameSpecified: 
+body: 
+                   …
+version: 4.0.1
+
+name: GoogleDataTransportCCTSupport, nameSpecified: 
+body: 
+                   …
+version: 1.4.1
+
+name: GoogleUtilities, nameSpecified: 
+body: 
+                   …
+version: 6.5.1
+
+name: nanopb, nameSpecified: 
+body: Copyright (c) 2011 P…
+version: 0.3.9011
+
+name: PromisesObjC, nameSpecified: 
+body: 
+                   …
+version: 1.2.8
+
+name: Alamofire, nameSpecified: , owner: Alamofire, version: 4.9.1
+
+name: Anchorage, nameSpecified: , owner: Raizlabs, version: 4.4.0
+
+name: connectivity, nameSpecified: , owner: rwbutler, version: 3.3.3
+
+name: CwlCatchException, nameSpecified: , owner: mattgallagher, version: 1.2.0
+
+name: CwlPreconditionTesting, nameSpecified: , owner: mattgallagher, version: 1.2.0
+
+name: facebook-ios-sdk, nameSpecified: , owner: facebook, version: 5.15.1
+
+name: JWTDecode.swift, nameSpecified: , owner: auth0, version: 2.4.1
+
+name: Karte, nameSpecified: , owner: kiliankoe, version: 4.1.0
+
+name: KRActivityIndicatorView, nameSpecified: , owner: krimpedance, version: 3.0.4
+
+name: KRProgressHUD, nameSpecified: , owner: krimpedance, version: 3.4.4
+
+name: Moya, nameSpecified: , owner: Moya, version: 13.0.1
+
+name: Nuke, nameSpecified: , owner: kean, version: 8.4.0
+
+name: Parchment, nameSpecified: , owner: rechsteiner, version: 1.7.0
+
+name: QuickLayout, nameSpecified: , owner: huri000, version: 3.0.1
+
+name: R.swift.Library, nameSpecified: , owner: mac-cain13, version: 5.1.0
+
+name: ReactiveSwift, nameSpecified: , owner: ReactiveCocoa, version: 5.0.1
+
+name: realm-cocoa, nameSpecified: , owner: realm, version: 4.3.2
+
+name: realm-core, nameSpecified: , owner: realm, version: 5.23.8
+
+name: Result, nameSpecified: , owner: antitypical, version: 4.1.0
+
+name: RxSwift, nameSpecified: , owner: ReactiveX, version: 4.5.0
+
+name: Siren, nameSpecified: , owner: ArtSabintsev, version: 5.4.0
+
+name: SwiftEntryKit, nameSpecified: , owner: huri000, version: 1.2.3
+
+name: SwiftyBeaver, nameSpecified: , owner: SwiftyBeaver, version: 1.8.4
+
+add-version-numbers: true
+
+LicensePlist Version: 2.12.0

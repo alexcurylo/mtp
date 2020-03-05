@@ -51,7 +51,7 @@ final class LocationPagingVC: FixedPagingViewController {
         let controllers = [
             first,
             second,
-            third
+            third,
         ].compactMap { $0 }
 
         return LocationPagingVC(viewControllers: controllers)
@@ -69,9 +69,7 @@ final class LocationPagingVC: FixedPagingViewController {
     }
 
     /// :nodoc:
-    required init?(coder: NSCoder) {
-        return nil
-    }
+    required init?(coder: NSCoder) { nil }
 
     /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
@@ -83,6 +81,7 @@ final class LocationPagingVC: FixedPagingViewController {
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         report(screen: "Location Paging")
     }
 
@@ -159,9 +158,9 @@ extension LocationPagingVC: CollectionCellExposing {
                 path: IndexPath,
                 cell: UICollectionViewCell) {
         switch Page(rawValue: path.item) {
-        case .first?:
+        case .first:
             UILocationPaging.first.expose(item: cell)
-        case .photos?:
+        case .photos:
             UILocationPaging.photos.expose(item: cell)
         default:
             UILocationPaging.posts.expose(item: cell)

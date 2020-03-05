@@ -71,7 +71,7 @@ class AXPhotosDataSource: NSObject {
 
     /// Number of photos
     var numberOfPhotos: Int {
-        return self.photos.count
+        self.photos.count
     }
 
     /// Photo at index

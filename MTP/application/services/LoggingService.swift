@@ -17,7 +17,7 @@ enum LoggingLevel: Int, CustomStringConvertible {
     case error
 
     var description: String {
-        return ["💬", "🛠️", "📌", "⚠️", "💥"][rawValue]
+        ["💬", "🛠️", "📌", "⚠️", "💥"][rawValue]
     }
 }
 
@@ -175,6 +175,6 @@ struct ConsoleLoggingService: LoggingService {
     }
 
     private var timestamp: String {
-        return DateFormatter.stampTime.string(from: Date())
+        DateFormatter.stampTime.string(from: Date())
     }
 }

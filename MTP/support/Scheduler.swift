@@ -13,7 +13,7 @@ final class Scheduler {
 
     /// Is timer active?
     var isActive: Bool {
-        return timer != nil
+        timer != nil
     }
 
     /// :nodoc:

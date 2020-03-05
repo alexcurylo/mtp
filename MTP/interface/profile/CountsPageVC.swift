@@ -9,11 +9,11 @@ class CountsPageVC: UIViewController {
     // Overridable
 
     /// Whether counts are editable
-    var isEditable: Bool { return false }
+    var isEditable: Bool { false }
     /// Places to display
-    var places: [PlaceInfo] { return [] }
+    var places: [PlaceInfo] { [] }
     /// Places that have been visited
-    var visited: [Int] { return [] }
+    var visited: [Int] { [] }
 
     // Available to subclasses
 
@@ -50,7 +50,7 @@ class CountsPageVC: UIViewController {
     }()
 
     private let infoSection = 0
-    private var showsInfo: Bool { return isEditable }
+    private var showsInfo: Bool { isEditable }
 
     private enum Layout {
         static let headerHeight = CGFloat(25)
@@ -85,9 +85,7 @@ class CountsPageVC: UIViewController {
     }
 
     /// :nodoc:
-    required init?(coder: NSCoder) {
-        return nil
-    }
+    required init?(coder: NSCoder) { nil }
 
     /// Refresh collection view on layout
     override func viewWillLayoutSubviews() {
@@ -124,6 +122,7 @@ class CountsPageVC: UIViewController {
 
         brandsObserver = data.observer(of: .brands) { [weak self] _ in
             guard let self = self else { return }
+
             if self.viewModel.hierarchy == .brandRegionCountry {
                 self.build()
                 self.update()
@@ -169,8 +168,8 @@ extension CountsPageVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width,
-                      height: Layout.lineHeight)
+        CGSize(width: collectionView.bounds.width,
+               height: Layout.lineHeight)
     }
 }
 
@@ -204,7 +203,7 @@ extension CountsPageVC: UICollectionViewDataSource {
 
     /// :nodoc:
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return viewModel.sectionCount + (showsInfo ? 1 : 0)
+        viewModel.sectionCount + (showsInfo ? 1 : 0)
     }
 
     /// Section items count

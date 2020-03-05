@@ -63,9 +63,8 @@ final class UncertainValueTests: TestCase {
 
     func testUncertainIntCoding() throws {
         // given
-        struct SUT: Codable {
-            let value: UncertainValue<Int, String>
-        }
+        struct SUT: Codable { let value: UncertainValue<Int, String> }
+
         let fixture = Data(#"{"value":3}"#.utf8)
 
         // when
@@ -83,9 +82,8 @@ final class UncertainValueTests: TestCase {
 
     func testUncertainStringCoding() throws {
         // given
-        struct SUT: Codable {
-            let value: UncertainValue<Int, String>
-        }
+        struct SUT: Codable { let value: UncertainValue<Int, String> }
+
         let fixture = Data(#"{"value":"33"}"#.utf8)
 
         // when
@@ -103,9 +101,8 @@ final class UncertainValueTests: TestCase {
 
     func testUncertainDecodingWrong() throws {
         // given
-        struct SUT: Codable {
-            let value: UncertainValue<String, [String]>
-        }
+        struct SUT: Codable { let value: UncertainValue<String, [String]> }
+
         let fixture = Data(#"{"value":3}"#.utf8)
 
         // when
@@ -117,9 +114,8 @@ final class UncertainValueTests: TestCase {
 
     func testUncertainDecodingNull() throws {
         // given
-        struct SUT: Codable {
-            let value: UncertainValue<Int, String>
-        }
+        struct SUT: Codable { let value: UncertainValue<Int, String> }
+
         let fixture = Data(#"{"value":null}"#.utf8)
 
         // when
@@ -133,9 +129,8 @@ final class UncertainValueTests: TestCase {
 
     func testJSONNullCoding() throws {
         // given
-        struct SUT: Codable {
-            let value: JSONNull
-        }
+        struct SUT: Codable { let value: JSONNull }
+
         let fixture = Data(#"{"value":null}"#.utf8)
 
         // when
@@ -150,9 +145,8 @@ final class UncertainValueTests: TestCase {
 
     func testJSONNullDecodingFail() throws {
         // given
-        struct SUT: Codable {
-            let value: JSONNull
-        }
+        struct SUT: Codable { let value: JSONNull }
+
         let fixture = Data(#"{"value":"not null"}"#.utf8)
 
         // when

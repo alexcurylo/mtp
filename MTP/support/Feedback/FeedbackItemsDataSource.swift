@@ -16,7 +16,7 @@ final class FeedbackItemsDataSource {
 
     /// numberOfSections
     var numberOfSections: Int {
-        return filteredSections.count
+        filteredSections.count
     }
 
     /// :nodoc:
@@ -35,46 +35,50 @@ final class FeedbackItemsDataSource {
         sections.append(FeedbackItemsSection(
             items: [TopicItem(topics: topics,
                               selected: topic),
-                    BodyItem(bodyText: body)])
+                    BodyItem(bodyText: body),
+            ])
         )
 
         sections.append(FeedbackItemsSection(
             title: L.feedbackAdditionalInfo(),
             items: [UserPhoneItem(isHidden: hidesUserPhoneCell),
-                    AttachmentItem(isHidden: hidesAttachmentCell)])
+                    AttachmentItem(isHidden: hidesAttachmentCell),
+            ])
         )
 
         sections.append(FeedbackItemsSection(
             title: L.feedbackDeviceInfo(),
             items: [DeviceNameItem(),
-                    SystemVersionItem()])
+                    SystemVersionItem(),
+            ])
         )
 
         sections.append(FeedbackItemsSection(
             title: L.feedbackAppInfo(),
             items: [AppNameItem(isHidden: hidesAppInfoSection),
                     AppVersionItem(isHidden: hidesAppInfoSection),
-                    AppBuildItem(isHidden: hidesAppInfoSection)])
+                    AppBuildItem(isHidden: hidesAppInfoSection),
+            ])
         )
     }
 
     /// Section fetcher
     /// - Parameter section: Section index
     func section(at section: Int) -> FeedbackItemsSection {
-        return filteredSections[section]
+        filteredSections[section]
     }
 }
 
 private extension FeedbackItemsDataSource {
 
     var filteredSections: [FeedbackItemsSection] {
-        return sections.filter { section in
+        sections.filter { section in
             section.items.contains { !$0.isHidden }
         }
     }
 
     subscript(indexPath: IndexPath) -> FeedbackItemProtocol {
-        get { return filteredSections[indexPath.section][indexPath.item] }
+        get { filteredSections[indexPath.section][indexPath.item] }
         set { filteredSections[indexPath.section][indexPath.item] = newValue }
     }
 
@@ -125,16 +129,16 @@ final class FeedbackItemsSection {
 extension FeedbackItemsSection: Collection {
 
     /// :nodoc:
-    var startIndex: Int { return items.startIndex }
+    var startIndex: Int { items.startIndex }
     /// :nodoc:
-    var endIndex: Int { return items.endIndex }
+    var endIndex: Int { items.endIndex }
 
     /// :nodoc:
     subscript(position: Int) -> FeedbackItemProtocol {
-        get { return items[position] }
+        get { items[position] }
         set { items[position] = newValue }
     }
 
     /// :nodoc:
-    func index(after i: Int) -> Int { return items.index(after: i) }
+    func index(after idx: Int) -> Int { items.index(after: idx) }
 }

@@ -21,14 +21,14 @@ struct SearchResultJSON: Codable {
 extension SearchResultJSON: CustomStringConvertible {
 
     var description: String {
-        return "SearchResultJSON: \(request.query)"
+        "SearchResultJSON: \(request.query)"
     }
 }
 
 extension SearchResultJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < SearchResultJSON: \(request.query):
         data: \(data.debugDescription)
         /SearchResultJSON >
@@ -53,22 +53,22 @@ struct SearchResultItemJSON: Codable {
     fileprivate let type: String
 
     /// Is this a location search result?
-    var isLocation: Bool { return type == "locations" }
+    var isLocation: Bool { type == "locations" }
     /// Is this a user search result?
-    var isUser: Bool { return type == "users" }
+    var isUser: Bool { type == "users" }
  }
 
 extension SearchResultItemJSON: CustomStringConvertible {
 
     var description: String {
-        return "SearchResultItemJSON \(id)"
+        "SearchResultItemJSON \(id)"
     }
 }
 
 extension SearchResultItemJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < SearchResultItemJSON: \(description):
         country: \(String(describing: country))
         firstName: \(String(describing: firstName))

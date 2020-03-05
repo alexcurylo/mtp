@@ -46,9 +46,7 @@ final class AXImageViewTransitionContainer: UIView {
     }
 
     /// :nodoc:
-    required init?(coder aDecoder: NSCoder) {
-        return nil
-    }
+    required init?(coder aDecoder: NSCoder) { nil }
 
     /// :nodoc:
     override func layoutSubviews() {

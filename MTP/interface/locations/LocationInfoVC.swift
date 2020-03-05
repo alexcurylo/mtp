@@ -23,6 +23,7 @@ final class LocationInfoVC: UITableViewController {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
+
         requireOutlets()
         requireInjection()
 
@@ -32,6 +33,7 @@ final class LocationInfoVC: UITableViewController {
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         report(screen: "Location Info")
     }
 }
@@ -43,13 +45,13 @@ extension LocationInfoVC {
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        UITableView.automaticDimension
     }
 
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        UITableView.automaticDimension
     }
 }
 
@@ -120,20 +122,24 @@ private extension LocationInfoVC {
     }
 
     func configureLinks() {
-        let titles = [L.whenToGo(),
-                      L.currentWeather(),
-                      L.wikitravel(),
-                      L.wikimapia(),
-                      L.wikipedia()]
+        let titles = [
+            L.whenToGo(),
+            L.currentWeather(),
+            L.wikitravel(),
+            L.wikimapia(),
+            L.wikipedia(),
+        ]
         let name = location.placeTitle.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         let station = location.weatherhist
         let lat = "\(location.latitude)"
         let lon = "\(location.longitude)"
-        let links = [L.whenToGoLink(station),
-                     L.currentWeatherLink(lat, lon),
-                     L.wikitravelLink(name),
-                     L.wikimapiaLink(lat, lon),
-                     L.wikipediaLink(name)]
+        let links = [
+            L.whenToGoLink(station),
+            L.currentWeatherLink(lat, lon),
+            L.wikitravelLink(name),
+            L.wikimapiaLink(lat, lon),
+            L.wikipediaLink(name),
+        ]
         for (title, link) in zip(titles, links) {
             let button = GradientButton.urlButton(title: title, link: link)
             button.addTarget(self, action: #selector(linkTapped), for: .touchUpInside)

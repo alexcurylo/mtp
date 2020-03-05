@@ -39,11 +39,11 @@ extension Timestamps {
 
         /// Has wait expired?
         var isPending: Bool {
-            return !isCurrent && wait < 1
+            !isCurrent && wait < 1
         }
         /// Has wait not expired?
         var isWaiting: Bool {
-            return !isCurrent && wait > 0
+            !isCurrent && wait > 0
         }
     }
 
@@ -54,14 +54,14 @@ extension Timestamps {
     /// - Parameter item: Item
     /// - Returns: Timestamp if found
     func stamp(item: Checklist.Item) -> Date? {
-        return self[Mappable.key(item: item)]
+        self[Mappable.key(item: item)]
     }
 
     /// Convenience timestamp check
     /// - Parameter item: Item
     /// - Returns: Whether timestamped
     func isStamped(item: Checklist.Item) -> Bool {
-        return stamp(item: item) != nil
+        stamp(item: item) != nil
     }
 
     /// Set timestamps for checklist
@@ -105,7 +105,7 @@ extension Timestamps {
     /// - Parameter rankings: Checklist
     /// - Returns: Whether waiting
     func waiting(rankings: Checklist) -> Bool {
-        return stamp(item: rankings.rankingsItem) != nil
+        stamp(item: rankings.rankingsItem) != nil
     }
 
     /// How many minutes to wait
@@ -142,7 +142,7 @@ extension Timestamps {
     /// - Parameter scorecard: Checklist
     /// - Returns: Whether waiting
     func waiting(scorecard: Checklist) -> Bool {
-        return stamp(item: scorecard.scorecardItem) != nil
+        stamp(item: scorecard.scorecardItem) != nil
     }
 
     /// How many minutes to wait

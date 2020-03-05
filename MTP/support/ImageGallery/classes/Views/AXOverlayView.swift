@@ -12,11 +12,8 @@
 
 import UIKit
 
-// swiftlint:disable file_length
-
 /// AXOverlayView
 final class AXOverlayView: UIView, AXStackableViewContainerDelegate {
-    // swiftlint:disable:previous type_body_length
 
     /// Standard frame duration
     static let frameAnimDuration: TimeInterval = 0.25
@@ -83,7 +80,7 @@ final class AXOverlayView: UIView, AXStackableViewContainerDelegate {
             }
         }
         get {
-            return self.leftBarButtonItems?.first
+            self.leftBarButtonItems?.first
         }
     }
 
@@ -109,7 +106,7 @@ final class AXOverlayView: UIView, AXStackableViewContainerDelegate {
             }
         }
         get {
-            return self.rightBarButtonItems?.first
+            self.rightBarButtonItems?.first
         }
     }
 
@@ -212,9 +209,7 @@ final class AXOverlayView: UIView, AXStackableViewContainerDelegate {
     }
 
     /// :nodoc:
-    required init?(coder aDecoder: NSCoder) {
-        return nil
-    }
+    required init?(coder aDecoder: NSCoder) { nil }
 
     /// :nodoc:
     deinit {
@@ -346,6 +341,7 @@ final class AXOverlayView: UIView, AXStackableViewContainerDelegate {
         let size = self.bottomStackContainer.sizeThatFits(self.frame.size)
         let animations = { [weak self] in
             guard let self = self else { return }
+
             self.bottomStackContainer.frame = CGRect(origin: CGPoint(x: 0,
                                                                      y: self.frame.size.height - size.height),
                                                      size: size)
@@ -436,7 +432,7 @@ final class AXOverlayView: UIView, AXStackableViewContainerDelegate {
             let font = UIFont.systemFont(ofSize: pointSize, weight: UIFont.Weight.semibold)
             return [
                 NSAttributedString.Key.font: font,
-                NSAttributedString.Key.foregroundColor: UIColor.white
+                NSAttributedString.Key.foregroundColor: UIColor.white,
             ]
         }
 
@@ -451,6 +447,7 @@ final class AXOverlayView: UIView, AXStackableViewContainerDelegate {
 
         if let attributedText = attributedText {
             guard let titleBarButtonItemLabel = self.titleBarButtonItem.customView as? UILabel else { return }
+
             if titleBarButtonItemLabel.attributedText != attributedText {
                 titleBarButtonItemLabel.attributedText = attributedText
                 titleBarButtonItemLabel.sizeToFit()

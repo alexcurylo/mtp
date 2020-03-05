@@ -20,6 +20,7 @@ private class NetworkServiceObserver: ObserverImpl {
 
     init(of change: NetworkServiceChange,
          notify: @escaping NotificationHandler) {
+        // swiftlint:disable:next empty_line_after_super
         super.init(notification: NetworkServiceObserver.notification,
                    key: NetworkServiceObserver.statusKey,
                    value: change.rawValue,
@@ -31,12 +32,12 @@ extension NetworkService {
 
     /// Type of change generated
     var statusKey: StatusKey {
-        return NetworkServiceObserver.statusKey
+        NetworkServiceObserver.statusKey
     }
 
     /// Name of change
     var notification: Notification.Name {
-        return NetworkServiceObserver.notification
+        NetworkServiceObserver.notification
     }
 
     /// Notify change listeners
@@ -59,6 +60,6 @@ extension NetworkService {
     /// - Returns: Observer
     func observer(of change: NetworkServiceChange,
                   handler: @escaping NotificationHandler) -> Observer {
-        return NetworkServiceObserver(of: change, notify: handler)
+        NetworkServiceObserver(of: change, notify: handler)
     }
 }

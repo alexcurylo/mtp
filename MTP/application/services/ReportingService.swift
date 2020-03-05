@@ -32,11 +32,11 @@ enum AnalyticsEvent {
     /// login
     case login
     // search
-    //case search
+    // case search
     // search
-    //case select
+    // case select
     // share
-    //case share
+    // case share
     /// sign up
     case signup(method: Method)
 
@@ -59,7 +59,7 @@ enum AnalyticsEvent {
                      .etag: endpoint.etag.truncate(length: 20),
                      .success: success ? 1 : 0,
                      .code: code,
-                     .message: message.truncate(length: 30) ]
+                     .message: message.truncate(length: 30), ]
         case .signup(let method):
            return [ .method: method.rawValue]
         }
@@ -89,7 +89,7 @@ class FirebaseReportingService: ReportingService {
     // https://support.google.com/firebase/topic/6317484?hl=en&ref_topic=6386699
 
     private let eventMapper = AnalyticsEventMapper()
-    fileprivate var enabled: Bool { return true }
+    fileprivate var enabled: Bool { true }
 
     /// :nodoc: 
     init() {
@@ -134,28 +134,28 @@ private struct AnalyticsEventMapper {
             return "api"
         case .login:
             return AnalyticsEventLogin
-        //case .search:
+        // case .search:
             // AnalyticsParameterSearchTerm (NSString)
-            //return AnalyticsEventSearch
-        //case .select:
+            // return AnalyticsEventSearch
+        // case .select:
             // AnalyticsParameterContentType (NSString)
             // AnalyticsParameterItemList (NSString)
             // AnalyticsParameterItemName (NSString)
             // AnalyticsParameterItemID (NSString)
             // AnalyticsParameterIndex (NSNumber)
             // AnalyticsParameterItemLocationID (NSString)
-            //return AnalyticsEventSelectContent
-        //case .share:
+            // return AnalyticsEventSelectContent
+        // case .share:
             // AnalyticsParameterContentType (NSString)
             // AnalyticsParameterItemID (NSString)
-            //return AnalyticsEventShare
+            // return AnalyticsEventShare
         case .signup:
             return AnalyticsEventSignUp
         }
     }
 
     func parameters(for event: AnalyticsEvent) -> [String: Any] {
-        return event.parameters.mapKeys { parameterName(for: $0) }
+        event.parameters.mapKeys { parameterName(for: $0) }
     }
 
     func parameterName(for parameter: AnalyticsEvent.Parameter) -> String {
@@ -283,7 +283,7 @@ private extension MTP {
 /// Stub for testing
 final class ReportingServiceStub: FirebaseReportingService {
 
-    override fileprivate var enabled: Bool { return false }
+    override fileprivate var enabled: Bool { false }
 }
 
 #endif

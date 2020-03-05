@@ -20,7 +20,7 @@ final class MTPPhotoRequest: NSObject, OfflineRequest, ServiceProvider {
 
     /// convenience filter for location photos status
     func isAbout(location id: Int) -> Bool {
-        return id == location
+        id == location
     }
 
     /// Memberwise initializer
@@ -87,7 +87,7 @@ final class MTPPhotoRequest: NSObject, OfflineRequest, ServiceProvider {
             Key.photo.key: file,
             Key.title.key: title,
             Key.subtitle.key: subtitle,
-            Key.failures.key: failures
+            Key.failures.key: failures,
         ]
         if let caption = caption {
             info[Key.caption.key] = caption
@@ -138,6 +138,6 @@ final class MTPPhotoRequest: NSObject, OfflineRequest, ServiceProvider {
 
     /// :nodoc:
     func shouldAttemptResubmission(forError error: Error) -> Bool {
-        return true
+        true
     }
 }

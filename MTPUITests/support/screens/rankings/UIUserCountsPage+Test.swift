@@ -6,7 +6,5 @@ import XCTest
 /// Currently placeholder override of CountsPageVC
 extension UIUserCountsPage: Elemental {
 
-    var type: XCUIElement.ElementType {
-        return .other
-    }
+    var type: XCUIElement.ElementType { .other }
 }

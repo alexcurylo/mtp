@@ -29,7 +29,7 @@ extension UIView {
     /// Convenience for assigning corner rounding
     @IBInspectable var cornerRadius: CGFloat {
         get {
-            return layer.cornerRadius
+            layer.cornerRadius
         }
         set {
             layer.cornerRadius = newValue

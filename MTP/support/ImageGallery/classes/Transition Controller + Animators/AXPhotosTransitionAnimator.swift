@@ -35,7 +35,7 @@ class AXPhotosTransitionAnimator: NSObject, UIViewControllerAnimatedTransitionin
     /// Transit duration
     /// - Parameter transitionContext: Context
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return self.transitionInfo.duration
+        self.transitionInfo.duration
     }
 
     /// Animate transition

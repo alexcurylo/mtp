@@ -25,7 +25,7 @@ enum FacebookWrapper {
 
     /// Currently logged in user
     static var token: AccessToken? {
-        return AccessToken.current
+        AccessToken.current
     }
 }
 

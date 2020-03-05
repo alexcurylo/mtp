@@ -47,7 +47,7 @@ extension Optional where Wrapped == String {
 
     /// Convenience function identifying populated value
     var isNilOrEmpty: Bool {
-        return self?.isEmpty ?? true
+        self?.isEmpty ?? true
     }
 }
 
@@ -55,7 +55,7 @@ extension Optional where Wrapped: Collection {
 
     /// Convenience function identifying populated value
     var isNilOrEmpty: Bool {
-        return self?.isEmpty ?? true
+        self?.isEmpty ?? true
     }
 }
 
@@ -68,7 +68,7 @@ struct UnwrapError<T>: LocalizedError {
     let line: UInt
 
     var errorDescription: String? {
-        return "failed to unwrap \(T.self) at line \(line) in file \(String(file).file)"
+        "failed to unwrap \(T.self) at line \(line) in file \(String(file).file)"
     }
 }
 

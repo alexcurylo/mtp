@@ -18,11 +18,11 @@ func getMediaFromImagePickerInfo(_ info: [String: Any]) -> Media? {
     let movieType = kUTTypeMovie as String
 
     switch info[convertFromUIImagePickerControllerInfoKey(.mediaType)] as? String {
-    case imageType?:
+    case imageType:
         guard let image = info[convertFromUIImagePickerControllerInfoKey(.originalImage)] as? UIImage
             else { return .none }
         return .image(image)
-    case movieType?:
+    case movieType:
         guard let url = info[convertFromUIImagePickerControllerInfoKey(.mediaURL)] as? URL else { return .none }
         return getMediaFromURL(url)
     default:
@@ -51,5 +51,5 @@ func push<Item>(_ item: Item?) -> (((Item) -> Void) -> Void)? {
 
 // Helper function inserted by Swift 4.2 migrator.
 private func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
-	return input.rawValue
+	input.rawValue
 }

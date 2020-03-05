@@ -19,13 +19,11 @@ struct GeoJSON: Codable {
 
         fileprivate struct Geometry: Codable {
 
-            // swiftlint:disable:next nesting
             private enum GeometryType: String, Codable {
                 case polygon = "Polygon"
                 case multiPolygon = "MultiPolygon"
             }
 
-            // swiftlint:disable:next nesting
             private enum CodingKeys: CodingKey {
                 case coordinates
                 case type
@@ -178,17 +176,18 @@ extension GeoJSON.Feature {
     func contains(coordinate test: CLLocationCoordinate2D) -> Bool {
         for polygon in geometry.polygons {
             for coordinates in polygon {
-                guard var pJ = coordinates.last else { continue }
+                guard var ptJ = coordinates.last else { continue }
+
                 var contains = false
-                for pI in coordinates {
-                    if ((pI.latitude >= test.latitude) != (pJ.latitude >= test.latitude)) &&
-                       (test.longitude <= (pJ.longitude - pI.longitude) *
-                                          (test.latitude - pI.latitude) /
-                                          (pJ.latitude - pI.latitude) +
-                                          pI.longitude) {
+                for ptI in coordinates {
+                    if ((ptI.latitude >= test.latitude) != (ptJ.latitude >= test.latitude)) &&
+                       (test.longitude <= (ptJ.longitude - ptI.longitude) *
+                                          (test.latitude - ptI.latitude) /
+                                          (ptJ.latitude - ptI.latitude) +
+                                          ptI.longitude) {
                         contains.toggle()
                     }
-                    pJ = pI
+                    ptJ = ptI
                 }
                 if contains {
                     return true

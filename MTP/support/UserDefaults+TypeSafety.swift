@@ -32,18 +32,20 @@ struct StringKey: Hashable, RawRepresentable, ExpressibleByStringLiteral {
 
     /// Settings keys we expect to find in Info.plist
     static var infoDictionarySettingsKeys: [StringKey] {
-        return [.appVersion,
-                .appBuild]
+        [
+            .appVersion,
+            .appBuild,
+        ]
     }
 
     /// Settings key value from Info.plist
     var infoString: String? {
-        return Bundle.main.object(forInfoDictionaryKey: rawValue) as? String
+        Bundle.main.object(forInfoDictionaryKey: rawValue) as? String
     }
 
     /// Settings key value from UserDefaults
     var string: String? {
-        return UserDefaults.standard.string(forKey: rawValue)
+        UserDefaults.standard.string(forKey: rawValue)
     }
 }
 
@@ -67,7 +69,7 @@ extension UserDefaults {
     /// Typed value access
     /// - Parameter key: Key string
     func value<T>(forKey key: StringKey) -> T? {
-        return value(forKey: key.rawValue) as? T
+        value(forKey: key.rawValue) as? T
     }
 
     /// Default setting convenience
@@ -89,56 +91,56 @@ extension UserDefaults {
     /// Typed subscript access
     /// - Parameter key: Key string
     subscript<T>(key: StringKey) -> T? {
-        get { return value(forKey: key) }
+        get { value(forKey: key) }
         set { set(newValue, forKey: key) }
     }
 
     /// Bool subscript access
     /// - Parameter key: Key string
     subscript(key: StringKey) -> Bool {
-        get { return bool(forKey: key) }
+        get { bool(forKey: key) }
         set { set(newValue, forKey: key.rawValue) }
     }
 
     /// Int subscript access
     /// - Parameter key: Key string
     subscript(key: StringKey) -> Int {
-        get { return integer(forKey: key) }
+        get { integer(forKey: key) }
         set { set(newValue, forKey: key.rawValue) }
     }
 
     /// Double subscript access
     /// - Parameter key: Key string
     subscript(key: StringKey) -> Double {
-        get { return double(forKey: key) }
+        get { double(forKey: key) }
         set { set(newValue, forKey: key.rawValue) }
     }
 
     /// Float subscript access
     /// - Parameter key: Key string
     subscript(key: StringKey) -> Float {
-        get { return float(forKey: key) }
+        get { float(forKey: key) }
         set { set(newValue, forKey: key.rawValue) }
     }
 
     /// CGFloat subscript access
     /// - Parameter key: Key string
     subscript(key: StringKey) -> CGFloat {
-        get { return cgFloat(forKey: key) }
+        get { cgFloat(forKey: key) }
         set { set(newValue, forKey: key.rawValue) }
     }
 
     /// Color subscript access
     /// - Parameter key: Key string
     subscript(key: StringKey) -> UIColor? {
-        get { return color(forKey: key) }
+        get { color(forKey: key) }
         set { set(color: newValue, forKey: key) }
     }
 
     /// URL subscript access
     /// - Parameter key: Key string
     subscript(key: StringKey) -> URL? {
-        get { return url(forKey: key) }
+        get { url(forKey: key) }
         set { set(newValue, forKey: key.rawValue) }
     }
 }
@@ -149,42 +151,42 @@ extension UserDefaults {
     /// - Parameter key: Key string
     /// - Returns: Bool
     func bool(forKey key: StringKey) -> Bool {
-        return bool(forKey: key.rawValue)
+        bool(forKey: key.rawValue)
     }
 
     /// Int access convenience
     /// - Parameter key: Key string
     /// - Returns: Int
     func integer(forKey key: StringKey) -> Int {
-        return integer(forKey: key.rawValue)
+        integer(forKey: key.rawValue)
     }
 
     /// Float access convenience
     /// - Parameter key: Key string
     /// - Returns: Float
     func float(forKey key: StringKey) -> Float {
-        return float(forKey: key.rawValue)
+        float(forKey: key.rawValue)
     }
 
     /// CGFloat access convenience
     /// - Parameter key: Key string
     /// - Returns: CGFloat
     func cgFloat(forKey key: StringKey) -> CGFloat {
-        return CGFloat(double(forKey: key.rawValue))
+        CGFloat(double(forKey: key.rawValue))
     }
 
     /// double access convenience
     /// - Parameter key: Key string
     /// - Returns: double
     func double(forKey key: StringKey) -> Double {
-        return double(forKey: key.rawValue)
+        double(forKey: key.rawValue)
     }
 
     /// URL access convenience
     /// - Parameter key: Key string
     /// - Returns: URL if present
     func url(forKey key: StringKey) -> URL? {
-        return url(forKey: key.rawValue)
+        url(forKey: key.rawValue)
     }
 
     /// Color setting convenience
@@ -204,7 +206,7 @@ extension UserDefaults {
     /// - Parameter key: Key string
     /// - Returns: UIColor if present
     func color(forKey key: StringKey) -> UIColor? {
-        return data(forKey: key.rawValue)
+        data(forKey: key.rawValue)
             .flatMap { NSKeyedUnarchiver.unarchiveObject(with: $0) as? UIColor }
     }
 }

@@ -10,7 +10,7 @@
 //  Copyright © 2017 Alex Hill. All rights reserved.
 //
 
-private let DefaultHorizontalSpacing: CGFloat = 20
+private let defaultHorizontalSpacing: CGFloat = 20
 
 /// AXPagingConfig
 final class AXPagingConfig: NSObject {
@@ -48,14 +48,14 @@ final class AXPagingConfig: NSObject {
     /// :nodoc:
     override convenience init() {
         self.init(navigationOrientation: .horizontal,
-                  interPhotoSpacing: DefaultHorizontalSpacing,
+                  interPhotoSpacing: defaultHorizontalSpacing,
                   loadingViewClass: nil)
     }
 
     /// :nodoc:
     convenience init(navigationOrientation: UIPageViewController.NavigationOrientation) {
         self.init(navigationOrientation: navigationOrientation,
-                  interPhotoSpacing: DefaultHorizontalSpacing,
+                  interPhotoSpacing: defaultHorizontalSpacing,
                   loadingViewClass: nil)
     }
 
@@ -67,7 +67,7 @@ final class AXPagingConfig: NSObject {
     /// :nodoc:
     convenience init(loadingViewClass: AXLoadingViewProtocol.Type?) {
         self.init(navigationOrientation: .horizontal,
-                  interPhotoSpacing: DefaultHorizontalSpacing,
+                  interPhotoSpacing: defaultHorizontalSpacing,
                   loadingViewClass: loadingViewClass)
     }
 }

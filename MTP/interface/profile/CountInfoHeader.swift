@@ -105,9 +105,7 @@ final class CountInfoHeader: UICollectionReusableView, ServiceProvider {
     }
 
     /// :nodoc:
-    required init?(coder: NSCoder) {
-        return nil
-    }
+    required init?(coder: NSCoder) { nil }
 
     /// Handle dependency injection
     /// - Parameter list: Checklist
@@ -215,14 +213,18 @@ private extension CountInfoHeader {
     }
 
     func configure() {
-        let labels = UIStackView(arrangedSubviews: [rankTitle,
-                                                    rankLabel,
-                                                    fractionLabel]).with {
+        let labels = UIStackView(arrangedSubviews: [
+            rankTitle,
+            rankLabel,
+            fractionLabel,
+        ]).with {
             $0.alignment = .center
             $0.spacing = Layout.spacing.label
         }
-        let infoStack = UIStackView(arrangedSubviews: [labels,
-                                                       uploadImageView]).with {
+        let infoStack = UIStackView(arrangedSubviews: [
+            labels,
+            uploadImageView,
+        ]).with {
             $0.alignment = .center
             $0.spacing = Layout.spacing.rank
         }
@@ -240,9 +242,11 @@ private extension CountInfoHeader {
         let rightPadding = UIView {
             $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
         }
-        brandStack = UIStackView(arrangedSubviews: [brandLabel,
-                                                    brandSwitch,
-                                                    rightPadding]).with {
+        brandStack = UIStackView(arrangedSubviews: [
+            brandLabel,
+            brandSwitch,
+            rightPadding,
+        ]).with {
             $0.alignment = .bottom
             $0.spacing = Layout.spacing.label
         }

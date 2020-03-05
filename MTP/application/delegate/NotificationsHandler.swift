@@ -18,7 +18,7 @@ extension NotificationsHandler: AppLaunchHandler {
     func application(_ application: UIApplication,
                      // swiftlint:disable:next discouraged_optional_collection
                      willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        return true
+        true
     }
 
     /// didFinishLaunchingWithOptions
@@ -63,7 +63,7 @@ extension NotificationsHandler: AppLaunchHandler {
         UNUserNotificationCenter.current().setNotificationCategories([
             congratulate,
             information,
-            visit
+            visit,
         ])
         UNUserNotificationCenter.current().delegate = self
 
@@ -92,7 +92,7 @@ extension NotificationsHandler: AppNotificationsHandler {
     ///   - error: Error
     func application(_ application: UIApplication,
                      didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        //log.error("register for remote notifications: \(error)")
+        // log.error("register for remote notifications: \(error)")
     }
 
     /// didReceiveRemoteNotification
@@ -163,17 +163,17 @@ extension NotificationsHandler: UNUserNotificationCenterDelegate {
         willPresent notification: UNNotification,
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
     ) {
-        //let encoded = NSKeyedArchiver.archivedData(withRootObject: notification)
-        //print(encoded.hexEncodedString())
+        // let encoded = NSKeyedArchiver.archivedData(withRootObject: notification)
+        // print(encoded.hexEncodedString())
         UIApplication.shared.applicationIconBadgeNumber = 0
         completionHandler( [.alert, .badge, .sound])
     }
 
     // also need requestAuthorization(options: [.alert, .badge, .sound, .providesAppNotificationSettings]) { ... }
-    //func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                //openSettingsFor notification: UNNotification?) {
-        //let navController = self.window?.rootViewController as! UINavigationController
-        //let notificationSettingsVC = NotificationSettingsViewController()
+    // func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                // openSettingsFor notification: UNNotification?) {
+        // let navController = self.window?.rootViewController as! UINavigationController
+        // let notificationSettingsVC = NotificationSettingsViewController()
        // navController.pushViewController(notificationSettingsVC, animated: true)
     // }
 }
@@ -195,6 +195,7 @@ private extension NotificationsHandler {
 private extension Data {
 
     struct HexEncodingOptions: OptionSet {
+
         let rawValue: Int
         static let upperCase = HexEncodingOptions(rawValue: 1 << 0)
     }
@@ -211,13 +212,13 @@ private extension Data {
     }
 
     var hexString: String {
-        return reduce(into: "") { $0 += String(format: "%02x", $1) }
+        reduce(into: "") { $0 += String(format: "%02x", $1) }
     }
 
     private static let hexAlphabet = Array("0123456789abcdef".unicodeScalars)
 
     func hexEncodedStringFast() -> String {
-        return String(reduce(into: "".unicodeScalars) { result, value in
+        String(reduce(into: "".unicodeScalars) { result, value in
             result.append(Data.hexAlphabet[Int(value / 16)])
             result.append(Data.hexAlphabet[Int(value % 16)])
         })

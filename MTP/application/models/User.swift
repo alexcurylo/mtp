@@ -168,10 +168,10 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
 
     /// Can rankings be displayed?
     var isComplete: Bool {
-        return birthday != nil &&
-               country != nil &&
-               location != nil &&
-               gender != "U"
+        birthday != nil &&
+        country != nil &&
+        location != nil &&
+        gender != "U"
     }
 
     /// Copy and update visit counts
@@ -194,7 +194,7 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
                         facebookEmail: facebookEmail,
                         facebookId: facebookId,
                         facebookUserToken: facebookUserToken,
-                        //favoritePlaces: favoritePlaces,
+                        // favoritePlaces: favoritePlaces,
                         firstName: firstName,
                         fullName: fullName,
                         gender: gender,
@@ -235,14 +235,14 @@ struct UserJSON: Codable, Equatable, ServiceProvider {
 extension UserJSON: CustomStringConvertible {
 
     var description: String {
-        return "\(String(describing: username)) (\(id))"
+        "\(String(describing: username)) (\(id))"
     }
 }
 
 extension UserJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < User: \(description):
             airport: \(String(describing: airport))
             bio: \(String(describing: bio))
@@ -294,26 +294,26 @@ extension UserJSON: CustomDebugStringConvertible {
 extension UserJSON: UserInfo {
 
     var isSelf: Bool {
-        return id == data.user?.id
+        id == data.user?.id
     }
-    var orderBeaches: Int { return rankBeaches ?? 0 }
-    var orderDivesites: Int { return rankDivesites ?? 0 }
-    var orderGolfcourses: Int { return rankGolfcourses ?? 0 }
-    var orderHotels: Int { return rankHotels ?? 0 }
-    var orderLocations: Int { return rankLocations ?? 0 }
-    var orderRestaurants: Int { return rankRestaurants ?? 0 }
-    var orderTop100Restaurants: Int { return rankTop100Restaurants ?? 0 }
-    var orderUncountries: Int { return rankUncountries ?? 0 }
-    var orderWhss: Int { return rankWhss ?? 0 }
-    var visitBeaches: Int { return scoreBeaches ?? 0 }
-    var visitDivesites: Int { return scoreDivesites ?? 0 }
-    var visitGolfcourses: Int { return scoreGolfcourses ?? 0 }
-    var visitHotels: Int { return scoreHotels ?? 0 }
-    var visitLocations: Int { return scoreLocations ?? 0 }
-    var visitRestaurants: Int { return scoreRestaurants ?? 0 }
-    var visitTop100Restaurants: Int { return scoreTop100Restaurants ?? 0 }
-    var visitUncountries: Int { return scoreUncountries ?? 0 }
-    var visitWhss: Int { return scoreWhss ?? 0 }
+    var orderBeaches: Int { rankBeaches ?? 0 }
+    var orderDivesites: Int { rankDivesites ?? 0 }
+    var orderGolfcourses: Int { rankGolfcourses ?? 0 }
+    var orderHotels: Int { rankHotels ?? 0 }
+    var orderLocations: Int { rankLocations ?? 0 }
+    var orderRestaurants: Int { rankRestaurants ?? 0 }
+    var orderTop100Restaurants: Int { rankTop100Restaurants ?? 0 }
+    var orderUncountries: Int { rankUncountries ?? 0 }
+    var orderWhss: Int { rankWhss ?? 0 }
+    var visitBeaches: Int { scoreBeaches ?? 0 }
+    var visitDivesites: Int { scoreDivesites ?? 0 }
+    var visitGolfcourses: Int { scoreGolfcourses ?? 0 }
+    var visitHotels: Int { scoreHotels ?? 0 }
+    var visitLocations: Int { scoreLocations ?? 0 }
+    var visitRestaurants: Int { scoreRestaurants ?? 0 }
+    var visitTop100Restaurants: Int { scoreTop100Restaurants ?? 0 }
+    var visitUncountries: Int { scoreUncountries ?? 0 }
+    var visitWhss: Int { scoreWhss ?? 0 }
 }
 
 /// Apparently unimplemented so far
@@ -323,11 +323,11 @@ struct FavoritePlace: Codable, Hashable, CustomStringConvertible, CustomDebugStr
     private let type: String?
 
     var description: String {
-        return debugDescription
+        debugDescription
     }
 
     var debugDescription: String {
-        return """
+        """
         < Favorite Place:
             id \(String(describing: id))
             type \(String(describing: type))>
@@ -345,7 +345,7 @@ struct Link: Codable, Hashable {
 
     /// Convience isEmpty accessor
     var isEmpty: Bool {
-        return text.isEmpty && url.isEmpty
+        text.isEmpty && url.isEmpty
     }
 
     /// Initialize by injection
@@ -362,11 +362,11 @@ struct Link: Codable, Hashable {
 extension Link: CustomStringConvertible, CustomDebugStringConvertible {
 
     var description: String {
-        return debugDescription
+        debugDescription
     }
 
     var debugDescription: String {
-        return "< Link: text \(text) url \(url)>"
+        "< Link: text \(text) url \(url)>"
     }
 }
 
@@ -375,6 +375,7 @@ extension UserAvatar {
     /// imageUrl
     var imageUrl: URL? {
         guard let uuid = picture, !uuid.isEmpty else { return nil }
+
         let target = MTP.picture(uuid: uuid, size: .thumb)
         return target.requestUrl
     }
@@ -453,12 +454,12 @@ extension UserAvatar {
 
     /// Is this logged in user?
     var isSelf: Bool {
-        return userId == data.user?.id
+        userId == data.user?.id
     }
 
     /// :nodoc:
     override static func primaryKey() -> String? {
-        return "userId"
+        "userId"
     }
 
     /// Constructor from MTP endpoint data

@@ -8,12 +8,12 @@ final class MappableOverlay: MKPolygon {
     private var locationId = 0
     private var color: UIColor = Checklist.locations.marker
     private var isVisited: Bool {
-        return color == UIColor.visited
+        color == UIColor.visited
     }
 
     /// Renderer provider for MKMapViewDelegate
     var renderer: MKOverlayRenderer {
-        return MKPolygonRenderer(polygon: self).with {
+        MKPolygonRenderer(polygon: self).with {
             $0.fillColor = color.withAlphaComponent(0.25)
             $0.strokeColor = color.withAlphaComponent(0.5)
             $0.lineWidth = 1
@@ -24,7 +24,7 @@ final class MappableOverlay: MKPolygon {
     /// - Parameter mappable: Place
     /// - Returns: Identity
     func shows(mappable: Mappable) -> Bool {
-        return mappable.checklist == .locations &&
+        mappable.checklist == .locations &&
                mappable.checklistId == locationId &&
                mappable.isVisited == isVisited
     }
@@ -59,7 +59,7 @@ extension Mappable {
 
     /// List of overlays for place
     var overlays: [MappableOverlay] {
-        return MappableOverlay.overlays(mappable: self,
-                                        world: data.worldMap)
+        MappableOverlay.overlays(mappable: self,
+                                 world: data.worldMap)
     }
 }

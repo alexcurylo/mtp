@@ -116,7 +116,7 @@ func update(attachmentMedia: Media?) {
     /// Generate feedback
     /// - Parameter configuration: configuration
     func generateFeedback(configuration: FeedbackConfiguration) throws -> Feedback {
-        return try FeedbackGenerator.generate(configuration: configuration,
-                                              repository: editingItemsRepository)
+        try FeedbackGenerator.generate(configuration: configuration,
+                                       repository: editingItemsRepository)
     }
 }

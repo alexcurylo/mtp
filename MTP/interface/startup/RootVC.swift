@@ -16,8 +16,8 @@ final class RootVC: UIViewController {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireOutlets()
 
+        requireOutlets()
         setLightMode()
         setApplicationBackground()
     }
@@ -25,6 +25,7 @@ final class RootVC: UIViewController {
     /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         guard !UIApplication.isUnitTesting else { return }
 
         if data.isLoggedIn {
@@ -41,6 +42,7 @@ final class RootVC: UIViewController {
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         guard !UIApplication.isUnitTesting else { return }
 
         report(screen: "Root")

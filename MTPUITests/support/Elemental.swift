@@ -20,35 +20,35 @@ enum ElementalState {
 extension Elemental {
 
     var all: XCUIElementQuery {
-        return type.all
+        type.all
     }
 
     var container: XCUIElementQuery {
-        return all
+        all
     }
 
     var element: XCUIElement {
-        return identified
+        identified
     }
 
     var identified: XCUIElement {
-        return container.element(matching: type, identifier: identifier)
+        container.element(matching: type, identifier: identifier)
     }
 
     var match: XCUIElement {
-        return element.firstMatch
+        element.firstMatch
     }
 
     var exists: Bool {
-        return match.exists
+        match.exists
     }
 
     var isHittable: Bool {
-        return match.isHittable
+        match.isHittable
     }
 
     var isSelected: Bool {
-        return match.isSelected
+        match.isSelected
     }
 
     @discardableResult func wait(timeout: TimeInterval = 5) -> XCUIElement {

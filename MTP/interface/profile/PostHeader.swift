@@ -53,9 +53,7 @@ final class PostHeader: UITableViewHeaderFooterView, ServiceProvider {
     }
 
     /// :nodoc:
-    required init?(coder: NSCoder) {
-        return nil
-    }
+    required init?(coder: NSCoder) { nil }
 
     /// Empty display
     override func prepareForReuse() {
@@ -92,9 +90,10 @@ private extension PostHeader {
     }
 
     func configure() {
-        let buttons = UIStackView(arrangedSubviews: [addButton,
-                                                     queueButton
-                                                     ]).with {
+        let buttons = UIStackView(arrangedSubviews: [
+            addButton,
+            queueButton,
+        ]).with {
             $0.axis = .vertical
             $0.spacing = 8
             $0.distribution = .fillEqually

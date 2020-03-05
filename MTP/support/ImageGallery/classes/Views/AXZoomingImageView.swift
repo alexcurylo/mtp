@@ -12,7 +12,7 @@
 
 import UIKit
 
-private let ZoomScaleEpsilon: CGFloat = 0.01
+private let zoomScaleEpsilon: CGFloat = 0.01
 
 /// AXZoomingImageView
 final class AXZoomingImageView: UIScrollView, UIScrollViewDelegate {
@@ -29,7 +29,7 @@ final class AXZoomingImageView: UIScrollView, UIScrollViewDelegate {
             self.updateImageView(image: value)
         }
         get {
-            return self.imageView.image
+            self.imageView.image
         }
     }
 
@@ -67,9 +67,7 @@ final class AXZoomingImageView: UIScrollView, UIScrollViewDelegate {
     }
 
     /// :nodoc:
-    required init?(coder aDecoder: NSCoder) {
-        return nil
-    }
+    required init?(coder aDecoder: NSCoder) { nil }
 
     private func updateImageView(image: UIImage?) {
         self.imageView.transform = .identity
@@ -115,7 +113,7 @@ final class AXZoomingImageView: UIScrollView, UIScrollViewDelegate {
 
     /// :nodoc:
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        return self.imageView
+        self.imageView
     }
 
     /// :nodoc:
@@ -135,7 +133,7 @@ final class AXZoomingImageView: UIScrollView, UIScrollViewDelegate {
 
     /// :nodoc:
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
-        guard abs(scale - self.minimumZoomScale) <= ZoomScaleEpsilon else {
+        guard abs(scale - self.minimumZoomScale) <= zoomScaleEpsilon else {
             return
         }
 
@@ -174,7 +172,7 @@ final class AXZoomingImageView: UIScrollView, UIScrollViewDelegate {
         let point = sender.location(in: self.imageView)
 
         var zoomScale = self.maximumZoomScale
-        if self.zoomScale >= self.maximumZoomScale || abs(self.zoomScale - self.maximumZoomScale) <= ZoomScaleEpsilon {
+        if self.zoomScale >= self.maximumZoomScale || abs(self.zoomScale - self.maximumZoomScale) <= zoomScaleEpsilon {
             zoomScale = self.minimumZoomScale
         }
 

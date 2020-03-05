@@ -27,6 +27,7 @@ class ProfileVC: UIViewController {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
+
         requireOutlets()
         requireInjection()
 
@@ -45,9 +46,7 @@ class ProfileVC: UIViewController {
     }
 
     /// Controllers to be displayed in PagingViewController
-    var pages: [UIViewController] {
-        return []
-    }
+    var pages: [UIViewController] { [] }
 
     /// Set up data change observations
     func observe() {
@@ -94,10 +93,10 @@ private extension ProfileVC {
         countryLabel.text = user.locationName
 
         #if FOLLOWERS_IMPLEMENTED
-        let followersCount = 9_999
+        let followersCount = 9999
         let followers = L.followers(followersCount.grouped)
         followersLabel.text = followers
-        let followingCount = 9_999
+        let followingCount = 9999
         let following = L.following(followingCount.grouped)
         followingLabel.text = following
         #endif

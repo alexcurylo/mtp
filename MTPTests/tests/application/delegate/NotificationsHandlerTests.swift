@@ -10,6 +10,7 @@ final class NotificationsHandlerTests: TestCase {
 
     override func setUp() {
         super.setUp()
+
         original = UNUserNotificationCenter.current().delegate
     }
 
@@ -71,11 +72,11 @@ final class NotificationsHandlerTests: TestCase {
         XCTAssertTrue(completed)
     }
 
-    func _testResponse() throws {
+    func testResponse() throws {
         // need to save a UNNotificationResponse mock
-        //let path = Bundle(for: type(of: self)).path(forResource: "notification", ofType: "mock")
-        //let data = FileManager.default.contents(atPath: path ?? "")
-        //let notification = NSKeyedUnarchiver.unarchiveObject(with: data ?? Data()) as? UNNotification
+        // let path = Bundle(for: type(of: self)).path(forResource: "notification", ofType: "mock")
+        // let data = FileManager.default.contents(atPath: path ?? "")
+        // let notification = NSKeyedUnarchiver.unarchiveObject(with: data ?? Data()) as? UNNotification
     }
 
     func testPresent() throws {
@@ -109,10 +110,10 @@ extension Data {
     init?(hexString: String) {
         let len = hexString.count / 2
         var data = Data(capacity: len)
-        for i in 0..<len {
-            let j = hexString.index(hexString.startIndex, offsetBy: i * 2)
-            let k = hexString.index(j, offsetBy: 2)
-            let bytes = hexString[j..<k]
+        for idx in 0..<len {
+            let a = hexString.index(hexString.startIndex, offsetBy: idx * 2)
+            let b = hexString.index(a, offsetBy: 2)
+            let bytes = hexString[a..<b]
             if var num = UInt8(bytes, radix: 16) {
                 data.append(&num, count: 1)
             } else {

@@ -106,7 +106,7 @@ private class MyCountsPagingView: PagingView {
             pageView.leadingAnchor.constraint(equalTo: leadingAnchor),
             pageView.trailingAnchor.constraint(equalTo: trailingAnchor),
             pageView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            pageView.topAnchor.constraint(equalTo: topAnchor)
+            pageView.topAnchor.constraint(equalTo: topAnchor),
         ])
     }
 
@@ -134,6 +134,7 @@ class MyCountsPagingCell: PagingCell {
     /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
+
         contentView.layer.cornerRadius = 4
         contentView.clipsToBounds = true
 
@@ -149,9 +150,7 @@ class MyCountsPagingCell: PagingCell {
     }
 
     /// :nodoc:
-    required init?(coder: NSCoder) {
-        return nil
-    }
+    required init?(coder: NSCoder) { nil }
 
     /// Set menu display
     /// - Parameters:

@@ -40,16 +40,17 @@ Requirements
 - [Github Actions](https://github.com/alexcurylo/mtp/actions?workflow=CI) for CI testing
 - [Gitter](https://gitter.im/alexcurylo/mtp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) for chat
 - [Jazzy](https://github.com/realm/jazzy) for generating documentation
+- [LicensePlist](https://github.com/mono0926/LicensePlist) for generating acknowledgements
 - [Mint](https://github.com/yonaskolb/mint) for tool dependency management
 - [SwiftLint](https://github.com/realm/SwiftLint) for opinionated coding style enforcement
 - [SwiftMockGeneratorForXcode](https://github.com/seanhenry/SwiftMockGeneratorForXcode) for generating mocks
-- [SwiftyBeaver](https://github.com/SwiftyBeaver/SwiftyBeaver) for logging
 
 ### Libraries:
 
 - [Alamofire](https://github.com/Alamofire/Alamofire) and [AlamofireNetworkActivityIndicator](https://github.com/Alamofire/AlamofireNetworkActivityIndicator) for HTTP networking
 - [Anchorage](https://github.com/Raizlabs/Anchorage) for fluent layout declarations
-- [Facebook SDK in Swift](https://github.com/facebook/facebook-sdk-swift)  for Facebook support
+- [Connectivity](https://github.com/rwbutler/connectivity) for network state manaagement
+- [Facebook SDK](https://github.com/facebook/facebook-ios-sdk)  for Facebook support
 - [JWTDecode](https://github.com/auth0/JWTDecode.swift) for [JSON Web Token](https://jwt.io) management
 - [Karte](https://github.com/kiliankoe/Karte) for launching directions
 - [KRProgressHUD](https://github.com/krimpedance/KRProgressHUD) for progress management
@@ -60,6 +61,7 @@ Requirements
 - [Realm](https://github.com/realm/realm-cocoa) for data management
 - [Siren](https://github.com/ArtSabintsev/Siren) for update notifications
 - [SwiftEntryKit](https://github.com/huri000/SwiftEntryKit) for notification management
+- [SwiftyBeaver](https://github.com/SwiftyBeaver/SwiftyBeaver) for logging
 
 Usage
 -----

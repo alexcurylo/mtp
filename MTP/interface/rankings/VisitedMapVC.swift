@@ -20,14 +20,15 @@ final class VisitedMapVC: UIViewController {
     /// :nodoc:
      override func viewDidLoad() {
         super.viewDidLoad()
-        requireOutlets()
 
+        requireOutlets()
         configure()
    }
 
     /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         show(navBar: animated, style: .visited)
         expose()
         if !initialized {
@@ -40,12 +41,14 @@ final class VisitedMapVC: UIViewController {
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         mapScroll.flashScrollIndicators()
     }
 
     /// :nodoc:
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+
         updateMinZoomScale(for: displaySize)
     }
 }

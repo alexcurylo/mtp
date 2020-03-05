@@ -30,42 +30,42 @@ extension ServiceProvider {
 
     /// ApplicationService
     var app: ApplicationService {
-        return ServiceProviderInstances.appServiceInstance
+        ServiceProviderInstances.appServiceInstance
     }
 
     /// DataService
     var data: DataService {
-        return ServiceProviderInstances.dataServiceInstance
+        ServiceProviderInstances.dataServiceInstance
     }
 
     /// LocationService
     var loc: LocationService {
-        return ServiceProviderInstances.locServiceInstance
+        ServiceProviderInstances.locServiceInstance
     }
 
     /// LoggingService
     var log: LoggingService {
-        return ServiceProviderInstances.logServiceInstance
+        ServiceProviderInstances.logServiceInstance
     }
 
     /// NetworkService
     var net: NetworkService {
-        return ServiceProviderInstances.netServiceInstance
+        ServiceProviderInstances.netServiceInstance
     }
 
     /// NotificationService
     var note: NotificationService {
-        return ServiceProviderInstances.noteServiceInstance
+        ServiceProviderInstances.noteServiceInstance
     }
 
     /// ReportingService
     var report: ReportingService {
-        return ServiceProviderInstances.reportServiceInstance
+        ServiceProviderInstances.reportServiceInstance
     }
 
     /// StyleService
     var style: StyleService {
-        return ServiceProviderInstances.styleServiceInstance
+        ServiceProviderInstances.styleServiceInstance
     }
 }
 
@@ -75,16 +75,17 @@ extension UIViewController: ServiceProvider {
     /// - Parameter name: Name of screen
     func report(screen name: String) {
         guard UIApplication.isProduction else { return }
+
         report.screen(name: name, vc: classForCoder)
     }
 
     /// Opt out of Dark Mode
     func setLightMode() {
         // placeholder for if/when `UIUserInterfaceStyle` is rejected
-        //if #available(iOS 13.0, *) {
-            //RoutingAppDelegate.shared.window?.overrideUserInterfaceStyle = .light
-            //overrideUserInterfaceStyle = .light
-        //}
+        // if #available(iOS 13.0, *) {
+            // RoutingAppDelegate.shared.window?.overrideUserInterfaceStyle = .light
+            // overrideUserInterfaceStyle = .light
+        // }
     }
 }
 

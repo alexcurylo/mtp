@@ -12,13 +12,12 @@ final class ProfilePagingVC: FixedPagingViewController {
     /// - Parameter viewControllers: Controllers
     override init(viewControllers: [UIViewController]) {
         super.init(viewControllers: viewControllers)
+
         configure()
     }
 
     /// :nodoc:
-    required init?(coder: NSCoder) {
-        return nil
-    }
+    required init?(coder: NSCoder) { nil }
 
     /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
@@ -30,6 +29,7 @@ final class ProfilePagingVC: FixedPagingViewController {
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         report(screen: "Profile Paging")
     }
 

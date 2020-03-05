@@ -189,6 +189,6 @@ private extension LaunchHandler {
 
         FirebaseApp.configure()
 
-        //Crashlytics.sharedInstance().crash()
+        // Crashlytics.sharedInstance().crash()
     }
 }

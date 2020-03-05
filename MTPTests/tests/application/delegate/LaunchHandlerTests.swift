@@ -27,7 +27,7 @@ final class LaunchHandlerTests: TestCase {
         // given
         let settings: [LaunchSetting] = [
             .loggedIn(true),
-            .token("test")
+            .token("test"),
         ]
 
         // then
