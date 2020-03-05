@@ -7,8 +7,7 @@ import RealmSwift
 // https://realm.io/docs/swift/latest
 
 /// Wrapper around Realm database
-// swiftlint:disable:next type_body_length
-final class RealmDataController: ServiceProvider {
+final class RealmDataController: ServiceProvider { // swiftlint:disable:this type_body_length
 
     private lazy var realm: Realm = create()
 
