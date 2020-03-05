@@ -29,8 +29,6 @@ target 'MTP' do
 
 end
 
-plugin 'cocoapods-acknowledgements', :settings_bundle => true
-
 post_install do |installer|
     installer.pods_project.targets.each do |target|
         # patch Crashlytics, Fabric, nanopb

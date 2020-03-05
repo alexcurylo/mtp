@@ -40,10 +40,10 @@ Requirements
 - [Github Actions](https://github.com/alexcurylo/mtp/actions?workflow=CI) for CI testing
 - [Gitter](https://gitter.im/alexcurylo/mtp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) for chat
 - [Jazzy](https://github.com/realm/jazzy) for generating documentation
+- [LicensePlist](https://github.com/mono0926/LicensePlist) for generating acknowledgements
 - [Mint](https://github.com/yonaskolb/mint) for tool dependency management
 - [SwiftLint](https://github.com/realm/SwiftLint) for opinionated coding style enforcement
 - [SwiftMockGeneratorForXcode](https://github.com/seanhenry/SwiftMockGeneratorForXcode) for generating mocks
-- [SwiftyBeaver](https://github.com/SwiftyBeaver/SwiftyBeaver) for logging
 
 ### Libraries:
 
@@ -60,6 +60,7 @@ Requirements
 - [Realm](https://github.com/realm/realm-cocoa) for data management
 - [Siren](https://github.com/ArtSabintsev/Siren) for update notifications
 - [SwiftEntryKit](https://github.com/huri000/SwiftEntryKit) for notification management
+- [SwiftyBeaver](https://github.com/SwiftyBeaver/SwiftyBeaver) for logging
 
 Usage
 -----

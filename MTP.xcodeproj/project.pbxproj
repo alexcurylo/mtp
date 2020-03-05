@@ -201,6 +201,7 @@
 		8CAE30642239F4F100E31647 /* WorldMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CAE30632239F4F100E31647 /* WorldMap.swift */; };
 		8CB2A24322E177C90050E368 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB2A24222E177C90050E368 /* Scheduler.swift */; };
 		8CB3487A22FC067D006C5C56 /* DataServiceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB3487922FC067D006C5C56 /* DataServiceObserver.swift */; };
+		8CB7DCE22410A9E3005643FF /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8CB7DCE12410A9E2005643FF /* Settings.bundle */; };
 		8CBBEB6C2317D30000E4F5E1 /* UncertainValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBBEB6B2317D30000E4F5E1 /* UncertainValueTests.swift */; };
 		8CBBEB6E2318C28C00E4F5E1 /* LinkTappableTextViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBBEB6D2318C28C00E4F5E1 /* LinkTappableTextViewTests.swift */; };
 		8CBBECF42318DBC100E4F5E1 /* WKWebViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBBECF32318DBC100E4F5E1 /* WKWebViewControllerTests.swift */; };
@@ -262,7 +263,6 @@
 		8CFBC105230A3C61008844D9 /* passwordReset.json in Resources */ = {isa = PBXBuildFile; fileRef = 8CFBC104230A3C61008844D9 /* passwordReset.json */; };
 		8CFEE459221FA2120061614B /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFEE458221FA2120061614B /* ImageService.swift */; };
 		C1D9A04EB6208ED844515108 /* libPods-MTP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA7B8EF0C9A37C87525A9855 /* libPods-MTP.a */; };
-		F5352AD2AEBF0C3A5C6191CE /* Pods-MTP-settings-metadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E2C18C122B275F3B40CDCDA /* Pods-MTP-settings-metadata.plist */; };
 		FA02AD6E234BF2BD0009EABA /* scorecard-hotels-7853.json in Resources */ = {isa = PBXBuildFile; fileRef = FA02AD6D234BF2BD0009EABA /* scorecard-hotels-7853.json */; };
 		FA03454C2303795500632322 /* UISignupFail.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03454B2303795400632322 /* UISignupFail.swift */; };
 		FA03454E2303798100632322 /* UISignupFail+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03454D2303798100632322 /* UISignupFail+Test.swift */; };
@@ -531,7 +531,6 @@
 		FA7CCAEF22B848EE0092A95E /* PhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7CCAEE22B848EE0092A95E /* PhotosVC.swift */; };
 		FA7DE1B42337993C00CDD373 /* Connectivity in Frameworks */ = {isa = PBXBuildFile; productRef = FA7DE1B32337993C00CDD373 /* Connectivity */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FA7DE1B623379C0E00CDD373 /* MTPPhotoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DE1B523379C0E00CDD373 /* MTPPhotoRequest.swift */; };
-		FA81361220E8F64500313AB9 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FA81361120E8F64500313AB9 /* Settings.bundle */; };
 		FA815B712286D138004B91C8 /* NearbyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA815B702286D138004B91C8 /* NearbyVC.swift */; };
 		FA81D9A0232E1B7F0060DC72 /* RealmMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA81D99F232E1B7E0060DC72 /* RealmMapView.swift */; };
 		FA81D9A5232E27600060DC72 /* ABFClusterAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA81D9A3232E27600060DC72 /* ABFClusterAnnotationView.m */; };
@@ -794,6 +793,7 @@
 		8CAE30632239F4F100E31647 /* WorldMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldMap.swift; sourceTree = "<group>"; };
 		8CB2A24222E177C90050E368 /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = "<group>"; };
 		8CB3487922FC067D006C5C56 /* DataServiceObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataServiceObserver.swift; sourceTree = "<group>"; };
+		8CB7DCE12410A9E2005643FF /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		8CBBEB6B2317D30000E4F5E1 /* UncertainValueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UncertainValueTests.swift; sourceTree = "<group>"; };
 		8CBBEB6D2318C28C00E4F5E1 /* LinkTappableTextViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkTappableTextViewTests.swift; sourceTree = "<group>"; };
 		8CBBECF32318DBC100E4F5E1 /* WKWebViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WKWebViewControllerTests.swift; sourceTree = "<group>"; };
@@ -822,6 +822,7 @@
 		8CD2831822E7EC1000324FDE /* XCUIElementTypeQueryProvider+Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElementTypeQueryProvider+Query.swift"; sourceTree = "<group>"; };
 		8CD4BD2623024DCB0041E0C3 /* UIForgotPassword+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIForgotPassword+Test.swift"; sourceTree = "<group>"; };
 		8CD4BD2823024E320041E0C3 /* UIForgotPassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIForgotPassword.swift; sourceTree = "<group>"; };
+		8CD5B3792410A18700604F42 /* license_plist.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = license_plist.yml; sourceTree = "<group>"; };
 		8CD9351F230E1F6400BCB549 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8CDA496B2330709C00014912 /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Network.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/Network.framework; sourceTree = DEVELOPER_DIR; };
 		8CDA496E233076D700014912 /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Network.framework; path = System/Library/Frameworks/Network.framework; sourceTree = SDKROOT; };
@@ -1104,7 +1105,6 @@
 		FA7C2013222B712D002C6DAB /* CLLocationCoordinate2D+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate2D+Equatable.swift"; sourceTree = "<group>"; };
 		FA7CCAEE22B848EE0092A95E /* PhotosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosVC.swift; sourceTree = "<group>"; };
 		FA7DE1B523379C0E00CDD373 /* MTPPhotoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPPhotoRequest.swift; sourceTree = "<group>"; };
-		FA81361120E8F64500313AB9 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		FA815B702286D138004B91C8 /* NearbyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyVC.swift; sourceTree = "<group>"; };
 		FA81D99F232E1B7E0060DC72 /* RealmMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmMapView.swift; sourceTree = "<group>"; };
 		FA81D9A2232E275E0060DC72 /* MTP-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MTP-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -2282,7 +2282,7 @@
 				FA8A65B0217ED4A300BC0DFE /* profile */,
 				FA8A65B1217ED4F200BC0DFE /* rankings */,
 				FAAE29C120EFADC700B43BA9 /* R.generated.swift */,
-				FA81361120E8F64500313AB9 /* Settings.bundle */,
+				8CB7DCE12410A9E2005643FF /* Settings.bundle */,
 				FA8A65B2217ED50E00BC0DFE /* startup */,
 				8CAE30572239DA7C00E31647 /* world-map.geojson */,
 			);
@@ -2307,6 +2307,7 @@
 				FA9A71E020F1DD60005F6A57 /* Gemfile.lock */,
 				FA3E366F20DFC0E3002AF4EE /* IDETemplateMacros.plist */,
 				FA4F1C5B20DFA67700B8A1ED /* LICENSE.md */,
+				8CD5B3792410A18700604F42 /* license_plist.yml */,
 				FAC749A42335AAAE007B1EF1 /* Mintfile */,
 				FA4B7FE021E38970006AF8E2 /* MTP.entitlements */,
 				FA3E366A20DFACCD002AF4EE /* Podfile */,
@@ -2601,6 +2602,7 @@
 			buildPhases = (
 				758B7A9DF0E27C737110216C /* [CP] Check Pods Manifest.lock */,
 				FA81361520E8FE9700313AB9 /* Generate R.generated.swift */,
+				8CD5B37824109FB500604F42 /* Generate Acknowledgements */,
 				FA392BB320DF69F30026C828 /* Sources */,
 				FA392BB420DF69F30026C828 /* Frameworks */,
 				FA3BD22A2160DE7A007EAF75 /* SwiftLint */,
@@ -2772,7 +2774,6 @@
 				FA5AC0BB21FDC1060080F84F /* MyCounts.storyboard in Resources */,
 				8C0E6A7123055CFD00E7768E /* scorecard-golfcourses-7853.json in Resources */,
 				8CD93520230E1F6400BCB549 /* GoogleService-Info.plist in Resources */,
-				FA81361220E8F64500313AB9 /* Settings.bundle in Resources */,
 				8CAE30592239DA7D00E31647 /* world-map.geojson in Resources */,
 				FA392BC420DF69F50026C828 /* Assets.xcassets in Resources */,
 				FA463783210E00E60007382D /* EditProfile.storyboard in Resources */,
@@ -2812,7 +2813,6 @@
 				FABA7410213A359C0059ACCA /* ProfilePhotos.storyboard in Resources */,
 				FA32CC7E2100CB75004C1329 /* Signup.storyboard in Resources */,
 				8C0E6A6E23055CFD00E7768E /* rankings.json in Resources */,
-				F5352AD2AEBF0C3A5C6191CE /* Pods-MTP-settings-metadata.plist in Resources */,
 				FA745753210DA4C60010F4F4 /* MyProfile.storyboard in Resources */,
 				8C0E6A7423055CFD00E7768E /* scorecard-uncountries-7853.json in Resources */,
 				8CFBC105230A3C61008844D9 /* passwordReset.json in Resources */,
@@ -2823,6 +2823,7 @@
 				8CED2C44231765B10093AA29 /* userLogin-fail.json in Resources */,
 				FA8A65AF217ED3BA00BC0DFE /* RankingsFilter.storyboard in Resources */,
 				FA0F816722BF1D1400C00898 /* AddPhoto.storyboard in Resources */,
+				8CB7DCE22410A9E3005643FF /* Settings.bundle in Resources */,
 				FA507C2823059DD6000F0EF9 /* userLogin-7853.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2879,6 +2880,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "SECRETS=\"${SRCROOT}/../../secrets/mtp/mtp/Secrets.plist\"\nAPP=\"${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}/Secrets.plist\"\nif [ -f \"$SECRETS\" ]; then\n    cp -f \"$SECRETS\" \"$APP\"\n    echo \"copied Secrets.plist: $APP\"\nelse\n    echo \"Secrets.plist not found at $SECRETS, all secrets will be 'MISSING'\"\nfi\n";
+		};
+		8CD5B37824109FB500604F42 /* Generate Acknowledgements */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Acknowledgements";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ $CONFIGURATION = \"Debug\" ]; then\n    mint run LicensePlist license-plist --add-version-numbers --output-path $PRODUCT_NAME/resources/Settings.bundle\nfi\n";
 		};
 		8CD93521230E244300BCB549 /* Fabric */ = {
 			isa = PBXShellScriptBuildPhase;

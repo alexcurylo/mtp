@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- Migrate to LicensePList for complete acknowledgements
+
 ## [Version 1.2.4, Build 657] - 2020-01-16
 
 ### Fixed
