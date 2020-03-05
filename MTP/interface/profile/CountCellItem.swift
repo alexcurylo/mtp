@@ -57,6 +57,7 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
     func inject(model: CountCellModel) {
         // swiftlint:disable:previous function_body_length
         guard let model = model as? CountItemModel else { return }
+
         self.model = model
 
         let font: UIFont
@@ -156,9 +157,7 @@ final class CountCellItem: UICollectionViewCell, ServiceProvider {
     }
 
     /// :nodoc:
-    required init?(coder: NSCoder) {
-        return nil
-    }
+    required init?(coder: NSCoder) { nil }
 
     /// Empty display
     override func prepareForReuse() {
@@ -180,9 +179,11 @@ private extension CountCellItem {
     func configure() {
         contentView.backgroundColor = .white
 
-        let infos = UIStackView(arrangedSubviews: [titleLabel,
-                                                   visit,
-                                                   check]).with {
+        let infos = UIStackView(arrangedSubviews: [
+            titleLabel,
+            visit,
+            check,
+        ]).with {
             $0.spacing = layout.spacing
             $0.alignment = .center
         }

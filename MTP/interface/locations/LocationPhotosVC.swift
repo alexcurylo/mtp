@@ -21,28 +21,28 @@ final class LocationPhotosVC: PhotosVC {
 
     /// Whether user can add a new photo
     override var canCreate: Bool {
-        return isImplemented
+        isImplemented
     }
 
     /// Whether a new post is queued to upload
     override var isQueued: Bool {
-        return queuedPhotos.contains { $0.isAbout(location: mappable.checklistId) }
+        queuedPhotos.contains { $0.isAbout(location: mappable.checklistId) }
     }
 
     private var isImplemented: Bool {
-        return mappable.checklist == .locations
+        mappable.checklist == .locations
     }
 
     /// How many photos in collection
     override var photoCount: Int {
-        return photos.count
+        photos.count
     }
 
     /// Retrieve an indexed photo
     /// - Parameter index: Index
     /// - Returns: Photo
     override func photo(at index: Int) -> Photo {
-        return photos[index]
+        photos[index]
     }
 
     /// Edit or create a new photo
@@ -55,8 +55,8 @@ final class LocationPhotosVC: PhotosVC {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjection()
 
+        requireInjection()
         update()
     }
 
@@ -97,7 +97,7 @@ final class LocationPhotosVC: PhotosVC {
 extension LocationPhotosVC: AddPhotoDelegate {
 
     /// Enable Location selection
-    var isLocatable: Bool { return true }
+    var isLocatable: Bool { true }
 }
 
 // MARK: Private

@@ -102,7 +102,7 @@ private extension Checked {
 extension Checked: CustomStringConvertible {
 
     var description: String {
-        return """
+        """
         \(beaches.count) beaches \
         \(divesites.count) divesites \
         \(golfcourses.count) golfcourses \
@@ -119,7 +119,7 @@ extension Checked: CustomStringConvertible {
 extension Checked: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < Checklists::
         beaches: \(beaches.debugDescription)
         divesites: \(divesites.debugDescription)
@@ -140,6 +140,6 @@ extension Hashable where Self: CaseIterable {
     /// Convenience for indexing by case
     var index: Self.AllCases.Index {
         // swiftlint:disable:next force_unwrapping
-        return type(of: self).allCases.firstIndex(of: self)!
+        return Self.allCases.firstIndex(of: self)!
     }
 }

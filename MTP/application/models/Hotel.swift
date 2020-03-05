@@ -26,14 +26,14 @@ struct HotelJSON: Codable {
 extension HotelJSON: CustomStringConvertible {
 
     var description: String {
-        return title
+        title
     }
 }
 
 extension HotelJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < HotelJSON: \(description):
         active: \(active)
         brand: \(brand)
@@ -72,7 +72,7 @@ extension HotelJSON: CustomDebugStringConvertible {
 
     /// :nodoc:
     override static func primaryKey() -> String? {
-        return "placeId"
+        "placeId"
     }
 
     /// Constructor from MTP endpoint data
@@ -102,6 +102,6 @@ extension HotelJSON: CustomDebugStringConvertible {
     }
 
     override var description: String {
-        return placeTitle
+        placeTitle
     }
 }

@@ -36,23 +36,23 @@ final class AXStackableViewContainer: UIView {
     init(views: [UIView], anchoredAt point: AXStackableViewContainerAnchorPoint) {
         self.anchorPoint = point
         super.init(frame: .zero)
+
         views.forEach { self.addSubview($0) }
     }
 
     /// :nodoc:
-    required init?(coder aDecoder: NSCoder) {
-        return nil
-    }
+    required init?(coder aDecoder: NSCoder) { nil }
 
     /// :nodoc:
     override func layoutSubviews() {
         super.layoutSubviews()
+
         self.computeSize(for: self.frame.size, applySizingLayout: true)
     }
 
     /// :nodoc:
     override func sizeThatFits(_ size: CGSize) -> CGSize {
-        return self.computeSize(for: size, applySizingLayout: false)
+        computeSize(for: size, applySizingLayout: false)
     }
 
     @discardableResult private func computeSize(for constrainedSize: CGSize, applySizingLayout: Bool) -> CGSize {
@@ -103,19 +103,21 @@ final class AXStackableViewContainer: UIView {
     /// :nodoc:
     override func didAddSubview(_ subview: UIView) {
         super.didAddSubview(subview)
+
         delegate?.stackableViewContainer(self, didAddSubview: subview)
     }
 
     /// :nodoc:
     override func willRemoveSubview(_ subview: UIView) {
         super.willRemoveSubview(subview)
+
         delegate?.stackableViewContainer(self, willRemoveSubview: subview)
     }
 
     // MARK: - Helpers
 
     private func isToolbarOrNavigationBar(_ view: UIView) -> Bool {
-        return view is UIToolbar || view is UINavigationBar
+        view is UIToolbar || view is UINavigationBar
     }
 }
 

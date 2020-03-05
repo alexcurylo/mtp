@@ -10,6 +10,7 @@ final class TopLoadingTextView: UITextView {
     /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+
         shouldEnableScroll = isScrollEnabled
         self.isScrollEnabled = false
     }
@@ -17,6 +18,7 @@ final class TopLoadingTextView: UITextView {
     /// Intercept layout process
     override func layoutSubviews() {
         super.layoutSubviews()
+
         isScrollEnabled = shouldEnableScroll
     }
 

@@ -13,7 +13,7 @@ import UIKit
 struct SystemVersionItem: FeedbackItemProtocol {
 
     /// version
-    var version: String { return UIDevice.current.systemVersion }
+    var version: String { UIDevice.current.systemVersion }
 
     /// :nodoc:
     let isHidden: Bool = false

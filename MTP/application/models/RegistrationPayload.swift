@@ -30,17 +30,17 @@ struct RegistrationPayload: Codable, Hashable {
 
     /// Check fields required by endpoint
     var isValid: Bool {
-        return !email.isEmpty &&
-               !first_name.isEmpty &&
-               !last_name.isEmpty &&
-               //country.isValid &&
-               //country_id > 0 &&
-               //location.isValid &&
-               //location_id > 0 &&
-               //!birthday.isEmpty &&
-               //!gender.isEmpty &&
-               !password.isEmpty &&
-               password == passwordConfirmation
+        !email.isEmpty &&
+        !first_name.isEmpty &&
+        !last_name.isEmpty &&
+        // country.isValid &&
+        // country_id > 0 &&
+        // location.isValid &&
+        // location_id > 0 &&
+        //!birthday.isEmpty &&
+        //!gender.isEmpty &&
+        !password.isEmpty &&
+        password == passwordConfirmation
     }
 
     /// Initialize with data
@@ -122,7 +122,7 @@ private struct CountryPayload: Codable, Hashable {
     let is_mtp_location: Int
 
     var isValid: Bool {
-        return country_id > 0 && !country_name.isEmpty
+        country_id > 0 && !country_name.isEmpty
     }
 
     init(country: Country) {
@@ -148,10 +148,10 @@ struct LocationPayload: Codable, Hashable {
 
     /// Is payload valid?
     var isValid: Bool {
-        return country_id > 0 &&
-               !country_name.isEmpty &&
-               id > 0 &&
-               !location_name.isEmpty
+        country_id > 0 &&
+            !country_name.isEmpty &&
+            id > 0 &&
+            !location_name.isEmpty
     }
 
     /// :nodoc:

@@ -28,7 +28,7 @@ final class UserCountsPagingVC: FixedPagingViewController, UserCountsPageDataSou
 
         let controllers: [UserCountsPageVC] = [
             UserCountsPageVC(model: (model.list, model.user, .visited)),
-            UserCountsPageVC(model: (model.list, model.user, .remaining))
+            UserCountsPageVC(model: (model.list, model.user, .remaining)),
         ]
 
         return UserCountsPagingVC(model: model,
@@ -50,19 +50,19 @@ final class UserCountsPagingVC: FixedPagingViewController, UserCountsPageDataSou
     }
 
     /// :nodoc:
-    required init?(coder: NSCoder) {
-        return nil
-    }
+    required init?(coder: NSCoder) { nil }
 
     /// :nodoc:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         expose()
     }
 
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         report(screen: "User Counts")
     }
 
@@ -145,7 +145,7 @@ extension UserCountsPagingVC: CollectionCellExposing {
                 path: IndexPath,
                 cell: UICollectionViewCell) {
         switch  Page(rawValue: path.item) {
-        case .remaining?:
+        case .remaining:
             UIUserCountsPaging.remaining.expose(item: cell)
         default:
             UIUserCountsPaging.visited.expose(item: cell)

@@ -16,8 +16,8 @@ final class MainTBC: UITabBarController {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjection()
 
+        requireInjection()
         MainTBC.current = self
         checkDestination()
     }
@@ -36,8 +36,8 @@ final class MainTBC: UITabBarController {
     /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        report(screen: "Main Tab Bar")
 
+        report(screen: "Main Tab Bar")
         checkDestination()
     }
 
@@ -107,15 +107,15 @@ private extension MainTBC {
     }
 
     var locations: LocationsVC? {
-        return clean(tab: .locations) as? LocationsVC
+        clean(tab: .locations) as? LocationsVC
     }
 
     var rankings: RankingsVC? {
-        return clean(tab: .rankings) as? RankingsVC
+        clean(tab: .rankings) as? RankingsVC
     }
 
     var myProfile: MyProfileVC? {
-        return clean(tab: .myProfile) as? MyProfileVC
+        clean(tab: .myProfile) as? MyProfileVC
     }
 
     func checkDestination() {
@@ -149,12 +149,13 @@ extension MainTBC: Exposing {
         var buttons = [
             UIMain.locations,
             UIMain.rankings,
-            UIMain.myProfile
+            UIMain.myProfile,
         ]
         for control in tabBar.subviews where control is UIControl {
             // this does not appear to work in 13.0
             control.expose(as: buttons.first)
             guard buttons.count > 1 else { return }
+
             buttons = Array(buttons.dropFirst())
         }
     }
@@ -205,6 +206,6 @@ extension UIViewController {
 private extension UINavigationController {
 
     var root: UIViewController? {
-        return viewControllers.first
+        viewControllers.first
     }
 }

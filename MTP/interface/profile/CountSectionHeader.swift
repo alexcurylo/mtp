@@ -79,9 +79,7 @@ final class CountSectionHeader: UICollectionReusableView {
     }
 
     /// :nodoc:
-    required init?(coder: NSCoder) {
-        return nil
-    }
+    required init?(coder: NSCoder) { nil }
 
     /// Empty display
     override func prepareForReuse() {
@@ -102,8 +100,10 @@ private extension CountSectionHeader {
     func configure() {
         backgroundColor = .white
 
-        let stack = UIStackView(arrangedSubviews: [disclosure,
-                                                   label]).with {
+        let stack = UIStackView(arrangedSubviews: [
+            disclosure,
+            label,
+        ]).with {
             $0.alignment = .center
             $0.spacing = 5
         }

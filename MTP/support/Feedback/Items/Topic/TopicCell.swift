@@ -15,6 +15,7 @@ final class TopicCell: UITableViewCell {
     /// :nodoc:
     override init(style: UITableViewCell.CellStyle,
                   reuseIdentifier: String?) {
+        // swiftlint:disable:next empty_line_after_super
         super.init(style: .value1,
                    reuseIdentifier: TopicCell.reuseIdentifier)
     }

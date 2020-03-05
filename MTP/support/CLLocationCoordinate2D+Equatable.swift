@@ -34,7 +34,7 @@ extension CLLocationCoordinate2D: Equatable {
     /// - Returns: Equality
     public static func == (lhs: CLLocationCoordinate2D,
                            rhs: CLLocationCoordinate2D) -> Bool {
-        return lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
+        lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
     }
 }
 
@@ -45,27 +45,27 @@ extension CLLocationCoordinate2D {
 
     /// Is coordinate empty?
     var isZero: Bool {
-        return self == .zero
+        self == .zero
     }
 
     /// CLLocation constructor convenience
     var location: CLLocation {
-        return CLLocation(latitude: latitude,
-                          longitude: longitude)
+        CLLocation(latitude: latitude,
+                   longitude: longitude)
     }
 
     /// Distance calculation
     /// - Parameter from: CLLocationCoordinate2D
     /// - Returns: Distance
     func distance(from: CLLocationCoordinate2D) -> CLLocationDistance {
-        return location.distance(from: from.location)
+        location.distance(from: from.location)
     }
 
     /// Distance calculation
     /// - Parameter from: CLLocation
     /// - Returns: Distance
     func distance(from: CLLocation) -> CLLocationDistance {
-        return location.distance(from: from)
+        location.distance(from: from)
     }
 }
 
@@ -73,7 +73,7 @@ extension CLLocationDistance {
 
     /// Range appropriate formatting of kilometers
     var formatted: String {
-        let km = self / 1_000
+        let km = self / 1000
         let formatted: String
         switch km {
         case ..<1:
@@ -99,15 +99,15 @@ struct ClusterRegion {
     private var bottom: CLLocationDegrees = 0
 
     private var latitudeDelta: CLLocationDegrees {
-        return (bottom + 90) - (top + 90)
+        (bottom + 90) - (top + 90)
     }
     private var longitudeDelta: CLLocationDegrees {
-        return (right + 180) - (left + 180)
+        (right + 180) - (left + 180)
     }
 
     /// Accessor for size to fit on screen
     var maxDelta: CLLocationDegrees {
-        return max(latitudeDelta, longitudeDelta)
+        max(latitudeDelta, longitudeDelta)
     }
 
     /// Construct region from coordinates

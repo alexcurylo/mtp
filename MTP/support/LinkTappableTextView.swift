@@ -9,13 +9,12 @@ final class LinkTappableTextView: UITextView {
     /// - Parameter frame: Display frame
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
+
         configure()
     }
 
     /// :nodoc:
-    required init?(coder: NSCoder) {
-        return nil
-    }
+    required init?(coder: NSCoder) { nil }
 
     /// Hit test
     /// - Parameters:

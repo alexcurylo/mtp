@@ -119,8 +119,8 @@ extension LocationHandler: AppLaunchHandler {
     func application(_ application: UIApplication,
                      // swiftlint:disable:next discouraged_optional_collection
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        //let options = launchOptions ?? [:]
-        //if options.keys.contains(.location) { }
+        // let options = launchOptions ?? [:]
+        // if options.keys.contains(.location) { }
 
         return true
     }
@@ -137,6 +137,7 @@ extension LocationHandler: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager,
                          didUpdateLocations locations: [CLLocation]) {
         guard let now = locations.last else { return }
+
         if let last = lastCoordinate,
            last.distance(from: now) < distanceFilter {
             return
@@ -156,7 +157,7 @@ extension LocationHandler: CLLocationManagerDelegate {
     /// - Parameter manager: Location manager
     /// - Returns: true
     func locationManagerShouldDisplayHeadingCalibration(_ manager: CLLocationManager) -> Bool {
-        return true
+        true
     }
 
     /// Broadcast authorization change
@@ -299,7 +300,7 @@ final class DistancesOperation: KVNOperation {
 
         #if INSTRUMENT_DISTANCE
         let time = -start.timeIntervalSinceNow
-        let results = "Distances: \(references.count) in \(Int(time * 1_000)) ms"
+        let results = "Distances: \(references.count) in \(Int(time * 1000)) ms"
         ConsoleLoggingService().info(results)
         handler?.note.postInfo(title: results, body: "")
         #endif

@@ -7,14 +7,14 @@
 	<key>PreferenceSpecifiers</key>
 	<array>
 		<dict>
-			<key>Title</key>
-			<string>About</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
+			<key>FooterText</key>
+			<string>Copyright © 2018-2020 Trollwerks Inc.</string>
 		</dict>
 		<dict>
 			<key>Title</key>
-			<string>Version Number</string>
+			<string>Version</string>
 			<key>Type</key>
 			<string>PSTitleValueSpecifier</string>
 			<key>DefaultValue</key>
@@ -33,18 +33,12 @@
 			<string>CFBundleVersion</string>
 		</dict>
 		<dict>
-			<key>Title</key>
-			<string>Acknowledgements</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 			<key>Title</key>
-			<string>Libraries</string>
+			<string>Acknowledgements</string>
 			<key>File</key>
-			<string>Pods-MTP-settings-metadata</string>
+			<string>com.mono0926.LicensePlist</string>
 		</dict>
 	</array>
 </dict>

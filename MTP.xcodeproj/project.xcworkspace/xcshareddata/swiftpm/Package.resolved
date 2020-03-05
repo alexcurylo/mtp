@@ -1,0 +1,214 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Alamofire",
+        "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
+        "state": {
+          "branch": null,
+          "revision": "747c8db8d57b68d5e35275f10c92d55f982adbd4",
+          "version": "4.9.1"
+        }
+      },
+      {
+        "package": "Anchorage",
+        "repositoryURL": "https://github.com/Raizlabs/Anchorage",
+        "state": {
+          "branch": null,
+          "revision": "18fed38e95db3200aecbd5b7101b981f91656084",
+          "version": "4.4.0"
+        }
+      },
+      {
+        "package": "Connectivity",
+        "repositoryURL": "https://github.com/rwbutler/connectivity",
+        "state": {
+          "branch": null,
+          "revision": "b8ab6b1b3e1c50617cb9ce581264e5002949bd14",
+          "version": "3.3.3"
+        }
+      },
+      {
+        "package": "CwlCatchException",
+        "repositoryURL": "https://github.com/mattgallagher/CwlCatchException.git",
+        "state": {
+          "branch": null,
+          "revision": "7cd2f8cacc4d22f21bc0b2309c3b18acf7957b66",
+          "version": "1.2.0"
+        }
+      },
+      {
+        "package": "CwlPreconditionTesting",
+        "repositoryURL": "https://github.com/mattgallagher/CwlPreconditionTesting.git",
+        "state": {
+          "branch": null,
+          "revision": "c228db5d2ad1b01ebc84435e823e6cca4e3db98b",
+          "version": "1.2.0"
+        }
+      },
+      {
+        "package": "Facebook",
+        "repositoryURL": "https://github.com/facebook/facebook-ios-sdk",
+        "state": {
+          "branch": null,
+          "revision": "9398d30089c2c14e0f0026e24388ca0829f8f1c5",
+          "version": "5.15.1"
+        }
+      },
+      {
+        "package": "JWTDecode",
+        "repositoryURL": "https://github.com/auth0/JWTDecode.swift",
+        "state": {
+          "branch": null,
+          "revision": "7875753f26400a9456e3305ba47255d7629a8a69",
+          "version": "2.4.1"
+        }
+      },
+      {
+        "package": "Karte",
+        "repositoryURL": "https://github.com/kiliankoe/Karte",
+        "state": {
+          "branch": null,
+          "revision": "ce3531f4f10a162b6d08dd29e974d88a13dd1218",
+          "version": "4.1.0"
+        }
+      },
+      {
+        "package": "KRActivityIndicatorView",
+        "repositoryURL": "https://github.com/krimpedance/KRActivityIndicatorView.git",
+        "state": {
+          "branch": null,
+          "revision": "0d9f485bc706b1b36509be3a75cbc0727dcc0088",
+          "version": "3.0.4"
+        }
+      },
+      {
+        "package": "KRProgressHUD",
+        "repositoryURL": "https://github.com/krimpedance/KRProgressHUD",
+        "state": {
+          "branch": null,
+          "revision": "95d52f1ab31c1367a7eff988c7b049c05d696750",
+          "version": "3.4.4"
+        }
+      },
+      {
+        "package": "Moya",
+        "repositoryURL": "https://github.com/Moya/Moya.git",
+        "state": {
+          "branch": null,
+          "revision": "ae2ca8a51c0e28d67e59c46f55bb43dda89ca0d6",
+          "version": "13.0.1"
+        }
+      },
+      {
+        "package": "Nuke",
+        "repositoryURL": "https://github.com/kean/Nuke.git",
+        "state": {
+          "branch": null,
+          "revision": "051fb936fbc0176655acb1085b15be477f3d5015",
+          "version": "8.4.0"
+        }
+      },
+      {
+        "package": "Parchment",
+        "repositoryURL": "https://github.com/rechsteiner/Parchment",
+        "state": {
+          "branch": null,
+          "revision": "c04fce7556de07e0530019577cf39da05e28f2a1",
+          "version": "1.7.0"
+        }
+      },
+      {
+        "package": "QuickLayout",
+        "repositoryURL": "https://github.com/huri000/QuickLayout",
+        "state": {
+          "branch": null,
+          "revision": "6be62decbe508d8fc8f9dbafc349d05bab03c38b",
+          "version": "3.0.1"
+        }
+      },
+      {
+        "package": "R.swift.Library",
+        "repositoryURL": "https://github.com/mac-cain13/R.swift.Library",
+        "state": {
+          "branch": null,
+          "revision": "4a09ece7d0a30edcd95462ce7d252dd4d3a49843",
+          "version": "5.1.0"
+        }
+      },
+      {
+        "package": "ReactiveSwift",
+        "repositoryURL": "https://github.com/ReactiveCocoa/ReactiveSwift.git",
+        "state": {
+          "branch": null,
+          "revision": "c37950dc5020544c58d4bf47c0d028893686b9e6",
+          "version": "5.0.1"
+        }
+      },
+      {
+        "package": "Realm",
+        "repositoryURL": "https://github.com/realm/realm-cocoa",
+        "state": {
+          "branch": null,
+          "revision": "913d59c6522e3007c7cbac3a8e9775abf72c054c",
+          "version": "4.3.2"
+        }
+      },
+      {
+        "package": "RealmCore",
+        "repositoryURL": "https://github.com/realm/realm-core",
+        "state": {
+          "branch": null,
+          "revision": "35662ff940e340bf630ad1d1d88acfc7af18bee6",
+          "version": "5.23.8"
+        }
+      },
+      {
+        "package": "Result",
+        "repositoryURL": "https://github.com/antitypical/Result.git",
+        "state": {
+          "branch": null,
+          "revision": "2ca499ba456795616fbc471561ff1d963e6ae160",
+          "version": "4.1.0"
+        }
+      },
+      {
+        "package": "RxSwift",
+        "repositoryURL": "https://github.com/ReactiveX/RxSwift.git",
+        "state": {
+          "branch": null,
+          "revision": "cce95dd704bc08cd3d69c087a05a6fc3118e2722",
+          "version": "4.5.0"
+        }
+      },
+      {
+        "package": "Siren",
+        "repositoryURL": "https://github.com/ArtSabintsev/Siren",
+        "state": {
+          "branch": null,
+          "revision": "7fc6777d3decf6747b56432efdaa3782a7dbfc58",
+          "version": "5.4.0"
+        }
+      },
+      {
+        "package": "SwiftEntryKit",
+        "repositoryURL": "https://github.com/huri000/SwiftEntryKit",
+        "state": {
+          "branch": null,
+          "revision": "796981500de29ee72f72ef8e9c46eaed2fe6364e",
+          "version": "1.2.3"
+        }
+      },
+      {
+        "package": "SwiftyBeaver",
+        "repositoryURL": "https://github.com/SwiftyBeaver/SwiftyBeaver.git",
+        "state": {
+          "branch": null,
+          "revision": "2f2b7ac0b675e9d0ac696758f15bbff97eb65a31",
+          "version": "1.8.4"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -27,8 +27,8 @@ final class RankingsFilterVC: UITableViewController {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireOutlets()
 
+        requireOutlets()
         let backgroundView = GradientView {
             $0.set(gradient: [.dodgerBlue, .azureRadiance],
                    orientation: .topRightBottomLeft)
@@ -42,6 +42,7 @@ final class RankingsFilterVC: UITableViewController {
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         report(screen: "Rankings Filter")
     }
 
@@ -74,13 +75,13 @@ extension RankingsFilterVC {
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        UITableView.automaticDimension
     }
 
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        UITableView.automaticDimension
     }
 }
 

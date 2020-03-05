@@ -10,6 +10,7 @@ final class WorldMapTests: TestCase {
 
     override func setUp() {
         super.setUp()
+
         sut = WorldMap()
     }
 
@@ -19,7 +20,7 @@ final class WorldMapTests: TestCase {
     }
 
     func testPerformanceContains() throws {
-        let venezuela = 1_004 // highest ID 19.11.25
+        let venezuela = 1004 // highest ID 19.11.25
         // GeoJSON.Feature implementation:
         // 2.9 GHz 15": 5.925 - 6.287 seconds
         // 2.7 GHz 13": 6.465 - 7.600 seconds
@@ -41,7 +42,7 @@ final class WorldMapTests: TestCase {
             let view = UIView()
             sut.render(layer: view.layer,
                        visits: [],
-                       width: 3_000)
+                       width: 3000)
         }
     }
 

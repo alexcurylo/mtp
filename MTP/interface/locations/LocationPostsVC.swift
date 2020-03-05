@@ -9,21 +9,21 @@ final class LocationPostsVC: PostsVC {
 
     /// Whether user can add a new post
     override var canCreate: Bool {
-        return isImplemented
+        isImplemented
     }
 
     /// Whether a new post is queued to upload
     override var isQueued: Bool {
-        return queuedPosts.contains { $0.isAbout(location: mappable.checklistId) }
+        queuedPosts.contains { $0.isAbout(location: mappable.checklistId) }
     }
 
     private var isImplemented: Bool {
-        return mappable?.checklist == .locations
+        mappable?.checklist == .locations
     }
 
     /// Type of view presenting this controller
     override var presenter: Presenter {
-        return .location
+        .location
     }
 
     private var postsObserver: Observer?
@@ -41,8 +41,8 @@ final class LocationPostsVC: PostsVC {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjection()
 
+        requireInjection()
         update()
     }
 

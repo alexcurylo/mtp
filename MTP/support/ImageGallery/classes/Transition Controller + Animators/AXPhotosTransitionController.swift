@@ -17,11 +17,13 @@ final class AXPhotosTransitionController: NSObject,
                                           UIViewControllerTransitioningDelegate,
                                           AXPhotosTransitionAnimatorDelegate {
 
-    private static let supportedModalPresentationStyles: [UIModalPresentationStyle] =  [.fullScreen,
-                                                                                        .currentContext,
-                                                                                        .custom,
-                                                                                        .overFullScreen,
-                                                                                        .overCurrentContext]
+    private static let supportedModalPresentationStyles: [UIModalPresentationStyle] =  [
+        .fullScreen,
+        .currentContext,
+        .custom,
+        .overFullScreen,
+        .overCurrentContext,
+    ]
 
     /// AXPhotosTransitionControllerDelegate
     weak var delegate: AXPhotosTransitionControllerDelegate?
@@ -41,15 +43,15 @@ final class AXPhotosTransitionController: NSObject,
     private let transitionInfo: AXTransitionInfo
 
     private var supportsContextualPresentation: Bool {
-        return self.transitionInfo.startingView != nil
+        self.transitionInfo.startingView != nil
     }
 
     private var supportsContextualDismissal: Bool {
-        return self.transitionInfo.endingView != nil
+        self.transitionInfo.endingView != nil
     }
 
     private var supportsInteractiveDismissal: Bool {
-        return self.transitionInfo.interactiveDismissalEnabled
+        self.transitionInfo.interactiveDismissalEnabled
     }
 
     /// :nodoc:
@@ -65,7 +67,6 @@ final class AXPhotosTransitionController: NSObject,
         var photosViewController: AXPhotosViewController
         if let dismissed = dismissed as? AXPhotosViewController {
             photosViewController = dismissed
-        // swiftlint:disable:next line_length
         } else if let child = dismissed.children.first(where: { $0 is AXPhotosViewController }) as? AXPhotosViewController {
             photosViewController = child
         } else {
@@ -80,7 +81,7 @@ final class AXPhotosTransitionController: NSObject,
         // resolve transitionInfo's endingView
         transitionInfo.resolveEndingViewClosure?(photo, photosViewController.currentPhotoIndex)
 
-        if !type(of: self).supportedModalPresentationStyles.contains(photosViewController.modalPresentationStyle) {
+        if !Self.supportedModalPresentationStyles.contains(photosViewController.modalPresentationStyle) {
             return nil
         }
 
@@ -102,7 +103,6 @@ final class AXPhotosTransitionController: NSObject,
         var photosViewController: AXPhotosViewController
         if let presented = presented as? AXPhotosViewController {
             photosViewController = presented
-            // swiftlint:disable:next line_length
         } else if let child = presented.children.first(where: { $0 is AXPhotosViewController }) as? AXPhotosViewController {
             photosViewController = child
         } else {
@@ -110,7 +110,7 @@ final class AXPhotosTransitionController: NSObject,
             return nil
         }
 
-        if !type(of: self).supportedModalPresentationStyles.contains(photosViewController.modalPresentationStyle) {
+        if !Self.supportedModalPresentationStyles.contains(photosViewController.modalPresentationStyle) {
             return nil
         }
 

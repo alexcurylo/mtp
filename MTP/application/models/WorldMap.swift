@@ -12,7 +12,7 @@ struct WorldMap: ServiceProvider {
 
     private var locationPaths: [Int: UIBezierPath] = [:]
     private var locations: [GeoJSON.Feature] = []
-    private let fullWidth = CGFloat(3_000)
+    private let fullWidth = CGFloat(3000)
     private let clipAntarctica = CGFloat(0.94) // clip uneven lower edges
     private var boxWidth: Double = 0
     private var boxHeight: Double = 0
@@ -69,6 +69,7 @@ struct WorldMap: ServiceProvider {
                   location id: Int) -> Bool {
         for location in locations {
             guard location.mtpId == id else { continue }
+
             if location.contains(coordinate: coordinate) {
                 return true
             }
@@ -144,7 +145,7 @@ private extension WorldMap {
             // 63: frame (0.0, 0.0, 0.0, 0.0) bounds (0.0, 0.0, 0.0, 0.0) position ((0.0, 0.0)
             //     box (285.7144589230391, 51.89920348478381, 6.815899839575707, 4.123800016916704)
             // swiftlint:disable:next line_length
-            //print("\(locid): frame \(shape.frame) bounds \(shape.bounds) position (\(shape.position)\n     box \(shape.path!.boundingBox)")
+            // print("\(locid): frame \(shape.frame) bounds \(shape.bounds) position (\(shape.position)\n     box \(shape.path!.boundingBox)")
             shape.style = [Self.locid: locid]
             shape.fillColor = color.cgColor
             if outline {

@@ -25,9 +25,9 @@ final class UserCountsPageVC: CountsPageVC {
     }
 
     /// Places to display
-    override var places: [PlaceInfo] { return listPlaces }
+    override var places: [PlaceInfo] { listPlaces }
     /// Places that have been visited
-    override var visited: [Int] { return listVisited }
+    override var visited: [Int] { listVisited }
 
     private var listPlaces: [PlaceInfo] = []
     private var listVisited: [Int] = []
@@ -46,9 +46,7 @@ final class UserCountsPageVC: CountsPageVC {
     }
 
     /// :nodoc:
-    required init?(coder: NSCoder) {
-        return nil
-    }
+    required init?(coder: NSCoder) { nil }
 
     /// Rebuild data and update
     func refresh() {

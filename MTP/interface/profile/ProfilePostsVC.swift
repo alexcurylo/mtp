@@ -18,25 +18,19 @@ final class ProfilePostsVC: PostsVC, UserInjectable {
     private var isSelf: Bool = false
 
     /// Whether user can add a new post
-    override var canCreate: Bool {
-        return isSelf
-    }
+    override var canCreate: Bool { isSelf }
 
     /// Whether a new post is queued to upload
-    override var isQueued: Bool {
-        return isSelf && !queuedPosts.isEmpty
-    }
+    override var isQueued: Bool { isSelf && !queuedPosts.isEmpty }
 
     /// Type of view presenting this controller
-    override var presenter: Presenter {
-        return .user
-    }
+    override var presenter: Presenter { .user }
 
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjection()
 
+        requireInjection()
         update()
     }
 

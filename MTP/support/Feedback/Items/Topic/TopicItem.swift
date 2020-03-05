@@ -14,21 +14,23 @@ struct TopicItem: FeedbackItemProtocol {
 
     /// defaultTopics
     static var defaultTopics: [TopicProtocol] {
-        return [Topic.feature,
-                Topic.report,
-                Topic.charles,
-                Topic.other]
+        [
+            Topic.feature,
+            Topic.report,
+            Topic.charles,
+            Topic.other,
+        ]
     }
 
     /// topicTitle
     var topicTitle: String {
-        return selected?.topicTitle ?? topics.first?.topicTitle ?? ""
+        selected?.topicTitle ?? topics.first?.topicTitle ?? ""
     }
     /// topics
     var topics: [TopicProtocol] = []
     /// selected
     var selected: TopicProtocol? {
-        get { return _selected ?? topics.first }
+        get { _selected ?? topics.first }
         set { _selected = newValue }
     }
     private var _selected: TopicProtocol?

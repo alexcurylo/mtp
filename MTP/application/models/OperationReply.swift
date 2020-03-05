@@ -12,14 +12,14 @@ struct OperationReply: Codable {
 
     /// Whether operation succeeded
     var isSuccess: Bool {
-        return code == 200
+        code == 200
     }
 }
 
 extension OperationReply: CustomStringConvertible {
 
     var description: String {
-        return "code \(code): \(message)"
+        "code \(code): \(message)"
     }
 }
 
@@ -64,27 +64,27 @@ struct OperationMessageReply: Codable {
     /// Message type
     private let messageType: String
 
-    //private let data: String? or Int?
+    // private let data: String? or Int?
     // string "passwords.sent" in password reset
     // int 1 in contact form
 
     /// Whether operation succeeded
     var isSuccess: Bool {
-        return messageType == MessageType.success.rawValue
+        messageType == MessageType.success.rawValue
     }
 }
 
 extension OperationMessageReply: CustomStringConvertible {
 
     var description: String {
-        return "code \(code): \(message)"
+        "code \(code): \(message)"
     }
 }
 
 extension OperationMessageReply: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < OperationMessageReply: \(description):
         code: \(code)
         message: \(message)

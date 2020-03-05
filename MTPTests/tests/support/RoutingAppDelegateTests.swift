@@ -356,16 +356,16 @@ private class MockRoutingAppDelegate: RoutingAppDelegate {
         MockAppExtensionHandler(),
         MockAppRestorationHandler(),
         MockAppContinuityHandler(),
-        MockAppCloudKitHandler()
-        //MockAppSceneSessionHandler()
+        MockAppCloudKitHandler(),
+        // MockAppSceneSessionHandler()
     ]
 
     override var handlers: RoutingAppDelegate.Handlers {
-        return empty ? [] : allHandlerTypes
+        empty ? [] : allHandlerTypes
     }
 
     var totalCalls: Int {
-        return empty ? 0 : allHandlerTypes.map { $0.callCount }.reduce(0, +)
+        empty ? 0 : allHandlerTypes.map { $0.callCount }.reduce(0, +)
     }
 
     override init() {
@@ -383,7 +383,7 @@ private class MockRoutingAppDelegate: RoutingAppDelegate {
 
 private class MockAppHandler: AppHandler {
 
-    var dependencies: [AppHandler.Type] { return [] }
+    var dependencies: [AppHandler.Type] { [] }
 
     var callCount: Int = 0
 }

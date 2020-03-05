@@ -21,18 +21,16 @@ final class ProfilePhotosVC: PhotosVC {
     private var blockedPhotos: [Int] = []
 
     /// Whether user can add a new photo
-    override var canCreate: Bool {
-        return isSelf
-    }
+    override var canCreate: Bool { isSelf }
 
     /// Whether a new photo is queued to upload
     override var isQueued: Bool {
-        return isSelf && !queuedPhotos.isEmpty
+        isSelf && !queuedPhotos.isEmpty
     }
 
     /// How many photos in collection
     override var photoCount: Int {
-        return photosPages?.first?.total ?? 0
+        photosPages?.first?.total ?? 0
     }
 
     /// Retrieve an indexed photo
@@ -63,8 +61,8 @@ final class ProfilePhotosVC: PhotosVC {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireInjection()
 
+        requireInjection()
         update()
     }
 
@@ -108,7 +106,7 @@ final class ProfilePhotosVC: PhotosVC {
 extension ProfilePhotosVC: AddPhotoDelegate {
 
     /// Enable Location selection
-    var isLocatable: Bool { return mode == .browser }
+    var isLocatable: Bool { mode == .browser }
 }
 
 // MARK: Private

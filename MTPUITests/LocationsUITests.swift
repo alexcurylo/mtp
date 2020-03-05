@@ -14,8 +14,8 @@ final class LocationsUITests: XCTestCase {
 
     func testLocations() {
         launch(arguments: [.disableWaitIdle],
-               settings: [.loggedIn(true),
-                          .token("token")])
+               settings: [ .loggedIn(true),
+                           .token("token"), ])
 
         UILocations.nearby.tap()
 
@@ -23,9 +23,9 @@ final class LocationsUITests: XCTestCase {
         UINearby.place(thailand).tap()
 
         // how can we expose callout items?
-        //UILocations.close.tap()
-        //UILocations.visit.tap()
-        //wait(for: 2)
+        // UILocations.close.tap()
+        // UILocations.visit.tap()
+        // wait(for: 2)
 
         UILocations.nearby.tap()
         UINearby.place(thailand).doubleTap()
@@ -57,7 +57,7 @@ final class LocationsUITests: XCTestCase {
 
         UILocations.search.tap()
         // "Fred" types as "FFred" with Xcode 11.0 - can't find at all in 11.1
-        //UILocations.search.type(text: "F")
-        //UILocations.result(0).tap()
+        // UILocations.search.type(text: "F")
+        // UILocations.result(0).tap()
    }
 }

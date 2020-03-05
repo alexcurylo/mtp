@@ -23,6 +23,7 @@ final class NetworkVC: UITableViewController {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
+
         requireOutlets()
 
         tableView.backgroundView = backgroundView
@@ -52,6 +53,7 @@ final class NetworkVC: UITableViewController {
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         report(screen: "Network")
     }
 }
@@ -61,14 +63,12 @@ final class NetworkVC: UITableViewController {
 extension NetworkVC {
 
     /// :nodoc:
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
+    override func numberOfSections(in tableView: UITableView) -> Int { 1 }
 
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
-        return models.count
+        models.count
     }
 
     /// Create table header
@@ -120,25 +120,25 @@ extension NetworkVC {
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        UITableView.automaticDimension
     }
 
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             heightForHeaderInSection section: Int) -> CGFloat {
-        return layout.header
+        layout.header
     }
 
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        return layout.header
+        layout.header
     }
 
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        UITableView.automaticDimension
     }
 }
 
@@ -213,9 +213,7 @@ final class NetworkHeader: UITableViewHeaderFooterView, ServiceProvider {
     }
 
     /// :nodoc:
-    required init?(coder: NSCoder) {
-        return nil
-    }
+    required init?(coder: NSCoder) { nil }
 }
 
 private extension NetworkHeader {

@@ -6,7 +6,5 @@ import XCTest
 /// Currently placeholder
 extension UIMyCounts: Elemental {
 
-    var type: XCUIElement.ElementType {
-        return .other
-    }
+    var type: XCUIElement.ElementType { .other }
 }

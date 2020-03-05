@@ -10,7 +10,7 @@ class KVNOperation: Operation {
         didSet { didChangeValue(forKey: "isExecuting") }
     }
     /// Executing state of operation
-    override var isExecuting: Bool { return _executing }
+    override var isExecuting: Bool { _executing }
 
     /// Set executing state
     /// - Parameter executing: Executing state
@@ -23,7 +23,7 @@ class KVNOperation: Operation {
         didSet { didChangeValue(forKey: "isFinished") }
     }
     /// Finished state of operation
-    override var isFinished: Bool { return _finished }
+    override var isFinished: Bool { _finished }
 
     /// Set finished state
     /// - Parameter finished: Finished state

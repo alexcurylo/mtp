@@ -15,9 +15,7 @@ extension UISystem: Elemental {
         }
     }
 
-    var element: XCUIElement {
-        return all[value]
-    }
+    var element: XCUIElement { all[value] }
 
     private var value: String {
         switch self {

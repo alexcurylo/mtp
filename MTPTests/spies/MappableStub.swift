@@ -182,8 +182,8 @@ final class MappableStub: Mappable {
     override func isEqual(_ object: Any?) -> Bool {
         return stubbedIsEqualResult
     }
-    override func _testTriggeredNearby() {
+    override func testTriggeredNearby() {
     }
-    override func _testTrigger(background: Bool) {
+    override func testTrigger(background: Bool) {
     }
 }

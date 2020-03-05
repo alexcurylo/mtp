@@ -225,10 +225,10 @@ protocol NetworkService: Observable, ServiceProvider {
 class NetworkServiceImpl: NetworkService {
 
     /// Direct accessor for connection status
-    var isConnected: Bool { return offlineRequestManager.connected }
+    var isConnected: Bool { offlineRequestManager.connected }
 
     /// Direct accessor for queued requests
-    var requests: [OfflineRequest] { return offlineRequestManager.requests }
+    var requests: [OfflineRequest] { offlineRequestManager.requests }
 
     /// Direct accessor for network controller
     let mtp: MTPNetworkController
@@ -650,7 +650,7 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     /// - Returns: value indicating whether the OfflineRequestManager should move forward with the request attempt
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                shouldAttemptRequest request: OfflineRequest) -> Bool {
-        return true
+        true
     }
 
     /// Callback to reconfigure and reattempt an OfflineRequest
@@ -663,7 +663,7 @@ extension NetworkServiceImpl: OfflineRequestManagerDelegate {
     func offlineRequestManager(_ manager: OfflineRequestManager,
                                shouldReattemptRequest request: OfflineRequest,
                                withError error: Error) -> Bool {
-        return true
+        true
     }
 
     /// Callback indicating that the OfflineRequest action has started

@@ -98,9 +98,7 @@ final class RankingHeader: UICollectionReusableView, ServiceProvider {
     }
 
     /// :nodoc:
-    required init?(coder: NSCoder) {
-        return nil
-    }
+    required init?(coder: NSCoder) { nil }
 
     /// Inject display data
     /// - Parameters:
@@ -233,18 +231,23 @@ private extension RankingHeader {
         }
     }
 
+    // swiftlint:disable:next function_body_length
     func configure() {
         backgroundColor = .clear
 
-        let labels = UIStackView(arrangedSubviews: [rankTitle,
-                                                    rankLabel,
-                                                    fractionLabel]).with {
+        let labels = UIStackView(arrangedSubviews: [
+            rankTitle,
+            rankLabel,
+            fractionLabel,
+        ]).with {
             $0.alignment = .center
             $0.spacing = Layout.spacing.label
         }
-        let rankLine = UIStackView(arrangedSubviews: [avatarImageView,
-                                                      labels,
-                                                      uploadImageView]).with {
+        let rankLine = UIStackView(arrangedSubviews: [
+            avatarImageView,
+            labels,
+            uploadImageView,
+        ]).with {
             $0.spacing = Layout.spacing.rank
             $0.alignment = .center
         }
@@ -260,16 +263,20 @@ private extension RankingHeader {
             $0.setContentHuggingPriority(.required, for: .horizontal)
         }
 
-        let filterLine = UIStackView(arrangedSubviews: [filterTitle,
-                                                        filterLabel]).with {
+        let filterLine = UIStackView(arrangedSubviews: [
+            filterTitle,
+            filterLabel,
+        ]).with {
             $0.spacing = Layout.spacing.rank
             $0.alignment = .firstBaseline
             $0.layoutMargins = Layout.filterMargins
             $0.isLayoutMarginsRelativeArrangement = true
         }
 
-        let stack = UIStackView(arrangedSubviews: [rankView,
-                                                   filterLine]).with {
+        let stack = UIStackView(arrangedSubviews: [
+            rankView,
+            filterLine,
+        ]).with {
             $0.axis = .vertical
             $0.distribution = .fillEqually
         }

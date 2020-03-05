@@ -13,6 +13,7 @@ final class TermsVC: UIViewController {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
+
         requireOutlets()
     }
 
@@ -26,6 +27,7 @@ final class TermsVC: UIViewController {
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         report(screen: "Terms")
     }
 }

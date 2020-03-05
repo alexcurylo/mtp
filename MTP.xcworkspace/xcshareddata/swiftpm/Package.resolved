@@ -11,6 +11,15 @@
         }
       },
       {
+        "package": "Anchorage",
+        "repositoryURL": "https://github.com/Raizlabs/Anchorage",
+        "state": {
+          "branch": null,
+          "revision": "18fed38e95db3200aecbd5b7101b981f91656084",
+          "version": "4.4.0"
+        }
+      },
+      {
         "package": "Connectivity",
         "repositoryURL": "https://github.com/rwbutler/connectivity",
         "state": {
@@ -42,8 +51,8 @@
         "repositoryURL": "https://github.com/facebook/facebook-ios-sdk",
         "state": {
           "branch": null,
-          "revision": "54219ba9f5c7bdaabdd92aeac10023731e09efc8",
-          "version": "5.13.1"
+          "revision": "5d5de15f6a9915d1e2cf63ea8d8c58f2b1e62ee9",
+          "version": "6.0.0"
         }
       },
       {
@@ -51,8 +60,8 @@
         "repositoryURL": "https://github.com/auth0/JWTDecode.swift",
         "state": {
           "branch": null,
-          "revision": "44895b4888a252c74cb4f945f1cee09b907a9f8e",
-          "version": "2.4.0"
+          "revision": "7875753f26400a9456e3305ba47255d7629a8a69",
+          "version": "2.4.1"
         }
       },
       {
@@ -141,8 +150,8 @@
         "repositoryURL": "https://github.com/realm/realm-cocoa",
         "state": {
           "branch": null,
-          "revision": "963dbe558b802e3b9b78b810dcbceea3b4853ec9",
-          "version": "4.3.0"
+          "revision": "913d59c6522e3007c7cbac3a8e9775abf72c054c",
+          "version": "4.3.2"
         }
       },
       {
@@ -150,8 +159,8 @@
         "repositoryURL": "https://github.com/realm/realm-core",
         "state": {
           "branch": null,
-          "revision": "d2f6573960c84ebea3e0236047b3d976f95a5d7a",
-          "version": "5.23.6"
+          "revision": "35662ff940e340bf630ad1d1d88acfc7af18bee6",
+          "version": "5.23.8"
         }
       },
       {
@@ -177,8 +186,8 @@
         "repositoryURL": "https://github.com/ArtSabintsev/Siren",
         "state": {
           "branch": null,
-          "revision": "70ad233b782104592fe90b066807a3930e218eb1",
-          "version": "5.2.3"
+          "revision": "7fc6777d3decf6747b56432efdaa3782a7dbfc58",
+          "version": "5.4.0"
         }
       },
       {

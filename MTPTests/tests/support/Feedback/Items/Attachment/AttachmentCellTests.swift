@@ -36,6 +36,7 @@ final class AttachmentCellTests: XCTestCase {
 }
 
 private class MockAttachmentCellEventHandler: AttachmentCellEventProtocol {
+
     var invokedShowImage = false
     var invokedShowImageCount = 0
     var invokedShowImageParameters: (item: AttachmentItem, Void)?
@@ -50,6 +51,7 @@ private class MockAttachmentCellEventHandler: AttachmentCellEventProtocol {
 }
 
 extension UIImage {
+
     convenience init?(color: UIColor, size: CGSize = CGSize(width: 1, height: 1)) {
         let rect = CGRect(origin: .zero, size: size)
         UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
@@ -59,6 +61,7 @@ extension UIImage {
         UIGraphicsEndImageContext()
 
         guard let cgImage = image?.cgImage else { return nil }
+
         self.init(cgImage: cgImage)
     }
 }

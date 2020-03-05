@@ -7,7 +7,7 @@ struct FaqJSON: Codable {
 
     /// id
     let id: Int
-    //let userID: Int
+    // let userID: Int
     /// title
     let title: String
     /// category
@@ -26,20 +26,18 @@ struct FaqJSON: Codable {
     let updatedAt: String
     /// headerImg
     let headerImg: String?
-    //let author: UserJSON
+    // let author: UserJSON
 }
 
 extension FaqJSON: CustomStringConvertible {
 
-    var description: String {
-        return "Faq"
-    }
+    var description: String { "Faq" }
 }
 
 extension FaqJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < Faq: \(description):
         title: \(title))
         content: \(content)

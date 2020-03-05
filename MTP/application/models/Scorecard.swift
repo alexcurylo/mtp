@@ -10,6 +10,7 @@ struct ScorecardWrapperJSON: Codable {
 }
 
 private struct AgeLevel: Codable {
+
     let min: Int
     let max: Int
 }
@@ -67,7 +68,7 @@ private struct ScorecardRankedUserJSON: Codable {
     let firstName: String
     /// fullName
     let fullName: String
-    let gender: String
+    let gender: String?
     /// id
     let id: Int
     let lastName: String
@@ -192,7 +193,7 @@ struct ScorecardJSON: Codable {
         case type
         case user
         case userId
-        //case usersByRank
+        // case usersByRank
         case visitedByUser
     }
 
@@ -214,7 +215,7 @@ struct ScorecardJSON: Codable {
     fileprivate let user: ScorecardUserJSON
     /// userId
     let userId: String
-    //fileprivate let usersByRank: ScorecardRankedUsersWrapper
+    // fileprivate let usersByRank: ScorecardRankedUsersWrapper
      // usually array if 1...2
     fileprivate let visitedByUser: UncertainValue<[Int: ScorecardLocationJSON], [ScorecardLocationJSON]>
 }
@@ -222,14 +223,14 @@ struct ScorecardJSON: Codable {
 extension ScorecardJSON: CustomStringConvertible {
 
     var description: String {
-        return "ScorecardJSON: \(userId)"
+        "ScorecardJSON: \(userId)"
     }
 }
 
 extension ScorecardJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < ScorecardJSON: \(description):
         ageLevel: \(ageLevel)
         labelPairs: \(labelPairs)
@@ -251,7 +252,7 @@ extension ScorecardJSON: CustomDebugStringConvertible {
     /// checklist
     var checklist: Checklist {
         // swiftlint:disable:next force_unwrapping
-        get { return Checklist(rawValue: checklistValue)! }
+        get { Checklist(rawValue: checklistValue)! }
         set { checklistValue = newValue.rawValue }
     }
     /// visited
@@ -285,14 +286,14 @@ extension ScorecardJSON: CustomDebugStringConvertible {
 
     /// :nodoc:
     override static func primaryKey() -> String? {
-        return "dbKey"
+        "dbKey"
     }
 
     /// Unique key for database
     /// - Parameter item: Item
     /// - Returns: Unique key
     static func key(list: Checklist, user: Int) -> String {
-        return "list=\(list.rawValue)?user=\(user)"
+        "list=\(list.rawValue)?user=\(user)"
     }
 
     /// Constructor from MTP endpoint data

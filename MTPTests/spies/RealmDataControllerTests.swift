@@ -13,7 +13,7 @@ final class RealmDataControllerTests: TestCase {
         5, // .golfcourses
         5, // .divesites
         7, // .restaurants
-        7 // .hotels
+        7, // .hotels
     ]
 
     func testSeed() {
@@ -44,12 +44,12 @@ final class RealmDataControllerTests: TestCase {
         XCTAssertEqual(countries.count, 207)
         XCTAssertEqual(divesites.count, 99)
         XCTAssertEqual(golfcourses.count, 100)
-        XCTAssertEqual(hotels.count, 1_538)
+        XCTAssertEqual(hotels.count, 1538)
         XCTAssertEqual(locations.count, 950)
-        XCTAssertEqual(mappables.count, 6_018)
+        XCTAssertEqual(mappables.count, 6018)
         XCTAssertEqual(restaurants.count, 706)
         XCTAssertEqual(uncountries.count, 193)
-        XCTAssertEqual(whss.count, 2_467)
+        XCTAssertEqual(whss.count, 2467)
         continueAfterFailure = false
         XCTAssertEqual(lists.count, Checklist.allCases.count)
         let thresholds = RealmDataControllerTests.thresholds

@@ -128,21 +128,21 @@ extension RankingsQuery: CustomStringConvertible {
             locationDescription,
             genderDescription,
             ageDescription,
-            facebookDescription
+            facebookDescription,
         ].compactMap { $0 }.filter { !$0.isEmpty }
         return components.joined(separator: L.join())
     }
 
     private var ageDescription: String? {
-        return ageGroup != .all ? ageGroup.description : nil
+        ageGroup != .all ? ageGroup.description : nil
     }
 
     private var facebookDescription: String? {
-        return facebookConnected ? L.facebookFriends() : nil
+        facebookConnected ? L.facebookFriends() : nil
     }
 
     private var genderDescription: String? {
-        return gender != .all ? gender.description : nil
+        gender != .all ? gender.description : nil
     }
 
     private var locationDescription: String {
@@ -160,7 +160,7 @@ extension RankingsQuery: CustomStringConvertible {
 extension RankingsQuery: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < RankingsQuery: \(description):
         checklistKey: \(checklistKey)
         page: \(page)
@@ -258,6 +258,7 @@ extension RankingsQuery {
         case let countryItem as Country:
             let newId = countryItem.countryId > 0 ? countryItem.countryId : nil
             guard countryId != newId else { break }
+
             countryId = newId
             country = newId != nil ? countryItem.placeCountry : nil
             locationId = countryItem.hasChildren ? RankingsQuery.allLocations : nil
@@ -266,9 +267,11 @@ extension RankingsQuery {
         case let locationItem as Location:
             let newId = locationItem.placeId > 0 ? locationItem.placeId : nil
             guard locationId != newId else { break }
+
             locationId = newId ?? RankingsQuery.allLocations
             location = newId != nil ? locationItem.placeTitle : nil
             guard locationItem.countryId > 0 else { return true }
+
             countryId = locationItem.countryId
             country = locationItem.placeCountry
             return true

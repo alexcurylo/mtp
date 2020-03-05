@@ -54,8 +54,8 @@ final class UserDefaultsTests: TestCase {
         let expectedString = "expected"
         let colorKey = StringKey("test.color")
         let expectedColor = UIColor.white
-        let defaults = [stringKey: expectedString,
-                        colorKey: expectedColor] as [StringKey: Any]
+        let defaults = [ stringKey: expectedString,
+                         colorKey: expectedColor, ] as [StringKey: Any]
 
         // when
         sut.register(defaults: defaults)

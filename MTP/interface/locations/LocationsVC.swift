@@ -4,8 +4,6 @@ import Anchorage
 import Karte
 import MapKit
 
-// swiftlint:disable file_length
-
 /// Root controller for the map displaying tab
 class LocationsVC: UIViewController {
 
@@ -48,8 +46,8 @@ class LocationsVC: UIViewController {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireOutlets()
 
+        requireOutlets()
         setupCompass()
         setupTracking()
         configureSearchBar()
@@ -68,8 +66,8 @@ class LocationsVC: UIViewController {
     /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        report(screen: "Locations")
 
+        report(screen: "Locations")
         mtpMapView.refreshMapView()
         updateTracking()
         note.checkPending()
@@ -261,6 +259,7 @@ private extension LocationsVC {
 
     func configureSearchBar() {
         guard let searchBar = searchBar else { return }
+
         dropdown.anchorView = searchBar
         dropdown.bottomOffset = CGPoint(x: 0, y: searchBar.bounds.height)
         dropdown.selectionAction = { [weak self] (index: Int, item: String) in
@@ -418,7 +417,7 @@ extension LocationsVC: MKMapViewDelegate {
 extension LocationsVC: AddPhotoDelegate {
 
     /// Enable Location selection
-    var isLocatable: Bool { return true }
+    var isLocatable: Bool { true }
 }
 
 // MARK: - MKUserTrackingButton

@@ -16,42 +16,42 @@ extension PlaceMappable {
 
     /// Coordinate for plotting on map
     var placeCoordinate: CLLocationCoordinate2D {
-        return map?.coordinate ?? .zero
+        map?.coordinate ?? .zero
     }
 
     /// UN country containing place
     var placeCountry: String {
-        return map?.country ?? ""
+        map?.country ?? ""
     }
 
     /// UUID of main image to display for place
     var placeImageUrl: URL? {
-        return map?.imageUrl
+        map?.imageUrl
     }
 
     /// MTP location containing place
     var placeLocation: Location? {
-        return map?.location
+        map?.location
     }
 
     /// Region containing the country
     var placeRegion: String {
-        return map?.region ?? ""
+        map?.region ?? ""
     }
 
     /// Title to display to user
     var placeTitle: String {
-        return map?.title ?? ""
+        map?.title ?? ""
     }
 
     /// Number of MTP visitors
     var placeVisitors: Int {
-        return map?.visitors ?? 0
+        map?.visitors ?? 0
     }
 
     /// for non-MTP locations, page to load in More Info screen
     var placeWebUrl: URL? {
-        return map?.placeWebUrl
+        map?.placeWebUrl
     }
 }
 
@@ -104,7 +104,7 @@ protocol Mapper {
     /// checklist
     var checklist: Checklist {
         // swiftlint:disable:next force_unwrapping
-        get { return Checklist(rawValue: checklistValue)! }
+        get { Checklist(rawValue: checklistValue)! }
         set { checklistValue = newValue.rawValue }
     }
     /// checklistId
@@ -138,14 +138,14 @@ protocol Mapper {
     /// Realm unique identifier
     /// - Returns: unique identifier
     override static func primaryKey() -> String? {
-        return "dbKey"
+        "dbKey"
     }
 
     /// Unique key for database
     /// - Parameter item: Item
     /// - Returns: Unique key
     static func key(item: Checklist.Item) -> Key {
-        return Key.key(item: item)
+        Key.key(item: item)
     }
 
     /// Configure for display
@@ -154,40 +154,40 @@ protocol Mapper {
         map.latitudeKeyPath = "latitude"
         map.longitudeKeyPath = "longitude"
         // title always shows above our custom callout
-        //map.titleKeyPath = "title"
+        // map.titleKeyPath = "title"
         // mark subtitle .visible and set it to title
         map.subtitleKeyPath = "title"
     }
 
     /// Convenience item accessor
     var item: Checklist.Item {
-        return (list: checklist, id: checklistId)
+        (list: checklist, id: checklistId)
     }
 
     /// Convenience coordinate accessor
     var coordinate: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(latitude: latitude,
-                                      longitude: longitude)
+        CLLocationCoordinate2D(latitude: latitude,
+                               longitude: longitude)
     }
 
     /// Convenience marker accessor
     var marker: UIColor {
-        return isVisited ? .visited : checklist.marker
+        isVisited ? .visited : checklist.marker
     }
 
     /// Convenience listImage accessor
     var listImage: UIImage {
-        return checklist.image
+        checklist.image
     }
 
     /// Convenience isVisited accessor
     var isVisited: Bool {
-        return checklist.isVisited(id: checklistId)
+        checklist.isVisited(id: checklistId)
     }
 
     /// Convenience isDismissed accessor
     var isDismissed: Bool {
-        get { return checklist.isDismissed(id: checklistId) }
+        get { checklist.isDismissed(id: checklistId) }
         set { checklist.set(dismissed: newValue, id: checklistId) }
     }
 
@@ -204,34 +204,34 @@ protocol Mapper {
 
     /// Convenience nearest accessor
     var nearest: Mappable? {
-        return loc.nearest(list: checklist,
-                           id: checklistId,
-                           to: coordinate)
+        loc.nearest(list: checklist,
+                    id: checklistId,
+                    to: coordinate)
     }
 
     /// Convenience imageUrl accessor
     var imageUrl: URL? {
-        return image.mtpImageUrl
+        image.mtpImageUrl
     }
 
     /// for non-MTP locations, page to load in More Info screen
     var placeWebUrl: URL? {
-        return website.mtpWebsiteUrl
+        website.mtpWebsiteUrl
     }
 
     /// Convenience canPost accessor
     var canPost: Bool {
-        return checklist == .locations
+        checklist == .locations
     }
 
     /// Convenience distance accessor
     var distance: CLLocationDistance {
-        return loc.distance(to: self)
+        loc.distance(to: self)
     }
 
     /// Thread safe reference
     var reference: Reference {
-        return ThreadSafeReference(to: self)
+        ThreadSafeReference(to: self)
     }
 
     /// Intialize by injection
@@ -404,12 +404,12 @@ protocol Mapper {
 
     #if DEBUG
     /// Test nearby triggering
-    func _testTriggeredNearby() {
+    func testTriggeredNearby() {
         update(triggered: true)
     }
 
     /// Test background triggering
-    func _testTrigger(background: Bool) {
+    func testTrigger(background: Bool) {
 
         func trigger() {
             isTriggered = true
@@ -435,12 +435,12 @@ protocol Mapper {
 private extension Mappable {
 
     var isTriggered: Bool {
-        get { return checklist.isTriggered(id: checklistId) }
+        get { checklist.isTriggered(id: checklistId) }
         set { checklist.set(triggered: newValue, id: checklistId) }
     }
 
     var canTrigger: Bool {
-        return !isDismissed && !isVisited
+        !isDismissed && !isVisited
     }
 
     func update(triggered: Bool) {
@@ -457,12 +457,12 @@ extension Mappable.Key: ServiceProvider {
     /// - Parameter item: Item
     /// - Returns: Unique key
     static func key(item: Checklist.Item) -> Mappable.Key {
-        return "list=\(item.list.rawValue)?id=\(item.id)"
+        "list=\(item.list.rawValue)?id=\(item.id)"
     }
 
     /// item
     var item: Checklist.Item {
-        return (list: checklist, id: checklistId)
+        (list: checklist, id: checklistId)
     }
 
     /// checklist

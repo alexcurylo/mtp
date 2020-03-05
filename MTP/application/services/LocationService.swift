@@ -78,7 +78,7 @@ extension LocationService {
     /// - Parameter to: Place
     /// - Returns: Distance
     func distance(to: Mappable) -> CLLocationDistance {
-        return distances[to.dbKey] ?? 0
+        distances[to.dbKey] ?? 0
     }
 
     /// Start with tracker
@@ -135,22 +135,22 @@ class LocationServiceImpl: LocationService {
 
     /// Current coordinate measured
     var current: CLLocationCoordinate2D? {
-        return manager?.location?.coordinate ?? handler?.lastCoordinate?.coordinate
+        manager?.location?.coordinate ?? handler?.lastCoordinate?.coordinate
     }
 
     /// Last coordinate measured
     var here: CLLocationCoordinate2D? {
-        return handler?.lastCoordinate?.coordinate ?? manager?.location?.coordinate
+        handler?.lastCoordinate?.coordinate ?? manager?.location?.coordinate
     }
 
     /// Last location contained in
     var inside: Location? {
-        return data.get(location: handler?.lastInside)
+        data.get(location: handler?.lastInside)
     }
 
     /// Last calculated distances
     var distances: Distances {
-        return handler?.distances ?? [:]
+        handler?.distances ?? [:]
     }
 
     /// Calculate nearest place of type

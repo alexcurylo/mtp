@@ -24,6 +24,7 @@ final class LoginVC: UIViewController {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
+
         requireOutlets()
 
         emailTextField.inputAccessoryView = keyboardToolbar
@@ -47,6 +48,7 @@ final class LoginVC: UIViewController {
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         report(screen: "Log In")
     }
 
@@ -54,8 +56,8 @@ final class LoginVC: UIViewController {
     /// - Parameter animated: Whether animating
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationController?.delegate = nil
 
+        navigationController?.delegate = nil
         data.email = emailTextField.text ?? ""
    }
 
@@ -192,7 +194,7 @@ private extension LoginVC {
                 self.errorMessage = L.serverOfflineError(operation)
             case .failure(.decoding):
                 // reported by 1.0 users
-                //self.errorMessage = L.decodingError(operation)
+                // self.errorMessage = L.decodingError(operation)
                 self.errorMessage = L.decodingLoginError()
             case .failure(.status(let code)):
                 self.errorMessage = L.statusErrorReport(operation, code)
@@ -289,14 +291,14 @@ extension LoginVC: UIViewControllerTransitioningDelegate {
     func animationController(forPresented presented: UIViewController,
                              presenting: UIViewController,
                              source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return ZoomAnimator()
+        ZoomAnimator()
     }
 
     /// Animation controller for dismissal
     /// - Parameter dismissed: View controller
     /// - Returns: Animator
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return nil
+        nil
     }
 }
 

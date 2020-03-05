@@ -7,8 +7,8 @@ import RealmSwift
 // https://realm.io/docs/swift/latest
 
 /// Wrapper around Realm database
+// swiftlint:disable:next type_body_length
 final class RealmDataController: ServiceProvider {
-    // swiftlint:disable:previous type_body_length
 
     private lazy var realm: Realm = create()
 
@@ -79,6 +79,7 @@ final class RealmDataController: ServiceProvider {
     /// - Returns: Country if found
     func country(id: Int?) -> Country? {
         guard let id = id else { return nil }
+
         let results = realm.objects(Country.self)
                            .filter("countryId = \(id)")
         return results.first
@@ -203,6 +204,7 @@ final class RealmDataController: ServiceProvider {
     /// - Returns: Location if found
     func location(id: Int?) -> Location? {
         guard let id = id else { return nil }
+
         let results = realm.objects(Location.self)
                            .filter("placeId = \(id)")
         return results.first
@@ -472,8 +474,8 @@ final class RealmDataController: ServiceProvider {
     /// - Parameter id: ID
     /// - Returns: Post
     func post(id: Int) -> Post? {
-        return realm.object(ofType: Post.self,
-                            forPrimaryKey: id)
+        realm.object(ofType: Post.self,
+                     forPrimaryKey: id)
     }
 
     /// Set post
@@ -744,7 +746,7 @@ final class RealmDataController: ServiceProvider {
     /// - Parameter reference: Reference
     /// - Returns: Mappable if found
     func resolve(reference: Mappable.Reference) -> Mappable? {
-        return realm.resolve(reference)
+        realm.resolve(reference)
     }
 
     /// Update page stamp
@@ -793,8 +795,8 @@ private extension RealmDataController {
             }
         )
         // reset instead of migrating
-        //let config = Realm.Configuration(schemaVersion: 0,
-                                           //deleteRealmIfMigrationNeeded: true)
+        // let config = Realm.Configuration(schemaVersion: 0,
+                                           // deleteRealmIfMigrationNeeded: true)
 
         Realm.Configuration.defaultConfiguration = config
     }
@@ -840,10 +842,12 @@ private extension RealmDataController {
 
     func deleteDatabaseFiles() {
         do {
-            try [ fileURL,
-                  fileURL.appendingPathExtension("lock"),
-                  fileURL.appendingPathExtension("note"),
-                  fileURL.appendingPathExtension("management")].forEach {
+            try [
+                fileURL,
+                fileURL.appendingPathExtension("lock"),
+                fileURL.appendingPathExtension("note"),
+                fileURL.appendingPathExtension("management"),
+            ].forEach {
                 try FileManager.default.removeItem(at: $0)
             }
         } catch {

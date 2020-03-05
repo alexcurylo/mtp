@@ -114,15 +114,15 @@ extension UINavigationBar {
         bar.titleTextAttributes = attributes
 
         switch transparency {
-        case .transparent?:
+        case .transparent:
             bar.setBackgroundImage(UIImage(), for: .default)
             bar.shadowImage = UIImage()
             bar.isTranslucent = true
-        case .translucent?:
+        case .translucent:
             bar.setBackgroundImage(nil, for: .default)
             bar.shadowImage = nil
             bar.isTranslucent = true
-        case .opaque?:
+        case .opaque:
             bar.setBackgroundImage(nil, for: .default)
             bar.shadowImage = nil
             bar.isTranslucent = false

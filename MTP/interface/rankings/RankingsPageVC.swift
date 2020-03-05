@@ -4,8 +4,6 @@ import Anchorage
 import Parchment
 import RealmSwift
 
-// swiftlint:disable file_length
-
 /// Notifies of scroll for menu updating
 protocol RankingsPageVCDelegate: RankingCellDelegate {
 
@@ -74,19 +72,19 @@ final class RankingsPageVC: UIViewController {
     }
 
     /// :nodoc:
-    required init?(coder: NSCoder) {
-        return nil
-    }
+    required init?(coder: NSCoder) { nil }
 
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         report(screen: "Rankings Page")
     }
 
     /// Refresh collection view on layout
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+
         collectionView.collectionViewLayout.invalidateLayout()
     }
 
@@ -130,8 +128,8 @@ extension RankingsPageVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.width,
-                      height: Layout.headerHeight)
+        CGSize(width: collectionView.frame.width,
+               height: Layout.headerHeight)
     }
 
     /// Provide cell size
@@ -143,8 +141,8 @@ extension RankingsPageVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width,
-                      height: Layout.cellHeight)
+        CGSize(width: collectionView.bounds.width,
+               height: Layout.cellHeight)
     }
 }
 
@@ -193,7 +191,7 @@ extension RankingsPageVC: UICollectionViewDataSource {
     /// - Returns: Item count
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return itemCount
+        itemCount
     }
 
     /// Provide cell
@@ -269,15 +267,15 @@ private extension RankingsPageVC {
     }
 
     var firstPage: RankingsPageInfo? {
-        return page(at: 1)
+        page(at: 1)
     }
 
     var lastPage: RankingsPageInfo? {
-        return rankings?.filter("page = lastPage").last
+        rankings?.filter("page = lastPage").last
     }
 
     func page(at index: Int) -> RankingsPageInfo? {
-        return rankings?.filter("page = \(index)").first
+        rankings?.filter("page = \(index)").first
     }
 
     func load(page: Int) {
@@ -343,6 +341,7 @@ private extension RankingsPageVC {
 
         blockedObserver = data.observer(of: .blockedUsers) { [weak self] _ in
             guard let self = self else { return }
+
             self.blockedUsers = self.data.blockedUsers
             self.collectionView.reloadData()
         }

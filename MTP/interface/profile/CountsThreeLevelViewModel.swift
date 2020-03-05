@@ -6,7 +6,7 @@ struct CountsThreeLevelViewModel: CountsViewModel {
     /// :nodoc:
     let hierarchy: Hierarchy
     /// :nodoc:
-    var sectionCount: Int { return sections.count }
+    var sectionCount: Int { sections.count }
     private let checklist: Checklist
     private let isEditable: Bool
 

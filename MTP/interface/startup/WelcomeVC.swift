@@ -14,6 +14,7 @@ final class WelcomeVC: UIViewController {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
+
         requireOutlets()
     }
 
@@ -28,6 +29,7 @@ final class WelcomeVC: UIViewController {
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         report(screen: "Welcome")
     }
 

@@ -1,0 +1,28 @@
+# You can validate the YAML config file at http://yaml-online-parser.appspot.com
+
+# Specify GitHub library manually.
+#github:
+  #- owner: flurry
+    #name: flurry-ios-sdk
+    #version: 10.1.0
+
+# Specify libraries manually
+#manual:
+  #- source: https://webrtc.googlesource.com/src
+    #name: WebRTC
+    #version: M61
+    #body: '
+    #Copyright (c) 2011, The WebRTC project authors. ...
+    #'
+
+# Specify license files manually
+  #- name: "Dummy License File"
+  #  file: "dummy_license.txt"
+
+# Specify libraries to be excluded.
+#exclude:
+  #- /^Core.*$/ # Support regex sandwiched by `/`
+
+# Specify libraries' names to be renamed.
+#rename:
+  #LicensePlist: License Plist # Rename LicensePlist to "License Plist"

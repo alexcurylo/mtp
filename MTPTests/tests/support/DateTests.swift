@@ -35,7 +35,7 @@ final class DateTests: TestCase {
     func testRelativeStrings() {
         // given
         let minute: Double = 60
-        let hour: Double = 3_600
+        let hour: Double = 3600
         let day: Double = 86_400
         let week: Double = 604_800
         let year: Double = 31_556_926
@@ -73,7 +73,7 @@ final class DateTests: TestCase {
             (-year * 1, "last year"), // .oneYearPast
             (year * 1, "next year"), // .oneYearFuture
             (-year * 10, "10 years ago"), // .yearsPast
-            (year * 10, "in 10 years") // .yearsFuture
+            (year * 10, "in 10 years"), // .yearsFuture
         ].forEach {
             verify(time: $0.0, expected: $0.1)
         }
