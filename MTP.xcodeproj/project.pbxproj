@@ -3802,7 +3802,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAF12300215652AE0099B772 /* MTP_Debug.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 657;
+				CURRENT_PROJECT_VERSION = 658;
 				MARKETING_VERSION = 1.2.5;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -3813,7 +3813,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAF122FC215652AE0099B772 /* MTP_Release.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 657;
+				CURRENT_PROJECT_VERSION = 658;
 				MARKETING_VERSION = 1.2.5;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
