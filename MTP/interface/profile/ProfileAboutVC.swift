@@ -36,6 +36,7 @@ final class ProfileAboutVC: UITableViewController, UserInjectable {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
+
         requireOutlets()
         requireInjection()
 
@@ -63,6 +64,7 @@ final class ProfileAboutVC: UITableViewController, UserInjectable {
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         report(screen: "Profile About")
     }
 
@@ -83,13 +85,13 @@ extension ProfileAboutVC {
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        UITableView.automaticDimension
     }
 
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        UITableView.automaticDimension
     }
 }
 
@@ -271,6 +273,7 @@ private extension ProfileAboutVC {
             net.loadScorecard(list: .locations,
                               user: id) { [weak self] _ in
                 guard let self = self else { return }
+
                 if let scorecard = self.data.get(scorecard: .locations,
                                                  user: id) {
                     self.visits = Array(scorecard.visits)

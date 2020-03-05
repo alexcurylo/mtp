@@ -213,12 +213,12 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
 
     /// Accessor for visited status
     func isVisited(id: Int) -> Bool {
-        return visited.contains(id)
+        visited.contains(id)
     }
 
     /// Mapper to PlaceInfo interface
     func place(id: Int) -> PlaceInfo? {
-        return places.first { $0.placeId == id }
+        places.first { $0.placeId == id }
     }
 
     /// All places of this type
@@ -358,7 +358,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
 
     /// Accessor for remaining count
     func remaining(of user: UserInfo) -> Int {
-        return visitStatus(of: user).remaining
+        visitStatus(of: user).remaining
     }
 
     /// Accessor for visited/remaining counts
@@ -506,13 +506,13 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
         case .uncountries:
             return 0
         case .whss:
-            return 1_600
+            return 1600
         case .beaches:
-            return 1_600
+            return 1600
         case .golfcourses:
-            return 1_600
+            return 1600
         case .divesites:
-            return 1_600
+            return 1600
         case .restaurants:
             return 100
         case .hotels:
@@ -558,7 +558,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
 
     /// Timestamp accesssor
     var rankingsItem: Item {
-        return (self, Timestamps.Info.rankings.rawValue)
+        (self, Timestamps.Info.rankings.rawValue)
     }
 
     /// Timestamp status
@@ -571,7 +571,7 @@ enum Checklist: Int, CaseIterable, ServiceProvider {
 
     /// Scorecard accesssor
     var scorecardItem: Item {
-        return (self, Timestamps.Info.scorecard.rawValue)
+        (self, Timestamps.Info.scorecard.rawValue)
     }
 
     /// Scorecard status
@@ -603,17 +603,17 @@ enum Hierarchy {
 
     /// Whether to display cell subtitle
     var isCombined: Bool {
-        return self == .regionCountryCombined
+        self == .regionCountryCombined
     }
 
     /// Whether to group by country
     var isGroupingByCountry: Bool {
-        return !isSubtitled
+        !isSubtitled
     }
 
     /// Whether to display cell subtitle
     var isSubtitled: Bool {
-        return self == .regionSubtitled
+        self == .regionSubtitled
     }
 }
 

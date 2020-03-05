@@ -3,9 +3,6 @@
 @testable import MTP
 import XCTest
 
-// swiftlint:disable file_length
-
-// swiftlint:disable type_body_length
 final class OfflineRequestManagerTests: TestCase {
 
     private let testFileName = "test_manager"
@@ -147,17 +144,17 @@ final class OfflineRequestManagerTests: TestCase {
         let manager = try XCTUnwrap(sut)
         let request = MockRequest()
         let called = expectation(description: "called")
-        var i = 0.0
+        var idx = 0.0
         let increment = MockRequest.progressIncrement
         listener?.triggerBlock = { type in
             switch type {
             case .progress(let progress):
-                XCTAssertEqual(progress, i * increment)
+                XCTAssertEqual(progress, idx * increment)
                 if progress >= 1 {
                     self.listener?.triggerBlock = nil
                     called.fulfill()
                 } else {
-                    i += 1
+                    idx += 1
                 }
             default:
                 break
@@ -175,9 +172,9 @@ final class OfflineRequestManagerTests: TestCase {
     func testShouldUpdateMultipleRequestProgressScaledToTotalRequests() throws {
         // given
         let manager = try XCTUnwrap(sut)
-        let requests = [MockRequest(),
-                        MockRequest(),
-                        MockRequest()]
+        let requests = [ MockRequest(),
+                         MockRequest(),
+                         MockRequest(), ]
         let called = expectation(description: "called")
         listener?.triggerBlock = { type in
             switch type {
@@ -369,9 +366,7 @@ private class MockRequest: OfflineRequest {
         mock = dictionary
     }
 
-    var dictionary: [String: Any] {
-        return mock
-    }
+    var dictionary: [String: Any] { mock }
 
     func perform(completion: @escaping (Error?) -> Void) {
         if stalled { return }
@@ -414,7 +409,7 @@ private class OfflineRequestManagerListener: NSObject, OfflineRequestManagerDele
     var reattemptBlock: ((OfflineRequest, Error) -> Bool)?
 
     func offlineRequest(withDictionary dictionary: [String: Any]) -> OfflineRequest? {
-        return MockRequest(dictionary: dictionary)
+        MockRequest(dictionary: dictionary)
     }
 
     func offlineRequestManager(_ manager: OfflineRequestManager,

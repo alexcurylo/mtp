@@ -20,11 +20,11 @@ final class MyProfileVC: ProfileVC {
 
     /// Controllers to be displayed in PagingViewController
     override var pages: [UIViewController] {
-        return super.pages + [
+        super.pages + [
             R.storyboard.profileAbout.about(),
             R.storyboard.myCounts.myCounts(),
             R.storyboard.profilePhotos.photos(),
-            R.storyboard.profilePosts.posts()
+            R.storyboard.profilePosts.posts(),
         ].compactMap { $0 }
     }
 
@@ -101,11 +101,11 @@ extension MyProfileVC: CollectionCellExposing {
                 path: IndexPath,
                 cell: UICollectionViewCell) {
         switch Page(rawValue: path.item) {
-        case .about?:
+        case .about:
             UIProfilePaging.about.expose(item: cell)
-        case .counts?:
+        case .counts:
             UIProfilePaging.counts.expose(item: cell)
-        case .photos?:
+        case .photos:
             UIProfilePaging.photos.expose(item: cell)
         default:
             UIProfilePaging.posts.expose(item: cell)

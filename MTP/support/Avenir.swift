@@ -52,7 +52,7 @@ extension UISearchBar {
 
     /// Find search text field inside self
     var searchField: UITextField? {
-        return value(forKey: "searchField") as? UITextField
+        value(forKey: "searchField") as? UITextField
     }
 
     /// Remove searchField's clear butotn

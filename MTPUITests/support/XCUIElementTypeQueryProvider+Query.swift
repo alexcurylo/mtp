@@ -5,7 +5,7 @@ import XCTest
 extension XCUIElement.ElementType {
 
     var all: XCUIElementQuery {
-        return XCUIApplication().query(type: self)
+        XCUIApplication().query(type: self)
     }
 }
 

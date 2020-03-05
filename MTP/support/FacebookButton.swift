@@ -9,12 +9,14 @@ final class FacebookButton: UIButton, FacebookSDKClient, ServiceProvider {
     /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
+
         setup()
     }
 
     /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+
         setup()
     }
 

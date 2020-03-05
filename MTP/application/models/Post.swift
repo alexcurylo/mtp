@@ -14,14 +14,14 @@ struct PostsJSON: Codable {
 extension PostsJSON: CustomStringConvertible {
 
     var description: String {
-        return "PostsJSON (\(data.count))"
+        "PostsJSON (\(data.count))"
     }
 }
 
 extension PostsJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < PostsJSON: \(description):
         paging: \(String(describing: paging))
         data: \(data.debugDescription)
@@ -48,6 +48,7 @@ struct PostJSON: Codable {
     /// Can this entry be displayed?
     func isValid(editorId: Int) -> Bool {
         guard owner != nil else { return false }
+
         if userId == editorId { return true }
         return status == MTP.Status.published.rawValue
     }
@@ -56,14 +57,14 @@ struct PostJSON: Codable {
 extension PostJSON: CustomStringConvertible {
 
     var description: String {
-        return "PostJSON: \(locationId), \(id)"
+        "PostJSON: \(locationId), \(id)"
     }
 }
 
 extension PostJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < PostJSON: \(description):
         createdAt: \(createdAt)
         id: \(id)
@@ -95,7 +96,7 @@ extension PostJSON: CustomDebugStringConvertible {
 
     /// :nodoc:
     override static func primaryKey() -> String? {
-        return "postId"
+        "postId"
     }
 
     /// Constructor from MTP endpoint data

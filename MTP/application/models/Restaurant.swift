@@ -28,15 +28,13 @@ struct RestaurantJSON: Codable {
 
 extension RestaurantJSON: CustomStringConvertible {
 
-    var description: String {
-        return title
-    }
+    var description: String { title }
 }
 
 extension RestaurantJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < RestaurantJSON: \(description):
         active: \(active)
         address: \(String(describing: address))
@@ -71,7 +69,7 @@ extension RestaurantJSON: CustomDebugStringConvertible {
 
     /// :nodoc:
     override static func primaryKey() -> String? {
-        return "placeId"
+        "placeId"
     }
 
     /// Constructor from MTP endpoint data
@@ -94,6 +92,6 @@ extension RestaurantJSON: CustomDebugStringConvertible {
     }
 
     override var description: String {
-        return placeTitle
+        placeTitle
     }
 }

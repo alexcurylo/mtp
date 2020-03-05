@@ -34,12 +34,13 @@ private class HTTPURLResponseMock: HTTPURLResponse {
     static let value = "value"
 
     override var allHeaderFields: [AnyHashable: Any] {
-        return [HTTPURLResponseMock.key: HTTPURLResponseMock.value]
+        [HTTPURLResponseMock.key: HTTPURLResponseMock.value]
     }
 
     init() {
         // swiftlint:disable:next force_try
         let url = try! unwrap(URL(string: "https://mtp.travel"))
+        // swiftlint:disable:next empty_line_after_super
         super.init(url: url,
                    statusCode: 200,
                    httpVersion: nil,
@@ -47,7 +48,5 @@ private class HTTPURLResponseMock: HTTPURLResponse {
                    headerFields: [:])!
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        return nil
-    }
+    required init?(coder aDecoder: NSCoder) { nil }
 }

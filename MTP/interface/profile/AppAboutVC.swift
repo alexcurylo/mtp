@@ -13,8 +13,8 @@ final class AppAboutVC: UIViewController {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireOutlets()
 
+        requireOutlets()
         configure()
     }
 
@@ -29,6 +29,7 @@ final class AppAboutVC: UIViewController {
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         report(screen: "App About")
     }
 }

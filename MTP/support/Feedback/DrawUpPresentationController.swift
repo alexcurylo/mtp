@@ -27,6 +27,7 @@ final class DrawUpPresentationController: UIPresentationController {
     /// :nodoc:
     override func presentationTransitionWillBegin() {
         guard let containerView = self.containerView else { return }
+
         let overlay = createOverlayView(withFrame: containerView.bounds)
         containerView.insertSubview(overlay, at: 0)
         overlayView = overlay
@@ -47,6 +48,7 @@ final class DrawUpPresentationController: UIPresentationController {
     /// :nodoc:
     override func dismissalTransitionDidEnd(_ completed: Bool) {
         guard completed else { return }
+
         overlayView?.removeFromSuperview()
         overlayView = nil
     }
@@ -54,12 +56,13 @@ final class DrawUpPresentationController: UIPresentationController {
     /// :nodoc:
     override func size(forChildContentContainer container: UIContentContainer,
                        withParentContainerSize parentSize: CGSize) -> CGSize {
-        return CGSize(width: parentSize.width, height: parentSize.height / 2.0)
+        CGSize(width: parentSize.width, height: parentSize.height / 2.0)
     }
 
     /// :nodoc:
     override var frameOfPresentedViewInContainerView: CGRect {
         guard let containerBounds = containerView?.bounds else { return CGRect.zero }
+
         var result = CGRect.zero
         result.size = size(forChildContentContainer: presentedViewController,
                            withParentContainerSize: containerBounds.size)
@@ -70,6 +73,7 @@ final class DrawUpPresentationController: UIPresentationController {
     /// :nodoc:
     override func containerViewWillLayoutSubviews() {
         guard let containerBounds = containerView?.bounds else { return }
+
         overlayView?.frame = containerBounds
         presentedView?.frame = frameOfPresentedViewInContainerView
     }

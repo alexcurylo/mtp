@@ -35,7 +35,7 @@ enum Key: String {
     case location
 
     /// Dictionary key
-    var key: String { return rawValue }
+    var key: String { rawValue }
 }
 
 /// Notification model
@@ -58,10 +58,10 @@ struct Note {
         case visit
 
         /// identifier for UNNotification
-        var identifier: String { return rawValue }
+        var identifier: String { rawValue }
 
         fileprivate var attributes: EKAttributes {
-            return EKAttributes(note: self)
+            EKAttributes(note: self)
         }
 
         fileprivate var priority: EKAttributes.Precedence.Priority {
@@ -515,7 +515,7 @@ private extension NotificationServiceImpl {
                                            triggered: triggered)
         let noteInfo: NotificationService.Info = [
             Key.list.key: list.rawValue,
-            Key.id.key: id
+            Key.id.key: id,
         ]
 
         postVisit(title: title, body: body, info: noteInfo)
@@ -541,7 +541,7 @@ private extension NotificationServiceImpl {
 private extension NotificationServiceImpl {
 
     var canNotifyForeground: Bool {
-        return UIApplication.shared.isForeground &&
+        UIApplication.shared.isForeground &&
                alerting == false &&
                asking == false &&
                congratulating == nil &&
@@ -724,6 +724,7 @@ private extension NotificationServiceImpl {
 
     func congratulations(for mappable: Mappable) -> Note? {
         guard let user = data.user else { return nil }
+
         let title = L.congratulations(mappable.title)
 
         let (single, plural) = mappable.checklist.names(full: true)

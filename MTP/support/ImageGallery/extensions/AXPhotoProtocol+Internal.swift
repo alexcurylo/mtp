@@ -39,7 +39,7 @@ extension AXPhotoProtocol {
     /// Associated Object: Progress
     var ax_progress: CGFloat {
         get {
-            return objc_getAssociatedObject(self, &AssociationKeys.progress) as? CGFloat ?? 0
+            objc_getAssociatedObject(self, &AssociationKeys.progress) as? CGFloat ?? 0
         }
         set(value) {
             objc_setAssociatedObject(self, &AssociationKeys.progress, value, .OBJC_ASSOCIATION_RETAIN)
@@ -49,7 +49,7 @@ extension AXPhotoProtocol {
     /// Associated Object: Error
     var ax_error: Error? {
         get {
-            return objc_getAssociatedObject(self, &AssociationKeys.error) as? Error
+            objc_getAssociatedObject(self, &AssociationKeys.error) as? Error
         }
         set(value) {
             objc_setAssociatedObject(self, &AssociationKeys.error, value, .OBJC_ASSOCIATION_RETAIN)
@@ -59,7 +59,7 @@ extension AXPhotoProtocol {
     /// Associated Object: Loading State
     var ax_loadingState: AXPhotoLoadingState {
         get {
-            return objc_getAssociatedObject(self, &AssociationKeys.loadingState) as? AXPhotoLoadingState ?? .notLoaded
+            objc_getAssociatedObject(self, &AssociationKeys.loadingState) as? AXPhotoLoadingState ?? .notLoaded
         }
         set(value) {
             objc_setAssociatedObject(self, &AssociationKeys.loadingState, value, .OBJC_ASSOCIATION_RETAIN)
@@ -68,6 +68,6 @@ extension AXPhotoProtocol {
 
     /// Has URL
     var ax_isReducible: Bool {
-        return self.url != nil
+        self.url != nil
     }
 }

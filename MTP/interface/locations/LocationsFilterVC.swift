@@ -24,6 +24,7 @@ final class LocationsFilterVC: UITableViewController {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
+
         requireOutlets()
 
         let backgroundView = GradientView {
@@ -46,6 +47,7 @@ final class LocationsFilterVC: UITableViewController {
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         report(screen: "Locations Filter")
     }
 

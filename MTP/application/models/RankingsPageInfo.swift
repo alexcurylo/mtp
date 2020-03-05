@@ -15,14 +15,14 @@ struct RankingsPageInfoJSON: Codable {
 extension RankingsPageInfoJSON: CustomStringConvertible {
 
     var description: String {
-        return "RankingsPageInfoJSON: \(endRank) \(endScore)"
+        "RankingsPageInfoJSON: \(endRank) \(endScore)"
     }
 }
 
 extension RankingsPageInfoJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < RankingsPageInfoJSON: \(description):
         endRank: \(endRank)
         endScore: \(endScore)
@@ -55,14 +55,14 @@ struct RankingsPageJSON: Codable {
 extension RankingsPageJSON: CustomStringConvertible {
 
     var description: String {
-        return "RankingsPageJSON: \(currentPage) \(lastPage)"
+        "RankingsPageJSON: \(currentPage) \(lastPage)"
     }
 }
 
 extension RankingsPageJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < RankingsPageJSON: \(description):
         currentPage: \(currentPage)
         data: \(data.debugDescription)
@@ -118,14 +118,14 @@ struct RankedUserJSON: Codable {
 extension RankedUserJSON: CustomStringConvertible {
 
     var description: String {
-        return "RankedUserJSON: \(currentRank) \(fullName)"
+        "RankedUserJSON: \(currentRank) \(fullName)"
     }
 }
 
 extension RankedUserJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < RankedUserJSON: \(description):
         birthday: \(String(describing: birthday))
         country: \(String(describing: country))
@@ -189,7 +189,7 @@ extension RankedUserJSON: CustomDebugStringConvertible {
 
     /// :nodoc:
     override static func primaryKey() -> String? {
-        return "dbKey"
+        "dbKey"
     }
 
     /// Initialization by injection

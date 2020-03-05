@@ -14,7 +14,7 @@ struct UserUpdateReply: Codable {
 
     /// Whether operation succeeded
     var isSuccess: Bool {
-        return code == 200
+        code == 200
     }
 }
 
@@ -126,7 +126,7 @@ struct UserUpdatePayload: Codable, Hashable, UserAvatar {
         facebook_email = from.facebookEmail
         facebook_id = from.facebookId
         facebook_user_token = from.facebookUserToken
-        //favorite_places = from.favoritePlaces
+        // favorite_places = from.favoritePlaces
         first_name = from.firstName
         full_name = from.fullName
         gender = from.gender
@@ -166,6 +166,7 @@ struct UserUpdatePayload: Codable, Hashable, UserAvatar {
 struct UserTokenReply: Codable {
 
     fileprivate struct Data: Codable {
+
         /// "apn_device_token"
         let type: String
         /// Updated user

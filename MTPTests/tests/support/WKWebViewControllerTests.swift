@@ -16,17 +16,21 @@ final class WKWebViewControllerTests: TestCase {
         sut.pureUserAgent = "test"
         sut.userAgent = "test2"
         sut.customUserAgent = "test3"
-        sut.leftNavigationBarItemTypes = [.back,
-                                          .forward,
-                                          .reload,
-                                          .stop]
-        sut.rightNavigationBarItemTypes = [.done,
-                                           .flexibleSpace,
-                                           .reload,
-                                           .custom(icon: nil,
-                                                   title: "Test",
-                                                   action: { _ in }),
-                                           .activity]
+        sut.leftNavigationBarItemTypes = [
+            .back,
+            .forward,
+            .reload,
+            .stop,
+        ]
+        sut.rightNavigationBarItemTypes = [
+            .done,
+            .flexibleSpace,
+            .reload,
+            .custom(icon: nil,
+                   title: "Test",
+                   action: { _ in }),
+            .activity,
+        ]
         sut.goBackToFirstPage()
         hide(window: showing)
 

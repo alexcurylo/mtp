@@ -130,7 +130,7 @@ class RealmSearchViewController: UITableViewController,
     private var results: RLMResults<RLMObject>?
 
     private var searchBar: UISearchBar {
-        return searchController.searchBar
+        searchController.searchBar
     }
 
     private var viewIsLoaded: Bool = false
@@ -273,7 +273,7 @@ private extension RealmSearchViewController {
     }
 
     var isReadOnly: Bool {
-        return realmConfiguration.readOnly
+        realmConfiguration.readOnly
     }
 
     func updateResults(_ predicate: NSPredicate?) {
@@ -457,9 +457,7 @@ extension RealmSearchViewController {
 extension RealmSearchViewController {
 
     /// :nodoc:
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
+    override func numberOfSections(in tableView: UITableView) -> Int { 1 }
 
     /// :nodoc:
     override func tableView(_ tableView: UITableView,

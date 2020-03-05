@@ -21,12 +21,12 @@ enum MenuAction: String {
     static let theirItems = [
         UIMenuItem(title: L.menuHide(), action: MenuAction.hide.selector()),
         UIMenuItem(title: L.menuReport(), action: MenuAction.report.selector()),
-        UIMenuItem(title: L.menuBlock(), action: MenuAction.block.selector())
+        UIMenuItem(title: L.menuBlock(), action: MenuAction.block.selector()),
     ]
     /// Actions for editing our own content
     static let myItems = [
         UIMenuItem(title: L.menuEdit(), action: MenuAction.edit.selector()),
-        UIMenuItem(title: L.menuDelete(), action: MenuAction.delete.selector())
+        UIMenuItem(title: L.menuDelete(), action: MenuAction.delete.selector()),
     ]
 
     /// Is a menu action one of our content actions?
@@ -46,6 +46,6 @@ enum MenuAction: String {
     }
 
     private func selector() -> Selector {
-        return Selector(self.rawValue)
+        Selector(self.rawValue)
     }
 }

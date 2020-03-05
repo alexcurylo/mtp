@@ -26,24 +26,24 @@ extension MappingAnnotationView {
 
     /// Convenience annotation type caster
     var mapped: MappablesAnnotation? {
-        return annotation as? MappablesAnnotation
+        annotation as? MappablesAnnotation
     }
     /// Convenience accessor for uniqueness
     var isSingle: Bool {
-        return mapped?.isSingle ?? false
+        mapped?.isSingle ?? false
     }
     /// Convenience accessor for multiplicity
     var isMultiple: Bool {
-        return mapped?.isMultiple ?? false
+        mapped?.isMultiple ?? false
     }
 
     /// Convenience accessor for unique place
     var mappable: Mappable? {
-        return mapped?.mappable
+        mapped?.mappable
     }
     /// Convenience accessor for place(s) list
     var mappables: [Mappable] {
-        return mapped?.mappables ?? []
+        mapped?.mappables ?? []
     }
 }
 
@@ -90,9 +90,7 @@ final class MappablesAnnotationView: MKAnnotationView, MappingAnnotationView, Se
     }
 
     /// :nodoc:
-    required init?(coder: NSCoder) {
-        return nil
-    }
+    required init?(coder: NSCoder) { nil }
 
     /// Prepare for display
     override func prepareForDisplay() {

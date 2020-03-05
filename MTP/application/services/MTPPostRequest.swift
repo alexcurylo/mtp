@@ -19,7 +19,7 @@ final class MTPPostRequest: NSObject, OfflineRequest, ServiceProvider {
 
     /// convenience filter for location posts status
     func isAbout(location id: Int) -> Bool {
-        return id == payload.location_id
+        id == payload.location_id
     }
 
     /// Memberwise initializer
@@ -62,7 +62,7 @@ final class MTPPostRequest: NSObject, OfflineRequest, ServiceProvider {
             Key.post.key: PostPayloadInfo(payload: payload),
             Key.title.key: title,
             Key.subtitle.key: subtitle,
-            Key.failures.key: failures
+            Key.failures.key: failures,
         ]
         return info
     }
@@ -97,6 +97,6 @@ final class MTPPostRequest: NSObject, OfflineRequest, ServiceProvider {
 
     /// :nodoc:
     func shouldAttemptResubmission(forError error: Error) -> Bool {
-        return true
+        true
     }
 }

@@ -161,13 +161,12 @@ final class MappableAnnotationView: MKMarkerAnnotationView, MappingAnnotationVie
     }
 
     /// :nodoc:
-    required init?(coder: NSCoder) {
-        return nil
-    }
+    required init?(coder: NSCoder) { nil }
 
     /// Prepare for display
     override func prepareForDisplay() {
         super.prepareForDisplay()
+
         guard let mappable = mappable else { return }
 
         markerTintColor = mappable.marker
@@ -240,31 +239,37 @@ private extension MappableAnnotationView {
 
     @objc func closeTapped(_ sender: UIButton) {
         guard let mappable = mappable else { return }
+
         loc.close(mappable: mappable)
     }
 
     @objc func directionsTapped(_ sender: GradientButton) {
         guard let mappable = mappable else { return }
+
         loc.show(directions: mappable)
     }
 
     @objc func showMoreTapped(_ sender: GradientButton) {
         guard let mappable = mappable else { return }
+
         loc.show(more: mappable)
     }
 
     @objc func nearbiesTapped(_ sender: GradientButton) {
         guard let mappable = mappable else { return }
+
         loc.show(nearby: mappable)
     }
 
     @objc func addPhotoTapped(_ sender: GradientButton) {
         guard let mappable = mappable else { return }
+
         loc.add(photo: mappable)
     }
 
     @objc func addPostTapped(_ sender: GradientButton) {
         guard let mappable = mappable else { return }
+
         loc.add(post: mappable)
     }
 
@@ -279,23 +284,25 @@ private extension MappableAnnotationView {
                 $0.heightAnchor == 2
         }
 
-        let buttons = UIStackView(arrangedSubviews: [showMoreButton,
-                                                     directionsButton,
-                                                     nearbiesButton,
-                                                     addPhotoButton,
-                                                     addPostButton
-                                                     ]).with {
+        let buttons = UIStackView(arrangedSubviews: [
+            showMoreButton,
+            directionsButton,
+            nearbiesButton,
+            addPhotoButton,
+            addPostButton,
+        ]).with {
             $0.spacing = 8
             $0.distribution = .fillEqually
             $0.heightAnchor == 40
         }
 
-        let stack = UIStackView(arrangedSubviews: [topView,
-                                                   categoryStack,
-                                                   detailStack,
-                                                   buttons,
-                                                   bottomSpacer
-                                                   ]).with {
+        let stack = UIStackView(arrangedSubviews: [
+            topView,
+            categoryStack,
+            detailStack,
+            buttons,
+            bottomSpacer,
+        ]).with {
             $0.axis = .vertical
             $0.spacing = 4
             $0.widthAnchor == Layout.width
@@ -328,9 +335,11 @@ private extension MappableAnnotationView {
     }
 
     var categoryStack: UIStackView {
-        let stack = UIStackView(arrangedSubviews: [categoryLabel,
-                                                   visitedLabel,
-                                                   visitSwitch]).with {
+        let stack = UIStackView(arrangedSubviews: [
+            categoryLabel,
+            visitedLabel,
+            visitSwitch,
+        ]).with {
             $0.alignment = .center
         }
 
@@ -338,9 +347,11 @@ private extension MappableAnnotationView {
     }
 
     var detailStack: UIStackView {
-        let stack = UIStackView(arrangedSubviews: [nameLabel,
-                                                   locationLabel,
-                                                   visitorsLabel]).with {
+        let stack = UIStackView(arrangedSubviews: [
+            nameLabel,
+            locationLabel,
+            visitorsLabel,
+        ]).with {
             $0.axis = .vertical
             $0.spacing = 0
         }

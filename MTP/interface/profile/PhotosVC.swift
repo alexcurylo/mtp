@@ -2,8 +2,6 @@
 
 import UIKit
 
-// swiftlint:disable file_length
-
 /// Photo selection notification
 protocol PhotoSelectionDelegate: AnyObject {
 
@@ -67,14 +65,10 @@ class PhotosVC: UICollectionViewController {
                                 queued: CGFloat(100))
 
     /// Whether user can add a new photo
-    var canCreate: Bool {
-        return false
-    }
+    var canCreate: Bool { false }
 
     /// Whether a new photo is queued to upload
-    var isQueued: Bool {
-        return false
-    }
+    var isQueued: Bool { false }
 
     /// How many photos in collection
     var photoCount: Int {
@@ -234,7 +228,7 @@ extension PhotosVC {
     /// :nodoc:
     override func collectionView(_ collectionView: UICollectionView,
                                  numberOfItemsInSection section: Int) -> Int {
-        return photoCount
+        photoCount
     }
 
     /// :nodoc:
@@ -304,7 +298,7 @@ extension PhotosVC {
                                  canPerformAction action: Selector,
                                  forItemAt indexPath: IndexPath,
                                  withSender sender: Any?) -> Bool {
-        return MenuAction.isContent(action: action)
+        MenuAction.isContent(action: action)
     }
 
     /// :nodoc:
@@ -390,6 +384,7 @@ extension PhotosVC: PhotoCellDelegate {
     /// :nodoc:
     func tapped(delete: Photo?) {
         guard let delete = delete else { return }
+
         let photoId = delete.photoId
         let userId = delete.userId
         let locationId = delete.locationId
@@ -451,6 +446,8 @@ private class AXMTPDataSource: AXPhotosDataSource {
         let models = (0..<source.photoCount).map {
             AXMTPPhoto(source: source, item: $0)
         }
+
+        // swiftlint:disable:next empty_line_after_super
         super.init(photos: models,
                    initialPhotoIndex: item,
                    prefetchBehavior: .regular)
@@ -465,12 +462,12 @@ private class AXMTPPhoto: NSObject, AXPhotoProtocol {
     var imageData: Data?
     var image: UIImage?
     var attributedTitle: NSAttributedString? {
-        return model.attributedTitle
+        model.attributedTitle
     }
     var attributedDescription: NSAttributedString?
     var attributedCredit: NSAttributedString?
     var url: URL? {
-        return model.imageUrl
+        model.imageUrl
     }
 
     init(source: PhotosVC, item: Int) {
@@ -479,6 +476,6 @@ private class AXMTPPhoto: NSObject, AXPhotoProtocol {
     }
 
     private var model: Photo {
-        return source.photo(at: item)
+        source.photo(at: item)
     }
 }

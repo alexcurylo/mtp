@@ -25,18 +25,21 @@ final class LocationWebsiteVC: WKWebViewController {
             source = .remote(webUrl)
         }
         super.init(source: source)
+
         configure()
     }
 
     /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+
         configure()
     }
 
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         report(screen: "Location WebView")
     }
 

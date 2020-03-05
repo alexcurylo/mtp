@@ -86,13 +86,13 @@ extension UserDefaults: ServiceProvider {
 
     /// Email stash during signup
     var email: String {
-        get { return string(forKey: #function) ?? "" }
+        get { string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }
     }
 
     /// Build that triggered user visit fixing
     var fixed: String {
-        get { return string(forKey: #function) ?? "" }
+        get { string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }
     }
 
@@ -117,7 +117,7 @@ extension UserDefaults: ServiceProvider {
 
     /// Group hotels by brand?
     var hotelsGroupBrand: Bool {
-        get { return bool(forKey: #function) }
+        get { bool(forKey: #function) }
         set { set(newValue, forKey: #function) }
     }
 
@@ -192,7 +192,7 @@ extension UserDefaults: ServiceProvider {
 
     /// Login token
     var token: String {
-        get { return string(forKey: #function) ?? "" }
+        get { string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }
     }
 

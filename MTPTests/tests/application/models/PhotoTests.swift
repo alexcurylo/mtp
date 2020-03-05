@@ -7,7 +7,7 @@ final class PhotoTests: TestCase {
 
     func testDecodingInfo() throws {
         // given
-        let locationId = 9_999
+        let locationId = 9999
         let realm = RealmDataController()
         let data = try XCTUnwrap(completeInfo.data(using: .utf8))
         let expectedImage = MTP.picture(uuid: "6uMTYDtfMXxLWVEj4JaTnC",
@@ -36,8 +36,8 @@ final class PhotoTests: TestCase {
 
         XCTAssertEqual(sut.desc, "Salt workers")
         XCTAssertEqual(sut.locationId, 554)
-        XCTAssertEqual(sut.photoId, 3_210)
-        XCTAssertEqual(sut.userId, 4_089)
+        XCTAssertEqual(sut.photoId, 3210)
+        XCTAssertEqual(sut.userId, 4089)
         XCTAssertEqual(sut.uuid, "6uMTYDtfMXxLWVEj4JaTnC")
         XCTAssertEqual(sut.imageUrl, expectedImage)
         XCTAssertEqual(sut.attributedTitle, expectedTitle)
@@ -69,7 +69,7 @@ final class PhotoTests: TestCase {
 
         XCTAssertTrue(sut.desc.isEmpty)
         XCTAssertEqual(sut.photoId, 66_806)
-        XCTAssertEqual(sut.userId, 7_853)
+        XCTAssertEqual(sut.userId, 7853)
         XCTAssertNil(sut.imageUrl)
         XCTAssertNil(sut.attributedTitle)
     }
@@ -88,7 +88,7 @@ final class PhotoTests: TestCase {
         json.debugDescription.assert(equal: completeUploadDebugDescription)
 
         XCTAssertEqual(sut.photoId, 67_211)
-        XCTAssertEqual(sut.userId, 7_853)
+        XCTAssertEqual(sut.userId, 7853)
     }
 
     func testIncompleteDecodingReply() throws {
@@ -105,7 +105,7 @@ final class PhotoTests: TestCase {
         json.debugDescription.assert(equal: incompleteUploadDebugDescription)
 
         XCTAssertEqual(sut.photoId, 67_211)
-        XCTAssertEqual(sut.userId, 7_853)
+        XCTAssertEqual(sut.userId, 7853)
     }
 }
 

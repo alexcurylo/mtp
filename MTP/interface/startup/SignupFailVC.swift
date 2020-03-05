@@ -21,9 +21,9 @@ final class SignupFailVC: UIViewController {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
+
         requireOutlets()
         requireInjection()
-
         if !errorMessage.isEmpty {
             messageLabel.text = errorMessage
         }
@@ -41,8 +41,8 @@ final class SignupFailVC: UIViewController {
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        report(screen: "Sign Up Fail")
 
+        report(screen: "Sign Up Fail")
         revealAlert()
     }
 

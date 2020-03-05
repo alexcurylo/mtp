@@ -15,14 +15,14 @@ struct CountryJSON: Codable {
 extension CountryJSON: CustomStringConvertible {
 
     var description: String {
-        return countryName
+        countryName
     }
 }
 
 extension CountryJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < CountryJSON: \(description):
         admin_level: \(adminLevel)
         countryId: \(countryId)
@@ -46,7 +46,7 @@ extension CountryJSON: CustomDebugStringConvertible {
 
     /// :nodoc:
     override static func primaryKey() -> String? {
-        return "countryId"
+        "countryId"
     }
 
     /// Constructor from MTP endpoint data
@@ -66,7 +66,7 @@ extension CountryJSON: CustomDebugStringConvertible {
     }()
 
     override var description: String {
-        return placeCountry
+        placeCountry
     }
 
     /// children

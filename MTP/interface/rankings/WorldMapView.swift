@@ -32,14 +32,14 @@ final class WorldMapView: UIView, ServiceProvider {
     /// Render height for width
     /// - Parameter width: width
     func height(for width: CGFloat) -> CGFloat {
-        return data.worldMap.height(for: width)
+        data.worldMap.height(for: width)
     }
 
     /// Render map for social sharing
     /// - Parameter size: Expected to  be same as full size
     func image(size: CGSize) -> UIImage? {
         let map = UIImage(layer: shapeLayer, size: size)
-        //map?.save(desktop: "WorldMap-\(size.width)")
+        // map?.save(desktop: "WorldMap-\(size.width)")
         return map
     }
 
@@ -51,7 +51,7 @@ final class WorldMapView: UIView, ServiceProvider {
         // swiftlint:disable:previous function_body_length
         map width: CGFloat,
         visits: [Int]
-        //label: Bool
+        // label: Bool
     ) {
         shapeLayer.sublayers?.removeAll()
         data.worldMap.render(layer: shapeLayer,
@@ -101,8 +101,8 @@ final class WorldMapView: UIView, ServiceProvider {
                  341: // Adelie Land (to S. Pole)
                 center = CGPoint(x: box.center.x,
                                  y: box.center.y - 20)
-            //case 229, // Greenland
-                 //346: // Queen Maud Land (not to South Pole)
+            // case 229, // Greenland
+                 // 346: // Queen Maud Land (not to South Pole)
             default:
                 center = box.center
             }
@@ -154,7 +154,7 @@ final class WorldMapView: UIView, ServiceProvider {
 private extension WorldMapView {
 
     func title(locid: Int) -> String {
-        return Self.titles[locid] ?? {
+        Self.titles[locid] ?? {
             guard let title = data.get(location: locid)?.placeTitle else { return "" }
             Self.titles[locid] = title
             return title
@@ -187,6 +187,7 @@ private class CenteringLayer: CATextLayer {
         ctx.saveGState()
         ctx.translateBy(x: 0.0, y: yDiff)
         super.draw(in: ctx)
+
         ctx.restoreGState()
     }
 }
@@ -208,6 +209,7 @@ private extension UIImage {
         UIGraphicsEndImageContext()
 
         guard let cgImage = image?.cgImage else { return nil }
+
         self.init(cgImage: cgImage)
     }
 

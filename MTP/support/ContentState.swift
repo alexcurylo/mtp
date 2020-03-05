@@ -42,7 +42,7 @@ extension ContentStateMessagingView {
 
     /// Currently displayed message view if any
     var messageView: UIView? {
-        return backgroundView?.subviews.first
+        backgroundView?.subviews.first
     }
 
     /// Set a content state message
@@ -70,6 +70,7 @@ extension ContentStateMessagingView {
     func set(message: String,
              color: UIColor) {
         guard let backgroundView = backgroundView else { return }
+
         setMessageNone()
 
         let label = UILabel {

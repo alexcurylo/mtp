@@ -302,7 +302,7 @@ protocol DataService: AnyObject, Observable, ServiceProvider {
     func update(stamp: RankingsPageInfo?)
 
     /// Accounts for obsolete Algeria/England/Kazakhstan
-    //func validate()
+    // func validate()
 }
 
 // MARK: - Generic DataService
@@ -365,7 +365,6 @@ extension DataService {
 
 /// Production implementation of DataService
 class DataServiceImpl: DataService {
-    // swiftlint:disable:previous type_body_length
 
     /// World map
     var worldMap = WorldMap()
@@ -374,11 +373,11 @@ class DataServiceImpl: DataService {
     private let realm = RealmDataController()
 
     /// Accounts for obsolete Algeria/England/Kazakhstan
-    //func validate() {
-        //if let visits = defaults.visited {
-            //visited = visits
-        //}
-    //}
+    // func validate() {
+        // if let visits = defaults.visited {
+            // visited = visits
+        // }
+    // }
 
     /// Beaches
     var beaches: [Beach] {
@@ -514,7 +513,7 @@ class DataServiceImpl: DataService {
         get { defaults.email }
         set {
             defaults.email = newValue
-            //saveSeed()
+            // saveSeed()
         }
     }
 
@@ -664,7 +663,7 @@ class DataServiceImpl: DataService {
     func set(locations: [LocationJSON]) {
         realm.set(locations: locations)
         notify(change: .locations)
-        //validate()
+        // validate()
     }
 
     /// Displayed types
@@ -920,10 +919,10 @@ class DataServiceImpl: DataService {
         set {
             if let visited = newValue {
                 // Accounts for obsolete Algeria/England/Kazakhstan
-                //let filtered = visited.locations.filter { visit in
-                    //get(location: visit) != nil
-                //}
-                //visited.locations = filtered
+                // let filtered = visited.locations.filter { visit in
+                    // get(location: visit) != nil
+                // }
+                // visited.locations = filtered
                 if let oldUser = user {
                     user = oldUser.updated(visited: visited)
                 }
@@ -1084,6 +1083,7 @@ class DataServiceImpl: DataService {
     /// - Parameter stamp: Page
     func update(stamp: RankingsPageInfo?) {
         guard let stamp = stamp else { return }
+
         realm.update(stamp: stamp)
     }
 }
@@ -1149,7 +1149,7 @@ private extension DataServiceImpl {
 final class DataServiceStub: DataServiceImpl {
 
     override var etags: [String: String] {
-        get { return [:] }
+        get { [:] }
         // swiftlint:disable:next unused_setter_value
         set { }
     }

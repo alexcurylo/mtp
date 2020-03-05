@@ -14,7 +14,7 @@ extension Exposable {
 
     /// accessibilityIdentifier for UI tests
     var identifier: String {
-        return "\(String(describing: type(of: self))).\(self)"
+        "\(String(describing: type(of: self))).\(self)"
     }
 
     /// Assign accessibility identifier to item
@@ -99,6 +99,6 @@ enum ChecklistIndex: Int, CustomStringConvertible {
     case hotels
 
     var description: String {
-        return "\(rawValue)"
+        "\(rawValue)"
     }
 }

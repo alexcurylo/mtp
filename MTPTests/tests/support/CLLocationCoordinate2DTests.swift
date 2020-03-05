@@ -42,7 +42,7 @@ final class CLLocationCoordinate2DTests: TestCase {
     func testFormatting() throws {
         // given
         let kmThousand = CLLocationDistance(1_000_000)
-        let kmTwo = CLLocationDistance(2_000)
+        let kmTwo = CLLocationDistance(2000)
         let kmHalf = CLLocationDistance(500)
 
         // when
@@ -60,7 +60,7 @@ final class CLLocationCoordinate2DTests: TestCase {
         // given
         let coordinates = [
             CLLocationCoordinate2D(latitude: 22, longitude: 33),
-            CLLocationCoordinate2D(latitude: 33, longitude: 22)
+            CLLocationCoordinate2D(latitude: 33, longitude: 22),
         ]
 
         // when

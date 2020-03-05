@@ -15,7 +15,7 @@ struct Feedback {
     /// to
     let to: [String]
     /// cc
-    let cc: [String]
+    let cc: [String] // swiftlint:disable:this identifier_name
     /// bcc
     let bcc: [String]
     /// subject

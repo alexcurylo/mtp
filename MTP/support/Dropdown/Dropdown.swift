@@ -36,9 +36,7 @@ private typealias ComputeLayoutTuple = (x: CGFloat, y: CGFloat, width: CGFloat, 
 extension UIView: AnchorView {
 
     /// Plain view
-	var plainView: UIView {
-		return self
-	}
+	var plainView: UIView { self }
 }
 
 extension UIBarButtonItem: AnchorView {
@@ -203,7 +201,7 @@ final class Dropdown: UIView {
 
     /// Background color
     override var backgroundColor: UIColor? {
-        get { return tableViewBackgroundColor }
+        get { tableViewBackgroundColor }
         set {
             if let newValue = newValue {
                 tableViewBackgroundColor = newValue
@@ -459,7 +457,7 @@ final class Dropdown: UIView {
     }
 
     fileprivate var minHeight: CGFloat {
-        return tableView.rowHeight
+        tableView.rowHeight
     }
 
     fileprivate var didSetupConstraints = false
@@ -515,12 +513,14 @@ final class Dropdown: UIView {
     /// :nodoc:
     override init(frame: CGRect) {
         super.init(frame: frame)
+
         setup()
     }
 
     /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+
         setup()
     }
 }
@@ -533,7 +533,7 @@ private extension Dropdown {
         tableView.register(cellNib, forCellReuseIdentifier: DPDConstant.ReusableIdentifier.DropdownCell)
 
         DispatchQueue.main.async {
-            //HACK: If not done in dispatch_async on main queue `setupUI` will have no effect
+            // HACK: If not done in dispatch_async on main queue `setupUI` will have no effect
             self.updateConstraintsIfNeeded()
             self.setupUI()
         }
@@ -586,9 +586,8 @@ extension Dropdown {
 
         if !layout.canBeDisplayed {
             super.updateConstraints()
-            hide()
 
-            return
+            return hide()
         }
 
         xConstraint.constant = layout.x
@@ -917,7 +916,7 @@ extension Dropdown {
         accessibilityViewIsModal = true
         UIAccessibility.post(notification: .screenChanged, argument: self)
 
-        //deselectRows(at: selectedRowIndices)
+        // deselectRows(at: selectedRowIndices)
         selectRows(at: selectedRowIndices)
 
         return (layout.canBeDisplayed, layout.offscreenHeight)
@@ -1051,7 +1050,7 @@ extension Dropdown {
 
     /// Returns the index of the selected row.
     var indexForSelectedRow: Index? {
-        return (tableView.indexPathForSelectedRow as NSIndexPath?)?.row
+        (tableView.indexPathForSelectedRow as NSIndexPath?)?.row
     }
 
     /// Returns the selected item.
@@ -1063,7 +1062,7 @@ extension Dropdown {
 
     /// Returns the height needed to display all cells.
     fileprivate var tableHeight: CGFloat {
-        return tableView.rowHeight * CGFloat(dataSource.count)
+        tableView.rowHeight * CGFloat(dataSource.count)
     }
 
     // MARK: Objective-C methods for converting the Swift type Index
@@ -1086,7 +1085,7 @@ extension Dropdown {
 
     /// Selected index path
     @objc var indexPathForSelectedRow: NSIndexPath? {
-        return tableView.indexPathForSelectedRow as NSIndexPath?
+        tableView.indexPathForSelectedRow as NSIndexPath?
     }
 }
 
@@ -1096,7 +1095,7 @@ extension Dropdown: UITableViewDataSource, UITableViewDelegate {
 
     /// :nodoc:
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.count
+        dataSource.count
     }
 
     /// :nodoc:

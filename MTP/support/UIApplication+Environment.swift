@@ -6,16 +6,16 @@ extension UIApplication {
 
     /// Executing in background?
     var isBackground: Bool {
-        return applicationState != .active
+        applicationState != .active
     }
     /// Executing in foreground?
     var isForeground: Bool {
-        return applicationState == .active
+        applicationState == .active
     }
 
     /// Executing in production environment?
     static var isProduction: Bool {
-        return !isTesting
+        !isTesting
     }
 
     /// Executing in simulator?
@@ -29,22 +29,22 @@ extension UIApplication {
 
     /// Executing under fastlane screenshotting?
     static var isTakingScreenshots: Bool {
-        return ProcessInfo.arguments(contain: .takingScreenshots)
+        ProcessInfo.arguments(contain: .takingScreenshots)
     }
 
     /// Executing in test enviroment?
     static var isTesting: Bool {
-        return isUITesting || isUnitTesting
+        isUITesting || isUnitTesting
     }
 
     /// Executing in UI test enviroment?
     static var isUITesting: Bool {
-        return ProcessInfo.arguments(contain: .uiTesting)
+        ProcessInfo.arguments(contain: .uiTesting)
     }
 
     /// Executing in unit test enviroment?
     static var isUnitTesting: Bool {
-        return NSClassFromString("XCTestCase") != nil
+        NSClassFromString("XCTestCase") != nil
     }
 }
 

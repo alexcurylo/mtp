@@ -66,6 +66,7 @@ private class DataServiceObserver: ObserverImpl {
 
     init(of change: DataServiceChange,
          notify: @escaping NotificationHandler) {
+        // swiftlint:disable:next empty_line_after_super
         super.init(notification: DataServiceObserver.notification,
                    key: DataServiceObserver.statusKey,
                    value: change.rawValue,
@@ -77,12 +78,12 @@ extension DataService {
 
     /// Type of change generated
     var statusKey: StatusKey {
-        return DataServiceObserver.statusKey
+        DataServiceObserver.statusKey
     }
 
     /// Name of change
     var notification: Notification.Name {
-        return DataServiceObserver.notification
+        DataServiceObserver.notification
     }
 
     /// Notify change listeners
@@ -105,7 +106,7 @@ extension DataService {
     /// - Returns: Observer
     func observer(of change: DataServiceChange,
                   handler: @escaping NotificationHandler) -> Observer {
-        return DataServiceObserver(of: change, notify: handler)
+        DataServiceObserver(of: change, notify: handler)
     }
 }
 
@@ -115,7 +116,7 @@ extension Checklist {
     /// - Parameter handler: Handler
     /// - Returns: Observer
     func observer(handler: @escaping NotificationHandler) -> Observer {
-        return DataServiceObserver(of: change, notify: handler)
+        DataServiceObserver(of: change, notify: handler)
     }
 
     private var change: DataServiceChange {

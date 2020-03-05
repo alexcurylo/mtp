@@ -46,26 +46,24 @@ final class AXPreviewingPhotosViewController: UIViewController, AXNetworkIntegra
     /// :nodoc:
     init(dataSource: AXPhotosDataSource) {
         super.init(nibName: nil, bundle: nil)
+
         self.commonInit(dataSource: dataSource)
     }
 
     /// :nodoc:
     init(dataSource: AXPhotosDataSource,
          networkIntegration: AXNetworkIntegrationProtocol) {
-
         super.init(nibName: nil, bundle: nil)
+
         self.commonInit(dataSource: dataSource,
                         networkIntegration: networkIntegration)
     }
 
     /// :nodoc:
-    required init?(coder aDecoder: NSCoder) {
-        return nil
-    }
+    required init?(coder aDecoder: NSCoder) { nil }
 
     private func commonInit(dataSource: AXPhotosDataSource,
                             networkIntegration: AXNetworkIntegrationProtocol? = nil) {
-
         self.dataSource = dataSource
 
         var `networkIntegration` = networkIntegration
@@ -85,6 +83,7 @@ final class AXPreviewingPhotosViewController: UIViewController, AXNetworkIntegra
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
+
         self.imageView.contentMode = .scaleAspectFit
         self.configure(with: self.dataSource.initialPhotoIndex)
     }

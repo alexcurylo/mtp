@@ -33,10 +33,10 @@ final class NetworkServiceTests: TestCase {
         sut.logout()
         sut.refreshEverything()
         // sort to deal with offline queue
-        //sut.set(items: [], visited: true) { _ in }
-        //sut.postPublish(payload: PostPayload()) { _ in }
-        //sut.upload(photo: Data(), caption: nil, location: nil) { _ in }
-        //sut.userUpdate(payload: UserUpdatePayload()) { _ in }
+        // sut.set(items: [], visited: true) { _ in }
+        // sut.postPublish(payload: PostPayload()) { _ in }
+        // sut.upload(photo: Data(), caption: nil, location: nil) { _ in }
+        // sut.userUpdate(payload: UserUpdatePayload()) { _ in }
 
         // then
         XCTAssertTrue(spy.invokedLoadPhotosLocation)
@@ -48,26 +48,26 @@ final class NetworkServiceTests: TestCase {
         XCTAssertTrue(spy.invokedLoadScorecard)
         XCTAssertTrue(spy.invokedLoadUser)
         XCTAssertTrue(spy.invokedSearch)
-        //XCTAssertTrue(spy.invokedSet)
-        //XCTAssertTrue(spy.invokedUpload)
-        //XCTAssertTrue(spy.invokedPostPublish)
+        // XCTAssertTrue(spy.invokedSet)
+        // XCTAssertTrue(spy.invokedUpload)
+        // XCTAssertTrue(spy.invokedPostPublish)
         XCTAssertTrue(spy.invokedUserDeleteAccount)
         XCTAssertTrue(spy.invokedUserForgotPassword)
         XCTAssertTrue(spy.invokedUserLogin)
         XCTAssertTrue(spy.invokedUserRegister)
-        //XCTAssertTrue(spy.invokedUserUpdatePayload)
+        // XCTAssertTrue(spy.invokedUserUpdatePayload)
         XCTAssertTrue(spy.invokedUserUpdateToken)
         XCTAssertTrue(spy.invokedUserVerify)
-        //XCTAssertTrue(spy.invokedLoadSettings)
-        //XCTAssertTrue(spy.invokedLoadChecklists)
-        //XCTAssertTrue(spy.invokedSearchCountries)
-        //XCTAssertTrue(spy.invokedLoadLocations)
-        //XCTAssertTrue(spy.invokedLoadBeaches)
-        //XCTAssertTrue(spy.invokedLoadDiveSites)
-        //XCTAssertTrue(spy.invokedLoadGolfCourses)
-        //XCTAssertTrue(spy.invokedLoadHotels)
-        //XCTAssertTrue(spy.invokedLoadRestaurants)
-        //XCTAssertTrue(spy.invokedLoadUNCountries)
-        //XCTAssertTrue(spy.invokedLoadWHS)
+        // XCTAssertTrue(spy.invokedLoadSettings)
+        // XCTAssertTrue(spy.invokedLoadChecklists)
+        // XCTAssertTrue(spy.invokedSearchCountries)
+        // XCTAssertTrue(spy.invokedLoadLocations)
+        // XCTAssertTrue(spy.invokedLoadBeaches)
+        // XCTAssertTrue(spy.invokedLoadDiveSites)
+        // XCTAssertTrue(spy.invokedLoadGolfCourses)
+        // XCTAssertTrue(spy.invokedLoadHotels)
+        // XCTAssertTrue(spy.invokedLoadRestaurants)
+        // XCTAssertTrue(spy.invokedLoadUNCountries)
+        // XCTAssertTrue(spy.invokedLoadWHS)
    }
 }

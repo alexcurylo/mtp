@@ -12,6 +12,7 @@ final class LocationHandlerTests: TestCase {
 
     override func setUp() {
         super.setUp()
+
         dataService = ServiceProviderInstances.dataServiceInstance
         dataSpy = DataServiceSpy()
         dataSpy?.stubbedResolveResult = Mappable()
@@ -25,7 +26,7 @@ final class LocationHandlerTests: TestCase {
         ServiceProviderInstances.dataServiceInstance = dataService
         ServiceProviderInstances.locServiceInstance = locService
         dataSpy = nil
-        //locSpy = nil
+        // locSpy = nil
         super.tearDown()
     }
 

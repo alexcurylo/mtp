@@ -20,11 +20,11 @@ final class MyCountsPageVC: CountsPageVC {
     private weak var delegate: MyCountsPageVCDelegate?
 
     /// Whether counts are editable
-    override var isEditable: Bool { return true }
+    override var isEditable: Bool { true }
     /// Places to display
-    override var places: [PlaceInfo] { return listPlaces }
+    override var places: [PlaceInfo] { listPlaces }
     /// Places that have been visited
-    override var visited: [Int] { return listVisited }
+    override var visited: [Int] { listVisited }
 
     private let listPlaces: [PlaceInfo]
     private var listVisited: [Int]
@@ -42,9 +42,7 @@ final class MyCountsPageVC: CountsPageVC {
     }
 
     /// :nodoc:
-    required init?(coder: NSCoder) {
-        return nil
-    }
+    required init?(coder: NSCoder) { nil }
 
     /// Set up data change observations
     override func observe() {

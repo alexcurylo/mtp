@@ -82,6 +82,7 @@ final class AttachmentCell: UITableViewCell {
     /// - Parameter gestureRecognizer: UITapGestureRecognizer
     @objc func attViewTapped(_ gestureRecognizer: UITapGestureRecognizer) {
         guard let item = item, item.image != .none else { return }
+
         eventHandler?.showImage(of: item)
     }
 }

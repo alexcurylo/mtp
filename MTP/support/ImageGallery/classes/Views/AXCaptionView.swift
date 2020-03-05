@@ -14,7 +14,6 @@ import UIKit
 
 /// AXCaptionView
 final class AXCaptionView: UIView, AXCaptionViewProtocol {
-    // swiftlint:disable:previous type_body_length
 
     /// AXCaptionViewProtocol
     var animateCaptionInfoChanges: Bool = true
@@ -46,7 +45,7 @@ final class AXCaptionView: UIView, AXCaptionViewProtocol {
         let font = UIFont.systemFont(ofSize: fontDescriptor.pointSize, weight: UIFont.Weight.bold)
         return [
             .font: font,
-            .foregroundColor: UIColor.white
+            .foregroundColor: UIColor.white,
         ]
     }
 
@@ -56,7 +55,7 @@ final class AXCaptionView: UIView, AXCaptionViewProtocol {
         let font = UIFont.systemFont(ofSize: fontDescriptor.pointSize, weight: UIFont.Weight.light)
         return [
             .font: font,
-            .foregroundColor: UIColor.lightGray
+            .foregroundColor: UIColor.lightGray,
         ]
     }
 
@@ -66,7 +65,7 @@ final class AXCaptionView: UIView, AXCaptionViewProtocol {
         let  font = UIFont.systemFont(ofSize: fontDescriptor.pointSize, weight: UIFont.Weight.light)
         return [
             .font: font,
-            .foregroundColor: UIColor.gray
+            .foregroundColor: UIColor.gray,
         ]
     }
 
@@ -75,12 +74,12 @@ final class AXCaptionView: UIView, AXCaptionViewProtocol {
         self.visibleLabels = [
             self.titleLabel,
             self.descriptionLabel,
-            self.creditLabel
+            self.creditLabel,
         ]
         self.visibleSizingLabels = [
             self.titleSizingLabel,
             self.descriptionSizingLabel,
-            self.creditSizingLabel
+            self.creditSizingLabel,
         ]
 
         super.init(frame: .zero)
@@ -111,9 +110,7 @@ final class AXCaptionView: UIView, AXCaptionViewProtocol {
     }
 
     /// :nodoc:
-    required init?(coder aDecoder: NSCoder) {
-        return nil
-    }
+    required init?(coder aDecoder: NSCoder) { nil }
 
     /// :nodoc:
     deinit {
@@ -265,6 +262,7 @@ final class AXCaptionView: UIView, AXCaptionViewProtocol {
         } else {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
+
                 if !self.isCaptionAnimatingOut && !self.isCaptionAnimatingIn {
                     applySizingAttributes()
                 }
@@ -276,7 +274,7 @@ final class AXCaptionView: UIView, AXCaptionViewProtocol {
 
     /// AXCaptionViewProtocol
     override func sizeThatFits(_ size: CGSize) -> CGSize {
-        return self.computeSize(for: size, applySizingLayout: false)
+        computeSize(for: size, applySizingLayout: false)
     }
 
     @discardableResult private func computeSize(
@@ -303,24 +301,24 @@ final class AXCaptionView: UIView, AXCaptionViewProtocol {
             )
         }
 
-        let TopPadding: CGFloat = 10
-        let BottomPadding: CGFloat = 10
-        let HorizontalPadding: CGFloat = 15
-        let InterLabelSpacing: CGFloat = 2
+        let topPadding: CGFloat = 10
+        let bottomPadding: CGFloat = 10
+        let horizontalPadding: CGFloat = 15
+        let interLabelSpacing: CGFloat = 2
 
-        let xOffset = HorizontalPadding
+        let xOffset = horizontalPadding
         var yOffset: CGFloat = 0
 
         for (index, label) in self.visibleSizingLabels.enumerated() {
             var constrainedLabelSize = constrainedSize
-            constrainedLabelSize.width -= (2 * HorizontalPadding)
+            constrainedLabelSize.width -= (2 * horizontalPadding)
 
             let labelSize = label.sizeThatFits(constrainedLabelSize)
 
             if index == 0 {
-                yOffset += TopPadding
+                yOffset += topPadding
             } else {
-                yOffset += InterLabelSpacing
+                yOffset += interLabelSpacing
             }
 
             let labelFrame = CGRect(
@@ -332,7 +330,7 @@ final class AXCaptionView: UIView, AXCaptionViewProtocol {
 
             yOffset += labelFrame.size.height
             if index == (self.visibleSizingLabels.count - 1) {
-                yOffset += BottomPadding
+                yOffset += bottomPadding
             }
 
             if applySizingLayout {

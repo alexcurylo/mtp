@@ -53,7 +53,7 @@ extension UIView {
 
     /// windowFrame
     var windowFrame: CGRect? {
-        return superview?.convert(frame, to: nil)
+        superview?.convert(frame, to: nil)
     }
 }
 

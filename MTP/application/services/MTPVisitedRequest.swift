@@ -15,11 +15,11 @@ final class MTPVisitedRequest: NSObject, OfflineRequest, ServiceProvider {
     var subtitle: String
 
     /// Information for clearing rankings
-    var checklist: Checklist { return item.list }
+    var checklist: Checklist { item.list }
 
     /// Test for rank changes pending
     func changes(list: Checklist) -> Bool {
-        return item.list == list
+        item.list == list
     }
 
     /// Number of times request has failed
@@ -84,7 +84,7 @@ final class MTPVisitedRequest: NSObject, OfflineRequest, ServiceProvider {
             Key.visited.key: visited,
             Key.title.key: title,
             Key.subtitle.key: subtitle,
-            Key.failures.key: failures
+            Key.failures.key: failures,
         ]
         return info
     }
@@ -124,6 +124,6 @@ final class MTPVisitedRequest: NSObject, OfflineRequest, ServiceProvider {
 
     /// :nodoc:
     func shouldAttemptResubmission(forError error: Error) -> Bool {
-        return true
+        true
     }
 }

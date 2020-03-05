@@ -80,12 +80,13 @@ final class FaqVC: UITableViewController {
         FaqCellModel(index: 14,
                      question: L.question14(),
                      answer: L.answer14(),
-                     isExpanded: false)
+                     isExpanded: false),
     ]
 
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
+
         requireOutlets()
 
         tableView.backgroundView = backgroundView
@@ -106,6 +107,7 @@ final class FaqVC: UITableViewController {
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         report(screen: "FAQ")
     }
 }
@@ -115,14 +117,12 @@ final class FaqVC: UITableViewController {
 extension FaqVC {
 
     /// :nodoc:
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
+    override func numberOfSections(in tableView: UITableView) -> Int { 1 }
 
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
-        return faqs.count
+        faqs.count
     }
 
     /// Create table cell
@@ -151,13 +151,13 @@ extension FaqVC {
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        UITableView.automaticDimension
     }
 
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        UITableView.automaticDimension
     }
 }
 

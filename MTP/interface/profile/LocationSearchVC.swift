@@ -187,7 +187,7 @@ final class LocationSearchTableViewCell: UITableViewCell {
                 item: Object?) {
 
         var countryName: String {
-            return (item as? Country)?.placeCountry ?? L.unknown()
+            (item as? Country)?.placeCountry ?? L.unknown()
         }
 
         func named(orNot: String) -> String {

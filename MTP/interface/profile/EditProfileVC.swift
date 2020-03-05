@@ -43,16 +43,18 @@ final class EditProfileVC: UITableViewController {
     private var current = UserUpdatePayload()
     private var country: Country?
     private var location: Location?
-    private let genders = [L.selectGender(),
-                           L.male(),
-                           L.female(),
-                           L.preferNot()]
+    private let genders = [
+        L.selectGender(),
+        L.male(),
+        L.female(),
+        L.preferNot(),
+    ]
 
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireOutlets()
 
+        requireOutlets()
         configure()
     }
 
@@ -67,8 +69,8 @@ final class EditProfileVC: UITableViewController {
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        report(screen: "Edit Profile")
 
+        report(screen: "Edit Profile")
         if !net.isConnected {
             let question = L.continueOffline(L.updateProfile())
             note.ask(question: question) { [weak self] answer in
@@ -120,13 +122,13 @@ extension EditProfileVC {
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        UITableView.automaticDimension
     }
 
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        UITableView.automaticDimension
     }
 }
 
@@ -354,8 +356,10 @@ private extension EditProfileVC {
             UIEditProfile.linkDelete(row).expose(item: $0)
         }
 
-        let linkStack = UIStackView(arrangedSubviews: [text,
-                                                       holder]).with {
+        let linkStack = UIStackView(arrangedSubviews: [
+            text,
+            holder,
+        ]).with {
             $0.axis = .vertical
             $0.spacing = 4
         }
@@ -363,7 +367,7 @@ private extension EditProfileVC {
     }
 
     var isLocationVisible: Bool {
-        return locationStack.superview != nil
+        locationStack.superview != nil
     }
 
     func show(location visible: Bool) {
@@ -519,20 +523,20 @@ private extension EditProfileVC {
             errorMessage = L.fixFirstName()
         } else if current.last_name.isEmpty {
             errorMessage = L.fixLastName()
-        //} else if current.birthday.isEmpty {
-            //errorMessage = L.fixBirthday()
+        // } else if current.birthday.isEmpty {
+            // errorMessage = L.fixBirthday()
         //} else if current.gender.isEmpty {
-            //errorMessage = L.fixGender()
+            // errorMessage = L.fixGender()
         //} else if current.country_id == 0 {
-            //errorMessage = L.fixCountry()
+            // errorMessage = L.fixCountry()
         //} else if current.location_id == 0 {
-            //errorMessage = L.fixLocation()
+            // errorMessage = L.fixLocation()
         } else if !(current.email ?? "").isValidEmail {
             errorMessage = L.fixEmail()
         } else if current.bio?.isEmpty ?? true {
             errorMessage = L.fixBio()
         //} else if current.airport?.isEmpty ?? true {
-            //errorMessage = L.fixAirport()
+            // errorMessage = L.fixAirport()
         } else if !linksValid {
             errorMessage = L.fixLinks()
         } else {
@@ -653,6 +657,7 @@ extension EditProfileVC: LocationSearchDelegate {
         switch item {
         case let countryItem as Country:
             guard country != countryItem else { return }
+
             if countryItem.countryId > 0 {
                 country = countryItem
                 current.country_id = countryItem.countryId
@@ -669,6 +674,7 @@ extension EditProfileVC: LocationSearchDelegate {
             show(location: countryItem.hasChildren)
         case let locationItem as Location:
             guard location != locationItem else { return }
+
             location = locationItem
             locationTextField.text = locationItem.placeTitle
             current.country_id = locationItem.countryId
@@ -687,9 +693,7 @@ extension EditProfileVC: UIPickerViewDataSource {
     /// Number of picker components
     /// - Parameter pickerView: Picker view
     /// - Returns: 1
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
+    func numberOfComponents(in pickerView: UIPickerView) -> Int { 1 }
 
     /// Number of rows in picker component
     /// - Parameters:
@@ -698,7 +702,7 @@ extension EditProfileVC: UIPickerViewDataSource {
     /// - Returns: Value
     func pickerView(_ pickerView: UIPickerView,
                     numberOfRowsInComponent component: Int) -> Int {
-        return genders.count
+        genders.count
     }
 }
 
@@ -710,7 +714,7 @@ extension EditProfileVC: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView,
                     titleForRow row: Int,
                     forComponent component: Int) -> String? {
-        return genders[row]
+        genders[row]
     }
 
     /// :nodoc:
@@ -823,9 +827,9 @@ private extension InsetTextField {
 private extension UIStackView {
 
     var linkTextFields: [UITextField] {
-        return arrangedSubviews.flatMap {
-            [$0.linkDescriptionField,
-             $0.linkUrlField].compactMap { $0 }
+        arrangedSubviews.flatMap {
+            [ $0.linkDescriptionField,
+              $0.linkUrlField, ].compactMap { $0 }
         }
     }
 }
@@ -833,27 +837,27 @@ private extension UIStackView {
 private extension UIView {
 
     var linkViews: [UIView] {
-        return (self as? UIStackView)?.arrangedSubviews ?? []
+        (self as? UIStackView)?.arrangedSubviews ?? []
     }
 
     var linkDescriptionField: UITextField? {
-        return linkViews.first as? UITextField
+        linkViews.first as? UITextField
     }
 
     var linkUrlView: UIView? {
-        return linkViews.last
+        linkViews.last
     }
 
     var linkDescription: String {
-        return linkDescriptionField?.text ?? ""
+        linkDescriptionField?.text ?? ""
     }
 
     var linkUrlField: UITextField? {
-        return linkUrlView?.subviews.first { $0 is UITextField } as? UITextField
+        linkUrlView?.subviews.first { $0 is UITextField } as? UITextField
     }
 
     var linkUrl: String {
-        return linkUrlField?.text ?? ""
+        linkUrlField?.text ?? ""
     }
 
     var linkDeleteButton: UIButton? {
@@ -866,9 +870,7 @@ extension UIBarButtonItem {
 
     /// Control visibility by drawing clear
     var isHidden: Bool {
-        get {
-            return tintColor == .clear
-        }
+        get { tintColor == .clear }
         set {
             tintColor = newValue ? .clear : nil
             isEnabled = !newValue

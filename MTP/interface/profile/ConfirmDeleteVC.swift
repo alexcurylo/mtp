@@ -14,6 +14,7 @@ final class ConfirmDeleteVC: UIViewController {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
+
         requireOutlets()
         expose()
     }
@@ -21,6 +22,7 @@ final class ConfirmDeleteVC: UIViewController {
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         report(screen: "Confirm Delete")
     }
 }

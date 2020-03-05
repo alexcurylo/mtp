@@ -100,7 +100,7 @@ class RealmMapView: MKMapView {
             self.fetchedResultsController.resultsLimit = newValue
         }
         get {
-            return self.fetchedResultsController.resultsLimit
+            self.fetchedResultsController.resultsLimit
         }
     }
 
@@ -149,11 +149,11 @@ class RealmMapView: MKMapView {
     func didUpdateAnnotations() { }
 
     /// Expose serial work queue for scheduling
-    var serialWorkQueue: OperationQueue { return mapQueue }
+    var serialWorkQueue: OperationQueue { mapQueue }
 
     /// Shim for client delegate
     override weak var delegate: MKMapViewDelegate? {
-        get { return externalDelegate }
+        get { externalDelegate }
         set(newDelegate) { externalDelegate = newDelegate }
     }
 
@@ -227,8 +227,10 @@ class RealmMapView: MKMapView {
 
                 refreshOperation = BlockOperation { [weak self, refreshingMapRect] in
                     guard let self = self else { return }
-                    self.fetchedResultsController.performClusteringFetch(forVisibleMapRect: refreshingMapRect,
-                                                                         zoomScale: zoomScale)
+
+                    self.fetchedResultsController
+                        .performClusteringFetch(forVisibleMapRect: refreshingMapRect,
+                                                zoomScale: zoomScale)
 
                     let annotations = self.fetchedResultsController.annotations
                     self.addAnnotationsToMapView(annotations)
@@ -236,6 +238,7 @@ class RealmMapView: MKMapView {
             } else {
                 refreshOperation = BlockOperation { [weak self] in
                     guard let self = self else { return }
+
                     self.fetchedResultsController.performFetch()
 
                     let annotations = self.fetchedResultsController.annotations

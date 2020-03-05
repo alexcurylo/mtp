@@ -27,12 +27,14 @@ private extension UIView {
     /// - Parameter frame: Display frame
     override init(frame: CGRect) {
         super.init(frame: frame)
+
         setup()
     }
 
     /// :nodoc:
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+
         setup()
     }
 
@@ -45,6 +47,7 @@ private extension UIView {
     /// - Parameter layer: Our layer
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)
+
         updateShadow()
     }
 }

@@ -17,7 +17,7 @@ struct PostReply: Codable {
 extension PostReply: CustomStringConvertible {
 
     var description: String {
-        return "post \(id): \(post)"
+        "post \(id): \(post)"
     }
 }
 
@@ -69,7 +69,7 @@ struct PostPayload: Codable, Hashable {
 extension PostPayload: CustomStringConvertible {
 
     var description: String {
-        return "post for \(location_id): \(post)"
+        "post for \(location_id): \(post)"
     }
 }
 

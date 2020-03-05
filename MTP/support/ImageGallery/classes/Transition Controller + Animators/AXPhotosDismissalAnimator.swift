@@ -24,7 +24,7 @@ final class AXPhotosDismissalAnimator: AXPhotosTransitionAnimator, UIViewControl
     private let dismissalVelocityYThreshold: CGFloat = 400
 
     /// The velocity threshold at which the interactive controller will dismiss in any direction the user is swiping.
-    private let dismissalVelocityAnyDirectionThreshold: CGFloat = 1_000
+    private let dismissalVelocityAnyDirectionThreshold: CGFloat = 1000
 
     // Interactive dismissal transition tracking
     private var dismissalPercent: CGFloat = 0
@@ -76,7 +76,6 @@ final class AXPhotosDismissalAnimator: AXPhotosTransitionAnimator, UIViewControl
         if let from = from as? AXPhotosViewController {
             photosViewController = from
         } else {
-            // swiftlint:disable:next line_length
             guard let child = from.children.first(where: { $0 is AXPhotosViewController }) as? AXPhotosViewController else {
                 assertionFailure(
                     """
@@ -295,7 +294,6 @@ final class AXPhotosDismissalAnimator: AXPhotosTransitionAnimator, UIViewControl
         if let from = from as? AXPhotosViewController {
             photosViewController = from
         } else {
-            // swiftlint:disable:next line_length
             guard let child = from.children.first(where: { $0 is AXPhotosViewController }) as? AXPhotosViewController else {
                 assertionFailure(
                     """
@@ -398,7 +396,6 @@ final class AXPhotosDismissalAnimator: AXPhotosTransitionAnimator, UIViewControl
         if let from = from as? AXPhotosViewController {
             photosViewController = from
         } else {
-            // swiftlint:disable:next line_length
             guard let child = from.children.first(where: { $0 is AXPhotosViewController }) as? AXPhotosViewController else {
                 assertionFailure("Could not find AXPhotosViewController in container's children.")
                 return

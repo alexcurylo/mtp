@@ -42,16 +42,18 @@ final class SignupVC: UIViewController {
     private var location: Location?
     private var method: AnalyticsEvent.Method = .email
 
-    private let genders = [L.selectGender(),
-                           L.male(),
-                           L.female(),
-                           L.preferNot()]
+    private let genders = [
+        L.selectGender(),
+        L.male(),
+        L.female(),
+        L.preferNot(),
+    ]
 
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
-        requireOutlets()
 
+        requireOutlets()
         setupView()
         startKeyboardListening()
    }
@@ -73,6 +75,7 @@ final class SignupVC: UIViewController {
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         report(screen: "Sign Up")
     }
 
@@ -80,8 +83,8 @@ final class SignupVC: UIViewController {
     /// - Parameter animated: Whether animating
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationController?.delegate = nil
 
+        navigationController?.delegate = nil
         data.email = emailTextField.text ?? ""
    }
 
@@ -114,7 +117,7 @@ final class SignupVC: UIViewController {
 extension SignupVC: KeyboardListener {
 
     /// Scroll view for keyboard avoidance
-    var keyboardScrollee: UIScrollView? { return scrollView }
+    var keyboardScrollee: UIScrollView? { scrollView }
 }
 
 // MARK: - Private
@@ -158,7 +161,7 @@ private extension SignupVC {
     }
 
     var isLocationVisible: Bool {
-        return locationTextField.superview != nil
+        locationTextField.superview != nil
     }
 
     func show(location visible: Bool) {
@@ -356,16 +359,16 @@ private extension SignupVC {
             errorMessage = L.fixFirstName()
         } else if lastName.isEmpty {
             errorMessage = L.fixLastName()
-        //} else if gender.isEmpty {
-            //errorMessage = L.fixGender()
-        //} else if birthday == nil {
-            //errorMessage = L.fixBirthday()
+        // } else if gender.isEmpty {
+            // errorMessage = L.fixGender()
+        // } else if birthday == nil {
+            // errorMessage = L.fixBirthday()
         } else if !password.isValidPassword {
             errorMessage = L.fixPassword()
         } else if password != passwordConfirmation {
             errorMessage = L.fixConfirmPassword()
-        //} else if country == nil {
-            //errorMessage = L.fixCountry()
+        // } else if country == nil {
+            // errorMessage = L.fixCountry()
         } else if location == nil {
             if isLocationVisible {
                 errorMessage = L.fixLocationProfile()
@@ -373,8 +376,8 @@ private extension SignupVC {
                 location = data.get(location: country.countryId)
             }
         }
-        guard //let country = country,
-              //let location = location,
+        guard // let country = country,
+              // let location = location,
               errorMessage.isEmpty else {
             if showError {
                 if errorMessage.isEmpty {
@@ -545,6 +548,7 @@ extension SignupVC: LocationSearchDelegate {
         switch item {
         case let countryItem as Country:
             guard country != countryItem else { return }
+
             if countryItem.countryId > 0 {
                 country = countryItem
                 countryTextField.text = countryItem.placeCountry
@@ -556,6 +560,7 @@ extension SignupVC: LocationSearchDelegate {
             show(location: countryItem.hasChildren)
         case let locationItem as Location:
             guard location != locationItem else { return }
+
             location = locationItem
             locationTextField.text = locationItem.placeTitle
         default:
@@ -577,14 +582,14 @@ extension SignupVC: UIViewControllerTransitioningDelegate {
     func animationController(forPresented presented: UIViewController,
                              presenting: UIViewController,
                              source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return ZoomAnimator()
+        ZoomAnimator()
     }
 
     /// Animation controller for dismissal
     /// - Parameter dismissed: View controller
     /// - Returns: Animator
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return nil
+        nil
     }
 }
 
@@ -595,9 +600,7 @@ extension SignupVC: UIPickerViewDataSource {
     /// Number of picker components
     /// - Parameter pickerView: Picker view
     /// - Returns: 1
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
+    func numberOfComponents(in pickerView: UIPickerView) -> Int { 1 }
 
     /// Number of rows in picker component
     /// - Parameters:
@@ -606,7 +609,7 @@ extension SignupVC: UIPickerViewDataSource {
     /// - Returns: Value
     func pickerView(_ pickerView: UIPickerView,
                     numberOfRowsInComponent component: Int) -> Int {
-        return genders.count
+        genders.count
     }
 }
 
@@ -618,7 +621,7 @@ extension SignupVC: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView,
                     titleForRow row: Int,
                     forComponent component: Int) -> String? {
-        return genders[row]
+        genders[row]
     }
 
     /// :nodoc:
@@ -626,6 +629,7 @@ extension SignupVC: UIPickerViewDelegate {
                     didSelectRow row: Int,
                     inComponent component: Int) {
         guard row > 0 else { return }
+
         genderTextField.text = genders[row]
         genderTextField.resignFirstResponder()
     }

@@ -53,9 +53,7 @@ final class AXPhotoViewController: UIViewController, AXPageableViewControllerPro
     }
 
     /// :nodoc:
-    required init?(coder aDecoder: NSCoder) {
-        return nil
-    }
+    required init?(coder aDecoder: NSCoder) { nil }
 
     /// :nodoc:
     deinit {
@@ -114,6 +112,7 @@ final class AXPhotoViewController: UIViewController, AXPageableViewControllerPro
             let error = photo.ax_error ?? NSError()
             self.loadingView?.showError(error, retryHandler: { [weak self] in
                 guard let self = self else { return }
+
                 self.delegate?.photoViewController(self, retryDownloadFor: photo)
                 self.loadingView?.removeError()
                 self.loadingView?.startLoading(initialProgress: photo.ax_progress)
@@ -144,11 +143,14 @@ final class AXPhotoViewController: UIViewController, AXPageableViewControllerPro
     // MARK: - AXZoomingImageViewDelegate
 
     /// :nodoc:
-    func zoomingImageView(_ zoomingImageView: AXZoomingImageView, maximumZoomScaleFor imageSize: CGSize) -> CGFloat {
-        return self.delegate?.photoViewController(self,
-                                                  maximumZoomScaleForPhotoAt: self.pageIndex,
-                                                  minimumZoomScale: zoomingImageView.minimumZoomScale,
-                                                  imageSize: imageSize) ?? .leastNormalMagnitude
+    func zoomingImageView(_ zoomingImageView: AXZoomingImageView,
+                          maximumZoomScaleFor imageSize: CGSize) -> CGFloat {
+        delegate?.photoViewController(
+            self,
+            maximumZoomScaleForPhotoAt: self.pageIndex,
+            minimumZoomScale: zoomingImageView.minimumZoomScale,
+            imageSize: imageSize
+        ) ?? .leastNormalMagnitude
     }
 
     // MARK: - Notifications
@@ -184,6 +186,7 @@ final class AXPhotoViewController: UIViewController, AXPageableViewControllerPro
         } else if let error = userInfo[AXPhotosViewControllerNotification.ErrorKey] as? Error {
             self.loadingView?.showError(error, retryHandler: { [weak self] in
                 guard let self = self, let photo = self.photo else { return }
+
                 self.delegate?.photoViewController(self, retryDownloadFor: photo)
                 self.loadingView?.removeError()
                 self.loadingView?.startLoading(initialProgress: photo.ax_progress)

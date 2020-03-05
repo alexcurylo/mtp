@@ -56,9 +56,9 @@ final class AddPostVC: UIViewController {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
+
         requireOutlets()
         requireInjection()
-
         configure()
         startKeyboardListening()
     }
@@ -81,8 +81,8 @@ final class AddPostVC: UIViewController {
     /// - Parameter animated: Whether animating
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        report(screen: "Add Post")
 
+        report(screen: "Add Post")
         if updating != nil, !net.isConnected {
             let question = L.continueOffline(L.updatePost())
             note.ask(question: question) { [weak self] answer in
@@ -309,7 +309,7 @@ extension AddPostVC: UITextViewDelegate {
 extension AddPostVC: KeyboardListener {
 
     /// Scroll view for keyboard avoidance
-    var keyboardScrollee: UIScrollView? { return postTextView }
+    var keyboardScrollee: UIScrollView? { postTextView }
 }
 
 // MARK: - Exposing

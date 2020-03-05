@@ -6,14 +6,10 @@ import Anchorage
 class PostsVC: UITableViewController {
 
     /// Whether user can add a new post
-    var canCreate: Bool {
-        return false
-    }
+    var canCreate: Bool { false }
 
     /// Whether a new post is queued to upload
-    var isQueued: Bool {
-        return false
-    }
+    var isQueued: Bool { false }
 
     /// Post to be edited in Add screen
     var injectPost: PostCellModel?
@@ -145,14 +141,12 @@ extension PostsVC: PostHeaderDelegate {
 extension PostsVC {
 
     /// :nodoc:
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
+    override func numberOfSections(in tableView: UITableView) -> Int { 1 }
 
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
-        return models.count
+        models.count
     }
 
     /// :nodoc:
@@ -191,19 +185,19 @@ extension PostsVC {
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        UITableView.automaticDimension
     }
 
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             heightForHeaderInSection section: Int) -> CGFloat {
-        return headerHeight
+        headerHeight
     }
 
     /// :nodoc:
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        return headerHeight
+        headerHeight
     }
 
     /// :nodoc:
@@ -218,7 +212,7 @@ extension PostsVC {
                             canPerformAction action: Selector,
                             forRowAt indexPath: IndexPath,
                             withSender sender: Any?) -> Bool {
-        return MenuAction.isContent(action: action)
+        MenuAction.isContent(action: action)
     }
 
     /// :nodoc:
@@ -276,6 +270,7 @@ extension PostsVC: PostCellDelegate {
     /// :nodoc:
     func tapped(delete: PostCellModel?) {
         guard let delete = delete else { return }
+
         let postId = delete.postId
         let userId = delete.user?.userId ?? 0
         let locationId = delete.location?.placeId ?? 0

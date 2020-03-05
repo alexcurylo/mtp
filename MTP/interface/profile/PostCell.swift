@@ -191,8 +191,10 @@ private extension PostCell {
     func configureContents() -> UIStackView {
         let header = configureHeader()
         headerStack = header
-        let contents = UIStackView(arrangedSubviews: [header,
-                                                      textView]).with {
+        let contents = UIStackView(arrangedSubviews: [
+            header,
+            textView,
+        ]).with {
             $0.axis = .vertical
             $0.spacing = 0
         }
@@ -208,9 +210,11 @@ private extension PostCell {
                          action: #selector(airplaneTapped),
                          for: .touchUpInside)
 
-        let header = UIStackView(arrangedSubviews: [postImageView,
-                                                    texts,
-                                                    button]).with {
+        let header = UIStackView(arrangedSubviews: [
+            postImageView,
+            texts,
+            button,
+        ]).with {
             $0.axis = .horizontal
             $0.alignment = .top
             $0.spacing = layout.padding
@@ -221,8 +225,10 @@ private extension PostCell {
     }
 
     func configureTexts() -> UIStackView {
-        let texts = UIStackView(arrangedSubviews: [dateLabel,
-                                                   titleLabel]).with {
+        let texts = UIStackView(arrangedSubviews: [
+            dateLabel,
+            titleLabel,
+        ]).with {
             $0.axis = .vertical
             $0.spacing = 0
             $0.setContentHuggingPriority(.defaultLow, for: .horizontal)

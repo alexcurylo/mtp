@@ -21,14 +21,14 @@ struct PhotoReply: Codable {
 extension PhotoReply: CustomStringConvertible {
 
     var description: String {
-        return "photo \(id) - \(uuid)"
+        "photo \(id) - \(uuid)"
     }
 }
 
 extension PhotoReply: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < PhotoReply: \(description):
         desc: \(String(describing: desc))
         id: \(id)
@@ -81,14 +81,14 @@ struct PhotosInfoJSON: Codable {
 extension PhotosInfoJSON: CustomStringConvertible {
 
     var description: String {
-        return "PhotosInfoJSON (\(data.count))"
+        "PhotosInfoJSON (\(data.count))"
     }
 }
 
 extension PhotosInfoJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < PhotosInfoJSON: \(description):
         data: \(data.debugDescription))
         /PhotosInfoJSON >
@@ -108,14 +108,14 @@ struct PhotosPageInfoJSON: Codable {
 extension PhotosPageInfoJSON: CustomStringConvertible {
 
     var description: String {
-        return "PhotosPageInfoJSON: \(paging.currentPage)"
+        "PhotosPageInfoJSON: \(paging.currentPage)"
     }
 }
 
 extension PhotosPageInfoJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < PhotosPageInfoJSON: \(description):
         paging: \(paging.debugDescription)
         data: \(data.debugDescription)
@@ -138,14 +138,14 @@ struct PhotosPageJSON: Codable {
 extension PhotosPageJSON: CustomStringConvertible {
 
     var description: String {
-        return "PhotosPageJSON: \(currentPage) \(lastPage)"
+        "PhotosPageJSON: \(currentPage) \(lastPage)"
     }
 }
 
 extension PhotosPageJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < PhotosPageJSON: \(description):
         currentPage: \(currentPage)
         lastPage: \(lastPage)
@@ -158,24 +158,25 @@ extension PhotosPageJSON: CustomDebugStringConvertible {
 
 /// Post or photo owner info received from MTP endpoints
 struct OwnerJSON: Codable {
-    //let country: String? // PlaceLocation in user endpoint, null in location
+
+    // let country: String? // PlaceLocation in user endpoint, null in location
     fileprivate let firstName: String
     /// fullName
     let fullName: String
     /// id
     let id: Int
     fileprivate let lastName: String
-    //let location: String? // PlaceLocation in user endpoint, null in location
+    // let location: String? // PlaceLocation in user endpoint, null in location
     fileprivate let role: Int
 }
 
 /// Photo info received from MTP endpoints
 struct PhotoJSON: Codable {
 
-    //private struct PivotJSON: Codable {
-        //let fileId: Int
-        //let userId: Int
-    //}
+    // private struct PivotJSON: Codable {
+        // let fileId: Int
+        // let userId: Int
+    // }
 
     fileprivate let createdAt: Date
     fileprivate let desc: String?
@@ -185,7 +186,7 @@ struct PhotoJSON: Codable {
     fileprivate let mime: String
     fileprivate let name: String
     fileprivate let owner: OwnerJSON? // only in location photos
-    //private let pivot: PivotJSON? // not in location photos
+    // private let pivot: PivotJSON? // not in location photos
     fileprivate let type: String
     fileprivate let updatedAt: Date
     fileprivate let userId: Int
@@ -195,14 +196,14 @@ struct PhotoJSON: Codable {
 extension PhotoJSON: CustomStringConvertible {
 
     var description: String {
-        return "PhotoJSON: \(id) \(name)"
+        "PhotoJSON: \(id) \(name)"
     }
 }
 
 extension PhotoJSON: CustomDebugStringConvertible {
 
     var debugDescription: String {
-        return """
+        """
         < PhotoJSON: \(description):
         createdAt: \(createdAt)
         desc: \(String(describing: desc))
@@ -243,7 +244,7 @@ extension PhotoJSON: CustomDebugStringConvertible {
 
     /// :nodoc:
     override static func primaryKey() -> String? {
-        return "dbKey"
+        "dbKey"
     }
 
     /// Constructor from MTP endpoint data
@@ -280,7 +281,7 @@ extension PhotoJSON: CustomDebugStringConvertible {
 
     /// :nodoc:
     override static func primaryKey() -> String? {
-        return "photoId"
+        "photoId"
     }
 
     /// Constructor from MTP endpoint data
@@ -309,6 +310,7 @@ extension PhotoJSON: CustomDebugStringConvertible {
     /// Image URL if available
     var imageUrl: URL? {
         guard !uuid.isEmpty else { return nil }
+
         let target = MTP.picture(uuid: uuid, size: .any)
         return target.requestUrl
     }
@@ -316,6 +318,7 @@ extension PhotoJSON: CustomDebugStringConvertible {
     /// Attributed title string if available
     var attributedTitle: NSAttributedString? {
         guard !desc.isEmpty else { return nil }
+
         let attributes = NSAttributedString.attributes(
             color: .white,
             font: Avenir.heavy.of(size: 16)

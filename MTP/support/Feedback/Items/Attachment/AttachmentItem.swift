@@ -13,14 +13,14 @@ import UIKit
 struct AttachmentItem: FeedbackItemProtocol {
 
     /// attached
-    var attached: Bool { return media != .none }
+    var attached: Bool { media != .none }
     /// media
     var media: Media?
     /// image
     var image: UIImage? {
         switch media {
-        case .image(let i)?: return i
-        case .video(let i, _)?: return i
+        case .image(let img)?: return img
+        case .video(let img, _)?: return img
         default: return .none
         }
     }

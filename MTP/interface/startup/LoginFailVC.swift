@@ -24,6 +24,7 @@ final class LoginFailVC: UIViewController {
     /// :nodoc:
     override func viewDidLoad() {
         super.viewDidLoad()
+
         requireOutlets()
         requireInjection()
 
@@ -47,6 +48,7 @@ final class LoginFailVC: UIViewController {
     /// :nodoc:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         report(screen: "Login Fail")
 
         revealAlert()
