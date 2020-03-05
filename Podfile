@@ -8,14 +8,12 @@ end
 source 'https://cdn.cocoapods.org/'
 
 # SPM progress:
-# https://github.com/Rightpoint/Anchorage/pull/86
 # https://github.com/firebase/firebase-ios-sdk/issues/3136
 
 $iosVersion = '11.0'
 platform :ios, $iosVersion
 
 target 'MTP' do
-  pod 'Anchorage'
   pod 'Crashlytics'
   pod 'Firebase/Analytics'
 

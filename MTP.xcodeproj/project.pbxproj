@@ -202,6 +202,7 @@
 		8CB2A24322E177C90050E368 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB2A24222E177C90050E368 /* Scheduler.swift */; };
 		8CB3487A22FC067D006C5C56 /* DataServiceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB3487922FC067D006C5C56 /* DataServiceObserver.swift */; };
 		8CB7DCE22410A9E3005643FF /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8CB7DCE12410A9E2005643FF /* Settings.bundle */; };
+		8CB7DCE524110A9D005643FF /* Anchorage in Frameworks */ = {isa = PBXBuildFile; productRef = 8CB7DCE424110A9D005643FF /* Anchorage */; };
 		8CBBEB6C2317D30000E4F5E1 /* UncertainValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBBEB6B2317D30000E4F5E1 /* UncertainValueTests.swift */; };
 		8CBBEB6E2318C28C00E4F5E1 /* LinkTappableTextViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBBEB6D2318C28C00E4F5E1 /* LinkTappableTextViewTests.swift */; };
 		8CBBECF42318DBC100E4F5E1 /* WKWebViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBBECF32318DBC100E4F5E1 /* WKWebViewControllerTests.swift */; };
@@ -1225,6 +1226,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C37FCAD237E49D900F443C6 /* FacebookLogin in Frameworks */,
+				8CB7DCE524110A9D005643FF /* Anchorage in Frameworks */,
 				8C73B29A236C1BFD004457F9 /* Rswift in Frameworks */,
 				8CD2F2122397344300471FE6 /* JWTDecode in Frameworks */,
 				8C37FCAB237E49D900F443C6 /* FacebookCore in Frameworks */,
@@ -2633,6 +2635,7 @@
 				8C37FCAE237E49D900F443C6 /* FacebookShare */,
 				8CD2F2112397344300471FE6 /* JWTDecode */,
 				FA5B03F123C3E167003EA494 /* Siren */,
+				8CB7DCE424110A9D005643FF /* Anchorage */,
 			);
 			productName = MTP;
 			productReference = FA392BB720DF69F30026C828 /* MTP.app */;
@@ -2743,6 +2746,7 @@
 				8C37FCA9237E49D900F443C6 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 				8CD2F2102397344300471FE6 /* XCRemoteSwiftPackageReference "JWTDecode" */,
 				FA5B03F023C3E167003EA494 /* XCRemoteSwiftPackageReference "Siren" */,
+				8CB7DCE324110A9D005643FF /* XCRemoteSwiftPackageReference "Anchorage" */,
 			);
 			productRefGroup = FA392BB820DF69F30026C828 /* Products */;
 			projectDirPath = "";
@@ -3902,6 +3906,14 @@
 				minimumVersion = 5.1.0;
 			};
 		};
+		8CB7DCE324110A9D005643FF /* XCRemoteSwiftPackageReference "Anchorage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Raizlabs/Anchorage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.4.0;
+			};
+		};
 		8CD2F2102397344300471FE6 /* XCRemoteSwiftPackageReference "JWTDecode" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/auth0/JWTDecode.swift";
@@ -4020,6 +4032,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8C73B298236C1BFD004457F9 /* XCRemoteSwiftPackageReference "R.swift" */;
 			productName = Rswift;
+		};
+		8CB7DCE424110A9D005643FF /* Anchorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8CB7DCE324110A9D005643FF /* XCRemoteSwiftPackageReference "Anchorage" */;
+			productName = Anchorage;
 		};
 		8CD2F2112397344300471FE6 /* JWTDecode */ = {
 			isa = XCSwiftPackageProductDependency;
