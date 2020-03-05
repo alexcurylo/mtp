@@ -68,7 +68,7 @@ private struct ScorecardRankedUserJSON: Codable {
     let firstName: String
     /// fullName
     let fullName: String
-    let gender: String
+    let gender: String?
     /// id
     let id: Int
     let lastName: String

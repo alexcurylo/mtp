@@ -104,7 +104,7 @@ country: nil
 currentRank: 1
 first_name: Fred
 full_name: Fred Flintstone
-gender: M
+gender: Optional("M")
 id: 3218
 last_name: Flintstone
 location: nil

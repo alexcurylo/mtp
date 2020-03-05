@@ -90,7 +90,7 @@ struct RankedUserJSON: Codable {
     fileprivate let firstName: String
     /// fullName
     fileprivate let fullName: String
-    fileprivate let gender: String
+    fileprivate let gender: String?
     /// id
     let id: Int
     fileprivate let lastName: String
@@ -132,7 +132,7 @@ extension RankedUserJSON: CustomDebugStringConvertible {
         currentRank: \(currentRank)
         first_name: \(firstName)
         full_name: \(fullName)
-        gender: \(gender)
+        gender: \(String(describing: gender))
         id: \(id)
         last_name: \(lastName)
         location: \(String(describing: location))
