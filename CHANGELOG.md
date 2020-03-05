@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [Version 1.2.5, Build 658] - 2020-03-05
+
 ### Changed
 - Migrate to LicensePList for complete acknowledgements
 - Update library and tool dependencies
