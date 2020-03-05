@@ -49,7 +49,8 @@ Requirements
 
 - [Alamofire](https://github.com/Alamofire/Alamofire) and [AlamofireNetworkActivityIndicator](https://github.com/Alamofire/AlamofireNetworkActivityIndicator) for HTTP networking
 - [Anchorage](https://github.com/Raizlabs/Anchorage) for fluent layout declarations
-- [Facebook SDK in Swift](https://github.com/facebook/facebook-sdk-swift)  for Facebook support
+- [Connectivity](https://github.com/rwbutler/connectivity) for network state manaagement
+- [Facebook SDK](https://github.com/facebook/facebook-ios-sdk)  for Facebook support
 - [JWTDecode](https://github.com/auth0/JWTDecode.swift) for [JSON Web Token](https://jwt.io) management
 - [Karte](https://github.com/kiliankoe/Karte) for launching directions
 - [KRProgressHUD](https://github.com/krimpedance/KRProgressHUD) for progress management

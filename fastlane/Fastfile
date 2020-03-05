@@ -12,7 +12,7 @@
 # update metadata: fastlane deliver download_metadata
 #
 
-fastlane_version "2.131.0"
+fastlane_version "2.143.0"
 #update_fastlane
 default_platform(:ios)
 
@@ -100,8 +100,11 @@ platform :ios do
 
   desc "Bump patch version number"
   lane :bump do
-    increment_version_number(
-      bump_type: "patch"
+    # https://github.com/fastlane/fastlane/issues/15383
+    # https://github.com/SiarheiFedartsou/fastlane-plugin-versioning
+    increment_version_number_in_xcodeproj(
+      bump_type: "patch",
+      scheme: "MTP"
     )
   end
 
