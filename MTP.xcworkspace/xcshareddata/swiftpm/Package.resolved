@@ -29,30 +29,12 @@
         }
       },
       {
-        "package": "CwlCatchException",
-        "repositoryURL": "https://github.com/mattgallagher/CwlCatchException.git",
-        "state": {
-          "branch": null,
-          "revision": "7cd2f8cacc4d22f21bc0b2309c3b18acf7957b66",
-          "version": "1.2.0"
-        }
-      },
-      {
-        "package": "CwlPreconditionTesting",
-        "repositoryURL": "https://github.com/mattgallagher/CwlPreconditionTesting.git",
-        "state": {
-          "branch": null,
-          "revision": "c228db5d2ad1b01ebc84435e823e6cca4e3db98b",
-          "version": "1.2.0"
-        }
-      },
-      {
         "package": "Facebook",
         "repositoryURL": "https://github.com/facebook/facebook-ios-sdk",
         "state": {
           "branch": null,
-          "revision": "5d5de15f6a9915d1e2cf63ea8d8c58f2b1e62ee9",
-          "version": "6.0.0"
+          "revision": "5033e483f9b4c2e97344ac6a4044106de7f90585",
+          "version": "6.3.0"
         }
       },
       {
@@ -78,8 +60,8 @@
         "repositoryURL": "https://github.com/krimpedance/KRActivityIndicatorView.git",
         "state": {
           "branch": null,
-          "revision": "0d9f485bc706b1b36509be3a75cbc0727dcc0088",
-          "version": "3.0.4"
+          "revision": "0a0ae6bc05647f414a7bfc53ffeaf6248aad29dd",
+          "version": "3.0.5"
         }
       },
       {
@@ -87,8 +69,8 @@
         "repositoryURL": "https://github.com/krimpedance/KRProgressHUD",
         "state": {
           "branch": null,
-          "revision": "95d52f1ab31c1367a7eff988c7b049c05d696750",
-          "version": "3.4.4"
+          "revision": "05be7ebafca7e4068e14e9381ec56ab6201ee857",
+          "version": "3.4.5"
         }
       },
       {
@@ -105,8 +87,8 @@
         "repositoryURL": "https://github.com/Quick/Nimble",
         "state": {
           "branch": null,
-          "revision": "827b2b167cf22580bf3fe4debddbd63f5229979c",
-          "version": "8.0.6"
+          "revision": "7fd118ec8795888bcbbebc1a41f6984454c4cd6f",
+          "version": "8.0.7"
         }
       },
       {
@@ -114,8 +96,8 @@
         "repositoryURL": "https://github.com/kean/Nuke.git",
         "state": {
           "branch": null,
-          "revision": "051fb936fbc0176655acb1085b15be477f3d5015",
-          "version": "8.4.0"
+          "revision": "6001489d22e5f41a4956c1b6cd4cf7cbe8f44dff",
+          "version": "8.4.1"
         }
       },
       {
@@ -168,8 +150,8 @@
         "repositoryURL": "https://github.com/realm/realm-cocoa",
         "state": {
           "branch": null,
-          "revision": "913d59c6522e3007c7cbac3a8e9775abf72c054c",
-          "version": "4.3.2"
+          "revision": "07734d6ee4b49b5656c51dab51c20a2d59b9de45",
+          "version": "4.4.0"
         }
       },
       {
@@ -222,8 +204,8 @@
         "repositoryURL": "https://github.com/SwiftyBeaver/SwiftyBeaver.git",
         "state": {
           "branch": null,
-          "revision": "2f2b7ac0b675e9d0ac696758f15bbff97eb65a31",
-          "version": "1.8.4"
+          "revision": "97477264cd683a387e80fc2f9b0f0e8db8070ed2",
+          "version": "1.9.0"
         }
       }
     ]
