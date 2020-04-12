@@ -78,7 +78,7 @@
 			<key>File</key>
 			<string>com.mono0926.LicensePlist/Firebase</string>
 			<key>Title</key>
-			<string>Firebase (6.18.0)</string>
+			<string>Firebase (6.22.0)</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
@@ -86,7 +86,7 @@
 			<key>File</key>
 			<string>com.mono0926.LicensePlist/FirebaseAnalytics</string>
 			<key>Title</key>
-			<string>FirebaseAnalytics (6.3.0)</string>
+			<string>FirebaseAnalytics (6.4.1)</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
@@ -94,7 +94,7 @@
 			<key>File</key>
 			<string>com.mono0926.LicensePlist/FirebaseCore</string>
 			<key>Title</key>
-			<string>FirebaseCore (6.6.3)</string>
+			<string>FirebaseCore (6.6.6)</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
@@ -102,7 +102,7 @@
 			<key>File</key>
 			<string>com.mono0926.LicensePlist/FirebaseCoreDiagnostics</string>
 			<key>Title</key>
-			<string>FirebaseCoreDiagnostics (1.2.1)</string>
+			<string>FirebaseCoreDiagnostics (1.2.3)</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
@@ -118,7 +118,7 @@
 			<key>File</key>
 			<string>com.mono0926.LicensePlist/FirebaseInstallations</string>
 			<key>Title</key>
-			<string>FirebaseInstallations (1.1.0)</string>
+			<string>FirebaseInstallations (1.1.1)</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
@@ -126,7 +126,7 @@
 			<key>File</key>
 			<string>com.mono0926.LicensePlist/GoogleAppMeasurement</string>
 			<key>Title</key>
-			<string>GoogleAppMeasurement (6.3.0)</string>
+			<string>GoogleAppMeasurement (6.4.1)</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
@@ -134,7 +134,7 @@
 			<key>File</key>
 			<string>com.mono0926.LicensePlist/GoogleDataTransport</string>
 			<key>Title</key>
-			<string>GoogleDataTransport (4.0.1)</string>
+			<string>GoogleDataTransport (5.1.1)</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
@@ -142,7 +142,7 @@
 			<key>File</key>
 			<string>com.mono0926.LicensePlist/GoogleDataTransportCCTSupport</string>
 			<key>Title</key>
-			<string>GoogleDataTransportCCTSupport (1.4.1)</string>
+			<string>GoogleDataTransportCCTSupport (2.0.2)</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
@@ -150,7 +150,7 @@
 			<key>File</key>
 			<string>com.mono0926.LicensePlist/GoogleUtilities</string>
 			<key>Title</key>
-			<string>GoogleUtilities (6.5.1)</string>
+			<string>GoogleUtilities (6.5.2)</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
