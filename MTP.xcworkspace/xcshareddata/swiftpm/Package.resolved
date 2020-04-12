@@ -101,6 +101,15 @@
         }
       },
       {
+        "package": "Nimble",
+        "repositoryURL": "https://github.com/Quick/Nimble",
+        "state": {
+          "branch": null,
+          "revision": "827b2b167cf22580bf3fe4debddbd63f5229979c",
+          "version": "8.0.6"
+        }
+      },
+      {
         "package": "Nuke",
         "repositoryURL": "https://github.com/kean/Nuke.git",
         "state": {
@@ -116,6 +125,15 @@
           "branch": null,
           "revision": "c04fce7556de07e0530019577cf39da05e28f2a1",
           "version": "1.7.0"
+        }
+      },
+      {
+        "package": "Quick",
+        "repositoryURL": "https://github.com/Quick/Quick",
+        "state": {
+          "branch": null,
+          "revision": "33682c2f6230c60614861dfc61df267e11a1602f",
+          "version": "2.2.0"
         }
       },
       {

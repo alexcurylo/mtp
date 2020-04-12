@@ -188,6 +188,14 @@
 		</dict>
 		<dict>
 			<key>File</key>
+			<string>com.mono0926.LicensePlist/LicensePlist</string>
+			<key>Title</key>
+			<string>LicensePlist (2.15.1)</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
 			<string>com.mono0926.LicensePlist/Moya</string>
 			<key>Title</key>
 			<string>Moya (13.0.1)</string>
@@ -295,6 +303,14 @@
 			<string>com.mono0926.LicensePlist/SwiftEntryKit</string>
 			<key>Title</key>
 			<string>SwiftEntryKit (1.2.3)</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>com.mono0926.LicensePlist/SwiftLint</string>
+			<key>Title</key>
+			<string>SwiftLint (0.39.2)</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>

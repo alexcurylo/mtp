@@ -3,7 +3,7 @@
 # https://realm.github.io/SwiftLint/rule-directory.html
 # https://github.com/sindresorhus/swiftlint-sindre
 #
-# `swiftlint rules` last updated version 0.39.1
+# `swiftlint rules` last updated version 0.39.2
 #
 # Disable an individual warning with [next|previous|this]:
 # // swiftlint:disable:previous line_length

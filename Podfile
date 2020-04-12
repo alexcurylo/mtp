@@ -9,6 +9,8 @@ source 'https://cdn.cocoapods.org/'
 
 # SPM progress:
 # https://github.com/firebase/firebase-ios-sdk/issues/3136
+# Crashlytics is deprecated:
+# https://firebase.google.com/docs/crashlytics/upgrade-sdk
 
 $iosVersion = '11.0'
 platform :ios, $iosVersion

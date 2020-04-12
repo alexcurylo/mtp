@@ -12,7 +12,7 @@
 # update metadata: fastlane deliver download_metadata
 #
 
-fastlane_version "2.143.0"
+fastlane_version "2.145.0"
 #update_fastlane
 default_platform(:ios)
 
@@ -41,13 +41,14 @@ platform :ios do
     # sync_code_signing(type: "appstore")
     build_app(export_method: "app-store")
 
+    stamp_changelog(section_identifier: "Version #{version_number}, Build #{build_number}")
+
     upload_to_testflight(changelog: changelog,
                          distribute_external: true,
                          notify_external_testers: true,
                          groups: ["MTP Beta Testers"],
                          demo_account_required: true)
 
-    stamp_changelog(section_identifier: "Version #{version_number}, Build #{build_number}")
     clean_build_artifacts
     commit_version_bump(message: "Version #{version_number} beta #{build_number}", include: "CHANGELOG.md")
     push_to_git_remote
