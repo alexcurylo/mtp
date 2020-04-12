@@ -373,13 +373,13 @@ private extension CountsTwoLevelViewModel {
             var families: [ParentKey: [PlaceInfo]] = [:]
             for place in places {
                 if let parent = place.placeParent {
-                    if !parents.contains { $0 == parent } {
+                    if !parents.contains(where: { $0 == parent }) {
                         parents.append(parent)
                     }
                     var family = families[parent.placeId] ?? []
                     family.append(place)
                     families[parent.placeId] = family.sorted { $0.placeTitle < $1.placeTitle }
-                } else if !parents.contains { $0 == place } {
+                } else if !parents.contains(where: { $0 == place }) {
                     parents.append(place)
                 }
             }

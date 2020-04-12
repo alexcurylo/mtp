@@ -523,6 +523,49 @@ final class Dropdown: UIView {
 
         setup()
     }
+
+    /// :nodoc:
+    override func updateConstraints() {
+        // swiftlint:disable:previous overridden_super_call
+        if !didSetupConstraints {
+            setupConstraints()
+        }
+
+        didSetupConstraints = true
+
+        let layout = computeLayout()
+
+        if !layout.canBeDisplayed {
+            super.updateConstraints()
+
+            return hide()
+        }
+
+        xConstraint.constant = layout.x
+        yConstraint.constant = layout.y
+        widthConstraint.constant = layout.width
+        heightConstraint.constant = layout.visibleHeight
+
+        tableView.isScrollEnabled = layout.offscreenHeight > 0
+
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.flashScrollIndicators()
+        }
+
+        super.updateConstraints()
+    }
+
+    /// :nodoc:
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        // When orientation changes, layoutSubviews is called
+        // We update the constraint to update the position
+        setNeedsUpdateConstraints()
+
+        let shadowPath = UIBezierPath(roundedRect: tableViewContainer.bounds, cornerRadius: cornerRadius)
+        tableViewContainer.layer.shadowPath = shadowPath.cgPath
+    }
 }
 
 // MARK: - Setup
@@ -571,41 +614,10 @@ private extension Dropdown {
 
 // MARK: - UI
 
-extension Dropdown {
-
-    /// :nodoc:
-    override func updateConstraints() {
-        // swiftlint:disable:previous overridden_super_call
-        if !didSetupConstraints {
-            setupConstraints()
-        }
-
-        didSetupConstraints = true
-
-        let layout = computeLayout()
-
-        if !layout.canBeDisplayed {
-            super.updateConstraints()
-
-            return hide()
-        }
-
-        xConstraint.constant = layout.x
-        yConstraint.constant = layout.y
-        widthConstraint.constant = layout.width
-        heightConstraint.constant = layout.visibleHeight
-
-        tableView.isScrollEnabled = layout.offscreenHeight > 0
-
-        DispatchQueue.main.async { [weak self] in
-            self?.tableView.flashScrollIndicators()
-        }
-
-        super.updateConstraints()
-    }
+private extension Dropdown {
 
     // swiftlint:disable:next function_body_length
-    fileprivate func setupConstraints() {
+    func setupConstraints() {
         translatesAutoresizingMaskIntoConstraints = false
 
         // Dismissable view
@@ -665,20 +677,8 @@ extension Dropdown {
         tableViewContainer.addUniversalConstraints(format: "|[tableView]|", views: ["tableView": tableView])
     }
 
-    /// :nodoc:
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        // When orientation changes, layoutSubviews is called
-        // We update the constraint to update the position
-        setNeedsUpdateConstraints()
-
-        let shadowPath = UIBezierPath(roundedRect: tableViewContainer.bounds, cornerRadius: cornerRadius)
-        tableViewContainer.layer.shadowPath = shadowPath.cgPath
-    }
-
     // swiftlint:disable:next large_tuple
-    fileprivate func computeLayout() -> (x: CGFloat,
+    func computeLayout() -> (x: CGFloat,
                                          y: CGFloat,
                                          width: CGFloat,
                                          offscreenHeight: CGFloat,
@@ -737,7 +737,7 @@ extension Dropdown {
         return (layout.x, layout.y, layout.width, layout.offscreenHeight, visibleHeight, canBeDisplayed, direction)
     }
 
-    fileprivate func computeLayoutBottomDisplay(window: UIWindow) -> ComputeLayoutTuple {
+    func computeLayoutBottomDisplay(window: UIWindow) -> ComputeLayoutTuple {
         var offscreenHeight: CGFloat = 0
 
         let width = self.width ?? (anchorView?.plainView.bounds.width ?? fittingWidth()) - bottomOffset.x
@@ -763,7 +763,7 @@ extension Dropdown {
         return (x, y, width, offscreenHeight)
     }
 
-    fileprivate func computeLayoutForTopDisplay(window: UIWindow) -> ComputeLayoutTuple {
+    func computeLayoutForTopDisplay(window: UIWindow) -> ComputeLayoutTuple {
         var offscreenHeight: CGFloat = 0
 
         let anchorViewX = anchorView?.plainView.windowFrame?.minX ?? 0
@@ -784,7 +784,7 @@ extension Dropdown {
         return (x, y, width, offscreenHeight)
     }
 
-    fileprivate func fittingWidth() -> CGFloat {
+    func fittingWidth() -> CGFloat {
         if templateCell == nil {
             // swiftlint:disable:next force_cast
             templateCell = (cellNib.instantiate(withOwner: nil, options: nil)[0] as! DropdownCell)
@@ -805,7 +805,7 @@ extension Dropdown {
         return maxWidth
     }
 
-    fileprivate func constraintWidthToBoundsIfNecessary(layout: inout ComputeLayoutTuple, in window: UIWindow) {
+    func constraintWidthToBoundsIfNecessary(layout: inout ComputeLayoutTuple, in window: UIWindow) {
         let windowMaxX = window.bounds.maxX
         let maxX = layout.x + layout.width
 
@@ -822,7 +822,7 @@ extension Dropdown {
         }
     }
 
-    fileprivate func constraintWidthToFittingSizeIfNecessary(layout: inout ComputeLayoutTuple) {
+    func constraintWidthToFittingSizeIfNecessary(layout: inout ComputeLayoutTuple) {
         guard width == nil else { return }
 
         if layout.width < fittingWidth() {
@@ -840,8 +840,7 @@ extension Dropdown {
      
      - returns: NSDictionary with  "canBeDisplayed" Bool, and possibly for the "offScreenHeight" Optional(CGFloat).
      */
-    @objc(show)
-    func objc_show() -> NSDictionary {
+    @objc(show) func objc_show() -> NSDictionary {
         let (canBeDisplayed, offScreenHeight) = show()
 
         var info = [AnyHashable: Any]()
@@ -858,10 +857,11 @@ extension Dropdown {
 
     - returns: Wether it succeed and how much height is needed to display all cells at once.
     */
-    @discardableResult
-    func show(onTopOf window: UIWindow? = nil,
-              beforeTransform transform: CGAffineTransform? = nil,
-              anchorPoint: CGPoint? = nil) -> (canBeDisplayed: Bool, offscreenHeight: CGFloat?) {
+    @discardableResult func show(
+        onTopOf window: UIWindow? = nil,
+        beforeTransform transform: CGAffineTransform? = nil,
+        anchorPoint: CGPoint? = nil
+    ) -> (canBeDisplayed: Bool, offscreenHeight: CGFloat?) {
         if self == Dropdown.VisibleDropdown && Dropdown.VisibleDropdown?.isHidden == false {
             return (true, 0)
         }
@@ -965,16 +965,16 @@ extension Dropdown {
         )
     }
 
-    fileprivate func cancel() {
+    func cancel() {
         hide()
         cancelAction?()
     }
 
-    fileprivate func setHiddentState() {
+    func setHiddentState() {
         alpha = 0
     }
 
-    fileprivate func setShowedState() {
+    func setShowedState() {
         alpha = 1
         tableViewContainer.transform = CGAffineTransform.identity
     }
@@ -1061,7 +1061,7 @@ extension Dropdown {
     }
 
     /// Returns the height needed to display all cells.
-    fileprivate var tableHeight: CGFloat {
+    var tableHeight: CGFloat {
         tableView.rowHeight * CGFloat(dataSource.count)
     }
 
@@ -1111,7 +1111,7 @@ extension Dropdown: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
 
-    fileprivate func configureCell(_ cell: DropdownCell, at index: Int) {
+    func configureCell(_ cell: DropdownCell, at index: Int) {
         if index >= 0 && index < localizationKeysDataSource.count {
             cell.accessibilityIdentifier = localizationKeysDataSource[index]
         }
@@ -1196,7 +1196,7 @@ extension Dropdown {
         }
     }
 
-    @objc fileprivate func dismissableViewTapped() {
+    @objc func dismissableViewTapped() {
         cancel()
 	}
 }
@@ -1213,7 +1213,7 @@ extension Dropdown {
         DPDKeyboardListener.sharedInstance.startListeningToKeyboard()
     }
 
-    fileprivate func startListeningToKeyboard() {
+    func startListeningToKeyboard() {
         DPDKeyboardListener.sharedInstance.startListeningToKeyboard()
 
         NotificationCenter.default.addObserver(self,
@@ -1226,12 +1226,11 @@ extension Dropdown {
                                                object: nil)
     }
 
-    fileprivate func stopListeningToNotifications() {
+    func stopListeningToNotifications() {
         NotificationCenter.default.removeObserver(self)
     }
 
-    @objc
-    fileprivate func keyboardUpdate() {
+    @objc func keyboardUpdate() {
         self.setNeedsUpdateConstraints()
 	}
 }
